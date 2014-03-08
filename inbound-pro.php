@@ -1,12 +1,12 @@
 <?php
 /*
-Plugin Name: Leads Pro
+Plugin Name: Inbound Now Pro
 Plugin URI: http://www.inboundnow.com/leads/
 Description: Track website visitor activity, manage incoming leads, and send collected emails to your email service provider.
 Author: Inbound Now
 Version: 1.0.0
 Author URI: http://www.inboundnow.com/
-Text Domain: leads-pro
+Text Domain: inbound-now-pro
 Domain Path: shared/languages/leads/
 */
 
