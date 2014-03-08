@@ -29,7 +29,6 @@ class Lead_Revisit_Notifications {
 	}
 
 	static function register_script() {
-		echo "hi";
 		wp_register_script('my-script', plugins_url('my-script.js', __FILE__), array('jquery'), '1.0', true);
 	}
 

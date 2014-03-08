@@ -10,11 +10,9 @@ Text Domain: inboundnow-zapier
 Domain Path: lang
 */
 
-/*
----------------------------------------------------------------------------------------------------------
-- Define constants & include core files
----------------------------------------------------------------------------------------------------------
-*/
+/* Define constants */
+
+// Not sure we need more constants here bu
 if(!defined('INBOUNDNOW_ZAPIER_CURRENT_VERSION')) {
 	define('INBOUNDNOW_ZAPIER_CURRENT_VERSION', '1.0.2' );
 }
@@ -42,13 +40,10 @@ if(!defined('INBOUNDNOW_ZAPIER_PATH')) {
 
 if (!class_exists('Inbound_Zapier')) {
 class Inbound_Zapier {
-	static $add_script;
+	static $launch_zap;
 
 	static function init() {
 		add_action('admin_init', array(__CLASS__, 'inboundnow_zapier_extension_setup'));
-
-		add_action('init', array(__CLASS__, 'register_script'));
-		add_action('wp_footer', array(__CLASS__, 'print_script'));
 		/*SETUP NAVIGATION AND DISPLAY ELEMENTS*/
 		add_filter('lp_define_global_settings', array(__CLASS__, 'inboundnow_zapier_add_global_settings'));
 		add_filter('wpleads_define_global_settings', array(__CLASS__, 'inboundnow_zapier_add_global_settings'));
@@ -56,8 +51,8 @@ class Inbound_Zapier {
 		/*  Ajax Call for Fake Lead Data */
 		add_action('wp_ajax_inbound_zap_generate_lead', array(__CLASS__, 'inbound_zap_generate_lead'));
 		add_action('wp_ajax_nopriv_inbound_zap_generate_lead', array(__CLASS__, 'inbound_zap_generate_lead'));
-
-		add_filter('inboundnow_forms_settings', array(__CLASS__, 'inboundnow_zapier_add_form_settings' , 10 , 1));
+		/* Add settings to inbound forms */
+		add_filter('inboundnow_forms_settings', array(__CLASS__, 'inboundnow_zapier_add_form_settings'), 10 , 1);
 
 		/* Provide backwards compatibility for older data array model */
 		add_filter('lp_extension_data', array(__CLASS__, 'inboundnow_zapier_add_metaboxes'));
@@ -67,15 +62,15 @@ class Inbound_Zapier {
 		add_action('inbound_store_lead_post', array(__CLASS__, 'inboundnow_zapier_landing_page_integratation'));
 
 		/* ADD SUBSCRIBER ON INBOUNDNOW FORM SUBMISSION */
-		add_action('inboundnow_form_submit_actions', array(__CLASS__, 'inboundnow_zapier_inboundnow_form_integratation' , 10 , 2 ));
+		add_action('inboundnow_form_submit_actions', array(__CLASS__, 'inboundnow_zapier_inboundnow_form_integratation'), 10 , 2 );
 
 		/* add options to bulk edit */
 		add_action('admin_footer-edit.php', 'inboundnow_zapier_bulk_actions_add_options');
 		add_action('load-edit.php', array(__CLASS__, 'wpleads_bulk_action_zapier'));
 	}
 
-	public function inboundnow_zapier_extension_setup() {
-		self::$add_script = true;
+	static function inboundnow_zapier_extension_setup() {
+		self::$launch_zap = true;
 		/*PREPARE THIS EXTENSION FOR LICESNING*/
 		if ( class_exists( 'INBOUNDNOW_EXTEND' ) )
 			$license = new INBOUNDNOW_EXTEND( INBOUNDNOW_ZAPIER_FILE , INBOUNDNOW_ZAPIER_LABEL , INBOUNDNOW_ZAPIER_SLUG , INBOUNDNOW_ZAPIER_CURRENT_VERSION  , INBOUNDNOW_ZAPIER_REMOTE_ITEM_NAME ) ;
@@ -83,22 +78,22 @@ class Inbound_Zapier {
 
 		/* ADD ADMIN NOTICE WHEN REQUIRED KEYS ARE EMPTY */
 		$inboundnow_zapier_webhook_url = get_option('inboundnow_zapier_webhook_url' , '' );
-		if ( !$inboundnow_zapier_webhook_url)
-		{
+		if ( !$inboundnow_zapier_webhook_url) {
+
 			add_action( 'admin_notices', 'inboundnow_zapier_admin_notice' );
-			function inboundnow_zapier_admin_notice()
-			{
-			?>
+			function inboundnow_zapier_admin_notice() { ?>
+
 			<div class="updated">
 				<p><?php _e( 'InboundNow Zapier Extension requires a Zapier Webhook URL to opperate.', INBOUNDNOW_LABEL ); ?></p>
 			</div>
+
 			<?php
 			}
 		}
 	}
 
 
-	public function inboundnow_zapier_send_data( $lead_data_encoded , $webhook_url ) {
+	static function inboundnow_zapier_send_data( $lead_data_encoded , $webhook_url ) {
 		//echo $lead_data_encoded; exit;
 		$form_data = array("sslverify" => false, "ssl" => true, "body" => $lead_data_encoded, "headers" => array() );
 
@@ -115,7 +110,7 @@ class Inbound_Zapier {
 	}
 
 
-	public function inboundnow_zapier_add_subscriber( $lead_data , $webhook_url ) {
+	static function inboundnow_zapier_add_subscriber( $lead_data , $webhook_url ) {
 
 		$lead_data = apply_filters('inboundnow_zapier_lead_data',$lead_data);
 
@@ -158,7 +153,7 @@ class Inbound_Zapier {
 	}
 
 
-	public function inboundnow_zapier_add_global_settings($global_settings) {
+	static function inboundnow_zapier_add_global_settings($global_settings) {
 		switch (current_filter())
 		{
 			case "lp_define_global_settings":
@@ -176,7 +171,7 @@ class Inbound_Zapier {
 			array(
 				'id'  => 'inboundnow_header_zapier',
 				'type'  => 'header',
-				'default'  => __('<h4>Zapier Setup</h4>', INBOUND_LABEL),
+				'default'  => __('<h4>Zapier Setup</h4>', 'leads-pro'),
 				'options' => null
 			);
 
@@ -184,8 +179,8 @@ class Inbound_Zapier {
 				array(
 					'id'  => 'inboundnow_zapier_webhook_url',
 					'option_name'  => 'inboundnow_zapier_webhook_url',
-					'label' => __('Zapier Webhook URL(s)', INBOUND_LABEL),
-					'description' => __('One URL per line. Get your Zapier API WebHook URLs at https://app.zapier.com/keys/get.', INBOUND_LABEL),
+					'label' => __('Zapier Webhook URL(s)', 'leads-pro'),
+					'description' => __('One URL per line. Get your Zapier API WebHook URLs at https://app.zapier.com/keys/get.', 'leads-pro'),
 					'type'  => 'textarea',
 					'default'  => ''
 				);
@@ -194,8 +189,8 @@ class Inbound_Zapier {
 				array(
 					'id'  => 'inboundnow_generate_test_lead',
 					'option_name'  => 'inboundnow_generate_test_lead',
-					'label' => __('Send Test Lead Zapier for Zap Setup', INBOUND_LABEL),
-					'description' => __('When creating a zap in zapier you need to pass in sample Data. Click this button and you will pass a test lead into zapier!', INBOUND_LABEL),
+					'label' => __('Send Test Lead Zapier for Zap Setup', 'leads-pro'),
+					'description' => __('When creating a zap in zapier you need to pass in sample Data. Click this button and you will pass a test lead into zapier!', 'leads-pro'),
 					'type'  => 'html',
 					'default'  => '<span id="generate-test-lead" class="button">Generate Test Lead</span>
 
@@ -226,10 +221,10 @@ class Inbound_Zapier {
 	}
 
 
-	public function inboundnow_zapier_add_form_settings($fields) {
+	static function inboundnow_zapier_add_form_settings($fields) {
 		$fields['forms']['options']['zapier_enable'] =   array(
-	                                                'name' => __('Enable Zapier Sync', INBOUND_LABEL),
-	                                                'desc' => __('Enable/Disable Zapier Integration for this form.', INBOUND_LABEL),
+	                                                'name' => __('Enable Zapier Sync', 'leads-pro'),
+	                                                'desc' => __('Enable/Disable Zapier Integration for this form.', 'leads-pro'),
 	                                                'type' => 'checkbox',
 	                                                'std' => '',
 	                                                'class' => 'main-form-settings exclude-from-refresh' );
@@ -237,7 +232,7 @@ class Inbound_Zapier {
 		return $fields;
 	}
 
-	public function inboundnow_zapier_add_metaboxes( $metabox_data ) {
+	static function inboundnow_zapier_add_metaboxes( $metabox_data ) {
 
 		$metabox_data['inboundnow-zapier']['info']['data_type'] = 'metabox';
 		$metabox_data['inboundnow-zapier']['info']['position'] = 'side';
@@ -260,7 +255,7 @@ class Inbound_Zapier {
 	}
 
 	/* ADD SUBSCRIBER ON LANDING PAGE CONVERSION / CTA CONVERSION */
-	public function inboundnow_zapier_landing_page_integratation($lead_data) {
+	static function inboundnow_zapier_landing_page_integratation($lead_data) {
 		if (get_post_meta( $lead_data['lp_id'] ,'inboundnow-zapier-zapier_integration' , true ))
 		{
 			$webhook_urls = get_option( 'inboundnow_zapier_webhook_url' );
@@ -273,7 +268,7 @@ class Inbound_Zapier {
 	}
 
 	/* ADD SUBSCRIBER ON INBOUNDNOW FORM SUBMISSION */
-	public function inboundnow_zapier_inboundnow_form_integratation($form_post_data , $form_meta_data ) {
+	static function inboundnow_zapier_inboundnow_form_integratation($form_post_data , $form_meta_data ) {
 
 		$form_settings = $form_meta_data['inbound_form_values'][0];
 		parse_str($form_settings, $form_settings);
@@ -290,7 +285,7 @@ class Inbound_Zapier {
 	}
 
 
-	public function inboundnow_zapier_bulk_actions_add_options() {
+	static function inboundnow_zapier_bulk_actions_add_options() {
 	  global $post_type;
 
 	  if($post_type == 'wp-lead') {
@@ -306,8 +301,7 @@ class Inbound_Zapier {
 	  }
 	}
 
-
-	public function wpleads_bulk_action_zapier() {
+	static function wpleads_bulk_action_zapier() {
 
 		if (isset($_REQUEST['post_type'])&&$_REQUEST['post_type']=='wp-lead'&&isset($_REQUEST['post']))
 		{
@@ -346,35 +340,8 @@ class Inbound_Zapier {
 			}
 		}
 	}
-
-	static function register_script() {
-		wp_register_script('my-script', plugins_url('my-script.js', __FILE__), array('jquery'), '1.0', true);
-	}
-
-	static function print_script() {
-		if ( ! self::$add_script )
-			return;
-
-		wp_print_scripts('my-script');
-	}
 }
 
-/* NEED BETTER WAY TO INCLUDE FRONTENT FILES */
-switch (is_admin()) :
-	case true :
-		/* loads admin files */
-
-		break;
-
-	case false :
-		/* loads frontend files */
-		include_once('modules/module.zapier-connect.php');
-		include_once('modules/module.subscribe.php');
-
-		break;
-
-endswitch;
-
-Inbound_Zapier::init();
+Inbound_Zapier::init(); // Launch Zapier and only once
 
 }

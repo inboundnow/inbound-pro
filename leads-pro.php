@@ -23,7 +23,7 @@ define('WPL_PRO_UPLOADS_URLPATH', $uploads['baseurl'].'/leads-pro/' );
 
 /* load core files */
 include_once('components/lead-revisit-notifications/LeadRevisitClass.php');
-
+include_once('components/inboundnow-zapier/inboundnow-zapier.php');
 /* load cron definitions - must be loaded outside of is_admin() conditional */
 //include_once('modules/module.cron.lead-rules.php');
 
