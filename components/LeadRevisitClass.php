@@ -29,7 +29,7 @@ class Lead_Revisit_Notifications {
 		self::$run_addon = true;
 	}
 	static function component_test() {
-		echo "CORE";
+		echo "CORE"; // test
 	}
 
 	static function register_script() {
