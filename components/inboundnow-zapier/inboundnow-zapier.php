@@ -13,6 +13,9 @@ Domain Path: lang
 /* Define constants */
 
 // Not sure we need more constants here bu
+if(!defined('INBOUND_NOW_LEADS_PATH')) { define('INBOUND_NOW_LEADS_PATH', WP_PLUGIN_DIR . '/leads'); }
+if(!defined('INBOUND_NOW_ACTIVATE')) { define('INBOUND_NOW_ACTIVATE', __FILE__ ); }
+
 if(!defined('INBOUNDNOW_ZAPIER_CURRENT_VERSION')) {
 	define('INBOUNDNOW_ZAPIER_CURRENT_VERSION', '1.0.2' );
 }
@@ -39,8 +42,10 @@ if(!defined('INBOUNDNOW_ZAPIER_PATH')) {
 }
 
 if (!class_exists('Inbound_Zapier')) {
+
 class Inbound_Zapier {
 	static $launch_zap;
+	static $plugin_slug = 'inboundnow-zapier';
 
 	static function init() {
 		add_action('admin_init', array(__CLASS__, 'inboundnow_zapier_extension_setup'));
@@ -84,14 +89,14 @@ class Inbound_Zapier {
 			function inboundnow_zapier_admin_notice() { ?>
 
 			<div class="updated">
-				<p><?php _e( 'InboundNow Zapier Extension requires a Zapier Webhook URL to opperate.', INBOUNDNOW_LABEL ); ?></p>
+			<?php $admin_url =  '<a href="'.admin_url( 'edit.php?post_type=wp-lead&page=wpleads_global_settings&tab=tabs-wpleads-extensions').'">Enter one here</a>'; ?>
+			<p><?php _e( 'InboundNow Zapier Extension requires a Zapier Webhook URL to opperate. Enter one here '.$admin_url.'', 'inboundnow' ); ?></p>
 			</div>
 
 			<?php
 			}
 		}
 	}
-
 
 	static function inboundnow_zapier_send_data( $lead_data_encoded , $webhook_url ) {
 		//echo $lead_data_encoded; exit;
@@ -340,8 +345,94 @@ class Inbound_Zapier {
 			}
 		}
 	}
-}
+	private static function get_blog_ids() {
 
+		global $wpdb;
+
+		// get an array of blog ids
+		$sql = "SELECT blog_id FROM $wpdb->blogs
+			WHERE archived = '0' AND spam = '0'
+			AND deleted = '0'";
+
+		return $wpdb->get_col( $sql );
+
+	}
+	/* Fired when the plugin is activated. */
+	public static function activate( $network_wide ) {
+
+			if ( function_exists( 'is_multisite' ) && is_multisite() ) {
+
+				if ( $network_wide  ) {
+
+					// Get all blog ids
+					$blog_ids = self::get_blog_ids();
+
+					foreach ( $blog_ids as $blog_id ) {
+
+						switch_to_blog( $blog_id );
+						self::single_activate();
+					}
+
+					restore_current_blog();
+
+				} else {
+					self::single_activate();
+				}
+
+			} else {
+				self::single_activate();
+			}
+
+		}
+
+		/* Fired when the plugin is deactivated. */
+		public static function deactivate( $network_wide ) {
+
+			if ( function_exists( 'is_multisite' ) && is_multisite() ) {
+
+				if ( $network_wide ) {
+
+					// Get all blog ids
+					$blog_ids = self::get_blog_ids();
+
+					foreach ( $blog_ids as $blog_id ) {
+
+						switch_to_blog( $blog_id );
+						self::single_deactivate();
+
+					}
+
+					restore_current_blog();
+
+				} else {
+					self::single_deactivate();
+				}
+
+			} else {
+				self::single_deactivate();
+			}
+
+		}
+		/* Fired for each blog when the plugin is activated. */
+		private static function single_activate() {
+			$slug = self::$plugin_slug;
+			$transient = str_replace('-', "_", $slug);
+			set_transient( '_'.$transient.'_activation_redirect', true, 30 );
+		}
+
+		/* Fired for each blog when the plugin is deactivated. */
+		private static function single_deactivate() {
+			$slug = self::$plugin_slug;
+			$transient = str_replace('-', "_", $slug);
+			delete_transient( '_'.$transient.'_activation_redirect', true, 30 );
+		}
+
+}
+register_activation_hook( INBOUND_NOW_ACTIVATE, array( 'Inbound_Zapier', 'activate' ) );
+register_deactivation_hook( INBOUND_NOW_ACTIVATE, array( 'Inbound_Zapier', 'deactivate' ) );
 Inbound_Zapier::init(); // Launch Zapier and only once
 
+/* Welcome screen class */
+include_once(INBOUND_NOW_LEADS_PATH . '/shared/classes/welcome.class.php');  // Inbound Welcome Class
+new Inbound_Now_Welcome('inboundnow-zapier', 'Zapier Integration');
 }

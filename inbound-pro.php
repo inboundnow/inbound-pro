@@ -2,7 +2,7 @@
 /*
 Plugin Name: Inbound Now Pro
 Plugin URI: http://www.inboundnow.com/leads/
-Description: Track website visitor activity, manage incoming leads, and send collected emails to your email service provider.
+Description: Pro Version of Inbound Now Plugins
 Author: Inbound Now
 Version: 1.0.0
 Author URI: http://www.inboundnow.com/
@@ -10,16 +10,17 @@ Text Domain: inbound-now-pro
 Domain Path: shared/languages/leads/
 */
 
-define('WPL_PRO_CURRENT_VERSION', '1.0.0' );
-define('WPL_PRO_URL', WP_PLUGIN_URL."/".dirname( plugin_basename( __FILE__ ) ) );
-define('WPL_PRO_PATH', WP_PLUGIN_DIR."/".dirname( plugin_basename( __FILE__ ) ) );
-define('WPL_PRO_CORE', plugin_basename( __FILE__ ) );
-define('WPL_PRO_SLUG', plugin_basename( __FILE__ ) );
-define('WPL_PRO_FILE',  __FILE__ );
-define('WPL_PRO_STORE_URL', 'http://www.inboundnow.com' );
+if(!defined('INBOUND_NOW_ACTIVATE')) { define('INBOUND_NOW_ACTIVATE', __FILE__ ); }
+if(!defined('INBOUND_NOW_CURRENT_VERSION')) { define('INBOUND_NOW_CURRENT_VERSION', '1.0.0' ); }
+if(!defined('INBOUND_NOW_URL')) {  define('INBOUND_NOW_URL', WP_PLUGIN_URL."/".dirname( plugin_basename( __FILE__ ) ) ); }
+if(!defined('INBOUND_NOW_PATH')) {  define('INBOUND_NOW_PATH', WP_PLUGIN_DIR."/".dirname( plugin_basename( __FILE__ ) ) ); }
+if(!defined('INBOUND_NOW_CORE')) {  define('INBOUND_NOW_CORE', plugin_basename( __FILE__ ) );}
+if(!defined('INBOUND_NOW_SLUG')) {  define('INBOUND_NOW_SLUG', plugin_basename( __FILE__ ) );}
+if(!defined('INBOUND_NOW_FILE')) {  define('INBOUND_NOW_FILE',  __FILE__ );}
+if(!defined('INBOUND_NOW_STORE_URL')) {  define('INBOUND_NOW_STORE_URL', 'http://www.inboundnow.com' );}
 $uploads = wp_upload_dir();
-define('WPL_PRO_UPLOADS_PATH', $uploads['basedir'].'/leads-pro/' );
-define('WPL_PRO_UPLOADS_URLPATH', $uploads['baseurl'].'/leads-pro/' );
+if(!defined('INBOUND_NOW_UPLOADS_PATH')) {  define('INBOUND_NOW_UPLOADS_PATH', $uploads['basedir'].'/inbound-pro/' );}
+if(!defined('INBOUND_NOW_UPLOADS_URLPATH')) {  define('INBOUND_NOW_UPLOADS_URLPATH', $uploads['baseurl'].'/inbound-pro/' );}
 
 /* load core files */
 include_once('components/lead-revisit-notifications/LeadRevisitClass.php');
