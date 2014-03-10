@@ -4,48 +4,28 @@ Plugin Name: InboundNow Extension - Zapier Integration
 Plugin URI: http://www.inboundnow.com/market/support-will-complete
 Description: Provides Zapier support for Landing Pages, Leads, and Calls to Action plugin.
 Version: 1.0.2
-Author: Hudson Atwell, David Wells
+Author: Inbound Now
 Author URI: http://www.inboundnow.com/
 Text Domain: inboundnow-zapier
 Domain Path: lang
 */
 
 /* Define constants */
-
-// Not sure we need more constants here bu
-if(!defined('INBOUND_NOW_LEADS_PATH')) { define('INBOUND_NOW_LEADS_PATH', WP_PLUGIN_DIR . '/leads'); }
 if(!defined('INBOUND_NOW_ACTIVATE')) { define('INBOUND_NOW_ACTIVATE', __FILE__ ); }
-
-if(!defined('INBOUNDNOW_ZAPIER_CURRENT_VERSION')) {
-	define('INBOUNDNOW_ZAPIER_CURRENT_VERSION', '1.0.2' );
-}
-if(!defined('INBOUNDNOW_ZAPIER_LABEL')) {
-	define('INBOUNDNOW_ZAPIER_LABEL' , 'Zapier Integration' );
-}
-if(!defined('INBOUNDNOW_ZAPIER_FILE')) {
-	define('INBOUNDNOW_ZAPIER_FILE' , __FILE__ );
-}
-if(!defined('INBOUNDNOW_ZAPIER_SLUG')) {
-	define('INBOUNDNOW_ZAPIER_SLUG' , plugin_basename( dirname(__FILE__) ) );
-}
-if(!defined('INBOUNDNOW_ZAPIER_TEXT_DOMAIN')) {
-	define('INBOUNDNOW_ZAPIER_TEXT_DOMAIN' , plugin_basename( dirname(__FILE__) ) );
-}
-if(!defined('INBOUNDNOW_ZAPIER_REMOTE_ITEM_NAME')) {
-	define('INBOUNDNOW_ZAPIER_REMOTE_ITEM_NAME' , 'zapier-integration' );
-}
-if(!defined('INBOUNDNOW_ZAPIER_URLPATH')) {
-	define('INBOUNDNOW_ZAPIER_URLPATH', WP_PLUGIN_URL.'/'.plugin_basename( dirname(__FILE__) ).'/' );
-}
-if(!defined('INBOUNDNOW_ZAPIER_PATH')) {
-	define('INBOUNDNOW_ZAPIER_PATH', WP_PLUGIN_DIR.'/'.plugin_basename( dirname(__FILE__) ).'/' );
-}
-
+if(!defined('INBOUNDNOW_ZAPIER_CURRENT_VERSION')) { define('INBOUNDNOW_ZAPIER_CURRENT_VERSION', '1.0.2' ); }
+if(!defined('INBOUNDNOW_ZAPIER_LABEL')) { define('INBOUNDNOW_ZAPIER_LABEL' , 'Zapier Integration' ); }
+if(!defined('INBOUNDNOW_ZAPIER_FILE')) { define('INBOUNDNOW_ZAPIER_FILE' , __FILE__ ); }
+if(!defined('INBOUNDNOW_ZAPIER_SLUG')) { define('INBOUNDNOW_ZAPIER_SLUG' , plugin_basename( basename(__DIR__) ));}
+if(!defined('INBOUNDNOW_ZAPIER_TEXT_DOMAIN')) { define('INBOUNDNOW_ZAPIER_TEXT_DOMAIN' , plugin_basename( dirname(__FILE__) ) );}
+if(!defined('INBOUNDNOW_ZAPIER_REMOTE_ITEM_NAME')) { define('INBOUNDNOW_ZAPIER_REMOTE_ITEM_NAME' , 'zapier-integration' ); }
+if(!defined('INBOUNDNOW_ZAPIER_URLPATH')) { define('INBOUNDNOW_ZAPIER_URLPATH', WP_PLUGIN_URL.'/'.plugin_basename( dirname(__FILE__) ).'/' ); }
+if(!defined('INBOUNDNOW_ZAPIER_PATH')) { define('INBOUNDNOW_ZAPIER_PATH', WP_PLUGIN_DIR.'/'.plugin_basename( dirname(__FILE__) ).'/' );}
+//echo INBOUNDNOW_ZAPIER_TEXT_DOMAIN;
 if (!class_exists('Inbound_Zapier')) {
 
 class Inbound_Zapier {
 	static $launch_zap;
-	static $plugin_slug = 'inboundnow-zapier';
+	static $plugin_slug = INBOUNDNOW_ZAPIER_SLUG;
 
 	static function init() {
 		add_action('admin_init', array(__CLASS__, 'inboundnow_zapier_extension_setup'));
@@ -58,17 +38,13 @@ class Inbound_Zapier {
 		add_action('wp_ajax_nopriv_inbound_zap_generate_lead', array(__CLASS__, 'inbound_zap_generate_lead'));
 		/* Add settings to inbound forms */
 		add_filter('inboundnow_forms_settings', array(__CLASS__, 'inboundnow_zapier_add_form_settings'), 10 , 1);
-
 		/* Provide backwards compatibility for older data array model */
 		add_filter('lp_extension_data', array(__CLASS__, 'inboundnow_zapier_add_metaboxes'));
 		add_filter('wp_cta_extension_data', array(__CLASS__, 'inboundnow_zapier_add_metaboxes'));
-
 		/* ADD SUBSCRIBER ON LANDING PAGE CONVERSION / CTA CONVERSION */
 		add_action('inbound_store_lead_post', array(__CLASS__, 'inboundnow_zapier_landing_page_integratation'));
-
 		/* ADD SUBSCRIBER ON INBOUNDNOW FORM SUBMISSION */
 		add_action('inboundnow_form_submit_actions', array(__CLASS__, 'inboundnow_zapier_inboundnow_form_integratation'), 10 , 2 );
-
 		/* add options to bulk edit */
 		add_action('admin_footer-edit.php', 'inboundnow_zapier_bulk_actions_add_options');
 		add_action('load-edit.php', array(__CLASS__, 'wpleads_bulk_action_zapier'));
@@ -153,7 +129,7 @@ class Inbound_Zapier {
 		$webhook_urls =  preg_split("/[\r\n,]+/", $webhook_urls, -1, PREG_SPLIT_NO_EMPTY);
 		foreach ($webhook_urls as $webhook_url)
 		{
-			inboundnow_zapier_add_subscriber( $lead_data , $webhook_url );
+			inboundnow_zapier_add_subscriber( $lead_data, $webhook_url );
 		}
 	}
 
@@ -278,13 +254,14 @@ class Inbound_Zapier {
 		$form_settings = $form_meta_data['inbound_form_values'][0];
 		parse_str($form_settings, $form_settings);
 
-		if ($form_settings['inbound_shortcode_zapier_enable']=='on')
-		{
+		if ($form_settings['inbound_shortcode_zapier_enable']=='on') {
 			$webhook_urls = get_option( 'inboundnow_zapier_webhook_url' );
 			$webhook_urls =  preg_split("/[\r\n,]+/", $webhook_urls, -1, PREG_SPLIT_NO_EMPTY);
-			foreach ($webhook_urls as $webhook_url)
-			{
+
+			foreach ($webhook_urls as $webhook_url) {
+
 				inboundnow_zapier_add_subscriber( $form_post_data , $webhook_url );
+
 			}
 		}
 	}
@@ -293,9 +270,7 @@ class Inbound_Zapier {
 	static function inboundnow_zapier_bulk_actions_add_options() {
 	  global $post_type;
 
-	  if($post_type == 'wp-lead') {
-
-		?>
+	  if($post_type == 'wp-lead') { ?>
 		<script type="text/javascript">
 		  jQuery(document).ready(function() {
 			jQuery('<option>').val('export-zapier').text('<?php _e('Export to Zapier List')?>').appendTo("select[name='action']");
@@ -308,8 +283,7 @@ class Inbound_Zapier {
 
 	static function wpleads_bulk_action_zapier() {
 
-		if (isset($_REQUEST['post_type'])&&$_REQUEST['post_type']=='wp-lead'&&isset($_REQUEST['post']))
-		{
+		if (isset($_REQUEST['post_type'])&&$_REQUEST['post_type']=='wp-lead'&&isset($_REQUEST['post'])) {
 			// 1. get the action
 			$wp_list_table = _get_list_table('WP_Posts_List_Table');
 			$action = $wp_list_table->current_action();
@@ -357,7 +331,7 @@ class Inbound_Zapier {
 		return $wpdb->get_col( $sql );
 
 	}
-	/* Fired when the plugin is activated. */
+	/* Handler for Activation. Fired when the plugin is activated. */
 	public static function activate( $network_wide ) {
 
 			if ( function_exists( 'is_multisite' ) && is_multisite() ) {
@@ -385,7 +359,7 @@ class Inbound_Zapier {
 
 		}
 
-		/* Fired when the plugin is deactivated. */
+		/* Handler for Deactivation. Fired when the plugin is deactivated. */
 		public static function deactivate( $network_wide ) {
 
 			if ( function_exists( 'is_multisite' ) && is_multisite() ) {
@@ -428,11 +402,16 @@ class Inbound_Zapier {
 		}
 
 }
+/* End Class Functions */
+
 register_activation_hook( INBOUND_NOW_ACTIVATE, array( 'Inbound_Zapier', 'activate' ) );
 register_deactivation_hook( INBOUND_NOW_ACTIVATE, array( 'Inbound_Zapier', 'deactivate' ) );
 Inbound_Zapier::init(); // Launch Zapier and only once
 
-/* Welcome screen class */
-include_once(INBOUND_NOW_LEADS_PATH . '/shared/classes/welcome.class.php');  // Inbound Welcome Class
-new Inbound_Now_Welcome('inboundnow-zapier', 'Zapier Integration');
+/* Welcome Launch on Activation Class */
+if(is_file(WP_PLUGIN_DIR . '/leads/shared/classes/welcome.class.php') || is_file(WP_PLUGIN_DIR . '/cta/shared/classes/welcome.class.php') || is_file(WP_PLUGIN_DIR . '/landing-pages/shared/classes/welcome.class.php')) {
+	include_once(WP_PLUGIN_DIR . '/leads/shared/classes/welcome.class.php');  // Inbound Welcome Class
+	new Inbound_Now_Welcome('inboundnow-zapier', 'Zapier Integration', plugin_basename( dirname(__FILE__) ));
+}
+
 }

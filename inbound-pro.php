@@ -25,6 +25,8 @@ if(!defined('INBOUND_NOW_UPLOADS_URLPATH')) {  define('INBOUND_NOW_UPLOADS_URLPA
 /* load core files */
 include_once('components/lead-revisit-notifications/LeadRevisitClass.php');
 include_once('components/inboundnow-zapier/inboundnow-zapier.php');
+include_once('classes/pro-welcome.class.php');
+
 /* load cron definitions - must be loaded outside of is_admin() conditional */
 //include_once('modules/module.cron.lead-rules.php');
 
