@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: Inbound Now Pro
+Plugin Name: Inbound Now Professional
 Plugin URI: http://www.inboundnow.com/leads/
 Description: Pro Version of Inbound Now Plugins
 Author: Inbound Now
