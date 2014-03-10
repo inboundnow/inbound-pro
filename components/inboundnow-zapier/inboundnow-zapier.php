@@ -408,10 +408,15 @@ register_activation_hook( INBOUND_NOW_ACTIVATE, array( 'Inbound_Zapier', 'activa
 register_deactivation_hook( INBOUND_NOW_ACTIVATE, array( 'Inbound_Zapier', 'deactivate' ) );
 Inbound_Zapier::init(); // Launch Zapier and only once
 
-/* Welcome Launch on Activation Class */
-if(is_file(WP_PLUGIN_DIR . '/leads/shared/classes/welcome.class.php') || is_file(WP_PLUGIN_DIR . '/cta/shared/classes/welcome.class.php') || is_file(WP_PLUGIN_DIR . '/landing-pages/shared/classes/welcome.class.php')) {
-	include_once(WP_PLUGIN_DIR . '/leads/shared/classes/welcome.class.php');  // Inbound Welcome Class
+	/* Welcome Launch on Activation Class */
+	if (is_file(WP_PLUGIN_DIR . '/leads/shared/classes/welcome.class.php') {
+		include_once(WP_PLUGIN_DIR . '/leads/shared/classes/welcome.class.php');  // Inbound Welcome Class
+	} elseif (is_file(WP_PLUGIN_DIR . '/cta/shared/classes/welcome.class.php') {
+		include_once(WP_PLUGIN_DIR . '/cta/shared/classes/welcome.class.php');  // Inbound Welcome Class
+	} elseif (is_file(WP_PLUGIN_DIR . '/landing-pages/shared/classes/welcome.class.php')) {
+		include_once(WP_PLUGIN_DIR . '/landing-pages/shared/classes/welcome.class.php');  // Inbound Welcome Class
+	}
+
 	new Inbound_Now_Welcome('inboundnow-zapier', 'Zapier Integration', plugin_basename( dirname(__FILE__) ));
-}
 
 }
