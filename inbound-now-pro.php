@@ -6,8 +6,8 @@ Description: Pro Version of Inbound Now Plugins
 Author: Inbound Now
 Version: 1.0.0
 Author URI: http://www.inboundnow.com/
-Text Domain: inbound-now-pro
-Domain Path: shared/languages/leads/
+Text Domain: inbound-now
+Domain Path: /languages/
 */
 
 if(!defined('INBOUND_NOW_ACTIVATE')) { define('INBOUND_NOW_ACTIVATE', __FILE__ ); }
@@ -23,9 +23,11 @@ if(!defined('INBOUND_NOW_UPLOADS_PATH')) {  define('INBOUND_NOW_UPLOADS_PATH', $
 if(!defined('INBOUND_NOW_UPLOADS_URLPATH')) {  define('INBOUND_NOW_UPLOADS_URLPATH', $uploads['baseurl'].'/inbound-pro/' );}
 
 /* load core files */
+// Need conditionals on which components to load, will probably be a loop
 include_once('components/lead-revisit-notifications/LeadRevisitClass.php');
 include_once('components/inboundnow-zapier/inboundnow-zapier.php');
 include_once('components/inboundnow-aweber/inboundnow-aweber.php');
+include_once('components/inboundnow-mailchimp/inboundnow-mailchimp.php');
 //include_once('components/inboundnow-home-page-lander/inboundnow-home-page-lander.php');
 include_once('classes/pro-welcome.class.php');
 
@@ -34,8 +36,7 @@ include_once('classes/pro-welcome.class.php');
 
 /* Inbound Core Shared Files. Lead files take presidence */
 add_action( 'plugins_loaded', 'inbound_load_leads_pro' );
-function inbound_load_leads_pro()
-{
+function inbound_load_leads_pro() {
 	/* Check if Shared Files Already Loaded */
 	if (defined('INBOUDNOW_LEADS_PRO'))
 		return;
@@ -44,5 +45,4 @@ function inbound_load_leads_pro()
 	define('INBOUDNOW_LEADS_PRO','loaded');
 
 //	include_once('shared/tracking/store.lead.php'); // Lead Storage from landing pages
-
 }
