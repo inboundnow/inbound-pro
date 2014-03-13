@@ -24,12 +24,14 @@ if(!defined('INBOUND_NOW_UPLOADS_URLPATH')) {  define('INBOUND_NOW_UPLOADS_URLPA
 
 /* load core files */
 $default_pro_files = array('inboundnow-lead-revisit-notifications', 'inboundnow-zapier');
+/* Add filter here for core files */
 
-/* load toggled files */
-$toggled_pro_files = get_transient( 'inbound-now-active-addons' );
-$toggled_pro_files = array('inboundnow-zapier');
-if (isset($toggled_pro_files) && is_array($toggled_pro_files)) {
-	foreach ($toggled_pro_files as $key => $value) {
+/* load toggled addon files */
+$toggled_addon_files = get_transient( 'inbound-now-active-addons' );
+$toggled_addon_files = array('inboundnow-zapier'); // tests
+$inbound_load_files = array_unique(array_merge($toggled_addon_files, $default_pro_files));
+if (isset($inbound_load_files) && is_array($inbound_load_files)) {
+	foreach ($inbound_load_files as $key => $value) {
 		include_once('components/'.$value.'/'.$value.'.php'); // include each toggled on
 	}
 }
