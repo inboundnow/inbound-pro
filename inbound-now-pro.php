@@ -23,14 +23,26 @@ if(!defined('INBOUND_NOW_UPLOADS_PATH')) {  define('INBOUND_NOW_UPLOADS_PATH', $
 if(!defined('INBOUND_NOW_UPLOADS_URLPATH')) {  define('INBOUND_NOW_UPLOADS_URLPATH', $uploads['baseurl'].'/inbound-pro/' );}
 
 /* load core files */
-// Need conditionals on which components to load, will probably be a loop
-include_once('components/lead-revisit-notifications/LeadRevisitClass.php');
+$default_pro_files = array('inboundnow-lead-revisit-notifications', 'inboundnow-zapier');
+
+/* load toggled files */
+$toggled_pro_files = get_transient( 'inbound-now-active-addons' );
+$toggled_pro_files = array('inboundnow-zapier');
+if (isset($toggled_pro_files) && is_array($toggled_pro_files)) {
+	foreach ($toggled_pro_files as $key => $value) {
+		include_once('components/'.$value.'/'.$value.'.php'); // include each toggled on
+	}
+}
+/*
+include_once('components/inboundnow-lead-revisit-notifications/inboundnow-lead-revisit-notifications.php');
 include_once('components/inboundnow-zapier/inboundnow-zapier.php');
 include_once('components/inboundnow-aweber/inboundnow-aweber.php');
 include_once('components/inboundnow-mailchimp/inboundnow-mailchimp.php');
 include_once('components/inboundnow-hubspot/inboundnow-hubspot.php');
 //include_once('components/inboundnow-home-page-lander/inboundnow-home-page-lander.php');
 include_once('classes/pro-welcome.class.php');
+
+/**/
 
 /* load cron definitions - must be loaded outside of is_admin() conditional */
 //include_once('modules/module.cron.lead-rules.php');

@@ -254,7 +254,7 @@ class Inbound_Zapier {
 		$form_settings = $form_meta_data['inbound_form_values'][0];
 		parse_str($form_settings, $form_settings);
 
-		if ($form_settings['inbound_shortcode_zapier_enable']=='on') {
+		if (isset($form_settings['inbound_shortcode_zapier_enable']) && $form_settings['inbound_shortcode_zapier_enable']=='on') {
 			$webhook_urls = get_option( 'inboundnow_zapier_webhook_url' );
 			$webhook_urls =  preg_split("/[\r\n,]+/", $webhook_urls, -1, PREG_SPLIT_NO_EMPTY);
 
