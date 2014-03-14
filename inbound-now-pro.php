@@ -72,7 +72,7 @@ final class Inbound_Now_Pro {
 
 	/* Include required files */
 	private function includes() {
-		global $edd_options;
+		global $inboundnow_options;
 
 		/* load core files */
 		$default_pro_files = array('inboundnow-lead-revisit-notifications', 'inboundnow-zapier');
@@ -108,7 +108,7 @@ final class Inbound_Now_Pro {
 
 		if ( is_admin() ) {
 			/* Admin Includes */
-			//require_once INBOUND_NOW_PATH . 'includes/admin/add-ons.php';
+			require_once INBOUND_NOW_PATH . '/classes/admin/define_settings.php';
 
 		} else {
 			/* Frontend Includes */
@@ -127,7 +127,7 @@ final class Inbound_Now_Pro {
 
 			// Traditional WordPress plugin locale filter
 			$locale        = apply_filters( 'plugin_locale',  get_locale(), 'inbound-now' );
-			$mofile        = sprintf( '%1$s-%2$s.mo', 'edd', $locale );
+			$mofile        = sprintf( '%1$s-%2$s.mo', 'inbound-now', $locale );
 
 			// Setup paths to current locale file
 			$mofile_local  = $inbound_now_lang_dir . $mofile;
