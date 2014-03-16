@@ -612,7 +612,7 @@ if ( ! class_exists('cnSettingsAPI') )
 				$value = ( isset( $values[$field['id']] ) ) ? $values[$field['id']] : NULL; //print_r($value);
 				$name = sprintf( '%1$s[%2$s]', $field['section'], $field['id'] );
 			}
-
+			//print_r($field);
 			switch ( $field['type'] )
 			{
 				case 'checkbox':
@@ -723,6 +723,22 @@ if ( ! class_exists('cnSettingsAPI') )
 
 				case 'page':
 					$out .= wp_dropdown_pages( array( 'name' => $name, 'echo' => 0, 'show_option_none' => $field['show_option_none'], 'option_none_value' => $field['option_none_value'], 'selected' => $value ) );
+
+					break;
+				case 'custom_function':
+					function work_please() {
+						return 'woooooo';
+					}
+				    $function_name = ( ( isset($field['desc']) && ! empty($field['desc']) ) ) ? $field['desc'] : '';
+				    $function_clean_name = preg_replace("/\(\);/", "", $function_name);
+
+				    if (function_exists($function_clean_name)) {
+				    	    $return_val = eval('return ' . $function_name);
+				    	    //echo $return_val;
+				    	    $output = $return_val;
+				    		$out .= sprintf($output);
+				    }
+
 
 					break;
 			}

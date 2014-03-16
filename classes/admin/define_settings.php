@@ -2,6 +2,7 @@
 /*
 	Register Pro Settings screen
  */
+
 if ( ! class_exists('Inbound_Now_Settings') )
 {
 	class Inbound_Now_Settings {
@@ -30,7 +31,7 @@ if ( ! class_exists('Inbound_Now_Settings') )
 
 		public function loadSettingsPage() {
 			//$this->pageHook = add_options_page( 'Settings API', 'Settings API', 'manage_options', 'settings_inbound_now', array( &$this , 'showPage' ) );
-			$this->pageHook = add_menu_page( 'Settings API', 'Settings API', 'manage_options', 'settings_inbound_now', array( &$this , 'showPage' ) );
+			$this->pageHook = add_menu_page( 'Inbound Now', 'Inbound Now', 'manage_options', 'settings_inbound_now', array( &$this , 'showPage' ), plugins_url( 'inbound-now-pro/assets/images/shortcodes-blue.png' ), 10 );
 		}
 
 
@@ -60,6 +61,14 @@ if ( ! class_exists('Inbound_Now_Settings') )
 				'position' => 30 ,
 				'title' => __( 'Advanced' , 'connections_settings_api' ) ,
 				'page_hook' => $this->pageHook
+			);
+
+			$tabs[] = array(
+				'id' => 'custom' ,
+				'position' => 30 ,
+				'title' => __( 'custom' , 'connections_settings_api' ) ,
+				'page_hook' => $this->pageHook,
+				'type' => 'custom'
 			);
 
 			return $tabs;
@@ -100,6 +109,25 @@ if ( ! class_exists('Inbound_Now_Settings') )
 				'help' => __('testing'),
 				'type' => 'checkbox',
 				'default' => 1
+			);
+			$fields[] = array(
+				'plugin_id' => 'connections_settings_api',
+				'id' => 'function_test',
+				'position' => 5,
+				'page_hook' => 'toplevel_page_settings_inbound_now',
+				'tab' => 'basic',
+				'section' => 'basic_one',
+				'title' => __('test', 'connections_settings_api'),
+				'desc' => 'work_please();',
+				'help' => __('testing'),
+				'options' => array(
+					'one' => 'One',
+					'two' => 'Two',
+					'three' => 'Three',
+					'four' => 'Four'
+				),
+				'type' => 'custom_function',
+				'default' => 'test()'
 			);
 			$fields[] = array(
 				'plugin_id' => 'connections_settings_api',
