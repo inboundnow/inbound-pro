@@ -80,8 +80,10 @@ final class Inbound_Now_Pro {
 		/* Add filter here for core files */
 		/* load toggled addon files */
 		$toggled_addon_files = get_transient( 'inbound-now-active-addons' );
+
 		$inbound_load_files = array_unique(array_merge($toggled_addon_files, $default_pro_files));
-		if (isset($inbound_load_files) && is_array($inbound_load_files)) {
+
+		if (is_array($inbound_load_files && !empty($inbound_load_files))) {
 			foreach ($inbound_load_files as $key => $value) {
 				include_once('components/'.$value.'/'.$value.'.php'); // include each toggled on
 			}
