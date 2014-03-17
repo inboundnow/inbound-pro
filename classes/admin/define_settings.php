@@ -34,48 +34,42 @@ if ( ! class_exists('Inbound_Now_Settings') )
 			$this->pageHook = add_menu_page( 'Inbound Now', 'Inbound Now', 'manage_options', 'settings_inbound_now', array( &$this , 'showPage' ), plugins_url( 'inbound-now-pro/assets/images/shortcodes-blue.png' ), 10 );
 		}
 
-
-
-		public function register_my_custom_menu_page(){
-		    add_menu_page( 'custom menu title', 'custom menu', 'manage_options', 'myplugin/myplugin-admin.php', '', plugins_url( 'myplugin/images/icon.png' ), 6 );
-		}
-
 		public function tabs( $tabs ) {
 			// Register the core tab banks.
 			 $tabs[] = array(
 				'id' => 'manage_addons' ,
 				'position' => 0 ,
-				'title' => __( 'Manage Addons' , 'connections_settings_api' ) ,
+				'title' => __( 'Manage Addons' , 'inbound-now' ) ,
 				'page_hook' => $this->pageHook
 			);
-			$tabs[] = array(
+			/*$tabs[] = array(
 				'id' => 'basic' ,
 				'position' => 10 ,
-				'title' => __( 'Basic' , 'connections_settings_api' ) ,
+				'title' => __( 'Basic' , 'inbound-now' ) ,
 				'page_hook' => $this->pageHook
 			);
 
 			$tabs[] = array(
 				'id' => 'other' ,
 				'position' => 20 ,
-				'title' => __( 'Other' , 'connections_settings_api' ) ,
+				'title' => __( 'Other' , 'inbound-now' ) ,
 				'page_hook' => $this->pageHook
 			);
 
 			$tabs[] = array(
 				'id' => 'advanced' ,
 				'position' => 30 ,
-				'title' => __( 'Advanced' , 'connections_settings_api' ) ,
+				'title' => __( 'Advanced' , 'inbound-now' ) ,
 				'page_hook' => $this->pageHook
 			);
 
 			$tabs[] = array(
 				'id' => 'custom' ,
 				'position' => 30 ,
-				'title' => __( 'custom' , 'connections_settings_api' ) ,
+				'title' => __( 'custom' , 'inbound-now' ) ,
 				'page_hook' => $this->pageHook,
 				'type' => 'custom'
-			);
+			);*/
 
 			return $tabs;
 		}
@@ -86,26 +80,26 @@ if ( ! class_exists('Inbound_Now_Settings') )
 				'tab' => 'manage_addons' ,
 				'id' => 'manage_inbound_addons' ,
 				'position' => 0 ,
-				'title' => __( 'Manage Addons' , 'connections_settings_api' ) ,
+				'title' => __( 'Manage Addons' , 'inbound-now' ) ,
 				'callback' => 'inbound_manage_addon_screen',
 				'page_hook' => $this->pageHook
 			);
-			$sections[] = array(
+			/* $sections[] = array(
 				'tab' => 'basic' ,
 				'id' => 'basic_one' ,
 				'position' => 10 ,
-				'title' => __( 'Test Section One' , 'connections_settings_api' ) ,
-				'callback' => create_function( '', "_e( 'Test Section One Description.' , 'connections_settings_api' );" ) ,
+				'title' => __( 'Test Section One' , 'inbound-now' ) ,
+				'callback' => create_function( '', "_e( 'Test Section One Description.' , 'inbound-now' );" ) ,
 				'page_hook' => $this->pageHook
 			);
 			$sections[] = array(
 				'tab' => 'basic' ,
 				'id' => 'basic_two' ,
 				'position' => 20 ,
-				'title' => __( 'Test Section Two' , 'connections_settings_api' ) ,
-				'callback' => create_function( '', "_e( 'Test Section Two Description.' , 'connections_settings_api' );" ) ,
+				'title' => __( 'Test Section Two' , 'inbound-now' ) ,
+				'callback' => create_function( '', "_e( 'Test Section Two Description.' , 'inbound-now' );" ) ,
 				'page_hook' => $this->pageHook
-			);
+			); */
 
 			return $sections;
 		}
@@ -116,27 +110,27 @@ if ( ! class_exists('Inbound_Now_Settings') )
 
 		public function fields( $fields ) {
 			// Test Fields -- Remove before release.
-			$fields[] = array(
-				'plugin_id' => 'connections_settings_api',
+			/*$fields[] = array(
+				'plugin_id' => 'inbound-now',
 				'id' => 'checkbox_test',
 				'position' => 5,
 				'page_hook' => 'toplevel_page_settings_inbound_now',
 				'tab' => 'basic',
 				'section' => 'basic_one',
-				'title' => __('Checkbox', 'connections_settings_api'),
-				'desc' => __('Checkbox Label.', 'connections_settings_api'),
+				'title' => __('Checkbox', 'inbound-now'),
+				'desc' => __('Checkbox Label.', 'inbound-now'),
 				'help' => __('testing'),
 				'type' => 'checkbox',
 				'default' => 1
 			);
 			$fields[] = array(
-				'plugin_id' => 'connections_settings_api',
+				'plugin_id' => 'inbound-now',
 				'id' => 'function_test',
 				'position' => 5,
 				'page_hook' => 'toplevel_page_settings_inbound_now',
 				'tab' => 'basic',
 				'section' => 'basic_one',
-				'title' => __('test', 'connections_settings_api'),
+				'title' => __('test', 'inbound-now'),
 				'desc' => 'work_please();',
 				'help' => __('testing'),
 				'options' => array(
@@ -149,56 +143,56 @@ if ( ! class_exists('Inbound_Now_Settings') )
 				'default' => 'test()'
 			);
 			$fields[] = array(
-				'plugin_id' => 'connections_settings_api',
+				'plugin_id' => 'inbound-now',
 				'id' => 'textarea_test',
 				'position' => 30,
 				'page_hook' => 'toplevel_page_settings_inbound_now',
 				'tab' => 'basic',
 				'section' => 'basic_one',
-				'title' => __('Rich Text Area', 'connections_settings_api'),
-				'desc' => __('This is a test of the RTE.', 'connections_settings_api'),
+				'title' => __('Rich Text Area', 'inbound-now'),
+				'desc' => __('This is a test of the RTE.', 'inbound-now'),
 				'help' => __('ttttttttt'),
 				'type' => 'rte',
 				'size' => 'large',
 				'default' => '<span style="text-decoration: underline;">Default <strong>text</strong> with <em>style</em>!</span>'
 			);
 			$fields[] = array(
-				'plugin_id' => 'connections_settings_api',
+				'plugin_id' => 'inbound-now',
 				'id' => 'textarea_large',
 				'position' => 29,
 				'page_hook' => 'toplevel_page_settings_inbound_now',
 				'tab' => 'basic',
 				'section' => 'basic_one',
-				'title' => __('Large Text Area', 'connections_settings_api'),
-				'desc' => __('Text Area', 'connections_settings_api'),
+				'title' => __('Large Text Area', 'inbound-now'),
+				'desc' => __('Text Area', 'inbound-now'),
 				'help' => __(''),
 				'type' => 'textarea',
 				'size' => 'large',
 				'default' => 'LARGE TEXT AREA'
 			);
 			$fields[] = array(
-				'plugin_id' => 'connections_settings_api',
+				'plugin_id' => 'inbound-now',
 				'id' => 'text_regular',
 				'position' => 28,
 				'page_hook' => 'toplevel_page_settings_inbound_now',
 				'tab' => 'basic',
 				'section' => 'basic_one',
-				'title' => __('Regular Text', 'connections_settings_api'),
-				'desc' => __('Regular Text Label', 'connections_settings_api'),
+				'title' => __('Regular Text', 'inbound-now'),
+				'desc' => __('Regular Text Label', 'inbound-now'),
 				'help' => __(''),
 				'type' => 'text',
 				'size' => 'regular',
 				'default' => 'Regular'
 			);
 			$fields[] = array(
-				'plugin_id' => 'connections_settings_api',
+				'plugin_id' => 'inbound-now',
 				'id' => 'text_small',
 				'position' => 27,
 				'page_hook' => 'toplevel_page_settings_inbound_now',
 				'tab' => 'basic',
 				'section' => 'basic_one',
-				'title' => __('Small Text', 'connections_settings_api'),
-				'desc' => __('Small Text Label', 'connections_settings_api'),
+				'title' => __('Small Text', 'inbound-now'),
+				'desc' => __('Small Text Label', 'inbound-now'),
 				'help' => __(''),
 				'type' => 'text',
 				'size' => 'small',
@@ -206,41 +200,41 @@ if ( ! class_exists('Inbound_Now_Settings') )
 
 			);
 			$fields[] = array(
-				'plugin_id' => 'connections_settings_api',
+				'plugin_id' => 'inbound-now',
 				'id' => 'text_large',
 				'position' => 29,
 				'page_hook' => 'toplevel_page_settings_inbound_now',
 				'tab' => 'basic',
 				'section' => 'basic_one',
-				'title' => __('Large Text', 'connections_settings_api'),
-				'desc' => __('Large Text Label', 'connections_settings_api'),
+				'title' => __('Large Text', 'inbound-now'),
+				'desc' => __('Large Text Label', 'inbound-now'),
 				'help' => __(''),
 				'type' => 'text',
 				'size' => 'large',
 				'default' => 'LARGE'
 			);
 			$fields[] = array(
-				'plugin_id' => 'connections_settings_api',
+				'plugin_id' => 'inbound-now',
 				'id' => 'quicktag',
 				'position' => 29.5,
 				'page_hook' => 'toplevel_page_settings_inbound_now',
 				'tab' => 'basic',
 				'section' => 'basic_one',
-				'title' => __('Quicktag Text', 'connections_settings_api'),
-				'desc' => __('Quicktag Label', 'connections_settings_api'),
+				'title' => __('Quicktag Text', 'inbound-now'),
+				'desc' => __('Quicktag Label', 'inbound-now'),
 				'help' => __(''),
 				'type' => 'quicktag',
 				'default' => 'Quicktag Textarea!'
 			);
 			$fields[] = array(
-				'plugin_id' => 'connections_settings_api',
+				'plugin_id' => 'inbound-now',
 				'id' => 'multicheck_test',
 				'position' => 21,
 				'page_hook' => 'toplevel_page_settings_inbound_now',
 				'tab' => 'basic',
 				'section' => 'basic_one',
-				'title' => __('Multi-Checkbox', 'connections_settings_api'),
-				'desc' => __('Multi-Checkbox Label', 'connections_settings_api'),
+				'title' => __('Multi-Checkbox', 'inbound-now'),
+				'desc' => __('Multi-Checkbox Label', 'inbound-now'),
 				'help' => __(''),
 				'type' => 'multicheckbox',
 				'options' => array(
@@ -252,14 +246,14 @@ if ( ! class_exists('Inbound_Now_Settings') )
 				'default' => array( 'one' , 'three' )
 			);
 			$fields[] = array(
-				'plugin_id' => 'connections_settings_api',
+				'plugin_id' => 'inbound-now',
 				'id' => 'radio_test',
 				'position' => 22,
 				'page_hook' => 'toplevel_page_settings_inbound_now',
 				'tab' => 'basic',
 				'section' => 'basic_one',
-				'title' => __('Radio', 'connections_settings_api'),
-				'desc' => __('Radio Label', 'connections_settings_api'),
+				'title' => __('Radio', 'inbound-now'),
+				'desc' => __('Radio Label', 'inbound-now'),
 				'help' => __(''),
 				'type' => 'radio',
 				'options' => array(
@@ -269,14 +263,14 @@ if ( ! class_exists('Inbound_Now_Settings') )
 				'default' => 'yes'
 			);
 			$fields[] = array(
-				'plugin_id' => 'connections_settings_api',
+				'plugin_id' => 'inbound-now',
 				'id' => 'select_test',
 				'position' => 23,
 				'page_hook' => 'toplevel_page_settings_inbound_now',
 				'tab' => 'basic',
 				'section' => 'basic_one',
-				'title' => __('Select', 'connections_settings_api'),
-				'desc' => __('Select Label', 'connections_settings_api'),
+				'title' => __('Select', 'inbound-now'),
+				'desc' => __('Select Label', 'inbound-now'),
 				'help' => __(''),
 				'type' => 'select',
 				'options' => array(
@@ -288,14 +282,14 @@ if ( ! class_exists('Inbound_Now_Settings') )
 				'default' => 'two'
 			);
 			$fields[] = array(
-				'plugin_id' => 'connections_settings_api',
+				'plugin_id' => 'inbound-now',
 				'id' => 'multi_select_test',
 				'position' => 24,
 				'page_hook' => 'toplevel_page_settings_inbound_now',
 				'tab' => 'basic',
 				'section' => 'basic_one',
-				'title' => __('Multi-Select', 'connections_settings_api'),
-				'desc' => __('Multi-Select Label', 'connections_settings_api'),
+				'title' => __('Multi-Select', 'inbound-now'),
+				'desc' => __('Multi-Select Label', 'inbound-now'),
 				'help' => __(''),
 				'type' => 'multiselect',
 				'options' => array(
@@ -311,7 +305,7 @@ if ( ! class_exists('Inbound_Now_Settings') )
 									'ten' => 'Ten'
 				),
 				'default' => array( 'two' , 'four' )
-			);
+			); */
 
 			return $fields;
 		}
@@ -321,7 +315,7 @@ if ( ! class_exists('Inbound_Now_Settings') )
 
 			$args = array(
 				'page_icon' => '',
-				'page_title' => 'Connections : Settings API Test Page',
+				'page_title' => 'Inbound Now Pro Settings',
 				'tab_icon' => 'options-general'
 				);
 
@@ -552,14 +546,6 @@ if (!function_exists('inbound_manage_addon_screen')) {
 		}
 		echo "</tbody>
 			</table></div>";
-
-/*
-		$inbound_load_files = array_unique(array_merge($toggled_addon_files, $default_pro_files));
-		if (isset($inbound_load_files) && is_array($inbound_load_files)) {
-			foreach ($inbound_load_files as $key => $value) {
-				include_once('components/'.$value.'/'.$value.'.php'); // include each toggled on
-			}
-		}*/
 	}
 }
 
@@ -587,14 +573,13 @@ function inbound_toggle_addons_ajax() {
     } else {
       // Create the first item in array
       if($toggle === 'on') {
-      $toggled_addon_files[0] = $the_addon;
+      	$toggled_addon_files[0] = $the_addon;
       }
     }
 
-     set_transient('inbound-now-active-addons', $toggled_addon_files, 24 * HOUR_IN_SECONDS);
+    set_transient('inbound-now-active-addons', $toggled_addon_files, 24 * HOUR_IN_SECONDS);
 
-      // Set global option inbound_global_dequeue_js
-
+    //
     $output =  array('encode'=> 'end' );
 
     echo json_encode($output,JSON_FORCE_OBJECT);
