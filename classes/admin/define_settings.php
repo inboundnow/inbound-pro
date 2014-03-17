@@ -519,7 +519,7 @@ if (!function_exists('inbound_manage_addon_screen')) {
 			foreach (scandir($dir) as $item) {
 				if ($item == '.' || $item == '..' || $item == '.DS_Store') continue;
 
-				if (in_array($item, $toggled_addon_files)) {
+				if (is_array($toggled_addon_files) && in_array($item, $toggled_addon_files)) {
 					$checked =  "checked";
 				} else {
 					$checked = '';
