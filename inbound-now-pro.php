@@ -75,11 +75,11 @@ final class Inbound_Now_Pro {
 		global $inboundnow_options;
 
 		/* load core files */
-		$default_pro_files = array('inboundnow-lead-revisit-notifications', 'inboundnow-zapier');
+		//$default_pro_files = array('inboundnow-lead-revisit-notifications', 'inboundnow-zapier');
+		$default_pro_files = array();
 		/* Add filter here for core files */
 		/* load toggled addon files */
 		$toggled_addon_files = get_transient( 'inbound-now-active-addons' );
-		$toggled_addon_files = array(); // tests
 		$inbound_load_files = array_unique(array_merge($toggled_addon_files, $default_pro_files));
 		if (isset($inbound_load_files) && is_array($inbound_load_files)) {
 			foreach ($inbound_load_files as $key => $value) {
