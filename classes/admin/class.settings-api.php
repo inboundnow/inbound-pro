@@ -725,7 +725,7 @@ if ( ! class_exists('cnSettingsAPI') )
 					$out .= wp_dropdown_pages( array( 'name' => $name, 'echo' => 0, 'show_option_none' => $field['show_option_none'], 'option_none_value' => $field['option_none_value'], 'selected' => $value ) );
 
 					break;
-				case 'custom_function':
+				/*case 'custom_function':
 					function work_please() {
 						return 'woooooo';
 					}
@@ -740,7 +740,7 @@ if ( ! class_exists('cnSettingsAPI') )
 				    }
 
 
-					break;
+					break;*/
 			}
 
 			echo $out;

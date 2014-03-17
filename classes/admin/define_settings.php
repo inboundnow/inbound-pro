@@ -75,6 +75,15 @@ if ( ! class_exists('Inbound_Now_Settings') )
 		}
 
 		public function sections( $sections ) {
+
+			$sections[] = array(
+				'tab' => 'basic' ,
+				'id' => 'manage_inbound_addons' ,
+				'position' => 0 ,
+				'title' => __( 'Manage Addons' , 'connections_settings_api' ) ,
+				'callback' => 'inbound_manage_addon_screen',
+				'page_hook' => $this->pageHook
+			);
 			$sections[] = array(
 				'tab' => 'basic' ,
 				'id' => 'basic_one' ,
@@ -93,6 +102,10 @@ if ( ! class_exists('Inbound_Now_Settings') )
 			);
 
 			return $sections;
+		}
+
+		static function test_call_back() {
+			echo "Hi";
 		}
 
 		public function fields( $fields ) {
@@ -315,4 +328,141 @@ if ( ! class_exists('Inbound_Now_Settings') )
 	global $Inbound_Now_Settings;
 	$Inbound_Now_Settings = new Inbound_Now_Settings();
 }
+
+if (!function_exists('inbound_manage_addon_screen')) {
+	function inbound_manage_addon_screen() { ?>
+		<style type="text/css">cite{display:none !important;}
+
+		#inbound-addon-toggles .toggleswitch {
+			position: relative;
+			margin: 10px;
+			width: 80px;
+			display: inline-block;
+			vertical-align: top;
+			-webkit-user-select: none;
+			-moz-user-select:    none;
+			-ms-user-select:     none;
+		}
+
+		#inbound-addon-toggles [type="checkbox"] {
+			display: none;
+		}
+
+		#inbound-addon-toggles label {
+			display: block;
+			border-radius: 1px;
+			overflow: hidden;
+			cursor: pointer;
+		}
+
+		#inbound-addon-toggles label > div {
+			width: 200%;
+			margin-left: -100%;
+			font-family:"FontAwesome";
+			-webkit-transition: margin 0.1s ease-in 0s;
+			-moz-transition:    margin 0.1s ease-in 0s;
+			-o-transition:      margin 0.1s ease-in 0s;
+			transition:         margin 0.1s ease-in 0s;
+		}
+
+		#inbound-addon-toggles label > div:before, #inbound-addon-toggles label > div:after {
+			float: left;
+			width: 50%;
+			height: 27px;
+			padding: 0;
+			line-height: 27px;
+			font-size: 16px;
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing:    border-box;
+			box-sizing:         border-box;
+		}
+
+		#inbound-addon-toggles label > div:before {
+			content: "\f00c";
+			padding-left: 14px;
+			background-color: #56b78a;
+			color: #fff;
+		}
+
+		#inbound-addon-toggles label > div:after {
+			content: "\f00d";
+			padding-right: 15px;
+			background-color: #ccc; color: #666666;
+			text-align: right;
+		}
+
+		#inbound-addon-toggles label span {
+			width: 33px;
+			margin: 3px;
+			background: #fff;
+			border-radius: 1px;
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			right: 41px;
+			-webkit-transition: all 0.1s ease-in 0s;
+			-moz-transition:    all 0.1s ease-in 0s;
+			-o-transition:      all 0.1s ease-in 0s;
+			transition:         all 0.1s ease-in 0s;
+		}
+
+		#inbound-addon-toggles [type="checkbox"]:checked + label > div {
+			margin-left: 0;
+		}
+
+		#inbound-addon-toggles [type="checkbox"]:checked + label > span {
+			right: 0px;
+		}
+		</style>
+		<script type="text/javascript">
+		jQuery(document).ready(function($) {
+		   jQuery.fn.flatcheckbox = function() {
+		   	  return this.each(function() {
+		         $(this).wrap('<div class="toggleswitch"></div>').after('<label for="'+$(this).attr('id')+'"><div></div><span></span>');
+		       });
+		   };
+
+		   $('input:checkbox').flatcheckbox();
+		 });
+
+
+		</script>
+<?php
+    	// Set Variable if welcome folder exists
+    	$dir = INBOUND_NOW_PATH . '/components/';
+
+		if(file_exists($dir)) {
+			$checked =  "";
+			echo "<div id='inbound-addon-toggles'>";
+			foreach (scandir($dir) as $item) {
+				if ($item == '.' || $item == '..' || $item == '.DS_Store') continue;
+				$plugin_file = INBOUND_NOW_PATH . '/components/'.$item.'/'.$item.'.php';
+				$plugin_data = get_plugin_data( $plugin_file, $markup = true, $translate = true );
+				//print_r($plugin_data);
+				$description = (isset($plugin_data['Description'])) ? $plugin_data['Description'] : '';
+				$thumbnail = INBOUND_NOW_PATH . '/components/'.$item.'/thumbnail.png';
+				echo '<input type="checkbox" name="'.$item.'-status"" id="'.$item. '-toggle" '.$checked.' />';
+				//echo '<input type="checkbox" id="switch2" />';
+				if (file_exists($thumbnail)) {
+				$thumb_link = INBOUND_NOW_URL . '/components/'.$item.'/thumbnail.png';
+				echo "<img width='105' src='" . $thumb_link . "'>";
+				} else {
+				$thumb_link = INBOUND_NOW_URL . '/assets/images/default-thumbnail.jpg';
+				echo "<img width='105' src='" . $thumb_link . "'>";
+				}
+				echo $description . "<br>";
+			}
+		}
+		echo "</div>";
+
+/*
+		$inbound_load_files = array_unique(array_merge($toggled_addon_files, $default_pro_files));
+		if (isset($inbound_load_files) && is_array($inbound_load_files)) {
+			foreach ($inbound_load_files as $key => $value) {
+				include_once('components/'.$value.'/'.$value.'.php'); // include each toggled on
+			}
+		}*/
+	}
+}
+
 ?>

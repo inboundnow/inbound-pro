@@ -4,7 +4,7 @@ Plugin Name: InboundNow Extension - MailChimp Integration
 Plugin URI: http://www.inboundnow.com/market/support-will-complete
 Description: Provides MailChimp support for Landing Pages, Leads, and Calls to Action plugin.
 Version: 1.0.5
-Author: Hudson Atwell, David Wells
+Author: Inbound Now
 Author URI: http://www.inboundnow.com/
 Text Domain: inboundnow-mailchimp
 Domain Path: lang
