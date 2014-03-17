@@ -42,6 +42,12 @@ if ( ! class_exists('Inbound_Now_Settings') )
 
 		public function tabs( $tabs ) {
 			// Register the core tab banks.
+			 $tabs[] = array(
+				'id' => 'manage_addons' ,
+				'position' => 0 ,
+				'title' => __( 'Manage Addons' , 'connections_settings_api' ) ,
+				'page_hook' => $this->pageHook
+			);
 			$tabs[] = array(
 				'id' => 'basic' ,
 				'position' => 10 ,
@@ -77,7 +83,7 @@ if ( ! class_exists('Inbound_Now_Settings') )
 		public function sections( $sections ) {
 
 			$sections[] = array(
-				'tab' => 'basic' ,
+				'tab' => 'manage_addons' ,
 				'id' => 'manage_inbound_addons' ,
 				'position' => 0 ,
 				'title' => __( 'Manage Addons' , 'connections_settings_api' ) ,
@@ -413,6 +419,30 @@ if (!function_exists('inbound_manage_addon_screen')) {
 		#inbound-addon-toggles [type="checkbox"]:checked + label > span {
 			right: 0px;
 		}
+		#addon-name {
+
+			display: block;
+			font-weight: bold;
+			font-size: 15px;
+			color: #232222;
+		}
+		.addon-thumb {
+			position: relative;
+		}
+		.component-status {
+			width: 90px;
+			font-size: 11px !important;
+		}
+		td.addon-thumb {
+			padding-bottom: 0px;
+			padding-top: 0px;
+		}
+		.addon-thumbnail-th {
+			width: 100px;
+		}
+		#submit{
+			display: none;
+		}
 		</style>
 		<script type="text/javascript">
 		jQuery(document).ready(function($) {
@@ -425,35 +455,103 @@ if (!function_exists('inbound_manage_addon_screen')) {
 		   $('input:checkbox').flatcheckbox();
 		 });
 
+		jQuery(document).ready(function($) {
+		   jQuery("body").on('click', '.toggleswitch label', function () {
+
+		   	var status = jQuery(this).parent().find('input').attr('checked');
+		   	if(status === 'checked') {
+		   		toggle = 'off';
+		   	} else {
+		   		toggle = 'on';
+		   	}
+		   	var the_addon = jQuery(this).parent().find('input').attr('class');
+		   	console.log(toggle);
+		   	console.log(the_addon);
+
+		 	jQuery.ajax({
+			   	    type: 'POST',
+			   	    url: ajaxurl,
+			   	    context: this,
+			   	    data: {
+			   	        action: 'inbound_toggle_addons_ajax',
+			   	        toggle: toggle,
+			   	        the_addon: the_addon,
+			   	    },
+
+			   	    success: function (data) {
+			   	       console.log("The script " + the_addon + " has been turned " + toggle);
+			   	       var self = this;
+			   	       var str = data;
+			   	       var obj = JSON.parse(str);
+			   	      console.log(obj);
+			   	    },
+
+			   	    error: function (MLHttpRequest, textStatus, errorThrown) {
+			   	        alert("Ajax not enabled");
+			   	    }
+			   	});
+		     });
+		 });
 
 		</script>
+	<div id='inbound-addon-toggles'>
+
+		<h3>Toggle which inbound now components you would like to run on your site</h3>
+		<table class="widefat" id="lead-manage-table">
+
+
+							<thead>
+								<tr>
+
+									<th scope="col" class="sort-header addon-thumbnail-th">Name</th>
+									<th class="checkbox-header no-sort component-status" scope="col">
+										Component Status
+									</th>
+									<th scope="col" class="sort-header">Description</th>
+
+								</tr>
+							</thead>
+							<tbody id="the-list" class="ui-selectable">
+
 <?php
+
     	// Set Variable if welcome folder exists
     	$dir = INBOUND_NOW_PATH . '/components/';
-
+    	$toggled_addon_files = get_transient( 'inbound-now-active-addons' );
+    	//print_r($toggled_addon_files);
 		if(file_exists($dir)) {
 			$checked =  "";
-			echo "<div id='inbound-addon-toggles'>";
+
 			foreach (scandir($dir) as $item) {
 				if ($item == '.' || $item == '..' || $item == '.DS_Store') continue;
+
+				if (in_array($item, $toggled_addon_files)) {
+					$checked =  "checked";
+				} else {
+					$checked = '';
+				}
+				echo '<tr class="">';
 				$plugin_file = INBOUND_NOW_PATH . '/components/'.$item.'/'.$item.'.php';
 				$plugin_data = get_plugin_data( $plugin_file, $markup = true, $translate = true );
-				//print_r($plugin_data);
+
+				$name = (isset($plugin_data['Name'])) ? $plugin_data['Name'] : '';
 				$description = (isset($plugin_data['Description'])) ? $plugin_data['Description'] : '';
 				$thumbnail = INBOUND_NOW_PATH . '/components/'.$item.'/thumbnail.png';
-				echo '<input type="checkbox" name="'.$item.'-status"" id="'.$item. '-toggle" '.$checked.' />';
-				//echo '<input type="checkbox" id="switch2" />';
 				if (file_exists($thumbnail)) {
 				$thumb_link = INBOUND_NOW_URL . '/components/'.$item.'/thumbnail.png';
-				echo "<img width='105' src='" . $thumb_link . "'>";
 				} else {
 				$thumb_link = INBOUND_NOW_URL . '/assets/images/default-thumbnail.jpg';
-				echo "<img width='105' src='" . $thumb_link . "'>";
 				}
-				echo $description . "<br>";
+				echo "<td class='addon-thumb'><img width='105' src='" . $thumb_link . "'></td>";
+				echo '<td><input type="checkbox" class="'.$item.'" name="'.$item.'-status" id="'.$item. '-toggle" '.$checked.' /></td>';
+				//echo '<input type="checkbox" id="switch2" />';
+
+				echo "<td><div id='addon-name'>".$name."</div>" . $description . "</td>";
+				echo "</tr>";
 			}
 		}
-		echo "</div>";
+		echo "</tbody>
+			</table></div>";
 
 /*
 		$inbound_load_files = array_unique(array_merge($toggled_addon_files, $default_pro_files));
@@ -464,5 +562,43 @@ if (!function_exists('inbound_manage_addon_screen')) {
 		}*/
 	}
 }
+
+add_action('wp_ajax_inbound_toggle_addons_ajax', 'inbound_toggle_addons_ajax');
+add_action('wp_ajax_nopriv_inbound_toggle_addons_ajax', 'inbound_toggle_addons_ajax');
+
+function inbound_toggle_addons_ajax() {
+      // Post Values
+      $the_addon = (isset( $_POST['the_addon'] )) ? $_POST['the_addon'] : "";
+      $toggle = (isset( $_POST['toggle'] )) ? $_POST['toggle'] : "";
+
+    /* Store Script Data to Post */
+    $toggled_addon_files = get_transient( 'inbound-now-active-addons' );
+
+    if(is_array($toggled_addon_files)) {
+
+        if($toggle === 'on') {
+          // add or remove from list
+          $toggled_addon_files[] = $the_addon;
+        } else {
+          unset($toggled_addon_files[$the_addon]);
+          $toggled_addon_files = array_diff($toggled_addon_files, array($the_addon));
+        }
+
+    } else {
+      // Create the first item in array
+      if($toggle === 'on') {
+      $toggled_addon_files[0] = $the_addon;
+      }
+    }
+
+     set_transient('inbound-now-active-addons', $toggled_addon_files, 24 * HOUR_IN_SECONDS);
+
+      // Set global option inbound_global_dequeue_js
+
+    $output =  array('encode'=> 'end' );
+
+    echo json_encode($output,JSON_FORCE_OBJECT);
+    wp_die();
+ }
 
 ?>
