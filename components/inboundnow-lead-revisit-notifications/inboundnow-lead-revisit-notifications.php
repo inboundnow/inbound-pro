@@ -29,7 +29,7 @@ class Lead_Revisit_Notifications {
 	}
 
 	static function register_script() {
-		wp_register_script('my-script', plugins_url('my-script.js', __FILE__), array('jquery'), '1.0', true);
+		wp_register_script('lead-revist', plugins_url('js/lead-revist.js', __FILE__), array('jquery'), '1.0', true);
 	}
 
 	static function print_script() {
@@ -42,6 +42,8 @@ class Lead_Revisit_Notifications {
 		jQuery(document).ready(function($) {
 		   var lead_email = $.cookie('wp_lead_email') || false;
 		   var run_check = $.cookie('lead_session_expire');
+		   console.log(lead_email);
+		   console.log(run_check);
 			   if (lead_email && run_check === null) {
 				   	jQuery.ajax({
 				   	    type: "POST",
@@ -58,7 +60,7 @@ class Lead_Revisit_Notifications {
 		 });
 		</script>
 
-	<?php wp_print_scripts('my-script');
+	<?php
 
 	}
 	static function addon_options(){
@@ -73,7 +75,21 @@ class Lead_Revisit_Notifications {
 		$email = (isset($_POST['lead_email'])) ? $_POST['lead_email'] : false;
 
 		// Only proceed if lead exists
-		if ($email) {
+
+		if ( ( isset( $email ) && !empty( $email ) && strstr( $email ,'@') )) {
+			$query = $wpdb->prepare(
+				'SELECT ID FROM ' . $wpdb->posts . '
+				WHERE post_title = %s
+				AND post_type = \'wp-lead\'',
+				$email
+			);
+			$wpdb->query( $query );
+			// if lead exists in DB
+			if ( $wpdb->num_rows ) {
+				/* Update Existing Lead */
+				$lead_id = $wpdb->get_var( $query );
+				// do meta lookup for correct email to send to
+			}
 
 			$to = 'david@inboundnow.com';
 			$subject = 'Hello from my blog!';
