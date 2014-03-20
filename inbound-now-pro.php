@@ -11,7 +11,6 @@ Domain Path: /languages/
 */
 
 
-
 /* Main Inbound Now Pro Class */
 if ( ! class_exists( 'Inbound_Now_Pro' ) ) {
 final class Inbound_Now_Pro {

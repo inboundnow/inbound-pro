@@ -15,17 +15,15 @@ class LP_Clean_URLs {
 	static $add_script;
 
 	static function init() {
-		add_shortcode('myshortcode', array(__CLASS__, 'handle_shortcode'));
-		add_action('init', array(__CLASS__, 'register_script'));
-		add_action('wp_footer', array(__CLASS__, 'print_script'));
+	
 		/*SETUP NAVIGATION AND DISPLAY ELEMENTS*/
-		add_filter('lp_define_global_settings', array(__CLASS__, 'lp_clean_urls_add_global_settings'));
-		add_action('admin_init', 'lp_extend_clean_urls');
+		add_filter('lp_define_global_settings', array( __CLASS__ , 'add_global_settings'));
+		add_action('admin_init', array( __CLASS__ , 'setup_extension' ) );
 		add_action('init', array('LP_REMOVESLUG', 'init'), 99); // run class
 	}
 
 	/*SETUP NAVIGATION AND DISPLAY ELEMENTS*/
-	static function lp_clean_urls_add_global_settings($lp_global_settings) {
+	static function add_global_settings($lp_global_settings) {
 
 		$lp_global_settings['lp-main']['settings'][] =
 		array(
@@ -49,11 +47,12 @@ class LP_Clean_URLs {
 	}
 
 
-	static function lp_extend_clean_urls() {
+	public static function setup_extension() {
 		/*PREPARE THIS EXTENSION FOR LICESNING*/
-		if ( class_exists( 'LP_EXTENSION_LICENSE' ) )
+		if ( class_exists( 'LP_EXTENSION_LICENSE' ) ) {
 			$license = new LP_EXTENSION_LICENSE(  'Clean URLs' , 'clean-urls' );
-
+		}
+		
 		/*PREPARE THIS EXTENSION FOR AUTOMATIC UPDATES*/
 		if ( class_exists( 'LP_EXTENSION_UPDATER' ) ) {
 			$edd_updater = new LP_EXTENSION_UPDATER( LANDINGPAGES_STORE_URL, __FILE__, array(
@@ -83,7 +82,7 @@ if (!class_exists('LP_REMOVESLUG')) {
 			add_action('wp_insert_post', array(&$this, 'post_save'));
 			add_filter('post_type_link', array(&$this, 'remove_slug'), 10, 3);
 			add_filter('redirect_canonical', array(&$this, 'cancel_redirect_canonical'));
-			//add_filter('posts_request', array(&$this, 'request'));
+			add_filter('posts_request', array(&$this, 'request'));
 
 		}
 
@@ -294,5 +293,4 @@ if (!class_exists('LP_REMOVESLUG')) {
 
 	register_activation_hook( __FILE__, array('LP_REMOVESLUG', 'flush_rewrite_rules') );
 	register_deactivation_hook( __FILE__, array('LP_REMOVESLUG', 'flush_rewrite_rules') );
-	}
 }
