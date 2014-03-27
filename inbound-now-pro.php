@@ -78,19 +78,25 @@ final class Inbound_Now_Pro {
 		$default_pro_files = array();
 		/* Add filter here for core files */
 		/* load toggled addon files */
-		$toggled_addon_files = get_transient( 'inbound-now-active-addons' );
-			
-		if ( !is_array($toggled_addon_files) ) {
-			return;
-		}
-		
+		$toggled_addon_files = get_transient( 'inbound-now-active-addons');
+		if(is_array($toggled_addon_files) && is_array($default_pro_files)) {
 		$inbound_load_files = array_unique(array_merge($toggled_addon_files, $default_pro_files));
-		
-		if ( is_array($inbound_load_files) && !empty($inbound_load_files) ) {
+
 			foreach ($inbound_load_files as $key => $value) {
 				include_once('components/'.$value.'/'.$value.'.php'); // include each toggled on
 			}
 		}
+
+		/*
+		include_once('components/inboundnow-lead-revisit-notifications/inboundnow-lead-revisit-notifications.php');
+		include_once('components/inboundnow-zapier/inboundnow-zapier.php');
+		include_once('components/inboundnow-aweber/inboundnow-aweber.php');
+		include_once('components/inboundnow-mailchimp/inboundnow-mailchimp.php');
+		include_once('components/inboundnow-hubspot/inboundnow-hubspot.php');
+		//include_once('components/inboundnow-home-page-lander/inboundnow-home-page-lander.php');
+		include_once('classes/pro-welcome.class.php');
+
+		/**/
 
 
 
