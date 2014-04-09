@@ -161,7 +161,7 @@ class Inbound_Zapier {
 					'id'  => 'inboundnow_zapier_webhook_url',
 					'option_name'  => 'inboundnow_zapier_webhook_url',
 					'label' => __('Zapier Webhook URL(s)', 'leads-pro'),
-					'description' => __('One URL per line. Get your Zapier API WebHook URLs at https://app.zapier.com/keys/get.', 'leads-pro'),
+					'description' => __('One URL per line. Get your Zapier API WebHook URLs from https://zapier.com/app/dashboard also see http://docs.inboundnow.com/guide/zapier-setup-guide/ for help.', 'leads-pro'),
 					'type'  => 'textarea',
 					'default'  => ''
 				);
