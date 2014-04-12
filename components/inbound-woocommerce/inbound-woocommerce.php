@@ -3,13 +3,13 @@
 Plugin Name: WooCommerce - Leads Integration
 Plugin URI: http://www.inboundnow.com/
 Description: Adds Tracking Class to Checkout Form
-Version: 1.0.2
+Version: 1.0.1
 Author: Hudson Atwell
 Author URI: http://www.inboundnow.com/
 
 */
 
-if(!defined('INBOUNDNOW_WOOCOMMERCE_CURRENT_VERSION')) { define('INBOUNDNOW_WOOCOMMERCE_CURRENT_VERSION', '1.0.4' ); }
+if(!defined('INBOUNDNOW_WOOCOMMERCE_CURRENT_VERSION')) { define('INBOUNDNOW_WOOCOMMERCE_CURRENT_VERSION', '1.0.1' ); }
 if(!defined('INBOUNDNOW_WOOCOMMERCE_LABEL')) { define('INBOUNDNOW_WOOCOMMERCE_LABEL' , 'WooCommerce Integration' ); }
 if(!defined('INBOUNDNOW_WOOCOMMERCE_SLUG')) { define('INBOUNDNOW_WOOCOMMERCE_SLUG' , plugin_basename( dirname(__FILE__) ) ); }
 if(!defined('INBOUNDNOW_WOOCOMMERCE_FILE')) { define('INBOUNDNOW_WOOCOMMERCE_FILE' ,  __FILE__ ); }
@@ -30,7 +30,7 @@ class WC_Leads {
 		add_action('admin_init', array( __CLASS__ , 'license_setup') );
 		
 		/* Add Lead on Update Order Meta */
-		add_action( 'woocommerce_checkout_update_order_meta', array( __CLASS__, 'add_lead' ), 1000, 1 );
+		//add_action( 'woocommerce_checkout_update_order_meta', array( __CLASS__, 'add_lead' ), 1000, 1 );
 
 		/* Add Lead on Payment Complete */
 		add_action( 'woocommerce_payment_complete', array( __CLASS__ , 'add_lead' ), 10, 3 );
@@ -65,11 +65,17 @@ class WC_Leads {
 		(isset($order->billing_first_name)) ? self::$map['wpleads_first_name'] = $order->billing_first_name : self::$map['wpleads_first_name'] = "";
 		(isset($order->billing_last_name)) ? self::$map['wpleads_last_name'] = $order->billing_last_name : self::$map['wpleads_first_name'] = "";
 		(isset($woocommerce->customer->country)) ? self::$map['wpleads_country'] = $woocommerce->customer->country : self::$map['wpleads_country'] = "";
-		(isset($woocommerce->customer->shipping_address)) ? self::$map['wpleads_shipping_address_line_1'] = $woocommerce->customer->shipping_address : self::$map['wpleads_shipping_address_line_1'] = "";
-		(isset($woocommerce->customer->shipping_address_2)) ? self::$map['wpleads_shipping_address_line_2'] = $woocommerce->customer->shipping_address_2 : self::$map['wpleads_shipping_address_line_2'] = "";
+		(isset($woocommerce->customer->address)) ? self::$map['wpleads_address_line_1'] = $woocommerce->customer->address : self::$map['wpleads_address_line_1'] = "";
+		(isset($woocommerce->customer->address_2)) ? self::$map['wpleads_address_line_2'] = $woocommerce->customer->address_2 : self::$map['wpleads_address_line_2'] = "";
 		(isset($woocommerce->customer->city)) ? self::$map['wpleads_city'] = $woocommerce->customer->city : self::$map['wpleads_city'] = "";
 		(isset($woocommerce->customer->state)) ? self::$map['wpleads_region_name'] = $woocommerce->customer->state : self::$map['wpleads_region_name'] = "";
 		(isset($woocommerce->customer->postcode)) ? self::$map['wpleads_zip'] = $woocommerce->customer->postcode : self::$map['wpleads_zip'] = "";
+		(isset($woocommerce->customer->shipping_address)) ? self::$map['wpleads_shipping_address_line_1'] = $woocommerce->customer->shipping_address : self::$map['wpleads_shipping_address_line_1'] = "";
+		(isset($woocommerce->customer->shipping_address_2)) ? self::$map['wpleads_shipping_address_line_2'] = $woocommerce->customer->shipping_address_2 : self::$map['wpleads_shipping_address_line_2'] = "";
+		(isset($woocommerce->customer->shipping_city)) ? self::$map['wpleads_shipping_city'] = $woocommerce->customer->shipping_city : self::$map['wpleads_shipping_city'] = "";
+		(isset($woocommerce->customer->shipping_state)) ? self::$map['wpleads_shipping_region_name'] = $woocommerce->customer->shipping_state : self::$map['wpleads_shipping_region_name'] = "";
+		(isset($woocommerce->customer->shipping_postcode)) ? self::$map['wpleads_shipping_zip'] = $woocommerce->customer->shipping_postcode : self::$map['wpleads_shipping_zip'] = "";
+		
 		
 		/* Abort if no email detected */
 		if(!isset(self::$map['wpleads_email_address'])) {

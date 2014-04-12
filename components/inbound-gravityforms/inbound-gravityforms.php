@@ -100,20 +100,20 @@ class GravityFormsLeads
 			$field_id = $field['id'];
 			$label = $field['label'];
 			$value = $entry[$field_id];
-			
-			if ( is_array($field['inputs']) )
-			{
+
+			if ( is_array($field['inputs']) ) {
 				foreach ($field['inputs'] as $k=>$f)
 				{
 					$this->build_map( $f['label'] , array_shift($value));
 				}
 				
-			}
+			} else {
 
-			$this->build_map( $label , $value );
+		    	$this->build_map( $label , $value );
+			}
 		}
 		
-		
+
 		if(!isset($this->map['wpleads_email_address']))
 		{
 			return;
@@ -163,7 +163,7 @@ class GravityFormsLeads
 		else if (stristr($label,'last')&& !isset($this->map['wplead_last_name'])){
 			$this->map['wpleads_last_name'] = $value;
 		}	
-		else if (stristr($label,'email') ){
+		else if (stristr($label,'email') || stristr($label,'e-mail')){
 			$this->map['wpleads_email_address'] = $value;
 		}		
 		else if (stristr($label,'Company')&&stristr($label,'Name'))	{				
