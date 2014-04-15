@@ -31,12 +31,16 @@ class Inbound_Aweber {
 	static $add_aweber;
 
 	static function init() {
+		/* Setup Automatic Updating & Licensing */
 		add_action('admin_init', array(__CLASS__, 'inboundnow_aweber_extension_setup'));
+		
 		/*SETUP NAVIGATION AND DISPLAY ELEMENTS*/
+		
 		add_filter('lp_define_global_settings', array(__CLASS__, 'inboundnow_aweber_add_global_settings'));
 		add_filter('wpleads_define_global_settings', array(__CLASS__, 'inboundnow_aweber_add_global_settings'));
 		add_filter('wp_cta_define_global_settings', array(__CLASS__, 'inboundnow_aweber_add_global_settings'));
-		//authorize aweber and store token
+		
+		/* Authorize aweber and store token	*/
 		add_action('lp_save_global_settings', array(__CLASS__, 'inboundnow_aweber_save_data', 10, 2));
 		add_action('wpleads_save_global_settings', array(__CLASS__, 'inboundnow_aweber_save_data', 10, 2));
 		add_action('wp_cta_save_global_settings', array(__CLASS__, 'inboundnow_aweber_save_data', 10, 2));
@@ -47,6 +51,7 @@ class Inbound_Aweber {
 		/* Provide backwards compatibility for older data array model */
 		add_filter('lp_extension_data', array(__CLASS__, 'inboundnow_aweber_add_metaboxes'));
 		add_filter('wp_cta_extension_data', array(__CLASS__, 'inboundnow_aweber_add_metaboxes'));
+		
 		//add options to bulk edit
 		add_action('admin_footer-edit.php', array(__CLASS__, 'inboundnow_aweber_bulk_actions_add_options'));
 		add_action('load-edit.php', 'wpleads_bulk_action_aweber');
