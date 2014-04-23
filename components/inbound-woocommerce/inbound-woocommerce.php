@@ -17,7 +17,7 @@ if(!defined('INBOUNDNOW_WOOCOMMERCE_REMOTE_ITEM_NAME')) { define('INBOUNDNOW_WOO
 if(!defined('INBOUNDNOW_WOOCOMMERCE_URLPATH')) { define('INBOUNDNOW_WOOCOMMERCE_URLPATH', plugins_url( ' ', __FILE__ ) ); }
 if(!defined('INBOUNDNOW_WOOCOMMERCE_PATH')) { define('INBOUNDNOW_WOOCOMMERCE_PATH', WP_PLUGIN_DIR.'/'.plugin_basename( dirname(__FILE__) ).'/' ); }
 
-
+if (!class_exists('WC_leads')) {
 
 $WC_Leads = new WC_leads();
 
@@ -78,9 +78,10 @@ class WC_Leads {
 		
 		
 		/* Abort if no email detected */
-		if(!isset(self::$map['wpleads_email_address'])) {
+		if(!isset(self::$map['wpleads_email_address']) || !strstr( self::$map['wpleads_email_address'] , '@' ) ) {
 			return;
 		}
+		
 		
 		/* Populate Tracking Cookie - Create if not Available */
 		if (isset($_COOKIE['wp_lead_uid'])) {
@@ -119,5 +120,7 @@ class WC_Leads {
 			}
 		}
 	}
+
+}
 
 }
