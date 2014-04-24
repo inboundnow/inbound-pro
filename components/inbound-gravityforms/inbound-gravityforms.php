@@ -2,7 +2,7 @@
 /*
 Plugin Name: Gravity Forms - Leads Integration
 Description: Integrates Gravity forms with Leads through automatic field mapping. Also allows for conversions to be sorted into lead lists. 
-Version: 1.0.1
+Version: 1.0.5
 Author: Hudson Atwell
 Author URI: http://www.hudsonatwell.co
 */
@@ -14,7 +14,7 @@ Author URI: http://www.hudsonatwell.co
 */ 
 
 
-if(!defined('INBOUNDNOW_GRAVITYFORMS_CURRENT_VERSION')) { define('INBOUNDNOW_GRAVITYFORMS_CURRENT_VERSION', '1.0.4' ); }
+if(!defined('INBOUNDNOW_GRAVITYFORMS_CURRENT_VERSION')) { define('INBOUNDNOW_GRAVITYFORMS_CURRENT_VERSION', '1.0.5' ); }
 if(!defined('INBOUNDNOW_GRAVITYFORMS_LABEL')) { define('INBOUNDNOW_GRAVITYFORMS_LABEL' , 'Gravity Forms Integration' ); }
 if(!defined('INBOUNDNOW_GRAVITYFORMS_SLUG')) { define('INBOUNDNOW_GRAVITYFORMS_SLUG' , plugin_basename( dirname(__FILE__) ) ); }
 if(!defined('INBOUNDNOW_GRAVITYFORMS_FILE')) { define('INBOUNDNOW_GRAVITYFORMS_FILE' ,  __FILE__ ); }
@@ -30,9 +30,8 @@ if(!defined('INBOUNDNOW_GRAVITYFORMS_PATH')) { define('INBOUNDNOW_GRAVITYFORMS_P
 */
 
 
+if (!class_exists('GravityFormsLeads')) {
 
-//PERFORM ACTIONS REQUIRED ON BOTH FRONT AND BACKEND
-$gf_leads = new GravityFormsLeads();
 
 class GravityFormsLeads
 {
@@ -230,15 +229,15 @@ if (is_admin())
 		
 		$selected_list = rgar($form, 'gravityforms_leads_list_id');
 		
-		$lists = get_posts('post_type=list&posts_per_page=-1');
+		$lists = wpleads_get_lead_lists_as_array();
 
 		$html = "<select id='gravityforms_leads_list_id' name='gravityforms_leads_list_id'>";
 		$html .= "<option value='0'>No Sorting</option>";
-		foreach ( $lists as $list  )
+		foreach ( $lists as $id => $label  )
 		{
-			 ( $selected_list == $list->ID ) ? $selected = 'selected=selected' : $selected = ''; 
+			 ( $selected_list == $id ) ? $selected = 'selected=selected' : $selected = ''; 
 
-			$html .= "<option value='".$list->ID."' ".$selected.">".$list->post_title."</option>";
+			$html .= "<option value='".$id."' ".$selected.">".$label."</option>";
 		}
 		$html .="</select>";
 
@@ -263,5 +262,9 @@ if (is_admin())
 		return $form;
 	}
 	
-	
+}
+
+
+$gf_leads = new GravityFormsLeads();
+
 }
