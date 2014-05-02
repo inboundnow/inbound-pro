@@ -556,10 +556,17 @@ class GetResponse
 		curl_setopt($handle, CURLOPT_HEADER, 'Content-type: application/json');
 		curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);	  			   
 		$response = json_decode(curl_exec($handle));
-		//var_dump($response);
+		
 		if(curl_error($handle)) trigger_error(curl_error($handle), E_USER_ERROR);
 		$httpCode = curl_getinfo($handle, CURLINFO_HTTP_CODE);
-		if(!(($httpCode == '200') || ($httpCode == '204'))) trigger_error('API call failed. Server returned status code '.$httpCode, E_USER_ERROR);
+		if(!(($httpCode == '200') || ($httpCode == '204'))){
+			if (is_admin()){
+				//echo ' Getresponse API error '. $response;
+				return null;
+			} else {
+				return null;
+			}
+		}
 		curl_close($handle);
 		if(!$response->error) return $response->result;
 	}
