@@ -19,8 +19,6 @@ if(!defined('INBOUNDNOW_WOOCOMMERCE_PATH')) { define('INBOUNDNOW_WOOCOMMERCE_PAT
 
 if (!class_exists('WC_leads')) {
 
-$WC_Leads = new WC_leads();
-
 class WC_Leads {
 	
 	static $map;
@@ -122,5 +120,9 @@ class WC_Leads {
 	}
 
 }
+
+
+$WC_Leads = new WC_leads();
+
 
 }

@@ -195,8 +195,9 @@ class OAuthApplication implements AWeberOAuthAdapter {
      */
     public function parseAsError($response) {
         if (!empty($response['error'])) {
-            throw new AWeberOAuthException($response['error']['type'],
-                $response['error']['message']);
+			if (is_admin()) {
+				var_dump($response['error']);
+			}
         }
     }
 
