@@ -46,7 +46,7 @@ class Inbound_MailChimp {
 		add_filter('wp_cta_define_global_settings', array(__CLASS__, 'add_global_settings'));
 		
 		/* Add Form Settings */
-		add_filter('inboundnow_forms_settings', array(__CLASS__, 'add_form_settings' , 10 , 1));
+		add_filter('inboundnow_forms_settings', array(__CLASS__, 'add_form_settings' ) , 10 , 1);
 		
 		
 		/* Provide backwards compatibility for older data array model */
@@ -69,7 +69,7 @@ class Inbound_MailChimp {
 	static function extension_setup() {
 		/*PREPARE THIS EXTENSION FOR LICESNING*/
 		if ( class_exists( 'INBOUNDNOW_EXTEND' ) ) {
-			$license = new INBOUNDNOW_EXTEND( INBOUNDNOW_MAILCHIMP_FILE , INBOUNDNOW_MAILCHIMP_LABEL , INBOUNDNOW_MAILCHIMP_SLUG , INBOUNDNOW_MAILCHIMP_CURRENT_VERSION  , INBOUNDNOW_MAILCHIMP_REMOTE_ITEM_NAME ) ;
+			$license = new INBOUNDNOW_EXTEND( INBOUNDNOW_MAILCHIMP_FILE , INBOUNDNOW_MAILCHIMP_LABEL , INBOUNDNOW_MAILCHIMP_SLUG , INBOUNDNOW_MAILCHIMP_CURRENT_VERSION	, INBOUNDNOW_MAILCHIMP_REMOTE_ITEM_NAME ) ;
 		}
 
 		$apikey = get_option('inboundnow_mailchimp_api_key', false);
@@ -79,7 +79,7 @@ class Inbound_MailChimp {
 	}
 	
 	public function admin_notice() {
-		$admin_url =  '<a href="'.admin_url( 'edit.php?post_type=wp-lead&page=wpleads_global_settings&tab=tabs-wpleads-extensions').'">Enter one here</a>';
+		$admin_url =	'<a href="'.admin_url( 'edit.php?post_type=wp-lead&page=wpleads_global_settings&tab=tabs-wpleads-extensions').'">Enter one here</a>';
 		?>
 		<div class="updated">
 			<p><?php _e( 'InboundNow MailChimp Extension requires a MailChimp API Key to opperate. '.$admin_url.'', 'inbound-now' ); ?></p>
@@ -102,20 +102,20 @@ class Inbound_MailChimp {
 
 		$global_settings[$tab_slug]['settings'][] =
 			array(
-				'id'  => 'inboundnow_header_mailchimp',
-				'type'  => 'header',
-				'default'  => __('<h4>MailChimp API Key</h4>', 'inbound-now'),
+				'id'	=> 'inboundnow_header_mailchimp',
+				'type'	=> 'header',
+				'default'	=> __('<h4>MailChimp API Key</h4>', 'inbound-now'),
 				'options' => null
 			);
 
 		$global_settings[$tab_slug]['settings'][] =
 				array(
-					'id'  => 'inboundnow_mailchimp_api_key',
-					'option_name'  => 'inboundnow_mailchimp_api_key',
+					'id'	=> 'inboundnow_mailchimp_api_key',
+					'option_name'	=> 'inboundnow_mailchimp_api_key',
 					'label' => __('MailChimp API Key', 'inbound-now'),
 					'description' => __("Enter Mailchimp API Key to power extension: http://kb.mailchimp.com/article/where-can-i-find-my-api-key.", 'inbound-now'),
-					'type'  => 'text',
-					'default'  => ''
+					'type'	=> 'text',
+					'default'	=> ''
 				);
 
 		return $global_settings;
@@ -123,22 +123,26 @@ class Inbound_MailChimp {
 
 
 	static function add_form_settings($fields) {
+		//return $fields;
 		self::$add_mailchimp = true;
-		$fields['forms']['options']['mailchimp_enable'] =   array(
-	                                                'name' => __('Enable MailChimp Sync', 'inbound-now'),
-	                                                'desc' => __('Enable/Disable MailChimp Integration for this form.', 'inbound-now'),
-	                                                'type' => 'checkbox',
-	                                                'std' => '',
-	                                                'class' => 'main-form-settings exclude-from-refresh' );
+		$fields['forms']['options']['mailchimp_enable'] =	array(
+			'name' => __('Enable MailChimp Sync', 'inbound-now'),
+			'desc' => __('Enable/Disable MailChimp Integration for this form.', 'inbound-now'),
+			'type' => 'checkbox',
+			'std' => '',
+			'class' => 'main-form-settings exclude-from-refresh' 
+		);
 
-		$mailchimp_lists = self::get_mailchimp_lists();
-		$fields['forms']['options']['mailchimp_list_id'] =   array(
-	                                                'name' => __('MailChimp List', 'inbound-now'),
-	                                                'desc' => __('Send submissions to this MailChimp list', 'inbound-now'),
-	                                                'type' => 'select',
-	                                                'options' => $mailchimp_lists,
-	                                                'std' => '',
-	                                                'class' => 'main-form-settings exclude-from-refresh' );
+		//$mailchimp_lists = self::get_mailchimp_lists();
+		$fields['forms']['options']['mailchimp_list_id'] =	array(
+			'name' => __('MailChimp List', 'inbound-now'),
+			'desc' => __('Send submissions to this MailChimp list', 'inbound-now'),
+			'type' => 'select',
+			'options' => $mailchimp_lists,
+			'std' => '',
+			'class' => 'main-form-settings exclude-from-refresh'
+		);
+		
 		return $fields;
 	}
 
@@ -154,19 +158,19 @@ class Inbound_MailChimp {
 		$metabox_data['inboundnow-mailchimp']['settings'] = array(
 			//ADD METABOX - SELECTED TEMPLATE
 			array(
-				'id'  => 'mailchimp_integration',
+				'id'	=> 'mailchimp_integration',
 				'label' => 'Enable:',
 				'description' => "Enable this setting to send email related conversion data to mailchimp list. Email must be present in conversion form for this feature to work.",
-				'type'  => 'dropdown', // this is not honored. Template selection setting is handled uniquely by core.
-				'default'  => '0',
+				'type'	=> 'dropdown', // this is not honored. Template selection setting is handled uniquely by core.
+				'default'	=> '0',
 				'options' => array('1'=>'on','0'=>'off') // this is not honored. Template selection setting is handled uniquely by core.
 			),
 			array(
-				'id'  => 'mailchimp_list',
+				'id'	=> 'mailchimp_list',
 				'label' => 'Target list:',
 				'description' => "Select the mailchimp list that converted data will be sent to. Must have setup a mailchimp api key and enabled the setting above for this feature to work.",
-				'type'  => 'dropdown', // this is not honored. Main Headline Input setting is handled uniquely by core.
-				'default'  => '',
+				'type'	=> 'dropdown', // this is not honored. Main Headline Input setting is handled uniquely by core.
+				'default'	=> '',
 				'options' => $lists
 			)
 		);
@@ -209,8 +213,9 @@ class Inbound_MailChimp {
 
 		$mailchimp_lists = get_transient('inboundnow_mailchimp_lists');
 
-		if ($mailchimp_lists)
+		if ($mailchimp_lists) {
 			return $mailchimp_lists;
+		}
 
 		$apikey = get_option('inboundnow_mailchimp_api_key' , true);
 
@@ -238,7 +243,7 @@ class Inbound_MailChimp {
 	//add options to bulk edit
 	static function bulk_actions_add_options() {
 
-	 	if( isset($_GET['post_type']) && $_GET['post_type'] == 'wp-lead' ) {
+		if( isset($_GET['post_type']) && $_GET['post_type'] == 'wp-lead' ) {
 
 			$lists = self::get_mailchimp_lists();
 			$html = "<select id='mailchimp_list_select' name='action_mailchimp_list_id'>";
@@ -247,7 +252,7 @@ class Inbound_MailChimp {
 			}
 			$html .="</select>"; ?>
 			<script type="text/javascript">
-			  jQuery(document).ready(function() {
+				jQuery(document).ready(function() {
 				jQuery('<option>').val('export-mailchimp').text('<?php _e('Export to MailChimp List')?>').appendTo("select[name='action']");
 				jQuery('<option>').val('export-mailchimp').text('<?php _e('Export to MailChimp List')?>').appendTo("select[name='action2']");
 
@@ -255,14 +260,14 @@ class Inbound_MailChimp {
 					var this_id = jQuery(this).val();
 					//alert(this_id);
 					if (this_id.indexOf("export-mailchimp") >= 0) {
-						var html  = "<?php echo $html; ?>";
+						var html	= "<?php echo $html; ?>";
 
 						jQuery("select[name='action']").after(html);
 					} else {
 						jQuery('#mailchimp_list_select').remove();
 					}
 				});
-			  });
+				});
 			</script>
 			<?php
 		}
@@ -290,18 +295,18 @@ class Inbound_MailChimp {
 
 						foreach( $post_ids as $post_id ) {
 							$lead_first_name = get_post_meta($post_id,'wpleads_first_name', true);
-							$lead_last_name =  get_post_meta($post_id,'wpleads_last_name', true);
-							$lead_email =  get_post_meta($post_id,'wpleads_email_address', true);
+							$lead_last_name =	get_post_meta($post_id,'wpleads_last_name', true);
+							$lead_email =	get_post_meta($post_id,'wpleads_email_address', true);
 
 							$MailChimp = new MailChimp($apikey);
 							$result = $MailChimp->call('lists/subscribe', array(
-								'id'                => $target_list,
-								'email'             => array('email'=>$lead_email),
-								'merge_vars'        => array('FNAME'=>$lead_first_name, 'LNAME'=>$lead_last_name),
-								'double_optin'      => false,
-								'update_existing'   => true,
+								'id'				=> $target_list,
+								'email'			=> array('email'=>$lead_email),
+								'merge_vars'		=> array('FNAME'=>$lead_first_name, 'LNAME'=>$lead_last_name),
+								'double_optin'		=> false,
+								'update_existing'	=> true,
 								'replace_interests' => false,
-								'send_welcome'      => false,
+								'send_welcome'		=> false,
 							));
 
 							$exported++;
@@ -327,13 +332,13 @@ class Inbound_MailChimp {
 		$MailChimp = new MailChimp($api_key);
 
 		$args = array(
-			'id'                => $target_list,
-			'email'             => array('email'=>$subscriber['email']),
-			'merge_vars'        => array('FNAME'=>$subscriber['FNAME'], 'LNAME'=>$subscriber['LNAME']),
-			'double_optin'      => false,
-			'update_existing'   => true,
+			'id'				=> $target_list,
+			'email'			=> array('email'=>$subscriber['email']),
+			'merge_vars'		=> array('FNAME'=>$subscriber['FNAME'], 'LNAME'=>$subscriber['LNAME']),
+			'double_optin'		=> false,
+			'update_existing'	=> true,
 			'replace_interests' => false,
-			'send_welcome'      => false,
+			'send_welcome'		=> false,
 		);
 
 		$args = apply_filters('inboundnow_mailchimp_args' , $args);
