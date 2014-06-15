@@ -577,7 +577,7 @@ function inbound_toggle_addons_ajax() {
       }
     }
 
-    set_transient('inbound-now-active-addons', $toggled_addon_files, 24 * HOUR_IN_SECONDS);
+    set_transient('inbound-now-active-addons', $toggled_addon_files );
 
     //
     $output =  array('encode'=> 'end' );

@@ -3,17 +3,17 @@
 Plugin Name: EasyDigitalDownloads - Inbound Now Integration
 Plugin URI: http://www.inboundnow.com/
 Description: Enhances the integration experience between Inbound Now Tools and Easy Digital Downloads
-Version: 1.0.1
+Version: 1.0.4
 Author: Hudson Atwell
 Author URI: http://www.inboundnow.com/
 
 */
 
-if(!defined('INBOUNDNOW_EDD_CURRENT_VERSION')) { define('INBOUNDNOW_EDD_CURRENT_VERSION', '1.0.1' ); }
-if(!defined('INBOUNDNOW_EDD_LABEL')) { define('INBOUNDNOW_EDD_LABEL' , 'WooCommerce Integration' ); }
+if(!defined('INBOUNDNOW_EDD_CURRENT_VERSION')) { define('INBOUNDNOW_EDD_CURRENT_VERSION', '1.0.4' ); }
+if(!defined('INBOUNDNOW_EDD_LABEL')) { define('INBOUNDNOW_EDD_LABEL' , 'Easy Digital Downloads Integration' ); }
 if(!defined('INBOUNDNOW_EDD_SLUG')) { define('INBOUNDNOW_EDD_SLUG' , plugin_basename( dirname(__FILE__) ) ); }
 if(!defined('INBOUNDNOW_EDD_FILE')) { define('INBOUNDNOW_EDD_FILE' ,  __FILE__ ); }
-if(!defined('INBOUNDNOW_EDD_REMOTE_ITEM_NAME')) { define('INBOUNDNOW_EDD_REMOTE_ITEM_NAME' , 'woocommerce-integration' ); }
+if(!defined('INBOUNDNOW_EDD_REMOTE_ITEM_NAME')) { define('INBOUNDNOW_EDD_REMOTE_ITEM_NAME' , 'easydigitaldownloads-integration' ); }
 if(!defined('INBOUNDNOW_EDD_URLPATH')) { define('INBOUNDNOW_EDD_URLPATH', plugins_url( ' ', __FILE__ ) ); }
 if(!defined('INBOUNDNOW_EDD_PATH')) { define('INBOUNDNOW_EDD_PATH', WP_PLUGIN_DIR.'/'.plugin_basename( dirname(__FILE__) ).'/' ); }
 
@@ -68,7 +68,6 @@ class Inbound_EDD {
 	* @param INT 
 	*/
 	public static function add_lead( $payment_id ) {
-		echo $payment_id;
 		
 		$user_data = edd_get_payment_meta_user_info( $payment_id );
 		$cart_data = edd_get_payment_meta_cart_details($payment_id);
