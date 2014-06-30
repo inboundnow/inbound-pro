@@ -3,13 +3,13 @@
 Plugin Name: EasyDigitalDownloads - Inbound Now Integration
 Plugin URI: http://www.inboundnow.com/
 Description: Enhances the integration experience between Inbound Now Tools and Easy Digital Downloads
-Version: 1.0.4
+Version: 1.0.5
 Author: Hudson Atwell
 Author URI: http://www.inboundnow.com/
 
 */
 
-if(!defined('INBOUNDNOW_EDD_CURRENT_VERSION')) { define('INBOUNDNOW_EDD_CURRENT_VERSION', '1.0.4' ); }
+if(!defined('INBOUNDNOW_EDD_CURRENT_VERSION')) { define('INBOUNDNOW_EDD_CURRENT_VERSION', '1.0.5' ); }
 if(!defined('INBOUNDNOW_EDD_LABEL')) { define('INBOUNDNOW_EDD_LABEL' , 'Easy Digital Downloads Integration' ); }
 if(!defined('INBOUNDNOW_EDD_SLUG')) { define('INBOUNDNOW_EDD_SLUG' , plugin_basename( dirname(__FILE__) ) ); }
 if(!defined('INBOUNDNOW_EDD_FILE')) { define('INBOUNDNOW_EDD_FILE' ,  __FILE__ ); }

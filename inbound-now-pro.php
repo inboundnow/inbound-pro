@@ -83,7 +83,9 @@ final class Inbound_Now_Pro {
 		$inbound_load_files = array_unique(array_merge($toggled_addon_files, $default_pro_files));
 
 			foreach ($inbound_load_files as $key => $value) {
-				include_once('components/'.$value.'/'.$value.'.php'); // include each toggled on
+				if(file_exists('components/'.$value.'/'.$value.'.php')) {
+					include_once('components/'.$value.'/'.$value.'.php'); // include each toggled on
+				}
 			}
 		}
 
