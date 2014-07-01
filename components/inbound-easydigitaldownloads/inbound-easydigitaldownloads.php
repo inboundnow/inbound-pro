@@ -223,8 +223,8 @@ class Inbound_EDD {
 	public static function license_setup() {
 		
 		/*PREPARE THIS EXTENSION FOR LICESNING*/
-		if ( class_exists( 'INBOUNDNOW_EXTEND' ) ) {
-			$license = new INBOUNDNOW_EXTEND( INBOUNDNOW_EDD_FILE , INBOUNDNOW_EDD_LABEL , INBOUNDNOW_EDD_SLUG , INBOUNDNOW_EDD_CURRENT_VERSION  , INBOUNDNOW_EDD_REMOTE_ITEM_NAME ) ;
+		if ( class_exists( 'Inbound_License' ) ) {
+			$license = new Inbound_License( INBOUNDNOW_EDD_FILE , INBOUNDNOW_EDD_LABEL , INBOUNDNOW_EDD_SLUG , INBOUNDNOW_EDD_CURRENT_VERSION  , INBOUNDNOW_EDD_REMOTE_ITEM_NAME ) ;
 		}
 	}
 	
