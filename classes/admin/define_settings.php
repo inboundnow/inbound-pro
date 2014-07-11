@@ -31,7 +31,7 @@ if ( ! class_exists('Inbound_Now_Settings') )
 
 		public function loadSettingsPage() {
 			//$this->pageHook = add_options_page( 'Settings API', 'Settings API', 'manage_options', 'settings_inbound_now', array( &$this , 'showPage' ) );
-			$this->pageHook = add_menu_page( 'Inbound Now', 'Inbound Now', 'manage_options', 'settings_inbound_now', array( &$this , 'showPage' ), plugins_url( 'inbound-now-pro/assets/images/shortcodes-blue.png' ), 10 );
+			$this->pageHook = add_menu_page( 'Inbound', 'Inbound', 'manage_options', 'settings_inbound_now', array( &$this , 'showPage' ), plugins_url( 'inbound-now-pro/assets/images/shortcodes-blue.png' ), 3);
 		}
 
 		public function tabs( $tabs ) {
@@ -577,17 +577,9 @@ function inbound_toggle_addons_ajax() {
       }
     }
 
-	/* Filter bad components */
-	foreach ($toggled_addon_files as $file => $path ) {
-		if (!file_exists('components/'.$path.'/'.$file.'.php') ) {
-			unset($toggled_addon_files[$file]);
-		}
-	}
-	
-	/* Set Transient Memory */
     set_transient('inbound-now-active-addons', $toggled_addon_files );
 
-
+    //
     $output =  array('encode'=> 'end' );
 
     echo json_encode($output,JSON_FORCE_OBJECT);

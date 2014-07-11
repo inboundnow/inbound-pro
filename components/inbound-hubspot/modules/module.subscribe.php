@@ -1,7 +1,7 @@
 <?php
 
 /* ADD SUBSCRIBER ON LANDING PAGE CONVERSION / CTA CONVERSION */
-add_action('inbound_store_lead_post','inboundnow_hubspot_landing_page_integratation');
+//add_action('inbound_store_lead_post','inboundnow_hubspot_landing_page_integratation');
 function inboundnow_hubspot_landing_page_integratation($lead_data)
 {			
 
