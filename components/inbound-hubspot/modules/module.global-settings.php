@@ -24,7 +24,7 @@ function inboundnow_hubspot_add_global_settings($global_settings)
 		array(
 			'id'  => 'inboundnow_header_hubspot',			
 			'type'  => 'header', 
-			'default'  => __('<h4>HubSpot API Key</h4>', INBOUND_LABEL),
+			'default'  => __('<h4>HubSpot API Key</h4>', 'inbound-pro'),
 			'options' => null
 		);
 
@@ -32,8 +32,8 @@ function inboundnow_hubspot_add_global_settings($global_settings)
 			array(
 				'id'  => 'inboundnow_hubspot_portal_id',
 				'option_name'  => 'inboundnow_hubspot_portal_id',
-				'label' => __('HubSpot Portal ID', INBOUND_LABEL),
-				'description' => __('Get your HubSpot API Key at https://app.hubspot.com/keys/get.', INBOUND_LABEL),
+				'label' => __('HubSpot Portal ID', 'inbound-pro'),
+				'description' => __('Get your HubSpot API Key at https://app.hubspot.com/keys/get.', 'inbound-pro'),
 				'type'  => 'text', 
 				'default'  => ''
 			);

@@ -1,17 +1,22 @@
 <?php
 
-/* FUNCTION TO SEND SUBSCRIBER TO MAILCHIMP */
+/**
+*   FUNCTION TO SEND SUBSCRIBER TO MAILCHIMP 
+*/
 
 function inboundnow_mailchimp_add_subscriber($target_list , $subscriber)
 {
 	$api_key = get_option( 'inboundnow_mailchimp_api_key' , 0 );				
 	
-	
-	if (!$api_key)
+	if (!$api_key) {
 		return;
-		
+	}
+	
 	$MailChimp = new MailChimp($api_key);
 
+	/* get double optin setting */
+	$mailchimp_double_optin =  get_option('inboundnow_mailchimp_double_optin' , 'true' );
+	
 	/* get ready for groupings */
 	if (isset($subscriber['groupings']))
 	{
@@ -21,7 +26,7 @@ function inboundnow_mailchimp_add_subscriber($target_list , $subscriber)
 		'id'                => $target_list,
 		'email'             => array('email'=>$subscriber['wpleads_email_address']),
 		'merge_vars'        => array('FNAME'=>$subscriber['wpleads_first_name'], 'LNAME'=>$subscriber['wpleads_last_name']),
-		'double_optin'      => false,
+		'double_optin'      => $mailchimp_double_optin,
 		'update_existing'   => true,
 		'replace_interests' => false,
 		'send_welcome'      => false,
