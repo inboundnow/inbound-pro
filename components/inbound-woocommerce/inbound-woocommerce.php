@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: WooCommerce - Leads Integration
+Plugin Name: Inbound Extension - WooCommerce Integration
 Plugin URI: http://www.inboundnow.com/
 Description: Adds Tracking Class to Checkout Form
 Version: 1.0.1

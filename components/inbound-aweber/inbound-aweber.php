@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: InboundNow Extension - Aweber Integration
+Plugin Name: Inbound Extension - Aweber Integration
 Plugin URI: http://www.inboundnow.com/market/support-will-complete
 Description: Provides Aweber support for Landing Pages, Leads, and Calls to Action plugin.
 Version: 1.0.4

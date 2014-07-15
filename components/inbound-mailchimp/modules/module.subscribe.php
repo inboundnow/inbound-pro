@@ -63,22 +63,21 @@ function inboundnow_mailchimp_landing_page_integratation($data)
 /* ADD SUBSCRIBER ON INBOUNDNOW FORM SUBMISSION */
 add_action('inboundnow_form_submit_actions','inboundnow_mailchimp_inboundnow_form_integratation' , 10 , 2 );
 function inboundnow_mailchimp_inboundnow_form_integratation($form_post_data , $form_meta_data )
-{			
+{		
+
+	$subscriber['wpleads_email_address'] = (isset($form_post_data['wpleads_email_address'])) ? $form_post_data['wpleads_email_address'] : '';
+
+	$subscriber['wpleads_first_name'] = (isset($form_post_data['wpleads_first_name'])) ? $form_post_data['wpleads_first_name'] : '';
 	
-	if (isset($form_post_data['email'])) 
-		$subscriber['wpleads_email_address'] = $form_post_data['email'];	
-	if (isset($form_post_data['wpleads_email_address'])) 
-		$subscriber['wpleads_email_address'] = $form_post_data['wpleads_email_address'];
-	
-	if (isset($form_post_data['first-name'])) 
-		$subscriber['wpleads_first_name'] = $form_post_data['first-name'];	
-	if (isset($form_post_data['wpleads_first_name'])) 
-		$subscriber['wpleads_first_name'] = $form_post_data['wpleads_first_name'];
-		
-	if (isset($form_post_data['last-name'])) 
-		$subscriber['wpleads_last_name'] = $form_post_data['last-name'];	
-	if (isset($form_post_data['wpleads_last_name'])) 
-		$subscriber['wpleads_last_name'] = $form_post_data['wpleads_last_name'];
+	$subscriber['wpleads_last_name'] = (isset($form_post_data['wpleads_last_name'])) ? $form_post_data['wpleads_last_name'] : "";
+
+	if (!$subscriber['wpleads_last_name']) {
+		$first_name_array = explode(' ' , $subscriber['wpleads_first_name'] );
+		if ( count( $first_name_array ) > 1 ) {
+			$subscriber['wpleads_first_name'] = $first_name_array[0];
+			$subscriber['wpleads_last_name'] = $first_name_array[1];
+		}
+	}
 	
 	$form_settings = $form_meta_data['inbound_form_values'][0];
 	parse_str($form_settings, $form_settings);

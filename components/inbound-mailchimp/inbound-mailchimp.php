@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: InboundNow Extension - MailChimp Integration
+Plugin Name: Inbound Extension - MailChimp Integration
 Plugin URI: http://www.inboundnow.com/market/support-will-complete
 Description: Provides MailChimp support for Landing Pages, Leads, and Calls to Action plugin.
 Version: 1.0.6

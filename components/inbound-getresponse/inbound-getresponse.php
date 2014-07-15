@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: InboundNow Extension - GetResponse Integration
+Plugin Name: Inbound Extension - GetResponse Integration
 Plugin URI: http://www.inboundnow.com/market/support-will-complete
 Description: Provides GetResponse support for Landing Pages, Leads, and Calls to Action plugin. For information about how to disable double-optin see: http://support.getresponse.com/faq/how-i-edit-opt-in-settings.
 Version: 1.0.5
