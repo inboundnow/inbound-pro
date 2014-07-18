@@ -32,6 +32,9 @@ class WC_Leads {
 
 		/* Add Lead on Payment Complete */
 		add_action( 'woocommerce_payment_complete', array( __CLASS__ , 'add_lead' ), 10, 3 );
+		
+		/* Remove all tracking classes from cart page */
+		add_action('wp_footer' , array( __CLASS__ , 'remove_cart_tracking_class') );
 
 	}
 
@@ -104,6 +107,20 @@ class WC_Leads {
 		
 	}
 
+	/**
+	*  Removes tracking class 'wpl-track-me' from cart details page.
+	*/
+	public static function remove_cart_tracking_class() {
+		 ?>
+		<script type='text/javascript'>
+		  jQuery( document ).ready(function() {
+			jQuery('input[name="proceed"]').closest("form").removeClass('wpl-track-me');
+		  })
+		</script>
+		<?php
+	}
+	
+	
 	/**
 	 * Helper log function for debugging
 	 *
