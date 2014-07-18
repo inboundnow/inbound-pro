@@ -91,8 +91,10 @@ class Inbound_Mailpoet {
 		
 		/* Build acceptable user data array */
 		$user_data['email'] = (isset( $meta['wpleads_email_address'][0] )) ?  $meta['wpleads_email_address'][0] : '' ;
-		$user_data['first_name'] = (isset( $meta['wpleads_first_name'][0] )) ?  $meta['wpleads_first_name'][0] : '' ;
-		$user_data['last_name'] = (isset( $meta['wpleads_last_name'][0] )) ?  $meta['wpleads_last_name'][0] : '' ;
+		$user_data['firstname'] = (isset( $meta['wpleads_first_name'][0] )) ?  $meta['wpleads_first_name'][0] : '' ;
+		$user_data['lastname'] = (isset( $meta['wpleads_last_name'][0] )) ?  $meta['wpleads_last_name'][0] : '' ;
+		
+		/* WYSIJA requires emails be in wp_users database to subscribe them */
 		
 		/* Open WYSIJA lists & user classes */		
 		$MailPoet['Lists'] = WYSIJA::get('list', 'model');
@@ -119,16 +121,16 @@ class Inbound_Mailpoet {
 				$mailpoet_list_ids[] = $mailpoet_list_id;
 			}
 		}
-		
-		//error_log( print_r($mailpoet_list_ids,true));
+
 		
 		/* Add lead to list */
 		$data_subscriber = array(
 			'user' => $user_data,
 			'user_list' => array( 'list_ids' => $mailpoet_list_ids )
 		);	
-		
+
 		$MailPoet['Users']->addSubscriber($data_subscriber);
+
 	}
 
 	/**
