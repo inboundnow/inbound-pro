@@ -19,7 +19,7 @@ class Inbound_Mailpoet {
 	static $wordpress_url;
 	
 	/**
-	* Initalize Inbound_Mailpoet Class
+	* Initialize Inbound_Mailpoet Class
 	*/
 	public function __construct() {	
 		//delete_option( 'inbound_ignore_mailpoet_notice');exit;
@@ -64,7 +64,7 @@ class Inbound_Mailpoet {
 		add_action( 'admin_init', array( __CLASS__ , 'build_sync_queue' ) , 1 );
 		
 		/* Process leads when synch queue is populated */
-		add_action( 'admin_init', array( __CLASS__ , 'process_queue' ) , 10 );
+		add_action( 'admin_init', array( __CLASS__ , 'process_queue' ) , 10);
 		
 		/* Add admin notice to sync leads with mailpoet - nags until run */
 		add_action( 'admin_notices', array( __CLASS__ , 'display_sync_notice' ) );
@@ -94,15 +94,15 @@ class Inbound_Mailpoet {
 		$user_data['firstname'] = (isset( $meta['wpleads_first_name'][0] )) ?  $meta['wpleads_first_name'][0] : '' ;
 		$user_data['lastname'] = (isset( $meta['wpleads_last_name'][0] )) ?  $meta['wpleads_last_name'][0] : '' ;
 		
-		/* WYSIJA requires emails be in wp_users database to subscribe them */
 		
 		/* Open WYSIJA lists & user classes */		
-		$MailPoet['Lists'] = WYSIJA::get('list', 'model');
-		$MailPoet['Users'] = WYSIJA::get('user', 'helper');
-		
+		$Lists = WYSIJA::get('list', 'model');
+		$Users = WYSIJA::get('user', 'helper');
+		$Users_Model = WYSIJA::get('user', 'model');
+		$Users_Model->getFormat=ARRAY_A;
 		
 		/* Get array of all currently enabled MailPoet lists */
-		$mailpoet_lists = $MailPoet['Lists']->get(array('name', 'list_id', 'is_public'), array('is_enabled' => 1));      
+		$mailpoet_lists = $Lists->get(array('name', 'list_id', 'is_public'), array('is_enabled' => 1));      
 
 		
 		/* loop through each lead list get corresponding mailpoet list ids */
@@ -116,7 +116,7 @@ class Inbound_Mailpoet {
 			
 			/* Create a new list if not exist */
 			if ( !$mailpoet_list_id ) {
-				$mailpoet_list_ids[] = $MailPoet['Lists']->insert(array('is_enabled' => 1, 'name' => $lead_list['name'] , 'description' => $lead_list['description'] ));
+				$mailpoet_list_ids[] = $Lists->insert(array('is_enabled' => 1, 'name' => $lead_list['name'] , 'description' => $lead_list['description'] ));
 			} else {
 				$mailpoet_list_ids[] = $mailpoet_list_id;
 			}
@@ -129,8 +129,8 @@ class Inbound_Mailpoet {
 			'user_list' => array( 'list_ids' => $mailpoet_list_ids )
 		);	
 
-		$MailPoet['Users']->addSubscriber($data_subscriber);
-
+		$Users->addSubscriber($data_subscriber);
+		//echo 'here'; exit;
 	}
 
 	/**
@@ -327,5 +327,8 @@ class Inbound_Mailpoet {
 
 
 $GLOBALS['Inbound_Mailpoet'] = new Inbound_Mailpoet();
+
+
+
 
 }

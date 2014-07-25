@@ -28,6 +28,7 @@ class Inbound_Analytics {
 		self::$wordpress_url = get_option('siteurl' , '');
 		
 		self::define_constants();
+		self::load_files();
 		self::load_hooks();		
 	}
 	
@@ -41,8 +42,29 @@ class Inbound_Analytics {
 		define('INBOUND_ANALYTICS_SLUG' , plugin_basename( dirname(__FILE__) ) ); 
 		define('INBOUND_ANALYTICS_FILE' ,  __FILE__ ); 
 		define('INBOUND_ANALYTICS_REMOTE_ITEM_NAME' , 'easydigitaldownloads-integration' ); 
-		define('INBOUND_ANALYTICS_URLPATH', plugins_url( ' ', __FILE__ ) ); 
+		define('INBOUND_ANALYTICS_URLPATH', plugins_url( '', __FILE__ ) .'/' ) ; 
 		define('INBOUND_ANALYTICS_PATH', WP_PLUGIN_DIR.'/'.plugin_basename( dirname(__FILE__) ).'/' ); 
+	}
+	
+	/**
+	*  Loads php files
+	*/
+	public static function load_files() {
+		
+		
+		if (is_admin()) {
+			/* Load Inbound Analytics Connector Class */
+			include_once('admin/retrieve-analytics-data.php');
+			
+			/* Load administration files */
+			include_once('admin/build-ui-containers.php');
+			
+			/* Load template files */
+			include_once('templates/content-quick-view.php');
+		}
+		
+		
+	
 	}
 	
 	
