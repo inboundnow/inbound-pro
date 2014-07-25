@@ -57,9 +57,6 @@ class Inbound_Mailpoet {
 		/* Setup Automatic Updating & Licensing */
 		add_action('admin_init', array( __CLASS__ , 'license_setup') );
 		
-		/* Setup Automatic Updating & Licensing */
-		add_action('admin_init', array( __CLASS__ , 'license_setup') );
-		
 		/* Listens for command to begin synchronization process */
 		add_action( 'admin_init', array( __CLASS__ , 'build_sync_queue' ) , 1 );
 		
