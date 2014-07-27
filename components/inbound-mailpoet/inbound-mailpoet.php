@@ -297,11 +297,12 @@ class Inbound_Mailpoet {
 
 		/* Disable synch nag globally */
 		if (!$leads) {			
+			delete_option( 'inbound_sync_leads_mailpoet');
 			delete_option( 'inbound_ignore_mailpoet_notice');
 			add_option( 'inbound_ignore_mailpoet_notice' , true );	
+		} else {		
+			update_option('inbound_sync_leads_mailpoet', $leads );
 		}
-		
-		update_option('inbound_sync_leads_mailpoet', $leads );
 	}
 
 
