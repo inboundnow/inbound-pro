@@ -54,23 +54,20 @@ class Inbound_Analytics_UI_Containers {
 	public static function load_scripts() {
 		
 		wp_register_script( 'jsapi' , 'https://www.google.com/jsapi');
-		wp_enqueue_script( 'jsapi' );
+		wp_enqueue_script( 'jsapi' );		
 		
-		wp_register_script( 'modernizer' , 'http://modernizr.com/downloads/modernizr-latest.js');
-		wp_enqueue_script( 'modernizer' );
+		wp_register_script( 'bootstrap-js' , INBOUND_ANALYTICS_URLPATH .'includes/BootStrap/bootstrap.min.js');
+		wp_enqueue_script( 'bootstrap-js' );
 		
-		wp_register_script( 'ia-modal' , INBOUND_ANALYTICS_URLPATH .'includes/ModalWindowEffects/js/modalEffects.js');
-		wp_enqueue_script( 'ia-modal' );
-		
-		wp_register_script( 'ia-modal-classie' , INBOUND_ANALYTICS_URLPATH .'includes/ModalWindowEffects/js/classie.js');
-		wp_enqueue_script( 'ia-modal-classie' );
+		wp_register_script( 'bootstrap-loader' , INBOUND_ANALYTICS_URLPATH .'includes/BootStrap/bootstrap.loader.js');
+		wp_enqueue_script( 'bootstrap-loader' );
+	
+		wp_register_style( 'bootstrap-css' , INBOUND_ANALYTICS_URLPATH . 'includes/BootStrap/bootstrap.min.css');
+		wp_enqueue_style( 'bootstrap-css' );
 
-		wp_register_style( 'ia-modal-component-css' , INBOUND_ANALYTICS_URLPATH . 'includes/ModalWindowEffects/css/component.css');
-		wp_enqueue_style( 'ia-modal-component-css' );
-		
-		
 		wp_register_style( 'inbound-analytics-css' , INBOUND_ANALYTICS_URLPATH . 'css/style.css');
 		wp_enqueue_style( 'inbound-analytics-css' );
+
 	}
 	
 	/**
@@ -121,15 +118,11 @@ class Inbound_Analytics_UI_Containers {
 	
 	public static function prepare_modal_container() {
 		?>
-		<div class="md-modal md-effect-6" id="modal-6">
-			<div class="md-content">
-				<h3>Inbound Content Analytics</h3>
-				<div>
-					<iframe style='width:101%; height:auto;' src='http://www.thinkingphones.com/wp-content/uploads/2013/04/dashboard2.png' class='ia-iframe-container'></iframe>
-				</div>
+		<div class="modal fade" id="ia-modal-container" >
+			<div class="modal-dialog">
+			hello
 			</div>
 		</div>
-		<div class="md-overlay"></div>
 		<?php
 	}
 
