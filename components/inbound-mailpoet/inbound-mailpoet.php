@@ -181,8 +181,7 @@ class Inbound_Mailpoet {
 			$lead_queue[][ 'ID' ] = $lead->ID;
 		}
 		
-		delete_option( 'inbound_sync_leads_mailpoet' );
-		add_option( 'inbound_sync_leads_mailpoet' , $lead_queue , '' , false ); 
+		set_transient( 'inbound_sync_leads_mailpoet' , $lead_queue , '' , false ); 
 		
 		wp_redirect(admin_url());
 		exit;
@@ -194,9 +193,8 @@ class Inbound_Mailpoet {
 	*/
 	public static function display_sync_notice() {
 		global $current_user ;
-        $user_id = $current_user->ID;
-		
-		if ( get_option( 'inbound_ignore_mailpoet_notice' ) || get_option('inbound_sync_leads_mailpoet')) {
+
+		if ( get_option( 'inbound_ignore_mailpoet_notice' ) || get_transient('inbound_sync_leads_mailpoet')) {
 			return;
 		}
 		?>
@@ -219,7 +217,7 @@ class Inbound_Mailpoet {
 		}
 			
 		delete_option( 'inbound_ignore_mailpoet_notice');
-		add_option( 'inbound_ignore_mailpoet_notice' , true , '' , false);	
+		add_option( 'inbound_ignore_mailpoet_notice' , true , '' , 'no' );	
 	}
 	
 	
@@ -227,7 +225,7 @@ class Inbound_Mailpoet {
 	*  Adds notice to display sync progress
 	*/
 	public static function display_sync_progress() {
-		$queue = get_option('inbound_sync_leads_mailpoet');
+		$queue = get_transient('inbound_sync_leads_mailpoet');
 		
 		/* Only show notice if queue is populated */
 		if ( !$queue ) {
@@ -255,7 +253,7 @@ class Inbound_Mailpoet {
 	*/
 	public static function process_queue() {
 		
-		$leads = get_option('inbound_sync_leads_mailpoet');
+		$leads = get_transient('inbound_sync_leads_mailpoet');
 
 		/* only process queue if queue is populated */
 		if (!$leads) {
@@ -268,9 +266,11 @@ class Inbound_Mailpoet {
 		}
 		
 		$i = 0;
-
+		//echo 'count: '. count($leads);
+		//echo '<br>';
 		foreach ($leads as $key => $lead) {
-
+			//echo $lead['ID'];
+			//echo '<br>';
 			/* only process 300 a page load */
 			if ($i>300) {
 				break;
@@ -295,16 +295,17 @@ class Inbound_Mailpoet {
 				
 			$i++;
 		}
-
+		
+		//echo 'count: '. count($leads);
+		//echo '<br>';
 		
 		/* Disable synch nag globally */
 		if (!$leads) {	
-			delete_option( 'inbound_sync_leads_mailpoet');
-			delete_option( 'inbound_ignore_mailpoet_notice');
-			add_option( 'inbound_ignore_mailpoet_notice' , false, false);	
-		} else {		
-			delete_option( 'inbound_sync_leads_mailpoet');
-			add_option('inbound_sync_leads_mailpoet', $leads  , false, false);
+			delete_transient( 'inbound_sync_leads_mailpoet');
+			update_option( 'inbound_ignore_mailpoet_notice' , true  ); exit;
+		} else {	
+			set_transient( 'inbound_sync_leads_mailpoet' , $leads  ); 
+			//echo count(get_transient('inbound_sync_leads_mailpoet'));
 		}
 	}
 
