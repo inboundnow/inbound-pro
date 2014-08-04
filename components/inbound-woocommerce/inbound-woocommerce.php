@@ -139,7 +139,7 @@ class WC_Leads {
 }
 
 
-$WC_Leads = new WC_leads();
+$WC_Leads = new WC_Leads();
 
 
 }
