@@ -256,7 +256,7 @@ class Inbound_Mailpoet {
 	public static function process_queue() {
 		
 		$leads = get_option('inbound_sync_leads_mailpoet');
-		
+
 		/* only process queue if queue is populated */
 		if (!$leads) {
 			return;
@@ -268,8 +268,9 @@ class Inbound_Mailpoet {
 		}
 		
 		$i = 0;
+
 		foreach ($leads as $key => $lead) {
-			
+
 			/* only process 300 a page load */
 			if ($i>300) {
 				break;
@@ -295,13 +296,15 @@ class Inbound_Mailpoet {
 			$i++;
 		}
 
+		
 		/* Disable synch nag globally */
-		if (!$leads) {			
+		if (!$leads) {	
 			delete_option( 'inbound_sync_leads_mailpoet');
 			delete_option( 'inbound_ignore_mailpoet_notice');
-			add_option( 'inbound_ignore_mailpoet_notice' , true );	
+			add_option( 'inbound_ignore_mailpoet_notice' , false, false);	
 		} else {		
-			update_option('inbound_sync_leads_mailpoet', $leads );
+			delete_option( 'inbound_sync_leads_mailpoet');
+			add_option('inbound_sync_leads_mailpoet', $leads  , false, false);
 		}
 	}
 
