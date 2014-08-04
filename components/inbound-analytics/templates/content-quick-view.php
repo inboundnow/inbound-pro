@@ -112,7 +112,7 @@ if ( !class_exists('Analytics_Teamplte_Content_Quick_View') ) {
 							</label>
 						</td>
 						<td>	
-							<a href='http://www.yahoo.com' class='ia-int' data-toggle="modal" data-target="#ia-modal-container" data-remote='http://www.yahoo.com'>800</a>
+							<a href='http://www.yahoo.com' class='ia-int' data-toggle="modal" data-target="#ia-modal-container" >800</a>
 						</td>
 						
 						<td>	

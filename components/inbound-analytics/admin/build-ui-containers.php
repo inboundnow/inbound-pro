@@ -40,7 +40,7 @@ class Inbound_Analytics_UI_Containers {
 	}
 	
 	/**
-	*  Removes certain inbound core elements from UI due to replacement
+	*	Removes certain inbound core elements from UI due to replacement
 	*/
 	public static function cleanup_operations() {
 		
@@ -62,7 +62,7 @@ class Inbound_Analytics_UI_Containers {
 		wp_register_script( 'bootstrap-loader' , INBOUND_ANALYTICS_URLPATH .'includes/BootStrap/bootstrap.loader.js');
 		wp_enqueue_script( 'bootstrap-loader' );
 	
-		wp_register_style( 'bootstrap-css' , INBOUND_ANALYTICS_URLPATH . 'includes/BootStrap/bootstrap.min.css');
+		wp_register_style( 'bootstrap-css' , INBOUND_ANALYTICS_URLPATH . 'includes/BootStrap/bootstrap.css');
 		wp_enqueue_style( 'bootstrap-css' );
 
 		wp_register_style( 'inbound-analytics-css' , INBOUND_ANALYTICS_URLPATH . 'css/style.css');
@@ -104,7 +104,7 @@ class Inbound_Analytics_UI_Containers {
 	}
 	
 	/**
-	*  Displays Inbound Analytics sidebar (quick view)
+	*	Displays Inbound Analytics sidebar (quick view)
 	*/
 	public static function display_quick_view() {
 		/* sets the default quick view template */
@@ -118,11 +118,19 @@ class Inbound_Analytics_UI_Containers {
 	
 	public static function prepare_modal_container() {
 		?>
-		<div class="modal fade" id="ia-modal-container" >
+
+		<div class="modal" id='ia-modal-container'>
 			<div class="modal-dialog">
-			hello
-			</div>
-		</div>
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+					</div>
+					<div class="modal-body">
+					<p>One fine body&hellip;</p>
+					</div>
+				</div><!-- /.modal-content -->
+				</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
 		<?php
 	}
 
