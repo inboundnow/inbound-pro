@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: Inbound Now Professional
+Plugin Name: Inbound Pro
 Plugin URI: http://www.inboundnow.com/leads/
 Description: Pro Version of Inbound Now Plugins
 Author: Inbound Now
@@ -18,6 +18,53 @@ final class Inbound_Now_Pro {
 	private static $instance;
 	//public $api;
     //public $session;
+	/**
+	 * Admin notices, collected and displayed on proper action
+	 *
+	 * @var array
+	 */
+	public static $notices = array();
+
+	/**
+	 * Whether the current PHP version meets the minimum requirements
+	 *
+	 * @return bool
+	 */
+	public static function is_valid_php_version() {
+		return version_compare( PHP_VERSION, '5.3', '>=' );
+	}
+
+	/**
+	 * Invoked when the PHP version check fails. Load up the translations and
+	 * add the error message to the admin notices
+	 */
+	static function fail_php_version() {
+		add_action( 'plugins_loaded', array( __CLASS__, 'i18n' ) );
+		self::notice( __( 'Stream requires PHP version 5.3+, plugin is currently NOT ACTIVE.', 'stream' ) );
+	}
+
+	/**
+	 * Handle notice messages according to the appropriate context (WP-CLI or the WP Admin)
+	 *
+	 * @param string $message
+	 * @param bool $is_error
+	 * @return void
+	 */
+	public static function notice( $message, $is_error = true ) {
+		if ( defined( 'WP_CLI' ) ) {
+			$message = strip_tags( $message );
+			if ( $is_error ) {
+				WP_CLI::warning( $message );
+			} else {
+				WP_CLI::success( $message );
+			}
+		} else {
+			// Trigger admin notices
+			add_action( 'all_admin_notices', array( __CLASS__, 'admin_notices' ) );
+
+			self::$notices[] = compact( 'message', 'is_error' );
+		}
+	}
 
 	/**
 		 * Main Inbound_Now_Pro Instance
@@ -83,9 +130,11 @@ final class Inbound_Now_Pro {
 		$inbound_load_files = array_unique(array_merge($toggled_addon_files, $default_pro_files));
 
 			foreach ($inbound_load_files as $key => $value) {
-
-				if(file_exists( INBOUND_NOW_PATH . '/components/'.$value.'/'.$value.'.php')) {
-					include_once( INBOUND_NOW_PATH .'/components/'.$value.'/'.$value.'.php'); // include each toggled on
+				if(!strpos($value, 'inbound-')) {
+					if(file_exists( INBOUND_NOW_PATH . '/components/'.$value.'/'.$value.'.php')) {
+						// include each toggled on
+						include_once( INBOUND_NOW_PATH .'/components/'.$value.'/'.$value.'.php');
+					}
 				}
 			}
 		}
@@ -155,5 +204,9 @@ function Inbound_Now() {
 	return Inbound_Now_Pro::instance();
 }
 
-// Get Inbound Now Running
-Inbound_Now();
+if ( Inbound_Now_Pro::is_valid_php_version() ) {
+	// Get Inbound Now Running
+	Inbound_Now();
+} else {
+	Inbound_Now_Pro::fail_php_version();
+}
