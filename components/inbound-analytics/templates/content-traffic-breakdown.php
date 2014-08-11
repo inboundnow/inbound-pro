@@ -53,23 +53,13 @@ if ( !class_exists('Analytics_Teamplte_Content_Quick_View') ) {
 			$data = self::load_data();
 			
 			?>
-				<ul class="nav nav-pills ">
-					<li class='active' data-range='1' title='<?php _e('Past 24 hours' , 'inbound-pro'); ?>'>
-						<a href='#'>1</a>
-					</li>
-					<li class='' data-range='7' title='<?php _e('Past 7 hours' , 'inbound-pro'); ?>'>
-						<a href='#'>7</a>
-					</li>
-					<li class='' data-range='30' title='<?php _e('Past 30 days' , 'inbound-pro'); ?>'>
-						<a href='#'>30</a>
-					</li>
-					<li class='' data-range='90' title='<?php _e('Past 90 days' , 'inbound-pro'); ?>'>
-						<a href='#'>90</a>
-					</li>
-					<li class='' data-range='365' title='<?php _e('Past 365 days' , 'inbound-pro'); ?>'>
-						<a href='#'>365</a>
-					</li>
-				</ul>
+				<div class='ia-range-buttons'>
+					<div class='timespan-img' data-range='1' title='<?php _e('Past 24 hours' , 'inbound-pro'); ?>'>1</div>
+					<div class='timespan-img' data-range='7' title='<?php _e('Past 7 hours' , 'inbound-pro'); ?>'>7</div>
+					<div class='timespan-img' data-range='30' title='<?php _e('Past 30 days' , 'inbound-pro'); ?>'>30</div>
+					<div class='timespan-img' data-range='90' title='<?php _e('Past 90 days' , 'inbound-pro'); ?>'>90</div>
+					<div class='timespan-img' data-range='365' title='<?php _e('Past 365 days' , 'inbound-pro'); ?>'>365</div>
+				</div>
 				<br>
 				<div id="chart_div" style="width: 275px;margin-left:-13px;height:196px;"></div>
 				<script type="text/javascript">
@@ -122,11 +112,11 @@ if ( !class_exists('Analytics_Teamplte_Content_Quick_View') ) {
 							</label>
 						</td>
 						<td>	
-							<a href='#' class='count' data-toggle="modal" data-target="#ia-modal-container" report-type="content-impressions">800</a>
+							<a href='#' class='ia-int' data-toggle="modal" data-target="#ia-modal-container" report-type="content-impressions">800</a>
 						</td>
 						
 						<td>	
-							<span class='stat label label-success' title="<?php _e('growth compared to last time period' , 'inbound-pro' ); ?>"  data-toggle="tooltip" data-placement="left" >.01%</a>
+							<a href='' class='ia-rate-change positive' title="<?php _e('growth compared to last time period' , 'inbound-pro' ); ?>"  data-toggle="tooltip" data-placement="left" >.01%</a>
 						</td>
 					</tr>
 					<tr>
@@ -136,11 +126,11 @@ if ( !class_exists('Analytics_Teamplte_Content_Quick_View') ) {
 							</label>
 						</td>
 						<td>	
-							<a href='' class='count'>623</a>
+							<a href='' class='ia-int'>623</a>
 						</td>
 						
 						<td>	
-							<span class='stat label label-success' title="<?php _e('growth compared to last time period' , 'inbound-pro' ); ?>">+.01%</span>
+							<a href='' class='ia-rate-change positive' title="<?php _e('growth compared to last time period' , 'inbound-pro' ); ?>">.01%</a>
 						</td>
 					</tr>
 					<tr>
@@ -150,10 +140,10 @@ if ( !class_exists('Analytics_Teamplte_Content_Quick_View') ) {
 							</label>
 						</td>
 						<td class='ia-td-value'>	
-							<a href='' class='count'>45</a>
+							<a href='' class='ia-int'>45</a>
 						</td>						
 						<td class='ia-td-value'>	
-							<span class='stat label label-success' title="<?php _e('growth compared to last time period' , 'inbound-pro' ); ?>">+.01%</span>
+							<a href='' class='ia-rate-change positive' title="<?php _e('growth compared to last time period' , 'inbound-pro' ); ?>">.01%</a>
 						</td>
 					</tr>
 					<tr>
@@ -163,10 +153,10 @@ if ( !class_exists('Analytics_Teamplte_Content_Quick_View') ) {
 							</label>
 						</td>
 						<td class='ia-td-value'>	
-							<span class="label label-info">5.6%</span>
+							<a href='' class='ia-rate'>5.6%</a>
 						</td>
 						<td class='ia-td-value'>	
-							<span class='stat label label-success' title="<?php _e('growth compared to last time period' , 'inbound-pro' ); ?>">+.01%</span>
+							<a href='' class='ia-rate-change positive' title="<?php _e('growth compared to last time period' , 'inbound-pro' ); ?>">.01%</a>
 						</td>
 					</tr>
 				</table>
@@ -192,13 +182,13 @@ if ( !class_exists('Analytics_Teamplte_Content_Quick_View') ) {
 							<label title='<?php _e( 'Total number of Inbound Form submissions originating from this page' , 'inbound-pro' ); ?>'>Form Submissions:</label>
 						</td>
 						<td class='ia-td-value'>	
-							<a href='' class='count'  title='<?php _e( 'Total number of actions performed within the given time period for this content.' , 'inbound-pro' ); ?>'>35</a>
+							<a href='' class='ia-int'  title='<?php _e( 'Total number of actions performed within the given time period for this content.' , 'inbound-pro' ); ?>'>35</a>
 						</td>
 						<td class='ia-td-value'>	
-							<span class="label label-info" title='<?php _e( 'Rate of action events compared to impressions.' , 'inbound-pro' ); ?>'>4.3%</span>
+							<a href='' class='ia-rate' title='<?php _e( 'Rate of action events compared to impressions.' , 'inbound-pro' ); ?>'>4.3%</a>
 						</td>
 						<td class='ia-td-value'>	
-							<span class='stat label label-success' title="<?php _e('growth compared to last time period' , 'inbound-pro' ); ?>">+.01%</span>
+							<a href='' class='ia-rate-change negative'  title='<?php _e( 'Change from last corresponding time period.' , 'inbound-pro' ); ?>'>.001%</a>
 						</td>
 					</tr>
 					<tr>
@@ -208,13 +198,13 @@ if ( !class_exists('Analytics_Teamplte_Content_Quick_View') ) {
 							</label>
 						</td>
 						<td class='ia-td-value'>	
-							<a href='' class='count' title='<?php _e( 'Total number of actions performed within the given time period for this content.' , 'inbound-pro' ); ?>'>5</a>
+							<a href='' class='ia-int' title='<?php _e( 'Total number of actions performed within the given time period for this content.' , 'inbound-pro' ); ?>'>5</a>
 						</td>
 						<td class='ia-td-value'>	
-							<span class="label label-info" title='<?php _e( 'Rate of action events compared to impressions.' , 'inbound-pro' ); ?>'>0.6%</span>
+							<a href='' class='ia-rate' title='<?php _e( 'Rate of action events compared to impressions.' , 'inbound-pro' ); ?>'>0.6%</a>
 						</td>
 						<td class='ia-td-value'>	
-							<span class='stat label label-success' title="<?php _e('growth compared to last time period' , 'inbound-pro' ); ?>">+.01%</span>
+							<a href='' class='ia-rate-change negative'  title='<?php _e( 'Change from last corresponding time period.' , 'inbound-pro' ); ?>'>.001%</a>
 						</td>
 					</tr>
 					<tr>
@@ -224,13 +214,13 @@ if ( !class_exists('Analytics_Teamplte_Content_Quick_View') ) {
 							</label>
 						</td>
 						<td>	
-							<a href='' class='count' title='<?php _e( 'Total number of actions performed within the given time period for this content.' , 'inbound-pro' ); ?>'>5</a>
+							<a href='' class='ia-int' title='<?php _e( 'Total number of actions performed within the given time period for this content.' , 'inbound-pro' ); ?>'>5</a>
 						</td>
 						<td>	
-							<span class="label label-info" title='<?php _e( 'Rate of action events compared to impressions.' , 'inbound-pro' ); ?>'>0.6%</span>
+							<a href='' class='ia-rate' title='<?php _e( 'Rate of action events compared to impressions.' , 'inbound-pro' ); ?>'>0.6%</a>
 						</td>
 						<td>	
-							<span class='stat label label-success' title="<?php _e('growth compared to last time period' , 'inbound-pro' ); ?>">+.01%</span>
+							<a href='' class='ia-rate-change negative' title='<?php _e( 'Change from last corresponding time period.' , 'inbound-pro' ); ?>'>.001%</a>
 						</td>
 					</tr>
 				</table>
@@ -266,13 +256,13 @@ if ( !class_exists('Analytics_Teamplte_Content_Quick_View') ) {
 							</label>
 						</td>
 						<td class='ia-td-value'>	
-							<a href='' class='count'  title='<?php _e( 'Total number of visits without a referral.' , 'inbound-pro' ); ?>'>100</a>
+							<a href='' class='ia-int'  title='<?php _e( 'Total number of visits without a referral.' , 'inbound-pro' ); ?>'>100</a>
 						</td>
 						<td class='ia-td-value'>	
-							<span class="label label-info"  title='<?php _e( 'Rate of direct access visits versus other types of referrals.' , 'inbound-pro' ); ?>'>10%</span>
+							<a href='' class='ia-rate' title='<?php _e( 'Rate of direct access visits versus other types of referrals.' , 'inbound-pro' ); ?>'>10%</a>
 						</td>
 						<td class='ia-td-value'>	
-							<span class='stat label label-success' title="<?php _e('growth compared to last time period' , 'inbound-pro' ); ?>">+.01%</span>
+							<a href='' class='ia-rate-change positive'  title='<?php _e( 'Change from last corresponding time period.' , 'inbound-pro' ); ?>'>.001%</a>
 						</td>
 					</tr>
 					<tr>
@@ -282,13 +272,13 @@ if ( !class_exists('Analytics_Teamplte_Content_Quick_View') ) {
 							</label>
 						</td>
 						<td class='ia-td-value'>	
-							<a href='' class='count'  title='<?php _e( 'Total number of visits without a referral.' , 'inbound-pro' ); ?>'>200</a>
+							<a href='' class='ia-int'  title='<?php _e( 'Total number of visits without a referral.' , 'inbound-pro' ); ?>'>200</a>
 						</td>
 						<td class='ia-td-value'>	
-							<span class="label label-info" title='<?php _e( 'Rate of direct access visits versus other types of referrals.' , 'inbound-pro' ); ?>'>50%</span>
+							<a href='' class='ia-rate' title='<?php _e( 'Rate of direct access visits versus other types of referrals.' , 'inbound-pro' ); ?>'>50%</a>
 						</td>
 						<td class='ia-td-value'>	
-							<span class='stat label label-success' title="<?php _e('growth compared to last time period' , 'inbound-pro' ); ?>">+.01%</span>
+							<a href='' class='ia-rate-change positive'  title='<?php _e( 'Change from last corresponding time period.' , 'inbound-pro' ); ?>'>.001%</a>
 						</td>
 					</tr>
 					<tr>
@@ -298,13 +288,13 @@ if ( !class_exists('Analytics_Teamplte_Content_Quick_View') ) {
 							</label>
 						</td>
 						<td class='ia-td-value'>	
-							<a href='' class='count'  title='<?php _e( 'Total number of visits referred by an external site.' , 'inbound-pro' ); ?>'>100</a>
+							<a href='' class='ia-int'  title='<?php _e( 'Total number of visits referred by an external site.' , 'inbound-pro' ); ?>'>100</a>
 						</td>
 						<td class='ia-td-value'>	
-							<span class="label label-info" title='<?php _e( 'Rate of 3rd party referrals versus other types of referrals.' , 'inbound-pro' ); ?>'>10%</span>
+							<a href='' class='ia-rate' title='<?php _e( 'Rate of 3rd party referrals versus other types of referrals.' , 'inbound-pro' ); ?>'>10%</a>
 						</td>
 						<td class='ia-td-value'>	
-							<span class='stat label label-success' title="<?php _e('growth compared to last time period' , 'inbound-pro' ); ?>">+.01%</span>
+							<a href='' class='ia-rate-change positive'  title='<?php _e( 'Change from last corresponding time period.' , 'inbound-pro' ); ?>'>.001%</a>
 						</td>
 					</tr>
 					<tr>
@@ -314,13 +304,13 @@ if ( !class_exists('Analytics_Teamplte_Content_Quick_View') ) {
 							</label>
 						</td>
 						<td class='ia-td-value'>	
-							<a href='' class='count'  title='<?php _e( 'Total number of visits referred by a search engine.' , 'inbound-pro' ); ?>'>100</a>
+							<a href='' class='ia-int'  title='<?php _e( 'Total number of visits referred by a search engine.' , 'inbound-pro' ); ?>'>100</a>
 						</td>
 						<td class='ia-td-value'>	
-						<span class="label label-info" title='<?php _e( 'Rate of search engine referrals versus other types of referrals.' , 'inbound-pro' ); ?>'>25%</span>
+							<a href='' class='ia-rate' title='<?php _e( 'Rate of search engine referrals versus other types of referrals.' , 'inbound-pro' ); ?>'>25%</a>
 						</td>
 						<td class='ia-td-value'>	
-							<span class='stat label label-success' title="<?php _e('growth compared to last time period' , 'inbound-pro' ); ?>">+.01%</span>
+							<a href='' class='ia-rate-change positive'  title='<?php _e( 'Change from last corresponding time period.' , 'inbound-pro' ); ?>'>.001%</a>
 						</td>
 					</tr>
 					<tr>
@@ -330,13 +320,13 @@ if ( !class_exists('Analytics_Teamplte_Content_Quick_View') ) {
 							</label>
 						</td>
 						<td class='ia-td-value'>	
-							<a href='' class='count'  title='<?php _e( 'Total number of visits referred by a search engine.' , 'inbound-pro' ); ?>'>100</a>
+							<a href='' class='ia-int'  title='<?php _e( 'Total number of visits referred by a search engine.' , 'inbound-pro' ); ?>'>100</a>
 						</td>
 						<td class='ia-td-value'>	
-							<span class="label label-info"  title='<?php _e( 'Rate of search engine referrals versus other types of referrals.' , 'inbound-pro' ); ?>'>25%</span>
+							<a href='' class='ia-rate' title='<?php _e( 'Rate of search engine referrals versus other types of referrals.' , 'inbound-pro' ); ?>'>25%</a>
 						</td>
 						<td class='ia-td-value'>	
-							<span class='stat label label-success' title="<?php _e('growth compared to last time period' , 'inbound-pro' ); ?>">+.01%</span>
+							<a href='' class='ia-rate-change positive'  title='<?php _e( 'Change from last corresponding time period.' , 'inbound-pro' ); ?>'>.001%</a>
 						</td>
 					</tr>
 				</table>

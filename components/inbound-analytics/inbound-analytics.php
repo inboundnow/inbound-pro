@@ -54,13 +54,17 @@ class Inbound_Analytics {
 		
 		if (is_admin()) {
 			/* Load Inbound Analytics Connector Class */
-			include_once('admin/retrieve-analytics-data.php');
+			include_once('classes/retrieve-analytics-data.php');
 			
 			/* Load administration files */
-			include_once('admin/build-ui-containers.php');
+			include_once('classes/build-ui-containers.php');
 			
 			/* Load template files */
 			include_once('templates/content-quick-view.php');
+			
+			/* Load Template Loader */
+			include_once('classes/template-loader.php');
+			
 		}
 		
 		
