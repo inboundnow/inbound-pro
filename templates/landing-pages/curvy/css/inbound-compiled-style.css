@@ -1,0 +1,258 @@
+/*
+Design by Free CSS Templates
+http://www.freecsstemplates.org
+Released for free under a Creative Commons Attribution 3.0 License
+
+Name       : Oceania
+Description: A two-column, fixed-width design with a bright color scheme.
+Version    : 1.0
+Released   : 20120208
+*/
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+a {
+	color: #1D68AB;
+	text-decoration: underline;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+html {
+	background: #CFD5DE url(images/img01.jpg) top left repeat-x;
+}
+
+body {
+	background: url(images/img02.jpg) top center no-repeat;
+	line-height: 1.75em;
+	color: #6B7C93;
+	font-size: 12.5pt;
+}
+
+body,input {
+	font-family: Arial, sans-serif;
+}
+
+br.clearfix {
+	clear: both;
+}
+
+strong {
+	color: #333333;
+}
+
+h1,h2,h3,h4 {
+	text-transform: lowercase;
+	text-shadow: 0 2px 0 #FFFFFF;
+}
+
+h2 {
+	font-size: 2.25em;
+}
+
+h2,h3,h4 {
+	color: #001739;
+	margin-bottom: 1em;
+}
+
+h3 {
+	font-size: 1.5em;
+}
+
+h4 {
+	font-size: 1.25em;
+}
+
+img.alignleft {
+	margin: 5px 20px 20px 0;
+	float: left;
+}
+
+img.aligntop {
+	margin: 5px 0 20px 0;
+}
+
+p {
+	margin-bottom: 1.5em;
+}
+
+ul {
+	margin-bottom: 1.5em;
+}
+
+ul h4 {
+	margin-bottom: 0.35em;
+}
+
+.box {
+	overflow: hidden;
+	margin: 0 0 1em 0;
+}
+
+
+#content {
+	float: left;
+	padding: 40px;
+	width: 596px;
+	background: #EAEEF2 url(images/img05.jpg) top left repeat-x;
+	border-radius: 10px;
+	border: solid 2px #FFFFFF;
+	text-shadow: 0 1px 0 #FFFFFF;
+}
+
+#footer {
+	margin: 50px 0 120px 0;
+	text-align: center;
+	color: #626E7F;
+	text-shadow: 0 1px 0 #FFFFFF;
+}
+
+#footer a {
+	color: #626E7F;
+}
+
+#header {
+	background: #2C84AF url(images/img03.jpg) top left no-repeat;
+	color: #FFFFFF;
+	height: 140px;
+	position: relative;
+	padding: 40px;
+	border-radius: 10px;
+	border-top: solid 1px #96D0F7;
+	border-bottom: solid 1px #0C3459;
+}
+
+#logo {
+	top: 40px;
+	height: 140px;
+	position: absolute;
+	left: 40px;
+	line-height: 140px;
+}
+
+#logo a {
+	text-decoration: none;
+	color: #FFFFFF;
+}
+
+#logo h1 {
+	font-size: 2.8em;
+	text-shadow: 0 2px 2px #0E3E68;
+}
+
+#menu {
+	height: 62px;
+	right: 40px;
+	line-height: 62px;
+	top: 79px;
+	position: absolute;
+}
+
+#menu a {
+	text-transform: lowercase;
+	text-decoration: none;
+	color: #FFFFFF;
+	font-size: 1.25em;
+}
+
+#menu ul {
+	padding: 0 25px 0 25px;
+	list-style: none;
+}
+
+#menu ul li {
+	padding: 10px 15px 10px 15px;
+	display: inline;
+	text-shadow: 0 1px 1px #0E3E68;
+}
+
+#menu ul li.current_page_item {
+	background: #56AFD8 url(images/img04.jpg) top left no-repeat;
+	border-top: solid 1px #82D9ED;
+	border-bottom: solid 1px #24627C;
+	border-radius: 5px;
+}
+
+#menu ul li.last {
+	padding-right: 0;
+}
+
+#page {
+	position: relative;
+	margin: 20px 0 20px 0;
+	padding: 0;
+	width: 980px;
+}
+
+#page .section-list {
+	padding-left: 0;
+	list-style: none;
+}
+
+#page .section-list li {
+	clear: both;
+	padding: 25px 0 25px 0;
+}
+
+#page ul {
+	list-style: none;
+}
+
+#page ul li {
+	padding: 15px 0 15px 0;
+	border-top: dotted 1px #C5CDD8;
+}
+
+#page ul li.first {
+	padding-top: 0;
+	border-top: 0;
+}
+
+#search input.form-submit {
+	background: #B87A23;
+	padding: 5px;
+	color: #FFFFFF;
+	border: 0;
+	margin-left: 1em;
+}
+
+#search input.form-text {
+	padding: 10px;
+	border: dotted 1px #569DBF;
+}
+
+#sidebar {
+	background: #EAEEF2 url(images/img05.jpg) top left repeat-x;
+	width: 196px;
+	margin: 0 0 0 700px;
+	padding: 40px;
+	border-radius: 10px;
+	border: solid 2px #FFFFFF;
+	text-shadow: 0 1px 0 #FFFFFF;
+}
+
+#sidebar ul {
+	list-style: none;
+}
+
+#sidebar ul li {
+	padding: 15px 0 15px 0;
+	border-top: dotted 1px #C5CDD8;
+}
+
+#sidebar ul li.first {
+	border-top: 0;
+	padding-top: 0;
+}
+
+#wrapper {
+	position: relative;
+	margin: 0 auto 0 auto;
+	padding: 75px 0 0 0;
+	width: 980px;
+}

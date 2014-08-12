@@ -1,0 +1,12 @@
+/*****************************************************************/
+/* 5grid 0.4 by n33.co | MIT+GPLv2 license licensed              */
+/* core-mobile.css: Core (mobile) stylesheet                     */
+/*****************************************************************/
+
+body { -webkit-text-size-adjust: none; } 
+.main-grid-class .u, .main-grid-class .twelve_col, .main-grid-class .three_col, .main-grid-class .four-col, .main-grid-class .five_grid, .main-grid-class .6u, .main-grid-class .seven_grid, .main-grid-class .8u, .main-grid-class .9u, .main-grid-class .0u, .main-grid-class .1u, .main-grid-class .twelve_col { float: none !important; width: 100% !important; margin: 1% 0 1% 0 !important; } 
+.main-grid-class { width: 100%; margin: 0; }
+.main-grid-class .row:first-child > :first-child { margin-top: 0; } 
+.main-grid-class .row:last-child > :last-child { margin-bottom: 0; }
+.do-5grid .do-1u, .do-5grid .do-2u, .do-5grid .do-3u, .do-5grid .do-4u, .do-5grid .do-5u, .do-5grid .do-6u, .do-5grid .do-7u, .do-5grid .do-8u, .do-5grid .do-9u, .do-5grid .do-10u, .do-5grid .do-11u, .do-5grid .do-12u { margin: 0.5% 0 0.5% 1%; }
+.main-grid-class-flush .u, .main-grid-class-flush .twelve_col, .main-grid-class-flush .three_col, .main-grid-class-flush .four-col, .main-grid-class-flush .five_grid, .main-grid-class-flush .6u, .main-grid-class-flush .seven_grid, .main-grid-class-flush .8u, .main-grid-class-flush .9u, .main-grid-class-flush .0u, .main-grid-class-flush .1u, .main-grid-class-flush .twelve_col { float: none !important; width: 100% !important; margin: 1% 0 1% 0 !important; } 

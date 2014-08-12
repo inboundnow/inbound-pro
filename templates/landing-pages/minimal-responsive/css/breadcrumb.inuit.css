@@ -1,0 +1,76 @@
+/*------------------------------------*\
+	BREADCRUMB.INUIT.CSS
+\*------------------------------------*/
+
+
+
+
+
+/*
+breadcrumb.inuit.css is an inuit.css igloo
+igloos are CSS plugins which extend the inuit.css framework
+They are released under the Apache License, Version 2.0 -- http://www.apache.org/licenses/LICENSE-2.0
+
+@inuitcss
+inuitcss.com
+*/
+
+
+
+
+
+/*------------------------------------*\
+	USAGE
+\*------------------------------------*/
+/*
+Delete this section before go-live:
+
+<ol class="nav breadcrumb">
+	<li><a href="#">Home</a></li>
+	<li><a href="#">Tutorials</a></li>
+	<li><a href="#">CSS</a></li>
+	<li>Creating a breadcrumb</li>
+</ol>
+
+*/
+
+
+
+
+
+/*------------------------------------*\
+	BREADCRUMB
+\*------------------------------------*/
+/*
+Create a breadcrumb trail navigation.
+*/
+.nav.breadcrumb li{
+	font-weight:bold;
+}
+.nav.breadcrumb a{
+	font-weight:normal;
+}
+
+/*
+Here we set up the arrows using CSS generated content.
+If you require this to work in IE7 uncomment the marked sections below...
+*/
+.nav.breadcrumb li:before{
+	content:"\0020\00BB\0020"; /* This is the CSS entity for ‘ » ’ */
+}
+.nav.breadcrumb li:first-child:before{
+	content:normal;
+}
+
+/*
+IE7 support
+*/
+/* Uncomment when supporting IE7
+.nav.breadcrumb li{
+	background:url(/path/to/splitter/image) left center no-repeat;
+}
+/* Uncomment when supporting IE7
+.nav.breadcrumb li:first-child{
+	background:none;
+}
+*/
