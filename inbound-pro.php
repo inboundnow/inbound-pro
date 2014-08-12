@@ -76,6 +76,7 @@ final class Inbound_Now_Pro {
 			if ( ! isset( self::$instance ) && ! ( self::$instance instanceof Inbound_Now_Pro ) ) {
 				self::$instance = new Inbound_Now_Pro;
 				self::$instance->setup_constants();
+				self::$instance->load_core();
 				self::$instance->includes();
 				self::$instance->load_textdomain();
 				// self::$instance->roles   = new EDD_Roles();
@@ -115,7 +116,10 @@ final class Inbound_Now_Pro {
 		if(!defined('INBOUND_NOW_UPLOADS_PATH')) {  define('INBOUND_NOW_UPLOADS_PATH', $uploads['basedir'].'/inbound-pro/' );}
 		if(!defined('INBOUND_NOW_UPLOADS_URLPATH')) {  define('INBOUND_NOW_UPLOADS_URLPATH', $uploads['baseurl'].'/inbound-pro/' );}
 	}
-
+	/* Include required files */
+	private function load_core() {
+		// core plugins load here
+	}
 	/* Include required files */
 	private function includes() {
 		global $inboundnow_options;
