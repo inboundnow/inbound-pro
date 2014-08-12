@@ -1,0 +1,6 @@
+[main]
+host = https://www.transifex.com
+
+[wordpress-calls-to-action.calls-to-action]
+file_filter = <lang>.po
+source_lang = en_US
