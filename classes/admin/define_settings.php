@@ -36,10 +36,16 @@ if ( ! class_exists('Inbound_Now_Settings') )
 
 		public function tabs( $tabs ) {
 			// Register the core tab banks.
-			 $tabs[] = array(
-				'id' => 'manage_addons' ,
+			$tabs[] = array(
+				'id' => 'manage_core',
 				'position' => 0 ,
-				'title' => __( 'Manage Addons' , 'inbound-now' ) ,
+				'title' => __( 'Manage Core', 'inbound-now' ),
+				'page_hook' => $this->pageHook
+			);
+			$tabs[] = array(
+				'id' => 'manage_addons',
+				'position' => 1,
+				'title' => __( 'Manage Addons', 'inbound-now' ),
 				'page_hook' => $this->pageHook
 			);
 			/*$tabs[] = array(
@@ -75,7 +81,14 @@ if ( ! class_exists('Inbound_Now_Settings') )
 		}
 
 		public function sections( $sections ) {
-
+			$sections[] = array(
+				'tab' => 'manage_core' ,
+				'id' => 'manage_inbound_addons' ,
+				'position' => 0 ,
+				'title' => __( 'Manage Addons' , 'inbound-now' ) ,
+				'callback' => 'test_call_back',
+				'page_hook' => $this->pageHook
+			);
 			$sections[] = array(
 				'tab' => 'manage_addons' ,
 				'id' => 'manage_inbound_addons' ,
@@ -579,7 +592,7 @@ function inbound_toggle_addons_ajax() {
 
     set_transient('inbound-now-active-addons', $toggled_addon_files );
 
-    //
+
     $output =  array('encode'=> 'end' );
 
     echo json_encode($output,JSON_FORCE_OBJECT);
