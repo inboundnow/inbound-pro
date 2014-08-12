@@ -79,7 +79,7 @@ final class Inbound_Now_Pro {
 				self::$instance->load_core();
 				self::$instance->includes();
 				self::$instance->load_textdomain();
-			
+
 			}
 			return self::$instance;
 		}
@@ -160,18 +160,7 @@ final class Inbound_Now_Pro {
 			}
 		}
 
-		/*
-		include_once('components/inboundnow-lead-revisit-notifications/inboundnow-lead-revisit-notifications.php');
-		include_once('components/inboundnow-zapier/inboundnow-zapier.php');
-		include_once('components/inboundnow-aweber/inboundnow-aweber.php');
-		include_once('components/inboundnow-mailchimp/inboundnow-mailchimp.php');
-		include_once('components/inboundnow-hubspot/inboundnow-hubspot.php');
-		//include_once('components/inboundnow-home-page-lander/inboundnow-home-page-lander.php');
-		include_once('classes/pro-welcome.class.php');
-
-		/**/
-
-
+		// include_once('classes/pro-welcome.class.php');
 
 		//require_once INBOUND_NOW_PATH . 'includes/admin/settings/register-settings.php';
 		//$edd_options = edd_get_settings();
@@ -185,17 +174,11 @@ final class Inbound_Now_Pro {
 
 		} else {
 			/* Frontend Includes */
-			else {
-				
-			}
 
 		}
 
-		/**
-		*  Include component files that are activated
-		*/
-		private function include_toggled_components() {
-			global $inboundnow_options;
+
+	}
 
 	/* Loads the plugin language files */
 	public function load_textdomain() {
