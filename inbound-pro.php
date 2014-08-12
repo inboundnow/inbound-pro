@@ -79,9 +79,7 @@ final class Inbound_Now_Pro {
 				self::$instance->load_core();
 				self::$instance->includes();
 				self::$instance->load_textdomain();
-				// self::$instance->roles   = new EDD_Roles();
-				// self::$instance->fees    = new EDD_Fees();
-				// self::$instance->api     = new EDD_API();
+			
 			}
 			return self::$instance;
 		}
@@ -187,12 +185,17 @@ final class Inbound_Now_Pro {
 
 		} else {
 			/* Frontend Includes */
-			//require_once INBOUND_NOW_PATH . 'includes/process-download.php';
+			else {
+				
+			}
 
 		}
 
-		//require_once INBOUND_NOW_PATH . 'includes/install.php';
-	}
+		/**
+		*  Include component files that are activated
+		*/
+		private function include_toggled_components() {
+			global $inboundnow_options;
 
 	/* Loads the plugin language files */
 	public function load_textdomain() {

@@ -56,11 +56,17 @@ class Inbound_Analytics_UI_Containers {
 		wp_register_script( 'jsapi' , 'https://www.google.com/jsapi');
 		wp_enqueue_script( 'jsapi' );		
 		
+		wp_register_script( 'spin-js' , INBOUND_ANALYTICS_URLPATH .'includes/spinjs/spin.js');
+		wp_enqueue_script( 'spin-js' );
+		
+		wp_register_script( 'spin-jquery' , INBOUND_ANALYTICS_URLPATH .'includes/spinjs/jquery.spin.js');
+		wp_enqueue_script( 'spin-jquery' );
+		
 		wp_register_script( 'bootstrap-js' , INBOUND_ANALYTICS_URLPATH .'includes/BootStrap/bootstrap.min.js');
 		wp_enqueue_script( 'bootstrap-js' );
 		
-		wp_register_script( 'bootstrap-loader' , INBOUND_ANALYTICS_URLPATH .'includes/BootStrap/bootstrap.loader.js');
-		wp_enqueue_script( 'bootstrap-loader' );
+		wp_register_script( 'ia-content-loader' , INBOUND_ANALYTICS_URLPATH .'js/content.loader.js');
+		wp_enqueue_script( 'ia-content-loader' );
 	
 		wp_register_style( 'bootstrap-css' , INBOUND_ANALYTICS_URLPATH . 'includes/BootStrap/bootstrap.css');
 		wp_enqueue_style( 'bootstrap-css' );
@@ -92,6 +98,7 @@ class Inbound_Analytics_UI_Containers {
 		$exclude[] = 'email-template';
 		$exclude[] = 'inbound-log';
 		$exclude[] = 'landing-page';
+		$exclude[] = 'acf-field-group';
 
 		/* Add metabox to post types */
 		foreach ($post_types as $post_type ) {
@@ -126,7 +133,7 @@ class Inbound_Analytics_UI_Containers {
 						<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
 					</div>
 					<div class="modal-body">
-					<p>One fine body&hellip;</p>
+						<iframe class='ia-frame'></iframe>
 					</div>
 				</div><!-- /.modal-content -->
 				</div><!-- /.modal-dialog -->

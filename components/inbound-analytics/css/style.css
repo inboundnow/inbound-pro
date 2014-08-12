@@ -1,3 +1,8 @@
+.count {
+	color:#0074a2;
+	text-decoration:none;
+}
+
 .ia-table-summary td {
 	vertical-align:top;
 }
@@ -49,15 +54,16 @@
 }
 
 .timespan-img {
-	display:inline-block;
-	width:45px;
-	height:38px;
-	cursor:pointer;
-	text-align:center;
-	padding-top:9px;
-	padding-bottom:5px;
+	display: inline-block;
+	width: 23px;
+	height: 12px;
+	cursor: pointer;
+	text-align: center;
+	padding-top: 0px;
+	padding-bottom: 5px;
 	background: #0096C7;
-	color:#fff;
+	color: #fff;
+	font-size: 11px;
 }
 
 

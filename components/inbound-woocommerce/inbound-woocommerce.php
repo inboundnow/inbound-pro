@@ -82,7 +82,9 @@ class WC_Leads {
 		if(!isset(self::$map['wpleads_email_address']) || !strstr( self::$map['wpleads_email_address'] , '@' ) ) {
 			return;
 		}
-		
+
+		/* Map user IP Address */
+		self::$map['ip_address'] = $_SERVER['REMOTE_ADDR'];
 		
 		/* Populate Tracking Cookie - Create if not Available */
 		if (isset($_COOKIE['wp_lead_uid'])) {
