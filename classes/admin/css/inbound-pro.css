@@ -1,0 +1,5 @@
+#toplevel_page_inbound-pro-setting .dashicons-admin-generic:before {
+content: "";
+background: url('/wp-content/plugins/_inbound-pro/assets/images/shortcodes-blue.png') 0px;
+background-repeat: no-repeat;
+}

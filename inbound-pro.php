@@ -121,6 +121,22 @@ final class Inbound_Now_Pro {
 		// core plugins load here
 		//if(!defined('ACF_LITE') ) {  define( 'ACF_LITE' , true ); }
 		include_once( INBOUND_NOW_PATH .'/includes/advanced-custom-fields-pro/acf.php');
+		include_once( INBOUND_NOW_PATH .'/includes/acf-field-manage-inbound-addons/acf-MANAGE_INBOUND_ADDONS.php');
+		/* load ACF fields */
+		include_once( INBOUND_NOW_PATH .'/classes/admin/admin-settings.php');
+
+
+		if( function_exists('acf_add_options_page') ) {
+
+			acf_add_options_page(array(
+					'page_title' 	=> 'Inbound Pro Settings',
+					'menu_title'	=> 'Inbound Pro',
+					'menu_slug' 	=> 'inbound-pro-setting',
+					'capability'	=> 'edit_posts',
+					'redirect'		=> false
+				));
+
+		}
 		include_once( INBOUND_NOW_PATH .'/core/cta/wordpress-cta.php');
 	}
 	/* Include required files */
@@ -167,7 +183,7 @@ final class Inbound_Now_Pro {
 
 		if ( is_admin() ) {
 			/* Admin Includes */
-			require_once INBOUND_NOW_PATH . '/classes/admin/define_settings.php';
+			require_once INBOUND_NOW_PATH . '/classes/admin/admin.initClass.php';
 
 		} else {
 			/* Frontend Includes */
