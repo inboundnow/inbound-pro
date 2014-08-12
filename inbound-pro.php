@@ -119,6 +119,9 @@ final class Inbound_Now_Pro {
 	/* Include required files */
 	private function load_core() {
 		// core plugins load here
+		//if(!defined('ACF_LITE') ) {  define( 'ACF_LITE' , true ); }
+		include_once( INBOUND_NOW_PATH .'/includes/advanced-custom-fields-pro/acf.php');
+		include_once( INBOUND_NOW_PATH .'/core/cta/wordpress-cta.php');
 	}
 	/* Include required files */
 	private function includes() {

@@ -31,15 +31,15 @@ if ( ! class_exists('Inbound_Now_Settings') )
 
 		public function loadSettingsPage() {
 			//$this->pageHook = add_options_page( 'Settings API', 'Settings API', 'manage_options', 'settings_inbound_now', array( &$this , 'showPage' ) );
-			$this->pageHook = add_menu_page( 'Inbound', 'Inbound', 'manage_options', 'settings_inbound_now', array( &$this , 'showPage' ), plugins_url( 'inbound-pro/assets/images/shortcodes-blue.png' ), 3);
+			$this->pageHook = add_menu_page( 'Inbound Pro', 'Inbound Pro', 'manage_options', 'settings_inbound_now', array( &$this , 'showPage' ), plugins_url( '_inbound-pro/assets/images/shortcodes-blue.png' ), 3);
 		}
 
 		public function tabs( $tabs ) {
 			// Register the core tab banks.
 			$tabs[] = array(
-				'id' => 'manage_core',
+				'id' => 'main_settings',
 				'position' => 0 ,
-				'title' => __( 'Manage Core', 'inbound-now' ),
+				'title' => __( 'Main Settings', 'inbound-now' ),
 				'page_hook' => $this->pageHook
 			);
 			$tabs[] = array(
@@ -82,7 +82,7 @@ if ( ! class_exists('Inbound_Now_Settings') )
 
 		public function sections( $sections ) {
 			$sections[] = array(
-				'tab' => 'manage_core' ,
+				'tab' => 'main_settings' ,
 				'id' => 'manage_inbound_addons' ,
 				'position' => 0 ,
 				'title' => __( 'Manage Addons' , 'inbound-now' ) ,

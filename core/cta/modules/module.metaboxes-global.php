@@ -2,38 +2,39 @@
 
 /* add meta boxes to posts, pages, and non excluded cpts */
 add_action('add_meta_boxes', 'cta_placements_content_add_meta_box');
-function cta_placements_content_add_meta_box()
-{
+function cta_placements_content_add_meta_box() {
 
 	$post_types= get_post_types('','names');
 
-	$exclude[] = 'attachment';
-	$exclude[] = 'revisions';
-	$exclude[] = 'nav_menu_item';
-	$exclude[] = 'wp-lead';
-	$exclude[] = 'automation';
-	$exclude[] = 'rule';
-	$exclude[] = 'list';
-	$exclude[] = 'wp-call-to-action';
-	$exclude[] = 'tracking-event';
-	$exclude[] = 'inbound-forms';
-	$exclude[] = 'email-template';
-	$exclude[] = 'inbound-log';
-	$exclude[] = 'landing-page';
-	$exclude[] = 'edd-license';
-	
+	$exclude =	array(	'attachment',
+						'revisions',
+						'nav_menu_item',
+						'wp-lead',
+						'automation',
+						'rule',
+						'list',
+						'wp-call-to-action',
+						'tracking-event',
+						'inbound-forms',
+						'email-template',
+						'inbound-log',
+						'landing-page',
+						'edd-license',
+						'acf-field-group'
+				);
+
+	$exclude = apply_filters( 'cta_metabox_placement_filter', $exclude );
+
 	foreach ($post_types as $value ) {
 		$priority = ($value === 'landing-page') ? 'core' : 'high';
-		if (!in_array($value,$exclude))
-		{
+		if (!in_array($value,$exclude)) {
 			add_meta_box( 'wp-cta-inert-to-post', __( 'Insert Call to Action Template into Content' , 'cta' ) , 'cta_placements_content_meta_box' , $value, 'normal', $priority );
 		}
 	}
 }
 
 
-function cta_placements_content_meta_box()
-{
+function cta_placements_content_meta_box() {
 	global $post;
 	global $table_prefix;
 
@@ -42,23 +43,21 @@ function cta_placements_content_meta_box()
 }
 
 
-
 function wp_cta_display_metabox() {
 	global $post;
-	
+
 	$args = array(
 	'posts_per_page'  => -1,
 	'post_type'=> 'wp-call-to-action');
-	
+
 	$cta_list = get_posts($args);
-	
+
 	$cta_display_list = get_post_meta($post->ID ,'cta_display_list', true);
 	$cta_display_list = ($cta_display_list != '') ? $cta_display_list : array();
 	//print_r($cta_display_list);
 	?>
 	<script type="text/javascript">
-	jQuery(document).ready(function($)
-	{
+	jQuery(document).ready(function($) {
 		function format(state) {
 			if (!state.id) return state.text; // optgroup
 			var href = jQuery("#cta-" + state.id).attr("href");
@@ -163,11 +162,10 @@ function wp_cta_display_metabox() {
 	<?php
 }
 
-function wp_cta_display_controller()
-{
+function wp_cta_display_controller() {
 	$CTAExtensions = CTA_Load_Extensions();
 	$extension_data = $CTAExtensions->definitions;
-	
+
 	foreach ($extension_data['wp-cta-controller']['settings'] as $key=>$field)
 	{
 		if ( isset($field['region']) && $field['region'] =='cta-placement-controls')
@@ -336,7 +334,7 @@ function wp_cta_display_meta_save($post_id)
 	if (!isset($post)){
 		return;
 	}
-	
+
 	if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE){
 		return;
 	}
@@ -357,32 +355,32 @@ function wp_cta_display_meta_save($post_id)
 	}
 
 	// add filter
-		
+
 	$CTAExtensions = CTA_Load_Extensions();
 	$extension_data = $CTAExtensions->definitions;
-	
+
 	foreach ($extension_data['wp-cta-controller']['settings'] as $key=>$field)
 	{
-		( isset($field['global']) && $field['global'] ) ? $field['id'] : $field['id'] = $field['id'];	
-				
+		( isset($field['global']) && $field['global'] ) ? $field['id'] : $field['id'] = $field['id'];
+
 		if($field['type'] == 'tax_select'){
 			continue;
-		}		
-		
+		}
+
 		$old = get_post_meta($post_id, $field['id'], true);
 		(isset($_POST[$field['id']])) ? $new = $_POST[$field['id']] : $new = null;
-		
+
 		/**
 		echo $field['id'].' old:'.$old.'<br>';
 		echo $field['id'].' new:'.$new.'<br>';
 		*/
-		
+
 		if (isset($new) && $new != $old ) {
 			update_post_meta($post_id, $field['id'], $new);
 		} elseif ('' == $new && $old) {
 			delete_post_meta($post_id, $field['id'], $old);
 		}
-		
+
 	}
 
 	if ( isset($_POST['cta_display_list']) ) {

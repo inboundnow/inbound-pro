@@ -111,6 +111,7 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 		*/
 		private static function load_text_domain() {
 			add_action('init' , function() {
+				//echo "hi";
 				load_plugin_textdomain( 'cta' , false , WP_CTA_SLUG . '/lang/' );
 			});
 		}
