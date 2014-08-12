@@ -31,7 +31,7 @@ if ( ! class_exists('Inbound_Now_Settings') )
 
 		public function loadSettingsPage() {
 			//$this->pageHook = add_options_page( 'Settings API', 'Settings API', 'manage_options', 'settings_inbound_now', array( &$this , 'showPage' ) );
-			$this->pageHook = add_menu_page( 'Inbound', 'Inbound', 'manage_options', 'settings_inbound_now', array( &$this , 'showPage' ), plugins_url( 'inbound-pro/assets/images/shortcodes-blue.png' ), 3);
+			$this->pageHook = add_menu_page( 'Inbound', 'Inbound', 'manage_options', 'settings_inbound_now', array( &$this , 'showPage' ), INBOUND_NOW_URL . 'assets/images/shortcodes-blue.png' , 3);
 		}
 
 		public function tabs( $tabs ) {
