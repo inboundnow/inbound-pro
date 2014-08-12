@@ -1,0 +1,388 @@
+/*---------------------------------------------------------------------------------------------
+*
+*  Global
+*
+*---------------------------------------------------------------------------------------------*/
+
+#adv-settings .show-field-keys label {
+	padding: 0 5px;
+}
+
+/*---------------------------------------------------------------------------------------------
+*
+*  Postbox: Publish
+*
+*---------------------------------------------------------------------------------------------*/
+
+#minor-publishing-actions,
+#misc-publishing-actions #visibility,
+#misc-publishing-actions .curtime {
+	display: none;
+}
+
+#minor-publishing {
+	border-bottom: 0 none;
+}
+#misc-pub-section {
+	border-bottom: 0 none;
+}
+
+#misc-publishing-actions .misc-pub-section {
+	border-bottom-color: #F5F5F5;
+}
+
+
+/*---------------------------------------------------------------------------------------------
+*
+*  Postbox: Fields
+*
+*---------------------------------------------------------------------------------------------*/
+
+#acf-field-group-fields > .inside {
+	padding: 0;
+	margin: 0;
+}
+
+#acf-field-group-fields > .handlediv,
+#acf-field-group-fields > .hndle {
+	display: none;
+}
+
+.no-fields-message {
+	padding: 15px 15px;
+}
+
+.li-field_order { width: 22%; padding-right: 0 !important; }
+.li-field_label { width: 28%; }
+.li-field_name { width: 25%; }
+.li-field_type { width: 25%; }
+
+
+.acf-field-list-wrap {
+	border: #DFDFDF solid 1px;
+}
+
+.acf-field-list {
+	background: #F9F9F9;
+}
+
+.acf-field-list a {
+	text-decoration: none;
+}
+
+.acf-field-list a:active,
+.acf-field-list a:focus {
+	outline: none;
+}
+
+
+.acf-field-list .field {
+	border-top: #F0F0F0 solid 1px;
+	background: #fff;
+}
+
+.acf-field-list .field:first-child,
+.acf-field-list .field:first-child + .field.ui-sortable-placeholder {
+	border-top: 0 none;
+}
+
+.acf-field-list .field.ui-sortable-helper {
+	border-top-color: #fff;
+	box-shadow: 0 0 0 1px #DFDFDF, 0 1px 4px rgba(0,0,0,0.1);
+}
+
+.acf-field-list .field.ui-sortable-placeholder {
+	box-shadow: 0 -1px 0 0 #DFDFDF;
+	visibility: visible !important;
+	background: #F9F9F9;
+}
+
+
+
+/* info */
+.acf-field-list .field .field-info {
+	
+}
+
+.acf-field-list .field .field-info li {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	word-wrap: break-word;
+}
+
+.acf-field-list .field .field-info .acf-icon {
+	margin: 1px 5px 0 0;
+	cursor: move;
+	background: transparent;
+	float: left;
+}
+
+.acf-field-list .field .field-info strong {
+	display: block;
+	padding-bottom: 6px;
+	font-size: 14px;
+	line-height: 14px;
+	min-height: 14px;
+}
+
+.acf-field-list .field .field-info .row-options {
+	visibility: hidden;
+}
+
+.acf-field-list .field .field-info .row-options a {
+	margin-right: 4px;
+}
+
+.acf-field-list .field:hover > .field-info .row-options {
+	visibility: visible;
+}
+
+.acf-field-list .field .field-settings {
+	display: none;
+	width: 100%;
+}
+
+.acf-field-list .field.open {
+	
+}
+
+.acf-field-list .field.open + .field {
+	border-top-color: #E1E1E1;
+}
+
+.acf-field-list .field.open > .field-info {
+	background: #3595BC;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#46AFDB), to(#3199C5)); /* Safari 4+, Chrome */
+	background-image: -webkit-linear-gradient(top, #46AFDB, #3199C5); /* Chrome 10+, Safari 5.1+, iOS 5+ */
+	background-image:    -moz-linear-gradient(top, #46AFDB, #3199C5); /* Firefox 3.6-15 */
+	background-image:      -o-linear-gradient(top, #46AFDB, #3199C5); /* Opera 11.10+ */
+	background-image:         linear-gradient(to bottom, #46AFDB, #3199C5); /* Firefox 16+ */
+	
+	border: #268FBB solid 1px;
+	text-shadow: #268FBB 0 1px 0;
+	box-shadow: inset #5FC8F4 0 1px 0 0;
+	
+	color: #fff;
+	
+	position: relative;
+	margin: -1px 0 0 -1px;
+}
+
+.acf-field-list .field.open > .field-info a {
+	color: #fff !important;
+}
+
+.acf-field-list .field.open > .field-info a:hover {
+	
+}
+
+.acf-field-list .field.open > .field-info > .li-field_order .acf-icon {
+	border-color: #fff;
+}
+
+
+.acf-field-list .field[data-key="acfcloneindex"] {
+	display: none !important;
+}
+
+.acf-field-list .field .location-groups {
+	margin-top: 10px;
+}
+
+
+/* field keys */
+.acf-field-list .pre-field_key {
+	background: #F9F9F9;
+	border: #E1E1E1 solid 1px;
+	padding: 5px;
+	font: inherit;
+	margin: 3px 0 0;
+	float: left;
+	border-radius: 3px;
+	display: none;
+}
+
+.acf-field-list .field.open > .field-info .pre-field_key {
+	border-color: #268FBB;
+	background: transparent;
+}
+
+#acf-field-group-fields.show-field-keys .acf-field-list .pre-field_key {
+	display: block;
+}
+
+#acf-field-group-fields.show-field-keys .li-field_order { width: 24%; }
+#acf-field-group-fields.show-field-keys .li-field_label { width: 26%; }
+
+
+/*---------------------------------------------------------------------------------------------
+*
+* Postbox: Locations
+*
+*---------------------------------------------------------------------------------------------*/
+
+.location-groups h4 {
+	margin: 15px 0 5px;
+}
+
+.location-groups .location-group {
+	margin: 0 0 5px;
+}
+
+.location-groups .location-group h4 {
+	margin: 0 0 3px;
+}
+
+.location-groups .location-group td.param {
+	width: 40%;
+}
+
+.location-groups .location-group td.operator {
+	width: 20%;
+}
+
+.location-groups .location-group td.add {
+	width: 40px;
+}
+
+.location-groups .location-group td.remove {
+	width: 28px;
+	vertical-align: middle;
+}
+
+.location-groups .location-group tr .location-remove-rule {
+	display: none;
+}
+
+.location-groups .location-group tr:hover .location-remove-rule {
+	display: block;
+}
+
+
+/* Don't allow user to delete the first field group */
+.location-groups .location-group:first-child tr:first-child .location-remove-rule {
+	display: none !important;
+}
+
+
+/*---------------------------------------------------------------------------------------------
+*
+*	Options
+*	
+*---------------------------------------------------------------------------------------------*/
+
+
+
+
+
+/*---------------------------------------------------------------------------------------------
+*
+*	Select with Optgroup
+*	
+*---------------------------------------------------------------------------------------------*/
+
+#acf_fields select optgroup,
+#acf-field-group-locations select optgroup {
+	padding: 5px 5px;
+	background: #fff;
+}
+
+#acf_fields select optgroup option:first-child,
+#acf-field-group-locations select optgroup option:first-child{
+	
+}
+
+#acf_fields select option,
+#acf-field-group-locations select option {
+	padding: 3px;
+}
+
+#acf_fields select optgroup option,
+#acf-field-group-locations select optgroup option {
+	padding-left: 5px;
+}
+
+#acf_fields select optgroup:nth-child(2n),
+#acf-field-group-locations select optgroup:nth-child(2n) {
+    background: #F9F9F9;
+}
+
+
+/*---------------------------------------------------------------------------------------------
+*
+*	Conditional Logic
+*	
+*---------------------------------------------------------------------------------------------*/
+
+table.conditional-logic-rules {
+	background: transparent;
+	border: 0 none;
+	border-radius: 0;
+}
+
+table.conditional-logic-rules tbody td {
+	background: transparent;
+	border: 0 none !important;
+	padding: 5px 2px !important;
+}
+
+
+/*---------------------------------------------------------------------------------------------
+*
+*	Field: Tab
+*	
+*---------------------------------------------------------------------------------------------*/
+
+.acf-field-list .field_type-tab tr[data-name="name"],
+.acf-field-list .field_type-tab tr[data-name="instructions"],
+.acf-field-list .field_type-tab tr[data-name="required"],
+.acf-field-list .field_type-tab tr[data-name="warning"] {
+	display: none !important;
+}
+
+.acf-field-list.layout-table .field_type-tab tr[data-name="warning"] {
+	display: table-row !important;
+}
+
+
+
+/*---------------------------------------------------------------------------------------------
+*
+*	Field: Message
+*	
+*---------------------------------------------------------------------------------------------*/
+
+.acf-field-list .field_type-message tr[data-name="name"],
+.acf-field-list .field_type-message tr[data-name="instructions"],
+.acf-field-list .field_type-message tr[data-name="required"] {
+	display: none !important;
+}
+
+.acf-field-list .field_type-message textarea {
+	height: 175px !important;
+}
+
+
+/*---------------------------------------------------------------------------------------------
+*
+*	Field: Date Picker
+*	
+*---------------------------------------------------------------------------------------------*/
+
+.acf-field-list .field_type-date_picker .acf-radio-list span {
+	display: inline-block;
+	width: 100px;
+}
+
+
+/*---------------------------------------------------------------------------------------------
+*
+*	Firefox
+*	
+*---------------------------------------------------------------------------------------------*/
+
+@-moz-document url-prefix() {
+    .acf-field-list .field .li-field_order .acf-icon {
+	    
+    }
+}

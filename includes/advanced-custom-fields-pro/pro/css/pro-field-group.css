@@ -1,0 +1,67 @@
+/*---------------------------------------------------------------------------------------------
+*
+*	Flexible Content
+*	
+*---------------------------------------------------------------------------------------------*/
+
+table.acf-fc-meta {
+	width: 100%;
+	border: 0 none;
+	table-layout: fixed;
+	margin: 0 0 10px;
+	padding: 0;
+}
+
+table.acf-fc-meta tr td {
+	border: 0 none;
+	padding: 0 0 10px 10px;
+}
+
+table.acf-fc-meta tr td:first-child {
+	padding-left: 0;
+}
+
+.acf-input-wrap.select {
+	border-radius: 0 3px 3px 0 !important;
+	border: #DFDFDF solid 1px;
+}
+
+.acf-input-wrap.select select {
+    margin: 0;
+    border: 0 none;
+    padding: 3px;
+    height: 26px;
+}
+
+.acf-fc-meta-label .acf-input-prepend,
+.acf-fc-meta-name .acf-input-prepend,
+.acf-fc-meta-display .acf-input-prepend {
+	min-width: 45px;
+}
+
+.acf-fl-actions {
+	visibility: hidden;
+}
+
+.acf-field:hover .acf-fl-actions {
+	visibility: visible;
+}
+
+.acf-fl-actions a {
+	display: block;
+	line-height: 20px;
+	padding: 1px 0;
+	font-size: 13px;
+}
+
+.acf-fl-actions a[data-name="acf-fc-reorder"] {
+	cursor: move;
+}
+
+.acf-field-list .field tr[data-name="column_width"] {
+	display: none !important;
+}
+
+.acf-field-list.layout-table .field tr[data-name="column_width"] {
+	display: table-row !important;
+}
