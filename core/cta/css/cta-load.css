@@ -1,0 +1,9 @@
+.cta-aligncenter {
+	text-align: center;
+}
+.cta-alignleft {
+	float: left;
+}
+.cta-alignright {
+	float: right;
+}

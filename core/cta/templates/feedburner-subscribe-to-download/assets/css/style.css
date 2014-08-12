@@ -1,0 +1,86 @@
+
+
+/*----------------------------
+	Main container
+-----------------------------*/
+
+
+#container{
+	width:450px;
+	height:300px;
+	padding:10px;
+	text-align:center;
+	margin:0 auto;
+	position:relative;
+	background-color:#fff;
+	display:block;
+
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	border-radius:10px;
+}
+
+#container:before,
+#container:after{
+
+	/* Adding subtle shadows with before/after elements */
+
+	content:'.';
+	text-indent:-99999px;
+	overflow:hidden;
+	display:block;
+	height:12px;
+	width:470px;
+	background:url('../img/shadows.png') no-repeat center top;
+	position:absolute;
+	left:0;
+	top:-12px;
+}
+
+#container:after{
+	top:auto;
+	bottom:-12px;
+	background-position:center bottom;
+}
+
+#container p{
+	font:24px/1.3 'Segoe UI Light','Segoe UI',Arial,sans-serif;
+	padding: 70px 0 48px;
+}
+
+
+/*----------------------------
+	Download Button
+-----------------------------*/
+
+
+a.downloadButton , #placeholder-span{
+	display:inline-block;
+	width:187px;
+	height:69px;
+	text-indent:-99999px;
+	overflow:hidden;
+	background:url('../img/buttons.png') no-repeat;
+	cursor:default;
+	border:none;
+	text-decoration:none !important;
+}
+
+a.downloadButton.active{
+	background-position:left bottom;
+	cursor:pointer;
+}
+.tk-bello-pro-2 {text-align: center;
+width: 180px;
+padding-top: 0px;
+padding-bottom: 5px;
+font-size: 30px;
+color:#000; }
+
+#arrow-down {
+
+	width:45px;
+	height:36px;
+	margin: auto;
+	background:url('../img/arrow_down.png') no-repeat;
+}
