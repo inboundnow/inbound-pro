@@ -21,6 +21,7 @@ if(!defined('INBOUNDNOW_ZAPIER_REMOTE_ITEM_NAME')) { define('INBOUNDNOW_ZAPIER_R
 if(!defined('INBOUNDNOW_ZAPIER_URLPATH')) { define('INBOUNDNOW_ZAPIER_URLPATH', WP_PLUGIN_URL.'/'.plugin_basename( dirname(__FILE__) ).'/' ); }
 if(!defined('INBOUNDNOW_ZAPIER_PATH')) { define('INBOUNDNOW_ZAPIER_PATH', WP_PLUGIN_DIR.'/'.plugin_basename( dirname(__FILE__) ).'/' );}
 //echo INBOUNDNOW_ZAPIER_TEXT_DOMAIN;
+
 if (!class_exists('Inbound_Zapier')) {
 
 class Inbound_Zapier {
