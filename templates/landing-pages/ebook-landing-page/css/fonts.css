@@ -1,0 +1,43 @@
+@font-face {
+    font-family: 'SegoeUI';
+    src: url('fonts/segoeui.eot');
+    src: url('fonts/segoeui.eot?#iefix') format('embedded-opentype'),
+         url('fonts/segoeui.woff') format('woff'),
+         url('fonts/segoeui.ttf') format('truetype'),
+         url('fonts/segoeui.svg#segoeui') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SegoeUI-Bold';
+    src: url('fonts/segoeuib.eot');
+    src: url('fonts/segoeuib.eot?#iefix') format('embedded-opentype'),
+         url('fonts/segoeuib.woff') format('woff'),
+         url('fonts/segoeuib.ttf') format('truetype'),
+         url('fonts/segoeuib.svg#segoeuib') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SegoeUI-Italic';
+    src: url('fonts/segoeuii.eot');
+    src: url('fonts/segoeuii.eot?#iefix') format('embedded-opentype'),
+         url('fonts/segoeuii.woff') format('woff'),
+         url('fonts/segoeuii.ttf') format('truetype'),
+         url('fonts/segoeuii.svg#segoeuii') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'MuseoSlab-500';
+    src: url('fonts/museo_slab_2.eot');
+    src: url('fonts/museo_slab_2.eot?#iefix') format('embedded-opentype'),
+         url('fonts/museo_slab_2.woff') format('woff'),
+         url('fonts/museo_slab_2.ttf') format('truetype'),
+         url('fonts/museo_slab_2.svg#museo_slab_2') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}

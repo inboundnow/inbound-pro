@@ -1,0 +1,86 @@
+#inbound-form-wrapper {
+	padding:20px;
+}
+
+.social {
+text-align: right;
+position: relative;
+margin: 4px 0;
+float: right;
+display: inline;
+}
+.green h2, .grey h2, .green h3, .grey h3, .green h4, .grey h4 {
+border-bottom: none;}
+.lp-form .green h2, .grey h2, .green h3, .grey h3, .green h4, .grey h4, .green h5, .grey h5, .green h6, .grey h6 {
+padding: 0px 6px;}
+/* Landing page form styles */
+.lp-form {margin-left: 5px;
+width: 90%;
+padding: 15px;}
+input[type="text"], input[type="email"] {
+width: 94%;
+padding: 8px 4px 8px 10px;
+margin-bottom: 15px;
+border: 1px solid #4E3043;
+border: 1px solid rgba(78, 48, 67, 0.8);
+background: rgba(0, 0, 0, 0.15);
+border-radius: 2px;
+box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2), inset 0 1px 1px rgba(0, 0, 0, 0.1);
+-webkit-transition: all 0.3s ease-out;
+-moz-transition: all 0.3s ease-out;
+-ms-transition: all 0.3s ease-out;
+-o-transition: all 0.3s ease-out;
+transition: all 0.3s ease-out;
+font-family: 'Raleway', 'Lato', Arial, sans-serif;
+color: white;
+font-size: 13px;
+}
+input[type="submit"] {
+width: 90%;
+padding: 8px 5px;
+background: #634056;
+background: -moz-linear-gradient(rgba(99, 64, 86, 0.5), rgba(76, 49, 65, 0.7));
+background: -ms-linear-gradient(rgba(99, 64, 86, 0.5), rgba(76, 49, 65, 0.7));
+background: -o-linear-gradient(rgba(99, 64, 86, 0.5), rgba(76, 49, 65, 0.7));
+background: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(99, 64, 86, 0.5)), to(rgba(76, 49, 65, 0.7)));
+background: -webkit-linear-gradient(rgba(99, 64, 86, 0.5), rgba(76, 49, 65, 0.7));
+background: linear-gradient(rgba(99, 64, 86, 0.5), rgba(76, 49, 65, 0.7));
+border-radius: 5px;
+border: 1px solid #4E3043;
+box-shadow: inset 0 1px rgba(255, 255, 255, 0.4), 0 2px 1px rgba(0, 0, 0, 0.1);
+cursor: pointer;
+-webkit-transition: all 0.3s ease-out;
+-moz-transition: all 0.3s ease-out;
+-ms-transition: all 0.3s ease-out;
+-o-transition: all 0.3s ease-out;
+transition: all 0.3s ease-out;
+color: white;
+text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
+font-size: 22px;
+font-weight: bold;
+font-family: 'Raleway', 'Lato', Arial, sans-serif;
+margin-left: 15px;
+}
+p, .lp-span, label {font-size: 17px;}
+.lp-span {text-transform: none; display: block; margin-bottom: 8px;}
+.lp-input-label .lp-span {
+  display: inline;
+  color:red;
+}
+/* end form styles */
+hr {
+width: 98%;
+border-bottom: 1px solid;
+margin: auto;
+background: none;
+clear: both;
+opacity: .3;
+}
+.footer-p {text-align: center;}
+#lp_container h1, #lp_container h2, #lp_container h3, #lp_container h4, #lp_container h5 {text-align: center;}
+.hero-shot img {
+	background: #fff;
+border: 5px solid #ccc;
+-webkit-border-radius: 5px;
+}
+#content-area {padding-top: 0px;}

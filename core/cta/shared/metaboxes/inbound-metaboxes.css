@@ -1,0 +1,70 @@
+#inbound-meta .inbound-meta-box-row {
+display: block;
+padding: 10px;
+padding-left: 0px;
+}
+.inbound-meta-box-label, .inbound-meta-box-option {
+	display: inline-block;
+}
+.inbound-meta-box-label {
+	width: 18%;
+}
+.inbound-wysiwyg-option, .inbound-textarea-option {
+	width: 75%;
+}
+.inbound-meta-box-option {
+	position: relative;
+}
+.inbound-textarea-option .button-primary.new-save-wp-cta, .inbound-textarea-option .wp-cta-success-message {
+position: absolute;
+}
+.inbound-datepicker .button-primary.new-save-wp-cta {
+	display: none;
+}
+.inbound-description-block-option {
+	max-width: 55%;
+}
+.inbound-media-row .button-primary.new-save-wp-cta {
+	position: absolute;
+right: -94px;
+top: 0px;
+text-align: center;
+width: 84px;
+}
+#inbound-meta .inbound-custom-css-row {
+	padding: 0px;
+}
+.inbound-media-row .wp-cta-success-message {
+	position: absolute;
+right: -100px;
+top: 0px;
+text-align: center;
+width: 80px;
+margin-top: 3px;
+padding: 0px;
+}
+.inbound-wysiwyg-option .button-primary.new-save-wp-cta, .inbound-wysiwyg-option .wp-cta-success-message {
+	width: 100%;
+margin: auto;
+text-align: center;
+margin-left: 0px !important;
+padding-left: 0px;
+padding-right: 0px;
+display: inline-block;
+}
+.inbound-wysiwyg, .inbound-media, .inbound-datepicker, .inbound-textarea {
+	vertical-align: top;
+} 
+.inbound-textarea-option .wp-cta-success-message {
+	position: absolute;
+margin-top: 0px;
+}
+.jquery-date-picker p {
+margin: 0px 0 0 0;
+}
+
+.inbound-wysiwyg-row .wp-cta-success-message {
+margin-right: 40px;
+text-align: center;
+display: block;
+}
