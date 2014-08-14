@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: InboundNow Extension - ConstantContact Integration
+Plugin Name: Inbound Extension - ConstantContact Integration
 Plugin URI: http://www.inboundnow.com/market/support-will-complete
 Description: Provides ConstantContact support for Landing Pages, Leads, and Calls to Action plugin.
 Version: 1.0.2

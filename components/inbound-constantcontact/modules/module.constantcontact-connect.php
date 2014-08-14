@@ -74,7 +74,7 @@ function inboundnow_constantcontact_add_subscriber( $lead_data , $target_list )
 	);
 	
 
-	$contact = apply_filters('inboundnow_constantcontact_lead_data',$contact);
+	$contact = apply_filters('inboundnow_constantcontact_lead_data', $contact , $lead_data );
 	
 	$contact_encoded = json_encode($contact);
 	
