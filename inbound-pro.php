@@ -67,22 +67,23 @@ final class Inbound_Now_Pro {
 	}
 
 	/**
-		 * Main Inbound_Now_Pro Instance
-		 *
-		 * Insures that only one instance of Easy_Digital_Downloads exists in memory at any one
-		 * time. Also prevents needing to define globals all over the place.
+	 * Main Inbound_Now_Pro Instance
+	 *
+	 * Insures that only one instance of Easy_Digital_Downloads exists in memory at any one
+	 * time. Also prevents needing to define globals all over the place.
 	*/
 	public static function instance() {
-			if ( ! isset( self::$instance ) && ! ( self::$instance instanceof Inbound_Now_Pro ) ) {
-				self::$instance = new Inbound_Now_Pro;
-				self::$instance->setup_constants();
-				self::$instance->load_core();
-				self::$instance->includes();
-				self::$instance->load_textdomain();
+		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof Inbound_Now_Pro ) ) {
+			self::$instance = new Inbound_Now_Pro;
+			self::$instance->setup_constants();
+			self::$instance->load_core();
+			self::$instance->includes();
+			self::$instance->load_textdomain();
 
-			}
-			return self::$instance;
 		}
+		return self::$instance;
+	}
+	
 	/**
 	 * Throw error on object clone
 	 *
@@ -91,16 +92,20 @@ final class Inbound_Now_Pro {
 	 */
 	public function __clone() {
 		// Cloning instances of the class is forbidden
-		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'edd' ), '1.6' );
+		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'inbound-pro' ), '1.6' );
 	}
 
-	/* Disable unserializing of the class */
+	/*
+	* Disable unserializing of the class 
+	*/
 	public function __wakeup() {
 		// Unserializing instances of the class is forbidden
-		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'edd' ), '1.6' );
+		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'inbound-pro' ), '1.6' );
 	}
 
-	/* Setup plugin constants */
+	/**
+	*  	Setup plugin constants 
+	*/
 	private function setup_constants() {
 		if(!defined('INBOUND_NOW_ACTIVATE')) { define('INBOUND_NOW_ACTIVATE', __FILE__ ); }
 		if(!defined('INBOUND_NOW_CURRENT_VERSION')) { define('INBOUND_NOW_CURRENT_VERSION', '1.0.0' ); }
@@ -114,12 +119,18 @@ final class Inbound_Now_Pro {
 		if(!defined('INBOUND_NOW_UPLOADS_PATH')) {  define('INBOUND_NOW_UPLOADS_PATH', $uploads['basedir'].'/inbound-pro/' );}
 		if(!defined('INBOUND_NOW_UPLOADS_URLPATH')) {  define('INBOUND_NOW_UPLOADS_URLPATH', $uploads['baseurl'].'/inbound-pro/' );}
 	}
-	/* Include required files */
+	
+	/**
+	*  	Include required files 
+	*  
+	*/
 	private function load_core() {
-		// core plugins load here
+		
 		//if(!defined('ACF_LITE') ) {  define( 'ACF_LITE' , true ); }
 		include_once( INBOUND_NOW_PATH .'/includes/advanced-custom-fields-pro/acf.php');
 		include_once( INBOUND_NOW_PATH .'/includes/acf-field-manage-inbound-addons/acf-MANAGE_INBOUND_ADDONS.php');
+		include_once( INBOUND_NOW_PATH .'/classes/acf-integration.php');
+		
 		/* load ACF fields */
 		include_once( INBOUND_NOW_PATH .'/classes/admin/admin-settings.php');
 
