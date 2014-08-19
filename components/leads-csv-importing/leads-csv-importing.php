@@ -43,8 +43,7 @@ class Inbound_CSV_Importer {
 	/**
 	*  Loads php files
 	*/
-	public static function load_files() {
-		
+	public static function load_files() {	
 		
 		if (is_admin()) {
 			
@@ -52,8 +51,6 @@ class Inbound_CSV_Importer {
 			include_once INBOUND_CSV_IMPORTING_PATH . 'classes/class.administration.php';
 			
 		}
-		
-		
 	
 	}
 	
@@ -72,6 +69,17 @@ class Inbound_CSV_Importer {
 		/* Hook Tracking Event Push to Inbound Form Submit */
 		add_action( 'inbound_store_lead_post' , array( __CLASS__ , 'push_form_submit_event' ) );
 		
+	}
+	
+	/**
+	* Setups Software Update API 
+	*/
+	public static function license_setup() {
+
+		/*PREPARE THIS EXTENSION FOR LICESNING*/
+		if ( class_exists( 'Inbound_License' ) ) {
+			$license = new Inbound_License( INBOUND_CSV_IMPORTING_FILE , INBOUND_CSV_IMPORTING_LABEL , INBOUND_CSV_IMPORTING_SLUG , INBOUND_CSV_IMPORTING_CURRENT_VERSION  , INBOUND_CSV_IMPORTING_REMOTE_ITEM_NAME ) ;
+		}
 	}
 
 	/**
