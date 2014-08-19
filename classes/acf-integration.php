@@ -88,21 +88,23 @@ class Inbound_ACF {
 		$vid = lp_ab_testing_get_current_variation_id();		
 		$acf = get_post_meta( $post->ID , 'acf-' . $vid );
 		
-		/*
-		print_r($acf);		
+		/**
+		print_r($acf[0]);		
+		//print_r($field);		
 		var_dump($field['key']);
 		echo "\r\n";
 		var_dump($value);
 		echo "\r\n";
-		*/
+		/**/
 		
-		$new_value = self::search_array( $acf , $field['key'] );		
+		$new_value = self::search_field_array( $acf[0] , $field );		
 		
-		/*
+		/**
 		var_dump($new_value);
 		echo "\r\n";echo "\r\n";echo "\r\n";
-		*/
+		/**/
 		
+		//return $value;
 		return $new_value;
 	}
 	
@@ -115,21 +117,22 @@ class Inbound_ACF {
 	*
 	* @return $feild value
 	*/
-	public static function search_array( $array , $needle ) {
+	public static function search_field_array( $array , $field ) {
 
-	
+		$needle = $field['key'];
+
 		foreach ($array as $key => $value ){
 
 			if ($key === $needle && !is_array($value) ) {
 				return $value;
 			}
 			
-			/* Arrays could be repeaters,tags */
+			/* Arrays could be repeaters or any custom field with sets of multiple values */
 			if ( is_array($value) ) {
-				
+
 				/* Check if this array contains a repeater field layouts. If it does then return layouts, else this array is a non-repeater value set so return it */
 				if ( $key === $needle ) {					
-					
+
 					$repeater_array = self::get_repeater_layouts( $value );
 					if ($repeater_array) {
 						return $repeater_array;
@@ -139,16 +142,13 @@ class Inbound_ACF {
 					}
 					
 				}
+
+				/* Check if array is repeater fields and determine correct value given a parsed field name with field key */
+				$repeater_value = self::get_repeater_values( $value , $field );
 				
-				/* Check if array is a value set by making sure there are no repeater field deinitions */
-				if ( $key === $needle ) {
-					return $value;
-				}
-				
-				/* else search repeater fields for key */
-				$field = self::search_array( $value, $needle );
-				if ($field) {
-					return $field;
+				/* If target key is not in these repeater fields, or this array is not determined to be a repeater field then move on. */
+				if ($repeater_value) {
+					return $repeater_value;
 				}
 			}	
 			
@@ -173,6 +173,35 @@ class Inbound_ACF {
 		}
 		
 		return $fields;
+	}
+	
+	
+	/**
+	*  Searches an array assumed to be a repeater field dataset and returns an array of repeater field layout definitions
+	*  
+	*  @retuns ARRAY $fields this array will either be empty of contain repeater field layout definitions.
+	*/
+	public static function get_repeater_values( $array , $field ) {
+		
+		/* Discover correct repeater pointer by parsing field name */
+		preg_match('/(_\d_)/', $field['name'], $matches, 0);
+
+		if (!$matches) {
+			return false;
+		}
+		
+		$pointer = str_replace('_' , '' , $matches[0]);
+
+		$i = 0; 
+		foreach ($array as $key => $value) {
+			if (isset($value[ $field['key'] ])  && $pointer == $i ) {
+				return $value[ $field['key'] ];
+			}
+			
+			$i++;
+		}
+		
+		return false;
 	}
 	
 	/**
