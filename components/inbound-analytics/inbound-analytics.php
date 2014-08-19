@@ -181,7 +181,7 @@ class Inbound_Analytics {
 	*  
 	*/
 	public static function push_event( $event ) {
-		error_log('start');
+		//error_log('start');
 		/* Send the data to the cloud! */
 		$response = wp_remote_post( self::$api , array(
 				'method' => 'POST',
