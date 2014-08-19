@@ -81,6 +81,10 @@ class Inbound_ACF {
 	public static function load_value( $value, $post_id, $field ) {
 		global $post;
 	
+		if ( !isset($post) || $post->post_type != 'landing-page' ) {
+			return;
+		}
+		
 		$vid = lp_ab_testing_get_current_variation_id();		
 		$acf = get_post_meta( $post->ID , 'acf-' . $vid );
 		
