@@ -53,7 +53,7 @@ if ( !class_exists('Analytics_Teamplte_Content_Quick_View') ) {
 			$data = self::load_data();
 			
 			?>
-				<ul class="nav nav-pills ">
+				<ul class="nav nav-pills date-range">
 					<li class='active' data-range='1' title='<?php _e('Past 24 hours' , 'inbound-pro'); ?>'>
 						<a href='#'>1</a>
 					</li>
@@ -71,32 +71,7 @@ if ( !class_exists('Analytics_Teamplte_Content_Quick_View') ) {
 					</li>
 				</ul>
 				<br>
-				<div id="chart_div" style="width: 275px;margin-left:-13px;height:196px;"></div>
-				<script type="text/javascript">
-				google.load("visualization", "1", {packages:["corechart"]});
-				google.setOnLoadCallback(drawChart);
-				function drawChart() {
-				var data = google.visualization.arrayToDataTable([
-					['Day', 'Impressions', 'Actions'],
-					['7/15',	1000,		5],
-					['7/16',	1000,		6],
-					['7/17',	1000,		7],
-					['7/18',	1000,		5],
-					['7/19',	1170,		10],
-					['7/20',	660,		9],
-					['7/21',	1030,		11]
-				]);
-
-				var options = {
-					title: 'Content Impressions',
-					colors: ['darkgrey', '#e6693e', '#ec8f6e', '#f3b49f', '#f6c7b6']
-				};
-
-				var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
-				chart.draw(data, options);
-				}
-				</script>
-				<br>
+				<img src='<?php echo INBOUND_ANALYTICS_URLPATH; ?>img/example-sparkline.png' title='Example sparkline'>
 				<table class='ia-table-summary'>				
 					<tr>
 						<td class='ia-td-th'>
@@ -122,11 +97,11 @@ if ( !class_exists('Analytics_Teamplte_Content_Quick_View') ) {
 							</label>
 						</td>
 						<td>	
-							<a href='#' class='count' data-toggle="modal" data-target="#ia-modal-container" report-type="content-impressions">800</a>
+							<a href='#' class='count' data-toggle="modal" data-target="#ia-modal-container" report-class-name="Analytics_Template_Content_Impressions_Expanded" modal-width='60%'>800</a>
 						</td>
 						
 						<td>	
-							<span class='stat label label-success' title="<?php _e('growth compared to last time period' , 'inbound-pro' ); ?>"  data-toggle="tooltip" data-placement="left" >.01%</a>
+							<span class='stat label label-success' title="<?php _e('growth compared to last time period' , 'inbound-pro' ); ?>"  data-toggle="tooltip" data-placement="left" >+.01%</a>
 						</td>
 					</tr>
 					<tr>

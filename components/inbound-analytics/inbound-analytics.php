@@ -38,10 +38,10 @@ class Inbound_Analytics {
 	*/
 	private static function define_constants() {
 		define('INBOUND_ANALYTICS_CURRENT_VERSION', '1.0.5' ); 
-		define('INBOUND_ANALYTICS_LABEL' , 'Easy Digital Downloads Integration' ); 
+		define('INBOUND_ANALYTICS_LABEL' , 'Inbound Analytics' ); 
 		define('INBOUND_ANALYTICS_SLUG' , plugin_basename( dirname(__FILE__) ) ); 
 		define('INBOUND_ANALYTICS_FILE' ,  __FILE__ ); 
-		define('INBOUND_ANALYTICS_REMOTE_ITEM_NAME' , 'easydigitaldownloads-integration' ); 
+		define('INBOUND_ANALYTICS_REMOTE_ITEM_NAME' , 'inbound-analytics' ); 
 		define('INBOUND_ANALYTICS_URLPATH', plugins_url( '', __FILE__ ) .'/' ) ; 
 		define('INBOUND_ANALYTICS_PATH', WP_PLUGIN_DIR.'/'.plugin_basename( dirname(__FILE__) ).'/' ); 
 	}
@@ -60,7 +60,8 @@ class Inbound_Analytics {
 			include_once('classes/build-ui-containers.php');
 			
 			/* Load template files */
-			include_once('templates/content-quick-view.php');
+			include_once('templates/content.quick-view.php');
+			include_once('templates/content.impressions-expanded.php');
 			
 			/* Load Template Loader */
 			include_once('classes/template-loader.php');

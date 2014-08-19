@@ -28,6 +28,14 @@
 
 }
 
+.ia-td-change {
+	text-align:right;
+}
+
+.ia-td-label {
+	width: 100%;
+}
+
 .ia-td-label label, .ia-td-th label {
 	cursor: help;
 }
