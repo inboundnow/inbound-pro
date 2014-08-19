@@ -29,16 +29,25 @@ jQuery(document).ready(function () {
 	
 	/* Add click listen to load correct iframe */
 	jQuery('.ia-table-summary').delegate( 'a' , 'click' , function() {
+		
 		/* turn spin off */
 		jQuery('.modal-body').spin(false);
 		
-		/* get report */
-		var report = jQuery( this ).attr( 'report-type' );
+		/* Get width & height of iframe */
+		var width = jQuery( this ) . attr('modal-width');
+		//var height = jQuery( this ) . attr('modal-height');
+		
+		/* get report date range */
+		var date_range = jQuery( '.date-range > li.active').attr('data-range');
+
+		/* get report class name */
+		var report_class_name = jQuery( this ).attr( 'report-class-name' );
 
 		/* prepare params for url */
 		var params = {
 			action: 'inbound_generate_report',
-			report: report
+			report_class_name: report_class_name,
+			date_range: date_range
 		};
 		
 		/* prepare params for url */
@@ -46,6 +55,9 @@ jQuery(document).ready(function () {
 
 		/* load correct analytics template */
 		jQuery(".ia-frame").attr("src", ajaxurl + '?' +params );
+		
+		/* resize modal to fit contents */
+		jQuery(".modal-dialog").animate({width: width }, 500);
 
 	});
 });

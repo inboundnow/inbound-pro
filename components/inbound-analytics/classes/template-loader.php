@@ -13,7 +13,19 @@ if ( !class_exists('Inbound_Analytics_Template_Loader') ) {
 		}
 		
 		public static function display_template() {
-		
+			
+			if ( !isset( $_REQUEST['action'] )  || $_REQUEST['action'] != 'inbound_generate_report' ) {
+				return;
+			}
+			
+			$args = array( 
+				'date-range' => $_REQUEST['date_range']
+			);
+			
+			$_REQUEST['report_class_name']::load_template( $args );
+			
+			exit;
+			
 		}
 		
 	}
