@@ -10,7 +10,7 @@ class Inbound_ACF {
 	static $wordpress_url;
 	
 	/**
-	* Initalize Inbound_ACF Class
+	* Initialize Inbound_ACF Class
 	*/
 	public function __construct() {			
 	
@@ -96,16 +96,25 @@ class Inbound_ACF {
 		var_dump($value);
 		echo "\r\n";
 		/**/
-		
-		$new_value = self::search_field_array( $acf[0] , $field );		
+
+		/* if variation data is saved try and discover new value */
+		if ($acf) {
+			$new_value = self::search_field_array( $acf[0] , $field );		
+			
+			/* sometimes value is an array count when new_value believes it should be an array in this case get new count */
+			if (!is_array($value) && is_array($new_value)) {
+				$value = count($new_value);
+			} else {
+				$value = $new_value;
+			}
+		}
 		
 		/**
-		var_dump($new_value);
+		var_dump($value);
 		echo "\r\n";echo "\r\n";echo "\r\n";
 		/**/
 		
-		//return $value;
-		return $new_value;
+		return $value;
 	}
 	
 	
