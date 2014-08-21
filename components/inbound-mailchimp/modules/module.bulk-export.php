@@ -48,7 +48,7 @@ function inboundnow_mailchimp_bulk_actions_add_options() {
 		$html = "<select id='mailchimp_list_select' name='action_mailchimp_list_id'>";
 		foreach ($lists as $key=>$value)
 		{
-			$html .= "<option value='".$key."'>".$value."</option>";
+			$html .= "<option value='".$key."'>".str_replace('"', '' , $value )."</option>";
 		}
 		$html .="</select>";
 		?>
