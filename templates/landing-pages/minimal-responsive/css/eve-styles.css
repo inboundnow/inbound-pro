@@ -62,11 +62,11 @@ body{background:url(../img/bg.jpg) repeat;}
 	border-radius: 10px;
 	border-right: 1px solid #bbb;
 	border-bottom: 2px solid #bbb;
-	color: #666;text-decoration:none; 
-	text-transform:uppercase; 
+	color: #666;text-decoration:none;
+	text-transform:uppercase;
 	text-shadow: 1px 1px 1px #fff;
 	font-size: 1.1em;
-	margin: 0 0 0.6em 0;	
+	margin: 0 0 0.6em 0;
 }
 #nav.main a:hover{color: #666; text-shadow: 1px 1px 0px #fff; background-color: #EAFFC4; }
 
@@ -78,7 +78,7 @@ body{background:url(../img/bg.jpg) repeat;}
 	TYPE
 \*------------------------------------*/
 /* @font-face kit by Fonts2u (http://www.fonts2u.com/oswald.schriftart) */
-/* Font Oswald, SIL-licenced, author Vernon Adams */  
+/* Font Oswald, SIL-licenced, author Vernon Adams */
 @font-face {font-family:"Oswald";src:url("Oswald.eot?") format("eot"),url("Oswald.woff") format("woff"),url("Oswald.ttf") format("truetype"),url("Oswald.svg#Oswald") format("svg");font-weight:normal;font-style:normal;}
 
 /*--- HEADINGS ---*/
@@ -107,7 +107,7 @@ Some not-too-pretty and insemantic classes to do odd jobs.
 
 .intro {padding: 10px 0; color: #999;}
 .intro h2 {font-size: 3em; line-height: 1em; letter-spacing: -1px; text-transform:uppercase; padding-right:15px; margin: 0 0 20px 0;}
-.intro p {font-family: 'Oswald', Arial, sans-serif; font-size: 1.9em; line-height: 1.2em; letter-spacing: -2px; padding-right: 15px;}
+.intro p {font-family: 'Oswald', Arial, sans-serif; font-size: 1.9em; line-height: 1.2em; padding-right: 15px;}
 
 .quote {font-family: Arial, sans-serif; font-size: 1.4em; letter-spacing: -1px; font-style: italic; line-height: 1.3em; } /*a styled quote in addition to blockquote*/
 .quote span {display: block; font-size: 0.7em; padding-top: 10px; font-style: normal;}
@@ -154,7 +154,7 @@ a.button {
 	font-weight: bold;
 	padding: 0.3em 0.7em;
 	display: inline-block;}
-	
+
 a.button:hover {
 	background-color: #A5C100;
 	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#6D8901), to(#A5C100));
@@ -177,7 +177,7 @@ ul.check {list-style:none;
 img{margin-bottom: 10px;}
 img.left	{ margin:0 20px 10px 0; }
 img.right	{ margin:0 0 10px 20px; }
-/* due to article of Chris Coyier 
+/* due to article of Chris Coyier
 http://css-tricks.com/441-resizeable-images-at-full-resolution/ */
 img.expand { width: 24em; margin: 0; }
 
@@ -206,7 +206,7 @@ ul.tabs li {
  float: left;
  margin: 0;
  padding: 0;
- height: 32px; 
+ height: 32px;
  line-height: 32px; /*--Vertically aligns the text within the tab--*/
  border-bottom: 1px solid #fff;
  border-left: 1px solid #fff;
@@ -251,7 +251,7 @@ CSS for tablets and narrower devices
 #logo{margin:0 auto 1em; width: 100%;}
 #nav.main{margin: 0 auto;float: none; padding: 0.4em 0 0 0}
 .intro h2 {font-size: 2.5em; line-height: 1em; letter-spacing: -1px; text-transform:uppercase; padding-right:15px; margin: 0 0 20px 0;}
-.intro p {font-family: 'Oswald',"Helvetica Neue", Arial, sans-serif;font-size: 1.6em; line-height: 1.2em; letter-spacing: -2px; padding-right: 20px;}	
+.intro p {font-family: 'Oswald',"Helvetica Neue", Arial, sans-serif;font-size: 1.6em; line-height: 1.2em; letter-spacing: -2px; padding-right: 20px;}
 .social {text-align: center; margin: 30px 0 15px 0;}
 .wrapper{width:auto!important; padding:15px!important;}
 }
@@ -285,10 +285,10 @@ h4{font-size:1.1em;	margin-bottom:0.8em;line-height:auto;font-weight:bold;}
 h5,h6{font-size:1em;margin-bottom:0.8em;line-height:auto;}
 
 .intro p {font-size: 1.2em; line-height: 1.2em; letter-spacing: -1px;}
-.intro h2 {font-size: 2em;}	
+.intro h2 {font-size: 2em;}
 
 #footer p {margin: 0; padding: 0 10px;}
-	
+
 .grids{margin:0!important;width:auto!important;}
 [class^="grid-"],
 .grids [class^="grid-"]{
@@ -304,14 +304,14 @@ h5,h6{font-size:1em;margin-bottom:0.8em;line-height:auto;}
 #logo{margin:0 auto 1em; width: 100%;}
 
 /* =============================================
- 
+
     MediaQuery-Reporter Styles
-	Uncomment and use this to display the screen 
+	Uncomment and use this to display the screen
 	sizes while developing your media queries!
 	http://webdesign.tutsplus.com/tutorials/htmlcss-tutorials/a-basic-responsive-grid-plus-handy-css3-media-query-reporter/
- 
+
 ================================================ */
- 
+
 /*body:after {
     content: "less than 320px";
     font-size: 300%;
@@ -348,7 +348,7 @@ h5,h6{font-size:1em;margin-bottom:0.8em;line-height:auto;}
     }
 }
 */
- /* overwriting some other styles this would end up in the actual css file */       
+ /* overwriting some other styles this would end up in the actual css file */
 .social {
 text-align: right;
 position: relative;
