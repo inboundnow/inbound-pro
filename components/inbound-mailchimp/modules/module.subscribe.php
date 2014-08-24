@@ -32,7 +32,7 @@ function inboundnow_mailchimp_add_subscriber($target_list , $subscriber)
 		'send_welcome'      => false,
 	);
 	
-	$args = apply_filters('inboundnow_mailchimp_args' , $args);
+	$args = apply_filters('inboundnow_mailchimp_args' , $args , $subscriber );
 	
 	$debug = 0;
 	if ($debug==1)
