@@ -154,7 +154,7 @@ final class Inbound_Now_Pro {
 			*/
 
 		}
-		include_once( INBOUND_NOW_PATH .'/core/cta/wordpress-cta.php');
+		//include_once( INBOUND_NOW_PATH .'/core/cta/wordpress-cta.php');
 	}
 	/* Include required files */
 	private function includes() {
