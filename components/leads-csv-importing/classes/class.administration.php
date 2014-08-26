@@ -165,7 +165,7 @@ class Leads_CSV_Processing {
 		function update_progress( percentage ) {
 			if(percentage > 100) percentage = 100;
 			jQuery('#progressBar').css('width', percentage+'%');
-			jQuery('#progressBar').html(percentage+'%');
+			jQuery('#progressBar').html( Math.round(percentage)+'%');
 		}
 		
 		/* function for switching visible containers */
@@ -214,7 +214,10 @@ class Leads_CSV_Processing {
 						
 					},
 					error: function(jqXHR, textStatus, errorThrown)	{
-						alert('no');
+						alert(jqXHR);
+						alert(textStatus);
+						alert(errorThrown);
+						ladda_1.toggle();
 					}			
 				};
 				
@@ -239,7 +242,10 @@ class Leads_CSV_Processing {
 						import_leads(data);						
 					},
 					error: function(jqXHR, textStatus, errorThrown)	{
-						alert('no');
+						alert(jqXHR);
+						alert(textStatus);
+						alert(errorThrown);
+						ladda_2.toggle();	
 					}			
 				};
 				
@@ -295,12 +301,15 @@ class Leads_CSV_Processing {
 					</span>
 					<input type="text" class="form-control file-name" readonly>
 				</div>		
+				<br>
 				<h4>Select Delimiter</h4>
-				<select name='csv_delimiter' class='form-control select-delimiter'>
+				<select name='csv_delimiter' class='form-control select-delimiter'>					
+					<option value='comma'><?php _e('comma' , 'inbound-pro' ); ?></option>
 					<option value='simicolon'><?php _e('simicolon' , 'inbound-pro' ); ?></option>
 					<option value='tab'><?php _e('tab' , 'inbound-pro' ); ?></option>
-					<option value='comma'><?php _e('comma' , 'inbound-pro' ); ?></option>
 				</select>
+				<br>
+				<h4></h4>
 				<div class='continue-button'>
 					<button type="submit" class="btn btn-primary ladda-button next-1" data-style='expand-right'><?php _e( 'Next Step (upload CSV)' , 'inbound-pro' ); ?></button>
 				</div>
@@ -355,12 +364,18 @@ class Leads_CSV_Processing {
 		$field_map = Leads_Field_Map::build_map_array();
 		
 		/* Add some more */
-		$field_map['wp_leads_uid'] = 'wp_leads_uid';
-		$field_map['wpleads_latitude'] = 'wpleads_latitude';
-		$field_map['wpleads_longitude'] = 'wpleads_longitude';
-		$field_map['wpleads_currency_code'] = 'wpleads_currency_code';
-		$field_map['wpleads_currency_symbol'] = 'wpleads_currency_symbol';
+		$field_map['wpleads_full_name'] = 'Full Name';
+		$field_map['wp_leads_uid'] = 'Inbound Lead UID';
+		$field_map['wpleads_latitude'] = 'Latitude';
+		$field_map['wpleads_longitude'] = 'Longitude';
+		$field_map['wpleads_currency_code'] = 'Currency Code';
+		$field_map['wpleads_currency_symbol'] = 'Currency Symbol';
 		$field_map['wp_lead_status'] = 'wp_lead_status';
+		$field_map['ip_address'] = 'IP Address';
+		
+		$el1 = array_shift($field_map);
+		asort($field_map);
+		array_unshift( $field_map , $el1 );
 		
 		echo '<select id="leads_map" style="display:none;">';
 		foreach ( $field_map as $key => $value ) {
@@ -394,8 +409,8 @@ class Leads_CSV_Processing {
 		$csv_data['cols'] = array_keys( $row );
 		
 		/* Save transient for 2 hours */
-		set_transient( 'leads_temp_csv' , $csv_data , 60 * 60 * 2 );
-		
+		$result = set_transient( 'leads_temp_csv' , json_encode($csv_data) , 60 * 60 * 2 );
+
 		/* return col map for step 2 use */		
 		echo json_encode( $csv_data['cols'] );
 		die();
@@ -407,16 +422,17 @@ class Leads_CSV_Processing {
 	*/
 	public static function save_mapping_rules() {
 
-		$csv_data = get_transient( 'leads_temp_csv');
+		$csv_data = json_decode( get_transient( 'leads_temp_csv') , true );
+
 		$csv_data['map_rules'] = array_filter($_POST);
 		$csv_data['total_leads_count'] = count($csv_data['rows']);
 		$csv_data['rows'] = array_chunk( $csv_data['rows'] , 50 , true );
 		
-		set_transient( 'leads_temp_csv' , $csv_data , 60 * 60 * 2 );
+		set_transient( 'leads_temp_csv' , json_encode( $csv_data ) , 60 * 60 * 2 );
 		
 		$import_data['batches'] =  count( $csv_data['rows'] );
 		$import_data['lead_count'] = $csv_data['total_leads_count'];
-
+		
 		echo json_encode( $import_data );
 		die();
 
@@ -429,7 +445,7 @@ class Leads_CSV_Processing {
 
 		($_POST['batch']>0) ? $target_batch = $_POST['batch'] : $target_batch = 0;
 		
-		$csv_data = get_transient( 'leads_temp_csv');	
+		$csv_data = json_decode( get_transient( 'leads_temp_csv') , true );	
 		
 		$this_batch = $csv_data['rows'][$target_batch];
 
@@ -457,12 +473,15 @@ class Leads_CSV_Processing {
 	public static function replace_keys( $map_rules , $row ) {
 		
 		foreach ($row as $column_key => $column_value) {
+			
+			$column_key = str_replace(' ' , '_' , $column_key );
+
 			if (!isset($map_rules[$column_key])) {
 				continue;
 			}
 			$lead[$map_rules[$column_key]] = $column_value;
 		}
-		
+
 		return $lead;
 	}
 	

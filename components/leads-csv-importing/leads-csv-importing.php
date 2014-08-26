@@ -31,11 +31,11 @@ class Inbound_CSV_Importer {
 	*  
 	*/
 	private static function define_constants() {
-		define('INBOUND_CSV_IMPORTING_CURRENT_VERSION', '1.0.5' ); 
-		define('INBOUND_CSV_IMPORTING_LABEL' , 'Inbound Analytics' ); 
+		define('INBOUND_CSV_IMPORTING_CURRENT_VERSION', '1.0.1' ); 
+		define('INBOUND_CSV_IMPORTING_LABEL' , 'Leads - CSV Importing' ); 
 		define('INBOUND_CSV_IMPORTING_SLUG' , plugin_basename( dirname(__FILE__) ) ); 
 		define('INBOUND_CSV_IMPORTING_FILE' ,  __FILE__ ); 
-		define('INBOUND_CSV_IMPORTING_REMOTE_ITEM_NAME' , 'inbound-analytics' ); 
+		define('INBOUND_CSV_IMPORTING_REMOTE_ITEM_NAME' , 'import-leads-csv' ); 
 		define('INBOUND_CSV_IMPORTING_URLPATH', plugins_url( '', __FILE__ ) .'/' ) ; 
 		define('INBOUND_CSV_IMPORTING_PATH', WP_PLUGIN_DIR.'/'.plugin_basename( dirname(__FILE__) ).'/' ); 
 	}
