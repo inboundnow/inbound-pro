@@ -225,7 +225,8 @@ if ( !class_exists('Inbound_Leads') ) {
 		* @returns ARRAY of lead lists with term id as key and list name as value
 		*/
 		public static function get_lead_lists_as_array() {
-
+			$array = array();
+		
 			$args = array(
 				'hide_empty' => false,
 			);
@@ -344,8 +345,10 @@ if ( !class_exists('Inbound_Leads') ) {
 		
 	}
 
-	/* Load Email Templates Post Type Pre Init */
-	add_action('init' , function() {
-		$GLOBALS['Inbound_Leads'] = new Inbound_Leads();
-	} , 9 );
+	/**
+	*  	Register 'wp-lead' CPT
+	*/		
+	$GLOBALS['Inbound_Leads'] = new Inbound_Leads();
+	
+	
 }

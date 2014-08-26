@@ -43,6 +43,28 @@
 			fb_like_to_download_event( {{cta-id}} , {{variation-id}} );
 		});
     }; 
+	
+	function fb_like_to_download_event( cta_id , vid )
+	{
+
+		/***record impressions***/
+		var conversion_data = {
+			action: 'wp_cta_record_conversion',
+			cta_id: cta_id,
+			variation_id : vid
+		};
+
+		jQuery.post( '{{wordpress-ajaxurl}}', conversion_data, function(response) {
+
+			if (response!=false)
+			{
+				//alert('Got this from the server: ' + response);
+				//form.submit();
+				return true;
+			}
+
+		});
+	}
 
 	</script>
 	</div>

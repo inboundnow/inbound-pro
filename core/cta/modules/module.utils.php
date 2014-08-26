@@ -205,8 +205,6 @@ if (!function_exists('inbound_template_brightness')) {
 }
 
 
-
-
 add_action( 'wp_head', 'wp_cta_kill_ie8' );
 function wp_cta_kill_ie8() {
     global $is_IE;
