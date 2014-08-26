@@ -214,9 +214,9 @@ class Leads_CSV_Processing {
 						
 					},
 					error: function(jqXHR, textStatus, errorThrown)	{
-						alert(jqXHR);
+						//alert(jqXHR);
 						alert(textStatus);
-						alert(errorThrown);
+						//alert(errorThrown);
 						ladda_1.toggle();
 					}			
 				};
@@ -292,28 +292,46 @@ class Leads_CSV_Processing {
 		?>
 		<div class='nav-container step-1 active'>
 			<form class='csv-file-upload' method="post" enctype="multipart/form-data">
-				<h4>Select CSV File</h4>
+				<h4><?php _e( 'Select CSV File' , 'inbound-pro' ); ?></h4>
 				<div class="input-group">
 					<span class="input-group-btn">
 						<span class="btn btn-primary btn-file">
-							Browse&hellip; <input type="file" name="csv_file" class='file-input' required>
+							<?php _e( 'Browse' , 'inbound-pro' ); ?>&hellip; <input type="file" name="csv_file" class='file-input' required>
 						</span>
 					</span>
 					<input type="text" class="form-control file-name" readonly>
 				</div>		
 				<br>
-				<h4>Select Delimiter</h4>
+				<h4><?php _e( 'Select Delimiter' , 'inbound-pro' ); ?></h4>
 				<select name='csv_delimiter' class='form-control select-delimiter'>					
 					<option value='comma'><?php _e('comma' , 'inbound-pro' ); ?></option>
 					<option value='simicolon'><?php _e('simicolon' , 'inbound-pro' ); ?></option>
 					<option value='tab'><?php _e('tab' , 'inbound-pro' ); ?></option>
 				</select>
 				<br>
-				<h4></h4>
+				
+				<div class="btn-group" data-toggle="buttons">
+					<h4><?php _e( 'Sort into these lists' , 'inbound-pro' ); ?></h4>
+					
+					<?php
+					$lists = wpleads_get_lead_lists_as_array();
+
+					foreach ( $lists as $id => $label  )
+					{
+						echo '	<label class="btn btn-default">';
+						echo '	  <input name="lead_lists[]" type="checkbox" value="' . $id . '"> ' . $label ;
+						echo '	</label>';
+						
+					}
+
+					?>
+				</div>
+				<br>
 				<div class='continue-button'>
 					<button type="submit" class="btn btn-primary ladda-button next-1" data-style='expand-right'><?php _e( 'Next Step (upload CSV)' , 'inbound-pro' ); ?></button>
 				</div>
 			</form>
+			<br>
 		</div>
 		<?php
 	}
@@ -401,6 +419,7 @@ class Leads_CSV_Processing {
 		
 		/* Prepare CSV data array for transient */
 		$csv_data['delimiter'] = $_POST['csv_delimiter'];
+		$csv_data['lead_lists'] = (isset($_POST['lead_lists'])) ? $_POST['lead_lists'] : array();
 		$csv_data['filename'] = $_FILES["csv_file"]["name"];
 		$csv_data['rows'] = $csv_array;
 		
@@ -450,11 +469,15 @@ class Leads_CSV_Processing {
 		$this_batch = $csv_data['rows'][$target_batch];
 
 		$map_rules = $csv_data['map_rules'];
-		
+
 		/* Adds leads to database */
 		foreach ($this_batch as $key => $row) {
 			/* replace column keys with mapped lead keys */
 			$lead = self::replace_keys( $map_rules , $row );
+			
+			/* Add list options */
+			$lead['lead_lists'] = $csv_data['lead_lists'];
+			
 			inbound_store_lead( $lead );
 			//error_log( print_r( $lead , true ) );
 			//exit;			
