@@ -311,17 +311,22 @@ class Leads_CSV_Processing {
 				<br>
 				
 				<div class="btn-group" data-toggle="buttons">
-					<h4><?php _e( 'Sort into these lists' , 'inbound-pro' ); ?></h4>
+					
 					
 					<?php
 					$lists = wpleads_get_lead_lists_as_array();
-
-					foreach ( $lists as $id => $label	)
-					{
-						echo '	<label class="btn btn-default">';
-						echo '		<input name="lead_lists[]" type="checkbox" value="' . $id . '"> ' . $label ;
-						echo '	</label>';
-						
+					if (is_array($lists) && $lists) {
+					
+						echo '<h4>';
+						echo __( 'Sort into these lists' , 'inbound-pro' ); 
+						echo '</h4>';
+						foreach ( $lists as $id => $label	)
+						{
+							echo '	<label class="btn btn-default">';
+							echo '		<input name="lead_lists[]" type="checkbox" value="' . $id . '"> ' . $label ;
+							echo '	</label>';
+							
+						}
 					}
 
 					?>
