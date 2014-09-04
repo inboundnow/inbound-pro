@@ -1,0 +1,40 @@
+/**
+ * WordPress required styles
+ * Needed for editor media floats
+ */
+/* ---------------------------------------------- */
+.wp-caption{
+    background:#FBFBFB;
+    border:1px solid #EEE;
+    padding:10px;
+    max-width: 100%;
+}
+.wp-caption img{
+    display:block;
+    margin-bottom:5px;
+}
+.wp-caption-text,
+.gallery-caption{
+    margin:0;
+    font-size:12px;
+    font-style:italic
+}
+.alignright{
+    float:right;
+    margin: 10px 0px 10px 20px;
+}
+.alignleft{
+    float:left;
+    margin: 10px 20px 10px 0px;
+}
+.aligncenter{
+    display:block;
+    margin-left:auto;
+    margin-right:auto;
+}
+.alignnone{
+    display:block;
+    margin: 10px 0px;
+}
+.bypostauthor{}
+/* ---------------------------------------------- */

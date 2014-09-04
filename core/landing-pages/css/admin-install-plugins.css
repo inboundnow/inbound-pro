@@ -1,0 +1,13 @@
+#the-list .inbound-install-notice, #the-list .inbound-install-notice-links, .click-to-activate, .click-to-activate-bulk {
+	display: none;
+}
+.click-to-activate, .click-to-activate-bulk {
+	vertical-align: top !important;
+	padding-top: 0px !important;
+}
+.click-to-activate span, .click-to-activate-bulk span {
+	color: #04A204;
+	padding-right: 10px;
+	font-size: 40px;
+	text-shadow: none;
+}

@@ -1,0 +1,171 @@
+@charset "UTF-8";
+@import "reset.css";
+
+
+/* CSS Document */
+
+
+/*
+	----------------------------
+	HTML SELECTORS
+	____________________________
+*/
+
+
+body { background: #333; font:14px/21px Helvetica, Arial, sans-serif; color: #333; margin: 0; padding: 0; }
+a { color: #ccc; text-decoration: underline; }
+a:hover { color: #fb2b2b; }
+h1, h2 { font-size: 26px; line-height: 28px; letter-spacing: -1px; }
+h3 { font-size: 18px; margin: 8px 0; }
+h4 { font-size: 14px; margin: 0; }
+h5 { font-size: 12px; margin: 0; }
+ul { margin-left: 30px; }
+ol { margin-left: 36px; }
+
+
+/*
+	----------------------------
+	LAYOUT
+	____________________________
+*/
+
+
+#wrapper { width: 960px; margin: 0 auto; padding: 48px 0 72px; }
+#main { width: 640px; float: left; }
+#main > p, #main > div { margin-left: 7px; }
+#sidebar { width: 310px; float: right; }
+#sidebar ol { margin: 12px 0 12px 22px; }
+/*
+	----------------------------
+	PAGE/SECTION SPECIFIC
+	____________________________
+*/
+
+
+#video-controls { width: 83px; }
+#video-controls a { color: #ddd; text-decoration: underline; }
+#controls {width: 100%;
+height: 40px;
+line-height: 1;
+overflow: hidden;
+position: fixed;
+z-index: 1001;
+bottom: 0;
+left: 0;
+padding: 10px 20px 0;
+}
+
+/*
+	----------------------------
+	UTILITY CLASSES
+	____________________________
+*/
+
+
+.black-15 { background: url(../img/black-15-trans.png); padding: 4px 12px; margin: 24px 0; }
+.black-35 { background: url(../img/black-35-trans.png); padding: 4px 12px; margin: 24px 0; }
+.black-50 { background: url(../img/black-50-trans.png); padding: 4px 12px; margin: 24px 0; border-radius: 6px; }
+.black-65 { background: url(../img/black-65-trans.png); padding: 4px 12px; margin: 24px 0; }
+.black-85 { background: url(../img/black-85-trans.png);	 padding: 4px 12px; margin: 24px 0; }
+
+
+.clearfix:before,
+.clearfix:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.clearfix:after {
+    clear: both; }
+/* new rules */    
+.control-margin {
+	margin: 0px 0;
+}
+  #social-share-buttons iframe {
+width:85px !important;
+}
+#social-share-buttons{
+position: absolute;
+right: 7%;
+top: 20%;
+z-index: 9999;
+overflow: hidden;
+width: 82px;
+  }
+ .sharrre .button{
+    width:60px;
+    padding: 4px;
+  } 
+.linkedin {
+  	margin-bottom: -20px;}
+.black-65 {
+color: white;
+padding: 4px 12px;
+margin: 0px 0;
+}
+/* Form CSS */
+.lp-span {text-transform: none; display: block; margin-bottom: 8px;}
+.lp-input-label .lp-span {
+  display: inline;
+  color:red;
+}
+input[type="text"], input[type="email"] {
+  width: 94%;
+padding: 8px 4px 8px 10px;
+margin-bottom: 15px;
+border: 1px solid #4E3043;
+border: 1px solid rgba(78, 48, 67, 0.8);
+background: rgba(0, 0, 0, 0.15);
+border-radius: 2px;
+box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2), inset 0 1px 1px rgba(0, 0, 0, 0.1);
+-webkit-transition: all 0.3s ease-out;
+-moz-transition: all 0.3s ease-out;
+-ms-transition: all 0.3s ease-out;
+-o-transition: all 0.3s ease-out;
+transition: all 0.3s ease-out;
+font-family: 'Raleway', 'Lato', Arial, sans-serif;
+color: white;
+font-size: 13px; /*
+
+  display: block;
+  padding: 5px;
+  border: 4px solid #F1B720;
+  border-radius: 5px;
+  color: #333;
+  transition: all 0.3s ease-out; */
+}
+/*
+input[type="text"]:hover { border-radius: 8px; }
+input[type="text"]:focus { 
+  outline: none;
+  border-radius: 8px; 
+  border-color: #EBD292;
+}
+*/		
+
+
+input[type="submit"] {
+width: 100%;
+padding: 8px 5px;
+background: #11b709;
+background: -moz-linear-gradient(rgba(17, 183, 9, 0.5), rgba(17, 183, 9, 0.7));
+background: -ms-linear-gradient(rgba(17, 183, 9, 0.5), rgba(17, 183, 9, 0.7));
+background: -o-linear-gradient(rgba(17, 183, 9, 0.5), rgba(17, 183, 9, 0.7));
+background: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(17, 183, 9, 0.5)), to(rgba(17, 183, 9, 0.7)));
+background: -webkit-linear-gradient(rgba(17, 183, 9, 0.5), rgba(17, 183, 9, 0.7));
+background: linear-gradient(rgba(17, 183, 9, 0.5), rgba(17, 183, 9, 0.7));
+border: 1px solid black;
+border-radius: 5px;
+box-shadow: inset 0 1px rgba(255, 255, 255, 0.4), 0 2px 1px rgba(0, 0, 0, 0.1);
+cursor: pointer;
+-webkit-transition: all 0.3s ease-out;
+-moz-transition: all 0.3s ease-out;
+-ms-transition: all 0.3s ease-out;
+-o-transition: all 0.3s ease-out;
+transition: all 0.3s ease-out;
+color: white;
+text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
+font-size: 22px;
+font-weight: bold;
+font-family: 'Raleway', 'Lato', Arial, sans-serif;
+}

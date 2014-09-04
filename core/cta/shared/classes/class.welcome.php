@@ -12,7 +12,7 @@
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
-if(!defined('INBOUND_NOW_PATH')) { define('INBOUND_NOW_PATH', WP_PLUGIN_DIR . '/inbound-now-pro'); }
+if(!defined('INBOUND_NOW_PATH')) { define('INBOUND_NOW_PATH', WP_PLUGIN_DIR . '/_inbound-pro'); }
 /**
  * Inbound_Now_Welcome Class
  *
@@ -129,7 +129,7 @@ class Inbound_Now_Welcome {
 		//$test = get_transient('_inboundnow_zapier_activation_redirect', true, 30 );
 
 		$current_view = $_GET['page'];
-		if (function_exists( 'is_plugin_active' ) && is_plugin_active('inbound-now-pro/inbound-now-pro.php')) {
+		if (function_exists( 'is_plugin_active' ) && is_plugin_active('_inbound-pro/inbound-pro.php')) {
 			//echo 'Pro on';
 			$dir = INBOUND_NOW_PATH . '/components/'. $plugin_slug . '/welcome/';
 

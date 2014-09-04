@@ -1,0 +1,16 @@
+p.search-box {
+float: left;
+margin-left: 9px;
+}
+#col-right {
+float: left; }
+#col-right .col-wrap {
+	padding-right: 35px;
+}
+.form-wrap .form-field {
+margin: 0px;
+padding-bottom: 10px;
+}
+.form-field textarea {
+	height: 64px;
+}

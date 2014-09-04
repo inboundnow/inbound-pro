@@ -83,7 +83,7 @@ final class Inbound_Now_Pro {
 		}
 		return self::$instance;
 	}
-	
+
 	/**
 	 * Throw error on object clone
 	 *
@@ -96,7 +96,7 @@ final class Inbound_Now_Pro {
 	}
 
 	/*
-	* Disable unserializing of the class 
+	* Disable unserializing of the class
 	*/
 	public function __wakeup() {
 		// Unserializing instances of the class is forbidden
@@ -104,13 +104,18 @@ final class Inbound_Now_Pro {
 	}
 
 	/**
-	*  	Setup plugin constants 
+	*  	Setup plugin constants
 	*/
 	private function setup_constants() {
+		/* Start session */
+		if(session_id() == '') {
+			session_start();
+			add_option( 'Leads_Activated', true ); // global definition for loading lead files
+		}
 		if(!defined('INBOUND_NOW_ACTIVATE')) { define('INBOUND_NOW_ACTIVATE', __FILE__ ); }
 		if(!defined('INBOUND_NOW_CURRENT_VERSION')) { define('INBOUND_NOW_CURRENT_VERSION', '1.0.0' ); }
 		if(!defined('INBOUND_NOW_URL')) {  define('INBOUND_NOW_URL', WP_PLUGIN_URL."/".dirname( plugin_basename( __FILE__ ) ) ); }
-		if(!defined('INBOUND_NOW_PATH')) {  define('INBOUND_NOW_PATH', WP_PLUGIN_DIR."/".dirname( plugin_basename( __FILE__ ) ) ); }
+		if(!defined('INBOUND_NOW_PATH')) {  define('INBOUND_NOW_PATH', WP_PLUGIN_DIR."/_inbound-pro" ); }
 		if(!defined('INBOUND_NOW_CORE')) {  define('INBOUND_NOW_CORE', plugin_basename( __FILE__ ) );}
 		if(!defined('INBOUND_NOW_SLUG')) {  define('INBOUND_NOW_SLUG', plugin_basename( __FILE__ ) );}
 		if(!defined('INBOUND_NOW_FILE')) {  define('INBOUND_NOW_FILE',  __FILE__ );}
@@ -119,18 +124,18 @@ final class Inbound_Now_Pro {
 		if(!defined('INBOUND_NOW_UPLOADS_PATH')) {  define('INBOUND_NOW_UPLOADS_PATH', $uploads['basedir'].'/inbound-pro/' );}
 		if(!defined('INBOUND_NOW_UPLOADS_URLPATH')) {  define('INBOUND_NOW_UPLOADS_URLPATH', $uploads['baseurl'].'/inbound-pro/' );}
 	}
-	
+
 	/**
-	*  	Include required files 
-	*  
+	*  	Include required files
+	*
 	*/
 	private function load_core() {
-		
+
 		//if(!defined('ACF_LITE') ) {  define( 'ACF_LITE' , true ); }
 		include_once( INBOUND_NOW_PATH .'/includes/advanced-custom-fields-pro/acf.php');
 		include_once( INBOUND_NOW_PATH .'/includes/acf-field-manage-inbound-addons/acf-MANAGE_INBOUND_ADDONS.php');
 		include_once( INBOUND_NOW_PATH .'/classes/acf-integration.php');
-		
+
 		/* load ACF fields */
 		include_once( INBOUND_NOW_PATH .'/classes/admin/admin-settings.php');
 
@@ -154,15 +159,31 @@ final class Inbound_Now_Pro {
 			*/
 
 		}
-		include_once( INBOUND_NOW_PATH .'/core/cta/wordpress-cta.php');
+		/* Load Inbound core files */
+		$core_files = array('cta', 'leads', 'landing-pages');
+		/* todo add filter to this array */
+		if(is_array($core_files) && is_array($core_files)) {
+
+			foreach ($core_files as $key => $folder_name) {
+
+				$file_name = $folder_name;
+				if(!strpos($folder_name, 'pages')) {
+					$file_name = 'wordpress-' . $folder_name;
+				}
+				//echo "load: " . INBOUND_NOW_PATH . '/core/'.$value.'/'.$file_name.'.php <br>';
+				if(file_exists( INBOUND_NOW_PATH . '/core/'.$folder_name.'/'.$file_name.'.php')) {
+					// include each toggled on
+					include_once( INBOUND_NOW_PATH .'/core/'.$folder_name.'/'.$file_name.'.php');
+				}
+
+			}
+		}
+
 	}
 	/* Include required files */
 	private function includes() {
 		global $inboundnow_options;
 
-		/* load core files */
-		//$default_pro_files = array('inboundnow-lead-revisit-notifications', 'inboundnow-zapier');
-		$default_pro_files = array();
 		/* Add filter here for core files */
 		/* load toggled addon files */
 		$toggled_addon_files = get_transient( 'inbound-now-active-addons');
@@ -217,7 +238,7 @@ final class Inbound_Now_Pro {
 				// Look in global /wp-content/languages/inbound-now folder
 				load_textdomain( 'inbound-now', $mofile_global );
 			} elseif ( file_exists( $mofile_local ) ) {
-				// Look in local /wp-content/plugins/inbound-now-pro/languages/ folder
+				// Look in local /wp-content/plugins/_inbound-pro/languages/ folder
 				load_textdomain( 'inbound-now', $mofile_local );
 			} else {
 				// Load the default language files

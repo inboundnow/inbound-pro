@@ -1,0 +1,35 @@
+.gform_wrapper, #inbound-form-wrapper {
+margin:auto !important;
+max-width: 50% !important;
+margin-bottom: 30px !important;
+}
+form {width:330px;}
+.gform_wrapper .top_label input.medium, .gform_wrapper .top_label select.medium {
+width: 100%;
+}
+input[type="submit"], button[type="submit"] {
+background: url("../../assets/images/button-green.png") repeat scroll 0 0 #83A736;
+border: 1px solid #202020;
+font-family: Arial, Helvetica, sans-serif;
+cursor: pointer;
+display: inline-block;
+margin: 0 2px;
+margin-left: 21px;
+outline: medium none;
+padding: 6px;
+width: 300px;
+letter-spacing: -1px;
+text-align: center;
+text-decoration: none;
+text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+input[type="submit"]:hover, button[type="submit"]:hover {
+background: url("../../assets/images/button-green.png") repeat scroll 0 59px #83A736;
+border: 1px solid black;}
+
+.gform_wrapper .gsection .gfield_label, .gform_wrapper h2.gsection_title, .gform_wrapper h3.gform_title, .gform_wrapper .top_label .gfield_label {
+font-weight: normal;}
+
+.gform_wrapper input[type="text"], .gform_wrapper input[type="url"], .gform_wrapper input[type="email"], .gform_wrapper input[type="tel"], .gform_wrapper input[type="number"], .gform_wrapper input[type="password"], #inbound-form-wrapper input[type=text], #inbound-form-wrapper input[type=url], #inbound-form-wrapper input[type=email], #inbound-form-wrapper input[type=tel], #inbound-form-wrapper input[type=number], #inbound-form-wrapper input[type=password] {
+outline-style: none;
+font-size: 24px;}
