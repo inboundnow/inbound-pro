@@ -82,10 +82,10 @@ class Inbound_Analytics {
 		add_action('admin_init', array( __CLASS__ , 'license_setup') );
 		
 		/* Hook Tracking Event Push to Page View */		
-		add_action( 'wplead_page_view' , array( __CLASS__ , 'push_page_view_event' ) );
+		//add_action( 'wplead_page_view' , array( __CLASS__ , 'push_page_view_event' ) );
 		
 		/* Hook Tracking Event Push to Inbound Form Submit */
-		add_action( 'inbound_store_lead_post' , array( __CLASS__ , 'push_form_submit_event' ) );
+		//add_action( 'inbound_store_lead_post' , array( __CLASS__ , 'push_form_submit_event' ) );
 		
 	}
 	

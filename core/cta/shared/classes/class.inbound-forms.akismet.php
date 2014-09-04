@@ -174,8 +174,9 @@ if ( !class_exists('Inbound_Akismet') ) {
 		
 	}
 
-	/* Load Email Templates Post Type Pre Init */
-	add_action('plugins_loaded' , function() {
-		$GLOBALS['Inbound_Akismet'] = new Inbound_Akismet();
-	} );
+	/**
+	*  	Load Inbound Akismet
+	*/
+	$GLOBALS['Inbound_Akismet'] = new Inbound_Akismet();
+
 }

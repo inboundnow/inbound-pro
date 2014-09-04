@@ -46,6 +46,13 @@ input[readonly] {
 	padding-bottom:10px;
 }
 
+.process-button {
+	text-align:right;
+	padding-bottom:10px;
+	float:right;
+	margin-top:15px;
+}
+
 .ladda-spinner{ 
 	top:20px;
 }

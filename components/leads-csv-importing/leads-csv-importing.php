@@ -31,11 +31,11 @@ class Inbound_CSV_Importer {
 	*  
 	*/
 	private static function define_constants() {
-		define('INBOUND_CSV_IMPORTING_CURRENT_VERSION', '1.0.5' ); 
-		define('INBOUND_CSV_IMPORTING_LABEL' , 'Inbound Analytics' ); 
+		define('INBOUND_CSV_IMPORTING_CURRENT_VERSION', '1.0.1' ); 
+		define('INBOUND_CSV_IMPORTING_LABEL' , 'Leads - CSV Importing' ); 
 		define('INBOUND_CSV_IMPORTING_SLUG' , plugin_basename( dirname(__FILE__) ) ); 
 		define('INBOUND_CSV_IMPORTING_FILE' ,  __FILE__ ); 
-		define('INBOUND_CSV_IMPORTING_REMOTE_ITEM_NAME' , 'inbound-analytics' ); 
+		define('INBOUND_CSV_IMPORTING_REMOTE_ITEM_NAME' , 'import-leads-csv' ); 
 		define('INBOUND_CSV_IMPORTING_URLPATH', plugins_url( '', __FILE__ ) .'/' ) ; 
 		define('INBOUND_CSV_IMPORTING_PATH', WP_PLUGIN_DIR.'/'.plugin_basename( dirname(__FILE__) ).'/' ); 
 	}
@@ -61,14 +61,7 @@ class Inbound_CSV_Importer {
 	public static function load_hooks() {
 	
 		/* Setup Automatic Updating & Licensing */
-		add_action('admin_init', array( __CLASS__ , 'license_setup') );
-		
-		/* Hook Tracking Event Push to Page View */		
-		add_action( 'wplead_page_view' , array( __CLASS__ , 'push_page_view_event' ) );
-		
-		/* Hook Tracking Event Push to Inbound Form Submit */
-		add_action( 'inbound_store_lead_post' , array( __CLASS__ , 'push_form_submit_event' ) );
-		
+		add_action('admin_init', array( __CLASS__ , 'license_setup') );		
 	}
 	
 	/**

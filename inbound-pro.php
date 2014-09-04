@@ -184,6 +184,9 @@ final class Inbound_Now_Pro {
 	private function includes() {
 		global $inboundnow_options;
 
+		/* load core files */
+		//$default_pro_files = array('inboundnow-lead-revisit-notifications', 'inboundnow-zapier');
+		$default_pro_files = array();
 		/* Add filter here for core files */
 		/* load toggled addon files */
 		$toggled_addon_files = get_transient( 'inbound-now-active-addons');

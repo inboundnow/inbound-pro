@@ -16,7 +16,15 @@ class Leads_CSV_Processing {
 		
 		/* Add ajax listeners for temporarily storing uploaded CSV data */
 		add_action( 'wp_ajax_nopriv_save_leads_csv_file', array( __CLASS__, 'save_csv_file') );
-		add_action( 'wp_ajax_save_leads_csv_file',  array( __CLASS__, 'save_csv_file') );
+		add_action( 'wp_ajax_save_leads_csv_file',	array( __CLASS__, 'save_csv_file') );
+		
+		/* Add ajax listeners for temporarily storing mapping data	*/
+		add_action( 'wp_ajax_nopriv_save_leads_mapping_rules', array( __CLASS__, 'save_mapping_rules') );
+		add_action( 'wp_ajax_save_leads_mapping_rules',	array( __CLASS__, 'save_mapping_rules') );
+		
+		/* Add ajax listeners for processing lead batches	*/
+		add_action( 'wp_ajax_nopriv_process_lead_batches', array( __CLASS__, 'process_lead_batches') );
+		add_action( 'wp_ajax_process_lead_batches',	array( __CLASS__, 'process_lead_batches') );
 	}
 
 	/**
@@ -26,7 +34,7 @@ class Leads_CSV_Processing {
 	{
 		if (current_user_can('manage_options')) {
 
-			add_submenu_page('edit.php?post_type=wp-lead', __( 'Import' , 'inbound-pro' ), __( 'Import' , 'cta' ) , 'manage_options', 'leads-import', array( __CLASS__ , 'import_ui' )) ;
+			add_submenu_page('edit.php?post_type=wp-lead', __( 'Import Leads' , 'inbound-pro' ), __( 'Import Leads' , 'cta' ) , 'manage_options', 'leads-import', array( __CLASS__ , 'import_ui' )) ;
 
 		}
 	}
@@ -76,12 +84,88 @@ class Leads_CSV_Processing {
 		
 		<script type='text/javascript'>		
 		
+		/* Generated HTML inputs for mapping */
+		function build_map_input( col_name ) {
+
+			var select = jQuery("#leads_map").clone();
+
+			/* alter dropdown attributes */
+			select.attr( 'id' , col_name );			
+			select.attr( 'style' , '' );			
+			select.attr( 'name' , col_name );	
+			
+			/* Now get HTML of dropdown */
+			var select_html = select.prop('outerHTML');;
+			
+			/* build html */
+			var html = jQuery('<div/>', { class: "row" });
+			jQuery('<div/>', { class: "col-md-3", text: col_name }).appendTo(html);
+			jQuery('<div/>', { class: "col-md-3", html: select_html }).appendTo(html);
+			
+			/* append html to map container */
+			jQuery('#map-container').append(html);
+			
+			/* Attempt to preselect mapping params if importing a leads csv file */
+			jQuery('#' + col_name + ' option').each(function() {
+				if( jQuery(this).val() == col_name ) {
+					jQuery(this).prop('selected' , 'selected');
+				}
+			});
+			
+
+		}
+		
 		/* Function to generate col to lead field map in step 2 */
 		function build_map( col_json ) {
-			 for(var i=0;i<col_json.length;i++){
-				var obj = col_json[i];
-				alert(obj);
+			var obj = jQuery.parseJSON( col_json );
+		
+			for(var i=0;i<obj.length;i++){
+				build_map_input( obj[i] );
 			}
+			
+		}
+		
+		/* Process batches and increment progress bar - ajax prep */
+		function import_leads( json ) {
+			var obj = jQuery.parseJSON( json );
+
+			var batches = parseInt(obj['batches']);
+			var total_leads = parseInt(obj['lead_count']);
+			var batches_complete = 0;
+
+			process_batch( 0 , batches );		
+			update_progress(5);		
+		}
+		
+		/* Process batches and increment progress bar - ajax execute */
+		function process_batch( batch , cap ) {
+			
+			if (batch >= cap) {
+				jQuery('#progressBar').text('Done!');
+				return;
+			}
+			
+			jQuery.ajax({
+				type: 'POST',
+				url: ajaxurl,
+				async: true,
+				data: {
+					'action' : 'process_lead_batches' ,
+					'batch' : batch
+				},
+				success: function(data) {
+					batch++;					
+					process_batch( batch , cap );
+					update_progress((batch/cap)*100);
+				}
+			});
+		}
+		
+		/* Alter progress bar */
+		function update_progress( percentage ) {
+			if(percentage > 100) percentage = 100;
+			jQuery('#progressBar').css('width', percentage+'%');
+			jQuery('#progressBar').html( Math.round(percentage)+'%');
 		}
 		
 		/* function for switching visible containers */
@@ -93,17 +177,24 @@ class Leads_CSV_Processing {
 				jQuery('.step-1').hide();
 				jQuery('.step-2').show();
 			}
+			if (step == 'step-3') {
+				jQuery('#navtab-step-3').addClass('active');
+				jQuery('.step-2').hide();
+				jQuery('.step-3').show();
+			}
 		}
 		
 		jQuery( document ).ready( function() {
 			
 			/* Enable ladda button handlers */
 			var ladda_1 = Ladda.create(document.querySelector( '.next-1' ));
+			var ladda_2 = Ladda.create(document.querySelector( '.next-2' ));
 			
 			/* Enable ajaxForm on our uploader */
 			jQuery('.csv-file-upload').ajaxForm();
+			jQuery('.field-mapping-rules').ajaxForm();
 			
-			/* Run upload events */
+			/* Run CSV upload events */
 			jQuery('.csv-file-upload').submit(function() { 
 				ladda_1.toggle();
 				
@@ -118,14 +209,44 @@ class Leads_CSV_Processing {
 					cache: false,
 					success: function(data, textStatus, jqXHR) {
 						ladda_1.toggle();
-						alert( data );
 						build_map( data );
 						toggle_display('step-2');
 						
 					},
-					error: function(jqXHR, textStatus, errorThrown)  {
-						alert('no');
-					}          
+					error: function(jqXHR, textStatus, errorThrown)	{
+						//alert(jqXHR);
+						alert(textStatus);
+						//alert(errorThrown);
+						ladda_1.toggle();
+					}			
+				};
+				
+				jQuery(this).ajaxSubmit( options ); 
+				
+				return false; 
+			});
+			
+			/* Run Field Mapping events */
+			jQuery('.field-mapping-rules').submit(function() { 
+				ladda_2.toggle();
+				
+				var options = { 					
+					url:	ajaxurl,
+					type:	'POST',
+					data: {
+						'action' : 'save_leads_mapping_rules'
+					},
+					success: function(data, textStatus, jqXHR) {
+						ladda_2.toggle();	
+						toggle_display('step-3');
+						import_leads(data);						
+					},
+					error: function(jqXHR, textStatus, errorThrown)	{
+						alert(jqXHR);
+						alert(textStatus);
+						alert(errorThrown);
+						ladda_2.toggle();	
+					}			
 				};
 				
 				jQuery(this).ajaxSubmit( options ); 
@@ -152,6 +273,7 @@ class Leads_CSV_Processing {
 		self::step_nav();
 		self::step_1();
 		self::step_2();
+		self::step_3();
 		self::inline_scripting();
 	}
 	
@@ -170,53 +292,115 @@ class Leads_CSV_Processing {
 		?>
 		<div class='nav-container step-1 active'>
 			<form class='csv-file-upload' method="post" enctype="multipart/form-data">
-				<h4>Select CSV File</h4>
+				<h4><?php _e( 'Select CSV File' , 'inbound-pro' ); ?></h4>
 				<div class="input-group">
 					<span class="input-group-btn">
 						<span class="btn btn-primary btn-file">
-							Browse&hellip; <input type="file" name="csv_file" class='file-input' required>
+							<?php _e( 'Browse' , 'inbound-pro' ); ?>&hellip; <input type="file" name="csv_file" class='file-input' required>
 						</span>
 					</span>
 					<input type="text" class="form-control file-name" readonly>
 				</div>		
-				<h4>Select Delimiter</h4>
-				<select name='csv_delimiter' class='form-control select-delimiter'>
+				<br>
+				<h4><?php _e( 'Select Delimiter' , 'inbound-pro' ); ?></h4>
+				<select name='csv_delimiter' class='form-control select-delimiter'>					
+					<option value='comma'><?php _e('comma' , 'inbound-pro' ); ?></option>
 					<option value='simicolon'><?php _e('simicolon' , 'inbound-pro' ); ?></option>
 					<option value='tab'><?php _e('tab' , 'inbound-pro' ); ?></option>
-					<option value='comma'><?php _e('comma' , 'inbound-pro' ); ?></option>
 				</select>
+				<br>
+				
+				<div class="btn-group" data-toggle="buttons">
+					
+					
+					<?php
+					$lists = wpleads_get_lead_lists_as_array();
+					if (is_array($lists) && $lists) {
+					
+						echo '<h4>';
+						echo __( 'Sort into these lists' , 'inbound-pro' ); 
+						echo '</h4>';
+						foreach ( $lists as $id => $label	)
+						{
+							echo '	<label class="btn btn-default">';
+							echo '		<input name="lead_lists[]" type="checkbox" value="' . $id . '"> ' . $label ;
+							echo '	</label>';
+							
+						}
+					}
+
+					?>
+				</div>
+				<br>
 				<div class='continue-button'>
 					<button type="submit" class="btn btn-primary ladda-button next-1" data-style='expand-right'><?php _e( 'Next Step (upload CSV)' , 'inbound-pro' ); ?></button>
 				</div>
 			</form>
+			<br>
 		</div>
 		<?php
 	}
 	
 	public static function step_2() {
 		
-		
 		/* first let's build a hidden input for cloning */
 		self::generate_field_map_select();
+		
 		?>
-		<div class='nav-container step-2 active'>
+		<div class='nav-container step-2 inactive'>			
 			<form class='field-mapping-rules' method="post" >
+				<div class='process-button'>
+					<button type="submit" class="btn btn-primary ladda-button next-2" data-style='expand-right'><?php _e( 'Next Step (Start Importing)' , 'inbound-pro' ); ?></button>
+				</div>
 				<h4>Map Columns</h4>
-				<div id='map-container'>
+				<div id='map-container' class='container-fluid'>
 
 				</div>
+				
 			</form>
+			<br>
+			<br>
+		</div>
+		<?php
+	}
+	
+	public static function step_3() {
+
+		?>
+		<div class='nav-container step-3 inactive'>
+			
+			<h4><?php _e('Progress' , 'inbound-pro'); ?> <span id='remaining'></span></h4>
+			<i><?php _e('Do not close browser until process has reached 100%.' , 'inbound-pro'); ?></i>
+			<div class="progress" style="height:38px;">
+				<div id="progressBar" class="progress-bar progress-bar-info progress-bar-striped active" role='progressbar' style="height:38px;padding-top:8px;font-size:21px;"></div>
+			</div>
+			<br>
+	
 		</div>
 		<?php
 	}
 	
 	/**
-	*  Echos out dropdown select of mappable lead fields
+	*	Echos out dropdown select of mappable lead fields
 	*/
 	public static function generate_field_map_select() {
 		$field_map = Leads_Field_Map::build_map_array();
 		
-		echo '<select id="leads_map">';
+		/* Add some more */
+		$field_map['wpleads_full_name'] = 'Full Name';
+		$field_map['wp_leads_uid'] = 'Inbound Lead UID';
+		$field_map['wpleads_latitude'] = 'Latitude';
+		$field_map['wpleads_longitude'] = 'Longitude';
+		$field_map['wpleads_currency_code'] = 'Currency Code';
+		$field_map['wpleads_currency_symbol'] = 'Currency Symbol';
+		$field_map['wp_lead_status'] = 'wp_lead_status';
+		$field_map['ip_address'] = 'IP Address';
+		
+		$el1 = array_shift($field_map);
+		asort($field_map);
+		array_unshift( $field_map , $el1 );
+		
+		echo '<select id="leads_map" style="display:none;">';
 		foreach ( $field_map as $key => $value ) {
 			echo '<option value="'.$key.'">'.$value.'</option>';
 		}
@@ -224,7 +408,7 @@ class Leads_CSV_Processing {
 	}
 	
 	/**
-	*  Ajax listener to parse csv file & return a json list of cols discovered in csv file
+	*	Ajax listener to parse csv file & return a json list of cols discovered in csv file
 	*/
 	public static function save_csv_file() {
 		/**
@@ -238,10 +422,9 @@ class Leads_CSV_Processing {
 		
 		$csv_array = self::csv_to_array( $_FILES["csv_file"]["tmp_name"] , $delimiter );
 		
-		
-		
 		/* Prepare CSV data array for transient */
 		$csv_data['delimiter'] = $_POST['csv_delimiter'];
+		$csv_data['lead_lists'] = (isset($_POST['lead_lists'])) ? $_POST['lead_lists'] : array();
 		$csv_data['filename'] = $_FILES["csv_file"]["name"];
 		$csv_data['rows'] = $csv_array;
 		
@@ -250,14 +433,84 @@ class Leads_CSV_Processing {
 		$csv_data['cols'] = array_keys( $row );
 		
 		/* Save transient for 2 hours */
-		//$csv_encoded = json_encode($csv_data);
-		set_transient( 'leads_temp_csv' , $csv_data , 60 * 60 * 2 );
-		
-		/* return col map for step 2 use */
-		
+		$result = set_transient( 'leads_temp_csv' , json_encode($csv_data) , 60 * 60 * 2 );
+
+		/* return col map for step 2 use */		
 		echo json_encode( $csv_data['cols'] );
 		die();
 
+	}
+	
+	/**
+	*	Ajax listener to save mapping rules
+	*/
+	public static function save_mapping_rules() {
+
+		$csv_data = json_decode( get_transient( 'leads_temp_csv') , true );
+
+		$csv_data['map_rules'] = array_filter($_POST);
+		$csv_data['total_leads_count'] = count($csv_data['rows']);
+		$csv_data['rows'] = array_chunk( $csv_data['rows'] , 50 , true );
+		
+		set_transient( 'leads_temp_csv' , json_encode( $csv_data ) , 60 * 60 * 2 );
+		
+		$import_data['batches'] =	count( $csv_data['rows'] );
+		$import_data['lead_count'] = $csv_data['total_leads_count'];
+		
+		echo json_encode( $import_data );
+		die();
+
+	}
+	
+	/**
+	*	Ajax listener to process lead batches
+	*/
+	public static function process_lead_batches() {
+
+		($_POST['batch']>0) ? $target_batch = $_POST['batch'] : $target_batch = 0;
+		
+		$csv_data = json_decode( get_transient( 'leads_temp_csv') , true );	
+		
+		$this_batch = $csv_data['rows'][$target_batch];
+ 
+		$map_rules = $csv_data['map_rules'];
+
+		/* Adds leads to database */
+		foreach ($this_batch as $key => $row) {
+			/* replace column keys with mapped lead keys */
+			$lead = self::replace_keys( $map_rules , $row );
+			
+			/* Add list options */
+			$lead['lead_lists'] = $csv_data['lead_lists'];
+			
+			inbound_store_lead( $lead );
+			//error_log( print_r( $lead , true ) );
+			//exit;			
+		}
+		die();
+	}
+	
+	/**
+	*	Replaces row array column names with lead map keys
+	*	
+	*	@param ARRAY $map_rules contains array of lead mapping rules with format 'column_name' => 'lead_map_key' 
+	*	@param ARRAY $row contains array of row values with format 'column_name' => 'column_value'
+	*	
+	*	@returns ARRAY $lead that replaces 'column_name' key with 'lead_map_key' to prepare row for lead insertion
+	*/
+	public static function replace_keys( $map_rules , $row ) {
+		
+		foreach ($row as $column_key => $column_value) {
+			
+			$column_key = str_replace(' ' , '_' , $column_key );
+
+			if (!isset($map_rules[$column_key])) {
+				continue;
+			}
+			$lead[$map_rules[$column_key]] = $column_value;
+		}
+
+		return $lead;
 	}
 	
 	public static function get_delimiter( $switch ) {

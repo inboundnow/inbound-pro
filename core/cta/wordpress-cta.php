@@ -56,7 +56,7 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 					include_once('classes/class.extension.wp-lead.php');
 					include_once('classes/class.extension.wordpress-seo.php');
 					include_once('classes/class.metaboxes.wp-call-to-action.php');
-					include_once('modules/module.admin-menus.php');
+					include_once('classes/class.menus.php');
 					include_once('modules/module.ajax-setup.php');
 					include_once('modules/module.enqueue.php');
 					include_once('modules/module.global-settings.php');
@@ -111,7 +111,6 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 		*/
 		private static function load_text_domain() {
 			add_action('init' , function() {
-				//echo "hi";
 				load_plugin_textdomain( 'cta' , false , WP_CTA_SLUG . '/lang/' );
 			});
 		}
