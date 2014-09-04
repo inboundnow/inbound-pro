@@ -161,6 +161,8 @@ final class Inbound_Now_Pro {
 		}
 		/* Load Inbound core files */
 		$core_files = array('cta', 'leads', 'landing-pages');
+
+
 		/* todo add filter to this array */
 		if(is_array($core_files) && is_array($core_files)) {
 
@@ -173,7 +175,14 @@ final class Inbound_Now_Pro {
 				//echo "load: " . INBOUND_NOW_PATH . '/core/'.$value.'/'.$file_name.'.php <br>';
 				if(file_exists( INBOUND_NOW_PATH . '/core/'.$folder_name.'/'.$file_name.'.php')) {
 					// include each toggled on
-					include_once( INBOUND_NOW_PATH .'/core/'.$folder_name.'/'.$file_name.'.php');
+					if(in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1'))) {
+					    /* include from normal plugins for DEV */
+					    include_once( WP_PLUGIN_DIR .'/'. $folder_name .'/'.$file_name.'.php');
+					} else {
+						/* include from inbound pro */
+						include_once( INBOUND_NOW_PATH .'/core/'.$folder_name.'/'.$file_name.'.php');
+					}
+
 				}
 
 			}
