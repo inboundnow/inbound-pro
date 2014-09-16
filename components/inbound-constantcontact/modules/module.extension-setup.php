@@ -21,7 +21,7 @@ function inboundnow_constantcontact_extension_setup()
 		{
 		?>
 		<div class="updated">
-			<p><?php _e( 'InboundNow ConstantContact Extension requires a ConstantContact API Key, an ConstantContact API Secret Key, and an ConstantContact API Access Key to opperate.', CONSTANTCONTACT_TEXT_DOMAIN ); ?></p>
+			<p><?php _e( 'InboundNow ConstantContact Extension requires a ConstantContact API Key, an ConstantContact API Secret Key, and an ConstantContact API Access Key to operate.', 'inbound-pro'); ?></p>
 		</div>
 		<?php
 		}

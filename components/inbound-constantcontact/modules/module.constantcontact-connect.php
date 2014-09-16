@@ -117,8 +117,9 @@ function inboundnow_constantcontact_add_subscriber( $lead_data , $target_list )
 		$chleaderrmsg = curl_error($chlead);
 		curl_close($chlead);
 		
-		$updated_contact = json_decode($response['body'], true);
-
+		if (isset($response['body'])) {
+			$updated_contact = json_decode($response['body'], true);
+		}
 	}
 
 }
