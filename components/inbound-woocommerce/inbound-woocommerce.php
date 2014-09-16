@@ -28,7 +28,7 @@ class WC_Leads {
 		add_action('admin_init', array( __CLASS__ , 'license_setup') );
 		
 		/* Add Lead on Update Order Meta */
-		//add_action( 'woocommerce_checkout_update_order_meta', array( __CLASS__, 'add_lead' ), 1000, 1 );
+		add_action( 'woocommerce_checkout_update_order_meta', array( __CLASS__, 'add_lead' ), 1000, 1 );
 
 		/* Add Lead on Payment Complete */
 		add_action( 'woocommerce_payment_complete', array( __CLASS__ , 'add_lead' ), 10, 3 );
