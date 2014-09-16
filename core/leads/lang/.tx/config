@@ -1,0 +1,7 @@
+[main]
+host = https://www.transifex.com
+
+[wordpress-leads.wordpress-leads]
+file_filter = <lang>.po
+source_lang = en_US
+

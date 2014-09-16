@@ -1,0 +1,9 @@
+.DS_Store
+/.DS_Store
+/shared/_DelSyncFiles/
+
+/deploy.sh
+
+.SyncIgnore
+*.bat
+shared/languages/calls-to-action/.tx/config

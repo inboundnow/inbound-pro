@@ -1,0 +1,130 @@
+/* Flipped Layout CSS for Svtle */
+header#sidebar {
+width: 23%;
+padding-right: 1.5%;
+right: 0px;
+z-index: 99999999;
+position: fixed;
+border-left: 1px solid #E3E3E3;
+min-height: 100%;
+min-width: 240px;
+}
+section#river {
+margin-right: 26%;
+margin-left: 0px;
+min-width: 658px;
+position: relative;
+border-left: none;
+min-height: 900px;}
+article.post {
+float: right;
+border-top: none;
+padding-right: 5%;
+padding-left: 0px;
+}
+article.post h2, article.post p {
+max-width: 565px;
+}
+#lp-social-buttons {
+float: right;
+margin-right: 21% !important;
+}
+header#begin {
+padding-left: 40px;
+padding-top: 40px;
+padding-bottom: 40px;
+position: fixed;
+border-bottom: 1px solid #E3E3E3;
+width: 73%;
+left: 0px;
+z-index: 9999;
+}
+@media (max-width: 900px) and (min-width: 630px) {
+body, html {
+min-width: 0;
+}
+h2, article.post p {
+max-width: 100%;
+}
+body section#river {
+width: 100%;
+max-width: 100%;
+margin-left: 0%;
+margin-right: 0%;
+}
+body section#river article {
+	margin: 0 auto;
+position: relative;
+left: auto;
+right: auto;
+margin-top: 20px;
+margin-bottom: 10px;
+width: 90%;
+padding-bottom: 30px;
+}
+article.post {
+float: none;
+padding-right: 0px;
+padding-left: 0px;
+padding-top: 0px;
+}
+aside#logo {
+margin: 0 auto;
+position: relative;
+left: auto;
+right: auto;
+margin-top: 20px;
+margin-bottom: 10px;
+}
+#form-area {
+	margin: 0 auto;
+position: relative;
+left: auto;
+right: auto;
+margin-top: 20px;
+margin-bottom: 10px;
+}
+aside#logo {
+width: 260px !important;
+}
+header#sidebar {
+display: block;
+position: relative;
+width: auto;
+height: auto;
+border-left: none;
+text-align: center;
+margin: 0;
+padding: 0; }
+header#begin { width:100%; padding-top: 20px;
+padding-bottom: 20px; border-top: 1px solid #E3E3E3; border-bottom: none; bottom: 0px;}
+#lp-social-buttons {
+float: none;
+margin-right: 21% !important;
+}
+}
+@media (max-width: 630px) {
+section#river {
+margin-right: 0%;
+margin-left: 0px;
+min-width: 300px;}
+article.post { float: none !important; padding-right: 0%;} 
+aside#logo {
+	margin: 0 auto;
+position: relative;
+left: auto;
+right: auto;
+margin-top: 20px;
+margin-bottom: 10px;
+}
+header#sidebar {
+display: block;
+position: relative;
+width: auto;
+height: auto;
+border-left: none;
+text-align: center;
+margin: 0;
+padding: 0;
+}
+}
