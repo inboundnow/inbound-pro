@@ -1,9 +1,9 @@
 <?php
 /*
 Plugin Name: Inbound Extension - MailChimp Integration
-Plugin URI: http://www.inboundnow.com/market/support-will-complete
+Plugin URI: http://www.inboundnow.com/market/
 Description: Provides MailChimp support for Landing Pages, Leads, and Calls to Action plugin.
-Version: 1.0.6
+Version: 1.0.7
 Author: Hudson Atwell, David Wells
 Author URI: http://www.inboundnow.com/
 Text Domain: inboundnow-mailchimp
@@ -16,7 +16,7 @@ Domain Path: lang
 ---------------------------------------------------------------------------------------------------------
 */ 
 
-define('INBOUNDNOW_MAILCHIMP_CURRENT_VERSION' , '1.0.6' );
+define('INBOUNDNOW_MAILCHIMP_CURRENT_VERSION' , '1.0.7' );
 define('INBOUNDNOW_MAILCHIMP_LABEL' , 'MailChimp Integration' );
 define('INBOUNDNOW_MAILCHIMP_FILE' , __FILE__ );
 define('INBOUNDNOW_MAILCHIMP_SLUG' , plugin_basename( dirname(__FILE__) ) );
