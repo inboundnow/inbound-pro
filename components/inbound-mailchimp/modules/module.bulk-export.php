@@ -107,6 +107,10 @@ function wpleads_bulk_action_mailchimp() {
 					$lead_last_name =  get_post_meta($post_id,'wpleads_last_name', true);
 					$lead_email =  get_post_meta($post_id,'wpleads_email_address', true);
 					
+					$lead_first_name = ($lead_first_name) ? $lead_first_name : "";
+					$lead_last_name = ($lead_last_name) ? $lead_last_name : "";
+					$lead_email = ($lead_email) ? $lead_email : "";
+					
 					$MailChimp = new MailChimp($apikey);
 					$result = $MailChimp->call('lists/subscribe', array(
 						'id'                => $target_list,
