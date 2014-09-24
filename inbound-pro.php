@@ -39,7 +39,7 @@ final class Inbound_Now_Pro {
 	 * add the error message to the admin notices
 	 */
 	static function fail_php_version() {
-		add_action( 'plugins_loaded', array( __CLASS__, 'i18n' ) );
+		//add_action( 'plugins_loaded', array( __CLASS__, 'i18n' ) );
 		self::notice( __( 'Stream requires PHP version 5.3+, plugin is currently NOT ACTIVE.', 'stream' ) );
 	}
 
@@ -161,7 +161,6 @@ final class Inbound_Now_Pro {
 		}
 		/* Load Inbound core files */
 		$core_files = array('cta', 'leads', 'landing-pages');
-
 
 		/* todo add filter to this array */
 		if(is_array($core_files) && is_array($core_files)) {
