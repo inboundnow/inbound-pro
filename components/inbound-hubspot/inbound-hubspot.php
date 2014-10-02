@@ -3,7 +3,7 @@
 Plugin Name: Inbound Extension - HubSpot Integration
 Plugin URI: http://www.inboundnow.com/market/support-will-complete
 Description: Provides HubSpot support for Landing Pages, Leads, and Calls to Action plugin.
-Version: 1.0.2
+Version: 1.0.3
 Author: Hudson Atwell, David Wells
 Author URI: http://www.inboundnow.com/
 */
@@ -14,9 +14,9 @@ Author URI: http://www.inboundnow.com/
 ---------------------------------------------------------------------------------------------------------
 */ 
 
-define('INBOUNDNOW_HUBSPOT_CURRENT_VERSION', '1.0.2' );
+define('INBOUNDNOW_HUBSPOT_CURRENT_VERSION', '1.0.3' );
 define('INBOUNDNOW_HUBSPOT_LABEL' , 'HubSpot Integration' );
-define('INBOUNDNOW_HUBSPOT_SLUG' , __FILE__ );
+define('INBOUNDNOW_HUBSPOT_FILE' , __FILE__ );
 define('INBOUNDNOW_HUBSPOT_SLUG' , plugin_basename( dirname(__FILE__) ) );
 define('INBOUNDNOW_HUBSPOT_REMOTE_ITEM_NAME', 'hubspot-integration' );
 define('INBOUNDNOW_HUBSPOT_URLPATH', WP_PLUGIN_URL.'/'.plugin_basename( dirname(__FILE__) ).'/' );
