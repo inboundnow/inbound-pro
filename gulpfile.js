@@ -77,10 +77,20 @@ gulp.task('watch', function() {
     //gulp.watch('scss/*.scss', ['sass']);
 });
 
-gulp.task('copyfonts', function() {
-gulp.src('./bower_components/font-awesome/fonts/**/*.{ttf,woff,eof,svg}')
-.pipe(gulp.dest('./fonts'));
+var filesToMove = [
+        './core/cta/shared/*.*',
+        './core/leads/shared/*.*',
+        './core/landing-pages/shared/*.*'
+    ];
+
+gulp.task('move',['clean'], function(){
+  // the base option sets the relative root for the set of files,
+  // preserving the folder structure
+  gulp.src(filesToMove, { base: './' })
+  .pipe(gulp.dest('shared'));
 });
+
+gulp.task('doit', ['move']);
 
 gulp.task('default', [
   'lint',
