@@ -1,6 +1,20 @@
 <?php
 
 
+/* ADD SUBSCRIBER ON LANDING PAGE CONVERSION / CTA CONVERSION */
+
+//add_action('inbound_store_lead_post','inboundnow_constantcontact_landing_page_integratation');
+function inboundnow_constantcontact_landing_page_integratation($data)
+{			
+	if (get_post_meta($data['lp_id'],'inboundnow-constantcontact-constantcontact_integration',false))
+	{
+		/* get target list */
+		$target_list = get_post_meta($data['lp_id'],'inboundnow-constantcontact-constantcontact_list',true);
+		inboundnow_constantcontact_add_subscriber(  $data , $target_list );	
+	}				
+}
+
+
 
 /* ADD SUBSCRIBER ON INBOUNDNOW FORM SUBMISSION */
 add_action('inboundnow_form_submit_actions','inboundnow_constantcontact_inboundnow_form_integratation' , 10 , 2 );

@@ -48,21 +48,17 @@ function inboundnow_constantcontact_get_lists()
 
 function inboundnow_constantcontact_add_subscriber( $lead_data , $target_list )
 {	
-
+	
 	$constantcontact_api_key = get_option('inboundnow_constantcontact_api_key' , '' );
 	$constantcontact_access_key =  get_option('inboundnow_constantcontact_access_key' , '' );
 	$constantcontact_double_optin =  get_option('inboundnow_constantcontact_double_optin' , 'ACTION_BY_VISITOR' );
 	
+	if (!isset( $lead_data['wpleads_first_name'] )) {
+		 $lead_data['wpleads_first_name'] = "";
+	}
 	
-	
-	if (!$lead_data['wpleads_last_name'] && $lead_data['wpleads_first_name'])
-	{
-		$parts = explode(' ' , $lead_data['wpleads_first_name']);
-		if ($parts>1)
-		{
-			$lead_data['wpleads_first_name'] = $parts[0];
-			$lead_data['wpleads_last_name'] = $parts[1];
-		}
+	if (!isset( $lead_data['wpleads_last_name'] )) {
+		 $lead_data['wpleads_last_name'] = "";
 	}
 	
 	$contact = array (
@@ -104,6 +100,15 @@ function inboundnow_constantcontact_add_subscriber( $lead_data , $target_list )
 	}
 	else
 	{
+	
+		/* append leads's current lists to new list data */
+		if (isset($cc_contact_data['results'][0]['lists'])) {
+		
+			$contact['lists'] = array_merge( $contact['lists'] , $cc_contact_data['results'][0]['lists']);
+			$contact_encoded = json_encode($contact);
+		}
+	
+		
 		$chlead = curl_init();
 		curl_setopt($chlead, CURLOPT_URL, 'https://api.constantcontact.com/v2/contacts/'.$cc_contact_data['results'][0]['id'].'?action_by='.$constantcontact_double_optin.'&api_key='.$constantcontact_api_key );
 		curl_setopt($chlead, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Authorization: Bearer '.$constantcontact_access_key ));

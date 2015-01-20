@@ -3,7 +3,7 @@
 Plugin Name: Leads - Import Leads (CSV)
 Plugin URI: http://www.inboundnow.com/
 Description: Imports lead profiles from CSV file. 
-Version: 1.0.1
+Version: 1.0.2
 Author: Inbound Now
 Author URI: http://www.inboundnow.com/
 
@@ -17,7 +17,7 @@ class Inbound_CSV_Importer {
 	
 
 	/**
-	* Initalize Inbound_CSV_Importer Class
+	* Initialize Inbound_CSV_Importer Class
 	*/
 	public function __construct() {		
 		
@@ -38,6 +38,9 @@ class Inbound_CSV_Importer {
 		define('INBOUND_CSV_IMPORTING_REMOTE_ITEM_NAME' , 'import-leads-csv' ); 
 		define('INBOUND_CSV_IMPORTING_URLPATH', plugins_url( '', __FILE__ ) .'/' ) ; 
 		define('INBOUND_CSV_IMPORTING_PATH', WP_PLUGIN_DIR.'/'.plugin_basename( dirname(__FILE__) ).'/' ); 
+		$uploads = wp_upload_dir();
+		define('INBOUND_CSV_IMPORTING_UPLOADS_PATH', $uploads['basedir'].'/leads/json/' );
+		define('INBOUND_CSV_IMPORTING_UPLOADS_URLPATH', $uploads['baseurl'].'/leads/json/' );
 	}
 	
 	/**

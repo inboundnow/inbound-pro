@@ -24,7 +24,7 @@ function inboundnow_aweber_add_global_settings($global_settings)
 		array(
 			'id'  => 'inboundnow_header_aweber',			
 			'type'  => 'header', 
-			'default'  => __('<h4>Aweber API Key</h4>', 'inbound-pro'),
+			'default'  => __('<h4>Aweber API Key</h4>', INBOUND_LABEL),
 			'options' => null
 		);
 
@@ -32,8 +32,8 @@ function inboundnow_aweber_add_global_settings($global_settings)
 			array(
 				'id'  => 'inboundnow_aweber_app_id',
 				'option_name'  => 'inboundnow_aweber_app_id',
-				'label' => __('Aweber API ID', 'inbound-pro'),
-				'description' => __('The first thing we need is our App ID. Singup at https://labs.aweber.com/ and create your first application. Your App ID can be found on your MyApps page and is right next to your consumer keys. The App ID is used when creating public applications.', 'inbound-pro'),
+				'label' => __('Aweber API ID', INBOUND_LABEL),
+				'description' => __('The first thing we need is our App ID. Singup at https://labs.aweber.com/ and create your first application. Your App ID can be found on your MyApps page and is right next to your consumer keys. The App ID is used when creating public applications.', INBOUND_LABEL),
 				'type'  => 'text', 
 				'default'  => ''
 			);

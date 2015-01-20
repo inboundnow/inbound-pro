@@ -3,7 +3,7 @@
 Plugin Name: Inbound Extension - GoToWebinar Integration
 Plugin URI: http://www.inboundnow.com/
 Description: Connects GoToWebinar to Inbound Form. 
-Version: 1.1.2
+Version: 1.1.3
 Author: Inbound Now
 Author URI: http://www.inboundnow.com/
 */
@@ -27,7 +27,7 @@ class Inbound_GoToWebinar {
 	*  Define constants
 	*/
 	public static function load_constants() {
-		define('INBOUND_GOTOWEBINAR_CURRENT_VERSION', '1.1.2' ); 
+		define('INBOUND_GOTOWEBINAR_CURRENT_VERSION', '1.1.3' ); 
 		define('INBOUND_GOTOWEBINAR_LABEL' , 'GoToWebinar Integration' ); 
 		define('INBOUND_GOTOWEBINAR_SLUG' , plugin_basename( dirname(__FILE__) ) ); 
 		define('INBOUND_GOTOWEBINAR_FILE' ,  __FILE__ ); 
@@ -229,7 +229,6 @@ class Inbound_GoToWebinar {
 			'class' => 'main-form-settings exclude-from-refresh' 
 		);
 
-		$mailchimp_lists = inboundnow_mailchimp_get_mailchimp_lists();
 		$fields['forms']['options']['gotowebinar_webinar_id'] =   array(
 			'name' => __('Enter Webinar ID', 'inbound-pro'),
 			'id' => 'gotowebinar_webinar_id',

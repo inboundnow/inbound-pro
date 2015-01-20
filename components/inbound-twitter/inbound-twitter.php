@@ -186,7 +186,7 @@ if ( !class_exists( 'Inbound_Auto_Follow_Leads' )) {
 		/**
 		*  Builds settings input array for settings page
 		*/
-		function wpleads_get_twitter_api_settings() {
+		public static function wpleads_get_twitter_api_settings() {
 
 			$wpleads_global_twitter_api_settings['settings'] =
 			array(

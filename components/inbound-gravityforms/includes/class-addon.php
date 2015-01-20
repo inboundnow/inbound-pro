@@ -223,6 +223,16 @@ class GravityFormsLeads_Addon extends GFFeedAddOn {
 			}
 		}
 		
+		/* Add conversion */
+		if ( function_exists( 'inbound_add_conversion_to_lead' ) ) {	
+			if (!$entry['post_id']) {
+				$entry['post_id'] = url_to_postid( $entry['source_url'] );
+			}
+			
+			$lead_data['page_id'] = $entry['post_id'];
+			inbound_add_conversion_to_lead( $lead_id , $lead_data );
+		}
+		
 	}
 
 	function build_map ( $feed, $entry, $form ) {

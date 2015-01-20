@@ -29,7 +29,7 @@ class Inbound_EDD {
 		self::load_hooks();		
 	}
 	
-	/*
+	/**
 	* Load Hooks & Filters 
 	*/
 	public static function load_hooks() {
@@ -130,9 +130,7 @@ class Inbound_EDD {
 	}
 	
 	
-	/*
-	* Applies to: Download Edit Page
-	* Depends on: Landing Pages Plugin
+	/**
 	* Replaces Inbound Statistics Conversion Number with Sales on WP-Admin Download Edit.php
 	* @param INT 
 	*/
@@ -149,9 +147,7 @@ class Inbound_EDD {
 		
 	}
 	
-	/*
-	* Applies to: Leads Listing Page
-	* Depends on: Leads
+	/**
 	* Adds total spent calculation to leads listing table
 	* @param array
 	*/
@@ -161,9 +157,7 @@ class Inbound_EDD {
 		return $cols;
 	}
 	
-	/*
-	* Applies to: Leads Listing Page
-	* Depends on: Leads
+	/**
 	* Calculates total paid for lead and returns data
 	* @param string
 	* @param int
@@ -183,9 +177,7 @@ class Inbound_EDD {
 		}		
 	}
 	
-	/*
-	* Applies to: Leads Listing Page
-	* Depends on: Leads
+	/**
 	* Makes 'paid' column sortable
 	* @param array
 	*/
@@ -196,9 +188,7 @@ class Inbound_EDD {
 		return $columns;
 	}
 	
-	/*
-	* Applies to: Leads Listing Page
-	* Depends on: Leads
+	/**
 	* Sort by 'paid'
 	* @param array
 	*/
@@ -217,7 +207,7 @@ class Inbound_EDD {
     }  
 
 	
-	/* 
+	/**
 	* Setups Software Update API 
 	*/
 	public static function license_setup() {

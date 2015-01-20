@@ -66,8 +66,13 @@ class Leads_CSV_Processing {
 		wp_enqueue_style( 'bootstrap-css' );
 		
 		/* load ladda processing buttons js */
+		wp_register_script( 'ladda-spin-js' , INBOUND_CSV_IMPORTING_URLPATH .'libraries/Ladda/spin.js' , array('jquery'));
+		wp_enqueue_script( 'ladda-spin-js' );
+		
+		/* load ladda processing buttons js */
 		wp_register_script( 'ladda-js' , INBOUND_CSV_IMPORTING_URLPATH .'libraries/Ladda/ladda.min.js');
 		wp_enqueue_script( 'ladda-js' );
+		
 	
 		/* load ladda processing buttons css */
 		wp_register_style( 'ladda-css' , INBOUND_CSV_IMPORTING_URLPATH . 'libraries/Ladda/ladda-themeless.min.css');
@@ -187,6 +192,7 @@ class Leads_CSV_Processing {
 		jQuery( document ).ready( function() {
 			
 			/* Enable ladda button handlers */
+		
 			var ladda_1 = Ladda.create(document.querySelector( '.next-1' ));
 			var ladda_2 = Ladda.create(document.querySelector( '.next-2' ));
 			
@@ -196,7 +202,9 @@ class Leads_CSV_Processing {
 			
 			/* Run CSV upload events */
 			jQuery('.csv-file-upload').submit(function() { 
+				//jQuery('.next-1').text('<?php _e('Loading...' , 'inbound-pro') ?>');
 				ladda_1.toggle();
+				
 				
 				var options = { 					
 					url:	ajaxurl,
@@ -214,9 +222,9 @@ class Leads_CSV_Processing {
 						
 					},
 					error: function(jqXHR, textStatus, errorThrown)	{
-						//alert(jqXHR);
+						alert(jqXHR);
 						alert(textStatus);
-						//alert(errorThrown);
+						alert(errorThrown);
 						ladda_1.toggle();
 					}			
 				};
@@ -417,12 +425,15 @@ class Leads_CSV_Processing {
 		error_log( print_r($csv_array , true) );
 		/**/
 		
+		/* Set PHP memory really high */ 
+		@ini_set('memory_limit', '1000M' );
+		
 		/* get delimiter */
 		$delimiter = self::get_delimiter( $_POST['csv_delimiter'] );
 		
 		$csv_array = self::csv_to_array( $_FILES["csv_file"]["tmp_name"] , $delimiter );
 		
-		/* Prepare CSV data array for transient */
+		/* Prepare CSV data array for temp json file  */
 		$csv_data['delimiter'] = $_POST['csv_delimiter'];
 		$csv_data['lead_lists'] = (isset($_POST['lead_lists'])) ? $_POST['lead_lists'] : array();
 		$csv_data['filename'] = $_FILES["csv_file"]["name"];
@@ -432,8 +443,8 @@ class Leads_CSV_Processing {
 		$row = $csv_array[0];
 		$csv_data['cols'] = array_keys( $row );
 		
-		/* Save transient for 2 hours */
-		$result = set_transient( 'leads_temp_csv' , json_encode($csv_data) , 60 * 60 * 2 );
+		/* Save temp json file */
+		$result = self::set_json_store( json_encode($csv_data) );
 
 		/* return col map for step 2 use */		
 		echo json_encode( $csv_data['cols'] );
@@ -442,17 +453,42 @@ class Leads_CSV_Processing {
 	}
 	
 	/**
+	*  Loads stored JSON object
+	*/
+	public static function get_json_store() {
+		$request = wp_remote_get( INBOUND_CSV_IMPORTING_UPLOADS_URLPATH . 'import.json' );
+		$response = wp_remote_retrieve_body( $request );
+		return $response;
+	}
+	
+	/**
+	*  Saves CSV to JSON object. 
+	*  @param STRING $json
+	*/
+	public static function set_json_store( $json ) {
+	
+		if ( !is_dir( INBOUND_CSV_IMPORTING_UPLOADS_PATH ) ) {
+			wp_mkdir_p( INBOUND_CSV_IMPORTING_UPLOADS_PATH );
+		}
+
+		$fp = fopen( INBOUND_CSV_IMPORTING_UPLOADS_PATH . 'import.json', 'w');
+		fwrite($fp, $json );
+		fclose($fp);
+			
+	}
+	
+	/**
 	*	Ajax listener to save mapping rules
 	*/
 	public static function save_mapping_rules() {
 
-		$csv_data = json_decode( get_transient( 'leads_temp_csv') , true );
+		$csv_data = json_decode( self::get_json_store( ) , true );
 
 		$csv_data['map_rules'] = array_filter($_POST);
 		$csv_data['total_leads_count'] = count($csv_data['rows']);
 		$csv_data['rows'] = array_chunk( $csv_data['rows'] , 50 , true );
 		
-		set_transient( 'leads_temp_csv' , json_encode( $csv_data ) , 60 * 60 * 2 );
+		self::set_json_store( json_encode( $csv_data ) );
 		
 		$import_data['batches'] =	count( $csv_data['rows'] );
 		$import_data['lead_count'] = $csv_data['total_leads_count'];
@@ -469,7 +505,7 @@ class Leads_CSV_Processing {
 
 		($_POST['batch']>0) ? $target_batch = $_POST['batch'] : $target_batch = 0;
 		
-		$csv_data = json_decode( get_transient( 'leads_temp_csv') , true );	
+		$csv_data = json_decode( self::get_json_store( ) , true );
 		
 		$this_batch = $csv_data['rows'][$target_batch];
  
@@ -528,19 +564,32 @@ class Leads_CSV_Processing {
 	}
 	
 	public static function csv_to_array($filename='', $delimiter=',') {
-		if(!file_exists($filename) || !is_readable($filename))
+		if(!file_exists($filename) || !is_readable($filename)) {
 			return FALSE;
-
+		}
+		
+		
 		$header = NULL;
 		$data = array();
+		$i= 0;
 		if (($handle = fopen($filename, 'r')) !== FALSE)
 		{
-			while (($row = fgetcsv($handle, 1000, $delimiter)) !== FALSE)
+			while (($row = fgetcsv($handle, 0 , $delimiter)) !== FALSE)
 			{
-				if(!$header)
+			
+				if(!$header) {
 					$header = $row;
-				else
+				}
+				else {
 					$data[] = array_combine($header, $row);
+				}
+				$i++;
+				
+				/* uncomment for controlled tests 
+				if ($i > 1000 ) {
+					break;
+				}
+				*/
 			}
 			fclose($handle);
 		}
