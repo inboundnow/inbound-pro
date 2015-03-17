@@ -10,23 +10,20 @@
 
 */
 
-
 if ( !class_exists( 'CTA_Render' ) ) {
-	
-	
+
+
 	/* Provide way to call the singleton instance */
-	function CTA_Render()
-	{
+	function CTA_Render() {
 		return CTA_Render::instance();
 	}
 
 	/* Initialize first singleton instance at init */
 	add_action('init','wp_cta_load_calls_to_action' , 11);
-	function wp_cta_load_calls_to_action()
-	{
+	function wp_cta_load_calls_to_action() {
 		$calls_to_action = CTA_Render();
 	}
-	
+
 	class CTA_Render {
 
 		private static $instance;
@@ -40,6 +37,8 @@ if ( !class_exists( 'CTA_Render' ) ) {
 		private $selected_cta;
 		private $cta_template;
 		private $is_preview;
+		private $cta_width;
+		private $cta_height;
 
 		public static function instance() {
 			if ( !isset( self::$instance ) && ! ( self::$instance instanceof CTA_Render )) {
@@ -59,6 +58,9 @@ if ( !class_exists( 'CTA_Render' ) ) {
 			return self::$instance;
 		}
 
+		/**
+		*  Load Hooks and Filters
+		*/
 		function hooks() {
 			/* Get Global $post Object */
 			add_action('wp', array( $this, 'setup_globals' ) , 1 );
@@ -67,10 +69,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 			add_action('wp_cta_after_global_init', array( $this , 'setup_cta') , 1 );
 
 			/* Enqueue CTA js * css */
-			add_action('wp_enqueue_scripts' , array( $this , 'enqueue_cta_js_css') , 10 );
-
-			/* Add Final CTA Loading Js */
-			add_action('wp_footer', array( $this , 'reveal_loaded_ctas' ) , 19);
+			add_action('wp_enqueue_scripts' , array( $this , 'enqueue_scripts') , 20 );
 
 			/* Apply custom JS & CSS for CTA */
 			add_action('wp_head', array( $this , 'load_custom_js_css') );
@@ -98,8 +97,14 @@ if ( !class_exists( 'CTA_Render' ) ) {
 		public function setup_globals() {
 			global $wp_query;
 
-			self::$instance->obj = $wp_query->get_queried_object();
-			self::$instance->obj_id = $wp_query->get_queried_object_id();
+			/* running these on paged renders causes pagniation to break */
+			if ( get_query_var('page') < 1 ) {
+				self::$instance->obj = $wp_query->get_queried_object();
+				self::$instance->obj_id = $wp_query->get_queried_object_id();
+				$paged = false;
+			} else {
+				$paged = true;
+			}
 
 			if (!isset(self::$instance->obj)) {
 				self::$instance->obj = new stdClass();
@@ -110,6 +115,8 @@ if ( !class_exists( 'CTA_Render' ) ) {
 				case is_home():
 					self::$instance->obj_nature = 'home';
 					BREAK;
+				case $paged:
+					self::$instance->obj_nature = 'paged';
 				case is_front_page():
 					self::$instance->obj_nature = 'home';
 					BREAK;
@@ -164,7 +171,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
 			/* Determine where we should place the call to action selected to appear on this page */
 			self::$instance->cta_content_placement = get_post_meta( self::$instance->obj_id , 'cta_content_placement',	true);
-			
+
 			self::$instance->cta_content_placement = apply_filters('wp_cta_content_placement' , self::$instance->cta_content_placement );
 
 			if ( self::$instance->cta_content_placement == 'off' ) {
@@ -175,7 +182,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 			self::$instance->selected_cta = self::$instance->prepare_cta_dataset( $cta_display_list );	/* builds a list of ct */
 		}
 
-		/* Generate a set of data related to CTA(s) 
+		/* Generate a set of data related to CTA(s)
 		* @param ARRAY $cta_display_list array of cta id(s)
 		*/
 		public static function prepare_cta_dataset( $cta_display_list , $variation_id = null) {
@@ -184,7 +191,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 			if ( !$cta_display_list ) {
 				return array();
 			}
-			
+
 			foreach ($cta_display_list as $key => $cta_id) {
 
 				$url = get_permalink( $cta_id );
@@ -192,13 +199,13 @@ if ( !class_exists( 'CTA_Render' ) ) {
 				$cta_obj[$cta_id]['id'] = $cta_id;
 				$cta_obj[$cta_id]['url'] = $url;
 
-				/* If variation is predefined load only that variations data else load all variation data for a given cta */				
+				/* If variation is predefined load only that variations data else load all variation data for a given cta */
 				if ( $variation_id !== null ) {
 					$cta_obj[$cta_id]['variations'] = $CTA_Variations->get_variations( $cta_id , $variation_id );
 				} else {
 					$cta_obj[$cta_id]['variations'] = $CTA_Variations->get_variations( $cta_id );
 				}
-				
+
 				$meta = get_post_meta(	$cta_id ); // move to ext
 
 				if (!$meta) {
@@ -208,22 +215,24 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
 				foreach ($cta_obj[$cta_id]['variations'] as $vid => $variation) {
 
-					if ( !isset($meta['wp-cta-selected-template-' . $vid ][0]) ) {						
-						unset($cta_obj[$cta_id]['variations'][$vid]); 
+					if ( !isset($meta['wp-cta-selected-template-' . $vid ][0]) ) {
+						unset($cta_obj[$cta_id]['variations'][$vid]);
 						continue;
 					}
 					
+
+
 					if ( $variation['status'] == 'paused' && !isset($_GET['wp-cta-variation-id']) ) {
-						unset($cta_obj[$cta_id]['variations'][$vid]); 
+						unset($cta_obj[$cta_id]['variations'][$vid]);
 						continue;
-					}					
+					}
 
 					$template_slug = $meta['wp-cta-selected-template-' . $vid ][0];
 					$cta_obj[$cta_id]['templates'][$vid]['slug'] = $template_slug;
 					$cta_obj[$cta_id]['meta'][$vid]['wp-cta-selected-template-'.$vid] = $template_slug;
 
 					/* determin where template exists for asset loading	*/
-					if (file_exists(WP_CTA_PATH.'templates/'.$template_slug.'/index.php')) {
+					if (file_exists( WP_CTA_PATH.'templates/'.$template_slug )) {
 						$cta_obj[$cta_id]['templates'][$vid]['path'] = WP_CTA_PATH.'templates/'.$template_slug.'/';
 						$cta_obj[$cta_id]['templates'][$vid]['urlpath'] = WP_CTA_URLPATH.'templates/'.$template_slug.'/';
 					} else {
@@ -233,17 +242,18 @@ if ( !class_exists( 'CTA_Render' ) ) {
 					}
 
 					/* get variation meta */
-					$cta_obj[$cta_id]['meta'][$vid] = CTA_Variations::get_variation_meta ( $cta_id , $vid ); 
-					
+					$cta_obj[$cta_id]['meta'][$vid] = CTA_Variations::get_variation_meta ( $cta_id , $vid );
+
 				}
 
 			}
 
 			$cta_obj = apply_filters( 'wp_cta_obj' , $cta_obj );
-			
-			
+
+
 			/* return one cta out of list of available ctas */
 			$key = array_rand($cta_obj);
+			
 			return $cta_obj[$key];
 
 
@@ -261,8 +271,8 @@ if ( !class_exists( 'CTA_Render' ) ) {
 			}
 
 			/*	Check if Dirs exist first */
-			$has_js_dir = WP_CTA_PATH.'templates/'.$template['slug'].'/assets/css/';
-			$has_style_dir = WP_CTA_URLPATH.'templates/'.$template['slug'].'/assets/js/';
+			$has_js_dir = WP_CTA_PATH.'templates/'.$template['slug'].'/assets/js/';
+			$has_style_dir = WP_CTA_PATH.'templates/'.$template['slug'].'/assets/css/';
 
 			if(file_exists($has_js_dir)) {
 				/* get js files */
@@ -276,7 +286,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 				}
 			}
 
-			if(file_exists($has_js_dir)) {
+			if(file_exists($has_style_dir)) {
 				/* get css files */
 				$results = scandir($template['path'].'assets/css/');
 				foreach ($results as $name) {
@@ -293,19 +303,31 @@ if ( !class_exists( 'CTA_Render' ) ) {
 			return $files;
 		}
 
-		public function enqueue_cta_js_css() {
+		/**
+		*  Enqueue CSS & JS
+		*/
+		public function enqueue_scripts() {
+
 			/* Get Variation Selection Nature */
 			self::$instance->disable_ajax = get_option('wp-cta-main-disable-ajax-variation-discovery' , 0 );
+			self::$instance->lite_ajax = get_option('wp-cta-main-use-lite-ajax-mode' , 0 );
 
 			$post_id = self::$instance->obj_id;
 
-			/* Setup determin variation gloabl function */
+			/* Setup determine variation global function */
 			if ( isset( $_GET['wp-cta-variation-id'] ) ) {
-				self::$instance->selected_cta['id'] = null;
+				self::$instance->selected_cta['id'] =  $_GET['wp-cta-variation-id'];
 			}
 
-			wp_enqueue_script('cta-load-variation', WP_CTA_URLPATH.'js/cta-load-variation.js', array('jquery') , true );
-			wp_localize_script( 'cta-load-variation', 'cta_variation', array('cta_id' => self::$instance->selected_cta['id'] , 'ajax_url' => WP_CTA_URLPATH.'classes/class.ajax.get-variation.php' , 'admin_url' => admin_url( 'admin-ajax.php' ) , 'home_url' => get_home_url() , 'disable_ajax' => self::$instance->disable_ajax ) );
+			/* determine ajax url */
+			if (self::$instance->lite_ajax) {
+				$ajax_url = WP_CTA_URLPATH.'classes/class.ajax.get-variation.php';
+			} else {
+				$ajax_url =  admin_url( 'admin-ajax.php' );
+			}
+
+			wp_enqueue_script( 'cta-load-variation' , WP_CTA_URLPATH.'js/cta-variation.js', array('jquery') , true );
+			wp_localize_script( 'cta-load-variation', 'cta_variation', array('cta_id' => self::$instance->selected_cta['id'] , 'ajax_url' => $ajax_url , 'admin_url' => admin_url( 'admin-ajax.php' ) , 'home_url' => get_home_url() , 'disable_ajax' => self::$instance->disable_ajax ) );
 
 
 			if ( self::$instance->cta_content_placement === 'popup') {
@@ -375,8 +397,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
 			/* load form pre-population script */
 			if (!wp_script_is('form-population','enqueue') && get_option('wp-cta-main-form-population'))	{
-				wp_register_script('form-population', WP_CTA_URLPATH . 'js/jquery.form-population.js', array( 'jquery', 'jquery-cookie'	));
-				wp_enqueue_script('form-population');
+				/* TODO Set Global Var for New Analytics */
 			}
 
 			/* Import CSS & JS from Assets folder and Enqueue */
@@ -415,16 +436,11 @@ if ( !class_exists( 'CTA_Render' ) ) {
 			}
 		}
 
-		public function reveal_loaded_ctas() {
-			/* determin variation */
-			wp_enqueue_script('cta-reveal-variation', WP_CTA_URLPATH.'js/cta-reveal-variation.js', array('jquery') , true );
-			wp_localize_script( 'cta-reveal-variation', 'cta_reveal', array( 'admin_url' => admin_url( 'admin-ajax.php' ) , 'home_url' => get_home_url() ) );
 
-		}
 
 		/* Replaced tokens in call to action template with values */
 		public function replace_template_variables( $selected_cta , $template , $vid ) {
-			
+
 			/* Ger template slug */
 			$template_slug = $selected_cta['meta'][$vid]['wp-cta-selected-template-'.$vid];
 
@@ -447,7 +463,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 			$template = str_replace( '{{cta-height}}' , $height , $template );
 			$template = str_replace( '{{width}}' , $w , $template );
 			$template = str_replace( '{{height}}' , $h , $template );
-			
+
 			/* Add special loop here with filter for custom tokens */
 			$false_match = array();
 			$count_of_loop = count($selected_cta['meta'][$vid]);
@@ -474,7 +490,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
 				$thispattern = '/{{'.$key.'\|+(.*?)}}/';
 				preg_match_all($thispattern, $template, $token_matchs);
-				/**
+				/*
 				echo "<pre>";
 				if (!empty($token_matchs[0])){
 					print_r($token_matchs[0]);
@@ -623,7 +639,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 				$value = $global_val_array[$correct_key];
 
 				/* run function procssing here inbound_run_processing might be able to replace code above eventually */
-				$template = inbound_run_processing($full_token, $correct_key, $value, $template);
+				$template = self::support_conditional_tags( $full_token, $correct_key, $value, $template );
 			}
 
 			/* Remove tokens that arent matched */
@@ -647,9 +663,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 							echo "<br>Replacement " . $test . "<br>";
 						}
 
-						//$replace_pat = '/'.$value[0].'/';
-						//$pat = '/'.preg_quote($value[0]) .'/';
-						//$template = preg_replace($pat, $test, $template);
+
 						$template = str_ireplace( $phpcode, $return_val, $template);
 					}
 				}
@@ -672,16 +686,9 @@ if ( !class_exists( 'CTA_Render' ) ) {
 							$function .= '}';
 							//echo $function;
 							$return_val = eval($function);
-							//echo "RETURN VAL: ". $return_val;
-							//$strip_content_pattern = '/{%(.*?)endif %}/';
-							//$strip_content_pattern ='/(?<={%\sif)(.*)(?=endif\s%})/';
-							/*$strip_content_pattern = '/{%\sif+(.*?)%}/';
-							preg_match_all($strip_content_pattern, $template, $test_tokens);
-							echo "<br>ENDIF MATCH<br>";
-							print_r($test_tokens);
-							echo "<br>ENNNNNNNNNNNNNNNNNd<br>";*/
+
 							if (!$return_val){
-							$template = inbound_delete_all_between($conditional_code, '{% endif %}', $template);
+								$template = self::delete_all_inbetween($conditional_code, '{% endif %}', $template);
 							}
 
 						}
@@ -690,10 +697,10 @@ if ( !class_exists( 'CTA_Render' ) ) {
 						//$return_val = eval($clean_val);
 						//echo $return_val;
 						if($debug_output) {
-						echo "<br>Template:".$template_slug."<br>";
-						echo "<br>Conditional : " . $clean_val . "<br>";
-						echo "PHP evaled: " . "<br>";
-						echo "<br>Replacement " . $test . "<br>";
+							echo "<br>Template:".$template_slug."<br>";
+							echo "<br>Conditional : " . $clean_val . "<br>";
+							echo "PHP evaled: " . "<br>";
+							echo "<br>Replacement " . $test . "<br>";
 						}
 						/* Clean all Conditional Tokens out of final output */
 						$template = str_ireplace( $conditional_code, '', $template);
@@ -702,12 +709,139 @@ if ( !class_exists( 'CTA_Render' ) ) {
 			}
 
 			/* Add target tags to links */
-			if (get_post_meta( $selected_cta['id'] , 'wp-cta-link-open-option-' . $vid , true ) == 'new_tab' ) {				
+			if (get_post_meta( $selected_cta['id'] , 'wp-cta-link-open-option-' . $vid , true ) == 'new_tab' ) {
 				$template = str_replace('<a ', '<a target="_blank" ' , $template);
 			}
 
 			return $template;
 		}
+
+		/**
+		*  Adds support for conditional tags to the token engine
+		*/
+		public static function support_conditional_tags($token_match, $key, $value, $template) {
+
+			if (!preg_match('/\|/', $token_match)) {
+				return $template;
+			}
+
+			$show_debug_token = false;
+			$raw_php_function = false; // Adds ability to run raw php
+
+			if ($show_debug_token) {
+				echo "<br><span style='color:red'>Token MATCH ON:</span> " . $token_match . " Val: ". $value . "<br>";
+			}
+
+			$clean_key = str_replace(array("{", "}"), "", $token_match);
+
+			$separate_token = explode('|', $clean_key); // split at pipe
+			$correct_key = $separate_token[0];
+
+			/* Run Special Parse Functions Here */
+			$run_function = $separate_token[1];
+			$function_name = explode("(", $run_function);
+
+			preg_match('#\((.*?)\)#', $run_function, $fun_match);
+			if (is_array($fun_match)){
+
+				$function_args = (isset($fun_match[1])) ? $fun_match[1] : '';
+				$function_args_array = explode(',', $function_args);
+				$args = $function_args_array;
+				if(empty($args[0])) {
+					if ($show_debug_token) {
+					echo "NO params set default value<br>";
+					}
+					$args[0] = $value;
+				}
+			}
+
+			if(preg_match("/php:/", $run_function)) {
+				if ($show_debug_token) {
+				echo "PHP function";
+				echo $function_name[0];
+				}
+				$php_function = str_replace("php:", '', $function_name[0]);
+				$raw_php_function = true; // Adds ability to run raw php
+			}
+
+			$function_args = array();
+			$function_args[0] = $value;
+			foreach ($args as $arr_key => $arr_value) {
+
+				if ($arr_value === "this"){
+					$function_args[$arr_key + 1] = $value;
+					if ($show_debug_token) {
+					//echo "arg" . $arr_key. ":" . $arr_value;
+					}
+					// first value always user input val
+				} else {
+					$function_args[$arr_key + 1] = $arr_value;
+				}
+
+				if ($show_debug_token) {
+				echo "arg" . $arr_key. ":" . $arr_value . ", ";
+				}
+
+			}
+
+			$function_args = array_unique($function_args); // dedupe values
+
+			if (count($function_args) < 2 ) {
+				$function_args = $function_args[0]; // send single value to function
+			}
+
+			/* Function temp references
+			replace: {{ "I like %this% and %that%."|replace({'%this%': foo, '%that%': "bar"}) }}
+			*/
+
+			if ($raw_php_function) {
+				$template_function = $php_function;
+			} else {
+				$template_function = 'inbound_template_' . $function_name[0];
+			}
+
+			/* If function exists run it */
+			if (function_exists($template_function)) {
+				$value = $template_function($function_args);
+				if ($show_debug_token) {
+				echo "<br>Running Function: <strong>" .	$template_function . "</strong> with args <strong>";
+				print_r($function_args);
+				echo "</strong><br>";
+
+				$look_for = "{{" .$key . "}}";
+				$reg = preg_quote( "{{" .$key . "}}");
+				echo "Replace " . $token_match . " with ". $value . "<br>";
+
+				}
+			}
+
+			$template = str_ireplace( $token_match , $value , $template); // single space
+
+
+			return $template;
+		}
+
+		/**
+		*	Deletes content discovered in string between two other stringds
+		*	@param STRING $beginning
+		*	@param STRING $end
+		*	@param STRING $string
+		*	@return STRING modified string
+		*/
+		public static function delete_all_inbetween($beginning, $end, $string) {
+
+			$beginningPos = strpos($string, $beginning);
+			$endPos = strpos($string, $end);
+
+			if (!$beginningPos || !$endPos) {
+				return $string;
+			}
+
+			$textToDelete = substr($string, $beginningPos, ($endPos + strlen($end)) - $beginningPos);
+
+			return str_replace($textToDelete, '' , $string);
+		}
+
 
 		/**
 		* Prints / Returns Custom JS & CSS Related to Call to Action
@@ -724,22 +858,19 @@ if ( !class_exists( 'CTA_Render' ) ) {
 			}
 
 			foreach ($selected_cta['variations'] as $vid => $variation) {
-				
+
 				/* account for preview mode */
 				if (isset($_GET['wp-cta-variation-id']) && ( $vid != $_GET['wp-cta-variation-id'] ) ) {
 					continue;
 				}
-					
-		
+
+
 				$meta = $selected_cta['meta'][$vid];
-				($vid<1) ? $suffix = '' : $suffix = '-'.$vid;		
 
 				$template_slug = $selected_cta['meta'][$vid]['wp-cta-selected-template-'.$vid];
 				$custom_css = CTA_Variations::get_variation_custom_css ( $selected_cta['id'] , $vid );
 
 
-				/* This is printing CTA CSS Twice on Preview Mode */
-				/* We may reserve this function only for custom css and custom js */
 				$dynamic_css = self::$instance->cta_templates[$template_slug]['css-template'];
 				$dynamic_css = self::$instance->replace_template_variables( $selected_cta , $dynamic_css , $vid );
 
@@ -750,28 +881,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
 
 				$dynamic_css = self::$instance->parse_css_template($dynamic_css , $css_id_preface);
-				/****** New Parse - DO NOT DELTE *******/
-				// http://regexr.com/?36e6v
-				// http://regex101.com/r/rF9iR9
-				/* IN PROGRESS */
-				/**
-				$css = explode("}", $dynamic_css);
-				$pattern = "/.-?[_a-zA-Z]+[_a-zA-Z0-9-]*(?=[^}]*\{)/"; // close. matches all ids and classes but separates
-				//$pattern = "/(?![^{]*})(#\S+)\b/";
-				preg_match_all($pattern, $dynamic_css, $match_css);
-				print_r($match_css[0]);
-				$matched_css_names = $match_css[0];
-				foreach ($matched_css_names as $key => $value) {
-
-					if (!preg_match("/:/", $value)){
-						echo $value . "<br>";
-					}
-				}
-
-				echo "<pre>";
-				print_r($css);
-				echo "</pre>"; /**/
-				/****** End New Parse - DO NOT DELTE *******/
+				
 				$css_styleblock_class = apply_filters( 'wp_cta_styleblock_class' , '' , $selected_cta['id'] , $vid );
 
 				if (!stristr($custom_css,'<style')){
@@ -789,7 +899,8 @@ if ( !class_exists( 'CTA_Render' ) ) {
 				/* Print Cusom CSS */
 				$inline_content .= '<style type="text/css" id="wp_cta_css_custom_'.$selected_cta['id'].'_'.$vid.'" class="wp_cta_css_'.$selected_cta['id'].' '.$css_styleblock_class.'">'.$custom_css.' '.$dynamic_css.'</style>';
 
-				$custom_js = get_post_meta( $selected_cta['id'] , 'wp-cta-custom-js'.$suffix, true);
+				$custom_js = CTA_Variations::get_variation_custom_js ( $selected_cta['id'] , $vid );
+
 				if (!stristr($custom_css,'<script'))
 				{
 					$inline_content .= '<script type="text/javascript" id="wp_cta_js_custom">jQuery(document).ready(function($) {
@@ -902,8 +1013,8 @@ if ( !class_exists( 'CTA_Render' ) ) {
 			(self::$instance->is_preview) ? $display = 'none' : $display = 'none';
 
 			/* Pepare Container Margins if Available */
-			(isset($selected_cta['margin_top'])) ? $margin_top : $margin_top = '0px';
-			(isset($selected_cta['margin_bottom'])) ? $margin_botom : $margin_bottom = '0px';
+			$margin_top = (isset($selected_cta['margin-top'])) ? $selected_cta['margin-top'] : '0';
+			$margin_bottom = (isset($selected_cta['margin-bottom'])) ? $selected_cta['margin-bottom'] : '0';
 
 			/* discover the shortest variation height */
 			foreach ($selected_cta['variations'] as $vid => $variation )
@@ -925,10 +1036,11 @@ if ( !class_exists( 'CTA_Render' ) ) {
 			$cta_container_class = "wp_cta_container cta_outer_container";
 			$cta_container_class =	apply_filters('wp_cta_container_class', $cta_container_class , $selected_cta['id'] );
 
-			$cta_template = "<div id='wp_cta_".$selected_cta['id']."_container' class='{$cta_container_class}' style='margin-top:{$margin_top};margin-bottom:{$margin_bottom};position:relative;' >";
+			$cta_template = "<div id='wp_cta_".$selected_cta['id']."_container' class='{$cta_container_class}' style='margin-top:{$margin_top}px;margin-bottom:{$margin_bottom}px;position:relative;' >";
 
 
-
+			$width_array = array();
+			$height_array = array();
 			/* build cta content */
 			foreach ($selected_cta['variations'] as $vid => $variation )
 			{
@@ -943,6 +1055,11 @@ if ( !class_exists( 'CTA_Render' ) ) {
 				$width = self::$instance->cta_get_correct_dimensions($w, 'width');
 				$height = self::$instance->cta_get_correct_dimensions($h, 'height');
 
+
+				$width_array[$vid] = $w;
+				self::$instance->cta_width = $width_array;
+				$height_array[$vid] = $h;
+				self::$instance->cta_height = $height_array;
 				$template_slug = $selected_cta['meta'][$vid]['wp-cta-selected-template-'.$vid];
 
 				$cta_variation_class = "inbound-cta-container wp_cta_content wp_cta_variation wp_cta_".$selected_cta['id']."_variation_".$vid."";
@@ -966,7 +1083,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 			global $post;
 
 			if (!isset($post)) {
-				return;
+				return $content;
 			}
 
 			if ( !self::$instance->selected_cta || self::$instance->cta_content_placement =='off' ) {
@@ -997,12 +1114,36 @@ if ( !class_exists( 'CTA_Render' ) ) {
 				$content = $content . "<div class='below_content'>" . self::$instance->cta_template . "</div>";
 
 			} elseif (self::$instance->cta_content_placement=='popup') {
-				$content = $content . "<a id='cta-no-show' class='popup-modal' href='#wp-cta-popup'>Open modal</a><div id='wp-cta-popup' class='mfp-hide white-popup-block' style='display:none;'><button title='Close (Esc)' type='button' class='mfp-close'>×</button>" . self::$instance->cta_template . "</div>";
+				$content = $content . "<a id='cta-no-show' class='popup-modal' href='#wp-cta-popup'>Open modal</a><div id='wp-cta-popup' class='mfp-hide white-popup-block' style='display:none;'><button title='Close (Esc)' type='button' class='mfp-close'></button>" . self::$instance->cta_template . "</div>";
+
+				foreach (self::$instance->cta_width as $key => $value) {
+					$content .= "<span class='data-vid-w-".$key."' data-width='" . $value ."'></span>";
+				}
+				foreach (self::$instance->cta_height as $key => $value) {
+					$content .= "<span class='data-vid-h-".$key."' data-height='" . $value ."'></span>";
+				}
+				/* fix for popup size */
+				$content .=	"<script>";
+				$content .= "	jQuery(document).ready(function($) {";
+				$content .= "		setTimeout(function() {";
+             	$content .= "		var vid = $('.inbound-cta-container:visible').attr('data-variation');";
+				$content .= "		var vidw = '.data-vid-w-' + vid;";
+				$content .= "		var vidh = '.data-vid-h-' + vid;";
+				$content .= "		var h = $(vidh).attr('data-height');";
+				$content .= "		var w = $(vidw).attr('data-width');";
+				$content .= "		$('.white-popup-block').css({'height': h, 'width': w});";
+				$content .= "	 }, 500);";
+				$content .= "	});";
+				$content .= "</script>";
+
 			}
 
 			return $content;
 		}
 
+		/**
+		*  Determines if cta is set to display in dynamic widget placeholder and if it is then redners it inside the appropriate hook
+		*/
 		function add_cta_to_dynamic_content()
 		{
 			if ( !self::$instance->selected_cta || self::$instance->cta_content_placement =='off') {
@@ -1016,11 +1157,17 @@ if ( !class_exists( 'CTA_Render' ) ) {
 			}
 		}
 
+		/**
+		*  Renders shortcode in wp_cta_cta_dynamic_widget action hook
+		*/
 		function render_widget()
 		{
 			echo do_shortcode(self::$instance->cta_template);
 		}
 
+		/**
+		*  This method processes the [cta] shortcode
+		*/
 		function process_shortcode_cta( $atts )
 		{
 			extract(shortcode_atts(array(
@@ -1041,7 +1188,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
 			$script = self::$instance->load_shortcode_variation_js( $id , $vid , true );
 
-			
+
 			if ($align === 'right') {
 				return	$script . $custom_css_js . '<div style="float:right;">' . do_shortcode($cta_template) . "</div>";
 			}
@@ -1055,22 +1202,20 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
 		/**
 		* Returns or Echos Script That Reveals Call to Action Variation
-		* @param INT $cta_id 
-		* @param INT $variation_id 
+		* @param INT $cta_id
+		* @param INT $variation_id
 		* @param BOOL $return If set to true will return instead of print
 		* @return STRING $script javascript code
 		*/
 		function load_shortcode_variation_js( $cta_id , $variation_id = null , $return = false )
 		{
-			
+
 			if ( !isset(self::$instance->disable_ajax) ) {
 				self::$instance->disable_ajax = get_option('wp-cta-main-disable-ajax-variation-discovery' , 0 );
 			}
-	
+
 			$script =	"<script>";
-			$script .= "	jQuery(document).ready(function($) {";
-			$script .= "		wp_cta_load_variation( '" .$cta_id ."' , '" .$variation_id ."' , '".self::$instance->disable_ajax ."' )";
-			$script .= "	});";
+			$script .= "	wp_cta_load_variation( '" .$cta_id ."' , '" .$variation_id ."' , '".self::$instance->disable_ajax ."' )";
 			$script .= "</script>";
 
 			if ($return) {
@@ -1081,7 +1226,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 		}
 
 		function preview_cta() {
-	
+
 			if ( ( isset(self::$instance->obj->post_type) && self::$instance->obj->post_type != 'wp-call-to-action' ) ||	( !isset(self::$instance->obj->post_type) && !isset($_GET['wp-cta-variation-id']) ) ){
 				return;
 			}
@@ -1107,10 +1252,10 @@ if ( !class_exists( 'CTA_Render' ) ) {
 			wp_print_styles();
 
 			echo '</head>';
-			
-			(!isset($_GET['live-preview-area'])) ? $margin = 'margin-top:100px' : ''; 
-			
-			echo '<body style="background-color:#fff;">';
+
+			(!isset($_GET['live-preview-area'])) ? $margin = 'margin-top:100px' : '';
+
+			echo '<body style="backgorund-image:none;background-color:transparent;">';
 			echo '<div id="cta-preview-container" style="margin:auto;">';
 			if ( isset($_GET['post_id'] ) || isset($_GET['wp-cta-variation-id']) ) {
 				echo do_shortcode('[cta id="'.$cta_id.'" vid="'.$_GET['wp-cta-variation-id'].'"]');
@@ -1176,7 +1321,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 			.slider-text {
 				font-size: 20px;
 			}
-			</style>			
+			</style>
 			<script type="text/javascript">
 			jQuery(document).ready(function($) {
 				jQuery('.custom-input').change(function() {
@@ -1185,16 +1330,16 @@ if ( !class_exists( 'CTA_Render' ) ) {
 					jQuery("#cta-preview-container").width(result + '%');
 					jQuery('.result').text(result + '%');
 				});
-				
+
 				jQuery('#cta-preview-container').cta_center();
 			});
-			
+
 			/* add jquery function to center cta in preview mode */
 			jQuery.fn.cta_center = function () {
 				this.css("position","absolute");
-				this.css("top", Math.max(0, ((jQuery(window).height() - jQuery(this).outerHeight()) / 2) + 
+				this.css("top", Math.max(0, ((jQuery(window).height() - jQuery(this).outerHeight()) / 2) +
 															jQuery(window).scrollTop()) + "px");
-				this.css("left", Math.max(0, ((jQuery(window).width() - jQuery(this).outerWidth()) / 2) + 
+				this.css("left", Math.max(0, ((jQuery(window).width() - jQuery(this).outerWidth()) / 2) +
 															jQuery(window).scrollLeft()) + "px");
 				return this;
 			}
@@ -1230,6 +1375,97 @@ if ( !class_exists( 'CTA_Render' ) ) {
 		}
 	}
 }
+/*
+Util functions for token parser.
+usage: {{token|function_name}}
+usage: {{token|color}} run inbound_template_color on token
+ */
+if (!function_exists('inbound_template_color')) {
+	function inbound_template_color($args){
+		$prefix = "#";
+		if (is_array($args)){
+			$color = $args[0];
+		} else {
+			$color = $args;
+		}
+		if(preg_match("/rbg/", $color)) {
+			$prefix = "";
+		}
+
+		return $prefix . $color;
+	}
+}
+if (!function_exists('inbound_template_brightness')) {
+	function inbound_template_brightness($args){
+
+			$hex_color = $args[0];
+			$hue = intval($args[1]);
+
+			$format = 'hex';
+			if (strpos($hex_color,'#') !== false) {
+			    $input = $hex_color;
+			} else {
+				$input = "#" . $hex_color;
+			}
+
+			$col = Array(
+			    hexdec(substr($input,1,2)),
+			    hexdec(substr($input,3,2)),
+			    hexdec(substr($input,5,2))
+			);
+
+			$color_scheme_array =
+			array(
+					100 => array( $col[0]/4, $col[1]/4, $col[2]/4),
+					95 => array( $col[0]/3, $col[1]/3, $col[2]/3),
+					90 => array( $col[0]/2.7, $col[1]/2.7, $col[2]/2.7),
+					85 => array( $col[0]/2.5, $col[1]/2.5, $col[2]/2.5),
+					80 => array( $col[0]/2.2, $col[1]/2.2, $col[2]/2.2),
+					75 => array( $col[0]/2, $col[1]/2, $col[2]/2),
+					70 => array( $col[0]/1.7, $col[1]/1.7, $col[2]/1.7),
+					65 => array( $col[0]/1.5, $col[1]/1.5, $col[2]/1.5),
+					60 => array( $col[0]/1.3,$col[1]/1.3,$col[2]/1.3),
+					55 => array( $col[0]/1.1,$col[1]/1.1,$col[2]/1.1),
+					50 => array( $col[0],$col[1],$col[2]),
+					45 => array( 255-(255-$col[0])/1.1, 255-(255-$col[1])/1.1, 255-(255-$col[2])/1.1),
+					40 => array( 255-(255-$col[0])/1.3, 255-(255-$col[1])/1.3, 255-(255-$col[2])/1.3),
+					35 => array( 255-(255-$col[0])/1.5, 255-(255-$col[1])/1.5, 255-(255-$col[2])/1.5),
+					30 => array( 255-(255-$col[0])/1.7, 255-(255-$col[1])/1.7, 255-(255-$col[2])/1.7),
+					25 => array( 255-(255-$col[0])/2, 255-(255-$col[1])/2, 255-(255-$col[2])/2),
+					20 => array( 255-(255-$col[0])/2.2, 255-(255-$col[1])/2.2, 255-(255-$col[2])/2.2),
+					15 => array( 255-(255-$col[0])/3, 255-(255-$col[1])/2.7, 255-(255-$col[2])/3),
+					10 => array(255-(255-$col[0])/5, 255-(255-$col[1])/5, 255-(255-$col[2])/5),
+					5 => array(255-(255-$col[0])/10, 255-(255-$col[1])/10, 255-(255-$col[2])/10),
+					0 => array(255-(255-$col[0])/15, 255-(255-$col[1])/15, 255-(255-$col[2])/15)
+					);
+
+			($format === 'hex') ? $sign = "#" : $sign = '';
+			$return_scheme = array();
+			foreach ($color_scheme_array as $key => $val) {
+
+				$each_color_return =	$sign.sprintf("%02X%02X%02X", $val[0], $val[1], $val[2]);
+			    $return_scheme[$key] = $each_color_return;
+
+			}
+				//return $closest;
+				if(isset($_GET['color_scheme'])) {
+					foreach ($return_scheme as $key => $hex_value) {
+						echo "<div style='background:$hex_value; display:block; width:100%;'>$key</div>";
+					}
+				}
+
+				$new_color = $return_scheme[$hue];
+				if (strpos($new_color,'#') !== false) {
+				    $return_color = $new_color;
+				} else {
+					$return_color = "#" . $new_color;
+				}
+
+				return $return_color;
+
+	}
+}
+
 
 function wp_cta_check_active()
 {

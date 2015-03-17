@@ -5,9 +5,13 @@
 	padding-right:60px;
 }
 
-#main-title-area
-{
+#main-title-area {
 	margin-top: 5px;
+}
+
+#main-title-area span {
+	margin-top:30px;
+	z-index:999999;
 }
 
 
@@ -27,14 +31,14 @@ padding-left: 10px;
 
 }
 #menu-posts-landing-page .wp-submenu.wp-submenu-wrap {
-z-index: 99999999999;
+z-index: 99999;
 }
 @font-face {
 	font-family: 'FontAwesome';
-	src: url('../shared/assets/global/fonts/fontawesome/fontawesome-webfont.eot?v=3.0.2');
-	src: url('../shared/assets/global/fonts/fontawesome/fontawesome-webfont.eot?#iefix&v=3.0.2') format('embedded-opentype'),
-	url('../shared/assets/global/fonts/fontawesome/fontawesome-webfont.woff?v=3.0.2') format('woff'),
-	url('../shared/assets/global/fonts/fontawesome/fontawesome-webfont.ttf?v=3.0.2') format('truetype');
+	src: url('../shared/assets/fonts/fontawesome/fontawesome-webfont.eot?v=3.0.2');
+	src: url('../shared/assets/fonts/fontawesome/fontawesome-webfont.eot?#iefix&v=3.0.2') format('embedded-opentype'),
+	url('../shared/assets/fonts/fontawesome/fontawesome-webfont.woff?v=3.0.2') format('woff'),
+	url('../shared/assets/fonts/fontawesome/fontawesome-webfont.ttf?v=3.0.2') format('truetype');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -323,11 +327,6 @@ div#lp-store-iframe-container > iframe {
 	color:#388DBC;
 }
 
-.wp-list-table td
-{
-	color:#388DBC;
-}
-
 #wp-leads-splash-header
 {
 	background: #f2f2f2;
@@ -413,8 +412,10 @@ div#lp-store-iframe-container > iframe {
 #lp-tour {
 	position: absolute;
 	font-size: 13px;
-top: -3px;
+top: 0px;
 right: 170px;
+color: rgb(253, 3, 3);
+cursor: pointer;
 }
 .lp-success-message
 {

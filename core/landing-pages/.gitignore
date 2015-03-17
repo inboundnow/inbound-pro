@@ -9,3 +9,31 @@ shared/languages/landing-pages/get-translations.bat
 shared/.SyncIgnore
 shared/languages/leads/_get-translations.bat
 shared/languages/calls-to-action/_get-translations.bat
+
+# OS generated files #
+######################
+*~
+.svn
+.cvs
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
+.cache
+.project
+.settings
+.tmproj
+*.esproj
+nbproject
+*.sublime-project
+*.sublime-workspace
+shared/.SyncIgnore
+shared/languages/landing-pages/_get-translations.bat
+shared/languages/leads/_get-translations.bat
+
+# Grunt
+node_modules

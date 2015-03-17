@@ -1,13 +1,13 @@
 === WordPress Landing Pages ===
 
-Contributors: David Wells, adbox
+Contributors: David Wells, Hudson Atwell
 Donate link: mailto:marketplace@inboundnow.com
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: landing pages, inbound marketing, conversion pages, split testing, a b test, a b testing, a/b test, a/b testing, coming soon page, email list, landing page, list building, maintenance page, squeeze page, inbound now, landing-pages, splash pages, cpa, click tracking, goal tracking, analytics, free landing page templates
 Requires at least: 3.8
-Tested up to: 3.9
-Stable Tag: 1.6.2
+Tested up to: 4.1
+Stable Tag: 1.8.0
 
 Create landing pages for your WordPress site. Monitor and improve conversion rates, run A/B split tests, customize your own templates and more.
 
@@ -72,6 +72,41 @@ The plugin is also fully extendable and has a number of actions, filters, and ho
 4. Choose from a ton of pre-made templates, use your existing design, or design your own theme!
 
 == Changelog ==
+= 1.8.0 =
+* Fixing addon store
+
+= 1.7.9 =
+* Even more security updates! Security for the win!
+
+= 1.7.8 =
+* Security Patch
+
+= 1.7.7 =
+* Fix double lead notification email
+
+= 1.7.6 =
+* Fixed double email submission on contact form 7
+
+= 1.7.5 =
+* Added form field exclusions to ignore sensitive data
+
+= 1.7.3 =
+* See changelog here: https://github.com/inboundnow/landing-pages/issues?q=is%3Aissue+is%3Aclosed+label%3Av1.7.3
+
+= 1.7.2 =
+* Improved form email typo detection
+* Improved Template Styles
+* Fixed content wysiwyg scroll freezing bug
+
+= 1.7.1 =
+* removed iframe of inbound now addon store. For addons please visit: http://inboundnow.com/market
+
+= 1.7.0 =
+* Removed anonymous PHP functions for PHP 5.2 support
+* Updated template creation standards
+* Converted varition modules to CLASS based system & documented
+* Move /lang/ file outside of shared
+
 = 1.6.2 =
 * Bug Fix: Fix with lead email notifications
 

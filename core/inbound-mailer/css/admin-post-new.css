@@ -1,0 +1,13 @@
+#wpbody-content .wrap, #wpbody-content #screen-options-link-wrap, #post-body-content .a_b_tabs, #inbound_email_metabox_select_template, #inbound-mailer-thumbnail-sidebar-preview, #main-title-area, #inbound-mailer-notes-area, #inbound-mailer-current-view, #switch-wp-cta {
+	display:none;
+}
+
+#templates {
+	position: relative;
+}
+
+#templates #inbound_email_template_change {
+	position: absolute;
+	top: 55px;
+	left: 290px;
+}

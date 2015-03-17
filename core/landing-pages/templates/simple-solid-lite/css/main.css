@@ -13,7 +13,23 @@ video,
 canvas {
 	max-width: 100%;
 }
-
+.gform_body ul {
+	margin:0px;padding: 0px;
+}
+.gform_body li {
+	list-style: none;
+}
+textarea {
+	padding-left: 20px;
+	padding-top: 20px;
+	font: 18px/1.5 'montserratregular','Montserrat',Helvetica,Arial,sans-serif;
+}
+.inbound_the_conversion_area {
+	padding-bottom: 40px;
+}
+.gform_body textarea {
+	width: 100%;
+}
 html {
 	min-height: 100%;
 	margin-bottom: 1px;
@@ -119,7 +135,7 @@ header {
 	float: right;
 	color: #2ecc71;
 	font-size: 15px;
-  margin: 20px 0 0;
+  margin: 15px 0 0;
     width: 600px;
     text-align: right;
 }

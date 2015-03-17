@@ -1,0 +1,21 @@
+/**
+ * For [unsubscribe] shortcode
+ */
+ 
+.unsubscribe-span {
+	display:table;
+}
+
+.unsubsribe-comments {
+	display:none;
+}
+
+.unsubscribe-comments-message {
+	margin-top:10px;
+	margin-bottom:10px;
+	display:table;
+}
+
+.unsubscribe-comments-label {
+	display:table;
+}

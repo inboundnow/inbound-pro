@@ -10,7 +10,7 @@ define('WYSIWYG_EDITOR_ID', 'landing-page-myeditor');
 define('WYSIWYG_META_KEY', 'lp-conversion-area');
 
 /* ADD THUMBNAIL METABOX TO SIDEBAR */
-add_action('add_meta_boxes', 'lp_display_thumbnail_metabox');
+//add_action('add_meta_boxes', 'lp_display_thumbnail_metabox');
 function lp_display_thumbnail_metabox() {
 
 		add_meta_box(
@@ -32,7 +32,7 @@ function lp_thumbnail_metabox() {
 	$permalink = $permalink.'?dt='.$datetime;
 
 	if (in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1'))) {
-		
+
 		if (file_exists(LANDINGPAGES_UPLOADS_PATH .  $template . '/thumbnail.png')) {
 			$thumbnail = LANDINGPAGES_UPLOADS_URLPATH . $template . '/thumbnail.png';
 		}
@@ -169,10 +169,6 @@ function lp_landing_page_header_area()
 	$variation_notes = apply_filters('lp_edit_variation_notes', $variation_notes, 1);
 	$variation_id = apply_filters( 'lp_display_notes_input_id' , 'lp-variation-notes' );
 
-	$page_conversion_data = get_post_meta( $post->ID, 'inbound_conversion_data', TRUE );
-	$page_conversion_data = json_decode($page_conversion_data,true);
-	//print_r($page_conversion_data);
-	//echo "TEST";
 	echo "<div id='lp-notes-area'>";
 	echo "<span id='add-lp-notes'>". __('Notes' , 'landing-pages') .":</span><input placeholder='". __('Add Notes to your variation. Example: This version is testing a green submit button ' , 'landing-pages') ."' type='text' class='lp-notes' name='{$variation_id}' id='{$variation_id}' value='{$variation_notes}' size='30'>";
 	echo '</div><div id="main-title-area"><input type="text" name="lp-main-headline" placeholder="'. __('Primary Headline Goes here. This will be visible on the page' , 'landing-pages') .'" id="lp-main-headline" value="'.$main_title.'" title="'. __('This headline will appear in the landing page template.' , 'landing-pages') .'"></div><div id="lp-current-view">'.$lp_variation.'</div><div id="switch-lp">0</div>';
@@ -472,8 +468,8 @@ function lp_conversion_log_metabox() {
 			global $wpdb;
 
 			$final_data = array();
-			
-			
+
+
 			$query = "SELECT
 				wposts.*
 				FROM ".$wpdb->posts." AS wposts
@@ -518,7 +514,7 @@ function lp_conversion_log_metabox() {
 
 					$final_data[] = $this_data;
 				}
-				
+
 			}
 			//print_r($final_data);
 			$this->table_data = $final_data;

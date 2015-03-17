@@ -1,4 +1,4 @@
-.edit, .trash {
+.row-actions .edit,.row-actions .trash {
 	font-size: 0px;
 	margin-right: 5px;
 }
@@ -33,13 +33,13 @@ border-radius: 7px;
 }
 .left-float-filter {
 	float: left;
-display: inline-block;
-clear: both;
-padding: 6px;
-padding-left: 0px;
-padding-top: 9px;
-font-size: 18px;
-font-weight: 300;
+	display: inline-block;
+	clear: both;
+	padding: 6px;
+	padding-left: 0px;
+	padding-top: 9px;
+	font-size: 18px;
+	font-weight: 300;
 }
 .subsubsub {
 margin: 0px;
@@ -54,28 +54,29 @@ padding-top: 2px;
 	margin-top: 3px;
 }
 .tablenav .actions {
-overflow: hidden;
-padding: 2px 8px 0 0;
-padding-right: 0px;
+	overflow: hidden;
+	padding: 2px 8px 0 0;
+	padding-right: 0px;
 }
 td.first-name {
 	overflow: visible;
-font-size: 17px;
-padding-top: 8px;
+	font-size: 17px;
+	padding-top: 8px;
 }
 td.last-name {
 	font-size: 17px;
-padding-top: 8px;
+	padding-top: 8px;
 }
 #cb {
 	width: 30px;
 }
 #conversion-count {
-width: 77px;
-text-align: center;}
+	width: 77px;
+	text-align: center;
+}
 #page-views {
 	width: 73px;
-text-align: center;
+	text-align: center;
 }
 .wp-list-table td.conversion-count, .wp-list-table td.page-views{
     font-size: 18px;
@@ -86,7 +87,7 @@ text-align: center;
 	border-right: 1px solid #EBEBEA;
 }
 .wp-list-table td.conversion-count {
-border-left: 1px solid #EBEBEA;
+	border-left: 1px solid #EBEBEA;
 }
 .mark-viewed {
 	margin-left: 8px;
@@ -114,7 +115,7 @@ margin-right: 5px !important;
 	display: none ;
 	margin-left: 8px;
 }
-.trash a{
+.row-actions .trash a{
 	background: #2ea2cc;
 	border-color: #0074a2;
 	-webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,.5),0 1px 0 rgba(0,0,0,.15);
@@ -139,9 +140,7 @@ margin-right: 5px !important;
 	font-weight: bold;
 	padding: 0px 10px !important;
 	margin-right: 5px !important;
-	-moz-transition: none;
-	-webkit-transition: none;
-	transition: none;
+
 	word-wrap: break-word;
 	outline: 0;
 	font-family: inherit;
@@ -149,42 +148,42 @@ margin-right: 5px !important;
 	-webkit-font-smoothing: subpixel-antialiased;
 }
 .wp-core-ui .button-primary.hover, .wp-core-ui .button-primary.submitdelete:hover, .wp-core-ui .button-primary.focus, .wp-core-ui .button-primary:focus {
-background: #1e8cbe;
-border-color: #0074a2;
--webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,.6);
-box-shadow: inset 0 1px 0 rgba(120,200,230,.6);
-color: #fff;
-text-decoration: none;
-vertical-align: top;
-display: inline-block;
-text-decoration: none;
-font-size: 13px;
-line-height: 26px;
-height: 28px;
-margin: 0;
-padding: 0 10px 1px;
-cursor: pointer;
-border-width: 1px;
-border-style: solid;
--webkit-border-radius: 3px;
--webkit-appearance: none;
-border-radius: 3px;
-white-space: nowrap;
--webkit-box-sizing: border-box;
--moz-box-sizing: border-box;
-box-sizing: border-box;
+	background: #1e8cbe;
+	border-color: #0074a2;
+	-webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,.6);
+	box-shadow: inset 0 1px 0 rgba(120,200,230,.6);
+	color: #fff;
+	text-decoration: none;
+	vertical-align: top;
+	display: inline-block;
+	text-decoration: none;
+	font-size: 13px;
+	line-height: 26px;
+	height: 28px;
+	margin: 0;
+	padding: 0 10px 1px;
+	cursor: pointer;
+	border-width: 1px;
+	border-style: solid;
+	-webkit-border-radius: 3px;
+	-webkit-appearance: none;
+	border-radius: 3px;
+	white-space: nowrap;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 }
 
-.trash a {
+.row-actions .trash a {
 	color:#fff !important;
 }
-.trash a {
+.row-actions .trash a {
 	background: #fc5a5a !important;
 	border-color: #fc5a5a !important;
 	-webkit-box-shadow: inset 0 1px 0 rgba(242, 45, 58, 0.5),0 1px 0 rgba(242, 45, 58, 0.15) !important;
 	box-shadow: inset 0 1px 0 rgba(242, 45, 58, 0.5),0 1px 0 rgba(242, 45, 58, 0.15) !important;
 }
-.trash a:hover {
+.row-actions .trash a:hover {
 	border-color: #fc5a5a !important;
 	-webkit-box-shadow: inset 0 1px 0 rgba(242, 45, 58, 0.5),0 1px 0 rgba(242, 45, 58, 0.15) !important;
 	box-shadow: inset 0 1px 0 rgba(242, 45, 58, 0.5),0 1px 0 rgba(242, 45, 58, 0.15) !important;

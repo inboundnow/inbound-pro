@@ -734,6 +734,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
 			if ( isset( $_GET[sanitize_key( 'tgmpa-dismiss' )] ) )
 				update_user_meta( get_current_user_id(), 'tgmpa_dismissed_notice', 1 );
+
 		}
 
 		/**

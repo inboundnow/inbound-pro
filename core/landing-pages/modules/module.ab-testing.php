@@ -74,15 +74,15 @@ if (is_admin())
 			{
 				$array_variations = explode(',',$variations);
 				$array_variations = lp_ab_unset_variation($array_variations,$_GET['lp-variation-id']);
-				
+
 				/* set next variation to be open */
-				$current_variation_id = current($array_variations);				
+				$current_variation_id = current($array_variations);
 				$_SESSION['lp_ab_test_open_variation'] = $current_variation_id;
-				
+
 				$variations = implode(',' , $array_variations);
 				update_post_meta($post->ID,'lp-ab-variations', $variations);
-				
-				
+
+
 				if (isset($_GET['lp-variation-id']) && $_GET['lp-variation-id'] > 0 ) {
 					$suffix = '-'.$_GET['lp-variation-id'];
 					$len = strlen($suffix);
@@ -90,7 +90,7 @@ if (is_admin())
 					$suffix = '';
 					$len = strlen($suffix);
 				}
-				
+
 				//delete each meta value associated with variation
 				global $wpdb;
 				$data   =   array();
@@ -111,7 +111,7 @@ if (is_admin())
 						delete_post_meta($_GET['post'], $key, $value);
 					}
 				}
-				
+
 				$_GET['lp-variation-id'] = $current_variation_id;
 			}
 
@@ -346,14 +346,14 @@ if (is_admin())
 			foreach ($lp_custom_fields as $key=>$field)
 			{
 				$default = get_post_meta($post_id, $field['id'], true);
-				
+
 				$id = $field['id'];
 				$field['id'] = $id.'-'.$current_variation_id ;
-				
+
 				if ($default) {
 					$field['default'] = $default;
 				}
-				
+
 				$lp_custom_fields[$key] = $field;
 			}
 			return $lp_custom_fields;
@@ -767,9 +767,12 @@ function lp_ab_testing_add_rewrite_rules()
 
 	$slug = get_option( 'lp-main-landing-page-permalink-prefix', 'go' );
 	//echo $slug;exit;
+	$ab_testing = get_option( 'lp-main-landing-page-disable-turn-off-ab', "0");
+	if($ab_testing === "0") {
+	add_rewrite_rule("$slug/([^/]*)/([0-9]+)/", "$slug/$1?lp-variation-id=$2",'top');
 	add_rewrite_rule("$slug/([^/]*)?", $this_path."modules/module.redirect-ab-testing.php?permalink_name=$1 ",'top');
 	add_rewrite_rule("landing-page=([^/]*)?", $this_path.'modules/module.redirect-ab-testing.php?permalink_name=$1','top');
-
+	}
 	add_filter('mod_rewrite_rules', 'lp_ab_testing_modify_rules', 1);
 	function lp_ab_testing_modify_rules($rules)
 	{
@@ -793,7 +796,7 @@ function lp_ab_testing_add_rewrite_rules()
 			foreach ($rules_array as $key=>$val)
 			{
 
-				if (stristr($val,"RewriteRule ^{$slug}/([^/]*)? "))
+				if ( stristr($val,"RewriteRule ^{$slug}/([^/]*)? ") ||  stristr($val,"RewriteRule ^{$slug}/([^/]*)/([0-9]+)/ ") )
 				{
 					$new_val = "RewriteCond %{QUERY_STRING} !lp-variation-id";
 					$rules_array[$i] = $new_val;
@@ -885,7 +888,7 @@ function lp_ab_testing_prepare_variation_callback()
 		die();
 	}
 
-	
+
 }
 
 
@@ -898,7 +901,7 @@ function lp_ab_testing_alter_content_area($content)
 	if ( !isset($post) || $post->post_type != 'landing-page' ) {
 		return $content;
 	}
-	
+
 	$variation_id = lp_ab_testing_get_current_variation_id();
 
 	if ($variation_id>0)
@@ -932,14 +935,14 @@ function lp_ab_testing_record_impression($post_id, $post_type = 'landing-page' ,
 	/* If Landing Page Post Type */
 	if ( $post_type == 'landing-page' ) {
 		$meta_key = 'lp-ab-variation-impressions-'.$variation_id;
-	} 	
+	}
 	/* If Non Landing Page Post Type */
 	else  {
 		$meta_key = '_inbound_impressions_count';
 	}
-	
+
 	$impressions = get_post_meta($post_id, $meta_key , true);
-		
+
 	if (!is_numeric($impressions)) {
 		$impressions = 1;
 	} else {

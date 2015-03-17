@@ -299,17 +299,14 @@ class CTA_AJAX_Return_Variation {
 	function connect_to_db()
 	{
 		/* Connect to MYSQL Datababase */
-		if ( file_exists ( './../../../../wp-config.php' ) )
-		{
+		if ( file_exists ( './../../../../wp-config.php' ) ){
 			$this->db = new WP_DB_Connect( 1 , './../../../../wp-config.php' );
-		}
-		else if ( './../../../../../wp-config.php' )
-		{
-			$this->db = new WP_DB_Connect( 1 , './../../../../../wp-config.php' );
-		}
-		else
-		{
-			//echo 'wp-config.php cannot be found.';
+		} else if ( './../../../../../../wp-config.php' ){
+			$this->db = new WP_DB_Connect( 1 , './../../../../../../wp-config.php' );
+		} else if ( './../../../../../../../wp-config.php' ) {
+			$this->db = new WP_DB_Connect( 1 , './../../../../../../../wp-config.php' );
+		} else {
+			echo 'wp-config.php cannot be found.';
 			echo 0; // default
 			exit;
 		}

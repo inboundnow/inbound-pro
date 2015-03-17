@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
 Grab all icons from http://fontawesome.io/icons/
 jQuery(".container").eq(3).addClass('special-class');
 function toTitleCase(str)
@@ -30,15 +30,6 @@ jQuery(".lead").append('"' + clean + '" => "' + toTitleCase(new_name) + '", ');
 	$form_names = get_transient( 'inbound-form-names' ); // array of landing page categories
 	$lead_mapping_fields = Leads_Field_Map::build_map_array();
 	$lead_list_names = get_transient( 'inbound-list-names' );
-
-    add_filter( 'excerpt_length', 'inbound_excerpt_length' );
-	if (!function_exists('inbound_excerpt_length')) {
-		function inbound_excerpt_length( $length ) {
-	        $custom = '';
-	        return ( $custom != '' ? $custom : 40 );
-	    }
-    }
-
 
 	/* Global Inbound Now Shortcodes */
 	require_once ('shortcodes/forms.php'); // Form Builder

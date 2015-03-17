@@ -81,7 +81,7 @@
 				)
 			),
 			'shortcode' => '[block title="{{title}}" subtitle="{{subtitle}}" icon="{{icon}}" link="{{link}}" ]{{content}}[/block]',
-			'clone' => __('Add More Block',	'leads' )
+			'clone' => __('Add More Block',	'cta' )
 		),
 		'shortcode' => '[teaser heading="{{heading}}" style="{{style}}" column="{{column}}"]{{child}}[/teaser]',
 		'popup_title' => 'Insert Teaser Shortcode'

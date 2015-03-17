@@ -39,7 +39,7 @@ function landing_page_register() {
         'rewrite' => array("slug" => "$slug",'with_front' => false),
         'capability_type' => 'post',
         'hierarchical' => false,
-        'menu_position' => null,
+        'menu_position' => 32,
         'supports' => array('title','custom-fields','editor','thumbnail', 'excerpt')
       );
 

@@ -46,10 +46,10 @@ array(
        'context'  => 'normal'
        ),
     array(
-       'label' => 'Header Sub Text',
+       'label' => 'Header Sub Text / Content',
        'description' => "Sub Header Text",
        'id'  => 'sub-header-text',
-       'type'  => 'text',
+       'type'  => 'wysiwyg',
        'default'  => 'Awesome Subheadline Text Goes here',
        'context'  => 'normal'
        ),
@@ -70,7 +70,7 @@ array(
        'context'  => 'normal'
        ),
    array(
-       'label' => 'Content Text Color (optional)',
+       'label' => 'Subheadline Text Color',
        'description' => "Use this setting to change headline color",
        'id'  => 'content-text-color',
        'type'  => 'colorpicker',

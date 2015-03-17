@@ -79,7 +79,7 @@
 
 		$out = '';
 
-		$out .= '<ul class="social-links">';
+		$out .= '<ul class="inboundnow-social-links">';
 		if( $facebook ) { $out .= '<li class="facebook"><a href="'. $facebook .'"><i class="icon-facebook icon-large"></i></a></li>'; }
 		if( $twitter ) { $out .= '<li class="twitter"><a href="'. $twitter .'"><i class="icon-twitter icon-large"></i></a></li>'; }
 		if( $google_plus ) { $out .= '<li class="google-plus"><a href="'. $google_plus .'"><i class="icon-google-plus icon-large"></i></a></li>'; }

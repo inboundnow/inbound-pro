@@ -37,14 +37,6 @@ function lp_get_global_settings() {
 			'options' => null
 		),
 		array(
-			'id'  => 'landing-page-prepopulate-forms',
-			'label' =>  __( 'Enable Form Prepopulation' , 'landing-pages') ,
-			'description' => __("With this setting enabled landing pages plugin will remember form input data that the user submits to a form and attempt to pre-populate all other forms with the same user's data when applicable." , 'landing-pages'),
-			'type'  => 'radio',
-			'default'  => '1',
-			'options' => array('1'=>'on','0'=>'off')
-		),
-		array(
 			'id'  => 'landing-page-disable-admin-tracking',
 			'label' => __('Disable Admin Impression/Conversion Tracking' , 'landing-pages') ,
 			'description' => __("With this setting enabled landing pages plugin will not record visits and conversions for administrative users that are logged in." , 'landing-pages'),
@@ -61,22 +53,6 @@ function lp_get_global_settings() {
 			'options' => array('1'=>'on','0'=>'off')
 		),
 		array(
-			'id'  => 'landing-page-auto-format-forms',
-			'label' => __('Enable Form Standardization' , 'landing-pages'),
-			'description' => __("With this setting enabled landing pages plugin will clean and standardize all input ids and classnames. Uncheck this setting to disable standardization." , 'landing-pages'),
-			'type'  => 'radio',
-			'default'  => '0',
-			'options' => array('1'=>'on','0'=>'off')
-		),
-		array(
-			'id'  => 'main-landing-page-auto-format-forms-retain-elements',
-			'label' => __('Form Standardization Element Whitelist' , 'landing-pages'),
-			'description' =>  __("Form standardization strips the conversion area content of html elements. Add the elements you do not want to be stripped to this list." , 'landing-pages') ,
-			'type'  => 'textarea',
-			'default'  => '<button><script><textarea><style><input><form><select><label><a><p><b><u><strong><i><img><strong><span><font><h1><h2><h3><center><blockquote><embed><object><small>',
-			'options' => null
-		),
-		array(
 			'id'  => 'inbound_compatibility_mode',
 			'label' => 'Turn on compability mode',
 			'description' => "<p>This option turns on compability mode for the inbound now plugins. This is typically used if you are experiencing bugs caused by third party plugin conflicts.</p>",
@@ -84,6 +60,14 @@ function lp_get_global_settings() {
 			'default'  => '0',
 			'options' => array('1'=>'On','0'=>'Off')
 		),
+		array(
+			'id'  => 'landing-page-disable-turn-off-ab',
+			'label' => __('Turn Off AB Testing?' , 'landing-pages') ,
+			'description' => __("This will disable the AB testing functionality of your landing pages. This is to comply with Googles new PPC regulations with redirects. After saving this option <a href='/wp-admin/options-permalink.php'>visit this page to flush/reset your permalinks</a>" , 'landing-pages'),
+			'type'  => 'radio',
+			'default'  => '0',
+			'options' => array('0'=>'No Keep it on','1'=>'Yes turn AB testing Off')
+		)
 	);
 
 
@@ -122,10 +106,8 @@ function lp_get_global_settings() {
 
 /* Add Extensions License Key Header if Extensions are present */
 add_filter('lp_define_global_settings', 'lp_add_extension_license_key_header', 2, 1);
-function lp_add_extension_license_key_header($lp_global_settings)
-{
-	if (array_key_exists('lp-license-keys',$lp_global_settings))
-	{
+function lp_add_extension_license_key_header($lp_global_settings) {
+	if (array_key_exists('lp-license-keys',$lp_global_settings)) {
 		$lp_global_settings['lp-license-keys']['settings'][] = 	array(
 				'id'  => 'extensions-license-keys-header',
 				'description' => __( "Head to http://www.inboundnow.com/ to retrieve your license key for this template." , 'landing-pages'),

@@ -19,24 +19,16 @@ function wpleads_get_global_settings() {
 		),
 		array(
 			'id'  => 'exclude-tracking-ids',
-			'label' => __('IDs of forms <u>NOT</u> to track' , 'leads' ),
-			'description' => __("<p>Enter in a value found in a HTML form's id attribute to turn off tracking.</p>" , 'leads' ),
+			'label' => __('IDs or Classes of forms <u>NOT</u> to track' , 'leads' ),
+			'description' => __("Enter in a value found in a HTML form's id attribute to turn off tracking." , 'leads' ),
 			'type'  => 'text',
 			'default'  => '',
 			'options' => null
 		),
 		array(
-			'id'  => 'form-prepopulation',
-			'label' => __('Form prepopulation' , 'leads' ),
-			'description' => __("<p>WordPress Leads records submitted field data for leads and will attempt to prepopulate forms with the last inputted data. Disabling this will turn this feature off.</p>" , 'leads' ),
-			'type'  => 'radio',
-			'default'  => '1',
-			'options' => array('1'=>'On','0'=>'Off')
-		),
-		array(
 			'id'  => 'page-view-tracking',
 			'label' => __('Page View Tracking' , 'leads' ),
-			'description' => __("<p>WordPress Leads automatically tracks page views of converted leads. This is extremely valuable lead intelligence and will help with your sales follow ups. However with great power comes great resposibility, this extra tracking can cause problems on high high traffic sites. You can turn off tracking if you see any issues.</p>" , 'leads' ),
+			'description' => __("WordPress Leads automatically tracks page views of converted leads. This is extremely valuable lead intelligence and will help with your sales follow ups. However with great power comes great resposibility, this extra tracking can cause problems on high high traffic sites. You can turn off tracking if you see any issues." , 'leads' ),
 			'type'  => 'radio',
 			'default'  => '1',
 			'options' => array('1'=>'On','0'=>'Off')
@@ -44,7 +36,7 @@ function wpleads_get_global_settings() {
 		array(
 			'id'  => 'search-tracking',
 			'label' => __('Search Query Tracking' , 'leads' ),
-			'description' => __("<p>WordPress Leads records searches made by leads and appends them to their lead record. Disabling this will turn this feature off.</p>" , 'leads' ),
+			'description' => __("WordPress Leads records searches made by leads and appends them to their lead record. Disabling this will turn this feature off." , 'leads' ),
 			'type'  => 'radio',
 			'default'  => '1',
 			'options' => array('1'=>'On','0'=>'Off')
@@ -52,7 +44,7 @@ function wpleads_get_global_settings() {
 		array(
 			'id'  => 'comment-tracking',
 			'label' => __('Comment Tracking' , 'leads' ),
-			'description' => __("<p>WordPress Leads records comments made by leads and appends them to their lead record. Disabling this will turn this feature off.</p>" , 'leads' ),
+			'description' => __("WordPress Leads records comments made by leads and appends them to their lead record. Disabling this will turn this feature off." , 'leads' ),
 			'type'  => 'radio',
 			'default'  => '1',
 			'options' => array('1'=>'On','0'=>'Off')
@@ -60,7 +52,7 @@ function wpleads_get_global_settings() {
 		array(
 			'id'  => 'enable-dashboard',
 			'label' => __('Show Lead/List Data in Dashboard' , 'leads' ),
-			'description' => __("<p>Turn this on to show graphical and list data about lead collection in WP Dashboard.</p>" , 'leads' ),
+			'description' => __("Turn this on to show graphical and list data about lead collection in WP Dashboard." , 'leads' ),
 			'type'  => 'radio',
 			'default'  => '1',
 			'options' => array('1'=>'On','0'=>'Off')
@@ -68,7 +60,7 @@ function wpleads_get_global_settings() {
 		array(
 			'id'  => 'disable-widgets',
 			'label' => __('Disable Default WordPress Dashboard Widgets' , 'leads' ),
-			'description' => __("<p>This turns off some default widgets on the wordpress dashboard.</p>" , 'leads' ),
+			'description' => __("This turns off some default widgets on the wordpress dashboard." , 'leads' ),
 			'type'  => 'radio',
 			'default'  => '1',
 			'options' => array('1'=>'On','0'=>'Off')
@@ -76,15 +68,15 @@ function wpleads_get_global_settings() {
 		array(
 			'id'  => 'extra-lead-data',
 			'label' => __('Full Contact API Key' , 'leads' ),
-			'description' => sprintf( __("<p>Enter your Full contact API key. If you don't have one. Grab a free one here: %s </p>" , 'leads' ) , "<a href='https://www.fullcontact.com/developer/pricing/' target='_blank'>" , "</a>"),
+			'description' => sprintf( __("Enter your Full contact API key. If you don't have one. Grab a free one here: %s" , 'leads' ) , "<a href='https://www.fullcontact.com/developer/pricing/' target='_blank'>" , "</a>"),
 			'type'  => 'text',
 			'default'  => '',
 			'options' => null
 		),
 		array(
 			'id'  => 'inbound_compatibility_mode',
-			'label' => __('Turn on compability mode' , 'leads' ),
-			'description' => __("<p>This option turns on compability mode for the inbound now plugins. This is typically used if you are experiencing bugs caused by third party plugin conflicts.</p>" , 'leads' ),
+			'label' => __('Turn on compatibility mode' , 'leads' ),
+			'description' => __("This option turns on compatibility mode for the inbound now plugins. This is typically used if you are experiencing bugs caused by third party plugin conflicts." , 'leads' ),
 			'type'  => 'radio',
 			'default'  => '0',
 			'options' => array('1'=>'On','0'=>'Off')
@@ -93,7 +85,7 @@ function wpleads_get_global_settings() {
 			'id'  => 'inbound_email_replace_core_template',
 			'option_name'  => 'inbound_email_replace_core_template',
 			'label' => __('Replace WordPress Email Templates with Inbound Now Email Templates' , 'leads' ),
-			'description' => __("<p>This option replaces frequently used core WordPress email templates with Inbound Now templates that are editable within the Leads->Email Templates area. If your website is set to a a language besides English it may be best to turn this off until test strings have been translated for your language.</p>" , 'leads' ),
+			'description' => __("This option replaces frequently used core WordPress email templates with Inbound Now templates that are editable within the Leads->Email Templates area. If your website is set to a a language besides English it may be best to turn this off until test strings have been translated for your language." , 'leads' ),
 			'type'  => 'radio',
 			'default'  => '1',
 			'options' => array('1'=>'On','0'=>'Off')
@@ -102,19 +94,22 @@ function wpleads_get_global_settings() {
 			'id'  => 'inbound_forms_enable_akismet',
 			'option_name'  => 'inbound_forms_enable_akismet',
 			'label' => __('Run form submissions through Akismet if akismet is enabled.' , 'leads' ),
-			'description' => __("<p>Enabling this option will tell Leads to run form submissions through akismet to prevent spam submissions.</p>" , 'leads' ),
+			'description' => __("Enabling this option will tell Leads to run form submissions through akismet to prevent spam submissions." , 'leads' ),
 			'type'  => 'radio',
-			'default'  => '1',
+			'default'  => '0',
 			'options' => array('1'=>'On','0'=>'Off')
-		),
-		/*array(
-			'id'  => 'lead_automation_cronjob_period',
-			'label' => __('How often do you want to process marketing automation rules?' , 'leads' ),
-			'description' => __("<p>Set how often you would like to process lead automation? Cronjob Settings.</p>" , 'leads' ),
+		)
+		/*
+		,array(
+			'id'  => 'inbound_lead_notification_reply',
+			'option_name'  => 'inbound_lead_notification_reply',
+			'label' => __('Lead notification "Reply To" email address' , 'leads' ),
+			'description' => __( "You can set the 'new lead' notification email's reply-to address to be a dummy no-reply email address or the lead's email address. The latter sometimes experiences spam-box issues so we've defaulted the reply-to email to be a dummy one: wordpress@yourdomain.com." , 'leads' ),
 			'type'  => 'dropdown',
-			'default'  => 'hourly',
-			'options' => array('twicedaily'=>'twice a day','daily'=>'Once a day','hourly'=>'Every Hour')
-		) */
+			'default'  => '0',
+			'options' => array( 'noreply' => __( 'Generated Noreply Email' , 'leads' ) , 'lead'=> __( 'Use the Lead\'s Email Address' , 'leads' ) )
+		)
+		*/
 	);
 
 	/* Setup License Keys Tab */
@@ -125,7 +120,23 @@ function wpleads_get_global_settings() {
 	$tab_slug = 'wpleads-extensions';
 	$wpleads_global_settings[$tab_slug]['label'] = __('Extensions' , 'leads' );
 
+
+
 	$wpleads_global_settings = apply_filters('wpleads_define_global_settings', $wpleads_global_settings);
+
+	/* Setup API Keys Tab */
+	if (current_user_can('activate_plugins')) {
+		$tab_slug = 'wpleads-apikeys';
+		$wpleads_global_settings[$tab_slug]['label'] = __('API Keys' , 'leads' );
+
+		$wpleads_global_settings[$tab_slug]['settings'] = array(
+			array(
+				'id'  => 'api-keys-table',
+				'label' => __('API Keys Table' , 'leads' ),
+				'type'  => 'api-keys-table'
+			)
+		);
+	}
 
 	return $wpleads_global_settings;
 }
@@ -164,11 +175,18 @@ function wpleads_render_global_settings($key,$custom_fields,$active_tab) {
 		$display = 'none';
 	}
 
+	/* add extra styling for the api tab */
+	if ( $key == 'wpleads-apikeys' ) {
+		$styling = 'padding:0px;';
+	} else {
+		$styling = '';
+	}
+
 	/* Use nonce for verification */
 	echo "<input type='hidden' name='wpl_{$key}_custom_fields_nonce' value='".wp_create_nonce('wpl-nonce')."' />";
 
 	/* Begin the field table and loop */
-	echo '<table class="wpl-tab-display" id="'.$key.'" style="display:'.$display.'">';
+	echo '<table class="wpl-tab-display" id="'.$key.'" style="display:'.$display.'; ' . $styling .'">';
 
 	foreach ($custom_fields as $field) {
 		/* get value of this field if it exists for this post */
@@ -181,6 +199,16 @@ function wpleads_render_global_settings($key,$custom_fields,$active_tab) {
 		}
 
 		$field['value'] = get_option($field['id'], $default);
+
+		/* Handle the API Keys List Table separately */
+		if ($field['type'] == 'api-keys-table') {
+			echo '</form><tr><td>';
+			$api_keys_table = new Inbound_API_Keys_Table();
+			$api_keys_table->prepare_items();
+			$api_keys_table->display();
+			echo '</td></tr>';
+			continue;
+		}
 
 		echo '<tr><th class="wpl-gs-th" valign="top" style="font-weight:300;">';
 		if ($field['type']=='header'){
@@ -271,6 +299,7 @@ function wpleads_render_global_settings($key,$custom_fields,$active_tab) {
 						echo '<div class="wpl_tooltip tool_dropdown" title="'. $field['description'] .'"></div>';
 					break;
 
+
 				} //end switch
 
 				do_action('wpleads_render_global_settings',$field);
@@ -281,13 +310,43 @@ function wpleads_render_global_settings($key,$custom_fields,$active_tab) {
 
 function wpleads_display_global_settings_js() {
 	global $wpleads_global_settings;
-	$wpleads_global_settings = wpleads_get_global_settings();
+
 
 	if (isset($_GET['tab'])) {
 		$default_id = $_GET['tab'];
 	} else {
 		$default_id ='wpl-main';
 	}
+	?>
+
+	<script type='text/javascript'>
+	/* Hide sidebar when API Keys Tab is opened */
+	jQuery(document).ready( function($) {
+
+		jQuery('body').on( 'click' , '.wpl-nav-tab' , function() {
+
+			if ( this.id == 'tabs-wpleads-apikeys' ) {
+				jQuery('.lp-settings-tab-sidebar').hide();
+				jQuery('#wpl-button-create-new-group-open').hide();
+			} else {
+				jQuery('.lp-settings-tab-sidebar').show();
+				jQuery('#wpl-button-create-new-group-open').show();
+			}
+		});
+
+		<?php
+		if ( isset($_GET['tab']) && $_GET['tab'] == 'tabs-wpleads-apikeys' ) {
+			echo "jQuery('.lp-settings-tab-sidebar').hide();";
+			echo "jQuery('#wpl-button-create-new-group-open').hide();";
+		}
+		?>
+
+	});
+
+	</script>
+
+	<?php
+
 }
 
 function wpleads_display_global_settings() {
@@ -299,7 +358,7 @@ function wpleads_display_global_settings() {
 		$active_tab = $_REQUEST['open-tab'];
 	}
 
-	wpleads_display_global_settings_js();
+
 	wpleads_save_global_settings();
 
 	echo '<h2 class="nav-tab-wrapper">';
@@ -327,13 +386,14 @@ function wpleads_display_global_settings() {
 		}
 
 		$these_settings = $wpleads_global_settings[$key]['settings'];
-		wpleads_render_global_settings($key,$these_settings, $active_tab);
+		wpleads_render_global_settings($key, $these_settings , $active_tab);
 	}
 	echo '<div style="float:left;padding-left:9px;padding-top:20px;">
 			<input type="submit" value="Save Settings" tabindex="5" id="wpl-button-create-new-group-open" class="button-primary" >
 		</div>';
 	echo "</form>";
 
+	wpleads_display_global_settings_js();
 }
 
 function wpleads_save_global_settings() {

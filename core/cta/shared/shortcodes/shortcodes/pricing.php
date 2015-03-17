@@ -67,7 +67,7 @@
 				)
 			),
 			'shortcode' => '[plan featured="{{featured}}" title="{{title}}" price="{{price}}" term="{{term}}" button_text="{{button_text}}" button_link="{{button_link}}"]{{content}}[/plan]',
-			'clone' => __('Add More Testimony',  'leads' )
+			'clone' => __('Add More Testimony',  'cta' )
 		),
 		'shortcode' => '[pricing column="{{column}}"]{{child}}[/pricing]',
 		'popup_title' => 'Insert Pricing Shortcode'

@@ -58,12 +58,12 @@ $inbound_email_templates['inbound-new-lead-notification'] = '<!DOCTYPE html PUBL
               </div>
              </td>
      </tr>
-	 
+
 	 <!-- LOOP THROUGH POST PARAMS -->
 	 [inbound-email-post-params]
-	 
+
 	 <!-- END LOOP -->
-	 
+
 	 <!-- IF CHAR COUNT OVER 50 make label display block -->
 
    </tbody>
@@ -134,11 +134,11 @@ $inbound_email_templates['inbound-new-lead-notification'] = '<!DOCTYPE html PUBL
   <tr>
     <td valign="middle" width="30" style="color:#272727">&nbsp;</td>
       <td width="50" height="40" valign="middle" align="left" style="color:#272727">
-		<img src="{{leads-urlpath}}images/inbound-email.png" height="40" width="40" alt=" " style="outline:none;text-decoration:none;max-width:100%;display:block;width:40px;min-height:40px;border-radius:20px">
+		<a href="http://www.inboundnow.com" target="_blank"><img src="{{leads-urlpath}}images/inbound-email.png" height="40" width="40" alt=" " style="outline:none;text-decoration:none;max-width:100%;display:block;width:40px;min-height:40px;border-radius:20px"></a>
       </td>
-    <td style="color:#272727">
+    <td style="color:#272727"><a style="color:#272727;text-decoration:none;" href="http://www.inboundnow.com" target="_blank">
       '. __( '<b>Leads</b>
-       from Inbound Now' , 'ma' ) .'
+       from Inbound Now' , 'ma' ) .'</a>
     </td>
     <td valign="middle" align="left" style="color:#545454;text-align:right">{{date-time}}</td>
     <td valign="middle" width="30" style="color:#272727">&nbsp;</td>

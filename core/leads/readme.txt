@@ -1,13 +1,13 @@
 === WordPress Leads ===
 
-Contributors: David Wells, adbox
+Contributors: David Wells, Hudson Atwell
 Donate link: mailto:marketplace@inboundnow.com
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: leads, lead capture, lead tracking, lead collection, lead management, crm, crm tools,customer relationship management, contact management, landing page leads, extendable
 Requires at least: 3.8
-Tested up to: 3.9
-Stable Tag: 1.4.6
+Tested up to: 4.1
+Stable Tag: 1.5.9
 
 Track visitor activity, capture and manage incoming leads, and send collected emails to your email service provider.
 
@@ -71,7 +71,7 @@ We built Lead Management as a framework! You can use our extendable framework to
 
 == Installation ==
 
-1. Upload `wordpress-leads` folder to the `/wp-content/plugins/` directory
+1. Upload `leads` folder to the `/wp-content/plugins/` directory
 1. Activate the plugin through the 'Plugins' menu in WordPress
 
 == Frequently Asked Questions ==
@@ -84,6 +84,40 @@ We built Lead Management as a framework! You can use our extendable framework to
 4. Get Notified on Lead Conversions
 
 == Changelog ==
+= 1.5.9 =
+* Better required field validation for checkboxes
+
+= 1.5.8 =
+* Even more security updates! Security for the win!
+
+= 1.5.7 =
+* Security Patch
+
+= 1.5.6 =
+* Fix double lead notification email
+
+= 1.5.5 =
+* Contact form 7 fix
+
+= 1.5.4 =
+* Added form field exclusions to ignore sensitive data
+
+= 1.5.2 =
+* See Changelog Here: https://github.com/inboundnow/leads/issues?q=is%3Aissue+is%3Aclosed+label%3Av1.5.2
+
+= 1.5.1 =
+* Improved form email typo detection
+* Improved Template Styles
+* Fixed content wysiwyg scroll freezing bug
+
+= 1.5.0 =
+* Added Lead API
+* Added CSV exporting to Lead Management
+* Moved language file out of shared folder
+* Bug Fix: Email Systems
+* Bug Fix: Lead notification email treats multiple selections correctly now.
+* Add default email confirmation subject when empty.
+
 = 1.4.6 =
 * Bug Fix: Lead notification emails are fixed.
 

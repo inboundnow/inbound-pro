@@ -39,7 +39,7 @@ array(
 
 <strong>In this guide you will learn:</strong>
 
-[list icon="ok-sign" font_size="16" icon_color="#00a319" text_color="" bottom_margin="10"]
+[list icon="check" font_size="16" icon_color="#00a319" text_color="" bottom_margin="10"]
 <ul>
 	<li>This list was created with the list icon shortcode.</li>
 	<li>Click on the power icon in your editor to customize your own</li>

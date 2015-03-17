@@ -32,24 +32,28 @@ else if (isset($_GET['page'])&&$_GET['page']=='lp_manage_templates')
 		private $singular;
 		private $plural;
 
-		function __construct()
-		{
+		function __construct() {
+
 			$lp_data = lp_get_extension_data();
 			$final_data = array();
-			
+
 			foreach ($lp_data as $key=>$data)
 			{
 				$array_core_templates = array('countdown-lander','default','demo','dropcap','half-and-half','simple-two-column','super-slick','svtle','tubelar','rsvp-envelope', 'simple-solid-lite', 'three-column-lander');
 
-				if ($key == 'lp' || substr($key,0,4) == 'ext-' )
+				if ($key == 'lp' || substr($key,0,4) == 'ext-' ) {
 					continue;
+				}
 
-				if (isset($data['info']['data_type']) && $data['info']['data_type']=='metabox')
+
+				if (isset($data['info']['data_type']) && $data['info']['data_type']=='metabox') {
 					continue;
+				}
 
-				if (in_array($key,$array_core_templates))
+
+				if (in_array($key,$array_core_templates)) {
 					continue;
-
+				}
 				//if (stristr($data['category'],'Theme Integrated'))
 					//continue;
 
@@ -60,12 +64,13 @@ else if (isset($_GET['page'])&&$_GET['page']=='lp_manage_templates')
 					}
 				}
 
-				if (isset($data['thumbnail']))
+				if (isset($data['thumbnail'])) {
 					$thumbnail = $data['thumbnail'];
-				else if ($key=='default')
+				} else if ($key=='default') {
 					$thumbnail =  get_bloginfo('template_directory')."/screenshot.png";
-				else
+				} else {
 					$thumbnail = LANDINGPAGES_UPLOADS_URLPATH.$key."/thumbnail.png";
+				}
 
 				$this_data['ID']  = $key;
 				$this_data['template']  = $key;
@@ -75,12 +80,9 @@ else if (isset($_GET['page'])&&$_GET['page']=='lp_manage_templates')
 				( array_key_exists('info',$data) ) ? $this_data['description'] = $data['info']['description'] :  $this_data['description'] = $data['description'];
 
 				$this_data['thumbnail']  = $thumbnail;
-				if (isset($data['info']['version'])&&!empty($data['info']['version']))
-				{
+				if (isset($data['info']['version'])&&!empty($data['info']['version'])) {
 					$this_data['version']  = $data['info']['version'];
-				}
-				else
-				{
+				} else {
 					$this_data['version'] = "1.0.1";
 				}
 
@@ -102,8 +104,7 @@ else if (isset($_GET['page'])&&$_GET['page']=='lp_manage_templates')
 			$this->_args = $args;
 		}
 
-		function get_columns()
-		{
+		function get_columns() {
 			$columns = array(
 			'cb'        => '<input type="checkbox" />',
 			'template' => __( 'Template' , 'landing-pages'),

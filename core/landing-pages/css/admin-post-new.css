@@ -18,6 +18,9 @@
 .quicktags-toolbar, .wp_themeSkin tr.mceFirst td.mceToolbar {
 	height: 38px;
 }
+.quicktags-toolbar {
+    height: auto;
+}
 .mceIframeContainer.mceFirst.mceLast iframe{
 	height: 335px !important;
 }

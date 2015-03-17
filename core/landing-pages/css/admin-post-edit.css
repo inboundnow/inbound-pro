@@ -13,8 +13,15 @@ h2#convert-header {
 .quicktags-toolbar, .wp_themeSkin tr.mceFirst td.mceToolbar {
 	height: 38px;
 }
+.quicktags-toolbar {
+    height: auto;
+}
 .mceIframeContainer.mceFirst.mceLast iframe{
 	height: 335px !important;
+}
+/* FIX WORDPRESS BULLSHIT */
+body.modal-open {
+overflow: visible !important;
 }
 #lp-notes-area input {
 	width: 100%;
@@ -97,37 +104,41 @@ min-width: 320px;
 
 #main-title-area .button-primary.new-save-lp {
 	position: absolute !important;
+	top: 2px !important;
+	font-size: 17px !important;
+	padding-top: 3px !important;
+	right: 0px !important;
+	height: 31px !important;
+	max-width: 100px !important;
+	text-align: center !important;
+}
+.jPicker {
+	display: inline-block;
+	vertical-align: top;
+	margin-top: 3px;
+}
+#lp-notes-area .button-primary.new-save-lp {
+	position: absolute !important;
+	top: 2px !important;
+	font-size: 17px !important;
+	padding-top: 3px !important;
+	right: 0px !important;
+	height: 31px !important;
+
+}
+#main-title-area .lp-success-message, #lp-notes-area .lp-success-message {
+	position: absolute !important;
 	top: 1px !important;
 	font-size: 17px !important;
 	padding-top: 3px !important;
 	right: 0px !important;
 	height: 31px !important;
-	width: 70px !important;
-}
-#lp-notes-area .button-primary.new-save-lp {
-	position: absolute !important;
-	top: 0px !important;
-	font-size: 14px !important;
-	padding-top: 0px !important;
-	right: 0px !important;
-	height: 24px !important;
-	width: 66px !important;
-}
-#main-title-area .lp-success-message, #lp-notes-area .lp-success-message {
-	position: absolute !important;
-	top: 1px !important;
-	font-size: 11px !important;
-	padding-top: 3px !important;
-	right: 0px !important;
-	height: 17px !important;
 	vertical-align: middle;
 	margin-top: 0px;
 	padding-bottom: 0px;
 }
 
-#main-title-area .button-primary.new-save-lp {
-	padding-top: 6px !important;
-}
+
 
 #main-title-area .lp-success-message {
 	margin-top: 4px;

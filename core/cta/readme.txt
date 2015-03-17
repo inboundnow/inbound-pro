@@ -1,13 +1,13 @@
 === WordPress Calls to Action ===
 
-Contributors: David Wells, adbox
+Contributors: David Wells, Hudson Atwell
 Donate link: mailto:marketplace@inboundnow.com
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: Call to action, Calls to Action, CTA, inbound marketing, call outs, ad management, split testing, a b test, a b testing, a/b test, a/b testing, popups, email list, landing page, pop up, list building, inbound now, wp-call-to-actions, cpa, click tracking, ad placement, banner ads, slide in call outs, fly ins, like to download, social media share buttons
 Requires at least: 3.8
-Tested up to: 3.8
-Stable Tag: 2.1.3
+Tested up to: 4.1
+Stable Tag: 2.3.1
 
 Create Calls to Action for your WordPress site. Monitor and improve conversion rates, run A/B split tests, customize your own CTA templates and more.
 
@@ -31,7 +31,7 @@ http://www.youtube.com/watch?v=-qaYgwV7p-8
 * Track conversion rates on your calls to action for continual optimization.
 * Easily clone existing calls to action and run A/B Split tests on variations.
 * Gather lead intelligence and track lead activity with <a href="http://wordpress.org/plugins/leads/screenshots/">WordPress Leads</a>
-* Easily implement your own custom call to action design or use our library of custom call to action designs.
+* Easily implement your own custom call to action design or use our library of custom call to action designs
 
 
 = Developers & Designers =
@@ -68,6 +68,46 @@ The plugin is also fully extendable and has a number of actions, filters, and ho
 8. Global placements via your sites sidebar
 
 == Changelog ==
+= 2.3.1 =
+* Conversion tracking bug fixed for CTAs
+
+= 2.3.0 =
+* Conversion tracking bug fixed for CTAs
+
+= 2.2.9 =
+* Conversion tracking bug fixed for CTAs
+* Safari ajax bug fix
+
+= 2.2.8 =
+* Even more security updates! Security for the win!
+
+= 2.2.7 =
+* security update
+
+= 2.2.6 =
+* Fix double lead notification email
+
+= 2.2.5 =
+* Fixed double email submission on contact form 7
+
+= 2.2.4 =
+* Added form field exclusions
+
+= 2.2.2 =
+* See changelog here: https://github.com/inboundnow/cta/issues?q=is%3Aclosed+is%3Aissue+label%3Av2.2.2
+
+= 2.2.1 =
+* Improved form email typo detection
+* Improved Template Styles
+* Improved frontend editor
+* Fixed content wysiwyg scroll freezing bug
+
+= 2.2.0 =
+* French - 100% Translated
+* Converted code standards to CLASS based system.
+* Better code documentation.
+* New filter: inbound-email-post-params
+
 = 2.1.4 =
 * "Translation 100% for Romanian." - FX Benard
 
@@ -75,7 +115,7 @@ The plugin is also fully extendable and has a number of actions, filters, and ho
 * Fix: Lead email notifications now working again.
 
 = 2.1.2 =
-* Major code refactoring for improved developer experience. 
+* Major code refactoring for improved developer experience.
 * Added: Button to clear all cta stats at once
 * Fix: Open cta links in new window
 

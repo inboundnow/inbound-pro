@@ -6,30 +6,25 @@ function getURLParameter(name) {
     );
 }
 
-/* Usage: http://site.com?id=123456 */
-var test = getURLParameter('tab');
-console.log(test); // outputs 123456
-
-
-jQuery(document).ready(function($) {
+InboundQuery(document).ready(function($) {
 
   // Getting URL var by its nam
   var byName = getURLParameter('tab');
 
   // Set setting Tab
   setTimeout(function() {
-      jQuery("#" + byName).click();
+      InboundQuery("#" + byName).click();
   }, 300);
 
     /* Update Setting URL */
-  jQuery("body").on('click', '.nav-tab', function () {
-    var this_id = jQuery(this).attr('id');
+  InboundQuery("body").on('click', '.nav-tab', function () {
+    var this_id = InboundQuery(this).attr('id');
     var show = "#" + this_id.replace('tabs-', '');
-    jQuery('.wpl-tab-display').css('display','none');
-    jQuery('.wpl-nav-tab').removeClass('nav-tab-special-active');
-    jQuery('.wpl-nav-tab').addClass('nav-tab-special-inactive');
-    jQuery("#" + this_id).addClass('nav-tab-special-active');
-    jQuery(show).css('display','block');
+    InboundQuery('.wpl-tab-display').css('display','none');
+    InboundQuery('.wpl-nav-tab').removeClass('nav-tab-special-active');
+    InboundQuery('.wpl-nav-tab').addClass('nav-tab-special-inactive');
+    InboundQuery("#" + this_id).addClass('nav-tab-special-active');
+    InboundQuery(show).css('display','block');
     if (history.pushState) {
         var newurl = window.location.href.replace(/tab=([^"]*)/g, 'tab=' + this_id);
         var current_tab = newurl.match(/tab=([^"]*)/g);

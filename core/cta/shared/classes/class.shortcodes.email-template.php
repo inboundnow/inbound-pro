@@ -18,6 +18,7 @@ class Inbound_Email_Template_Shortcodes {
 		add_shortcode( 'inbound-gravitar', array( __CLASS__, 'generate_gravitar' ), 1 );
 	}
 
+
 	/**
 	* Used by leads-new-lead-notification email template to dispaly form fields the user inputted when converting on a form.
 	*
@@ -47,6 +48,14 @@ class Inbound_Email_Template_Shortcodes {
 			}
 		}
 
+		if( isset($post_params[ 'email' ])){
+			$emailVal = $post_params[ 'email' ];
+			unset($post_params[ 'email' ]);
+			$email_array = array('email' => $emailVal );
+			$post_params = array_merge( $email_array, $post_params );
+			//print_r($post_params); exit;
+		}
+
 		foreach ($post_params as $key => $value ) {
 
 			$name = str_replace(array('-','_'),' ', $key);
@@ -56,7 +65,10 @@ class Inbound_Email_Template_Shortcodes {
 				continue;
 			}
 
-			if ( strlen($value) < 1 ) {
+
+			if (is_array($value)) {
+				$value = implode(', ', $value);
+			} else if ( strlen($value) < 1 ) {
 				$value  = __( 'n/a' , 'ma');
 			}
 
@@ -91,14 +103,19 @@ class Inbound_Email_Template_Shortcodes {
 				$name = __("Converted on Page" , 'ma' );
 			}
 
-			$html .= '<tr style="border-bottom:1px solid #cccccc;">';
-			$html .= '<td width="600" style="border-right:1px solid #cccccc;padding:10px;padding-bottom:5px;">';
-			$html .= '<div style="padding-left:5px;display:inline-block;padding-bottom:5px;font-size: 16px; color:#555;"><strong>';
-			$html .= $name;
-			$html .= '</strong></div><div style="padding-left:5px;display:inline-block;font-size:14px;color:#000;">';
-			$html .= $value;
-			$html .= '</div></td></tr>';
+			$html .= '<tr style="border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#cccccc;">';
+			$html .= '<td width="600" style="border-right:1px solid #cccccc;">';
+			//$html .= '<div style="padding-left:5px;display:inline-block;padding-bottom:5px;font-size:16px;color:#555;font-weight:bold;">' . $name . '</div>';
+			$html .= '<table cellpadding="10" style="width:100%;max-width:600px;border-collapse:collapse;border:none;background:white;"><tbody><tr style="background:#ffffff;height:27px;font-weight:lighter;color:#555;font-size:16px;border:none;text-align:left;"><td align="left" width="200" style="color:#555;font-size:16px;font-weight:bold;">';
+		     $html .= $name;
+		     $html .= '</td><td align="left" width="400" style="font-size:14px;color:#000;">';
+		     $html .= $value;
+     		$html .= '</td></tr></tbody></table>';
+			//$html .= '<div style="padding-left:5px;display:inline-block;font-size:14px;color:#000;">'. $value .'</div>';
+			$html .= '</td></tr>';
 		}
+
+		//echo $html; exit;
 
 		return $html;
 	}
@@ -116,7 +133,7 @@ class Inbound_Email_Template_Shortcodes {
 		  'default' => 'mm'
 		), $atts ) );
 
-		return "http://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size;
+		return "//www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size;
 
 	}
 }

@@ -1,0 +1,186 @@
+#wpbody-content {
+	background-color:#fff;
+}
+
+#wpwrap, #wpcontent {
+	background-color:#fff;
+}
+
+.wrap {
+	margin-top:0px;
+	padding:0px;
+}
+
+.inbound-setting .hidden {
+	display:none;
+}
+
+/* search */
+.templates-filter-group {
+	text-align:right;
+	width:100%;
+}
+
+.filter-search {
+	text-align:left;
+	margin-bottom:5px;
+}
+
+/* Settings Rows */
+.inbound-settings-group {
+	padding: 20px 20px 20px 20px ;
+	border-right: 1px solid #aaa;
+	border-left: 1px solid #aaa;
+	border-bottom: 1px solid #aaa;
+	border-top: 1px solid #aaa;
+	background: #eee;
+	margin-bottom:20px;
+	display:block;
+	width:100%;
+}
+
+.inbound-settings-group:nth-child(odd) {
+	background: #ddd;
+	color: #000;
+}
+
+/* Fonts */
+
+@import url(http://fonts.googleapis.com/css?family=Oswald);
+
+
+/* License Key */
+$color:#000;
+$font:'Oswald', sans-serif;
+
+
+.license-key {
+  margin:auto;
+  overflow: hidden;
+  position: absolute;
+  left: 0;
+  top:0;
+  bottom:0;
+  height:100px;
+  right: 0;
+  font-family: $font;
+  width:300px;
+}
+.license-key label{
+  font-size: 20px;
+  height:100px;
+  left: 0;
+  width:400px;
+  color: $color;
+  margin-bottom: 10px;
+  z-index:-1;
+  transition-duration: 0.2s;
+  transition-property: transform;
+}
+.license-key  input{
+  border:none;
+  padding: 5px 5px 5px 5px;
+  border-color: #5b9dd9;
+	-webkit-box-shadow: 0 0 2px rgba(30,140,190,.8);
+	box-shadow: 0 0 2px rgba(30,140,190,.8);
+  color: #000;
+  background:#fff;
+  outline:none;
+  font-family:$font;
+  width:300px;
+  transition-property: transform;
+  font-size:16px
+
+}
+
+.license-key .invalid {
+	border-style: solid;
+    border-width: 2px;
+	border-color:  #b94a48 !important;
+}
+
+.invalid-icon {
+	margin-left:20px;
+	color:#b94a48 !important;
+}
+
+.valid-icon {
+	margin-left:20px;
+	color: green;
+}
+
+.license-key .valid {
+	border-style: solid;
+    border-width: 2px;
+	border-color: #AAD661 !important;
+}
+
+.license-key  input:focus + label{
+  transform:translateY(-45px) translateX(-80px) scale(0.6);
+}
+.license-key  label:after{
+  content: "";
+  box-shadow: inset 8px -8px 0 rgba(255, 255, 255, 1), -3px 4px 0 rgba(0, 0, 0, 0.26);
+  position:absolute;
+  top:20px;
+  right:-100px;
+  height: 28px;
+  transition-duration: 0.1s;
+  transition-property: transform;
+  transform: rotate(-45deg) scale(0.6);
+  width: 60px;
+  float:right;
+  display:block;
+  margin: 50px auto;
+}
+.license-key input:valid + label {  
+  transform:translateY(-45px) translateX(-80px) scale(0.6);
+}
+.license-key  input:valid + label::after{
+  display:block;
+  transform:translateX(-10px) rotate(-45deg)
+}
+.license-key  input:invalid + label::after{
+  transform:translateX(100px) rotate(-45deg)
+}
+
+/* Field Styles */
+.inbound-field div {
+	display:inline-block;
+}
+
+.inbound-label-field {
+	min-width:170px;
+}
+
+.ink-button {
+	margin-bottom:10px;
+}
+
+/* Footer */
+
+.footer-left {
+	vertical-align:top;
+	width:50%;
+	padding-right:40px;
+}
+
+.footer-right {
+	vertical-align:top;
+	width:50%;
+	
+}
+.footer-right-h2 {
+	padding-left:27px;
+	padding-bottom:10px;
+	
+}
+
+.pro-footer {
+	text-align:right;
+}
+
+/* sidebar */
+.sidebar-h6 {
+	color: #a9a9a9;
+}

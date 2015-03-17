@@ -45,7 +45,7 @@ $conversion_area = lp_get_value($post, $key, 'conversion-area-content');
     <link rel="stylesheet" href="<?php echo $path; ?>assets/css/normalize.css">
     <link rel="stylesheet" href="<?php echo $path; ?>assets/css/style.css">
     <script src="<?php echo $path; ?>assets/js/modernizr-2.6.2.min.js"></script>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.5, minimum-scale=0.5">
     <style type="text/css">
     body { font-family: "Open Sans",sans-serif;}
         #lp_container_form {text-align: center;}

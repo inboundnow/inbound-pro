@@ -1,11 +1,5 @@
  jQuery(document).ready(function($) {
 
-    jQuery('form').each(function(){
-    	jQuery(this).addClass('wpl-track-me');
-	});
-
- 	// Saves variation page views
-
  	// Save page view count
 	jQuery.ajax({
 		type: 'POST',

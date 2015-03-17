@@ -71,9 +71,10 @@ function wpleads_custom_columns( $column, $post_id ) {
 		$size = 50;
 		$url = site_url();
 		$default = WPL_URLPATH . '/images/gravatar_default_50.jpg'; // doesn't work for some sites
-		$gravatar = "http://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size;
+		
+		$gravatar = "//www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size;
 		$extra_image = get_post_meta( $post_id , 'lead_main_image', true );
-	/*
+	    /*
 		Super expensive call. Need more elegant solution
 	 	$response = get_headers($gravatar);
 		if ($response[0] === "HTTP/1.0 302 Found"){
@@ -81,7 +82,7 @@ function wpleads_custom_columns( $column, $post_id ) {
 		} else {
 			$gravatar = "http://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size;
 		}
-	*/
+		*/
 		// Fix for localhost view
 		if (in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1'))) {
 		    $gravatar = $default;
@@ -288,7 +289,7 @@ function wpl_admin_posts_meta_filter( $query ) {
 				$query->query_vars['meta_value'] = $_GET['lead-email'];
 			}
 	}
-	
+
 	// Redirect clicks from lead emails to lead profiles.
 	add_action('admin_init', 'wp_lead_redirect_with_email');
 	function wp_lead_redirect_with_email() {
@@ -458,12 +459,9 @@ function wp_leads_raw_form_map_save()
 // Ajax Auto mark lead as read on first page view
 add_action( 'wp_ajax_nopriv_wp_leads_auto_mark_as_read', 'wp_leads_auto_mark_as_read' );
 add_action( 'wp_ajax_wp_leads_auto_mark_as_read', 'wp_leads_auto_mark_as_read' );
-function wp_leads_auto_mark_as_read()
-{
+function wp_leads_auto_mark_as_read(){
 	global $wpdb;
-	if ( !wp_verify_nonce( $_POST['nonce'], "wp-lead-map-nonce")) {
-		 exit("Wrong nonce");
-	}
+
 	//$mapped_field = $_POST['mapped_field'];
 	$newrules = "Read";
 	$post_id = mysql_real_escape_string($_POST['page_id']);
@@ -536,9 +534,9 @@ add_action('load-edit.php', 'wpleads_bulk_action');
 function wpleads_bulk_action() {
 	// ...
 	if (isset($_REQUEST['post_type'])&&$_REQUEST['post_type']=='wp-lead'&&isset($_REQUEST['post'])) {
-		
+
 		global $Inbound_Leads;
-		
+
 		$wp_list_table = _get_list_table('WP_Posts_List_Table');
 		$action = $wp_list_table->current_action();
 

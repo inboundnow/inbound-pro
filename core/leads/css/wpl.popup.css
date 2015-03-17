@@ -22,3 +22,6 @@ overflow: hidden !important;
 	font-size: 20px;
 	text-decoration: none;
 }
+.update-nag {
+  display: none !important;
+}

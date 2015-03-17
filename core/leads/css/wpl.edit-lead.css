@@ -6,10 +6,35 @@
 	display: none;
 }
 #lead-main-image {
-	min-height: 150px;
+
+}
+#postbox-container-1 {
+	margin-bottom: 50px;
+}
+#misc-publishing-actions {
+padding: 0px;
+}
+#poststuff {
+	display: none;
+}
+#wplead_metabox_main.postbox {
+	box-shadow: none !important;
 }
 .lead-comment-div p {
 	margin-top: 0px;
+}
+.lead-notice {
+	margin-left: 40px;
+	margin-bottom: 20px;
+	margin-top: 10px
+}
+#publishing-action {
+text-align: right;
+float: left;}
+#delete-action {
+float: right;
+}
+#postcustom {
 }
 .lead-timeline-img img, .updated.inbound-shortcode-trigger {
 	display: none !important;

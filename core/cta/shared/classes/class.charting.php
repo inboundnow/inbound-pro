@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 if (!function_exists('Inbound_Graph')) {
 class Inbound_Graph {
 
-	/**
+	/*
 
 	Simple example:
 

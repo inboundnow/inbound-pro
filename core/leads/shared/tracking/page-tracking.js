@@ -1,1 +1,1 @@
-/* moved to /shared/assets/frontend/js */
+/* moved to /shared/assets/frontend/js/inbound.js */

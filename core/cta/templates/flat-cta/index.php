@@ -7,13 +7,8 @@ margin-left: 4%;
 position: relative;
 }
 #inbound-content {
-font-size: 97%;
-opacity: 1;
-padding: 0 0 0.6em 0.1em;
-line-height: 1.6;
-width: 82%;
-margin: auto;
-text-align: left;
+font-size: 2.625em;
+font-weight: 300;
 }
 .inbound-hero-img {
   width: 100%;
@@ -24,6 +19,7 @@ margin: 0 auto;
 padding: 2em;
 text-align: center;
 padding-top: 25px;
+
 }
 
 #inbound_cta_header h1 {
@@ -31,13 +27,17 @@ font-size: 2.625em;
 line-height: 1.3;
 margin: 0;
 font-weight: 300;
+color: #{{text-color}};
+margin-bottom: 10px;
 }
 
-#inbound_cta_header span {
+#inbound-content span {
 display: block;
 font-size: 60%;
-opacity: 0.7;
+opacity: 1;
 padding: 0 0 0.6em 0.1em;
+color:#{{content-text-color}};
+line-height: 1.3;
 }
 
 .demos {
@@ -353,10 +353,10 @@ vertical-align: middle;
 <div id="inbound-wrapper">
 	<div id="inbound_cta_header">
 		<h1>{{header-text}}
-			<span>{{sub-header-text}}</span>
+
 		</h1>
 			<div id='inbound-content'>
-
+        <span>{{sub-header-text}}</span>
 			</div>
 		<nav class="demos">
 		<a href="{{link_url}}" id="checkMark" class="btn">{{submit-button-text}}</a>

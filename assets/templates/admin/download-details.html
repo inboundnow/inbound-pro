@@ -1,0 +1,60 @@
+<div class="theme-overlay download-overlay " data-download='<%= post_name %>' >
+	<div class="theme-overlay active">
+		<div class="theme-backdrop"></div>
+		<div class="theme-wrap">
+			<div class="theme-header">
+				<button class="left dashicons dashicons-no overlay-previous" data-download='<%= previous_post_name %>' ><span class="screen-reader-text">Previous</span></button>
+				<button class="right dashicons dashicons-no overlay-next" data-download='<%= next_post_name %>' ><span class="screen-reader-text">Next</span></button>
+				<button class="close dashicons dashicons-no overlay-close" data-download='<%= post_name %>' ><span class="screen-reader-text">Close</span></button>
+			</div>
+			<div class="theme-about">
+				<div class="theme-screenshots">
+				
+					<div class="screenshot"><img src="<%= image %>" alt=""></div>
+				
+				</div>
+
+				<div class="theme-info">					
+					<h3 class="theme-name"><%= post_title %></h3>
+					
+					<span class="current-label" style='margin-top:10px'><%= status %> <%= current_version %></span> 
+					
+					<span class="current-label" style='margin-top:10px;background:orange;'>available  <%= server_version %></span>
+					
+					<p class="theme-description">
+						<%= post_content %>
+					</p>
+					
+					<p class="theme-tags"><span>Tags</span> Comming soon</p>
+					
+				</div>
+			</div>
+
+			<div class="theme-actions">
+				 <% if ( status == "uninstalled" ){ %>
+				<div class="">
+					<span class="button button-secondary overlay-install" data-download='<%= post_name %>' >Install</span>
+				</div>
+				<% } %>
+				 
+				<% if ( status == "installed" ) { %>
+				<div class="">
+					<span class="button button-secondary overlay-uninstall"  data-download='<%= post_name %>' >Uninstall</span>
+				</div>
+				<% } %>
+				 
+				<% if ( current_version < server_version && status == "installed" ) { %>
+				<div class="">
+					<span class="button button-secondary overlay-update"  data-download='<%= post_name %>' >Update</span>
+				</div>
+				<% } %>
+				
+				<% if ( preview ) { %>
+				<div class="">
+					<a href="<%=  preview  %>" target="_blank" class="button button-secondary overlay-preview" >Preview</a>
+				</div>
+				<% } %>
+			</div>
+		</div>
+	</div>
+</div>

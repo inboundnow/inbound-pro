@@ -25,7 +25,7 @@
 				)
 			),
 			'shortcode' => '[list icon="{{icon}}"]{{content}}[/list]',
-			'clone' => __('Add More List',  'leads' )
+			'clone' => __('Add More List',  'cta' )
 		),
 		'shortcode' => '[list_icons]{{child}}[/list_icons]',
 		'popup_title' => __('Insert List Icons Shortcode', 'leads')

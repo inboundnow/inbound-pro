@@ -21,10 +21,13 @@ if ( !class_exists('Landing_Pages_Activation_Update_Routines') ) {
 			));
 			
 			foreach ($landing_pages as $post) {
-				//echo 'post id:' . $post->ID;
-				//echo '<br>';
+			
 				/* for all variations loop through and migrate_data */				
 				( get_post_meta($post->ID,'lp-ab-variations', true) ) ? $variations = get_post_meta($post->ID,'lp-ab-variations', true) : $variations = array( '0' => '0' );
+				
+				if (!is_array($variations) && strlen($variations) > 1 ) {
+					$variations = explode(',',$variations);
+				}
 				
 				foreach ($variations as $key=>$vid) {					
 					
@@ -49,6 +52,19 @@ if ( !class_exists('Landing_Pages_Activation_Update_Routines') ) {
 				
 			}
 		}
+		
+		/* 
+		* @introduced: 1.7.5
+		* @migration-type: Meta key rename
+		* @migration: renames all instances of inbound_conversion_data to _inbound_conversion_data
+
+		*/
+		public static function meta_key_change_conversion_object() {
+			global $wpdb;
+			
+			$wpdb->query("UPDATE $wpdb->postmeta SET `meta_key` = REPLACE (`meta_key` , 'inbound_conversion_data', '_inbound_conversion_data')");
+		}
+		
 		/* 
 		* @introduced: 1.5.7
 		* @migration-type: Meta pair migragtion
@@ -67,6 +83,10 @@ if ( !class_exists('Landing_Pages_Activation_Update_Routines') ) {
 			
 				/* for all variations loop through and migrate_data */				
 				( get_post_meta($post->ID,'lp-ab-variations', true) ) ? $variations = get_post_meta($post->ID,'lp-ab-variations', true) : $variations = array( '0' => '0' );
+				
+				if (!is_array($variations) && strlen($variations) > 1 ) {
+					$variations = explode(',',$variations);
+				}
 				
 				foreach ($variations as $key=>$vid) {					
 					

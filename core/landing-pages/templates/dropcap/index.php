@@ -117,4 +117,10 @@ do_action('lp_footer'); // Load Landing Page Footer Hook
 wp_footer();
 ?>
 	<link href="<?php echo $path; ?>assets/css/form.css" rel="stylesheet">
+	<script type="text/javascript">
+	jQuery(document).ready(function($) {
+	   		$("p:empty").remove();
+	 });
+
+	</script>
 </body></html>

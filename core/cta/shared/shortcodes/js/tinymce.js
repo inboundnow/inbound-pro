@@ -31,13 +31,13 @@ var active_plugins = inbound_load.inbound_plugins,
     leads_status = indexOf.call(active_plugins, leads_check);
 // End Check Active Plugins
 if (leads_status > -1) {
-	console.log("leads on");
+	//console.log("leads on");
 }
 if (lp_status > -1) {
-	console.log("lp on");
+	//console.log("lp on");
 }
 if (cta_status > -1) {
-	console.log("cta on");
+	//console.log("cta on");
 }
 
 

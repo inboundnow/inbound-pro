@@ -58,9 +58,11 @@ if ( !class_exists( 'Inbound_WP_Core_Email_Templates' ) ) {
 		
 		/* Sets the Email Content Type to Use HTML */
 		public static function set_email_type() {
-			add_filter( 'wp_mail_content_type', function() {			
-				return 'text/html';
-			});
+			add_filter( 'wp_mail_content_type', array( __CLASS__ , 'email_type' ));
+		}
+		
+		public static function email_type() {
+			return 'text/html';
 		}
 		
 		/* Notify New User of Account Details */
@@ -73,7 +75,11 @@ if ( !class_exists( 'Inbound_WP_Core_Email_Templates' ) ) {
 			$template = self::get_template( 'wp-new-user-notification' );
 			
 			$user = new WP_User($user_id);
-
+			
+			if ( !$plaintext_pass ) {
+				$plaintext_pass = __( '<i>hidden</h1>' , 'leads' );
+			}
+			
 			$args = array(
 				array(
 					'wp_user_id' => $user_id,
@@ -261,7 +267,7 @@ if ( !class_exists( 'Inbound_WP_Core_Email_Templates' ) ) {
 	/* Overwrite Core Pluggable Functions With Our Own If Template Replacement is Enabled */
 	if (!function_exists('wp_new_user_notification')) {
 		if (get_option('inbound_email_replace_core_template' , '1' )) {
-			function wp_new_user_notification( $user_id , $plaintext_pass ) {			
+			function wp_new_user_notification( $user_id , $plaintext_pass = null ) {			
 				do_action( 'wp_new_user_notification' , $user_id , $plaintext_pass);
 			}
 		}

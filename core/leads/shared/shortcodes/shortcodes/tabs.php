@@ -38,7 +38,7 @@
 				)
 			),
 			'shortcode' => '[tab title="{{title}}" icon="{{icon}}"]{{content}}[/tab]',
-			'clone' => __('Add More Tab',	'leads' )
+			'clone' => __('Add More Tab',	'cta' )
 		),
 		'shortcode' => '[tabs]{{child}}[/tabs]',
 		'popup_title' => 'Insert Tabs Shortcode'

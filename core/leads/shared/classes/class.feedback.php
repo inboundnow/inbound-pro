@@ -9,10 +9,7 @@ if (!class_exists('Inbound_Feedback')) {
 	*	--------------------------------------------------------- */
 	static function init() {
 		self::$add_feedback = true;
-	// add_action('admin_bar_menu', array( __CLASS__, 'loads' ), 98);
-		//add_action( 'wp_head', array(__CLASS__, 'menu_admin_head'));
 		add_action( 'admin_footer', array(__CLASS__, 'show_feedback'));
-		add_action('wp_ajax_send_inbound_feedback', array(__CLASS__, 'send_inbound_feedback'));
 		add_action('wp_ajax_send_inbound_feedback', array(__CLASS__, 'send_inbound_feedback'));
 	}
 
@@ -24,7 +21,7 @@ if (!class_exists('Inbound_Feedback')) {
 		global $wp_admin_bar;
 		// CHECK FOR ACTIVE PLUGINS
 		$leads_status = FALSE; $landing_page_status = FALSE; $cta_status = FALSE;
-		if (function_exists( 'is_plugin_active' ) && is_plugin_active('leads/wordpress-leads.php')) {
+		if (function_exists( 'is_plugin_active' ) && is_plugin_active('leads/leads.php')) {
 			$leads_status = TRUE;
 			$leads_version_number = defined( 'WPL_CURRENT_VERSION' ) ? 'v' . WPL_CURRENT_VERSION : '';
 		}
@@ -33,7 +30,7 @@ if (!class_exists('Inbound_Feedback')) {
 			$landing_page_version_number = defined( 'LANDINGPAGES_CURRENT_VERSION' ) ? 'v' . LANDINGPAGES_CURRENT_VERSION : '';
 
 		}
-		if (function_exists( 'is_plugin_active' ) && is_plugin_active('cta/wordpress-cta.php')) {
+		if (function_exists( 'is_plugin_active' ) && is_plugin_active('cta/calls-to-action.php')) {
 			$cta_status = TRUE;
 			$cta_number = defined( 'WP_CTA_CURRENT_VERSION' ) ? 'v' . WP_CTA_CURRENT_VERSION : '';
 		}
@@ -97,7 +94,7 @@ if (!class_exists('Inbound_Feedback')) {
 		if ( ! self::$add_feedback || ! is_admin()) {
 			return;
 		}
-		
+
 		$screen = get_current_screen();
 
 		$show_array = array(
@@ -117,7 +114,7 @@ if (!class_exists('Inbound_Feedback')) {
 			"wp-call-to-action_page_wp_cta_manage_templates",
 			"wp-call-to-action_page_wp_cta_global_settings"
 		);
-		
+
 		$lp_page_array = array(
 			"edit-landing-page",
 			"landing-page_page_lp_global_settings",
@@ -125,14 +122,14 @@ if (!class_exists('Inbound_Feedback')) {
 			"landing-page_page_lp_manage_templates",
 			"edit-landing_page_category"
 		);
-		
+
 		$leads_page_array = array(
 			"wp-lead",
 			"edit-wp-lead",
 			"edit-list",
 			"wp-lead_page_wpleads_global_settings",
 		);
-		
+
 		$cta_page_array = array(
 			"edit-wp-call-to-action",
 			"wp-call-to-action",
@@ -140,51 +137,51 @@ if (!class_exists('Inbound_Feedback')) {
 			"wp-call-to-action_page_wp_cta_manage_templates",
 			"wp-call-to-action_page_wp_cta_global_settings"
 		);
-		
+
 		if (!in_array($screen->id, $show_array)) {
-				return; 
+				return;
 		}
-	
-		$plugin_name = "Inbound Now Marketing Plugins"; // default
+
+		$plugin_name = __( 'Inbound Now Marketing Plugins' , 'inbound-pro' ); // default
 		if (in_array($screen->id, $lp_page_array)) {
-			$plugin_name = "Landing Pages plugin";
+			$plugin_name = __( 'Landing Pages plugin' , 'inbound-pro' );
 		} else if (in_array($screen->id, $cta_page_array)) {
-			$plugin_name = "Calls to Action plugin";
+			$plugin_name = __( 'Calls to Action plugin' , 'inbound-pro' );
 		} else if (in_array($screen->id, $leads_page_array)) {
-			$plugin_name = "Leads Pages plugin";
+			$plugin_name = __( 'Leads Pages plugin' , 'inbound-pro' );
 		}
 
 		?>
 	<div id="launch-feedback" style='z-index:9999999999999; background:gray; position:fixed; bottom:0px; right:20px; width:200px; height:30px;'>
 	<div id="inbound-fb-request">
-	<div class="inbound-close-fb">close</div>
+	<div class="inbound-close-fb"><?php _e( 'close' , 'inbound-pro' ); ?></div>
 			<div id="lp-slide-toggle">
 			<header id="header" class='inbound-customhead'>
-			<img src="<?php echo INBOUDNOW_SHARED_URLPATH . 'assets/admin/images/inbound-now-logo.png';?>" width="315px">
-			<h3 class="main-feedback-header" >We love hearing from You!</h3>
-			<h4>Please leave your <strong>idea/feature request</strong> to make the <?php echo $plugin_name;?> better below!</h4>
+			<a href="http://www.inboundnow.com" target="_blank" title="<?php _e( 'Visit Inbound Now' , 'inbound-pro' ); ?>"><img src="<?php echo INBOUDNOW_SHARED_URLPATH . 'assets/images/admin/inbound-now-logo.png';?>" width="315px"></a>
+			<h3 class="main-feedback-header" ><?php _e( 'We love hearing from You!' , 'inbound-pro' ); ?></h3>
+			<h4><?php  _e( sprintf( 'Please leave your %sidea/feature request%s to make the %s better below! ' , '<strong>' , '</strong>' , $plugin_name ) , 'inbound-pro' ); ?></h4>
 			</header>
 			<section id="inbound-rules-main">
 			<form accept-charset="UTF-8" method="POST" id="inbound-feedback">
 			<div class="hs_message field hs-form-field">
-				<label placeholder="Enter your Feature Request" for="message-4c6efedd-40b4-438e-bb4c-050a1944c974">Feature Request<span class="hs-form-required"> * </span>
+				<label placeholder="<?php _e( 'Enter your Feature Request' , 'inbound-pro' ); ?>" for="message-4c6efedd-40b4-438e-bb4c-050a1944c974"><?php _e( 'Feature Request' , 'inbound-pro' ); ?><span class="hs-form-required"> * </span>
 				</label>
 				<div class="input">
 				<textarea required="required" id="inbound-feedback-message" name="message" value=""></textarea>
 				</div>
 				<div class="input">
-				<input id="inbound-feedback-email-field" name="email" value="" placeholder="Your Email (optional field)"></textarea>
+				<input id="inbound-feedback-email-field" name="email" value="" placeholder="<?php _e( 'Your Email (optional field)' , 'inbound-pro' ); ?>"></textarea>
 				</div>
 			</div>
 
 			<div class="inbound-feedback-actions">
-				<input class="submit-inbound-feedback" type="submit" value="Send Feedback/Feature Request">
+				<input class="submit-inbound-feedback" type="submit" value="<?php _e( 'Send Feedback/Feature Request' , 'inbound-pro' ); ?>">
 			</div>
-			<div class="inbound-feedback-desc" style="display: block;"><strong>Please note:</strong> Support requests will not be handled through this form</div>
+			<div class="inbound-feedback-desc" style="display: block;"><strong><?php _e( 'Please note:' , 'inbound-pro' ); ?></strong> <?php _e( 'Support requests will not be handled through this form' , 'inbound-pro' ); ?></div>
 			</form>
 			</section>
 			</div>
-			<div id="inbound-automation-footer" class="inbound-selectron-foot"><?php //echo $screen->id;?>Submit a Feature Request</div>
+			<div id="inbound-automation-footer" class="inbound-selectron-foot"><?php _e( 'Submit a Feature Request' , 'inbound-pro' ); ?></div>
 	</div>
 	<style type="text/css">
 	#wpfooter {

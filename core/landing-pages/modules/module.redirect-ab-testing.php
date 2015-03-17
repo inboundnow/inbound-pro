@@ -13,11 +13,21 @@ else if ( file_exists ( './../../../../../wp-load.php' ) )
 {
 	include_once ( './../../../../../wp-load.php' );
 }
+else if ( file_exists ( './../../../../../../wp-load.php' ) )
+{
+	include_once ( './../../../../../../wp-load.php' );
+}
+
+else if ( file_exists ( './../../../../../../../wp-load.php' ) )
+{
+	include_once ( './../../../../../../../wp-load.php' );
+}
 
 class LP_Variation_Rotation {
 
 	static $permalink_name;
 	static $post_id;
+	static $sticky_variations;
 	static $last_loaded_variation;
 	static $variations; 
 	static $marker;
@@ -40,13 +50,20 @@ class LP_Variation_Rotation {
 	 */
 	private static function load_variables()
 	{	
-		self::$permalink_name = (isset($_GET['permalink_name'])) ? $_GET['permalink_name'] : null;
+		self::$permalink_name = (isset($_GET['permalink_name'])) ?  sanitize_text_field($_GET['permalink_name']) : null;
 		self::$post_id = self::load_post_id();
+		self::$sticky_variations = get_option( 'lp-main-landing-page-rotation-halt' , false );
 		self::$last_loaded_variation = ( isset( $_COOKIE['lp-loaded-variation-'.self::$permalink_name] ) ) ? $_COOKIE['lp-loaded-variation-'.self::$permalink_name] : null;
-		self::$variations = self::load_variations();
-		self::$marker = self::load_marker();
-		self::$next_marker = self::discover_next_variation();
-		self::$destination_url = self::build_destination_url();
+
+		if ( self::$sticky_variations && self::$last_loaded_variation ) {
+			self::$destination_url = self::$last_loaded_variation;
+		} else {
+			self::$variations = self::load_variations();
+			self::$marker = self::load_marker();
+			self::$next_marker = self::discover_next_variation();			
+			self::$destination_url = self::build_destination_url();
+		}
+		
 	}
 	
 	/**
@@ -62,7 +79,7 @@ class LP_Variation_Rotation {
 	static function load_post_id() {
 		global $wpdb;
 		
-		$post_id = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_name = %s AND post_type='landing-page'", $_GET['permalink_name'] ));
+		$post_id = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_name = %s AND post_type='landing-page'", self::$permalink_name ));
 		
 		return $post_id;
 		
@@ -167,8 +184,9 @@ class LP_Variation_Rotation {
 	 *  	Redirects to Correct Variation
 	 */
 	static function redirect() {
-		@header("HTTP/1.1 307 Temporary Redirect");
-		@header("Location: ".self::$destination_url);
+		header("HTTP/1.1 302 Temporary Redirect");
+		header("Location: ".self::$destination_url);
+		exit;
 	}
 }
 

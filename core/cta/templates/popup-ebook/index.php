@@ -6,31 +6,31 @@
 #inbound-hero {
   width: 35%;
 float: left;
-margin-right: 4%;
-margin-left: 4%;
+margin-left: 20px;
 position: relative;
 }
 #inbound-content {
 width: 50%;
 float: left;
 position: relative;
+padding:20px;
 }
 .inbound-hero-img {
   width: 100%;
 }
-h1 {
+#inbound-wrapper h1 {
 font-size: 23px;
-padding-top: 0px;
-padding-bottom: 0px;
 margin-top: 5px;
 margin-bottom: 15px;
+padding: 20px;
+padding-bottom: 0px;
 }
-p, li {
+#inbound-wrapper p, #inbound-wrapper li {
 font-size: 14px;
 line-height: 1.4;
 margin: 0 0 1.4em;
 }
-li {
+#inbound-wrapper li {
   margin-bottom: 0px;
 }
 .divider_line {
@@ -74,7 +74,7 @@ margin-bottom: 4px;
 #content, #content-wrapper p { color: #{{content-text-color}}; }
 .inbound-horizontal label { color: #{{content-text-color}}; }
 
-h1 {color:#{{headline-text-color}}; }
+#inbound-wrapper h1 {color:#{{headline-text-color}}; }
 .button {background: #{{submit-button-color}}; border-bottom: 3px solid {{submit-button-color|brightness(90)}}; }
 .button:hover {background: {{submit-button-color|brightness(90)}}; border-bottom: 3px solid #{{submit-button-color}}; }
 

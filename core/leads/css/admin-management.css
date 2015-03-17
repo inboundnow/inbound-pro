@@ -1,6 +1,9 @@
 div.wrap { width:100%; display: none;
 margin: 0px 20px 0 2px;
 }
+.media-upload-form div.error, .wrap div.error, .wrap div.updated {
+display: none;
+}
 #lead-tag-filter, .action { display: none;}
 
 #filters, #actions { position:relative; margin-top:15px;}
@@ -22,6 +25,10 @@ background-color: #EBEBEB;
 }
 #toggle {
 	margin-left: 0px;
+}
+#wpbody-content {
+
+width: 99%;
 }
 #lead-sort-by {
 	margin-left: 0px;
@@ -328,7 +335,7 @@ color:green;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
-.lead-spinner.leads-done {
+.lead-spinner.leads-done, .lead-spinner.leads-done:before {
 	-webkit-animation: none;
 	-moz-animation: none;
 	-o-animation:none;
@@ -1129,9 +1136,7 @@ table th.sort-up:after {
   -moz-border-radius-topright: 0px;
   border-top-left-radius: 0px;
   border-top-right-radius: 0px;
-  -webkit-box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
-  -moz-box-shadow: 0px 0px 15px rgba(0,0,0,0.1);
-  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+
   }
   .cd-dropdown > span:after {
     font-family: FontAwesome;
@@ -1179,10 +1184,13 @@ table th.sort-up:after {
   .cd-dropdown.cd-active ul li span {
     line-height: 60px;
     background: #fff;
-    color: #bcbcbc;
+    color: #797979;
     display: block;
     border-radius: 0px;
 
+  }
+  .update-nag {
+    display: none !important;
   }
   .cd-dropdown ul li {
     border-radius: 5px;

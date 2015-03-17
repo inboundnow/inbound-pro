@@ -393,7 +393,7 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 				return $_REQUEST['wp-cta-variation-id'];
 			}
 			
-			(isset($post->ID)) ? $post_id = $post->ID : $post_id = $_GET['post'];
+			(isset($post->ID)) ? $post_id = $post->ID : $post_id = $_REQUEST['post'];
 
 			if (isset($_SESSION[ $post_id . '-variation-id'])) {	
 				return $_SESSION[ $post_id . '-variation-id'];
@@ -429,12 +429,12 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		* @returns STRING id of selected template
 		*/	
 		public static function get_current_template( $cta_id , $vid = null ) {
+
 			if ( $vid === null ) {
 				$vid =	CTA_Variations::get_current_variation_id();
 			}
-			
+
 			$template = get_post_meta( $cta_id , 'wp-cta-selected-template-' . $vid , true);
-			
 			if (!$template) {
 				return 'blank-template';
 			} else {

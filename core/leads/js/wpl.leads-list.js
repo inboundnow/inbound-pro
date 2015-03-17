@@ -2,9 +2,9 @@ jQuery(document).ready(function($) {
 
 	if (jQuery('.wp-list-table').length > 0)
 	{
-		$('.edit a').addClass('button-primary').addClass('button');
-		$('.trash a').addClass('button-primary').addClass('button');
-		$('.clone a').addClass('button');
+		jQuery('.edit a').addClass('button-primary').addClass('button');
+		jQuery('.row-actions .trash a').addClass('button-primary').addClass('button');
+		jQuery('.clone a').addClass('button');
 		// Script for leads list page
 		jQuery('.row-actions').each(function() {
 			var jQuerylist = jQuery(this);
@@ -50,15 +50,16 @@ jQuery(document).ready(function($) {
 			}
 		);
 
-		jQuery(".submitdelete").text("Delete");
-		var textchange = jQuery("li.publish").html().replace("Published", "Live");
+		if (jQuery("li.publish").length > 0 ) {
+			jQuery(".submitdelete").text("Delete");
+			var textchange = jQuery("li.publish").html().replace("Published", "Live");
 			jQuery('li.publish').html(textchange);
 
-		  jQuery('.date.column-date').each(function() {
-		 var textchange2 = jQuery(this).html().replace("Published", "");
-		  jQuery(this).html(textchange2);
-		});
-
+			jQuery('.date.column-date').each(function() {
+				var textchange2 = jQuery(this).html().replace("Published", "");
+				jQuery(this).html(textchange2);
+			});
+		}
 
 		var mark_as_read = '<span class="mark-viewed button" title="Mark lead as viewed">Mark as read</span><span class="mark-viewed-undo button">Undo</span>';
 		//jQuery(mark_as_read).appendTo(".row-actions");
@@ -120,7 +121,7 @@ jQuery(document).ready(function($) {
 			}
 		});
 
-		$( '.mark-viewed' ).on( 'click', function() {
+		jQuery( '.mark-viewed' ).on( 'click', function() {
 
 			 // define the bulk edit row
 			var post_id = jQuery(this).attr("id");
@@ -156,7 +157,7 @@ jQuery(document).ready(function($) {
 
 		  });
 
-		$( '.mark-viewed-undo' ).on( 'click', function() {
+		jQuery( '.mark-viewed-undo' ).on( 'click', function() {
 
 			 // define the bulk edit row
 			var post_id = jQuery(this).attr("id");

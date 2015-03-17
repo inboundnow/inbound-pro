@@ -30,14 +30,18 @@ matrix:
       env: WP_VERSION=master
     - php: "5.4"
       env: WP_VERSION=3.8.1
-    - php: "5.2"
-      env: WP_VERSION=3.8.1
 
 # Clones WordPress and configures our testing environment.
 before_script:
     - export PLUGIN_SLUG=$(basename $(pwd))
-    - git clone --depth=50 --branch="$WP_VERSION" git://develop.git.wordpress.org/ /tmp/wordpress
+    - git clone --depth=50 --branch="$WP_VERSION" git://develop.git.wordpress.org/ /tmp/wordpress	
+    - git clone --branch="master" https://github.com/inboundnow/cta.git /tmp/wordpress/wp-content/plugins/cta
+    - git clone --branch="master" https://github.com/inboundnow/leads.git /tmp/wordpress/wp-content/plugins/leads
     - cd ..
+    - curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+    - php wp-cli.phar --info
+    - chmod +x wp-cli.phar
+    - sudo mv wp-cli.phar /usr/local/bin/wp
     - mv "$PLUGIN_SLUG" "/tmp/wordpress/src/wp-content/plugins/$PLUGIN_SLUG"
     - cd /tmp/wordpress
     - mysql -e "CREATE DATABASE wordpress_tests;" -uroot

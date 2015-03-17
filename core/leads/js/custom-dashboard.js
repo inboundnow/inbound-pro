@@ -39,6 +39,15 @@ jQuery(document).ready(function($) {
 
 jQuery(document).ready(function ($) {
 
+
+    if (typeof (window.data1) === "undefined" || window.data1 === null || window.data1 === "") {
+         data1 = [];
+
+    }
+     if (typeof (window.data2) === "undefined" || window.data2 === null || window.data2 === "") {
+         data2 = [];
+    }
+
 	var dataset = [
     {
         label: "Last Month",

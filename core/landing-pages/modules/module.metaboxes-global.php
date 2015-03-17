@@ -17,8 +17,10 @@ function lp_add_global_meta_box( $post_type )
 	$exclude[] = 'tracking-event';
 	$exclude[] = 'inbound-forms';
 	$exclude[] = 'email-template';
+	$exclude[] = 'inbound-email';
 	$exclude[] = 'inbound-log';
 	$exclude[] = 'landing-page';
+	$exclude[] = 'acf-field-group';
 	// add filter
 
 	if ( $pagenow === 'post.php' && !in_array($post_type,$exclude) ) {

@@ -1,90 +1,128 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Landing Pages\n"
-"POT-Creation-Date: 2014-07-08 17:26-0600\n"
-"PO-Revision-Date: 2014-07-08 17:26-0600\n"
+"POT-Creation-Date: 2014-09-25 23:47-0600\n"
+"PO-Revision-Date: 2014-09-25 23:50-0600\n"
 "Last-Translator: \n"
 "Language-Team: InboundNow <support@inboundnow.com>\n"
 "Language: en_US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.6\n"
+"X-Generator: Poedit 1.6.9\n"
 "X-Poedit-KeywordsList: __;_e\n"
 "X-Poedit-Basepath: .\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: ../classes/class.activation.php:122 ../classes/class.activation.php:136
-#: ../classes/class.activation.php:150 ../classes/class.activation.php:164
-#: ../classes/class.activation.php:178
+#: ../classes/class.activation.php:105
+msgid "Landing Pages plugin requires a database upgrade:"
+msgstr ""
+
+#: ../classes/class.activation.php:105
+msgid "Upgrade database now"
+msgstr ""
+
+#: ../classes/class.activation.php:167 ../classes/class.activation.php:181
+#: ../classes/class.activation.php:195 ../classes/class.activation.php:209
+#: ../classes/class.activation.php:223
 msgid "Landing Plugin could not be installed"
 msgstr ""
 
-#: ../classes/class.activation.php:124
+#: ../classes/class.activation.php:169
 msgid "Server PHP Version"
 msgstr ""
 
-#: ../classes/class.activation.php:125
+#: ../classes/class.activation.php:170
 msgid "Required PHP Version"
 msgstr ""
 
-#: ../classes/class.activation.php:127
+#: ../classes/class.activation.php:172
 #, php-format
 msgid "Please contact your hosting provider to upgrade PHP to %s or greater"
 msgstr ""
 
-#: ../classes/class.activation.php:138
+#: ../classes/class.activation.php:183
 #: ../modules/module.global-settings.php:352
 msgid "WordPress Version"
 msgstr ""
 
-#: ../classes/class.activation.php:139
+#: ../classes/class.activation.php:184
 msgid "Required WordPress Version"
 msgstr ""
 
-#: ../classes/class.activation.php:141
+#: ../classes/class.activation.php:186
 #, php-format
 msgid "Please update landing pages to version %s or greater."
 msgstr ""
 
-#: ../classes/class.activation.php:152
+#: ../classes/class.activation.php:197
 msgid "Calls to Action Version"
 msgstr ""
 
-#: ../classes/class.activation.php:153
+#: ../classes/class.activation.php:198
 msgid "Required Calls to Action Version"
 msgstr ""
 
-#: ../classes/class.activation.php:155
+#: ../classes/class.activation.php:200
 #, php-format
 msgid "Please update Calls to Action to version %s or greater."
 msgstr ""
 
-#: ../classes/class.activation.php:166
+#: ../classes/class.activation.php:211
 msgid "Leads Version"
 msgstr ""
 
-#: ../classes/class.activation.php:167
+#: ../classes/class.activation.php:212
 msgid "Required Leads Version"
 msgstr ""
 
-#: ../classes/class.activation.php:169
+#: ../classes/class.activation.php:214
 #, php-format
 msgid "Please update Leads to version %s or greater."
 msgstr ""
 
-#: ../classes/class.activation.php:180
+#: ../classes/class.activation.php:225
 msgid "Extension: Landing Page as Homepage"
 msgstr ""
 
-#: ../classes/class.activation.php:181
+#: ../classes/class.activation.php:226
 msgid "Required extension version"
 msgstr ""
 
-#: ../classes/class.activation.php:183
+#: ../classes/class.activation.php:228
 #, php-format
 msgid "Please update extension to version %s or greater."
+msgstr ""
+
+#: ../classes/class.load-extensions.php:47
+msgid "Select Template"
+msgstr ""
+
+#: ../classes/class.load-extensions.php:48
+msgid "This option provides a placeholder for the selected template data."
+msgstr ""
+
+#: ../classes/class.load-extensions.php:55
+#: ../classes/class.load-extensions.php:56
+msgid "Set Main Headline"
+msgstr ""
+
+#: ../classes/class.load-extensions.php:119
+#: ../classes/class.load-extensions.php:150
+#: ../modules/module.global-settings.php:131
+msgid ""
+"Head to http://www.inboundnow.com/ to retrieve your license key for this "
+"template."
+msgstr ""
+
+#: ../classes/class.load-extensions.php:121
+msgid "Template Licensing"
+msgstr ""
+
+#: ../landing-pages.php:40
+msgid ""
+"Landing Pages requires PHP version 5.3+, plugin is currently NOT ACTIVE."
 msgstr ""
 
 #: ../libraries/class-tgm-plugin-activation.php:164
@@ -369,7 +407,7 @@ msgid "Delete this variation"
 msgstr ""
 
 #: ../modules/module.ab-testing.metaboxes.php:138
-#: ../modules/module.templates.php:227
+#: ../modules/module.templates.php:226
 #: ../shared/templates/email-templates/wp-notify-moderator/wp-notify-moderator.php:76
 msgid "Delete"
 msgstr ""
@@ -390,7 +428,7 @@ msgstr ""
 msgid "Forms"
 msgstr ""
 
-#: ../modules/module.admin-menus.php:12 ../shared/classes/class.menu.php:307
+#: ../modules/module.admin-menus.php:12 ../shared/classes/class.menu.php:301
 msgid "Manage Forms"
 msgstr ""
 
@@ -398,8 +436,8 @@ msgstr ""
 msgid "Templates"
 msgstr ""
 
-#: ../modules/module.admin-menus.php:14 ../modules/module.templates.php:239
-#: ../shared/classes/class.menu.php:354
+#: ../modules/module.admin-menus.php:14 ../modules/module.templates.php:237
+#: ../shared/classes/class.menu.php:348
 msgid "Manage Templates"
 msgstr ""
 
@@ -407,7 +445,7 @@ msgstr ""
 msgid "Get Addons"
 msgstr ""
 
-#: ../modules/module.admin-menus.php:18 ../shared/classes/class.menu.php:397
+#: ../modules/module.admin-menus.php:18 ../shared/classes/class.menu.php:391
 msgid "Global Settings"
 msgstr ""
 
@@ -520,12 +558,6 @@ msgstr ""
 
 #: ../modules/module.global-settings.php:107
 msgid "Debug"
-msgstr ""
-
-#: ../modules/module.global-settings.php:131
-msgid ""
-"Head to http://www.inboundnow.com/ to retrieve your license key for this "
-"template."
 msgstr ""
 
 #: ../modules/module.global-settings.php:133
@@ -642,28 +674,6 @@ msgstr ""
 msgid "Form a"
 msgstr ""
 
-#: ../modules/module.install.php:32 ../modules/module.install.php:38
-#: ../shared/classes/class.lead-fields.php:14
-#: ../shared/templates/email-templates/token-test/token-test.php:14
-msgid "First Name"
-msgstr ""
-
-#: ../modules/module.install.php:32 ../modules/module.install.php:38
-#: ../shared/classes/class.lead-fields.php:20
-#: ../shared/templates/email-templates/token-test/token-test.php:15
-msgid "Last Name"
-msgstr ""
-
-#: ../modules/module.install.php:32 ../modules/module.install.php:38
-#: ../shared/classes/class.lead-fields.php:26
-#: ../shared/templates/email-templates/token-test/token-test.php:16
-msgid "Email"
-msgstr ""
-
-#: ../modules/module.install.php:32 ../modules/module.install.php:38
-msgid "Submit"
-msgstr ""
-
 #: ../modules/module.install.php:36
 msgid "Main Catchy Headline Two (B)"
 msgstr ""
@@ -720,6 +730,7 @@ msgid "View/Edit Lead"
 msgstr ""
 
 #: ../modules/module.lead-splash.php:29
+#: ../shared/classes/class.post-type.wp-lead.php:154
 msgid "Name"
 msgstr ""
 
@@ -741,7 +752,7 @@ msgstr ""
 msgid "State"
 msgstr ""
 
-#: ../modules/module.metaboxes-global.php:29
+#: ../modules/module.metaboxes-global.php:25
 msgid "Inbound Statistics"
 msgstr ""
 
@@ -767,7 +778,7 @@ msgid ""
 msgstr ""
 
 #: ../modules/module.metaboxes.php:177
-#: ../shared/classes/class.lead-fields.php:141
+#: ../shared/classes/class.lead-fields.php:214
 msgid "Notes"
 msgstr ""
 
@@ -789,8 +800,8 @@ msgstr ""
 msgid "Enter Landing Page Description"
 msgstr ""
 
-#: ../modules/module.metaboxes.php:240 ../shared/classes/class.menu.php:371
-#: ../shared/classes/class.menu.php:373
+#: ../modules/module.metaboxes.php:240 ../shared/classes/class.menu.php:365
+#: ../shared/classes/class.menu.php:367
 msgid "Landing Page Templates"
 msgstr ""
 
@@ -854,7 +865,7 @@ msgstr ""
 msgid "Conversion logs:"
 msgstr ""
 
-#: ../modules/module.post-type.php:22 ../shared/classes/class.menu.php:268
+#: ../modules/module.post-type.php:22 ../shared/classes/class.menu.php:262
 msgid "Add New Landing Page"
 msgstr ""
 
@@ -875,19 +886,22 @@ msgid "Search Landing Page"
 msgstr ""
 
 #: ../modules/module.post-type.php:27
-#: ../shared/classes/class.post-type.wp-lead.php:37
-#: ../shared/shortcodes/shortcodes/forms.php:347
+#: ../shared/classes/class.post-type.email-template.php:61
+#: ../shared/classes/class.post-type.wp-lead.php:49
+#: ../shared/shortcodes/shortcodes/forms.php:349
 msgid "Nothing found"
 msgstr ""
 
 #: ../modules/module.post-type.php:28
-#: ../shared/classes/class.post-type.wp-lead.php:38
-#: ../shared/shortcodes/shortcodes/forms.php:348
+#: ../shared/classes/class.post-type.email-template.php:62
+#: ../shared/classes/class.post-type.wp-lead.php:50
+#: ../shared/shortcodes/shortcodes/forms.php:350
 msgid "Nothing found in Trash"
 msgstr ""
 
-#: ../modules/module.post-type.php:55 ../shared/classes/class.menu.php:220
-#: ../shared/classes/class.menu.php:276
+#: ../modules/module.post-type.php:55 ../shared/classes/class.menu.php:214
+#: ../shared/classes/class.menu.php:270
+#: ../shared/classes/class.post-type.email-template.php:89
 msgid "Categories"
 msgstr ""
 
@@ -1044,31 +1058,34 @@ msgstr ""
 msgid "Template uploaded successfully!"
 msgstr ""
 
-#: ../modules/module.templates.php:110
+#: ../modules/module.templates.php:109
 msgid "Template"
 msgstr ""
 
-#: ../modules/module.templates.php:111
+#: ../modules/module.templates.php:110
+#: ../shared/classes/class.post-type.email-template.php:107
+#: ../shared/classes/class.post-type.wp-lead.php:155
 msgid "Description"
 msgstr ""
 
-#: ../modules/module.templates.php:112
+#: ../modules/module.templates.php:111
+#: ../shared/classes/class.post-type.email-template.php:106
 #: ../shared/shortcodes/shortcodes/landing_pages.php:37
 #: ../shared/shortcodes/shortcodes/landing_pages.php:99
 msgid "Category"
 msgstr ""
 
-#: ../modules/module.templates.php:113
+#: ../modules/module.templates.php:112
 msgid "Current Version"
 msgstr ""
 
-#: ../modules/module.templates.php:219
+#: ../modules/module.templates.php:218
 msgid ""
 "No premium templates installed. Templates included in the Landing Pages core "
 "plugin will not be listed here."
 msgstr ""
 
-#: ../modules/module.templates.php:226
+#: ../modules/module.templates.php:225
 msgid "Upgrade"
 msgstr ""
 
@@ -1232,1996 +1249,2060 @@ msgid ""
 "template."
 msgstr ""
 
-#: ../shared/classes/class.form.php:1051
+#: ../shared/classes/class.form.php:782
+msgid "Jan"
+msgstr ""
+
+#: ../shared/classes/class.form.php:783
+msgid "Feb"
+msgstr ""
+
+#: ../shared/classes/class.form.php:784
+msgid "Mar"
+msgstr ""
+
+#: ../shared/classes/class.form.php:785
+msgid "Apr"
+msgstr ""
+
+#: ../shared/classes/class.form.php:786
+msgid "May"
+msgstr ""
+
+#: ../shared/classes/class.form.php:787
+msgid "Jun"
+msgstr ""
+
+#: ../shared/classes/class.form.php:788
+msgid "Jul"
+msgstr ""
+
+#: ../shared/classes/class.form.php:789
+msgid "Aug"
+msgstr ""
+
+#: ../shared/classes/class.form.php:790
+msgid "Sep"
+msgstr ""
+
+#: ../shared/classes/class.form.php:791
+msgid "Oct"
+msgstr ""
+
+#: ../shared/classes/class.form.php:792
+msgid "Nov"
+msgstr ""
+
+#: ../shared/classes/class.form.php:793
+msgid "Dec"
+msgstr ""
+
+#: ../shared/classes/class.form.php:823
 msgid "AF"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1051
+#: ../shared/classes/class.form.php:823
 msgid "Afghanistan"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1052
+#: ../shared/classes/class.form.php:824
 msgid "AX"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1052
+#: ../shared/classes/class.form.php:824
 msgid "Aland Islands"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1053
+#: ../shared/classes/class.form.php:825
 msgid "AL"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1053
+#: ../shared/classes/class.form.php:825
 msgid "Albania"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1054
+#: ../shared/classes/class.form.php:826
 msgid "DZ"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1054
+#: ../shared/classes/class.form.php:826
 msgid "Algeria"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1055
+#: ../shared/classes/class.form.php:827
 msgid "AS"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1055
+#: ../shared/classes/class.form.php:827
 msgid "American Samoa"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1056
+#: ../shared/classes/class.form.php:828
 msgid "AD"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1056
+#: ../shared/classes/class.form.php:828
 msgid "Andorra"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1057
+#: ../shared/classes/class.form.php:829
 msgid "AO"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1057
+#: ../shared/classes/class.form.php:829
 msgid "Angola"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1058
+#: ../shared/classes/class.form.php:830
 msgid "AI"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1058
+#: ../shared/classes/class.form.php:830
 msgid "Anguilla"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1059
+#: ../shared/classes/class.form.php:831
 msgid "AQ"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1059
+#: ../shared/classes/class.form.php:831
 msgid "Antarctica"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1060
+#: ../shared/classes/class.form.php:832
 msgid "AG"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1060
+#: ../shared/classes/class.form.php:832
 msgid "Antigua and Barbuda"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1061
+#: ../shared/classes/class.form.php:833
 msgid "AR"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1061
+#: ../shared/classes/class.form.php:833
 msgid "Argentina"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1062
+#: ../shared/classes/class.form.php:834
 msgid "AM"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1062
+#: ../shared/classes/class.form.php:834
 msgid "Armenia"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1063
+#: ../shared/classes/class.form.php:835
 msgid "AW"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1063
+#: ../shared/classes/class.form.php:835
 msgid "Aruba"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1064
+#: ../shared/classes/class.form.php:836
 msgid "AU"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1064
+#: ../shared/classes/class.form.php:836
 msgid "Australia"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1065
+#: ../shared/classes/class.form.php:837
 msgid "AT"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1065
+#: ../shared/classes/class.form.php:837
 msgid "Austria"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1066
+#: ../shared/classes/class.form.php:838
 msgid "AZ"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1066
+#: ../shared/classes/class.form.php:838
 msgid "Azerbaijan"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1067
+#: ../shared/classes/class.form.php:839
 msgid "BS"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1067
+#: ../shared/classes/class.form.php:839
 msgid "Bahamas"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1068
+#: ../shared/classes/class.form.php:840
 msgid "BH"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1068
+#: ../shared/classes/class.form.php:840
 msgid "Bahrain"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1069
+#: ../shared/classes/class.form.php:841
 msgid "BD"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1069
+#: ../shared/classes/class.form.php:841
 msgid "Bangladesh"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1070
+#: ../shared/classes/class.form.php:842
 msgid "BB"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1070
+#: ../shared/classes/class.form.php:842
 msgid "Barbados"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1071
+#: ../shared/classes/class.form.php:843
 msgid "BY"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1071
+#: ../shared/classes/class.form.php:843
 msgid "Belarus"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1072
+#: ../shared/classes/class.form.php:844
 msgid "BE"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1072
+#: ../shared/classes/class.form.php:844
 msgid "Belgium"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1073
+#: ../shared/classes/class.form.php:845
 msgid "BZ"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1073
+#: ../shared/classes/class.form.php:845
 msgid "Belize"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1074
+#: ../shared/classes/class.form.php:846
 msgid "BJ"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1074
+#: ../shared/classes/class.form.php:846
 msgid "Benin"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1075
+#: ../shared/classes/class.form.php:847
 msgid "BM"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1075
+#: ../shared/classes/class.form.php:847
 msgid "Bermuda"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1076
+#: ../shared/classes/class.form.php:848
 msgid "BT"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1076
+#: ../shared/classes/class.form.php:848
 msgid "Bhutan"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1077
+#: ../shared/classes/class.form.php:849
 msgid "BO"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1077
+#: ../shared/classes/class.form.php:849
 msgid "Bolivia"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1078
+#: ../shared/classes/class.form.php:850
 msgid "BA"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1078
+#: ../shared/classes/class.form.php:850
 msgid "Bosnia and Herzegovina"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1079
+#: ../shared/classes/class.form.php:851
 msgid "BW"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1079
+#: ../shared/classes/class.form.php:851
 msgid "Botswana"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1080
+#: ../shared/classes/class.form.php:852
 msgid "BV"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1080
+#: ../shared/classes/class.form.php:852
 msgid "Bouvet Island"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1081
+#: ../shared/classes/class.form.php:853
 msgid "BR"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1081
+#: ../shared/classes/class.form.php:853
 msgid "Brazil"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1082
+#: ../shared/classes/class.form.php:854
 msgid "IO"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1082
+#: ../shared/classes/class.form.php:854
 msgid "British Indian Ocean Territory"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1083
+#: ../shared/classes/class.form.php:855
 msgid "BN"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1083
+#: ../shared/classes/class.form.php:855
 msgid "Brunei Darussalam"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1084
+#: ../shared/classes/class.form.php:856
 msgid "BG"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1084
+#: ../shared/classes/class.form.php:856
 msgid "Bulgaria"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1085
+#: ../shared/classes/class.form.php:857
 msgid "BF"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1085
+#: ../shared/classes/class.form.php:857
 msgid "Burkina Faso"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1086
+#: ../shared/classes/class.form.php:858
 msgid "BI"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1086
+#: ../shared/classes/class.form.php:858
 msgid "Burundi"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1087
+#: ../shared/classes/class.form.php:859
 msgid "KH"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1087
+#: ../shared/classes/class.form.php:859
 msgid "Cambodia"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1088
+#: ../shared/classes/class.form.php:860
 msgid "CM"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1088
+#: ../shared/classes/class.form.php:860
 msgid "Cameroon"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1089
+#: ../shared/classes/class.form.php:861
 msgid "CA"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1089
+#: ../shared/classes/class.form.php:861
 msgid "Canada"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1090
+#: ../shared/classes/class.form.php:862
 msgid "CV"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1090
+#: ../shared/classes/class.form.php:862
 msgid "Cape Verde"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1091
+#: ../shared/classes/class.form.php:863
 msgid "BQ"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1091
+#: ../shared/classes/class.form.php:863
 msgid "Caribbean Netherlands "
 msgstr ""
 
-#: ../shared/classes/class.form.php:1092
+#: ../shared/classes/class.form.php:864
 msgid "KY"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1092
+#: ../shared/classes/class.form.php:864
 msgid "Cayman Islands"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1093
+#: ../shared/classes/class.form.php:865
 msgid "CF"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1093
+#: ../shared/classes/class.form.php:865
 msgid "Central African Republic"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1094
+#: ../shared/classes/class.form.php:866
 msgid "TD"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1094
+#: ../shared/classes/class.form.php:866
 msgid "Chad"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1095
+#: ../shared/classes/class.form.php:867
 msgid "CL"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1095
+#: ../shared/classes/class.form.php:867
 msgid "Chile"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1096
+#: ../shared/classes/class.form.php:868
 msgid "CN"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1096
+#: ../shared/classes/class.form.php:868
 msgid "China"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1097
+#: ../shared/classes/class.form.php:869
 msgid "CX"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1097
+#: ../shared/classes/class.form.php:869
 msgid "Christmas Island"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1098
+#: ../shared/classes/class.form.php:870
 msgid "CC"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1098
+#: ../shared/classes/class.form.php:870
 msgid "Cocos (Keeling) Islands"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1099
+#: ../shared/classes/class.form.php:871
 msgid "CO"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1099
+#: ../shared/classes/class.form.php:871
 msgid "Colombia"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1100
+#: ../shared/classes/class.form.php:872
 msgid "KM"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1100
+#: ../shared/classes/class.form.php:872
 msgid "Comoros"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1101
+#: ../shared/classes/class.form.php:873
 msgid "CG"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1101
+#: ../shared/classes/class.form.php:873
 msgid "Congo"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1102
+#: ../shared/classes/class.form.php:874
 msgid "CD"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1102
+#: ../shared/classes/class.form.php:874
 msgid "Congo, Democratic Republic of"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1103
+#: ../shared/classes/class.form.php:875
 msgid "CK"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1103
+#: ../shared/classes/class.form.php:875
 msgid "Cook Islands"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1104
+#: ../shared/classes/class.form.php:876
 msgid "CR"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1104
+#: ../shared/classes/class.form.php:876
 msgid "Costa Rica"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1105
+#: ../shared/classes/class.form.php:877
 msgid "CI"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1105
+#: ../shared/classes/class.form.php:877
 msgid "Cote d'Ivoire"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1106
+#: ../shared/classes/class.form.php:878
 msgid "HR"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1106
+#: ../shared/classes/class.form.php:878
 msgid "Croatia"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1107
+#: ../shared/classes/class.form.php:879
 msgid "CU"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1107
+#: ../shared/classes/class.form.php:879
 msgid "Cuba"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1108
+#: ../shared/classes/class.form.php:880
 msgid "CW"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1108
+#: ../shared/classes/class.form.php:880
 msgid "Curacao"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1109
+#: ../shared/classes/class.form.php:881
 msgid "CY"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1109
+#: ../shared/classes/class.form.php:881
 msgid "Cyprus"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1110
+#: ../shared/classes/class.form.php:882
 msgid "CZ"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1110
+#: ../shared/classes/class.form.php:882
 msgid "Czech Republic"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1111
+#: ../shared/classes/class.form.php:883
 msgid "DK"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1111
+#: ../shared/classes/class.form.php:883
 msgid "Denmark"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1112
+#: ../shared/classes/class.form.php:884
 msgid "DJ"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1112
+#: ../shared/classes/class.form.php:884
 msgid "Djibouti"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1113
+#: ../shared/classes/class.form.php:885
 msgid "DM"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1113
+#: ../shared/classes/class.form.php:885
 msgid "Dominica"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1114
+#: ../shared/classes/class.form.php:886
 msgid "DO"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1114
+#: ../shared/classes/class.form.php:886
 msgid "Dominican Republic"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1115
+#: ../shared/classes/class.form.php:887
 msgid "EC"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1115
+#: ../shared/classes/class.form.php:887
 msgid "Ecuador"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1116
+#: ../shared/classes/class.form.php:888
 msgid "EG"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1116
+#: ../shared/classes/class.form.php:888
 msgid "Egypt"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1117
+#: ../shared/classes/class.form.php:889
 msgid "SV"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1117
+#: ../shared/classes/class.form.php:889
 msgid "El Salvador"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1118
+#: ../shared/classes/class.form.php:890
 msgid "GQ"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1118
+#: ../shared/classes/class.form.php:890
 msgid "Equatorial Guinea"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1119
+#: ../shared/classes/class.form.php:891
 msgid "ER"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1119
+#: ../shared/classes/class.form.php:891
 msgid "Eritrea"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1120
+#: ../shared/classes/class.form.php:892
 msgid "EE"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1120
+#: ../shared/classes/class.form.php:892
 msgid "Estonia"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1121
+#: ../shared/classes/class.form.php:893
 msgid "ET"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1121
+#: ../shared/classes/class.form.php:893
 msgid "Ethiopia"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1122
+#: ../shared/classes/class.form.php:894
 msgid "FK"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1122
+#: ../shared/classes/class.form.php:894
 msgid "Falkland Islands"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1123
+#: ../shared/classes/class.form.php:895
 msgid "FO"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1123
+#: ../shared/classes/class.form.php:895
 msgid "Faroe Islands"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1124
+#: ../shared/classes/class.form.php:896
 msgid "FJ"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1124
+#: ../shared/classes/class.form.php:896
 msgid "Fiji"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1125
+#: ../shared/classes/class.form.php:897
 msgid "FI"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1125
+#: ../shared/classes/class.form.php:897
 msgid "Finland"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1126
+#: ../shared/classes/class.form.php:898
 msgid "FR"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1126
+#: ../shared/classes/class.form.php:898
 msgid "France"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1127
+#: ../shared/classes/class.form.php:899
 msgid "GF"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1127
+#: ../shared/classes/class.form.php:899
 msgid "French Guiana"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1128
+#: ../shared/classes/class.form.php:900
 msgid "PF"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1128
+#: ../shared/classes/class.form.php:900
 msgid "French Polynesia"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1129
+#: ../shared/classes/class.form.php:901
 msgid "TF"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1129
+#: ../shared/classes/class.form.php:901
 msgid "French Southern Territories"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1130
+#: ../shared/classes/class.form.php:902
 msgid "GA"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1130
+#: ../shared/classes/class.form.php:902
 msgid "Gabon"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1131
+#: ../shared/classes/class.form.php:903
 msgid "GM"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1131
+#: ../shared/classes/class.form.php:903
 msgid "Gambia"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1132
+#: ../shared/classes/class.form.php:904
 msgid "GE"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1132
+#: ../shared/classes/class.form.php:904
 msgid "Georgia"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1133
+#: ../shared/classes/class.form.php:905
 msgid "DE"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1133
+#: ../shared/classes/class.form.php:905
 msgid "Germany"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1134
+#: ../shared/classes/class.form.php:906
 msgid "GH"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1134
+#: ../shared/classes/class.form.php:906
 msgid "Ghana"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1135
+#: ../shared/classes/class.form.php:907
 msgid "GI"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1135
+#: ../shared/classes/class.form.php:907
 msgid "Gibraltar"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1136
+#: ../shared/classes/class.form.php:908
 msgid "GR"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1136
+#: ../shared/classes/class.form.php:908
 msgid "Greece"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1137
+#: ../shared/classes/class.form.php:909
 msgid "GL"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1137
+#: ../shared/classes/class.form.php:909
 msgid "Greenland"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1138
+#: ../shared/classes/class.form.php:910
 msgid "GD"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1138
+#: ../shared/classes/class.form.php:910
 msgid "Grenada"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1139
+#: ../shared/classes/class.form.php:911
 msgid "GP"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1139
+#: ../shared/classes/class.form.php:911
 msgid "Guadeloupe"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1140
+#: ../shared/classes/class.form.php:912
 msgid "GU"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1140
+#: ../shared/classes/class.form.php:912
 msgid "Guam"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1141
+#: ../shared/classes/class.form.php:913
 msgid "GT"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1141
+#: ../shared/classes/class.form.php:913
 msgid "Guatemala"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1142
+#: ../shared/classes/class.form.php:914
 msgid "GG"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1142
+#: ../shared/classes/class.form.php:914
 msgid "Guernsey"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1143
+#: ../shared/classes/class.form.php:915
 msgid "GN"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1143
+#: ../shared/classes/class.form.php:915
 msgid "Guinea"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1144
+#: ../shared/classes/class.form.php:916
 msgid "GW"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1144
+#: ../shared/classes/class.form.php:916
 msgid "Guinea-Bissau"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1145
+#: ../shared/classes/class.form.php:917
 msgid "GY"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1145
+#: ../shared/classes/class.form.php:917
 msgid "Guyana"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1146
+#: ../shared/classes/class.form.php:918
 msgid "HT"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1146
+#: ../shared/classes/class.form.php:918
 msgid "Haiti"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1147
+#: ../shared/classes/class.form.php:919
 msgid "HM"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1147
+#: ../shared/classes/class.form.php:919
 msgid "Heard and McDonald Islands"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1148
+#: ../shared/classes/class.form.php:920
 msgid "HN"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1148
+#: ../shared/classes/class.form.php:920
 msgid "Honduras"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1149
+#: ../shared/classes/class.form.php:921
 msgid "HK"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1149
+#: ../shared/classes/class.form.php:921
 msgid "Hong Kong"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1150
+#: ../shared/classes/class.form.php:922
 msgid "HU"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1150
+#: ../shared/classes/class.form.php:922
 msgid "Hungary"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1151
+#: ../shared/classes/class.form.php:923
 msgid "IS"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1151
+#: ../shared/classes/class.form.php:923
 msgid "Iceland"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1152
+#: ../shared/classes/class.form.php:924
 msgid "IN"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1152
+#: ../shared/classes/class.form.php:924
 msgid "India"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1153
+#: ../shared/classes/class.form.php:925
+#: ../shared/classes/class.post-type.wp-lead.php:153
 msgid "ID"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1153
+#: ../shared/classes/class.form.php:925
 msgid "Indonesia"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1154
+#: ../shared/classes/class.form.php:926
 msgid "IR"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1154
+#: ../shared/classes/class.form.php:926
 msgid "Iran"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1155
+#: ../shared/classes/class.form.php:927
 msgid "IQ"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1155
+#: ../shared/classes/class.form.php:927
 msgid "Iraq"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1156
+#: ../shared/classes/class.form.php:928
 msgid "IE"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1156
+#: ../shared/classes/class.form.php:928
 msgid "Ireland"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1157
+#: ../shared/classes/class.form.php:929
 msgid "IM"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1157
+#: ../shared/classes/class.form.php:929
 msgid "Isle of Man"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1158
+#: ../shared/classes/class.form.php:930
 msgid "IL"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1158
+#: ../shared/classes/class.form.php:930
 msgid "Israel"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1159
+#: ../shared/classes/class.form.php:931
 msgid "IT"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1159
+#: ../shared/classes/class.form.php:931
 msgid "Italy"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1160
+#: ../shared/classes/class.form.php:932
 msgid "JM"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1160
+#: ../shared/classes/class.form.php:932
 msgid "Jamaica"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1161
+#: ../shared/classes/class.form.php:933
 msgid "JP"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1161
+#: ../shared/classes/class.form.php:933
 msgid "Japan"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1162
+#: ../shared/classes/class.form.php:934
 msgid "JE"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1162
+#: ../shared/classes/class.form.php:934
 msgid "Jersey"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1163
+#: ../shared/classes/class.form.php:935
 msgid "JO"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1163
+#: ../shared/classes/class.form.php:935
 msgid "Jordan"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1164
+#: ../shared/classes/class.form.php:936
 msgid "KZ"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1164
+#: ../shared/classes/class.form.php:936
 msgid "Kazakhstan"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1165
+#: ../shared/classes/class.form.php:937
 msgid "KE"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1165
+#: ../shared/classes/class.form.php:937
 msgid "Kenya"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1166
+#: ../shared/classes/class.form.php:938
 msgid "KI"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1166
+#: ../shared/classes/class.form.php:938
 msgid "Kiribati"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1167
+#: ../shared/classes/class.form.php:939
 msgid "KW"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1167
+#: ../shared/classes/class.form.php:939
 msgid "Kuwait"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1168
+#: ../shared/classes/class.form.php:940
 msgid "KG"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1168
+#: ../shared/classes/class.form.php:940
 msgid "Kyrgyzstan"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1169
+#: ../shared/classes/class.form.php:941
 msgid "LA"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1169
+#: ../shared/classes/class.form.php:941
 msgid "Lao People's Democratic Republic"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1170
+#: ../shared/classes/class.form.php:942
 msgid "LV"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1170
+#: ../shared/classes/class.form.php:942
 msgid "Latvia"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1171
+#: ../shared/classes/class.form.php:943
 msgid "LB"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1171
+#: ../shared/classes/class.form.php:943
 msgid "Lebanon"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1172
+#: ../shared/classes/class.form.php:944
 msgid "LS"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1172
+#: ../shared/classes/class.form.php:944
 msgid "Lesotho"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1173
+#: ../shared/classes/class.form.php:945
 msgid "LR"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1173
+#: ../shared/classes/class.form.php:945
 msgid "Liberia"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1174
+#: ../shared/classes/class.form.php:946
 msgid "LY"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1174
+#: ../shared/classes/class.form.php:946
 msgid "Libya"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1175
+#: ../shared/classes/class.form.php:947
 msgid "LI"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1175
+#: ../shared/classes/class.form.php:947
 msgid "Liechtenstein"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1176
+#: ../shared/classes/class.form.php:948
 msgid "LT"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1176
+#: ../shared/classes/class.form.php:948
 msgid "Lithuania"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1177
+#: ../shared/classes/class.form.php:949
 msgid "LU"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1177
+#: ../shared/classes/class.form.php:949
 msgid "Luxembourg"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1178
+#: ../shared/classes/class.form.php:950
 msgid "MO"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1178
+#: ../shared/classes/class.form.php:950
 msgid "Macau"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1179
+#: ../shared/classes/class.form.php:951
 msgid "MK"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1179
+#: ../shared/classes/class.form.php:951
 msgid "Macedonia"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1180
+#: ../shared/classes/class.form.php:952
 msgid "MG"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1180
+#: ../shared/classes/class.form.php:952
 msgid "Madagascar"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1181
+#: ../shared/classes/class.form.php:953
 msgid "MW"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1181
+#: ../shared/classes/class.form.php:953
 msgid "Malawi"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1182
+#: ../shared/classes/class.form.php:954
 msgid "MY"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1182
+#: ../shared/classes/class.form.php:954
 msgid "Malaysia"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1183
+#: ../shared/classes/class.form.php:955
 msgid "MV"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1183
+#: ../shared/classes/class.form.php:955
 msgid "Maldives"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1184
+#: ../shared/classes/class.form.php:956
 msgid "ML"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1184
+#: ../shared/classes/class.form.php:956
 msgid "Mali"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1185
+#: ../shared/classes/class.form.php:957
 msgid "MT"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1185
+#: ../shared/classes/class.form.php:957
 msgid "Malta"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1186
+#: ../shared/classes/class.form.php:958
 msgid "MH"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1186
+#: ../shared/classes/class.form.php:958
 msgid "Marshall Islands"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1187
+#: ../shared/classes/class.form.php:959
 msgid "MQ"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1187
+#: ../shared/classes/class.form.php:959
 msgid "Martinique"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1188
+#: ../shared/classes/class.form.php:960
 msgid "MR"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1188
+#: ../shared/classes/class.form.php:960
 msgid "Mauritania"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1189
+#: ../shared/classes/class.form.php:961
 msgid "MU"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1189
+#: ../shared/classes/class.form.php:961
 msgid "Mauritius"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1190
+#: ../shared/classes/class.form.php:962
 msgid "YT"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1190
+#: ../shared/classes/class.form.php:962
 msgid "Mayotte"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1191
+#: ../shared/classes/class.form.php:963
 msgid "MX"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1191
+#: ../shared/classes/class.form.php:963
 msgid "Mexico"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1192
+#: ../shared/classes/class.form.php:964
 msgid "FM"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1192
+#: ../shared/classes/class.form.php:964
 msgid "Micronesia, Federated States of"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1193
+#: ../shared/classes/class.form.php:965
 msgid "MD"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1193
+#: ../shared/classes/class.form.php:965
 msgid "Moldova"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1194
+#: ../shared/classes/class.form.php:966
 msgid "MC"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1194
+#: ../shared/classes/class.form.php:966
 msgid "Monaco"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1195
+#: ../shared/classes/class.form.php:967
 msgid "MN"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1195
+#: ../shared/classes/class.form.php:967
 msgid "Mongolia"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1196
+#: ../shared/classes/class.form.php:968
 msgid "ME"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1196
+#: ../shared/classes/class.form.php:968
 msgid "Montenegro"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1197
+#: ../shared/classes/class.form.php:969
 msgid "MS"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1197
+#: ../shared/classes/class.form.php:969
 msgid "Montserrat"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1198
+#: ../shared/classes/class.form.php:970
 msgid "MA"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1198
+#: ../shared/classes/class.form.php:970
 msgid "Morocco"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1199
+#: ../shared/classes/class.form.php:971
 msgid "MZ"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1199
+#: ../shared/classes/class.form.php:971
 msgid "Mozambique"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1200
+#: ../shared/classes/class.form.php:972
 msgid "MM"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1200
+#: ../shared/classes/class.form.php:972
 msgid "Myanmar"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1201
+#: ../shared/classes/class.form.php:973
 msgid "NA"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1201
+#: ../shared/classes/class.form.php:973
 msgid "Namibia"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1202
+#: ../shared/classes/class.form.php:974
 msgid "NR"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1202
+#: ../shared/classes/class.form.php:974
 msgid "Nauru"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1203
+#: ../shared/classes/class.form.php:975
 msgid "NP"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1203
+#: ../shared/classes/class.form.php:975
 msgid "Nepal"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1204
+#: ../shared/classes/class.form.php:976
 msgid "NC"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1204
+#: ../shared/classes/class.form.php:976
 msgid "New Caledonia"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1205
+#: ../shared/classes/class.form.php:977
 msgid "NZ"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1205
+#: ../shared/classes/class.form.php:977
 msgid "New Zealand"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1206
+#: ../shared/classes/class.form.php:978
 msgid "NI"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1206
+#: ../shared/classes/class.form.php:978
 msgid "Nicaragua"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1207
+#: ../shared/classes/class.form.php:979
 msgid "NE"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1207
+#: ../shared/classes/class.form.php:979
 msgid "Niger"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1208
+#: ../shared/classes/class.form.php:980
 msgid "NG"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1208
+#: ../shared/classes/class.form.php:980
 msgid "Nigeria"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1209
+#: ../shared/classes/class.form.php:981
 msgid "NU"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1209
+#: ../shared/classes/class.form.php:981
 msgid "Niue"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1210
+#: ../shared/classes/class.form.php:982
 msgid "NF"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1210
+#: ../shared/classes/class.form.php:982
 msgid "Norfolk Island"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1211
+#: ../shared/classes/class.form.php:983
 msgid "KP"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1211
+#: ../shared/classes/class.form.php:983
 msgid "North Korea"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1212
+#: ../shared/classes/class.form.php:984
 msgid "MP"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1212
+#: ../shared/classes/class.form.php:984
 msgid "Northern Mariana Islands"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1213
+#: ../shared/classes/class.form.php:985
 msgid "NO"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1213
+#: ../shared/classes/class.form.php:985
 msgid "Norway"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1214
+#: ../shared/classes/class.form.php:986
 msgid "OM"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1214
+#: ../shared/classes/class.form.php:986
 msgid "Oman"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1215
+#: ../shared/classes/class.form.php:987
 msgid "PK"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1215
+#: ../shared/classes/class.form.php:987
 msgid "Pakistan"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1216
+#: ../shared/classes/class.form.php:988
 msgid "PW"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1216
+#: ../shared/classes/class.form.php:988
 msgid "Palau"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1217
+#: ../shared/classes/class.form.php:989
 msgid "PS"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1217
+#: ../shared/classes/class.form.php:989
 msgid "Palestinian Territory, Occupied"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1218
+#: ../shared/classes/class.form.php:990
 msgid "PA"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1218
+#: ../shared/classes/class.form.php:990
 msgid "Panama"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1219
+#: ../shared/classes/class.form.php:991
 msgid "PG"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1219
+#: ../shared/classes/class.form.php:991
 msgid "Papua New Guinea"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1220
+#: ../shared/classes/class.form.php:992
 msgid "PY"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1220
+#: ../shared/classes/class.form.php:992
 msgid "Paraguay"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1221
+#: ../shared/classes/class.form.php:993
 msgid "PE"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1221
+#: ../shared/classes/class.form.php:993
 msgid "Peru"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1222
+#: ../shared/classes/class.form.php:994
 msgid "PH"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1222
+#: ../shared/classes/class.form.php:994
 msgid "Philippines"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1223
+#: ../shared/classes/class.form.php:995
 msgid "PN"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1223
+#: ../shared/classes/class.form.php:995
 msgid "Pitcairn"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1224
+#: ../shared/classes/class.form.php:996
 msgid "PL"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1224
+#: ../shared/classes/class.form.php:996
 msgid "Poland"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1225
+#: ../shared/classes/class.form.php:997
 msgid "PT"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1225
+#: ../shared/classes/class.form.php:997
 msgid "Portugal"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1226
+#: ../shared/classes/class.form.php:998
 msgid "PR"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1226
+#: ../shared/classes/class.form.php:998
 msgid "Puerto Rico"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1227
+#: ../shared/classes/class.form.php:999
 msgid "QA"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1227
+#: ../shared/classes/class.form.php:999
 msgid "Qatar"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1228
+#: ../shared/classes/class.form.php:1000
 msgid "RE"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1228
+#: ../shared/classes/class.form.php:1000
 msgid "Reunion"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1229
+#: ../shared/classes/class.form.php:1001
 msgid "RO"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1229
+#: ../shared/classes/class.form.php:1001
 msgid "Romania"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1230
+#: ../shared/classes/class.form.php:1002
 msgid "RU"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1230
+#: ../shared/classes/class.form.php:1002
 msgid "Russian Federation"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1231
+#: ../shared/classes/class.form.php:1003
 msgid "RW"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1231
+#: ../shared/classes/class.form.php:1003
 msgid "Rwanda"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1232
+#: ../shared/classes/class.form.php:1004
 msgid "BL"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1232
+#: ../shared/classes/class.form.php:1004
 msgid "Saint Barthelemy"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1233
+#: ../shared/classes/class.form.php:1005
 msgid "SH"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1233
+#: ../shared/classes/class.form.php:1005
 msgid "Saint Helena"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1234
+#: ../shared/classes/class.form.php:1006
 msgid "KN"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1234
+#: ../shared/classes/class.form.php:1006
 msgid "Saint Kitts and Nevis"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1235
+#: ../shared/classes/class.form.php:1007
 msgid "LC"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1235
+#: ../shared/classes/class.form.php:1007
 msgid "Saint Lucia"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1236
+#: ../shared/classes/class.form.php:1008
 msgid "VC"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1236
+#: ../shared/classes/class.form.php:1008
 msgid "Saint Vincent and the Grenadines"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1237
+#: ../shared/classes/class.form.php:1009
 msgid "MF"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1237
+#: ../shared/classes/class.form.php:1009
 msgid "Saint-Martin (France)"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1238
+#: ../shared/classes/class.form.php:1010
 msgid "SX"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1238
+#: ../shared/classes/class.form.php:1010
 msgid "Saint-Martin (Pays-Bas)"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1239
+#: ../shared/classes/class.form.php:1011
 msgid "WS"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1239
+#: ../shared/classes/class.form.php:1011
 msgid "Samoa"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1240
+#: ../shared/classes/class.form.php:1012
 msgid "SM"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1240
+#: ../shared/classes/class.form.php:1012
 msgid "San Marino"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1241
+#: ../shared/classes/class.form.php:1013
 msgid "ST"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1241
+#: ../shared/classes/class.form.php:1013
 msgid "Sao Tome and Principe"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1242
+#: ../shared/classes/class.form.php:1014
 msgid "SA"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1242
+#: ../shared/classes/class.form.php:1014
 msgid "Saudi Arabia"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1243
+#: ../shared/classes/class.form.php:1015
 msgid "SN"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1243
+#: ../shared/classes/class.form.php:1015
 msgid "Senegal"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1244
+#: ../shared/classes/class.form.php:1016
 msgid "RS"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1244
+#: ../shared/classes/class.form.php:1016
 msgid "Serbia"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1245
+#: ../shared/classes/class.form.php:1017
 msgid "SC"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1245
+#: ../shared/classes/class.form.php:1017
 msgid "Seychelles"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1246
+#: ../shared/classes/class.form.php:1018
 msgid "SL"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1246
+#: ../shared/classes/class.form.php:1018
 msgid "Sierra Leone"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1247
+#: ../shared/classes/class.form.php:1019
 msgid "SG"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1247
+#: ../shared/classes/class.form.php:1019
 msgid "Singapore"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1248
+#: ../shared/classes/class.form.php:1020
 msgid "SK"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1248
+#: ../shared/classes/class.form.php:1020
 msgid "Slovakia (Slovak Republic)"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1249
+#: ../shared/classes/class.form.php:1021
 msgid "SI"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1249
+#: ../shared/classes/class.form.php:1021
 msgid "Slovenia"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1250
+#: ../shared/classes/class.form.php:1022
 msgid "SB"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1250
+#: ../shared/classes/class.form.php:1022
 msgid "Solomon Islands"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1251
+#: ../shared/classes/class.form.php:1023
 msgid "SO"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1251
+#: ../shared/classes/class.form.php:1023
 msgid "Somalia"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1252
+#: ../shared/classes/class.form.php:1024
 msgid "ZA"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1252
+#: ../shared/classes/class.form.php:1024
 msgid "South Africa"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1253
+#: ../shared/classes/class.form.php:1025
 msgid "GS"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1253
+#: ../shared/classes/class.form.php:1025
 msgid "South Georgia and the South Sandwich Islands"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1254
+#: ../shared/classes/class.form.php:1026
 msgid "KR"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1254
+#: ../shared/classes/class.form.php:1026
 msgid "South Korea"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1255
+#: ../shared/classes/class.form.php:1027
 msgid "SS"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1255
+#: ../shared/classes/class.form.php:1027
 msgid "South Sudan"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1256
+#: ../shared/classes/class.form.php:1028
 msgid "ES"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1256
+#: ../shared/classes/class.form.php:1028
 msgid "Spain"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1257
+#: ../shared/classes/class.form.php:1029
 msgid "LK"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1257
+#: ../shared/classes/class.form.php:1029
 msgid "Sri Lanka"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1258
+#: ../shared/classes/class.form.php:1030
 msgid "PM"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1258
+#: ../shared/classes/class.form.php:1030
 msgid "St. Pierre and Miquelon"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1259
+#: ../shared/classes/class.form.php:1031
 msgid "SD"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1259
+#: ../shared/classes/class.form.php:1031
 msgid "Sudan"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1260
+#: ../shared/classes/class.form.php:1032
 msgid "SR"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1260
+#: ../shared/classes/class.form.php:1032
 msgid "Suriname"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1261
+#: ../shared/classes/class.form.php:1033
 msgid "SJ"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1261
+#: ../shared/classes/class.form.php:1033
 msgid "Svalbard and Jan Mayen Islands"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1262
+#: ../shared/classes/class.form.php:1034
 msgid "SZ"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1262
+#: ../shared/classes/class.form.php:1034
 msgid "Swaziland"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1263
+#: ../shared/classes/class.form.php:1035
 msgid "SE"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1263
+#: ../shared/classes/class.form.php:1035
 msgid "Sweden"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1264
+#: ../shared/classes/class.form.php:1036
 msgid "CH"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1264
+#: ../shared/classes/class.form.php:1036
 msgid "Switzerland"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1265
+#: ../shared/classes/class.form.php:1037
 msgid "SY"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1265
+#: ../shared/classes/class.form.php:1037
 msgid "Syria"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1266
+#: ../shared/classes/class.form.php:1038
 msgid "TW"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1266
+#: ../shared/classes/class.form.php:1038
 msgid "Taiwan"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1267
+#: ../shared/classes/class.form.php:1039
 msgid "TJ"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1267
+#: ../shared/classes/class.form.php:1039
 msgid "Tajikistan"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1268
+#: ../shared/classes/class.form.php:1040
 msgid "TZ"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1268
+#: ../shared/classes/class.form.php:1040
 msgid "Tanzania"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1269
+#: ../shared/classes/class.form.php:1041
 msgid "TH"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1269
+#: ../shared/classes/class.form.php:1041
 msgid "Thailand"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1270
+#: ../shared/classes/class.form.php:1042
 msgid "NL"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1270
+#: ../shared/classes/class.form.php:1042
 msgid "The Netherlands"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1271
+#: ../shared/classes/class.form.php:1043
 msgid "TL"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1271
+#: ../shared/classes/class.form.php:1043
 msgid "Timor-Leste"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1272
+#: ../shared/classes/class.form.php:1044
 msgid "TG"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1272
+#: ../shared/classes/class.form.php:1044
 msgid "Togo"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1273
+#: ../shared/classes/class.form.php:1045
 msgid "TK"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1273
+#: ../shared/classes/class.form.php:1045
 msgid "Tokelau"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1274
+#: ../shared/classes/class.form.php:1046
 msgid "TO"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1274
+#: ../shared/classes/class.form.php:1046
 msgid "Tonga"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1275
+#: ../shared/classes/class.form.php:1047
 msgid "TT"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1275
+#: ../shared/classes/class.form.php:1047
 msgid "Trinidad and Tobago"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1276
+#: ../shared/classes/class.form.php:1048
 msgid "TN"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1276
+#: ../shared/classes/class.form.php:1048
 msgid "Tunisia"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1277
+#: ../shared/classes/class.form.php:1049
 msgid "TR"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1277
+#: ../shared/classes/class.form.php:1049
 msgid "Turkey"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1278
+#: ../shared/classes/class.form.php:1050
 msgid "TM"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1278
+#: ../shared/classes/class.form.php:1050
 msgid "Turkmenistan"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1279
+#: ../shared/classes/class.form.php:1051
 msgid "TC"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1279
+#: ../shared/classes/class.form.php:1051
 msgid "Turks and Caicos Islands"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1280
+#: ../shared/classes/class.form.php:1052
 msgid "TV"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1280
+#: ../shared/classes/class.form.php:1052
 msgid "Tuvalu"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1281
+#: ../shared/classes/class.form.php:1053
 msgid "UG"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1281
+#: ../shared/classes/class.form.php:1053
 msgid "Uganda"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1282
+#: ../shared/classes/class.form.php:1054
 msgid "UA"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1282
+#: ../shared/classes/class.form.php:1054
 msgid "Ukraine"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1283
+#: ../shared/classes/class.form.php:1055
 msgid "AE"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1283
+#: ../shared/classes/class.form.php:1055
 msgid "United Arab Emirates"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1284
+#: ../shared/classes/class.form.php:1056
 msgid "GB"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1284
+#: ../shared/classes/class.form.php:1056
 msgid "United Kingdom"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1285
+#: ../shared/classes/class.form.php:1057
 msgid "US"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1285
+#: ../shared/classes/class.form.php:1057
 msgid "United States"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1286
+#: ../shared/classes/class.form.php:1058
 msgid "UM"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1286
+#: ../shared/classes/class.form.php:1058
 msgid "United States Minor Outlying Islands"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1287
+#: ../shared/classes/class.form.php:1059
 msgid "UY"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1287
+#: ../shared/classes/class.form.php:1059
 msgid "Uruguay"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1288
+#: ../shared/classes/class.form.php:1060
 msgid "UZ"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1288
+#: ../shared/classes/class.form.php:1060
 msgid "Uzbekistan"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1289
+#: ../shared/classes/class.form.php:1061
 msgid "VU"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1289
+#: ../shared/classes/class.form.php:1061
 msgid "Vanuatu"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1290
+#: ../shared/classes/class.form.php:1062
 msgid "VA"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1290
+#: ../shared/classes/class.form.php:1062
 msgid "Vatican"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1291
+#: ../shared/classes/class.form.php:1063
 msgid "VE"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1291
+#: ../shared/classes/class.form.php:1063
 msgid "Venezuela"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1292
+#: ../shared/classes/class.form.php:1064
 msgid "VN"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1292
+#: ../shared/classes/class.form.php:1064
 msgid "Vietnam"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1293
+#: ../shared/classes/class.form.php:1065
 msgid "VG"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1293
+#: ../shared/classes/class.form.php:1065
 msgid "Virgin Islands (British)"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1294
+#: ../shared/classes/class.form.php:1066
 msgid "VI"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1294
+#: ../shared/classes/class.form.php:1066
 msgid "Virgin Islands (U.S.)"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1295
+#: ../shared/classes/class.form.php:1067
 msgid "WF"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1295
+#: ../shared/classes/class.form.php:1067
 msgid "Wallis and Futuna Islands"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1296
+#: ../shared/classes/class.form.php:1068
 msgid "EH"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1296
+#: ../shared/classes/class.form.php:1068
 msgid "Western Sahara"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1297
+#: ../shared/classes/class.form.php:1069
 msgid "YE"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1297
+#: ../shared/classes/class.form.php:1069
 msgid "Yemen"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1298
+#: ../shared/classes/class.form.php:1070
 msgid "ZM"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1298
+#: ../shared/classes/class.form.php:1070
 msgid "Zambia"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1299
+#: ../shared/classes/class.form.php:1071
 msgid "ZW"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1299
+#: ../shared/classes/class.form.php:1071
 msgid "Zimbabwe"
+msgstr ""
+
+#: ../shared/classes/class.lead-fields.php:14
+#: ../shared/templates/email-templates/token-test/token-test.php:14
+msgid "First Name"
+msgstr ""
+
+#: ../shared/classes/class.lead-fields.php:20
+#: ../shared/templates/email-templates/token-test/token-test.php:15
+msgid "Last Name"
+msgstr ""
+
+#: ../shared/classes/class.lead-fields.php:26
+#: ../shared/templates/email-templates/token-test/token-test.php:16
+msgid "Email"
 msgstr ""
 
 #: ../shared/classes/class.lead-fields.php:32
@@ -3267,359 +3348,538 @@ msgid "Country"
 msgstr ""
 
 #: ../shared/classes/class.lead-fields.php:99
-msgid "Shipping Address"
+msgid "Billing First Name"
 msgstr ""
 
 #: ../shared/classes/class.lead-fields.php:105
-msgid "Shipping Address Continued"
+msgid "Billing Last Name"
 msgstr ""
 
 #: ../shared/classes/class.lead-fields.php:111
-msgid "Shipping City"
+msgid "Billing Company"
 msgstr ""
 
 #: ../shared/classes/class.lead-fields.php:117
-msgid "Shipping State/Region"
+msgid "Billing Address"
 msgstr ""
 
 #: ../shared/classes/class.lead-fields.php:123
-msgid "Shipping Zip-code"
+msgid "Billing Address Continued"
 msgstr ""
 
 #: ../shared/classes/class.lead-fields.php:129
-msgid "Shipping Country"
+msgid "Billing City"
 msgstr ""
 
 #: ../shared/classes/class.lead-fields.php:135
+msgid "Billing State/Region"
+msgstr ""
+
+#: ../shared/classes/class.lead-fields.php:141
+msgid "Billing Zip-code"
+msgstr ""
+
+#: ../shared/classes/class.lead-fields.php:148
+msgid "Billing Country"
+msgstr ""
+
+#: ../shared/classes/class.lead-fields.php:154
+msgid "Shipping First Name"
+msgstr ""
+
+#: ../shared/classes/class.lead-fields.php:160
+msgid "Shipping Last Name"
+msgstr ""
+
+#: ../shared/classes/class.lead-fields.php:166
+msgid "Shipping Company Name"
+msgstr ""
+
+#: ../shared/classes/class.lead-fields.php:172
+msgid "Shipping Address"
+msgstr ""
+
+#: ../shared/classes/class.lead-fields.php:178
+msgid "Shipping Address Continued"
+msgstr ""
+
+#: ../shared/classes/class.lead-fields.php:184
+msgid "Shipping City"
+msgstr ""
+
+#: ../shared/classes/class.lead-fields.php:190
+msgid "Shipping State/Region"
+msgstr ""
+
+#: ../shared/classes/class.lead-fields.php:196
+msgid "Shipping Zip-code"
+msgstr ""
+
+#: ../shared/classes/class.lead-fields.php:202
+msgid "Shipping Country"
+msgstr ""
+
+#: ../shared/classes/class.lead-fields.php:208
 msgid "Related Websites"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:24
+#: ../shared/classes/class.lead-fields.php:220
+msgid "Twitter Account"
+msgstr ""
+
+#: ../shared/classes/class.lead-fields.php:226
+msgid "Youtube Account"
+msgstr ""
+
+#: ../shared/classes/class.lead-fields.php:232
+msgid "Facebook Account"
+msgstr ""
+
+#: ../shared/classes/class.menu.php:23
 msgid "GO"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:41
+#: ../shared/classes/class.menu.php:39
 msgid " Marketing"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:137
+#: ../shared/classes/class.menu.php:132
 msgid "Leads"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:143
+#: ../shared/classes/class.menu.php:138
 msgid "Search All Leads"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:158
+#: ../shared/classes/class.menu.php:153
 msgid "View All Leads"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:160 ../shared/classes/class.menu.php:315
-#: ../shared/classes/class.menu.php:317
+#: ../shared/classes/class.menu.php:155 ../shared/classes/class.menu.php:309
+#: ../shared/classes/class.menu.php:311
 msgid "View All Forms"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:166 ../shared/classes/class.menu.php:168
+#: ../shared/classes/class.menu.php:161 ../shared/classes/class.menu.php:163
 msgid "View Lead Lists"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:174
+#: ../shared/classes/class.menu.php:169
 msgid "Create New Lead"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:176
+#: ../shared/classes/class.menu.php:171
 msgid "Add new lead"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:196
+#: ../shared/classes/class.menu.php:190
 msgid "Call to Actions"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:198 ../shared/classes/class.menu.php:206
-#: ../shared/classes/class.menu.php:254 ../shared/classes/class.menu.php:262
+#: ../shared/classes/class.menu.php:192 ../shared/classes/class.menu.php:200
+#: ../shared/classes/class.menu.php:248 ../shared/classes/class.menu.php:256
 msgid "View All Landing Pages"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:204
+#: ../shared/classes/class.menu.php:198
 msgid "View Calls to Action List"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:212
+#: ../shared/classes/class.menu.php:206
 msgid "Add New Call to Action"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:214 ../shared/classes/class.menu.php:337
+#: ../shared/classes/class.menu.php:208 ../shared/classes/class.menu.php:331
 msgid "Add new call to action"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:222 ../shared/classes/class.menu.php:278
+#: ../shared/classes/class.menu.php:216 ../shared/classes/class.menu.php:272
 msgid "Landing Page Categories"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:229 ../shared/classes/class.menu.php:285
+#: ../shared/classes/class.menu.php:223 ../shared/classes/class.menu.php:279
 msgid "Settings"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:231
+#: ../shared/classes/class.menu.php:225
 msgid "Manage Call to Action Settings"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:252
+#: ../shared/classes/class.menu.php:246
 msgid "Landing Pages"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:260
+#: ../shared/classes/class.menu.php:254
 msgid "View Landing Pages List"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:270
+#: ../shared/classes/class.menu.php:264
 msgid "Add new Landing Page"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:287
+#: ../shared/classes/class.menu.php:281
 msgid "Manage Landing Page Settings"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:335
-#: ../shared/shortcodes/shortcodes/forms.php:342
+#: ../shared/classes/class.menu.php:329
+#: ../shared/shortcodes/shortcodes/forms.php:344
 msgid "Create New Form"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:362 ../shared/classes/class.menu.php:364
+#: ../shared/classes/class.menu.php:356 ../shared/classes/class.menu.php:358
 msgid "Download More Templates"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:381 ../shared/classes/class.menu.php:383
+#: ../shared/classes/class.menu.php:375 ../shared/classes/class.menu.php:377
 msgid "Call to Action Templates"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:406 ../shared/classes/class.menu.php:408
+#: ../shared/classes/class.menu.php:400 ../shared/classes/class.menu.php:402
 msgid "Call to Action Settings"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:415 ../shared/classes/class.menu.php:417
+#: ../shared/classes/class.menu.php:409 ../shared/classes/class.menu.php:411
 msgid "Landing Page Settings"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:424 ../shared/classes/class.menu.php:426
+#: ../shared/classes/class.menu.php:418 ../shared/classes/class.menu.php:420
 msgid "Lead Settings"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:440 ../shared/classes/class.menu.php:442
+#: ../shared/classes/class.menu.php:434 ../shared/classes/class.menu.php:436
 msgid "Analytics (coming soon)"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:455
+#: ../shared/classes/class.menu.php:449
 msgid "SEO by Yoast"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:457
+#: ../shared/classes/class.menu.php:451
 msgid "Manage SEO Settings"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:471 ../shared/classes/class.menu.php:473
+#: ../shared/classes/class.menu.php:465 ../shared/classes/class.menu.php:467
 msgid "Support Forum"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:479 ../shared/classes/class.menu.php:481
+#: ../shared/classes/class.menu.php:473 ../shared/classes/class.menu.php:475
 msgid "Documentation"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:485
+#: ../shared/classes/class.menu.php:479
 msgid "Search Docs"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:507 ../shared/classes/class.menu.php:509
+#: ../shared/classes/class.menu.php:501 ../shared/classes/class.menu.php:503
 msgid "Inbound Now Plugin HQ"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:515 ../shared/classes/class.menu.php:517
+#: ../shared/classes/class.menu.php:509 ../shared/classes/class.menu.php:511
 msgid "GitHub Repository Developer Center"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:523 ../shared/classes/class.menu.php:525
+#: ../shared/classes/class.menu.php:517 ../shared/classes/class.menu.php:519
 msgid "Official Blog"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:531 ../shared/classes/class.menu.php:533
+#: ../shared/classes/class.menu.php:525 ../shared/classes/class.menu.php:527
 msgid "My Account"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:539 ../shared/classes/class.menu.php:541
+#: ../shared/classes/class.menu.php:533 ../shared/classes/class.menu.php:535
 msgid "Purchase History"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:554
+#: ../shared/classes/class.menu.php:548
 msgid ""
 "<span style=\"color:#fff;font-size: 13px;margin-top: -1px;display: inline-"
 "block;\">Debug Tools</span>"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:580
+#: ../shared/classes/class.menu.php:574
 msgid "Check for Javascript Errors"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:582
+#: ../shared/classes/class.menu.php:576
 msgid "Click here to check javascript errors on this page"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:588
+#: ../shared/classes/class.menu.php:582
 msgid "Remove Javascript Errors"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:590
+#: ../shared/classes/class.menu.php:584
 msgid "Click here to remove broken javascript to fix issues"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:32
+#: ../shared/classes/class.post-type.email-template.php:53
+#: ../shared/classes/class.post-type.email-template.php:54
+#: ../shared/classes/class.post-type.email-template.php:105
+msgid "Email Templates"
+msgstr ""
+
+#: ../shared/classes/class.post-type.email-template.php:55
+msgid "Add New Email Templates"
+msgstr ""
+
+#: ../shared/classes/class.post-type.email-template.php:56
+msgid "Create New Email Templates"
+msgstr ""
+
+#: ../shared/classes/class.post-type.email-template.php:57
+msgid "Edit Email Templates"
+msgstr ""
+
+#: ../shared/classes/class.post-type.email-template.php:58
+msgid "New Email Templates"
+msgstr ""
+
+#: ../shared/classes/class.post-type.email-template.php:59
+msgid "View Email Templates"
+msgstr ""
+
+#: ../shared/classes/class.post-type.email-template.php:60
+msgid "Search Email Templates"
+msgstr ""
+
+#: ../shared/classes/class.post-type.email-template.php:90
+msgid "Email Template Category"
+msgstr ""
+
+#: ../shared/classes/class.post-type.email-template.php:300
+msgid "Token Testing"
+msgstr ""
+
+#: ../shared/classes/class.post-type.email-template.php:301
+msgid "Token Testing Template - {{site-name}}"
+msgstr ""
+
+#: ../shared/classes/class.post-type.email-template.php:303
+msgid "Designed for testing & debugging tokens."
+msgstr ""
+
+#: ../shared/classes/class.post-type.email-template.php:310
+msgid "New Lead Notification"
+msgstr ""
+
+#: ../shared/classes/class.post-type.email-template.php:311
+msgid "{{site-name}} - {{form-name}} - New Lead Conversion"
+msgstr ""
+
+#: ../shared/classes/class.post-type.email-template.php:313
+msgid ""
+"Designed for notifying administrator of new lead conversion when an Inbound "
+"Form is submitted."
+msgstr ""
+
+#: ../shared/classes/class.post-type.email-template.php:320
+msgid "New User Signup Notification"
+msgstr ""
+
+#: ../shared/classes/class.post-type.email-template.php:321
+msgid "Your New Account - {{site-name}}"
+msgstr ""
+
+#: ../shared/classes/class.post-type.email-template.php:323
+msgid ""
+"WordPress core template for notifying\tnew users of their\tcreated accounts."
+msgstr ""
+
+#: ../shared/classes/class.post-type.email-template.php:330
+msgid "New Comment Notification"
+msgstr ""
+
+#: ../shared/classes/class.post-type.email-template.php:331
+msgid "New Comment Posted - {{wp-post-title}} - {{site-name}}"
+msgstr ""
+
+#: ../shared/classes/class.post-type.email-template.php:333
+msgid "WordPress core template for notifying post authors of new comments."
+msgstr ""
+
+#: ../shared/classes/class.post-type.email-template.php:340
+msgid "New Comment Moderation"
+msgstr ""
+
+#: ../shared/classes/class.post-type.email-template.php:341
+msgid "Moderate Comment - {{wp-post-title}} - {{site-name}}"
+msgstr ""
+
+#: ../shared/classes/class.post-type.email-template.php:343
+msgid ""
+"WordPress core template for notifying post authors of new comments that need "
+"moderating."
+msgstr ""
+
+#: ../shared/classes/class.post-type.wp-lead.php:44
 msgid "Add New Lead"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:33
+#: ../shared/classes/class.post-type.wp-lead.php:45
 msgid "Edit Lead"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:34
+#: ../shared/classes/class.post-type.wp-lead.php:46
 msgid "New Leads"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:35
+#: ../shared/classes/class.post-type.wp-lead.php:47
 msgid "View Leads"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:36
+#: ../shared/classes/class.post-type.wp-lead.php:48
 msgid "Search Leads"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:66
-#: ../shared/classes/class.post-type.wp-lead.php:81
+#: ../shared/classes/class.post-type.wp-lead.php:80
+#: ../shared/classes/class.post-type.wp-lead.php:95
 msgid "Lead Lists"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:67
+#: ../shared/classes/class.post-type.wp-lead.php:81
 msgid "Lead List"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:68
+#: ../shared/classes/class.post-type.wp-lead.php:82
 msgid "Search Lead Lists"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:69
+#: ../shared/classes/class.post-type.wp-lead.php:83
 msgid "Popular Lead Lists"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:70
+#: ../shared/classes/class.post-type.wp-lead.php:84
 msgid "All Lead Lists"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:73
+#: ../shared/classes/class.post-type.wp-lead.php:87
 msgid "Edit Lead List"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:74
+#: ../shared/classes/class.post-type.wp-lead.php:88
 msgid "Update Lead List"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:75
+#: ../shared/classes/class.post-type.wp-lead.php:89
 msgid "Add New Lead List"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:76
+#: ../shared/classes/class.post-type.wp-lead.php:90
 msgid "New Lead List"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:77
+#: ../shared/classes/class.post-type.wp-lead.php:91
 msgid "Separate Lead Lists with commas"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:78
+#: ../shared/classes/class.post-type.wp-lead.php:92
 msgid "Add or remove Lead Lists"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:79
+#: ../shared/classes/class.post-type.wp-lead.php:93
 msgid "Choose from the most used lead List"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:80
+#: ../shared/classes/class.post-type.wp-lead.php:94
 msgid "No Lead Lists found."
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:87
+#: ../shared/classes/class.post-type.wp-lead.php:101
 msgid "List Management"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:102
+#: ../shared/classes/class.post-type.wp-lead.php:116
 msgid "Search Lead Tags"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:103
+#: ../shared/classes/class.post-type.wp-lead.php:117
 msgid "Popular Lead Tags"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:104
+#: ../shared/classes/class.post-type.wp-lead.php:118
 msgid "All Lead Tags"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:107
+#: ../shared/classes/class.post-type.wp-lead.php:121
 msgid "Edit Lead Tag"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:108
+#: ../shared/classes/class.post-type.wp-lead.php:122
 msgid "Update Lead Tag"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:109
+#: ../shared/classes/class.post-type.wp-lead.php:123
 msgid "Add New Lead Tag"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:110
+#: ../shared/classes/class.post-type.wp-lead.php:124
 msgid "New Lead Tag"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:111
+#: ../shared/classes/class.post-type.wp-lead.php:125
 msgid "Separate Lead Tags with commas"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:112
+#: ../shared/classes/class.post-type.wp-lead.php:126
 msgid "Add or remove Lead Tags"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:113
+#: ../shared/classes/class.post-type.wp-lead.php:127
 msgid "Choose from the most used lead tags"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:114
+#: ../shared/classes/class.post-type.wp-lead.php:128
 msgid "No lead tags found."
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:115
+#: ../shared/classes/class.post-type.wp-lead.php:129
 msgid "Lead Tags"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:241
+#: ../shared/classes/class.post-type.wp-lead.php:156
+msgid "Slug"
+msgstr ""
+
+#: ../shared/classes/class.post-type.wp-lead.php:157
+msgid "Posts"
+msgstr ""
+
+#: ../shared/classes/class.post-type.wp-lead.php:338
+msgid "must include an id parameter"
+msgstr ""
+
+#: ../shared/classes/class.post-type.wp-lead.php:343
+msgid "lead list deleted"
+msgstr ""
+
+#: ../shared/classes/class.post-type.wp-lead.php:419
 msgid ""
 "WordPress Leads is not currently installed/activated to view and manage "
 "leads please turn it on."
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:268
+#: ../shared/classes/class.post-type.wp-lead.php:446
 #, php-format
 msgid "%d leads"
 msgstr ""
 
-#: ../shared/classes/class.shortcodes.email-template.php:40
+#: ../shared/classes/class.shortcodes.email-template.php:63
 msgid "n/a"
 msgstr ""
 
-#: ../shared/classes/class.shortcodes.email-template.php:56
+#: ../shared/classes/class.shortcodes.email-template.php:72
 msgid "View/Edit this form"
 msgstr ""
 
-#: ../shared/classes/class.shortcodes.email-template.php:60
+#: ../shared/classes/class.shortcodes.email-template.php:82
+msgid "View this list"
+msgstr ""
+
+#: ../shared/classes/class.shortcodes.email-template.php:89
 msgid "View/Edit this CTA"
 msgstr ""
 
-#: ../shared/classes/class.shortcodes.email-template.php:64
+#: ../shared/classes/class.shortcodes.email-template.php:93
 msgid "Converted on Page"
 msgstr ""
 
@@ -3665,37 +3925,37 @@ msgstr ""
 msgid "Form Conversions"
 msgstr ""
 
-#: ../shared/shortcodes/inbound-shortcodes.php:652
+#: ../shared/shortcodes/inbound-shortcodes.php:651
 msgid "View this Lead"
 msgstr ""
 
-#: ../shared/shortcodes/inbound-shortcodes.php:656
+#: ../shared/shortcodes/inbound-shortcodes.php:655
 msgid "No Conversions Yet!"
 msgstr ""
 
-#: ../shared/shortcodes/inbound-shortcodes.php:662
+#: ../shared/shortcodes/inbound-shortcodes.php:661
 msgid "Set Email Response to Send to the person filling out the form"
 msgstr ""
 
-#: ../shared/shortcodes/inbound-shortcodes.php:689
+#: ../shared/shortcodes/inbound-shortcodes.php:688
 msgid "Select Response Email Template"
 msgstr ""
 
-#: ../shared/shortcodes/inbound-shortcodes.php:691
+#: ../shared/shortcodes/inbound-shortcodes.php:690
 msgid "Do not use a premade email template"
 msgstr ""
 
-#: ../shared/shortcodes/inbound-shortcodes.php:749
-#: ../shared/shortcodes/inbound-shortcodes.php:771
+#: ../shared/shortcodes/inbound-shortcodes.php:748
+#: ../shared/shortcodes/inbound-shortcodes.php:770
 #: ../shared/shortcodes/popup.php:27 ../shared/shortcodes/popup.php:50
 msgid "Insert Shortcode"
 msgstr ""
 
-#: ../shared/shortcodes/inbound-shortcodes.php:758
+#: ../shared/shortcodes/inbound-shortcodes.php:757
 msgid "Form Preview"
 msgstr ""
 
-#: ../shared/shortcodes/inbound-shortcodes.php:761
+#: ../shared/shortcodes/inbound-shortcodes.php:760
 #: ../shared/shortcodes/popup.php:39
 msgid "Shortcode has no preview"
 msgstr ""
@@ -4253,155 +4513,163 @@ msgid "Checkbox"
 msgstr ""
 
 #: ../shared/shortcodes/shortcodes/forms.php:206
-#: ../shared/shortcodes/shortcodes/forms.php:243
+#: ../shared/shortcodes/shortcodes/forms.php:245
 msgid "HTML Block"
 msgstr ""
 
 #: ../shared/shortcodes/shortcodes/forms.php:208
-msgid "Date Field"
+msgid "Date Picker Field"
 msgstr ""
 
 #: ../shared/shortcodes/shortcodes/forms.php:209
-msgid "Time Field"
+msgid "Date Selector Field"
 msgstr ""
 
 #: ../shared/shortcodes/shortcodes/forms.php:210
+msgid "Time Field"
+msgstr ""
+
+#: ../shared/shortcodes/shortcodes/forms.php:211
 msgid "Hidden Field"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:219
+#: ../shared/shortcodes/shortcodes/forms.php:212
+msgid "Anti Spam Honey Pot"
+msgstr ""
+
+#: ../shared/shortcodes/shortcodes/forms.php:221
 msgid "Dropdown choices"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:220
+#: ../shared/shortcodes/shortcodes/forms.php:222
 msgid "Enter Your Dropdown Options. Separate by commas."
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:223
-#: ../shared/shortcodes/shortcodes/forms.php:239
+#: ../shared/shortcodes/shortcodes/forms.php:225
+#: ../shared/shortcodes/shortcodes/forms.php:241
 msgid "Choice 1, Choice 2, Choice 3"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:227
+#: ../shared/shortcodes/shortcodes/forms.php:229
 msgid "Radio Choices"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:228
+#: ../shared/shortcodes/shortcodes/forms.php:230
 msgid "Enter Your Radio Options. Separate by commas."
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:235
+#: ../shared/shortcodes/shortcodes/forms.php:237
 msgid "Checkbox choices"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:236
+#: ../shared/shortcodes/shortcodes/forms.php:238
 msgid "Enter Your Checkbox Options. Separate by commas."
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:244
+#: ../shared/shortcodes/shortcodes/forms.php:246
 msgid "This is a raw HTML block in the form. Insert text/HTML"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:250
+#: ../shared/shortcodes/shortcodes/forms.php:252
 msgid "Default Value"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:251
+#: ../shared/shortcodes/shortcodes/forms.php:253
 msgid "Enter the Default Value"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:258
+#: ../shared/shortcodes/shortcodes/forms.php:260
 msgid "Divider Text (optional)"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:259
+#: ../shared/shortcodes/shortcodes/forms.php:261
 msgid "This is the text in the divider"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:265
-#: ../shared/shortcodes/shortcodes/forms.php:287
+#: ../shared/shortcodes/shortcodes/forms.php:267
+#: ../shared/shortcodes/shortcodes/forms.php:289
 msgid "Field Description <span class=\"small-optional-text\">(optional)</span>"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:266
+#: ../shared/shortcodes/shortcodes/forms.php:268
 msgid "<span class=\"show-advanced-fields\">Show advanced fields</span>"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:272
+#: ../shared/shortcodes/shortcodes/forms.php:274
 msgid "Required Field? <span class=\"small-optional-text\">(optional)</span>"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:273
+#: ../shared/shortcodes/shortcodes/forms.php:275
 msgid "Check to make field required"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:280
+#: ../shared/shortcodes/shortcodes/forms.php:282
 msgid "Field Placeholder <span class=\"small-optional-text\">(optional)</span>"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:281
+#: ../shared/shortcodes/shortcodes/forms.php:283
 msgid "Put field placeholder text here. Only works for normal text inputs"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:288
+#: ../shared/shortcodes/shortcodes/forms.php:290
 msgid "Put field description here."
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:294
+#: ../shared/shortcodes/shortcodes/forms.php:296
 msgid ""
 "Field Container Classes <span class=\"small-optional-text\">(optional)</span>"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:295
+#: ../shared/shortcodes/shortcodes/forms.php:297
 msgid ""
 "Add additional class ids to the div that contains this field. Separate "
 "classes with spaces."
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:301
+#: ../shared/shortcodes/shortcodes/forms.php:303
 msgid ""
 "Field Input Classes <span class=\"small-optional-text\">(optional)</span>"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:302
+#: ../shared/shortcodes/shortcodes/forms.php:304
 msgid ""
 "Add additional class ids to this input field. Separate classes with spaces."
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:309
+#: ../shared/shortcodes/shortcodes/forms.php:311
 msgid ""
 "Dynamic Field Filling <span class=\"small-optional-text\">(optional)</span>"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:310
+#: ../shared/shortcodes/shortcodes/forms.php:312
 msgid "Enter Your Dynamic URL parameter"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:318
+#: ../shared/shortcodes/shortcodes/forms.php:320
 msgid "Map Field To  <span class=\"small-optional-text\">(optional)</span>"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:319
+#: ../shared/shortcodes/shortcodes/forms.php:321
 msgid "Map this field to Leads Value"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:327
+#: ../shared/shortcodes/shortcodes/forms.php:329
 msgid "Add Another Field"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:343
+#: ../shared/shortcodes/shortcodes/forms.php:345
 msgid "Edit Form"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:344
+#: ../shared/shortcodes/shortcodes/forms.php:346
 msgid "New Form"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:345
+#: ../shared/shortcodes/shortcodes/forms.php:347
 msgid "View Lists"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:346
+#: ../shared/shortcodes/shortcodes/forms.php:348
 msgid "Search Lists"
 msgstr ""
 
@@ -5489,7 +5757,7 @@ msgstr ""
 #: ../templates/svtle/config.php:55
 #: ../templates/three-column-lander/config.php:56
 #: ../templates/tubelar/config.php:75
-msgid "Call to Action Content"
+msgid "Conversion Area"
 msgstr ""
 
 #: ../templates/countdown-lander/config.php:37
@@ -5546,10 +5814,6 @@ msgstr ""
 
 #: ../templates/svtle/config.php:80 ../templates/svtle/config.php:81
 msgid "Submit Button Background Color"
-msgstr ""
-
-#: ../templates/svtle/config.php:82
-msgid "submit-button-color"
 msgstr ""
 
 #: ../templates/svtle/config.php:88 ../templates/tubelar/config.php:124
@@ -5680,7 +5944,7 @@ msgid "Right Content Area"
 msgstr ""
 
 #: ../templates/tubelar/config.php:82
-msgid "Youtube Background Video URL"
+msgid "YouTube Background Video URL"
 msgstr ""
 
 #: ../templates/tubelar/config.php:91

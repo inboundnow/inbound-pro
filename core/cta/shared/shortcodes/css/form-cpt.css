@@ -11,6 +11,9 @@
 #cpt-form-shortcode {
 	display: none;
 }
+#short_shortcode_form {
+	margin-top:10px;
+}
 #view-email-response {
 	margin-left: 10px;
 }

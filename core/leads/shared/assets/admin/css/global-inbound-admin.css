@@ -12,6 +12,12 @@
 #inboundnow-media-button {
   padding-left: 5px;
 }
+body #calls-to-action .toggle .switch-versions, body #landing-pages .toggle .switch-versions, body #leads .toggle .switch-versions {
+ display: none;
+}
+ .switch-versions,  .switch-versions {
+
+}
 #wp-admin-bar-ddw-edd-languages-de > .ab-item:before,
 #wp-admin-bar-ddw-edd-translations-forum > .ab-item:before {
   color: #ff9900;

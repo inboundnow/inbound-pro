@@ -78,7 +78,7 @@ function test_query(){
 
 function leads_count_posts_in_term($taxonomy, $term, $type="post"){
 	global $wpdb;
-	
+
 	$query = "
 	SELECT COUNT( DISTINCT cat_posts.ID ) AS post_count
 	FROM $wpdb->term_taxonomy AS cat_term_taxonomy INNER JOIN $wpdb->terms AS cat_terms ON
@@ -92,7 +92,7 @@ function leads_count_posts_in_term($taxonomy, $term, $type="post"){
 	AND cat_term_taxonomy.taxonomy = '".$taxonomy."'
 	AND cat_terms.slug IN ('".$term."')
 	";
-	
+
 	return $wpdb->get_var($query);
 }
 
@@ -104,27 +104,27 @@ function lead_select_taxonomy_dropdown($taxonomy, $select_type = 'multiple', $cu
 	}
 	?>
 	<select <?php echo $type;?> name="wplead_list_category<?php echo $custom_class;?>" id="<?php echo $id;?>" class="postform <?php echo $custom_class;?>">
-	<?php 
-	
+	<?php
+
 	(isset($_REQUEST['wplead_list_category']) && $_REQUEST['wplead_list_category'][0] === 'all' ) ? $all_selected = 'selected="selected"' : $all_selected = '';
 
 	if ($select_type != 'single')
-	{ 
+	{
 		?>
 		<option class="" value="all" <?php echo $all_selected;?>><?php _e( 'All Leads in Database' , 'leads' ); ?></option>
-		<?php 
+		<?php
 	}
 
 	$args = array(
 	    'hide_empty' => false,
 	);
-	
+
 	$terms = get_terms($taxonomy, $args);
 	if (isset($_REQUEST['wplead_list_category'])) {
 		$list_array = $_REQUEST['wplead_list_category'];
 	}
 
-	foreach ($terms as $term) 
+	foreach ($terms as $term)
 	{
 		$count = leads_count_posts_in_term('wplead_list_category', $term->slug, 'wp-lead');
 		$selected = (isset($_REQUEST['wplead_list_category']) && in_array($term->term_id, $list_array) ) ? 'selected="selected"' : '';
@@ -144,8 +144,8 @@ function lead_management_js() {
 		if ( $screen->id != 'wp-lead_page_lead_management')
 		        return; // exit if incorrect screen id
 		wp_enqueue_script(array('jquery', 'editor', 'thickbox', 'media-upload'));
-		wp_enqueue_script('selectjs', WPL_URLPATH . '/shared/js/select2.min.js');
-		wp_enqueue_style('selectjs', WPL_URLPATH . '/shared/css/select2.css');
+		wp_enqueue_script('selectjs', WPL_URLPATH . '/shared/assets/js/admin/select2.min.js');
+		wp_enqueue_style('selectjs', WPL_URLPATH . '/shared/assets/css/admin/select2.css');
 		wp_enqueue_script('tablesort', WPL_URLPATH . '/js/management/tablesort.min.js');
 
 		wp_enqueue_script('light-table-filter', WPL_URLPATH . '/js/management/light-table-filter.min.js');
@@ -447,7 +447,7 @@ function lead_management_admin_screen() {
 		//	print_r($posts); exit;
 		// Pagination
 		$pagination = '';
-		if ( $query->max_num_pages > 1 ) 
+		if ( $query->max_num_pages > 1 )
 		{
 			$current = preg_replace('/&?paged=[0-9]+/i', '', strip_tags($_SERVER['REQUEST_URI'])); // I'll happily take suggestions on a better way to do this, but it's 3am so
 
@@ -480,12 +480,12 @@ function lead_management_admin_screen() {
 	echo "</div>"; // tablenav
 	//lead_dropdown_generator();
 	// No posts have been fetched, let's tell the user:
-	if ( empty($_REQUEST['wplead_list_category']) && empty($_REQUEST['s']) && empty($_REQUEST['t']) && !isset($_REQUEST['on']) ) 
+	if ( empty($_REQUEST['wplead_list_category']) && empty($_REQUEST['s']) && empty($_REQUEST['t']) && !isset($_REQUEST['on']) )
 	{
 		echo '';
 		// List all leads?
-	} 
-	else 
+	}
+	else
 	{
 		// Criteria were given, but no posts were matched.
 		if ( empty($posts) ) {
@@ -617,17 +617,17 @@ function lead_management_admin_screen() {
 
 			<div id="controls">';
 			lead_management_drop_down();
-		echo '
+			echo '
 			</div>
 				' . $filter . '
 				<div id="lead-action-triggers">
-				
-				
+
+
 				<div class="action" id="lead-export">
 					<input type="submit" class="manage-remove button-primary button" name="export_leads" value="'. __( 'Export Leads as CSV' , 'leads' ) .'" title="Exports selected leads into a CSV format." />
 
 				</div>
-				
+
 				<div class="action" id="lead-update-lists">
 					<label for="lead-update-lists" >Choose List:</label>';
 					lead_select_taxonomy_dropdown( 'wplead_list_category', 'single', '_action' );
@@ -701,7 +701,7 @@ function lead_management_drop_down() {
 						$( '#cd-dropdown' ).dropdown();
 
 			});
-			
+
 			// bind change event to select
 			jQuery("body").on('click', '.cd-dropdown li', function () {
 				 var value = $(this).attr('data-value'); // get selected value
@@ -715,7 +715,7 @@ function lead_management_drop_down() {
 			});
 		});
 	</script>
-<?php 
+<?php
 }
 
 function add_lead_to_list_tax($lead_id, $list_id, $tax = 'wplead_list_category') {
@@ -724,8 +724,8 @@ function add_lead_to_list_tax($lead_id, $list_id, $tax = 'wplead_list_category')
 
 	$all_term_ids = array();
 	$all_term_slugs = array();
-	
-	foreach ($current_lists as $term ) 
+
+	foreach ($current_lists as $term )
 	{
 		$add = $term->term_id;
 		$slug = $term->slug;
@@ -734,13 +734,13 @@ function add_lead_to_list_tax($lead_id, $list_id, $tax = 'wplead_list_category')
 	}
 
 	$tag_check = strpos($list_id, ",");
-	if ($tag_check !== false) 
+	if ($tag_check !== false)
 	{
 		// Set terms for lead tags taxomony
 		$list_array = explode(",", $list_id);
-		if(is_array($list_array)) 
+		if(is_array($list_array))
 		{
-			foreach ($list_array as $key => $value) 
+			foreach ($list_array as $key => $value)
 			{
 				$trim = trim(strtolower($value));
 				$add_slug = preg_replace('/\s+/', '-', $trim);
@@ -750,8 +750,8 @@ function add_lead_to_list_tax($lead_id, $list_id, $tax = 'wplead_list_category')
 				}
 			}
 		}
-	} 
-	else 
+	}
+	else
 	{
 		/* Set terms for list taxomony */
 		if ( !in_array($list_id, $all_term_ids) ) {
@@ -765,16 +765,16 @@ function remove_lead_from_list_tax($lead_id, $list_id,  $tax = 'wplead_list_cate
 	$current_terms = wp_get_post_terms( $lead_id, $tax, 'id' );
 
 	$all_remove_terms = '';
-	foreach ($current_terms as $term ) 
+	foreach ($current_terms as $term )
 	{
 		$add = $term->term_id;
 		$all_remove_terms .= $add . ' ,';
 	}
-	
+
 	$final = explode(' ,', $all_remove_terms);
 	$final = array_filter($final, 'strlen');
 
-	if (in_array($list_id, $final) ) 
+	if (in_array($list_id, $final) )
 	{
 		$new = array_flip ( $final );
 		unset($new[$list_id]);
@@ -808,33 +808,33 @@ function wp_leads_sync_lead_tag_slug( $term_id, $tt_id, $taxonomy ) {
 add_action( 'admin_action_lead_action', 'lead_action_admin_action' );
 function lead_action_admin_action() {
 	global $Inbound_Leads;
-	
+
 	if ( !current_user_can('level_9') ){
 		die ( __('User does not have admin level permissions.') );
 	}
-	
+
 	$_POST = stripslashes_deep($_POST);
 	$_REQUEST = stripslashes_deep($_REQUEST);
 
 	// Check if we've been submitted a tag/remove.
-	if ( !empty($_REQUEST['ids']) ) 
+	if ( !empty($_REQUEST['ids']) )
 	{
 		check_admin_referer('lead_management-edit');
-		
+
 		(is_array($_REQUEST['ids'])) ? $pass_ids = implode(',', $_REQUEST['ids']) : $pass_ids = $_REQUEST['ids'];
 
 		$cat = intval($_REQUEST['wplead_list_category_action']);
 		$num = count($_REQUEST['ids']);
 
 
-		if ( !empty($_REQUEST['wplead_list_category_action']) ){		
+		if ( !empty($_REQUEST['wplead_list_category_action']) ){
 			$query = '&cat=' . $_REQUEST['wplead_list_category_action'];
 		}
-		
+
 		if ( !empty($_REQUEST['s']) ) {
 			$query = '&s=' . $_REQUEST['s'];
 		}
-		
+
 		if ( !empty($_REQUEST['t']) ){
 			$query = '&t=' . $_REQUEST['t'];
 		}
@@ -842,30 +842,30 @@ function lead_action_admin_action() {
 		$term = get_term( $_REQUEST['wplead_list_category_action'], 'wplead_list_category' );
 		$name = $term->slug;
 		$this_tax = "wplead_list_category";
-		
+
 		/* We've been told to tag these posts with the given category. */
-		if ( !empty($_REQUEST['add']) ) 
+		if ( !empty($_REQUEST['add']) )
 		{
 
-			foreach ( $_REQUEST['ids'] as $id ) 
+			foreach ( $_REQUEST['ids'] as $id )
 			{
 				$fid = intval($id);
 				$Inbound_Leads->add_lead_to_list( $fid, $cat ); // add to list
 			}
-			
+
 			wp_redirect(get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&done=add&what=" . $name . "&num=$num$query");
 			die;
 		}
 		/* We've been told to remove these posts from the given category. */
-		elseif ( !empty($_REQUEST['remove']) ) 
+		elseif ( !empty($_REQUEST['remove']) )
 		{
 
-			foreach ( (array) $_REQUEST['ids'] as $id ) 
+			foreach ( (array) $_REQUEST['ids'] as $id )
 			{
 				$fid = intval($id);
 				remove_lead_from_list_tax($fid, $cat);
 			}
-			
+
 			wp_redirect(get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&done=remove&what=" . $name . "&num=$num");
 			die;
 		}
@@ -873,8 +873,8 @@ function lead_action_admin_action() {
 		elseif ( !empty($_REQUEST['tag']) || !empty($_REQUEST['replace_tags']) )
 		{
 			$tags = $_REQUEST['tags'];
-			
-			foreach ( (array) $_REQUEST['ids'] as $id ) 
+
+			foreach ( (array) $_REQUEST['ids'] as $id )
 			{
 				$lead_ID = intval($id);
 				$append = empty($_REQUEST['replace_tags']);
@@ -884,19 +884,19 @@ function lead_action_admin_action() {
 			die;
 		}
 		/* We've been told to untag these posts */
-		elseif ( !empty($_REQUEST['untag']) ) 
+		elseif ( !empty($_REQUEST['untag']) )
 		{
 			$tags = explode(',', $_REQUEST['tags']);
-			
-			foreach ( (array) $_REQUEST['ids'] as $id ) 
+
+			foreach ( (array) $_REQUEST['ids'] as $id )
 			{
 				$id = intval($id);
 				$existing = wp_get_post_tags($id);
 				$new = array();
-				
-				foreach ( (array) $existing as $_tag ) 
+
+				foreach ( (array) $existing as $_tag )
 				{
-					foreach ( (array) $tags as $tag ) 
+					foreach ( (array) $tags as $tag )
 					{
 						if ( $_tag->name != $tag ) {
 							$new[] = $_tag->name;
@@ -905,26 +905,26 @@ function lead_action_admin_action() {
 				}
 				wp_set_post_tags($id, $new);
 			}
-			
+
 			$tags = join(', ', $tags);
 			wp_redirect(get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&done=untag&what=$tags&num=$num$query");
 			die;
 		}
 		/* Delete selected leads */
-		elseif ( !empty($_REQUEST['delete_leads']) ) 
+		elseif ( !empty($_REQUEST['delete_leads']) )
 		{
-			foreach ( (array) $_REQUEST['ids'] as $id ) 
+			foreach ( (array) $_REQUEST['ids'] as $id )
 			{
 				$id = intval($id);
 				wp_delete_post( $id, true);
 			}
-			
+
 			wp_redirect(get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&done=delete_leads&what=" . $name . "&num=$num$query");
 			die;
 
 		}
 		/* Export Selected Leads to CSV */
-		elseif ( !empty($_REQUEST['export_leads']) ) 
+		elseif ( !empty($_REQUEST['export_leads']) )
 		{
 			$exported = 0;
 
@@ -945,7 +945,7 @@ function lead_action_admin_action() {
 				unset($this_lead_data['wpleads_referral_data']);
 				unset($this_lead_data['wpleads_conversion_data']);
 				unset($this_lead_data['wpleads_raw_post_data']);
-				
+
 				foreach ($this_lead_data as $key => $val) {
 					$lead_meta_pairs[$key] = $key;
 				}
@@ -991,8 +991,8 @@ function lead_action_admin_action() {
 
 		}
 	}
-	
-	
+
+
 	die("Invalid action.");
 }
 

@@ -76,9 +76,7 @@ $blue = (isset($RBG_array['b'])) ? $RBG_array['b'] : '0';
     <!--[if lt IE 9]>
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <script type="text/javascript" src="<?php echo $path; ?>assets/js/modernizr.js"></script>
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-    <script type="text/javascript" src="<?php echo $path; ?>assets/js/jquery-picture-min.js"></script>
+
     <style type="text/css">
         <?php if ($mobile_form==="on") {
             echo "@media (max-width: 630px) { #lp_container {display:none;}}"; // css rule for mobile devices
@@ -123,18 +121,22 @@ $blue = (isset($RBG_array['b'])) ? $RBG_array['b'] : '0';
             color:#000;
             }
         }
+
     </style>
-    <script type="text/javascript">
+
+      <?php wp_head(); // Load Regular WP Head
+            do_action('lp_head'); // Load Custom Landing Page Specific Header Items ?>
+    <script type="text/javascript" src="<?php echo $path; ?>assets/js/modernizr.js"></script>
+    <script type="text/javascript" src="<?php echo $path; ?>assets/js/jquery-picture-min.js"></script>
+        <script type="text/javascript">
         jQuery(document).ready(function($) {
             $(function () {
                 $('figure, picture').picture();
             });
-            var window_size = jQuery(window).height();
+            var window_size = jQuery(document).height();
             jQuery("#river").height(window_size);
         });
     </script>
-      <?php wp_head(); // Load Regular WP Head
-            do_action('lp_head'); // Load Custom Landing Page Specific Header Items ?>
     <?php if ($sidebar === "right" ) { echo
     "<link rel='stylesheet' href='". $path . "assets/css/flipped-layout.css' type='text/css' media='screen'>"; } ?>
 </head>
@@ -166,7 +168,7 @@ $blue = (isset($RBG_array['b'])) ? $RBG_array['b'] : '0';
              <h1 class="entry-title"><?php the_title(); ?></h1>
 
             <div class="entry-content">
-                <?php echo do_shortcode( $content ); ?>
+                <?php echo do_shortcode( wpautop($content) ); ?>
             </div>
         </article>
     </section>

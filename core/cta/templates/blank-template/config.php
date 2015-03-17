@@ -50,4 +50,6 @@ array(
 
 
 /* define dynamic template markup */
-$wp_cta_data[$key]['markup'] = file_get_contents($this_path . 'index.php');
+$wp_cta_data[$key]['markup'] = '<div id="blank-cta-template">
+	{{content-text}}
+</div>';

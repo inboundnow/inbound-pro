@@ -50,7 +50,7 @@
 				)
 			),
 			'shortcode' => '[testimony author="{{author}}" meta="{{meta}}"]{{content}}[/testimony]',
-			'clone' => __('Add More Testimony',	'leads' )
+			'clone' => __('Add More Testimony',	'cta' )
 		),
 		'shortcode' => '[testimonial heading="{{heading}}"	column="{{column}}"]{{child}}[/testimonial]',
 		'popup_title' => 'Insert Testimonial Shortcode'

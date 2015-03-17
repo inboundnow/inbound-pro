@@ -40,7 +40,7 @@ array(
         'description' => "This is the main graphic with the popup",
         'id'  => 'hero', // called in template's index.php file with lp_get_value($post, $key, 'media-id');
         'type'  => 'media',
-        'default'  => $this_path . '/img/download.png',
+        'default'  => $url_path . 'img/download.png',
         'context'  => 'normal'
         ),
     array(

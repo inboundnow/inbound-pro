@@ -26,8 +26,7 @@ array(
 
 
 // Define Meta Options for template
-$wp_cta_data[$key]['settings'] =
-array(
+$wp_cta_data[$key]['settings'] = array(
     array(
         'label' => 'Instructions', // Name of field
         'description' => "This Call to action is used for tweet gating downloadable content. Basically you can get more shares on twitter for any URL in return for a peice of downloadable content.<p><strong>Recommened Dimensions:</strong> 250px by 200px</p>", // what field does
@@ -67,7 +66,7 @@ array(
         'type'  => 'textarea',
         'default'  => 'This is the message prepopulated in the tweet!',
         'context'  => 'normal'
-        ),
+    ),
     array(
         'label' => 'Twitter username',
         'description' => "Twitter username. example @DavidWells",
@@ -75,15 +74,15 @@ array(
         'type'  => 'text',
         'default'  => 'DavidWells',
         'context'  => 'normal'
-        ),
-     array(
+    ),
+    array(
         'label' => 'Link to Download',
         'description' => "This will be the download for people to get once they like the above URL",
         'id'  => 'download-url',
         'type'  => 'text',
         'default'  => 'http://www.link-to-download.com',
         'context'  => 'normal'
-        ),
+    ),
     array(
         'label' => 'Background Color',
         'description' => "Changes background color",
@@ -91,30 +90,93 @@ array(
         'type'  => 'colorpicker',
         'default'  => 'ffffff',
         'context'  => 'normal'
-        ),
-      array(
+    ),
+    array(
         'label' => 'turn-off-editor',
         'description' => "Turn off editor",
         'id'  => 'turn-off-editor',
         'type'  => 'custom-css',
         'default'  => '#postdivrich, .calc.button-secondary {display:none !important;}'
-        ),
-       array(
+    ),
+    array(
        'label' => 'Border Radius (Set rounded corners)',
        'description' => "Set to 0 for no rounded corners, set to 5+ to round the CTA edges",
        'id'  => 'border-radius',
        'type'  => 'number',
        'default'  => '0',
        'context'  => 'normal'
-       ),
-       array(
+    ),
+    array(
            'label' => 'Instructions', // Name of field
            'description' => "<strong>Please Note:</strong> This doesn't incorporate the twitter js callback and people can simply close the share window to download your content. Most folks will actually share the URL. Download the pro template to ensure tweets", // what field does
            'id' => 'description-two', // metakey. $key Prefix is appended from parent in array loop
            'type'  => 'description-block', // metafield type
            'default'  => '', // default content
            'context'  => 'normal' // Context in screen (advanced layouts in future)
-           ),
-    );
+    ),
+);
+
 /* define dynamic template markup */
 $wp_cta_data[$key]['markup'] = file_get_contents($this_path . 'index.php');
+
+
+/*******************************************************************************************************/
+
+
+
+/**
+*  add a character counter to the tweet to download module
+*/
+
+/**
+*  Enqueue JS & CSS
+*/
+function cta_tweettodownload_enqueue_scripts() {
+	global $post;
+	if ( $post->post_type != 'wp-call-to-action' ) {
+		return;
+	}
+	
+	/* Get file locations */
+	$key = basename(dirname(__FILE__));
+	$this_path = WP_CTA_PATH.'templates/'.$key.'/';
+	$url_path = WP_CTA_URLPATH.'templates/'.$key.'/';
+
+	/* enqueue supportive scripts */
+	wp_enqueue_script( 'jquery' );
+	wp_enqueue_script( 'jquery-character-counter', $url_path . 'js/jqEasyCharCounter/jquery.jqEasyCharCounter.js', array('jquery'), '1.0', true );
+	
+}
+add_action('admin_enqueue_scripts' , 'cta_tweettodownload_enqueue_scripts');
+
+/**
+*  Print inline js
+*/
+function cta_tweettodownload_print_admin_scripts() {
+
+	$screen = get_current_screen();
+
+	if ( !isset( $screen ) || $screen->id != 'wp-call-to-action' || $screen->parent_base != 'edit' ) {
+	   return;
+	}
+	
+	?>
+	<script type="text/javascript">
+		InboundQuery(document).ready(function($) {
+			InboundQuery('.share-text .wp-call-to-action-option-td textarea').addClass('tweet-to-download-share-text');
+			InboundQuery('.tweet-to-download-share-text').jqEasyCounter({
+				maxChars: 120,                  // max number of characters
+				maxCharsWarning: 100,           // max number of characters before warning is shown
+				msgFontSize: '12px',            // css font size for counter
+				msgFontColor: '#000000',        // css font color for counter
+				msgFontFamily: 'Arial',         // css font family for counter
+				msgTextAlign: 'right',          // css text-align for counter (left, right, center)
+				msgWarningColor: '#FF0000',     // css font color for warning
+				msgAppendMethod: 'insertAfter'  // position of counter relative to the input element(insertAfter, insertBefore)
+			});
+		});
+	</script>
+
+	<?php
+}
+add_action( 'admin_enqueue_scripts','cta_tweettodownload_print_admin_scripts' );

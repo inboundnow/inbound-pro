@@ -16,7 +16,7 @@ $lp_data[$key]['info'] = array(
 	'version' => '1.0',
 	'label' => 'Simple Solid Lite',
 	'category' => '1 Column',
-	'demo' => '',
+	'demo' => 'http://demo.inboundnow.com/go/simple/',
 	'description' => 'This is an auto generated template from Inbound Now'
 );
 
@@ -38,7 +38,7 @@ $lp_data[$key]['settings'] = array(
 
 <strong>In this guide you will learn:</strong>
 
-[list icon="ok-sign" font_size="16" icon_color="#00a319" text_color="" bottom_margin="10"]
+[list icon="check" font_size="16" icon_color="#00a319" text_color="" bottom_margin="10"]
 <ul>
 	<li>This list was created with the list icon shortcode.</li>
 	<li>Click on the power icon in your editor to customize your own</li>
@@ -71,7 +71,7 @@ $lp_data[$key]['settings'] = array(
 		'description' => "",
 		'id' => "social-media-options",
 		'type' => "textarea",
-		'default' => '[social_share style="bar" align="horizontal" heading_align="inline" heading="Share This" facebook="1" twitter="1" google_plus="1" linkedin="1" pinterest="0" /]',
+		'default' => '[social_share style="bar" align="horizontal" heading_align="inline" heading="" facebook="1" twitter="1" google_plus="1" linkedin="1" pinterest="0" /]',
 		'selector' => ".inner .network",
 	 ),
 	 array(

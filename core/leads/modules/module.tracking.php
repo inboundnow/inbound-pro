@@ -1,5 +1,36 @@
 <?php
 
+/**
+*  Hook into the API to set tracked API link clicks into the lead profile
+*/
+add_action( 'inbound_track_link' , 'inbound_store_tracked_link_click'  , 10 , 1);
+function inbound_store_tracked_link_click( $params ) {
+	
+	if ( !isset($params['id']) ) {
+		return;
+	}
+	
+	$inbound_custom_events = get_post_meta( $params['id'] , 'inbound_custom_events' , true);
+	
+	if ( isset($inbound_custom_events) ) {
+		$inbound_custom_events = json_decode( $inbound_custom_events , true);
+	} else {
+		$inbound_custom_events = array();
+	}
+	
+	$inbound_custom_events[] = array( 
+		'event_type' => 'click' ,
+		'datetime' => $params['datetime'],
+		'tracking_id' => $params['tracking_id'],
+		'url' => $params['url']
+	);
+	
+	$inbound_custom_events = json_encode( $inbound_custom_events );
+	
+	update_post_meta(  $params['id'] , 'inbound_custom_events' , $inbound_custom_events) ;
+	
+}
+
 /* needs documentation  - looks like a listener to set the lead id manually */
 add_action( 'wp_head', 'wpleads_set_lead' );
 function wpleads_set_lead() {

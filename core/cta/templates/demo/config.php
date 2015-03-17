@@ -189,3 +189,5 @@ array(
 
 /* define dynamic template markup */
 $wp_cta_data[$key]['markup'] = file_get_contents($this_path . 'index.php');
+
+

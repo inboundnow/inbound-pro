@@ -130,5 +130,9 @@ margin-bottom: 5px;
 display: block;
 font-size: 18px;
 }
+#content {
+	margin-bottom: 80px;
+	padding-bottom: 40px;
+}
 .lp-input-label:nth-of-type(1)
 { margin-top: 5px;}

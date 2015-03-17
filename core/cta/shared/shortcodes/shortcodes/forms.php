@@ -2,6 +2,7 @@
 /**
 *   Inbound Forms Shortcode Options
 *   Forms code found in /shared/classes/form.class.php
+*   master code
 */
 
 	if (empty($lead_list_names)){
@@ -77,7 +78,7 @@
 			'lists' => array(
 				'name' => __('Add to List(s)', 'leads'),
 				'desc' => __('Add the converting lead to 1 or more lead lists', 'leads'),
-				'type' => 'multiselect',
+				'type' => 'leadlists',
 				'options' => $lead_list_names,
 				'class' => 'main-form-settings',
 			),
@@ -150,26 +151,26 @@
 				'class' => 'main-design-settings',
 			),
 			'submit-colors' => array(
-						'name' => __('Submit Button Color Options', 'leads'),
+						'name' => __('Submit Color Options', 'leads'),
 						'desc' => __('Choose Your Form Layout', 'leads'),
 						'type' => 'select',
 						'options' => array(
 							"on" => "Color Options On",
 							"off" => "Color Options Off (use theme defaults)",
 							),
-						'std' => 'on',
+						'std' => 'off',
 						'class' => 'main-design-settings',
 			),
 			'submit-text-color' => array(
 							'name' => __('Button Text Color', 'leads'),
-							'desc' => __('Color of text', 'leads'),
+							'desc' => __('Color of text. Must toggle on "Submit Color Options" on', 'leads'),
 							'type' => 'colorpicker',
 							'std' => '#434242',
 							'class' => 'main-design-settings',
 						),
 			'submit-bg-color' => array(
 							'name' => __('Button BG Color', 'leads'),
-							'desc' => __('Background Color of Submit button', 'leads'),
+							'desc' => __('Background color of button.  Must toggle on "Submit Color Options" on', 'leads'),
 							'type' => 'colorpicker',
 							'std' => '#E9E9E9',
 							'class' => 'main-design-settings',
@@ -219,26 +220,26 @@
 
 				'dropdown_options' => array(
 					'name' => __('Dropdown choices',  'leads'),
-					'desc' => __('Enter Your Dropdown Options. Separate by commas.',  'leads'),
+					'desc' => __('Enter Your Dropdown Options. Separate by commas. You may also use label|value to have a different value than the label stored.',  'leads'),
 					'type' => 'text',
 					'std' => '',
-					'placeholder' => __('Choice 1, Choice 2, Choice 3' , 'leads' ),
+					'placeholder' => __('Choice 1|a, Choice 2, Choice 3' , 'cta' ),
 					'reveal_on' => 'dropdown' // on select choice show this
 				),
 				'radio_options' => array(
 					'name' => __('Radio Choices',  'leads'),
-					'desc' => __('Enter Your Radio Options. Separate by commas.',  'leads'),
+					'desc' => __('Enter Your Radio Options. Separate by commas. You may also use label|value to have a different value than the label stored.',  'leads'),
 					'type' => 'text',
 					'std' => '',
-					'placeholder' => 'Choice 1, Choice 2',
+					'placeholder' => 'Choice 1|a, Choice 2',
 					'reveal_on' => 'radio' // on select choice show this
 				),
 				'checkbox_options' => array(
 					'name' => __('Checkbox choices',  'leads'),
-					'desc' => __('Enter Your Checkbox Options. Separate by commas.',  'leads'),
+					'desc' => __('Enter Your Checkbox Options. Separate by commas. You may also use label|value to have a different value than the label stored.',  'leads'),
 					'type' => 'text',
 					'std' => '',
-					'placeholder' => __( 'Choice 1, Choice 2, Choice 3', 'leads' ),
+					'placeholder' => __( 'Choice 1|a, Choice 2, Choice 3', 'cta' ),
 					'reveal_on' => 'checkbox' // on select choice show this
 				),
 				'html_block_options' => array(
@@ -263,6 +264,22 @@
 					'std' => '',
 					'reveal_on' => 'divider' // on select choice show this
 				),
+				'required' => array(
+					'name' => __('Required Field? <span class="small-optional-text">(optional)</span>', 'leads'),
+					'checkbox_text' => __('Check to make field required', 'leads'),
+					'desc' => '',
+					'type' => 'checkbox',
+					'std' => '0',
+					'class' => '',
+				),
+				'exclude_tracking' => array(
+					'name' => __('Exclude Tracking? <span class="small-optional-text">(optional)</span>', 'leads'),
+					'checkbox_text' => __('Check to exclude this form field from being tracked. Note this will not store in your Database', 'leads'),
+					'desc' => '',
+					'type' => 'checkbox',
+					'std' => '0',
+					'class' => 'advanced',
+				),
 				'helper' => array(
 					'name' => __('Field Description <span class="small-optional-text">(optional)</span>',  'leads'),
 					'desc' => __('<span class="show-advanced-fields">Show advanced fields</span>',  'leads'),
@@ -270,13 +287,13 @@
 					'std' => '',
 					'class' => '',
 				),
-				'required' => array(
-					'name' => __('Required Field? <span class="small-optional-text">(optional)</span>', 'leads'),
-					'checkbox_text' => __('Check to make field required', 'leads'),
-					'desc' => '',
-					'type' => 'checkbox',
-					'std' => '0',
-					'class' => 'advanced',
+				'map_to' => array(
+							'name' => __('Map Field To  <span class="small-optional-text">(optional)</span>', 'leads'),
+							'desc' => __('Map this field to Leads Value', 'leads'),
+							'type' => 'select',
+							'options' => $lead_mapping_fields,
+							'std' => 'none',
+							'class' => 'advanced exclude',
 				),
 				'placeholder' => array(
 					'name' => __('Field Placeholder <span class="small-optional-text">(optional)</span>',  'leads'),
@@ -315,18 +332,10 @@
 					'placeholder' => 'enter dynamic url parameter example: utm_campaign ',
 					'class' => 'advanced',
 					//'reveal_on' => 'hidden' // on select choice show this
-				),
-				'map_to' => array(
-							'name' => __('Map Field To  <span class="small-optional-text">(optional)</span>', 'leads'),
-							'desc' => __('Map this field to Leads Value', 'leads'),
-							'type' => 'select',
-							'options' => $lead_mapping_fields,
-							'std' => 'none',
-							'class' => 'advanced exclude',
-				),
+				)
 			),
-			'shortcode' => '[inbound_field label="{{label}}" type="{{field_type}}" description="{{description}}" required="{{required}}" dropdown="{{dropdown_options}}" radio="{{radio_options}}"  checkbox="{{checkbox_options}}" placeholder="{{placeholder}}" field_container_class="{{field_container_class}}"  field_input_class="{{field_input_class}}" html="{{html_block_options}}" dynamic="{{hidden_input_options}}" default="{{default_value}}" map_to="{{map_to}}" divider_options="{{divider_options}}"]',
-			'clone' => __('Add Another Field',  'leads' )
+			'shortcode' => '[inbound_field label="{{label}}" type="{{field_type}}" description="{{description}}" required="{{required}}" exclude_tracking={{exclude_tracking}} dropdown="{{dropdown_options}}" radio="{{radio_options}}"  checkbox="{{checkbox_options}}" placeholder="{{placeholder}}" field_container_class="{{field_container_class}}"  field_input_class="{{field_input_class}}" html="{{html_block_options}}" dynamic="{{hidden_input_options}}" default="{{default_value}}" map_to="{{map_to}}" divider_options="{{divider_options}}"]',
+			'clone' => __('Add Another Field',  'cta' )
 		),
 		'shortcode' => '[inbound_form name="{{form_name}}" lists="{{lists_hidden}}" redirect="{{redirect}}" notify="{{notify}}" notify_subject="{{notify_subject}}" layout="{{layout}}" font_size="{{font-size}}"  labels="{{labels}}" icon="{{icon}}" submit="{{submit}}" submit="{{submit}}" submit_colors="{{submit-colors}}" submit_text_color="{{submit-text-color}}" submit_bg_color="{{submit-bg-color}}" width="{{width}}"]{{child}}[/inbound_form]',
 		'popup_title' => 'Insert Inbound Form Shortcode'
@@ -527,11 +536,16 @@ if (!function_exists('inbound_form_delete_transient')) {
 if (!function_exists('inbound_form_save')) {
 	/* 	Shortcode moved to shared form class */
 	add_action('wp_ajax_inbound_form_save', 'inbound_form_save');
-	add_action('wp_ajax_nopriv_inbound_form_save', 'inbound_form_save');
+	//add_action('wp_ajax_nopriv_inbound_form_save', 'inbound_form_save');
 
-	function inbound_form_save()
-	{
+	function inbound_form_save() {
+
 		global $user_ID, $wpdb;
+		$check_nonce = wp_verify_nonce( $_POST['nonce'], 'inbound-shortcode-nonce' );
+		if( !$check_nonce ) {
+			//echo json_encode("Found");
+			exit;
+		}
 	    // Post Values
 	    $form_name = (isset( $_POST['name'] )) ? $_POST['name'] : "";
 	    $shortcode = (isset( $_POST['shortcode'] )) ? $_POST['shortcode'] : "";
@@ -668,7 +682,7 @@ if (!function_exists('inbound_forms_default_content')) {
 /* 	Shortcode moved to shared form class */
 if (!function_exists('inbound_form_get_data')) {
 	add_action('wp_ajax_inbound_form_get_data', 'inbound_form_get_data');
-	add_action('wp_ajax_nopriv_inbound_form_get_data', 'inbound_form_get_data');
+	//add_action('wp_ajax_nopriv_inbound_form_get_data', 'inbound_form_get_data');
 
 	function inbound_form_get_data()
 	{
@@ -677,6 +691,11 @@ if (!function_exists('inbound_form_get_data')) {
 
 	    if (isset( $_POST['form_id'])&&!empty( $_POST['form_id']))
 	    {
+	    	$check_nonce = wp_verify_nonce( $_POST['nonce'], 'inbound-shortcode-nonce' );
+			if( !$check_nonce ) {
+				//echo json_encode("Found");
+				exit;
+			}
 
 	        $form_settings_data = get_post_meta( $post_ID, 'inbound_form_settings', TRUE );
 	        $field_count = get_post_meta( $post_ID, 'inbound_form_field_count', TRUE );
@@ -702,7 +721,7 @@ if (!function_exists('inbound_form_get_data')) {
 if (!function_exists('inbound_form_auto_publish')) {
 	/* 	Shortcode moved to shared form class */
 	add_action('wp_ajax_inbound_form_auto_publish', 'inbound_form_auto_publish');
-	add_action('wp_ajax_nopriv_inbound_form_auto_publish', 'inbound_form_auto_publish');
+	//add_action('wp_ajax_nopriv_inbound_form_auto_publish', 'inbound_form_auto_publish');
 
 	function inbound_form_auto_publish()
 	{

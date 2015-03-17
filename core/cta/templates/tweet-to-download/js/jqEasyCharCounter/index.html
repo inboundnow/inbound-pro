@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>jQuery jqEasyCounter Plugin - Simple Character Counter</title>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
+<script src="jquery.jqEasyCharCounter.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('#countable1').jqEasyCounter();
+		
+		$('.countable2').jqEasyCounter({
+			'maxChars': 75,
+			'maxCharsWarning': 70
+		});
+		
+		$('#countable3').jqEasyCounter({
+			'maxChars': 50,
+			'maxCharsWarning': 40,
+			'msgFontSize': '12px',
+			'msgFontColor': '#000',
+			'msgFontFamily': 'Verdana',
+			'msgTextAlign': 'left',
+			'msgWarningColor': '#F00',
+			'msgAppendMethod': 'insertBefore'				
+		});
+
+		$('#testinput').jqEasyCounter({
+			'maxChars': 10,
+			'maxCharsWarning': 8
+		});
+});
+</script>
+</head>
+<body>
+    <h3>jqEasyCounter - Simple jQuery Character Counter Plugin</h3>
+    id="countable1"<br />
+    <textarea id="countable1" cols="30" rows="3"></textarea><br />
+    class="countable2"<br />
+    <textarea class="countable2" cols="30" rows="3"></textarea><br />
+    class="countable2"<br />
+    <textarea class="countable2" cols="30" rows="3"></textarea><br />
+    class="countable3"<br />
+    <textarea id="countable3" cols="30" rows="3"></textarea><br />
+    <br />
+    id="testinput"<br />
+    <input id="testinput" type="text">
+    <p><a href="http://www.jqeasy.com/jquery-character-counter/">&laquo; Back to article</a></p>
+</body>
+</html>

@@ -13,7 +13,7 @@
 							'desc' => __('Select an icon for the List', 'leads'),
 							'type' => 'select',
 							'options' => $fontawesome,
-							'std' => 'ok-sign'
+							'std' => 'check'
 						),
 			'font-size' => array(
 							'name' => __('Font Size', 'leads'),

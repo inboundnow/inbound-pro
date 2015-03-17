@@ -30,8 +30,8 @@ $inbound_email_templates['wp-notify-moderator'] = '<!DOCTYPE html PUBLIC "-//W3C
         <tbody><tr>
           <td valign="top" style="font-size:13px;line-height:20px;color:#545454;font-family:Arial,sans-serif;border-radius:0 0 3px 3px;padding-top:3px;padding-right:30px;padding-bottom:15px;padding-left:30px">
 
-			<h1 style="margin-top:20px;margin-right:0;margin-bottom:20px;margin-left:0; font-size:28px; line-height: 28px; color:#000;">'. __( 'New Comment Waiting Moderation' , 'ma' ) .'</h1>
-			<p style="margin-top:20px;margin-right:0;margin-bottom:20px;margin-left:0">'. __( '{{wp-user-displayname}},  There is a new comment on <a href="{{wp-post-url}}">{{wp-post-title}}</a>' , 'ma' ) .' awaiting your response.</p>
+			<h1 style="margin-top:20px;margin-right:0;margin-bottom:20px;margin-left:0; font-size:28px; line-height: 28px; color:#000;">'. __( 'New Comment Waiting Moderation' , 'inbound-pro' ) .'</h1>
+			<p style="margin-top:20px;margin-right:0;margin-bottom:20px;margin-left:0">'. __( '{{wp-user-displayname}},  There is a new comment for <a href="{{wp-post-url}}">{{wp-post-title}}</a>' , 'inbound-pro' ) .' awaiting your response.</p>
 
 			<!-- NEW TABLE -->
 			<table class="heavyTable" style="width: 100%;
@@ -45,10 +45,10 @@ $inbound_email_templates['wp-notify-moderator'] = '<!DOCTYPE html PUBLIC "-//W3C
 				<tr style="border-bottom: 1px solid #cccccc;">
 					<td width="600" style="border-right: 1px solid #cccccc; padding: 10px; padding-bottom: 5px;">
 						<div style="padding-left:5px; display:inline-block; padding-bottom: 5px; font-size: 16px; color:#555;">
-							<strong>{{wp-comment-author}} '. __( 'says:' , 'ma' ) .'</strong><br>
+							<strong>{{wp-comment-author}} '. __( 'says:' , 'inbound-pro' ) .'</strong><br>
 							{{wp-comment-content}} <br><br>
 							
-							<a href="{{wp-comment-url}}">'. __('Click here to reply' , 'ma') .'</a>
+							<a href="{{wp-comment-url}}">'. __('Click here to reply' , 'leads') .'</a>
 						</div>
 						
 					</td>
@@ -65,19 +65,19 @@ $inbound_email_templates['wp-notify-moderator'] = '<!DOCTYPE html PUBLIC "-//W3C
 			<tbody valign="top">
 			 <tr valign="top" border="0">
 				<td width="120" height="50" align="center" valign="top" border="0">
-					<h3 style="color:#2e2e2e;font-size:15px;"><a style="text-decoration: none;" href="{{admin-url}}comment.php?action=approve&c={{wp-comment-id}}">'. __( 'Approve' , 'ma' ) .'</a></h3>
+					<h3 style="color:#2e2e2e;font-size:15px;"><a style="text-decoration: none;" href="{{admin-url}}comment.php?action=approve&c={{wp-comment-id}}">'. __( 'Approve' , 'inbound-pro' ) .'</a></h3>
 				</td>
 
 				<td width="120" height="50" align="center" valign="top" border="0">
-					<h3 style="color:#2e2e2e;font-size:15px;"><a style="text-decoration: none;" href="{{admin-url}}comment.php?action=trash&c={{wp-comment-id}}">'. __( 'Trash' , 'ma' ) .'</a></h3>
+					<h3 style="color:#2e2e2e;font-size:15px;"><a style="text-decoration: none;" href="{{admin-url}}comment.php?action=trash&c={{wp-comment-id}}">'. __( 'Trash' , 'inbound-pro' ) .'</a></h3>
 				</td>
 
 				<td width="120" height="50" align="center" valign="top" border="0">
-					<h3 style="color:#2e2e2e;font-size:15px;"><a style="text-decoration: none;" href="{{admin-url}}comment.php?action=delete&c={{wp-comment-id}}">'. __( 'Delete' , 'ma' ) .'</a></h3>
+					<h3 style="color:#2e2e2e;font-size:15px;"><a style="text-decoration: none;" href="{{admin-url}}comment.php?action=delete&c={{wp-comment-id}}">'. __( 'Delete' , 'inbound-pro' ) .'</a></h3>
 				</td>
 				
 				<td width="120" height="50" align="center" valign="top" border="0">
-					<h3 style="color:#2e2e2e;font-size:15px;"><a style="text-decoration: none;" href="{{admin-url}}comment.php?action=spam&c={{wp-comment-id}}">'. __( 'Spam' , 'ma' ) .'</a></h3>
+					<h3 style="color:#2e2e2e;font-size:15px;"><a style="text-decoration: none;" href="{{admin-url}}comment.php?action=spam&c={{wp-comment-id}}">'. __( 'Spam' , 'inbound-pro' ) .'</a></h3>
 				</td>
 			 </tr>
 			</tbody></table>

@@ -70,10 +70,6 @@ margin-bottom: 5px;
 	margin-top: 5px;
 }
 
-.menu-icon-wp-call-to-action .wp-submenu li:last-child
-{
-	display: none;
-}
 
 #template-box, .thumbnail-lander img {
 	background: #FCFDFE;

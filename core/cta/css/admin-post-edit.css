@@ -2,16 +2,20 @@
 background-color: #fff;
 border: none;
 }
+body.modal-open {
+overflow: auto !important;
+}
 #wpbody-content {
 overflow: visible !important;
 }
 #wp-cta-notes-area input {
 	width: 95%;
 	color: #AAAAAA;
-	height: 25px;
-	padding: 11px;
-	padding-top: 13px;
+
 	border: 1px solid #ccc;
+}
+#post-body-content  {
+margin-bottom: 0px;
 }
 #wp-cta-notes-area input:focus{
 	color: #000;
@@ -154,20 +158,23 @@ width: 70px !important;
 	padding-bottom: 0px;
 }
 #main-title-area .button-primary.new-save-wp-cta {
-padding-top: 6px !important; }
+	padding-top: 6px !important; 
+}
 #main-title-area .wp-cta-success-message {
 	margin-top: 4px;
 }
 #post-body .new-save-wp-cta-frontend {
-font-weight: 200;
-top: 2px;
-font-size: 14px;
-margin-left: 21px;
-line-height: 28px;
-height: 30px;
+	font-weight: 200;
+	top: 2px;
+	font-size: 14px;
+	margin-left: 21px;
+	line-height: 28px;
+	height: 30px;
 
-float:right;
-margin-right:19px;
+	float:right;
+	margin-right:19px;
 }
 .calc.button-primary {
-	display: none;}
+	display: none;
+}
+

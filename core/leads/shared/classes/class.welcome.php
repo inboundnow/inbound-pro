@@ -12,7 +12,7 @@
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
-if(!defined('INBOUND_NOW_PATH')) { define('INBOUND_NOW_PATH', WP_PLUGIN_DIR . '/inbound-now-pro'); }
+if(!defined('INBOUND_WELCOME_PATH')) { define('INBOUND_WELCOME_PATH', WP_PLUGIN_DIR . '/inbound-now-pro'); }
 /**
  * Inbound_Now_Welcome Class
  *
@@ -55,7 +55,7 @@ class Inbound_Now_Welcome {
         $this->plugin_name = $plugin_name;
 
     	// Set Variable if welcome folder exists
-    	$dir = INBOUND_NOW_PATH . '/components/'. $plugin_slug . '/welcome/';
+    	$dir = INBOUND_WELCOME_PATH . '/components/'. $plugin_slug . '/welcome/';
     	$plugin_dir = WP_PLUGIN_DIR . '/' . $plugin_slug;
 		if(file_exists($dir)) {
 			$this->welcome_folder_exists = true;
@@ -131,7 +131,7 @@ class Inbound_Now_Welcome {
 		$current_view = $_GET['page'];
 		if (function_exists( 'is_plugin_active' ) && is_plugin_active('inbound-now-pro/inbound-now-pro.php')) {
 			//echo 'Pro on';
-			$dir = INBOUND_NOW_PATH . '/components/'. $plugin_slug . '/welcome/';
+			$dir = INBOUND_WELCOME_PATH . '/components/'. $plugin_slug . '/welcome/';
 
 		} else if (function_exists( 'is_plugin_active' ) && is_plugin_active($plugin_slug .'/'. $plugin_slug . '.php')) {
 			//echo 'Pro off';

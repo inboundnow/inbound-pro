@@ -7,6 +7,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, nav, sectio
   display: inline;
   color:red;
 }
+#sidebar { overflow: auto;}
 input[type="text"], input[type="email"], button[type='submit'] {
   width: 97%;
 padding: 8px 4px 8px 10px;
@@ -15,7 +16,7 @@ border: 1px solid #4E3043;
 border: 1px solid rgba(78, 48, 67, 0.8);
 background: rgba(0, 0, 0, 0.15);
 border-radius: 2px;
-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2), inset 0 1px 1px rgba(0, 0, 0, 0.1);
+
 -webkit-transition: all 0.3s ease-out;
 -moz-transition: all 0.3s ease-out;
 -ms-transition: all 0.3s ease-out;
@@ -23,24 +24,12 @@ box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2), inset 0 1px 1px rgba(0, 0, 0, 0.1)
 transition: all 0.3s ease-out;
 font-family: 'Raleway', 'Lato', Arial, sans-serif;
 color: white;
-font-size: 13px; /*
-
-  display: block;
-  padding: 5px;
-  border: 4px solid #F1B720;
-  border-radius: 5px;
-  color: #333;
-  transition: all 0.3s ease-out; */
+font-size: 13px;
 }
-/*
-input[type="text"]:hover { border-radius: 8px; }
-input[type="text"]:focus {
-  outline: none;
-  border-radius: 8px;
-  border-color: #EBD292;
+textarea {
+	padding-top: 7px;
+	padding-left: 7px;
 }
-*/
-
 
 input[type="submit"], button[type='submit'] {
 width: 95%;
@@ -54,7 +43,6 @@ background: -webkit-linear-gradient(rgba(99, 64, 86, 0.5), rgba(76, 49, 65, 0.7)
 background: linear-gradient(rgba(99, 64, 86, 0.5), rgba(76, 49, 65, 0.7));
 border-radius: 5px;
 border: 1px solid #4E3043;
-box-shadow: inset 0 1px rgba(255, 255, 255, 0.4), 0 2px 1px rgba(0, 0, 0, 0.1);
 cursor: pointer;
 -webkit-transition: all 0.3s ease-out;
 -moz-transition: all 0.3s ease-out;
@@ -655,7 +643,6 @@ li {
 	font-size:15px;
 	line-height:25px;
 	margin:0;
-	color:#4d4d4d;
 	display:list-item;
 	margin-bottom:5px;
 	margin-top:5px;
@@ -788,7 +775,8 @@ code {
 header#sidebar {
 	width:27%;
 	padding-left:1.5%;
-	position:fixed;
+	position:absolute;
+	overflow: auto;
 	z-index:1;
 	min-height:100%;
 	min-width:240px;
@@ -1028,7 +1016,7 @@ article.post {
 	padding-left:50px;
 	padding-top:40px;
 	padding-bottom:40px;
-	border-top:1px solid #e2e2e2;
+	border-top:1px solid transparent;
 	min-height:130px;
 	overflow-x:hidden;
 }

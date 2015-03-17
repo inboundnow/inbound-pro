@@ -70,6 +70,12 @@ if ( !class_exists('Inbound_Shortcodes_Fields') ) {
 					$name = ( isset($option['name'])) ? $option['name'] : '';
 					$desc = ( isset($option['desc'])) ? $option['desc'] : '';
 					$std = ( isset($option['std']) ) ? $option['std'] : '';
+					$global = ( isset($option['global']) ) ? $option['global'] : '';
+					
+					if ($global) {
+						$uniquekey = $name;
+					}
+					
 					$placeholder = (isset($option['placeholder'])) ? $option['placeholder'] : '';
 					$parent_class = (isset($option['class'])) ? $option['class'] : '';
 
@@ -131,7 +137,7 @@ if ( !class_exists('Inbound_Shortcodes_Fields') ) {
 							$output .= $row_end;
 							$this->append_output($output);
 							break;
-						case 'multiselect' :
+						case 'leadlists' :
 							$output	= $row_start;
 							$output .= '<select multiple name="'. $key .'" id="'.$key.'" class="inbound-shortcodes-input select inbound-shortcodes-select">';
 							foreach( $option['options'] as $val => $opt ) {
@@ -155,6 +161,17 @@ if ( !class_exists('Inbound_Shortcodes_Fields') ) {
 							}
 							$output .='</select></li>';	
 							$output .='<li><input type="button" value="Add New Lead List" class="button button-primary" data-wp-lists="add:listchecklist:list-add" id="list-add-submit"></li></ul><span id="list-ajax-response"></span></div></div>';
+							$output .= $row_end;
+							$this->append_output($output);
+							break;
+						case 'multiselect' :
+							$output	= $row_start;
+							$output .= '<select multiple name="'. $key .'" id="'.$key.'" class="inbound-shortcodes-input select inbound-shortcodes-select">';
+							foreach( $option['options'] as $val => $opt ) {
+								$selected = ($std == $val) ? ' selected="selected"' : '';
+								$output .= '<option'. $selected .' value="'. $val .'">'. $opt .'</option>';
+							}
+							$output .= '</select>';
 							$output .= $row_end;
 							$this->append_output($output);
 							break;

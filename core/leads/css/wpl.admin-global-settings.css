@@ -224,3 +224,7 @@ padding-left: 33px !important;
 #php-sql-wpl-version {
     display: none;
 }
+
+.apikeys th{ 
+	width:200px;
+}

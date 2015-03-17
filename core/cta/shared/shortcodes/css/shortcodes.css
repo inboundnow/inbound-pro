@@ -482,6 +482,7 @@ padding-right: 10px;
 }
 .steps a:focus, .steps a:active {
 outline: none;
+box-shadow: none;
 }
 .step-item {
   counter-increment: steps;
