@@ -260,8 +260,8 @@ class Inbound_Pro_Welcome {
 					</section>
 				</td>
 				<td class='footer-right' style='vertical-align:top;'>
-					<section class="column-group gutters">
-						<h2 class='footer-right-h2'><?php _e('Latest Inbound Now Docs:' , 'inbound-pro' ); ?></h2>
+					<h2 class='footer-right-h2'><?php _e('Latest Inbound Now Docs:' , 'inbound-pro' ); ?></h2>
+					<section class="column-group gutters">					
 						<!--- Show docs --->
 						<?php
 						$i=0;
@@ -276,7 +276,7 @@ class Inbound_Pro_Welcome {
 							$excerpt = str_replace( '<a ' , '<a target="_blank" ' , $excerpt );
 							
 							?>
-							<div class="all-50 small-50 tiny-50">
+							<div class="all-50 large-30 small-50 tiny-50">
 								<h4><?php echo $item['title']; ?></h4>
 								<!--<img class="half-bottom-space" src="holder.js/1200x600/auto/ink" alt="">-->
 								<p><?php echo $excerpt; ?></p>

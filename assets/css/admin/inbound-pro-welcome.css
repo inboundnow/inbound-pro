@@ -161,17 +161,17 @@ $font:'Oswald', sans-serif;
 
 .footer-left {
 	vertical-align:top;
-	width:50%;
+	width:40%;
 	padding-right:40px;
 }
 
 .footer-right {
 	vertical-align:top;
-	width:50%;
+	width:60%;
 	
 }
 .footer-right-h2 {
-	padding-left:27px;
+	//padding-left:27px;
 	padding-bottom:10px;
 	
 }
