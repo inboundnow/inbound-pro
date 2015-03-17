@@ -15,7 +15,6 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 
 	final class Inbound_Pro_Plugin {
 
-<<<<<<< HEAD
 		/* START PHP VERSION CHECKS */
 		/**
 		 * Admin notices, collected and displayed on proper action
@@ -23,44 +22,6 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 		 * @var array
 		 */
 		public static $notices = array();
-=======
-	/**
-	 * Whether the current PHP version meets the minimum requirements
-	 *
-	 * @return bool
-	 */
-	public static function is_valid_php_version() {
-		return version_compare( PHP_VERSION, '5.3', '>=' );
-	}
-
-	/**
-	 * Invoked when the PHP version check fails. Load up the translations and
-	 * add the error message to the admin notices
-	 */
-	static function fail_php_version() {
-		//add_action( 'plugins_loaded', array( __CLASS__, 'i18n' ) );
-		self::notice( __( 'Stream requires PHP version 5.3+, plugin is currently NOT ACTIVE.', 'stream' ) );
-	}
-
-	/**
-	 * Handle notice messages according to the appropriate context (WP-CLI or the WP Admin)
-	 *
-	 * @param string $message
-	 * @param bool $is_error
-	 * @return void
-	 */
-	public static function notice( $message, $is_error = true ) {
-		if ( defined( 'WP_CLI' ) ) {
-			$message = strip_tags( $message );
-			if ( $is_error ) {
-				WP_CLI::warning( $message );
-			} else {
-				WP_CLI::success( $message );
-			}
-		} else {
-			// Trigger admin notices
-			add_action( 'all_admin_notices', array( __CLASS__, 'admin_notices' ) );
->>>>>>> 6074df6253930f49c2fd2add14daf12b76f06fe5
 
 		/**
 		 * Whether the current PHP version meets the minimum requirements
@@ -125,14 +86,6 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 			self::load_core_components();
 			self::load_text_domain_init();
 		}
-<<<<<<< HEAD
-=======
-		/* Load Inbound core files */
-		$core_files = array('cta', 'leads', 'landing-pages');
-
-		/* todo add filter to this array */
-		if(is_array($core_files) && is_array($core_files)) {
->>>>>>> 6074df6253930f49c2fd2add14daf12b76f06fe5
 
 		/*
 		* Setup plugin constants
