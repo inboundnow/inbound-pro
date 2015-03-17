@@ -5,7 +5,11 @@
  * Plugin Name: Inbound Extension - GravityForms Integration
  * Plugin URI: http://www.inboundnow.com/market/gravityforms-integration/
  * Description: Integrates Gravity Forms with Leads by allowing you to map your form fields to leads fields. Also allows for conversions to be sorted into lead lists.
+<<<<<<< HEAD
  * Version: 2.0.2
+=======
+ * Version: 2.0.1
+>>>>>>> 6074df6253930f49c2fd2add14daf12b76f06fe5
  * Author: InboundNow, Gravity+
  * Author URI: http://www.inboundnow.com
  * Text Domain: inbound-gravityforms
@@ -33,7 +37,11 @@ if ( !class_exists('Inbound_GravityForms') ) {
 		 *  Load constants
 		 */
 		public static function load_constants() {
+<<<<<<< HEAD
 			define( 'INBOUNDNOW_GRAVITYFORMS_CURRENT_VERSION', '2.0.2' );
+=======
+			define( 'INBOUNDNOW_GRAVITYFORMS_CURRENT_VERSION', '2.0.0' );
+>>>>>>> 6074df6253930f49c2fd2add14daf12b76f06fe5
 			define( 'INBOUNDNOW_GRAVITYFORMS_LABEL', 'Gravity Forms Integration' );
 			define( 'INBOUNDNOW_GRAVITYFORMS_SLUG', plugin_basename( dirname( __FILE__ ) ) );
 			define( 'INBOUNDNOW_GRAVITYFORMS_FILE', __FILE__ );

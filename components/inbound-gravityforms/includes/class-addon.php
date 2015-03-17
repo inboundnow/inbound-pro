@@ -223,6 +223,7 @@ class GravityFormsLeads_Addon extends GFFeedAddOn {
 			}
 		}
 		
+<<<<<<< HEAD
 		/* Add conversion */
 		if ( function_exists( 'inbound_add_conversion_to_lead' ) ) {	
 			if (!$entry['post_id']) {
@@ -233,6 +234,8 @@ class GravityFormsLeads_Addon extends GFFeedAddOn {
 			inbound_add_conversion_to_lead( $lead_id , $lead_data );
 		}
 		
+=======
+>>>>>>> 6074df6253930f49c2fd2add14daf12b76f06fe5
 	}
 
 	function build_map ( $feed, $entry, $form ) {
