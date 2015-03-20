@@ -60,6 +60,10 @@ class Inbound_API_Wrapper {
 		/* This call home gets a list of available downloads - We have minimum security because no sensitive information is revealed */
 		$response = wp_remote_get( self::$docs_uri );
 		
+		if (!isset($response['body'])) {
+			return;
+		}
+		
 		/* unserialize response */
 		$xml = simplexml_load_string( $response['body'] , null  , LIBXML_NOCDATA );
 		$json = json_encode($xml);

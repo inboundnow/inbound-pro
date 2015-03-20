@@ -14,7 +14,7 @@ if ( ! class_exists( 'Inbound_Notices' ) ) {
 		}
 
 		/* Fix JavaScript Conflicts in WordPress */
-		public function inbound_notice(){
+		public static function inbound_notice(){
 		    global $pagenow;
 		    global $current_user ;
 		    $page_string = isset($_GET["page"]) ? $_GET["page"] : "null";
@@ -33,7 +33,7 @@ if ( ! class_exists( 'Inbound_Notices' ) ) {
 		    }
 		}
 
-		public function inbound_notice_ignore() {
+		public static function inbound_notice_ignore() {
 		    global $current_user;
 		    $user_id = $current_user->ID;
 	        if (isset($_GET['inbound_translate_ignore']) && '0' == $_GET['inbound_translate_ignore'] ) {

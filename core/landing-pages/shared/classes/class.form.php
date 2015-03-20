@@ -353,7 +353,9 @@ if (!class_exists('Inbound_Forms')) {
 						if ($type === 'hidden' && $dynamic_value != "") {
 							$fill_value = $dynamic_value;
 						}
-						$form .=	'<input class="inbound-input inbound-input-text '.$formatted_label . $input_classes.' '.$field_input_class.'" name="'.$field_name.'" '.$form_placeholder.' id="'.$field_name.'" value="'.$fill_value.'" type="'.$type.'"'.$data_mapping_attr.$et_output.' '.$req.'/>';
+						
+						$input_type = ( $email_input ) ? 'email' : 'text';
+						$form .=	'<input type="'.$input_type .'" class="inbound-input inbound-input-text '.$formatted_label . $input_classes.' '.$field_input_class.'" name="'.$field_name.'" '.$form_placeholder.' id="'.$field_name.'" value="'.$fill_value.'" '.$data_mapping_attr.$et_output.' '.$req.'/>';
 					}
 
 					if ($show_labels && $form_labels === "bottom" && $type != "radio") {

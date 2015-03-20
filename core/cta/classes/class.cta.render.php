@@ -368,20 +368,22 @@ if ( !class_exists( 'CTA_Render' ) ) {
 				$keep_open = get_post_meta($post_id, 'wp_cta_slide_out_keep_open', TRUE);
 				$slide_speed_final = (isset($slide_speed) && $slide_speed != "") ? $slide_speed * 1000 : 1000;
 				$scroll_offset = (isset($reveal_on) && $reveal_on != "") ? $reveal_on : 50;
-				$scroll_params = array( 'animation' => 'flyout',
-										'speed' => $slide_speed_final,
-										'keep_open' => $keep_open,
-										'compare' => 'simple',
-										'css_side' => 5,
-										'css_width' => 360,
-										'ga_opt_noninteraction' => 1,
-										'ga_track_clicks'=> 1,
-										'offset_element'=> $reveal_element,
-										'ga_track_views'=> 1,
-										'offset_percent'=> $scroll_offset,
-										'position'=> $slide_out_placement,
-										'title'=> "New Post",
-										'url_new_window'=> 0);
+				$scroll_params = array( 
+					'animation' => 'flyout',
+					'speed' => $slide_speed_final,
+					'keep_open' => $keep_open,
+					'compare' => 'simple',
+					'css_side' => 5,
+					'css_width' => 360,
+					'ga_opt_noninteraction' => 1,
+					'ga_track_clicks'=> 1,
+					'offset_element'=> $reveal_element,
+					'ga_track_views'=> 1,
+					'offset_percent'=> $scroll_offset,
+					'position'=> $slide_out_placement,
+					'title'=> "New Post",
+					'url_new_window'=> 0
+				);
 
 				wp_localize_script( 'scroll-js', 'wp_cta_slideout', $scroll_params );
 			}
@@ -394,11 +396,6 @@ if ( !class_exists( 'CTA_Render' ) ) {
 				return;
 			}
 
-
-			/* load form pre-population script */
-			if (!wp_script_is('form-population','enqueue') && get_option('wp-cta-main-form-population'))	{
-				/* TODO Set Global Var for New Analytics */
-			}
 
 			/* Import CSS & JS from Assets folder and Enqueue */
 			$loaded = array();
@@ -903,7 +900,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
 				if (!stristr($custom_css,'<script'))
 				{
-					$inline_content .= '<script type="text/javascript" id="wp_cta_js_custom">jQuery(document).ready(function($) {
+					$inline_content .= '<script type="text/javascript" id="wp_cta_js_custom">InboundQuery(document).ready(function($) {
 					'.$custom_js.' });</script>';
 				}
 				else
@@ -1079,6 +1076,9 @@ if ( !class_exists( 'CTA_Render' ) ) {
 			return $cta_template;
 		}
 
+		/**
+		*  Adds CTA to post content
+		*/
 		function add_cta_to_post_content( $content ) {
 			global $post;
 
@@ -1124,14 +1124,14 @@ if ( !class_exists( 'CTA_Render' ) ) {
 				}
 				/* fix for popup size */
 				$content .=	"<script>";
-				$content .= "	jQuery(document).ready(function($) {";
+				$content .= "	InboundQuery(document).ready(function($) {";
 				$content .= "		setTimeout(function() {";
              	$content .= "		var vid = $('.inbound-cta-container:visible').attr('data-variation');";
 				$content .= "		var vidw = '.data-vid-w-' + vid;";
 				$content .= "		var vidh = '.data-vid-h-' + vid;";
 				$content .= "		var h = $(vidh).attr('data-height');";
 				$content .= "		var w = $(vidw).attr('data-width');";
-				$content .= "		$('.white-popup-block').css({'height': h, 'width': w});";
+				$content .= "		InboundQuery('.white-popup-block').css({'height': h, 'width': w});";
 				$content .= "	 }, 500);";
 				$content .= "	});";
 				$content .= "</script>";
@@ -1186,6 +1186,9 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
 			$cta_template = self::$instance->build_cta_content( $selected_cta );
 
+			/* account for preview mode  */
+			$vid = (isset($_GET['wp-cta-variation-id'])) ? $_GET['wp-cta-variation-id'] : $vid;
+
 			$script = self::$instance->load_shortcode_variation_js( $id , $vid , true );
 
 
@@ -1207,8 +1210,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 		* @param BOOL $return If set to true will return instead of print
 		* @return STRING $script javascript code
 		*/
-		function load_shortcode_variation_js( $cta_id , $variation_id = null , $return = false )
-		{
+		function load_shortcode_variation_js( $cta_id , $variation_id = null , $return = false ) {
 
 			if ( !isset(self::$instance->disable_ajax) ) {
 				self::$instance->disable_ajax = get_option('wp-cta-main-disable-ajax-variation-discovery' , 0 );
@@ -1225,6 +1227,9 @@ if ( !class_exists( 'CTA_Render' ) ) {
 			}
 		}
 
+		/**
+		*  Preview CTA
+		*/
 		function preview_cta() {
 
 			if ( ( isset(self::$instance->obj->post_type) && self::$instance->obj->post_type != 'wp-call-to-action' ) ||	( !isset(self::$instance->obj->post_type) && !isset($_GET['wp-cta-variation-id']) ) ){
@@ -1255,7 +1260,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
 			(!isset($_GET['live-preview-area'])) ? $margin = 'margin-top:100px' : '';
 
-			echo '<body style="backgorund-image:none;background-color:transparent;">';
+			echo '<body style="backgorund-image:none;background-color:#fff;width:100%;">';
 			echo '<div id="cta-preview-container" style="margin:auto;">';
 			if ( isset($_GET['post_id'] ) || isset($_GET['wp-cta-variation-id']) ) {
 				echo do_shortcode('[cta id="'.$cta_id.'" vid="'.$_GET['wp-cta-variation-id'].'"]');
@@ -1265,86 +1270,33 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
 			echo "</div>";
 
-
-			do_action('wp_footer');
-			wp_print_footer_scripts();
-
 			if (!isset($_GET['live-preview-area']) && is_user_logged_in()) {
-			?>
-			<style type="text/css">
-			body {
-				background-color: #eee !important;
-				background-image: linear-gradient(45deg, rgb(213, 213, 213) 25%, transparent 25%, transparent 75%, rgb(213, 213, 213) 75%, rgb(213, 213, 213)), linear-gradient(45deg, rgb(213, 213, 213) 25%, transparent 25%, transparent 75%, rgb(213, 213, 213) 75%, rgb(213, 213, 213)) !important;
-				background-size: 60px 60px !important;
-				background-position: 0 0, 30px 30px !important;
-				padding-top: 25px;
-			}
-			.slider {
-				width: 510px;
-				text-align: center;
-			}
-
-			.custom-input {
-				-webkit-appearance: none;
-				vertical-align: middle;
-				width: 500px;
-				height: 5px;
-				border-radius: 25px;
-				border: 5px solid #868686;
-
-			}
-
-			.custom-input::-webkit-slider-thumb,
-			.custom-input::slider-thumb {
-				-webkit-appearance: none;
-				border-radius: 20px;
-				width: 20px;
-				height: 20px;
-				border: 5px solid #868686;
-				cursor: pointer;
-				background: #797979;
-
-
-			}
-			input.custom-input:focus, textarea.custom-input:focus {
-			border: 5px solid #868686;
-			outline: none;
-			}
-			.custom-input:active::-webkit-slider-thumb,
-			.custom-input:active::slider-thumb {
-				border-width: 5px;
-			}
-
-			.result {
-				margin: 30px 0 0;
-			}
-			.slider-text {
-				font-size: 20px;
-			}
-			</style>
+			?>		
 			<script type="text/javascript">
-			jQuery(document).ready(function($) {
-				jQuery('.custom-input').change(function() {
-					var barValue = $(this).val(),
-					result = Math.round(barValue * 10) / 10;
-					jQuery("#cta-preview-container").width(result + '%');
-					jQuery('.result').text(result + '%');
-				});
-
-				jQuery('#cta-preview-container').cta_center();
+			InboundQuery(document).ready(function($) {			
+				//InboundQuery('#cta-preview-container').cta_center();
 			});
 
 			/* add jquery function to center cta in preview mode */
-			jQuery.fn.cta_center = function () {
+			InboundQuery.fn.cta_center = function () {
 				this.css("position","absolute");
-				this.css("top", Math.max(0, ((jQuery(window).height() - jQuery(this).outerHeight()) / 2) +
-															jQuery(window).scrollTop()) + "px");
-				this.css("left", Math.max(0, ((jQuery(window).width() - jQuery(this).outerWidth()) / 2) +
-															jQuery(window).scrollLeft()) + "px");
+				this.css("top", Math.max(0, ((InboundQuery(window).height() - InboundQuery(this).outerHeight()) / 2) +
+															InboundQuery(window).scrollTop()) + "px");
+				this.css("left", Math.max(0, ((InboundQuery(window).width() - InboundQuery(this).outerWidth()) / 2) +
+															InboundQuery(window).scrollLeft()) + "px");
 				return this;
 			}
 			</script>
-			<?php }
+			<?php 
+			}
+			?>
+			<script type="text/javascript">
+			InboundQuery(document).ready(function($) {			
+				InboundQuery('.wp_cta_<?php echo $cta_id; ?>_variation_<?php echo $_GET['wp-cta-variation-id']; ?>').show();
+			});
+			</script>
+			<?php
+			//do_action('wp_footer');
 			echo '</body>';
 			echo '</html>';
 			exit;
@@ -1439,14 +1391,14 @@ if (!function_exists('inbound_template_brightness')) {
 					0 => array(255-(255-$col[0])/15, 255-(255-$col[1])/15, 255-(255-$col[2])/15)
 					);
 
-			($format === 'hex') ? $sign = "#" : $sign = '';
-			$return_scheme = array();
-			foreach ($color_scheme_array as $key => $val) {
+				($format === 'hex') ? $sign = "#" : $sign = '';
+				$return_scheme = array();
+				foreach ($color_scheme_array as $key => $val) {
 
-				$each_color_return =	$sign.sprintf("%02X%02X%02X", $val[0], $val[1], $val[2]);
-			    $return_scheme[$key] = $each_color_return;
+					$each_color_return =	$sign.sprintf("%02X%02X%02X", $val[0], $val[1], $val[2]);
+					$return_scheme[$key] = $each_color_return;
 
-			}
+				}
 				//return $closest;
 				if(isset($_GET['color_scheme'])) {
 					foreach ($return_scheme as $key => $hex_value) {

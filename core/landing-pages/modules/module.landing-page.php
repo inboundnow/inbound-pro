@@ -1,12 +1,12 @@
 <?php
 
 /* LOAD TEMPLATE */
-add_filter('single_template', 'lp_custom_template' , 12 );
+add_filter('single_template', 'lp_custom_template' , 13 );
 function lp_custom_template($single) {
     global $wp_query, $post, $query_string;
 
 	if ($post->post_type != "landing-page") {
-		return $return;
+		return $single;
 	}
 	$template = get_post_meta($post->ID, 'lp-selected-template', true);
 	$template = apply_filters('lp_selected_template',$template);
@@ -23,7 +23,7 @@ function lp_custom_template($single) {
 	$my_theme =  wp_get_theme($template);
 
 	if ($my_theme->exists()) {
-		return "";
+		return $single;
 	} else if ( $template != 'default' ) {
 
 		$template = str_replace('_','-',$template);

@@ -6,9 +6,22 @@
  * @author David Wells <david@inboundnow.com>
  * @version 0.0.1
  */
+
 var _inboundUtils = (function(_inbound) {
 
-    var storageSupported;
+    var storageSupported,
+        corsEnabled = window.XMLHttpRequest && 'withCredentials' in new XMLHttpRequest(),
+        toString = Object.prototype.toString,
+        currentPage = ('https:' == location.protocol ? 'https://' : 'http://') + location.hostname + location.pathname.replace(/\/$/, "");
+
+    var settings = {
+        api_host: currentPage,
+        track_pageview: true,
+        track_links_timeout: 300,
+        cookie_name: '_sp',
+        cookie_expiration: 365,
+        cookie_domain: (host = location.hostname.match(/[a-z0-9][a-z0-9\-]+\.[a-z\.]{2,6}$/i)) ? host[0] : ''
+    };
 
     _inbound.Utils = {
         init: function() {
@@ -54,95 +67,122 @@ var _inboundUtils = (function(_inbound) {
 
                 window.CustomEvent = CustomEvent;
             })();*/
+
+            /*\
+            |*| Polyfill Date.toISOString
+            \*/
+            if (!Date.prototype.toISOString) {
+                (function() {
+                    /**
+                     * @param {number} text
+                     * @returns {?}
+                     */
+                    function pad(text) {
+                            /** @type {string} */
+                            var code = String(text);
+                            return 1 === code.length && (code = '0' + code), code;
+                        }
+                        /**
+                         * @returns {string}
+                         */
+                    Date.prototype.toISOString = function() {
+                        return this.getUTCFullYear() + '-' + pad(this.getUTCMonth() + 1) + '-' + pad(this.getUTCDate()) + 'T' + pad(this.getUTCHours()) + ':' + pad(this.getUTCMinutes()) + ':' + pad(this.getUTCSeconds()) + '.' + String((this.getUTCMilliseconds() / 1E3).toFixed(3)).slice(2, 5) + 'Z';
+                    };
+                })();
+            }
+
             /* custom event for ie8+ https://gist.github.com/WebReflection/6693661 */
-            try{new CustomEvent('?');}catch(o_O){
-              /*!(C) Andrea Giammarchi -- WTFPL License*/
-              this.CustomEvent = function(
-                eventName,
-                defaultInitDict
-              ){
-
-                // the infamous substitute
-                function CustomEvent(type, eventInitDict) {
-                  var event = document.createEvent(eventName);
-                  if (type !== null) {
-                    initCustomEvent.call(
-                      event,
-                      type,
-                      (eventInitDict || (
-                        // if falsy we can just use defaults
-                        eventInitDict = defaultInitDict
-                      )).bubbles,
-                      eventInitDict.cancelable,
-                      eventInitDict.detail
-                    );
-                  } else {
-                    // no need to put the expando property otherwise
-                    // since an event cannot be initialized twice
-                    // previous case is the most common one anyway
-                    // but if we end up here ... there it goes
-                    event.initCustomEvent = initCustomEvent;
-                  }
-                  return event;
-                }
-
-                // borrowed or attached at runtime
-                function initCustomEvent(
-                  type, bubbles, cancelable, detail
+            try {
+                new CustomEvent('?');
+            } catch (o_O) {
+                /*!(C) Andrea Giammarchi -- WTFPL License*/
+                this.CustomEvent = function(
+                    eventName,
+                    defaultInitDict
                 ) {
-                  this['init' + eventName](type, bubbles, cancelable, detail);
-                  'detail' in this || (this.detail = detail);
-                }
 
-                // that's it
-                return CustomEvent;
-              }(
-                // is this IE9 or IE10 ?
-                // where CustomEvent is there
-                // but not usable as construtor ?
-                this.CustomEvent ?
-                  // use the CustomEvent interface in such case
-                  'CustomEvent' : 'Event',
-                  // otherwise the common compatible one
-                {
-                  bubbles: false,
-                  cancelable: false,
-                  detail: null
-                }
-              );
+                    // the infamous substitute
+                    function CustomEvent(type, eventInitDict) {
+                        var event = document.createEvent(eventName);
+                        if (type !== null) {
+                            initCustomEvent.call(
+                                event,
+                                type, (eventInitDict || (
+                                    // if falsy we can just use defaults
+                                    eventInitDict = defaultInitDict
+                                )).bubbles,
+                                eventInitDict.cancelable,
+                                eventInitDict.detail
+                            );
+                        } else {
+                            // no need to put the expando property otherwise
+                            // since an event cannot be initialized twice
+                            // previous case is the most common one anyway
+                            // but if we end up here ... there it goes
+                            event.initCustomEvent = initCustomEvent;
+                        }
+                        return event;
+                    }
+
+                    // borrowed or attached at runtime
+                    function initCustomEvent(
+                        type, bubbles, cancelable, detail
+                    ) {
+                        this['init' + eventName](type, bubbles, cancelable, detail);
+                        'detail' in this || (this.detail = detail);
+                    }
+
+                    // that's it
+                    return CustomEvent;
+                }(
+                    // is this IE9 or IE10 ?
+                    // where CustomEvent is there
+                    // but not usable as construtor ?
+                    this.CustomEvent ?
+                    // use the CustomEvent interface in such case
+                    'CustomEvent' : 'Event',
+                    // otherwise the common compatible one
+                    {
+                        bubbles: false,
+                        cancelable: false,
+                        detail: null
+                    }
+                );
             }
             /* querySelectorAll polyfill for ie7+ */
             if (!document.querySelectorAll) {
-              document.querySelectorAll = function (selectors) {
-                var style = document.createElement('style'), elements = [], element;
-                document.documentElement.firstChild.appendChild(style);
-                document._qsa = [];
+                document.querySelectorAll = function(selectors) {
+                    var style = document.createElement('style'),
+                        elements = [],
+                        element;
+                    document.documentElement.firstChild.appendChild(style);
+                    document._qsa = [];
 
-                style.styleSheet.cssText = selectors + '{x-qsa:expression(document._qsa && document._qsa.push(this))}';
-                window.scrollBy(0, 0);
-                style.parentNode.removeChild(style);
+                    style.styleSheet.cssText = selectors + '{x-qsa:expression(document._qsa && document._qsa.push(this))}';
+                    window.scrollBy(0, 0);
+                    style.parentNode.removeChild(style);
 
-                while (document._qsa.length) {
-                  element = document._qsa.shift();
-                  element.style.removeAttribute('x-qsa');
-                  elements.push(element);
-                }
-                document._qsa = null;
-                return elements;
-              };
+                    while (document._qsa.length) {
+                        element = document._qsa.shift();
+                        element.style.removeAttribute('x-qsa');
+                        elements.push(element);
+                    }
+                    document._qsa = null;
+                    return elements;
+                };
             }
 
             if (!document.querySelector) {
-              document.querySelector = function (selectors) {
-                var elements = document.querySelectorAll(selectors);
-                return (elements.length) ? elements[0] : null;
-              };
+                document.querySelector = function(selectors) {
+                    var elements = document.querySelectorAll(selectors);
+                    return (elements.length) ? elements[0] : null;
+                };
             }
             /* Innertext shim for firefox https://github.com/duckinator/innerText-polyfill/blob/master/innertext.js */
-            if ( (!('innerText' in document.createElement('a'))) && ('getSelection' in window) ) {
+            if ((!('innerText' in document.createElement('a'))) && ('getSelection' in window)) {
                 HTMLElement.prototype.__defineGetter__("innerText", function() {
                     var selection = window.getSelection(),
-                        ranges    = [],
+                        ranges = [],
                         str;
 
                     // Save existing selections.
@@ -296,7 +336,10 @@ var _inboundUtils = (function(_inbound) {
                 _inbound.totalStorage('inbound_url_params', params); // store cookie data
             }
 
-            var options = {'option1': 'yo', 'option2': 'woooo'};
+            var options = {
+                'option1': 'yo',
+                'option2': 'woooo'
+            };
 
             _inbound.trigger('url_parameters', urlParams, options);
 
@@ -310,7 +353,7 @@ var _inboundUtils = (function(_inbound) {
         },
         /* Get url param */
         getParameterVal: function(name, string) {
-            return (RegExp(name + '=' + '(.+?)(&|$)').exec(string)||[,false])[1];
+            return (RegExp(name + '=' + '(.+?)(&|$)').exec(string) || [, false])[1];
         },
         // Check local storage
         // provate browsing safari fix https://github.com/marcuswestin/store.js/issues/42#issuecomment-25274685
@@ -345,29 +388,29 @@ var _inboundUtils = (function(_inbound) {
         },
         // http://stackoverflow.com/questions/4391575/how-to-find-the-size-of-localstorage
         showLocalStorageSize: function() {
-              function stringSizeBytes(str) {
+            function stringSizeBytes(str) {
                 return str.length * 2;
-              }
+            }
 
-              function toMB(bytes) {
+            function toMB(bytes) {
                 return bytes / 1024 / 1024;
-              }
+            }
 
-              function toSize(key) {
+            function toSize(key) {
                 return {
-                  name: key,
-                  size: stringSizeBytes(localStorage[key])
+                    name: key,
+                    size: stringSizeBytes(localStorage[key])
                 };
-              }
+            }
 
-              function toSizeMB(info) {
+            function toSizeMB(info) {
                 info.size = toMB(info.size).toFixed(2) + ' MB';
                 return info;
-              }
+            }
 
-              var sizes = Object.keys(localStorage).map(toSize).map(toSizeMB);
+            var sizes = Object.keys(localStorage).map(toSize).map(toSizeMB);
 
-              //console.table(sizes);
+            console.table(sizes);
         },
         /* Add days to datetime */
         addDays: function(myDate, days) {
@@ -387,7 +430,7 @@ var _inboundUtils = (function(_inbound) {
                 m = timeNow.getMonth() + 1,
                 mPre = (m < 10) ? "0" : "";
 
-            var datetime = y + '/' + mPre+m + "/" + dPre+d + " " + hPre+h + ":" + minPre+min + ":" + secPre+sec;
+            var datetime = y + '/' + mPre + m + "/" + dPre + d + " " + hPre + h + ":" + minPre + min + ":" + secPre + sec;
             /* format 2014/11/13 18:22:02 */
             return datetime;
         },
@@ -403,20 +446,20 @@ var _inboundUtils = (function(_inbound) {
             var d = new Date();
             d.setTime(d.getTime() + 30 * 60 * 1000);
 
-            this.createCookie("lead_session_expire", true, d, true); // Set cookie on page load
+            this.createCookie("lead_session_expire", true, d); // Set cookie on page load
 
         },
         storeReferralData: function() {
             //console.log(expire_time);
             var d = new Date(),
-            referrer = document.referrer || "Direct Traffic",
-            referrer_cookie = _inbound.Utils.readCookie("inbound_referral_site"),
-            original_src = _inbound.totalStorage('inbound_original_referral');
+                referrer = document.referrer || "Direct Traffic",
+                referrer_cookie = _inbound.Utils.readCookie("inbound_referral_site"),
+                original_src = _inbound.totalStorage('inbound_original_referral');
 
             d.setTime(d.getTime() + 30 * 60 * 1000);
 
             if (!referrer_cookie) {
-                this.createCookie("inbound_referral_site", referrer, d, true);
+                this.createCookie("inbound_referral_site", referrer, d);
             }
             if (!original_src) {
                 _inbound.totalStorage('inbound_original_referral', original_src);
@@ -433,6 +476,9 @@ var _inboundUtils = (function(_inbound) {
             }
             return str;
         },
+        generateGUID: function(a) {
+            return a ? (a ^ 16 * Math.random() >> a / 4).toString(16) : ([1E7] + -1E3 + -4E3 + -8E3 + -1E11).replace(/[018]/g, guid);
+        },
         SetUID: function(leadUID) {
             /* Set Lead UID */
             if (!this.readCookie("wp_lead_uid")) {
@@ -444,8 +490,9 @@ var _inboundUtils = (function(_inbound) {
         countProperties: function(obj) {
             var count = 0;
             for (var prop in obj) {
-                if (obj.hasOwnProperty(prop))
+                if (obj.hasOwnProperty(prop)) {
                     ++count;
+                }
             }
             return count;
         },
@@ -460,7 +507,7 @@ var _inboundUtils = (function(_inbound) {
             return obj3;
         },
         hasClass: function(className, el) {
-            var hasClass = false;
+            var hasClass;
             if ('classList' in document.documentElement) {
                 var hasClass = el.classList.contains(className);
             } else {
@@ -468,27 +515,26 @@ var _inboundUtils = (function(_inbound) {
             }
             return hasClass;
         },
-        addClass: function(className, elem) {
+        addClass: function(className, el) {
             if ('classList' in document.documentElement) {
-                elem.classList.add(className);
+                el.classList.add(className);
             } else {
-                if (!this.hasClass(elem, className)) {
-                    elem.className += (elem.className ? ' ' : '') + className;
+                if (!this.hasClass(el, className)) {
+                    el.className += (el.className ? ' ' : '') + className;
                 }
             }
         },
-        removeClass: function(className, elem) {
+        removeClass: function(className, el) {
             if ('classList' in document.documentElement) {
-
-                elem.classList.remove(className);
+                el.classList.remove(className);
             } else {
-                if (this.hasClass(elem, className)) {
-                    elem.className = elem.className.replace(new RegExp('(^|\\s)*' + className + '(\\s|$)*', 'g'), '');
+                if (this.hasClass(el, className)) {
+                    el.className = el.className.replace(new RegExp('(^|\\s)*' + className + '(\\s|$)*', 'g'), '');
                 }
             }
         },
-        removeElement: function (el) {
-           el.parentNode.removeChild(el);
+        removeElement: function(el) {
+            el.parentNode.removeChild(el);
         },
         trim: function(s) {
             s = s.replace(/(^\s*)|(\s*$)/gi, "");
@@ -521,16 +567,16 @@ var _inboundUtils = (function(_inbound) {
             var x = this.ajaxPolyFill();
             /* timeout for safari idiocy */
             setTimeout(function() {
-              x.open(method, url, true);
-              x.onreadystatechange = function() {
-                  if (x.readyState == 4) {
-                      callback(x.responseText)
-                  }
-              };
-              if (method == 'POST') {
-                  x.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-              }
-              x.send(data);
+                x.open(method, url, true);
+                x.onreadystatechange = function() {
+                    if (x.readyState == 4) {
+                        callback(x.responseText)
+                    }
+                };
+                if (method == 'POST') {
+                    x.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                }
+                x.send(data);
             }, 100);
         },
         ajaxGet: function(url, data, callback, sync) {
@@ -547,26 +593,47 @@ var _inboundUtils = (function(_inbound) {
             }
             this.ajaxSendData(url, callback, 'POST', query.join('&'), sync)
         },
-        makeRequest: function(url, data) {
-            if (window.XMLHttpRequest) { // Mozilla, Safari, ...
-                httpRequest = new XMLHttpRequest();
-            } else if (window.ActiveXObject) { // IE
-                try {
-                    httpRequest = new ActiveXObject("Msxml2.XMLHTTP");
-                } catch (e) {
-                    try {
-                        httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
-                    } catch (e) {}
+        /**
+         * @param {string} event
+         * @param {(Object|null)} properties
+         * @param {(Function|null)} callback
+         */
+        sendEvent: function(event, properties, callback) {
+            properties = properties || {};
+            async = true;
+            var cookieData = getCookie(); /* get cookie data */
+            if (cookieData) {
+                var key;
+                for (key in cookieData) {
+                    properties[key] = cookieData[key];
                 }
             }
-
-            if (!httpRequest) {
-                alert('Giving up :( Cannot create an XMLHTTP instance');
-                return false;
+            if (!properties.id) {
+                properties.id = getId();
             }
-            httpRequest.onreadystatechange = _inbound.LeadsAPI.alertContents;
-            httpRequest.open('GET', url);
-            httpRequest.send(data);
+            var props = {
+                e: event,
+                t: (new Date()).toISOString(),
+                kv: properties
+            };
+            var path = settings.api_host + '/track?data=' + encodeURIComponent(JSON.stringify(props));
+            if (corsEnabled) {
+                /* CORS */
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', path, async);
+                xhr.withCredentials = async;
+                xhr.send(null);
+            } else {
+                /* jsonP */
+                var el = document.createElement('script');
+                el.type = 'text/javascript';
+                el.async = async;
+                el.defer = async;
+                el.src = path;
+                var insertAt = document.getElementsByTagName('script')[0];
+                insertAt.parentNode.insertBefore(el, insertAt);
+            }
+            return action(callback), self;
         },
         domReady: function(win, fn) {
 
@@ -596,8 +663,11 @@ var _inboundUtils = (function(_inbound) {
                     init('poll');
                 };
 
-            if (doc.readyState == 'complete') fn.call(win, 'lazy');
-            else {
+            if (doc.readyState == 'complete') {
+
+                fn.call(win, 'lazy');
+
+            } else {
                 if (doc.createEventObject && root.doScroll) {
                     try {
                         top = !win.frameElement;
@@ -612,7 +682,7 @@ var _inboundUtils = (function(_inbound) {
         },
         /* Cross-browser event listening  */
         addListener: function(element, eventName, listener) {
-            if(!element){
+            if (!element) {
                 return;
             }
             //console.log(eventName);
@@ -642,48 +712,48 @@ var _inboundUtils = (function(_inbound) {
          * (c) 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
          * Underscore may be freely distributed under the MIT license.
          */
-        throttle: function (func, wait) {
-          var context, args, result;
-          var timeout = null;
-          var previous = 0;
-          var later = function() {
-            previous = new Date;
-            timeout = null;
-            result = func.apply(context, args);
-          };
-          return function() {
-            var now = new Date;
-            if (!previous) previous = now;
-            var remaining = wait - (now - previous);
-            context = this;
-            args = arguments;
-            if (remaining <= 0) {
-              clearTimeout(timeout);
-              timeout = null;
-              previous = now;
-              result = func.apply(context, args);
-            } else if (!timeout) {
-              timeout = setTimeout(later, remaining);
-            }
-            return result;
-          };
+        throttle: function(func, wait) {
+            var context, args, result;
+            var timeout = null;
+            var previous = 0;
+            var later = function() {
+                previous = new Date;
+                timeout = null;
+                result = func.apply(context, args);
+            };
+            return function() {
+                var now = new Date;
+                if (!previous) previous = now;
+                var remaining = wait - (now - previous);
+                context = this;
+                args = arguments;
+                if (remaining <= 0) {
+                    clearTimeout(timeout);
+                    timeout = null;
+                    previous = now;
+                    result = func.apply(context, args);
+                } else if (!timeout) {
+                    timeout = setTimeout(later, remaining);
+                }
+                return result;
+            };
         },
         /*
          * Determine which version of GA is being used
          * "ga", "_gaq", and "dataLayer" are the possible globals
          */
         checkTypeofGA: function() {
-          if (typeof ga === "function") {
-            universalGA = true;
-          }
+            if (typeof ga === "function") {
+                universalGA = true;
+            }
 
-          if (typeof _gaq !== "undefined" && typeof _gaq.push === "function") {
-            classicGA = true;
-          }
+            if (typeof _gaq !== "undefined" && typeof _gaq.push === "function") {
+                classicGA = true;
+            }
 
-          if (typeof dataLayer !== "undefined" && typeof dataLayer.push === "function") {
-            googleTagManager = true;
-          }
+            if (typeof dataLayer !== "undefined" && typeof dataLayer.push === "function") {
+                googleTagManager = true;
+            }
 
         }
     };

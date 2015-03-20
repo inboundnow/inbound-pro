@@ -96,8 +96,7 @@ if (!class_exists('CTA_Dynamic_Widget')) {
 			}
 
 			/* Load CTA CSS Templates & Load Custom CSS & Custom JS */
-			foreach ($selected_cta['meta'] as $vid=>$cta)
-			{
+			foreach ($selected_cta['meta'] as $vid=>$cta) {
 				($vid<1) ? $suffix = '' : $suffix = '-'.$vid;
 
 				$template_slug = $selected_cta['meta'][$vid]['wp-cta-selected-template-'.$vid];
@@ -141,7 +140,6 @@ if (!class_exists('CTA_Dynamic_Widget')) {
 			echo $cta_template;
 
 			$this->load_variation();
-			//add_action('wp_footer', array($this,'load_variation'));
 		}
 
 		/**
@@ -228,6 +226,9 @@ if (!class_exists('CTA_Dynamic_Widget')) {
 			<?php
 		}
 
+		/**
+		*  Run load variation javascript
+		*/
 		function load_variation()
 		{
 			$disable_ajax = get_option('wp-cta-main-disable-ajax-variation-discovery');

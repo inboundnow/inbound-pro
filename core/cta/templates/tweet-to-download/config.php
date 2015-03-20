@@ -133,7 +133,7 @@ $wp_cta_data[$key]['markup'] = file_get_contents($this_path . 'index.php');
 */
 function cta_tweettodownload_enqueue_scripts() {
 	global $post;
-	if ( $post->post_type != 'wp-call-to-action' ) {
+	if ( isset($post) && $post->post_type != 'wp-call-to-action' ) {
 		return;
 	}
 	

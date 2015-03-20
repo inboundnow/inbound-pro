@@ -7,7 +7,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: leads, lead capture, lead tracking, lead collection, lead management, crm, crm tools,customer relationship management, contact management, landing page leads, extendable
 Requires at least: 3.8
 Tested up to: 4.1
-Stable Tag: 1.5.9
+Stable Tag: 1.6.2
 
 Track visitor activity, capture and manage incoming leads, and send collected emails to your email service provider.
 
@@ -84,6 +84,18 @@ We built Lead Management as a framework! You can use our extendable framework to
 4. Get Notified on Lead Conversions
 
 == Changelog ==
+
+= 1.6.2 =
+* Debugging release issues with 1.8.1
+* security update
+
+= 1.6.1 =
+* Fixes issue with using Form Name and First Name when no name field is present in Inbound Now Forms
+* Required Fields no longer allow empty spaces as values.
+* Restored way to disable field pre-population
+* Improvement helps with checkbox required field validation
+* For detailed list of changes see [here](https://github.com/inboundnow/leads/issues?q=label%3A1.6.1+is%3Aclosed)
+
 = 1.5.9 =
 * Better required field validation for checkboxes
 

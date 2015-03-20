@@ -1,8 +1,8 @@
 /* Popup CTA Script */
-jQuery(document).ready(function($) {
-	var the_pop_id = "wp_cta_" + jQuery("#cta-popup-id").text();
-	var global_cookie = jQuery.cookie("wp_cta_global");
-	var local_cookie = jQuery.cookie(the_pop_id);
+InboundQuery(document).ready(function($) {
+	var the_pop_id = "wp_cta_" + InboundQuery("#cta-popup-id").text();
+	var global_cookie = _inbound.Utils.readCookie( 'wp_cta_global' );
+	var local_cookie = _inbound.Utils.readCookie( the_pop_id );
 	var c_length = parseInt(wp_cta_popup.c_length);
 	var g_length = parseInt(wp_cta_popup.global_c_length);
 	var page_view_theshold = parseInt(wp_cta_popup.page_views);
@@ -27,26 +27,27 @@ jQuery(document).ready(function($) {
 
 	// Popup rendering
 	if (show_me === true){
-	        $('.popup-modal').magnificPopup({
-	          type: 'inline',
-	          preloader: false
-	          // modal: true // disables close
-	        });
+		InboundQuery('.popup-modal').magnificPopup({
+		  type: 'inline',
+		  preloader: false
+		  // modal: true // disables close
+		});
 
-	       	setTimeout(function() {
-	       			var parent = $('#wp-cta-popup').parent().width();
-	       			$('.wp_cta_popup').attr('data-parent', parent);
-	       			$(".white-popup-block").addClass("cta_wait_hide");
-	                $("#wp-cta-popup").show();
-	                $('.popup-modal').magnificPopup('open');
-	                jQuery.cookie(the_pop_id, true, { path: '/', expires: c_length });
-	                jQuery.cookie("wp_cta_global", true, { path: '/', expires: g_length });
+		setTimeout(function() {
+			var parent = InboundQuery('#wp-cta-popup').parent().width();
+			InboundQuery('.wp_cta_popup').attr('data-parent', parent);
+			InboundQuery(".white-popup-block").addClass("cta_wait_hide");
+			InboundQuery("#wp-cta-popup").show();
+			InboundQuery('.popup-modal').magnificPopup('open');
+			_inbound.Utils.createCookie( the_pop_id, true, c_length );				
+			_inbound.Utils.createCookie( 'wp_cta_global', true, g_length );
 
-	        }, wp_cta_popup.timeout);
-       }
-        $(document).on('click', '.popup-modal-dismiss', function (e) {
-          e.preventDefault();
-          $.magnificPopup.close();
-        });
+		}, wp_cta_popup.timeout);
+    }
+	
+	InboundQuery(document).on('click', '.popup-modal-dismiss', function (e) {
+	  e.preventDefault();
+	  $.magnificPopup.close();
+	});
 
  });

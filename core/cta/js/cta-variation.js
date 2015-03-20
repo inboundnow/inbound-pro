@@ -1,6 +1,8 @@
-/* Record Impressions For Each Variation in CTA Object
-* @param JSON ctas : a json string of {'cta':'vid'}
-*/
+/** 
+ *  Record Impressions For Each Variation in CTA Object
+ *
+ * @param JSON ctas : a json string of {'cta':'vid'}
+ */
 function wp_cta_record_impressions(ctas) {
 
 	/* Add Impressions to loaded varations*/
@@ -22,9 +24,10 @@ function wp_cta_record_impressions(ctas) {
 
 }
 
-/* Adds Tracking Classes to Links and Forms to CTAs
-* @param OBJECT ctas : object containing {'cta','vid'}
-*/
+/**
+ *   Adds Tracking Classes to Links and Forms to CTAs
+ * @param OBJECT ctas : object containing {'cta','vid'}
+ */
 function wp_cta_add_tracking_classes(ctas) {
 	InboundQuery.each( ctas,  function(cta_id,vid) {
 		var vid = ctas[cta_id];
@@ -81,11 +84,11 @@ function wp_cta_add_tracking_classes(ctas) {
 }
 
 function wp_cta_load_variation( cta_id, vid, disable_ajax ) {
+
 	/* Preload wp_cta_loaded storage object into variable */
-	var loaded_ctas = {};
-	var loaded_local_cta = _inbound.totalStorage('wp_cta_loaded');
-	if (loaded_local_cta != null) {
-		var loaded_ctas = JSON.parse(localStorage.getItem('wp_cta_loaded'));
+	var loaded_ctas = _inbound.totalStorage('wp_cta_loaded');
+	if (loaded_ctas === null) {
+		var loaded_ctas = {};
 	}
 
 	/* if variation is pre-defined then immediately load variation*/
@@ -96,7 +99,7 @@ function wp_cta_load_variation( cta_id, vid, disable_ajax ) {
 
 		/* record impression  */
 		loaded_ctas[cta_id] = vid;
-		wp_cta_record_impressions( JSON.stringify(loaded_ctas) );
+		_inbound.totalStorage('wp_cta_loaded', loaded_ctas); // store cta data
 
 		/* add tracking classes */
 		wp_cta_add_tracking_classes( loaded_ctas );
@@ -114,24 +117,23 @@ function wp_cta_load_variation( cta_id, vid, disable_ajax ) {
 	}
 	/* Poll the ajax server for the correct variation to display */
 	else {
-		
+
 		InboundQuery.ajax({
 			 type: "GET",
 			 url: cta_variation.ajax_url,
 			 dataType: "script",
-			 async:false,
+			 async: false,
 			 data : {
 				'action' : 'cta_get_variation',
 				'cta_id' : cta_id
 			 },
 			 success: function(vid) {
-			
 				/* update local storage variable */
 				loaded_ctas[cta_id] = vid.trim();
 
 				/* update local storage object */
 				_inbound.totalStorage('wp_cta_loaded', loaded_ctas); // store cta data
-	
+
 				_inbound.deBugger( 'cta', 'WP CTA Load Object Updated:' + JSON.stringify(loaded_ctas) );
 			}
 		});
@@ -139,26 +141,26 @@ function wp_cta_load_variation( cta_id, vid, disable_ajax ) {
 }
 
 /* reset local storage variable every page load */
-_inbound.totalStorage.deleteItem('wp_cta_loaded'); 
+_inbound.totalStorage.deleteItem('wp_cta_loaded');
 
 InboundQuery(document).ready(function($) {
-	
-	if (cta_variation.cta_id) {
-		wp_cta_load_variation( cta_variation.cta_id , null , cta_variation.disable_ajax );
-	}
 
-	var ctas = localStorage.getItem('wp_cta_loaded');
+	setTimeout( function() {
 
-	if(ctas){
-		var loaded_ctas = JSON.parse(localStorage.getItem('wp_cta_loaded'));
-	} else {
-	  return false;
-	}
+		if (cta_variation.cta_id) {
+			wp_cta_load_variation( cta_variation.cta_id , null , cta_variation.disable_ajax );
+		}
 
-	/* Add Tracking Classes & Reveal CTAs */
-	wp_cta_add_tracking_classes(loaded_ctas);
+		var ctas = _inbound.totalStorage('wp_cta_loaded');
 
-	/* Record Impressions */
-	wp_cta_record_impressions(ctas);
-	
+		if(ctas === null || ctas === "undefined") { return false; }
+
+		/* Add Tracking Classes & Reveal CTAs */
+		wp_cta_add_tracking_classes(ctas);
+
+		/* Record Impressions */
+		wp_cta_record_impressions(ctas);
+
+	} , 1 );
+
 });

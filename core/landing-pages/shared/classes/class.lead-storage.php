@@ -53,7 +53,7 @@ if (!class_exists('LeadStorage')) {
 			if(isset($_POST)){
 				$args = array_merge( $args, $_POST );
 			}
-
+			
 			$lead = array();
 			if(isset($user_ID)){
 				$lead['user_ID'] = $user_ID;
@@ -228,23 +228,18 @@ if (!class_exists('LeadStorage')) {
 		*/
 		static function store_mapped_data($lead, $mappedData){
 			foreach ($mappedData as $key => $value) {
+				
+				/* sanitise inputs */	
+				if (is_string($value)) {					
+					$value = strip_tags( $value , '<p><br><b><span><i><strong>');
+				}				
+			
 				update_post_meta($lead['id'], $key, $value);
 				/* Old convention with wpleads_ prefix */
 				if( !strstr($key,'wpleads_') ) {
 					update_post_meta($lead['id'], 'wpleads_'.$key, $value);
 				}
 
-				/* old convention
-				//print_r($mappedData); wp_die();
-
-				/* Update mappable fields
-				$lead_fields = Leads_Field_Map::build_map_array();
-				foreach ( $lead_fields as $key => $value ) {
-					if (isset($lead_data[$key])) {
-						update_post_meta( $lead_data['lead_id'], $key , $lead_data[ $key ] );
-					}
-				}*/
-				//$mappedData = json_decode(stripslashes($lead['mapped_params']), true );
 			}
 		}
 

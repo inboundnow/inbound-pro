@@ -14,7 +14,9 @@
 	z-index:999999;
 }
 
-
+tr#leads {
+	display: table-row !important;
+}
 #setting-error-tgmpa p:nth-child(2) strong em {
 	margin-top: 5px;
 }

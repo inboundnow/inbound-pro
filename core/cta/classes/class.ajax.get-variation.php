@@ -312,13 +312,11 @@ class CTA_AJAX_Return_Variation {
 		}
 	}
 
-	function setup_variables()
-	{
+	function setup_variables()	{
 		$this->debug = 0;
 
 		/* Make Sure the right GET param is attached to continue */
-		if ( !isset($_GET['cta_id']) || !is_numeric($_GET['cta_id']) )
-		{
+		if ( !isset($_GET['cta_id']) || !is_numeric($_GET['cta_id']) )	{
 
 			echo 0;
 			exit;
@@ -329,6 +327,7 @@ class CTA_AJAX_Return_Variation {
 		}
 
 		$this->variations = $this->get_post_meta('wp-cta-variations');
+
 		$this->variations_array = json_decode( $this->variations , true );
 		$this->variation_marker = $this->get_post_meta('_cta_ab_variation_marker');
 
@@ -336,16 +335,8 @@ class CTA_AJAX_Return_Variation {
 			$this->variation_marker = 0;
 		}
 
-		if ($this->variations_array)
-		{
-			foreach ($this->variations_array as $vid => $variation )
-			{
-
-				
-					
-			
-
-
+		if ($this->variations_array) {
+			foreach ($this->variations_array as $vid => $variation ){				
 				if (!isset($variation['status']) || $variation['status'] == 'active'  ){
 					$this->live_variations[] = $vid;
 				}
@@ -353,39 +344,36 @@ class CTA_AJAX_Return_Variation {
 		}
 	}
 
-	function return_variation()
-	{
-		if (!isset($this->live_variations))
-		{
+	/** 
+	*  Return variations
+	*/
+	function return_variation() {
+
+		if (!isset($this->live_variations))	{
 			echo 0;
 			exit;
 		}
 
-		if (count($this->live_variations)==1)
-		{
+		if (count($this->live_variations)==1) {
 			echo $this->live_variations[0];
 			exit;
 		}
 
-		if ($this->debug)
-		{
+		if ($this->debug) {
 			print_r($this->live_variations);
 			echo '<br>';
 		}
-
 
 		$keys_as_values = array_flip($this->live_variations);
 		reset($keys_as_values);
 
 
 
-		if (!isset($keys_as_values[$this->variation_marker]))
-		{
+		if (!isset($keys_as_values[$this->variation_marker])){
 			$this->variation_marker = reset($keys_as_values);
 		}
 
-		if ($this->debug)
-		{
+		if ($this->debug){
 			echo "Marker Start:".$this->variation_marker;
 			echo "<br>";
 			echo "This Variation:".$keys_as_values[$this->variation_marker];

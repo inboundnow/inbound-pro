@@ -702,7 +702,7 @@ if (!class_exists('Inbound_Menus_Adminbar')) {
 			if(!is_user_logged_in()){
 				return;
 			}
-			wp_enqueue_style( 'inbound_menu' ,	INBOUND_PRO_URLPATH . 'assets/css/admin/wpadminbar.css' );		
+			wp_enqueue_style( 'inbound_menu' ,	INBOUDNOW_SHARED_URLPATH . 'assets/css/admin/wpadminbar.css' );		
 		}
 	}
 

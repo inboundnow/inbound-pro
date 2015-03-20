@@ -1600,8 +1600,8 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 
 			}
 
-			foreach ( self::$mapped_fields as $field)
-			{
+			foreach ( self::$mapped_fields as $field) {
+			
 				$id = strtolower($field['key']);
 				echo '<tr class="'.$id.'">
 					<th class="wpleads-th" ><label for="'.$id.'">'.$field['label'].':</label></th>

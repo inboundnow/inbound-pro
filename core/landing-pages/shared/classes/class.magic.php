@@ -9,6 +9,7 @@
 if ( ! class_exists( 'Inbound_Magic' ) ) {
 
 	class Inbound_Magic {
+		static $end_buffer_fired;
 
 		static function init() {
 			/* determines if in ajax mode */
@@ -18,6 +19,8 @@ if ( ! class_exists( 'Inbound_Magic' ) ) {
 			} else {
 				add_action( 'wp_enqueue_scripts', array( __CLASS__ , 'start_buffer'), -9999 );
 				add_action( 'wp_head', array( __CLASS__ , 'end_buffer'), -9999 );
+				/* add_action( 'wp_footer', array( __CLASS__ , 'end_buffer'), -9999 ); */
+
 			}
 
 		}
@@ -31,19 +34,26 @@ if ( ! class_exists( 'Inbound_Magic' ) ) {
 		 * copy of `jQuery`, so that dumb themes and plugins can't hurt it
 		 */
 		public static function buffer_callback( $content ) {
+
 			$patternFrontEnd = "#wp-includes/js/jquery/jquery\.js\?ver=([^']+)'></script>#";
+			$patternFrontTwo = "#wp-includes/js/jquery/jquery\.js'></script>#";
 			$externalPattern = "#/jquery.min.js'></script>#";
 			$patternAdmin = "#load-scripts.php\?([^']+)'></script>#";
-			$content = "<script>/* before anything */</script>" . $content;
+			$content = "<!-- /* This Site's marketing is powered by InboundNow.com */ -->" . $content;
 			//window.onerror=function(o,n,l){return console.log(o),console.log(n),console.log(l),!0};
 
 			if ( preg_match( $patternFrontEnd, $content ) ) {
 				//InboundQuery = (typeof jQuery !== "undefined") ? jQuery : false;
 				$content = preg_replace( $patternFrontEnd, '$0<script>InboundQuery = jQuery;</script>', $content );
 				return $content;
-			}
-			/* match external google lib */
-			if ( preg_match( $externalPattern, $content ) ) {
+
+			} else if ( preg_match( $patternFrontTwo, $content ) ) {
+				//InboundQuery = (typeof jQuery !== "undefined") ? jQuery : false;
+			$content = preg_replace( $patternFrontTwo, '$0<script>InboundQuery = jQuery;</script>', $content );
+				return $content;
+
+			} else if ( preg_match( $externalPattern, $content ) ) {
+				/* match external google lib */
 				$content = preg_replace( $externalPattern, '$0<script>InboundQuery = jQuery;</script>', $content );
 				return $content;
 			}
@@ -53,16 +63,24 @@ if ( ! class_exists( 'Inbound_Magic' ) ) {
 				return $content;
 			}
 
+			//return $content;
+
 		}
 		/**
 		 * Flushes the buffer
 		 */
 		public static function end_buffer() {
+			if (self::$end_buffer_fired) {
+				return;
+			}
+
 			ob_end_flush();
+
+			self::$end_buffer_fired = true;
 		}
 
 	}
 
-Inbound_Magic::init();
+	Inbound_Magic::init();
 
 }

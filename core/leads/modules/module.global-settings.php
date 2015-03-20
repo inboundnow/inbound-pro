@@ -76,7 +76,7 @@ function wpleads_get_global_settings() {
 		array(
 			'id'  => 'inbound_compatibility_mode',
 			'label' => __('Turn on compatibility mode' , 'leads' ),
-			'description' => __("This option turns on compatibility mode for the inbound now plugins. This is typically used if you are experiencing bugs caused by third party plugin conflicts." , 'leads' ),
+			'description' => __("This option turns on compatibility mode for the Inbound Now plugins. This is typically used if you are experiencing bugs caused by third party plugin conflicts." , 'leads' ),
 			'type'  => 'radio',
 			'default'  => '0',
 			'options' => array('1'=>'On','0'=>'Off')
