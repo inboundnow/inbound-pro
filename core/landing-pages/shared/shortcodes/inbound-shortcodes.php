@@ -4,19 +4,21 @@
 //=============================================
 // Define constants
 //=============================================
-if (!defined('INBOUND_FORMS'))
+if (!defined('INBOUND_FORMS')) {
 	define('INBOUND_FORMS', plugin_dir_url(__FILE__));
+}
 
-if (!defined('INBOUND_FORMS_PATH'))
+if (!defined('INBOUND_FORMS_PATH')) {
 	define('INBOUND_FORMS_PATH', plugin_dir_path(__FILE__));
+}
 
-if (!defined('INBOUND_FORMS_BASENAME'))
+if (!defined('INBOUND_FORMS_BASENAME')) {
 	define('INBOUND_FORMS_BASENAME', plugin_basename(__FILE__));
+}
 
-if (!defined('INBOUND_FORMS_ADMIN'))
+if (!defined('INBOUND_FORMS_ADMIN')) {
 	define('INBOUND_FORMS_ADMIN', get_bloginfo('url') . "/wp-admin");
-
-
+}
 
 
 

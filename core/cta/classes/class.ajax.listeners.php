@@ -18,15 +18,12 @@ class CTA_Ajax_Listeners {
 	public static function load_hooks() {
 		
 		/* Add listener to clear "all" CTA statistics */
-		add_action( 'wp_ajax_nopriv_wp_cta_clear_all_cta_stats', array( __CLASS__ , 'clear_all_stats') );
 		add_action( 'wp_ajax_wp_cta_clear_all_cta_stats', array( __CLASS__ , 'clear_all_stats') );
 		
 		/* Adds listener to clear CTA stats */
-		add_action( 'wp_ajax_nopriv_wp_cta_clear_stats_action', array( __CLASS__ , 'clear_stats' ) );
 		add_action( 'wp_ajax_wp_cta_clear_stats_action', array( __CLASS__ , 'clear_stats' ) );
 
 		/* Adds listener to clear CTA Variation stats	*/
-		add_action( 'wp_ajax_nopriv_wp_cta_clear_variation_stats', array( __CLASS__ , 'clear_variation_stats' ) );
 		add_action( 'wp_ajax_wp_cta_clear_variation_stats', array( __CLASS__ , 'clear_variation_stats' ) );
 		
 		/* Adds listener to record CTA Variation impression */
@@ -38,12 +35,10 @@ class CTA_Ajax_Listeners {
 		add_action('wp_ajax_nopriv_wp_cta_record_conversion', array( __CLASS__ , 'record_conversion' ) );
 
 		/* Adds listener to save CTA post meta */
-		add_action( 'wp_ajax_nopriv_wp_wp_call_to_action_meta_save', array( __CLASS__ , 'save_meta' ) );
 		add_action( 'wp_ajax_wp_wp_call_to_action_meta_save', array( __CLASS__ , 'save_meta' ) );
 		
 		/* Adds listener to serve next cta variation in line & update markers */
 		add_action( 'wp_ajax_nopriv_cta_get_variation', array( __CLASS__ , 'serve_varition' ) );
-		add_action( 'wp_ajax_cta_get_variation', array( __CLASS__ , 'serve_varition' ) );
 	}
 	
 	/**
@@ -169,7 +164,7 @@ class CTA_Ajax_Listeners {
 
 		/* Make Sure the right GET param is attached to continue */
 		if ( !isset($_GET['cta_id']) || !is_numeric($_GET['cta_id']) ) {
-			echo 0;
+			echo 'x';
 			exit;
 		} else 	{
 			$cta_id = $_GET['cta_id'];
@@ -194,7 +189,7 @@ class CTA_Ajax_Listeners {
 		
 		/* if no live variation return 0 */
 		if (!$live_variations) {
-			echo 0;
+			echo 'x';
 			exit;
 		}
 

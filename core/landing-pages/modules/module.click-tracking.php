@@ -3,47 +3,60 @@ add_action('wp_footer', 'lp_click_callback');
 
 function lp_click_callback() {
 	global $post;
-	if (!isset($post))
+	
+	if (!isset($post)) {
 		return;
+	}
+	
 	$id = $post->ID;
+	
 	if(get_post_type( $id ) == 'landing-page'){
-	$variation = (isset($_GET['lp-variation-id'])) ? $_GET['lp-variation-id'] : 0;
-	$variation = preg_replace('/[^-a-zA-Z0-9_]/', '', $variation);
-		// Footer script for link rewrites ?>
-	<script type="text/javascript">
-		InboundQuery(document).ready(function($) {
-		var lead_cpt_id = _inbound.Utils.readCookie("wp_lead_id");
-	    var lead_email = _inbound.Utils.readCookie("wp_lead_email");
-	    var lead_unique_key = _inbound.Utils.readCookie("wp_lead_uid");
+	
+		$variation = (isset($_GET['lp-variation-id'])) ? $_GET['lp-variation-id'] : 0;
+		$variation = preg_replace('/[^-a-zA-Z0-9_]/', '', $variation);
+		// Footer script for link rewrites 
+		?>
+		<script type="text/javascript">
+			InboundQuery(document).ready(function($) {
+			
+				var lead_cpt_id = _inbound.Utils.readCookie("wp_lead_id");
+				var lead_email = _inbound.Utils.readCookie("wp_lead_email");
+				var lead_unique_key = _inbound.Utils.readCookie("wp_lead_uid");
 
-		if (typeof (lead_cpt_id) != "undefined" && lead_cpt_id !== null) {
-        string = "&wpl_id=" + lead_cpt_id + "&l_type=wplid";
-	    } else if (typeof (lead_email) != "undefined" && lead_email !== null && lead_email !== "") {
-	        string = "&wpl_id=" + lead_email + "&l_type=wplemail";
-	    } else if (typeof (lead_unique_key) != "undefined" && lead_unique_key !== null && lead_unique_key !== "") {
-	        string = "&wpl_id=" + lead_unique_key + "&l_type=wpluid";
-	    } else {
-	        string = "";
-	    }
-		var external = RegExp('^((f|ht)tps?:)?//(?!' + location.host + ')');
-		InboundQuery('.link-click-tracking a, .inbound-special-class').not("#wpadminbar a").each(function () {
-			InboundQuery(this).attr("data-event-id", '<?php echo $id; ?>').attr("data-cta-varation", '<?php echo $variation;?>');
-		        var orignalurl = InboundQuery(this).attr("href");
-		        //InboundQuery("a[href*='http://']:not([href*='"+window.location.hostname+"'])"); // rewrite external links
-		        var link_is = external.test(orignalurl);
-		        if (link_is === true) {
-		            base_url = window.location.origin;
-		        } else {
-		            base_url = orignalurl;
-		        }
-		        var cta_variation = "&wp-cta-v=" + InboundQuery(this).attr("data-cta-varation");
-		        var this_id = InboundQuery(this).attr("data-event-id");
-		        var newurl = base_url + "?lp_redirect_" + this_id + "=" + orignalurl + cta_variation + string;
-		        InboundQuery(this).attr("href", newurl);
-		    });
-		});
+				if (typeof (lead_cpt_id) != "undefined" && lead_cpt_id !== null) {
+					string = "&wpl_id=" + lead_cpt_id + "&l_type=wplid";
+				} else if (typeof (lead_email) != "undefined" && lead_email !== null && lead_email !== "") {
+					string = "&wpl_id=" + lead_email + "&l_type=wplemail";
+				} else if (typeof (lead_unique_key) != "undefined" && lead_unique_key !== null && lead_unique_key !== "") {
+					string = "&wpl_id=" + lead_unique_key + "&l_type=wpluid";
+				} else {
+					string = "";
+				}
+				
+				var external = RegExp('^((f|ht)tps?:)?//(?!' + location.host + ')');
+				InboundQuery('.link-click-tracking a, .inbound-special-class').not("#wpadminbar a").each(function () {
+					InboundQuery(this).attr("data-event-id", '<?php echo $id; ?>').attr("data-cta-varation", '<?php echo $variation;?>');
+				   
+				   var orignalurl = InboundQuery(this).attr("href");
+				   
+				   //InboundQuery("a[href*='http://']:not([href*='"+window.location.hostname+"'])"); // rewrite external links
+					var link_is = external.test(orignalurl);
+					
+					if (link_is === true) {
+						base_url = window.location.origin;
+					} else {
+						base_url = orignalurl;
+					}
+				   
+					var cta_variation = "&wp-cta-v=" + InboundQuery(this).attr("data-cta-varation");
+					var this_id = InboundQuery(this).attr("data-event-id");
+					var newurl = base_url + "?lp_redirect_" + this_id + "=" + encodeURIComponent( orignalurl ) + cta_variation + string;
+					InboundQuery(this).attr("href", newurl);
+				});
+			});
 		</script>
-<?php }
+	<?php 
+	}
 }
 
 // Register CTA Clicks
@@ -110,6 +123,7 @@ function lp_click_track_redirect() {
 			$link = preg_replace('/(?<=wpl_id)(.*)(?=&)/s', '', $link); // clean url
 			$link = preg_replace('/&wpl_id&l_type=(\D*)/', '', $link); // clean url2
 			$link = preg_replace('/&wp-cta-v=(\d*)/', '', $link); // clean url3
+			$link = urldecode( $link );
 			// Redirect
 			header("HTTP/1.1 302 Temporary Redirect");
 			header("Location:" . $link);
@@ -197,4 +211,3 @@ function lp_store_click_data_to_lead($landing_page_id, $lead_ID, $lp_variation) 
 	}
 }
 
-?>

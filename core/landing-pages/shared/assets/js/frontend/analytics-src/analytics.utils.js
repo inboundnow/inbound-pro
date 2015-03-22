@@ -382,7 +382,7 @@ var _inboundUtils = (function(_inbound) {
                 result = localStorage.getItem(mod) === mod.toString();
                 localStorage.removeItem(mod);
                 return result;
-              } catch (_error) {}
+              } catch (_error) {} 
             };
              */
         },

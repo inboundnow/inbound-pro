@@ -128,8 +128,8 @@ if (!class_exists('Inbound_Forms')) {
 				$form = '<div id="inbound-form-wrapper" class="">';
 				$form .= '<form class="inbound-now-form wpl-track-me inbound-track" method="post" id="'.$form_id.'" action="" style="'.$form_width.'">';
 				$main_layout = ($form_layout != "") ? 'inbound-'.$form_layout : 'inbound-normal';
-				for($i = 0; $i < count($matches[0]); $i++)
-				{
+				
+				for($i = 0; $i < count($matches[0]); $i++)	{
 
 					$label = (isset($matches[3][$i]['label'])) ? $matches[3][$i]['label'] : '';
 
@@ -346,7 +346,7 @@ if (!class_exists('Inbound_Forms')) {
 
 						$form .= '<input type="hidden" name="stop_dirty_subs" class="stop_dirty_subs" value="">';
 
-					} else {
+					} else if ($type === 'text')  {
 						$hidden_param = (isset($matches[3][$i]['dynamic'])) ? $matches[3][$i]['dynamic'] : '';
 						$fill_value = (isset($matches[3][$i]['default'])) ? $matches[3][$i]['default'] : '';
 						$dynamic_value = (isset($_GET[$hidden_param])) ? $_GET[$hidden_param] : '';
@@ -356,6 +356,8 @@ if (!class_exists('Inbound_Forms')) {
 						
 						$input_type = ( $email_input ) ? 'email' : 'text';
 						$form .=	'<input type="'.$input_type .'" class="inbound-input inbound-input-text '.$formatted_label . $input_classes.' '.$field_input_class.'" name="'.$field_name.'" '.$form_placeholder.' id="'.$field_name.'" value="'.$fill_value.'" '.$data_mapping_attr.$et_output.' '.$req.'/>';
+					} else {
+						do_action('inbound_form_custom_field' , $matches[3][$i] );
 					}
 
 					if ($show_labels && $form_labels === "bottom" && $type != "radio") {

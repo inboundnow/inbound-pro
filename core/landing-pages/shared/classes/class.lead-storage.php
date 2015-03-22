@@ -53,7 +53,7 @@ if (!class_exists('LeadStorage')) {
 			if(isset($_POST)){
 				$args = array_merge( $args, $_POST );
 			}
-			
+
 			$lead = array();
 			if(isset($user_ID)){
 				$lead['user_ID'] = $user_ID;
@@ -228,12 +228,12 @@ if (!class_exists('LeadStorage')) {
 		*/
 		static function store_mapped_data($lead, $mappedData){
 			foreach ($mappedData as $key => $value) {
-				
-				/* sanitise inputs */	
-				if (is_string($value)) {					
-					$value = strip_tags( $value , '<p><br><b><span><i><strong>');
-				}				
-			
+
+				/* sanitise inputs */
+				if (is_string($value)) {
+					$value = strip_tags( $value );
+				}
+
 				update_post_meta($lead['id'], $key, $value);
 				/* Old convention with wpleads_ prefix */
 				if( !strstr($key,'wpleads_') ) {
@@ -271,7 +271,7 @@ if (!class_exists('LeadStorage')) {
 				$search_data = json_encode($search_data);
 				update_post_meta($lead['id'], 'wpleads_search_data', $search_data); // Store search object
 		}
-		
+
 		/**
 		*		updates conversion data object
 		*/
@@ -628,12 +628,12 @@ if (!function_exists('inbound_store_lead')) {
 		} else {
 			$Leads->set_mode('ajax');
 		}
-		
+
 		/* prepare lead lists as array */
 		if (isset($args['lead_lists']) && !is_array($args['lead_lists'])) {
-			$args['lead_lists'] = explode(',',$args['lead_lists']); 
-		} 
-		
+			$args['lead_lists'] = explode(',',$args['lead_lists']);
+		}
+
 		$lead_id = $Leads::inbound_lead_store( $args );
 
 		return $lead_id;

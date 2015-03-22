@@ -18,8 +18,14 @@ if ( ! class_exists( 'Inbound_Magic' ) ) {
 				add_action( 'admin_head', array( __CLASS__ , 'end_buffer'), -9999 );
 			} else {
 				add_action( 'wp_enqueue_scripts', array( __CLASS__ , 'start_buffer'), -9999 );
-				add_action( 'wp_head', array( __CLASS__ , 'end_buffer'), -9999 );
-				/* add_action( 'wp_footer', array( __CLASS__ , 'end_buffer'), -9999 ); */
+				include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+				// check for plugin using plugin name
+				if ( is_plugin_active( 'wordpress-seo/wp-seo.php' ) ) {
+				  //plugin is activated
+				  add_action( 'wp_footer', array( __CLASS__ , 'end_buffer'), -9999 );
+				} else {
+				  add_action( 'wp_head', array( __CLASS__ , 'end_buffer'), -9999 );
+				}
 
 			}
 
@@ -37,6 +43,7 @@ if ( ! class_exists( 'Inbound_Magic' ) ) {
 
 			$patternFrontEnd = "#wp-includes/js/jquery/jquery\.js\?ver=([^']+)'></script>#";
 			$patternFrontTwo = "#wp-includes/js/jquery/jquery\.js'></script>#";
+			$patternFrontThree = "#jquery\.min\.js\?ver\=([^']+)'></script>#";
 			$externalPattern = "#/jquery.min.js'></script>#";
 			$patternAdmin = "#load-scripts.php\?([^']+)'></script>#";
 			$content = "<!-- /* This Site's marketing is powered by InboundNow.com */ -->" . $content;
@@ -49,10 +56,15 @@ if ( ! class_exists( 'Inbound_Magic' ) ) {
 
 			} else if ( preg_match( $patternFrontTwo, $content ) ) {
 				//InboundQuery = (typeof jQuery !== "undefined") ? jQuery : false;
-			$content = preg_replace( $patternFrontTwo, '$0<script>InboundQuery = jQuery;</script>', $content );
+			    $content = preg_replace( $patternFrontTwo, '$0<script>InboundQuery = jQuery;</script>', $content );
 				return $content;
 
-			} else if ( preg_match( $externalPattern, $content ) ) {
+			} else if ( preg_match( $patternFrontThree, $content ) ) {
+				//InboundQuery = (typeof jQuery !== "undefined") ? jQuery : false;
+		    	$content = preg_replace( $patternFrontThree, '$0<script>InboundQuery = jQuery;</script>', $content );
+				return $content;
+
+			}  else if ( preg_match( $externalPattern, $content ) ) {
 				/* match external google lib */
 				$content = preg_replace( $externalPattern, '$0<script>InboundQuery = jQuery;</script>', $content );
 				return $content;
