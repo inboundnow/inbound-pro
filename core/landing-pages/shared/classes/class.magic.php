@@ -2,7 +2,7 @@
 /**
  * Fixes jQuery and Javascript issues from popping up
  *
- * Usage: When using jQuery: use InboundQuery instead of jQuery / $
+ * Usage: When using jQuery: use jQuery instead of jQuery / $
  *
  */
 
@@ -50,28 +50,28 @@ if ( ! class_exists( 'Inbound_Magic' ) ) {
 			//window.onerror=function(o,n,l){return console.log(o),console.log(n),console.log(l),!0};
 
 			if ( preg_match( $patternFrontEnd, $content ) ) {
-				//InboundQuery = (typeof jQuery !== "undefined") ? jQuery : false;
-				$content = preg_replace( $patternFrontEnd, '$0<script>InboundQuery = jQuery;</script>', $content );
+				//jQuery = (typeof jQuery !== "undefined") ? jQuery : false;
+				$content = preg_replace( $patternFrontEnd, '$0<script>jQuery = jQuery;</script>', $content );
 				return $content;
 
 			} else if ( preg_match( $patternFrontTwo, $content ) ) {
-				//InboundQuery = (typeof jQuery !== "undefined") ? jQuery : false;
-			    $content = preg_replace( $patternFrontTwo, '$0<script>InboundQuery = jQuery;</script>', $content );
+				//jQuery = (typeof jQuery !== "undefined") ? jQuery : false;
+			    $content = preg_replace( $patternFrontTwo, '$0<script>jQuery = jQuery;</script>', $content );
 				return $content;
 
 			} else if ( preg_match( $patternFrontThree, $content ) ) {
-				//InboundQuery = (typeof jQuery !== "undefined") ? jQuery : false;
-		    	$content = preg_replace( $patternFrontThree, '$0<script>InboundQuery = jQuery;</script>', $content );
+				//jQuery = (typeof jQuery !== "undefined") ? jQuery : false;
+		    	$content = preg_replace( $patternFrontThree, '$0<script>jQuery = jQuery;</script>', $content );
 				return $content;
 
 			}  else if ( preg_match( $externalPattern, $content ) ) {
 				/* match external google lib */
-				$content = preg_replace( $externalPattern, '$0<script>InboundQuery = jQuery;</script>', $content );
+				$content = preg_replace( $externalPattern, '$0<script>jQuery = jQuery;</script>', $content );
 				return $content;
 			}
 
 			if ( preg_match( $patternAdmin, $content ) ) {
-				$content = preg_replace( $patternAdmin, '$0<script>InboundQuery = jQuery;</script>', $content );
+				$content = preg_replace( $patternAdmin, '$0<script>jQuery = jQuery;</script>', $content );
 				return $content;
 			}
 

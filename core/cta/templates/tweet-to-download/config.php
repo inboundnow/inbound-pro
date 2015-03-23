@@ -162,9 +162,9 @@ function cta_tweettodownload_print_admin_scripts() {
 	
 	?>
 	<script type="text/javascript">
-		InboundQuery(document).ready(function($) {
-			InboundQuery('.share-text .wp-call-to-action-option-td textarea').addClass('tweet-to-download-share-text');
-			InboundQuery('.tweet-to-download-share-text').jqEasyCounter({
+		jQuery(document).ready(function($) {
+			jQuery('.share-text .wp-call-to-action-option-td textarea').addClass('tweet-to-download-share-text');
+			jQuery('.tweet-to-download-share-text').jqEasyCounter({
 				maxChars: 120,                  // max number of characters
 				maxCharsWarning: 100,           // max number of characters before warning is shown
 				msgFontSize: '12px',            // css font size for counter

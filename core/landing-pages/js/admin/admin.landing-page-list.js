@@ -1,86 +1,86 @@
-InboundQuery(document).ready(function($) {
+jQuery(document).ready(function($) {
    // Code for landing page list view
-	var cats = InboundQuery("#landing_page_category option").length;
+	var cats = jQuery("#landing_page_category option").length;
 	if ( cats === 0 ){
-		InboundQuery("#landing_page_category").hide();
+		jQuery("#landing_page_category").hide();
 	}
 
-    InboundQuery('.lp-letter').each(function(){
-        var draft = InboundQuery(this).text();
+    jQuery('.lp-letter').each(function(){
+        var draft = jQuery(this).text();
          if ( draft === "" ){
-      InboundQuery(this).parent().parent().hide();
+      jQuery(this).parent().parent().hide();
       }
     });
 
-    InboundQuery(".lp-impress-num").each(function(){
-    var empty = InboundQuery(this).text();
+    jQuery(".lp-impress-num").each(function(){
+    var empty = jQuery(this).text();
      if ( empty === "" || empty === "0" ){
-      InboundQuery(this).parent().parent().find(".lp-letter").css("color", "#ccc");
-      InboundQuery(this).parent().html("<span class='lp-no-stats'>no stats yet</span>");
+      jQuery(this).parent().parent().find(".lp-letter").css("color", "#ccc");
+      jQuery(this).parent().html("<span class='lp-no-stats'>no stats yet</span>");
       }
     });
     /* List tour */
 	 var tourbutton = '<a class="" id="lp-tour" style="font-size:13px;">Need help? Take the tour</a>';
-    InboundQuery(tourbutton).appendTo("h2:eq(0)");
-    InboundQuery("body").on('click', '#lp-tour', function () {
-        var tour = InboundQuery("#lp-tour-style").length;
+    jQuery(tourbutton).appendTo("h2:eq(0)");
+    jQuery("body").on('click', '#lp-tour', function () {
+        var tour = jQuery("#lp-tour-style").length;
          if ( tour === 0 ) {
-            InboundQuery('head').append("<link rel='stylesheet' id='lp-tour-style' href='/wp-content/plugins/landing-pages/css/admin-tour.css' type='text/css' /><script type='text/javascript' src='/wp-content/plugins/landing-pages/js/admin/tour/tour.post-list.js'></script><script type='text/javascript' src='/wp-content/plugins/landing-pages/js/admin/intro.js'></script>");
+            jQuery('head').append("<link rel='stylesheet' id='lp-tour-style' href='/wp-content/plugins/landing-pages/css/admin-tour.css' type='text/css' /><script type='text/javascript' src='/wp-content/plugins/landing-pages/js/admin/tour/tour.post-list.js'></script><script type='text/javascript' src='/wp-content/plugins/landing-pages/js/admin/intro.js'></script>");
           }
         setTimeout(function() {
                 introJs().start(); // start tour
         }, 300);
 
     });
-	/*InboundQuery(".lp-varation-stat-ul").each(function(){
-    var length = InboundQuery(this).find("li").length;
+	/*jQuery(".lp-varation-stat-ul").each(function(){
+    var length = jQuery(this).find("li").length;
      if ( length < 3 ){
-      InboundQuery(this).find("li").first().css("padding-top", "18px");
+      jQuery(this).find("li").first().css("padding-top", "18px");
       }
     });
 */
-InboundQuery("body").on('mouseenter', 'tr.type-landing-page', function () {
-    InboundQuery(this).find(".no-stats-yet").show();
+jQuery("body").on('mouseenter', 'tr.type-landing-page', function () {
+    jQuery(this).find(".no-stats-yet").show();
     });
-InboundQuery("body").on('mouseleave', 'tr.type-landing-page', function () {
-    InboundQuery(this).find(".no-stats-yet").hide();
+jQuery("body").on('mouseleave', 'tr.type-landing-page', function () {
+    jQuery(this).find(".no-stats-yet").hide();
     });
-      InboundQuery(".variation-winner-is").each(function(){
-    var target = InboundQuery(this).text();
-      InboundQuery("." + target).addClass("winner-lp").attr("data-lp", "Current Winner");
+      jQuery(".variation-winner-is").each(function(){
+    var target = jQuery(this).text();
+      jQuery("." + target).addClass("winner-lp").attr("data-lp", "Current Winner");
     });
 
     var hidestats = "<span id='hide-stats'>(Hide Stats)</span><span class='show-stats show-stats-top'>Show Stats</span>";
-    InboundQuery("#stats").append(hidestats);
+    jQuery("#stats").append(hidestats);
 
-    InboundQuery("body").on('click', '#hide-stats', function () {
-      InboundQuery(".lp-varation-stat-ul").each(function(){
-        InboundQuery(this).hide();
+    jQuery("body").on('click', '#hide-stats', function () {
+      jQuery(".lp-varation-stat-ul").each(function(){
+        jQuery(this).hide();
     });
-      InboundQuery(".show-stats").show();
-      InboundQuery("#hide-stats").hide();
-    });
-
-    InboundQuery("body").on('click', '.show-stats-top', function () {
-      InboundQuery(".lp-varation-stat-ul").each(function(){
-        InboundQuery(this).show();
-    });
-      InboundQuery(".show-stats").hide();
-      InboundQuery("#hide-stats").show();
+      jQuery(".show-stats").show();
+      jQuery("#hide-stats").hide();
     });
 
-    InboundQuery("body").on('click', '.show-stats', function () {
-      InboundQuery(this).hide();
-      InboundQuery(this).parent().find(".lp-varation-stat-ul").show();
+    jQuery("body").on('click', '.show-stats-top', function () {
+      jQuery(".lp-varation-stat-ul").each(function(){
+        jQuery(this).show();
+    });
+      jQuery(".show-stats").hide();
+      jQuery("#hide-stats").show();
     });
 
-	InboundQuery('.lp-letter, .cr-number, .qtip').on('mouseenter', function(event) {
+    jQuery("body").on('click', '.show-stats', function () {
+      jQuery(this).hide();
+      jQuery(this).parent().find(".lp-varation-stat-ul").show();
+    });
+
+	jQuery('.lp-letter, .cr-number, .qtip').on('mouseenter', function(event) {
 	  // Bind the qTip within the event handler
-	  var text_in_tip = InboundQuery(this).attr("data-notes");
-	  var letter = InboundQuery(this).attr("data-letter");
-	  var status = "<span class='lp-paused'>" + InboundQuery(this).parent().attr("rel") + "</span>";
-	  var winner = "<span class='lp-win'>" + InboundQuery(this).parent().attr("data-lp") + "</span>";
-	  InboundQuery(this).qtip({
+	  var text_in_tip = jQuery(this).attr("data-notes");
+	  var letter = jQuery(this).attr("data-letter");
+	  var status = "<span class='lp-paused'>" + jQuery(this).parent().attr("rel") + "</span>";
+	  var winner = "<span class='lp-win'>" + jQuery(this).parent().attr("data-lp") + "</span>";
+	  jQuery(this).qtip({
 		overwrite: false, // Make sure the tooltip won't be overridden once created
 		  content: {
 			  text: text_in_tip,
@@ -91,7 +91,7 @@ InboundQuery("body").on('mouseleave', 'tr.type-landing-page', function () {
 		position: {
 			  my: 'bottom center', // Use the corner...
 			  at: 'top center', // ...and opposite corner
-			  viewport: InboundQuery(window)
+			  viewport: jQuery(window)
 			},
 		style: {
 			  classes: 'qtip-shadow qtip-jtools',
@@ -106,21 +106,21 @@ InboundQuery("body").on('mouseleave', 'tr.type-landing-page', function () {
 	  }, event); // Pass through our original event to qTip
 	})
 
-	InboundQuery('.lp-letter').on('mouseleave', function(event) {
+	jQuery('.lp-letter').on('mouseleave', function(event) {
 
 
 	});
 
-	InboundQuery("body").on("click", ".lp-pop-close", function(event) {
-		InboundQuery(this).parent().parent().parent().hide();
+	jQuery("body").on("click", ".lp-pop-close", function(event) {
+		jQuery(this).parent().parent().parent().hide();
 	});
 
-	InboundQuery("body").on("click", ".lp-pop-preview a", function(event) {
-		InboundQuery(this).parent().parent().parent().parent().hide();
+	jQuery("body").on("click", ".lp-pop-preview a", function(event) {
+		jQuery(this).parent().parent().parent().parent().hide();
 	});
 
 	 // Fix Thickbox width/hieght
-    InboundQuery(function($) {
+    jQuery(function($) {
         tb_position = function() {
             var tbWindow = $('#TB_window');
             var width = $(window).width();
@@ -146,7 +146,7 @@ InboundQuery("body").on('mouseleave', 'tr.type-landing-page', function () {
 
         };
 
-        InboundQuery('a.thickbox').click(function(){
+        jQuery('a.thickbox').click(function(){
             if ( typeof tinyMCE != 'undefined' &&  tinyMCE.activeEditor ) {
                 tinyMCE.get('content').focus();
                 tinyMCE.activeEditor.windowManager.bookmark = tinyMCE.activeEditor.selection.getBookmark('simple');

@@ -17,7 +17,7 @@ function lp_click_callback() {
 		// Footer script for link rewrites 
 		?>
 		<script type="text/javascript">
-			InboundQuery(document).ready(function($) {
+			jQuery(document).ready(function($) {
 			
 				var lead_cpt_id = _inbound.Utils.readCookie("wp_lead_id");
 				var lead_email = _inbound.Utils.readCookie("wp_lead_email");
@@ -34,12 +34,12 @@ function lp_click_callback() {
 				}
 				
 				var external = RegExp('^((f|ht)tps?:)?//(?!' + location.host + ')');
-				InboundQuery('.link-click-tracking a, .inbound-special-class').not("#wpadminbar a").each(function () {
-					InboundQuery(this).attr("data-event-id", '<?php echo $id; ?>').attr("data-cta-varation", '<?php echo $variation;?>');
+				jQuery('.link-click-tracking a, .inbound-special-class').not("#wpadminbar a").each(function () {
+					jQuery(this).attr("data-event-id", '<?php echo $id; ?>').attr("data-cta-varation", '<?php echo $variation;?>');
 				   
-				   var orignalurl = InboundQuery(this).attr("href");
+				   var orignalurl = jQuery(this).attr("href");
 				   
-				   //InboundQuery("a[href*='http://']:not([href*='"+window.location.hostname+"'])"); // rewrite external links
+				   //jQuery("a[href*='http://']:not([href*='"+window.location.hostname+"'])"); // rewrite external links
 					var link_is = external.test(orignalurl);
 					
 					if (link_is === true) {
@@ -48,10 +48,10 @@ function lp_click_callback() {
 						base_url = orignalurl;
 					}
 				   
-					var cta_variation = "&wp-cta-v=" + InboundQuery(this).attr("data-cta-varation");
-					var this_id = InboundQuery(this).attr("data-event-id");
+					var cta_variation = "&wp-cta-v=" + jQuery(this).attr("data-cta-varation");
+					var this_id = jQuery(this).attr("data-event-id");
 					var newurl = base_url + "?lp_redirect_" + this_id + "=" + encodeURIComponent( orignalurl ) + cta_variation + string;
-					InboundQuery(this).attr("href", newurl);
+					jQuery(this).attr("href", newurl);
 				});
 			});
 		</script>

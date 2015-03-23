@@ -572,7 +572,7 @@ if (!class_exists('Inbound_Menu')) {
 			$secondary_menu_items['inbound-docs'] = array(
 				'parent' => self::$inboundnow_menu_secondary_group_key,
 				'title'  => __( 'Documentation', 'inbound-pro' ),
-				'href'   => 'http://docs.inboundnow.com/',
+				'href'   => '//docs.inboundnow.com/',
 				'meta'   => array( 'title' => __( 'Documentation', 'inbound-pro' ) )
 			);
 
@@ -581,7 +581,7 @@ if (!class_exists('Inbound_Menu')) {
 
 			$secondary_menu_items['inbound-docs-searchform'] = array(
 			  'parent' => self::$inboundnow_menu_secondary_group_key,
-			  'title' => '<form method="get" id="inbound-menu-form" action="http://www.inboundnow.com/support/search/?action=bbp-search-request" class=" " target="_blank">
+			  'title' => '<form method="get" id="inbound-menu-form" action="//www.inboundnow.com/support/search/?action=bbp-search-request" class=" " target="_blank">
 			  <input id="search-inbound-menu" type="text" placeholder="' . $search_docs_text . '" onblur="this.value=(this.value==\'\') ? \'' . $search_docs_text . '\' : this.value;" onfocus="this.value=(this.value==\'' . $search_docs_text . '\') ? \'\' : this.value;" value="' . $search_docs_text . '" name="bbp_search" value="' . esc_attr( 'Search Docs', 'inbound-pro' ) . '" class="text inbound-search-input" />
 			  <input type="hidden" name="post_type[]" value="docs" />
 			  <input type="hidden" name="post_type[]" value="page" />' . self::$go_button,
@@ -652,19 +652,19 @@ if (!class_exists('Inbound_Menu')) {
 			);
 
 			/* 1.1 - 1.2 - Link Setup */
-			$actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+			$actual_link = "//$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 
 			$param = (preg_match("/\?/", $actual_link)) ? "&" : '?';
 			if (preg_match("/inbound-dequeue-scripts/", $actual_link)) {
-				$actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+				$actual_link = "//$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 			} else {
 				$actual_link = $actual_link . $param .'inbound-dequeue-scripts';
 			}
 
-			$actual_link_two = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+			$actual_link_two = "//$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 			$param_two = (preg_match("/\?/", $actual_link_two)) ? "&" : '?';
 			if (preg_match("/inbound_js/", $actual_link_two)) {
-				$actual_link_two = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+				$actual_link_two = "//$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 			} else {
 				$actual_link_two = $actual_link_two . $param_two .'inbound_js';
 			}

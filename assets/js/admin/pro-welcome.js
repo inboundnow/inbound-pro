@@ -21,7 +21,7 @@ var InboundProWelcomeJs = ( function() {
 		 *  Sets static vars 
 		 */
 		setVars: function() {
-			this.search_container = InboundQuery('#grid');
+			this.search_container = jQuery('#grid');
 			this.target = InboundProWelcomeJs.getUrlParam('setting');
 		},
 		/**
@@ -29,7 +29,7 @@ var InboundProWelcomeJs = ( function() {
 		 */
 		setupSearching: function() {
 			// Advanced filtering
-			InboundQuery('body').on('keyup change', '.filter-search' , function() {
+			jQuery('body').on('keyup change', '.filter-search' , function() {
 				var val = this.value.toLowerCase().trim();
 				InboundProWelcomeJs.search_container.shuffle('shuffle', function($el, shuffle) {					
 					var text = $el.data('keywords').toLowerCase();
@@ -42,9 +42,9 @@ var InboundProWelcomeJs = ( function() {
 		 */
 		initShuffleJs: function() {			
 			if ( this.target ) {
-				InboundQuery('.filter-search').val(InboundProWelcomeJs.target);				
-				InboundQuery('.filter-search').trigger('change');
-				InboundQuery('.filter-search').trigger('keyup');					
+				jQuery('.filter-search').val(InboundProWelcomeJs.target);				
+				jQuery('.filter-search').trigger('change');
+				jQuery('.filter-search').trigger('keyup');					
 			}
 		},
 		/**
@@ -53,10 +53,10 @@ var InboundProWelcomeJs = ( function() {
 		addListeners: function() {
 			
 			/* add listeners for non array data changes */
-			InboundQuery( document ).on( 'change unfocus propertychange paste' , 'input[data-field-type!="license-key"],dropdown,radio' , function() {
+			jQuery( document ).on( 'change unfocus propertychange paste' , 'input[data-field-type!="license-key"],dropdown,radio' , function() {
 
 				/* set static var */
-				InboundProWelcomeJs.input = InboundQuery( this );
+				InboundProWelcomeJs.input = jQuery( this );
 				
 				/* Save Data on Change */
 				switch ( event.type ) {
@@ -73,9 +73,9 @@ var InboundProWelcomeJs = ( function() {
 			});
 
 			/* add listenrs for license key validation */
-			InboundQuery( document ).on( 'keyup' , '.license' , function() {
+			jQuery( document ).on( 'keyup' , '.license' , function() {
 				/* set static var */
-				InboundProWelcomeJs.input = InboundQuery( this );
+				InboundProWelcomeJs.input = jQuery( this );
 
 				/* dont do squat if the license key does not reach a certain length */
 				if (InboundProWelcomeJs.input.val().length < 10 ) {
@@ -90,23 +90,23 @@ var InboundProWelcomeJs = ( function() {
 			});
 
 			/* Add listeners for oauth unauthorize buttons */
-			InboundQuery( 'body' ).on( 'click' , '.unauth' , function() {
+			jQuery( 'body' ).on( 'click' , '.unauth' , function() {
 				/* set static var */
-				InboundProWelcomeJs.input = InboundQuery( this );
+				InboundProWelcomeJs.input = jQuery( this );
 				InboundProWelcomeJs.deauthorizeOauth();
 			});
 
 			/* Add listeners for oauth authorize button */
-			InboundQuery( 'body' ).on( 'click' , '.oauth' , function() {
+			jQuery( 'body' ).on( 'click' , '.oauth' , function() {
 				/* set static var */
-				InboundProWelcomeJs.input = InboundQuery( this );
+				InboundProWelcomeJs.input = jQuery( this );
 			});
 
 
 			/* Add listeners for oauth close button */
 			jQuery(document).on('tb_unload', '#TB_window', function(e){
 				/* listen for success */
-				var success = InboundQuery('iframe').contents().find('.success');
+				var success = jQuery('iframe').contents().find('.success');
 
 				if (success.length) {
 					InboundProWelcomeJs.setAuthorized();
@@ -121,7 +121,7 @@ var InboundProWelcomeJs = ( function() {
 			/* serialize input data */
 			var serialized = this.prepareSettingData();
 
-			InboundQuery.ajax({
+			jQuery.ajax({
 				type: "POST",
 				url: ajaxurl ,
 				data: {
@@ -145,7 +145,7 @@ var InboundProWelcomeJs = ( function() {
 			/* serialize input data */
 			var serialized = this.prepareSettingData();
 
-			InboundQuery.ajax({
+			jQuery.ajax({
 				type: "POST",
 				url: ajaxurl ,
 				data: {
@@ -156,7 +156,7 @@ var InboundProWelcomeJs = ( function() {
 				timeout: 10000,
 				success: function (response) {
 					var group = InboundProWelcomeJs.input.data('field-group');
-					var button =InboundQuery('.oauth[data-field-group="'+group+'"]');
+					var button =jQuery('.oauth[data-field-group="'+group+'"]');
 					button.removeClass('hidden');
 					InboundProWelcomeJs.input.addClass('hidden');
 				},
@@ -171,7 +171,7 @@ var InboundProWelcomeJs = ( function() {
 		setAuthorized: function() {
 			var group = InboundProWelcomeJs.input.data('field-group');
 			
-			var button = InboundQuery('.unauth[data-field-group="'+group+'"]');
+			var button = jQuery('.unauth[data-field-group="'+group+'"]');
 			button.removeClass('hidden');
 			
 			InboundProWelcomeJs.input.addClass('hidden');
@@ -193,10 +193,10 @@ var InboundProWelcomeJs = ( function() {
 			/* get value */
 			switch ( InboundProWelcomeJs.input.data('field-type') ) {
 				case 'checkbox':
-					 var value = InboundQuery('#' + InboundProWelcomeJs.input.attr("id") +' input:checkbox:checked').map(function(){  return InboundQuery(this).val();}).get();
+					 var value = jQuery('#' + InboundProWelcomeJs.input.attr("id") +' input:checkbox:checked').map(function(){  return jQuery(this).val();}).get();
 					 break;
 				case 'select2':
-					 var value = InboundQuery('#'+ InboundProWelcomeJs.input.attr('id') +' option:selected').map(function(){  return InboundQuery(this).val();}).get();
+					 var value = jQuery('#'+ InboundProWelcomeJs.input.attr('id') +' option:selected').map(function(){  return jQuery(this).val();}).get();
 					break;
 				default:
 					var value = InboundProWelcomeJs.input.val();
@@ -216,7 +216,7 @@ var InboundProWelcomeJs = ( function() {
 			subarr['value'] = InboundProWelcomeJs.input.attr('name');
 			dataarr.push(subarr);
 
-			return InboundQuery.param( InboundProWelcomeJs.input.serializeArray().concat(dataarr));
+			return jQuery.param( InboundProWelcomeJs.input.serializeArray().concat(dataarr));
 		},
 		/**
 		 *  Validate API Key
@@ -226,16 +226,16 @@ var InboundProWelcomeJs = ( function() {
 				case true:
 					InboundProWelcomeJs.input.removeClass('invalid');
 					InboundProWelcomeJs.input.addClass('valid');
-					InboundQuery('.invalid-icon').remove();
-					InboundQuery('.valid-icon').remove();
-					InboundQuery('<i>' , { class:"fa fa-check valid-icon tooltip" , title:"License Key Is Invalid" }).appendTo('.license-key');
+					jQuery('.invalid-icon').remove();
+					jQuery('.valid-icon').remove();
+					jQuery('<i>' , { class:"fa fa-check valid-icon tooltip" , title:"License Key Is Invalid" }).appendTo('.license-key');
 					break;
 				case false:
 					InboundProWelcomeJs.input.removeClass('valid');
 					InboundProWelcomeJs.input.addClass('invalid');
-					InboundQuery('.valid-icon').remove();
-					InboundQuery('.invalid-icon').remove();
-					InboundQuery('<i>' , { class:"fa fa-times-circle invalid-icon tooltip" , title:"License Key Is Invalid" }).appendTo('.license-key');
+					jQuery('.valid-icon').remove();
+					jQuery('.invalid-icon').remove();
+					jQuery('<i>' , { class:"fa fa-times-circle invalid-icon tooltip" , title:"License Key Is Invalid" }).appendTo('.license-key');
 					break;
 			}
 		},
@@ -276,7 +276,7 @@ var InboundProWelcomeJs = ( function() {
 /**
  *  Once dom has been loaded load listeners and initialize components
  */
-InboundQuery(document).ready(function() {
+jQuery(document).ready(function() {
 
 	InboundProWelcomeJs.init();
 

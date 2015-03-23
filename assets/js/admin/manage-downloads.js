@@ -22,10 +22,10 @@ Downloads.Modules.Templates = (function($, undefined) {
 		initDetails();
 		
 		/* initiate tooltips */
-		InboundQuery('[data-toggle="tooltip"]').tooltip(); 	
+		jQuery('[data-toggle="tooltip"]').tooltip(); 	
 
 		/* preset filter */	
-		InboundQuery("input[name=meta][value=" + downloads.meta_filter + "]").prop('checked', true).trigger('change');
+		jQuery("input[name=meta][value=" + downloads.meta_filter + "]").prop('checked', true).trigger('change');
 
 	},
 
@@ -34,7 +34,7 @@ Downloads.Modules.Templates = (function($, undefined) {
 	 */
 	setupSearching = function() {
 		// Advanced filtering
-		InboundQuery('.filter-search').on('keyup change', function() {
+		jQuery('.filter-search').on('keyup change', function() {
 			var val = this.value.toLowerCase();
 			$grid.shuffle('shuffle', function($el, shuffle) {
 
@@ -58,9 +58,9 @@ Downloads.Modules.Templates = (function($, undefined) {
 	 *  Define main elements to listen to when filtering
 	 */
 	setVars = function() {
-		$grid = InboundQuery('#grid');
-		$meta = InboundQuery('.radio-filters');
-		$plugins = InboundQuery('.templates-filter-group');
+		$grid = jQuery('#grid');
+		$meta = jQuery('.radio-filters');
+		$plugins = jQuery('.templates-filter-group');
 		
 	},
 
@@ -89,7 +89,7 @@ Downloads.Modules.Templates = (function($, undefined) {
 
 		/* listen for slected plugins */
 		$plugins.find('button').on('click', function() {
-			var $this = InboundQuery(this);
+			var $this = jQuery(this);
 
 			plugins = $this.data( 'filter-value' )
 
@@ -122,10 +122,10 @@ Downloads.Modules.Templates = (function($, undefined) {
 		}
 		
 		/* If a search filter is present */
-		if ( InboundQuery('.filter-search').val().toLowerCase().length > 0 ) {
+		if ( jQuery('.filter-search').val().toLowerCase().length > 0 ) {
 			
 			var text = $.trim( $el.find('.col-template-info-title').text() ).toLowerCase();	
-			if (text.indexOf(InboundQuery('.filter-search').val().toLowerCase()) === -1) {
+			if (text.indexOf(jQuery('.filter-search').val().toLowerCase()) === -1) {
 				return false;
 			}
 		}
@@ -142,7 +142,7 @@ Downloads.Modules.Templates = (function($, undefined) {
 	},
 	
 	updatePreset = function() {
-		InboundQuery.ajax({
+		jQuery.ajax({
 			type: "POST",
 			url: ajaxurl ,
 			data: {
@@ -168,44 +168,44 @@ Downloads.Modules.Templates = (function($, undefined) {
 		
 		
 		/* on more details click */
-		InboundQuery('.more-details').on('click', function() {		
+		jQuery('.more-details').on('click', function() {		
 			/* get selected template */
-			var download_name = InboundQuery( this ).data('download');	
+			var download_name = jQuery( this ).data('download');	
 			openMoreDetails( download_name );	
 		});
 		
 		/* on overlay close */
-		InboundQuery('body').on( 'click' , '.overlay-close' , function() {
-			var download = InboundQuery( this ).data('download');
+		jQuery('body').on( 'click' , '.overlay-close' , function() {
+			var download = jQuery( this ).data('download');
 			console.log(download);
-			InboundQuery('.download-overlay[data-download="'+download+'"]').remove();
+			jQuery('.download-overlay[data-download="'+download+'"]').remove();
 		});
 		
 		
 		/* on next */
-		InboundQuery('body').on( 'click' , '.overlay-next' , function() {
-			InboundQuery('.download-overlay').remove();
-			var download = InboundQuery( this ).data('download');
+		jQuery('body').on( 'click' , '.overlay-next' , function() {
+			jQuery('.download-overlay').remove();
+			var download = jQuery( this ).data('download');
 			openMoreDetails( download );
 		});
 		
 		/* on previous */
-		InboundQuery('body').on( 'click' , '.overlay-previous' , function() {
-			InboundQuery('.download-overlay').remove();
-			var download = InboundQuery( this ).data('download');
+		jQuery('body').on( 'click' , '.overlay-previous' , function() {
+			jQuery('.download-overlay').remove();
+			var download = jQuery( this ).data('download');
 			openMoreDetails( download );
 		});
 		
 		/* on install */
-		InboundQuery('body').on( 'click' , '.overlay-install' , function() {
-			var download = InboundQuery( this ).data('download');
+		jQuery('body').on( 'click' , '.overlay-install' , function() {
+			var download = jQuery( this ).data('download');
 			console.log( download );
 			window.location.href = "admin.php?page=" + downloads.current_page + "&action=install&download=" + download ;
 		});
 		
 		/* on uninstall */
-		InboundQuery('body').on( 'click' , '.overlay-uninstall' , function() {
-			var download = InboundQuery( this ).data('download');
+		jQuery('body').on( 'click' , '.overlay-uninstall' , function() {
+			var download = jQuery( this ).data('download');
 			window.location.href = "admin.php?page=" + downloads.current_page + "&action=uninstall&download=" + download ;
 		});
 		
@@ -239,7 +239,7 @@ Downloads.Modules.Templates = (function($, undefined) {
 	 */
 	getDetailsTemplate = function() {
 	
-		return InboundQuery.ajax({
+		return jQuery.ajax({
 			type: 'GET',
 			async: false,
 			url: downloads.plugin_url_path + 'assets/templates/admin/download-details.html'
@@ -249,11 +249,11 @@ Downloads.Modules.Templates = (function($, undefined) {
 	return {
 		init: init
 	};
-}(InboundQuery));
+}(jQuery));
 
 
 
-InboundQuery(document).ready(function() {
+jQuery(document).ready(function() {
 	/* Initiate filters */
 	Downloads.Modules.Templates.init();
 });

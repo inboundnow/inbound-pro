@@ -900,7 +900,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
 				if (!stristr($custom_css,'<script'))
 				{
-					$inline_content .= '<script type="text/javascript" id="wp_cta_js_custom">InboundQuery(document).ready(function($) {
+					$inline_content .= '<script type="text/javascript" id="wp_cta_js_custom">jQuery(document).ready(function($) {
 					'.$custom_js.' });</script>';
 				}
 				else
@@ -1124,14 +1124,14 @@ if ( !class_exists( 'CTA_Render' ) ) {
 				}
 				/* fix for popup size */
 				$content .=	"<script>";
-				$content .= "	InboundQuery(document).ready(function($) {";
+				$content .= "	jQuery(document).ready(function($) {";
 				$content .= "		setTimeout(function() {";
              	$content .= "		var vid = $('.inbound-cta-container:visible').attr('data-variation');";
 				$content .= "		var vidw = '.data-vid-w-' + vid;";
 				$content .= "		var vidh = '.data-vid-h-' + vid;";
 				$content .= "		var h = $(vidh).attr('data-height');";
 				$content .= "		var w = $(vidw).attr('data-width');";
-				$content .= "		InboundQuery('.white-popup-block').css({'height': h, 'width': w});";
+				$content .= "		jQuery('.white-popup-block').css({'height': h, 'width': w});";
 				$content .= "	 }, 500);";
 				$content .= "	});";
 				$content .= "</script>";
@@ -1273,17 +1273,17 @@ if ( !class_exists( 'CTA_Render' ) ) {
 			if (!isset($_GET['live-preview-area']) && is_user_logged_in()) {
 			?>		
 			<script type="text/javascript">
-			InboundQuery(document).ready(function($) {			
-				//InboundQuery('#cta-preview-container').cta_center();
+			jQuery(document).ready(function($) {			
+				//jQuery('#cta-preview-container').cta_center();
 			});
 
 			/* add jquery function to center cta in preview mode */
-			InboundQuery.fn.cta_center = function () {
+			jQuery.fn.cta_center = function () {
 				this.css("position","absolute");
-				this.css("top", Math.max(0, ((InboundQuery(window).height() - InboundQuery(this).outerHeight()) / 2) +
-															InboundQuery(window).scrollTop()) + "px");
-				this.css("left", Math.max(0, ((InboundQuery(window).width() - InboundQuery(this).outerWidth()) / 2) +
-															InboundQuery(window).scrollLeft()) + "px");
+				this.css("top", Math.max(0, ((jQuery(window).height() - jQuery(this).outerHeight()) / 2) +
+															jQuery(window).scrollTop()) + "px");
+				this.css("left", Math.max(0, ((jQuery(window).width() - jQuery(this).outerWidth()) / 2) +
+															jQuery(window).scrollLeft()) + "px");
 				return this;
 			}
 			</script>
@@ -1291,8 +1291,8 @@ if ( !class_exists( 'CTA_Render' ) ) {
 			}
 			?>
 			<script type="text/javascript">
-			InboundQuery(document).ready(function($) {			
-				InboundQuery('.wp_cta_<?php echo $cta_id; ?>_variation_<?php echo $_GET['wp-cta-variation-id']; ?>').show();
+			jQuery(document).ready(function($) {			
+				jQuery('.wp_cta_<?php echo $cta_id; ?>_variation_<?php echo $_GET['wp-cta-variation-id']; ?>').show();
 			});
 			</script>
 			<?php

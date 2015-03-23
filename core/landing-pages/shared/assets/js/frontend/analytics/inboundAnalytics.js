@@ -2395,10 +2395,10 @@ var _inboundEvents = (function(_inbound) {
     }
 
     function triggerJQueryEvent(eventName, data) {
-        if (window.InboundQuery) {
+        if (window.jQuery) {
             var data = data || {};
             /*! try catch here */
-            InboundQuery(document).trigger(eventName, data);
+            jQuery(document).trigger(eventName, data);
         }
     };
 
