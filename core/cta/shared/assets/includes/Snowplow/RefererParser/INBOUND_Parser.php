@@ -261,6 +261,6 @@ class INBOUND_Parser
     private static function createDefaultConfigReader()
     {
         //TODO FIX WITH GLOBAL SHARED CONSTANT
-        return new INBOUND_JsonConfigReader( INBOUDNOW_SHARED_PATH . '/includes/referers.json');
+        return new INBOUND_JsonConfigReader( INBOUDNOW_SHARED_PATH . 'assets/includes/referers.json');
     }
 }

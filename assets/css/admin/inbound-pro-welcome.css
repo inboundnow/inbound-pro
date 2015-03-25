@@ -153,6 +153,10 @@ $font:'Oswald', sans-serif;
 	min-width:170px;
 }
 
+.inbound-ol-field {
+	margin-top:-6px;
+}
+
 .ink-button {
 	margin-bottom:10px;
 }

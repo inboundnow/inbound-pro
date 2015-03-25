@@ -14,11 +14,11 @@ function wp_cta_record_impressions(ctas) {
 			ctas: ctas
 		},
 		success: function(user_id){
-				//console.log('CTA Impressions Recorded');
-			   },
+				_inbound.deBugger( 'cta', 'CTA Impressions Recorded');
+		},
 		error: function(MLHttpRequest, textStatus, errorThrown){
 
-			}
+		}
 
 	});
 

@@ -278,6 +278,26 @@ if (!class_exists('Inbound_Forms')) {
 						$form .= '	</select>';
 						$form .= '</div>';
 
+					} else if ($type === 'date') {
+
+						$hidden_param = (isset($matches[3][$i]['dynamic'])) ? $matches[3][$i]['dynamic'] : '';
+						$fill_value = (isset($matches[3][$i]['default'])) ? $matches[3][$i]['default'] : '';
+						$dynamic_value = (isset($_GET[$hidden_param])) ? $_GET[$hidden_param] : '';
+						if ($type === 'hidden' && $dynamic_value != "") {
+							$fill_value = $dynamic_value;
+						}
+						$form .=	'<input class="inbound-input inbound-input-text '.$formatted_label . $input_classes.' '.$field_input_class.'" name="'.$field_name.'" '.$form_placeholder.' id="'.$field_name.'" value="'.$fill_value.'" type="'.$type.'"'.$data_mapping_attr.$et_output.' '.$req.'/>';
+
+					} else if ($type === 'time') {
+
+						$hidden_param = (isset($matches[3][$i]['dynamic'])) ? $matches[3][$i]['dynamic'] : '';
+						$fill_value = (isset($matches[3][$i]['default'])) ? $matches[3][$i]['default'] : '';
+						$dynamic_value = (isset($_GET[$hidden_param])) ? $_GET[$hidden_param] : '';
+						if ($type === 'hidden' && $dynamic_value != "") {
+							$fill_value = $dynamic_value;
+						}
+						$form .=	'<input class="inbound-input inbound-input-text '.$formatted_label . $input_classes.' '.$field_input_class.'" name="'.$field_name.'" '.$form_placeholder.' id="'.$field_name.'" value="'.$fill_value.'" type="'.$type.'"'.$data_mapping_attr.$et_output.' '.$req.'/>';
+
 					} else if ($type === 'radio') {
 
 						$radio_fields = array();
@@ -310,8 +330,9 @@ if (!class_exists('Inbound_Forms')) {
 						$checkbox = $matches[3][$i]['checkbox'];
 						$checkbox_fields = explode(",", $checkbox);
 						foreach ($checkbox_fields as $key => $value) {
+		
 							$value = html_entity_decode($value);
-							$checkbox_val_trimmed =	strip_tags(trim($value));
+							$checkbox_val_trimmed =	trim($value);
 							$checkbox_val =	strtolower(str_replace(array(' ','_'),'-',$checkbox_val_trimmed));
 
 							//check for label-value separator (pipe)

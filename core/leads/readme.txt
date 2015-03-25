@@ -86,6 +86,7 @@ We built Lead Management as a framework! You can use our extendable framework to
 == Changelog ==
 
 = 1.6.3 =
+* Fixing white screen of death issues with other plugin conflicts
 * Improvements on NoConflict jQuery Class
 
 

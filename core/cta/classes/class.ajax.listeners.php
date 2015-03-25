@@ -90,6 +90,10 @@ class CTA_Ajax_Listeners {
 		global $wpdb; // this is how you get access to the database
 		global $user_ID;
 		
+		if (!isset($_POST['ctas'])) {
+			return;
+		}
+		
 		foreach ( $_POST['ctas'] as $cta_id => $vid ) {
 			do_action('wp_cta_record_impression' , $cta_id , $vid );
 		}

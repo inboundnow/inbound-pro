@@ -64,24 +64,25 @@ function wpleads_set_lead_id($lead_id){
  * @param  string $lead_id - lead CPT id
  * @return sets cookie of lists lead belongs to
  */
-function wp_leads_set_current_lists($lead_id){
-		// Set List Cookies if lead is in lists.
-		$terms = get_the_terms( $lead_id, 'wplead_list_category' );
-		if ( $terms && ! is_wp_error( $terms ) ) {
+function wp_leads_set_current_lists($lead_id) {
 
-			$lead_list = array();
-			$count = 0;
-			foreach ( $terms as $term ) {
-				$lead_list[] = $term->term_id;
-				$count++;
-			}
+	// Set List Cookies if lead is in lists.
+	$terms = get_the_terms( $lead_id, 'wplead_list_category' );
+	if ( $terms && ! is_wp_error( $terms ) ) {
 
-			//$test = serialize($lead_list);
-			$list_array = json_encode(array( 'ids' => $lead_list )); ;
-
-			setcookie('wp_lead_list' , $list_array, time() + (20 * 365 * 24 * 60 * 60),'/');
-			//setcookie('check_lead_list' , true, time() + ( 24 * 60 * 60),'/');
+		$lead_list = array();
+		$count = 0;
+		foreach ( $terms as $term ) {
+			$lead_list[] = $term->term_id;
+			$count++;
 		}
+
+		//$test = serialize($lead_list);
+		$list_array = json_encode(array( 'ids' => $lead_list )); ;
+
+		setcookie('wp_lead_list' , $list_array, time() + (20 * 365 * 24 * 60 * 60),'/');
+		//setcookie('check_lead_list' , true, time() + ( 24 * 60 * 60),'/');
+	}
 }
 
 

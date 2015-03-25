@@ -137,7 +137,7 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 					include_once('classes/class.customizer.php');
 					include_once('classes/class.tracking.php');
 					include_once('classes/class.branching.php');
-					include_once('shared/classes/class.magic.php');
+
 					BREAK;
 
 				case false :

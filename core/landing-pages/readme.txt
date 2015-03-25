@@ -74,6 +74,7 @@ The plugin is also fully extendable and has a number of actions, filters, and ho
 == Changelog ==
 
 = 1.8.3 =
+* Fixing white screen of death issues with other plugin conflicts
 * Improvements on NoConflict jQuery Class
 
 = 1.8.2 =

@@ -540,11 +540,25 @@ class Inbound_Pro_Welcome {
 			break;
 			// select
 			case 'dropdown':
-				echo '<select name="'.$field['id'].'" id="'.$field['id'].'"  data-field-type="'.$field['type'].'" data-field-group="'.$group['group_name'].'">';
-				foreach ($field['options'] as $value=>$label) {
-					echo '<option', $field['value'] == $value ? ' selected="selected"' : '', ' value="'.$value.'">'.$label.'</option>';
-				}
-				echo '</select><br /><i class="tooltip fa-question-circle tool_dropdown" title="'.$field['description'].'"></i>';
+				echo '<div class="inbound-field">';
+				echo '	<div class="inbound-label-field">';
+				echo '		<label>'.$field['label'] .'</label>';
+				echo '	</div>';
+				echo '	<div class="inbound-dropdown-field">';
+
+				
+				echo '		<select name="'.$field['id'].'" id="'.$field['id'].'"  data-field-type="'.$field['type'].'" data-field-group="'.$group['group_name'].'">';
+							
+							foreach ($field['options'] as $value=>$label) {
+								echo '		<option', $field['value'] == $value ? ' selected="selected"' : '', ' value="'.$value.'">'.$label.'</option>';
+							}
+							
+				echo '		</select>';
+				echo '	</div>';
+				echo '	<div class="inbound-tooltip-field">';
+				echo '		<br /><i class="tooltip fa fa-question-circle tool_dropdown" title="'.$field['description'].'"></i>';
+				echo '	</div>';
+				echo '</div>';
 			break;
 			case 'html':
 				//print_r($field);

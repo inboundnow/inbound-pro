@@ -135,7 +135,6 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 				require_once('classes/class.admin-notices.php');
 				require_once('classes/class.branching.php');
 				require_once('classes/class.login.php');
-				include_once('shared/classes/class.magic.php');
 
 			} else {
 				/* Frontend Includes */
@@ -191,7 +190,7 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 		// Show Failure message
 		Inbound_Leads_Plugin::fail_php_version();
 	}
-	
+
 	/* method to see if leads is active */
 	function wpleads_check_active() {
 		return true;
