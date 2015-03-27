@@ -29,7 +29,7 @@ class Inbound_API_Wrapper {
 
 		/* if data is not set to expire then do not update */
 		if ( isset(self::$data['expire']) && self::$data['expire'] > gmdate( 'Y-m-d G:i:s' ) ) {
-			return;
+			//return;
 		}
 		
 		/* This call home gets a list of available downloads - We have minimum security because no sensitive information is revealed */
@@ -39,7 +39,7 @@ class Inbound_API_Wrapper {
 		self::$data = unserialize( $response['body'] );
 
 		/* build new expiration date */
-		self::$data['expire'] = gmdate('Y-m-d G:i:s' , strtotime( "+3 hours" ));
+		self::$data['expire'] = gmdate('Y-m-d G:i:s' , strtotime( "+6 hours" ));
 		
 		/* update data object */
 		Inbound_Options_API::update_option( 'inbound-api' , 'downloads' , self::$data );
