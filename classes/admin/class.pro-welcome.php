@@ -476,7 +476,7 @@ class Inbound_Pro_Welcome {
 				echo '	<div class="inbound-label-field">';
 				echo '		<label><strong>'.$field['label'] .'</strong></label>';
 				echo '	</div><br>';
-				echo '	<div class="inbound-ol-field">';
+				echo '	<div class="inbound-ul-field">';
 				echo '		<ul>';
 				foreach ($field['options'] as $option) {
 					echo '		<li>'. $option. '</li>';

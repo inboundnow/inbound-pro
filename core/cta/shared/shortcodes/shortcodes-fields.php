@@ -73,7 +73,7 @@ if ( !class_exists('Inbound_Shortcodes_Fields') ) {
 					$global = ( isset($option['global']) ) ? $option['global'] : '';
 					
 					if ($global) {
-						$uniquekey = $name;
+						$uniquekey = $key;
 					}
 					
 					$placeholder = (isset($option['placeholder'])) ? $option['placeholder'] : '';

@@ -261,7 +261,8 @@ display: none;
 	display: inline-block;
 }
 .introjs-showElement .row-actions {
-visibility: visible;}
+	visibility: visible;
+}
 .wp-cta-impress-num {
 	display: inline-block;
 	text-align: center;
@@ -278,7 +279,7 @@ visibility: visible;}
 
 .wp-cta-impress-num, .wp-cta-con-num, .cr-number {
 	font-weight: bold;
-	font-size: 19px;
+	font-size: 16px;
 }
 
 .visit-text {
@@ -288,14 +289,14 @@ visibility: visible;}
 
 .wp-cta-con-num {
 	display: inline-block;
+	display: inline-block;
 	padding-left: 4px;
 	padding-right: 4px;
 }
 
 .wp-cta-letter, .cr-number, .cr-number.cr-empty-0 {
 	display: inline-block;
-
-	font-size: 20px;
+	font-size: 15px;
 	min-width: 16px;
 	min-height: 20px;
 	border-radius: 3px;

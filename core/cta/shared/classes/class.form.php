@@ -128,7 +128,7 @@ if (!class_exists('Inbound_Forms')) {
 				$form = '<div id="inbound-form-wrapper" class="">';
 				$form .= '<form class="inbound-now-form wpl-track-me inbound-track" method="post" id="'.$form_id.'" action="" style="'.$form_width.'">';
 				$main_layout = ($form_layout != "") ? 'inbound-'.$form_layout : 'inbound-normal';
-				
+
 				for($i = 0; $i < count($matches[0]); $i++)	{
 
 					$label = (isset($matches[3][$i]['label'])) ? $matches[3][$i]['label'] : '';
@@ -330,7 +330,7 @@ if (!class_exists('Inbound_Forms')) {
 						$checkbox = $matches[3][$i]['checkbox'];
 						$checkbox_fields = explode(",", $checkbox);
 						foreach ($checkbox_fields as $key => $value) {
-		
+
 							$value = html_entity_decode($value);
 							$checkbox_val_trimmed =	trim($value);
 							$checkbox_val =	strtolower(str_replace(array(' ','_'),'-',$checkbox_val_trimmed));
@@ -374,7 +374,7 @@ if (!class_exists('Inbound_Forms')) {
 						if ($type === 'hidden' && $dynamic_value != "") {
 							$fill_value = $dynamic_value;
 						}
-						
+
 						$input_type = ( $email_input ) ? 'email' : 'text';
 						$form .=	'<input type="'.$input_type .'" class="inbound-input inbound-input-text '.$formatted_label . $input_classes.' '.$field_input_class.'" name="'.$field_name.'" '.$form_placeholder.' id="'.$field_name.'" value="'.$fill_value.'" '.$data_mapping_attr.$et_output.' '.$req.'/>';
 					} else {
@@ -750,13 +750,27 @@ if (!class_exists('Inbound_Forms')) {
 				$subject = $Inbound_Templating_Engine->replace_tokens( $subject, array($form_post_data, $form_meta_data));
 				$body = $Inbound_Templating_Engine->replace_tokens( $template['body'] , array($form_post_data, $form_meta_data )	);
 
+				/* Fix broken HTML tags from wp_mail garbage */
+				// $body = '<tbody> <t body> <tb ody > <tbo dy> <tbod y> < t d class = "test" > < / td > ';
+				$body = preg_replace("/ \>/", ">", $body);
+				$body = preg_replace("/\/ /", "/", $body);
+				$body = preg_replace("/\< /", "<", $body);
+				$body = preg_replace("/\= /", "=", $body);
+				$body = preg_replace("/ \=/", "=", $body);
+				$body = preg_replace("/t d/", "td", $body);
+				$body = preg_replace("/t r/", "tr", $body);
+				$body = preg_replace("/t h/", "th", $body);
+				$body = preg_replace("/t body/", "tbody", $body);
+				$body = preg_replace("/tb ody/", "tbody", $body);
+				$body = preg_replace("/tbo dy/", "tbody", $body);
+				$body = preg_replace("/tbod y/", "tbody", $body);
 
 				$headers = 'From: '. $from_name .' <'. $from_email .'>' . "\r\n";
 				$headers = "Reply-To: ".$reply_to_email . "\r\n";
 				$headers = apply_filters( 'inbound_lead_notification_email_headers' , $headers );
 
 				foreach ($to_address as $key => $recipient) {
-					$result = wp_mail( $recipient , $subject , $body , $headers );
+					$result = wp_mail( $recipient, $subject, $body, $headers );
 				}
 
 			}

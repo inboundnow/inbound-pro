@@ -157,6 +157,14 @@ $font:'Oswald', sans-serif;
 	margin-top:-6px;
 }
 
+.inbound-ol-field ol {
+	list-style:disc !important;
+}
+
+.inbound-ul-field ul {
+	list-style:disc !important;
+}
+
 .ink-button {
 	margin-bottom:10px;
 }
