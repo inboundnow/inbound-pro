@@ -35,10 +35,10 @@ class Inbound_Menus_Admin {
 		);
 	
 		/* Manage Templates */
-		add_submenu_page('inbound-pro', __( 'Manage Templates' , 'inbound-pro' ) , __( 'Manage Templates' , 'inbound-pro' ) , 'manage_options', 'inbound-manage-templates', array( 'Inbound_Pro_Downloads' , 'display_ui' ) );
+		add_submenu_page('inbound-pro', __( 'Templates' , 'inbound-pro' ) , __( 'Templates' , 'inbound-pro' ) , 'manage_options', 'inbound-manage-templates', array( 'Inbound_Pro_Downloads' , 'display_ui' ) );
 
 		/* Manage Extensions */
-		add_submenu_page('inbound-pro', __( 'Manage Extensions' , 'inbound-pro' ) , __( 'Manage Extensions' , 'inbound-pro' ) , 'manage_options', 'inbound-manage-extensions', array( 'Inbound_Pro_Downloads' , 'display_ui' ) );
+		add_submenu_page('inbound-pro', __( 'Extensions' , 'inbound-pro' ) , __( 'Extensions' , 'inbound-pro' ) , 'manage_options', 'inbound-manage-extensions', array( 'Inbound_Pro_Downloads' , 'display_ui' ) );
 
 	}
 	
