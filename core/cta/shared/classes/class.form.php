@@ -378,7 +378,7 @@ if (!class_exists('Inbound_Forms')) {
 						$input_type = ( $email_input ) ? 'email' : 'text';
 						$form .=	'<input type="'.$input_type .'" class="inbound-input inbound-input-text '.$formatted_label . $input_classes.' '.$field_input_class.'" name="'.$field_name.'" '.$form_placeholder.' id="'.$field_name.'" value="'.$fill_value.'" '.$data_mapping_attr.$et_output.' '.$req.'/>';
 					} else {
-						do_action('inbound_form_custom_field' , $matches[3][$i] );
+						$form = apply_filters('inbound_form_custom_field_new', $form, $matches[3][$i]);
 					}
 
 					if ($show_labels && $form_labels === "bottom" && $type != "radio") {
@@ -1216,7 +1216,7 @@ if (!class_exists('Inbound_Forms')) {
 		public static function get_form_settings( $form_id ) {
 
 			$meta = get_post_meta( $form_id );
-
+			$meta = ($meta) ? $meta : array();
 			foreach ($meta as $key => $value ) {
 				$meta[ $key ] = $value[0];
 			}

@@ -173,8 +173,9 @@ if (!class_exists('Inbound_Debug_Scripts')) {
 	static function inbound_now_script_whitelist() {
 		global $wp_scripts;
 		// Match our plugins and whitelist them
-		$registered_scripts = $wp_scripts->registered;
+		$registered_scripts = ( $wp_scripts->registered ) ? $wp_scripts->registered : array();
 		$inbound_white_list = array();
+		
 		foreach ($registered_scripts as $handle) {
 			$src = $handle->src;
 			if (!is_array($src)) {
@@ -199,7 +200,7 @@ if (!class_exists('Inbound_Debug_Scripts')) {
 	static function inbound_kill_bogus_scripts() {
 		if (!isset($_GET['inbound-dequeue-scripts'])) {
 			global $wp_scripts, $wp_query;
-			$script_list = $wp_scripts->queue; // All enqueued scripts
+			$script_list = ( $wp_scripts->queue ) ? $wp_scripts->queue : array(); // All enqueued scripts
 			$current_page_id = $wp_query->get_queried_object_id();
 			$script_data = get_post_meta( $current_page_id , 'inbound_dequeue_js', TRUE );
 			$script_data = json_decode($script_data,true);

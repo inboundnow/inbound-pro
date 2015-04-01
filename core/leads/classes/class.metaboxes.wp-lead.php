@@ -931,7 +931,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 		public static function activity_conversions() {
 
 			echo '<div id="lead-conversions" class="lead-activity">';
-			echo '	<h2>' . __('Landing Page Conversions' , 'leads' ) .'</h2>';
+			echo '	<h2>' . __('Conversions' , 'leads' ) .'</h2>';
 
 
 			if (!isset(self::$conversions) || !is_array(self::$conversions)) {

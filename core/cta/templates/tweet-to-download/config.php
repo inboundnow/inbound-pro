@@ -179,4 +179,4 @@ function cta_tweettodownload_print_admin_scripts() {
 
 	<?php
 }
-add_action( 'admin_enqueue_scripts','cta_tweettodownload_print_admin_scripts' );
+add_action( 'admin_print_footer_scripts','cta_tweettodownload_print_admin_scripts' );

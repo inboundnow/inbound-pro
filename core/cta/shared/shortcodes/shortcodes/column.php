@@ -61,8 +61,11 @@
 
 /* 	Add shortcode
  * 	----------------------------------------------------- */
+ 
+if ( !defined('INBOUND_DISABLE_COLUMN_SHORTCODES') ) {
+
 	/* Columns Wrap */
-	if (!function_exists('inbound_shortcode_columns')) {
+	if (!function_exists('inbound_shortcode_columns') || !is_defined('INBOUND_DISABLE_COLUMN_SHORTCODES') ) {
 		function inbound_shortcode_columns( $atts, $content = null ) {
 			extract(shortcode_atts(array(
 				'gutter' => '20'
@@ -76,17 +79,18 @@
 			$content = preg_replace('/<br class=\'inbr\'.*\/>/', '', $content); // remove editor br tags
 			return '<div class="'. $gutter .'">' . do_shortcode($content) . '</div>';
 		}
+		add_shortcode('columns', 'inbound_shortcode_columns');
 	}
-	add_shortcode('columns', 'inbound_shortcode_columns');
+	
 
 	/* Full column */
-	if (!function_exists('inbound_shortcode_full_columns')) {
+	if (!function_exists('inbound_shortcode_full_columns') ) {
 		function inbound_shortcode_full_columns( $atts, $content = null ) {
 			$content = preg_replace('/<br class="inbr".\/>/', '', $content); // remove editor br tags
 			return '<div class="inbound-grid full">' . do_shortcode($content) . '</div>';
 		}
+		add_shortcode('one_full', 'inbound_shortcode_full_columns');
 	}
-	add_shortcode('one_full', 'inbound_shortcode_full_columns');
 
 	/* One Half */
 	if (!function_exists('inbound_shortcode_one_half_columns')) {
@@ -94,8 +98,9 @@
 			$content = preg_replace('/<br class="inbr".\/>/', '', $content); // remove editor br tags
 			return '<div class="inbound-grid one-half">' . do_shortcode($content) . '</div>';
 		}
+		add_shortcode('one_half', 'inbound_shortcode_one_half_columns');
 	}
-	add_shortcode('one_half', 'inbound_shortcode_one_half_columns');
+	
 
 	/* One Third */
 	if (!function_exists('inbound_shortcode_one_third_columns')) {
@@ -168,3 +173,4 @@
 		}
 	}
 	add_shortcode('three_four', 'inbound_shortcode_four_fifth_columns');
+}
