@@ -530,13 +530,27 @@ class Inbound_Pro_Welcome {
 			break;
 			// radio
 			case 'radio':
+			
+				echo '<div class="inbound-field">';
+				echo '	<div class="inbound-label-field">';
+				echo '		<label>'.$field['label'] .'</label>';
+				echo '	</div>';
+				
+				echo '	<div class="inbound-radio-field">';				
 				foreach ($field['options'] as $value=>$label) {
 					//echo $meta.":".$field['id'];
 					//echo "<br>";
 					echo '<input type="radio" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$value.'" ',$field['value']==$value ? ' checked="checked"' : '','  data-field-type="'.$field['type'].'" data-field-group="'.$group['group_name'].'"/>';
 					echo '<label for="'.$value.'">&nbsp;&nbsp;'.$label.'</label> &nbsp;&nbsp;&nbsp;&nbsp;';
-				}
-				echo '<i class="tooltip fa-question-circle tool_radio" title="'.$field['description'].'"></i>';
+				}				
+				echo '	</div>';
+				
+				echo '	<div class="inbound-tooltip-field">';
+				echo '		<br /><i class="tooltip fa fa-question-circle tool_dropdown" title="'.$field['description'].'"></i>';
+				echo '	</div>';
+				echo '</div>';
+				
+				
 			break;
 			// select
 			case 'dropdown':
