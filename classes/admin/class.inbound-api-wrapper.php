@@ -119,6 +119,7 @@ class Inbound_API_Wrapper {
 	*/
 	public static function get_pro_templates() {
 		self::get_downloads();
+		self::$templates = array();
 		
 		foreach ( self::$data as $key => $download ) {
 			if ( $download->download_type == 'template' ) {
@@ -135,6 +136,7 @@ class Inbound_API_Wrapper {
 	*/
 	public static function get_pro_extensions() {
 		self::get_downloads();
+		self::$extensions = array();
 		
 		foreach ( self::$data as $key => $download ) {
 			if ( $download->download_type == 'extension' ) {

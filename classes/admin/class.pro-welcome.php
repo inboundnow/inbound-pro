@@ -24,11 +24,15 @@ class Inbound_Pro_Welcome {
 	*	Loads hooks and filters
 	*/
 	public static function add_hooks() {
+
 		/* enqueue js and css */
 		add_action( 'admin_enqueue_scripts' , array( __CLASS__ , 'enqueue_scripts' ) );
 		
 		/* add ajax listener for setting saves */
 		add_action( 'wp_ajax_inbound_pro_update_setting' , array( __CLASS__ , 'ajax_update_settings' ) );
+	
+		/* add ajax listener for custom fields setting saves */
+		add_action( 'wp_ajax_inbound_pro_update_custom_fields' , array( __CLASS__ , 'ajax_update_custom_fields' ) );
 		
 	}
 
@@ -45,6 +49,7 @@ class Inbound_Pro_Welcome {
 		}
 	
 		wp_enqueue_script('jquery');
+		wp_enqueue_script('jquery-ui', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js', array('jquery'), '1.8.6');
 		wp_enqueue_script('modernizr');
 		wp_enqueue_script('underscore');
 		add_thickbox();
@@ -96,6 +101,25 @@ class Inbound_Pro_Welcome {
 							'type'	=> 'license-key',
 							'default'	=> '',
 							'placeholder'	=> __( 'Enter license key here' , 'inbound-pro' ),
+							'options' => null,
+							'hidden' => false,
+							'reveal' => array(
+								'selector' => null ,
+								'value' => null
+							)
+						),
+					),
+				),
+				/* add custom lead fields field group to setup page */
+				array( 
+					'group_name' => 'leads-custom-fields',					
+					'keywords' => __('leads, field mapping, custom fields' , 'inbound-pro'),
+					'fields' => array (						
+						array (
+							'id'	=> 'leads-custom-fields',
+							'type'	=> 'custom-fields-repeater',
+							'default'	=> '',
+							'placeholder'	=> null,
 							'options' => null,
 							'hidden' => false,
 							'reveal' => array(
@@ -170,7 +194,7 @@ class Inbound_Pro_Welcome {
 	public static function display_setup() {
 		self::extend_settings();
 		self::$settings_values = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
-
+		//print_r(self::$settings_values);
 		?>
 		<div class="xlarge-80 large-80 medium-80 small-100 tiny-100">
 		<?php
@@ -186,7 +210,6 @@ class Inbound_Pro_Welcome {
 	public static function display_settings() {
 		self::extend_settings();
 		self::$settings_values = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
-
 		?>
 		<div class="xlarge-80 large-80 medium-70 small-100 tiny-100">
 		<?php
@@ -310,7 +333,7 @@ class Inbound_Pro_Welcome {
 	static function display_nav_menu() {
 
 		$pages_array = array(
-			'inbound-pro-setup' => __( 'Inbound Core Settings' , 'inbound-pro' ),
+			'inbound-pro-setup' => __( 'Core Settings' , 'inbound-pro' ),
 			'inbound-pro-settings' => __( 'Extension Settings' , 'inbound-pro' ),
 			'inbound-pro-welcome' => __( 'Quick Start' , 'inbound-pro' )
 		);
@@ -361,7 +384,7 @@ class Inbound_Pro_Welcome {
 		echo '	<div id="grid" class="container-fluid">';
 		
 		self::$settings_fields[ $page ] = (isset(self::$settings_fields[ $page ])) ? self::$settings_fields[ $page ] : array();
-		
+
 		foreach( self::$settings_fields[ $page ] as $priority => $group ) {
 			echo '<div class="inbound-settings-group " data-keywords="'.$group['keywords'].','.$group['group_name'].'" data-group-name="'.$group['group_name'].'">';
 			foreach( $group['fields'] as $field ) {
@@ -400,7 +423,7 @@ class Inbound_Pro_Welcome {
 				
 				echo '<div class="license-key">';
 				echo '	<label>'.__('Inbound License Key:' , 'inbound-pro' ) .'</label>';
-				echo '		<input type="text" class="license" name="'.$field['id'].'" id="'.$field['id'].'" placeholder="'.$field['placeholder'].'" value="'.$field['value'].'" style="width:90%" data-field-type="'.$field['type'].'" data-field-group="'.$group['group_name'].'"/>';
+				echo '		<input type="text" class="license" name="'.$field['id'].'" id="'.$field['id'].'" placeholder="'.$field['placeholder'].'" value="'.$field['value'].'" style="width:90%" data-field-type="'.$field['type'].'" data-field-group="'.$group['group_name'].'"  data-special-handler="true"/>';
 				echo '</div>';
 				break;
 			case 'header':
@@ -579,6 +602,108 @@ class Inbound_Pro_Welcome {
 				echo $field['value'];
 				echo '<br /><i class="tooltip fa-question-circle tool_dropdown" title="'.$field['description'].'"></i>';
 			break;
+			case 'custom-fields-repeater':
+				$fields = Leads_Field_Map::get_lead_fields();
+				$fields = Leads_Field_Map::prioritize_lead_fields( $fields );
+				
+				$field_types = Leads_Field_Map::build_field_types_array();
+				
+				echo '<div class="repeater-custom-fields">';
+				echo '	<h2>'.__('Custom Lead Fields:' , 'inbound-pro' ) .'</h2>';
+				echo '	<br>';
+				
+				echo '		<div class="map-row-headers column-group">';
+				echo '			<div class="map-key-header all-5">';
+				echo '				<th> </th>';
+				echo '			</div>';
+				echo '			<div class="map-key-header all-25">';
+				echo '				<th>' . __( 'Field Key' , 'inbound-pro' ) .'</th>';
+				echo '			</div>';
+				echo '			<div class="map-key-header all-30">';
+				echo '			<th>' . __( 'Field Label' , 'inbound-pro' ) .'</th>';
+				echo '			</div>';
+				echo '			<div class="map-key-header all-20">';
+				echo '			<th>' . __( 'Field Type' , 'inbound-pro' ) .'</th>';
+				echo '			</div>';
+				echo '			<div class="map-key-header all-15">';
+				echo '			<th>' . __( 'Action' , 'inbound-pro' ) .'</th>';
+				echo '			</div>';
+				echo ' 		</div>';
+				
+				echo ' 	<form data="'.$field['type'].'" id="custom-fields-form">';	
+				echo ' 	<ul class="field-map" id="field-map">';			
+						
+								
+				foreach( $fields as $key => $field ) {
+				
+					echo '	<li class="map-row column-group"  data-priority="'.$key.'">';						
+					echo '		<div class="map-handle all-5">';
+					echo '			<span class="drag-handle">';
+					echo '				<i class="fa fa-arrows"></i>';
+					echo '			</span>';
+					echo '		</div>';
+					echo '		<div class="map-key all-25">';
+					echo '				<input type="hidden" class="field-priority" name="fields['.$field['key'].'][priority]" value="'.$key.'">';
+					echo '				<input type="text" class="field-key" data-special-handler="true" data-field-type="mapped-field" name="fields['.$field['key'].'][key]" value="'.$field['key'].'" '. ( isset($field['nature']) || $field['nature'] == 'core' ? 'disabled' : '' ) .' required>';
+					echo '		</div>';
+					echo '		<div class="map-label all-30">';						
+					echo '				<input type="text" class="field-label" data-special-handler="true" data-field-type="mapped-field"  name="fields['.$field['key'].'][label]" value="'.$field['label'].'" required>';
+					echo '		</div>';
+					echo '		<div class="map-label all-20">';						
+					echo '				<select type="text" class="field-type" data-special-handler="true" data-field-type="mapped-field"  name="fields['.$field['key'].'][type]">';
+		
+					foreach ( $field_types as $type => $label ) {
+						echo 				'<option value="'.$type.'" '.( isset($field['type']) && $field['type'] == $type ? 'selected="selected"' : '' ).'>'.$label.'</option>';
+					}
+					
+					echo '				</select>';
+					echo '		</div>';
+					echo '		<div class="map-actions all-20">';
+				
+					echo '			<div class="edit-btn-group ">';
+					echo '				<span class="ink-button red delete-custom-field '.( !isset($field['nature']) || $field['nature'] != 'core'  ? '' : 'hidden' ).'" id="remove-field">'.__( 'remove' , ' inbound-pro' ).'</span>';
+					echo '			</div>';
+					echo '			<div class="edit-btn-group ">';
+					echo '				<span class="ink-button red delete-custom-field-confirm hidden" id="remove-field-confirm">'.__( 'confirm removal' , ' inbound-pro' ).'</span>';
+					echo '			</div>';
+					
+					echo '		</div>';
+					echo '	</li>';
+				}
+				
+				echo '	</ul>';
+				echo '	</form>';
+				echo '	<form id="add-new-field-container">';
+				echo '	<div class="map-row-addnew column-group">';
+				echo '		<div class="map-handle all-5 hide">';
+				echo '			<span class="drag-handle">';
+				echo '				<i class="fa fa-arrows"></i>';
+				echo '			</span>';
+				
+				echo '		</div>';
+				echo '		<div class="map-key all-25">';
+				echo '				<input type="text"  name="fields[new][key]" data-special-handler="true" id="new-key" placeholder="'.__('Enter field key here' , 'inbound-pro' ).'" required>';
+				echo '		</div>';
+				echo '		<div class="map-label all-30">';						
+				echo '				<input type="text" name="fields[new][label]" data-special-handler="true" id="new-label" placeholder="'.__('Enter field label here' , 'inbound-pro' ).'" required>';
+				echo '		</div>';
+				
+				echo '		<div class="map-label all-20">';						
+				echo '				<select type="text" class="field-type" data-special-handler="true" id="new-type"  name="fields[new][type]">';
+				foreach ( $field_types as $type => $label ) {
+					echo 				'<option value="'.$type.'">'.$label.'</option>';
+				}				
+				echo '				</select>';
+				echo '		</div>';
+				echo '		<div class="map-actions all-20">';
+				echo '			<div class="edit-btn-group">';
+				echo '				<button type="submit" class="ink-button blue" id="add-custom-field">'.__( 'add new field' , ' inbound-pro' ).'</button>';
+				echo '			</div>';
+				echo '		</div>';
+				echo '	</div>';
+				echo '	</form>';
+				echo '</div>';
+			break;
 		} //end switch
 		echo '</div>';
 
@@ -596,6 +721,22 @@ class Inbound_Pro_Welcome {
 		/* Update Setting */
 		$settings = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
 		$settings[ $data['fieldGroup'] ][ $data['name'] ] = $data['value'];
+
+		Inbound_Options_API::update_option( 'inbound-pro' , 'settings' , $settings );
+	}
+	
+	/**
+	*  Ajax listener for saving updated custom field data
+	*/
+	public static function ajax_update_custom_fields() {
+		/* parse string */
+		parse_str($_POST['input'] , $data );
+		
+		//error_log(print_r($data,true));
+		
+		/* Update Setting */
+		$settings = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
+		$settings[ 'leads-custom-fields' ] =  $data;
 
 		Inbound_Options_API::update_option( 'inbound-pro' , 'settings' , $settings );
 	}

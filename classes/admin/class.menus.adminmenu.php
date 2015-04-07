@@ -34,6 +34,9 @@ class Inbound_Menus_Admin {
 			30  /* position */
 		);
 	
+		/* Manage Settings */
+		add_submenu_page('inbound-pro', __( 'Settings' , 'inbound-pro' ) , __( 'Settings' , 'inbound-pro' ) , 'manage_options', 'inbound-pro', array( 'Inbound_Pro_Welcome' , 'display' ) );
+		
 		/* Manage Templates */
 		add_submenu_page('inbound-pro', __( 'Templates' , 'inbound-pro' ) , __( 'Templates' , 'inbound-pro' ) , 'manage_options', 'inbound-manage-templates', array( 'Inbound_Pro_Downloads' , 'display_ui' ) );
 

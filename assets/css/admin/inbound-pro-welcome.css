@@ -196,3 +196,56 @@ $font:'Oswald', sans-serif;
 .sidebar-h6 {
 	color: #a9a9a9;
 }
+
+/**
+*
+* Leads Field Mapping Repeater
+*
+*/
+
+.field-map input ,.field-map select , .map-row-addnew input , .map-row-addnew select  {
+	width:100%;
+	height:40px;
+	padding-left:5px;
+}
+
+.map-row-headers {
+	margin-left:18px;
+	margin-top:10px;
+	font-weight:600;
+	border-bottom: #ddd solid 2px;
+}
+
+
+.map-row {
+	border-bottom: #ddd solid 1px;
+	padding-top:5px;
+	padding-bottom:5px;
+}
+
+.map-row-addnew  {
+	margin-left:18px;
+}
+
+.map-row-addnew .add-new-field {
+	margin-left:18px;
+	margin-right:auto;
+	text-align:center;
+	padding:20px;
+	border:dotted 1px;
+}
+
+
+.map-handle {
+	vertical-align: center;
+	margin-top:3px;
+}
+
+.drag-handle  {
+	color:#ddd;
+	cursor:move;
+}
+
+.map-actions {
+	text-align:right;	
+}

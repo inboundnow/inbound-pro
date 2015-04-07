@@ -314,6 +314,7 @@ class Inbound_Pro_Downloads {
 	*  Loads all UI elements
 	*/
 	public static function display_ui() {
+
 		/* get download data */
 		self::build_main_dataset();
 
