@@ -8,6 +8,7 @@ function lp_fontend_enqueue_scripts($hook) {
 	if (!isset($post)) {
 		return;
 	}
+	
 	/* dequeue third party scripts */
 	global $wp_scripts;
 	$store = '';
@@ -23,13 +24,6 @@ function lp_fontend_enqueue_scripts($hook) {
 
 	/* Load jQuery */
 	wp_enqueue_script('jquery');
-
-	/* Load Page Tracking */
-	$variation = lp_ab_testing_get_current_variation_id();
-
-	wp_enqueue_script( 'landing-page-view-track' , LANDINGPAGES_URLPATH . 'js/page_view_track.js', array( 'jquery'));
-	wp_localize_script( 'landing-page-view-track' , 'landing_path_info', array( 'post_id' => $post->ID , 'post_type' => $post->post_type , 'variation' => $variation, 'admin_url' => admin_url( 'admin-ajax.php' )));
-
 
 	if (isset($post)&&$post->post_type=='landing-page') {
 

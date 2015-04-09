@@ -37,14 +37,6 @@ function lp_get_global_settings() {
 			'options' => null
 		),
 		array(
-			'id'  => 'landing-page-disable-admin-tracking',
-			'label' => __('Disable Admin Impression/Conversion Tracking' , 'landing-pages') ,
-			'description' => __("With this setting enabled landing pages plugin will not record visits and conversions for administrative users that are logged in." , 'landing-pages'),
-			'type'  => 'radio',
-			'default'  => '0',
-			'options' => array('1'=>'on','0'=>'off')
-		),
-		array(
 			'id'  => 'landing-page-rotation-halt',
 			'label' => __('Sticky Variations' , 'landing-pages'),
 			'description' => __("With this setting enabled the landing pages plugin will prevent landing page version a/b rotation for a specific visitor that has viewed the page.<br><br>This pause on the a/b rotation will automatically expire after 30 days." , 'landing-pages'),

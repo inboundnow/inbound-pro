@@ -66,8 +66,7 @@ function wpleads_set_lead_id($lead_id){
  */
 function wp_leads_set_current_lists($lead_id) {
 
-	// Set List Cookies if lead is in lists.
-	$terms = get_the_terms( $lead_id, 'wplead_list_category' );
+	$terms = get_the_terms( $lead_id , 'wplead_list_category' );
 	if ( $terms && ! is_wp_error( $terms ) ) {
 
 		$lead_list = array();
@@ -81,7 +80,6 @@ function wp_leads_set_current_lists($lead_id) {
 		$list_array = json_encode(array( 'ids' => $lead_list )); ;
 
 		setcookie('wp_lead_list' , $list_array, time() + (20 * 365 * 24 * 60 * 60),'/');
-		//setcookie('check_lead_list' , true, time() + ( 24 * 60 * 60),'/');
 	}
 }
 

@@ -2989,8 +2989,6 @@ var _inboundLeadsAPI = (function(_inbound) {
                 if (wp_lead_id) {
                     /* Get InboundLeadData */
                     _inbound.LeadsAPI.getAllLeadData();
-                    /* Lead list check */
-                    _inbound.LeadsAPI.getLeadLists();
                 }
             }
         },
@@ -3389,16 +3387,23 @@ var _inboundPageTracking = (function(_inbound) {
             _inbound.deBugger('pages', status);
         },
         storePageView: function() {
+			
+			if ( inbound_settings.page_tracking == 'off' ) {
+				return;
+			}
+			
             var leadID = _inbound.Utils.readCookie('wp_lead_id'),
                 lead_uid = _inbound.Utils.readCookie('wp_lead_uid');
 
             if (leadID) {
 
                 var data = {
-                    action: 'wpl_track_user',
+                    action: 'inbound_track_lead',
                     wp_lead_uid: lead_uid,
                     wp_lead_id: leadID,
                     page_id: inbound_settings.post_id,
+                    variation_id: inbound_settings.variation_id,
+                    post_type: inbound_settings.post_type,
                     current_url: window.location.href,
                     json: '0'
                 };

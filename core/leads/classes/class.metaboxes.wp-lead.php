@@ -700,6 +700,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 			$fields = array();
 
 			$mapped_fields = Leads_Field_Map::get_lead_fields();
+			$mapped_fields = Leads_Field_Map::prioritize_lead_fields( $mapped_fields );
 
 			foreach ($mapped_fields as $key => $field) {
 

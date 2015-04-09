@@ -31,6 +31,12 @@ class CTA_Conversion_Tracking {
 			return $data;
 		}
 		
+		$do_not_track = apply_filters('inbound_analytics_stop_track' , false );
+
+		if ( $do_not_track ) {
+			return;
+		}	
+				
 		$cta_id = $raw_post_values['wp_cta_id'];
 		$vid = $raw_post_values['wp_cta_vid'];	
 
@@ -102,11 +108,17 @@ class CTA_Conversion_Tracking {
 					}
 				}
 
-				// Save click!
-				self::store_click_data( $event_id, $lead_id, $cta_variation); // Store CTA data to CTA CPT
+				
+				$do_not_track = apply_filters('inbound_analytics_stop_track' , false );
 
-				/* Add event to lead profile */
-				self::store_click_data_to_lead($event_id, $lead_id, 'clicked-link');
+				if ( $do_not_track === false ) {
+					/* store click data */
+					self::store_click_data( $event_id, $lead_id, $cta_variation); // Store CTA data to CTA CPT
+
+					/* Add event to lead profile */
+					self::store_click_data_to_lead($event_id, $lead_id, 'clicked-link');
+				}	
+			
 
 				$link = preg_replace('/(?<=wpl_id)(.*)(?=&)/s', '', $link); // clean url
 				$link = preg_replace('/&wpl_id&l_type=(\D*)/', '', $link); // clean url2
