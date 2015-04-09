@@ -14,6 +14,9 @@
 .inbound-setting .hidden {
 	display:none;
 }
+.inbound-setting  {
+	margin-top:10px;
+}
 
 /* search */
 .templates-filter-group {
@@ -199,11 +202,11 @@ $font:'Oswald', sans-serif;
 
 /**
 *
-* Leads Field Mapping Repeater
+* Leads Field Mapping & IP Address Repeaters
 *
 */
 
-.field-map input ,.field-map select , .map-row-addnew input , .map-row-addnew select  {
+.field-map input ,.field-map select , .map-row-addnew input , .map-row-addnew select, .ip-address-row input  , .ip-address-row-addnew input   {
 	width:100%;
 	height:40px;
 	padding-left:5px;
@@ -227,14 +230,6 @@ $font:'Oswald', sans-serif;
 	margin-left:18px;
 }
 
-.map-row-addnew .add-new-field {
-	margin-left:18px;
-	margin-right:auto;
-	text-align:center;
-	padding:20px;
-	border:dotted 1px;
-}
-
 
 .map-handle {
 	vertical-align: center;
@@ -246,6 +241,11 @@ $font:'Oswald', sans-serif;
 	cursor:move;
 }
 
-.map-actions {
+.map-actions, .ip-address-actions {
 	text-align:right;	
+}
+
+.field-ip-addresses {
+	margin-left:0px;
+	padding-left:0px;
 }

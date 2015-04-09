@@ -127,6 +127,7 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 			/* Frontend & Admin */
 			include_once( INBOUND_PRO_PATH . 'classes/class.options-api.php');
 			include_once( INBOUND_PRO_PATH . 'classes/class.extension-loader.php');			
+			include_once( INBOUND_PRO_PATH . 'classes/class.analytics.php');			
 			include_once( INBOUND_PRO_PATH . 'assets/plugins/advanced-custom-fields-pro/acf.php');
 			
 			/* Admin Only */
@@ -134,6 +135,7 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.activate.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.menus.adminbar.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.menus.adminmenu.php');
+				include_once( INBOUND_PRO_PATH . 'classes/admin/class.lead-field-mapping.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.pro-welcome.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.download-management.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.inbound-api-wrapper.php');

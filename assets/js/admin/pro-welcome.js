@@ -66,7 +66,19 @@ var InboundProWelcomeJs = ( function() {
 		 *  Add UI Listeners
 		 */
 		addListeners: function() {
+			
+			InboundProWelcomeJs.addInputListeners();
+			InboundProWelcomeJs.addCustomLeadFieldListeners();
+			InboundProWelcomeJs.addIPAddressListeners();
+			InboundProWelcomeJs.addLicenseKeyListeners();
+			InboundProWelcomeJs.addOauthListeners();
+			
 
+		},
+		/**
+		 *  Adds listeners that support non repeater setting updates
+		 */
+		addInputListeners: function() {
 			/* add listeners for non array data changes */
 			jQuery( document ).on( 'change unfocus propertychange paste' , 'input[data-special-handler!="true"],dropdown,radio' , function() {
 
@@ -86,6 +98,12 @@ var InboundProWelcomeJs = ( function() {
 				}
 
 			});
+		},
+		/**
+		 *  Add listeners that support custom lead fields
+		 */
+		addCustomLeadFieldListeners: function() {
+						
 
 			/* add listeners for custom field changes */
 			jQuery( document ).on( 'change unfocus propertychange keyup' , 'input[data-field-type="mapped-field"],select[data-field-type="mapped-field"]' , function() {
@@ -108,6 +126,81 @@ var InboundProWelcomeJs = ( function() {
 				
 			});
 
+			/* Add listener to delete custom field */
+			jQuery( 'body' ).on( 'click' , '.delete-custom-field' , function() {
+				/* set static var */
+				InboundProWelcomeJs.input = jQuery( this );
+				InboundProWelcomeJs.removeCustomFieldConfirm();
+			});
+
+			/* Add listener to delete custom field */
+			jQuery( 'body' ).on( 'click' , '.delete-custom-field-confirm' , function() {
+				/* set static var */
+				InboundProWelcomeJs.input = jQuery( this );
+				InboundProWelcomeJs.removeCustomField();
+			});			
+			
+			
+			/* Add listeners for oauth unauthorize buttons */
+			jQuery(document).on('submit','#add-new-custom-field-form',function (e) {
+				/* prevent the form from doing a submit */
+				e.preventDefault();
+
+				InboundProWelcomeJs.addCustomLeadField();
+				return false;
+			});
+			
+		},
+		/**
+		 *  Add listeners to support Analytics do not track IP Addresses
+		 */
+		addIPAddressListeners: function() {
+			
+			/* add listeners for IP Address rule changes */
+			jQuery( document ).on( 'change unfocus propertychange keyup' , 'input[data-field-type="ip-address"]' , function() {
+
+				if (InboundProWelcomeJs.timer == true && event.type != 'propertychange' ) {
+					return;
+				} 
+
+				InboundProWelcomeJs.timer = true;
+
+				setTimeout( function() {
+					InboundProWelcomeJs.updateIPAddresses();
+					InboundProWelcomeJs.timer = false;
+				} , 500 );
+				
+			});
+
+			/* Add listener to delete custom field */
+			jQuery( 'body' ).on( 'click' , '.delete-ip-address' , function() {
+				/* set static var */
+				InboundProWelcomeJs.input = jQuery( this );
+				InboundProWelcomeJs.removeIPAddressConfirm();
+			});
+
+			/* Add listener to delete custom field */
+			jQuery( 'body' ).on( 'click' , '.delete-ip-address-confirm' , function() {
+				/* set static var */
+				InboundProWelcomeJs.input = jQuery( this );
+				InboundProWelcomeJs.removeIPAddress();
+			});
+			
+			/* Add listeners for oauth unauthorize buttons */
+			jQuery(document).on('submit','#add-new-ip-address-form',function (e) {
+				/* prevent the form from doing a submit */
+				e.preventDefault();
+
+				InboundProWelcomeJs.addIPAddress();
+				return false;
+			});
+			
+		 
+		},
+		/**
+		 *  Adds license key input listeners
+		 */
+		addLicenseKeyListeners: function() {
 			/* add listenrs for license key validation */
 			jQuery( document ).on( 'keyup' , '.license' , function() {
 				/* set static var */
@@ -123,8 +216,13 @@ var InboundProWelcomeJs = ( function() {
 
 				/* Save Data on Change */
 				InboundProWelcomeJs.updateSetting();
-			});
-
+			});		
+		},
+		/**
+		 *  Add oauth workflow listeners
+		 */
+		addOauthListeners: function() {
+			
 			/* add listeners for 'add new custom fields  */
 			jQuery( 'body' ).on( 'click' , '.unauth' , function() {
 				/* set static var */
@@ -132,28 +230,6 @@ var InboundProWelcomeJs = ( function() {
 				InboundProWelcomeJs.deauthorizeOauth();
 			});
 
-			/* Add listener to delete custom field */
-			jQuery( 'body' ).on( 'click' , '.delete-custom-field' , function() {
-				/* set static var */
-				InboundProWelcomeJs.input = jQuery( this );
-				InboundProWelcomeJs.removeCustomFieldConfirm();
-			});
-
-			/* Add listener to delete custom field */
-			jQuery( 'body' ).on( 'click' , '.delete-custom-field-confirm' , function() {
-				/* set static var */
-				InboundProWelcomeJs.input = jQuery( this );
-				InboundProWelcomeJs.removeCustomField();
-			});
-
-			/* Add listeners for oauth unauthorize buttons */
-			jQuery(document).on('submit','#add-new-field-container',function (e) {
-				/* prevent the form from doing a submit */
-				e.preventDefault();
-
-				InboundProWelcomeJs.addCustomLeadField();
-				return false;
-			})
 
 			/* Add listeners for oauth authorize button */
 			jQuery( 'body' ).on( 'click' , '.oauth' , function() {
@@ -171,7 +247,7 @@ var InboundProWelcomeJs = ( function() {
 					InboundProWelcomeJs.setAuthorized();
 				}
 			});
-
+		
 		},
 		/**
 		 *  Save Input Data
@@ -219,6 +295,31 @@ var InboundProWelcomeJs = ( function() {
 					url: ajaxurl ,
 					data: {
 						action: 'inbound_pro_update_custom_fields',
+						input: form.serialize()
+					},
+					dataType: 'html',
+					timeout: 10000,
+					success: function (response) {
+
+					},
+					error: function(request, status, err) {
+						alert(status);
+					}
+				});
+			} , 500 );
+		},
+		/**
+		 *  Save IP Addresses
+		 */
+		updateIPAddresses: function() {
+			setTimeout( function() {
+				var form = jQuery('#ip-addresses-form').clone();
+				
+				jQuery.ajax({
+					type: "POST",
+					url: ajaxurl ,
+					data: {
+						action: 'inbound_pro_update_ip_addresses',
 						input: form.serialize()
 					},
 					dataType: 'html',
@@ -416,6 +517,31 @@ var InboundProWelcomeJs = ( function() {
 
 		},
 		/**
+		 *  Adds ip address to list of ignored ip addresses
+		 */
+		addIPAddress: function() {
+			/* create a new li and append to list */
+			var clone = jQuery(".ip-address-row:last").clone();
+			
+			/* remove hidden class if present */
+			clone.removeClass( 'hidden' );
+			
+			/* change values to custom values */
+			clone.find('input.field-ip-address').val( jQuery('.ip-address-row-addnew #new-ip-address').val() );
+
+			/* unhide delete button */
+			clone.find('.delete-custom-field').removeClass('hidden');
+			
+			/* empty add new container */
+			jQuery('.ip-address-row-addnew #new-ip-address').val('');
+
+			clone.appendTo(".field-ip-addresses");
+			
+			/* run update */
+			InboundProWelcomeJs.updateIPAddresses();
+
+		},
+		/**
 		 *  Prompt remove custom field confirmation
 		 */
 		removeCustomFieldConfirm: function() {
@@ -430,6 +556,28 @@ var InboundProWelcomeJs = ( function() {
 			InboundProWelcomeJs.input = InboundProWelcomeJs.input.closest('.map-row');
 			InboundProWelcomeJs.input.remove();/* run update */
 			InboundProWelcomeJs.updateCustomFields();
+		},
+		/**
+		 *  Prompt remove custom field confirmation
+		 */
+		removeIPAddressConfirm: function() {
+			InboundProWelcomeJs.input.addClass( 'hidden' );
+			InboundProWelcomeJs.input = InboundProWelcomeJs.input.closest('.ip-address-row');
+			InboundProWelcomeJs.input.find('.delete-ip-address-confirm').removeClass( 'hidden' );
+		},
+		/**
+		 *  Remove custom field
+		 */
+		removeIPAddress: function() {
+			if ( jQuery('.ip-address-row').length > 1 ) {
+				InboundProWelcomeJs.input = InboundProWelcomeJs.input.closest('.ip-address-row');
+				InboundProWelcomeJs.input.remove();/* run update */
+				InboundProWelcomeJs.updateIPAddresses();
+			} else {
+				jQuery('.ip-address-row').addClass('hidden');
+				jQuery('.ip-address-row').find('input').val('');
+				InboundProWelcomeJs.updateIPAddresses();
+			}
 		}
 	}
 
