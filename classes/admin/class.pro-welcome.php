@@ -34,6 +34,9 @@ class Inbound_Pro_Welcome {
 		/* add ajax listener for custom fields setting saves */
 		add_action( 'wp_ajax_inbound_pro_update_custom_fields' , array( __CLASS__ , 'ajax_update_custom_fields' ) );
 		
+		/* add ajax listener for IP Addresses setting saves */
+		add_action( 'wp_ajax_inbound_pro_update_ip_addresses' , array( __CLASS__ , 'ajax_update_ip_addresses' ) );
+		
 	}
 
 	/**
@@ -118,6 +121,54 @@ class Inbound_Pro_Welcome {
 						array (
 							'id'	=> 'leads-custom-fields',
 							'type'	=> 'custom-fields-repeater',
+							'default'	=> '',
+							'placeholder'	=> null,
+							'options' => null,
+							'hidden' => false,
+							'reveal' => array(
+								'selector' => null ,
+								'value' => null
+							)
+						),
+					),
+				),
+				/* add Analytics exclusion options */
+				array( 
+					'group_name' => 'inbound-analytics-rules',					
+					'keywords' => __('analytics,tracking,ipaddress,ip address,admin tracking' , 'inbound-pro'),
+					'fields' => array (						
+						array (
+							'id'	=> 'exclude-admin',
+							'type'	=> 'header',
+							'default'	=> __( 'Analytics' , 'inbound-pro' ),
+							'placeholder'	=> null,
+							'options' => false,
+							'hidden' => false,
+							'reveal' => array(
+								'selector' => null ,
+								'value' => null
+							)
+						),				
+						array (
+							'id'	=> 'exclude-admin',
+							'type'	=> 'radio',
+							'label'	=> __( 'Disable Admin Tracking' , 'inbound-pro' ),
+							'description'	=> __( 'Toggle this to on to prevent impression/conversion tracking for logged in administrators.' , 'inbound-pro' ),
+							'default'	=> 'off',
+							'placeholder'	=> null,
+							'options' => array(
+								'off' => __( 'Off' , 'inbound-pro' ),
+								'on' => __( 'On' , 'inbound-pro' ),
+							),
+							'hidden' => false,
+							'reveal' => array(
+								'selector' => null ,
+								'value' => null
+							)
+						),
+						array (
+							'id'	=> 'exclude-ip-addresses',
+							'type'	=> 'ip-address-repeater',
 							'default'	=> '',
 							'placeholder'	=> null,
 							'options' => null,
@@ -609,7 +660,7 @@ class Inbound_Pro_Welcome {
 				$field_types = Leads_Field_Map::build_field_types_array();
 				
 				echo '<div class="repeater-custom-fields">';
-				echo '	<h2>'.__('Custom Lead Fields:' , 'inbound-pro' ) .'</h2>';
+				echo '	<h4>'.__('Custom Lead Fields:' , 'inbound-pro' ) .'</h4>';
 				echo '	<br>';
 				
 				echo '		<div class="map-row-headers column-group">';
@@ -673,9 +724,9 @@ class Inbound_Pro_Welcome {
 				
 				echo '	</ul>';
 				echo '	</form>';
-				echo '	<form id="add-new-field-container">';
+				echo '	<form id="add-new-custom-field-form">';
 				echo '	<div class="map-row-addnew column-group">';
-				echo '		<div class="map-handle all-5 hide">';
+				echo '		<div class="map-handle all-5 ">';
 				echo '			<span class="drag-handle">';
 				echo '				<i class="fa fa-arrows"></i>';
 				echo '			</span>';
@@ -702,6 +753,65 @@ class Inbound_Pro_Welcome {
 				echo '		</div>';
 				echo '	</div>';
 				echo '	</form>';
+				echo '</div>';
+				BREAK;
+				
+			case 'ip-address-repeater':
+				self::$settings_values = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
+				$ip_addresses = ( isset(self::$settings_values['inbound-analytics-rules']['ip-addresses']) && self::$settings_values['inbound-analytics-rules']['ip-addresses'] ) ? self::$settings_values['inbound-analytics-rules']['ip-addresses'] : array('') ;
+
+				echo '<div class="repeater-ip-addresses">';
+				echo '	<h4>'.__('Exclude IPs from Tracking:' , 'inbound-pro' ) .'</h4>';
+				
+				echo '		<div class="ip-address-row-headers column-group">';
+				echo '			<div class="ip-address-header all-80">';
+				echo '			<th>' . __( 'IP Address' , 'inbound-pro' ) .'</th>';
+				echo '			</div>';
+				echo '			<div class="ip-address-action-header all-20">';
+				echo '			<th>' . __( 'Action' , 'inbound-pro' ) .'</th>';
+				echo '			</div>';
+				echo ' 		</div>';
+				
+				echo ' 	<form data="'.$field['type'].'" id="ip-addresses-form">';	
+				echo ' 		<ul class="field-ip-addresses" id="field-ip-address">';			
+						
+								
+				foreach( $ip_addresses as $key => $ip_address ) {
+				
+					echo '		<li class="ip-address-row column-group '. ( !$ip_address ? 'hidden' : '' ) .'"  data-priority="'.$key.'">';						
+					echo '			<div class="ip-address all-80">';
+					echo '				<input type="ip-address" class="field-ip-address" data-special-handler="true" data-field-type="ip-address" name="ip-addresses[]" value="'.$ip_address.'" required>';
+					echo '			</div>';
+					echo '			<div class="ip-address-actions all-20">';
+				
+					echo '				<div class="edit-btn-group ">';
+					echo '					<span class="ink-button red delete-ip-address '.( !isset($field['nature']) || $field['nature'] != 'core'  ? '' : 'hidden' ).'" id="remove-field">'.__( 'remove' , ' inbound-pro' ).'</span>';
+					echo '				</div>';
+					echo '				<div class="edit-btn-group ">';
+					echo '					<span class="ink-button red delete-ip-address-confirm hidden" id="remove-ip-confirm">'.__( 'confirm removal' , ' inbound-pro' ).'</span>';
+					echo '				</div>';
+					
+					echo '			</div>';
+					echo '		</li>';
+				}
+				
+				echo '		</ul>';
+				echo '	</form>';
+				
+				/* add new ip address html */
+				echo '	<form id="add-new-ip-address-form">';
+				echo '		<div class="ip-address-row-addnew column-group">';
+				echo '			<div class="ip-address all-80">';
+				echo '					<input type="text"  name="ip-addresses" data-special-handler="true" id="new-ip-address" placeholder="'.__('Enter IP Address ' , 'inbound-pro' ).'" required>';
+				echo '			</div>';				
+				echo '			<div class="ip-address-actions all-20">';
+				echo '				<div class="edit-btn-group">';
+				echo '					<button type="submit" class="ink-button blue" id="add-ip-address">'.__( 'add new ip address' , ' inbound-pro' ).'</button>';
+				echo '				</div>';
+				echo '			</div>';
+				echo '		</div>';
+				echo '	</form>';
+				
 				echo '</div>';
 			break;
 		} //end switch
@@ -737,6 +847,24 @@ class Inbound_Pro_Welcome {
 		/* Update Setting */
 		$settings = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
 		$settings[ 'leads-custom-fields' ] =  $data;
+
+		Inbound_Options_API::update_option( 'inbound-pro' , 'settings' , $settings );
+	}
+	
+	/**
+	*  Ajax listener for saving updated ip addresses to not track
+	*/
+	public static function ajax_update_ip_addresses() {
+		/* parse string */
+		parse_str($_POST['input'] , $data );
+		//error_log(print_r($data,true));
+		
+		$ip_addresses = array_filter($data['ip-addresses']);
+		$ip_addresses = array_map('trim',$ip_addresses);
+		
+		/* Update Setting */
+		$settings = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
+		$settings['inbound-analytics-rules'][ 'ip-addresses' ] = $ip_addresses;
 
 		Inbound_Options_API::update_option( 'inbound-pro' , 'settings' , $settings );
 	}
