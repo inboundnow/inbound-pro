@@ -41,16 +41,11 @@ if (!class_exists('Inbound_Load_Shared')) {
 
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.post-type.wp-lead.php');
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.post-type.email-template.php');
-			// Inbound forms class
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.form.php');
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.menus.adminbar.php');	/* Moved to PRO */
-			// Inbound Feedback Form
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.feedback.php');
-			// Inbound Debug & Scripts Class
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.debug.php');
-			// Inbound Compatibility Class
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.compatibility.php');
-			// {{token}} Replacement Engine
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.templating-engine.php');
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.shortcodes.email-template.php');
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.shortcodes.cookie-values.php');
@@ -59,22 +54,14 @@ if (!class_exists('Inbound_Load_Shared')) {
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.welcome.php');
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.branching.php');
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.options-api.php');
- 			// Lead Storage from landing pages
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.lead-storage.php');
-			// Shared Shortcodes
 			include_once( INBOUDNOW_SHARED_PATH . 'shortcodes/inbound-shortcodes.php');
-			// Licensing
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.licensing.php');
-			// Inboundnow Global Settings
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.master-license.php');
-			// Global Shared Utility functions
 			include_once( INBOUDNOW_SHARED_PATH . 'legacy/functions.php');
-			// Load Shared CSS and JS Assets
 			include_once( INBOUDNOW_SHARED_PATH . 'assets/assets.loader.class.php');
-			// Load Notifications
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.notifications.php');
-			// Load Magic
-			//include_once( INBOUDNOW_SHARED_PATH . 'classes/class.magic.php');
+			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.ajax.php');
 
 
 			self::load_legacy_elements();

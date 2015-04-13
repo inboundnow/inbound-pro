@@ -87,13 +87,13 @@ if (!class_exists('Inbound_Debug_Scripts')) {
 		if ( ! self::$add_debug )
 		return;
 
-			// Post Values
-			$post_id = (isset( $_POST['post_id'] )) ? $_POST['post_id'] : "";
-			$the_script = (isset( $_POST['the_script'] )) ? $_POST['the_script'] : "";
-			$status = (isset( $_POST['status'] )) ? $_POST['status'] : "";
-			$admin_screen = (isset( $_POST['admin_screen'] )) ? $_POST['admin_screen'] : "";
+		// Post Values
+		$post_id = (isset( $_POST['post_id'] )) ? $_POST['post_id'] : "";
+		$the_script = (isset( $_POST['the_script'] )) ? $_POST['the_script'] : "";
+		$status = (isset( $_POST['status'] )) ? $_POST['status'] : "";
+		$admin_screen = (isset( $_POST['admin_screen'] )) ? $_POST['admin_screen'] : "";
 
-			/* Store Script Data to Post */
+		/* Store Script Data to Post */
 		$script_data = get_post_meta( $post_id, 'inbound_dequeue_js', TRUE );
 		$script_data = json_decode($script_data,true);
 			if(is_array($script_data)) {
@@ -111,11 +111,12 @@ if (!class_exists('Inbound_Debug_Scripts')) {
 			$script_data[$the_script] = $status;
 			}
 		}
-			$script_save = json_encode($script_data);
+		
+		$script_save = json_encode($script_data);
 
-			update_post_meta( $post_id, 'inbound_dequeue_js', $script_save );
+		update_post_meta( $post_id, 'inbound_dequeue_js', $script_save );
 
-			// Set global option inbound_global_dequeue_js
+		// Set global option inbound_global_dequeue_js
 
 		$output =	array('encode'=> $script_save );
 
@@ -124,16 +125,17 @@ if (!class_exists('Inbound_Debug_Scripts')) {
 	}
 
 	static function inbound_dequeue_admin_js() {
-		if ( ! self::$add_debug )
-		return;
+		if ( ! self::$add_debug ) {
+			return;
+		}
 
-			// Post Values
-			$post_id = (isset( $_POST['post_id'] )) ? $_POST['post_id'] : "";
-			$the_script = (isset( $_POST['the_script'] )) ? $_POST['the_script'] : "";
-			$status = (isset( $_POST['status'] )) ? $_POST['status'] : "";
-			$admin_screen = (isset( $_POST['admin_screen'] )) ? $_POST['admin_screen'] : "";
+		// Post Values
+		$post_id = (isset( $_POST['post_id'] )) ? $_POST['post_id'] : "";
+		$the_script = (isset( $_POST['the_script'] )) ? $_POST['the_script'] : "";
+		$status = (isset( $_POST['status'] )) ? $_POST['status'] : "";
+		$admin_screen = (isset( $_POST['admin_screen'] )) ? $_POST['admin_screen'] : "";
 
-			/* Store Script Data to Post */
+		/* Store Script Data to Post */
 		$script_data = get_option( 'inbound_global_dequeue' );
 
 		if(is_array($script_data)) {
@@ -151,9 +153,10 @@ if (!class_exists('Inbound_Debug_Scripts')) {
 			$script_data[$the_script] = $admin_screen;
 			}
 		}
-			update_option( 'inbound_global_dequeue', $script_data );
+		
+		update_option( 'inbound_global_dequeue', $script_data );
 
-			// Set global option inbound_global_dequeue_js
+		// Set global option inbound_global_dequeue_js
 
 		$output =	array('encode'=> $script_data );
 
@@ -173,8 +176,9 @@ if (!class_exists('Inbound_Debug_Scripts')) {
 	static function inbound_now_script_whitelist() {
 		global $wp_scripts;
 		// Match our plugins and whitelist them
-		$registered_scripts = $wp_scripts->registered;
+		$registered_scripts = ( $wp_scripts->registered ) ? $wp_scripts->registered : array();
 		$inbound_white_list = array();
+		
 		foreach ($registered_scripts as $handle) {
 			$src = $handle->src;
 			if (!is_array($src)) {
@@ -199,7 +203,7 @@ if (!class_exists('Inbound_Debug_Scripts')) {
 	static function inbound_kill_bogus_scripts() {
 		if (!isset($_GET['inbound-dequeue-scripts'])) {
 			global $wp_scripts, $wp_query;
-			$script_list = $wp_scripts->queue; // All enqueued scripts
+			$script_list = ( $wp_scripts->queue ) ? $wp_scripts->queue : array(); // All enqueued scripts
 			$current_page_id = $wp_query->get_queried_object_id();
 			$script_data = get_post_meta( $current_page_id , 'inbound_dequeue_js', TRUE );
 			$script_data = json_decode($script_data,true);

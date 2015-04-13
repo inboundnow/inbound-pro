@@ -160,21 +160,31 @@ if (!class_exists('Inbound_Asset_Loader')) {
 			$wordpress_date_time = date("Y/m/d G:i:s", $time);
 			$inbound_track_include = get_option( 'wpl-main-tracking-ids');
 			$inbound_track_exclude = get_option( 'wpl-main-exclude-tracking-ids');
-			$inbound_localized_data = array('post_id' => $post_id,
-											'ip_address' => $ip_address,
-											'wp_lead_data' => $lead_data_array,
-											'admin_url' => admin_url('admin-ajax.php'),
-											'track_time' => $wordpress_date_time,
-											'post_type' => $post_type,
-											'page_tracking' => $page_tracking,
-											'search_tracking' => $search_tracking,
-											'comment_tracking' => $comment_tracking,
-											'custom_mapping' => $custom_map_values,
-											'inbound_track_exclude' => $inbound_track_exclude,
-											'inbound_track_include' => $inbound_track_include
+			
+			/* get variation id */
+			if (function_exists('lp_ab_testing_get_current_variation_id')) {
+				$variation = lp_ab_testing_get_current_variation_id();
+			}
+			
+			$variation = (isset($variation)) ? $variation : 0;
+			
+			$inbound_localized_data = array(
+				'post_id' => $post_id,
+				'variation_id' => $variation,
+				'ip_address' => $ip_address,
+				'wp_lead_data' => $lead_data_array,
+				'admin_url' => admin_url('admin-ajax.php'),
+				'track_time' => $wordpress_date_time,
+				'post_type' => $post_type,
+				'page_tracking' => $page_tracking,
+				'search_tracking' => $search_tracking,
+				'comment_tracking' => $comment_tracking,
+				'custom_mapping' => $custom_map_values,
+				'inbound_track_exclude' => $inbound_track_exclude,
+				'inbound_track_include' => $inbound_track_include
 			);
 
-			return $inbound_localized_data;
+			return apply_filters( 'inbound_analytics_localized_data' , $inbound_localized_data);
 		} // end localize lead data
 
 	} // end class

@@ -121,6 +121,10 @@ if ( !class_exists('Inbound_Branching')	) {
 		*/
 		public static function print_js_css() {
 			
+			if ( ! function_exists( 'get_current_screen' ) ) {
+				return;
+			}
+			
 			$screen = get_current_screen();
 			
 			if ( $screen->base != 'plugins' ) {

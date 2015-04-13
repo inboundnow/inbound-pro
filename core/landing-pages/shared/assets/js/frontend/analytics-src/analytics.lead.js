@@ -19,8 +19,6 @@ var _inboundLeadsAPI = (function(_inbound) {
                 if (wp_lead_id) {
                     /* Get InboundLeadData */
                     _inbound.LeadsAPI.getAllLeadData();
-                    /* Lead list check */
-                    _inbound.LeadsAPI.getLeadLists();
                 }
             }
         },

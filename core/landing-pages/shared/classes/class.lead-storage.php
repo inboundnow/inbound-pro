@@ -99,7 +99,7 @@ if (!class_exists('LeadStorage')) {
 
 
 				$leadExists = self::lookup_lead_by_email($lead['email']);
-				//print_r($leadExists); wp_die();
+
 				/* Update Lead if Exists else Create New Lead */
 				if ( $leadExists ) {
 					$lead['id'] = $leadExists;
@@ -138,7 +138,7 @@ if (!class_exists('LeadStorage')) {
 				}
 
 				/* Store ConversionData */
-				if ( isset($lead['page_id']) ) {
+				if ( isset($lead['page_id']) && $lead['page_id']  ) {
 					self::store_conversion_data($lead);
 				}
 
@@ -227,17 +227,25 @@ if (!class_exists('LeadStorage')) {
 		*	Prefixes keys with wpleads_ if key is not prepended with wpleads_
 		*/
 		static function store_mapped_data($lead, $mappedData){
-			foreach ($mappedData as $key => $value) {
 
+			foreach ($mappedData as $key => $value) {
+				
+				if (!$value) {
+					continue;
+				}
+				
 				/* sanitise inputs */
 				if (is_string($value)) {
 					$value = strip_tags( $value );
 				}
 
 				update_post_meta($lead['id'], $key, $value);
+				
 				/* Old convention with wpleads_ prefix */
 				if( !strstr($key,'wpleads_') ) {
 					update_post_meta($lead['id'], 'wpleads_'.$key, $value);
+				} else {
+					update_post_meta($lead['id'], $key, $value);
 				}
 
 			}
@@ -341,7 +349,6 @@ if (!class_exists('LeadStorage')) {
 			 } else {
 			 	// check if ref exists
 			 	$ref_type = ($lead['source'] === "Direct Traffic") ? 'Direct Traffic' : 'referral';
-
 			 }
 
 			$referral_data = json_decode($referral_data,true);
@@ -453,8 +460,7 @@ if (!class_exists('LeadStorage')) {
 						update_post_meta( $lead_id, $key, $value );
 					}
 
-					if (stristr($key,'company'))
-					{
+					if (stristr($key,'company')) {
 						update_post_meta( $lead_id, 'wpleads_company_name', $value );
 					}
 					else if (stristr($key,'website'))
@@ -521,12 +527,22 @@ if (!class_exists('LeadStorage')) {
 		*	Uses mapped data if not programatically set
 		*/
 		static function improve_mapping($mappedData, $lead) {
-			$arr = $mappedData;
+			
+			/* remove instances of wpleads_ */
+			$newMap = array();
+			foreach ($mappedData as $key=>$value) {
+				$key = str_replace('wpleads_','',$key);
+				$newMap[$key] = $value;
+			}
+			
 			/* Set names if not mapped */
-			$mappedData['first_name'] = (!isset($mappedData['first_name'])) ? $lead['first_name'] : $mappedData['first_name'];
-			$mappedData['last_name'] = (!isset($mappedData['last_name'])) ? $lead['last_name'] : $mappedData['last_name'];
-
-			return $mappedData;
+			$newMap['first_name'] = (!isset($newMap['first_name'])) ? $lead['first_name'] : $newMap['first_name'];
+			$newMap['last_name'] = (!isset($newMap['last_name'])) ? $lead['last_name'] : $newMap['last_name'];
+			
+			/* improve mapped names */
+			$newMap = self::improve_lead_name( $newMap );
+			
+			return $newMap;
 		}
 
 		/**
@@ -642,3 +658,40 @@ if (!function_exists('inbound_store_lead')) {
 	}
 }
 
+
+/**
+*  Legacy functions for adding conversion to lead profile
+*  @param INT $lead_id
+*  @param ARRAY dataset of lead informaiton
+*/
+if (!function_exists('inbound_add_conversion_to_lead')) {
+	function inbound_add_conversion_to_lead( $lead_id , $lead_data ) {
+	
+		
+		if ( $lead_data['page_id'] ) {
+			$time = current_time( 'timestamp', 0 ); // Current wordpress time from settings
+			$lead_data['wordpress_date_time'] = date("Y-m-d G:i:s T", $time);
+			$conversion_data = get_post_meta( $lead_id, 'wpleads_conversion_data', TRUE );
+			$conversion_data = json_decode($conversion_data,true);
+			$variation = $lead_data['variation'];
+			
+			if ( is_array($conversion_data)) {
+				$c_count = count($conversion_data) + 1;
+				$conversion_data[$c_count]['id'] = $lead_data['page_id'];
+				$conversion_data[$c_count]['variation'] = $variation;
+				$conversion_data[$c_count]['datetime'] = $lead_data['wordpress_date_time'];
+			} else {
+				$c_count = 1;
+				$conversion_data[$c_count]['id'] = $lead_data['page_id'];
+				$conversion_data[$c_count]['variation'] = $variation;
+				$conversion_data[$c_count]['datetime'] = $lead_data['wordpress_date_time'];
+				$conversion_data[$c_count]['first_time'] = 1;
+			}
+			
+			$lead_data['conversion_data'] = json_encode($conversion_data);
+			update_post_meta($lead_id,'wpleads_conversion_count', $c_count); // Store conversions count
+			update_post_meta($lead_id, 'wpleads_conversion_data', $lead_data['conversion_data']); // Store conversion object
+		
+		}
+	}
+}
