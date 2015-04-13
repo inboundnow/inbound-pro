@@ -753,7 +753,7 @@ if (!class_exists('Inbound_API')) {
 			}			
 			
 			
-			if ($params['orderby'] != 'rand') {
+			if ($args['orderby'] != 'rand') {
 				$args['order'] = (isset($params['order'])) ? self::validate_parameter( $params['order'] , 'order_by' , 'string' ) : 'DESC' ;
 			}
 			

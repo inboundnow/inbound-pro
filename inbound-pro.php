@@ -133,7 +133,6 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 			/* Admin Only */
 			if (is_admin()) {
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.activate.php');
-				include_once( INBOUND_PRO_PATH . 'classes/admin/class.menus.adminbar.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.menus.adminmenu.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.lead-field-mapping.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.pro-welcome.php');

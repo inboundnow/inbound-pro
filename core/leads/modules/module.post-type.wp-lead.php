@@ -95,31 +95,15 @@ function wpleads_custom_columns( $column, $post_id ) {
 		  break;
 		case "first-name":
 		  $first_name = get_post_meta( $post_id, 'wpleads_first_name', true);
-		  if (!$first_name) {
-		  	$first_name = 'N/A';
+		  if (!$first_name || $first_name == 'false') {
+		  	$first_name = __('n/a' , 'leads');
 		  }
 		  echo $first_name;
 		  break;
-	  	/*case 'modified':
-	  		$m_orig		= get_post_field( 'post_modified', $post_id, 'raw' );
-	  		//$test = get_post_meta( $post_id, 'wpleads_last_updated', true);
-	  		$m_stamp	= strtotime( $m_orig );
-	  		$modified	= date('n/j/y @ g:i a', $m_stamp );
-
-	  	       	$modr_id	= get_post_meta( $post_id, '_edit_last', true );
-	  	       	$auth_id	= get_post_field( 'post_author', $post_id, 'raw' );
-	  	       	$user_id	= !empty( $modr_id ) ? $modr_id : $auth_id;
-	  	       	$user_info	= get_userdata( $user_id );
-
-	  	       	echo '<p class="mod-date">';
-	  	       	echo '<em>'.$modified.'</em><br />';
-	  	       	//echo 'by <strong>'.$user_info->display_name.'<strong>';
-	  	       	echo '</p>';
-	  		break;*/
 		case "last-name":
 		  $last_name = get_post_meta( $post_id, 'wpleads_last_name', true);
 		   if (!$last_name) {
-		  	$last_name = 'N/A';
+		  	$last_name = __('n/a' , 'leads');
 		  }
 		  echo $last_name;
 		  break;
