@@ -29,6 +29,7 @@ if (!class_exists('LeadStorage')) {
 		*	Checks if running in ajax mode
 		*/
 		static function set_mode( $mode = 'auto' ) {
+			// http://davidwalsh.name/detect-ajax
 			switch( $mode ) {
 				case 'auto':
 					self::$is_ajax =	( defined( 'DOING_AJAX' ) && DOING_AJAX ) ? true : false;

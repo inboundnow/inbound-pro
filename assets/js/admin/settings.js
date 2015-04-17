@@ -80,7 +80,7 @@ var InboundProWelcomeJs = ( function() {
 		 */
 		addInputListeners: function() {
 			/* add listeners for non array data changes */
-			jQuery( document ).on( 'change unfocus propertychange paste' , 'input[data-special-handler!="true"],dropdown,radio' , function() {
+			jQuery( document ).on( 'change unfocus propertychange paste' , 'input[data-special-handler!="true"],select,radio' , function() {
 
 				/* set static var */
 				InboundProWelcomeJs.input = jQuery( this );

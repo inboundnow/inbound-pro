@@ -1,57 +1,99 @@
 <?php
 
 /**
- * Creates Global Settings 
+ * Creates Global Settings
  *
  * @package	Inbouns Mailer
  * @subpackage	Global Settings
 */
 
-if ( !class_exists('Inbound_Mailer_Global_Settings') ) {
+if ( !class_exists('Inbound_Mailer_Settings') ) {
 
-	class Inbound_Mailer_Global_Settings {
-	
+	class Inbound_Mailer_Settings {
+
 		static $core_settings;
 		static $active_tab;
-		
+
 		/**
 		*	Initializes class
 		*/
 		public function __construct() {
 			self::add_hooks();
 		}
-		
+
 		/**
 		*	Loads hooks and filters
 		*/
 		public static function add_hooks() {
+			/*  Add settings to inbound pro  */
+			add_filter('inbound_settings/extend', array( __CLASS__  , 'define_pro_settings' ) );
+
+			/* Support single installation settings */
 			add_action( 'admin_enqueue_scripts' , array( __CLASS__ , 'enqueue_scripts' ) );
 		}
-		
+
 		/**
-		*	Load CSS & JS
+		*  Adds pro admin settings
 		*/
-		public static function enqueue_scripts() {
-			$screen = get_current_screen();
-			
-			if ( ( isset($screen) && $screen->base != 'inbound-email_page_inbound_email_global_settings' ) ){
-				return;
-			}
-			
-			wp_enqueue_style('inbound-mailer-css-global-settings-here', INBOUND_EMAIL_URLPATH . 'css/admin-global-settings.css');
+		public static function define_pro_settings( $settings ) {
+			$settings['inbound-pro-setup'][] = array(
+				'group_name' => INBOUND_EMAIL_SLUG ,
+				'keywords' => __('email,mailer,marketing automation' , 'inbound-pro'),
+				'fields' => array (
+					array(
+						'id'  => 'header_mailer',
+						'type'  => 'header',
+						'default'  => __('Inbound Mailer Settings', 'inbound-pro' ),
+						'options' => null
+					),
+					array(
+						'id'  => 'unsubscribe-page',
+						'label'  => __('Unsubscribe Location', 'inbound-email' ),
+						'description'  => __( 'Where to send readers to unsubscribe. We auto create an unsubscribe page on activation, but you can use our shortcode on any page [inbound-email-unsubscribe]. ' , 'inbound-email' ),
+						'type'  => 'dropdown',
+						'default'  => '',
+						'options' => Inbound_Mailer_Settings::get_pages_array()
+					),
+					array(
+						'id'  => 'mandrill-key',
+						'label'  => __('Mandrill API Key', 'inbound-email' ),
+						'description'  => __( 'Enter in your maindrill API Key here.' , 'inbound-email' ),
+						'type'  => 'text',
+						'default'  => '',
+						'options' => null
+					),
+					array(
+						'id'  => 'mandrill_setup_instructions',
+						'type'  => 'ol',
+						'label' => __( 'Setup Instructions:' , 'inbound-email' ),
+						'options' => array(
+							sprintf( __( 'Register for an account over at %s and create a new application.' , 'inbound-email' ), '<a href="https://mandrill.com/signup/" target="_blank">Mandrill.com</a>' ),
+							sprintf( __( 'Create an API Key for this website in your %s.' , 'inbound-email' ), '<a href="https://mandrillapp.com/settings/index" target="_blank">Mandrill Settings Area</a>' ),
+							__( 'Mailer requires that your Mandrill account have a positive balance in order to schedule emails.' , 'inbound-email' )
+						)
+					)
+				)
+
+			);
+
+
+			return $settings;
+
 		}
-	
+
+
 		/**
 		*	Get global setting data
 		*/
-		public static function add_global_settings() {
+		public static function define_legacy_settings() {
+
 
 			/* Setup Main Navigation Tab and Settings */
 			$tab_slug = 'inbound-mail-settings';
 			$inbound_email_global_settings[$tab_slug]['label'] = 'Global Settings';
 
-			$pages_array = Inbound_Mailer_Global_Settings::get_pages_array();
-			
+			$pages_array = Inbound_Mailer_Settings::get_pages_array();
+
 			$inbound_email_global_settings[$tab_slug]['settings'] =	array(
 				array(
 					'id'  => 'unsubscribe-page',
@@ -61,44 +103,76 @@ if ( !class_exists('Inbound_Mailer_Global_Settings') ) {
 					'type'  => 'dropdown',
 					'default'  => '',
 					'options' => $pages_array
+				),
+				array(
+						'id'  => 'mandrill-key',
+						'label'  => __('Mandrill API Key', 'inbound-email' ),
+						'description'  => __( 'Enter in your maindrill API Key here.' , 'inbound-email' ),
+						'type'  => 'text',
+						'default'  => '',
+						'options' => null
+				),
+				array(
+					'id'  => 'mandrill_setup_instructions',
+					'type'  => 'html',
+					'label' => __( 'Setup Instructions:' , 'inbound-email' ),
+					'description' => __( 'Use links above for help with setup!' , 'inbound-email' ),
+					'default' => '<ol>'.
+						'<li>'.sprintf( __( 'Register for an account over at %s and create a new application.' , 'inbound-email' ), '<a href="https://mandrill.com/signup/" target="_blank">Mandrill.com</a>' ) . '</li>' .
+						'<li>'.sprintf( __( 'Create an API Key for this website in your %s.' , 'inbound-email' ), '<a href="https://mandrillapp.com/settings/index" target="_blank">Mandrill Settings Area</a>' ) . '</li>'.
+						'</ol>'
 				)
 			);
 
 			$inbound_email_global_settings = apply_filters('inbound_email_define_global_settings',$inbound_email_global_settings);
 
-			
+
 			self::$core_settings = $inbound_email_global_settings;
-			
+
 		}
-		
+
 		/**
 		*  Gets array of pages with ID => Label format
-		*  
+		*
 		*/
 		public static function get_pages_array() {
 			$pages = get_pages();
-			
+
 			$pages_array = array() ;
-			
+
 			foreach ($pages as $page) {
 				$pages_array[ $page->ID ] = $page->post_title;
 			}
-			
+
 			return $pages_array;
 		}
-		
+
+
+		/**
+		*	Load CSS & JS
+		*/
+		public static function enqueue_scripts() {
+			$screen = get_current_screen();
+
+			if ( ( isset($screen) && $screen->base != 'inbound-email_page_inbound_email_global_settings' ) ){
+				return;
+			}
+
+			wp_enqueue_style('inbound-mailer-css-global-settings-here', INBOUND_EMAIL_URLPATH . 'css/admin-global-settings.css');
+		}
+
 		/**
 		*	Displays nav tabs
 		*/
 		public static function display_navigation() {
-			
+
 			self::$active_tab = 'inbound-mail-settings';
 			if (isset($_REQUEST['open-tab'])) {
 				self::$active_tab = $_REQUEST['open-tab'];
 			}
-			
+
 			echo '<h2 class="nav-tab-wrapper">';
-			
+
 			foreach (self::$core_settings	as $key => $data)
 			{
 				?>
@@ -106,47 +180,21 @@ if ( !class_exists('Inbound_Mailer_Global_Settings') ) {
 				<?php
 			}
 			echo "</h2>";
-			
+
 			echo "<form action='edit.php?post_type=inbound-email&page=inbound_email_global_settings' method='POST'>
 			<input type='hidden' name='nature' value='inbound-mailer-global-settings-save'>
 			<input type='hidden' name='open-tab' id='id-open-tab' value='". self::$active_tab ."'>";
-			
+
 		}
-		
-		
+
+
 		/**
 		*	Display sidebar
 		*/
 		public static function display_sidebar() {
 			?>
-			
+
 			<div class='inbound-mailer-settings-tab-sidebar'>
-				<div class='inbound-mailer-sidebar-settings'>
-					<h2 style='font-size:17px;'>
-					<?php _e( 'Like the Plugin? Leave us a review' , 'inbound-email' ); ?>
-					</h2>
-					<center>
-						<a class='review-button' href='http://wordpress.org/support/view/plugin-reviews/cta?rate=5#postform' target='_blank'>
-							<?php _e( 'Leave a Review' , 'inbound-email' ); ?>
-						</a>
-					</center>
-					<small>
-						<?php _e( 'Reviews help constantly improve the plugin & keep us motivated! <strong>Thank you for your support!</strong>' , 'inbound-email' ); ?>
-					</small>
-				</div>
-				<div class='inbound-mailer-sidebar-settings'>
-					<h2>
-						<?php _e( 'Help keep the plugin up to date, awesome & free!' , 'inbound-email' ); ?>
-					</h2>
-					<form action='https://www.paypal.com/cgi-bin/webscr' method='post' target='_top'>
-						<input type='hidden' name='cmd' value='_s-xclick'>
-						<input type='hidden' name='hosted_button_id' value='GKQ2BR3RKB3YQ'>
-						<input type='image' src='https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif' border='0' name='submit' alt='PayPal - The safer, easier way to pay online!'>
-						<img alt='' border='0' src='https://www.paypalobjects.com/en_US/i/scr/pixel.gif' width='1' height='1'></form>
-						<small>
-						<?php _e( 'Spare some change? Buy us a coffee/beer.<strong> We appreciate your continued support.</strong>' , 'inbound-email' ); ?>
-						</small>
-				</div>
 				<div class='inbound-mailer-sidebar-settings'>
 					<h2 style='font-size:18px;'>
 						<?php _e( 'Follow Updates on Facebook' , 'inbound-email' ); ?>
@@ -157,27 +205,27 @@ if ( !class_exists('Inbound_Mailer_Global_Settings') ) {
 			</div>
 			<?php
 		}
-	
+
 		/**
 		*	Display global settings
 		*/
 		public static function display_global_settings()	{
 			global $wpdb;
-			
-			self::add_global_settings();
+
+			self::define_legacy_settings();
 			self::inline_js();
 			self::save_settings();
-			
+
 			self::display_navigation();
 			self::display_sidebar();
-			
+
 			foreach ( self::$core_settings as $key => $data)
 			{
 				if (isset($data['settings'])) {
 					self::render_setting($key , $data['settings']);
 				}
 			}
-			
+
 
 			echo '<div style="float:left;padding-left:9px;padding-top:20px;">
 					<input type="submit" value="Save Settings" tabindex="5" id="inbound-mailer-button-create-new-group-open" class="button-primary" >
@@ -265,9 +313,9 @@ if ( !class_exists('Inbound_Mailer_Global_Settings') ) {
 			</div>
 		<?php
 		}
-		
-		
-		/** 
+
+
+		/**
 		*	Renders setting field
 		*	@param STRING $key tab key
 		*	@param ARRAY $custom_fields field settings
@@ -337,9 +385,9 @@ if ( !class_exists('Inbound_Mailer_Global_Settings') ) {
 							case 'license-key':
 								$license_status = self::check_license_status($field);
 								$master_key = get_option('inboundnow_master_license_key' , '');
-							
+
 								if ($master_key)
-								{							
+								{
 									$field['value'] = $master_key;
 									$input_type = 'hidden';
 								}
@@ -347,7 +395,7 @@ if ( !class_exists('Inbound_Mailer_Global_Settings') ) {
 								{
 									$input_type = 'text';
 								}
-								
+
 								echo '<input type="hidden" name="inbound_email_license_status-'.$field['slug'].'" id="'.$field['id'].'" value="'.$license_status.'" size="30" />
 								<input type="'.$input_type.'" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$field['value'].'" size="30" />';
 
@@ -359,7 +407,7 @@ if ( !class_exists('Inbound_Mailer_Global_Settings') ) {
 								{
 									echo '<div class="inbound_email_license_status_invalid">Invalid</div>';
 								}
-								
+
 								echo '<div class="inbound_email_tooltip tool_text" title="'.$field['description'].'"></div>';
 								break;
 							case 'text':
@@ -378,7 +426,7 @@ if ( !class_exists('Inbound_Mailer_Global_Settings') ) {
 								break;
 							// media
 								case 'media':
-								
+
 								echo '<label for="upload_image">';
 								echo '<input name="'.$field['id'].'"	id="'.$field['id'].'" type="text" size="36" name="upload_image" value="'.$field['value'].'" />';
 								echo '<input class="upload_image_button" id="uploader_'.$field['id'].'" type="button" value="Upload Image" />';
@@ -443,13 +491,13 @@ if ( !class_exists('Inbound_Mailer_Global_Settings') ) {
 				echo '</td></tr>';
 			} // end foreach
 			echo '</table>'; // end table
-		}	
-		
-		/** 
+		}
+
+		/**
 		*	Renders supporting JS
 		*/
 		public static function inline_js() {
-				
+
 			?>
 			<script type='text/javascript'>
 				jQuery(document).ready(function($) {
@@ -470,10 +518,10 @@ if ( !class_exists('Inbound_Mailer_Global_Settings') ) {
 					};
 
 					jQuery("body").on('click', '#clear-cta-cookies', function () {
-						
+
 						jQuery.removeCookie('inbound_email_global', { path: '/' }); // remove global cookie
 						var inbound_email_cookies = getCookieByMatch(/^inbound_email_\d+=/);
-						var length = inbound_email_cookies.length, 
+						var length = inbound_email_cookies.length,
 							element = null;
 						for (var i = 0; i < length; i++) {
 							element = inbound_email_cookies[i];
@@ -483,7 +531,7 @@ if ( !class_exists('Inbound_Mailer_Global_Settings') ) {
 						}
 
 					});
-				
+
 					jQuery('.inbound-mailer-nav-tab').live('click', function() {
 						var this_id = this.id.replace('tabs-','');
 						//alert(this_id);
@@ -498,38 +546,67 @@ if ( !class_exists('Inbound_Mailer_Global_Settings') ) {
 				});
 			</script>
 			<?php
-			
+
 		}
-		
-		
+
+
 		/**
-		*	Listens for POST & saves settings changes
+		*	Listens for POST & saves settings chaWnges
 		*/
 		public static function save_settings() {
 
 			if (!isset($_POST['nature'])) {
 				return;
 			}
-			
-			
+
+
 			/* Loop through post vars and save as global setting */
 			foreach ($_POST as $key => $value ) {
-				Inbound_Options_API::update_option( 'inbound-email' , $key , $value );				
+				Inbound_Options_API::update_option( 'inbound-email' , $key , $value );
+			}
+		}
+
+		/**
+		*  Gets settings value depending on if Inbound Pro or single installation.
+		*/
+		public static function get_settings() {
+			if (!defined('INBOUND_PRO_CURRENT_VERSION')) {
+				$keys['unsubscribe_page'] = Inbound_Options_API::get_option( 'inbound-email' , 'unsubscribe-page' , null);
+				$keys['api_key'] = Inbound_Options_API::get_option( 'inbound-email' , 'mandrill-key' , null);
+			} else {
+				$settings = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
+				$keys['api_key'] =  ( isset($settings[ INBOUND_EMAIL_SLUG ][ 'mandrill-key' ]) ) ? $settings[ INBOUND_EMAIL_SLUG ][ 'mandrill-key' ] : '';
+				$keys['unsubscribe_page'] = ( isset($settings[ INBOUND_EMAIL_SLUG ][ 'unsubscribe-page' ]) ) ? $settings[ INBOUND_EMAIL_SLUG ][ 'unsubscribe-page' ] : '';
+			}
+
+			return $keys;
+
+		}
+		
+		/**
+		*  Get Settings URL
+		*/
+		public static function get_settings_url() {
+			
+			if (!defined('INBOUND_PRO_CURRENT_VERSION')) {				
+				$settings_url = admin_url('edit.php?post_type=inbound-email&page=inbound_email_global_settings');
+			} else {
+				$settings_url = admin_url('admin.php?page=inbound-pro&setting=email');
 			}
 			
-		
+			return $settings_url;
 		}
 	}
-	
-	
-	
+
+
+
 	/**
-	*	Loads Inbound_Mailer_Global_Settings on admin_init
+	*	Loads Inbound_Mailer_Settings on admin_init
 	*/
-	function load_Inbound_Mailer_Global_Settings() {
-		$Inbound_Mailer_Global_Settings = new Inbound_Mailer_Global_Settings;
+	function load_Inbound_Mailer_Settings() {
+		$Inbound_Mailer_Settings = new Inbound_Mailer_Settings;
 	}
-	add_action( 'admin_init' , 'load_Inbound_Mailer_Global_Settings' );
+	add_action( 'admin_init' , 'load_Inbound_Mailer_Settings' );
 
 }
 

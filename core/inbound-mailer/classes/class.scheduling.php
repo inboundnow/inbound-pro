@@ -111,6 +111,9 @@ class Inbound_Mailer_Scheduling {
 		$table_name = $wpdb->prefix . "inbound_email_queue";
 
 		$wpdb->query('delete from '.$table_name.' where status != "sent" AND email_id = "'.$email_id.'" ');
+		
+		/* remove any error flags */
+		Inbound_Options_API::update_option( 'inbound-email' , 'errors-detected' , false );
 	}
 
 	/**

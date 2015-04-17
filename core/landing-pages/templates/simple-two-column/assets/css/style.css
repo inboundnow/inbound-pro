@@ -1,4 +1,30 @@
-body {margin:0px; background-color: #06266F}
+
+
+@media handheld, screen and  (max-width: 600px) {
+  #content-wrapper {
+	width:100% !important;
+  }
+  .contatiner {
+	width:100% !important;
+  }
+  #left { 
+    float: none !important;
+	width:100% !important;
+    position:initial !important; 
+	height:auto !important;
+  } 
+  #right { 
+    float: none !important;
+	width:100% !important;
+    position:initial !important; 
+	height:auto !important;
+  }
+}
+
+body {
+	margin:0px; background-color: #06266F
+}
+
 .container {
 margin-right: auto;
 margin-left: auto;

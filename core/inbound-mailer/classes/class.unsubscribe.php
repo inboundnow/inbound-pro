@@ -84,8 +84,10 @@ class Inbound_Mailer_Unsubscribe {
 		}
 		
 		$token = Inbound_Mailer_Unsubscribe::encode_unsubscribe_token( $params );
+		$settings = Inbound_Mailer_Settings::get_settings();
+		
 		$unsubscribe_page_id = Inbound_Options_API::get_option( 'inbound-email' , 'unsubscribe-page' , null);
-		$base_url = get_permalink( $unsubscribe_page_id );
+		$base_url = get_permalink( $settings['unsubscribe_page'] );
 		
 		return add_query_arg( array( 'token'=>$token ) , $base_url );
 		

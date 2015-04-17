@@ -129,7 +129,8 @@ if ( !class_exists('Inbound_Mailer_Plugin')	) {
 					include_once('classes/class.menus.php');
 					include_once('classes/class.ajax.listeners.php');
 					include_once('classes/class.enqueues.php');
-					include_once('classes/class.global-settings.php');
+					include_once('classes/class.settings.php');
+					include_once('classes/class.notifications.php');
 					include_once('classes/class.clone-post.php');
 					include_once('classes/class.acf-integration.php');
 					include_once('classes/class.variations.php');
@@ -172,6 +173,7 @@ if ( !class_exists('Inbound_Mailer_Plugin')	) {
 					include_once('classes/class.sending.php');
 					include_once('classes/class.mandrill.php');
 					include_once('classes/class.scheduling.php');
+					include_once('classes/class.settings.php');
 
 					BREAK;
 			endswitch;

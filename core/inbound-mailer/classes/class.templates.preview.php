@@ -44,7 +44,7 @@ class Inbound_Email_Preview {
 		if (file_exists(INBOUND_EMAIL_PATH.'templates/'.$template.'/index.php')) {
 			return INBOUND_EMAIL_PATH . 'templates/' . $template . '/index.php';
 		} else {
-			return INBOUND_EMAIL_PATH . $template . '/index.php';
+			return INBOUND_EMAIL_UPLOADS_PATH . $template . '/index.php';
 		}
 
 

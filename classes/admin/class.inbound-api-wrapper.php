@@ -60,7 +60,7 @@ class Inbound_API_Wrapper {
 		/* This call home gets a list of available downloads - We have minimum security because no sensitive information is revealed */
 		$response = wp_remote_get( self::$docs_uri );
 		
-		if (!isset($response['body'])) {
+		if (is_wp_error($response) || !isset($response['body'])) {
 			return;
 		}
 		

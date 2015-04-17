@@ -58,8 +58,11 @@ if ( !class_exists('Mandrill') ) {
 			"Unknown_MetadataField" => "Mandrill_Unknown_MetadataField"
 		);
 
-		public function __construct($apikey=null) {
-			if(!$apikey) $apikey = MANDRILL_APIKEY;
+		/**
+		*  Initialize Class
+		*/
+		public function __construct( $apikey=null ) {
+			
 			if(!$apikey) $apikey = $this->readConfigs();
 			if(!$apikey) throw new Mandrill_Error('You must provide a Mandrill API key');
 			$this->apikey = $apikey;
@@ -133,7 +136,7 @@ if ( !class_exists('Mandrill') ) {
 			if($result === null) throw new Mandrill_Error('We were unable to decode the JSON response from the Mandrill API: ' . $response_body);
 			
 			if(floor($info['http_code'] / 100) >= 4) {
-				throw $this->castError($result);
+				return $result;
 			}
 
 			return $result;

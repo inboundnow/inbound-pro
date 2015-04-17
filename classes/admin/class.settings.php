@@ -5,7 +5,7 @@
 *
 */
 
-class Inbound_Pro_Welcome {
+class Inbound_Pro_Settings {
 	static $tab; /* placeholder for page currently opened */
 	static $settings_fields; /* configuration dataset */
 	static $settings_values; /* configuration dataset */
@@ -61,8 +61,8 @@ class Inbound_Pro_Welcome {
 		wp_enqueue_script('shuffle', INBOUND_PRO_URLPATH . 'assets/libraries/Shuffle/jquery.shuffle.modernizr.min.js' , array( 'jquery') );
 		
 		/* load custom CSS & JS for inbound pro welcome */
-		wp_enqueue_style('inbound-pro-welcome', INBOUND_PRO_URLPATH . 'assets/css/admin/inbound-pro-welcome.css');
-		wp_enqueue_script('inbound-pro-welcome', INBOUND_PRO_URLPATH . 'assets/js/admin/pro-welcome.js' );
+		wp_enqueue_style('inbound-settings', INBOUND_PRO_URLPATH . 'assets/css/admin/settings.css');
+		wp_enqueue_script('inbound-settings', INBOUND_PRO_URLPATH . 'assets/js/admin/settings.js' );
 	
 		/* load Ink */
 		wp_enqueue_script('Ink-holder', INBOUND_PRO_URLPATH . 'assets/libraries/Ink/js/holder.js' );
@@ -320,6 +320,9 @@ class Inbound_Pro_Welcome {
 	*/
 	public static function display_footer() {
 		$docs = Inbound_API_Wrapper::get_docs();
+		if (!$docs) {
+			$docs = array();
+		}
 		?>
 		
 		<table>
@@ -634,7 +637,6 @@ class Inbound_Pro_Welcome {
 				echo '	</div>';
 				echo '	<div class="inbound-dropdown-field">';
 
-				
 				echo '		<select name="'.$field['id'].'" id="'.$field['id'].'"  data-field-type="'.$field['type'].'" data-field-group="'.$group['group_name'].'">';
 							
 							foreach ($field['options'] as $value=>$label) {
@@ -870,4 +872,4 @@ class Inbound_Pro_Welcome {
 	}
 }
 
-Inbound_Pro_Welcome::init();
+Inbound_Pro_Settings::init();

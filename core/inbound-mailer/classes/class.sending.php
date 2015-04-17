@@ -16,6 +16,7 @@ class Inbound_Mail_Daemon {
 	static $email; /* arg array of email being processed */
 	static $results; /* results from sql query */
 	static $response; /* return result after send */
+	static $error_mode; /* detects if there is an error flag already in the data base */
 
 	/**
 	*	Initialize class
@@ -44,6 +45,9 @@ class Inbound_Mail_Daemon {
 
 		/* Get now timestamp */
 		self::$timestamp = gmdate( "Y-m-d\\TG:i:s\\Z" );
+		
+		/* Check if there is an error flag in db from previous processing run */
+		self::$error_mode = Inbound_Options_API::get_option( 'inbound-email' , 'errors-detected' , false );
 
 	}
 
@@ -63,16 +67,19 @@ class Inbound_Mail_Daemon {
 
 	public static function process_mail_queue() {
 
-		if ( !isset( $_GET['test'] ) && current_filter() == 'init' ) {
+		if ( !isset( $_GET['forceprocess'] ) && current_filter() == 'init' ) {
 			return;
 		}
-
+		
+		/* check mandrill for meta fields & create them if they do not exist */
+		self::check_meta_fields();
+		
 		/* send automation emails */
 		self::send_automated_emails();
 
 		/* send batch emails */
 		self::send_batch_emails();
-		exit;
+
 	}
 
 
@@ -177,8 +184,16 @@ class Inbound_Mail_Daemon {
 
 			self::get_email();
 
-			self::$response = self::send_mandrill_email( );
-
+			self::send_mandrill_email( );
+			
+			/* check response for errors  */
+			self::check_response();
+			
+			/* if error in batch then bail on processing job */
+			if (self::$error_mode) {
+				return;
+			}
+			
 			self::delete_from_queue();
 		}
 	}
@@ -224,13 +239,21 @@ class Inbound_Mail_Daemon {
 			self::$row = $row;
 
 			/* make sure not to try and send more than wp can handle */
-			if (	$send_count > self::$send_limit ){
+			if ( $send_count > self::$send_limit ){
 				return;
 			}
 
 			self::get_email();
 
 			self::send_mandrill_email();
+			
+			/* check response for errors  */
+			self::check_response();
+			
+			/* if error in batch then bail on processing job */
+			if (self::$error_mode) {
+				return;
+			}
 			
 			self::delete_from_queue();
 			
@@ -274,14 +297,14 @@ class Inbound_Mail_Daemon {
 		/* build email */
 		self::$email['send_address'] = $args['email_address'];	
 		self::$email['subject'] = self::get_variation_subject();
-		self::$email['from_name'] = self::$email_settings['from_name'];
-		self::$email['from_email'] = self::$email_settings['from_email'];
+		self::$email['from_name'] = self::get_variation_from_name();
+		self::$email['from_email'] = self::get_variation_from_email();
 		self::$email['email_title'] = get_the_title( self::$row->email_id );
-		self::$email['reply_email'] = self::$email_settings['reply_email'];
+		self::$email['reply_email'] = self::get_variation_reply_email();
 		self::$email['body'] = self::get_email_body();
 		
 		/* send email */
-		self::send_mandrill_email();
+		self::send_mandrill_email( true );
 	
 		/* return mandrill response */
 		//error_log(print_r(self::$response,true));
@@ -292,8 +315,10 @@ class Inbound_Mail_Daemon {
 	/**
 	*	Sends email using Inbound Now's mandrill sender
 	*/
-	public static function send_mandrill_email() {
-		$mandrill = new Mandrill();
+	public static function send_mandrill_email( $send_now = false) {
+		$settings = Inbound_Mailer_Settings::get_settings();		
+
+		$mandrill = new Mandrill(  $settings['api_key'] );
 		
 		$message = array(
 			'html' => self::$email['body'],
@@ -319,32 +344,36 @@ class Inbound_Mail_Daemon {
 			'preserve_recipients' => false,
 			'view_content_link' => true,
 			'bcc_address' => false,
-			//'tracking_domain' => false,
-			//'signing_domain' => null,
-			//'return_path_domain' => null,
-			//'merge' => true,
-			//'merge_language' => 'mailchimp',
-			//'global_merge_vars' => array(
-			//	array(
-			//		'name' => 'merge1',
-			//		'content' => 'merge1 content'
-			//	)
-			//),
-			//'merge_vars' => array(
-			//	array(
-			//		'rcpt' => 'recipient.email@example.com',
-			//		'vars' => array(
-			//			array(
-			//				'name' => 'merge2',
-			//				'content' => 'merge2 content'
-			//			)
-			//		)
-			//	)
-			//),
+			/*
+			'tracking_domain' => false,
+			'signing_domain' => null,
+			'return_path_domain' => null,
+			'merge' => true,
+			'merge_language' => 'mailchimp',
+			'global_merge_vars' => array(
+				array(
+					'name' => 'merge1',
+					'content' => 'merge1 content'
+				)
+			),
+			'merge_vars' => array(
+				array(
+					'rcpt' => 'recipient.email@example.com',
+					'vars' => array(
+						array(
+							'name' => 'merge2',
+							'content' => 'merge2 content'
+						)
+					)
+				)
+			),
+			*/
 			'tags' => self::$tags[ self::$row->email_id ],
-			'subaccount' => InboundNow_Connection::get_licence_key(),
-			//'google_analytics_domains' => array('example.com'),
-			//'google_analytics_campaign' => 'message.from_email@example.com',
+			/*
+			'subaccount' => InboundNow_Connection::get_licence_key(),			
+			'google_analytics_domains' => array('example.com'),
+			'google_analytics_campaign' => 'message.from_email@example.com',
+			*/
 			'metadata' => array(
 				'email_id' => self::$row->email_id,
 				'lead_id' => self::$row->lead_id,
@@ -359,26 +388,34 @@ class Inbound_Mail_Daemon {
 					)
 				)
 			),
-			//'attachments' => array(
-			//	array(
-			//		'type' => 'text/plain',
-			//		'name' => 'myfile.txt',
-			//		'content' => 'ZXhhbXBsZSBmaWxl'
-			//	)
-			//),
-			//'images' => array(
-			//	array(
-			//		'type' => 'image/png',
-			//		'name' => 'IMAGECID',
-			//		'content' => 'ZXhhbXBsZSBmaWxl'
-			//	) 
-			//)
+			/*
+			'attachments' => array(
+				array(
+					'type' => 'text/plain',
+					'name' => 'myfile.txt',
+					'content' => 'ZXhhbXBsZSBmaWxl'
+				)
+			),
+			'images' => array(
+				array(
+					'type' => 'image/png',
+					'name' => 'IMAGECID',
+					'content' => 'ZXhhbXBsZSBmaWxl'
+				) 
+			)
+			*/
 		);
 		$async = false;
 		$ip_pool = 'Main Pool';
-		$send_at = gmdate( 'Y-m-d h:i:s \G\M\T' , strtotime( self::$row->datetime ) );
 		
-		self::$response = $mandrill->messages->send($message, $async, $ip_pool, $send_at );
+		if ( !$send_now ) {
+			$send_at = gmdate( 'Y-m-d h:i:s \G\M\T' , strtotime( self::$row->datetime ) );
+		} else {
+			$sent_at = false;
+		}
+		
+		/* error_log( print_r( $message , true ) ); */
+		
 		self::relay_mail( $message );
 	}
 	
@@ -467,9 +504,9 @@ class Inbound_Mail_Daemon {
 	
 		self::$email['send_address'] = Leads_Field_Map::get_field( self::$row->lead_id ,	'wpleads_email_address' );
 		self::$email['subject'] = self::get_variation_subject();
-		self::$email['from_name'] = self::$email_settings['from_name'];
-		self::$email['from_email'] = self::$email_settings['from_email'];
-		self::$email['reply_email'] = self::$email_settings['reply_email'];
+		self::$email['from_name'] =  self::get_variation_from_name();
+		self::$email['from_email'] =  self::get_variation_from_email();
+		self::$email['reply_email'] =  self::get_variation_reply_email();
 		self::$email['body'] = self::get_email_body();
 	}
 
@@ -521,6 +558,27 @@ class Inbound_Mail_Daemon {
 		return self::$email_settings[ 'variations' ] [ self::$row->variation_id ] [ 'subject' ];
 	}
 	
+	/**
+	*	Gets the from name from variation settings
+	*/
+	public static function get_variation_from_name() {
+		return self::$email_settings[ 'variations' ] [ self::$row->variation_id ] [ 'from_name' ];
+	}
+	
+	/**
+	*	Gets the from email from variation settings
+	*/
+	public static function get_variation_from_email() {
+		return self::$email_settings[ 'variations' ] [ self::$row->variation_id ] [ 'from_email' ];
+	}
+	
+	/**
+	*	Gets the reply email from variation settings
+	*/
+	public static function get_variation_reply_email() {
+		return self::$email_settings[ 'variations' ] [ self::$row->variation_id ] [ 'reply_email' ];
+	}
+	
 	
 	/**
 	*	Generate text version of html email automatically
@@ -529,7 +587,62 @@ class Inbound_Mail_Daemon {
 	
 	
 	}
+	
+	/**
+	*  Checks Mandrill Response for Errors
+	*/
+	public static function check_response() {
+		/* check if there is an error and if there is then exit */
+		if ( isset(self::$response['status']) && self::$response['status'] == 'error' ) {
+			Inbound_Options_API::update_option( 'inbound-email' , 'errors-detected' , self::$response['message'] );
+			self::$error_mode = true;
+			return;
+		}
 
+		/* if error mode is on and response is good then turn it off */
+		if (self::$error_mode) {
+			Inbound_Options_API::update_option( 'inbound-email' , 'errors-detected' , false );
+			self::$error_mode = false;
+		}
+	}
+	
+	/**
+	*  Checks to see if meta fields have been created in Mandrill yet.
+	*/
+	public static function check_meta_fields() {
+		/* get api key */
+		$settings = Inbound_Mailer_Settings::get_settings();		
+		
+		
+		/* see if fields have been created for this api key yet */
+		$history =  Inbound_Options_API::get_option( 'inbound-email' , 'mandrill-metafields-created' , array());
+		if ( in_array( $settings['api_key'] , $history ) ) {
+			return;
+		}
+		
+		/* create them if they don't */
+		if ( self::create_metafields_in_mandrill(  $settings['api_key'] ) ) {
+			$history[] = $settings['api_key'];
+			Inbound_Options_API::update_option( 'inbound-email' , 'mandrill-metafields-created' , $history );
+		}
+	}
+	
+	/**
+	*  Runs a command to create metafields in Manrill
+	*/
+	public static function create_metafields_in_mandrill( $api_key ) {
+		$mandrill = new Mandrill(  $api_key );
+		self::$response = $mandrill->metadata->add( 'email_id' , '{{value}}');
+		self::$response = $mandrill->metadata->add( 'lead_id' , '{{value}}');
+		self::$response = $mandrill->metadata->add( 'variation_id' , '{{value}}');
+		self::$response = $mandrill->metadata->add( 'nature' , '{{value}}');
+		
+		if ( isset(self::$response['status']) && self::$response['status'] != 'error' || self::$response['name'] == 'ValidationError' ) {
+			return 'created';
+		} else {
+			return false;
+		}
+	}
 }
 
 /**

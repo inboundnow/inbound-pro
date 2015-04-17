@@ -1,3 +1,44 @@
+/**
+ * Responsive design
+ */
+
+ 
+
+@media handheld, screen and  (max-width: 1050px) {
+
+  .container {
+	width:100% !important;
+	padding:10px !important;
+  }
+  
+  .inner {
+	width:100% !important;
+  }
+
+  
+}
+
+@media handheld, screen and  (max-width: 600px) {
+	
+	header {
+		height: 124px !important;
+	}
+	.logo {
+		float:left !important;
+	}
+	
+	.network {
+		width: 100% !important;
+		text-align:left !important;
+	}
+	
+	.form {
+		width: 100% !important;
+	}
+  
+}
+
+ 
 /* GENERAL */
 
 * {
@@ -6,6 +47,7 @@
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 }
+
 
 img,
 audio,
@@ -30,6 +72,7 @@ textarea {
 .gform_body textarea {
 	width: 100%;
 }
+
 html {
 	min-height: 100%;
 	margin-bottom: 1px;
@@ -177,7 +220,7 @@ a:hover {
   margin: 40px auto 20px auto;
 }
 
-input[type="text"], input[type="number"] {
+input[type="text"], input[type="number"], input[type="email"] {
   background: #fff;
   border: 2px solid #fff;
   width: 100%;

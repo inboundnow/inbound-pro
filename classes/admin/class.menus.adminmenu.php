@@ -29,13 +29,13 @@ class Inbound_Menus_Admin {
 			__( 'Inbound Pro' , 'inbound-pro' ) , /* menu title */
 			'manage_options', /* capability */
 			'inbound-pro', /* menu slug */
-			array( 'Inbound_Pro_Welcome' , 'display' ), /* page function */
+			array( 'Inbound_Pro_Settings' , 'display' ), /* page function */
 			INBOUND_PRO_URLPATH . '/assets/images/shortcodes-blue.png', /* icon url */
 			30  /* position */
 		);
 	
 		/* Manage Settings */
-		add_submenu_page('inbound-pro', __( 'Settings' , 'inbound-pro' ) , __( 'Settings' , 'inbound-pro' ) , 'manage_options', 'inbound-pro', array( 'Inbound_Pro_Welcome' , 'display' ) );
+		add_submenu_page('inbound-pro', __( 'Settings' , 'inbound-pro' ) , __( 'Settings' , 'inbound-pro' ) , 'manage_options', 'inbound-pro', array( 'Inbound_Pro_Settings' , 'display' ) );
 		
 		/* Manage Templates */
 		add_submenu_page('inbound-pro', __( 'Templates' , 'inbound-pro' ) , __( 'Templates' , 'inbound-pro' ) , 'manage_options', 'inbound-manage-templates', array( 'Inbound_Pro_Downloads' , 'display_ui' ) );

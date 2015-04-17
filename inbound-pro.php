@@ -135,7 +135,7 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.activate.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.menus.adminmenu.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.lead-field-mapping.php');
-				include_once( INBOUND_PRO_PATH . 'classes/admin/class.pro-welcome.php');
+				include_once( INBOUND_PRO_PATH . 'classes/admin/class.settings.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.download-management.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.inbound-api-wrapper.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.ajax.listeners.php');

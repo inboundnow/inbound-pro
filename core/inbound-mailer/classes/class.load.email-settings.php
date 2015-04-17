@@ -40,8 +40,8 @@ class Inbound_Mailer_Common_Settings {
 	
 
 		self::$instance->settings['email-settings']['subject'] =  array(
+			'description' => __( 'Subject line of the email. This field is variation dependant!' , 'inbound-email' ) ,
 			'label' => __( 'Subject Line' , 'inbound-email' ),
-			'description' => __( 'Subject line of the email' , 'inbound-email' ) ,
 			'id'  => 'subject',
 			'type'  => 'text',
 			'default'  => '',
@@ -51,32 +51,32 @@ class Inbound_Mailer_Common_Settings {
 		
 		self::$instance->settings['email-settings']['from_name'] =  array(
 			'label' => __( 'From Name' , 'inbound-email' ),
-			'description' => __( 'The name of the sender.' , 'inbound-email' ) ,
+			'description' => __( 'The name of the sender. This field is variation dependant!' , 'inbound-email' ) ,
 			'id'  => 'from_name',
 			'type'  => 'text',
 			'default'  => '',
 			'class' => '',
-			'disable_variants' => true
+			'disable_variants' => false
 		);
 		
 		self::$instance->settings['email-settings']['from_email'] =  array(
 			'label' => __( 'From Email' , 'inbound-email' ),
-			'description' => __( 'The email address of the sender.' , 'inbound-email' ) ,
+			'description' => __( 'The email address of the sender. This field is variation dependant!' , 'inbound-email' ) ,
 			'id'  => 'from_email',
 			'type'  => 'text',
 			'default'  => '',
 			'class' => '',
-			'disable_variants' => true
+			'disable_variants' => false
 		);	
 		
 		self::$instance->settings['email-settings']['reply_email'] =  array(
 			'label' => __( 'Reply Email' , 'inbound-email' ),
-			'description' => __( 'The email address recipients can reply to.' , 'inbound-email' ) ,
+			'description' => __( 'The email address recipients can reply to. This field is variation dependant!' , 'inbound-email' ) ,
 			'id'  => 'reply_email',
 			'type'  => 'text',
 			'default'  => '',
 			'class' => '',
-			'disable_variants' => true
+			'disable_variants' => false
 		);			
 
 	}
@@ -88,11 +88,11 @@ class Inbound_Mailer_Common_Settings {
 	*/
 	function add_batch_send_settings() {
 
-		$lead_lists = Inbound_Leads::get_lead_lists_as_array();
+		$lead_lists = self::get_lead_lists_as_array();
 		
 		self::$instance->settings['batch-send-settings']['recipients'] = array(
 			'id'  => 'recipients',
-			'label' => __( 'Select recipients' , 'inbound-email' ),
+			'label' => __( 'Recipient Lists' , 'inbound-email' ),
 			'description' => __( 'This option provides a placeholder for the selected template data.' , 'inbound-email' ),
 			'type'  => 'select2', 
 			'default' => '',
@@ -123,6 +123,28 @@ class Inbound_Mailer_Common_Settings {
 	*/
 	function load_settings() {
 		self::$instance->settings = apply_filters( 'inbound_email_common_settings' , self::$instance->settings );
+	}
+	
+	/**
+	* Get an array of all lead lists
+	*
+	* @returns ARRAY of lead lists with term id as key and list name as value
+	*/
+	public static function get_lead_lists_as_array() {
+		
+		$array = array();
+
+		$args = array(
+			'hide_empty' => false,
+		);
+
+		$terms = get_terms('wplead_list_category', $args);
+
+		foreach ( $terms as $term	) {
+			$array[$term->term_id] = $term->name . " (".$term->count.")";
+		}
+
+		return $array;
 	}
 }
 

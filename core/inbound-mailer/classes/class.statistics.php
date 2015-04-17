@@ -42,7 +42,7 @@ class Inbound_Email_Stats {
 			self::$vid = $vid;
 			self::$email_id = $post->ID;
 
-			$query = 'u_email_id:' .	$post->ID	. ' u_variation_id:'. self::$vid .' subaccount:' . InboundNow_Connection::get_licence_key();
+			$query = 'u_email_id:' .	$post->ID	. ' u_variation_id:'. self::$vid ;
 			self::query_mandrill( $query );
 
 			/* sort data into local stats object by hour */
@@ -115,22 +115,23 @@ class Inbound_Email_Stats {
 		global $post;
 
 		/* load mandrill time	*/
-		$mandrill = new Mandrill();
+		$settings = Inbound_Mailer_Settings::get_settings();		
+		$mandrill = new Mandrill(  $settings['api_key'] );
 
 		$tags = array();
 		$senders = array();
 
 		self::$results = $mandrill->messages->searchTimeSeries($query, self::$stats['date_from'] , self::$stats['date_to'] , $tags, $senders);
-
+		
 	}
 
 	/**
 	*	process mandrill statistics
 	*/
 	public static function process_mandrill_stats() {
-		
+
 		/* skip processing if no data */
-		if (!self::$results) {
+		if ( isset(self::$results['status']) && self::$results['status'] == 'error' ) {
 			self::$stats[ 'mandrill' ] = array();
 			return;
 		}
