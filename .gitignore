@@ -2,7 +2,13 @@
 
 /temp-analytics-references
 /core/leads/shared/
+/core/leads/.gitignore
+/core/leads/.travis.yml
+/core/leads/Gruntfile.js
 /core/landing-pages/shared/
+/core/landing-pages/.gitignore
+/core/landing-pages/.travis.yml
+/core/landing-pages/Gruntfile.js
 
 # Grunt
 node_modules
