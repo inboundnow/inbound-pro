@@ -17,7 +17,6 @@ if (!class_exists('Inbound_Load_Shared')) {
 
 			self::load_constants();
 			self::load_files();
-			self::load_legacy_elements();
 			self::load_activation_rules();
 
 		}
@@ -42,8 +41,7 @@ if (!class_exists('Inbound_Load_Shared')) {
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.post-type.wp-lead.php');
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.post-type.email-template.php');
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.form.php');
-			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.menus.adminbar.php');	/* Moved to PRO */
-			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.feedback.php');
+			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.menus.adminbar.php');
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.debug.php');
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.compatibility.php');
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.templating-engine.php');
@@ -51,38 +49,28 @@ if (!class_exists('Inbound_Load_Shared')) {
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.shortcodes.cookie-values.php');
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.lead-fields.php');
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.inbound-forms.akismet.php');
-			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.welcome.php');
-			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.branching.php');
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.options-api.php');
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.lead-storage.php');
+			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.ajax.php');
+			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.inbound-api.php');
 			include_once( INBOUDNOW_SHARED_PATH . 'shortcodes/inbound-shortcodes.php');
-			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.licensing.php');
-			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.master-license.php');
 			include_once( INBOUDNOW_SHARED_PATH . 'legacy/functions.php');
 			include_once( INBOUDNOW_SHARED_PATH . 'assets/assets.loader.class.php');
-			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.notifications.php');
-			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.ajax.php');
 
-
-			self::load_legacy_elements();
+			/* load admin only */
+			if (is_admin()) {	
+				include_once( INBOUDNOW_SHARED_PATH . 'classes/class.licensing.php');
+				include_once( INBOUDNOW_SHARED_PATH . 'classes/class.master-license.php');	
+				include_once( INBOUDNOW_SHARED_PATH . 'classes/class.branching.php');
+				include_once( INBOUDNOW_SHARED_PATH . 'classes/class.welcome.php');		
+				include_once( INBOUDNOW_SHARED_PATH . 'classes/class.feedback.php');
+				include_once( INBOUDNOW_SHARED_PATH . 'classes/class.notifications.php');
+				require_once( INBOUDNOW_SHARED_PATH . 'classes/class.inbound-api.api-key-generation.php');
+				require_once( INBOUDNOW_SHARED_PATH . 'classes/class.inbound-api.api-keys-table.php');
+			}
+			
 		}
 
-		/**
-		 *  Legacy constants go here
-		 *
-		 *
-		 */
-		public static function load_legacy_elements() {
-
-			if ( !defined( 'LANDINGPAGES_TEXT_DOMAIN' ) ) {
-				define('LANDINGPAGES_TEXT_DOMAIN', 'landing-pages' );
-			}
-
-			if (!defined('INBOUNDNOW_LABEL')) {
-				define('INBOUNDNOW_LABEL', 'inboundnow-legacy' );
-			}
-
-		}
 
 		/**
 		 *  Returns the correct absolute path to the Inbound Now shared directory

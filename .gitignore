@@ -1,6 +1,8 @@
 
 
 /temp-analytics-references
+/core/leads/shared/
+/core/landing-pages/shared/
 
 # Grunt
 node_modules

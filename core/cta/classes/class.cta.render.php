@@ -52,7 +52,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 				self::$instance->cta_templates = $CTA_Load_Extensions->template_definitions;
 
 				/* load cta(s) */
-				self::$instance->hooks();
+				self::$instance->setup_hooks();
 			}
 
 			return self::$instance;
@@ -61,12 +61,12 @@ if ( !class_exists( 'CTA_Render' ) ) {
 		/**
 		*  Load Hooks and Filters
 		*/
-		function hooks() {
+		function setup_hooks() {
 			/* Get Global $post Object */
-			add_action('wp', array( $this, 'setup_globals' ) , 1 );
+			add_action('wp', array( $this, 'setup_static_environment_vars' ) , 1 );
 
 			/* Check for CTA */
-			add_action('wp_cta_after_global_init', array( $this , 'setup_cta') , 1 );
+			add_action('wp_cta_after_global_init', array( $this , 'setup_cta_direct_placement') , 1 );
 
 			/* Enqueue CTA js * css */
 			add_action('wp_enqueue_scripts' , array( $this , 'enqueue_scripts') , 20 );
@@ -94,7 +94,10 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
 		}
 
-		public function setup_globals() {
+		/**
+		*  Detect& store data about the load environment into static variables
+		*/
+		public function setup_static_environment_vars() {
 			global $wp_query;
 
 			/* running these on paged renders causes pagniation to break */
@@ -153,8 +156,10 @@ if ( !class_exists( 'CTA_Render' ) ) {
 			do_action('wp_cta_after_global_init' ,	$this );
 		}
 
-		/* Determine if content ID has Calls to Actions assigned to it */
-		public function setup_cta( $is_preview = false ) {
+		/**
+		*  	Determine if content ID has Calls to Actions assigned to it 
+		*/
+		public function setup_cta_direct_placement( $is_preview = false ) {
 
 			/* Determine which CTA's should be rotated on this page - When in preview mode use CTA ID as selected CTA */
 			if ($is_preview === true) {
@@ -182,8 +187,9 @@ if ( !class_exists( 'CTA_Render' ) ) {
 			self::$instance->selected_cta = self::$instance->prepare_cta_dataset( $cta_display_list );	/* builds a list of ct */
 		}
 
-		/* Generate a set of data related to CTA(s)
-		* @param ARRAY $cta_display_list array of cta id(s)
+		/**
+		*  Generate a set of data related to CTA(s)
+		*  @param ARRAY $cta_display_list array of cta id(s)
 		*/
 		public static function prepare_cta_dataset( $cta_display_list , $variation_id = null) {
 			global $CTA_Variations;
@@ -206,22 +212,24 @@ if ( !class_exists( 'CTA_Render' ) ) {
 					$cta_obj[$cta_id]['variations'] = $CTA_Variations->get_variations( $cta_id );
 				}
 
+				/* Get meta of cta */
 				$meta = get_post_meta(	$cta_id ); // move to ext
 
+				/* if no meta then bail, this is an unprepared CTA */
 				if (!$meta) {
 					return;
 				}
 
-
+				/* Loop through cta variations and improve data set */
 				foreach ($cta_obj[$cta_id]['variations'] as $vid => $variation) {
-
+					
+					/* if variation does not have a selected template then treat as broken and unset from dataset */
 					if ( !isset($meta['wp-cta-selected-template-' . $vid ][0]) ) {
 						unset($cta_obj[$cta_id]['variations'][$vid]);
 						continue;
 					}
 					
-
-
+					/* if cta is paused and not in preview mode then unset from dataset */
 					if ( $variation['status'] == 'paused' && !isset($_GET['wp-cta-variation-id']) ) {
 						unset($cta_obj[$cta_id]['variations'][$vid]);
 						continue;
@@ -231,7 +239,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 					$cta_obj[$cta_id]['templates'][$vid]['slug'] = $template_slug;
 					$cta_obj[$cta_id]['meta'][$vid]['wp-cta-selected-template-'.$vid] = $template_slug;
 
-					/* determin where template exists for asset loading	*/
+					/* determine where template exists for asset loading	*/
 					if (file_exists( WP_CTA_PATH.'templates/'.$template_slug )) {
 						$cta_obj[$cta_id]['templates'][$vid]['path'] = WP_CTA_PATH.'templates/'.$template_slug.'/';
 						$cta_obj[$cta_id]['templates'][$vid]['urlpath'] = WP_CTA_URLPATH.'templates/'.$template_slug.'/';
@@ -248,6 +256,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
 			}
 
+			/* let them improve or alter the dataset */
 			$cta_obj = apply_filters( 'wp_cta_obj' , $cta_obj );
 
 
@@ -259,8 +268,10 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
 		}
 
-
-		static function get_assets($template) {
+		/**
+		*  Given a template slug, get it's asset files.
+		*/
+		static function get_template_asset_files($template) {
 
 			$files = get_transient('wp_cta_assets_'.$template['slug']);
 
@@ -405,7 +416,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 				}
 
 				$loaded[] = $template['slug'];
-				$assets = self::$instance->get_assets($template);
+				$assets = self::$instance->get_template_asset_files($template);
 				$localized_template_id = str_replace( '-' , '_' , $template['slug'] );
 				if (is_array($assets)) {
 					foreach ($assets as $type => $file) {
@@ -1238,7 +1249,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
 			self::$instance->is_preview = true;
 
-			self::$instance->setup_cta( true );
+			self::$instance->setup_cta_direct_placement( true );
 
 			$cta_id = self::$instance->obj->ID;
 
