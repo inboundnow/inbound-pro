@@ -6,21 +6,20 @@
 	box-sizing: border-box;
 	margin: 0 1% 0 0;
 	padding: 10px;
-	background: #fff;	
+	background: #fff;
 	//margin-top:20px;
 }
 
 .download-image {
-	background-size: 209px 136px;
-    background-repeat: no-repeat;	
-	width: 209px;
+	background-size:100% 100%;
+    background-repeat: no-repeat;
+	width: 100%;
 	height: 136px;
 	margin:0px;
 }
 
 .download-item {
-	width: 209px;
-	height: 200px;
+
 	margin-top: 30px;
 	margin-left: 25px;
 	margin-right: 25px;
@@ -35,7 +34,7 @@
 
 .col-template-content {
 	background-color: rgba(0,0,0,.50);
-	width: 209px;
+	width: 100%;
 	height: 136px;
 	position: absolute;
 	z-index: 100;
@@ -71,7 +70,7 @@
 	margin-top:20px;
 }
 
-body .filter-label {	
+body .filter-label {
 	font-weight:300px !important;
 }
 
@@ -81,7 +80,13 @@ body .filter-label {
 	vertical-align:-4px;
 
 }
-
+.wrap {
+  width: 95%;
+}
+#grid {
+  width: 100%;
+  overflow: visible !important;
+}
 #wpbody-content {
 	background-color:#fff;
 }
@@ -97,11 +102,12 @@ body .filter-label {
 
 .col-template-actions {
 	color: #000;
-	width: 209px;
+	width: 100%;
 	z-index: 100;
 	top: 0px;
 	text-align:center;
-	padding-top:20px;
+	padding-top: 15px;
+    padding-bottom: 10px;
 }
 
 .col-template-actions div {
@@ -114,7 +120,7 @@ body .filter-label {
 }
 
 
-.power-toggle {	
+.power-toggle {
 	cursor:pointer;
 	font-size:24px;
 }
@@ -125,7 +131,7 @@ body .filter-label {
 	margin-left:28%;
 }
 
-.col-template-actions a:hover{	
+.col-template-actions a:hover{
 	text-decoration:none;
 }
 
@@ -199,7 +205,7 @@ body .filter-label {
 	border: solid 1px #11273E;
 	z-index: 9999;
 	color:#fff;
-  
+
     &:after, &:before {
   	  content: '';
       position: absolute;
@@ -228,11 +234,11 @@ body .filter-label {
     & a    {
       &:before
       {
-        
+
         font-family: '';
         -webkit-font-smoothing: antialiased;
       }
-      
+
   	  line-height: 22px;
   	  color: #11273E;
   	  text-decoration: none;
@@ -252,7 +258,7 @@ body .filter-label {
 	border-radius: 3px 3px 0 0;
 	border: solid 1px #11273E;
 	z-index: 9999;
-  
+
     &:after, &:before {
   	  content: '';
       position: absolute;
@@ -281,11 +287,11 @@ body .filter-label {
     & a    {
       &:before
       {
-        
+
         font-family: '';
         -webkit-font-smoothing: antialiased;
       }
-      
+
   	  line-height: 22px;
   	  color: #11273E;
   	  text-decoration: none;
@@ -305,7 +311,7 @@ body .filter-label {
 	border-radius: 3px 3px 0 0;
 	border: solid 1px #11273E;
 	z-index: 9999;
-  
+
     &:after, &:before {
   	  content: '';
       position: absolute;
@@ -334,11 +340,11 @@ body .filter-label {
     & a    {
       &:before
       {
-        
+
         font-family: '';
         -webkit-font-smoothing: antialiased;
       }
-      
+
   	  line-height: 22px;
   	  color: #11273E;
   	  text-decoration: none;
@@ -358,7 +364,7 @@ body .filter-label {
 	border-radius: 3px 3px 0 0;
 	border: solid 1px #11273E;
 	z-index: 9999;
-  
+
     &:after, &:before {
   	  content: '';
       position: absolute;
@@ -387,11 +393,11 @@ body .filter-label {
     & a    {
       &:before
       {
-        
+
         font-family: '';
         -webkit-font-smoothing: antialiased;
       }
-      
+
   	  line-height: 22px;
   	  color: #11273E;
   	  text-decoration: none;
@@ -412,7 +418,7 @@ body .filter-label {
 	border-radius: 3px 3px 0 0;
 	border: solid 1px #11273E;
 	z-index: 9999;
-  
+
     &:after, &:before {
   	  content: '';
       position: absolute;
@@ -441,11 +447,11 @@ body .filter-label {
     & a    {
       &:before
       {
-        
+
         font-family: '';
         -webkit-font-smoothing: antialiased;
       }
-      
+
   	  line-height: 22px;
   	  color: #11273E;
   	  text-decoration: none;

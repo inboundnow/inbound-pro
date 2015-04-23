@@ -7,7 +7,7 @@ Downloads.Modules.Templates = (function($, undefined) {
 	var $grid,
 	$meta,
 	$plugins,
-	$template, 
+	$template,
 	meta_filter = [],
 	plugins = 'all' ;
 
@@ -20,11 +20,11 @@ Downloads.Modules.Templates = (function($, undefined) {
 		initShuffle();
 		setupSearching();
 		initDetails();
-		
-		/* initiate tooltips */
-		jQuery('[data-toggle="tooltip"]').tooltip(); 	
 
-		/* preset filter */	
+		/* initiate tooltips */
+		jQuery('[data-toggle="tooltip"]').tooltip();
+
+		/* preset filter */
 		jQuery("input[name=meta][value=" + downloads.meta_filter + "]").prop('checked', true).trigger('change');
 
 	},
@@ -42,18 +42,18 @@ Downloads.Modules.Templates = (function($, undefined) {
 				if ( plugins !== 'all' && $.inArray( plugins, $el.data('plugins')) === -1) {
 				  return false;
 				}
-				
+
 				/* make sure we honor meta selection */
 				if ($.inArray( meta_filter, $el.data('meta')) === -1) {
 				  return false;
 				}
-				
+
 				var text = $.trim( $el.find('.col-template-info-title').text() ).toLowerCase();
 				return text.indexOf(val) !== -1;
 			});
 		});
 	},
-  
+
 	/**
 	 *  Define main elements to listen to when filtering
 	 */
@@ -61,12 +61,12 @@ Downloads.Modules.Templates = (function($, undefined) {
 		$grid = jQuery('#grid');
 		$meta = jQuery('.radio-filters');
 		$plugins = jQuery('.templates-filter-group');
-		
+
 	},
 
-	
+
 	/**
-	 *  
+	 *
 	 */
 	initShuffle = function() {
 		// instantiate the plugin
@@ -83,7 +83,7 @@ Downloads.Modules.Templates = (function($, undefined) {
 			meta_filter = $checked.val();
 
 			filter();
-			
+
 			updatePreset();
 		});
 
@@ -94,23 +94,23 @@ Downloads.Modules.Templates = (function($, undefined) {
 			plugins = $this.data( 'filter-value' )
 
 			filter();
-			
+
 		});
 	},
 
 	filter = function() {
-		
+
 		if ( hasActiveFilters() ) {
 			$grid.shuffle('shuffle', function($el) {
 				return itemPassesFilters( $el.data() , $el );
 			});
 		} else {
 			$grid.shuffle( 'shuffle', 'all' );
-		}		
+		}
 	},
 
 	itemPassesFilters = function(data , $el) {
-	
+
 		// If a meta_filter filter is active
 		if ( meta_filter.length > 0 && !valueInArray( meta_filter , data.meta) ) {
 			return false;
@@ -120,11 +120,11 @@ Downloads.Modules.Templates = (function($, undefined) {
 		if ( plugins.length > 0 && !valueInArray(plugins , data.plugins ) ) {
 			return false;
 		}
-		
+
 		/* If a search filter is present */
 		if ( jQuery('.filter-search').val().toLowerCase().length > 0 ) {
-			
-			var text = $.trim( $el.find('.col-template-info-title').text() ).toLowerCase();	
+
+			var text = $.trim( $el.find('.col-template-info-title').text() ).toLowerCase();
 			if (text.indexOf(jQuery('.filter-search').val().toLowerCase()) === -1) {
 				return false;
 			}
@@ -140,7 +140,7 @@ Downloads.Modules.Templates = (function($, undefined) {
 	valueInArray = function(value, arr) {
 		return $.inArray(value, arr) !== -1;
 	},
-	
+
 	updatePreset = function() {
 		jQuery.ajax({
 			type: "POST",
@@ -152,7 +152,7 @@ Downloads.Modules.Templates = (function($, undefined) {
 			dataType: 'html',
 			timeout: 10000,
 			success: function (response) {
-				
+
 			},
 			error: function(request, status, err) {
 				alert(status);
@@ -164,53 +164,53 @@ Downloads.Modules.Templates = (function($, undefined) {
 	 *  adds listeners to fire the overlow
 	 */
 	initDetails = function() {
-		$template = getDetailsTemplate();	
-		
-		
+		$template = getDetailsTemplate();
+
+
 		/* on more details click */
-		jQuery('.more-details').on('click', function() {		
+		jQuery('.more-details').on('click', function() {
 			/* get selected template */
-			var download_name = jQuery( this ).data('download');	
-			openMoreDetails( download_name );	
+			var download_name = jQuery( this ).data('download');
+			openMoreDetails( download_name );
 		});
-		
+
 		/* on overlay close */
 		jQuery('body').on( 'click' , '.overlay-close' , function() {
 			var download = jQuery( this ).data('download');
 			console.log(download);
 			jQuery('.download-overlay[data-download="'+download+'"]').remove();
 		});
-		
-		
+
+
 		/* on next */
 		jQuery('body').on( 'click' , '.overlay-next' , function() {
 			jQuery('.download-overlay').remove();
 			var download = jQuery( this ).data('download');
 			openMoreDetails( download );
 		});
-		
+
 		/* on previous */
 		jQuery('body').on( 'click' , '.overlay-previous' , function() {
 			jQuery('.download-overlay').remove();
 			var download = jQuery( this ).data('download');
 			openMoreDetails( download );
 		});
-		
+
 		/* on install */
 		jQuery('body').on( 'click' , '.overlay-install' , function() {
 			var download = jQuery( this ).data('download');
 			console.log( download );
 			window.location.href = "admin.php?page=" + downloads.current_page + "&action=install&download=" + download ;
 		});
-		
+
 		/* on uninstall */
 		jQuery('body').on( 'click' , '.overlay-uninstall' , function() {
 			var download = jQuery( this ).data('download');
 			window.location.href = "admin.php?page=" + downloads.current_page + "&action=uninstall&download=" + download ;
 		});
-		
+
 	},
-	
+
 	/**
 	 *  Method to open the more details box
 	 */
@@ -223,29 +223,29 @@ Downloads.Modules.Templates = (function($, undefined) {
 
 		/* clean content of shortcodes */
 		download_object.post_content = download_object.post_content.replace(/\[(\S+)[^\]]*][^\[]*\[\/\1\]/g, '');
-		
+
 		/* clean iframe html   */
 		download_object.post_content = download_object.post_content.replace(/(<iframe.*?>.*?<\/iframe>)/g, '');
-		
+
 		/* build template */
 		var parsedTemplate = _.template($template,  download_object );
-		
+
 		$grid.append( parsedTemplate );
-	
+
 	}
-	
+
 	/**
-	 *  Gets template file for download details 
+	 *  Gets template file for download details
 	 */
 	getDetailsTemplate = function() {
-	
+
 		return jQuery.ajax({
 			type: 'GET',
 			async: false,
 			url: downloads.plugin_url_path + 'assets/templates/admin/download-details.html'
 		}).responseText;
 	};
-	
+
 	return {
 		init: init
 	};
