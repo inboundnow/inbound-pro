@@ -380,17 +380,6 @@ if (is_admin())
 		return $selected_template;
 	}
 
-	//add filter to modify thumbnail preview
-	add_filter('lp_live_screenshot_url', 'lp_ab_testing_prepare_screenshot');
-	function lp_ab_testing_prepare_screenshot($link)
-	{
-		$variation_id = lp_ab_testing_get_current_variation_id();
-		$link = $link."?lp-variation-id=".$variation_id;
-		return $link;
-	}
-
-
-
 	add_filter("post_type_link", "lp_ab_append_variation_id_to_adminbar_link", 10,2);
 	function lp_ab_append_variation_id_to_adminbar_link($link, $post)
 	{

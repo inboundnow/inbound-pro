@@ -1248,14 +1248,22 @@ if (!class_exists('Inbound_API')) {
 			global $wpdb;
 			
 			$table_name = $wpdb->prefix . "inbound_tracked_links"; 
-			$serialized = serialize( $args );
-			$token = self::generate_token();
+			
+			/* if cta link check to see if token already exists */
+			if (isset($args['cta_id'])) {
+				$results = $wpdb->get_results("SELECT * FROM $table_name WHERE args = '".serialize( $args )."' LIMIT 1", ARRAY_A );
+				if ($results) {
+					return get_site_url( get_current_blog_id() , self::$tracking_endpoint . '/' . $results[0]['token'] );
+				}
+			}
+			
+			$token = self::generate_token();			
 			
 			$wpdb->insert( 
 				$table_name, 
 				array( 
 					'token' => $token,
-					'args' => $serialized
+					'args' => serialize( $args )
 				) 
 			);
 			
@@ -1272,8 +1280,8 @@ if (!class_exists('Inbound_API')) {
 			$params = array_merge( $params , $_REQUEST ); 
 			
 			/* lead email or lead id required */
-			if ( !isset( $params['id'] ) && !isset( $params['email'])) {
-				$error['error'] = __( 'This endpoint requires either the \'id\' or the \'email\' parameter be set.' , 'leads' ) ;
+			if ( !isset( $params['id'] ) && !isset( $params['email']) && !isset( $params['cta_id']) ) {
+				$error['error'] = __( 'This endpoint requires either the \'id\' or the \'email\' or the \'cta_id\' parameter be set.' , 'leads' ) ;
 				self::$data = $error;
 				self::output( 401 );
 			}
@@ -1306,7 +1314,9 @@ if (!class_exists('Inbound_API')) {
 			}
 			
 			/* Set datetime */
-			$args['datetime'] = current_time('mysql');
+			if (!isset($args['cta_id'])) {
+				$args['datetime'] = current_time('mysql');
+			}
 			
 			/* get tracked link */
 			$tracked_link = self::analytics_get_tracking_code( $args );

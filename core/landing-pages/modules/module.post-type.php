@@ -40,7 +40,7 @@ function landing_page_register() {
         'capability_type' => 'post',
         'hierarchical' => false,
         'menu_position' => 32,
-        'supports' => array('title','custom-fields','editor','thumbnail', 'excerpt')
+        'supports' => array( 'title', 'editor','thumbnail')
       );
 
     register_post_type( 'landing-page' , $args );

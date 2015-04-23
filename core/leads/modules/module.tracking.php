@@ -6,10 +6,12 @@
 add_action( 'inbound_track_link' , 'inbound_store_tracked_link_click'  , 10 , 1);
 function inbound_store_tracked_link_click( $params ) {
 	
-	if ( !isset($params['id']) ) {
+	/* ignore if there is no lead id set or if it is a call to action click */
+	if ( !isset($params['id']) || isset($params['cta_id']) ) {
 		return;
 	}
 	
+	/* get custom events dataset */
 	$inbound_custom_events = get_post_meta( $params['id'] , 'inbound_custom_events' , true);
 	
 	if ( isset($inbound_custom_events) ) {

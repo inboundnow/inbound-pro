@@ -76,15 +76,7 @@ if ( !class_exists('CTA_Global_Settings') ) {
 					'type'	=> 'radio',
 					'default'	=> '0',
 					'options' => array( 0 => 'Off' , 1 => 'On' )
-				),			
-				array(
-					'id'	=> 'global-css',
-					'label' => __( 'Global CSS overrides.' , 'cta' ),
-					'description' => __( 'This will place custom CSS across all Call to Actions' , 'cta' ),
-					'type'	=> 'textarea',
-					'default'	=> '',
-					'options' => null
-				),
+				)
 			);
 
 			/* Setup License Keys Tab */

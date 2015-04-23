@@ -13,11 +13,17 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 		static $comments;
 		static $searches;
 		static $custom_events;
-
+		
+		/**
+		*  Initialize Class
+		*/
 		public function __construct() {
 			self::load_hooks();
 		}
 
+		/**
+		*  Load hooks and filters
+		*/
 		public static function load_hooks() {
 
 			/* Hide metaboxes */
@@ -37,6 +43,9 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 			add_action( 'admin_print_footer_scripts', array( __CLASS__ , 'print_admin_scripts' ) );
 		}
 
+		/**
+		*  Hide unused metaboxes
+		*/
 		public static function hide_metaboxes($hidden, $screen) {
 			global $post;
 

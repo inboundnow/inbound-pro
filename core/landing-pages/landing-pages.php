@@ -140,7 +140,6 @@ if (!class_exists('Inbound_Landing_Pages_Plugin')) {
 					include_once('modules/module.install.php');
 					include_once('modules/module.alert.php');
 					include_once('modules/module.metaboxes.php');
-					include_once('modules/module.metaboxes-global.php');
 					include_once('modules/module.landing-page.php');
 					include_once('classes/class.load-extensions.php');
 					include_once('modules/module.post-type.php');
@@ -154,7 +153,8 @@ if (!class_exists('Inbound_Landing_Pages_Plugin')) {
 					include_once('modules/module.click-tracking.php');
 					include_once('modules/module.templates.php');
 					include_once('modules/module.store.php');
-					include_once('modules/module.customizer.php');
+					include_once('modules/module.customizer.php');					
+					include_once('classes/class.inbound-statistics.php');
 					//include_once('classes/class.branching.php');
 
 

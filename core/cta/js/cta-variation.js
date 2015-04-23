@@ -62,24 +62,6 @@ function wp_cta_add_tracking_classes(ctas) {
 			string = "";
 		}
 
-		var external = RegExp('^((f|ht)tps?:)?//(?!' + location.host + ')');
-		jQuery('#wp_cta_'+cta_id+'_variation_'+vid+' a').each(function(){
-
-			jQuery(this).attr("data-event-id",  cta_id ).attr("data-cta-variation", vid );
-			var originalurl = jQuery(this).attr("href");
-
-			if (originalurl  && originalurl.substr(0,1)!='#') {
-
-				if ( jQuery(this).hasClass('do-not-track') ) {
-					return;
-				}
-
-				var cta_variation_string = "&wp-cta-v=" + vid;
-				var newurl =  cta_variation.home_url + "?wp_cta_redirect_" +cta_id + "=" +  encodeURIComponent(originalurl) + cta_variation_string + string;
-				jQuery(this).attr("href", newurl);
-			}
-		});
-
 	});
 }
 

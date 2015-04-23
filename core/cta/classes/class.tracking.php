@@ -13,13 +13,33 @@ class CTA_Conversion_Tracking {
 	
 	public static function load_hooks() {
 		
-		/*  When CTA url is clicked store the click count to the lead & redirect*/
+		/* track masked cta links */
+		add_action( 'inbound_track_link' , array( __CLASS__ , 'track_link' ) );
+		
+		/*  Legacy! - When CTA url is clicked store the click count to the lead & redirect*/
 		add_action( 'init' , array( __CLASS__ ,  'redirect_link' ) , 11); // Click Tracking init
 		
 		/* Track form submissions related to call to actions a conversions */
 		add_action('inboundnow_store_lead_pre_filter_data' , array( __CLASS__ , 'set_form_submission_conversion' ) , 20 , 1 );
 	}
 
+	/**
+	*  Listens for tracked masked link processing 
+	*/
+	public static function track_link( $args ) {
+		
+		$do_not_track = apply_filters('inbound_analytics_stop_track' , false );
+
+		if ( $do_not_track ) {
+			return;
+		}
+				
+		self::store_click_data( $args['cta_id'] , $args['vid'] );
+		if (isset($args['id'])) {
+			self::store_click_data_to_lead(  $args['cta_id'] , $args['id'] , 'clicked-link' );
+		}
+	}
+	
 	/**
 	*  Listens for tracked form submissions embedded in calls to actions & incrememnt conversions
 	*/
@@ -56,7 +76,7 @@ class CTA_Conversion_Tracking {
 			parse_str($qs, $output);
 			(isset($output['l_type'])) ? $type = $output['l_type'] : $type = "";
 			(isset($output['wpl_id'])) ? $lead_id = $output['wpl_id'] : $lead_id = "";
-			(isset($output['wp-cta-v'])) ? $cta_variation = $output['wp-cta-v'] : $cta_variation = null;
+			(isset($output['wp-cta-v'])) ? $variation_id = $output['wp-cta-v'] : $variation_id = null;
 			$pos = strpos($qs, 'wp_cta_redirect');
 			if (!(false === $pos)) {
 				$link = substr($qs, $pos);
@@ -67,7 +87,7 @@ class CTA_Conversion_Tracking {
 				$pattern = '/wp_cta_redirect_(\d+?)\=/';
 				preg_match($pattern, $link, $matches);
 				$link = preg_replace($pattern, '', $link);
-				$event_id = $matches[1]; // Event ID
+				$cta_id = $matches[1]; // Event ID
 
 				/* mod for links that have been dressed twice for some reason in isolated circumstances */
 				if ( strstr( $link , '?http')) {
@@ -113,10 +133,10 @@ class CTA_Conversion_Tracking {
 
 				if ( $do_not_track === false ) {
 					/* store click data */
-					self::store_click_data( $event_id, $lead_id, $cta_variation); // Store CTA data to CTA CPT
+					self::store_click_data( $cta_id, $variation_id); // Store CTA data to CTA CPT
 
 					/* Add event to lead profile */
-					self::store_click_data_to_lead($event_id, $lead_id, 'clicked-link');
+					self::store_click_data_to_lead($cta_id, $lead_id, 'clicked-link');
 				}	
 			
 
@@ -135,27 +155,27 @@ class CTA_Conversion_Tracking {
 	/**
 	 * Store the click data to the correct CTA variation
 	 *
-	 * @param  INT $event_id      cta id
+	 * @param  INT $cta_id      cta id
 	 * @param  INT $lead_id       lead id
-	 * @param  INT $cta_variation which variation was clicked
+	 * @param  INT $variation_id which variation was clicked
 	 */
-	public static function store_click_data($event_id, $lead_id, $cta_variation) {
+	public static function store_click_data($cta_id, $variation_id) {
 		// If leads_triggered meta exists do this
-		$event_trigger_log = get_post_meta($event_id,'leads_triggered',true);
+		$event_trigger_log = get_post_meta( $cta_id , 'leads_triggered' ,true );
 		$timezone_format = 'Y-m-d G:i:s T';
 		$wordpress_date_time =  date_i18n($timezone_format);
-		$conversion_count = get_post_meta($event_id,'wp-cta-ab-variation-conversions-'.$cta_variation ,true);
+		$conversion_count = get_post_meta($cta_id,'wp-cta-ab-variation-conversions-'.$variation_id ,true);
 		$conversion_count++;
-		update_post_meta($event_id, 'wp-cta-ab-variation-conversions-'.$cta_variation, $conversion_count);
-		update_post_meta($event_id, 'wp_cta_last_triggered', $wordpress_date_time ); // update last fired date
+		update_post_meta($cta_id, 'wp-cta-ab-variation-conversions-'.$variation_id, $conversion_count);
+		update_post_meta($cta_id, 'wp_cta_last_triggered', $wordpress_date_time ); // update last fired date
 	}
 	
 	/**
 	*  	Store click event to lead profile
 	*  
-	*  @param INT $event_id 
+	*  @param INT $cta_id 
 	*/
-	public static function store_click_data_to_lead($event_id, $lead_id, $event_type) {
+	public static function store_click_data_to_lead($cta_id, $lead_id, $event_type) {
 		$timezone_format = 'Y-m-d G:i:s T';
 		$wordpress_date_time =  date_i18n($timezone_format);
 
@@ -163,27 +183,27 @@ class CTA_Conversion_Tracking {
 			$event_data = get_post_meta( $lead_id, 'call_to_action_clicks', TRUE );
 			$event_count = get_post_meta( $lead_id, 'wp_cta_trigger_count', TRUE );
 			$event_count++;
-			$individual_event_count = get_post_meta( $lead_id, 'lt_event_tracked_'.$event_id, TRUE );
+			$individual_event_count = get_post_meta( $lead_id, 'lt_event_tracked_'.$cta_id, TRUE );
 			$individual_event_count = ($individual_event_count != "") ? $individual_event_count : 0;
 			$individual_event_count++;
 
 			if ($event_data) {
 				$event_data = json_decode($event_data,true);
-				$event_data[$event_count]['id'] = $event_id;
+				$event_data[$event_count]['id'] = $cta_id;
 				$event_data[$event_count]['datetime'] = $wordpress_date_time;
 				$event_data[$event_count]['type'] = $event_type;
 				$event_data = json_encode($event_data);
 				update_post_meta( $lead_id, 'call_to_action_clicks', $event_data );
 				update_post_meta( $lead_id, 'wp_cta_trigger_count', $event_count );
-				//	update_post_meta( $lead_id, 'lt_event_tracked_'.$event_id, $individual_event_count );
+				//	update_post_meta( $lead_id, 'lt_event_tracked_'.$cta_id, $individual_event_count );
 			} else {
-				$event_data[1]['id'] = $event_id;
+				$event_data[1]['id'] = $cta_id;
 				$event_data[1]['datetime'] = $wordpress_date_time;
 				$event_data[1]['type'] = $event_type;
 				$event_data = json_encode($event_data);
 				update_post_meta( $lead_id, 'call_to_action_clicks', $event_data );
 				update_post_meta( $lead_id, 'wp_cta_trigger_count', 1 );
-				//	update_post_meta( $lead_id, 'lt_event_tracked_'.$event_id, $individual_event_count );
+				//	update_post_meta( $lead_id, 'lt_event_tracked_'.$cta_id, $individual_event_count );
 			}
 		}
 	}

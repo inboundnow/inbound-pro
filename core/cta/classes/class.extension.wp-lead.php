@@ -16,9 +16,12 @@ if ( !class_exists('CTA_WordPress_Leads') ) {
 		}
 		
 		/* Create New Nav Tabs in WordPress Leads - Lead UI */
-		public static function create_nav_tabs( $nav_items )
-		{
-			$nav_items[] = array('id'=>'wpleads_lead_cta_click_tab','label'=> __( 'CTA Clicks' , 'cta' ) );
+		public static function create_nav_tabs( $nav_items ) {
+			$nav_items[] = array(
+				'id'=>'wpleads_lead_cta_click_tab',
+				'label'=> __( 'CTA Clicks' , 'cta' ),
+				'count' => self::get_click_count()
+			);
 			return $nav_items;
 		}
 		
@@ -37,12 +40,10 @@ if ( !class_exists('CTA_WordPress_Leads') ) {
 
 				$the_array = json_decode($events, true);
 				// echo "First id : ". $the_array[1]['id'] . "!"; // Get specific value
-				if ($events)
-				{
+				if ($events) {
 					$count = 1;
 
-					foreach($the_array as	$key=>$val)
-					{
+					foreach($the_array as $key=>$val) {
 						$id = $the_array[$count]['id'];
 						$title = get_the_title($id);
 	
@@ -77,6 +78,22 @@ if ( !class_exists('CTA_WordPress_Leads') ) {
 			<?php
 		}
 
+		
+		/**
+		*	Gets number of tracked link clicks
+		*/
+		public static function get_click_count() {
+			global $post;
+
+			$clicks = get_post_meta( $post->ID , 'call_to_action_clicks' , true);
+			$clicks = json_decode( $clicks , true);
+
+			if ( isset($clicks) && is_array($clicks) ) {
+				return count($clicks);
+			} else {
+				return 0;
+			}
+		}
 	}
 	
 	/* Load Post Type Pre Init */
