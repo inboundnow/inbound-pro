@@ -5,32 +5,32 @@
 */
 
 if (!class_exists('Inbound_Content_Statistics')) {
-
+	
 	/**
 	*  Adds impression and conversion tracking statistics to all pieces of content
 	*/
 	class Inbound_Content_Statistics {
-
+		
 		/**
 		*  Initiate class
 		*/
 		public function __construct() {
 			self::load_hooks();
 		}
-
+	
 		/**
 		*  load hooks and filters
 		*/
 		public static function load_hooks() {
 			/* add statistics metabox to non landing-page post types */
 			add_action( 'add_meta_boxes' , array( __CLASS__ , 'add_statistics_metabox' ) , 10 );
-
+			
 			/*  Adds Ajax for Clear Stats button */
 			add_action( 'wp_ajax_nopriv_inbound_content_clear_stats', array( __CLASS__ , 'ajax_clear_stats' ) );
 			add_action( 'wp_ajax_inbound_content_clear_stats', array( __CLASS__ , 'ajax_clear_stats' ) );
 
 		}
-
+		
 		/**
 		*  Add mtatistic metabox to non blacklisted post types
 		*/
@@ -58,22 +58,22 @@ if (!class_exists('Inbound_Content_Statistics')) {
 			}
 
 		}
-
+		
 		/**
 		*  Display Inbound Content Statistics
 		*/
 		public static function display_statistics() {
 
 			global $post;
-
+			
 			?>
 			<div>
 				<script >
-				jQuery(document).ready(function($) {
+				jQuery(document).ready(function($) { 	
 					jQuery( 'body' ).on( 'click', '.lp-delete-var-stats', function() {
 						var post_id = jQuery(this).attr("rel");
-
-						if (confirm( '<?php _e( 'Are you sure you want to delete stats for this post?' , 'landing-pages' ); ?> ')) {
+					
+						if (confirm( '<?php _e( 'Are you sure you want to delete stats for this post?' , 'landing-pages' ); ?> ')) {	  
 							jQuery.ajax({
 								  type: 'POST',
 								  url: ajaxurl,
@@ -81,27 +81,27 @@ if (!class_exists('Inbound_Content_Statistics')) {
 								  data: {
 									action: 'inbound_content_clear_stats',
 									post_id: post_id
-								  },
+								  },				  
 								success: function(data){
 									jQuery(".bab-stat-span-impressions").text("0");
 									jQuery(".bab-stat-span-conversions").text("0");
 									jQuery(".bab-stat-span-conversion_rate").text("0");
-
+									
 								},
 
 								  error: function(MLHttpRequest, textStatus, errorThrown){
 									alert("Ajax not enabled");
 									}
 								});
-
+								
 								return false;
-						}
+						} 
 					});
 				});
 				</script>
 				<div class="inside" style='margin-left:-8px;'>
 					<div id="bab-stat-box">
-
+					
 					<?php
 					$impressions = apply_filters('inbound_impressions' , get_post_meta($post->ID,'_inbound_impressions_count', true) );
 					$conversions = apply_filters('inbound_conversions' , get_post_meta($post->ID,'_inbound_conversions_count', true) );
@@ -132,7 +132,7 @@ if (!class_exists('Inbound_Content_Statistics')) {
 									<div class='bab-stat-container-conversion_rate bab-number-box'>
 										<span class='bab-stat-span-conversion_rate'><?php echo $conversion_rate; ?></span>
 										<span class="bab-stat-id bab-rate"><?php _e( 'Conversion Rate' , 'landing-pages' ); ?></span>
-									</div>
+									</div>						
 								</div>
 							</div>
 							<div class='bab-stat-control-container'>
@@ -146,7 +146,7 @@ if (!class_exists('Inbound_Content_Statistics')) {
 
 			<?php
 		}
-
+		
 		/**
 		*  Ajax listener to clear stats related to content
 		*/
