@@ -142,7 +142,7 @@ class Inbound_API_Wrapper {
 		self::$extensions = array();
 		
 		foreach ( self::$data as $key => $download ) {
-			if ( $download->download_type == 'extension' ) {
+			if ( isset($download->download_type) && $download->download_type == 'extension' ) {
 				self::$extensions[] = (array) $download;
 			}			
 		}
