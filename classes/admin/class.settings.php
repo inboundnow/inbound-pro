@@ -468,6 +468,8 @@ class Inbound_Pro_Settings {
 		
 		if (isset($field['reveal']) && is_array($field['reveal'])) {
 			$data = ' data-reveal-selector="'.$field['reveal']['selector'].'" data-reveal-value="'.$field['reveal']['value'].'" ';
+		} else {
+			$data = '';
 		}
 		
 		echo '<div class="inbound-setting '.$field['class'].' " '.$data.' data-field-id="'.$field['id'].'" id="field-'.$field['id'].'">';
@@ -525,7 +527,7 @@ class Inbound_Pro_Settings {
 				echo '		<label>'.$field['label'] .'</label>';
 				echo '	</div>';
 				echo '	<div class="inbound-text-field">';
-				echo '		<input type="text" name="'.$field['id'].'" id="'.$field['id'].'" placeholder="'.$field['placeholder'].'"  value="'.$field['value'].'" size="30"  data-field-type="'.$field['type'].'" data-field-group="'.$group['group_name'].'"/>';
+				echo '		<input type="text" name="'.$field['id'].'" id="'.$field['id'].'" placeholder="'.( isset( $field['placeholder'] ) ? $field['placeholder'] : '' ) .'"  value="'.$field['value'].'" size="30"  data-field-type="'.$field['type'].'" data-field-group="'.$group['group_name'].'"/>';
 				echo '	</div>';
 				echo '	<div class="inbound-tooltip-field">';
 				echo '		<i class="tooltip fa fa-question-circle tool_text" title="'.$field['description'].'"></i>';
@@ -697,7 +699,7 @@ class Inbound_Pro_Settings {
 					echo '		</div>';
 					echo '		<div class="map-key all-25">';
 					echo '				<input type="hidden" class="field-priority" name="fields['.$field['key'].'][priority]" value="'.$key.'">';
-					echo '				<input type="text" class="field-key" data-special-handler="true" data-field-type="mapped-field" name="fields['.$field['key'].'][key]" value="'.$field['key'].'" '. ( isset($field['nature']) || $field['nature'] == 'core' ? 'disabled' : '' ) .' required>';
+					echo '				<input type="text" class="field-key" data-special-handler="true" data-field-type="mapped-field" name="fields['.$field['key'].'][key]" value="'.$field['key'].'" '. ( isset($field['nature']) && $field['nature'] == 'core' ? 'disabled' : '' ) .' required>';
 					echo '		</div>';
 					echo '		<div class="map-label all-30">';						
 					echo '				<input type="text" class="field-label" data-special-handler="true" data-field-type="mapped-field"  name="fields['.$field['key'].'][label]" value="'.$field['label'].'" required>';
