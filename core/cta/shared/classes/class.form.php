@@ -152,7 +152,7 @@ if (!class_exists('Inbound_Forms')) {
 					$field_container_class = (isset($matches[3][$i]['field_container_class'])) ? $matches[3][$i]['field_container_class'] : '';
 					$field_input_class = (isset($matches[3][$i]['field_input_class'])) ? $matches[3][$i]['field_input_class'] : '';
 					$required = (isset($matches[3][$i]['required'])) ? $matches[3][$i]['required'] : '0';
-					$req = ($required === '1') ? 'required' : '';
+					$req = ($required === '1') ? 'required data-required="true"' : '';
 					$exclude_tracking = (isset($matches[3][$i]['exclude_tracking'])) ? $matches[3][$i]['exclude_tracking'] : '0';
 					$et_output = ($exclude_tracking === '1') ? ' data-ignore-form-field="true"' : '';
 					$req_label = ($required === '1') ? '<span class="inbound-required">*</span>' : '';

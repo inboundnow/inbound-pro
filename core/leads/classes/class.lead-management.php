@@ -321,7 +321,7 @@ if (!class_exists('Leads_Manager')) {
 		public static function display_pagination() {
 				
 			$pagination = '';
-			if ( $query->max_num_pages > 1 ) {
+			if ( self::$query->max_num_pages > 1 ) {
 				$current = preg_replace('/&?paged=[0-9]+/i', '', strip_tags($_SERVER['REQUEST_URI'])); // I'll happily take suggestions on a better way to do this, but it's 3am so
 
 				$pagination .= "<div class='tablenav-pages'>";
@@ -331,7 +331,7 @@ if (!class_exists('Leads_Manager')) {
 					$pagination .= "<a class='prev page-numbers' href='$current&amp;paged=$prev'>&laquo; ". __( 'Previous' , 'leads' )."</a>";
 				}
 
-				for ( $i = 1; $i <= $query->max_num_pages; $i++ ) {
+				for ( $i = 1; $i <= self::$query->max_num_pages; $i++ ) {
 					if ( $i == self::$paged ) {
 						$pagination .= "<span class='page-numbers current'>$i</span>";
 					} else {
@@ -339,7 +339,7 @@ if (!class_exists('Leads_Manager')) {
 					}
 				}
 
-				if ( self::$paged < $query->max_num_pages ) {
+				if ( self::$paged < self::$query->max_num_pages ) {
 					$next = self::$paged + 1;
 					$pagination .= "<a class='next page-numbers' href='$current&amp;paged=$next'>".__( 'Next' , 'leads' ) ." &raquo;</a>";
 				}
@@ -355,7 +355,13 @@ if (!class_exists('Leads_Manager')) {
 		*  Display results query
 		*/
 		public static function display_results_message() {
-			// Criteria were given, but no posts were matched.
+			
+			/* if no search return */
+			if (!isset($_GET['submit'])) {
+				return;
+			}
+			
+			/* if no posts show message */
 			if ( empty(self::$query->posts) ) {
 				echo '<p>'. __('No posts matched that criteria, sorry! Try again with something different.' , 'leads' ) .'</p>';
 				return;
@@ -447,7 +453,7 @@ if (!class_exists('Leads_Manager')) {
 						echo '<td class="tags-column-row">';
 							$_tags = wp_get_post_terms( $post->ID, 'lead-tags', 'id' );
 							
-							if ($tags) {
+							if ($_tags) {
 								foreach ( $_tags as $tag ) {
 									echo  "<a title='Click to Edit Lead Tag Name' target='_blank' href='".admin_url('edit-tags.php?action=edit&taxonomy=lead-tags&tag_ID='.$tag->term_id.'&post_type=wp-lead')."'>$tag->name</a>, ";
 								}
@@ -737,8 +743,7 @@ if (!class_exists('Leads_Manager')) {
 			$this_tax = "wplead_list_category";
 
 			/* We've been told to tag these posts with the given category. */
-			if ( !empty($_REQUEST['add']) )
-			{
+			if ( !empty($_REQUEST['add']) )	{
 
 				foreach ( $_REQUEST['ids'] as $id )
 				{
@@ -750,8 +755,7 @@ if (!class_exists('Leads_Manager')) {
 				die;
 			}
 			/* We've been told to remove these posts from the given category. */
-			elseif ( !empty($_REQUEST['remove']) )
-			{
+			elseif ( !empty($_REQUEST['remove']) ) { 
 
 				foreach ( (array) $_REQUEST['ids'] as $id )	{
 					$Inbound_Leads->remove_lead_from_list( intval($id) , $list_id );
@@ -761,19 +765,17 @@ if (!class_exists('Leads_Manager')) {
 				die;
 			}
 			/* We've been told to tag these posts */
-			elseif ( !empty($_REQUEST['tag']) || !empty($_REQUEST['replace_tags']) )
-			{
+			elseif ( !empty($_REQUEST['tag']) || !empty($_REQUEST['replace_tags']) ) {
 				$tags = $_REQUEST['tags'];
 
 				foreach ( (array) $_REQUEST['ids'] as $id )	{
-					$Inbound_Leads->add_tag_to_lead( intval($id) , $tags );
+					$Inbound_Leads->add_tag_to_lead( intval($id) , explode( ',' , $tags ) );
 				}
-				wp_redirect(get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&done=tag&what=$tags&num=self::$num$query&on=$pass_ids");
+				wp_redirect(get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&done=tag&what=$tags&num=".self::$num.$query."&on=$pass_ids");
 				die;
 			}
 			/* We've been told to untag these posts */
-			elseif ( !empty($_REQUEST['untag']) )
-			{
+			elseif ( !empty($_REQUEST['untag']) ) {
 				$tags = explode(',', $_REQUEST['tags']);
 
 				foreach ( (array) $_REQUEST['ids'] as $id )
@@ -799,8 +801,7 @@ if (!class_exists('Leads_Manager')) {
 				die;
 			}
 			/* Delete selected leads */
-			elseif ( !empty($_REQUEST['delete_leads']) )
-			{
+			elseif ( !empty($_REQUEST['delete_leads']) ) {
 				foreach ( (array) $_REQUEST['ids'] as $id )
 				{
 					$id = intval($id);
@@ -812,8 +813,7 @@ if (!class_exists('Leads_Manager')) {
 
 			}
 			/* Export Selected Leads to CSV */
-			elseif ( !empty($_REQUEST['export_leads']) )
-			{
+			elseif ( !empty($_REQUEST['export_leads']) ) {
 				$exported = 0;
 
 				header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
