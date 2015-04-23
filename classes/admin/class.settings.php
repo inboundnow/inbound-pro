@@ -27,16 +27,16 @@ class Inbound_Pro_Settings {
 
 		/* enqueue js and css */
 		add_action( 'admin_enqueue_scripts' , array( __CLASS__ , 'enqueue_scripts' ) );
-		
+
 		/* add ajax listener for setting saves */
 		add_action( 'wp_ajax_inbound_pro_update_setting' , array( __CLASS__ , 'ajax_update_settings' ) );
-	
+
 		/* add ajax listener for custom fields setting saves */
 		add_action( 'wp_ajax_inbound_pro_update_custom_fields' , array( __CLASS__ , 'ajax_update_custom_fields' ) );
-		
+
 		/* add ajax listener for IP Addresses setting saves */
 		add_action( 'wp_ajax_inbound_pro_update_ip_addresses' , array( __CLASS__ , 'ajax_update_ip_addresses' ) );
-		
+
 	}
 
 	/**
@@ -50,20 +50,20 @@ class Inbound_Pro_Settings {
 		if (isset($screen) && $screen->base != 'toplevel_page_inbound-pro' ){
 			return;
 		}
-	
+
 		wp_enqueue_script('jquery');
 		wp_enqueue_script('jquery-ui', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js', array('jquery'), '1.8.6');
 		wp_enqueue_script('modernizr');
 		wp_enqueue_script('underscore');
 		add_thickbox();
-		
-		/* load shuffle.js */		
+
+		/* load shuffle.js */
 		wp_enqueue_script('shuffle', INBOUND_PRO_URLPATH . 'assets/libraries/Shuffle/jquery.shuffle.modernizr.min.js' , array( 'jquery') );
-		
+
 		/* load custom CSS & JS for inbound pro welcome */
 		wp_enqueue_style('inbound-settings', INBOUND_PRO_URLPATH . 'assets/css/admin/settings.css');
 		wp_enqueue_script('inbound-settings', INBOUND_PRO_URLPATH . 'assets/js/admin/settings.js' );
-	
+
 		/* load Ink */
 		wp_enqueue_script('Ink-holder', INBOUND_PRO_URLPATH . 'assets/libraries/Ink/js/holder.js' );
 		wp_enqueue_script('Ink-all', INBOUND_PRO_URLPATH . 'assets/libraries/Ink/js/ink-all.min.js' );
@@ -71,7 +71,7 @@ class Inbound_Pro_Settings {
 		wp_enqueue_style('Ink', INBOUND_PRO_URLPATH . 'assets/libraries/Ink/css/ink-flex.min.css');
 
 		/* load fontawesome */
-		wp_enqueue_style('fontawesome', INBOUND_PRO_URLPATH . 'assets/libraries/FontAwesome/css/font-awesome.min.css');	
+		wp_enqueue_style('fontawesome', INBOUND_PRO_URLPATH . 'assets/libraries/FontAwesome/css/font-awesome.min.css');
 	}
 
 	/**
@@ -95,10 +95,10 @@ class Inbound_Pro_Settings {
 		self::$settings_fields = array(
 			'inbound-pro-setup' => array(
 				/* add license key group to setup page */
-				array( 
-					'group_name' => 'license-key',					
+				array(
+					'group_name' => 'license-key',
 					'keywords' => __('license key' , 'inbound-pro'),
-					'fields' => array (						
+					'fields' => array (
 						array (
 							'id'	=> 'license-key',
 							'type'	=> 'license-key',
@@ -114,10 +114,10 @@ class Inbound_Pro_Settings {
 					),
 				),
 				/* add custom lead fields field group to setup page */
-				array( 
-					'group_name' => 'leads-custom-fields',					
+				array(
+					'group_name' => 'leads-custom-fields',
 					'keywords' => __('leads, field mapping, custom fields' , 'inbound-pro'),
-					'fields' => array (						
+					'fields' => array (
 						array (
 							'id'	=> 'leads-custom-fields',
 							'type'	=> 'custom-fields-repeater',
@@ -133,10 +133,10 @@ class Inbound_Pro_Settings {
 					),
 				),
 				/* add Analytics exclusion options */
-				array( 
-					'group_name' => 'inbound-analytics-rules',					
+				array(
+					'group_name' => 'inbound-analytics-rules',
 					'keywords' => __('analytics,tracking,ipaddress,ip address,admin tracking' , 'inbound-pro'),
-					'fields' => array (						
+					'fields' => array (
 						array (
 							'id'	=> 'exclude-admin',
 							'type'	=> 'header',
@@ -148,7 +148,7 @@ class Inbound_Pro_Settings {
 								'selector' => null ,
 								'value' => null
 							)
-						),				
+						),
 						array (
 							'id'	=> 'exclude-admin',
 							'type'	=> 'radio',
@@ -182,16 +182,16 @@ class Inbound_Pro_Settings {
 				)
 			)
 		);
-		
+
 		self::$settings_fields = apply_filters( 'inbound_settings/extend' , self::$settings_fields );
-		
+
 	}
 
 	/**
 	*	Render Pro Display
 	*/
-	public static function display() {		
-		
+	public static function display() {
+
 		?>
 
 		<div class="ink-grid">
@@ -238,7 +238,7 @@ class Inbound_Pro_Settings {
 		</div>
 		<?php
 	}
-	
+
 	/**
 	*	Display Inbound Pro Setup page
 	*/
@@ -254,7 +254,7 @@ class Inbound_Pro_Settings {
 		</div>
 		<?php
 	}
-	
+
 	/**
 	*	Display Inbound Pro Settings page
 	*/
@@ -275,12 +275,12 @@ class Inbound_Pro_Settings {
 	*	Display Sidebar
 	*/
 	public static function display_sidebar() {
-		
+
 		$blogs = Inbound_API_Wrapper::get_blog_posts();
 
 		?>
 		<section class="xlarge-20 large-20 medium-30 small-100 tiny-100">
-					
+
 				<ul class="unstyled">
 					<!--- Show blog posts --->
 					<?php
@@ -290,10 +290,10 @@ class Inbound_Pro_Settings {
 						if ($i>5) {
 							break;
 						}
-						
+
 						$excerpt = explode('The post' ,  $item['description']);
 						$excerpt = $excerpt[0];
-						
+
 						?>
 						<div class="all-80 small-50 tiny-50">
 							<h6 class='sidebar-h6'><?php echo $item['title']; ?></h6>
@@ -324,7 +324,7 @@ class Inbound_Pro_Settings {
 			$docs = array();
 		}
 		?>
-		
+
 		<table>
 			<tr>
 				<td class='footer-left' style='vertical-align:top;'>
@@ -338,7 +338,7 @@ class Inbound_Pro_Settings {
 				</td>
 				<td class='footer-right' style='vertical-align:top;'>
 					<h2 class='footer-right-h2'><?php _e('Latest Inbound Now Docs:' , 'inbound-pro' ); ?></h2>
-					<section class="column-group gutters">					
+					<section class="column-group gutters">
 						<!--- Show docs --->
 						<?php
 						$i=0;
@@ -347,11 +347,11 @@ class Inbound_Pro_Settings {
 							if ($i>5) {
 								break;
 							}
-							
+
 							$excerpt = explode('The post' ,  $item['description']);
 							$excerpt = $excerpt[0];
 							$excerpt = str_replace( '<a ' , '<a target="_blank" ' , $excerpt );
-							
+
 							?>
 							<div class="all-50 large-30 small-50 tiny-50">
 								<h4><?php echo $item['title']; ?></h4>
@@ -375,7 +375,7 @@ class Inbound_Pro_Settings {
                     <li class="active"><a href="http://support.inboundnow.com" target='_blank'><?php _e( 'Support' , 'inbound-pro' ); ?></a></li>
                     <li class="active"><a href="http://docs.inboundnow.com" target='_blank'><?php _e( 'Documentation' , 'inbound-pro' ); ?></a></li>
                     <li class="active"><a href="http://www.inboundnow.com/translate-inbound-now/" target='_blank'><?php _e( 'Translations' , 'inbound-pro' ); ?></a></li>
-                </ul>              
+                </ul>
             </div>
         </footer>
 		<?php
@@ -411,7 +411,7 @@ class Inbound_Pro_Settings {
 		echo '</header>';
 
 	}
-	
+
 	/**
 	*  Displays search filter
 	*/
@@ -422,7 +422,7 @@ class Inbound_Pro_Settings {
 					<input class="filter-search" type="search" placeholder="<?php _e(' Search... ' , 'inbound-pro' ); ?>">
 				</div>
 			</div>
-		
+
 		<?php
 	}
 
@@ -434,15 +434,15 @@ class Inbound_Pro_Settings {
 		echo '<div class="wrap">';
 		/* render search filter */
 		self::display_search();
-		
+
 		echo '	<div id="grid" class="container-fluid">';
-		
+
 		self::$settings_fields[ $page ] = (isset(self::$settings_fields[ $page ])) ? self::$settings_fields[ $page ] : array();
 
 		foreach( self::$settings_fields[ $page ] as $priority => $group ) {
 			echo '<div class="inbound-settings-group " data-keywords="'.$group['keywords'].','.$group['group_name'].'" data-group-name="'.$group['group_name'].'">';
 			foreach( $group['fields'] as $field ) {
-				
+
 				/* get value if available else set to default */
 				$field['default'] =  (isset($field['default'])) ? $field['default'] : '';
 				$field['class'] =  (isset($field['class'])) ? $field['class'] : '';
@@ -450,35 +450,35 @@ class Inbound_Pro_Settings {
 
 				/* rend field */
 				self::render_field( $field , $group );
-					
+
 			}
-			
+
 			echo '</div>';
 		}
 		echo '  </div>';
 		echo '</div>';
 	}
-	
+
 	/**
 	*  Renders label and input given field dataset
 	*  @param ARRAY $field dataset containing field information
 	*  @param ARRAY $group dataset containing fieldgroup information
 	*/
 	public static function render_field( $field , $group ) {
-		
+
 		if (isset($field['reveal']) && is_array($field['reveal'])) {
 			$data = ' data-reveal-selector="'.$field['reveal']['selector'].'" data-reveal-value="'.$field['reveal']['value'].'" ';
 		} else {
 			$data = '';
 		}
-		
+
 		echo '<div class="inbound-setting '.$field['class'].' " '.$data.' data-field-id="'.$field['id'].'" id="field-'.$field['id'].'">';
 		switch($field['type']) {
 			// text
 			case 'license-key':
-				
+
 				echo '<div class="license-key">';
-				echo '	<label>'.__('Inbound License Key:' , 'inbound-pro' ) .'</label>';
+				echo '	<label>'.__('Inbound API Key:' , 'inbound-pro' ) .'</label>';
 				echo '		<input type="text" class="license" name="'.$field['id'].'" id="'.$field['id'].'" placeholder="'.$field['placeholder'].'" value="'.$field['value'].'" style="width:90%" data-field-type="'.$field['type'].'" data-field-group="'.$group['group_name'].'"  data-special-handler="true"/>';
 				echo '</div>';
 				break;
@@ -490,12 +490,12 @@ class Inbound_Pro_Settings {
 				$data = '';
 				$oauth_class = '';
 				$unauth_class = '';
-				
+
 				/* build data attriubtes */
 				foreach ( $field['oauth_map'] as $key => $selector ) {
 					$data .= " data-".$key."='".$selector."'";
 				}
-				
+
 				/* discover if access key and access token already exists */
 				if (isset(self::$settings_values[ $group['group_name'] ][ 'oauth' ])) {
 					$params['action'] = 'revoke_oauth_tokens';
@@ -508,19 +508,19 @@ class Inbound_Pro_Settings {
 				}
 				echo '<button class="ink-button orange unauth thickbox '.$unauth_class.'" id="'.$field['id'].'" data-field-type="'.$field['type'].'" data-field-group="'.$group['group_name'].'" '.$data.' >'.__( 'Un-Authorize' , 'inbound-pro' ).'</button>';
 					$class = 'hidden';
-				
+
 				$params['action'] = 'request_access_token';
 				$params['group'] = $group['group_name'];
 				$params['oauth_urls'] = $field['oauth_urls'];
 				$params['oauth_map'] = $field['oauth_map'];
 				$params['TB_iframe'] = 'true';
 				$params['width'] = '800';
-				$params['height'] = '500';			
-				
+				$params['height'] = '500';
+
 				echo '<a href="'. admin_url( add_query_arg( $params , 'admin.php' ) ) .'"  class="ink-button green oauth thickbox '.$oauth_class.'" id="'.$field['id'].'" data-field-type="'.$field['type'].'" data-field-group="'.$group['group_name'].'" '.$data.' >'.__( 'Authorize' , 'inbound-pro' ).'</a>';
-				
-				
-				break;			
+
+
+				break;
 			case 'text':
 				echo '<div class="inbound-field">';
 				echo '	<div class="inbound-label-field">';
@@ -534,7 +534,7 @@ class Inbound_Pro_Settings {
 				echo '	</div>';
 				echo '</div>';
 				BREAK;
-			// ol		
+			// ol
 			case 'ol':
 				echo '<div class="inbound-field">';
 				echo '	<div class="inbound-label-field">';
@@ -549,7 +549,7 @@ class Inbound_Pro_Settings {
 				echo '	</div>';
 				echo '</div>';
 				BREAK;
-			// ul		
+			// ul
 			case 'ul':
 				echo '<div class="inbound-field">';
 				echo '	<div class="inbound-label-field">';
@@ -576,7 +576,7 @@ class Inbound_Pro_Settings {
 				break;
 			// media
 				case 'media':
-				
+
 				echo '<label for="upload_image">';
 				echo '<input name="'.$field['id'].'"	id="'.$field['id'].'" type="text" size="36" name="upload_image" value="'.$field['value'].'"  data-field-type="'.$field['type'].'" data-field-group="'.$group['group_name'].'"/>';
 				echo '<input class="upload_image_button" id="uploader_'.$field['id'].'" type="button" value="Upload Image" />';
@@ -609,27 +609,27 @@ class Inbound_Pro_Settings {
 			break;
 			// radio
 			case 'radio':
-			
+
 				echo '<div class="inbound-field">';
 				echo '	<div class="inbound-label-field">';
 				echo '		<label>'.$field['label'] .'</label>';
 				echo '	</div>';
-				
-				echo '	<div class="inbound-radio-field">';				
+
+				echo '	<div class="inbound-radio-field">';
 				foreach ($field['options'] as $value=>$label) {
 					//echo $meta.":".$field['id'];
 					//echo "<br>";
 					echo '<input type="radio" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$value.'" ',$field['value']==$value ? ' checked="checked"' : '','  data-field-type="'.$field['type'].'" data-field-group="'.$group['group_name'].'"/>';
 					echo '<label for="'.$value.'">&nbsp;&nbsp;'.$label.'</label> &nbsp;&nbsp;&nbsp;&nbsp;';
-				}				
+				}
 				echo '	</div>';
-				
+
 				echo '	<div class="inbound-tooltip-field">';
 				echo '		<br /><i class="tooltip fa fa-question-circle tool_dropdown" title="'.$field['description'].'"></i>';
 				echo '	</div>';
 				echo '</div>';
-				
-				
+
+
 			break;
 			// select
 			case 'dropdown':
@@ -640,11 +640,11 @@ class Inbound_Pro_Settings {
 				echo '	<div class="inbound-dropdown-field">';
 
 				echo '		<select name="'.$field['id'].'" id="'.$field['id'].'"  data-field-type="'.$field['type'].'" data-field-group="'.$group['group_name'].'">';
-							
+
 							foreach ($field['options'] as $value=>$label) {
 								echo '		<option', $field['value'] == $value ? ' selected="selected"' : '', ' value="'.$value.'">'.$label.'</option>';
 							}
-							
+
 				echo '		</select>';
 				echo '	</div>';
 				echo '	<div class="inbound-tooltip-field">';
@@ -660,13 +660,13 @@ class Inbound_Pro_Settings {
 			case 'custom-fields-repeater':
 				$fields = Leads_Field_Map::get_lead_fields();
 				$fields = Leads_Field_Map::prioritize_lead_fields( $fields );
-				
+
 				$field_types = Leads_Field_Map::build_field_types_array();
-				
+
 				echo '<div class="repeater-custom-fields">';
 				echo '	<h4>'.__('Custom Lead Fields:' , 'inbound-pro' ) .'</h4>';
 				echo '	<br>';
-				
+
 				echo '		<div class="map-row-headers column-group">';
 				echo '			<div class="map-key-header all-5">';
 				echo '				<th> </th>';
@@ -684,14 +684,14 @@ class Inbound_Pro_Settings {
 				echo '			<th>' . __( 'Action' , 'inbound-pro' ) .'</th>';
 				echo '			</div>';
 				echo ' 		</div>';
-				
-				echo ' 	<form data="'.$field['type'].'" id="custom-fields-form">';	
-				echo ' 	<ul class="field-map" id="field-map">';			
-						
-								
+
+				echo ' 	<form data="'.$field['type'].'" id="custom-fields-form">';
+				echo ' 	<ul class="field-map" id="field-map">';
+
+
 				foreach( $fields as $key => $field ) {
-				
-					echo '	<li class="map-row column-group"  data-priority="'.$key.'">';						
+
+					echo '	<li class="map-row column-group"  data-priority="'.$key.'">';
 					echo '		<div class="map-handle all-5">';
 					echo '			<span class="drag-handle">';
 					echo '				<i class="fa fa-arrows"></i>';
@@ -701,31 +701,31 @@ class Inbound_Pro_Settings {
 					echo '				<input type="hidden" class="field-priority" name="fields['.$field['key'].'][priority]" value="'.$key.'">';
 					echo '				<input type="text" class="field-key" data-special-handler="true" data-field-type="mapped-field" name="fields['.$field['key'].'][key]" value="'.$field['key'].'" '. ( isset($field['nature']) && $field['nature'] == 'core' ? 'disabled' : '' ) .' required>';
 					echo '		</div>';
-					echo '		<div class="map-label all-30">';						
+					echo '		<div class="map-label all-30">';
 					echo '				<input type="text" class="field-label" data-special-handler="true" data-field-type="mapped-field"  name="fields['.$field['key'].'][label]" value="'.$field['label'].'" required>';
 					echo '		</div>';
-					echo '		<div class="map-label all-20">';						
+					echo '		<div class="map-label all-20">';
 					echo '				<select type="text" class="field-type" data-special-handler="true" data-field-type="mapped-field"  name="fields['.$field['key'].'][type]">';
-		
+
 					foreach ( $field_types as $type => $label ) {
 						echo 				'<option value="'.$type.'" '.( isset($field['type']) && $field['type'] == $type ? 'selected="selected"' : '' ).'>'.$label.'</option>';
 					}
-					
+
 					echo '				</select>';
 					echo '		</div>';
 					echo '		<div class="map-actions all-20">';
-				
+
 					echo '			<div class="edit-btn-group ">';
 					echo '				<span class="ink-button red delete-custom-field '.( !isset($field['nature']) || $field['nature'] != 'core'  ? '' : 'hidden' ).'" id="remove-field">'.__( 'remove' , ' inbound-pro' ).'</span>';
 					echo '			</div>';
 					echo '			<div class="edit-btn-group ">';
 					echo '				<span class="ink-button red delete-custom-field-confirm hidden" id="remove-field-confirm">'.__( 'confirm removal' , ' inbound-pro' ).'</span>';
 					echo '			</div>';
-					
+
 					echo '		</div>';
 					echo '	</li>';
 				}
-				
+
 				echo '	</ul>';
 				echo '	</form>';
 				echo '	<form id="add-new-custom-field-form">';
@@ -734,20 +734,20 @@ class Inbound_Pro_Settings {
 				echo '			<span class="drag-handle">';
 				echo '				<i class="fa fa-arrows"></i>';
 				echo '			</span>';
-				
+
 				echo '		</div>';
 				echo '		<div class="map-key all-25">';
 				echo '				<input type="text"  name="fields[new][key]" data-special-handler="true" id="new-key" placeholder="'.__('Enter field key here' , 'inbound-pro' ).'" required>';
 				echo '		</div>';
-				echo '		<div class="map-label all-30">';						
+				echo '		<div class="map-label all-30">';
 				echo '				<input type="text" name="fields[new][label]" data-special-handler="true" id="new-label" placeholder="'.__('Enter field label here' , 'inbound-pro' ).'" required>';
 				echo '		</div>';
-				
-				echo '		<div class="map-label all-20">';						
+
+				echo '		<div class="map-label all-20">';
 				echo '				<select type="text" class="field-type" data-special-handler="true" id="new-type"  name="fields[new][type]">';
 				foreach ( $field_types as $type => $label ) {
 					echo 				'<option value="'.$type.'">'.$label.'</option>';
-				}				
+				}
 				echo '				</select>';
 				echo '		</div>';
 				echo '		<div class="map-actions all-20">';
@@ -759,14 +759,14 @@ class Inbound_Pro_Settings {
 				echo '	</form>';
 				echo '</div>';
 				BREAK;
-				
+
 			case 'ip-address-repeater':
 				self::$settings_values = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
 				$ip_addresses = ( isset(self::$settings_values['inbound-analytics-rules']['ip-addresses']) && self::$settings_values['inbound-analytics-rules']['ip-addresses'] ) ? self::$settings_values['inbound-analytics-rules']['ip-addresses'] : array('') ;
 
 				echo '<div class="repeater-ip-addresses">';
 				echo '	<h4>'.__('Exclude IPs from Tracking:' , 'inbound-pro' ) .'</h4>';
-				
+
 				echo '		<div class="ip-address-row-headers column-group">';
 				echo '			<div class="ip-address-header all-80">';
 				echo '			<th>' . __( 'IP Address' , 'inbound-pro' ) .'</th>';
@@ -775,39 +775,39 @@ class Inbound_Pro_Settings {
 				echo '			<th>' . __( 'Action' , 'inbound-pro' ) .'</th>';
 				echo '			</div>';
 				echo ' 		</div>';
-				
-				echo ' 	<form data="'.$field['type'].'" id="ip-addresses-form">';	
-				echo ' 		<ul class="field-ip-addresses" id="field-ip-address">';			
-						
-								
+
+				echo ' 	<form data="'.$field['type'].'" id="ip-addresses-form">';
+				echo ' 		<ul class="field-ip-addresses" id="field-ip-address">';
+
+
 				foreach( $ip_addresses as $key => $ip_address ) {
-				
-					echo '		<li class="ip-address-row column-group '. ( !$ip_address ? 'hidden' : '' ) .'"  data-priority="'.$key.'">';						
+
+					echo '		<li class="ip-address-row column-group '. ( !$ip_address ? 'hidden' : '' ) .'"  data-priority="'.$key.'">';
 					echo '			<div class="ip-address all-80">';
 					echo '				<input type="ip-address" class="field-ip-address" data-special-handler="true" data-field-type="ip-address" name="ip-addresses[]" value="'.$ip_address.'" required>';
 					echo '			</div>';
 					echo '			<div class="ip-address-actions all-20">';
-				
+
 					echo '				<div class="edit-btn-group ">';
 					echo '					<span class="ink-button red delete-ip-address '.( !isset($field['nature']) || $field['nature'] != 'core'  ? '' : 'hidden' ).'" id="remove-field">'.__( 'remove' , ' inbound-pro' ).'</span>';
 					echo '				</div>';
 					echo '				<div class="edit-btn-group ">';
 					echo '					<span class="ink-button red delete-ip-address-confirm hidden" id="remove-ip-confirm">'.__( 'confirm removal' , ' inbound-pro' ).'</span>';
 					echo '				</div>';
-					
+
 					echo '			</div>';
 					echo '		</li>';
 				}
-				
+
 				echo '		</ul>';
 				echo '	</form>';
-				
+
 				/* add new ip address html */
 				echo '	<form id="add-new-ip-address-form">';
 				echo '		<div class="ip-address-row-addnew column-group">';
 				echo '			<div class="ip-address all-80">';
 				echo '					<input type="text"  name="ip-addresses" data-special-handler="true" id="new-ip-address" placeholder="'.__('Enter IP Address ' , 'inbound-pro' ).'" required>';
-				echo '			</div>';				
+				echo '			</div>';
 				echo '			<div class="ip-address-actions all-20">';
 				echo '				<div class="edit-btn-group">';
 				echo '					<button type="submit" class="ink-button blue" id="add-ip-address">'.__( 'add new ip address' , ' inbound-pro' ).'</button>';
@@ -815,46 +815,46 @@ class Inbound_Pro_Settings {
 				echo '			</div>';
 				echo '		</div>';
 				echo '	</form>';
-				
+
 				echo '</div>';
 			break;
 		} //end switch
 		echo '</div>';
 
 	}
-	
+
 	/**
 	*  Ajax listener for saving updated field data
 	*/
 	public static function ajax_update_settings() {
 		/* parse string */
 		parse_str($_POST['input'] , $data );
-		
+
 		//error_log(print_r($data,true));
-		
+
 		/* Update Setting */
 		$settings = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
 		$settings[ $data['fieldGroup'] ][ $data['name'] ] = $data['value'];
 
 		Inbound_Options_API::update_option( 'inbound-pro' , 'settings' , $settings );
 	}
-	
+
 	/**
 	*  Ajax listener for saving updated custom field data
 	*/
 	public static function ajax_update_custom_fields() {
 		/* parse string */
 		parse_str($_POST['input'] , $data );
-		
+
 		//error_log(print_r($data,true));
-		
+
 		/* Update Setting */
 		$settings = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
 		$settings[ 'leads-custom-fields' ] =  $data;
 
 		Inbound_Options_API::update_option( 'inbound-pro' , 'settings' , $settings );
 	}
-	
+
 	/**
 	*  Ajax listener for saving updated ip addresses to not track
 	*/
@@ -862,10 +862,10 @@ class Inbound_Pro_Settings {
 		/* parse string */
 		parse_str($_POST['input'] , $data );
 		//error_log(print_r($data,true));
-		
+
 		$ip_addresses = array_filter($data['ip-addresses']);
 		$ip_addresses = array_map('trim',$ip_addresses);
-		
+
 		/* Update Setting */
 		$settings = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
 		$settings['inbound-analytics-rules'][ 'ip-addresses' ] = $ip_addresses;
