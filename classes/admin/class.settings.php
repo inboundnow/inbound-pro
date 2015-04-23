@@ -190,7 +190,7 @@ class Inbound_Pro_Settings {
 	/**
 	*	Render Pro Display
 	*/
-	public function display() {		
+	public static function display() {		
 		
 		?>
 

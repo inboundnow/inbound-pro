@@ -321,7 +321,7 @@ if (!class_exists('Leads_Manager')) {
 		public static function display_pagination() {
 				
 			$pagination = '';
-			if ( self::$query->max_num_pages > 1 ) {
+			if ( isset(self::$query->max_num_pages) && self::$query->max_num_pages > 1 ) {
 				$current = preg_replace('/&?paged=[0-9]+/i', '', strip_tags($_SERVER['REQUEST_URI'])); // I'll happily take suggestions on a better way to do this, but it's 3am so
 
 				$pagination .= "<div class='tablenav-pages'>";
