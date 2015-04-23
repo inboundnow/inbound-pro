@@ -118,13 +118,16 @@ class Inbound_API_Wrapper {
 	*  @return ARRAY
 	*/
 	public static function get_pro_templates() {
+		
 		self::get_downloads();
 		self::$templates = array();
 		
 		foreach ( self::$data as $key => $download ) {
-			if ( $download->download_type == 'template' ) {
+		
+			if ( isset($download->download_type) && $download->download_type == 'template' ) {
 				self::$templates[] = (array) $download;
 			}			
+			
 		}
 		
 		return self::$templates;

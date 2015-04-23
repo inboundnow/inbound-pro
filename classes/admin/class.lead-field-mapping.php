@@ -28,7 +28,7 @@ class Inbound_Leads_Custom_fields {
 	public static function get_custom_fields() {
 		$settings = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , Leads_Field_Map::get_lead_fields() );
 		
-		self::$custom_field_map = $settings['leads-custom-fields']['fields'];
+		self::$custom_field_map = (isset($settings['leads-custom-fields']['fields'])) ?  $settings['leads-custom-fields']['fields'] : array();
 		
 	}
 	
