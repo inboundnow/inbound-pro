@@ -765,7 +765,6 @@ class Inbound_Pro_Settings {
 
 				echo '<div class="repeater-ip-addresses">';
 				echo '	<h4>'.__('Exclude IPs from Tracking:' , 'inbound-pro' ) .'</h4>';
-
 				echo '		<div class="ip-address-row-headers column-group">';
 				echo '			<div class="ip-address-header all-80">';
 				echo '			<th>' . __( 'IP Address' , 'inbound-pro' ) .'</th>';
