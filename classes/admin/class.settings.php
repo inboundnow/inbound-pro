@@ -479,7 +479,7 @@ class Inbound_Pro_Settings {
 
 				echo '<div class="license-key">';
 				echo '	<label>'.__('Inbound API Key:' , 'inbound-pro' ) .'</label>';
-				echo '		<input type="text" class="license" name="'.$field['id'].'" id="'.$field['id'].'" placeholder="'.$field['placeholder'].'" value="'.$field['value'].'" style="width:90%" data-field-type="'.$field['type'].'" data-field-group="'.$group['group_name'].'"  data-special-handler="true"/>';
+				echo '		<input type="text" class="license" name="'.$field['id'].'" id="'.$field['id'].'" placeholder="'.$field['placeholder'].'" value="'.$field['value'].'" data-field-type="'.$field['type'].'" data-field-group="'.$group['group_name'].'"  data-special-handler="true"/>';
 				echo '</div>';
 				break;
 			case 'header':
@@ -665,7 +665,6 @@ class Inbound_Pro_Settings {
 
 				echo '<div class="repeater-custom-fields">';
 				echo '	<h4>'.__('Custom Lead Fields:' , 'inbound-pro' ) .'</h4>';
-				echo '	<br>';
 
 				echo '		<div class="map-row-headers column-group">';
 				echo '			<div class="map-key-header all-5">';
