@@ -243,8 +243,11 @@
 }
 
 .drag-handle  {
-	color:#919191;
-	cursor:move;
+	color: #919191;
+	cursor: move;
+	margin-top: 10px;
+	margin-left: 13px;
+	display: block;
 }
 
 .map-actions, .ip-address-actions {
