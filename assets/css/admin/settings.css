@@ -53,9 +53,6 @@
 
 
 /* License Key */
-$color:#000;
-$font:'Oswald', sans-serif;
-
 
 .license-key {
   margin:auto;
@@ -74,7 +71,6 @@ $font:'Oswald', sans-serif;
   height:100px;
   left: 0;
   width:400px;
-  color: $color;
   margin-bottom: 10px;
   z-index:-1;
   transition-duration: 0.2s;
@@ -89,7 +85,6 @@ $font:'Oswald', sans-serif;
   color: #000;
   background:#fff;
   outline:none;
-  font-family:$font;
   width:300px;
   transition-property: transform;
   font-size:16px
