@@ -241,7 +241,9 @@
 	vertical-align: center;
 	margin-top:3px;
 }
-
+.ip-address-actions {
+	margin-left: 10px;
+}
 .drag-handle  {
 	color: #919191;
 	cursor: move;
@@ -250,9 +252,7 @@
 	display: block;
 }
 
-.map-actions, .ip-address-actions {
-	text-align:right;
-}
+
 
 .field-ip-addresses {
 	margin-left:0px;

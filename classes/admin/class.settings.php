@@ -387,7 +387,7 @@ class Inbound_Pro_Settings {
 	static function display_nav_menu() {
 
 		$pages_array = array(
-			'inbound-pro-setup' => __( 'Core Settings' , 'inbound-pro' ),
+			'inbound-pro-setup' => __( 'Main Settings' , 'inbound-pro' ),
 			'inbound-pro-settings' => __( 'Extension Settings' , 'inbound-pro' ),
 			'inbound-pro-welcome' => __( 'Quick Start' , 'inbound-pro' )
 		);
@@ -765,15 +765,6 @@ class Inbound_Pro_Settings {
 
 				echo '<div class="repeater-ip-addresses">';
 				echo '	<h4>'.__('Exclude IPs from Tracking:' , 'inbound-pro' ) .'</h4>';
-				echo '		<div class="ip-address-row-headers column-group">';
-				echo '			<div class="ip-address-header all-80">';
-				echo '			<th>' . __( 'IP Address' , 'inbound-pro' ) .'</th>';
-				echo '			</div>';
-				echo '			<div class="ip-address-action-header all-20">';
-				echo '			<th>' . __( 'Action' , 'inbound-pro' ) .'</th>';
-				echo '			</div>';
-				echo ' 		</div>';
-
 				echo ' 	<form data="'.$field['type'].'" id="ip-addresses-form">';
 				echo ' 		<ul class="field-ip-addresses" id="field-ip-address">';
 
@@ -781,7 +772,7 @@ class Inbound_Pro_Settings {
 				foreach( $ip_addresses as $key => $ip_address ) {
 
 					echo '		<li class="ip-address-row column-group '. ( !$ip_address ? 'hidden' : '' ) .'"  data-priority="'.$key.'">';
-					echo '			<div class="ip-address all-80">';
+					echo '			<div class="ip-address all-70">';
 					echo '				<input type="ip-address" class="field-ip-address" data-special-handler="true" data-field-type="ip-address" name="ip-addresses[]" value="'.$ip_address.'" required>';
 					echo '			</div>';
 					echo '			<div class="ip-address-actions all-20">';
