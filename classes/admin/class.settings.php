@@ -395,7 +395,7 @@ class Inbound_Pro_Settings {
 		$pages_array = apply_filters( 'inbound_pro_nav' , $pages_array );
 
 		echo '<header class="vertical-space">';
-		echo '	<h1><img src="'. INBOUND_PRO_URLPATH . 'assets/images/logos/inbound-now-co-logo.png" style="width:181px;height:47px;margin-bottom:10px;" title="' . __( 'Inbound Now Professional Suite' , 'inbound-pro' ) .'"></h1>';
+		echo '	<h1><img src="'. INBOUND_PRO_URLPATH . 'assets/images/logos/inbound-now-logo.png" style="width:262px;" title="' . __( 'Inbound Now Professional Suite' , 'inbound-pro' ) .'"></h1>';
 		echo ' 	<nav class="ink-navigation">';
 		echo ' 		<ul class="menu horizontal black">';
 

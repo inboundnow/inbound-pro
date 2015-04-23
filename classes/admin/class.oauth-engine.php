@@ -6,7 +6,7 @@
 */
 
 class Inbound_Pro_Oauth_Engine {
-	
+
 	static $settings_values;
 
 	/**
@@ -23,22 +23,22 @@ class Inbound_Pro_Oauth_Engine {
 
 		/* add js for iframe */
 		add_action( 'admin_init' , array( __CLASS__ , 'inline_js' ) );
-		
+
 		/* add ajax listener for setting saves */
 		add_action( 'admin_init' , array( __CLASS__ , 'request_access_token' ) );
-	
+
 		/* add ajax listener for setting saves */
 		add_action( 'admin_init' , array( __CLASS__ , 'save_access_token' ) );
-		
+
 		/* add ajax listener for setting saves */
 		add_action( 'admin_init' , array( __CLASS__ , 'display_success' ) );
-		
+
 		/* add ajax listener for setting saves */
 		add_action( 'wp_ajax_revoke_oauth_tokens' , array( __CLASS__ , 'revoke_oauth_tokens' ) );
-		
-		
+
+
 	}
-	
+
 	/**
 	*  Request Access Token
 	*/
@@ -47,12 +47,12 @@ class Inbound_Pro_Oauth_Engine {
 		if ( !isset($_REQUEST['action']) || $_REQUEST['action'] != 'request_access_token' ) {
 			return;
 		}
-		
-		do_action('inbound_oauth/request_access_token');		
+
+		do_action('inbound_oauth/request_access_token');
 		exit;
 	}
 
-	
+
 	/**
 	*  Request Access Token
 	*/
@@ -61,11 +61,11 @@ class Inbound_Pro_Oauth_Engine {
 		if ( !isset($_REQUEST['action']) || $_REQUEST['action'] != 'save_access_token' ) {
 			return;
 		}
-		
-		do_action('inbound_oauth/save_access_token');		
+
+		do_action('inbound_oauth/save_access_token');
 		exit;
 	}
-	
+
 	/**
 	*  Display success page
 	*/
@@ -74,11 +74,11 @@ class Inbound_Pro_Oauth_Engine {
 		if ( !isset($_REQUEST['action']) || $_REQUEST['action'] != 'display_success' ) {
 			return;
 		}
-		
-		do_action('inbound_oauth/display_success');		
+
+		do_action('inbound_oauth/display_success');
 		exit;
 	}
-	
+
 	/**
 	*  Revoke Access Token
 	*/
@@ -87,17 +87,17 @@ class Inbound_Pro_Oauth_Engine {
 		if ( !isset($_REQUEST['action']) || $_REQUEST['action'] != 'revoke_oauth_tokens' ) {
 			return;
 		}
-		
+
 		parse_str($_POST['input'] , $data );
-		
+
 		/* Empty oauth Setting */
 		$settings = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
 		unset($settings[ $data['fieldGroup'] ]['oauth']);
-		
+
 		Inbound_Options_API::update_option( 'inbound-pro' , 'settings' , $settings );
-		
-		do_action('inbound_oauth/revoke_oauth_tokens');		
-		
+
+		do_action('inbound_oauth/revoke_oauth_tokens');
+
 	}
 
 
