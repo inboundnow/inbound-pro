@@ -419,7 +419,7 @@ class Inbound_Pro_Settings {
 		?>
 		<div class="">
 				<div class='templates-filter-group'>
-					<input class="filter-search" type="search" placeholder="<?php _e(' Search... ' , 'inbound-pro' ); ?>">
+					<input class="filter-search" type="search" placeholder="<?php _e(' Filter Options... ' , 'inbound-pro' ); ?>">
 				</div>
 			</div>
 

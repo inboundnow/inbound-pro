@@ -18,13 +18,15 @@
 
 /* search */
 .templates-filter-group {
-	text-align:right;
+	text-align:left;
 	width:100%;
 }
 
 .filter-search {
 	text-align:left;
-	margin-bottom:5px;
+	width: 215px;
+	  margin-top: -20px;
+	  margin-bottom: 15px;
 }
 
 /* Settings Rows */
