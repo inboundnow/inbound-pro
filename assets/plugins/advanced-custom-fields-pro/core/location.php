@@ -1179,7 +1179,7 @@ function acf_get_field_group_visibility( $field_group, $args = array() )
 		
 			foreach( $group as $rule_id => $rule ) {
 				
-				$match = apply_filters( 'acf/location/rule_match/' . $rule['param'] , false, $rule, $args );
+				$match = apply_filters( 'acf/location/rule_match/' . ( isset($rule['param']) ? $rule['param'] : '' ) , false, $rule, $args );
 				
 				if( !$match )
 				{
