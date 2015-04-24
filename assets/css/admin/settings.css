@@ -151,6 +151,7 @@
 /* Field Styles */
 .inbound-field div {
 	display:inline-block;
+	position: relative;
 }
 .inbound-field {
 	margin-bottom: 10px;
@@ -231,7 +232,16 @@
 	padding-top:5px;
 	padding-bottom:5px;
 }
-
+input.update-done {
+	border:1px solid #33B829;
+}
+.update-text {
+	position: absolute;
+	  /* left: 32%; */
+	  font-size: 11px;
+	  top: 4px;
+	  right: -70px;
+}
 .map-row-addnew  {
 	margin-left:18px;
 }

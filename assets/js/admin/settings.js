@@ -55,7 +55,7 @@ var InboundProWelcomeJs = ( function() {
 		initShuffleCustomFields: function() {
 
 			jQuery(".field-map").sortable( {
-				stop: function() {					
+				stop: function() {
 					InboundProWelcomeJs.updateCustomFieldPriority();
 					InboundProWelcomeJs.updateCustomFields();
 				}
@@ -66,13 +66,13 @@ var InboundProWelcomeJs = ( function() {
 		 *  Add UI Listeners
 		 */
 		addListeners: function() {
-			
+
 			InboundProWelcomeJs.addInputListeners();
 			InboundProWelcomeJs.addCustomLeadFieldListeners();
 			InboundProWelcomeJs.addIPAddressListeners();
 			InboundProWelcomeJs.addLicenseKeyListeners();
 			InboundProWelcomeJs.addOauthListeners();
-			
+
 
 		},
 		/**
@@ -103,7 +103,7 @@ var InboundProWelcomeJs = ( function() {
 		 *  Add listeners that support custom lead fields
 		 */
 		addCustomLeadFieldListeners: function() {
-						
+
 
 			/* add listeners for custom field changes */
 			jQuery( document ).on( 'change unfocus propertychange keyup' , 'input[data-field-type="mapped-field"],select[data-field-type="mapped-field"]' , function() {
@@ -112,10 +112,10 @@ var InboundProWelcomeJs = ( function() {
 				if ( jQuery(this).hasClass('field-key') ) {
 					jQuery(this).val( jQuery(this).val().replace( / /g , '_' ).toLowerCase() );
 				}
-				
+
 				if (InboundProWelcomeJs.timer == true && event.type != 'propertychange' ) {
 					return;
-				} 
+				}
 
 				InboundProWelcomeJs.timer = true;
 
@@ -123,7 +123,7 @@ var InboundProWelcomeJs = ( function() {
 					InboundProWelcomeJs.updateCustomFields();
 					InboundProWelcomeJs.timer = false;
 				} , 500 );
-				
+
 			});
 
 			/* Add listener to delete custom field */
@@ -138,9 +138,9 @@ var InboundProWelcomeJs = ( function() {
 				/* set static var */
 				InboundProWelcomeJs.input = jQuery( this );
 				InboundProWelcomeJs.removeCustomField();
-			});			
-			
-			
+			});
+
+
 			/* Add listeners for oauth unauthorize buttons */
 			jQuery(document).on('submit','#add-new-custom-field-form',function (e) {
 				/* prevent the form from doing a submit */
@@ -149,19 +149,19 @@ var InboundProWelcomeJs = ( function() {
 				InboundProWelcomeJs.addCustomLeadField();
 				return false;
 			});
-			
+
 		},
 		/**
 		 *  Add listeners to support Analytics do not track IP Addresses
 		 */
 		addIPAddressListeners: function() {
-			
+
 			/* add listeners for IP Address rule changes */
 			jQuery( document ).on( 'change unfocus propertychange keyup' , 'input[data-field-type="ip-address"]' , function() {
 
 				if (InboundProWelcomeJs.timer == true && event.type != 'propertychange' ) {
 					return;
-				} 
+				}
 
 				InboundProWelcomeJs.timer = true;
 
@@ -169,7 +169,7 @@ var InboundProWelcomeJs = ( function() {
 					InboundProWelcomeJs.updateIPAddresses();
 					InboundProWelcomeJs.timer = false;
 				} , 500 );
-				
+
 			});
 
 			/* Add listener to delete custom field */
@@ -185,7 +185,7 @@ var InboundProWelcomeJs = ( function() {
 				InboundProWelcomeJs.input = jQuery( this );
 				InboundProWelcomeJs.removeIPAddress();
 			});
-			
+
 			/* Add listeners for oauth unauthorize buttons */
 			jQuery(document).on('submit','#add-new-ip-address-form',function (e) {
 				/* prevent the form from doing a submit */
@@ -194,8 +194,8 @@ var InboundProWelcomeJs = ( function() {
 				InboundProWelcomeJs.addIPAddress();
 				return false;
 			});
-			
-		 
+
+
 		},
 		/**
 		 *  Adds license key input listeners
@@ -216,13 +216,13 @@ var InboundProWelcomeJs = ( function() {
 
 				/* Save Data on Change */
 				InboundProWelcomeJs.updateSetting();
-			});		
+			});
 		},
 		/**
 		 *  Add oauth workflow listeners
 		 */
 		addOauthListeners: function() {
-			
+
 			/* add listeners for 'add new custom fields  */
 			jQuery( 'body' ).on( 'click' , '.unauth' , function() {
 				/* set static var */
@@ -247,7 +247,7 @@ var InboundProWelcomeJs = ( function() {
 					InboundProWelcomeJs.setAuthorized();
 				}
 			});
-		
+
 		},
 		/**
 		 *  Save Input Data
@@ -259,6 +259,7 @@ var InboundProWelcomeJs = ( function() {
 			jQuery.ajax({
 				type: "POST",
 				url: ajaxurl ,
+				context: InboundProWelcomeJs.input,
 				data: {
 					action: 'inbound_pro_update_setting',
 					input: serialized
@@ -266,7 +267,15 @@ var InboundProWelcomeJs = ( function() {
 				dataType: 'html',
 				timeout: 10000,
 				success: function (response) {
-
+					console.log("Success", response);
+					InboundProWelcomeJs.input.parent().append("<span class='update-text'>Updated</span>");
+					jQuery(this).addClass( "update-done" );
+					setTimeout(function() {
+					     InboundProWelcomeJs.input.removeClass( "update-done" );
+					     jQuery('.update-text').fadeOut(2000, function() {
+					     		jQuery('.update-text').remove();
+						 });
+					}, 1000);
 				},
 				error: function(request, status, err) {
 					alert(status);
@@ -280,7 +289,7 @@ var InboundProWelcomeJs = ( function() {
 			setTimeout( function() {
 				var form = jQuery('#custom-fields-form').clone();
 				var originalSelects =  jQuery('#custom-fields-form').find('select');
-				
+
 				/* removed disabled attribute from cloned object */
 				form.find(':input:disabled').val().replace( / /g , '_' ).toLowerCase();
 
@@ -288,8 +297,8 @@ var InboundProWelcomeJs = ( function() {
 				form.find('select').each(function(index, item) {
 					 jQuery(this).val( originalSelects.eq(index).val() );
 				});
-			
-			
+
+
 				jQuery.ajax({
 					type: "POST",
 					url: ajaxurl ,
@@ -314,7 +323,7 @@ var InboundProWelcomeJs = ( function() {
 		updateIPAddresses: function() {
 			setTimeout( function() {
 				var form = jQuery('#ip-addresses-form').clone();
-				
+
 				jQuery.ajax({
 					type: "POST",
 					url: ajaxurl ,
@@ -499,10 +508,10 @@ var InboundProWelcomeJs = ( function() {
 			clone.find('input,select').each( function() {
 				this.name = this.name.replace( name , new_name );
 			});
-			
+
 			/* unhide delete button */
 			clone.find('.delete-custom-field').removeClass('hidden');
-			
+
 			/* removed disabled attribute from mapped key */
 			clone.find('input.field-key').removeAttr('disabled');
 
@@ -511,7 +520,7 @@ var InboundProWelcomeJs = ( function() {
 			jQuery('.map-row-addnew #new-label').val('');
 
 			clone.appendTo(".field-map");
-			
+
 			/* run update */
 			InboundProWelcomeJs.updateCustomFields();
 
@@ -522,21 +531,21 @@ var InboundProWelcomeJs = ( function() {
 		addIPAddress: function() {
 			/* create a new li and append to list */
 			var clone = jQuery(".ip-address-row:last").clone();
-			
+
 			/* remove hidden class if present */
 			clone.removeClass( 'hidden' );
-			
+
 			/* change values to custom values */
 			clone.find('input.field-ip-address').val( jQuery('.ip-address-row-addnew #new-ip-address').val() );
 
 			/* unhide delete button */
 			clone.find('.delete-custom-field').removeClass('hidden');
-			
+
 			/* empty add new container */
 			jQuery('.ip-address-row-addnew #new-ip-address').val('');
 
 			clone.appendTo(".field-ip-addresses");
-			
+
 			/* run update */
 			InboundProWelcomeJs.updateIPAddresses();
 
