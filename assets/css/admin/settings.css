@@ -14,19 +14,19 @@
 .inbound-setting .hidden {
 	display:none;
 }
-.inbound-setting  {
-	margin-top:10px;
-}
+
 
 /* search */
 .templates-filter-group {
-	text-align:right;
+	text-align:left;
 	width:100%;
 }
 
 .filter-search {
 	text-align:left;
-	margin-bottom:5px;
+	width: 215px;
+	  margin-top: -20px;
+	  margin-bottom: 15px;
 }
 
 /* Settings Rows */
@@ -56,36 +56,40 @@
 
 .license-key {
   margin:auto;
-  overflow: hidden;
-  position: absolute;
-  left: 0;
-  top:0;
-  bottom:0;
-  height:100px;
-  right: 0;
-  font-family: $font;
-  width:300px;
+  font-family: 'Oswald', sans-serif;
+  width:100%;
+
+}
+.all-30, .all-20, .all-25 {
+	margin-right: 10px;
 }
 .license-key label{
   font-size: 20px;
   height:100px;
   left: 0;
-  width:400px;
+  width:100%;
+  margin-right: 20px;
+  color: #000;
   margin-bottom: 10px;
   z-index:-1;
   transition-duration: 0.2s;
   transition-property: transform;
 }
+.ink-button.blue {
+	width: 100%;
+	margin-top: 20px;
+}
 .license-key  input{
   border:none;
-  padding: 5px 5px 5px 5px;
+  padding: 10px;
   border-color: #5b9dd9;
 	-webkit-box-shadow: 0 0 2px rgba(30,140,190,.8);
 	box-shadow: 0 0 2px rgba(30,140,190,.8);
   color: #000;
   background:#fff;
   outline:none;
-  width:300px;
+  font-family:'Oswald', sans-serif;
+  width:50%;
   transition-property: transform;
   font-size:16px
 
@@ -107,21 +111,12 @@
 	color: green;
 }
 
-.license-key .valid {
-	border-style: solid;
-    border-width: 2px;
-	border-color: #AAD661 !important;
-}
-
-.license-key  input:focus + label{
-  transform:translateY(-45px) translateX(-80px) scale(0.6);
-}
-.license-key  label:after{
+.license-key:after{
   content: "";
   box-shadow: inset 8px -8px 0 rgba(255, 255, 255, 1), -3px 4px 0 rgba(0, 0, 0, 0.26);
   position:absolute;
-  top:20px;
-  right:-100px;
+ top:0px;
+  right: 0px;
   height: 28px;
   transition-duration: 0.1s;
   transition-property: transform;
@@ -129,9 +124,20 @@
   width: 60px;
   float:right;
   display:block;
-  margin: 50px auto;
+
 }
-.license-key input:valid + label {  
+
+.license-key .valid {
+	border-style: solid;
+    border-width: 2px;
+	border-color: #AAD661 !important;
+}
+
+.license-key  input:focus label{
+  transform:translateY(-45px) translateX(-80px) scale(0.6);
+}
+
+.license-key input:valid + label {
   transform:translateY(-45px) translateX(-80px) scale(0.6);
 }
 .license-key  input:valid + label::after{
@@ -145,6 +151,9 @@
 /* Field Styles */
 .inbound-field div {
 	display:inline-block;
+}
+.inbound-field {
+	margin-bottom: 10px;
 }
 
 .inbound-label-field {
@@ -178,12 +187,12 @@
 .footer-right {
 	vertical-align:top;
 	width:60%;
-	
+
 }
 .footer-right-h2 {
 	//padding-left:27px;
 	padding-bottom:10px;
-	
+
 }
 
 .pro-footer {
@@ -214,7 +223,9 @@
 	border-bottom: #ddd solid 2px;
 }
 
-
+.license-key {
+	position: relative;
+}
 .map-row {
 	border-bottom: #ddd solid 1px;
 	padding-top:5px;
@@ -230,15 +241,18 @@
 	vertical-align: center;
 	margin-top:3px;
 }
-
+.ip-address-actions {
+	margin-left: 10px;
+}
 .drag-handle  {
-	color:#ddd;
-	cursor:move;
+	color: #919191;
+	cursor: move;
+	margin-top: 10px;
+	margin-left: 13px;
+	display: block;
 }
 
-.map-actions, .ip-address-actions {
-	text-align:right;	
-}
+
 
 .field-ip-addresses {
 	margin-left:0px;
