@@ -56,7 +56,7 @@ if (!class_exists('Leads_Manager')) {
 			add_action('wp_ajax_leads_ajax_load_more_leads', array( __CLASS__ ,'ajax_load_more_leads' ) ); 
 			
 			/* ajax listener for deleting lead from list */			
-			add_action('wp_ajax_leads_delete_from_list', array( __CLASS__ , 'ajax_delete_from_list' ) );
+			add_action('wp_ajax_leads_delete_from_list', array( __CLASS__ , 'ajax_delete_from_taxonomy' ) );
 			
 		}
 		
@@ -405,7 +405,15 @@ if (!class_exists('Leads_Manager')) {
 							<th class="count-sort-header" scope="col">#</th>
 							<th scope="col"><?php _e( 'Date' , 'leads' ); ?></th>
 							<th scope="col"><?php _e( 'Email' , 'leads' ); ?></th>
-							<th scope="col"><?php _e( 'Current Lists' , 'leads' ); ?></th>
+							<?php
+							foreach (self::$taxonomies as $key => $taxonomy ) {	
+								if ( !$taxonomy->hierarchical) {
+									continue;
+								}
+								echo '<th scope="col">'. $taxonomy->labels->name .'</th>';
+							}
+							?>
+							
 							<th scope="col"><?php _e( 'Current Tags' , 'leads' ); ?></th>
 							<th scope="col" class="no-sort"><?php _e( 'View' , 'leads' ); ?></th>
 							<th scope="col"><?php _e( 'ID' , 'leads' ); ?></th>
@@ -442,12 +450,17 @@ if (!class_exists('Leads_Manager')) {
 						echo '</td>';
 				
 						/* show lists */
-						echo '<td class="list-column-row">';
-							$terms = wp_get_post_terms( $post->ID, 'wplead_list_category', 'id' );
-							foreach ( $terms as $term ) {
-								echo  '<span class="list-pill">' . $term->name . ' <i title="Remove This lead from the '.$term->name.' list" class="remove-from-list" data-lead-id="'.$post->ID.'" data-list-id="'.$term->term_id.'"></i></span> ';
+						foreach (self::$taxonomies as $key => $taxonomy ) {	
+							if ( !$taxonomy->hierarchical) {
+								continue;
 							}
-						echo '</td>';
+							echo '<td class="list-column-row">';
+								$terms = wp_get_post_terms( $post->ID, $taxonomy->query_var , 'id' );
+								foreach ( $terms as $term ) {
+									echo  '<span class="list-pill">' . $term->name . ' <i title="'. __( sprintf( 'Remove this lead from the %s list' , $term->name ) , 'leads' ).'" class="remove-from-taxonomy" data-lead-id="'.$post->ID.'" data-taxonomy="'.$taxonomy->query_var.'" data-taxonomy-id="'.$term->term_id.'"></i></span> ';
+								}
+							echo '</td>';
+						}						
 				
 						/* show tags */
 						echo '<td class="tags-column-row">';
@@ -924,12 +937,17 @@ if (!class_exists('Leads_Manager')) {
 				echo '</td>';
 		
 				/* show lists */
-				echo '<td class="list-column-row">';
-					$terms = wp_get_post_terms( $post->ID, 'wplead_list_category', 'id' );
-					foreach ( $terms as $term ) {
-						echo  '<span class="list-pill">' . $term->name . ' <i title="Remove This lead from the '.$term->name.' list" class="remove-from-list" data-lead-id="'.$post->ID.'" data-list-id="'.$term->term_id.'"></i></span> ';
+				foreach (self::$taxonomies as $key => $taxonomy ) {	
+					if ( !$taxonomy->hierarchical) {
+						continue;
 					}
-				echo '</td>';
+					echo '<td class="list-column-row">';
+						$terms = wp_get_post_terms( $post->ID, $taxonomy->query_var , 'id' );
+						foreach ( $terms as $term ) {
+							echo  '<span class="list-pill">' . $term->name . ' <i title="'. __( sprintf( 'Remove this lead from the %s list' , $term->name ) , 'leads' ).'" class="remove-from-taxonomy" data-lead-id="'.$post->ID.'" data-taxonomy="'.$taxonomy->query_var.'" data-taxonomy-id="'.$term->term_id.'"></i></span> ';
+						}
+					echo '</td>';
+				}
 		
 				/* show tags */
 				echo '<td class="tags-column-row">';
@@ -961,16 +979,17 @@ if (!class_exists('Leads_Manager')) {
 		/**
 		*  Ajax listener to delete lead from list
 		*/
-		public static function ajax_delete_from_list() {
+		public static function ajax_delete_from_taxonomy() {
 
 			$lead_id = (isset($_POST['lead_id'])) ? $_POST['lead_id'] : '';
-			$list_id = (isset($_POST['list_id'])) ? $_POST['list_id'] : '';
+			$taxonomy = (isset($_POST['taxonomy'])) ? $_POST['taxonomy'] : '';
+			$taxonomy_id = (isset($_POST['taxonomy_id'])) ? $_POST['taxonomy_id'] : '';
 
 			$id = $lead_id;		
 
-			$current_terms = wp_get_post_terms( $id, 'wplead_list_category', 'id' );
+			$current_terms = wp_get_post_terms( $id, $taxonomy , 'id' );
 			$current_terms_count = count($terms);
-			//print_r($current_terms);
+
 			$all_remove_terms = '';
 			foreach ($current_terms as $term) {
 				$add = $term->term_id;
@@ -980,11 +999,11 @@ if (!class_exists('Leads_Manager')) {
 
 			$final = array_filter($final, 'strlen');
 
-			if (in_array($list_id, $final)) {
+			if (in_array($taxonomy_id, $final)) {
 				$new = array_flip ( $final );
-				unset($new[$list_id]);
+				unset($new[$taxonomy_id]);
 				$save = array_flip ( $new );
-				wp_set_object_terms( $id, $save, 'wplead_list_category');
+				wp_set_object_terms( $id, $save, $taxonomy );
 			}
 
 

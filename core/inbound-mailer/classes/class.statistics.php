@@ -78,7 +78,7 @@ class Inbound_Email_Stats {
 
 		$stats = get_post_meta( $post->ID , 'inbound_statistics' , true );
 
-		self::$stats = ($stats) ? $stats : array();
+		self::$stats = ($stats) ? $stats : array( 'mandrill' => array() );
 
 	}
 
@@ -134,8 +134,7 @@ class Inbound_Email_Stats {
 		if ( isset(self::$results['status']) && self::$results['status'] == 'error' ) {
 			self::$stats[ 'mandrill' ] = array();
 			return;
-		}
-		
+		}		
 		/* stores data by hour */
 		foreach ( self::$results as $key => $totals ) {
 

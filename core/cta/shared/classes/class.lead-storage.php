@@ -390,7 +390,7 @@ if (!class_exists('LeadStorage')) {
 
 			/* Update email address */
 			if (!empty($lead['email'])) {
-				update_post_meta( $lead['id'], 'wplead_email_address', $lead['email'] );
+				update_post_meta( $lead['id'], 'wplead_emails_address', $lead['email'] );
 			}
 
 			/* Update mappable fields that have a value associated with them */

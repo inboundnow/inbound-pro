@@ -72,7 +72,7 @@ if (!class_exists('CTA_Dynamic_Widget')) {
 				}
 
 				$loaded[] = $template['slug'];
-				$assets = $CTA_Render->get_assets($template);
+				$assets = $CTA_Render->get_template_asset_files($template);
 				$localized_template_id = str_replace( '-' , '_' , $template['slug'] );
 				foreach ($assets as $type => $file)
 				{

@@ -69,18 +69,20 @@ jQuery(document).ready(function($) {
 	 });
 
 
-	jQuery("body").on('click', '.remove-from-list', function () {
+	jQuery("body").on('click', '.remove-from-taxonomy', function () {
 		var clicked = jQuery(this);
 		var lead_id = clicked.attr('data-lead-id');
-		var list_id = clicked.attr('data-list-id');
+		var taxonomy = clicked.attr('data-taxonomy');
+		var taxonomy_id = clicked.attr('data-taxonomy-id');
 		jQuery.ajax({
 			type: 'POST',
 			context: this,
 			url: bulk_manage_leads.admin_url,
 			data: {
-					action: 'leads_delete_from_list',
+					action: 'leads_delete_from_taxonomy',
 					lead_id: lead_id,
-					list_id: list_id
+					taxonomy: taxonomy,
+					taxonomy_id: list_id
 				},
 			success: function(data){
 					jQuery(this).parent().remove();

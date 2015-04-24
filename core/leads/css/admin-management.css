@@ -289,7 +289,7 @@ border-right: none;
  	-moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(82,168,236,0.6);
  	box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(82,168,236,0.6);
  }
-.remove-from-list {
+.remove-from-taxonomy {
 	display: inline-block;
 	font-family: FontAwesome;
 	font-style: normal;
@@ -301,7 +301,7 @@ border-right: none;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
-.remove-from-list:before {
+.remove-from-taxonomy:before {
 	content: "\f00d";
 
 }
@@ -322,7 +322,7 @@ border-right: none;
 #search-icon:before {
 content: "\f002";
 }
-.list-pill:hover .remove-from-list, .remove-from-list:hover {
+.list-pill:hover .remove-from-taxonomy, .remove-from-taxonomy:hover {
 	color:red;
 }
 .lead-spinner:before {
@@ -422,16 +422,16 @@ color:green;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
-	color: #333;
-	font: bold 11px "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
+	color: cadetblue;
+	font-size: 11px ;
 	line-height: 1;
-
 	text-align: center;
 	text-shadow: 0 1px 0 #eee;
 	padding: 5px 10px;
 	margin-left: 5px;
-  display: inline-block;
-  margin-top: 5px;
+	display: inline-block;
+	margin-top: 5px;
+	white-space: nowrap;
 }
 .list-pill:hover {
 background-color: #dddddd;
