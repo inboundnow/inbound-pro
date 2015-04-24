@@ -43,7 +43,10 @@ if (!class_exists('Landing_Pages_Metaboxes')) {
 			add_filter( 'enter_title_here',  array( __CLASS__ , 'change_post_title_placeholder_text' ) , 10, 2 );
 
 			/* Add hidden template selection box */
-			add_action('admin_notices', array( __CLASS__ , 'display_template_select' ) );
+			add_action( 'admin_notices' , array( __CLASS__ , 'display_template_select' ) );
+			
+			/* Add variation*/
+			add_action( 'edit_form_after_title' , array( __CLASS__ , 'display_variation_select' ) , 5);
 		}
 
 		/**
@@ -107,7 +110,7 @@ if (!class_exists('Landing_Pages_Metaboxes')) {
 			if ( isset($extension_data[ $current_template ] ) ) {
 				add_meta_box(
 					"lp_{$current_template}_custom_meta_box", // $id
-					__( sprintf( "<small>%s Options:</small>" , $extension_data[ $current_template ]['label'] ) , 'landing-pages'),
+					__( sprintf( "<small>%s Options:</small>" , $extension_data[ $current_template ]['info']['label'] ) , 'landing-pages'),
 					array( __CLASS__ , 'render_metabox' ),
 					'landing-page',
 					'normal',
@@ -116,30 +119,43 @@ if (!class_exists('Landing_Pages_Metaboxes')) {
 				);
 			}
 
-			/* render extended metaboxes */
+			
+			/* render extended metaboxes */			
 			foreach ($extension_data as $key=>$data) {
-				if ( isset($data['info']['data_type']) || $data['info']['data_type'] !='metabox' ) {
-					return;
+				if ( !isset($data['info']['data_type']) || $data['info']['data_type'] !='metabox' ) {
+					continue;
 				}
-					//echo 1; exit;
-					$id = "metabox-".$key;
+				
+				//echo 1; exit;
+				$id = "metabox-".$key;
 
 
-					$position = (isset($data['info']['position'])) ? $data['info']['position'] : "normal";
-					$priority = (isset($data['info']['priority'])) ? $data['info']['priority'] : "default";
+				$position = (isset($data['info']['position'])) ? $data['info']['position'] : "normal";
+				$priority = (isset($data['info']['priority'])) ? $data['info']['priority'] : "default";
 
-					add_meta_box(
-						"lp_{$key}_custom_meta_box",
-						__( "$name", 'landing-pages'),
-						array( __CLASS__ , 'render_metabox' ),
-						'landing-page',
-						$position ,
-						$priority ,
-						array('key'=>$key)
-					);
-
-
+				add_meta_box(
+					"lp_{$key}_custom_meta_box",
+					__( "$name", 'landing-pages'),
+					array( __CLASS__ , 'render_metabox' ),
+					'landing-page',
+					$position ,
+					$priority ,
+					array('key'=>$key)
+				);
 			}
+			
+			
+			/* display statistics meta box */
+			add_meta_box(
+				'lp_ab_display_stats_metabox',
+				__( 'A/B Testing', 'landing-pages'),
+				array( __CLASS__ , 'display_stats_metabox' ),
+				'landing-page' ,
+				'side',
+				'high' 
+			);
+			
+			
 		}
 
 		/**
@@ -206,7 +222,7 @@ if (!class_exists('Landing_Pages_Metaboxes')) {
 			global $post;
 
 			$template = self::get_selected_template();
-			$vid = lp_ab_testing_get_current_variation_id();
+			$vid = Landing_Pages_Variations::get_current_variation_id();
 			$permalink = add_query_arg( array( 'lp-variation-id' => $vid ) ,  get_permalink($post->ID) );
 			$thumbnail = self::get_template_screenshot( $template );
 
@@ -279,9 +295,9 @@ if (!class_exists('Landing_Pages_Metaboxes')) {
 				echo "</ul>";
 				echo '<div id="templates-container" >';
 
-				foreach ($extension_data as $exension_id => $data) {
+				foreach ($extension_data as $extension_id => $data) {
 
-					if (isset($data['info']['data_type']) && $data['info']['data_type']=='metabox' || substr($exension_id,0,4)=='ext-') {
+					if (isset($data['info']['data_type']) && $data['info']['data_type']=='metabox' || substr($extension_id,0,4)=='ext-') {
 						continue;
 					}
 
@@ -293,20 +309,20 @@ if (!class_exists('Landing_Pages_Metaboxes')) {
 						$cats[$key] = trim(strtolower($cat));
 					}
 
-					$thumbnail = self::get_template_thumbnail( $exension_id );
+					$thumbnail = self::get_template_thumbnail( $extension_id );
 
 					$demo_link = (isset($data['info']['demo'])) ? $data['info']['demo'] : '';
 					?>
 					<div id='template-item' class="<?php echo implode( ' ' , $cats); ?> template-item-boxes">
 						<div id="template-box">
 							<div class="lp_tooltip_templates" title="<?php echo $data['info']['description']; ?>"></div>
-						<a class='lp_select_template' href='#' label='<?php echo $data['info']['label']; ?>' id='<?php echo $exension_id; ?>'>
-							<img src="<?php echo $thumbnail; ?>" class='template-thumbnail' alt="<?php echo $data['info']['label']; ?>" id='lp_<?php echo $exension_id; ?>'>
+						<a class='lp_select_template' href='#' label='<?php echo $data['info']['label']; ?>' id='<?php echo $extension_id; ?>'>
+							<img src="<?php echo $thumbnail; ?>" class='template-thumbnail' alt="<?php echo $data['info']['label']; ?>" id='lp_<?php echo $extension_id; ?>'>
 						</a>
 						<p>
 							<div id="template-title"><?php echo $data['info']['label']; ?></div>
-							<a href='#' label='<?php echo $data['info']['label']; ?>' id='<?php echo $exension_id; ?>' class='lp_select_template'><?php _e( 'Select' , 'landing-pages'); ?></a> |
-							<a class='<?php echo $cat_slug;?>' target="_blank" href='<?php echo $demo_link;?>' id='lp_preview_this_template'><?php _e( 'Preview' , 'landing-pages'); ?></a>
+							<a href='#' label='<?php echo $data['info']['label']; ?>' id='<?php echo $extension_id; ?>' class='lp_select_template'><?php _e( 'Select' , 'landing-pages'); ?></a> |
+							<a class='<?php echo $extension_id;?>' target="_blank" href='<?php echo $demo_link;?>' id='lp_preview_this_template'><?php _e( 'Preview' , 'landing-pages'); ?></a>
 						</p>
 						</div>
 					</div>
@@ -404,6 +420,233 @@ if (!class_exists('Landing_Pages_Metaboxes')) {
 			echo '<input type="hidden" name="lp_custom_js_noncename" id="lp_custom_js_noncename" value="'.wp_create_nonce(basename(__FILE__)).'" />';
 			echo '<textarea name="'.$custom_js_name.'" id="lp_custom_js" rows="5" cols="30" style="width:100%;">'.get_post_meta($post->ID,$custom_js_name,true).'</textarea>';
 		}
+
+		/**
+		*  Dislays stats metabox
+		*/
+		public static function display_stats_metabox() {
+			global $post;
+
+			$variations = Landing_Pages_Variations::get_variations( $post->ID );
+
+			?>
+			<div>
+				<style type="text/css">
+
+				</style>
+				<div class="inside" id="a-b-testing">
+					<div id="bab-stat-box">
+					<?php if (isset($_GET['new_meta_key'])) { ?>
+					<script type="text/javascript">
+					jQuery(document).ready(function($) {
+					   // This fixes meta data saves for cloned pages
+					   function isNumber (o) {
+						  return ! isNaN (o-0) && o !== null && o !== "" && o !== false;
+						}
+					   var new_meta_key = "<?php echo $_GET['new_meta_key'];?>";
+						 jQuery('#template-display-options input[type=text], #template-display-options select, #template-display-options input[type=radio], #template-display-options textarea').each(function(){
+							var this_id = jQuery(this).attr("id");
+							var final_number = this_id.match(/[^-]+$/g);
+							var new_id = this_id.replace(/[^-]+$/g, new_meta_key);
+							var is_number = isNumber(final_number);
+							console.log(final_number);
+							console.log(is_number);
+							if (is_number === false) {
+								jQuery(this).attr("id", this_id + "-" + new_meta_key);
+								jQuery(this).attr("name", this_id + "-" + new_meta_key);
+							} else {
+								jQuery(this).attr("id", new_id);
+								jQuery(this).attr("name", new_id);
+							}
+						});
+					 });
+					</script>
+					<?php }	?>
+						<?php
+
+						foreach ($variations as $key=>$vid) {
+							if (!is_numeric($vid)&&$key==0) {
+								$vid = 0;
+							}
+							
+							$variation_status = lp_ab_get_lp_active_status($post,$vid);
+							$variation_status_class = ($variation_status ==1) ? "variation-on" : 'variation-off';
+
+							$permalink = get_permalink($post->ID);
+							if (strstr($permalink,'?lp-variation-id'))
+							{
+								$permalink = explode('?',$permalink);
+								$permalink = $permalink[0];
+							}
+							$permalink = $permalink."?lp-variation-id=".$vid;
+
+							$impressions = get_post_meta($post->ID,'lp-ab-variation-impressions-'.$vid, true);
+							$conversions = get_post_meta($post->ID,'lp-ab-variation-conversions-'.$vid, true);
+
+
+							(is_numeric($impressions)) ? $impressions = $impressions : $impressions = 0;
+							(is_numeric($conversions)) ? $conversions = $conversions : $conversions = 0;
+
+							if ($impressions>0)	{
+								$conversion_rate = $conversions / $impressions;
+								(($conversions===0)) ? $sign = "" : $sign = "%";
+								$conversion_rate = round($conversion_rate,2) * 100 . $sign;
+							}
+							else {
+								$conversion_rate = 0;
+							}
+
+							if ($key==0)
+							{
+								$title = get_post_meta($post->ID,'lp-main-headline', true);
+							}
+							else
+							{
+								$title = get_post_meta($post->ID,'lp-main-headline-'.$vid, true);
+							}
+
+							//determine letter from key
+							?>
+
+							<div id="lp-variation-<?php echo lp_ab_key_to_letter($key); ?>" class="bab-variation-row <?php echo $variation_status_class;?>" >
+								<div class='bab-varation-header'>
+										<span class='bab-variation-name'><?php _e('Variation', 'landing-pages'); ?> <span class='bab-stat-letter'><?php _e(lp_ab_key_to_letter($key), 'landing-pages'); ?></span>
+										<?php
+										if($variation_status!=1)
+										{
+										?>
+											<span class='is-paused'>(<?php _e('Paused', 'landing-pages') ?>)</span>
+										<?php
+										}
+										?>
+										</span>
+
+
+										<span class="lp-delete-var-stats" data-letter='<?php echo lp_ab_key_to_letter($key); ?>' data-vid='<?php echo $vid; ?>' rel='<?php echo $post->ID;?>' title="<?php _e('Delete this variations stats' , 'landing-pages'); ?>"><?php _e('Clear Stats' , 'landing-pages'); ?></span>
+									</div>
+								<div class="bab-stat-row">
+									<div class='bab-stat-stats' colspan='2'>
+										<div class='bab-stat-container-impressions bab-number-box'>
+											<span class='bab-stat-span-impressions'><?php echo $impressions; ?></span>
+											<span class="bab-stat-id"><?php _e( 'Views' , 'landing-pages'); ?> </span>
+										</div>
+										<div class='bab-stat-container-conversions bab-number-box'>
+											<span class='bab-stat-span-conversions'><?php echo $conversions; ?></span>
+											<span class="bab-stat-id"><?php _e('Conversions' , 'landing-pages'); ?></span></span>
+										</div>
+										<div class='bab-stat-container-conversion_rate bab-number-box'>
+											<span class='bab-stat-span-conversion_rate'><?php echo $conversion_rate; ?></span>
+											<span class="bab-stat-id bab-rate"><?php _e('Conversion Rate' , 'landing-pages'); ?></span>
+										</div>
+										<div class='bab-stat-control-container'>
+											<span class='bab-stat-control-pause'><a title="<?php _e('Pause this variation' , 'landing-pages'); ?>" href='?post=<?php echo $post->ID; ?>&action=edit&lp-variation-id=<?php echo $vid; ?>&ab-action=pause-variation'><?php _e('Pause' , 'landing-pages'); ?></a></span> <span class='bab-stat-seperator pause-sep'>|</span>
+											<span class='bab-stat-control-play'><a title="<?php _e('Turn this variation on' , 'landing-pages'); ?>" href='?post=<?php echo $post->ID; ?>&action=edit&lp-variation-id=<?php echo $vid; ?>&ab-action=play-variation'><?php _e('Play' , 'landing-pages'); ?></a></span> <span class='bab-stat-seperator play-sep'>|</span>
+											<span class='bab-stat-menu-edit'><a title="<?php _e('Edit this variation' , 'landing-pages'); ?>" href='?post=<?php echo $post->ID; ?>&action=edit&lp-variation-id=<?php echo $vid; ?>'><?php _e('Edit' , 'landing-pages'); ?></a></span> <span class='bab-stat-seperator'>|</span>
+											<span class='bab-stat-menu-preview'><a title="<?php _e('Preview this variation' , 'landing-pages'); ?>" class='thickbox' href='<?php echo $permalink; ?>&iframe_window=on&post_id=<?php echo $post->ID;?>&TB_iframe=true&width=1503&height=467' target='_blank'><?php _e('Preview' , 'landing-pages'); ?></a></span> <span class='bab-stat-seperator'>|</span>
+											<span class='bab-stat-menu-clone'><a title="<?php _e('Clone this variation' , 'landing-pages'); ?>" href='?post=<?php echo $post->ID; ?>&action=edit&new-variation=1&clone=<?php echo $vid; ?>&new_meta_key=<?php echo  Landing_Pages_Variations::get_next_available_variation_id( $post->ID ); ?>'><?php _e('Clone' , 'landing-pages'); ?></a></span> <span class='bab-stat-seperator'>|</span>
+											<span class='bab-stat-control-delete'><a title="<?php _e('Delete this variation' , 'landing-pages'); ?>" href='?post=<?php echo $post->ID; ?>&action=edit&lp-variation-id=<?php echo $vid; ?>&ab-action=delete-variation'><?php _e('Delete' , 'landing-pages'); ?></a></span>
+										</div>
+									</div>
+								</div>
+								<div class="bab-stat-row">
+
+										<div class='bab-stat-menu-container'>
+
+											<?php do_action('lp_ab_testing_stats_menu_post'); ?>
+
+									</div>
+								</div>
+							</div>
+								<?php
+
+						}
+						?>
+					</div>
+
+				</div>
+			</div>
+			<?php
+		}
+		
+		/**
+		*  Display variation buttons
+		*/
+		public static function display_variation_select() {
+			global $post;
+			$post_type_is = get_post_type($post->ID);
+			$permalink = get_permalink($post->ID);
+
+			// Only show lp tabs on landing pages post types (for now)
+			if ( !isset($post) || $post->post_type  != "landing-page") {
+				return;
+			}
+			
+			$current_variation_id = Landing_Pages_Variations::get_current_variation_id();
+			
+			if (isset($_GET['new_meta_key'])) {
+				$current_variation_id = $_GET['new_meta_key'];
+			}
+
+			echo "<input type='hidden' id='open_variation' value='{$current_variation_id}'>";
+
+			$variations = Landing_Pages_Variations::get_variations( $post->ID );
+			$array_variations = explode(',',$variations);
+			$variations = array_filter($array_variations,'is_numeric');
+			sort($array_variations,SORT_NUMERIC);
+
+			$lid = end($array_variations);
+			$new_variation_id = $lid+1;
+
+			if ($current_variation_id>0||isset($_GET['new-variation']))
+			{
+				$first_class = 'inactive';
+			}
+			else
+			{
+				$first_class = 'active';
+			}
+
+			
+			$var_id_marker = 1;
+			
+			
+			echo '<h2 class="nav-tab-wrapper a_b_tabs">';
+
+			foreach ($array_variations as $i => $vid)
+			{
+				$letter = lp_ab_key_to_letter($i);
+				($i<1) ?  $pre = __( 'Version ' , 'landing-pages' ) : $pre = '';
+
+				if ($current_variation_id==$vid&&!isset($_GET['new-variation']))
+				{
+					$cur_class = 'active';
+				}
+				else
+				{
+					$cur_class = 'inactive';
+				}
+				echo '<a href="?post='.$post->ID.'&lp-variation-id='.$vid.'&action=edit" class="lp-nav-tab nav-tab nav-tab-special-'.$cur_class.'" id="tabs-add-variation">'. $pre.$letter .'</a>';
+			}
+
+			if (!isset($_GET['new-variation']))
+			{
+				echo '<a href="?post='.$post->ID.'&lp-variation-id='.$new_variation_id.'&action=edit&new-variation=1" class="lp-nav-tab nav-tab nav-tab-special-inactive nav-tab-add-new-variation" id="tabs-add-variation">'.__('Add New Variation' , 'landing-pages').'</a>';
+			}
+			else
+			{
+				$variation_count = $i + 1;
+				$letter = lp_ab_key_to_letter($variation_count);
+				echo '<a href="?post='.$post->ID.'&lp-variation-id='.$new_variation_id.'&action=edit" class="lp-nav-tab nav-tab nav-tab-special-active" id="tabs-add-variation">'.$letter.'</a>';
+			}
+			$edit_link = (isset($_GET['lp-variation-id'])) ? '?lp-variation-id='.$_GET['lp-variation-id'].'' : '?lp-variation-id=0';
+			$post_link = get_permalink($post->ID);
+			$post_link = preg_replace('/\?.*/', '', $post_link);
+			echo "<a rel='".$post_link."' id='launch-visual-editer' class='button-primary new-save-lp-frontend' href='$post_link$edit_link&template-customize=on'>".__('Launch Visual Editor' , 'landing-pages')."</a>";
+			echo '</h2>';
+			
+
+		}
+
 
 		/**
 		*  Changes title placeholder

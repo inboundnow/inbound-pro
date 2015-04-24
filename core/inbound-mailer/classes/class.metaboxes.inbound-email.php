@@ -1743,7 +1743,15 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 					*	Prompts send test email dialog
 					*/
 					send_test_email: function() {
-
+						
+						/* make sure fields are filled out */
+						if ( ! Settings.validate_fields() ){
+							return false;
+						}
+						
+						/* force a quick save */
+						jQuery('.action-save').click();
+						
 						/* Throw confirmation for scheduling */
 						swal({
 							title: "<?php _e( 'Send Test Email' , 'inbound-email' ); ?>",

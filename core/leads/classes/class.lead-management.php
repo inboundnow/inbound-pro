@@ -881,7 +881,7 @@ if (!class_exists('Leads_Manager')) {
 						$this_row_data[$key] = 	$val;
 					}
 
-					fputcsv($fh, $this_row_data);
+					fputcsv($fh, $this_row_data , apply_filters('leads_csv_delimiter' , ',' ) );
 					$exported++;
 				}
 				// Close the file

@@ -252,6 +252,7 @@ class Inbound_Mail_Daemon {
 			
 			/* if error in batch then bail on processing job */
 			if (self::$error_mode) {
+				error_log('error');
 				return;
 			}
 			
@@ -411,12 +412,11 @@ class Inbound_Mail_Daemon {
 		if ( !$send_now ) {
 			$send_at = gmdate( 'Y-m-d h:i:s \G\M\T' , strtotime( self::$row->datetime ) );
 		} else {
-			$sent_at = false;
+			$send_at = false;
 		}
 		
-		/* error_log( print_r( $message , true ) ); */
-		
-		self::relay_mail( $message );
+		/* error_log( print_r( $message , true ) ); */		
+		self::$response = $mandrill->messages->send($message, $async, $ip_pool, $send_at );
 	}
 	
 	/**
@@ -555,6 +555,7 @@ class Inbound_Mail_Daemon {
 	*	Gets the subject line from variation settings
 	*/
 	public static function get_variation_subject() {
+		
 		return self::$email_settings[ 'variations' ] [ self::$row->variation_id ] [ 'subject' ];
 	}
 	

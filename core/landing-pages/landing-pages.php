@@ -131,6 +131,7 @@ if (!class_exists('Inbound_Landing_Pages_Plugin')) {
 					include_once('modules/module.javascript-admin.php');
 					include_once('classes/class.activation.php');
 					include_once('classes/class.activation.upgrade-routines.php');
+					include_once('classes/class.variations.php');
 					include_once('modules/module.global-settings.php');
 					include_once('modules/module.clone.php');
 					include_once('modules/module.extension-updater.php');
@@ -162,6 +163,7 @@ if (!class_exists('Inbound_Landing_Pages_Plugin')) {
 
 				case false :
 					/* load front-end files */
+					include_once('classes/class.variations.php');
 					include_once('modules/module.javascript-frontend.php');
 					include_once('modules/module.post-type.php');
 					include_once('modules/module.track.php');
