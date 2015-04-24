@@ -261,7 +261,7 @@ class Inbound_Mail_Daemon {
 		}
 		
 		/* mark batch email as sent if no more emails with this email id exists */
-		$user_count = $wpdb->get_var( "SELECT COUNT(*) FROM ". self::$table_name ." where email_id = '". self::$row->email_id ."'");
+		$count = $wpdb->get_var( "SELECT COUNT(*) FROM ". self::$table_name ." where email_id = '". self::$row->email_id ."'");
 		if ($count<1) {
 			self::mark_email_sent();
 		}
