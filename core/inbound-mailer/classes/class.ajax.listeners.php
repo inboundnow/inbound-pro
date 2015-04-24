@@ -1,10 +1,10 @@
 <?php
 
 /**
-*	This class loads miscellaneous WordPress AJAX listeners 
+*	This class loads miscellaneous WordPress AJAX listeners
 */
 class Inbound_Mailer_Ajax_Listeners {
-	
+
 	/**
 	*	Initializes class
 	*/
@@ -16,18 +16,18 @@ class Inbound_Mailer_Ajax_Listeners {
 	*	Loads hooks and filters
 	*/
 	public static function load_hooks() {
-		
+
 
 		/* Adds listener to save email data */
 		add_action( 'wp_ajax_save_inbound_email', array( __CLASS__ , 'save_email' ) );
-		
+
 		/* Adds listener for email variation send statistics */
 		add_action( 'wp_ajax_inbound_load_email_stats' , array( __CLASS__ , 'get_email_statistics' ) );
-		
+
 		/* Adds listener to send test email */
 		add_action( 'wp_ajax_inbound_send_test_email' , array( __CLASS__ , 'send_test_email' ) );
 	}
-	
+
 	/**
 	*	Saves meta pair values give cta ID, meta key, and meta value
 	*/
@@ -37,16 +37,16 @@ class Inbound_Mailer_Ajax_Listeners {
 		if ( !isset($_POST) ) {
 			return;
 		}
-		
+
 		//error_log( print_r( $_POST , true ) );
-		
+
 		/* update post type */
 		wp_update_post( array(
 			'ID' => $_POST['post_ID'],
 			'post_status' => $_POST['post_status'],
 			'post_title' => $_POST['post_title'],
 		));
-		
+
 		/* get current email settings */
 		$email_settings = Inbound_Email_Meta::get_settings( $_POST['post_ID'] );
 
@@ -71,7 +71,7 @@ class Inbound_Mailer_Ajax_Listeners {
 		header('HTTP/1.1 200 OK');
 		exit;
 	}
-	
+
 	/**
 		*	Checks meta key for variation setting qualification
 		*	@returns BOOLEAN $key false for skip true for save
@@ -109,12 +109,12 @@ class Inbound_Mailer_Ajax_Listeners {
 
 			return true;
 		}
-	
+
 	/**
-	*  Gets JSON object containing email send statistics for each variation 
+	*  Gets JSON object containing email send statistics for each variation
 	*/
 	public static function get_email_statistics() {
-		
+
 		$stats = Inbound_Email_Stats::get_email_stats( $_REQUEST['email_id'] );
 		echo $stats;
 		header('HTTP/1.1 200 OK');
@@ -127,17 +127,17 @@ class Inbound_Mailer_Ajax_Listeners {
 	public static function send_test_email() {
 		$mailer = new Inbound_Mail_Daemon();
 		//error_log( print_r($_REQUEST , true));
-		
-		$response = $mailer->send_solo_email( array( 
-			'email_address' => $_REQUEST['email_address'] , 
-			'email_id' => $_REQUEST['email_id'] , 
-			'vid' => $_REQUEST['variation_id'] 
+
+		$response = $mailer->send_solo_email( array(
+			'email_address' => $_REQUEST['email_address'] ,
+			'email_id' => $_REQUEST['email_id'] ,
+			'vid' => $_REQUEST['variation_id']
 		));
-		
+
 		_e('Here are your send results:','inbound-pro');
 		echo "\r\n";
 		print_r($response);
-			
+
 		header('HTTP/1.1 200 OK');
 		exit;
 	}
