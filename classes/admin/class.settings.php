@@ -228,7 +228,7 @@ class Inbound_Pro_Settings {
 	public static function display_welcome() {
 		self::extend_settings();
 		self::$settings_values = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
-
+		print_r(self::$settings_values);exit;
 		?>
 		<div class="xlarge-70 large-70 medium-60 small-100 tiny-100">
 			<?php _e(' Wlecome to Inbound Pro' , 'inbound-pro' ); ?>
@@ -245,7 +245,7 @@ class Inbound_Pro_Settings {
 	public static function display_setup() {
 		self::extend_settings();
 		self::$settings_values = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
-		//print_r(self::$settings_values);
+		
 		?>
 		<div class="xlarge-80 large-80 medium-80 small-100 tiny-100">
 		<?php

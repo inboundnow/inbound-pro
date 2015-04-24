@@ -162,8 +162,8 @@ if (!class_exists('Inbound_Asset_Loader')) {
 			$inbound_track_exclude = get_option( 'wpl-main-exclude-tracking-ids');
 			
 			/* get variation id */
-			if (function_exists('lp_ab_testing_get_current_variation_id')) {
-				$variation = lp_ab_testing_get_current_variation_id();
+			if (class_exists('Landing_Pages_Variations')) {
+				$variation = Landing_Pages_Variations::get_current_variation_id();
 			}
 			
 			$variation = (isset($variation)) ? $variation : 0;

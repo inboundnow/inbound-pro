@@ -555,6 +555,7 @@ class Inbound_Mail_Daemon {
 	*	Gets the subject line from variation settings
 	*/
 	public static function get_variation_subject() {
+		
 		return self::$email_settings[ 'variations' ] [ self::$row->variation_id ] [ 'subject' ];
 	}
 	
