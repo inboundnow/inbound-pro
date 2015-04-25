@@ -161,8 +161,8 @@ class Inbound_Pro_Downloads {
 
 		/* get download array from */
 		self::$download = self::$downloads[ $_REQUEST['download'] ];
-		echo $file . "<br>";
-		print_r(self::$download['fileserver']);
+		echo "from node api_:   " . $file . "<br>";
+		echo "from php script: "; print_r(self::$download['fileserver']);
 		exit;
 		/* get upload path from download data */
 		$extraction_path = self::get_upload_path( self::$download );
