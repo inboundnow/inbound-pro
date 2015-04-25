@@ -33,12 +33,13 @@ class Inbound_Mailer_Scheduling {
 		
 		/* Prepare leads lookup */
 		$params = array(	
-			'include_lists', $settings['recipients'],
+			'include_lists' => $settings['recipients'],
 			'return' => 'ID',
 			'results_per_page' => -1,
 			'orderby' => 'rand',
 			'fields' => 'ids'
 		);
+
 
 		$results = Inbound_API::leads_get( $params );
 		$leads = $results->posts;
@@ -54,7 +55,7 @@ class Inbound_Mailer_Scheduling {
 			$i++;
 		}
 
-
+		
 		self::$batches = $batch_array;
 
 	}
@@ -156,7 +157,6 @@ class Inbound_Mailer_Scheduling {
 	*/
 	public static function get_timezones() {
 		return array(
-			array('abbr'=>'BIT', 'name' => __( 'Baker Island Time' , 'inbound-email'	) , 'utc' => 'UTC-12'),
 			array('abbr'=>'NUT', 'name' => __( 'Niue Time' , 'inbound-email'	) , 'utc' => 'UTC-11'),
 			array('abbr'=>'SST', 'name' => __( 'Samoa Standard Time' , 'inbound-email'	) , 'utc' => 'UTC-11'),
 			array('abbr'=>'CKT', 'name' => __( 'Cook Island Time' , 'inbound-email'	) , 'utc' => 'UTC-10'),

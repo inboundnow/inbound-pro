@@ -255,7 +255,7 @@ class Inbound_Mail_Daemon {
 				error_log('error');
 				return;
 			}
-			
+
 			self::delete_from_queue();
 			
 			$send_count++;

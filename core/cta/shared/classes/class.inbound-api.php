@@ -711,7 +711,8 @@ if (!class_exists('Inbound_API')) {
 			if (isset($params['meta_query'])) {
 				$args['meta_query'] = self::validate_parameter( $params['meta_query'] , 'meta_query',  'array'  );
 			} 
-
+			
+			print_r( $args );		
 			/* Run Query */
 			$results = new WP_Query( $args );
 			
@@ -820,6 +821,7 @@ if (!class_exists('Inbound_API')) {
 				);
 			}
 			
+
 			return $args;
 		}
 		

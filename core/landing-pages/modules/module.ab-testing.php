@@ -6,21 +6,6 @@ if (is_admin())
 	
 
 	/**
-	 * [lp_ab_unset_variation description]
-	 * @param  [type] $variations [description]
-	 * @param  [type] $vid        [description]
-	 * @return [type]             [description]
-	 */
-	function lp_ab_unset_variation($variations,$vid)
-	{
-			if(($key = array_search($vid, $variations)) !== false) {
-					unset($variations[$key]);
-			}
-
-			return $variations;
-	}
-
-	/**
 	 * [lp_ab_get_lp_active_status returns if landing page is in rotation or not]
 	 * @param  [OBJ] $post [description]
 	 * @param  [INT] $vid  [description]
