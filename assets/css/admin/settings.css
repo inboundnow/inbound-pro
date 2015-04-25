@@ -218,12 +218,16 @@
 }
 
 .map-row-headers {
-	margin-left:18px;
+	margin-left:0px;
 	margin-top:10px;
 	font-weight:600;
 	border-bottom: #ddd solid 2px;
 }
 
+#field-map {
+	margin-left: 0px;
+	padding-left: 0px;
+}
 .license-key {
 	position: relative;
 }
@@ -242,10 +246,12 @@ input.update-done {
 	  top: 4px;
 	  right: -70px;
 }
-.map-row-addnew  {
-	margin-left:18px;
+.map-row-addnew {
+	margin-left:0px;
 }
-
+#add-ip-address {
+	margin-left: -10px;
+}
 
 .map-handle {
 	vertical-align: center;
@@ -261,8 +267,13 @@ input.update-done {
 	margin-left: 13px;
 	display: block;
 }
+.drag-handle .fa {
+  font-size: 17px;
+}
 
-
+.ink-grid {
+  padding: 0 1em;
+}
 
 .field-ip-addresses {
 	margin-left:0px;

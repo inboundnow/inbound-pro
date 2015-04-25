@@ -110,12 +110,60 @@ class Inbound_Pro_Downloads {
 		/* load pclzip */
 		include_once( ABSPATH . '/wp-admin/includes/class-pclzip.php');
 
+		// WP remote post to API server
+		$settings_values = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
+		$license_key = $settings_values['license-key']['license-key'];
+
+		$download = $_REQUEST['download'];
+		$domain = "$_SERVER[HTTP_HOST]";
+		//echo $domain; exit;
+		//$url = "http://localhost:3001/api/test"; // localhost
+		//$license_key = "0zGT1rp34AFx5POW11gNUSJUNJC5zZ4P";
+		$url = "http://api.inboundnow.com/api/test"; // live api
+		$response = wp_remote_post( $url, array(
+					'method' => 'POST',
+					'timeout' => 45,
+					'redirection' => 5,
+					'httpversion' => '1.0',
+					'blocking' => true,
+					'headers' => array(),
+					'body' => array( 'download' => $download,
+									 'site' => $domain,
+									 'api' => $license_key )
+				    )
+				);
+
+		if ( is_wp_error( $response ) ) {
+		   $error_message = $response->get_error_message();
+		   echo "Something went wrong: $error_message";
+		} else {
+		   //echo 'Response:<pre>';
+		   $json = $response['body'];
+		   //print_r( $response['body'] );
+		   $array = json_decode($json, true);
+		   //print_r($array);
+		   if(isset($array['error'])) {
+		   		echo $array['error']; exit;
+		   }
+
+		  if(isset($array['url'])) {
+		  	$file = $array['url'];
+		  }
+		   //print_r( $response );
+		   //echo '</pre>';
+		   //exit;
+		}
+
+		//if($response['body'])
+
 		/* get pro templates dataset */
 		self::build_main_dataset();
 
 		/* get download array from */
 		self::$download = self::$downloads[ $_REQUEST['download'] ];
-
+		echo "from node api_:   " . $file . "<br>";
+		echo "from php script: "; print_r(self::$download['fileserver']);
+		exit;
 		/* get upload path from download data */
 		$extraction_path = self::get_upload_path( self::$download );
 
@@ -127,7 +175,7 @@ class Inbound_Pro_Downloads {
 
 		/* get zip file contents from svn */
 		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, self::$download['fileserver']);
+		curl_setopt($ch, CURLOPT_URL, $file); // remove self::$download['fileserver'];
 		curl_setopt($ch, CURLOPT_HEADER, false);
 		curl_setopt($ch, CURLOPT_FAILONERROR, true);
 		curl_setopt($ch, CURLOPT_AUTOREFERER, true);

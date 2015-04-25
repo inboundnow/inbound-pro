@@ -76,7 +76,7 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 				echo wp_kses_post( $html_message );
 			}
 		}
-		
+
 		/**
 		* Main Inbound_Pro_Plugin Instance
 		*/
@@ -110,26 +110,26 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 		*  Include required plugin files
 		*/
 		private static function load_core_components() {
-			
+
 			include_once('core/cta/calls-to-action.php');
 			include_once('core/leads/leads.php');
 			include_once('core/landing-pages/landing-pages.php');
 			include_once('core/inbound-mailer/inbound-mailer.php');
 			include_once('core/inbound-automation/inbound-automation.php');
-			
+
 		}
-		
+
 		/**
 		*  Load inbound pro classes
 		*/
 		private static function load_pro_classes() {
-			
+
 			/* Frontend & Admin */
 			include_once( INBOUND_PRO_PATH . 'classes/class.options-api.php');
-			include_once( INBOUND_PRO_PATH . 'classes/class.extension-loader.php');			
-			include_once( INBOUND_PRO_PATH . 'classes/class.analytics.php');			
+			include_once( INBOUND_PRO_PATH . 'classes/class.extension-loader.php');
+			include_once( INBOUND_PRO_PATH . 'classes/class.analytics.php');
 			include_once( INBOUND_PRO_PATH . 'assets/plugins/advanced-custom-fields-pro/acf.php');
-			
+
 			/* Admin Only */
 			if (is_admin()) {
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.activate.php');
@@ -140,13 +140,13 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.inbound-api-wrapper.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.ajax.listeners.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.oauth-engine.php');
-				
+
 				/* load ACF Settings */
 				include_once( INBOUND_PRO_PATH . 'assets/settings/inbound-setup.php');
 
 			}
-			
-			
+
+
 		}
 
 		/**

@@ -664,7 +664,7 @@ class Inbound_Pro_Settings {
 				$field_types = Leads_Field_Map::build_field_types_array();
 
 				echo '<div class="repeater-custom-fields">';
-				echo '	<h4>'.__('Custom Lead Fields:' , 'inbound-pro' ) .'</h4>';
+				echo '	<h4>'.__('Manage Lead Fields:' , 'inbound-pro' ) .'</h4>';
 
 				echo '		<div class="map-row-headers column-group">';
 				echo '			<div class="map-key-header all-5">';
@@ -749,7 +749,7 @@ class Inbound_Pro_Settings {
 				}
 				echo '				</select>';
 				echo '		</div>';
-				echo '		<div class="map-actions all-20">';
+				echo '		<div class="map-actions all-30">';
 				echo '			<div class="edit-btn-group">';
 				echo '				<button type="submit" class="ink-button blue" id="add-custom-field">'.__( 'add new field' , ' inbound-pro' ).'</button>';
 				echo '			</div>';
