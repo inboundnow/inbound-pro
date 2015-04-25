@@ -17,21 +17,23 @@ jQuery(document).ready(function($) {
 	jQuery('#tabs-add-variation').remove();
 	
 	/* move save button down to bottom */
-	jQuery('#publish').appendTo('#postbox-container-2');
+	jQuery('#publish').remove();
 	
 	/* remove unused send buttons */
-	jQuery('#postbox-container-1').remove();
+	jQuery('#postbox-container-1').appendTo('#postbox-container-2');
+	
+	/* hide send type*/
+	jQuery('#email-send-type').hide();
+	
+	/* hide select tempalte */
+	jQuery('#email-selected-template').hide();
+	
+	/* hide tags */
+	jQuery('#tagsdiv-inbound_email_tag').hide();
 	
 	jQuery('.wrap h2:first').hide();
 	jQuery('#inbound-mailer-change-template-button').hide();
-	
-	jQuery('body').on( 'submit' , 'form' , function() {
-		setTimeout( function() {
-			parent.location.reload();
 
-		}, 1000 );
-		
-	});
 	/**
 	
 	*/

@@ -1,5 +1,6 @@
 jQuery(document).ready(function($) {
-
+	
+	
 	var window_width = jQuery(window).width();
 	var parent_window = parent.document.width;
 	iframe_size = parent_window * 0.334;

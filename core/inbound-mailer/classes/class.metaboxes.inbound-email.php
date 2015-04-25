@@ -75,8 +75,8 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 				__( 'Actions', 'inbound-email' ),
 				array( __CLASS__ , 'add_email_actions' ),
 				'inbound-email' ,
-				'side',
-				'high'
+				( isset($_GET['email-customizer']) ? 'normal' : 'side' ),
+				( isset($_GET['email-customizer']) ? 'low' : 'high' )
 			);
 
 			/* Show email type select toggle */

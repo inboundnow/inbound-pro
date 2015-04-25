@@ -47,7 +47,7 @@ class Inbound_Mailer_Customizer {
 	}
 
 	public static function enqueue_preview_container_scripts() {
-
+		wp_enqueue_script('jquery');
 		/* Enqueue customizer CSS */
 		wp_enqueue_style('inbound_email_ab_testing_customizer_css', INBOUND_EMAIL_URLPATH . 'css/customizer-ab-testing.css');
 
@@ -90,10 +90,10 @@ class Inbound_Mailer_Customizer {
 
 		$admin_url = admin_url();
 		$customizer_link = add_query_arg( array( 'inbvid' => $inbound_email_variation , 'action' => 'edit' , 'frontend' => 'true' ), admin_url() .'post.php?post='.$page_id );
-
+		
 		wp_enqueue_style('inbound_email_ab_testing_customizer_css', INBOUND_EMAIL_URLPATH . 'css/customizer-ab-testing.css');
 		?>
-
+		<head>
 		<style type="text/css">
 			#wpadminbar {
 				z-index: 99999999999 !important;
@@ -118,18 +118,19 @@ class Inbound_Mailer_Customizer {
 
 
 		</style>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 		<script type="text/javascript">
 		jQuery(document).ready(function($) {
-			jQuery("#wp-admin-bar-edit a").text("Main Edit Screen");
-
-			setTimeout(function() {
-				jQuery(document).find("#inbound-mailer-live-preview").contents().find("#wpadminbar").hide()
-				jQuery(document).find("#inbound-mailer-live-preview").contents().find("html").css("margin-bottom", "-28px");
-
-			}, 2000);
+				
+			jQuery('#inbound_email_customizer_options').load(function(){
+				jQuery('#inbound_email_customizer_options').contents().find(".action-save").on('click', function(event) {
+					document.getElementById('inbound-mailer-live-preview').src = document.getElementById('inbound-mailer-live-preview').src;
+				});
+			});
 		 });
 
 		</script>
+		</head>
 
 		<?php
 		global $post;
