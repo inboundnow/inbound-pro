@@ -115,9 +115,11 @@ class Inbound_Pro_Downloads {
 		$license_key = $settings_values['license-key']['license-key'];
 
 		$download = $_REQUEST['download'];
-		$domain = "http://$_SERVER[HTTP_HOST]";
-		$domain = "inboundnow.com";
-		$url = "http://api.inboundnow.com/api/test";
+		$domain = "$_SERVER[HTTP_HOST]";
+		//echo $domain; exit;
+		//$url = "http://localhost:3001/api/test"; // localhost
+		//$license_key = "0zGT1rp34AFx5POW11gNUSJUNJC5zZ4P";
+		$url = "http://api.inboundnow.com/api/test"; // live api
 		$response = wp_remote_post( $url, array(
 					'method' => 'POST',
 					'timeout' => 45,
