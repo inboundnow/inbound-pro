@@ -323,8 +323,6 @@ if (!class_exists('Inbound_API')) {
 			if ( ! isset( $wp_query->query_vars['inbound-api'] ) ) {
 				return;
 			}
-			
-			//print_r($wp_query->query_vars);
 
 			/* Check for a valid user and set errors if necessary */
 			self::validate_request();
@@ -711,7 +709,7 @@ if (!class_exists('Inbound_API')) {
 			if (isset($params['meta_query'])) {
 				$args['meta_query'] = self::validate_parameter( $params['meta_query'] , 'meta_query',  'array'  );
 			} 
-
+				
 			/* Run Query */
 			$results = new WP_Query( $args );
 			
@@ -820,6 +818,7 @@ if (!class_exists('Inbound_API')) {
 				);
 			}
 			
+
 			return $args;
 		}
 		

@@ -87,17 +87,35 @@ class Inbound_Email_Stats {
 	*	@param DATETIME $timestamp timestamp in gmt before calculating timezone
 	*/
 	public static function get_mandrill_timestamp( $timestamp ) {
+	
 		/* get timezone */
 		$tz = explode( '-UTC' , self::$settings['timezone'] );
-
+		
 		$timezone = timezone_name_from_abbr($tz[0] , 60 * 60 * intval( $tz[1] ) );
-		date_default_timezone_set( $timezone );
-
+		$timezone = self::timezone_check( $timezone );
+		if ($timezone) {
+			date_default_timezone_set( $timezone );
+		}
+		
 		$mandrill_timestamp = gmdate( "Y-m-d\\TG:i:s\\Z" ,	strtotime($timestamp) );
 
 		return $mandrill_timestamp;
 	}
 
+	/**
+	*  Timezone check
+	*/
+	public static function timezone_check( $timezone ) {
+		if ($timezone) {
+			return $timezone;
+		}
+		
+		switch( self::$settings['timezone'] ) {
+			case 'BIT-UTC-12' :
+				return '';
+				break;
+		}
+	}
 	/**
 	*	Update db stats object
 	*/
@@ -344,4 +362,3 @@ class Inbound_Email_Stats {
 		$settings = Inbound_Email_Meta::update_settings( $email_id , $settings );
 	}
 }
-
