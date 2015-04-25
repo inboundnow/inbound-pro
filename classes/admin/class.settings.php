@@ -245,7 +245,7 @@ class Inbound_Pro_Settings {
 	public static function display_setup() {
 		self::extend_settings();
 		self::$settings_values = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
-		
+
 		?>
 		<div class="xlarge-80 large-80 medium-80 small-100 tiny-100">
 		<?php
@@ -712,7 +712,7 @@ class Inbound_Pro_Settings {
 
 					echo '				</select>';
 					echo '		</div>';
-					echo '		<div class="map-actions all-20">';
+					echo '		<div class="map-actions all-10">';
 
 					echo '			<div class="edit-btn-group ">';
 					echo '				<span class="ink-button red delete-custom-field '.( !isset($field['nature']) || $field['nature'] != 'core'  ? '' : 'hidden' ).'" id="remove-field">'.__( 'remove' , ' inbound-pro' ).'</span>';
