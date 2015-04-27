@@ -10,6 +10,7 @@
 class Inbound_API_Wrapper {
 	
 	static $downloads_api_uri = 'http://www.inboundnow.com/';
+	static $downloads_fileserver_api = 'http://api.inboundnow.com/api/test';
 	static $docs_uri = 'http://docs.inboundnow.com/feed?post_type=doc-page';
 	static $blog_uri = 'http://www.inboundnow.com/feed/';
 	static $data;
@@ -17,7 +18,8 @@ class Inbound_API_Wrapper {
 	static $extensions;
 	static $remote_content; /* dataset of remote inbound now article/social content */
 	static $blogs; /* dataset of blog */
-	static $docs; /* 
+	static $docs; 
+	static $response;
 	
 	/**
 	*  Gets data array of available products
@@ -155,5 +157,51 @@ class Inbound_API_Wrapper {
 	*/
 	public static function get_inboundnow_blog_posts() {
 	
+	}
+	
+	/**
+	*  Get download zip file from inbound now
+	*/
+	public static function get_download_zip( $download ) {
+		
+		/* get license key */
+		$settings_values = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
+		$license_key = $settings_values['license-key']['license-key'];
+		
+		/* get domain */
+		$domain = "$_SERVER[HTTP_HOST]";
+		
+		$response = wp_remote_post( self::$downloads_fileserver_api , array(
+			'method' => 'POST',
+			'timeout' => 45,
+			'redirection' => 5,
+			'httpversion' => '1.0',
+			'blocking' => true,
+			'headers' => array(),
+			'body' => array( 
+				'download' => $download,
+				'site' => $domain,
+				'api' => $license_key
+			)
+		));
+		
+		/* print error if wp_remote_post has error */
+		if ( is_wp_error( $response ) ) {
+		   $error_message = $response->get_error_message();
+		   echo "Something went wrong: $error_message";
+		   exit;
+		} 
+ 
+		/* decode response from body */
+		$json = $response['body'];
+		$array = json_decode($json, true);
+		
+		/* if error show error message and die */
+		if(isset($array['error'])) {
+			echo $array['error']; exit;
+		}
+
+		return $array['url'];
+			
 	}
 }
