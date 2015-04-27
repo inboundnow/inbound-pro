@@ -143,12 +143,11 @@ class Inbound_Mailer_Scheduling {
 	*/
 	public static function get_current_timezone( ) {
 		$gmt_offset = get_option('gmt_offset');
-
 		$timezone = timezone_name_from_abbr( "" , $gmt_offset * 60 * 60 , 0);
 
 		$dateTime = new DateTime();
 		$dateTime->setTimeZone(new DateTimeZone( $timezone ));
-		
+	
 		return array( 'abbr' => $dateTime->format('T') , 'offset' => $gmt_offset );
 	}
 
@@ -172,7 +171,8 @@ class Inbound_Mailer_Scheduling {
 			array('abbr'=>'AKDT', 'name' => __( 'Alaska Daylight Time' , 'inbound-email' ) , 'utc' => 'UTC-8'),
 			array('abbr'=>'CIST', 'name' => __( 'Clipperton Island Standard Time' , 'inbound-email'	) , 'utc' => 'UTC-8'),
 			array('abbr'=>'PST', 'name' => __( 'Pacific Standard Time (North America)' , 'inbound-email'	) , 'utc' => 'UTC-8'),
-			array('abbr'=>'MST', 'name' => __( 'Mountain Standard Time (North America)' , 'inbound-email'	) , 'utc' => 'UTC-7'),
+			array('abbr'=>'MDT', 'name' => __( 'Mountain Daylight Time (North America)' , 'inbound-email'	) , 'utc' => 'UTC-7'),
+			array('abbr'=>'PDT', 'name' => __( 'Pacific Daylight Time (North America)' , 'inbound-email'	) , 'utc' => 'UTC-7'),
 			array('abbr'=>'PDT', 'name' => __( 'Pacific Daylight Time (North America)' , 'inbound-email'	) , 'utc' => 'UTC-7'),
 			array('abbr'=>'CST', 'name' => __( 'Central Standard Time (North America)' , 'inbound-email'	) , 'utc' => 'UTC-6'),
 			array('abbr'=>'EAST', 'name' => __( 'Easter Island Standard Time' , 'inbound-email'	) , 'utc' => 'UTC-6'),
