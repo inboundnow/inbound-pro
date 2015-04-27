@@ -1,5 +1,6 @@
 var InboundProWelcomeJs = ( function() {
 
+	var api_url;
 	var search_container; /* element that wraps all settings and is shuffle js ready */
 	var target; /* target setting if available */
 	var input;
@@ -459,12 +460,28 @@ var InboundProWelcomeJs = ( function() {
 		/**
 		 *  Send license to API for validation
 		 */
-		pollAPI: function() {
-			if ( InboundProWelcomeJs.input.val().indexOf('x') == -1 ) {
-				return true;
-			} else {
-				 return false;
-			}
+		pollAPI: function( license_key ) {
+			jQuery.ajax({
+				type: "POST",
+				url: InboundProWelcomeJs.api_url ,
+				data: {
+					license_key: license_key ,
+					website: ''
+				},
+				dataType: 'jsonp',
+				timeout: 10000,
+				success: function (response) {
+					//if 
+					return true;
+					//else
+					return false
+				},
+				error: function(request, status, err) {
+					return false;
+				}
+			});
+			
+			return false;
 		},
 
 		/**
