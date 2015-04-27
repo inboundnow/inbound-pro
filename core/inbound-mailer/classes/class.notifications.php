@@ -10,38 +10,38 @@ class Inbound_Mailer_Notifications {
 	*  Initialize Class
 	*/
 	function __construct() {
-		
+
 		self::load_hooks();
-	
+
 	}
 
 
 	/**
 	*  Load hooks and filters
 	*/
-	public static function load_hooks() {		
-		
+	public static function load_hooks() {
+
 		/* Load template selector in background */
 		add_action('admin_notices', array( __CLASS__ , 'prompt_mandrill_key' ) );
-		
+
 		/* Load template selector in background */
 		add_action('admin_notices', array( __CLASS__ , 'prompt_email_send_error' ) );
 	}
-	
+
 	/**
 	*  Checks to see if Mandril Key is inputed. If it's not then it throws the notice
 	*/
 	public static function prompt_mandrill_key() {
 		global $post;
-		
+
 
 		if (!isset($post)||$post->post_type!='inbound-email'){
-			return false; 
+			return false;
 		}
-		
+
 		/* Check if key exists */
 		$settings = Inbound_Mailer_Settings::get_settings();
-		
+
 		if ( !isset($settings['api_key']) || !$settings['api_key'] ) {
 			$settings_url = Inbound_Mailer_Settings::get_settings_url();
 			?>
@@ -51,7 +51,7 @@ class Inbound_Mailer_Notifications {
 			<?php
 		}
 	}
-	
+
 	/**
 	*  Let user know Mandril is not processing their sends
 	*/
@@ -61,11 +61,14 @@ class Inbound_Mailer_Notifications {
 			?>
 			<div class="error">
 				<p><?php _e( sprintf( 'Mandrill is rejecting email send attempts and returning the message below:  <pre>%s</pre>' , $mandrill_error) , 'inbound-email'); ?></p>
+				<?php if (preg_match("/Email scheduling/",  $mandrill_error)) {
+						echo "<p>Login to your mandrill account and deposit money <a href='https://mandrillapp.com/account'>here</a></p>";
+				} ?>
 			</div>
 			<?php
 		}
 	}
-	
+
 }
 
 new Inbound_Mailer_Notifications;
