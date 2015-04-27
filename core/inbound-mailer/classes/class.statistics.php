@@ -42,7 +42,7 @@ class Inbound_Email_Stats {
 			self::$vid = $vid;
 			self::$email_id = $post->ID;
 
-			$query = 'u_email_id:' .	$post->ID	. ' u_variation_id:'. self::$vid ;
+			$query = 'u_email_id:' .	$post->ID	. ' u_variation_id:'. self::$vid .' ( tags:batch OR tags:automated)';
 			self::query_mandrill( $query );
 
 			/* sort data into local stats object by hour */
