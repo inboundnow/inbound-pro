@@ -7,8 +7,8 @@
 class Inbound_Mailer_Notifications {
 
 	/**
-	*  Initialize Class
-	*/
+	 *  Initialize Class
+	 */
 	function __construct() {
 
 		self::load_hooks();
@@ -17,9 +17,12 @@ class Inbound_Mailer_Notifications {
 
 
 	/**
-	*  Load hooks and filters
-	*/
+	 *  Load hooks and filters
+	 */
 	public static function load_hooks() {
+
+        /* Add notification ignore listener */
+        add_action( 'admin_init' , array( __CLASS__ , 'ignore_notifications' ) );
 
 		/* Load template selector in background */
 		add_action('admin_notices', array( __CLASS__ , 'prompt_mandrill_key' ) );
@@ -28,9 +31,28 @@ class Inbound_Mailer_Notifications {
 		add_action('admin_notices', array( __CLASS__ , 'prompt_email_send_error' ) );
 	}
 
+    /**
+     * listen for the command to disable the mandril send error notifications
+     */
+    public static function ignore_notifications() {
+        if (!isset($_REQUEST['mailer-disable-notification'])) {
+             return;
+        }
+
+        global $current_user;
+        $user_id = $current_user->ID;
+
+        $ignore_check = get_transient('mandrill_ignore_error' , array());
+
+        $ignore_check[] = $user_id;
+
+        set_transient( 'mandrill_ignore_error' , array_unique($ignore_check) , 60 * 60 * 24 * 3 );
+    }
+
+
 	/**
-	*  Checks to see if Mandril Key is inputed. If it's not then it throws the notice
-	*/
+	 *  Checks to see if Mandril Key is inputed. If it's not then it throws the notice
+	 */
 	public static function prompt_mandrill_key() {
 		global $post;
 
@@ -52,22 +74,38 @@ class Inbound_Mailer_Notifications {
 		}
 	}
 
+
 	/**
-	*  Let user know Mandril is not processing their sends
-	*/
-	public static function prompt_email_send_error() {
-		$mandrill_error = Inbound_Options_API::get_option( 'inbound-email' , 'errors-detected' , false );
-		if( $mandrill_error ) {
-			?>
-			<div class="error">
-				<p><?php _e( sprintf( 'Mandrill is rejecting email send attempts and returning the message below:  <pre>%s</pre>' , $mandrill_error) , 'inbound-email'); ?></p>
-				<?php if (preg_match("/Email scheduling/",  $mandrill_error)) {
-						echo "<p>Login to your mandrill account and deposit money <a href='https://mandrillapp.com/account'>here</a></p>";
-				} ?>
-			</div>
-			<?php
-		}
-	}
+	 *  Let user know Mandril is not processing their sends
+	 */
+	public static function prompt_email_send_error()  {
+        global $current_user, $post;
+        $user_id = $current_user->ID;
+
+
+        $mandrill_error = Inbound_Options_API::get_option('inbound-email', 'errors-detected', false);
+
+        /* if no error message then return */
+        if (!$mandrill_error) {
+            return;
+        }
+
+        $ignore_check = get_transient('mandrill_ignore_error' , array());
+
+        if ($ignore_check && in_array( $user_id , $ignore_check ) && (!isset($post) || $post->post_type != 'inbound-email')) {
+            return;
+        }
+
+        echo '<div class="error">';
+
+        if ((!isset($post) || $post->post_type != 'inbound-email')) {
+            echo '<div style="float:right;margin-top:10px;"><a href="?mailer-disable-notification=true" title="'. __('Disable this notification. Note this error message will still appear in the email listing area until all scheduled emails are canceled or the error itself resolves.', 'inbound-pro') . '"><strong>x</strong></a> </div>';
+        }
+
+        echo '<p>' . __( sprintf( 'Mandrill is rejecting email send attempts and returning the message below:  <pre>%s</pre>' , $mandrill_error) , 'inbound-email') .'</p>';
+        echo '     </div>';
+
+    }
 
 }
 

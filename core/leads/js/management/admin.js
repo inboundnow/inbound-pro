@@ -1,14 +1,29 @@
 jQuery(document).ready(function($) {
 
-
+	/* fade wrap in */
 	jQuery(".wrap").fadeIn(1000);
 
+	/* initiate table sorter */
 	var table = jQuery("#lead-manage-table").length;
 	if (table > 0) {
 		new Tablesort(document.getElementById('lead-manage-table'));
 	}
 
-	// Drag and drop functionality
+	/* hide/reveal date range selector */
+	jQuery("body").on('change', '#range', function () {
+ 		var value = jQuery(this).val();
+		switch( value ) {
+			case 'all':
+				jQuery('.custom-range').hide();
+				break;
+			case 'custom':
+				jQuery('.custom-range').show();
+				break;
+		}
+	});
+
+
+	/* initiate selectable */
 	jQuery( "#the-list" ).selectable({
 	  //appendTo: "#the-list",
 	  cancel: "a, i, .lead-email",
@@ -101,56 +116,63 @@ jQuery(document).ready(function($) {
 	        results = regex.exec(location.search);
 	    return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 	}
-	
+
 	var ajax_toggle = getParameterByName('submit');
 	var run_ajax = false;
-	
+
 	if (typeof (ajax_toggle) != "undefined" && ajax_toggle != null && ajax_toggle != "") {
 		var run_ajax = true;
 		jQuery('.inbound-lead-filters').css('margin-top', "10px");
 	}
-	
+
 	// run initial lead pull
 	setTimeout(function() {
 		if (run_ajax){
 			pull_leads();
 		}
 	}, 2000);
-	
+
 	// run on ajax done
 	function run_lead_pull_again() {
 		pull_leads();
 	}
-	
+
 	function pull_leads() {
 		var end = jQuery('#end-of-list').length;
-	  
+
 		if (end == 1) {
 	     	//clearInterval(interval);
 	     	console.log('all leads loaded');
 	     	jQuery(".lead-spinner").addClass('leads-done');
 	     	return false;
 	    }
-		
+
 	    console.log('running ajax');
 		console.log(bulk_manage_leads.taxonomies);
-		
+
 		var data = {
 			page: 'lead_management',
 			action: 'leads_ajax_load_more_leads',
 			order: jQuery('#order').val(),
 			orderby: jQuery('#orderby').val(),
 			relation: jQuery('#relation').val(),
+			range: jQuery('#range').val(),
+			day_start: jQuery('#day_start').val(),
+			month_start: jQuery('#month_start').val(),
+			year_start: jQuery('#year_start').val(),
+			day_end: jQuery('#day_start').val(),
+			month_end: jQuery('#month_end').val(),
+			year_end: jQuery('#year_end').val(),
 			t: jQuery('#t').val(),
-			paged: parseInt(jQuery('#paged-current').text()) + 1
+			paged: parseInt(jQuery('#paged-current').text()) + 1,
 		}
-		
-		for ( tax in bulk_manage_leads.taxonomies ) {			
+
+		for ( tax in bulk_manage_leads.taxonomies ) {
 			if (jQuery('#' + tax).val()) {
 				data[tax] = jQuery('#' + tax).val();
 			}
 		}
-			
+
 		jQuery.ajax({
 			type: 'POST',
 			context: this,
@@ -159,18 +181,18 @@ jQuery(document).ready(function($) {
 			success: function(data){
 				var num = parseInt(jQuery('#paged-current').text()) + 1;
 				jQuery('#paged-current').text(num);
-				
+
 				if (data != "0") {
 					jQuery("#the-list").append(data);
 				} else {
 					jQuery('#end-of-list').remove();
 					jQuery("#lead-manage-table").after('<div id="end-of-list" style="width:100%; text-align:center;">End of list!</div>');
 				}
-				
+
 				var new_count = jQuery('#the-list tr').length;
-				
+
 				var total_count = parseInt(jQuery("#lead-total-found").text());
-				
+
 				if (new_count != total_count){
 					var total_count_display = "/" + total_count;
 				} else {
