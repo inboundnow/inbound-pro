@@ -884,12 +884,13 @@ if (!class_exists('Leads_Manager')) {
 				$query = '&t=' . $_REQUEST['t'];
 			}
 
-			$term = get_term( $_REQUEST['wplead_list_category_action'], 'wplead_list_category' );
-			$name = $term->slug;
-			$this_tax = "wplead_list_category";
+
 
 			/* We've been told to tag these posts with the given category. */
 			if ( !empty($_REQUEST['add']) )	{
+
+                $term = get_term( $_REQUEST['wplead_list_category_action'], 'wplead_list_category' );
+                $name = $term->slug;
 
 				foreach ( $_REQUEST['ids'] as $id ) {
 					$fid = intval($id);
@@ -901,6 +902,9 @@ if (!class_exists('Leads_Manager')) {
 			}
 			/* We've been told to remove these posts from the given category. */
 			elseif ( !empty($_REQUEST['remove']) ) {
+
+                $term = get_term( $_REQUEST['wplead_list_category_action'], 'wplead_list_category' );
+                $name = $term->slug;
 
 				foreach ( (array) $_REQUEST['ids'] as $id )	{
 					$Inbound_Leads->remove_lead_from_list( intval($id) , $list_id );
@@ -947,6 +951,10 @@ if (!class_exists('Leads_Manager')) {
 			}
 			/* Delete selected leads */
 			elseif ( !empty($_REQUEST['delete_leads']) ) {
+
+                $term = get_term( $_REQUEST['wplead_list_category_action'], 'wplead_list_category' );
+                $name = $term->slug;
+
 				foreach ( (array) $_REQUEST['ids'] as $id ) {
 					$id = intval($id);
 					wp_delete_post( $id, true);
@@ -969,20 +977,26 @@ if (!class_exists('Leads_Manager')) {
 
 				$fh = @fopen( 'php://output', 'w' );
 
+                /* inject date created into column */
+                $lead_meta_pairs['wpleads_date_created'] = 'wpleads_date_created';
+
+
 				/* get all meta keys */
 				foreach ( (array) $_REQUEST['ids'] as $post_id ) {
 					$this_lead_data = get_post_custom($post_id);
-					$post = get_post( $post_id );
 
+                    /* unset unneeded data objects */
 					unset($this_lead_data['page_views']);
 					unset($this_lead_data['wpleads_inbound_form_mapped_data']);
 					unset($this_lead_data['wpleads_referral_data']);
 					unset($this_lead_data['wpleads_conversion_data']);
 					unset($this_lead_data['wpleads_raw_post_data']);
 
+
 					foreach ($this_lead_data as $key => $val) {
 						$lead_meta_pairs[$key] = $key;
 					}
+
 				}
 
 				/* get all taxonomies */
@@ -991,6 +1005,7 @@ if (!class_exists('Leads_Manager')) {
 				foreach ($taxonomies as $tax=>$taxonomy) {
 					$lead_meta_pairs[$tax] = $taxonomy->labels->singular_name;
 				}
+
 
 
 				/* Add a header row if it hasn't been added yet */
@@ -1002,6 +1017,11 @@ if (!class_exists('Leads_Manager')) {
 					unset($this_row_data);
 
 					$this_lead_data = get_post_custom($post_id);
+                    $post = get_post( $post_id );
+
+                    /* insert date create */
+                    $this_row_data['wpleads_date_created'] = $post->post_date;
+                    unset($lead_meta_pairs['wpleads_date_created']);
 
 					/* loop through cols and see if lead contains meta value for given key */
 					foreach ($lead_meta_pairs as $key => $val) {
@@ -1020,7 +1040,7 @@ if (!class_exists('Leads_Manager')) {
 
 					/* loop through taxonomy and see if this lead has taxonomy associations */
 					foreach ($taxonomies as $tax=>$taxonomy) {
-						$terms = wp_get_post_terms( $post_id, $tax, $args );
+						$terms = wp_get_post_terms( $post_id, $tax, array() );
 
 						if (!$terms) {
 							continue;
