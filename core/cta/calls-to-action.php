@@ -3,7 +3,7 @@
 Plugin Name: Calls to Action
 Plugin URI: http://www.inboundnow.com/cta/
 Description: Display Targeted Calls to Action on your WordPress site.
-Version: 2.3.4
+Version: 2.3.5
 Author: InboundNow
 Author URI: http://www.inboundnow.com/
 Text Domain: cta
@@ -13,71 +13,6 @@ Domain Path: lang
 if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 
 	final class Inbound_Calls_To_Action_Plugin {
-
-		/* START PHP VERSION CHECKS */
-		/**
-		 * Admin notices, collected and displayed on proper action
-		 *
-		 * @var array
-		 */
-		public static $notices = array();
-
-		/**
-		 * Whether the current PHP version meets the minimum requirements
-		 *
-		 * @return bool
-		 */
-		public static function is_valid_php_version() {
-			return version_compare( PHP_VERSION, '5.3', '>=' );
-		}
-
-		/**
-		 * Invoked when the PHP version check fails. Load up the translations and
-		 * add the error message to the admin notices
-		 */
-		static function fail_php_version() {
-			//add_action( 'plugins_loaded', array( __CLASS__, 'load_text_domain_init' ) );
-			$plugin_url = admin_url( 'plugins.php' );
-			self::notice( __( 'Calls to Action requires PHP version 5.3+ to run. Your version '.PHP_VERSION.' is not high enough.<br><u>Please contact your hosting provider</u> to upgrade your PHP Version.<br>The plugin is NOT Running. You can disable this warning message by <a href="'.$plugin_url.'">deactivating the plugin</a>', 'cta' ) );
-		}
-
-		/**
-		 * Handle notice messages according to the appropriate context (WP-CLI or the WP Admin)
-		 *
-		 * @param string $message
-		 * @param bool $is_error
-		 * @return void
-		 */
-		public static function notice( $message, $is_error = true ) {
-			if ( defined( 'WP_CLI' ) ) {
-				$message = strip_tags( $message );
-				if ( $is_error ) {
-					WP_CLI::warning( $message );
-				} else {
-					WP_CLI::success( $message );
-				}
-			} else {
-				// Trigger admin notices
-				add_action( 'all_admin_notices', array( __CLASS__, 'admin_notices' ) );
-
-				self::$notices[] = compact( 'message', 'is_error' );
-			}
-		}
-
-		/**
-		 * Show an error or other message in the WP Admin
-		 *
-		 * @action all_admin_notices
-		 * @return void
-		 */
-		public static function admin_notices() {
-			foreach ( self::$notices as $notice ) {
-				$class_name   = empty( $notice['is_error'] ) ? 'updated' : 'error';
-				$html_message = sprintf( '<div class="%s">%s</div>', esc_attr( $class_name ), wpautop( $notice['message'] ) );
-				echo wp_kses_post( $html_message );
-			}
-		}
-		/* END PHP VERSION CHECKS */
 
 		/**
 		* Main Inbound_Calls_To_Action_Plugin Instance
@@ -95,7 +30,7 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 		*/
 		private static function define_constants() {
 
-			define('WP_CTA_CURRENT_VERSION', '2.3.4' );
+			define('WP_CTA_CURRENT_VERSION', '2.3.5' );
 			define('WP_CTA_URLPATH', plugins_url( '/' , __FILE__ ) );
 			define('WP_CTA_PATH', WP_PLUGIN_DIR.'/'.plugin_basename( dirname(__FILE__) ).'/' );
 			define('WP_CTA_SLUG', plugin_basename( dirname(__FILE__) ) );
@@ -180,6 +115,71 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 		public static function load_text_domain() {
 			load_plugin_textdomain( 'cta' , false , WP_CTA_SLUG . '/lang/' );
 		}
+
+		/* START PHP VERSION CHECKS */
+		/**
+		 * Admin notices, collected and displayed on proper action
+		 *
+		 * @var array
+		 */
+		public static $notices = array();
+
+		/**
+		 * Whether the current PHP version meets the minimum requirements
+		 *
+		 * @return bool
+		 */
+		public static function is_valid_php_version() {
+			return version_compare( PHP_VERSION, '5.3', '>=' );
+		}
+
+		/**
+		 * Invoked when the PHP version check fails. Load up the translations and
+		 * add the error message to the admin notices
+		 */
+		static function fail_php_version() {
+			//add_action( 'plugins_loaded', array( __CLASS__, 'load_text_domain_init' ) );
+			$plugin_url = admin_url( 'plugins.php' );
+			self::notice( __( 'Calls to Action requires PHP version 5.3+ to run. Your version '.PHP_VERSION.' is not high enough.<br><u>Please contact your hosting provider</u> to upgrade your PHP Version.<br>The plugin is NOT Running. You can disable this warning message by <a href="'.$plugin_url.'">deactivating the plugin</a>', 'cta' ) );
+		}
+
+		/**
+		 * Handle notice messages according to the appropriate context (WP-CLI or the WP Admin)
+		 *
+		 * @param string $message
+		 * @param bool $is_error
+		 * @return void
+		 */
+		public static function notice( $message, $is_error = true ) {
+			if ( defined( 'WP_CLI' ) ) {
+				$message = strip_tags( $message );
+				if ( $is_error ) {
+					WP_CLI::warning( $message );
+				} else {
+					WP_CLI::success( $message );
+				}
+			} else {
+				// Trigger admin notices
+				add_action( 'all_admin_notices', array( __CLASS__, 'admin_notices' ) );
+
+				self::$notices[] = compact( 'message', 'is_error' );
+			}
+		}
+
+		/**
+		 * Show an error or other message in the WP Admin
+		 *
+		 * @action all_admin_notices
+		 * @return void
+		 */
+		public static function admin_notices() {
+			foreach ( self::$notices as $notice ) {
+				$class_name   = empty( $notice['is_error'] ) ? 'updated' : 'error';
+				$html_message = sprintf( '<div class="%s">%s</div>', esc_attr( $class_name ), wpautop( $notice['message'] ) );
+				echo wp_kses_post( $html_message );
+			}
+		}
+		/* END PHP VERSION CHECKS */
 
 
 	}

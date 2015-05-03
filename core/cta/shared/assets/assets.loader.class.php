@@ -164,7 +164,7 @@ if (!class_exists('Inbound_Asset_Loader')) {
 			/* get variation id */
 			if (class_exists('Landing_Pages_Variations')) {
 				$variation = Landing_Pages_Variations::get_current_variation_id();
-			} else {
+			} else if( function_exists('lp_ab_testing_get_current_variation_id') ) {
                 $variation = lp_ab_testing_get_current_variation_id();
             }
 

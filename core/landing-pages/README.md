@@ -1,3 +1,5 @@
+![](https://travis-ci.org/inboundnow/landing-pages.svg?branch=master)
+
 # WordPress Landing Pages #
 
 **Contributors:** David Wells, Hudson Atwell  

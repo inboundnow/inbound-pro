@@ -350,6 +350,10 @@ if (!class_exists('Leads_Manager')) {
 		*/
 		public static function display_pagination() {
 
+            if (!isset(self::$query)) {
+                return;
+            }
+
 			$pagination = '';
 			if ( isset(self::$query->max_num_pages) && self::$query->max_num_pages > 1 ) {
 				$current = preg_replace('/&?paged=[0-9]+/i', '', strip_tags($_SERVER['REQUEST_URI'])); // I'll happily take suggestions on a better way to do this, but it's 3am so
@@ -849,11 +853,6 @@ if (!class_exists('Leads_Manager')) {
 			$params = explode( '?' , $referrer );
 
 			parse_str( $params[1] , $params );
-
-
-			if ( !current_user_can('level_9') ){
-				die ( __('User does not have admin level permissions.') );
-			}
 
 			check_admin_referer('lead_management-edit');
 

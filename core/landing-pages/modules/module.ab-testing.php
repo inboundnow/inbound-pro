@@ -953,9 +953,8 @@ function lp_ab_testing_record_impression($post_id, $post_type = 'landing-page' ,
 
 
 add_action('lp_launch_customizer_pre','lp_ab_testing_customizer_enqueue');
-function lp_ab_testing_customizer_enqueue($post)
-{
-	//echo 1; exit;
+function lp_ab_testing_customizer_enqueue($post) {
+
 	$permalink = get_permalink( $post->ID );
 	$randomstring = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 10);
 
