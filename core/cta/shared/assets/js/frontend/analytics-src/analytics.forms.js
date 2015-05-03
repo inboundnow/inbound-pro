@@ -177,11 +177,11 @@ var InboundForms = (function(_inbound) {
                 /* Remember visible inputs */
                 this.rememberInputValues(formInput);
                 /* Fill visible inputs */
-                if (settings.formAutoPopulation && !_inbound.Utils.hasClass( "nopopulate", form ) ) { 
+                if (settings.formAutoPopulation && !_inbound.Utils.hasClass( "nopopulate", form ) ) {
                     this.fillInputValues(formInput);
-                } 
+                }
 
-            } 
+            }
 
             /* loop hidden inputs */
             for (var n = hiddenInputs.length - 1; n >= 0; n--) {
@@ -536,13 +536,14 @@ var InboundForms = (function(_inbound) {
             var inboundDATA = {
                 'email': email
             };
+
             /* Get Variation ID */
             if (typeof(landing_path_info) != "undefined") {
                 var variation = landing_path_info.variation;
             } else if (typeof(cta_path_info) != "undefined") {
                 var variation = cta_path_info.variation;
             } else {
-                var variation = 0;
+                var variation = inbound_settings.variation_id;
             }
             var post_type = inbound_settings.post_type || 'page';
             var page_id = inbound_settings.post_id || 0;
