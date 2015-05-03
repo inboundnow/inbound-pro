@@ -40,7 +40,7 @@ function landing_page_register() {
         'capability_type' => 'post',
         'hierarchical' => false,
         'menu_position' => 32,
-        'supports' => array( 'title', 'editor','thumbnail')
+        'supports' => array('title','custom-fields','editor','thumbnail', 'excerpt')
       );
 
     register_post_type( 'landing-page' , $args );
@@ -311,7 +311,7 @@ if (is_admin()) {
 				$thumbnail = 'http://s.wordpress.com/mshots/v1/' . urlencode(esc_url($permalink)) . '?w=140';
 			}
 
-			echo "<a title='".__('Click to Preview this variation' , 'landing-pages') ."' class='thickbox' href='".$permalink."?lp-variation-id=0&iframe_window=on&post_id=".$post->ID."&TB_iframe=true&width=640&height=703' target='_blank'><img src='".$thumbnail."' style='width:150px;height:110px;' title='Click to Preview'></a>";
+			echo "<a title='".__('Click to Preview this variation' , 'landing-pages') ."' class='thickbox' href='".$permalink."?lp-variation-id=0&iframe_window=on&post_id=".$post->ID."&TB_iframe=true&width=640&height=703' target='_blank'><img src='".$thumbnail."' style='width:130px;height:110px;' title='Click to Preview'></a>";
 
 		}
 		else if ("stats" == $column)

@@ -32,7 +32,7 @@ class Inbound_Pro_Updater {
      * Load static vars
      */
     public static function load_static_vars() {
-        self::$license_key = self::Inbound_API_Wrapper::get_license_key();
+        self::$license_key = Inbound_API_Wrapper::get_license_key();
     }
 
     /**
@@ -40,7 +40,7 @@ class Inbound_Pro_Updater {
      */
     public static function setup_uploader() {
         $myUpdateChecker = PucFactory::buildUpdateChecker(
-            add_query_arg( array( 'key' => self::$license_key ), self::$pro_download_api_uri );
+            add_query_arg( array( 'key' => self::$license_key ), self::$pro_download_api_uri ),
             INBOUND_PRO_FILE
         );
     }

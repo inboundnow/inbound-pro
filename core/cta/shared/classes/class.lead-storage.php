@@ -230,18 +230,18 @@ if (!class_exists('LeadStorage')) {
 		static function store_mapped_data($lead, $mappedData){
 
 			foreach ($mappedData as $key => $value) {
-				
+
 				if (!$value) {
 					continue;
 				}
-				
+
 				/* sanitise inputs */
 				if (is_string($value)) {
 					$value = strip_tags( $value );
 				}
 
 				update_post_meta($lead['id'], $key, $value);
-				
+
 				/* Old convention with wpleads_ prefix */
 				if( !strstr($key,'wpleads_') ) {
 					update_post_meta($lead['id'], 'wpleads_'.$key, $value);
@@ -491,6 +491,9 @@ if (!class_exists('LeadStorage')) {
 		*/
 		static function improve_lead_name( $lead ) {
 
+            /* */
+            $lead['name'] = (isset($lead['name'])) ? $lead['name'] : '';
+
 			/* if last name empty and full name present */
 			if ( empty($lead['last_name']) && $lead['name'] ) {
 				$parts = explode(' ' , $lead['name']);
@@ -528,21 +531,21 @@ if (!class_exists('LeadStorage')) {
 		*	Uses mapped data if not programatically set
 		*/
 		static function improve_mapping($mappedData, $lead) {
-			
+
 			/* remove instances of wpleads_ */
 			$newMap = array();
 			foreach ($mappedData as $key=>$value) {
 				$key = str_replace('wpleads_','',$key);
 				$newMap[$key] = $value;
 			}
-			
+
 			/* Set names if not mapped */
 			$newMap['first_name'] = (!isset($newMap['first_name'])) ? $lead['first_name'] : $newMap['first_name'];
 			$newMap['last_name'] = (!isset($newMap['last_name'])) ? $lead['last_name'] : $newMap['last_name'];
-			
+
 			/* improve mapped names */
 			$newMap = self::improve_lead_name( $newMap );
-			
+
 			return $newMap;
 		}
 
@@ -667,15 +670,15 @@ if (!function_exists('inbound_store_lead')) {
 */
 if (!function_exists('inbound_add_conversion_to_lead')) {
 	function inbound_add_conversion_to_lead( $lead_id , $lead_data ) {
-	
-		
+
+
 		if ( $lead_data['page_id'] ) {
 			$time = current_time( 'timestamp', 0 ); // Current wordpress time from settings
 			$lead_data['wordpress_date_time'] = date("Y-m-d G:i:s T", $time);
 			$conversion_data = get_post_meta( $lead_id, 'wpleads_conversion_data', TRUE );
 			$conversion_data = json_decode($conversion_data,true);
 			$variation = $lead_data['variation'];
-			
+
 			if ( is_array($conversion_data)) {
 				$c_count = count($conversion_data) + 1;
 				$conversion_data[$c_count]['id'] = $lead_data['page_id'];
@@ -688,11 +691,11 @@ if (!function_exists('inbound_add_conversion_to_lead')) {
 				$conversion_data[$c_count]['datetime'] = $lead_data['wordpress_date_time'];
 				$conversion_data[$c_count]['first_time'] = 1;
 			}
-			
+
 			$lead_data['conversion_data'] = json_encode($conversion_data);
 			update_post_meta($lead_id,'wpleads_conversion_count', $c_count); // Store conversions count
 			update_post_meta($lead_id, 'wpleads_conversion_data', $lead_data['conversion_data']); // Store conversion object
-		
+
 		}
 	}
 }

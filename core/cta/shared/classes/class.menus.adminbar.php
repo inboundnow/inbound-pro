@@ -585,7 +585,7 @@ if (!class_exists('Inbound_Menus_Adminbar')) {
 
 			$secondary_menu_items['inbound-docs-searchform'] = array(
 			  'parent' => self::$inboundnow_menu_secondary_group_key,
-			  'title' => '<form method="get" id="inbound-menu-form" action="http://www.inboundnow.com/support/search/?action=bbp-search-request" class=" " target="_blank">
+			  'title' => '<form method="get" id="inbound-menu-form" action="//www.inboundnow.com/support/search/?action=bbp-search-request" class=" " target="_blank">
 			  <input id="search-inbound-menu" type="text" placeholder="' . $search_docs_text . '" onblur="this.value=(this.value==\'\') ? \'' . $search_docs_text . '\' : this.value;" onfocus="this.value=(this.value==\'' . $search_docs_text . '\') ? \'\' : this.value;" value="' . $search_docs_text . '" name="bbp_search" value="' . esc_attr( 'Search Docs', 'inbound-pro' ) . '" class="text inbound-search-input" />
 			  <input type="hidden" name="post_type[]" value="docs" />
 			  <input type="hidden" name="post_type[]" value="page" />' . self::$go_button,
