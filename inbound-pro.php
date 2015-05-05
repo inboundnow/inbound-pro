@@ -111,9 +111,12 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 		*/
 		private static function load_core_components() {
 
-			include_once('core/cta/calls-to-action.php');
-			include_once('core/leads/leads.php');
-			include_once('core/landing-pages/landing-pages.php');
+            include_once('core/cta/calls-to-action.php');
+            include_once('core/leads/leads.php');
+            include_once('core/landing-pages/landing-pages.php');
+            if (!self::get_customer_status()) {
+                return;
+            }
 			include_once('core/inbound-mailer/inbound-mailer.php');
 			include_once('core/inbound-automation/inbound-automation.php');
 
@@ -150,6 +153,15 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 
 
 		}
+
+        /**
+         * Get customer status
+         */
+        public static function get_customer_status() {
+            $customer = Inbound_Options_API::get_option( 'inbound-pro' , 'customer' , array() );
+            $status = ( isset($customer['active']) ) ? $customer['active'] : false;
+            return $status;
+        }
 
 		/**
 		*	Loads the correct .mo file for this plugin

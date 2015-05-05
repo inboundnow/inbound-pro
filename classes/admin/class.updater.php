@@ -10,7 +10,6 @@
 class Inbound_Pro_Updater {
 
     static $license_key;
-    static $pro_download_api_uri = 'http://www.inboundnow.com/';
     static $response;
 
     /**
@@ -39,8 +38,9 @@ class Inbound_Pro_Updater {
      * setup uploaded with custom uploaded plugin located in /assets/plugins/plugin-update-checker/
      */
     public static function setup_uploader() {
+        $download_url = Inbound_API_Wrapper::get_pro_download_url();
         $myUpdateChecker = PucFactory::buildUpdateChecker(
-            add_query_arg( array( 'key' => self::$license_key ), self::$pro_download_api_uri ),
+            add_query_arg( array( 'key' => self::$license_key ), $download_url ),
             INBOUND_PRO_FILE
         );
     }

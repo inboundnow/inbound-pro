@@ -9,8 +9,7 @@
 
 class Inbound_API_Wrapper {
 
-	static $downloads_api_uri = 'http://www.inboundnow.com/';
-	static $downloads_fileserver_api = 'http://api.inboundnow.com/api/test';
+	static $inbound_api_uri;
 	static $docs_uri = 'http://docs.inboundnow.com/feed?post_type=doc-page';
 	static $blog_uri = 'http://www.inboundnow.com/feed/';
 	static $data;
@@ -22,11 +21,30 @@ class Inbound_API_Wrapper {
 	static $response;
 
     /**
+     * Get API Endpoits
+     */
+     public function __construct() {
+        self::get_api_url();
+     }
+
+    /**
+     * Get API URL base
+     */
+     public static function get_api_url() {
+         if ( strstr( site_url() , 'inboundsoon.dev')) {
+             self::$inbound_api_uri = 'http://localhost:3001/api/';
+         } else {
+             self::$inbound_api_uri = 'http://api.inboundnow.com/api/';
+         }
+
+         return self::$inbound_api_uri;
+     }
+    /**
      * Get license key
      */
-    public static function get_license_key() {
+    public static function get_api_key() {
         $settings_values = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
-        return (isset($settings_values['license-key']['license-key'])) ? $settings_values['license-key']['license-key'] : '';
+        return (isset($settings_values['api-key']['api-key'])) ? trim($settings_values['license-key']['license-key']) : '';
     }
 
 	/**
@@ -43,7 +61,7 @@ class Inbound_API_Wrapper {
 		}
 
 		/* This call home gets a list of available downloads - We have minimum security because no sensitive information is revealed */
-		$response = wp_remote_post( self::$downloads_api_uri , array(  'body' => array ( 'get_downloads' => true , 'key' => 'hudson11' ) ) );
+		$response = wp_remote_post( 'http://www.inboundnow.com' , array(  'body' => array ( 'get_downloads' => true , 'key' => 'hudson11' ) ) );
 
 		/* unserialize response */
 		self::$data = unserialize( $response['body'] );
@@ -167,19 +185,26 @@ class Inbound_API_Wrapper {
 
 	}
 
+    /**
+     * Get the pro download url
+     */
+    public static function get_pro_zip() {
+
+    }
+
+
 	/**
 	*  Get download zip file from inbound now
 	*/
 	public static function get_download_zip( $download ) {
 
 		/* get license key */
-		$settings_values = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
-		$license_key = $settings_values['license-key']['license-key'];
+		$license_key = self::get_api_key();
 
 		/* get domain */
-		$domain = "$_SERVER[HTTP_HOST]";
+		$domain = site_url();
 
-		$response = wp_remote_post( self::$downloads_fileserver_api , array(
+		$response = wp_remote_post( self::$inbound_api_uri.'downloads/zip' , array(
 			'method' => 'POST',
 			'timeout' => 45,
 			'redirection' => 5,
@@ -187,7 +212,8 @@ class Inbound_API_Wrapper {
 			'blocking' => true,
 			'headers' => array(),
 			'body' => array(
-				'download' => $download,
+				'filename' => $download['filename'],
+				'type' => $download['type'],
 				'site' => $domain,
 				'api' => $license_key
 			)
@@ -205,11 +231,16 @@ class Inbound_API_Wrapper {
 		$array = json_decode($json, true);
 
 		/* if error show error message and die */
-		if(isset($array['error'])) {
-			echo $array['error']; exit;
+		if(isset($array['error']) || !isset( $array['url'] )) {
+			print_r($array); exit;
 		}
 
 		return $array['url'];
 
 	}
+
+
 }
+
+
+new Inbound_API_Wrapper;

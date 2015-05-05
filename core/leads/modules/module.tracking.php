@@ -5,32 +5,32 @@
 */
 add_action( 'inbound_track_link' , 'inbound_store_tracked_link_click'  , 10 , 1);
 function inbound_store_tracked_link_click( $params ) {
-	
+
 	/* ignore if there is no lead id set or if it is a call to action click */
 	if ( !isset($params['id']) || isset($params['cta_id']) ) {
 		return;
 	}
-	
+
 	/* get custom events dataset */
 	$inbound_custom_events = get_post_meta( $params['id'] , 'inbound_custom_events' , true);
-	
+
 	if ( isset($inbound_custom_events) ) {
 		$inbound_custom_events = json_decode( $inbound_custom_events , true);
 	} else {
 		$inbound_custom_events = array();
 	}
-	
-	$inbound_custom_events[] = array( 
+
+	$inbound_custom_events[] = array(
 		'event_type' => 'click' ,
 		'datetime' => $params['datetime'],
 		'tracking_id' => $params['tracking_id'],
 		'url' => $params['url']
 	);
-	
+
 	$inbound_custom_events = json_encode( $inbound_custom_events );
-	
+
 	update_post_meta(  $params['id'] , 'inbound_custom_events' , $inbound_custom_events) ;
-	
+
 }
 
 /* needs documentation  - looks like a listener to set the lead id manually */
@@ -118,13 +118,13 @@ function wp_leads_update_page_view_obj( $lead_data ) {
 		// increment view count on page
 		if(isset($page_view_data[ $lead_data['page_id'] ])) {
 			$current_count = count($page_view_data[ $lead_data['page_id'] ]);
-			$last_view = $page_view_data[ $lead_data['page_id'] ][$current_count];
+			$last_view = $page_view_data[ $lead_data['page_id'] ][$current_count - 1];
 			$timeout = abs(strtotime($last_view) - strtotime($wordpress_date_time));
 		}
 
 		// If page hasn't been viewed in past 30 seconds. Log it
 		if ($timeout >= 30) {
-			$page_view_data[ $lead_data['page_id'] ][ $current_count + 1 ] = $wordpress_date_time;
+			$page_view_data[ $lead_data['page_id'] ][ $current_count ] = $wordpress_date_time;
 			$page_view_data = json_encode($page_view_data);
 			update_post_meta( $lead_data['lead_id'] , 'page_views' , $page_view_data );
 		}

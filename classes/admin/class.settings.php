@@ -63,6 +63,7 @@ class Inbound_Pro_Settings {
 		/* load custom CSS & JS for inbound pro welcome */
 		wp_enqueue_style('inbound-settings', INBOUND_PRO_URLPATH . 'assets/css/admin/settings.css');
 		wp_enqueue_script('inbound-settings', INBOUND_PRO_URLPATH . 'assets/js/admin/settings.js' );
+		wp_localize_script('inbound-settings', 'inboundSettingsLoacalVars' ,  array('apiURL' => Inbound_API_Wrapper::get_api_url() , 'siteURL' => site_url() ) );
 
 		/* load Ink */
 		wp_enqueue_script('Ink-holder', INBOUND_PRO_URLPATH . 'assets/libraries/Ink/js/holder.js' );
@@ -94,16 +95,16 @@ class Inbound_Pro_Settings {
 
 		self::$settings_fields = array(
 			'inbound-pro-setup' => array(
-				/* add license key group to setup page */
+				/* add api key group to setup page */
 				array(
-					'group_name' => 'license-key',
-					'keywords' => __('license key' , 'inbound-pro'),
+					'group_name' => 'api-key',
+					'keywords' => __('api key' , 'inbound-pro'),
 					'fields' => array (
 						array (
-							'id'	=> 'license-key',
-							'type'	=> 'license-key',
+							'id'	=> 'api-key',
+							'type'	=> 'api-key',
 							'default'	=> '',
-							'placeholder'	=> __( 'Enter license key here' , 'inbound-pro' ),
+							'placeholder'	=> __( 'Enter api key here' , 'inbound-pro' ),
 							'options' => null,
 							'hidden' => false,
 							'reveal' => array(
@@ -228,7 +229,7 @@ class Inbound_Pro_Settings {
 	public static function display_welcome() {
 		self::extend_settings();
 		self::$settings_values = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
-		print_r(self::$settings_values);exit;
+
 		?>
 		<div class="xlarge-70 large-70 medium-60 small-100 tiny-100">
 			<?php _e(' Wlecome to Inbound Pro' , 'inbound-pro' ); ?>
@@ -475,11 +476,11 @@ class Inbound_Pro_Settings {
 		echo '<div class="inbound-setting '.$field['class'].' " '.$data.' data-field-id="'.$field['id'].'" id="field-'.$field['id'].'">';
 		switch($field['type']) {
 			// text
-			case 'license-key':
+			case 'api-key':
 
-				echo '<div class="license-key">';
+				echo '<div class="api-key">';
 				echo '	<label>'.__('Inbound API Key:' , 'inbound-pro' ) .'</label>';
-				echo '		<input type="text" class="license" name="'.$field['id'].'" id="'.$field['id'].'" placeholder="'.$field['placeholder'].'" value="'.$field['value'].'" data-field-type="'.$field['type'].'" data-field-group="'.$group['group_name'].'"  data-special-handler="true"/>';
+				echo '		<input type="text" class="api" name="'.$field['id'].'" id="'.$field['id'].'" placeholder="'.$field['placeholder'].'" value="'.$field['value'].'" data-field-type="'.$field['type'].'" data-field-group="'.$group['group_name'].'"  data-special-handler="true"/>';
 				echo '</div>';
 				break;
 			case 'header':
@@ -653,7 +654,6 @@ class Inbound_Pro_Settings {
 				echo '</div>';
 			break;
 			case 'html':
-				//print_r($field);
 				echo $field['value'];
 				echo '<br /><i class="tooltip fa-question-circle tool_dropdown" title="'. ( isset($field['description'] ) ? $field['description'] : '' ) .'"></i>';
 			break;
@@ -819,12 +819,9 @@ class Inbound_Pro_Settings {
 		/* parse string */
 		parse_str($_POST['input'] , $data );
 
-		//error_log(print_r($data,true));
-
 		/* Update Setting */
 		$settings = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
 		$settings[ $data['fieldGroup'] ][ $data['name'] ] = $data['value'];
-
 		Inbound_Options_API::update_option( 'inbound-pro' , 'settings' , $settings );
 	}
 
@@ -834,8 +831,6 @@ class Inbound_Pro_Settings {
 	public static function ajax_update_custom_fields() {
 		/* parse string */
 		parse_str($_POST['input'] , $data );
-
-		//error_log(print_r($data,true));
 
 		/* Update Setting */
 		$settings = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
@@ -850,7 +845,6 @@ class Inbound_Pro_Settings {
 	public static function ajax_update_ip_addresses() {
 		/* parse string */
 		parse_str($_POST['input'] , $data );
-		//error_log(print_r($data,true));
 
 		$ip_addresses = array_filter($data['ip-addresses']);
 		$ip_addresses = array_map('trim',$ip_addresses);

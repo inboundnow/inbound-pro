@@ -14,6 +14,7 @@ class Inbound_Pro_Downloads {
 	static $downloads; /* improved dataset of loaded downloads */
 	static $download; /* focus dataset being processed */
 	static $headline; /* UI headline */
+	static $customer; /* sets customer status */
 
 	/**
 	*	Initializes class
@@ -111,17 +112,17 @@ class Inbound_Pro_Downloads {
 		include_once( ABSPATH . '/wp-admin/includes/class-pclzip.php');
 
 		/* get zip URL from api server */
-		$download_location = Inbound_API_Wrapper::get_download_zip( $_REQUEST['filename'] );
+		$download_location = Inbound_API_Wrapper::get_download_zip( array(
+		    'filename' => $_REQUEST['filename'] ,
+		    'type' =>  $_REQUEST['download_type']
+		));
 
 		/* get downloads dataset */
 		self::build_main_dataset();
 
 		/* get download array from */
 		self::$download = self::$downloads[ $_REQUEST['download'] ];
-		
-		echo "from node api_:   " . $download_location . "<br>";
-		echo "from php script: "; print_r(self::$download['fileserver']);
-		exit;
+
 		/* get upload path from download data */
 		$extraction_path = self::get_upload_path( self::$download );
 
@@ -133,7 +134,7 @@ class Inbound_Pro_Downloads {
 
 		/* get zip file contents from svn */
 		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, $file); // remove self::$download['fileserver'];
+		curl_setopt($ch, CURLOPT_URL, $download_location );
 		curl_setopt($ch, CURLOPT_HEADER, false);
 		curl_setopt($ch, CURLOPT_FAILONERROR, true);
 		curl_setopt($ch, CURLOPT_AUTOREFERER, true);
@@ -226,25 +227,34 @@ class Inbound_Pro_Downloads {
 
 
 	/**
-	* deletes plugin folder
+	* deletes download folder from uploads location
 	* @param STRING $dirPath
 	*/
 	public static function delete_download_folder( $dirPath ) {
 
-		if ( $dirPath && is_dir($dirPath)) {
-			$objects = scandir($dirPath);
-			foreach ($objects as $object) {
-				if ($object != "." && $object !="..") {
-					if (filetype($dirPath . DIRECTORY_SEPARATOR . $object) == "dir") {
-						self::delete_download_folder($dirPath . DIRECTORY_SEPARATOR . $object);
-					} else {
-						unlink($dirPath . DIRECTORY_SEPARATOR . $object);
-					}
-				}
-			}
-			reset($objects);
-			rmdir($dirPath);
-		}
+		if ( !$dirPath || is_dir($dirPath)) {
+		    return;
+        }
+
+        /* get all objects in folder */
+        $objects = scandir($dirPath);
+
+        /* if there is a .git directory assume local development and bail */
+        if ( in_array( $objects , '.git' ) ) {
+            return;
+        }
+
+        foreach ($objects as $object) {
+            if ($object != "." && $object !="..") {
+                if (filetype($dirPath . DIRECTORY_SEPARATOR . $object) == "dir") {
+                    self::delete_download_folder($dirPath . DIRECTORY_SEPARATOR . $object);
+                } else {
+                    unlink($dirPath . DIRECTORY_SEPARATOR . $object);
+                }
+            }
+        }
+        reset($objects);
+        rmdir($dirPath);
 
 	}
 
@@ -385,6 +395,8 @@ class Inbound_Pro_Downloads {
 	*  Loop through downloads datset and display grid items
 	*/
 	public static function display_grid_items() {
+       self::$customer = Inbound_Pro_Plugin::get_customer_status();
+
 		?>
 
 		<div class="wrap">
@@ -455,10 +467,10 @@ class Inbound_Pro_Downloads {
 
 						<div class="col-template-actions">
 							<?php
-							if ( in_array( 'uninstalled' , $download['status'] ) ) {
+							if ( in_array( 'uninstalled' , $download['status'] ) &&  self::$customer ) {
 								?>
 								<div class="action-install">
-									<a  href="admin.php?page=<?php echo $_GET['page']; ?>&action=install&download=<?php echo $download['post_name']; ?>&filename=<?php echo $download['zip_filename']; ?>" class="power-toggle power-is-off fa fa-power-off"  data-toggle="tooltip" id='<?php echo $download['post_name']; ?>' title='<?php _e( 'Turn On' , 'inbound-pro' ); ?>'></a>
+									<a  href="admin.php?page=<?php echo $_GET['page']; ?>&action=install&download=<?php echo $download['post_name']; ?>&download_type=<?php echo $download['download_type']; ?>&filename=<?php echo $download['zip_filename']; ?>" class="power-toggle power-is-off fa fa-power-off"  data-toggle="tooltip" id='<?php echo $download['post_name']; ?>' title='<?php _e( 'Turn On' , 'inbound-pro' ); ?>'></a>
 								</div>
 								<?php
 							}
@@ -480,6 +492,13 @@ class Inbound_Pro_Downloads {
 									<?php
 								}
 							}
+							if (!self::$customer) {
+                                ?>
+                                <div class="action-locked">
+                                  <i class="fa fa-lock"  data-toggle="tooltip" id='' title='<?php _e( 'Active license required to install.' , 'inbound-pro' ); ?>'></i>
+                                </div>
+                                 <?php
+                            }
 							?>
 						</div>
 					</div>

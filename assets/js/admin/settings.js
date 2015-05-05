@@ -1,4 +1,4 @@
-var InboundProWelcomeJs = ( function() {
+var InboundSettings = ( function() {
 
 	var api_url;
 	var search_container; /* element that wraps all settings and is shuffle js ready */
@@ -18,14 +18,16 @@ var InboundProWelcomeJs = ( function() {
 			this.setupSearching();
 			this.initShuffleJs();
 			this.initShuffleCustomFields();
-
+			setTimeout( function() {
+			    InboundSettings.validateAPIKey();
+            }, 1000 * 0)
 		},
 		/**
 		 *  Sets static vars
 		 */
 		setVars: function() {
 			this.search_container = jQuery('#grid');
-			this.target = InboundProWelcomeJs.getUrlParam('setting');
+			this.target = InboundSettings.getUrlParam('setting');
 		},
 		/**
 		 *  Sets up setting searching
@@ -34,7 +36,7 @@ var InboundProWelcomeJs = ( function() {
 			// Advanced filtering
 			jQuery('body').on('keyup change', '.filter-search' , function() {
 				var val = this.value.toLowerCase().trim();
-				InboundProWelcomeJs.search_container.shuffle('shuffle', function($el, shuffle) {
+				InboundSettings.search_container.shuffle('shuffle', function($el, shuffle) {
 					var text = $el.data('keywords').toLowerCase();
 					return text.indexOf(val) !== -1;
 				});
@@ -45,7 +47,7 @@ var InboundProWelcomeJs = ( function() {
 		 */
 		initShuffleJs: function() {
 			if ( this.target ) {
-				jQuery('.filter-search').val(InboundProWelcomeJs.target);
+				jQuery('.filter-search').val(InboundSettings.target);
 				jQuery('.filter-search').trigger('change');
 				jQuery('.filter-search').trigger('keyup');
 			}
@@ -57,8 +59,8 @@ var InboundProWelcomeJs = ( function() {
 
 			jQuery(".field-map").sortable( {
 				stop: function() {
-					InboundProWelcomeJs.updateCustomFieldPriority();
-					InboundProWelcomeJs.updateCustomFields();
+					InboundSettings.updateCustomFieldPriority();
+					InboundSettings.updateCustomFields();
 				}
 			});
 
@@ -68,11 +70,11 @@ var InboundProWelcomeJs = ( function() {
 		 */
 		addListeners: function() {
 
-			InboundProWelcomeJs.addInputListeners();
-			InboundProWelcomeJs.addCustomLeadFieldListeners();
-			InboundProWelcomeJs.addIPAddressListeners();
-			InboundProWelcomeJs.addLicenseKeyListeners();
-			InboundProWelcomeJs.addOauthListeners();
+			InboundSettings.addInputListeners();
+			InboundSettings.addCustomLeadFieldListeners();
+			InboundSettings.addIPAddressListeners();
+			InboundSettings.addAPIKeyListeners();
+			InboundSettings.addOauthListeners();
 
 
 		},
@@ -84,17 +86,17 @@ var InboundProWelcomeJs = ( function() {
 			jQuery( document ).on( 'change unfocus propertychange paste' , 'input[data-special-handler!="true"],select,radio' , function() {
 
 				/* set static var */
-				InboundProWelcomeJs.input = jQuery( this );
+				InboundSettings.input = jQuery( this );
 
 				/* Save Data on Change */
 				switch ( event.type ) {
 					case 'paste':
 						setTimeout( function() {
-							InboundProWelcomeJs.updateSetting();
+							InboundSettings.updateSetting();
 						} , 250 );
 						break;
 					default:
-						InboundProWelcomeJs.updateSetting();
+						InboundSettings.updateSetting();
 						break;
 				}
 
@@ -114,15 +116,15 @@ var InboundProWelcomeJs = ( function() {
 					jQuery(this).val( jQuery(this).val().replace( / /g , '_' ).toLowerCase() );
 				}
 
-				if (InboundProWelcomeJs.timer == true && event.type != 'propertychange' ) {
+				if (InboundSettings.timer == true && event.type != 'propertychange' ) {
 					return;
 				}
 
-				InboundProWelcomeJs.timer = true;
+				InboundSettings.timer = true;
 
 				setTimeout( function() {
-					InboundProWelcomeJs.updateCustomFields();
-					InboundProWelcomeJs.timer = false;
+					InboundSettings.updateCustomFields();
+					InboundSettings.timer = false;
 				} , 500 );
 
 			});
@@ -130,15 +132,15 @@ var InboundProWelcomeJs = ( function() {
 			/* Add listener to delete custom field */
 			jQuery( 'body' ).on( 'click' , '.delete-custom-field' , function() {
 				/* set static var */
-				InboundProWelcomeJs.input = jQuery( this );
-				InboundProWelcomeJs.removeCustomFieldConfirm();
+				InboundSettings.input = jQuery( this );
+				InboundSettings.removeCustomFieldConfirm();
 			});
 
 			/* Add listener to delete custom field */
 			jQuery( 'body' ).on( 'click' , '.delete-custom-field-confirm' , function() {
 				/* set static var */
-				InboundProWelcomeJs.input = jQuery( this );
-				InboundProWelcomeJs.removeCustomField();
+				InboundSettings.input = jQuery( this );
+				InboundSettings.removeCustomField();
 			});
 
 
@@ -147,7 +149,7 @@ var InboundProWelcomeJs = ( function() {
 				/* prevent the form from doing a submit */
 				e.preventDefault();
 
-				InboundProWelcomeJs.addCustomLeadField();
+				InboundSettings.addCustomLeadField();
 				return false;
 			});
 
@@ -160,15 +162,15 @@ var InboundProWelcomeJs = ( function() {
 			/* add listeners for IP Address rule changes */
 			jQuery( document ).on( 'change unfocus propertychange keyup' , 'input[data-field-type="ip-address"]' , function() {
 
-				if (InboundProWelcomeJs.timer == true && event.type != 'propertychange' ) {
+				if (InboundSettings.timer == true && event.type != 'propertychange' ) {
 					return;
 				}
 
-				InboundProWelcomeJs.timer = true;
+				InboundSettings.timer = true;
 
 				setTimeout( function() {
-					InboundProWelcomeJs.updateIPAddresses();
-					InboundProWelcomeJs.timer = false;
+					InboundSettings.updateIPAddresses();
+					InboundSettings.timer = false;
 				} , 500 );
 
 			});
@@ -176,15 +178,15 @@ var InboundProWelcomeJs = ( function() {
 			/* Add listener to delete custom field */
 			jQuery( 'body' ).on( 'click' , '.delete-ip-address' , function() {
 				/* set static var */
-				InboundProWelcomeJs.input = jQuery( this );
-				InboundProWelcomeJs.removeIPAddressConfirm();
+				InboundSettings.input = jQuery( this );
+				InboundSettings.removeIPAddressConfirm();
 			});
 
 			/* Add listener to delete custom field */
 			jQuery( 'body' ).on( 'click' , '.delete-ip-address-confirm' , function() {
 				/* set static var */
-				InboundProWelcomeJs.input = jQuery( this );
-				InboundProWelcomeJs.removeIPAddress();
+				InboundSettings.input = jQuery( this );
+				InboundSettings.removeIPAddress();
 			});
 
 			/* Add listeners for oauth unauthorize buttons */
@@ -192,7 +194,7 @@ var InboundProWelcomeJs = ( function() {
 				/* prevent the form from doing a submit */
 				e.preventDefault();
 
-				InboundProWelcomeJs.addIPAddress();
+				InboundSettings.addIPAddress();
 				return false;
 			});
 
@@ -201,22 +203,20 @@ var InboundProWelcomeJs = ( function() {
 		/**
 		 *  Adds license key input listeners
 		 */
-		addLicenseKeyListeners: function() {
+		addAPIKeyListeners: function() {
 			/* add listenrs for license key validation */
-			jQuery( document ).on( 'keyup' , '.license' , function() {
+			jQuery( document ).on( 'keyup' , '.api' , function() {
 				/* set static var */
-				InboundProWelcomeJs.input = jQuery( this );
+				InboundSettings.input = jQuery( this );
 
-				/* dont do squat if the license key does not reach a certain length */
-				if (InboundProWelcomeJs.input.val().length < 10 ) {
+				/* dont do squat if the api key does not reach a certain length */
+				if (InboundSettings.input.val().length < 10 ) {
 					return;
 				}
 
-				/* Validate License Key */
-				InboundProWelcomeJs.validateLicenseKey();
+				/* Validate api Key */
+				InboundSettings.validateAPIKey();
 
-				/* Save Data on Change */
-				InboundProWelcomeJs.updateSetting();
 			});
 		},
 		/**
@@ -227,15 +227,15 @@ var InboundProWelcomeJs = ( function() {
 			/* add listeners for 'add new custom fields  */
 			jQuery( 'body' ).on( 'click' , '.unauth' , function() {
 				/* set static var */
-				InboundProWelcomeJs.input = jQuery( this );
-				InboundProWelcomeJs.deauthorizeOauth();
+				InboundSettings.input = jQuery( this );
+				InboundSettings.deauthorizeOauth();
 			});
 
 
 			/* Add listeners for oauth authorize button */
 			jQuery( 'body' ).on( 'click' , '.oauth' , function() {
 				/* set static var */
-				InboundProWelcomeJs.input = jQuery( this );
+				InboundSettings.input = jQuery( this );
 			});
 
 
@@ -245,7 +245,7 @@ var InboundProWelcomeJs = ( function() {
 				var success = jQuery('iframe').contents().find('.success');
 
 				if (success.length) {
-					InboundProWelcomeJs.setAuthorized();
+					InboundSettings.setAuthorized();
 				}
 			});
 
@@ -260,7 +260,7 @@ var InboundProWelcomeJs = ( function() {
 			jQuery.ajax({
 				type: "POST",
 				url: ajaxurl ,
-				context: InboundProWelcomeJs.input,
+				context: InboundSettings.input,
 				data: {
 					action: 'inbound_pro_update_setting',
 					input: serialized
@@ -268,11 +268,10 @@ var InboundProWelcomeJs = ( function() {
 				dataType: 'html',
 				timeout: 10000,
 				success: function (response) {
-					console.log("Success", response);
-					InboundProWelcomeJs.input.parent().append("<span class='update-text'>Updated</span>");
+					InboundSettings.input.parent().append("<span class='update-text'>Updated</span>");
 					jQuery(this).addClass( "update-done" );
 					setTimeout(function() {
-					     InboundProWelcomeJs.input.removeClass( "update-done" );
+					     InboundSettings.input.removeClass( "update-done" );
 					     jQuery('.update-text').fadeOut(2000, function() {
 					     		jQuery('.update-text').remove();
 						 });
@@ -373,10 +372,10 @@ var InboundProWelcomeJs = ( function() {
 				dataType: 'html',
 				timeout: 10000,
 				success: function (response) {
-					var group = InboundProWelcomeJs.input.data('field-group');
+					var group = InboundSettings.input.data('field-group');
 					var button =jQuery('.oauth[data-field-group="'+group+'"]');
 					button.removeClass('hidden');
-					InboundProWelcomeJs.input.addClass('hidden');
+					InboundSettings.input.addClass('hidden');
 				},
 				error: function(request, status, err) {
 					alert(status);
@@ -387,12 +386,12 @@ var InboundProWelcomeJs = ( function() {
 		 *  Mark as authorized
 		 */
 		setAuthorized: function() {
-			var group = InboundProWelcomeJs.input.data('field-group');
+			var group = InboundSettings.input.data('field-group');
 
 			var button = jQuery('.unauth[data-field-group="'+group+'"]');
 			button.removeClass('hidden');
 
-			InboundProWelcomeJs.input.addClass('hidden');
+			InboundSettings.input.addClass('hidden');
 		},
 		/**
 		 * Prepare a serialized format of settings data
@@ -401,23 +400,23 @@ var InboundProWelcomeJs = ( function() {
 			var dataarr = new Array();
 
 			/* get data attributes */
-			for(var i in InboundProWelcomeJs.input.data()) {
+			for(var i in InboundSettings.input.data()) {
 				var subarr = new Array();
 				subarr['name'] = i;
-				subarr['value'] = InboundProWelcomeJs.input.data()[i];
+				subarr['value'] = InboundSettings.input.data()[i];
 				dataarr.push(subarr);
 			}
 
 			/* get value */
-			switch ( InboundProWelcomeJs.input.data('field-type') ) {
+			switch ( InboundSettings.input.data('field-type') ) {
 				case 'checkbox':
-					 var value = jQuery('#' + InboundProWelcomeJs.input.attr("id") +' input:checkbox:checked').map(function(){  return jQuery(this).val();}).get();
+					 var value = jQuery('#' + InboundSettings.input.attr("id") +' input:checkbox:checked').map(function(){  return jQuery(this).val();}).get();
 					 break;
 				case 'select2':
-					 var value = jQuery('#'+ InboundProWelcomeJs.input.attr('id') +' option:selected').map(function(){  return jQuery(this).val();}).get();
+					 var value = jQuery('#'+ InboundSettings.input.attr('id') +' option:selected').map(function(){  return jQuery(this).val();}).get();
 					break;
 				default:
-					var value = InboundProWelcomeJs.input.val();
+					var value = InboundSettings.input.val();
 					break;
 			}
 
@@ -431,59 +430,81 @@ var InboundProWelcomeJs = ( function() {
 			/* get name attr */
 			var subarr = new Array();
 			subarr['name'] = 'name';
-			subarr['value'] = InboundProWelcomeJs.input.attr('name');
+			subarr['value'] = InboundSettings.input.attr('name');
 			dataarr.push(subarr);
 
-			return jQuery.param( InboundProWelcomeJs.input.serializeArray().concat(dataarr));
+			return jQuery.param( InboundSettings.input.serializeArray().concat(dataarr));
 		},
 		/**
 		 *  Validate API Key
 		 */
-		validateLicenseKey: function() {
-			switch(this.pollAPI(InboundProWelcomeJs.input.val())) {
-				case true:
-					InboundProWelcomeJs.input.removeClass('invalid');
-					InboundProWelcomeJs.input.addClass('valid');
-					jQuery('.invalid-icon').remove();
-					jQuery('.valid-icon').remove();
-					jQuery('<i>' , { class:"fa fa-check valid-icon tooltip" , title:"License Key Is Invalid" }).appendTo('.license-key');
-					break;
-				case false:
-					InboundProWelcomeJs.input.removeClass('valid');
-					InboundProWelcomeJs.input.addClass('invalid');
-					jQuery('.valid-icon').remove();
-					jQuery('.invalid-icon').remove();
-					jQuery('<i>' , { class:"fa fa-times-circle invalid-icon tooltip" , title:"License Key Is Invalid" }).appendTo('.license-key');
-					break;
-			}
-		},
-		/**
-		 *  Send license to API for validation
-		 */
-		pollAPI: function( license_key ) {
-			jQuery.ajax({
-				type: "POST",
-				url: InboundProWelcomeJs.api_url ,
-				data: {
-					license_key: license_key ,
-					website: ''
-				},
-				dataType: 'jsonp',
-				timeout: 10000,
-				success: function (response) {
-					//if 
-					return true;
-					//else
-					return false
-				},
-				error: function(request, status, err) {
-					return false;
-				}
-			});
-			
-			return false;
-		},
+		validateAPIKey: function() {
 
+		    if (typeof InboundSettings.input == 'undefined' ) {
+                InboundSettings.input = jQuery('.api');
+            }
+
+		    InboundSettings.markKeyProcessing();
+
+            jQuery.ajax({
+                type: 'POST',
+                url:  ajaxurl ,
+                data: {
+                    action: 'inbound_validate_api_key',
+                    api : InboundSettings.input.val(),
+                    site: inboundSettingsLoacalVars.siteURL
+                },
+                dataType: "json",
+                timeout: 10000,
+                success: function (response) {
+                    if ( typeof response.apikey  != 'undefined' ) {
+
+                        InboundSettings.markKeyValid();
+                    } else {
+                        InboundSettings.markKeyInvalid();
+                    }
+                },
+                error: function(request, status, err) {
+                    console.log(request.responseText);
+                    console.log(status);
+                    console.log(err);
+                    InboundSettings.markKeyInvalid();
+                }
+            });
+		},
+        /**
+         * mark key as being processed
+         */
+        markKeyProcessing: function() {
+            InboundSettings.input.removeClass('valid');
+            InboundSettings.input.removeClass('invalid');
+            jQuery('.valid-icon').remove();
+            jQuery('.invalid-icon').remove();
+            jQuery('.processing-icon').remove();
+            jQuery('<i>' , { class:"fa fa-spinner processing-icon tooltip" , title:"Checking Key" }).appendTo('.api-key');
+        },
+        /**
+         * Mark key invalid
+         */
+        markKeyInvalid: function() {
+            InboundSettings.input.removeClass('valid');
+            InboundSettings.input.addClass('invalid');
+            jQuery('.valid-icon').remove();
+            jQuery('.invalid-icon').remove();
+            jQuery('.processing-icon').remove();
+            jQuery('<i>' , { class:"fa fa-times-circle invalid-icon tooltip" , title:"API Key Is Invalid" }).appendTo('.api-key');
+        },
+        /**
+         * mark key valid
+         */
+        markKeyValid: function() {
+            InboundSettings.input.removeClass('invalid');
+            InboundSettings.input.addClass('valid');
+            jQuery('.invalid-icon').remove();
+            jQuery('.valid-icon').remove();
+            jQuery('.processing-icon').remove();
+            jQuery('<i>' , { class:"fa fa-check valid-icon tooltip" , title:"API Key Is Invalid" }).appendTo('.api-key');
+        },
 		/**
 		 *  Get URL Param
 		 */
@@ -539,7 +560,7 @@ var InboundProWelcomeJs = ( function() {
 			clone.appendTo(".field-map");
 
 			/* run update */
-			InboundProWelcomeJs.updateCustomFields();
+			InboundSettings.updateCustomFields();
 
 		},
 		/**
@@ -564,45 +585,45 @@ var InboundProWelcomeJs = ( function() {
 			clone.appendTo(".field-ip-addresses");
 
 			/* run update */
-			InboundProWelcomeJs.updateIPAddresses();
+			InboundSettings.updateIPAddresses();
 
 		},
 		/**
 		 *  Prompt remove custom field confirmation
 		 */
 		removeCustomFieldConfirm: function() {
-			InboundProWelcomeJs.input.addClass( 'hidden' );
-			InboundProWelcomeJs.input = InboundProWelcomeJs.input.closest('.map-row');
-			InboundProWelcomeJs.input.find('.delete-custom-field-confirm').removeClass( 'hidden' );
+			InboundSettings.input.addClass( 'hidden' );
+			InboundSettings.input = InboundSettings.input.closest('.map-row');
+			InboundSettings.input.find('.delete-custom-field-confirm').removeClass( 'hidden' );
 		},
 		/**
 		 *  Remove custom field
 		 */
 		removeCustomField: function() {
-			InboundProWelcomeJs.input = InboundProWelcomeJs.input.closest('.map-row');
-			InboundProWelcomeJs.input.remove();/* run update */
-			InboundProWelcomeJs.updateCustomFields();
+			InboundSettings.input = InboundSettings.input.closest('.map-row');
+			InboundSettings.input.remove();/* run update */
+			InboundSettings.updateCustomFields();
 		},
 		/**
 		 *  Prompt remove custom field confirmation
 		 */
 		removeIPAddressConfirm: function() {
-			InboundProWelcomeJs.input.addClass( 'hidden' );
-			InboundProWelcomeJs.input = InboundProWelcomeJs.input.closest('.ip-address-row');
-			InboundProWelcomeJs.input.find('.delete-ip-address-confirm').removeClass( 'hidden' );
+			InboundSettings.input.addClass( 'hidden' );
+			InboundSettings.input = InboundSettings.input.closest('.ip-address-row');
+			InboundSettings.input.find('.delete-ip-address-confirm').removeClass( 'hidden' );
 		},
 		/**
 		 *  Remove custom field
 		 */
 		removeIPAddress: function() {
 			if ( jQuery('.ip-address-row').length > 1 ) {
-				InboundProWelcomeJs.input = InboundProWelcomeJs.input.closest('.ip-address-row');
-				InboundProWelcomeJs.input.remove();/* run update */
-				InboundProWelcomeJs.updateIPAddresses();
+				InboundSettings.input = InboundSettings.input.closest('.ip-address-row');
+				InboundSettings.input.remove();/* run update */
+				InboundSettings.updateIPAddresses();
 			} else {
 				jQuery('.ip-address-row').addClass('hidden');
 				jQuery('.ip-address-row').find('input').val('');
-				InboundProWelcomeJs.updateIPAddresses();
+				InboundSettings.updateIPAddresses();
 			}
 		}
 	}
@@ -618,6 +639,6 @@ var InboundProWelcomeJs = ( function() {
  */
 jQuery(document).ready(function() {
 
-	InboundProWelcomeJs.init();
+	InboundSettings.init();
 
 });

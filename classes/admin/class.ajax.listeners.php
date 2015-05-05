@@ -20,6 +20,9 @@ class Inbound_Pro_Admin_Ajax_Listeners {
 		/* Adds listener to save meta filter position */
 		add_action( 'wp_ajax_inbound_update_meta_filter', array( __CLASS__ , 'update_meta_filter' ) );
 
+		/* Adds listener validate inbound now api key*/
+		add_action( 'wp_ajax_inbound_validate_api_key', array( __CLASS__ , 'validate_api_key' ) );
+
 	}
 
 	/**
@@ -40,6 +43,43 @@ class Inbound_Pro_Admin_Ajax_Listeners {
 		header('HTTP/1.1 200 OK');
 		exit;
 	}
+
+	/**
+     * Validate API Key
+     */
+     public static function  validate_api_key() {
+
+        /* save api key */
+         $settings = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
+         $settings[ 'api-key' ][ 'api-key' ] = trim($_REQUEST['api']);
+         Inbound_Options_API::update_option( 'inbound-pro' , 'settings' , $settings );
+
+        $response = wp_remote_post( Inbound_API_Wrapper::get_api_url() . 'key/check' ,  array(
+            'body' => array(
+                'api' => trim($_REQUEST['api']),
+                'site' => $_REQUEST['site']
+            )
+        ));
+
+         if ( is_wp_error( $response ) ) {
+             return;
+         }
+
+         $decoded = json_decode( $response['body'] , true );
+
+         if (isset( $decoded['apikey'] )) {
+            $customer = Inbound_Options_API::get_option( 'inbound-pro' , 'customer' , array() );
+            $customer['active'] = true;
+            Inbound_Options_API::update_option( 'inbound-pro' , 'customer' , $customer );
+         } else {
+            $customer = Inbound_Options_API::get_option( 'inbound-pro' , 'customer' , array() );
+            $customer['active'] = false;
+            Inbound_Options_API::update_option( 'inbound-pro' , 'customer' , $customer );
+         }
+
+         echo wp_remote_retrieve_body( $response );
+         exit;
+     }
 
 
 }
