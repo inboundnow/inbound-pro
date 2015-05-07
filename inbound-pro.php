@@ -135,7 +135,7 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 
 			/* Admin Only */
 			if (is_admin()) {
-                include_once( INBOUND_PRO_PATH . 'assets/plugins/plugin-update-checker/plugin-update-checker.php');
+                include_once( INBOUND_PRO_PATH . 'assets/plugins/plugin-updater/plugin-update-checker.php');
                 include_once( INBOUND_PRO_PATH . 'classes/admin/class.updater.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.activate.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.menus.adminmenu.php');

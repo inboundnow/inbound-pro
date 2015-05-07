@@ -10,20 +10,21 @@
 class Inbound_Pro_Updater {
 
     static $license_key;
+    static $domain;
     static $response;
 
     /**
      * initite class
      */
     public function __construct() {
-        self::add_hooks();
-        self::load_static_vars();
+        self::load_hooks();
     }
 
     /**
      * Loads hooks and filters
      */
     public static function load_hooks() {
+        add_action( 'admin_init' , array( __CLASS__ , 'load_static_vars' ) , 1 );
         add_action( 'admin_init' , array( __CLASS__ , 'setup_uploader' ) );
     }
 
@@ -31,16 +32,20 @@ class Inbound_Pro_Updater {
      * Load static vars
      */
     public static function load_static_vars() {
-        self::$license_key = Inbound_API_Wrapper::get_license_key();
+        self::$license_key = Inbound_API_Wrapper::get_api_key();
+        self::$domain = site_url();
     }
 
     /**
      * setup uploaded with custom uploaded plugin located in /assets/plugins/plugin-update-checker/
      */
     public static function setup_uploader() {
-        $download_url = Inbound_API_Wrapper::get_pro_download_url();
+        /**/
+        var_dump( wp_remote_get(add_query_arg( array( 'api' => self::$license_key , 'site' => self::$domain ), Inbound_API_Wrapper::get_pro_info_endpoint())) );
+        exit;
+        /**/
         $myUpdateChecker = PucFactory::buildUpdateChecker(
-            add_query_arg( array( 'key' => self::$license_key ), $download_url ),
+            add_query_arg( array( 'api' => self::$license_key , 'site' => self::$domain ), Inbound_API_Wrapper::get_pro_info_endpoint() ),
             INBOUND_PRO_FILE
         );
     }
@@ -49,13 +54,6 @@ class Inbound_Pro_Updater {
      *  Get download zip file from inbound now
      */
     public static function get_download_zip( $download ) {
-
-        /* get license key */
-        $settings_values = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
-        $license_key = $settings_values['license-key']['license-key'];
-
-        /* get domain */
-        $domain = "$_SERVER[HTTP_HOST]";
 
         $response = wp_remote_post( self::$downloads_fileserver_api , array(
             'method' => 'POST',
@@ -66,8 +64,8 @@ class Inbound_Pro_Updater {
             'headers' => array(),
             'body' => array(
                 'download' => $download,
-                'site' => $domain,
-                'api' => $license_key
+                'site' => self::$domain,
+                'api' => self::$license_key
             )
         ));
 
@@ -91,3 +89,5 @@ class Inbound_Pro_Updater {
 
     }
 }
+
+new Inbound_Pro_Updater;

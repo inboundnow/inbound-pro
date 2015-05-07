@@ -154,7 +154,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 		}
 
 		/**
-		*  	Determine if content ID has Calls to Actions assigned to it 
+		*  	Determine if content ID has Calls to Actions assigned to it
 		*/
 		public function setup_cta_direct_placement( $is_preview = false ) {
 
@@ -219,13 +219,13 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
 				/* Loop through cta variations and improve data set */
 				foreach ($cta_obj[$cta_id]['variations'] as $vid => $variation) {
-					
+
 					/* if variation does not have a selected template then treat as broken and unset from dataset */
 					if ( !isset($meta['wp-cta-selected-template-' . $vid ][0]) ) {
 						unset($cta_obj[$cta_id]['variations'][$vid]);
 						continue;
 					}
-					
+
 					/* if cta is paused and not in preview mode then unset from dataset */
 					if ( $variation['status'] == 'paused' && !isset($_GET['wp-cta-variation-id']) ) {
 						unset($cta_obj[$cta_id]['variations'][$vid]);
@@ -259,7 +259,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
 			/* return one cta out of list of available ctas */
 			$key = array_rand($cta_obj);
-			
+
 			return $cta_obj[$key];
 		}
 
@@ -274,15 +274,15 @@ if ( !class_exists( 'CTA_Render' ) ) {
 			$doc->loadHTML( $variation_html );
 
 			foreach($doc->getElementsByTagName('a') as $anchor) {
-				
+
 				/* skip links with do-not-track in class */
-				$class = $anchor->getAttribute('class');				
+				$class = $anchor->getAttribute('class');
 				if (strstr( $class , 'do-not-track' )) {
 					continue;
 				}
-				
+
 				$href = $anchor->getAttribute('href');
-				
+
 				$link = Inbound_API::analytics_track_links( array(
 					'cta_id' => $selected_cta['id'],
 					'id' => ( isset($_COOKIE['wp_lead_id']) ? $_COOKIE['wp_lead_id'] : null ) ,
@@ -290,13 +290,13 @@ if ( !class_exists( 'CTA_Render' ) ) {
 					'url' => $href ,
 					'tracking_id' => __( sprintf( 'Call to Action Click (cta_id:%s) (vid:%s)' , $selected_cta['id'] , $vid ) , 'cta' ) /* required but not being used atm */
 				));
-				
+
 				$variation_html = str_replace( $href , $link['url'] , $variation_html);
 			}
-			
+
 			return $variation_html;
 		}
-		
+
 		/**
 		*  Given a template slug, get it's asset files.
 		*/
@@ -408,7 +408,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 				$keep_open = get_post_meta($post_id, 'wp_cta_slide_out_keep_open', TRUE);
 				$slide_speed_final = (isset($slide_speed) && $slide_speed != "") ? $slide_speed * 1000 : 1000;
 				$scroll_offset = (isset($reveal_on) && $reveal_on != "") ? $reveal_on : 50;
-				$scroll_params = array( 
+				$scroll_params = array(
 					'animation' => 'flyout',
 					'speed' => $slide_speed_final,
 					'keep_open' => $keep_open,
@@ -471,7 +471,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 				}
 			}
 		}
-		
+
 		/**
 		* Prints / Returns Custom JS & CSS Related to Call to Action
 		*/
@@ -510,7 +510,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
 
 				$dynamic_css = self::$instance->parse_css_template($dynamic_css , $css_id_preface);
-				
+
 				$css_styleblock_class = apply_filters( 'wp_cta_styleblock_class' , '' , $selected_cta['id'] , $vid );
 
 				if (!stristr($custom_css,'<style')){
@@ -549,7 +549,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 		}
 
 		/**
-		*  Replaced tokens in call to action template with values 
+		*  Replaced tokens in call to action template with values
 		*/
 		public function replace_template_variables( $selected_cta , $template , $vid ) {
 
@@ -562,7 +562,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 			/* Get width and height */
 			(isset($selected_cta['meta'][$vid]['wp_cta_width-'.$vid])) ? $w = $selected_cta['meta'][$vid]['wp_cta_width-'.$vid] : $w = 'auto';
 			(isset($selected_cta['meta'][$vid]['wp_cta_height-'.$vid])) ? $h = $selected_cta['meta'][$vid]['wp_cta_height-'.$vid] : $h = 'auto';
-			
+
 			/* validate/correct impropper css property value setup */
 			$width = CTA_Render::validate_css_property_value($w, 'width');
 			$height = CTA_Render::validate_css_property_value($h, 'height');
@@ -956,7 +956,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 		}
 
 
-		
+
 		/**
 		*  Parse CSS and prepend the call to action / varition id
 		*/
@@ -981,7 +981,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 			return $oCss->__toString();
 		}
 
-		
+
 		/**
 		*  Validate CSS values
 		*/
@@ -1045,7 +1045,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 					$heights[] = $meta['wp_cta_height-'.$vid];
 				}
 			}
-			
+
 			/* get the maximum height of all variations and use it as the min height */
 			if (isset($heights)) {
 				asort($heights);
@@ -1060,15 +1060,15 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
 			/* build cta parent container */
 			$cta_template = "<div id='wp_cta_".$selected_cta['id']."_container' class='{$cta_container_class}' style='margin-top:{$margin_top}px;margin-bottom:{$margin_bottom}px;position:relative;' >";
-			
+
 			/* build cta content */
 			foreach ($selected_cta['variations'] as $vid => $variation ) {
-				
+
 				/* if cta preview mode is on then skip non-selected variations */
 				if (isset($_GET['wp-cta-variation-id']) && $vid!=$_GET['wp-cta-variation-id']) {
 					continue;
 				}
-				
+
 				/* get width and height values */
 				(isset($selected_cta['meta'][$vid]['wp_cta_width-'.$vid])) ? $w = $selected_cta['meta'][$vid]['wp_cta_width-'.$vid] : $w = 'auto';
 				(isset($selected_cta['meta'][$vid]['wp_cta_height-'.$vid])) ? $h = $selected_cta['meta'][$vid]['wp_cta_height-'.$vid] : $h = 'auto';
@@ -1080,34 +1080,34 @@ if ( !class_exists( 'CTA_Render' ) ) {
 				/* add cta width values into array pool for later use */
 				$width_array[$vid] = $w;
 				self::$instance->cta_width = $width_array;
-				
+
 				/* add height values into array pool for later use */
 				$height_array[$vid] = $h;
 				self::$instance->cta_height = $height_array;
-				
+
 				/* get variation's template slug name */
 				$template_slug = $selected_cta['meta'][$vid]['wp-cta-selected-template-'.$vid];
-				
+
 				/* prepare the variation class */
 				$cta_variation_class = "inbound-cta-container wp_cta_content wp_cta_variation wp_cta_".$selected_cta['id']."_variation_".$vid."";
 				$cta_variation_class =	apply_filters('wp_cta_variation_class', $cta_variation_class , $selected_cta['id'] , $vid );
 
 				/* prepare additional attributes for cta varaition */
 				$cta_variation_attributes = apply_filters('wp_cta_variation_attributes' , '' , $selected_cta['id'] , $vid);
-				
+
 				/* Prepare variation HTML container */
 				$cta_template .= "<div id='wp_cta_".$selected_cta['id']."_variation_".$vid."' class='".$cta_variation_class."' style='display:{$display}; margin:auto;".$width . $height."' ".$cta_variation_attributes." data-variation='".$vid."' data-cta-id='".$selected_cta['id']."'>";
-				
+
 				$variation_html = self::$instance->cta_templates[$template_slug]['html-template'];
-				
+
 				/* Replace common token variables with their value */
 				$variation_html = CTA_Render::replace_template_variables( $selected_cta , $variation_html , $vid	);
 
 				/* replace all internal links with masked tracked links */
 				$variation_html = CTA_Render::prepare_tracked_links( $variation_html , $selected_cta , $vid );
-				
+
 				$cta_template .= $variation_html;
-				
+
 				/* close variation container */
 				$cta_template .= "</div>";
 
@@ -1124,7 +1124,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 		function add_cta_to_post_content( $content ) {
 			global $post;
 
-			if (!isset($post)) {
+			if (!isset($post) || is_feed()) {
 				return $content;
 			}
 
@@ -1311,9 +1311,9 @@ if ( !class_exists( 'CTA_Render' ) ) {
 			echo "</div>";
 
 			if (!isset($_GET['live-preview-area']) && is_user_logged_in()) {
-			?>		
+			?>
 			<script type="text/javascript">
-			jQuery(document).ready(function($) {			
+			jQuery(document).ready(function($) {
 				//jQuery('#cta-preview-container').cta_center();
 			});
 
@@ -1327,11 +1327,11 @@ if ( !class_exists( 'CTA_Render' ) ) {
 				return this;
 			}
 			</script>
-			<?php 
+			<?php
 			}
 			?>
 			<script type="text/javascript">
-			jQuery(document).ready(function($) {			
+			jQuery(document).ready(function($) {
 				jQuery('.wp_cta_<?php echo $cta_id; ?>_variation_<?php echo $_GET['wp-cta-variation-id']; ?>').show();
 			});
 			</script>

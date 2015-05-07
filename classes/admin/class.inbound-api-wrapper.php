@@ -44,7 +44,7 @@ class Inbound_API_Wrapper {
      */
     public static function get_api_key() {
         $settings_values = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
-        return (isset($settings_values['api-key']['api-key'])) ? trim($settings_values['license-key']['license-key']) : '';
+        return (isset($settings_values['api-key']['api-key'])) ? trim($settings_values['api-key']['api-key']) : '';
     }
 
 	/**
@@ -188,8 +188,8 @@ class Inbound_API_Wrapper {
     /**
      * Get the pro download url
      */
-    public static function get_pro_zip() {
-
+    public static function get_pro_info_endpoint() {
+        return self::get_api_url().'pro/info';
     }
 
 

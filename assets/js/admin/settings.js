@@ -440,7 +440,11 @@ var InboundSettings = ( function() {
 		 */
 		validateAPIKey: function() {
 
-		    if (typeof InboundSettings.input == 'undefined' ) {
+		    if ( jQuery('.api').length === 0 ) {
+                return;
+            }
+
+	        if (typeof InboundSettings.input == 'undefined' ) {
                 InboundSettings.input = jQuery('.api');
             }
 

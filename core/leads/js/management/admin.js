@@ -148,7 +148,6 @@ jQuery(document).ready(function($) {
 	    }
 
 	    console.log('running ajax');
-		console.log(bulk_manage_leads.taxonomies);
 
 		var data = {
 			page: 'lead_management',
@@ -160,7 +159,7 @@ jQuery(document).ready(function($) {
 			day_start: jQuery('#day_start').val(),
 			month_start: jQuery('#month_start').val(),
 			year_start: jQuery('#year_start').val(),
-			day_end: jQuery('#day_start').val(),
+			day_end: jQuery('#day_end').val(),
 			month_end: jQuery('#month_end').val(),
 			year_end: jQuery('#year_end').val(),
 			t: jQuery('#t').val(),
@@ -172,13 +171,14 @@ jQuery(document).ready(function($) {
 				data[tax] = jQuery('#' + tax).val();
 			}
 		}
-
+        console.log(data);
 		jQuery.ajax({
 			type: 'POST',
 			context: this,
 			url: bulk_manage_leads.admin_url,
 			data: data,
 			success: function(data){
+
 				var num = parseInt(jQuery('#paged-current').text()) + 1;
 				jQuery('#paged-current').text(num);
 
