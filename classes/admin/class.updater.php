@@ -40,10 +40,11 @@ class Inbound_Pro_Updater {
      * setup uploaded with custom uploaded plugin located in /assets/plugins/plugin-update-checker/
      */
     public static function setup_uploader() {
-        /**/
+        /**
         var_dump( wp_remote_get(add_query_arg( array( 'api' => self::$license_key , 'site' => self::$domain ), Inbound_API_Wrapper::get_pro_info_endpoint())) );
         exit;
         /**/
+
         $myUpdateChecker = PucFactory::buildUpdateChecker(
             add_query_arg( array( 'api' => self::$license_key , 'site' => self::$domain ), Inbound_API_Wrapper::get_pro_info_endpoint() ),
             INBOUND_PRO_FILE
