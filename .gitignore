@@ -1,6 +1,6 @@
-
-
-/temp-analytics-references
+core/leads/
+core/cta/
+core/landing-pages/
 /core/leads/shared/
 /core/leads/.gitignore
 /core/leads/.travis.yml
