@@ -14,6 +14,7 @@ var gulp = require('gulp'),
     rename = require('gulp-rename'),
     copy = require('gulp-copy'),
     markdox = require("gulp-markdox"),
+    gulpIgnore = require('gulp-ignore'),
     //phplint = require('phplint').lint,
     package = require('./package.json');
 
@@ -39,27 +40,42 @@ gulp.task('watch', function() {
     gulp.watch('shared/assets/js/frontend/analytics-src/*.js', ['default']);
     //gulp.watch('scss/*.scss', ['sass']);
 });
+
+/**
+ * Todo: move /shared to a pro folder and have all plugins share
+ */
 gulp.task('sync-lp', function () {
-        //return gulp.src(['some/other/folders/src/public/**/*', 'some/other/folders/src/vendor/**/*'], {
-        //    base: 'other'
-        //}).pipe(gulp.dest('build'));
+
         return gulp.src(['../landing-pages/**']).pipe(gulp.dest('./core/landing-pages/'));
 });
 gulp.task('sync-cta', function () {
-        //return gulp.src(['some/other/folders/src/public/**/*', 'some/other/folders/src/vendor/**/*'], {
-        //    base: 'other'
-        //}).pipe(gulp.dest('build'));
+
         return gulp.src(['../cta/**']).pipe(gulp.dest('./core/cta/'));
 });
 gulp.task('sync-leads', function () {
-        //return gulp.src(['some/other/folders/src/public/**/*', 'some/other/folders/src/vendor/**/*'], {
-        //    base: 'other'
-        //}).pipe(gulp.dest('build'));
-        return gulp.src(['../leads/**']).pipe(gulp.dest('./core/leads/'));
+
+        return gulp.src(['../leads/**'])
+        //.pipe(gulpIgnore.exclude(condition))
+        .pipe(gulp.dest('./core/leads/'));
+});
+
+gulp.task('clean-lp', ['sync-lp'], function () {
+    return gulp.src('./core/landing-pages/node_modules/', {read: false})
+        .pipe(clean());
+});
+
+gulp.task('clean-cta', ['sync-cta'], function () {
+    return gulp.src('./core/cta/node_modules/', {read: false})
+        .pipe(clean());
+});
+
+gulp.task('clean-leads', ['sync-leads'], function () {
+    return gulp.src('./core/leads/node_modules/', {read: false})
+        .pipe(clean());
 });
 
 /* Sync all core plugins */
-gulp.task('sync', ['sync-cta', 'sync-lp','sync-leads']);
+gulp.task('sync', ['clean-cta', 'clean-lp','clean-leads']);
 
 gulp.task('default', [
     'lint',
