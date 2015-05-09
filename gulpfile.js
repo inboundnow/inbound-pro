@@ -59,20 +59,29 @@ gulp.task('sync-leads', function () {
         .pipe(gulp.dest('./core/leads/'));
 });
 
+gulp.task('move-shared', function () {
+        return gulp.src(['./core/cta/shared/**'])
+        //.pipe(gulpIgnore.exclude(condition))
+        .pipe(gulp.dest('./core/shared/'));
+});
+
+
 gulp.task('clean-lp', ['sync-lp'], function () {
-    return gulp.src('./core/landing-pages/node_modules/', {read: false})
+    return gulp.src(['./core/landing-pages/node_modules/', './core/leads/shared/'], {read: false})
         .pipe(clean());
 });
 
-gulp.task('clean-cta', ['sync-cta'], function () {
-    return gulp.src('./core/cta/node_modules/', {read: false})
+gulp.task('clean-cta', ['sync-cta', 'move-shared'], function () {
+    return gulp.src(['./core/cta/node_modules/', './core/cta/shared/'], {read: false})
         .pipe(clean());
 });
 
 gulp.task('clean-leads', ['sync-leads'], function () {
-    return gulp.src('./core/leads/node_modules/', {read: false})
+    return gulp.src(['./core/leads/node_modules/', './core/landing-pages/shared/'], {read: false})
         .pipe(clean());
 });
+
+
 
 /* Sync all core plugins */
 gulp.task('sync', ['clean-cta', 'clean-lp','clean-leads']);
