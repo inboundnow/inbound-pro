@@ -51,12 +51,15 @@ gulp.task('sync-cta', function () {
         //}).pipe(gulp.dest('build'));
         return gulp.src(['../cta/**']).pipe(gulp.dest('./core/cta/'));
 });
-gulp.task('sync', ['sync-cta', 'sync-lp'] function () {
+gulp.task('sync-leads', function () {
         //return gulp.src(['some/other/folders/src/public/**/*', 'some/other/folders/src/vendor/**/*'], {
         //    base: 'other'
         //}).pipe(gulp.dest('build'));
-        return gulp.src(['**']).pipe(gulp.dest('../_inbound-pro/core/cta'));
+        return gulp.src(['../leads/**']).pipe(gulp.dest('./core/leads/'));
 });
+
+/* Sync all core plugins */
+gulp.task('sync', ['sync-cta', 'sync-lp','sync-leads']);
 
 gulp.task('default', [
     'lint',
