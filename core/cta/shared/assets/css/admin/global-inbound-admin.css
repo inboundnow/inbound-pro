@@ -12,6 +12,9 @@
 #inboundnow-media-button {
   padding-left: 5px;
 }
+.inbound-nav-marketing div:first-of-type{
+  color:rgba(240,245,250,1);
+}
 body #calls-to-action .toggle .switch-versions, body #landing-pages .toggle .switch-versions, body #leads .toggle .switch-versions {
  display: none;
 }

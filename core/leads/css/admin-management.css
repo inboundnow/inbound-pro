@@ -1,3 +1,4 @@
+
 div.wrap { 
 	width:100%; 
 	display: none;
@@ -10,10 +11,14 @@ div.wrap {
 }
 
 .media-upload-form div.error, .wrap div.error, .wrap div.updated {
-	//display: none;
+
 }
 #lead-tag-filter, #lead-keyword-filter, .action { 
 	display: none;
+}
+ 
+#leads-date-range-options {
+	display:inline;
 }
 
 #filters, #actions { position:relative; margin-top:15px;}

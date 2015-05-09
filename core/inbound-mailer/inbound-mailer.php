@@ -22,6 +22,16 @@ if ( !class_exists('Inbound_Mailer_Plugin')	) {
 		 */
 		public static $notices = array();
 
+        /**
+         * Main Inbound_Mailer_Plugin Instance
+         */
+        public function __construct() {
+            self::define_constants();
+            self::includes();
+            self::load_text_domain_init();
+        }
+
+
 		/**
 		 * Whether the current PHP version meets the minimum requirements
 		 *
@@ -77,14 +87,7 @@ if ( !class_exists('Inbound_Mailer_Plugin')	) {
 		}
 		/* END PHP VERSION CHECKS */
 
-		/**
-		* Main Inbound_Mailer_Plugin Instance
-		*/
-		public function __construct() {
-			self::define_constants();
-			self::includes();
-			self::load_text_domain_init();
-		}
+
 
 		/*
 		* Setup plugin constants
@@ -204,7 +207,7 @@ if ( !class_exists('Inbound_Mailer_Plugin')	) {
 	}
 
 	/**
-	*  Checks if inbound-mailer plugin is active 
+	*  Checks if inbound-mailer plugin is active
 	*/
 	function mailer_check_active() {
 		return 1;

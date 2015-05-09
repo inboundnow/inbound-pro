@@ -5,11 +5,11 @@ TODO:
 - Get multiple list query working.
 - Fix the actionat the bottom and jquery
  */
- 
+
 if (!class_exists('Leads_Manager')) {
-	
+
 	class Leads_Manager {
-	
+
 		static $relation;
 		static $page;
 		static $per_page;
@@ -18,6 +18,13 @@ if (!class_exists('Leads_Manager')) {
 		static $orderby;
 		static $orderbys;
 		static $orderbys_flip;
+		static $range;
+		static $month_start;
+		static $month_end;
+		static $day_start;
+		static $day_end;
+		static $year_start;
+		static $year_end;
 		static $num; /* number of leads affected */
 		static $on;
 		static $what;
@@ -25,41 +32,41 @@ if (!class_exists('Leads_Manager')) {
 		static $keyword;
 		static $query; /* query object */
 		static $taxonomies; /* array of wp-lead taxonomies */
-		
+
 		/**
 		*  Initiate class
 		*/
 		public function __construct() {
-			
+
 			self::load_static_vars();
 			self::load_hooks();
-		
+
 		}
-		
-		
-		
+
+
+
 		/**
 		*  Load hooks and filters
 		*/
 		public static function load_hooks() {
-			
+
 			/* load static vars */
 			add_action( 'admin_init' , array( __CLASS__ , 'load_static_vars' ) );
-			
+
 			/* load admin scripts */
 			add_action( 'admin_enqueue_scripts' , array( __CLASS__ , 'enqueue_admin_scripts' ) );
-			
+
 			/* perform lead manage actions */
 			add_action( 'admin_action_lead_action', array( __CLASS__ , 'perform_actions' ) );
-			
+
 			/* ajax listener for loading more leads */
-			add_action('wp_ajax_leads_ajax_load_more_leads', array( __CLASS__ ,'ajax_load_more_leads' ) ); 
-			
-			/* ajax listener for deleting lead from list */			
+			add_action('wp_ajax_leads_ajax_load_more_leads', array( __CLASS__ ,'ajax_load_more_leads' ) );
+
+			/* ajax listener for deleting lead from list */
 			add_action('wp_ajax_leads_delete_from_list', array( __CLASS__ , 'ajax_delete_from_taxonomy' ) );
-			
+
 		}
-		
+
 		/**
 		*  Load constants
 		*/
@@ -72,14 +79,21 @@ if (!class_exists('Leads_Manager')) {
 			/* clean POST and REQUEST arrays of added slashes */
 			$_POST = stripslashes_deep($_POST);
 			$_REQUEST = stripslashes_deep($_REQUEST);
-			
+
 			/* set ordering & paging vars */
 			self::$per_page = 60;
 			self::$page = empty($_REQUEST['pull_page']) ? 1 : intval($_REQUEST['pull_page']);
 			self::$paged = empty($_REQUEST['paged']) ? 1 : intval($_REQUEST['paged']);
 			self::$orderby = (isset($_REQUEST['orderby'])) ? $_REQUEST['orderby'] : '';
 			self::$order = (isset($_REQUEST['order'])) ? strtoupper($_REQUEST['order']) : 'ASC';
-			
+			self::$range = (isset($_REQUEST['range'])) ? $_REQUEST['range'] : 'all';
+			self::$month_start = (isset($_REQUEST['month_start'])) ? $_REQUEST['month_start'] : date('m');
+			self::$month_end = (isset($_REQUEST['month_end'])) ? $_REQUEST['month_end'] : date('m');
+			self::$day_start = (isset($_REQUEST['day_start'])) ? $_REQUEST['day_start'] : '1';
+			self::$day_end = (isset($_REQUEST['day_end'])) ? $_REQUEST['day_end'] : date('d');
+			self::$year_start = (isset($_REQUEST['year_start'])) ? $_REQUEST['year_start'] : date('Y');
+			self::$year_end = (isset($_REQUEST['year_end'])) ? $_REQUEST['year_end'] : date('Y');
+
 			/* set ordering vars */
 			self::$orderbys = array(
 				__( 'Date First Created' , 'leads' ) => 'date',
@@ -87,39 +101,39 @@ if (!class_exists('Leads_Manager')) {
 				__( 'Alphabetical Sort' , 'leads' ) => 'title',
 				__( 'Status' , 'leads' ) => 'post_status'
 			);
-			
+
 			/* set ordering vars */
 			self::$orderbys_flip = array_flip(self::$orderbys);
-			
+
 			/* number of leads affected by action if any */
 			self::$num = (isset($_REQUEST['num'])) ? intval($_REQUEST['num']) : 0;
 
 			self::$what = (isset($_REQUEST['what'])) ? htmlentities($_REQUEST['what']) : "";
 
 			self::$relation =  (isset($_REQUEST['relation'])) ? htmlentities($_REQUEST['relation']) : "AND";
-			
+
 			self::$on =  (isset($_REQUEST['on'])) ? htmlentities($_REQUEST['on']) : "";
 
 			self::$tag = (isset($_REQUEST['t'])) ? $_REQUEST['t'] : '';
-			
+
 			self::$keyword = (isset($_REQUEST['s'])) ? $_REQUEST['s'] : '';
 
 			self::$taxonomies = get_object_taxonomies( 'wp-lead' , 'objects' );
 		}
-		
+
 		/**
 		*  Enqueues admin scripts
-		*/				
+		*/
 		public static function enqueue_admin_scripts() {
 			$screen = get_current_screen();
 
 			if ( $screen->id != 'wp-lead_page_lead_management') {
 				return;
 			}
-			
+
 			wp_enqueue_script( array('jquery', 'jqueryui' , 'jquery-ui-selectable' , 'editor', 'thickbox', 'media-upload') );
-			wp_enqueue_script( 'selectjs', WPL_URLPATH . '/shared/assets/js/admin/select2.min.js');
-			wp_enqueue_style( 'selectjs', WPL_URLPATH . '/shared/assets/css/admin/select2.css');
+			wp_enqueue_script( 'selectjs', INBOUDNOW_SHARED_URLPATH . 'assets/js/admin/select2.min.js');
+			wp_enqueue_style( 'selectjs', INBOUDNOW_SHARED_URLPATH .'assets/css/admin/select2.css');
 			wp_enqueue_script( 'tablesort', WPL_URLPATH . '/js/management/tablesort.min.js');
 
 			wp_enqueue_script( 'light-table-filter', WPL_URLPATH . '/js/management/light-table-filter.min.js');
@@ -133,41 +147,41 @@ if (!class_exists('Leads_Manager')) {
 			wp_admin_css( 'thickbox' );
 			add_thickbox();
 		}
-		
+
 		/**
 		*  Displays main UI container
 		*/
 		public static function display_ui() {
 			global $wpdb;
-			
+
 			Inbound_Compatibility::inbound_compatibilities_mode(); // Load only our scripts
 
 			/* listen for and display notications */
 			self::display_notifications();
-			
+
 			/* display header */
 			self::display_headers();
-		
+
 			/* display filters */
 			self::display_filters();
 
 			/* build query */
 			self::build_query();
-			
+
 			/* display pagination if applicable */
 			self::display_pagination();
-			
+
 			/* display query reseults messages */
 			self::display_results_message();
-			
+
 			/* display results table */
 			self::display_results_table();
 
 			/* display actions */
 			self::display_row_actions();
-			
+
 		}
-		
+
 		/**
 		*  display notifications
 		*/
@@ -177,7 +191,7 @@ if (!class_exists('Leads_Manager')) {
 			if (!isset($_REQUEST['done'])) {
 				return;
 			}
-			
+
 			switch ( $_REQUEST['done'] ) {
 				case 'add':
 					$message = sprintf(__("Added %d posts to the list '%s'" , 'leads' ) , self::$num , self::$what );
@@ -186,7 +200,7 @@ if (!class_exists('Leads_Manager')) {
 					$message = sprintf(__("Removed %d posts from the list '%s'." , 'leads' ) , self::$num , self::$what );
 					break;
 				case 'tag':
-					$message = sprintf(__("Tagged %d posts with &ldquo; %s &rdquo; on $on." , 'leads' ) , self::$num , self::$what );
+					$message = sprintf(__("Tagged %d posts with &ldquo; %s &rdquo; on %s." , 'leads' ) , self::$num , self::$what, self::$on );
 					break;
 				case 'untag':
 					$message = sprintf(__("Untagged %d posts with '%s'" , 'leads' ) , self::$num , self::$what );
@@ -202,28 +216,28 @@ if (!class_exists('Leads_Manager')) {
 			</div>
 			<?php
 		}
-		
+
 		/**
 		*  display headers
 		*/
 		public static function display_headers() {
-			
+
 			?>
 			<div class="wrap">
 				<h2><?php _e('Lead Bulk Management' , 'leads'); ?></h2>
 
 			<?php
-			
+
 			/* echo starter text if search not being ran yet */
 			if ( !isset($_REQUEST['submit']) ){
 				echo '<p class="starter-text">'. __('To get started, select the lead criteria below to see all matching leads.' , 'leads' ) .'</p>';
 			}
-			
+
 			/* hide current page div */
 			echo "<div id='paged-current'>" . self::$paged . "</div>";
-		
+
 		}
-		
+
 		/**
 		*  Display filters
 		*/
@@ -233,14 +247,14 @@ if (!class_exists('Leads_Manager')) {
 				<form id="lead-management-form" method="get" action="edit.php">
 					<input type="hidden" name="page" value="lead_management" />
 					<input type="hidden" name="post_type" value="wp-lead" />
-			
-					<div id="top-filters"><?php 				
-					foreach (self::$taxonomies as $key => $taxonomy ) {	
+
+					<div id="top-filters"><?php
+					foreach (self::$taxonomies as $key => $taxonomy ) {
 						if ( !$taxonomy->hierarchical) {
 							continue;
 						}
 						?>
-						
+
 						<div  id="inbound-filter">
 							<div class="filter-label"><label for="taxonomy"><?php _e( sprintf( 'Select By %s:' , $taxonomy->labels->singular_name ) , 'leads' ); ?></label></div>
 							<?php echo self::build_taxonomy_select( $taxonomy , 'multiple' ); ?>
@@ -255,7 +269,23 @@ if (!class_exists('Leads_Manager')) {
 									<option value="OR" <?php echo ( self::$relation == 'OR' ? ' selected="selected"' : 'test' ); ?>><?php _e('Match Any' , 'leads' ); ?></option>
 
 							</select>
-						</div>					
+						</div>
+						<div id="inbound-filter">
+							<div class="filter-label">
+								<label for="date-range"><?php _e( 'Date Range:' , 'leads' ); ?></label>
+							</div>
+							<select name="range" id="range">
+									<option value="all" <?php echo ( self::$range == 'all' ? ' selected="selected"' : '' ); ?>><?php _e('All Time' , 'leads' ); ?></option>
+									<option value="custom" <?php echo ( self::$range == 'custom' ? ' selected="selected"' : '' ); ?>><?php _e('Custom Range' , 'leads' ); ?></option>
+							</select>
+						</div>
+						<div id="inbound-filter" class="custom-range" style="<?php echo ( self::$range == 'all' ? 'display:none' : '' ) ?>">
+							<div class="filter-label"><label for="orderby"></label></div>
+							<?php
+								self::build_date_select();
+							?>
+							</div>
+						</div>
 					</div>
 					<div id="bottom-filters">
 						<div class="filter" id="lead-sort-by">
@@ -273,15 +303,15 @@ if (!class_exists('Leads_Manager')) {
 								<option value="desc" <?php ( self::$order == 'DESC' ? ' selected="selected"' : '' ); ?>><?php _e( 'Descending' , 'leads' ); ?></option>
 							</select>
 						</div>
-		
 
 
-				
+
+
 						<div class="filter" id="lead-keyword-filter">
 							<label for="s"><?php _e('Keyword:' , 'leads'); ?></label>
 							<input type="text" name="s" id="s" value="<?php echo htmlentities(self::$keyword); ?>" title="<?php _e('Use % for wildcards.' , 'leads'); ?>" />
 						</div>
-			
+
 
 						<div class="filter" id="lead-tag-filter">
 							<label for="s"><?php _e( 'Tag:' , 'leads' ); ?></label>
@@ -297,29 +327,33 @@ if (!class_exists('Leads_Manager')) {
 			</div>
 			<?php
 		}
-		
+
 		/**
 		*  Display hidden input fields
 		*/
 		public static function display_hidden_action_fields() {
-			
+
 			wp_nonce_field('lead_management-edit');
-			
+
 			if ( isset($_REQUEST['s']) && !empty($_REQUEST['s']) ) {
 				echo '<input type="hidden" name="s" value="' . urlencode($_REQUEST['s']) . '" />';
 			}
-			
+
 			if ( isset($_REQUEST['t']) && !empty($_REQUEST['t']) ) {
 				echo '<input type="hidden" name="t" value="' . urlencode($_REQUEST['t']) . '" />';
 			}
 		}
-		
-		
+
+
 		/**
 		*  Display pagination
 		*/
 		public static function display_pagination() {
-				
+
+            if (!isset(self::$query)) {
+                return;
+            }
+
 			$pagination = '';
 			if ( isset(self::$query->max_num_pages) && self::$query->max_num_pages > 1 ) {
 				$current = preg_replace('/&?paged=[0-9]+/i', '', strip_tags($_SERVER['REQUEST_URI'])); // I'll happily take suggestions on a better way to do this, but it's 3am so
@@ -348,26 +382,26 @@ if (!class_exists('Leads_Manager')) {
 			}
 
 			echo $pagination;
-		
+
 		}
-		
+
 		/**
 		*  Display results query
 		*/
 		public static function display_results_message() {
-			
+
 			/* if no search return */
 			if (!isset($_GET['submit'])) {
 				return;
 			}
-			
+
 			/* if no posts show message */
 			if ( empty(self::$query->posts) ) {
-				echo '<p>'. __('No posts matched that criteria, sorry! Try again with something different.' , 'leads' ) .'</p>';
+				echo '<br><p>'. __('No posts matched that criteria, sorry! Try again with something different.' , 'leads' ) .'</p>';
 				return;
 			}
 
-			echo	'<div style="margin-top:20px;font-style:italic">';
+			echo	'<div style="margin-top:32px;font-style:italic">';
 			echo	'		<div id="display-lead-total">';
 			echo 	'			'. __( 'search returned ' , 'leads' ) .'<strong><span id="lead-total-found">'.self::$query->found_posts.' </span></strong>'. __( 'results' , 'leads' );
 			echo	'		</div>';
@@ -377,22 +411,22 @@ if (!class_exists('Leads_Manager')) {
 			echo	'		</div>';
 			echo 	'	<div class="table-search">';
 			echo 	'		<input type="search" class="light-table-filter" data-table="widefat" placeholder="'. __( 'Filter Results Below' , 'leads' ) .'" /><span id="search-icon"></span>';
-		
+
 			echo	'	</div>';
 			echo 	'</div>';
-		
+
 		}
-		
-		
+
+
 		/**
-		*  Display results table 
+		*  Display results table
 		*/
 		public static function display_results_table() {
-			
+
 			if (!isset(self::$query->posts)) {
 				return;
 			}
-			
+
 			?>
 			<form method="post" id="man-table" action="<?php echo admin_url( 'admin.php' ); ?>">
 				<input type="hidden" name="action" value="lead_action" />
@@ -406,35 +440,35 @@ if (!class_exists('Leads_Manager')) {
 							<th scope="col"><?php _e( 'Date' , 'leads' ); ?></th>
 							<th scope="col"><?php _e( 'Email' , 'leads' ); ?></th>
 							<?php
-							foreach (self::$taxonomies as $key => $taxonomy ) {	
+							foreach (self::$taxonomies as $key => $taxonomy ) {
 								if ( !$taxonomy->hierarchical) {
 									continue;
 								}
 								echo '<th scope="col">'. $taxonomy->labels->name .'</th>';
 							}
 							?>
-							
+
 							<th scope="col"><?php _e( 'Current Tags' , 'leads' ); ?></th>
 							<th scope="col" class="no-sort"><?php _e( 'View' , 'leads' ); ?></th>
 							<th scope="col"><?php _e( 'ID' , 'leads' ); ?></th>
 						</tr>
 					</thead>
-					<tbody id="the-list">			
+					<tbody id="the-list">
 					<?php
-					
+
 					$loop_count = 1;
 					$i = 0;
-					
+
 					foreach ( self::$query->posts as $post ) {
 
 						echo '<tr' . ( $i++ % 2 == 0  ? ' class="alternate"' : '' ) .'>';
-						
+
 						/* show checkbox */
 						echo '<td><input class="lead-select-checkbox" type="checkbox" name="ids[]" value="' . $post->ID . '" /></td>';
-						
+
 						/* show count */
 						echo '<td class="count-sort"><span>'.$loop_count.'</span></td>';
-						
+
 						/* show publish date */
 						echo '<td>';
 						if ( '0000-00-00 00:00:00' == $post->post_date ) {
@@ -443,14 +477,14 @@ if (!class_exists('Leads_Manager')) {
 							echo date(__('Y/m/d'), strtotime($post->post_date));
 						}
 						echo '</td>';
-						
+
 						/* show email */
 						echo '<td>';
 						echo '	<span class="lead-email">' . $post->post_title . '</span>';
 						echo '</td>';
-				
+
 						/* show lists */
-						foreach (self::$taxonomies as $key => $taxonomy ) {	
+						foreach (self::$taxonomies as $key => $taxonomy ) {
 							if ( !$taxonomy->hierarchical) {
 								continue;
 							}
@@ -460,26 +494,26 @@ if (!class_exists('Leads_Manager')) {
 									echo  '<span class="list-pill">' . $term->name . ' <i title="'. __( sprintf( 'Remove this lead from the %s list' , $term->name ) , 'leads' ).'" class="remove-from-taxonomy" data-lead-id="'.$post->ID.'" data-taxonomy="'.$taxonomy->query_var.'" data-taxonomy-id="'.$term->term_id.'"></i></span> ';
 								}
 							echo '</td>';
-						}						
-				
+						}
+
 						/* show tags */
 						echo '<td class="tags-column-row">';
 							$_tags = wp_get_post_terms( $post->ID, 'lead-tags', 'id' );
-							
+
 							if ($_tags) {
 								foreach ( $_tags as $tag ) {
 									echo  "<a title='Click to Edit Lead Tag Name' target='_blank' href='".admin_url('edit-tags.php?action=edit&taxonomy=lead-tags&tag_ID='.$tag->term_id.'&post_type=wp-lead')."'>$tag->name</a>, ";
 								}
 							} else {
 								_e( 'No tags' , 'leads' );
-							}					
+							}
 						echo '</td>';
 
 						/* show link to lead */
 						echo '<td>';
 						echo '	<a class="thickbox" href="post.php?action=edit&post=' . $post->ID . '&amp;small_lead_preview=true&amp;TB_iframe=true&amp;width=1345&amp;height=244">'.__( 'View' , 'leads' ) .'</a>';
 						echo '</td>';
-						
+
 						/* show lead id */
 						echo '<td>' . $post->ID . '</td>';
 						echo '</tr>';
@@ -487,9 +521,9 @@ if (!class_exists('Leads_Manager')) {
 					}
 				echo '</tbody>';
 				echo '</table>';
-		
+
 		}
-		
+
 		/**
 		*  Display Row Actions
 		*/
@@ -515,24 +549,24 @@ if (!class_exists('Leads_Manager')) {
 				<div class="action" id="lead-update-lists">
 					<label for="lead-update-lists"><?php _e( 'Choose List:' , 'leads' ); ?></label>
 					<?php
-					
+
 					/* get available terms in taxonomy */
 					$terms = get_terms('wplead_list_category' , array( 'hide_empty' => false ));
-					
+
 					/* setup the select */
 					echo '<select name="wplead_list_category_action">';
-					
+
 					/* print the first option */
 					echo '<option class="" value="" selected="selected">' .  __( 'Select lead list ' , 'leads' ) .'</option>';
-			
+
 					/* loop through terms and create options */
 					foreach ($terms as $term) {
 						echo '<option class="" value="'.$term->term_id.'" >'. $term->name.' ('.$term->count.')</option>';
 					}
-					
+
 					/* end select input */
 					echo '</select>';
-					
+
 					?>
 					<input type="submit" class="button-primary button" name="add" value="<?php _e('Add to' , 'leads' ) ?>" title="<?php _e( 'Add the selected posts to this category.' , 'leads' ); ?>" />
 					<input type="submit" class="manage-remove button-primary button" name="remove" value="<?php _e( 'Remove from' , 'leads' ) ?>" title="<?php _e( 'Remove the selected posts from this category.' , 'leads' ); ?>" />
@@ -563,14 +597,14 @@ if (!class_exists('Leads_Manager')) {
 				</div>
 			</div>
 
-			<?php			
+			<?php
 			self::display_hidden_action_fields();
 			?>
 			</form>
 			</div>
 			<?php
 		}
-		
+
 		/**
 		*  Display action controls
 		*/
@@ -607,7 +641,28 @@ if (!class_exists('Leads_Manager')) {
 			</script>
 		<?php
 		}
-		
+
+		/**
+		*  Get array of months
+		*/
+		public static function get_months() {
+			return array(
+				"1" => __( 'Jan' , 'leads' ),
+				"2" => __( 'Feb' , 'leads' ),
+				"3" => __( 'Mar' , 'leads' ),
+				"4" => __( 'Apr' , 'leads' ),
+				"5" => __( 'May' , 'leads' ),
+				"6" => __( 'Jun' , 'leads' ),
+				"7" => __( 'Jul' , 'leads' ),
+				"8" => __( 'Aug' , 'leads' ),
+				"9" => __( 'Sep' , 'leads' ),
+				"10" => __( 'Oct' , 'leads' ),
+				"11" => __( 'Nov' , 'leads' ),
+				"12" => __( 'Dec' , 'leads' )
+			);
+		}
+
+
 		/**
 		*  Build query
 		*/
@@ -616,7 +671,7 @@ if (!class_exists('Leads_Manager')) {
 				self::$query = null;
 				return;
 			}
-			
+
 			/* set default args */
 			$args = array(
 				'post_type' => 'wp-lead',
@@ -624,10 +679,10 @@ if (!class_exists('Leads_Manager')) {
 				'orderby' => self::$orderby,
 				'posts_per_page' => self::$per_page,
 			);
-				
+
 			/* listen for on request - not sure what this does */
 			if (isset($_REQUEST['on'])){
-				$on_val = explode(",", $on);
+				$on_val = explode(",", self::$on);
 				$args['post__in'] = $on_val;
 				$args['order'] = 'DESC';
 				$args['orderby'] = 'date';
@@ -635,19 +690,19 @@ if (!class_exists('Leads_Manager')) {
 
 			/* set tax_query_relation */
 			$tax_query = array( 'relation' => $_REQUEST['relation'] );
-			
+
 			/* loop through taxonomies and check for filter */
-			foreach (self::$taxonomies as $key => $taxonomy ) {	
+			foreach (self::$taxonomies as $key => $taxonomy ) {
 				if ( !$taxonomy->hierarchical) {
 					continue;
 				}
-				
+
 				if ( !isset( $_REQUEST[ $taxonomy->query_var ] ) ||  !$_REQUEST[ $taxonomy->query_var ] ||  $_REQUEST[ $taxonomy->query_var ][0] == 'all'){
 					continue;
 				}
-				
+
 				/* build tax_query */
-				
+
 				foreach(  $_REQUEST[ $taxonomy->query_var ] as $values) {
 					$tax_query[] = array(
 						'taxonomy' => $taxonomy->query_var,
@@ -655,32 +710,108 @@ if (!class_exists('Leads_Manager')) {
 						'terms'    => array($values)
 					);
 				}
-			}	
-			
+			}
+
 			if (count($tax_query)>1) {
 				$args['tax_query'] = $tax_query;
 			}
 
+			/* Look for and build date query */
+			if (isset($_REQUEST['range']) && $_REQUEST['range'] == 'custom') {
+				$args['date_query'] = array(
+					array(
+						'after'     => array(
+							'year'  => $_REQUEST['year_start'],
+							'month' => $_REQUEST['month_start'],
+							'day'   => $_REQUEST['day_start']
+						),
+						'before'    => array(
+							'year'  => $_REQUEST['year_end'],
+							'month' => $_REQUEST['month_end'],
+							'day'   => $_REQUEST['day_end']
+						),
+						'inclusive' => true,
+					)
+				);
+
+			}
+
 			// Add tag to query
-			if ((isset($_REQUEST['t'])) && $_REQUEST['t'] != "" ){
+			if (isset($_REQUEST['t']) && $_REQUEST['t'] != "" ){
 				$args['tag'] = $_REQUEST['t'];
 			}
-			
+
 			if ((isset($_REQUEST['paged'])) && $_REQUEST['paged'] != "1" ){
 				$args['paged'] = self::$paged;
 			}
 
 			self::$query = new WP_Query( $args );
-			
+
 		}
-		
-		
-		
+
+
+		/**
+		*  Display Date Selection Input
+		*/
+		public static function build_date_select() {
+			$months = self::get_months();
+			$years = range(date('Y'), 2000);
+			?>
+			<div id="leads-date-range-options" style="">
+				<select id="month_start" name="month_start">
+					<?php
+					foreach ($months as $val => $label ) {
+						echo '<option value="'.$val.'" '.( self::$month_start == $val ? 'selected="selected"' : '' ) .'>'.$label.'</option>';
+					}
+					?>
+				</select>
+				<select id="day_start" name="day_start">
+					<?php
+					for ($i=0;$i<31;$i++) {
+						echo '<option value="'.$i.'" '.( self::$day_start == $i ? 'selected="selected"' : '' ) .'>'.$i.'</option>';
+					}
+					?>
+				</select>
+				<select id="year_start" name="year_start">
+					<?php
+					foreach ($years as $year ) {
+						echo '<option value="'.$year.'" '.( self::$year_start == $year ? 'selected="selected"' : '' ) .'>'.$year.'</option>';
+					}
+					?>
+				</select>
+				<span><?php _e( 'To' , 'leads' ); ?>&nbsp;</span>
+				<select id="month_end" name="month_end">
+					<?php
+					foreach ($months as $val => $label ) {
+						echo '<option value="'.$val.'" '.( self::$month_end == $val ? 'selected="selected"' : '' ) .'>'.$label.'</option>';
+					}
+					?>
+				</select>
+				<select id="day_end" name="day_end">
+					<?php
+					for ($i=0;$i<31;$i++) {
+						echo '<option value="'.$i.'" '.( self::$day_end == $i ? 'selected="selected"' : '' ) .'>'.$i.'</option>';
+					}
+					?>
+				</select>
+				</select>
+				<select id="year_end" name="year_end">
+					<?php
+					foreach ($years as $year ) {
+						echo '<option value="'.$year.'" '.( self::$year_end == $year ? 'selected="selected"' : '' ) .'>'.$year.'</option>';
+					}
+					?>
+				</select>
+			</div>
+			<?php
+		}
+
+
 		/**
 		*  get taxnomy select
 		*/
 		public static function build_taxonomy_select( $taxonomy ) {
-			
+
 			/* create the select input */
 			echo '<select name="'. $taxonomy->query_var.'[]" id="'. $taxonomy->query_var.'" multiple class="select2 form-control">';
 
@@ -689,15 +820,15 @@ if (!class_exists('Leads_Manager')) {
 
 			/* print the first option */
 			echo '<option class="" value="all" '. ( isset($_REQUEST[ $taxonomy->query_var ]) && $_REQUEST[ $taxonomy->query_var ][0] === 'all'  ? 'selected="selected"' : '' ). '>' .  __( 'All ' , 'leads' ) .'</option>';
-			
+
 			/* get available terms in taxonomy */
 			$terms = get_terms( $taxonomy->query_var , array( 'hide_empty' => false	));
-			
+
 			/* loop through terms and create options */
 			foreach ($terms as $term) {
 				echo '<option class="" value="'.$term->term_id.'" '.(isset($_REQUEST[ $taxonomy->query_var ]) && in_array($term->term_id, $list_array)  ? 'selected="selected"' : '' ) .'>'. $term->name.' ('.$term->count.')</option>';
 			}
-			
+
 			/* end select input */
 			echo '</select>';
 			?>
@@ -706,24 +837,25 @@ if (!class_exists('Leads_Manager')) {
 					allowClear: true,
 					placeholder: '<?php _e(  sprintf( 'Select %s From List' , $taxonomy->labels->singular_name ) , 'leads' ); ?>'
 				});
-			
+
 			</script>
 			<?php
 
 		}
-		
+
 		/**
 		*  Perform lead actions
 		*/
 		public static function perform_actions() {
 			global $Inbound_Leads;
 
-			if ( !current_user_can('level_9') ){
-				die ( __('User does not have admin level permissions.') );
-			}
-			
+			$referrer = $_REQUEST['_wp_http_referer'];
+			$params = explode( '?' , $referrer );
+
+			parse_str( $params[1] , $params );
+
 			check_admin_referer('lead_management-edit');
-			
+
 			$_POST = stripslashes_deep($_POST);
 			$_REQUEST = stripslashes_deep($_REQUEST);
 
@@ -751,32 +883,36 @@ if (!class_exists('Leads_Manager')) {
 				$query = '&t=' . $_REQUEST['t'];
 			}
 
-			$term = get_term( $_REQUEST['wplead_list_category_action'], 'wplead_list_category' );
-			$name = $term->slug;
-			$this_tax = "wplead_list_category";
+
 
 			/* We've been told to tag these posts with the given category. */
 			if ( !empty($_REQUEST['add']) )	{
 
-				foreach ( $_REQUEST['ids'] as $id )
-				{
+                $term = get_term( $_REQUEST['wplead_list_category_action'], 'wplead_list_category' );
+                $name = $term->slug;
+
+				foreach ( $_REQUEST['ids'] as $id ) {
 					$fid = intval($id);
 					$Inbound_Leads->add_lead_to_list( $fid, $list_id ); // add to list
 				}
 
-				wp_redirect(get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&done=add&what=" . $name . "&num=".self::$num.$query);
+				wp_redirect( add_query_arg( $params ,  $get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&done=add&what=" . $name . "&num=".self::$num.$query ) );
 				die;
 			}
 			/* We've been told to remove these posts from the given category. */
-			elseif ( !empty($_REQUEST['remove']) ) { 
+			elseif ( !empty($_REQUEST['remove']) ) {
+
+                $term = get_term( $_REQUEST['wplead_list_category_action'], 'wplead_list_category' );
+                $name = $term->slug;
 
 				foreach ( (array) $_REQUEST['ids'] as $id )	{
 					$Inbound_Leads->remove_lead_from_list( intval($id) , $list_id );
 				}
 
-				wp_redirect(get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&done=remove&what=" . $name . "&num=".self::$num);
+				wp_redirect( add_query_arg( $params , get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&done=remove&what=" . $name . "&num=".self::$num ) );
 				die;
 			}
+
 			/* We've been told to tag these posts */
 			elseif ( !empty($_REQUEST['tag']) || !empty($_REQUEST['replace_tags']) ) {
 				$tags = $_REQUEST['tags'];
@@ -784,9 +920,10 @@ if (!class_exists('Leads_Manager')) {
 				foreach ( (array) $_REQUEST['ids'] as $id )	{
 					$Inbound_Leads->add_tag_to_lead( intval($id) , explode( ',' , $tags ) );
 				}
-				wp_redirect(get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&done=tag&what=$tags&num=".self::$num.$query."&on=$pass_ids");
+				wp_redirect( add_query_arg( $params , get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&done=tag&what=$tags&num=".self::$num.$query."&on=$pass_ids" ) );
 				die;
 			}
+
 			/* We've been told to untag these posts */
 			elseif ( !empty($_REQUEST['untag']) ) {
 				$tags = explode(',', $_REQUEST['tags']);
@@ -797,10 +934,8 @@ if (!class_exists('Leads_Manager')) {
 					$existing = wp_get_post_tags($id);
 					$new = array();
 
-					foreach ( (array) $existing as $_tag )
-					{
-						foreach ( (array) $tags as $tag )
-						{
+					foreach ( (array) $existing as $_tag ) {
+						foreach ( (array) $tags as $tag ) {
 							if ( $_tag->name != $tag ) {
 								$new[] = $_tag->name;
 							}
@@ -810,18 +945,21 @@ if (!class_exists('Leads_Manager')) {
 				}
 
 				$tags = join(', ', $tags);
-				wp_redirect(get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&done=untag&what=$tags&num=self::$num$query");
+				wp_redirect( add_query_arg( $params , get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&done=untag&what=$tags&num=self::$num$query" ) );
 				die;
 			}
 			/* Delete selected leads */
 			elseif ( !empty($_REQUEST['delete_leads']) ) {
-				foreach ( (array) $_REQUEST['ids'] as $id )
-				{
+
+                $term = get_term( $_REQUEST['wplead_list_category_action'], 'wplead_list_category' );
+                $name = $term->slug;
+
+				foreach ( (array) $_REQUEST['ids'] as $id ) {
 					$id = intval($id);
 					wp_delete_post( $id, true);
 				}
 
-				wp_redirect(get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&done=delete_leads&what=" . $name . "&num=self::$num$query");
+				wp_redirect( add_query_arg( $params , get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&done=delete_leads&what=" . $name . "&num=self::$num$query" ) );
 				die;
 
 			}
@@ -838,47 +976,82 @@ if (!class_exists('Leads_Manager')) {
 
 				$fh = @fopen( 'php://output', 'w' );
 
-				//get all keys
+                /* inject date created into column */
+                $lead_meta_pairs['wpleads_date_created'] = 'wpleads_date_created';
+
+
+				/* get all meta keys */
 				foreach ( (array) $_REQUEST['ids'] as $post_id ) {
 					$this_lead_data = get_post_custom($post_id);
+
+                    /* unset unneeded data objects */
 					unset($this_lead_data['page_views']);
 					unset($this_lead_data['wpleads_inbound_form_mapped_data']);
 					unset($this_lead_data['wpleads_referral_data']);
 					unset($this_lead_data['wpleads_conversion_data']);
 					unset($this_lead_data['wpleads_raw_post_data']);
+
 
 					foreach ($this_lead_data as $key => $val) {
 						$lead_meta_pairs[$key] = $key;
 					}
+
 				}
 
-				// Add a header row if it hasn't been added yet
+				/* get all taxonomies */
+				$taxonomies = get_object_taxonomies( 'wp-lead', 'objects' );
+
+				foreach ($taxonomies as $tax=>$taxonomy) {
+					$lead_meta_pairs[$tax] = $taxonomy->labels->singular_name;
+				}
+
+
+
+				/* Add a header row if it hasn't been added yet */
 				fputcsv($fh, array_keys($lead_meta_pairs));
 				$headerDisplayed = true;
 
-
-
+				/* loop through records */
 				foreach ( (array) $_REQUEST['ids'] as $post_id ) {
 					unset($this_row_data);
 
 					$this_lead_data = get_post_custom($post_id);
-					unset($this_lead_data['page_views']);
-					unset($this_lead_data['wpleads_inbound_form_mapped_data']);
-					unset($this_lead_data['wpleads_referral_data']);
-					unset($this_lead_data['wpleads_conversion_data']);
-					unset($this_lead_data['wpleads_raw_post_data']);
+                    $post = get_post( $post_id );
 
+                    /* insert date create */
+                    $this_row_data['wpleads_date_created'] = $post->post_date;
+                    unset($lead_meta_pairs['wpleads_date_created']);
+
+					/* loop through cols and see if lead contains meta value for given key */
 					foreach ($lead_meta_pairs as $key => $val) {
 
 						if (isset($this_lead_data[$key])) {
 							$val = $this_lead_data[$key];
-							if (is_array($val))
+							if (is_array($val)) {
 								$val = implode(';',$val);
+							}
 						} else {
 							$val = "";
 						}
 
 						$this_row_data[$key] = 	$val;
+					}
+
+					/* loop through taxonomy and see if this lead has taxonomy associations */
+					foreach ($taxonomies as $tax=>$taxonomy) {
+						$terms = wp_get_post_terms( $post_id, $tax, array() );
+
+						if (!$terms) {
+							continue;
+						}
+
+						$terms_array = array();
+
+						foreach ($terms as $t ) {
+							$terms_array[] = $t->slug;
+						}
+
+						$this_row_data[$tax] = ( isset($terms_array) ) ?  implode( ',' , $terms_array ) : '';
 					}
 
 					fputcsv($fh, $this_row_data , apply_filters('leads_csv_delimiter' , ',' ) );
@@ -891,37 +1064,37 @@ if (!class_exists('Leads_Manager')) {
 				exit;
 
 			}
-			
-			
+
+
 			die("Invalid action.");
-		
+
 		}
 
-		
+
 		/**
 		*  Ajax listener to load more leads
 		*/
 		public static function ajax_load_more_leads() {
-			
+
 			/* build query */
 			self::build_query();
-	
+
 			$i = 0;
 
 			$loop_page = self::$paged - 1;
 			$loop_count = $loop_page * 60;
 			$loop_count = $loop_count + 1;
-			
+
 			foreach ( self::$query->posts as $post ) {
 
 				echo '<tr' . ( $i++ % 2 == 0  ? ' class="alternate"' : '' ) .'>';
-				
+
 				/* show checkbox */
 				echo '<td><input class="lead-select-checkbox" type="checkbox" name="ids[]" value="' . $post->ID . '" /></td>';
-				
+
 				/* show count */
 				echo '<td class="count-sort"><span>'.$loop_count.'</span></td>';
-				
+
 				/* show publish date */
 				echo '<td>';
 				if ( '0000-00-00 00:00:00' == $post->post_date ) {
@@ -930,14 +1103,14 @@ if (!class_exists('Leads_Manager')) {
 					echo date(__('Y/m/d'), strtotime($post->post_date));
 				}
 				echo '</td>';
-				
+
 				/* show email */
 				echo '<td>';
 				echo '	<span class="lead-email">' . $post->post_title . '</span>';
 				echo '</td>';
-		
+
 				/* show lists */
-				foreach (self::$taxonomies as $key => $taxonomy ) {	
+				foreach (self::$taxonomies as $key => $taxonomy ) {
 					if ( !$taxonomy->hierarchical) {
 						continue;
 					}
@@ -948,25 +1121,25 @@ if (!class_exists('Leads_Manager')) {
 						}
 					echo '</td>';
 				}
-		
+
 				/* show tags */
 				echo '<td class="tags-column-row">';
 					$_tags = wp_get_post_terms( $post->ID, 'lead-tags', 'id' );
-					
+
 					if ($tags) {
 						foreach ( $_tags as $tag ) {
 							echo  "<a title='Click to Edit Lead Tag Name' target='_blank' href='".admin_url('edit-tags.php?action=edit&taxonomy=lead-tags&tag_ID='.$tag->term_id.'&post_type=wp-lead')."'>$tag->name</a>, ";
 						}
 					} else {
 						_e( 'No tags' , 'leads' );
-					}					
+					}
 				echo '</td>';
 
 				/* show link to lead */
 				echo '<td>';
 				echo '	<a class="thickbox" href="post.php?action=edit&post=' . $post->ID . '&amp;small_lead_preview=true&amp;TB_iframe=true&amp;width=1345&amp;height=244">'.__( 'View' , 'leads' ) .'</a>';
 				echo '</td>';
-				
+
 				/* show lead id */
 				echo '<td>' . $post->ID . '</td>';
 				echo '</tr>';
@@ -974,8 +1147,8 @@ if (!class_exists('Leads_Manager')) {
 			}
 
 		}
-		
-		
+
+
 		/**
 		*  Ajax listener to delete lead from list
 		*/
@@ -985,7 +1158,7 @@ if (!class_exists('Leads_Manager')) {
 			$taxonomy = (isset($_POST['taxonomy'])) ? $_POST['taxonomy'] : '';
 			$taxonomy_id = (isset($_POST['taxonomy_id'])) ? $_POST['taxonomy_id'] : '';
 
-			$id = $lead_id;		
+			$id = $lead_id;
 
 			$current_terms = wp_get_post_terms( $id, $taxonomy , 'id' );
 			$current_terms_count = count($terms);
@@ -1010,6 +1183,6 @@ if (!class_exists('Leads_Manager')) {
 		}
 
 	}
-	
+
 	new Leads_Manager;
 }

@@ -1,3 +1,5 @@
+![](https://travis-ci.org/inboundnow/cta.svg?branch=master)
+
 # WordPress Calls to Action #
 
 **Contributors:** David Wells, Hudson Atwell  

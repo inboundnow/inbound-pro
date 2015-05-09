@@ -1,3 +1,5 @@
+![](https://travis-ci.org/inboundnow/leads.svg?branch=master)
+
 # WordPress Leads #
 
 **Contributors:** David Wells, Hudson Atwell  

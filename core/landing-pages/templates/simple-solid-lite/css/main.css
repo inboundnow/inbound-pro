@@ -2,7 +2,7 @@
  * Responsive design
  */
 
- 
+
 
 @media handheld, screen and  (max-width: 1050px) {
 
@@ -10,35 +10,35 @@
 	width:100% !important;
 	padding:10px !important;
   }
-  
+
   .inner {
 	width:100% !important;
   }
 
-  
+
 }
 
 @media handheld, screen and  (max-width: 600px) {
-	
+
 	header {
 		height: 124px !important;
 	}
 	.logo {
 		float:left !important;
 	}
-	
+
 	.network {
 		width: 100% !important;
 		text-align:left !important;
 	}
-	
+
 	.form {
 		width: 100% !important;
 	}
-  
+
 }
 
- 
+
 /* GENERAL */
 
 * {
@@ -220,7 +220,7 @@ a:hover {
   margin: 40px auto 20px auto;
 }
 
-input[type="text"], input[type="number"], input[type="email"] {
+input[type="text"], input[type="number"], input[type="email"], select {
   background: #fff;
   border: 2px solid #fff;
   width: 100%;

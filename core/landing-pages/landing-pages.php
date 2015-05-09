@@ -131,7 +131,6 @@ if (!class_exists('Inbound_Landing_Pages_Plugin')) {
 					include_once('modules/module.javascript-admin.php');
 					include_once('classes/class.activation.php');
 					include_once('classes/class.activation.upgrade-routines.php');
-					include_once('classes/class.variations.php');
 					include_once('modules/module.global-settings.php');
 					include_once('modules/module.clone.php');
 					include_once('modules/module.extension-updater.php');
@@ -141,6 +140,7 @@ if (!class_exists('Inbound_Landing_Pages_Plugin')) {
 					include_once('modules/module.install.php');
 					include_once('modules/module.alert.php');
 					include_once('modules/module.metaboxes.php');
+					include_once('modules/module.metaboxes-global.php');
 					include_once('modules/module.landing-page.php');
 					include_once('classes/class.load-extensions.php');
 					include_once('modules/module.post-type.php');
@@ -154,8 +154,7 @@ if (!class_exists('Inbound_Landing_Pages_Plugin')) {
 					include_once('modules/module.click-tracking.php');
 					include_once('modules/module.templates.php');
 					include_once('modules/module.store.php');
-					include_once('modules/module.customizer.php');					
-					include_once('classes/class.inbound-statistics.php');
+					include_once('modules/module.customizer.php');
 					//include_once('classes/class.branching.php');
 
 
@@ -163,7 +162,6 @@ if (!class_exists('Inbound_Landing_Pages_Plugin')) {
 
 				case false :
 					/* load front-end files */
-					include_once('classes/class.variations.php');
 					include_once('modules/module.javascript-frontend.php');
 					include_once('modules/module.post-type.php');
 					include_once('modules/module.track.php');
@@ -184,10 +182,8 @@ if (!class_exists('Inbound_Landing_Pages_Plugin')) {
 
 		/** Load Shared Files at priority 2 */
 		private static function load_shared_files() {
-			if (!defined('INBOUND_PRO_CURRENT_VERSION')) {
-				require_once('shared/classes/class.load-shared.php');
-				add_action( 'plugins_loaded', array( 'Inbound_Load_Shared' , 'init' ) , 2 );
-			}
+			require_once('shared/classes/class.load-shared.php');
+			add_action( 'plugins_loaded', array( 'Inbound_Load_Shared' , 'init' ) , 2 );
 		}
 
 		/**

@@ -14,6 +14,7 @@ class Inbound_Pro_Downloads {
 	static $downloads; /* improved dataset of loaded downloads */
 	static $download; /* focus dataset being processed */
 	static $headline; /* UI headline */
+	static $customer; /* sets customer status */
 
 	/**
 	*	Initializes class
@@ -110,60 +111,18 @@ class Inbound_Pro_Downloads {
 		/* load pclzip */
 		include_once( ABSPATH . '/wp-admin/includes/class-pclzip.php');
 
-		// WP remote post to API server
-		$settings_values = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
-		$license_key = $settings_values['license-key']['license-key'];
+		/* get zip URL from api server */
+		$download_location = Inbound_API_Wrapper::get_download_zip( array(
+		    'filename' => $_REQUEST['filename'] ,
+		    'type' =>  $_REQUEST['download_type']
+		));
 
-		$download = $_REQUEST['download'];
-		$domain = "$_SERVER[HTTP_HOST]";
-		//echo $domain; exit;
-		//$url = "http://localhost:3001/api/test"; // localhost
-		//$license_key = "0zGT1rp34AFx5POW11gNUSJUNJC5zZ4P";
-		$url = "http://api.inboundnow.com/api/test"; // live api
-		$response = wp_remote_post( $url, array(
-					'method' => 'POST',
-					'timeout' => 45,
-					'redirection' => 5,
-					'httpversion' => '1.0',
-					'blocking' => true,
-					'headers' => array(),
-					'body' => array( 'download' => $download,
-									 'site' => $domain,
-									 'api' => $license_key )
-				    )
-				);
-
-		if ( is_wp_error( $response ) ) {
-		   $error_message = $response->get_error_message();
-		   echo "Something went wrong: $error_message";
-		} else {
-		   //echo 'Response:<pre>';
-		   $json = $response['body'];
-		   //print_r( $response['body'] );
-		   $array = json_decode($json, true);
-		   //print_r($array);
-		   if(isset($array['error'])) {
-		   		echo $array['error']; exit;
-		   }
-
-		  if(isset($array['url'])) {
-		  	$file = $array['url'];
-		  }
-		   //print_r( $response );
-		   //echo '</pre>';
-		   //exit;
-		}
-
-		//if($response['body'])
-
-		/* get pro templates dataset */
+		/* get downloads dataset */
 		self::build_main_dataset();
 
 		/* get download array from */
 		self::$download = self::$downloads[ $_REQUEST['download'] ];
-		echo "from node api_:   " . $file . "<br>";
-		echo "from php script: "; print_r(self::$download['fileserver']);
-		exit;
+
 		/* get upload path from download data */
 		$extraction_path = self::get_upload_path( self::$download );
 
@@ -175,7 +134,7 @@ class Inbound_Pro_Downloads {
 
 		/* get zip file contents from svn */
 		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, $file); // remove self::$download['fileserver'];
+		curl_setopt($ch, CURLOPT_URL, $download_location );
 		curl_setopt($ch, CURLOPT_HEADER, false);
 		curl_setopt($ch, CURLOPT_FAILONERROR, true);
 		curl_setopt($ch, CURLOPT_AUTOREFERER, true);
@@ -268,25 +227,34 @@ class Inbound_Pro_Downloads {
 
 
 	/**
-	* deletes plugin folder
+	* deletes download folder from uploads location
 	* @param STRING $dirPath
 	*/
 	public static function delete_download_folder( $dirPath ) {
 
-		if ( $dirPath && is_dir($dirPath)) {
-			$objects = scandir($dirPath);
-			foreach ($objects as $object) {
-				if ($object != "." && $object !="..") {
-					if (filetype($dirPath . DIRECTORY_SEPARATOR . $object) == "dir") {
-						self::delete_download_folder($dirPath . DIRECTORY_SEPARATOR . $object);
-					} else {
-						unlink($dirPath . DIRECTORY_SEPARATOR . $object);
-					}
-				}
-			}
-			reset($objects);
-			rmdir($dirPath);
-		}
+		if ( !$dirPath || is_dir($dirPath)) {
+		    return;
+        }
+
+        /* get all objects in folder */
+        $objects = scandir($dirPath);
+
+        /* if there is a .git directory assume local development and bail */
+        if ( in_array( $objects , '.git' ) ) {
+            return;
+        }
+
+        foreach ($objects as $object) {
+            if ($object != "." && $object !="..") {
+                if (filetype($dirPath . DIRECTORY_SEPARATOR . $object) == "dir") {
+                    self::delete_download_folder($dirPath . DIRECTORY_SEPARATOR . $object);
+                } else {
+                    unlink($dirPath . DIRECTORY_SEPARATOR . $object);
+                }
+            }
+        }
+        reset($objects);
+        rmdir($dirPath);
 
 	}
 
@@ -427,6 +395,8 @@ class Inbound_Pro_Downloads {
 	*  Loop through downloads datset and display grid items
 	*/
 	public static function display_grid_items() {
+       self::$customer = Inbound_Pro_Plugin::get_customer_status();
+
 		?>
 
 		<div class="wrap">
@@ -497,10 +467,10 @@ class Inbound_Pro_Downloads {
 
 						<div class="col-template-actions">
 							<?php
-							if ( in_array( 'uninstalled' , $download['status'] ) ) {
+							if ( in_array( 'uninstalled' , $download['status'] ) &&  self::$customer ) {
 								?>
 								<div class="action-install">
-									<a  href="admin.php?page=<?php echo $_GET['page']; ?>&action=install&download=<?php echo $download['post_name']; ?>" class="power-toggle power-is-off fa fa-power-off"  data-toggle="tooltip" id='<?php echo $download['post_name']; ?>' title='<?php _e( 'Turn On' , 'inbound-pro' ); ?>'></a>
+									<a  href="admin.php?page=<?php echo $_GET['page']; ?>&action=install&download=<?php echo $download['post_name']; ?>&download_type=<?php echo $download['download_type']; ?>&filename=<?php echo $download['zip_filename']; ?>" class="power-toggle power-is-off fa fa-power-off"  data-toggle="tooltip" id='<?php echo $download['post_name']; ?>' title='<?php _e( 'Turn On' , 'inbound-pro' ); ?>'></a>
 								</div>
 								<?php
 							}
@@ -522,6 +492,13 @@ class Inbound_Pro_Downloads {
 									<?php
 								}
 							}
+							if (!self::$customer) {
+                                ?>
+                                <div class="action-locked">
+                                  <i class="fa fa-lock"  data-toggle="tooltip" id='' title='<?php _e( 'Active license required to install.' , 'inbound-pro' ); ?>'></i>
+                                </div>
+                                 <?php
+                            }
 							?>
 						</div>
 					</div>

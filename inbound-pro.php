@@ -111,9 +111,12 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 		*/
 		private static function load_core_components() {
 
-			include_once('core/cta/calls-to-action.php');
-			include_once('core/leads/leads.php');
-			include_once('core/landing-pages/landing-pages.php');
+            include_once('core/cta/calls-to-action.php');
+            include_once('core/leads/leads.php');
+            include_once('core/landing-pages/landing-pages.php');
+            if (!self::get_customer_status()) {
+                return;
+            }
 			include_once('core/inbound-mailer/inbound-mailer.php');
 			include_once('core/inbound-automation/inbound-automation.php');
 
@@ -132,6 +135,8 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 
 			/* Admin Only */
 			if (is_admin()) {
+                include_once( INBOUND_PRO_PATH . 'assets/plugins/plugin-updater/plugin-update-checker.php');
+                include_once( INBOUND_PRO_PATH . 'classes/admin/class.updater.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.activate.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.menus.adminmenu.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.lead-field-mapping.php');
@@ -148,6 +153,15 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 
 
 		}
+
+        /**
+         * Get customer status
+         */
+        public static function get_customer_status() {
+            $customer = Inbound_Options_API::get_option( 'inbound-pro' , 'customer' , array() );
+            $status = ( isset($customer['active']) ) ? $customer['active'] : false;
+            return $status;
+        }
 
 		/**
 		*	Loads the correct .mo file for this plugin

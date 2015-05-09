@@ -54,7 +54,7 @@
 
 /* License Key */
 
-.license-key {
+.api-key {
   margin:auto;
   font-family: 'Oswald', sans-serif;
   width:100%;
@@ -63,7 +63,7 @@
 .all-30, .all-20, .all-25 {
 	margin-right: 10px;
 }
-.license-key label{
+.api-key label{
   font-size: 20px;
   height:100px;
   left: 0;
@@ -79,7 +79,7 @@
 	width: 100%;
 	margin-top: 20px;
 }
-.license-key  input{
+.api-key  input{
   border:none;
   padding: 10px;
   border-color: #5b9dd9;
@@ -95,7 +95,7 @@
 
 }
 
-.license-key .invalid {
+.api-key .invalid {
 	border-style: solid;
     border-width: 2px;
 	border-color:  #b94a48 !important;
@@ -111,7 +111,11 @@
 	color: green;
 }
 
-.license-key:after{
+.processing-icon {
+    margin-left:20px;
+}
+
+.api-key:after{
   content: "";
   box-shadow: inset 8px -8px 0 rgba(255, 255, 255, 1), -3px 4px 0 rgba(0, 0, 0, 0.26);
   position:absolute;
@@ -127,24 +131,24 @@
 
 }
 
-.license-key .valid {
+.api-key .valid {
 	border-style: solid;
     border-width: 2px;
 	border-color: #AAD661 !important;
 }
 
-.license-key  input:focus label{
+.api-key  input:focus label{
   transform:translateY(-45px) translateX(-80px) scale(0.6);
 }
 
-.license-key input:valid + label {
+.api-key input:valid + label {
   transform:translateY(-45px) translateX(-80px) scale(0.6);
 }
-.license-key  input:valid + label::after{
+.api-key  input:valid + label::after{
   display:block;
   transform:translateX(-10px) rotate(-45deg)
 }
-.license-key  input:invalid + label::after{
+.api-key  input:invalid + label::after{
   transform:translateX(100px) rotate(-45deg)
 }
 
@@ -228,7 +232,7 @@
 	margin-left: 0px;
 	padding-left: 0px;
 }
-.license-key {
+.api-key {
 	position: relative;
 }
 .map-row {

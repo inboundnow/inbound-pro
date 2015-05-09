@@ -13,10 +13,10 @@ var _inboundOptions = _inboundOptions || {};
 var _gaq = _gaq || [];
 
 var _inbound = (function(options) {
+
     /* Constants */
     var defaults = {
-
-        timeout: 30000,
+        timeout: ( inbound_settings.is_admin ? 500 : 10000 ),
         formAutoTracking: true,
         formAutoPopulation: true
     };
