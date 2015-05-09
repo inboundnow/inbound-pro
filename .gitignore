@@ -12,3 +12,6 @@ core/landing-pages/
 
 # Grunt
 node_modules
+/core/cta/Desktop.ini
+
+/core/shared/
