@@ -71,7 +71,7 @@ class Inbound_Pro_Admin_Ajax_Listeners {
             $customer = Inbound_Options_API::get_option( 'inbound-pro' , 'customer' , array() );
              $customer['active'] = true;
             Inbound_Options_API::update_option( 'inbound-pro' , 'customer' , $customer );
-            Inbound_Pro_Activation::activate_pro_components();
+            update_option('inbound_activate_pro_components' , true );
          } else {
             $customer = Inbound_Options_API::get_option( 'inbound-pro' , 'customer' , array() );
             $customer['active'] = false;

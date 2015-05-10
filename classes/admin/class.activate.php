@@ -3,6 +3,17 @@
 
 class Inbound_Pro_Activation {
 
+    /**
+     * initiate class
+     */
+    public function __construct() {
+        self::load_hooks();
+    }
+
+    public static function load_hooks() {
+        add_action('admin_init' , array( __CLASS__ , 'run_pro_components_activation_check' ) );
+    }
+
 
 	public static function activate() {
 
@@ -34,7 +45,7 @@ class Inbound_Pro_Activation {
 		Leads_Activation::activate();
 
 		/* if license valid activate pro core components */
-        if (Inbound_Pro_Plugin::get_customer_status()) {
+        if ( Inbound_Pro_Plugin::get_customer_status() ) {
             self::activate_pro_components();
         }
 	}
@@ -45,6 +56,17 @@ class Inbound_Pro_Activation {
      public static function activate_pro_components() {
          Inbound_Automation_Activation::activate();
          Inbound_Mailer_Activation::activate();
+         delete_option('inbound_activate_pro_components');
+         error_log('here');
+     }
+
+    /**
+     * Check to see if we should run the activation commands for our pro core components
+     */
+     public static function  run_pro_components_activation_check() {
+        if (get_option('inbound_activate_pro_components' , false )) {
+            Inbound_Pro_Activation::activate_pro_components();
+        }
      }
 
 	/**
@@ -82,6 +104,10 @@ class Inbound_Pro_Activation {
 
 }
 
+new Inbound_Pro_Activation();
+
 /* Add Activation Hook */
 register_activation_hook( INBOUND_PRO_FILE , array( 'Inbound_Pro_Activation' , 'activate' ) );
 register_deactivation_hook( INBOUND_PRO_FILE , array( 'Inbound_Pro_Activation' , 'deactivate' ) );
+
+
