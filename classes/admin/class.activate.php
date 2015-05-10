@@ -32,10 +32,20 @@ class Inbound_Pro_Activation {
 		Landing_Pages_Activation::activate();
 		CTA_Activation::activate();
 		Leads_Activation::activate();
-		// Fatal error occurs here. Need if get_customer_status() check
-		//Inbound_Automation_Activation::activate();
-		//Inbound_Mailer_Activation::activate();
+		
+		/* if license valid activate pro core components */
+        if (self::get_customer_status()) {
+            self::activate_pro_components();
+        }
 	}
+
+    /**
+     * Runs license protected activation functions
+     */
+     public static function activate_pro_components() {
+         Inbound_Automation_Activation::activate();
+         Inbound_Mailer_Activation::activate();
+     }
 
 	/**
 	*  Runs extras & fires hook
