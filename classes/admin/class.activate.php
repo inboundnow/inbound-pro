@@ -32,8 +32,9 @@ class Inbound_Pro_Activation {
 		Landing_Pages_Activation::activate();
 		CTA_Activation::activate();
 		Leads_Activation::activate();
-		Inbound_Automation_Activation::activate();
-		Inbound_Mailer_Activation::activate();
+		// Fatal error occurs here. Need if get_customer_status() check
+		//Inbound_Automation_Activation::activate();
+		//Inbound_Mailer_Activation::activate();
 	}
 
 	/**
