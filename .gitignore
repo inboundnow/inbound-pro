@@ -1,20 +1,14 @@
-core/leads/
-core/cta/
-core/landing-pages/
-/core/leads/shared/
-/core/leads/.gitignore
-/core/leads/.travis.yml
-/core/leads/Gruntfile.js
-/core/landing-pages/shared/
-/core/landing-pages/.gitignore
-/core/landing-pages/.travis.yml
-/core/landing-pages/Gruntfile.js
+.gitignore
+.travis.yml
 
 *.exe
 *.bat
+*.ini
+*.bat
+
+# Node
+npm-debug.log
+node_modules
 
 # Grunt
-node_modules
-/core/cta/Desktop.ini
-
-/core/shared/
+Gruntfile.js
