@@ -6,9 +6,18 @@
 *.ini
 *.bat
 
+
 # Node
 npm-debug.log
 node_modules
 
 # Grunt
 Gruntfile.js
+
+#core 
+.tx
+core/landing-pages/shared
+core/cta/shared
+core/leads/shared
+core/inbound-mailer/shared
+core/inbound-automation/shared
