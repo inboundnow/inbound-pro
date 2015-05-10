@@ -157,7 +157,7 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 		*  Load Shared Files
 		*/
 		private static function load_shared_files() {
-			if (!defined('INBOUND_PRO_CURRENT_VERSION')) {
+			if (!defined('INBOUND_PRO_PATH')) {
 				require_once('shared/classes/class.load-shared.php');
 				add_action( 'plugins_loaded', array( 'Inbound_Load_Shared' , 'init') , 3 );
 			}

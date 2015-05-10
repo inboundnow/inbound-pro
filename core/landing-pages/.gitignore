@@ -4,15 +4,16 @@
 /deploy.sh
 shared/languages/landing-pages/.tx/CONFIG
 shared/languages/landing-pages/get-translations.bat
-.tx
-/shared/languages/landing-pages/*.bat
-shared/.SyncIgnore
 shared/languages/leads/_get-translations.bat
 shared/languages/calls-to-action/_get-translations.bat
+
+#filetypes
+
 
 # OS generated files #
 ######################
 *~
+.SyncIgnore
 .svn
 .cvs
 .DS_Store
@@ -31,9 +32,8 @@ Thumbs.db
 nbproject
 *.sublime-project
 *.sublime-workspace
-shared/.SyncIgnore
-shared/languages/landing-pages/_get-translations.bat
-shared/languages/leads/_get-translations.bat
+*.exe
+*.bat
 
 # Grunt
 node_modules

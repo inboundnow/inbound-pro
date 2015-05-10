@@ -21,15 +21,15 @@ if (!class_exists('Inbound_API_Keys_Generation')) {
 	 */
 	class Inbound_API_Keys_Generation {
 
-		
+
 		/**
 		 * Initiate Class
 		 */
 		public function __construct() {
-			
+
 			/* Listen for key generation commands and execute them */
 			$this->generate_keys();
-			
+
 		}
 
 		/**
@@ -39,10 +39,10 @@ if (!class_exists('Inbound_API_Keys_Generation')) {
 			if (!isset($_REQUEST['inbound_action'])) {
 				return;
 			}
-			
+
 			/* Get User ID */
 			if( isset( $_REQUEST['user_id'] ) ) {
-				
+
 				$userdata   = get_user_by( 'id', $_REQUEST['user_id'] );
 				if (isset($userdata->ID)) {
 					$user_id    = $userdata->ID;
@@ -50,8 +50,8 @@ if (!class_exists('Inbound_API_Keys_Generation')) {
 					wp_redirect( add_query_arg( 'inbound-message', 'user-id-does-not-exits', 'edit.php?post_type=wp-lead&page=wpleads_global_settings&tab=tabs-wpleads-apikeys' ) ); exit();
 				}
 			}
-			
-			
+
+
 			switch( $_REQUEST['inbound_action'] ) {
 				case 'generate-api-keys':
 					if( $this->generate_api_key( $user_id ) ) {
@@ -75,7 +75,7 @@ if (!class_exists('Inbound_API_Keys_Generation')) {
 					break;
 			}
 		}
-		
+
 		/**
 		 * Generate new API keys for a user
 		 *
@@ -100,7 +100,7 @@ if (!class_exists('Inbound_API_Keys_Generation')) {
 
 			return true;
 		}
-		
+
 		/**
 		 * Revoke a users API keys
 		 *
@@ -146,12 +146,12 @@ if (!class_exists('Inbound_API_Keys_Generation')) {
 			$auth_key = defined( 'AUTH_KEY' ) ? AUTH_KEY : '';
 			$secret   = hash( 'md5', $user_id . $auth_key . date( 'U' ) );
 			return $secret;
-		}		
-		
+		}
+
 	}
-	
+
 	add_action('admin_init' , 'load_Inbound_API_Keys_Generation');
-	
+
 	function load_Inbound_API_Keys_Generation() {
 		$Inbound_API_Keys_Generation = new Inbound_API_Keys_Generation();
 	}

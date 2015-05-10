@@ -90,6 +90,24 @@ if (!class_exists('Inbound_Feedback')) {
 
 		}
 	}
+	public static function get_count($type) {
+		global $wpdb;
+		$count = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->posts WHERE (post_status = 'publish' AND post_type = '".$type."')");
+		if (0 < $count) {
+			$count = number_format($count);
+		}
+		return $count;
+	}
+	public static function get_stats($type) {
+
+	}
+	public static function ispro($type) {
+
+	}
+	public static function sp($type) {
+
+	}
+
 	static function show_feedback() {
 		if ( ! self::$add_feedback || ! is_admin()) {
 			return;

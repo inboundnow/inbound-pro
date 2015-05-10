@@ -2,24 +2,24 @@
 
 
 class CTA_Clone_Post {
-	
+
 	/**
 	*	Initiates class CTA_Clone_Post
 	*/
 	public function	__construct() {
-		
+
 		self::load_hooks();
-	
+
 	}
-	
+
 	/**
 	*	Loads hooks and filters
 	*/
 	public static function load_hooks() {
-		
+
 		/* Adds quick actions to row */
 		add_filter('post_row_actions', array( __CLASS__ , 'add_row_actions' ) ,8,2);
-		
+
 		/* Add listener for processing clone request */
 		add_action('admin_action_cta_clone_post', array( __CLASS__ , 'clone_post' ) );
 	}
@@ -28,18 +28,18 @@ class CTA_Clone_Post {
 	*	Adds quick links to row listing
 	*/
 	public static function add_row_actions($actions, $post) {
-		
+
 		if ( $post->post_type != 'wp-call-to-action' ) {
 			return $actions;
 		}
-		
+
 		$actions['clone'] = '<a href="'. self::build_clone_link( $post->ID , 'display', true ).'" title="'
 		. esc_attr(__( 'Clone this item' , 'cta' ))
 		. '">' .	__( 'Clone' , 'cta' ) . '</a>';
 
 		return $actions;
 	}
-	
+
 	/**
 	*	Buids quick action link to clone cta
 	*/
@@ -49,7 +49,7 @@ class CTA_Clone_Post {
 		if ( !$post = get_post( $id ) ) {
 			return;
 		}
-		
+
 		$action_name = "cta_clone_post";
 
 		if ( 'display' == $context )
@@ -91,7 +91,7 @@ class CTA_Clone_Post {
 			wp_die(esc_attr(__( 'Copy creation failed, could not find original:', 'cta' )) . ' ' . $id);
 		}
 	}
-	
+
 	/**
 	*	Copt CTA & insert clone into databae
 	*/
@@ -165,7 +165,7 @@ class CTA_Clone_Post {
 
 		return $new_post_id;
 	}
-	
+
 	/**
 	*	Direct query to get post meta - needs to be phased out
 	*/
@@ -178,7 +178,7 @@ class CTA_Clone_Post {
 			FROM $wpdb->postmeta
 			WHERE `post_id` = $post_id
 		");
-		
+
 		foreach($wpdb->last_result as $k => $v)
 		{
 			$data[$v->meta_key] =	$v->meta_value;

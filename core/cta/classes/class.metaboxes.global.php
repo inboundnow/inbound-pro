@@ -18,24 +18,24 @@ if (!class_exists('CTA_Metaboxes_Global')) {
 		function __construct() {
 			self::load_hooks();
 		}
-		
+
 		/**
 		*  Loads hooks and filters
 		*/
 		public static function load_hooks() {
 			/* Add metaboxes */
-			add_action('add_meta_boxes', array( __CLASS__ , 'load_metaboxes' ) );	
-						
+			add_action('add_meta_boxes', array( __CLASS__ , 'load_metaboxes' ) );
+
 			/* Saves all all incoming POST data as meta pairs */
 			add_action( 'save_post' , array( __CLASS__ , 'save_data' ) );
-			
+
 		}
-		
+
 		/**
 		*  Defines post types to not add CTA setup metaboxes to.
 		*/
 		public static function get_excluded_post_types() {
-			
+
 			$exclude[] = 'attachment';
 			$exclude[] = 'revisions';
 			$exclude[] = 'nav_menu_item';
@@ -52,50 +52,50 @@ if (!class_exists('CTA_Metaboxes_Global')) {
 			$exclude[] = 'landing-page';
 			$exclude[] = 'edd-license';
 			$exclude[] = 'acf-field-group';
-			
+
 			$exclude = apply_filters( 'cta_excluded_post_types' , $exclude);
-			
+
 			return $exclude;
 		}
-		
+
 		/**
-		*  	Loads Metaboxes 
+		*  	Loads Metaboxes
 		*/
 		public static function load_metaboxes() {
 			$post_types= get_post_types('','names');
 
 			$exclude = self::get_excluded_post_types();
-			
+
 			/*  Display's CTA Placement Metabox on post types	*/
 			foreach ($post_types as $value ) {
 				$priority = ($value === 'landing-page') ? 'core' : 'high';
-				
+
 				if (!in_array($value,$exclude)) {
 					add_meta_box(
-						'wp-cta-inert-to-post', 
+						'wp-cta-inert-to-post',
 						__( 'Insert Call to Action Template into Content' , 'cta' ) ,
-						array( __CLASS__ , 'display_cta_placement_metabox' ) , 
-						$value, 
-						'normal', 
-						$priority 
+						array( __CLASS__ , 'display_cta_placement_metabox' ) ,
+						$value,
+						'normal',
+						$priority
 					);
 				}
 			}
 		}
-	
+
 		/**
 		*  Display's CTA Placement Metabox
 		*/
 		public static function display_cta_placement_metabox() {
 			global $post;
-	
+
 			$args = array(
 				'posts_per_page'  => -1,
 				'post_type'=> 'wp-call-to-action'
 			);
-			
+
 			$cta_list = get_posts($args);
-			
+
 			$cta_display_list = get_post_meta($post->ID ,'cta_display_list', true);
 			$cta_display_list = ($cta_display_list != '') ? $cta_display_list : array();
 
@@ -207,16 +207,16 @@ if (!class_exists('CTA_Metaboxes_Global')) {
 			<?php
 			/* Renders extended settings */
 			self::render_additional_settings();
-		
+
 		}
-		
+
 		/**
 		*  Looks for extended settings and renders them
 		*/
 		public static function render_additional_settings() {
 			$CTAExtensions = CTA_Load_Extensions();
 			$extension_data = $CTAExtensions->definitions;
-			
+
 			foreach ($extension_data['wp-cta-controller']['settings'] as $key=>$field)
 			{
 				if ( isset($field['region']) && $field['region'] =='cta-placement-controls')
@@ -225,8 +225,8 @@ if (!class_exists('CTA_Metaboxes_Global')) {
 				}
 			}
 		}
-		
-		/** 
+
+		/**
 		*  Renders setting from extended field data
 		*  @param ARRAY $field
 		*/
@@ -375,7 +375,7 @@ if (!class_exists('CTA_Metaboxes_Global')) {
 				} //end switch
 			echo '</div></div>';
 		}
-		
+
 		/**
 		*  Saves related metadata
 		*/
@@ -385,7 +385,7 @@ if (!class_exists('CTA_Metaboxes_Global')) {
 			if (!isset($post)){
 				return;
 			}
-			
+
 			if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE){
 				return;
 			}
@@ -396,32 +396,32 @@ if (!class_exists('CTA_Metaboxes_Global')) {
 				return;
 			}
 
-				
+
 			$CTAExtensions = CTA_Load_Extensions();
 			$extension_data = $CTAExtensions->definitions;
-			
+
 			foreach ($extension_data['wp-cta-controller']['settings'] as $key=>$field)
 			{
-				( isset($field['global']) && $field['global'] ) ? $field['id'] : $field['id'] = $field['id'];	
-						
+				( isset($field['global']) && $field['global'] ) ? $field['id'] : $field['id'] = $field['id'];
+
 				if($field['type'] == 'tax_select'){
 					continue;
-				}		
-				
+				}
+
 				$old = get_post_meta($post_id, $field['id'], true);
 				(isset($_POST[$field['id']])) ? $new = $_POST[$field['id']] : $new = null;
-				
+
 				/*
 				echo $field['id'].' old:'.$old.'<br>';
 				echo $field['id'].' new:'.$new.'<br>';
 				*/
-				
+
 				if (isset($new) && $new != $old ) {
 					update_post_meta($post_id, $field['id'], $new);
 				} elseif ('' == $new && $old) {
 					delete_post_meta($post_id, $field['id'], $old);
 				}
-				
+
 			}
 
 			if ( isset($_POST['cta_display_list']) ) {

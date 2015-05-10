@@ -58,17 +58,17 @@ if (!class_exists('Inbound_Load_Shared')) {
 			include_once( INBOUDNOW_SHARED_PATH . 'assets/assets.loader.class.php');
 
 			/* load admin only */
-			if (is_admin()) {	
+			if (is_admin()) {
 				include_once( INBOUDNOW_SHARED_PATH . 'classes/class.licensing.php');
-				include_once( INBOUDNOW_SHARED_PATH . 'classes/class.master-license.php');	
+				include_once( INBOUDNOW_SHARED_PATH . 'classes/class.master-license.php');
 				include_once( INBOUDNOW_SHARED_PATH . 'classes/class.branching.php');
-				include_once( INBOUDNOW_SHARED_PATH . 'classes/class.welcome.php');		
+				include_once( INBOUDNOW_SHARED_PATH . 'classes/class.welcome.php');
 				include_once( INBOUDNOW_SHARED_PATH . 'classes/class.feedback.php');
 				include_once( INBOUDNOW_SHARED_PATH . 'classes/class.notifications.php');
 				require_once( INBOUDNOW_SHARED_PATH . 'classes/class.inbound-api.api-key-generation.php');
 				require_once( INBOUDNOW_SHARED_PATH . 'classes/class.inbound-api.api-keys-table.php');
 			}
-			
+
 		}
 
 
@@ -79,7 +79,9 @@ if (!class_exists('Inbound_Load_Shared')) {
 		 *
 		 */
 		public static function get_shared_path() {
-			if ( defined('WP_CTA_PATH') ) {
+			if(defined('INBOUND_PRO_PATH')) {
+				return INBOUND_PRO_PATH . 'core/shared/';
+			} else if( defined('WP_CTA_PATH') ) {
 				return WP_CTA_PATH . 'shared/';
 			} else if (	defined('LANDINGPAGES_PATH') ) {
 				return LANDINGPAGES_PATH . '/shared/';
@@ -95,7 +97,9 @@ if (!class_exists('Inbound_Load_Shared')) {
 		 *
 		 */
 		public static function get_shared_urlpath() {
-			if ( defined('WP_CTA_URLPATH') ) {
+			if ( defined('INBOUND_PRO_URLPATH') ) {
+				return INBOUND_PRO_URLPATH . 'core/shared/';
+			} else if ( defined('WP_CTA_URLPATH') ) {
 				return WP_CTA_URLPATH . 'shared/';
 			} else if (	defined('LANDINGPAGES_URLPATH') ) {
 				return LANDINGPAGES_URLPATH . '/shared/';

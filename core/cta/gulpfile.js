@@ -12,6 +12,7 @@ var gulp = require('gulp'),
     plumber = require('gulp-plumber'),
     clean = require('gulp-clean'),
     rename = require('gulp-rename'),
+    copy = require('gulp-copy'),
     markdox = require("gulp-markdox"),
     //phplint = require('phplint').lint,
     package = require('./package.json');
@@ -151,6 +152,16 @@ gulp.task("generateDocs", function() {
         }))
         .pipe(gulp.dest("./shared/docs"));
 });
+
+/* sync shared folders with `sudo gulp sync` */
+gulp.task('sync', ['sync-lp', 'sync-leads']);
+gulp.task('sync-lp', function () {
+        return gulp.src(['./shared/**']).pipe(gulp.dest('../landing-pages/shared/'));
+});
+gulp.task('sync-leads', function () {
+        return gulp.src(['./shared/**']).pipe(gulp.dest('../leads/shared/'));
+});
+/* end sync */
 
 gulp.task('default', [
     'lint',

@@ -126,7 +126,7 @@ class Inbound_Mailer_Ajax_Listeners {
 	*/
 	public static function send_test_email() {
 		$mailer = new Inbound_Mail_Daemon();
-		//error_log( print_r($_REQUEST , true));
+
 
 		$response = $mailer->send_solo_email( array(
 			'email_address' => $_REQUEST['email_address'] ,
@@ -134,11 +134,12 @@ class Inbound_Mailer_Ajax_Listeners {
 			'vid' => $_REQUEST['variation_id']
 		));
 
-		_e('Here are your send results:','inbound-pro');
+		_e( 'Here are your send results:' , 'inbound-pro' );
+
 		echo "\r\n";
+
 		print_r($response);
 
-		header('HTTP/1.1 200 OK');
 		exit;
 	}
 }
