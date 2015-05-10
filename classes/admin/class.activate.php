@@ -32,9 +32,9 @@ class Inbound_Pro_Activation {
 		Landing_Pages_Activation::activate();
 		CTA_Activation::activate();
 		Leads_Activation::activate();
-		
+
 		/* if license valid activate pro core components */
-        if (self::get_customer_status()) {
+        if (Inbound_Pro_Plugin::get_customer_status()) {
             self::activate_pro_components();
         }
 	}
