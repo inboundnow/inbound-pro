@@ -14,7 +14,7 @@ class InboundUseTracking {
     /**
      * Counts extensions by totaling settings groups added to the Inbound Pro Extensions settings area.
      */
-    public static function  count_pro_extensions( $settings ) {
+    public static function  count_pro_extensions( ) {
         /* check for premium plugins */
         $extensions =  apply_filters( 'inbound_settings/extend' , array()) ;
         if (isset($extensions['inbound-pro-settings'])) {
@@ -26,9 +26,9 @@ class InboundUseTracking {
 
 
     /**
-     * Counts extensions by totaling settings groups added to the Inbound Pro Extensions settings area.
+     * Counts templates by reading directories in each plugin's updload folder
      */
-    public static function  count_non_core_templates( $settings ) {
+    public static function  count_non_core_templates( ) {
 
         /* count templates in landing pages uploads folder */
         if( is_defined('LANDINGPAGES_UPLOADS_PATH') ) {
@@ -49,6 +49,11 @@ class InboundUseTracking {
 
     }
 
+    /**
+     * Counts the number of first level child folders of a parent folder
+     * @param $directory
+     * @return array|string
+     */
     public static function count_templates( $directory ) {
         /* count themes in landing pages uploads folder */
         if ( !$handle = opendir( $directory ) ) {
@@ -76,14 +81,14 @@ class InboundUseTracking {
     }
 
     /**
-     * Check if Pro User
+     * Checks if using inbound pro and if user's license is active
      */
      public static function get_pro_user_data() {
         $pro['installed'] = false;
+        $pro['active_license'] = false;
 
         if (is_defined('INBOUND_PRO_PATH')) {
             $pro['installed'] = true;
-            $pro['active_license'] = false;
 
             if (self::get_customer_status()) {
                 $pro['active_license'] = true;
