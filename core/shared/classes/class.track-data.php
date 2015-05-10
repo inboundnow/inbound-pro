@@ -75,5 +75,23 @@ class InboundUseTracking {
         return $templates;
     }
 
+    /**
+     * Check if Pro User
+     */
+     public static function get_pro_user_data() {
+        $pro['installed'] = false;
+
+        if (is_defined('INBOUND_PRO_PATH')) {
+            $pro['installed'] = true;
+            $pro['active_license'] = false;
+
+            if (self::get_customer_status()) {
+                $pro['active_license'] = true;
+            }
+        }
+
+        return $pro;
+     }
+
 }
 
