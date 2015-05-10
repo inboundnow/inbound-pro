@@ -21,3 +21,7 @@ core/cta/shared
 core/leads/shared
 core/inbound-mailer/shared
 core/inbound-automation/shared
+
+#assets
+assets/libraries/ink/img
+assets/libraries/ink/js
