@@ -10,6 +10,9 @@ core/landing-pages/
 /core/landing-pages/.travis.yml
 /core/landing-pages/Gruntfile.js
 
+*.exe
+*.bat
+
 # Grunt
 node_modules
 /core/cta/Desktop.ini
