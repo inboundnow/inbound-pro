@@ -1,10 +1,12 @@
 .gitignore
+.tx
 .travis.yml
 
 *.exe
 *.bat
 *.ini
 *.bat
+
 
 
 # Node
@@ -15,7 +17,6 @@ node_modules
 Gruntfile.js
 
 #core 
-.tx
 core/landing-pages/shared
 core/landing-pages/tests
 core/cta/shared
