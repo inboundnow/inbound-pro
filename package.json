@@ -24,6 +24,8 @@
   "homepage": "https://github.com/inboundnow/cta",
   "dependencies": {},
   "devDependencies": {
+    "grunt": "*",
+    "grunt-image-resize": "*",
     "grunt-wp-readme-to-markdown": "^0.8.0",
     "gulp": "^3.8.5",
     "gulp-clean": "^0.2.4",

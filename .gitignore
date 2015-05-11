@@ -17,11 +17,17 @@ Gruntfile.js
 #core 
 .tx
 core/landing-pages/shared
+core/landing-pages/tests
 core/cta/shared
+core/cta/tests
 core/leads/shared
+core/leads/tests
 core/inbound-mailer/shared
+core/inbound-mailer/tests
 core/inbound-automation/shared
+core/inbound-automation/tests
 
 #assets
 assets/libraries/ink/img
 assets/libraries/ink/js
+assets/images/downloads_src
