@@ -66,10 +66,11 @@ class Inbound_Pro_Settings {
 		wp_localize_script('inbound-settings', 'inboundSettingsLoacalVars' ,  array('apiURL' => Inbound_API_Wrapper::get_api_url() , 'siteURL' => site_url() ) );
 
 		/* load Ink */
-		wp_enqueue_script('Ink-holder', INBOUND_PRO_URLPATH . 'assets/libraries/Ink/js/holder.js' );
-		wp_enqueue_script('Ink-all', INBOUND_PRO_URLPATH . 'assets/libraries/Ink/js/ink-all.min.js' );
-		wp_enqueue_script('Ink-autoload', INBOUND_PRO_URLPATH . 'assets/libraries/Ink/js/autoload.min.js' );
 		wp_enqueue_style('Ink', INBOUND_PRO_URLPATH . 'assets/libraries/Ink/css/ink-flex.min.css');
+
+		/* Load selective bootstrap */
+		wp_enqueue_style('bootstrap-tooltip', INBOUND_PRO_URLPATH . 'assets/libraries/BootStrap/css/tooltip.min.css');
+		wp_enqueue_script('bootstrap-tooltip', INBOUND_PRO_URLPATH . 'assets/libraries/BootStrap/js/tooltip.min.js');
 
 		/* load fontawesome */
 		wp_enqueue_style('fontawesome', INBOUND_PRO_URLPATH . 'assets/libraries/FontAwesome/css/font-awesome.min.css');
@@ -531,7 +532,7 @@ class Inbound_Pro_Settings {
 				echo '		<input type="text" name="'.$field['id'].'" id="'.$field['id'].'" placeholder="'.( isset( $field['placeholder'] ) ? $field['placeholder'] : '' ) .'"  value="'.$field['value'].'" size="30"  data-field-type="'.$field['type'].'" data-field-group="'.$group['group_name'].'"/>';
 				echo '	</div>';
 				echo '	<div class="inbound-tooltip-field">';
-				echo '		<i class="tooltip fa fa-question-circle tool_text" title="'.$field['description'].'"></i>';
+				echo '		<i class="inbound-tooltip fa fa-question-circle tool_text" title="'.$field['description'].'"></i>';
 				echo '	</div>';
 				echo '</div>';
 				BREAK;
@@ -568,7 +569,7 @@ class Inbound_Pro_Settings {
 			// textarea
 			case 'textarea':
 				echo '<textarea name="'.$field['id'].'" id="'.$field['id'].'" cols="106" rows="6"  data-field-type="'.$field['type'].'" data-field-group="'.$group['group_name'].'">'.$field['value'].'</textarea>
-						<i class="tooltip fa-question-circle tool_textarea" title="'.$field['description'].'"></i>';
+						<i class="inbound-tooltip fa-question-circle tool_textarea" title="'.$field['description'].'"></i>';
 				break;
 			// wysiwyg
 			case 'wysiwyg':
@@ -581,7 +582,7 @@ class Inbound_Pro_Settings {
 				echo '<label for="upload_image">';
 				echo '<input name="'.$field['id'].'"	id="'.$field['id'].'" type="text" size="36" name="upload_image" value="'.$field['value'].'"  data-field-type="'.$field['type'].'" data-field-group="'.$group['group_name'].'"/>';
 				echo '<input class="upload_image_button" id="uploader_'.$field['id'].'" type="button" value="Upload Image" />';
-				echo '<br /><i class="tooltip fa-question-circle tool_media" title="'.$field['description'].'"></i>';
+				echo '<br /><i class="inbound-tooltip fa-question-circle tool_media" title="'.$field['description'].'"></i>';
 				break;
 			// checkbox
 			case 'checkbox':
@@ -606,7 +607,7 @@ class Inbound_Pro_Settings {
 					$i++;
 				}
 				echo "</table>";
-				echo '<br><i class="tooltip fa-question-circle tool_checkbox" title="'.$field['description'].'"></i>';
+				echo '<br><i class="inbound-tooltip fa-question-circle tool_checkbox" title="'.$field['description'].'"></i>';
 			break;
 			// radio
 			case 'radio':
@@ -626,7 +627,7 @@ class Inbound_Pro_Settings {
 				echo '	</div>';
 
 				echo '	<div class="inbound-tooltip-field">';
-				echo '		<br /><i class="tooltip fa fa-question-circle tool_dropdown" title="'.$field['description'].'"></i>';
+				echo '		<br /><i class="inbound-tooltip fa fa-question-circle tool_dropdown" title="'.$field['description'].'"></i>';
 				echo '	</div>';
 				echo '</div>';
 
@@ -649,13 +650,13 @@ class Inbound_Pro_Settings {
 				echo '		</select>';
 				echo '	</div>';
 				echo '	<div class="inbound-tooltip-field">';
-				echo '		<br /><i class="tooltip fa fa-question-circle tool_dropdown" title="'.$field['description'].'"></i>';
+				echo '		<br /><i class="inbound-tooltip fa fa-question-circle tool_dropdown" title="'.$field['description'].'"></i>';
 				echo '	</div>';
 				echo '</div>';
 			break;
 			case 'html':
 				echo $field['value'];
-				echo '<br /><i class="tooltip fa-question-circle tool_dropdown" title="'. ( isset($field['description'] ) ? $field['description'] : '' ) .'"></i>';
+				echo '<br /><i class="inbound-tooltip fa-question-circle tool_dropdown" title="'. ( isset($field['description'] ) ? $field['description'] : '' ) .'"></i>';
 			break;
 			case 'custom-fields-repeater':
 				$fields = Leads_Field_Map::get_lead_fields();
@@ -811,7 +812,45 @@ class Inbound_Pro_Settings {
 		echo '</div>';
 
 	}
+	public static function validate_license() {
+		$domain = "$_SERVER[HTTP_HOST]";
+		//echo $domain; exit;
+		//$url = "http://localhost:3001/api/test"; // localhost
+		//$license_key = "0zGT1rp34AFx5POW11gNUSJUNJC5zZ4P";
+		$url = "http://api.inboundnow.com/validate"; // live api
+		$response = wp_remote_post( $url, array(
+					'method' => 'POST',
+					'timeout' => 45,
+					'redirection' => 5,
+					'httpversion' => '1.0',
+					'blocking' => true,
+					'headers' => array(),
+					'body' => array( 'site' => $domain,
+									 'api' => $license_key )
+				    )
+				);
 
+		if ( is_wp_error( $response ) ) {
+		   $error_message = $response->get_error_message();
+		   echo "Something went wrong: $error_message";
+		} else {
+		   //echo 'Response:<pre>';
+		   $json = $response['body'];
+		   //print_r( $response['body'] );
+		   $array = json_decode($json, true);
+		   //print_r($array);
+		   if(isset($array['error'])) {
+		   		echo $array['error']; exit;
+		   }
+
+		  if(isset($array['handshake'])) {
+		  	$valid = $array['handshake'];
+		  }
+		   //print_r( $response );
+		   //echo '</pre>';
+		   //exit;
+		}
+	}
 	/**
 	*  Ajax listener for saving updated field data
 	*/

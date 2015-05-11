@@ -18,6 +18,7 @@ var InboundSettings = ( function() {
 			this.setupSearching();
 			this.initShuffleJs();
 			this.initShuffleCustomFields();
+			this.initBootStrapToolTips();
 			setTimeout( function() {
 			    InboundSettings.validateAPIKey();
             }, 1000 * 0)
@@ -78,6 +79,16 @@ var InboundSettings = ( function() {
 
 
 		},
+        /**
+         * Initialized BootStrap Tooltips
+         */
+        initBootStrapToolTips: function() {
+            jQuery('.inbound-tooltip').tooltip( {
+                animated: 'fade',
+                placement: 'right',
+                container: 'body'
+            });
+        },
 		/**
 		 *  Adds listeners that support non repeater setting updates
 		 */
@@ -485,7 +496,7 @@ var InboundSettings = ( function() {
             jQuery('.valid-icon').remove();
             jQuery('.invalid-icon').remove();
             jQuery('.processing-icon').remove();
-            jQuery('<i>' , { class:"fa fa-spinner processing-icon tooltip" , title:"Checking Key" }).appendTo('.api-key');
+            jQuery('<i>' , { class:"fa fa-spinner processing-icon inbound-tooltip" , title:"Checking Key" }).appendTo('.api-key');
         },
         /**
          * Mark key invalid
@@ -496,7 +507,7 @@ var InboundSettings = ( function() {
             jQuery('.valid-icon').remove();
             jQuery('.invalid-icon').remove();
             jQuery('.processing-icon').remove();
-            jQuery('<i>' , { class:"fa fa-times-circle invalid-icon tooltip" , title:"API Key Is Invalid" }).appendTo('.api-key');
+            jQuery('<i>' , { class:"fa fa-times-circle invalid-icon inbound-tooltip" , title:"API Key Is Invalid" }).appendTo('.api-key');
         },
         /**
          * mark key valid
@@ -507,7 +518,7 @@ var InboundSettings = ( function() {
             jQuery('.invalid-icon').remove();
             jQuery('.valid-icon').remove();
             jQuery('.processing-icon').remove();
-            jQuery('<i>' , { class:"fa fa-check valid-icon tooltip" , title:"API Key Is Invalid" }).appendTo('.api-key');
+            jQuery('<i>' , { class:"fa fa-check valid-icon inbound-tooltip" , title:"API Key Is Invalid" }).appendTo('.api-key');
         },
 		/**
 		 *  Get URL Param

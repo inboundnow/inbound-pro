@@ -1,14 +1,33 @@
+.gitignore
+.travis.yml
+
+*.exe
+*.bat
+*.ini
+*.bat
 
 
-/temp-analytics-references
-/core/leads/shared/
-/core/leads/.gitignore
-/core/leads/.travis.yml
-/core/leads/Gruntfile.js
-/core/landing-pages/shared/
-/core/landing-pages/.gitignore
-/core/landing-pages/.travis.yml
-/core/landing-pages/Gruntfile.js
+# Node
+npm-debug.log
+node_modules
 
 # Grunt
-node_modules
+Gruntfile.js
+
+#core 
+.tx
+core/landing-pages/shared
+core/landing-pages/tests
+core/cta/shared
+core/cta/tests
+core/leads/shared
+core/leads/tests
+core/inbound-mailer/shared
+core/inbound-mailer/tests
+core/inbound-automation/shared
+core/inbound-automation/tests
+
+#assets
+assets/libraries/ink/img
+assets/libraries/ink/js
+assets/images/downloads_src

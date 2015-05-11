@@ -47,6 +47,7 @@
 	color: #000;
 }
 
+
 /* Fonts */
 
 @import url(http://fonts.googleapis.com/css?family=Oswald);
@@ -282,4 +283,10 @@ input.update-done {
 .field-ip-addresses {
 	margin-left:0px;
 	padding-left:0px;
+}
+
+.tooltip {
+    float:right;
+    position:absolute;
+    overflow:inherit;
 }
