@@ -97,16 +97,18 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 
 		/**
 		 *  Loads components shared between Inbound Now plugins
-		 *
 		 */
 		private static function load_shared_files() {
-			require_once('shared/classes/class.load-shared.php');
+            if (defined('INBOUND_PRO_PATH')) {
+                include_once( INBOUND_PRO_PATH . 'core/shared/classes/class.load-shared.php' );
+            } else {
+                require_once('shared/classes/class.load-shared.php');
+            }
 			add_action( 'plugins_loaded', array( 'Inbound_Load_Shared' , 'init') , 1 );
 		}
 
 		/**
 		*  Loads the correct .mo file for this plugin
-		*
 		*/
 		private static function load_text_domain_init() {
 			add_action( 'init' , array( __CLASS__ , 'load_text_domain' ) );

@@ -1,12 +1,14 @@
 /shared/_DelSyncFiles/
 
 /deploy.sh
-/shared/languages/calls-to-action/_get-translations.bat
-/shared/languages/calls-to-action/.tx
+*.bat
+*.exe
+*.ini
 
 # OS generated files #
 ######################
 *~
+.SyncIgnore
 .svn
 .cvs
 .DS_Store

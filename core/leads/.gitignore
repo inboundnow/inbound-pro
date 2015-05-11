@@ -5,8 +5,9 @@
 /deploy.sh
 
 .SyncIgnore
+*.exe
 *.bat
-shared/languages/calls-to-action/.tx/config
+.tx
 
 # OS generated files #
 ######################

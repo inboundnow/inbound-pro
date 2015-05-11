@@ -1,5 +1,16 @@
 <?php
 
+add_action('admin_notices', 'dont_install_landing_page_templates_here');
+function dont_install_landing_page_templates_here(){
+    $screen = get_current_screen();
+    if ( $screen->id !== 'themes')
+            return; // exit if incorrect screen id
+        $link = admin_url( 'edit.php?post_type=landing-page&page=lp_manage_templates' );
+        echo '<div class="error">';
+        echo "<h3 style='font-weight:normal;'><strong><u>Please Note</u>:</strong> Do not try to install <a href='http://www.inboundnow.com/products/landing-pages/templates/' target='_blank'>Inbound Now WordPress Landing page templates</a> as a WordPres theme.<br><br><a href='".$link."'>Click here to install Landing page templates</a> in the Landing pages > Manage templates area";
+        echo "</h3></div>";
+}
+
 /* Temporarily off**
 /* Template page notices
 function lp_template_page_notice(){
@@ -75,7 +86,7 @@ function lp_ab_notice(){
 add_action('admin_notices', 'lp_permalinks_notice');
 function lp_permalinks_notice(){
     global $pagenow;
-   
+
     if ( !get_option('permalink_structure') ) {
         ?>
 		<div class="error">
