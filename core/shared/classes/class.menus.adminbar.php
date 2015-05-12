@@ -24,18 +24,18 @@ if (!class_exists('Inbound_Menus_Adminbar')) {
 			self::$inboundnow_menu_key = 'inbound-admin-bar';
 			self::$inboundnow_menu_secondary_group_key = 'inbound-secondary';
 			self::hooks();
-			
+
 		}
-		
-		
+
+
 		/**
 		*  Loads Hooks & Filters
 		*/
 		public static function hooks() {
-			
+
 			/* load main hook */
 			add_action( 'admin_bar_menu', array( __CLASS__ , 'load_inboundnow_menu' ), 98);
-			
+
 			/* add filters here */
 			add_filter('inboundnow_menu_primary' , array( __CLASS__ , 'load_callstoaction') , 10 );
 			add_filter('inboundnow_menu_primary' , array( __CLASS__ , 'load_landingpages') , 10 );
@@ -52,13 +52,13 @@ if (!class_exists('Inbound_Menus_Adminbar')) {
 			add_filter('inboundnow_menu_secondary' , array( __CLASS__ , 'load_support') , 10 );
 			add_filter('inboundnow_menu_secondary' , array( __CLASS__ , 'load_inbound_hq') , 10 );
 			add_filter('inboundnow_menu_secondary' , array( __CLASS__ , 'load_debug') , 10 );
-			
+
 			/* Enqueue JS/CSS */
 			add_action('admin_enqueue_scripts' , array( __CLASS__ , 'enqueue_js_css' ) );
-			
+
 		}
 
-		
+
 		/**
 		*  Loads the inbound now menu into the admin_bar_menu hook
 		*/
@@ -155,7 +155,7 @@ if (!class_exists('Inbound_Menus_Adminbar')) {
 			);
 
 			/* 1.1 - Leads search form */
-			$leads_search_text = __( 'Search All Leads' , 'inbound-pro' );
+			$leads_search_text = __( 'Search All Leads' , INBOUNDNOW_TEXT_DOMAIN );
 			$menu_items['inbound-leads-search'] = array(
 				'parent' => $leads_key,
 				'title' => '<form id="inbound-menu-form" method="get" action="'.admin_url( 'edit.php?post_type=wp-lead' ).'" class=" " target="_blank">
@@ -312,7 +312,7 @@ if (!class_exists('Inbound_Menus_Adminbar')) {
 
 			return $menu_items;
 		}
-		
+
 		/**
 		*  Loads Email Menu Items
 		*/
@@ -322,9 +322,9 @@ if (!class_exists('Inbound_Menus_Adminbar')) {
 			if (!function_exists('mailer_check_active')) {
 				return  $menu_items;
 			}
-			
+
 			$mailer_key = 'inbound-mailer';
-			
+
 			/* 1 - Inbound Mailer Component */
 			$menu_items[ $mailer_key ] = array(
 				  'parent' => self::$inboundnow_menu_key,
@@ -351,7 +351,7 @@ if (!class_exists('Inbound_Menus_Adminbar')) {
 
 			return $menu_items;
 		}
-		
+
 		/**
 		*  Loads Automation Menu Items
 		*/
@@ -694,7 +694,7 @@ if (!class_exists('Inbound_Menus_Adminbar')) {
 
 			return apply_filters('inbound_menu_debug' , $secondary_menu_items , $debug_key );
 		}
-		
+
 		/**
 		*  Enqueues admin js and css
 		*/
@@ -702,7 +702,7 @@ if (!class_exists('Inbound_Menus_Adminbar')) {
 			if(!is_user_logged_in()){
 				return;
 			}
-			wp_enqueue_style( 'inbound_menu' ,	INBOUDNOW_SHARED_URLPATH . 'assets/css/admin/wpadminbar.css' );		
+			wp_enqueue_style( 'inbound_menu' ,	INBOUNDNOW_SHARED_URLPATH . 'assets/css/admin/wpadminbar.css' );
 		}
 	}
 

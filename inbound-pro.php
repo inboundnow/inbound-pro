@@ -4,7 +4,8 @@ Plugin Name: Inbound Pro
 Plugin URI: http://www.inboundnow.com/
 Description: Pro Version of Inbound Now Plugins
 Author: Inbound Now
-Version: 1.0.2
+Author: Inbound Now
+Version: 1.0.1
 Author URI: http://www.inboundnow.com/
 Text Domain: inbound-pro
 Domain Path: /lang/
@@ -93,7 +94,7 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 		*/
 		private static function define_constants() {
 
-			define('INBOUND_PRO_CURRENT_VERSION', '1.0.2' );
+			define('INBOUND_PRO_CURRENT_VERSION', '1.0.1' );
 			define('INBOUND_PRO_URLPATH', WP_PLUGIN_URL.'/'.plugin_basename( dirname(__FILE__) ).'/' );
 			define('INBOUND_PRO_PATH', WP_PLUGIN_DIR.'/'.plugin_basename( dirname(__FILE__) ).'/' );
 			define('INBOUND_PRO_SLUG', plugin_basename( dirname(__FILE__) ) );

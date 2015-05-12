@@ -351,20 +351,20 @@ class Inbound_Pro_Downloads {
 			<div class="col-xs-12 col-md-12">
 			  <div class="templates-filter-group left-group">
 				<h5 class="filter-label"><?php echo self::$headline; ?></h5>
-				<button class="btn btn-go" data-filter-value="all"><span class="visuallyhidden"><?php _e( 'All' , 'inbound-pro' ); ?></span></button>
-				<button class="btn btn-primary" data-filter-value="landing-pages"><span class="visuallyhidden"><?php _e( 'Landing Pages' , 'inbound-pro' ); ?></span></button>
-				<button class="btn btn-warning" data-filter-value="calls-to-action"><span class="visuallyhidden"><?php _e( 'Calls to Action' , 'inbound-pro' ); ?></span></button>
+				<button class="btn btn-go" data-filter-value="all"><span class="visuallyhidden"><?php _e( 'All' , INBOUNDNOW_TEXT_DOMAIN ); ?></span></button>
+				<button class="btn btn-primary" data-filter-value="landing-pages"><span class="visuallyhidden"><?php _e( 'Landing Pages' , INBOUNDNOW_TEXT_DOMAIN ); ?></span></button>
+				<button class="btn btn-warning" data-filter-value="calls-to-action"><span class="visuallyhidden"><?php _e( 'Calls to Action' , INBOUNDNOW_TEXT_DOMAIN ); ?></span></button>
 				<?php
 				/* if extension management page then show more core components */
 				if ( self::$management_mode == 'extensions' ) {
 					?>
-					<button class="btn btn-success" data-filter-value="leads"><span class="visuallyhidden"><?php _e( 'Leads' , 'inbound-pro' ); ?></span></button>
-					<button class="btn btn-danger" data-filter-value="automation"><span class="visuallyhidden"><?php _e( 'Automation' , 'inbound-pro' ); ?></span></button>
+					<button class="btn btn-success" data-filter-value="leads"><span class="visuallyhidden"><?php _e( 'Leads' , INBOUNDNOW_TEXT_DOMAIN ); ?></span></button>
+					<button class="btn btn-danger" data-filter-value="automation"><span class="visuallyhidden"><?php _e( 'Automation' , INBOUNDNOW_TEXT_DOMAIN ); ?></span></button>
 
 					<?php
 				}
 				?>
-				<button class="btn btn-info" data-filter-value="email"><span class="visuallyhidden"><?php _e( 'Email' , 'inbound-pro' ); ?></span></button>
+				<button class="btn btn-info" data-filter-value="email"><span class="visuallyhidden"><?php _e( 'Email' , INBOUNDNOW_TEXT_DOMAIN ); ?></span></button>
 
 			  </div>
 			</div>
@@ -372,16 +372,16 @@ class Inbound_Pro_Downloads {
 
 			<div class="col-xs-12 col-md-12 right-group">
 				<div class='templates-filter-group align-left '>
-					<input class="filter-search" type="search" placeholder="<?php _e(' Search... ' , 'inbound-pro' ); ?>">
+					<input class="filter-search" type="search" placeholder="<?php _e(' Search... ' , INBOUNDNOW_TEXT_DOMAIN ); ?>">
 					<div class='radio-filters'>
 						<span class="ib">
-							<label class='filter-label' for="installed"><input type="radio" name="meta" value="installed" class='radio-filter'> <?php _e( 'Installed' , 'inbound-pro' ); ?></label>
+							<label class='filter-label' for="installed"><input type="radio" name="meta" value="installed" class='radio-filter'> <?php _e( 'Installed' , INBOUNDNOW_TEXT_DOMAIN ); ?></label>
 						</span>
 						<span class="ib">
-							<label  class='filter-label' for="uninstalled"><input type="radio" name="meta" value="uninstalled"  class='radio-filter'> <?php _e( 'Uninstalled' , 'inbound-pro' ); ?></label>
+							<label  class='filter-label' for="uninstalled"><input type="radio" name="meta" value="uninstalled"  class='radio-filter'> <?php _e( 'Uninstalled' , INBOUNDNOW_TEXT_DOMAIN ); ?></label>
 						</span>
 						<span class="ib">
-							<label class='filter-label' for="needs-update"><input type="radio" name="meta" value="needs-update" class='radio-filter'> <?php _e( 'Needs Update' , 'inbound-pro' ); ?></label>
+							<label class='filter-label' for="needs-update"><input type="radio" name="meta" value="needs-update" class='radio-filter'> <?php _e( 'Needs Update' , INBOUNDNOW_TEXT_DOMAIN ); ?></label>
 						</span>
 					</div>
 				</div>
@@ -420,31 +420,31 @@ class Inbound_Pro_Downloads {
 						if ( in_array( 'landing-pages' , $download['plugins'] ) ) {
 							$ribbons['landing-pages']['ribbon'] = 'lp-ribbon';
 							$ribbons['landing-pages']['fa'] = 'fa-file-text-o';
-							$ribbons['landing-pages']['title'] = __( 'Landing Page' , 'inbound-pro' );
+							$ribbons['landing-pages']['title'] = __( 'Landing Page' , INBOUNDNOW_TEXT_DOMAIN );
 						}
 
 						if ( in_array( 'calls-to-action' , $download['plugins'] ) ) {
 							$ribbons['calls-to-action']['ribbon'] = 'cta-ribbon';
 							$ribbons['calls-to-action']['fa'] = 'fa-crosshairs';
-							$ribbons['calls-to-action']['title'] = __( 'Call to Action' , 'inbound-pro' );
+							$ribbons['calls-to-action']['title'] = __( 'Call to Action' , INBOUNDNOW_TEXT_DOMAIN );
 						}
 
 						if ( in_array( 'leads' , $download['plugins'] ) ) {
 							$ribbons['leads']['ribbon'] = 'leads-ribbon';
 							$ribbons['leads']['fa'] = 'fa-users';
-							$ribbons['leads']['title'] = __( 'Leads' , 'inbound-pro' );
+							$ribbons['leads']['title'] = __( 'Leads' , INBOUNDNOW_TEXT_DOMAIN );
 						}
 
 						if ( in_array( 'email' , $download['plugins'] ) ) {
 							$ribbons['email']['ribbon'] = 'cta-ribbon';
 							$ribbons['email']['fa'] = 'fa-envelope-o';
-							$ribbons['email']['title'] = __( 'Email' , 'inbound-pro' );
+							$ribbons['email']['title'] = __( 'Email' , INBOUNDNOW_TEXT_DOMAIN );
 						}
 
 						if ( in_array( 'automation' , $download['plugins'] ) ) {
 							$ribbons['automation']['ribbon'] = 'automation-ribbon';
 							$ribbons['automation']['fa'] = 'fa-cog';
-							$ribbons['automation']['title'] = __( 'Email' , 'inbound-pro' );
+							$ribbons['automation']['title'] = __( 'Email' , INBOUNDNOW_TEXT_DOMAIN );
 						}
 
 						/* print ribbons */
@@ -461,7 +461,7 @@ class Inbound_Pro_Downloads {
 						<div class="download-image" style='background-image:url(<?php echo INBOUND_PRO_URLPATH. 'assets/images/downloads/'.$download['post_name'].'.jpg'; ?>);' >
 						</div>
 
-						<div class="col-template-content more-details" data-download='<?php echo $download['post_name']; ?>' data-toggle="tooltip" data-placement="top" data-original-title='<?php _e( 'View Details' , 'inbound-pro' ); ?>'>
+						<div class="col-template-content more-details" data-download='<?php echo $download['post_name']; ?>' data-toggle="tooltip" data-placement="top" data-original-title='<?php _e( 'View Details' , INBOUNDNOW_TEXT_DOMAIN ); ?>'>
 							<div class="col-template-info-title"><?php echo $download['post_title']; ?></div>
 						</div>
 
@@ -470,14 +470,14 @@ class Inbound_Pro_Downloads {
 							if ( in_array( 'uninstalled' , $download['status'] ) &&  self::$customer ) {
 								?>
 								<div class="action-install">
-									<a  href="admin.php?page=<?php echo $_GET['page']; ?>&action=install&download=<?php echo $download['post_name']; ?>&download_type=<?php echo $download['download_type']; ?>&filename=<?php echo $download['zip_filename']; ?>" class="power-toggle power-is-off fa fa-power-off"  data-toggle="tooltip" id='<?php echo $download['post_name']; ?>' title='<?php _e( 'Turn On' , 'inbound-pro' ); ?>'></a>
+									<a  href="admin.php?page=<?php echo $_GET['page']; ?>&action=install&download=<?php echo $download['post_name']; ?>&download_type=<?php echo $download['download_type']; ?>&filename=<?php echo $download['zip_filename']; ?>" class="power-toggle power-is-off fa fa-power-off"  data-toggle="tooltip" id='<?php echo $download['post_name']; ?>' title='<?php _e( 'Turn On' , INBOUNDNOW_TEXT_DOMAIN ); ?>'></a>
 								</div>
 								<?php
 							}
 							if ( in_array( 'installed' , $download['status'] ) ) {
 								?>
 								<div class="action-uninstall">
-									<a href="admin.php?page=<?php echo $_GET['page']; ?>&action=uninstall&download=<?php echo $download['post_name']; ?>" class="power-toggle power-is-on fa fa-power-off"  data-toggle="tooltip" id='<?php echo $download['post_name']; ?>' title='<?php _e( 'Turn Off' , 'inbound-pro' ); ?>'></a>
+									<a href="admin.php?page=<?php echo $_GET['page']; ?>&action=uninstall&download=<?php echo $download['post_name']; ?>" class="power-toggle power-is-on fa fa-power-off"  data-toggle="tooltip" id='<?php echo $download['post_name']; ?>' title='<?php _e( 'Turn Off' , INBOUNDNOW_TEXT_DOMAIN ); ?>'></a>
 								</div>
 								<?php
 								if ($download['download_type'] == 'extension' ) {
@@ -487,7 +487,7 @@ class Inbound_Pro_Downloads {
 										, $download );
 									?>
 									<div class="action-settings">
-										<a target="_blank" href="<?php echo $settings_url; ?>" class="fa fa-cog"  data-toggle="tooltip" id='<?php echo $download['post_name']; ?>' title='<?php _e( 'View Settings' , 'inbound-pro' ); ?>'></a>
+										<a target="_blank" href="<?php echo $settings_url; ?>" class="fa fa-cog"  data-toggle="tooltip" id='<?php echo $download['post_name']; ?>' title='<?php _e( 'View Settings' , INBOUNDNOW_TEXT_DOMAIN ); ?>'></a>
 									</div>
 									<?php
 								}
@@ -495,7 +495,7 @@ class Inbound_Pro_Downloads {
 							if (!self::$customer) {
                                 ?>
                                 <div class="action-locked">
-                                  <i class="fa fa-lock"  data-toggle="tooltip" id='' title='<?php _e( 'Active license required to install.' , 'inbound-pro' ); ?>'></i>
+                                  <i class="fa fa-lock"  data-toggle="tooltip" id='' title='<?php _e( 'Active license required to install.' , INBOUNDNOW_TEXT_DOMAIN ); ?>'></i>
                                 </div>
                                  <?php
                             }
@@ -559,7 +559,7 @@ class Inbound_Pro_Downloads {
 				self::$management_mode = 'templates';
 
 				/* set headline */
-				self::$headline = __( 'Manage Templates' , 'inbound-pro' );
+				self::$headline = __( 'Manage Templates' , INBOUNDNOW_TEXT_DOMAIN );
 
 				/* set pre-processed download items */
 				self::$items = Inbound_API_Wrapper::get_pro_templates();
@@ -571,7 +571,7 @@ class Inbound_Pro_Downloads {
 				self::$management_mode = 'extensions';
 
 				/* set headline */
-				self::$headline = __( 'Manage Extensions' , 'inbound-pro' );
+				self::$headline = __( 'Manage Extensions' , INBOUNDNOW_TEXT_DOMAIN );
 
 				/* set pre-processed download items */
 				self::$items = Inbound_API_Wrapper::get_pro_extensions();

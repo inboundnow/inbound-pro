@@ -105,7 +105,7 @@ class Inbound_Pro_Settings {
 							'id'	=> 'api-key',
 							'type'	=> 'api-key',
 							'default'	=> '',
-							'placeholder'	=> __( 'Enter api key here' , 'inbound-pro' ),
+							'placeholder'	=> __( 'Enter api key here' , INBOUNDNOW_TEXT_DOMAIN ),
 							'options' => null,
 							'hidden' => false,
 							'reveal' => array(
@@ -142,7 +142,7 @@ class Inbound_Pro_Settings {
 						array (
 							'id'	=> 'exclude-admin',
 							'type'	=> 'header',
-							'default'	=> __( 'Analytics' , 'inbound-pro' ),
+							'default'	=> __( 'Analytics' , INBOUNDNOW_TEXT_DOMAIN ),
 							'placeholder'	=> null,
 							'options' => false,
 							'hidden' => false,
@@ -154,13 +154,13 @@ class Inbound_Pro_Settings {
 						array (
 							'id'	=> 'exclude-admin',
 							'type'	=> 'radio',
-							'label'	=> __( 'Disable Admin Tracking' , 'inbound-pro' ),
-							'description'	=> __( 'Toggle this to on to prevent impression/conversion tracking for logged in administrators.' , 'inbound-pro' ),
+							'label'	=> __( 'Disable Admin Tracking' , INBOUNDNOW_TEXT_DOMAIN ),
+							'description'	=> __( 'Toggle this to on to prevent impression/conversion tracking for logged in administrators.' , INBOUNDNOW_TEXT_DOMAIN ),
 							'default'	=> 'off',
 							'placeholder'	=> null,
 							'options' => array(
-								'off' => __( 'Off' , 'inbound-pro' ),
-								'on' => __( 'On' , 'inbound-pro' ),
+								'off' => __( 'Off' , INBOUNDNOW_TEXT_DOMAIN ),
+								'on' => __( 'On' , INBOUNDNOW_TEXT_DOMAIN ),
 							),
 							'hidden' => false,
 							'reveal' => array(
@@ -233,7 +233,7 @@ class Inbound_Pro_Settings {
 
 		?>
 		<div class="xlarge-70 large-70 medium-60 small-100 tiny-100">
-			<?php _e(' Wlecome to Inbound Pro' , 'inbound-pro' ); ?>
+			<?php _e(' Wlecome to Inbound Pro' , INBOUNDNOW_TEXT_DOMAIN ); ?>
 		<?php
 			//self::render_fields( 'inbound-pro-welcome' );
 		?>
@@ -339,7 +339,7 @@ class Inbound_Pro_Settings {
 					</section>
 				</td>
 				<td class='footer-right' style='vertical-align:top;'>
-					<h2 class='footer-right-h2'><?php _e('Latest Inbound Now Docs:' , 'inbound-pro' ); ?></h2>
+					<h2 class='footer-right-h2'><?php _e('Latest Inbound Now Docs:' , INBOUNDNOW_TEXT_DOMAIN ); ?></h2>
 					<section class="column-group gutters">
 						<!--- Show docs --->
 						<?php
@@ -371,12 +371,12 @@ class Inbound_Pro_Settings {
 		<footer class="clearfix pro-footer">
             <div class="ink-grid">
                 <ul class="unstyled inline half-vertical-space">
-                    <li class="active"><a href="http://www.inboundnow.com" target='_blank'><?php _e( 'Inbound Now' , 'inbound-pro' ); ?></a></li>
-                    <li class="active"><a href="http://www.twitter.com/inboundnow" target='_blank'><?php _e( 'Twitter' , 'inbound-pro' ); ?></a></li>
-                    <li class="active"><a href="http://www.github.com/inboundnow" target='_blank'><?php _e( 'GitHub' , 'inbound-pro' ); ?></a></li>
-                    <li class="active"><a href="http://support.inboundnow.com" target='_blank'><?php _e( 'Support' , 'inbound-pro' ); ?></a></li>
-                    <li class="active"><a href="http://docs.inboundnow.com" target='_blank'><?php _e( 'Documentation' , 'inbound-pro' ); ?></a></li>
-                    <li class="active"><a href="http://www.inboundnow.com/translate-inbound-now/" target='_blank'><?php _e( 'Translations' , 'inbound-pro' ); ?></a></li>
+                    <li class="active"><a href="http://www.inboundnow.com" target='_blank'><?php _e( 'Inbound Now' , INBOUNDNOW_TEXT_DOMAIN ); ?></a></li>
+                    <li class="active"><a href="http://www.twitter.com/inboundnow" target='_blank'><?php _e( 'Twitter' , INBOUNDNOW_TEXT_DOMAIN ); ?></a></li>
+                    <li class="active"><a href="http://www.github.com/inboundnow" target='_blank'><?php _e( 'GitHub' , INBOUNDNOW_TEXT_DOMAIN ); ?></a></li>
+                    <li class="active"><a href="http://support.inboundnow.com" target='_blank'><?php _e( 'Support' , INBOUNDNOW_TEXT_DOMAIN ); ?></a></li>
+                    <li class="active"><a href="http://docs.inboundnow.com" target='_blank'><?php _e( 'Documentation' , INBOUNDNOW_TEXT_DOMAIN ); ?></a></li>
+                    <li class="active"><a href="http://www.inboundnow.com/translate-inbound-now/" target='_blank'><?php _e( 'Translations' , INBOUNDNOW_TEXT_DOMAIN ); ?></a></li>
                 </ul>
             </div>
         </footer>
@@ -389,15 +389,15 @@ class Inbound_Pro_Settings {
 	static function display_nav_menu() {
 
 		$pages_array = array(
-			'inbound-pro-setup' => __( 'Main Settings' , 'inbound-pro' ),
-			'inbound-pro-settings' => __( 'Extension Settings' , 'inbound-pro' ),
-			'inbound-pro-welcome' => __( 'Quick Start' , 'inbound-pro' )
+			'inbound-pro-setup' => __( 'Main Settings' , INBOUNDNOW_TEXT_DOMAIN ),
+			'inbound-pro-settings' => __( 'Extension Settings' , INBOUNDNOW_TEXT_DOMAIN ),
+			'inbound-pro-welcome' => __( 'Quick Start' , INBOUNDNOW_TEXT_DOMAIN )
 		);
 
 		$pages_array = apply_filters( 'inbound_pro_nav' , $pages_array );
 
 		echo '<header class="vertical-space">';
-		echo '	<h1><img src="'. INBOUND_PRO_URLPATH . 'assets/images/logos/inbound-now-logo.png" style="width:262px;" title="' . __( 'Inbound Now Professional Suite' , 'inbound-pro' ) .'"></h1>';
+		echo '	<h1><img src="'. INBOUND_PRO_URLPATH . 'assets/images/logos/inbound-now-logo.png" style="width:262px;" title="' . __( 'Inbound Now Professional Suite' , INBOUNDNOW_TEXT_DOMAIN ) .'"></h1>';
 		echo ' 	<nav class="ink-navigation">';
 		echo ' 		<ul class="menu horizontal black">';
 
@@ -421,7 +421,7 @@ class Inbound_Pro_Settings {
 		?>
 		<div class="">
 				<div class='templates-filter-group'>
-					<input class="filter-search" type="search" placeholder="<?php _e(' Filter Options... ' , 'inbound-pro' ); ?>">
+					<input class="filter-search" type="search" placeholder="<?php _e(' Filter Options... ' , INBOUNDNOW_TEXT_DOMAIN ); ?>">
 				</div>
 			</div>
 
@@ -480,7 +480,7 @@ class Inbound_Pro_Settings {
 			case 'api-key':
 
 				echo '<div class="api-key">';
-				echo '	<label>'.__('Inbound API Key:' , 'inbound-pro' ) .'</label>';
+				echo '	<label>'.__('Inbound API Key:' , INBOUNDNOW_TEXT_DOMAIN ) .'</label>';
 				echo '		<input type="text" class="api" name="'.$field['id'].'" id="'.$field['id'].'" placeholder="'.$field['placeholder'].'" value="'.$field['value'].'" data-field-type="'.$field['type'].'" data-field-group="'.$group['group_name'].'"  data-special-handler="true"/>';
 				echo '</div>';
 				break;
@@ -508,7 +508,7 @@ class Inbound_Pro_Settings {
 					$oauth_class = "";
 					$unauth_class = "hidden";
 				}
-				echo '<button class="ink-button orange unauth thickbox '.$unauth_class.'" id="'.$field['id'].'" data-field-type="'.$field['type'].'" data-field-group="'.$group['group_name'].'" '.$data.' >'.__( 'Un-Authorize' , 'inbound-pro' ).'</button>';
+				echo '<button class="ink-button orange unauth thickbox '.$unauth_class.'" id="'.$field['id'].'" data-field-type="'.$field['type'].'" data-field-group="'.$group['group_name'].'" '.$data.' >'.__( 'Un-Authorize' , INBOUNDNOW_TEXT_DOMAIN ).'</button>';
 					$class = 'hidden';
 
 				$params['action'] = 'request_access_token';
@@ -519,7 +519,7 @@ class Inbound_Pro_Settings {
 				$params['width'] = '800';
 				$params['height'] = '500';
 
-				echo '<a href="'. admin_url( add_query_arg( $params , 'admin.php' ) ) .'"  class="ink-button green oauth thickbox '.$oauth_class.'" id="'.$field['id'].'" data-field-type="'.$field['type'].'" data-field-group="'.$group['group_name'].'" '.$data.' >'.__( 'Authorize' , 'inbound-pro' ).'</a>';
+				echo '<a href="'. admin_url( add_query_arg( $params , 'admin.php' ) ) .'"  class="ink-button green oauth thickbox '.$oauth_class.'" id="'.$field['id'].'" data-field-type="'.$field['type'].'" data-field-group="'.$group['group_name'].'" '.$data.' >'.__( 'Authorize' , INBOUNDNOW_TEXT_DOMAIN ).'</a>';
 
 
 				break;
@@ -665,23 +665,23 @@ class Inbound_Pro_Settings {
 				$field_types = Leads_Field_Map::build_field_types_array();
 
 				echo '<div class="repeater-custom-fields">';
-				echo '	<h4>'.__('Manage Lead Fields:' , 'inbound-pro' ) .'</h4>';
+				echo '	<h4>'.__('Manage Lead Fields:' , INBOUNDNOW_TEXT_DOMAIN ) .'</h4>';
 
 				echo '		<div class="map-row-headers column-group">';
 				echo '			<div class="map-key-header all-5">';
 				echo '				<th> </th>';
 				echo '			</div>';
 				echo '			<div class="map-key-header all-25">';
-				echo '				<th>' . __( 'Field Key' , 'inbound-pro' ) .'</th>';
+				echo '				<th>' . __( 'Field Key' , INBOUNDNOW_TEXT_DOMAIN ) .'</th>';
 				echo '			</div>';
 				echo '			<div class="map-key-header all-30">';
-				echo '			<th>' . __( 'Field Label' , 'inbound-pro' ) .'</th>';
+				echo '			<th>' . __( 'Field Label' , INBOUNDNOW_TEXT_DOMAIN ) .'</th>';
 				echo '			</div>';
 				echo '			<div class="map-key-header all-20">';
-				echo '			<th>' . __( 'Field Type' , 'inbound-pro' ) .'</th>';
+				echo '			<th>' . __( 'Field Type' , INBOUNDNOW_TEXT_DOMAIN ) .'</th>';
 				echo '			</div>';
 				echo '			<div class="map-key-header all-15">';
-				echo '			<th>' . __( 'Action' , 'inbound-pro' ) .'</th>';
+				echo '			<th>' . __( 'Action' , INBOUNDNOW_TEXT_DOMAIN ) .'</th>';
 				echo '			</div>';
 				echo ' 		</div>';
 
@@ -737,10 +737,10 @@ class Inbound_Pro_Settings {
 
 				echo '		</div>';
 				echo '		<div class="map-key all-25">';
-				echo '				<input type="text"  name="fields[new][key]" data-special-handler="true" id="new-key" placeholder="'.__('Enter field key here' , 'inbound-pro' ).'" required>';
+				echo '				<input type="text"  name="fields[new][key]" data-special-handler="true" id="new-key" placeholder="'.__('Enter field key here' , INBOUNDNOW_TEXT_DOMAIN ).'" required>';
 				echo '		</div>';
 				echo '		<div class="map-label all-30">';
-				echo '				<input type="text" name="fields[new][label]" data-special-handler="true" id="new-label" placeholder="'.__('Enter field label here' , 'inbound-pro' ).'" required>';
+				echo '				<input type="text" name="fields[new][label]" data-special-handler="true" id="new-label" placeholder="'.__('Enter field label here' , INBOUNDNOW_TEXT_DOMAIN ).'" required>';
 				echo '		</div>';
 
 				echo '		<div class="map-label all-20">';
@@ -765,7 +765,7 @@ class Inbound_Pro_Settings {
 				$ip_addresses = ( isset(self::$settings_values['inbound-analytics-rules']['ip-addresses']) && self::$settings_values['inbound-analytics-rules']['ip-addresses'] ) ? self::$settings_values['inbound-analytics-rules']['ip-addresses'] : array('') ;
 
 				echo '<div class="repeater-ip-addresses">';
-				echo '	<h4>'.__('Exclude IPs from Tracking:' , 'inbound-pro' ) .'</h4>';
+				echo '	<h4>'.__('Exclude IPs from Tracking:' , INBOUNDNOW_TEXT_DOMAIN ) .'</h4>';
 				echo ' 	<form data="'.$field['type'].'" id="ip-addresses-form">';
 				echo ' 		<ul class="field-ip-addresses" id="field-ip-address">';
 
@@ -796,7 +796,7 @@ class Inbound_Pro_Settings {
 				echo '	<form id="add-new-ip-address-form">';
 				echo '		<div class="ip-address-row-addnew column-group">';
 				echo '			<div class="ip-address all-80">';
-				echo '					<input type="text"  name="ip-addresses" data-special-handler="true" id="new-ip-address" placeholder="'.__('Enter IP Address ' , 'inbound-pro' ).'" required>';
+				echo '					<input type="text"  name="ip-addresses" data-special-handler="true" id="new-ip-address" placeholder="'.__('Enter IP Address ' , INBOUNDNOW_TEXT_DOMAIN ).'" required>';
 				echo '			</div>';
 				echo '			<div class="ip-address-actions all-20">';
 				echo '				<div class="edit-btn-group">';

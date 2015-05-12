@@ -9,42 +9,42 @@ if ( !class_exists('Inbound_Email_Templates_Post_Type') ) {
 		}
 
 		private function load_hooks() {
-			/* Register Email Templates Post Type */			
+			/* Register Email Templates Post Type */
 			add_action( 'init' , array( __CLASS__ , 'register_post_type' ), 11);
 			add_action( 'init' , array( __CLASS__ , 'register_category_taxonomy' ), 11);
-			
-			
+
+
 			/* Load Admin Only Hooks */
 			if (is_admin()) {
-			
+
 				/* Register Email Templates on Activation */
 				add_action( "inbound_shared_activate", array( __CLASS__ , 'register_templates' ) );
-			
+
 				/* Register Columns */
 				add_filter( 'manage_email-template_posts_columns' , array( __CLASS__ , 'register_columns') );
-				
+
 				/* Prepare Column Data */
 				add_action( "manage_posts_custom_column", array( __CLASS__ , 'prepare_column_data' ) , 10, 2 );
-			
+
 				/* Define Sortable Columns */
 				add_filter( 'manage_edit_email-template_sortable_columns', array( __CLASS__ , 'define_sortable_columns' ) );
-				
+
 				/* Filter Row Actions */
 				add_filter( 'post_row_actions' , array( __CLASS__ , 'filter_row_actions' ) , 10 , 2 );
-				
+
 				/* Add Category Filter */
 				add_action( 'restrict_manage_posts', array(	__CLASS__ ,'add_category_taxonomy_filter' ));
-				
+
 				/* Remove Delete from Bulk Actions */
 				add_filter( 'bulk_actions-edit-email-template' , array( __CLASS__ , 'remove_bulk_actions' ) );
-				
-			
-			} else {	
-			
+
+
+			} else {
+
 				/* Setup Preview */
 				add_action( 'wp' , array( __CLASS__ , 'preview_template' ));
 			}
-			
+
 		}
 
 		public static function register_post_type() {
@@ -53,13 +53,13 @@ if ( !class_exists('Inbound_Email_Templates_Post_Type') ) {
 				'name' => __('Email Templates', 'leads'),
 				'singular_name' => __( 'Email Templates', 'inbound-pro' ),
 				'add_new' => __( 'Add New Email Templates', 'inbound-pro' ),
-				'add_new_item' => __( 'Create New Email Templates' , 'inbound-pro' ),
-				'edit_item' => __( 'Edit Email Templates' , 'inbound-pro' ),
-				'new_item' => __( 'New Email Templates' , 'inbound-pro' ),
-				'view_item' => __( 'View Email Templates' , 'inbound-pro' ),
-				'search_items' => __( 'Search Email Templates' , 'inbound-pro' ),
-				'not_found' =>	__( 'Nothing found' , 'inbound-pro' ),
-				'not_found_in_trash' => __( 'Nothing found in Trash' , 'inbound-pro' ),
+				'add_new_item' => __( 'Create New Email Templates' , INBOUNDNOW_TEXT_DOMAIN ),
+				'edit_item' => __( 'Edit Email Templates' , INBOUNDNOW_TEXT_DOMAIN ),
+				'new_item' => __( 'New Email Templates' , INBOUNDNOW_TEXT_DOMAIN ),
+				'view_item' => __( 'View Email Templates' , INBOUNDNOW_TEXT_DOMAIN ),
+				'search_items' => __( 'Search Email Templates' , INBOUNDNOW_TEXT_DOMAIN ),
+				'not_found' =>	__( 'Nothing found' , INBOUNDNOW_TEXT_DOMAIN ),
+				'not_found_in_trash' => __( 'Nothing found in Trash' , INBOUNDNOW_TEXT_DOMAIN ),
 				'parent_item_colon' => ''
 			);
 
@@ -73,7 +73,7 @@ if ( !class_exists('Inbound_Email_Templates_Post_Type') ) {
 				'publicly_queryable' 	=> true,
 				'show_ui' 				=> true,
 				'query_var' 			=> true,
-				//'menu_icon' 			=> INBOUDNOW_SHARED_URLPATH . '/images/email.png',
+				//'menu_icon' 			=> INBOUNDNOW_SHARED_URLPATH . '/images/email.png',
 				'show_in_menu'			=> 'edit.php?post_type=' . $post_type ,
 				'capability_type' 		=> 'post',
 				'hierarchical' 			=> false,
@@ -85,7 +85,7 @@ if ( !class_exists('Inbound_Email_Templates_Post_Type') ) {
 			register_post_type( 'email-template' , $args );
 
 		}
-		
+
 		/* Register Category Taxonomy */
 		public static function register_category_taxonomy() {
 			$args = array(
@@ -100,25 +100,25 @@ if ( !class_exists('Inbound_Email_Templates_Post_Type') ) {
 
 			register_taxonomy('email_template_category', array('email-template'), $args);
 		}
-		
+
 		/* Register Columns */
 		public static function register_columns( $cols ) {
 
 			$cols = array(
 				"cb" => "<input type=\"checkbox\" />",
-				"title" => __( 'Email Templates' , 'inbound-pro' ),
-				"category" => __( 'Category' , 'inbound-pro' ),
-				"description" => __( 'Description' , 'inbound-pro' )
+				"title" => __( 'Email Templates' , INBOUNDNOW_TEXT_DOMAIN ),
+				"category" => __( 'Category' , INBOUNDNOW_TEXT_DOMAIN ),
+				"description" => __( 'Description' , INBOUNDNOW_TEXT_DOMAIN )
 			);
 
 			$cols = apply_filters('email_template_change_columns',$cols);
 
 			return $cols;
 		}
-		
+
 		/* Prepare Column Data */
 		public static function prepare_column_data( $column , $post_id ) {
-		
+
 			$post_type = get_post_type( $post_id );
 
 			if ( $post_type !='email-template' ){
@@ -145,7 +145,7 @@ if ( !class_exists('Inbound_Email_Templates_Post_Type') ) {
 
 			do_action('email_template_custom_columns',$column, $post_id);
 		}
-		
+
 		/* Define Sortable Columns */
 		public static function define_sortable_columns($columns) {
 
@@ -153,36 +153,36 @@ if ( !class_exists('Inbound_Email_Templates_Post_Type') ) {
 
 			return $columns;
 		}
-		
+
 		/* Removes ability to delete template from row action if it's a core template */
 		public static function filter_row_actions( $actions , $post ) {
-			
+
 			if ($post->post_type =="email-template"){
 				if ( has_term('inbound-core','email_template_category' , $post) || has_term('wordpress-core','email_template_category' , $post) ) {
 					unset($actions['trash']);
 				}
 			}
-			
+
 			return $actions;
 		}
-		
+
 		/* Remove Bulk Actions */
 		public static function remove_bulk_actions( $actions ){
 			unset( $actions[ 'delete' ] );
 			unset( $actions[ 'trash' ] );
 			return $actions;
 		}
-		
+
 		/* Adds ability to filter email templates by custom post type */
 		public static function add_category_taxonomy_filter() {
 			global $typenow;
-		 
+
 			// an array of all the taxonomyies you want to display. Use the taxonomy name or slug
 			$taxonomies = array('email_template_category');
-		 
+
 			// must set this to the post type you want the filter(s) displayed on
 			if( $typenow == 'email-template' ){
-		 
+
 				foreach ($taxonomies as $tax_slug) {
 					$tax_obj = get_taxonomy($tax_slug);
 					$tax_name = $tax_obj->labels->name;
@@ -190,25 +190,25 @@ if ( !class_exists('Inbound_Email_Templates_Post_Type') ) {
 					if(count($terms) > 0) {
 						echo "<select name='$tax_slug' id='$tax_slug' class='postform'>";
 						echo "<option value=''>Show All $tax_name</option>";
-						foreach ($terms as $term) { 
-							echo '<option value='. $term->slug, $_GET[$tax_slug] == $term->slug ? ' selected="selected"' : '','>' . $term->name .' (' . $term->count .')</option>'; 
+						foreach ($terms as $term) {
+							echo '<option value='. $term->slug, $_GET[$tax_slug] == $term->slug ? ' selected="selected"' : '','>' . $term->name .' (' . $term->count .')</option>';
 						}
 						echo "</select>";
 					}
 				}
 			}
 		}
-		
+
 		public static function preview_template() {
 			global $post;
 
 			if ( isset($post) && $post->post_type =='email-template' ){
-			
+
 				$user = wp_get_current_user();
 
-				$Inbound_Templating_Engine = Inbound_Templating_Engine();				
+				$Inbound_Templating_Engine = Inbound_Templating_Engine();
 				$body = get_post_meta( $post->ID , 'inbound_email_body_template' , true );
-				
+
 				/* Prepare Demo Data */
 				$args = array(
 					/* Comment Data */
@@ -264,99 +264,99 @@ Section 1.10.32 of "de Finibus Bonorum et Malorum", written by Cicero in 45 BC
 						'source' => 'http://www.mysite.com/some-page/'
 					)
 				);
-				
+
 				$_POST = array(
 					'First Name' => 'Example',
 					'Last Name' => 'Lead',
 					'Email Address' => 'example@inboundnow.com',
 				);
-				
+
 				$body = $Inbound_Templating_Engine->replace_tokens( $body , $args	);
 
 				echo $body;
 				exit;
 			}
 		}
-		
+
 		/**
 		*  Insert Core Email Templates into database
 		*/
 		public static function register_templates() {
-			
+
 			/* Load Template Files */
 			$inbound_email_templates = self::load_template_files();
 			self::register_post_type();
 			self::register_category_taxonomy();
-			
+
 			/* Create inbound-core Category Term */
 			if ( !term_exists( 'inbound-core' , 'email_template_category' ) ) {
 				wp_insert_term( 'inbound-core' , 'email_template_category' , array( 'description'=> 'Belongs to Inbound Now\'s set of core templates. Can be edited but not deleted.' , 'slug' => 'inbound-core' ) );
-			}		
-			
+			}
+
 			/* Create wordpress-core Category Term */
 			if ( !term_exists( 'wordpress-core' , 'email_template_category' ) ) {
 				wp_insert_term( 'wordpress-core' , 'email_template_category' , array( 'description'=> 'Belongs to Inbound Now\'s set of	WordPress core templates. Can be edited but not deleted.' , 'slug' => 'wordpress-core' ) );
 			}
-			
+
 			/* Create Default Template for Lead Conversion Notifications */
 			self::create_template( array(
 				'id' => 'token-test',
 				'title' => __( 'Token Testing' , 'leads') ,
 				'subject' => __( 'Token Testing Template - {{site-name}}', 'inbound-pro' ) ,
 				'body' => $inbound_email_templates['token-test'],
-				'description' => __( 'Designed for testing & debugging tokens.' , 'inbound-pro' ) ,
+				'description' => __( 'Designed for testing & debugging tokens.' , INBOUNDNOW_TEXT_DOMAIN ) ,
 				'email_template_category' => 'inbound-core'
 			));
-			
+
 			/* Create Default Template for Lead Conversion Notifications */
 			self::create_template( array(
 				'id' => 'inbound-new-lead-notification',
 				'title' => __( 'New Lead Notification' , 'leads') ,
 				'subject' => __( '{{site-name}} - {{form-name}} - New Lead Conversion', 'inbound-pro' ) ,
 				'body' => $inbound_email_templates['inbound-new-lead-notification'],
-				'description' => __( 'Designed for notifying administrator of new lead conversion when an Inbound Form is submitted.' , 'inbound-pro' ) ,
+				'description' => __( 'Designed for notifying administrator of new lead conversion when an Inbound Form is submitted.' , INBOUNDNOW_TEXT_DOMAIN ) ,
 				'email_template_category' => 'inbound-core'
 			));
 
 			/* New User Account Notification - Create WP Core Template for New User Notifications */
 			self::create_template( array(
 				'id' => 'wp-new-user-notification',
-				'title' => __( 'New User Signup Notification' , 'inbound-pro' ),
-				'subject' => __( 'Your New Account - {{site-name}}' , 'inbound-pro' ),
+				'title' => __( 'New User Signup Notification' , INBOUNDNOW_TEXT_DOMAIN ),
+				'subject' => __( 'Your New Account - {{site-name}}' , INBOUNDNOW_TEXT_DOMAIN ),
 				'body' => $inbound_email_templates['wp-new-user-notification'],
-				'description' => __( 'WordPress core template for notifying	new users of their	created accounts.' , 'inbound-pro' ),
+				'description' => __( 'WordPress core template for notifying	new users of their	created accounts.' , INBOUNDNOW_TEXT_DOMAIN ),
 				'email_template_category' => 'wordpress-core'
 			));
-			
+
 			/* New Comment Notifications - Create WP Core Template for Post Author Notifications */
 			self::create_template( array(
 				'id' => 'wp-notify-post-author',
-				'title' => __( 'New Comment Notification' , 'inbound-pro' ),
-				'subject' => __( 'New Comment Posted - {{wp-post-title}} - {{site-name}}' , 'inbound-pro' ),
+				'title' => __( 'New Comment Notification' , INBOUNDNOW_TEXT_DOMAIN ),
+				'subject' => __( 'New Comment Posted - {{wp-post-title}} - {{site-name}}' , INBOUNDNOW_TEXT_DOMAIN ),
 				'body' => $inbound_email_templates['wp-notify-post-author'],
-				'description' => __( 'WordPress core template for notifying post authors of new comments.' , 'inbound-pro' ),
+				'description' => __( 'WordPress core template for notifying post authors of new comments.' , INBOUNDNOW_TEXT_DOMAIN ),
 				'email_template_category' => 'wordpress-core'
 			));
-			
+
 			/* Comment Moderation Notifications - Create WP Core Template for Comment Moderation Notifications */
 			self::create_template( array(
 				'id' => 'wp-notify-moderator',
-				'title' => __( 'New Comment Moderation' , 'inbound-pro' ),
-				'subject' => __( 'Moderate Comment - {{wp-post-title}} - {{site-name}}' , 'inbound-pro' ),
+				'title' => __( 'New Comment Moderation' , INBOUNDNOW_TEXT_DOMAIN ),
+				'subject' => __( 'Moderate Comment - {{wp-post-title}} - {{site-name}}' , INBOUNDNOW_TEXT_DOMAIN ),
 				'body' => $inbound_email_templates['wp-notify-moderator'],
-				'description' => __( 'WordPress core template for notifying post authors of new comments that need moderating.' , 'inbound-pro' ),
+				'description' => __( 'WordPress core template for notifying post authors of new comments that need moderating.' , INBOUNDNOW_TEXT_DOMAIN ),
 				'email_template_category' => 'wordpress-core'
 			));
-		
+
 		}
-		
+
 		/* Creates Email Template */
 		public static function create_template( $args ) {
 			/* Create Default New Lead Notification Template */
 			$template = get_page_by_title ( $args['title'] , OBJECT , 'email-template' );
-			
+
 			if ( !$template ) {
-			
+
 				$template_id = wp_insert_post(
 					array(
 						'post_title'	 =>	$args['title'],
@@ -364,36 +364,36 @@ Section 1.10.32 of "de Finibus Bonorum et Malorum", written by Cicero in 45 BC
 						'post_type'		=> 'email-template'
 					)
 				);
-				
-					
+
+
 				add_post_meta( $template_id , 'inbound_email_subject_template', $args['subject'] );
 				add_post_meta( $template_id , 'inbound_email_body_template', $args['body'] );
 				add_post_meta( $template_id , 'inbound_email_description', $args['description'] );
-				
-				
+
+
 				if ($args['email_template_category']) {
-					$term = get_term_by( 'slug' , $args['email_template_category'] , 'email_template_category' , OBJECT );				
+					$term = get_term_by( 'slug' , $args['email_template_category'] , 'email_template_category' , OBJECT );
 					$result = wp_set_post_terms( $template_id , $term->term_id , 'email_template_category' );
 				}
-				
-				if ($args['id']) {					
+
+				if ($args['id']) {
 					add_post_meta( $template_id , '_inbound_template_id', $args['id'] );
 				}
-			}	 
+			}
 		}
-		
+
 		public static function load_template_files() {
-			/* Load Email Templates Into $inbound_email_templates */			
-			include_once( INBOUDNOW_SHARED_PATH . 'templates/email-templates/inbound-new-lead-notification/inbound-new-lead-notification.php');
-			include_once( INBOUDNOW_SHARED_PATH . 'templates/email-templates/wp-new-user-notification/wp-new-user-notification.php');
-			include_once( INBOUDNOW_SHARED_PATH . 'templates/email-templates/wp-notify-post-author/wp-notify-post-author.php');
-			include_once( INBOUDNOW_SHARED_PATH . 'templates/email-templates/wp-notify-moderator/wp-notify-moderator.php');
-			include_once( INBOUDNOW_SHARED_PATH . 'templates/email-templates/token-test/token-test.php');
-			
+			/* Load Email Templates Into $inbound_email_templates */
+			include_once( INBOUNDNOW_SHARED_PATH . 'templates/email-templates/inbound-new-lead-notification/inbound-new-lead-notification.php');
+			include_once( INBOUNDNOW_SHARED_PATH . 'templates/email-templates/wp-new-user-notification/wp-new-user-notification.php');
+			include_once( INBOUNDNOW_SHARED_PATH . 'templates/email-templates/wp-notify-post-author/wp-notify-post-author.php');
+			include_once( INBOUNDNOW_SHARED_PATH . 'templates/email-templates/wp-notify-moderator/wp-notify-moderator.php');
+			include_once( INBOUNDNOW_SHARED_PATH . 'templates/email-templates/token-test/token-test.php');
+
 			return $inbound_email_templates;
 		}
 	}
-	
+
 	/* Load Email Templates Post Type Pre Init */
 	$GLOBALS['Inbound_Email_Templates_Post_Type'] = new Inbound_Email_Templates_Post_Type();
 }
