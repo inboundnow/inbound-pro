@@ -17,20 +17,25 @@ if ( ! class_exists( 'Inbound_Notices' ) ) {
 		public static function inbound_notice(){
 		    global $pagenow;
 		    global $current_user ;
+
+		    $post_types = array('landing-page','wp-call-to-action','wp-lead');
+
 		    $page_string = isset($_GET["page"]) ? $_GET["page"] : "null";
 		    $user_id = $current_user->ID;
 
-		    if ( ! get_user_meta($user_id, 'inbound_translate_ignore') ) {
+		    if ( get_user_meta($user_id, 'inbound_translate_ignore') || ( !isset($_GET['post_type']) || !in_array( $_GET['post_type'] , $post_types) ) ) {
+                return;
+            }
 
-		             echo '<div class="updated">
-		             	<h2>Help Translate Inbound Now Marketing Plugins & get free access to a pro account</h2>
-		                 <p style="width:80%;">Want to get free access to all <a href="http://www.inboundnow.com/market/" target="_blank">inbound now pro addons and templates</a>?</p>
-		                 <p style="width:80%;">Help translate Inbound Now\'s marketing plugins to your <a href="http://docs.inboundnow.com/guide/inbound-translations-project/" target="_blank">native langauge</a>!</p>
-		                 <a class="button button-primary button-large" href="http://www.inboundnow.com/translate-inbound-now/" target="_blank">Help Translate the plugins</a>
-		                 <a class="button button-large" href="?inbound_translate_ignore=0">No Thanks</a>
-		             <br><br></div>';
+            echo '<div class="updated">
+                    <h2>'. __( 'Help Translate Inbound Now Marketing Plugins' , INBOUNDNOW_TEXT_DOMAIN ) .'</h2>
+                     <p style="width:80%;">'. sprintf( __( 'Help translate Inbound Now\'s marketing plugins to your %s native langauge %s!' , INBOUNDNOW_TEXT_DOMAIN ) , '<a href="http://docs.inboundnow.com/guide/inbound-translations-project/" target="_blank">' , '</a>' ) .'</p>
+                     <a class="button button-primary button-large" href="http://www.inboundnow.com/translate-inbound-now/" target="_blank">'. __( 'Help Translate the plugins' , INBOUNDNOW_TEXT_DOMAIN ) .'</a>
+                     <a class="button button-large" href="?inbound_translate_ignore=0">' . __( 'No Thanks' , INBOUNDNOW_TEXT_DOMAIN ) .'</a>
+                     <br><br>
+                  </div>';
 
-		    }
+
 		}
 
 		public static function inbound_notice_ignore() {

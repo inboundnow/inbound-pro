@@ -18,7 +18,7 @@ if (!class_exists('Inbound_Asset_Loader')) {
 		 * public facing site.
 		 *
 		 * Example:
-		 * self::enqueue_shared_file('SCRIPT-ID',  INBOUDNOW_SHARED_PATH . 'assets/js/frontend/path-in-shared-assets.js', 'localized_var_name', $localized_array_values, $dependancies_array );
+		 * self::enqueue_shared_file('SCRIPT-ID',  INBOUNDNOW_SHARED_PATH . 'assets/js/frontend/path-in-shared-assets.js', 'localized_var_name', $localized_array_values, $dependancies_array );
 		 */
 		static function register_scripts_and_styles() {
 			/* Frontent and Backend Files */
@@ -79,8 +79,8 @@ if (!class_exists('Inbound_Asset_Loader')) {
 		static function enqueue_shared_file($name, $path, $deps = array(), $localize_var = null, $localize_array = array()) {
 			$is_script = false;
 			$deps = (empty($deps)) ? array() : $deps;
-			$url = INBOUDNOW_SHARED_URLPATH . $path;
-			$file = INBOUDNOW_SHARED_PATH . $path;
+			$url = INBOUNDNOW_SHARED_URLPATH . $path;
+			$file = INBOUNDNOW_SHARED_PATH . $path;
 
 			$file_type = strpos($path, '.js');
 			if (!(false === $file_type)) { $is_script = true; }

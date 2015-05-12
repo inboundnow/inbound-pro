@@ -73,7 +73,7 @@ if (!class_exists('Inbound_Debug_Scripts')) {
 				wp_dequeue_script( $handle );
 			}
 			//wp_enqueue_script( 'jquery' );
-			wp_register_script('inbound-debug', INBOUDNOW_SHARED_URLPATH . 'assets/js/global/debug.js', array('jquery'));
+			wp_register_script('inbound-debug', INBOUNDNOW_SHARED_URLPATH . 'assets/js/global/debug.js', array('jquery'));
 			wp_enqueue_script( 'inbound-debug' );
 
 			foreach ( $store as $handle ) {
@@ -111,7 +111,7 @@ if (!class_exists('Inbound_Debug_Scripts')) {
 			$script_data[$the_script] = $status;
 			}
 		}
-		
+
 		$script_save = json_encode($script_data);
 
 		update_post_meta( $post_id, 'inbound_dequeue_js', $script_save );
@@ -153,7 +153,7 @@ if (!class_exists('Inbound_Debug_Scripts')) {
 			$script_data[$the_script] = $admin_screen;
 			}
 		}
-		
+
 		update_option( 'inbound_global_dequeue', $script_data );
 
 		// Set global option inbound_global_dequeue_js
@@ -178,7 +178,7 @@ if (!class_exists('Inbound_Debug_Scripts')) {
 		// Match our plugins and whitelist them
 		$registered_scripts = ( $wp_scripts->registered ) ? $wp_scripts->registered : array();
 		$inbound_white_list = array();
-		
+
 		foreach ($registered_scripts as $handle) {
 			$src = $handle->src;
 			if (!is_array($src)) {
@@ -269,7 +269,7 @@ if (!class_exists('Inbound_Debug_Scripts')) {
 			}
 
 			//show_admin_bar( false );
-			wp_enqueue_script('inbound-dequeue-scripts', INBOUDNOW_SHARED_URLPATH . 'assets/js/global/inbound-dequeue-scripts.js', array( 'jquery' ));
+			wp_enqueue_script('inbound-dequeue-scripts', INBOUNDNOW_SHARED_URLPATH . 'assets/js/global/inbound-dequeue-scripts.js', array( 'jquery' ));
 			wp_localize_script( 'inbound-dequeue-scripts' , 'inbound_debug' , array( 'admin_url' => admin_url( 'admin-ajax.php' ), 'admin_screen' => $current, 'page_id' => $page_id));
 
 			global $wp_scripts;
