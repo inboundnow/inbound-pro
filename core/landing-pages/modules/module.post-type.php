@@ -16,16 +16,16 @@ function landing_page_register() {
 
 	$slug = get_option( 'lp-main-landing-page-permalink-prefix', 'go' );
     $labels = array(
-        'name' => _x('Landing Pages', 'post type general name' , 'landing-pages'),
-        'singular_name' => _x('Landing Page', 'post type singular name' , 'landing-pages'),
-        'add_new' => _x('Add New', 'Landing Page' , 'landing-pages'),
-        'add_new_item' => __('Add New Landing Page' , 'landing-pages'),
-        'edit_item' => __('Edit Landing Page' , 'landing-pages'),
-        'new_item' => __('New Landing Page' , 'landing-pages'),
-        'view_item' => __('View Landing Page' , 'landing-pages'),
-        'search_items' => __('Search Landing Page' , 'landing-pages'),
-        'not_found' =>  __('Nothing found' , 'landing-pages'),
-        'not_found_in_trash' => __('Nothing found in Trash' , 'landing-pages'),
+        'name' => _x('Landing Pages', 'post type general name' , 'landing-pages' ),
+        'singular_name' => _x('Landing Page', 'post type singular name' , 'landing-pages' ),
+        'add_new' => _x('Add New', 'Landing Page' , 'landing-pages' ),
+        'add_new_item' => __('Add New Landing Page' , 'landing-pages' ),
+        'edit_item' => __('Edit Landing Page' , 'landing-pages' ),
+        'new_item' => __('New Landing Page' , 'landing-pages' ),
+        'view_item' => __('View Landing Page' , 'landing-pages' ),
+        'search_items' => __('Search Landing Page' , 'landing-pages' ),
+        'not_found' =>  __('Nothing found' , 'landing-pages' ),
+        'not_found_in_trash' => __('Nothing found in Trash' , 'landing-pages' ),
         'parent_item_colon' => ''
     );
 
@@ -52,8 +52,8 @@ add_action('init', 'landing_page_category_registerTaxonomy');
 function landing_page_category_registerTaxonomy() {
     $args = array(
             'hierarchical' => true,
-            'label' => __("Categories" , 'landing-pages'),
-            'singular_label' => __("Landing Page Category" , 'landing-pages'),
+            'label' => __("Categories" , 'landing-pages' ),
+            'singular_label' => __("Landing Page Category" , 'landing-pages' ),
             'show_ui' => true,
             'query_var' => true,
 			"rewrite" => true
