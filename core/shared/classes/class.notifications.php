@@ -30,7 +30,7 @@ if ( ! class_exists( 'Inbound_Notices' ) ) {
             echo '<div class="updated">
                     <h2>'. __( 'Help Translate Inbound Now Marketing Plugins' , INBOUNDNOW_TEXT_DOMAIN ) .'</h2>
                      <p style="width:80%;">'. sprintf( __( 'Help translate Inbound Now\'s marketing plugins to your %s native langauge %s!' , INBOUNDNOW_TEXT_DOMAIN ) , '<a href="http://docs.inboundnow.com/guide/inbound-translations-project/" target="_blank">' , '</a>' ) .'</p>
-                     <a class="button button-primary button-large" href="http://www.inboundnow.com/translate-inbound-now/" target="_blank">'. __( 'Help Translate the plugins' , INBOUNDNOW_TEXT_DOMAIN ) .'</a>
+                     <a class="button button-primary button-large" href="http://www.inboundnow.com/go/signup-to-become-a-translator/" target="_blank">'. __( 'Help Translate the plugins' , INBOUNDNOW_TEXT_DOMAIN ) .'</a>
                      <a class="button button-large" href="?inbound_translate_ignore=0">' . __( 'No Thanks' , INBOUNDNOW_TEXT_DOMAIN ) .'</a>
                      <br><br>
                   </div>';
@@ -52,35 +52,3 @@ Inbound_Notices::init();
 
 }
 
-/* Template page notices
-
-add_action('admin_notices', 'lp_template_page_notice');
-add_action('admin_init', 'lp_template_page_ignore');
-function lp_template_page_ignore() {
-    global $current_user;
-        $user_id = $current_user->ID;
-        if ( isset($_GET['lp_template_page_ignore']) && '0' == $_GET['lp_template_page_ignore'] ) {
-             add_user_meta($user_id, 'lp_template_page_ignore', 'true', true);
-    }
-}
-// Start Landing Page Welcome
-add_action('admin_notices', 'lp_activation_notice');
-function lp_activation_notice() {
-    global $current_user ;
-        $user_id = $current_user->ID;
-    if ( ! get_user_meta($user_id, 'lp_activation_ignore_notice') ) {
-        echo '<div class="updated"><p>';
-        echo "<a style='float:right;' href='?lp_activation_message_ignore=0'>Dismiss This</a>Welcome to the WordPress Landing Page Plugin! Need help getting started? View the <strong>Quickstart Guide</strong><br>
-        Want to get notified about WordPress Landing Page Plugin updates, new features, new landing page design templates, and add-ons? <br>
-        Form here | ";
-        echo "</p></div>";
-    }
-}
-add_action('admin_init', 'lp_activation_message_ignore');
-function lp_activation_message_ignore() {
-    global $current_user;
-        $user_id = $current_user->ID;
-        if ( isset($_GET['lp_activation_message_ignore']) && '0' == $_GET['lp_activation_message_ignore'] ) {
-             add_user_meta($user_id, 'lp_activation_ignore_notice', 'true', true);
-    }
-} */

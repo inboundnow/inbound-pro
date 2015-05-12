@@ -232,7 +232,7 @@ class Inbound_Pro_Downloads {
 	*/
 	public static function delete_download_folder( $dirPath ) {
 
-		if ( !$dirPath || is_dir($dirPath)) {
+		if ( !$dirPath || !is_dir($dirPath)) {
 		    return;
         }
 
