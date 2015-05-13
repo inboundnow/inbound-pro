@@ -656,7 +656,7 @@ class Inbound_Pro_Settings {
 			break;
 			case 'html':
 				echo $field['value'];
-				echo '<br /><i class="inbound-tooltip fa-question-circle tool_dropdown" title="'. ( isset($field['description'] ) ? $field['description'] : '' ) .'"></i>';
+				echo '<br /><i class="inbound-tooltip fa fa-question-circle tool_dropdown" title="'. ( isset($field['description'] ) ? $field['description'] : '' ) .'"></i>';
 			break;
 			case 'custom-fields-repeater':
 				$fields = Leads_Field_Map::get_lead_fields();
@@ -811,46 +811,8 @@ class Inbound_Pro_Settings {
 		} //end switch
 		echo '</div>';
 
-	}
-	public static function validate_license() {
-		$domain = "$_SERVER[HTTP_HOST]";
-		//echo $domain; exit;
-		//$url = "http://localhost:3001/api/test"; // localhost
-		//$license_key = "0zGT1rp34AFx5POW11gNUSJUNJC5zZ4P";
-		$url = "http://api.inboundnow.com/validate"; // live api
-		$response = wp_remote_post( $url, array(
-					'method' => 'POST',
-					'timeout' => 45,
-					'redirection' => 5,
-					'httpversion' => '1.0',
-					'blocking' => true,
-					'headers' => array(),
-					'body' => array( 'site' => $domain,
-									 'api' => $license_key )
-				    )
-				);
+    }
 
-		if ( is_wp_error( $response ) ) {
-		   $error_message = $response->get_error_message();
-		   echo "Something went wrong: $error_message";
-		} else {
-		   //echo 'Response:<pre>';
-		   $json = $response['body'];
-		   //print_r( $response['body'] );
-		   $array = json_decode($json, true);
-		   //print_r($array);
-		   if(isset($array['error'])) {
-		   		echo $array['error']; exit;
-		   }
-
-		  if(isset($array['handshake'])) {
-		  	$valid = $array['handshake'];
-		  }
-		   //print_r( $response );
-		   //echo '</pre>';
-		   //exit;
-		}
-	}
 	/**
 	*  Ajax listener for saving updated field data
 	*/
