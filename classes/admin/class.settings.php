@@ -656,7 +656,8 @@ class Inbound_Pro_Settings {
 			break;
 			case 'html':
 				echo $field['value'];
-				echo '<br /><i class="inbound-tooltip fa fa-question-circle tool_dropdown" title="'. ( isset($field['description'] ) ? $field['description'] : '' ) .'"></i>';
+				echo $field['description'];
+
 			break;
 			case 'custom-fields-repeater':
 				$fields = Leads_Field_Map::get_lead_fields();

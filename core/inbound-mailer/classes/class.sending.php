@@ -108,17 +108,17 @@ class Inbound_Mail_Daemon {
 	*	Rebuild links with tracking params
 	*/
 	public static function rebuild_links( $html ) {
-		self::$dom->loadHTML($html);
-		$links = self::$dom->getElementsByTagName('a');
+        preg_match_all('/href="([^\s"]+)/', $html, $links);
 
-		//Iterate over the extracted links and display their URLs
-		foreach ($links as $link){
+        if  (!$links) {
+            return $html;
+        }
 
-			$class = $link->getAttribute('class');
-			$href = $link->getAttribute('href');
+		/* Iterate over the extracted links and display their URLs */
+		foreach ($links[1] as $link){
 
-			/* Do not modify links with 'do-not-track' class */
-			if ( $class == 'do-not-track' ) {
+			/* Do not modify unsubscribe links */
+			if ( strstr( $link , '?token=') ) {
 				continue;
 			}
 
@@ -132,11 +132,10 @@ class Inbound_Mail_Daemon {
 				'email_id' =>self::$row->email_id
 			);
 
-			$new_link = add_query_arg( $params , $href );
+			$new_link = add_query_arg( $params , $link );
 
 
-
-			$html = str_replace( $href	, $new_link , $html );
+			$html = str_replace( $link	, $new_link , $html );
 
 		}
 
@@ -308,7 +307,6 @@ class Inbound_Mail_Daemon {
 		self::send_mandrill_email( true );
 
 		/* return mandrill response */
-		//error_log(print_r(self::$response,true));
 		return self::$response;
 
 	}

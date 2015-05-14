@@ -28,11 +28,12 @@ class Inbound_Updater {
      * @param string  $_api_url     The URL pointing to the custom API endpoint.
      * @param string  $_plugin_file Path to the plugin file.
      */
-    public function __construct( $_api_url, $_plugin_file , $_current_version) {
+    public function __construct( $_api_url, $_plugin_path ,  $_plugin_file , $_current_version) {
 
         self::$api_key = Inbound_API_Wrapper::get_api_key();
         self::$domain = site_url();
         self::$api_url  = $_api_url;
+        self::$path  = $_plugin_path ;
         self::$file  = $_plugin_file ;
         self::$name = plugin_basename( $_plugin_file );
         self::$slug     = basename( $_plugin_file, '.php' );
@@ -119,7 +120,6 @@ class Inbound_Updater {
         self::$info->plugin = self::$name;
         self::$info->last_updated = '';
         self::$info->sections =  (array) self::$info->sections;
-        //print_r(self::$info);exit;
         //print_r(self::$info);exit;
     }
 
@@ -252,27 +252,124 @@ class Inbound_Updater {
         }
 
         if( self::$slug != $_REQUEST['slug']) {
-            return 'donezies';
-            exit;
+            return;
         }
 
         $plugins = get_site_transient( 'update_plugins' );
 
         if( ! current_user_can( 'update_plugins' ) ) {
-            wp_die( '{status:\'fail\'}' );
+            self::ajax_throw_fail();
         }
 
         if (!isset($plugins->response[ $_REQUEST['plugin']] )) {
-            wp_die( '{status:\'fail\'}' );
+            self::ajax_throw_fail();
         }
-        echo add_query_arg( array( 'api' => self::$api_key , 'site' => self::$domain ) , $plugins->response[ $_REQUEST['plugin'] ]->package );
-        $response =  wp_remote_get( add_query_arg( array( 'api' => self::$api_key , 'site' => self::$domain ) , $plugins->response[ $_REQUEST['plugin'] ]->package ) );
-        var_dump($response['body']);exit;
+
+        self::$info = $plugins->response[ $_REQUEST['plugin'] ];
+        $url = add_query_arg( array( 'api' => self::$api_key , 'site' => self::$domain ) , self::$info->package );
+
+        self::$response =  wp_remote_get(
+            $url ,
+            array(
+                'timeout'     => 500,
+                'redirection'     => 5,
+                'decompress'  => false
+            )
+        );
+
+        if (!empty(self::$response['body'])) {
+
+            /* delete old plugin */
+            self::delete_plugin_folder( self::$path . $_REQUEST['plugin'] );
+
+            /* install new plugin */
+            self::install_new_plugin();
+
+            /* throw success */
+            self::ajax_throw_success();
+        } else {
+            self::ajax_throw_fail();
+        }
+    }
+
+    /**
+     * thow successful json message if plugin update succeeded
+     */
+    public static function ajax_throw_success()  {
+        $message = array(
+            'update'=>"plugin",
+            'plugin'=> $_REQUEST['plugin'],
+            'slug' => $_REQUEST['slug'],
+            'oldVersion'=> 'Version ' . self::$current_version,
+            'newVersion' => 'Version ' . self::$info->new_version
+        );
+
+        return  wp_send_json_success($message);
+    }
+
+    /**
+     * thow fail json message if plugin update succeeded
+     */
+    public static function ajax_throw_fail()  {
+        $message = array(
+            'update'=>"plugin",
+            'plugin'=> $_REQUEST['plugin'],
+            'slug' => $_REQUEST['slug'],
+            'oldVersion'=> 'Version ' . self::$current_version,
+            'newVersion' => 'Version ' . self::$info->new_version
+        );
+
+        return  wp_send_json_error(json_encode($message));
+    }
+
+    /**
+     *	deletes plugin folder
+     */
+    public static function delete_plugin_folder($dirPath) {
+        if (is_dir($dirPath)) {
+            $objects = scandir($dirPath);
+            foreach ($objects as $object) {
+                if ($object != "." && $object !="..") {
+                    if (filetype($dirPath . DIRECTORY_SEPARATOR . $object) == "dir") {
+                        self::delete_plugin_folder($dirPath . DIRECTORY_SEPARATOR . $object);
+                    } else {
+                        unlink($dirPath . DIRECTORY_SEPARATOR . $object);
+                    }
+                }
+            }
+            reset($objects);
+            rmdir($dirPath);
+        }
+
+    }
+
+    /**
+     * Install new plugin
+     */
+    public static function install_new_plugin() {
+        /* create temp file */
+        $temp_file = tempnam('/tmp', 'TEMPPLUGIN' );
+
+        /* write zip file to temp file */
+        $handle = fopen($temp_file, "w");
+        fwrite($handle, self::$response['body']);
+        fclose($handle);
 
 
+        /* extract temp file to plugins direction */
+        $archive = new PclZip($temp_file);
+        if (self::$branch == 'git') {
+            $result = $archive->extract( PCLZIP_OPT_REMOVE_PATH, self::$plugin.'-master' , PCLZIP_OPT_PATH, $plugin_path , PCLZIP_OPT_REPLACE_NEWER );
+        } else {
+            $result = $archive->extract( PCLZIP_OPT_PATH, WP_PLUGIN_DIR , PCLZIP_OPT_REPLACE_NEWER );
+        }
 
+        if ($result == 0) {
+            die("Error : ".$archive->errorInfo(true));
+        }
 
-        exit;
+        /* delete templ file */
+        unlink($temp_file);
     }
 }
 
@@ -319,9 +416,21 @@ class Inbound_Pro_Automatic_Updates {
      * setup uploaded with custom uploaded plugin located in /assets/plugins/plugin-update-checker/
      */
     public static function setup_uploader() {
-        new Inbound_Updater( self::$api_url , INBOUND_PRO_FILE ,  INBOUND_PRO_CURRENT_VERSION );
+        new Inbound_Updater( self::$api_url , INBOUND_PRO_PATH , INBOUND_PRO_FILE ,  INBOUND_PRO_CURRENT_VERSION );
     }
 
 }
 
 new Inbound_Pro_Automatic_Updates;
+
+/*
+$response =  wp_remote_get(
+  'http://localhost:3001/api/pro/zip?api=rT2zXTabyiZMSITDoPfIZgy80KfLv7f0&site=http://inboundnow.dev',
+    array(
+        'timeout'     => 120,
+        'redirection'     => 5,
+        'decompress'  => false
+    )
+);
+//var_dump($response);exit;
+*/
