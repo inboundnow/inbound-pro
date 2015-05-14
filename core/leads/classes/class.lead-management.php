@@ -1124,10 +1124,10 @@ if (!class_exists('Leads_Manager')) {
 
 				/* show tags */
 				echo '<td class="tags-column-row">';
-					$_tags = wp_get_post_terms( $post->ID, 'lead-tags', 'id' );
+					$tags = wp_get_post_terms( $post->ID, 'lead-tags', 'id' );
 
 					if ($tags) {
-						foreach ( $_tags as $tag ) {
+						foreach ( $tags as $tag ) {
 							echo  "<a title='Click to Edit Lead Tag Name' target='_blank' href='".admin_url('edit-tags.php?action=edit&taxonomy=lead-tags&tag_ID='.$tag->term_id.'&post_type=wp-lead')."'>$tag->name</a>, ";
 						}
 					} else {
@@ -1161,7 +1161,7 @@ if (!class_exists('Leads_Manager')) {
 			$id = $lead_id;
 
 			$current_terms = wp_get_post_terms( $id, $taxonomy , 'id' );
-			$current_terms_count = count($terms);
+			$current_terms_count = count($current_terms);
 
 			$all_remove_terms = '';
 			foreach ($current_terms as $term) {

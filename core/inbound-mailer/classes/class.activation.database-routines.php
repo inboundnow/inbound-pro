@@ -37,9 +37,9 @@ class Inbound_Mailer_Activation_Update_Routines {
 	}
 
 	/**
-	*  Create example email
+	*  Create example email (turned off)
 	*/
-	public static function create_example_email_xxxxx() {
+	private static function create_example_email_xxxxx() {
 
 		// Set the post ID so that we know the post was created successfully
 		$email_id = wp_insert_post(
@@ -62,8 +62,8 @@ Thank you for taking the time to read this email. Version B
 
 Warm regards from {{site-name}}";}s:2:"ID";i:97098;s:6:"status";N;}}s:15:"inbound_subject";s:35:"Welcome to the new email component.";s:17:"inbound_from_name";s:11:"Inbound Now";s:18:"inbound_from_email";s:22:"noreply@inboundnow.com";s:25:"inbound_batch_send_nature";s:5:"ready";s:21:"inbound_send_datetime";s:0:"";s:18:"inbound_email_type";s:5:"batch";s:18:"inbound_recipients";s:3:"110";}';
 
-		$email_settings = unserialize( $email_settings ); 
-		
+		$email_settings = unserialize( $email_settings );
+
 
 		/* Save Email Settings */
 		Inbound_Email_Meta::update_settings( $email_id , $email_settings );
@@ -74,27 +74,27 @@ Warm regards from {{site-name}}";}s:2:"ID";i:97098;s:6:"status";N;}}s:15:"inboun
 		/* Insert required acf field maps */
 		update_post_meta( $email_id , '_logo_url' , 'field_544ebf0aa4133');
 		update_post_meta( $email_id , '_main_email_content' , 'field_544ebfe4a4135');
-		
-		
+
+
 		/* add tags */
 
 	}
-	
+
 	/**
-	* @migration-type: db modification 
+	* @migration-type: db modification
 	* @mirgration: creates wp_inbound_email_queue table
 	*/
 	public static function create_email_queue_table_aaa() {
 		global $wpdb;
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-		
-		$table_name = $wpdb->prefix . "inbound_email_queue"; 
-	   
+
+		$table_name = $wpdb->prefix . "inbound_email_queue";
+
 		$charset_collate = $wpdb->get_charset_collate();
 
 		$sql = "DROP TABLE $table_name";
 		dbDelta( $sql );
-		
+
 		$sql = "CREATE TABLE $table_name (
 			`id` mediumint(9) NOT NULL AUTO_INCREMENT,
 			`email_id` mediumint(9) NOT NULL,
@@ -107,7 +107,7 @@ Warm regards from {{site-name}}";}s:2:"ID";i:97098;s:6:"status";N;}}s:15:"inboun
 			UNIQUE KEY id (id)
 		) $charset_collate;";
 
-		
+
 		dbDelta( $sql );
 	}
 }

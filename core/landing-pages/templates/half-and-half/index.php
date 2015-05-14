@@ -19,7 +19,7 @@ do_action('lp_init');
 if (have_posts()) : while (have_posts()) : the_post();
 
 /* Pre-load meta data into variables. These are defined in the templates config.php file */
-	
+
 	$content = lp_get_value($post, $key, 'main-content');
     $conversion_area = lp_get_value($post, $key, 'conversion-area-content');
     $social_display = lp_get_value($post, $key, 'display-social');
