@@ -31,7 +31,7 @@ class Inbound_API_Wrapper {
      * Get API URL base
      */
      public static function get_api_url() {
-         if ( strstr( site_url() , 'inboundsoon.dev')) {
+         if ( strstr( site_url() , 'inboundsoon.dev') || strstr( site_url() , 'inboundnow.dev')) {
              self::$inbound_api_uri = 'http://localhost:3001/api/';
          } else {
              self::$inbound_api_uri = 'http://api.inboundnow.com/api/';

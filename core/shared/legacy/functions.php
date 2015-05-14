@@ -6,13 +6,13 @@ function inbound_media_button() {
 	global $pagenow, $typenow, $wp_version;
 	$output = '';
 
-	$shortcodes = array(	
+	$shortcodes = array(
 		'quick-forms' => 'Insert Existing Form',
 		'button' => 'Build a Button',
 		'call-to-action' => "Call to action Shortcodes",
 		'social-share' => 'Social Share',
 		'lists' => 'Insert Icon List',
-		'columns' => 'Insert Columns' 
+		'columns' => 'Insert Columns'
 	);
 
 	/** Only run in post/page creation and edit screens */
@@ -24,7 +24,7 @@ function inbound_media_button() {
 		} else {
 			$img = '<span class="wp-media-buttons-icon" id="inboundnow-media-button"></span>';
 			$output = '<a href="#TB_inline?width=640&inlineId=choose-inbound-shortcode" class="thickbox button new-inbound-shortcode" title="' . __( 'Marketing', 'inbound-pro' ). '" style="padding-left: .4em;">' . $img .  __( 'Marketing', 'inbound-pro' ). '</a>';
-			$output .= "<div class='short-list-inbound wp_themeSkin' style='margin-top:0px; padding-top:0px; display:none;' id='choose-inbound-shortcode'><h2>" . __( 'Choose a Shortcode' , 'inbound-pro' ) ."</h2><ul class='inbound-short-list' style=''>";
+			$output .= "<div class='short-list-inbound wp_themeSkin' style='margin-top:0px; padding-top:0px; display:none;' id='choose-inbound-shortcode'><h2>" . __( 'Choose a Shortcode' , INBOUNDNOW_TEXT_DOMAIN ) ."</h2><ul class='inbound-short-list' style=''>";
 			foreach ($shortcodes as $key => $value) {
 				$output .= "<li class='launch-marketing-sc' data-launch-sc='".$key."'><span class='new-sc-icons mceIcon mce_editor-icon-".$key."'></span>" . $value . "</li>";
 			}
@@ -293,7 +293,7 @@ if (!function_exists('inbound_Hex_2_RGB')) {
 	function inbound_Hex_2_RGB($hex) {
 	        $hex = preg_replace("/#/", "", $hex);
 	        $color = array();
-	 
+
 	        if(strlen($hex) == 3) {
 	            $color['r'] = hexdec(substr($hex, 0, 1) . $r);
 	            $color['g'] = hexdec(substr($hex, 1, 1) . $g);
@@ -304,7 +304,7 @@ if (!function_exists('inbound_Hex_2_RGB')) {
 	            $color['g'] = hexdec(substr($hex, 2, 2));
 	            $color['b'] = hexdec(substr($hex, 4, 2));
 	        }
-	        return $color;    
+	        return $color;
 	}
 }
 
@@ -330,9 +330,9 @@ if (!function_exists('inbound_color_scheme')) {
 		    hexdec(substr($input,5,2))
 		);
 
-		$color_scheme_array = 
+		$color_scheme_array =
 		array(
-				100 => array( $col[0]/4, $col[1]/4, $col[2]/4), 
+				100 => array( $col[0]/4, $col[1]/4, $col[2]/4),
 				95 => array( $col[0]/3, $col[1]/3, $col[2]/3),
 				90 => array( $col[0]/2.7, $col[1]/2.7, $col[2]/2.7),
 				85 => array( $col[0]/2.5, $col[1]/2.5, $col[2]/2.5),
@@ -353,7 +353,7 @@ if (!function_exists('inbound_color_scheme')) {
 				10 => array(255-(255-$col[0])/5, 255-(255-$col[1])/5, 255-(255-$col[2])/5),
 				5 => array(255-(255-$col[0])/10, 255-(255-$col[1])/10, 255-(255-$col[2])/10),
 				0 => array(255-(255-$col[0])/15, 255-(255-$col[1])/15, 255-(255-$col[2])/15)
-				); 
+				);
 
 		($format === 'hex') ? $sign = "#" : $sign = '';
 		$return_scheme = array();
@@ -368,7 +368,7 @@ if (!function_exists('inbound_color_scheme')) {
 				foreach ($return_scheme as $key => $hex_value) {
 					echo "<div style='background:$hex_value; display:block; width:100%;'>$key</div>";
 				}
-			} 
+			}
 
 			return $return_scheme;
 
