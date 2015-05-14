@@ -13,6 +13,7 @@ class Inbound_Updater {
     static $api_key;
     static $domain;
     static $api_url;
+    static $path;
     static $file;
     static $name;
     static $slug;
@@ -111,7 +112,7 @@ class Inbound_Updater {
     public static function api_request() {
         self::$response  = wp_remote_get( self::$api_url );
 
-        if ( is_wp_error(self::$response) ) {
+        if ( is_wp_error(self::$response) || empty(self::$response['body']) ) {
             return;
         }
 
@@ -266,6 +267,7 @@ class Inbound_Updater {
         }
 
         self::$info = $plugins->response[ $_REQUEST['plugin'] ];
+
         $url = add_query_arg( array( 'api' => self::$api_key , 'site' => self::$domain ) , self::$info->package );
 
         self::$response =  wp_remote_get(
@@ -347,6 +349,9 @@ class Inbound_Updater {
      * Install new plugin
      */
     public static function install_new_plugin() {
+        /* load pclzip */
+        include_once( ABSPATH . '/wp-admin/includes/class-pclzip.php');
+
         /* create temp file */
         $temp_file = tempnam('/tmp', 'TEMPPLUGIN' );
 
@@ -358,10 +363,11 @@ class Inbound_Updater {
 
         /* extract temp file to plugins direction */
         $archive = new PclZip($temp_file);
-        if (self::$branch == 'git') {
-            $result = $archive->extract( PCLZIP_OPT_REMOVE_PATH, self::$plugin.'-master' , PCLZIP_OPT_PATH, $plugin_path , PCLZIP_OPT_REPLACE_NEWER );
+
+        if ( $_REQUEST['slug'] == 'inbound-pro' ) {
+            $result = $archive->extract( PCLZIP_OPT_REMOVE_PATH, 'inboundnow-inbound-pro-' .self::$info->commit_reference , PCLZIP_OPT_PATH, self::$path , PCLZIP_OPT_REPLACE_NEWER );
         } else {
-            $result = $archive->extract( PCLZIP_OPT_PATH, WP_PLUGIN_DIR , PCLZIP_OPT_REPLACE_NEWER );
+            $result = $archive->extract( PCLZIP_OPT_PATH, self::$path , PCLZIP_OPT_REPLACE_NEWER );
         }
 
         if ($result == 0) {
