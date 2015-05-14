@@ -20,8 +20,7 @@ function lp_get_global_settings() {
 	$lp_global_settings[$tab_slug]['label'] = 'Global Settings';
 
 
-	$lp_global_settings[$tab_slug]['settings'] =
-	array(
+	$lp_global_settings[$tab_slug]['settings'] = array(
 		array(
 			'id'  => 'lp_global_settings_main_header',
 			'type'  => 'header',
@@ -794,8 +793,7 @@ function lp_render_global_settings($key,$custom_fields,$active_tab)
 					continue 2;
 				case 'html':
 					//print_r($field);
-					echo $field['value'];
-					echo '<br /><div class="lp_tooltip tool_dropdown" title="'.$field['description'].'"></div>';
+					echo $field['default'];
 				continue 2;
 
 

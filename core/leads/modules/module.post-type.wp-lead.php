@@ -31,11 +31,12 @@ function wpleads_change_columns( $cols ) {
 
 	$cols = array(
 		"cb" => "<input type=\"checkbox\" />",
-		"lead-picture" => "Lead",
-		"first-name" => "First Name",
-		"last-name" => "Last Name",
-		"title" => "Email",
+		"lead-picture" => __( 'Lead' , 'leads' ),
+		"first-name" => __( 'First Name' , 'leads' ),
+		"last-name" => __( 'Last Name' , 'leads' ),
+		"title" => __( 'Email' , 'leads' ),
 	);
+
 	if (isset($_GET['wp_leads_filter_field']) && $_GET['wp_leads_filter_field'] != "") {
 		$the_val = $_GET['wp_leads_filter_field'];
 		$nice_names = wpl_nice_field_names();
@@ -45,12 +46,11 @@ function wpleads_change_columns( $cols ) {
 		$cols['custom'] =  $the_val;
 	}
 
-	$cols_merge = array("status" => "Status",
-		// "company" => "Company", Custom Column
-		'conversion-count' => "Conversion Count",
-		"page-views" => "Total Page Views",
-		/*'modified' => "Latest Activity", */
-		"date" => "Created"
+	$cols_merge = array(
+	    "status" => __( 'Status' , 'leads' ),
+		'conversion-count' => __( 'Conversion Count' , 'leads' ),
+		"page-views" => __( 'Total Page Views' , 'leads' ),
+		"date" => +__( ' Created ' , 'leads' )
 	);
 	$cols = array_merge($cols, $cols_merge);
 	return $cols;
@@ -71,7 +71,7 @@ function wpleads_custom_columns( $column, $post_id ) {
 		$size = 50;
 		$url = site_url();
 		$default = WPL_URLPATH . '/images/gravatar_default_50.jpg'; // doesn't work for some sites
-		
+
 		$gravatar = "//www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size;
 		$extra_image = get_post_meta( $post_id , 'lead_main_image', true );
 	    /*
