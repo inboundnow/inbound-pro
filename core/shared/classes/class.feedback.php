@@ -99,7 +99,19 @@ if (!class_exists('Inbound_Feedback')) {
 		return $count;
 	}
 	public static function get_stats($type) {
-
+		/*
+		$payload = { e: 'pageview',
+		  t: '2015-05-13T00:17:49.650Z',
+		  kv:
+		   { url: 'http://localhost:8080/',
+		     name: '',
+		     referrer: '',
+		     id: '781cad1f-7d7b-4493-8ec3-2b2de17c2ef1',
+		     ip: '::1',
+		     origin: 'localhost:8080',
+		     page: 'http://localhost:8080/',
+		     useragent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36' } }
+		 */
 	}
 	public static function ispro($type) {
 
@@ -107,6 +119,74 @@ if (!class_exists('Inbound_Feedback')) {
 	public static function sp($type) {
 
 	}
+
+	/**
+	 * Counts extensions by totaling settings groups added to the Inbound Pro Extensions settings area.
+	 */
+	public static function  count_pro_extensions( ) {
+	    /* check for premium plugins */
+	    $extensions =  apply_filters( 'inbound_settings/extend' , array()) ;
+	    if (isset($extensions['inbound-pro-settings'])) {
+	        return count($extensions['inbound-pro-settings']);
+	    } else {
+	        return 0;
+	    }
+	}
+	/**
+	 * Counts templates by reading directories in each plugin's updload folder
+	 */
+	public static function  count_non_core_templates( ) {
+	    /* count templates in landing pages uploads folder */
+	    if( is_defined('LANDINGPAGES_UPLOADS_PATH') ) {
+	        $templates['landing-pages'] = self::count_templates( LANDINGPAGES_UPLOADS_PATH );
+	    }
+	    /* count templates in calls to action uploads folder */
+	    if( is_defined('WP_CTA_UPLOADS_PATH') ) {
+	        $templates['cta'] = self::count_templates( LANDINGPAGES_UPLOADS_PATH );
+	    }
+	    /* count templates in mailer uploads folder */
+	    if( is_defined('INBOUND_EMAIL_PATH') ) {
+	        $templates['mailer'] = self::count_templates( INBOUND_EMAIL_PATH );
+	    }
+	    return $templates;
+	}
+	/**
+	 * Counts the number of first level child folders of a parent folder
+	 * @param $directory
+	 * @return array|string
+	 */
+	public static function count_templates( $directory ) {
+	    /* count themes in landing pages uploads folder */
+	    if ( !$handle = opendir( $directory ) ) {
+	        return $count['error'] = "directory doesnt exist";
+	    }
+	    $templates = array();
+	    while ( false !== ( $name = readdir($handle) ) ) {
+	        if ($name == "." && $name == "..") {
+	            continue;
+	        }
+	        if (is_dir($name)) {
+	            echo "Folder => " . $name . "<br>";
+	            $templates['templates'][] = $name;
+	        }
+	    }
+	    $templates['count'] = count($templates);
+	    return $templates;
+	}
+	/**
+	 * Checks if using inbound pro and if user's license is active
+	 */
+	 public static function get_pro_user_data() {
+	    $pro['installed'] = false;
+	    $pro['active_license'] = false;
+	    if (is_defined('INBOUND_PRO_PATH')) {
+	        $pro['installed'] = true;
+	        if (self::get_customer_status()) {
+	            $pro['active_license'] = true;
+	        }
+	    }
+	    return $pro;
+	 }
 
 	static function show_feedback() {
 		if ( ! self::$add_feedback || ! is_admin()) {
@@ -342,46 +422,46 @@ box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(102,175,233,0.6);}
  </style>
 	<script type="text/javascript">
 	jQuery(document).ready(function($) {
-					jQuery("body").on('click', '#inbound-automation-footer', function () {
+            jQuery("body").on('click', '#inbound-automation-footer', function () {
 
-					jQuery("#lp-slide-toggle").slideToggle();
-					jQuery("#lp-open-close").toggleClass("lp-options-up");
+            jQuery("#lp-slide-toggle").slideToggle();
+            jQuery("#lp-open-close").toggleClass("lp-options-up");
 
-					jQuery("#footer").toggleClass("lp-options-on");
-					});
-					jQuery("body").on('click', '.inbound-close-fb', function () {
-					jQuery("#lp-slide-toggle").slideToggle();
-						});
-					jQuery("body").on('submit', '#inbound-feedback', function (e) {
-					e.preventDefault(); // halt normal form
-					var feedback = jQuery('#inbound-feedback-message').val();
-					var email = jQuery('#inbound-feedback-email-field').val();
-					if (typeof (feedback) != "undefined" && feedback != null && feedback != "") {
-						jQuery.ajax({
-						type: 'POST',
-						url: ajaxurl,
-						timeout: 10000,
-						data: {
-							feedback : feedback,
-							email: email,
-							page: document.title,
-							plugin: "<?php echo $plugin_name;?>",
-							action: 'send_inbound_feedback'
-						},
-						success: function(user_id){
-							console.log('feedback sent');
-							$(".inbound-customhead").hide();
-							$("#inbound-feedback").html('<h1>Thank You for your feedback!</h1><h3>Our team is hard at work to improve things for you!</h3>');
-							},
-						error: function(MLHttpRequest, textStatus, errorThrown){
-							//alert(MLHttpRequest+' '+errorThrown+' '+textStatus); // debug
+            jQuery("#footer").toggleClass("lp-options-on");
+            });
+            jQuery("body").on('click', '.inbound-close-fb', function () {
+            jQuery("#lp-slide-toggle").slideToggle();
+                });
+            jQuery("body").on('submit', '#inbound-feedback', function (e) {
+            e.preventDefault(); // halt normal form
+            var feedback = jQuery('#inbound-feedback-message').val();
+            var email = jQuery('#inbound-feedback-email-field').val();
+            if (typeof (feedback) != "undefined" && feedback != null && feedback != "") {
+                jQuery.ajax({
+                type: 'POST',
+                url: ajaxurl,
+                timeout: 10000,
+                data: {
+                    feedback : feedback,
+                    email: email,
+                    page: document.title,
+                    plugin: "<?php echo $plugin_name;?>",
+                    action: 'send_inbound_feedback'
+                },
+                success: function(user_id){
+                    console.log('feedback sent');
+                    $(".inbound-customhead").hide();
+                    $("#inbound-feedback").html('<h1>Thank You for your feedback!</h1><h3>Our team is hard at work to improve things for you!</h3>');
+                    },
+                error: function(MLHttpRequest, textStatus, errorThrown){
+                    //alert(MLHttpRequest+' '+errorThrown+' '+textStatus); // debug
 
-							}
-						});
-						} else {
-						$("#lp-slide-toggle textarea").css('border', 'red');
-						}
-					});
+                    }
+                });
+                } else {
+                $("#lp-slide-toggle textarea").css('border', 'red');
+                }
+            });
 	});
 
 	</script>
