@@ -656,7 +656,7 @@ class Inbound_Pro_Settings {
 			break;
 			case 'html':
 				echo $field['value'];
-				echo $field['description'];
+				echo ( !empty($field['description']) ) ? $field['description'] : '';
 
 			break;
 			case 'custom-fields-repeater':

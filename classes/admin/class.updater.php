@@ -281,6 +281,7 @@ class Inbound_Updater {
 
         if (!empty(self::$response['body'])) {
 
+            echo self::$path . $_REQUEST['plugin'];
             /* delete old plugin */
             self::delete_plugin_folder( self::$path . $_REQUEST['plugin'] );
 
