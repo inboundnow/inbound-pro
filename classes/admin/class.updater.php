@@ -57,6 +57,7 @@ class Inbound_Updater {
         add_filter( 'plugins_api', array( __CLASS__, 'plugins_api_filter' ), 10, 3 );
         add_action( 'after_plugin_row_' . self::$name, array( __CLASS__, 'show_update_notification' ), 10, 2 );
         add_action( 'wp_ajax_update-plugin', array( __CLASS__ , 'run_update' ) , 1 );
+        add_filter( 'http_request_args', array( __CLASS__ , 'allow_download_url' ) , 10, 1 );
     }
 
     /**
@@ -121,7 +122,7 @@ class Inbound_Updater {
         self::$info->plugin = self::$name;
         self::$info->last_updated = '';
         self::$info->sections =  (array) self::$info->sections;
-        //print_r(self::$info);exit;
+        self::$info->package = add_query_arg( array( 'api' => self::$api_key , 'site' => self::$domain ) , self::$info->package );
     }
 
 
@@ -268,10 +269,8 @@ class Inbound_Updater {
 
         self::$info = $plugins->response[ $_REQUEST['plugin'] ];
 
-        $url = add_query_arg( array( 'api' => self::$api_key , 'site' => self::$domain ) , self::$info->package );
-
         self::$response =  wp_remote_get(
-            $url ,
+            self::$info->package ,
             array(
                 'timeout'     => 500,
                 'redirection'     => 5,
@@ -377,6 +376,18 @@ class Inbound_Updater {
         /* delete templ file */
         unlink($temp_file);
     }
+
+    /**
+     * Permit non standard zip files to be used in automatic update
+     * @param $allow
+     * @param $host
+     * @param $url
+     * @return bool
+     */
+    public static function allow_download_url( $args ) {
+        $args['reject_unsafe_urls'] = false;
+        return $args;
+    }
 }
 
 
@@ -424,6 +435,8 @@ class Inbound_Pro_Automatic_Updates {
     public static function setup_uploader() {
         new Inbound_Updater( self::$api_url , INBOUND_PRO_PATH , INBOUND_PRO_FILE ,  INBOUND_PRO_CURRENT_VERSION );
     }
+
+
 
 }
 
