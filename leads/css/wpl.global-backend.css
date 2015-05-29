@@ -1,0 +1,15 @@
+
+#adminmenu .menu-icon-wp-lead div.wp-menu-image:before {
+	font-family: "FontAwesome" !important;
+	content: "\f0c0";
+
+}
+.branch-3-7 #adminmenu .menu-icon-wp-lead div.wp-menu-image:before {
+display: none;
+}
+#adminmenu .menu-icon-wp-lead div.wp-menu-image img{
+	display: none;
+}
+.branch-3-7 #adminmenu .menu-icon-wp-lead div.wp-menu-image img {
+	display: block;
+}

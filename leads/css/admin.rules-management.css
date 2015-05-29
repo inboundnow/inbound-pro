@@ -1,0 +1,99 @@
+#ma-automation-name {
+	width:284px;
+}
+
+#ma-automation-if-condition
+{
+	width:38px;
+}
+
+#ma-rules-table-container-inside
+{
+	margin-top:-20px;
+}
+
+.rules-div-label {
+	width:169px;
+	display:inline-block;
+}
+
+.meta-data-listing-container
+{
+	display:none;
+}
+
+.automation-delete-condition-button img
+{
+   cursor:pointer;
+   width:16px;
+   height:16px;
+   margin-right:12px;
+   margin-left:-8px;
+}
+
+.automation-delete-condition-button
+{
+   display:none;
+
+}
+
+.automation-save-button-container
+{
+	text-align:right;
+
+}
+
+.automation-hidden-steps
+{
+	display:none;
+}
+
+.ma-td
+{
+	padding:5px;
+}
+
+.ma-th
+{
+	text-align:left;
+	font-size:15px;
+	font-weight:300;
+	padding: 13px;
+	vertical-align:top;
+	width:140px;
+
+}
+
+.automation_text_input
+{
+	width:100px;
+}
+
+.automation_check_box_table
+{
+	display:inline;
+}
+
+.rules-div-add-new-automation-condition
+{
+	float:right;
+}
+
+
+.nav-tab-special-active{
+	border-color: #DFDFDF #DFDFDF #FFFFFF !important;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border-width: 1px 1px 1px;
+    color: #000;
+    display: inline-block;
+    font-size: 12px;
+    line-height: 16px;
+    margin: 0 6px -1px 0;
+    padding: 4px 14px 6px;
+    text-decoration: none;
+    text-shadow: 0 1px 0 #FFFFFF;
+	cursor:pointer;
+    background: white;
+
+}

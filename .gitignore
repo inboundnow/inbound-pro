@@ -32,3 +32,7 @@ core/inbound-automation/tests
 assets/libraries/ink/img
 assets/libraries/ink/js
 assets/images/downloads_src
+
+#composer
+vendor
+bin

@@ -89,7 +89,7 @@ color: white;
   display: inline;
   color:red;
 }
-input[type="text"], input[type="email"], #inbound-form-wrapper input[type=text], #inbound-form-wrapper input[type=url], #inbound-form-wrapper input[type=email], #inbound-form-wrapper input[type=tel], #inbound-form-wrapper input[type=number], #inbound-form-wrapper input[type=password] {
+input[type="text"], input[type="email"], #inbound-form-wrapper input[type=text], #inbound-form-wrapper input[type=url], #inbound-form-wrapper input[type=email], #inbound-form-wrapper input[type=tel], #inbound-form-wrapper input[type=number], #inbound-form-wrapper input[type=password] , #inbound-form-wrapper select {
   width: 94%;
 padding: 8px 4px 8px 10px;
 margin-bottom: 15px;

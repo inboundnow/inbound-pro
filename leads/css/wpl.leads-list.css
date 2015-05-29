@@ -1,0 +1,201 @@
+.row-actions .edit,.row-actions .trash {
+	font-size: 0px;
+	margin-right: 5px;
+}
+#lead-picture {
+	width: 55px;
+}
+.tablenav .actions select#wplead_list_category {
+	max-width: 110px;
+}
+.tablenav .actions select#lead-tags {
+max-width: 105px;
+}
+select[name='seo_filter'] {
+	display: none;
+}
+.lead-grav-img {
+margin-right: 10px;
+background: #FCFDFE;
+border: 1px solid #E0E0E0;
+-moz-border-radius: 7px;
+border-radius: 7px;
+}
+.lead_meta_val {
+	display: none;
+}
+#add-to-this {
+	float: left;
+	display: inline-block;
+	vertical-align: bottom;
+	padding-top: 5px;
+	padding-right: 5px;
+}
+.left-float-filter {
+	float: left;
+	display: inline-block;
+	clear: both;
+	padding: 6px;
+	padding-left: 0px;
+	padding-top: 9px;
+	font-size: 18px;
+	font-weight: 300;
+}
+.subsubsub {
+margin: 0px;
+padding: 0px;
+vertical-align: top;
+margin-bottom: 10px;
+padding-top: 2px;
+}
+.row-actions {
+	position: relative;
+	width: 500px;
+	margin-top: 3px;
+}
+.tablenav .actions {
+	overflow: hidden;
+	padding: 2px 8px 0 0;
+	padding-right: 0px;
+}
+td.first-name {
+	overflow: visible;
+	font-size: 17px;
+	padding-top: 8px;
+}
+td.last-name {
+	font-size: 17px;
+	padding-top: 8px;
+}
+#cb {
+	width: 30px;
+}
+#conversion-count {
+	width: 77px;
+	text-align: center;
+}
+#page-views {
+	width: 73px;
+	text-align: center;
+}
+.wp-list-table td.conversion-count, .wp-list-table td.page-views{
+    font-size: 18px;
+    color: #000;
+	margin: 0;
+	text-align: center;
+	padding-top: 15px;
+	border-right: 1px solid #EBEBEA;
+}
+.wp-list-table td.conversion-count {
+	border-left: 1px solid #EBEBEA;
+}
+.mark-viewed {
+	margin-left: 8px;
+
+}
+.edit a,  .clone a, .mark-viewed, .mark-viewed-undo, .mark-viewed, .mark-viewed-undo {
+
+margin-right: 5px !important;
+}
+.new-lead-row .mark-viewed-undo {
+ display: none;
+}
+ .clone a:hover, .mark-viewed:hover, .mark-viewed-undo:hover  {
+
+}
+.clone a:hover {
+	color:#000;
+}
+.mark-viewed, .mark-viewed-undo {
+	background-color: #4A4845;
+	font-size: 14px;
+	padding: 4px 5px;
+}
+.mark-viewed-undo {
+	display: none ;
+	margin-left: 8px;
+}
+.row-actions .trash a{
+	background: #2ea2cc;
+	border-color: #0074a2;
+	-webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,.5),0 1px 0 rgba(0,0,0,.15);
+	box-shadow: inset 0 1px 0 rgba(120,200,230,.5),0 1px 0 rgba(0,0,0,.15);
+	color: #fff;
+	text-decoration: none;
+	vertical-align: top;
+	display: inline-block;
+	line-height: 26px;
+	height: 28px;
+	margin: 0;
+	cursor: pointer;
+	border-width: 1px;
+	border-style: solid;
+	-webkit-border-radius: 3px;
+	-webkit-appearance: none;
+	border-radius: 3px;
+	white-space: nowrap;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	font-size: 14px !important;
+	font-weight: bold;
+	padding: 0px 10px !important;
+	margin-right: 5px !important;
+
+	word-wrap: break-word;
+	outline: 0;
+	font-family: inherit;
+	border-spacing: 0;
+	-webkit-font-smoothing: subpixel-antialiased;
+}
+.wp-core-ui .button-primary.hover, .wp-core-ui .button-primary.submitdelete:hover, .wp-core-ui .button-primary.focus, .wp-core-ui .button-primary:focus {
+	background: #1e8cbe;
+	border-color: #0074a2;
+	-webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,.6);
+	box-shadow: inset 0 1px 0 rgba(120,200,230,.6);
+	color: #fff;
+	text-decoration: none;
+	vertical-align: top;
+	display: inline-block;
+	text-decoration: none;
+	font-size: 13px;
+	line-height: 26px;
+	height: 28px;
+	margin: 0;
+	padding: 0 10px 1px;
+	cursor: pointer;
+	border-width: 1px;
+	border-style: solid;
+	-webkit-border-radius: 3px;
+	-webkit-appearance: none;
+	border-radius: 3px;
+	white-space: nowrap;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.row-actions .trash a {
+	color:#fff !important;
+}
+.row-actions .trash a {
+	background: #fc5a5a !important;
+	border-color: #fc5a5a !important;
+	-webkit-box-shadow: inset 0 1px 0 rgba(242, 45, 58, 0.5),0 1px 0 rgba(242, 45, 58, 0.15) !important;
+	box-shadow: inset 0 1px 0 rgba(242, 45, 58, 0.5),0 1px 0 rgba(242, 45, 58, 0.15) !important;
+}
+.row-actions .trash a:hover {
+	border-color: #fc5a5a !important;
+	-webkit-box-shadow: inset 0 1px 0 rgba(242, 45, 58, 0.5),0 1px 0 rgba(242, 45, 58, 0.15) !important;
+	box-shadow: inset 0 1px 0 rgba(242, 45, 58, 0.5),0 1px 0 rgba(242, 45, 58, 0.15) !important;
+}
+
+.clone a {
+	font-size: 14px;
+	background-color: #f4f4f4;
+border-color: #ccc;
+-webkit-box-shadow: 0px 1px 2px rgba(0,0,0,0.08), inset 1px 1px 1px rgba(255,255,255,0.2);
+-moz-box-shadow: 0px 1px 2px rgba(0,0,0,0.08), inset 1px 1px 1px rgba(255,255,255,0.2);
+box-shadow: 0px 1px 2px rgba(0,0,0,0.08), inset 1px 1px 1px rgba(255,255,255,0.2);
+color: #666;
+text-shadow: none;
+}

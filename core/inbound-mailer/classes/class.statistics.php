@@ -19,7 +19,7 @@ class Inbound_Email_Stats {
      *	@param BOOLEAN $return false for json return true for array return
      *	@return JSON
      */
-    public static function get_email_stats ( ) {
+    public static function get_email_timeseries_stats( ) {
         global $Inbound_Mailer_Variations, $post;
 
 
@@ -47,7 +47,7 @@ class Inbound_Email_Stats {
                 echo $query . '<br>';
                 exit;
             }
-            self::query_mandrill( $query );
+            self::query_mandrill_timeseries( $query );
 
             /* sort data into local stats object by hour */
             self::process_mandrill_stats();
@@ -83,7 +83,6 @@ class Inbound_Email_Stats {
         $stats = get_post_meta( $post->ID , 'inbound_statistics' , true );
 
         self::$stats = ($stats) ? $stats : array( 'mandrill' => array() );
-
     }
 
     /**
@@ -107,6 +106,27 @@ class Inbound_Email_Stats {
     }
 
     /**
+     * Pull data from Mandrill based on email id and variation id
+     *
+     */
+    public static function get_send_stream() {
+        global $Inbound_Mailer_Variations;
+        global $post;
+
+        self::$vid = $Inbound_Mailer_Variations->get_current_variation_id();
+        self::$email_id = $post->ID;
+
+        self::$stats['date_from'] =  self::get_mandrill_timestamp( $post->post_date_gmt );
+        self::$stats['date_to'] =  self::get_mandrill_timestamp( gmdate( "Y-m-d\\TG:i:s\\Z" ) );
+
+        $query = 'u_email_id:' .	$post->ID	. ' u_variation_id:'. self::$vid .' ( tags:batch OR tags:automated)';
+
+        self::query_mandrill_search( $query );
+
+    }
+
+
+    /**
      *  Timezone check
      */
     public static function timezone_check( $timezone ) {
@@ -120,6 +140,7 @@ class Inbound_Email_Stats {
                 break;
         }
     }
+
     /**
      *	Update db stats object
      */
@@ -129,13 +150,14 @@ class Inbound_Email_Stats {
         update_post_meta( $post->ID , 'inbound_statistics' , self::$stats );
 
     }
+
     /**
      *	Get Mandrill Time Series Stats
      *	@param STRING $query
      */
-    public static function query_mandrill( $query ) {
+    public static function query_mandrill_timeseries( $query ) {
         global $post;
-
+        $start = microtime(true);
         /* load mandrill time	*/
         $settings = Inbound_Mailer_Settings::get_settings();
         $mandrill = new Mandrill(  $settings['api_key'] );
@@ -144,7 +166,36 @@ class Inbound_Email_Stats {
         $senders = array();
 
         self::$results = $mandrill->messages->searchTimeSeries($query, self::$stats['date_from'] , self::$stats['date_to'] , $tags, $senders);
+        echo self::$stats['date_from'];
+        echo '<br>';
+        echo self::$stats['date_to'];
+        echo '<br>';
+        echo microtime(true) - $start;
+    }
 
+    /**
+     *	Get Mandrill Search Stats
+     */
+    public static function query_mandrill_search( $query ) {
+        global $post;
+        $start = microtime(true);
+
+        /* load mandrill time	*/
+        $settings = Inbound_Mailer_Settings::get_settings();
+        $mandrill = new Mandrill(  $settings['api_key'] );
+
+        $tags = array();
+        $senders = array();
+        $api_keys = array();
+        echo $query;
+        self::$results = $mandrill->messages->search($query, self::$stats['date_from'] , self::$stats['date_to'] , $tags, $senders , $api_keys , 1000 );
+        print_r(self::$results);
+
+        echo self::$stats['date_from'];
+        echo '<br>';
+        echo self::$stats['date_to'];
+        echo '<br>';
+        echo microtime(true) - $start;
     }
 
     /**
@@ -226,7 +277,7 @@ class Inbound_Email_Stats {
      *	Prepares dates to process
      */
     public static function prepare_date_ranges() {
-
+        global $post;
 
         /* If we've already processed time & stats already exits then start from last processing point */
         if ( isset(self::$stats['date_to'] ) && self::$stats['totals'] ) {
@@ -249,7 +300,7 @@ class Inbound_Email_Stats {
                 self::$stats['date_to'] = self::get_mandrill_timestamp( gmdate( "Y-m-d\\TG:i:s\\Z" ) );
             }
         } else {
-            self::$stats['date_from'] = self::get_mandrill_timestamp( self::$settings['send_datetime'] );
+            self::$stats['date_from'] = (self::$settings['send_datetime']) ? self::get_mandrill_timestamp( self::$settings['send_datetime'] ) :  self::get_mandrill_timestamp( $post->post_date_gmt ) ;
             self::$stats['date_to'] = self::get_mandrill_timestamp( gmdate( "Y-m-d\\TG:i:s\\Z" ) );
         }
 

@@ -36,7 +36,7 @@ array(
         'type'  => 'description-block', // metafield type
         'default'  => __( '<p><b>Insert your call to action graphic into the content area below</b>. Don\'t forget to hyperlink it to your final destination</p>' , 'cta' ) , // default content
         'context'  => 'normal' // Context in screen (advanced layouts in future)
-        ),		
+        ),
     array(
         'label' => 'Message Text',
         'description' => "Message Text",
@@ -46,10 +46,10 @@ array(
         'context'  => 'normal'
         )
     );
-	
+
 
 
 /* define dynamic template markup */
-$wp_cta_data[$key]['markup'] = '<div id="blank-cta-template">
+$wp_cta_data[$key]['markup'] = '<div class="blank-cta-template">
 	{{content-text}}
 </div>';

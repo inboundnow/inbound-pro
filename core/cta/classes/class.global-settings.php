@@ -26,6 +26,7 @@ if ( !class_exists('CTA_Global_Settings') ) {
 		*/
 		public static function add_hooks() {
 			add_action( 'admin_enqueue_scripts' , array( __CLASS__ , 'enqueue_scripts' ) );
+			add_filter( 'plugin_action_links_cta/calls-to-action.php',  array( __CLASS__ , 'plugin_action_links' ));
 		}
 
 		/**
@@ -40,6 +41,7 @@ if ( !class_exists('CTA_Global_Settings') ) {
 
 			wp_enqueue_style('wp-cta-css-global-settings-here', WP_CTA_URLPATH . 'css/admin-global-settings.css');
 		}
+
 
 		/**
 		*	Get global setting data
@@ -94,7 +96,20 @@ if ( !class_exists('CTA_Global_Settings') ) {
 			self::$core_settings = $wp_cta_global_settings;
 
 		}
+		/**
+		 * Add action links in Plugins table
+		 */
 
+		public static function plugin_action_links( $links ) {
+
+			return array_merge(
+				array(
+					'settings' => '<a href="' . admin_url( 'edit.php?post_type=wp-call-to-action&page=wp_cta_global_settings' ) . '">' . __( 'Settings', 'ts-fab' ) . '</a>'
+				),
+				$links
+			);
+
+		}
 		/**
 		*	Displays nav tabs
 		*/

@@ -1,0 +1,116 @@
+.wpl-tab-display
+{
+	background-color:#fff;
+}
+#wplead_metabox_main .handlediv {
+	display: none;
+}
+#lead-main-image {
+
+}
+#postbox-container-1 {
+	margin-bottom: 50px;
+}
+#misc-publishing-actions {
+padding: 0px;
+}
+#poststuff {
+	display: none;
+}
+#wplead_metabox_main.postbox {
+	box-shadow: none !important;
+}
+.lead-comment-div p {
+	margin-top: 0px;
+}
+.lead-notice {
+	margin-left: 40px;
+	margin-bottom: 20px;
+	margin-top: 10px
+}
+#publishing-action {
+text-align: right;
+float: left;}
+#delete-action {
+float: right;
+}
+#postcustom {
+}
+.lead-timeline-img img, .updated.inbound-shortcode-trigger {
+	display: none !important;
+}
+.add-new-h2:nth-of-type(2) {
+	display: none;
+}
+.lead-timeline-img:before {
+	display: inline-block;
+	font-family: FontAwesome;
+	font-style: normal;
+	font-weight: normal;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	content: "\f006";
+	/*content: "\f05d"; */
+
+	display: inline-block;
+	text-align: right;
+	margin-right: 10px;
+	width: 50px;
+	font-size: 54px;
+}
+
+
+.lead-comment-conversion .lead-timeline-img:before{
+	/*content: "\f0e6"; */
+	content: "\f0e5";
+	font-size: 45px;
+
+	position: absolute;
+	left: 4px;
+	padding-right: 0px;
+
+}
+.landing-page-conversion .lead-timeline-img:hover, .landing-page-conversion .lead-timeline-img.active-hover{
+	color: rgb(0, 177, 0);
+}
+.lead-comment-conversion .lead-timeline-img {
+
+}
+.landing-page-conversion .lead-timeline-img {
+	color: green;
+}
+#lead-activity-toggles{
+	margin-top: 5px;
+}
+.landing-page-conversion .lead-timeline-img:before {
+	/*content: "\f006"; */
+	content: "\f046"; /* checkbox */
+	font-size: 49px;
+	position: absolute;
+	left: 6px;
+
+
+}
+.lead-search-conversion .lead-timeline-img:before {
+	content: "\f002";
+	font-size: 45px;
+	color: #525252;
+}
+.lead-search-conversion .lead-timeline-img.active-hover:before  {
+	color: #000;
+}
+#lead-searches .lead-timeline {
+	margin-left: 10px !important;
+}
+#conversions-data-display .nav-container {
+margin-top: 5px;
+}
+
+.lead-comment-conversion .lead-timeline-img.active-hover,  .page-view-item .lead-timeline-img.active-hover {
+	color: #2ea2cc;
+}
+.page-view-item .lead-timeline-img:before {
+	/* content: "\f06e"; */
+	content: "\f016";
+}

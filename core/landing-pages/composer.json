@@ -1,0 +1,59 @@
+{
+  "name":"inboundnow/landing-page",
+  "description":"Landing Page Framework for WordPress",
+  "keywords":["landing pages", "inbound now", "inbound marketing", "splt testing", "lp"],
+  "homepage":"http://inboundnow.com.com/",
+  "type":"library",
+  "license":"GPL",
+  "authors":[
+    {
+      "name":"Hudson Atwell",
+      "email":"hudson@inboundnow.com",
+      "homepage":"http://www.twitter.com/atwellpub/"
+    }
+  ],
+  "minimum-stability": "stable",
+
+  "require": {
+    "php": ">=5.4.0",
+    "ext-json": "*",
+    "ext-mbstring": "*",
+    "phpunit/phpunit": "~4.6.0",
+	"jonnyw/php-phantomjs": "3.*"
+  },
+  "config": {
+    "bin-dir": "tests/bin"
+  },
+  "scripts": {
+    "post-install-cmd": [
+       "PhantomInstaller\\Installer::installPhantomJS"
+    ],
+    "post-update-cmd": [
+        "PhantomInstaller\\Installer::installPhantomJS"
+    ]
+  },
+  "require-dev": {
+    "codeception/specify": "~0.3",
+	"badcow/lorem-ipsum": "dev-master",
+	"lucatume/wp-browser": "*",
+	"wp-cli/wp-cli": "*"
+  },
+  "suggest": {
+    "codeception/phpbuiltinserver": "Extension to start and stop PHP built-in web server for your tests",
+    "codeception/specify": "BDD-style code blocks",
+    "codeception/verify": "BDD-style assertions",
+    "phpseclib/phpseclib": "Extension required to use the SFTP option in the FTP Module."
+  },
+
+  "autoload":{
+    "psr-0":{
+      "Codeception":"src"
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "2.1-dev"
+    }
+  },
+  "bin":["codecept"]
+}

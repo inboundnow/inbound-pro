@@ -220,7 +220,7 @@ a:hover {
   margin: 40px auto 20px auto;
 }
 
-input[type="text"], input[type="number"], input[type="email"], select {
+input[type="text"], input[type="number"], input[type="email"], input[type="tel"], select {
   background: #fff;
   border: 2px solid #fff;
   width: 100%;
@@ -232,7 +232,7 @@ input[type="text"], input[type="number"], input[type="email"], select {
   margin: 10px auto;
 }
 
-input[type="text"]:focus, input[type="number"]:focus {
+input[type="text"]:focus, input[type="number"], input[type="tel"], input[type="email"]:focus {
   border: 2px solid #27ae60;
 }
 

@@ -101,14 +101,28 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
         }
 
+        /**
+         *
+         */
         public static function load_statistics() {
             global $post;
 
-            $stats = Inbound_Email_Stats::get_email_stats( );
+            $stats = Inbound_Email_Stats::get_email_timeseries_stats( );
 
             self::$statistics = $stats;
             self::$campaign_stats = $stats['totals'];
             self::$variation_stats = $stats['variations'];
+
+        }
+
+
+
+        /**
+         *
+         */
+        public static function load_send_stream() {
+            global $post;
+            $stream = Inbound_Email_Stats::get_send_stream( );
         }
 
         /**
@@ -479,6 +493,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
             self::add_countdown();
             self::add_statistics();
+            self::add_send_stream();
             self::add_email_send_settings();
             echo '<div class="quick-launch-container bs-callout bs-callout-clear">';
             self::add_variation_buttons();
@@ -534,7 +549,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
          *	Adds statistics container
          */
         public static function add_statistics() {
-            global $Inbound_Mailer_Variations, $post;
+            global $post;
 
             $pass = array( 'scheduled' , 'sent' , 'sending' , 'automated' );
 
@@ -554,6 +569,30 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             self::load_graphs_JS();
 
             echo '</div>';
+        }
+
+
+        /**
+         *	Adds list of last 1000 emails sent
+         */
+        public static function add_send_stream() {
+            global $post;
+
+            $pass = array( 'scheduled' , 'sent' , 'sending' , 'automated' );
+
+            if ( !in_array( $post->post_status , $pass ) ) {
+                return;
+            }
+
+            echo '<div class="statistics-reporting-container bs-callout bs-callout-clear">';
+            echo '<h4>' . __('Stream' , 'inbound-email') .'</h4>';
+
+
+            self::load_send_stream();
+
+
+            echo '</div>';
+
         }
 
         /**

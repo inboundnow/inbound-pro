@@ -121,8 +121,6 @@ class CTA_Activation {
 	}
 
 	public static function set_default_settings() {
-		add_option( 'wp_cta_global_css', '', '', 'no' );
-		add_option( 'wp_cta_global_js', '', '', 'no' );
 		add_option( 'wp_cta_global_record_admin_actions', '1', '', 'no' );
 		add_option( 'wp_cta_global_wp_cta_slug', 'cta', '', 'no' );
 		update_option( 'wp_cta_activate_rewrite_check', '1');

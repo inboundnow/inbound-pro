@@ -1,8 +1,8 @@
-<phpunit bootstrap="tests/travis-ci/bootstrap.php" backupGlobals="false" colors="true">
+<phpunit bootstrap="tests/phpunit/bootstrap.php" backupGlobals="false" colors="true">
     <testsuites>
         <!-- Default test suite to run all tests -->
         <testsuite>
-            <directory prefix="test." suffix=".php">tests/travis-ci/</directory>
+            <directory prefix="test." suffix=".php">tests/phpunit/</directory>
         </testsuite>
     </testsuites>
 </phpunit>

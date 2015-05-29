@@ -32,3 +32,6 @@ shared/languages/leads/_get-translations.bat
 # Grunt
 node_modules
 Desktop.ini
+
+# phpstorm
+.idea

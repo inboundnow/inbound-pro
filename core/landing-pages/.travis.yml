@@ -5,51 +5,138 @@ language: php
 
 # PHP version used in first build configuration.
 php:
-    - "5.5"
+  - "5.4"
+  - "5.5"
 
 # WordPress version used in first build configuration.
 env:
-    - WP_VERSION=master
+  - WP_VERSION=master
 
-# Next we define our matrix of additional build configurations to test against.
-# The versions listed above will automatically create our first configuration,
-# so it doesn't need to be re-defined below.
-
-# WP_VERSION specifies the tag to use. The way these tests are configured to run
-# requires at least WordPress 3.8. Specify "master" to test against SVN trunk.
-
-# Note that Travis CI supports listing these above to automatically build a
-# matrix of configurations, but we're being nice here by manually building a
-# total of four configurations even though we're testing 4 versions of PHP
-# along with 2 versions of WordPress (which would build 8 configs otherwise).
-# This takes half as long to run while still providing adequate coverage.
-
+# we will build a matrix of PHP to WP_VERSIONs later.
 matrix:
-  include:
-    - php: "5.3"
-      env: WP_VERSION=master
-    - php: "5.4"
-      env: WP_VERSION=3.8.1
+  allow_failures:
+  - php: hhvm
 
-# Clones WordPress and configures our testing environment.
+before_install:  
+  # Selenium server
+  - "sh -e /etc/init.d/xvfb start"
+  - "export DISPLAY=:99.0"
+  - "wget http://selenium.googlecode.com/files/selenium-server-standalone-2.31.0.jar"
+  - "java -jar selenium-server-standalone-2.31.0.jar > /dev/null &"
+  - sleep 5
+
+   # Create environmental variable from basename of starting directory.
+  - export PLUGIN_SLUG=$(basename $(pwd))
+
+install:
+  # lets show where we start out
+  - pwd 
+  
+  #run composer installs
+  - composer install
+  
+  # install fontcongig
+  - sudo apt-get install fontconfig
+  
+  # make symlink - WPCLI
+  - sudo ln -s /home/travis/build/inboundnow/landing-pages/vendor/wp-cli/wp-cli/bin/wp /usr/bin/wp
+  
+  # make symlink - PhantomJs
+  - sudo ln -s /home/travis/build/inboundnow/landing-pages/vendor/jakoch/phantomjs/phantomjs /usr/bin/phantomjs
+  
+  # install Apache
+  - sudo apt-get update
+  - sudo apt-get install apache2 libapache2-mod-fastcgi
+  
+  # create hosts file for site
+  - sudo cp -f tests/build/travis-ci-apache /etc/apache2/sites-available/inboundsoon.dev
+  
+  # enable new hosts file
+  - sudo a2ensite inboundsoon.dev 
+  
+  # enable php-fpm
+  - sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
+  - sudo a2enmod rewrite actions fastcgi alias
+  - echo "cgi.fix_pathinfo = 1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - ~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
+
+      
+  # restart apache & reload configuration files
+  - sudo service apache2 restart 
+  - sudo service apache2 reload 
+  
+  # install codeception
+  - wget http://codeception.com/codecept.phar
+  - chmod +x codecept.phar
+  - sudo mv codecept.phar /usr/local/bin/codecept
+  
+  # install WordPress 
+  
+  # create database
+  - mysql -e "CREATE DATABASE wordpress_develop;" -uroot
+  
+  # clone wordpress developer git into our created directory
+  - sudo git clone --depth=50 --branch="$WP_VERSION" git://develop.git.wordpress.org/ /var/www/inboundsoon.dev
+  - sudo chmod -R 755 /var/www/inboundsoon.dev
+  
+  # add current user permissions to our new WordPress directort
+  - sudo chown -R $USER:$USER /var/www/inboundsoon.dev
+  
+  # use wpcli to configure the WordPress blog
+  - cd /var/www/inboundsoon.dev/src
+  - wp core config --dbname=wordpress_develop --dbuser=root 
+  - wp core install --url="http://inboundsoon.dev" --title="Inbound Now Unit Testing" --admin_user="admin" --admin_password="admin" --admin_email="tests@inboundnow.com" 
+  
+  # Install CTA (from master)
+  - sudo git clone --branch="master" https://github.com/inboundnow/cta.git /var/www/inboundsoon.dev/src/wp-content/plugins/cta
+  - wp plugin activate cta
+  
+  # Install Leads ( from git )
+  - sudo git clone --branch="master" https://github.com/inboundnow/leads.git /var/www/inboundsoon.dev/src/wp-content/plugins/leads 
+  - wp plugin activate leads
+  
+  # Install Landing Pages ( from travis build )
+  - cp -r /home/travis/build/inboundnow/$PLUGIN_SLUG /var/www/inboundsoon.dev/src/wp-content/plugins/$PLUGIN_SLUG
+  - wp plugin activate landing-pages
+  
+  # create blank htaccess file
+  - sudo touch /var/www/inboundsoon.dev/src/.htaccess
+  
+  # Set permalinks 
+  - wp rewrite structure '%postname%'
+  - wp rewrite flush --hard
+  
+  # Set permissions for root website contents folder & all subfolders
+  - sudo chmod -R 755 /var/www
+  
+  - cat /var/www/inboundsoon.dev/src/.htaccess 
+
 before_script:
-    - export PLUGIN_SLUG=$(basename $(pwd))
-    - git clone --depth=50 --branch="$WP_VERSION" git://develop.git.wordpress.org/ /tmp/wordpress	
-    - git clone --branch="master" https://github.com/inboundnow/cta.git /tmp/wordpress/wp-content/plugins/cta
-    - git clone --branch="master" https://github.com/inboundnow/leads.git /tmp/wordpress/wp-content/plugins/leads
-    - cd ..
-    - curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
-    - php wp-cli.phar --info
-    - chmod +x wp-cli.phar
-    - sudo mv wp-cli.phar /usr/local/bin/wp
-    - mv "$PLUGIN_SLUG" "/tmp/wordpress/src/wp-content/plugins/$PLUGIN_SLUG"
-    - cd /tmp/wordpress
-    - mysql -e "CREATE DATABASE wordpress_tests;" -uroot
-    - cp wp-tests-config-sample.php wp-tests-config.php
-    - sed -i "s/youremptytestdbnamehere/wordpress_tests/" wp-tests-config.php
-    - sed -i "s/yourusernamehere/travis/" wp-tests-config.php
-    - sed -i "s/yourpasswordhere//" wp-tests-config.php
-    - cd "/tmp/wordpress/src/wp-content/plugins/$PLUGIN_SLUG"
-    - ls -l
 
-script: phpunit
+  # change directory into inboundsoon.dev
+  - cd /var/www/inboundsoon.dev
+
+  # setup database for tests config
+  - cp wp-tests-config-sample.php wp-tests-config.php
+  - sed -i "s/youremptytestdbnamehere/wordpress_develop/" wp-tests-config.php
+  - sed -i "s/yourusernamehere/root/" wp-tests-config.php
+  - sed -i "s/yourpasswordhere//" wp-tests-config.php
+  - sed -i "s/example.com/inboundsoon.dev/" wp-tests-config.php    
+
+  # change into plugin directory to make sure our script runs the right tests
+  - cd /var/www/inboundsoon.dev/src/wp-content/plugins/$PLUGIN_SLUG
+
+  - ls tests
+  - ls vendor
+  
+
+script:
+  - phpunit
+  #- php codecept run
+
+addons:
+  hosts:
+    - inboundsoon.dev
+  #sauce_connect:
+   # username: "hudson-inbound"
+   # access_key: "fad20a89-ba7c-4797-b2e2-a13309885479"

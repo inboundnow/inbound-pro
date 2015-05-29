@@ -46,11 +46,11 @@ if (!class_exists('CTA_Dynamic_Widget')) {
 			$CTA_Render = CTA_Render();
 
 			$selected_ctas = $instance['cta_ids'];
-			
+
 			if (!is_array($selected_ctas)) {
 				return;
 			}
-			
+
 			$cta_ids =  implode(",", $selected_ctas);
 			$count = count($selected_ctas);
 			$rand_key = array_rand($selected_ctas, 1);
@@ -58,11 +58,11 @@ if (!class_exists('CTA_Dynamic_Widget')) {
 			$this->cta_id = $cta_id;
 
 			$selected_cta =  $CTA_Render->prepare_cta_dataset( array($cta_id) );
-			
+
 			if ( !isset($selected_cta['templates']) ) {
 				return;
 			}
-			
+
 			/* Import Correct CSS & JS from Assets folder and Enqueue */
 			$loaded = array();
 			foreach ($selected_cta['templates'] as $template)
@@ -121,7 +121,7 @@ if (!class_exists('CTA_Dynamic_Widget')) {
 
 				$custom_js = get_post_meta( $cta_id , 'wp-cta-custom-js'.$suffix, true);
 				if (!stristr($custom_css,'<script') && $custom_css)	{
-					echo '<script type="text/javascript" id="wp_cta_js_custom">jQuery(document).ready(function($) {
+					echo '<script type="text/javascript">jQuery(document).ready(function($) {
 					'.$custom_js.' });</script>';
 				} else if ($custom_js) {
 					echo $custom_js;
@@ -132,7 +132,7 @@ if (!class_exists('CTA_Dynamic_Widget')) {
 			/* get supporting widget settings */
 			$selected_cta['margin-top'] = $instance['cta_margin_top'];
 			$selected_cta['margin-bottom'] = $instance['cta_margin_bottom'];
-			
+
 			$cta_template = $CTA_Render->build_cta_content( $selected_cta );
 
 			$cta_template = do_shortcode($cta_template);

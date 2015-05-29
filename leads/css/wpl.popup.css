@@ -1,0 +1,27 @@
+#wpadminbar, #adminmenuwrap, #adminmenuback, #screen-options-link-wrap, #launch-feedback  {
+	display: none !important;
+}
+.wrap h2 {
+	visibility: hidden;
+}
+.wrap #post h2 {
+	visibility: inherit;
+}
+#post {
+	margin-top: -50px;
+}
+#wpcontent, #wpfooter {
+margin-left: 20px !important;
+}
+#wplead_metabox_main .wpl-tab-display {
+overflow: hidden !important;
+}
+#view-lead-in-new-window {
+	position: absolute;
+	top: -20px;
+	font-size: 20px;
+	text-decoration: none;
+}
+.update-nag {
+  display: none !important;
+}
