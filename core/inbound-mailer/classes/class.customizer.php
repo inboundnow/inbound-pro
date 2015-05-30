@@ -49,13 +49,13 @@ class Inbound_Mailer_Customizer {
 	public static function enqueue_preview_container_scripts() {
 		wp_enqueue_script('jquery');
 		/* Enqueue customizer CSS */
-		wp_enqueue_style('inbound_email_ab_testing_customizer_css', INBOUND_EMAIL_URLPATH . 'css/customizer-ab-testing.css');
+		wp_enqueue_style('inbound_email_ab_testing_customizer_css', INBOUND_EMAIL_URLPATH . 'assets/css/customizer-ab-testing.css');
 
 	}
 
 	public static function enqueue_preview_iframe_scripts() {
 		show_admin_bar( false );
-		wp_register_script('lp-customizer-load-js', INBOUND_EMAIL_URLPATH . 'js/customizer.load.js', array('jquery'));
+		wp_register_script('lp-customizer-load-js', INBOUND_EMAIL_URLPATH . 'assets/js/customizer.load.js', array('jquery'));
 		wp_enqueue_script('lp-customizer-load-js');
 	}
 
@@ -63,12 +63,12 @@ class Inbound_Mailer_Customizer {
 	public static function enqueue_settings_scripts() {
 		//show_admin_bar( false ); // doesnt work
 		$screen = get_current_screen();
-		wp_enqueue_style('inbound-email-customizer-admin-css', INBOUND_EMAIL_URLPATH . 'css/new-customizer-admin.css');
+		wp_enqueue_style('inbound-email-customizer-admin-css', INBOUND_EMAIL_URLPATH . 'assets/css/new-customizer-admin.css');
 		if ( ( isset($screen) && $screen->post_type != 'inbound-email' ) ){
 			return;
 		}
 
-		wp_enqueue_script('inbound-email-customizer-admin-js', INBOUND_EMAIL_URLPATH . 'js/customizer.admin.js');
+		wp_enqueue_script('inbound-email-customizer-admin-js', INBOUND_EMAIL_URLPATH . 'assets/js/customizer.admin.js');
 
 	}
 
@@ -90,8 +90,8 @@ class Inbound_Mailer_Customizer {
 
 		$admin_url = admin_url();
 		$customizer_link = add_query_arg( array( 'inbvid' => $inbound_email_variation , 'action' => 'edit' , 'frontend' => 'true' ), admin_url() .'post.php?post='.$page_id );
-		
-		wp_enqueue_style('inbound_email_ab_testing_customizer_css', INBOUND_EMAIL_URLPATH . 'css/customizer-ab-testing.css');
+
+		wp_enqueue_style('inbound_email_ab_testing_customizer_css', INBOUND_EMAIL_URLPATH . 'assets/css/customizer-ab-testing.css');
 		?>
 		<head>
 		<style type="text/css">
@@ -121,7 +121,7 @@ class Inbound_Mailer_Customizer {
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 		<script type="text/javascript">
 		jQuery(document).ready(function($) {
-				
+
 			jQuery('#inbound_email_customizer_options').load(function(){
 				jQuery('#inbound_email_customizer_options').contents().find(".action-save").on('click', function(event) {
 					document.getElementById('inbound-mailer-live-preview').src = document.getElementById('inbound-mailer-live-preview').src;

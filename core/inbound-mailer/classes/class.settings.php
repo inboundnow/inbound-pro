@@ -158,7 +158,7 @@ if ( !class_exists('Inbound_Mailer_Settings') ) {
 				return;
 			}
 
-			wp_enqueue_style('inbound-mailer-css-global-settings-here', INBOUND_EMAIL_URLPATH . 'css/admin-global-settings.css');
+			wp_enqueue_style('inbound-mailer-css-global-settings-here', INBOUND_EMAIL_URLPATH . 'assets/css/admin-global-settings.css');
 		}
 
 		/**
@@ -246,12 +246,12 @@ if ( !class_exists('Inbound_Mailer_Settings') ) {
 							<?php
 								if(version_compare(phpversion(), '5.0.0', '>')){
 									?>
-									<img src="<?php echo INBOUND_EMAIL_URLPATH;?>/images/tick.png"/>
+									<img src="<?php echo INBOUND_EMAIL_URLPATH;?>/assets/images/tick.png"/>
 									<?php
 								}
 								else{
 									?>
-									<img src="<?php echo INBOUND_EMAIL_URLPATH;?>/images/cross.png"/>
+									<img src="<?php echo INBOUND_EMAIL_URLPATH;?>/assets/images/cross.png"/>
 									<span class="installation_item_message"><?php _e( "Gravity Forms requires PHP 5 or above." , "cta"); ?></span>
 									<?php
 								}
@@ -267,12 +267,12 @@ if ( !class_exists('Inbound_Mailer_Settings') ) {
 							<?php
 								if(version_compare($wpdb->db_version(), '5.0.0', '>')){
 									?>
-									<img src="<?php echo INBOUND_EMAIL_URLPATH;?>/images/tick.png"/>
+									<img src="<?php echo INBOUND_EMAIL_URLPATH;?>/assets/images/tick.png"/>
 									<?php
 								}
 								else{
 									?>
-									<img src="<?php echo INBOUND_EMAIL_URLPATH;?>/images/cross.png"/>
+									<img src="<?php echo INBOUND_EMAIL_URLPATH;?>/assets/images/cross.png"/>
 									<span class="installation_item_message"><?php _e( "Gravity Forms requires MySQL 5 or above." , "cta"); ?></span>
 									<?php
 								}
@@ -288,12 +288,12 @@ if ( !class_exists('Inbound_Mailer_Settings') ) {
 							<?php
 								if(version_compare(get_bloginfo("version"), '3.3', '>')){
 									?>
-									<img src="<?php echo INBOUND_EMAIL_URLPATH;?>/images/tick.png"/>
+									<img src="<?php echo INBOUND_EMAIL_URLPATH;?>/assets/images/tick.png"/>
 									<?php
 								}
 								else{
 									?>
-									<img src="<?php echo INBOUND_EMAIL_URLPATH;?>/images/cross.png"/>
+									<img src="<?php echo INBOUND_EMAIL_URLPATH;?>/assets/images/cross.png"/>
 									<span class="installation_item_message"><?php _e( 'landing pages requires version X or higher' , 'inbound-email' ) ?></span>
 									<?php
 								}
@@ -582,18 +582,18 @@ if ( !class_exists('Inbound_Mailer_Settings') ) {
 			return $keys;
 
 		}
-		
+
 		/**
 		*  Get Settings URL
 		*/
 		public static function get_settings_url() {
-			
-			if (!defined('INBOUND_PRO_CURRENT_VERSION')) {				
+
+			if (!defined('INBOUND_PRO_CURRENT_VERSION')) {
 				$settings_url = admin_url('edit.php?post_type=inbound-email&page=inbound_email_global_settings');
 			} else {
 				$settings_url = admin_url('admin.php?page=inbound-pro&setting=email');
 			}
-			
+
 			return $settings_url;
 		}
 	}

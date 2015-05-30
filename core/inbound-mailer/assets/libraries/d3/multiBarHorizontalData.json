@@ -1,0 +1,58 @@
+[
+  
+  {
+    "key": "Opened",
+    "color": "#2475a6",
+    "values": [
+      { 
+        "label" : "A" ,
+        "value" : 400
+      } , 
+      { 
+        "label" : "B" ,
+        "value" : 360
+      } , 
+      { 
+        "label" : "C" ,
+        "value" : 412
+      } 
+    ]
+  },
+  {
+    "key": "Unopened",
+    "color": "#243BA6",
+    "values": [
+      { 
+        "label" : "A" ,
+        "value" : 200
+      } , 
+      { 
+        "label" : "B" ,
+        "value" : 240
+      } , 
+      { 
+        "label" : "C" ,
+        "value" : 188
+      }
+    ]
+  },
+  {
+    "key": "Clicked",
+    "color": "#9f24a6",
+    "values": [
+      { 
+        "label" : "A" ,
+        "value" :36
+      } , 
+      { 
+        "label" : "B" ,
+        "value" : 23
+      } , 
+      { 
+        "label" : "C" ,
+        "value" : 30
+      } 
+    ]
+  }
+]
+

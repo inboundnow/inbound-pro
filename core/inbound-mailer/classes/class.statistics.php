@@ -116,13 +116,14 @@ class Inbound_Email_Stats {
         self::$vid = $Inbound_Mailer_Variations->get_current_variation_id();
         self::$email_id = $post->ID;
 
-        self::$stats['date_from'] =  self::get_mandrill_timestamp( $post->post_date_gmt );
+        self::$stats['date_from'] =  self::get_mandrill_timestamp( $post->post_date );
         self::$stats['date_to'] =  self::get_mandrill_timestamp( gmdate( "Y-m-d\\TG:i:s\\Z" ) );
 
-        $query = 'u_email_id:' .	$post->ID	. ' u_variation_id:'. self::$vid .' ( tags:batch OR tags:automated)';
+        $query = 'u_email_id:' .	$post->ID	. ' ( tags:batch OR tags:automated)';
 
         self::query_mandrill_search( $query );
 
+        return self::$results;
     }
 
 
@@ -164,13 +165,11 @@ class Inbound_Email_Stats {
 
         $tags = array();
         $senders = array();
-
+        echo $query;
         self::$results = $mandrill->messages->searchTimeSeries($query, self::$stats['date_from'] , self::$stats['date_to'] , $tags, $senders);
-        echo self::$stats['date_from'];
-        echo '<br>';
-        echo self::$stats['date_to'];
-        echo '<br>';
-        echo microtime(true) - $start;
+
+        /* echo microtime(true) - $start; */
+
     }
 
     /**
@@ -187,15 +186,10 @@ class Inbound_Email_Stats {
         $tags = array();
         $senders = array();
         $api_keys = array();
-        echo $query;
-        self::$results = $mandrill->messages->search($query, self::$stats['date_from'] , self::$stats['date_to'] , $tags, $senders , $api_keys , 1000 );
-        print_r(self::$results);
 
-        echo self::$stats['date_from'];
-        echo '<br>';
-        echo self::$stats['date_to'];
-        echo '<br>';
-        echo microtime(true) - $start;
+        self::$results = $mandrill->messages->search($query, self::$stats['date_from'] , self::$stats['date_to'] , $tags, $senders , $api_keys , 1000 );
+
+        /* echo microtime(true) - $start; */
     }
 
     /**
@@ -281,7 +275,6 @@ class Inbound_Email_Stats {
 
         /* If we've already processed time & stats already exits then start from last processing point */
         if ( isset(self::$stats['date_to'] ) && self::$stats['totals'] ) {
-
             /* get today's datetimestamp */
             $today = self::get_mandrill_timestamp( gmdate( "Y-m-d\\TG:i:s\\Z" ) );
 
@@ -300,7 +293,7 @@ class Inbound_Email_Stats {
                 self::$stats['date_to'] = self::get_mandrill_timestamp( gmdate( "Y-m-d\\TG:i:s\\Z" ) );
             }
         } else {
-            self::$stats['date_from'] = (self::$settings['send_datetime']) ? self::get_mandrill_timestamp( self::$settings['send_datetime'] ) :  self::get_mandrill_timestamp( $post->post_date_gmt ) ;
+            self::$stats['date_from'] = (self::$settings['send_datetime']) ? self::get_mandrill_timestamp( self::$settings['send_datetime'] ) :  self::get_mandrill_timestamp( $post->post_date ) ;
             self::$stats['date_to'] = self::get_mandrill_timestamp( gmdate( "Y-m-d\\TG:i:s\\Z" ) );
         }
 

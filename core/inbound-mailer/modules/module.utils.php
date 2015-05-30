@@ -8,7 +8,7 @@ if (!function_exists('inbound_email_example_template_function')) {
 	  return 'Return value from inbound_email_example_template_function()';
 	}
 }
-	
+
 /**
 *  Load supportive css for IE8 and below
 */
@@ -16,7 +16,7 @@ function inbound_email_kill_ie8() {
     global $is_IE;
     if ( $is_IE ) {
         echo '<!--[if lt IE 9]>';
-        echo '<link rel="stylesheet" type="text/css" href="'.INBOUND_EMAIL_URLPATH.'/css/ie8-and-down.css" />';
+        echo '<link rel="stylesheet" type="text/css" href="'.INBOUND_EMAIL_URLPATH.'/assets/css/ie8-and-down.css" />';
         echo '<![endif]-->';
     }
 }

@@ -1,0 +1,47 @@
+@import url('http://fonts.googleapis.com/css?family=Amarante');
+
+
+#stream {
+  width:100%;
+  margin: 0 auto;
+  font-size: 12px;
+  margin-bottom: 15px;
+}
+
+
+#stream thead {
+  cursor: pointer;
+}
+#stream thead tr th { 
+  font-weight: bold;
+  padding: 5px 12px;
+  padding-left: 12px;
+}
+#stream thead tr th span { 
+  padding-right: 20px;
+  background-repeat: no-repeat;
+  background-position: 100% 100%;
+}
+
+#stream thead tr th.headerSortUp, #stream thead tr th.headerSortDown {
+  background: #acc8dd;
+}
+
+#stream thead tr th.headerSortUp span {
+  background-image: url('up-arrow.png');
+}
+#stream thead tr th.headerSortDown span {
+  background-image: url('down-arrow.png');
+}
+
+
+#stream tbody tr { 
+  color: #555;
+}
+#stream tbody tr td {
+  text-align: center;
+  padding: 15px 10px;
+}
+#stream tbody tr td.lalign {
+  text-align: left;
+}

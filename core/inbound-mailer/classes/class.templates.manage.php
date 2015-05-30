@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 3rd Party Template Management  
+ * 3rd Party Template Management
  *
  * @package	Inbouns Mailer
  * @subpackage	Templates
@@ -10,30 +10,30 @@
 if ( !class_exists('Inbound_Mailer_Template_Manager') ) {
 
 	class Inbound_Mailer_Template_Manager {
-	
+
 		/**
 		*	Initializes class
 		*/
 		public function __construct() {
 			self::add_hooks();
 		}
-		
+
 		/**
 		*	Loads hooks and filters
 		*/
 		public static function add_hooks() {
 			/* enqueue js and css */
 			add_action( 'admin_enqueue_scripts' , array( __CLASS__ , 'enqueue_scripts' ) );
-			
+
 			/* load inline js & css */
 			add_action( 'admin_footer' , array( __CLASS__ , 'load_inline_js_css' ) );
-			
+
 			/* prepare handler hook for uploads page */
 			add_action('admin_menu', array( __CLASS__ , 'add_pages') );
 		}
-		
-		
-		
+
+
+
 		/**
 		*  Adds additional management pages
 		*/
@@ -41,76 +41,76 @@ if ( !class_exists('Inbound_Mailer_Template_Manager') ) {
 			if ( !current_user_can('manage_options') ) {
 				return;
 			}
-	
+
 			/** Template management page */
-			global $_registered_pages;			
+			global $_registered_pages;
 			$hookname = get_plugin_page_hookname('inbound_email_manage_templates', 'edit.php?post_type=inbound-email');
 			if (!empty($hookname)) {
 				add_action( $hookname , array( __CLASS__ , 'display_management_page') );
-			}			
-			$_registered_pages[$hookname] = true;	
-			
+			}
+			$_registered_pages[$hookname] = true;
+
 			/** Template upload page */
-			global $_registered_pages;			
+			global $_registered_pages;
 			$hookname = get_plugin_page_hookname('inbound_email_templates_upload', 'edit.php?post_type=inbound-email');
 			if (!empty($hookname)) {
 				add_action( $hookname , array( __CLASS__ , 'display_upload_page') );
-			}			
+			}
 			$_registered_pages[$hookname] = true;
-			
+
 			/** Template search page */
-			global $_registered_pages;			
+			global $_registered_pages;
 			$hookname = get_plugin_page_hookname('inbound_email_store', 'edit.php?post_type=inbound-email');
 			if (!empty($hookname)) {
 				add_action( $hookname , array( __CLASS__ , 'display_store_search') );
-			}			
+			}
 			$_registered_pages[$hookname] = true;
-			
+
 		}
-		
+
 		/**
 		*	Load CSS & JS
 		*/
 		public static function enqueue_scripts() {
 			$screen = get_current_screen();
 			//var_dump($screen);
-			
+
 			/* Load assets for upload page */
 			if ( ( isset($screen) && $screen->base == 'inbound-email_page_inbound_email_templates_upload' ) ){
-				wp_enqueue_script('inbound-mailer-js-templates-upload', INBOUND_EMAIL_URLPATH . 'js/admin/admin.templates-upload.js');
+				wp_enqueue_script('inbound-mailer-js-templates-upload', INBOUND_EMAIL_URLPATH . 'assets/js/admin/admin.templates-upload.js');
 			}
-			
+
 			/* Load assets for Templates listing page */
 			if ( ( isset($screen) && $screen->base == 'inbound-email_page_inbound_email_manage_templates' ) ){
-				wp_enqueue_style('inbound-mailer-css-templates', INBOUND_EMAIL_URLPATH . 'css/admin-templates.css');
-				wp_enqueue_script('inbound-mailer-js-templates', INBOUND_EMAIL_URLPATH . 'js/admin/admin.templates.js');
+				wp_enqueue_style('inbound-mailer-css-templates', INBOUND_EMAIL_URLPATH . 'assets/css/admin-templates.css');
+				wp_enqueue_script('inbound-mailer-js-templates', INBOUND_EMAIL_URLPATH . 'assets/js/admin/admin.templates.js');
 			}
-			
+
 		}
-		
+
 		/**
-		*  Loads inline JS & CSS 
+		*  Loads inline JS & CSS
 		*/
 		public static function load_inline_js_css() {
 			$screen = get_current_screen();
-			
+
 			if ( $screen->base != 'inbound-email_page_inbound_email_manage_templates' ) {
 				return;
 			}
-			
+
 			?>
 			<script type='text/javascript' >
 				jQuery( document ).ready( function() {
-					
+
 					/* hide search */
 					jQuery( '.search-box' ).hide();
-				
-				
+
+
 				});
 			</script>
 			<?php
 		}
-		
+
 		/**
 		*  Listens for POSTED actions
 		*/
@@ -118,7 +118,7 @@ if ( !class_exists('Inbound_Mailer_Template_Manager') ) {
 			if (!isset($_REQUEST['action'])) {
 				return;
 			}
-			
+
 			switch ($_REQUEST['action']):
 				case 'upgrade':
 					if (count($_REQUEST['template'])>0)
@@ -139,11 +139,11 @@ if ( !class_exists('Inbound_Mailer_Template_Manager') ) {
 					}
 					break;
 			endswitch;
-			
+
 		}
-		
-		
-		
+
+
+
 		/**
 		*  Listens for request to upload a template
 		*/
@@ -159,22 +159,22 @@ if ( !class_exists('Inbound_Mailer_Template_Manager') ) {
 			if (!wp_verify_nonce($_POST["inbound_email_wpnonce"], 'inbound-mailer-nonce')) {
 				return NULL;
 			}
-			
+
 			include_once( ABSPATH . 'wp-admin/includes/class-pclzip.php');
-			
+
 			$zip = new PclZip( $_FILES['templatezip']["tmp_name"]);
-			
+
 
 			if ( !is_dir( INBOUND_EMAIL_UPLOADS_PATH ) )
 			{
 				wp_mkdir_p( INBOUND_EMAIL_UPLOADS_PATH );
 			}
-			
-			if (($list = $zip->listContent()) == 0) 
+
+			if (($list = $zip->listContent()) == 0)
 			{
 				die(__('There was a problem. Please try again!' , 'inbound-email' ));
 			}
-			 
+
 			$is_template = false;
 			foreach ($list as $key=>$val)
 			{
@@ -191,12 +191,12 @@ if ( !class_exists('Inbound_Mailer_Template_Manager') ) {
 					}
 				}
 			}
-			
+
 			if (!$is_template) {
 				echo "<br><br><br><br>";
 				die(__( 'WARNING! This zip file does not seem to be a call to action template file! If you are trying to install an inbound now extension please use the Plugin\'s upload section! Please press the back button and try again!' , 'inbound-email' ));
 			}
-			
+
 			if ($result = $zip->extract(PCLZIP_OPT_PATH, INBOUND_EMAIL_UPLOADS_PATH ,  PCLZIP_OPT_REPLACE_NEWER  ) == 0) {
 				die(__( 'There was a problem. Please try again!' , 'inbound-email' ));
 			} else 	{
@@ -204,9 +204,9 @@ if ( !class_exists('Inbound_Mailer_Template_Manager') ) {
 				echo '<div class="updated"><p>'. __( 'Template uploaded successfully!' , 'inbound-email' ) .'</div>';
 			}
 		}
-		
-		
-		
+
+
+
 		/**
 		*  Checks Store API for template information
 		*/
@@ -231,7 +231,7 @@ if ( !class_exists('Inbound_Mailer_Template_Manager') ) {
 				return false;
 			endif;
 		}
-		
+
 		/**
 		*  Checks template to see if there is an update ready to serve
 		*/
@@ -251,10 +251,10 @@ if ( !class_exists('Inbound_Mailer_Template_Manager') ) {
 			} else {
 				return $item['version'];
 			}
-			
+
 		}
-		
-		
+
+
 		/**
 		*  Upgrades a template given a slug
 		*  @param STRING $slug
@@ -262,7 +262,7 @@ if ( !class_exists('Inbound_Mailer_Template_Manager') ) {
 		public static function api_upgrade_template( $slug ) {
 			$Inbound_Mailer_Load_Extensions = Inbound_Mailer_Load_Extensions();
 			$inbound_email_data = $Inbound_Mailer_Load_Extensions->template_definitions;
-			
+
 			$data = $inbound_email_data[$slug];
 
 			$item['ID']  = $slug;
@@ -274,11 +274,11 @@ if ( !class_exists('Inbound_Mailer_Template_Manager') ) {
 
 			$response = self::api_request( $item );
 			$package = $response['package'];
-		
+
 			IF (!isset($package)||empty($package)) {
 				return;
 			}
-			
+
 
 			$zip_array = wp_remote_get($package,null);
 			($zip_array['response']['code']==200) ? $zip = $zip_array['body'] : die("<div class='error'><p>{$slug}: Invalid download location (Version control not provided).</p></div>");
@@ -316,22 +316,22 @@ if ( !class_exists('Inbound_Mailer_Template_Manager') ) {
 				echo '<div class="updated"><p>'.$data['label'].' upgraded successfully!</div>';
 			}
 		}
-		
-		
+
+
 		/**
 		*  Deletes a 3rd party call to action template
 		*  @param STRING $dir
 		*  @param STRING $slug
 		*/
 		public static function api_delete_template( $dir , $slug) {
-			
+
 			if (!file_exists($dir)) {
 				return true;
 			}
-			
+
 			$Inbound_Mailer_Load_Extensions = Inbound_Mailer_Load_Extensions();
 			$data = $Inbound_Mailer_Load_Extensions->template_definitions;
-			
+
 			if (!is_dir($dir) || is_link($dir)) return unlink($dir);
 			foreach (scandir($dir) as $item) {
 				if ($item == '.' || $item == '..') continue;
@@ -340,28 +340,28 @@ if ( !class_exists('Inbound_Mailer_Template_Manager') ) {
 					if (!self::api_delete_template($dir . "/" . $item , $slug)) return false;
 				};
 			}
-			
+
 			rmdir($dir);
 
 
 			echo '<div class="updated"><p>'.$data['label'].' deleted successfully!</div>';
 		}
-		
+
 		/**
 		*  Displays template upload UI
 		*/
 		public static function display_upload_page() {
 			$screen = get_current_screen();
-			
+
 			if ( ( isset($screen) && $screen->base != 'inbound-email_page_inbound_email_templates_upload' ) ){
 				return;
 			}
-			
+
 			self::run_upload_commands();
 			self::display_upload_form();
 		}
-		
-		
+
+
 		/**
 		*  Displays upload form
 		*/
@@ -369,14 +369,14 @@ if ( !class_exists('Inbound_Mailer_Template_Manager') ) {
 		?>
 			<div class="wrap templates_upload">
 				<div class="icon32" id="icon-plugins"><br></div><h2><?php _e( 'Install Templates' , 'inbound-email' ); ?></h2>
-				
+
 				<ul class="subsubsub">
 					<li class="plugin-install-upload"><a class="current" href="#upload" id='menu_upload'><?php _e( 'Upload' , 'inbound-email' ) ; ?></a> </li>
 				</ul>
-			
+
 				<br class="clear">
 					<h4><?php _e( 'Install Inbound Email Component template by uploading them here in .zip format' , 'inbound-email' ) ; ?></h4>
-					
+
 					 <p class="install-help"><?php _e( 'Warning: Only upload email template zip files downloaded from Inbound Now here.' , 'inbound-email' ) ; ?>
 					</p>
 					<form action="" class="wp-upload-form" enctype="multipart/form-data" method="post">
@@ -384,22 +384,22 @@ if ( !class_exists('Inbound_Mailer_Template_Manager') ) {
 						<input type="hidden" value="/wp-admin/plugin-install.php?tab=upload" name="_wp_http_referer">
 						<label for="pluginzip" class="screen-reader-text"><?php _e('Template zip file' , 'inbound-email' ) ; ?></label>
 						<input type="file" name="templatezip" id="templatezip">
-						<input type="submit" value="<?php _e('Install Now' , 'inbound-email' ) ; ?>" class="button" id="install-template-submit" name="install-template-submit" disabled="">	
+						<input type="submit" value="<?php _e('Install Now' , 'inbound-email' ) ; ?>" class="button" id="install-template-submit" name="install-template-submit" disabled="">
 					</form>
 			</div>
 		<?php
 		}
-		
-		
-		
+
+
+
 		/**
 		*  Display management page
 		*/
 		public static function display_management_page() {
-			
+
 			/* Run action listener */
 			self::run_management_actions();
-			
+
 			$title = __('Manage Templates');
 			echo '<div class="wrap">';
 			screen_icon();
@@ -424,12 +424,12 @@ if ( !class_exists('Inbound_Mailer_Template_Manager') ) {
 
 			echo '</div></form>';
 		}
-		
-		
+
+
 	}
-	
-	
-	
+
+
+
 	/**
 	*	Loads Inbound_Mailer_Template_Manager on admin_init
 	*/
