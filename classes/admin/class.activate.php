@@ -57,7 +57,6 @@ class Inbound_Pro_Activation {
          Inbound_Automation_Activation::activate();
          Inbound_Mailer_Activation::activate();
          delete_option('inbound_activate_pro_components');
-         error_log('here');
      }
 
     /**

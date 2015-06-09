@@ -13,13 +13,13 @@
 }
 
 /* Triggers */
-.table-trigger-container { 
+.table-trigger-container {
 	width:100%;
 	padding-right:20px;
 	/* padding-left:20px; */
 }
 
-.table-trigger-container .td-trigger-select{ 
+.table-trigger-container .td-trigger-select{
 	width:144px;
 	padding-right:20px;
 }
@@ -29,7 +29,7 @@
 }
 
 .trigger-container .label-big {
-	color:#darkslategrey;
+	color:darkslategrey;
 	padding-left:24px;
 	font-size:20px;
 }
@@ -76,8 +76,8 @@
 }
 
 .trigger-filter-evaluate {
-	margin-top:5px;
-	margin-bottom:5px;
+	margin-top:30px;
+	margin-bottom:-23px;
 	display:inline;
 }
 
@@ -98,22 +98,77 @@
 	cursor:pointer;
 }
 
-.action-block-filters-container .delete-filter {	
+/* Actions */
+.action-block-filters-container .delete-filter {
 	margin-top:-2px;
 }
 
-/* Actions */
-.full-row-button {
-	display: block;
-	width: 25%;
-	margin: 0 0 0px;
-	padding: 3px 20px;
-	height: auto;
-	text-align: center;
-	font-weight: bold;
+.action-block-filter-evaluate {
+    display: inline;
+    position:absolute;
+    float: right;
+    top: 0px;
+    right: 49px;
 }
 
-.actions-container .action-wrapper .action-block {
+.dropdown-add-filters {
+    float: right;
+    top: -1px;
+    text-align: right;
+    position: absolute;
+    right: -6px;
+}
+
+.dropdown-add-actions {
+    float: right;
+    top: -49px;
+    text-align: right;
+    right: -17px;
+    position: relative;
+}
+
+.dropdown-add-filters .dropdown-menu, .dropdown-add-actions .dropdown-menu, {
+    position: relative !important;
+    margin-top: 28px !important;
+    margin-right: -46px !important;
+}
+
+.fa-plus-circle {
+    color:limegreen;
+    cursor:pointer;
+    font-size:23px;
+    margin-right:18px;
+    margin-top:5px;
+}
+
+.add-action-filter {
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: normal;
+    line-height: 1.42857143;
+    color: #333;
+    white-space: nowrap;
+    cursor:pointer;
+}
+
+
+.add-action {
+    cursor:pointer;
+}
+
+.action-filter-option:hover{
+    color: #262626;
+    text-decoration: none;
+    background-color: #f5f5f5;
+}
+
+
+.td-filter-type {
+    width:20%;
+}
+
+.actions-container .action-block-wrapper .action-block {
 	margin-top:0px;
 	padding-top:10px;
 	margin-bottom:10px;
@@ -171,53 +226,71 @@
 }
 
 /* Action Block - Action Settings */
+.postbox:not(:first-child) {
+     display:none;
+}
+
+#inbound_automation_actions .hndle{
+    display:none;
+}
+
 .table-action {
 	width:100%;
 	width:100%;
 }
 
-.highlight-container {
-	border-width:1px;
-	border-style:solid;
-	border-color:red;
-	background-color: rgba(red, .5);
-	border-collapse:separate;
-	border-spacing:10px 50px;
-
-}
 
 .action-sub-wrapper{
-	position: relative;	
+	position: relative;
 }
 
 .td-filter-value, .td-filter-value input {
 	width:100%;
 }
 
-.action-delete {
+.action-buttons {
 	width:100%;
-	top:0px;
 	text-align:right;
 	position:absolute;
-	cursor: move;
 	margin-bottom:10px;
-	top:2px;
+	top:3px;
 	right:10px;
 }
 
+.action-buttons span {
+    margin-left:10px;
+    cursor:pointer;
+    color:#a9a9a9;
+}
+
+.action-buttons .up-action-order {
+    font-size:10px;
+    vertical-align:text-bottom;
+}
+.action-buttons .down-action-order {
+    font-size:10px;
+    vertical-align:sub;
+}
+
+
+.action-buttons .delete-action {
+    vertical-align:-webkit-baseline-middle;
+}
 .action-filter-delete {
 	display:inline;
 }
 
-.action-block-delete .delete-action-block , .action-delete .delete-action , .action-filter-delete .delete-filter {
+
+.action-block-delete .delete-action-block , .action-delete , .action-filter-delete .delete-filter {
 	padding: 0px 3px;
 	float: right;
 }
 
-.delete-action-block .fa-times, .delete-action .fa-times , .delete-filter .fa-times {
+.delete-action-block .fa-times, .fa-times , .delete-filter .fa-times {
 	top: -3px;
 	position: relative;
 }
+
 
 .td-filter-delete {
 	text-align:right;
@@ -235,36 +308,18 @@
 }
 
 .filter-container{
-	position: relative; 
+	position: relative;
 }
 
 .action-block .filter-container div{
-	width: auto; 
+	width: auto;
 }
 
-
-.action-block-delete {
-
-	top: -2px;
-	right: -21px;
-	cursor: pointer;
-	text-align:left;
-	display:inline;
-}
-
-.delete-img {
-	padding-left:10px;
-	cursor: pointer;
-}
 
 .td-action-setting-label {
 	width:200px;
 }
 
-.action-block-delete {
-	
-
-}
 .action-filter-key {
     width: 220px;
 }

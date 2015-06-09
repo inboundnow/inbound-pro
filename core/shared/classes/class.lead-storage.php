@@ -4,7 +4,6 @@
 *
 * - Handles lead creation and data storage
 */
-
 if (!class_exists('LeadStorage')) {
 	class LeadStorage {
 		static $mapped_fields;
@@ -167,9 +166,9 @@ if (!class_exists('LeadStorage')) {
 					self::store_geolocation_data($lead);
 				}
 
+
 				if ( self::$is_ajax ) {
 					echo $lead['id'];
-					header('HTTP/1.1 200 OK');
 					do_action('inbound_store_lead_post', $lead );
 					exit;
 				} else {

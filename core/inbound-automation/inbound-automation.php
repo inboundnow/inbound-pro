@@ -74,7 +74,7 @@ if (!class_exists('Inbound_Automation_Plugin')) {
 				echo wp_kses_post( $html_message );
 			}
 		}
-		
+
 		/* END PHP VERSION CHECKS */
 
 		/**
@@ -107,12 +107,13 @@ if (!class_exists('Inbound_Automation_Plugin')) {
 				case true :
 					/* loads admin files */
 					include_once('classes/class.activation.php');
+					include_once('classes/class.activation.upgrade-routines.php');
 					include_once('classes/class.post-type.automation.php');
 					include_once('classes/class.logs.php');
-					include_once('classes/class.loader.php');
+					include_once('classes/class.definitions.loader.php');
 					include_once('classes/class.metaboxes.automation.php');
 					include_once('classes/class.automation.php');
-					
+
 					include_once('definitions/trigger.form_submission_event.php');
 					include_once('definitions/trigger.page_tracking_event.php');
 					include_once('definitions/action.wait.php');
@@ -128,10 +129,10 @@ if (!class_exists('Inbound_Automation_Plugin')) {
 					include_once('classes/class.post-type.automation.php');
 					include_once('classes/class.automation.php');
 					include_once('classes/class.logs.php');
-					include_once('classes/class.loader.php');
+					include_once('classes/class.definitions.loader.php');
 					include_once('classes/class.metaboxes.automation.php');
 					include_once('classes/class.automation.php');
-					
+
 					include_once('definitions/trigger.form_submission_event.php');
 					include_once('definitions/trigger.page_tracking_event.php');
 					include_once('definitions/action.wait.php');
@@ -174,7 +175,7 @@ if (!class_exists('Inbound_Automation_Plugin')) {
 	function inbound_automation_check_active() {
 		return 1;
 	}
-	
+
 }
 
 

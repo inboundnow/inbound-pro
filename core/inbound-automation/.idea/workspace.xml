@@ -1,0 +1,767 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BookmarkManager">
+    <bookmark url="file://$PROJECT_DIR$/classes/class.metaboxes.automation.php" />
+    <bookmark url="file://$PROJECT_DIR$/classes/class.metaboxes.automation.php" line="474" />
+    <bookmark url="file://$PROJECT_DIR$/assets/js/admin.rule-setup.js" line="246" />
+    <bookmark url="file://$PROJECT_DIR$/assets/css/admin.post-edit.css" line="259" />
+    <bookmark url="file://$PROJECT_DIR$/assets/js/admin.rule-setup.js" line="142" />
+    <bookmark url="file://$PROJECT_DIR$/assets/js/admin.rule-setup.js" line="580" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="0d1f2f1b-6b9a-4626-b98a-1d3ce9e6e6b1" name="Default" comment="">
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\classes\class.loader.php" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\css\admin.post-edit.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\css\jquery-ui.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\images\automation.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\images\close.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\images\delete.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\images\email.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\images\jquery-ui\animated-overlay.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\images\jquery-ui\icons-18-white.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\images\jquery-ui\ui-bg_diagonals-thick_18_b81900_40x40.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\images\jquery-ui\ui-bg_diagonals-thick_20_666666_40x40.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\images\jquery-ui\ui-bg_flat_10_000000_40x100.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\images\jquery-ui\ui-bg_glass_100_f6f6f6_1x400.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\images\jquery-ui\ui-bg_glass_100_fdf5ce_1x400.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\images\jquery-ui\ui-bg_glass_65_ffffff_1x400.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\images\jquery-ui\ui-bg_gloss-wave_35_f6a828_500x100.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\images\jquery-ui\ui-bg_highlight-soft_100_eeeeee_1x100.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\images\jquery-ui\ui-bg_highlight-soft_75_ffe45c_1x100.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\images\jquery-ui\ui-icons_222222_256x240.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\images\jquery-ui\ui-icons_228ef1_256x240.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\images\jquery-ui\ui-icons_ef8c08_256x240.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\images\jquery-ui\ui-icons_ffd27a_256x240.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\images\jquery-ui\ui-icons_ffffff_256x240.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\images\remove.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\BootStrap\css\bootstrap-theme.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\BootStrap\css\bootstrap-theme.css.map" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\BootStrap\css\bootstrap-theme.min.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\BootStrap\css\bootstrap.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\BootStrap\css\bootstrap.css.map" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\BootStrap\css\bootstrap.min.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\BootStrap\css\bootstrap.min.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\BootStrap\css\ladda-themeless.min.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\BootStrap\fonts\glyphicons-halflings-regular.eot" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\BootStrap\fonts\glyphicons-halflings-regular.svg" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\BootStrap\fonts\glyphicons-halflings-regular.ttf" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\BootStrap\fonts\glyphicons-halflings-regular.woff" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\BootStrap\js\bootstrap.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\BootStrap\js\bootstrap.min.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\BootStrap\js\ladda.min.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\FontAwesome\css\font-awesome.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\FontAwesome\css\font-awesome.min.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\FontAwesome\fonts\FontAwesome.otf" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\FontAwesome\fonts\fontawesome-webfont.eot" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\FontAwesome\fonts\fontawesome-webfont.svg" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\FontAwesome\fonts\fontawesome-webfont.ttf" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\FontAwesome\fonts\fontawesome-webfont.woff" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\FontAwesome\less\bordered-pulled.less" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\FontAwesome\less\core.less" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\FontAwesome\less\fixed-width.less" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\FontAwesome\less\font-awesome.less" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\FontAwesome\less\icons.less" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\FontAwesome\less\larger.less" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\FontAwesome\less\list.less" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\FontAwesome\less\mixins.less" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\FontAwesome\less\path.less" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\FontAwesome\less\rotated-flipped.less" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\FontAwesome\less\spinning.less" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\FontAwesome\less\stacked.less" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\FontAwesome\less\variables.less" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\FontAwesome\scss\_bordered-pulled.scss" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\FontAwesome\scss\_core.scss" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\FontAwesome\scss\_fixed-width.scss" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\FontAwesome\scss\_icons.scss" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\FontAwesome\scss\_larger.scss" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\FontAwesome\scss\_list.scss" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\FontAwesome\scss\_mixins.scss" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\FontAwesome\scss\_path.scss" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\FontAwesome\scss\_rotated-flipped.scss" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\FontAwesome\scss\_spinning.scss" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\FontAwesome\scss\_stacked.scss" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\FontAwesome\scss\_variables.scss" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\FontAwesome\scss\font-awesome.scss" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\Ladda\ladda-themeless.min.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\Ladda\ladda.min.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\Ladda\spin.min.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\Select2\select2-bootstrap.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\Select2\select2.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\Select2\select2.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\Select2\select2.min.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\SimpleDropDownEffects\README.md" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\SimpleDropDownEffects\README.txt" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\SimpleDropDownEffects\css\common.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\SimpleDropDownEffects\css\demo.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\SimpleDropDownEffects\css\fonts\icomoon.eot" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\SimpleDropDownEffects\css\fonts\icomoon.svg" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\SimpleDropDownEffects\css\fonts\icomoon.ttf" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\SimpleDropDownEffects\css\fonts\icomoon.woff" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\SimpleDropDownEffects\css\fonts\license.txt" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\SimpleDropDownEffects\css\icons.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\SimpleDropDownEffects\css\style1.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\SimpleDropDownEffects\css\style2.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\SimpleDropDownEffects\css\style3.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\SimpleDropDownEffects\css\style4.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\SimpleDropDownEffects\css\style5.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\SimpleDropDownEffects\css\style6.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\SimpleDropDownEffects\images\grid_DominikKiss_SubtlePatterns.jpg" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\SimpleDropDownEffects\index.html" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\SimpleDropDownEffects\index2.html" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\SimpleDropDownEffects\index3.html" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\SimpleDropDownEffects\index4.html" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\SimpleDropDownEffects\index5.html" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\SimpleDropDownEffects\index6.html" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\SimpleDropDownEffects\jquery.dropdown.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\SimpleDropDownEffects\js\jquery.dropdown.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\SimpleDropDownEffects\js\modernizr.custom.63321.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\SimpleDropDownEffects\modernizr.custom.63321.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\isloading\jquery.isloading.min.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\isloading\style.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\jrumble\jquery.jrumble.min.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\BootStrap\css\bootstrap-theme.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\BootStrap\css\bootstrap-theme.css.map" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\BootStrap\css\bootstrap-theme.min.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\BootStrap\css\bootstrap.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\BootStrap\css\bootstrap.css.map" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\BootStrap\css\bootstrap.min.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\BootStrap\css\bootstrap.min.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\BootStrap\css\ladda-themeless.min.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\BootStrap\fonts\glyphicons-halflings-regular.eot" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\BootStrap\fonts\glyphicons-halflings-regular.svg" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\BootStrap\fonts\glyphicons-halflings-regular.ttf" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\BootStrap\fonts\glyphicons-halflings-regular.woff" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\BootStrap\js\bootstrap.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\BootStrap\js\bootstrap.min.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\BootStrap\js\ladda.min.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\BootStrap\js\spin.min.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\FontAwesome\css\font-awesome.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\FontAwesome\css\font-awesome.min.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\FontAwesome\fonts\FontAwesome.otf" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\FontAwesome\fonts\fontawesome-webfont.eot" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\FontAwesome\fonts\fontawesome-webfont.svg" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\FontAwesome\fonts\fontawesome-webfont.ttf" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\FontAwesome\fonts\fontawesome-webfont.woff" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\FontAwesome\less\bordered-pulled.less" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\FontAwesome\less\core.less" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\FontAwesome\less\fixed-width.less" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\FontAwesome\less\font-awesome.less" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\FontAwesome\less\icons.less" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\FontAwesome\less\larger.less" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\FontAwesome\less\list.less" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\FontAwesome\less\mixins.less" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\FontAwesome\less\path.less" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\FontAwesome\less\rotated-flipped.less" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\FontAwesome\less\spinning.less" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\FontAwesome\less\stacked.less" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\FontAwesome\less\variables.less" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\FontAwesome\scss\_bordered-pulled.scss" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\FontAwesome\scss\_core.scss" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\FontAwesome\scss\_fixed-width.scss" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\FontAwesome\scss\_icons.scss" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\FontAwesome\scss\_larger.scss" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\FontAwesome\scss\_list.scss" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\FontAwesome\scss\_mixins.scss" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\FontAwesome\scss\_path.scss" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\FontAwesome\scss\_rotated-flipped.scss" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\FontAwesome\scss\_spinning.scss" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\FontAwesome\scss\_stacked.scss" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\FontAwesome\scss\_variables.scss" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\FontAwesome\scss\font-awesome.scss" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\Ladda\ladda-themeless.min.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\Ladda\ladda.min.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\Select2\select2-bootstrap.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\Select2\select2.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\Select2\select2.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\Select2\select2.min.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\SimpleDropDownEffects\README.md" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\SimpleDropDownEffects\README.txt" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\SimpleDropDownEffects\css\common.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\SimpleDropDownEffects\css\demo.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\SimpleDropDownEffects\css\fonts\icomoon.eot" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\SimpleDropDownEffects\css\fonts\icomoon.svg" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\SimpleDropDownEffects\css\fonts\icomoon.ttf" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\SimpleDropDownEffects\css\fonts\icomoon.woff" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\SimpleDropDownEffects\css\fonts\license.txt" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\SimpleDropDownEffects\css\icons.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\SimpleDropDownEffects\css\style1.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\SimpleDropDownEffects\css\style2.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\SimpleDropDownEffects\css\style3.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\SimpleDropDownEffects\css\style4.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\SimpleDropDownEffects\css\style5.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\SimpleDropDownEffects\css\style6.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\SimpleDropDownEffects\images\grid_DominikKiss_SubtlePatterns.jpg" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\SimpleDropDownEffects\index.html" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\SimpleDropDownEffects\index2.html" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\SimpleDropDownEffects\index3.html" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\SimpleDropDownEffects\index4.html" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\SimpleDropDownEffects\index5.html" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\SimpleDropDownEffects\index6.html" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\SimpleDropDownEffects\jquery.dropdown.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\SimpleDropDownEffects\js\jquery.dropdown.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\SimpleDropDownEffects\js\modernizr.custom.63321.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\SimpleDropDownEffects\modernizr.custom.63321.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\isloading\jquery.isloading.min.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\isloading\style.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\includes\libraries\jrumble\jquery.jrumble.min.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\Dropbox\Websites\local\htdocs\inboundsoon\wp-content\plugins\inbound-automation\js\admin.rule-setup.js" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/definitions/action.send_email.php" afterPath="$PROJECT_DIR$/definitions/action.send_email.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/classes/class.activation.php" afterPath="$PROJECT_DIR$/classes/class.activation.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/classes/class.activation.upgrade-routines.php" afterPath="$PROJECT_DIR$/classes/class.activation.upgrade-routines.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/classes/class.automation.php" afterPath="$PROJECT_DIR$/classes/class.automation.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/classes/class.metaboxes.automation.php" afterPath="$PROJECT_DIR$/classes/class.metaboxes.automation.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/classes/class.post-type.automation.php" afterPath="$PROJECT_DIR$/classes/class.post-type.automation.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/inbound-automation.php" afterPath="$PROJECT_DIR$/inbound-automation.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/definitions/trigger.form_submission_event.php" afterPath="$PROJECT_DIR$/definitions/trigger.form_submission_event.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/definitions/trigger.page_tracking_event.php" afterPath="$PROJECT_DIR$/definitions/trigger.page_tracking_event.php" />
+    </list>
+    <ignored path="inbound-automation.iws" />
+    <ignored path=".idea/workspace.xml" />
+    <ignored path=".idea/dataSources.local.xml" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="DaemonCodeAnalyzer">
+    <disable_hints />
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="inbound-automation" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file leaf-file-name="class.metaboxes.automation.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/classes/class.metaboxes.automation.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-5.9074073" vertical-offset="10376" max-vertical-offset="19575">
+              <caret line="713" column="65" selection-start-line="713" selection-start-column="65" selection-end-line="713" selection-end-column="65" />
+              <folding>
+                <marker date="1433818362579" expanded="true" signature="29504:29528" placeholder="..." />
+                <marker date="1433818362579" expanded="true" signature="32193:32208" placeholder="..." />
+                <marker date="1433818362579" expanded="true" signature="47267:47327" placeholder="..." />
+                <marker date="1433818362579" expanded="true" signature="56842:56877" placeholder="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="action.send_email.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/definitions/action.send_email.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-6.0" vertical-offset="411" max-vertical-offset="2670">
+              <caret line="49" column="54" selection-start-line="49" selection-start-column="48" selection-end-line="49" selection-end-column="54" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="query.lead_data.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/definitions/query.lead_data.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-6.0" vertical-offset="426" max-vertical-offset="1575">
+              <caret line="50" column="47" selection-start-line="50" selection-start-column="42" selection-end-line="50" selection-end-column="47" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="trigger.form_submission_event.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/definitions/trigger.form_submission_event.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-9.25" vertical-offset="378" max-vertical-offset="1635">
+              <caret line="40" column="32" selection-start-line="40" selection-start-column="32" selection-end-line="40" selection-end-column="50" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="trigger.page_tracking_event.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/definitions/trigger.page_tracking_event.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.5740458" vertical-offset="254" max-vertical-offset="975">
+              <caret line="42" column="51" selection-start-line="42" selection-start-column="51" selection-end-line="42" selection-end-column="51" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="class.metaboxes.inbound-email.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../inbound-mailer/classes/class.metaboxes.inbound-email.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-10.351851" vertical-offset="6836" max-vertical-offset="32880">
+              <caret line="493" column="39" selection-start-line="493" selection-start-column="39" selection-end-line="493" selection-end-column="39" />
+              <folding>
+                <marker date="1433809340268" expanded="true" signature="17592:17605" placeholder="..." />
+                <marker date="1433809340268" expanded="true" signature="53935:54452" placeholder="..." />
+                <marker date="1433809340268" expanded="true" signature="53997:54152" placeholder="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="class.statistics.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../inbound-mailer/classes/class.statistics.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-6.0" vertical-offset="2181" max-vertical-offset="6270">
+              <caret line="167" column="0" selection-start-line="167" selection-start-column="0" selection-end-line="167" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="class.leads-profile.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../inbound-goole-calendar/classes/class.leads-profile.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="495" max-vertical-offset="4335">
+              <caret line="49" column="50" selection-start-line="49" selection-start-column="50" selection-end-line="49" selection-end-column="50" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="admin.post-edit.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/assets/css/admin.post-edit.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-7.5666666" vertical-offset="3823" max-vertical-offset="5115">
+              <caret line="270" column="19" selection-start-line="270" selection-start-column="19" selection-end-line="270" selection-end-column="19" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="admin.rule-setup.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/assets/js/admin.rule-setup.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-16.566668" vertical-offset="7288" max-vertical-offset="9330">
+              <caret line="519" column="53" selection-start-line="519" selection-start-column="53" selection-end-line="519" selection-end-column="53" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/assets/css/admin.post-edit.css" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/assets/js/admin.rule-setup.js" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/definitions/trigger.page_tracking_event.php" root0="FORCE_HIGHLIGHTING" root1="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/../inbound-goole-calendar/classes/class.leads-profile.php" root0="FORCE_HIGHLIGHTING" root1="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/classes/class.metaboxes.automation.php" root0="FORCE_HIGHLIGHTING" root1="SKIP_INSPECTION" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/assets/css/admin.post-edit.css" />
+        <option value="$PROJECT_DIR$/definitions/action.send_email.php" />
+        <option value="$PROJECT_DIR$/../inbound-mailer/classes/class.statistics.php" />
+        <option value="$PROJECT_DIR$/../inbound-mailer/classes/class.metaboxes.inbound-email.php" />
+        <option value="$PROJECT_DIR$/assets/js/admin.rule-setup.js" />
+        <option value="$PROJECT_DIR$/classes/class.metaboxes.automation.php" />
+        <option value="$PROJECT_DIR$/definitions/trigger.form_submission_event.php" />
+        <option value="$PROJECT_DIR$/definitions/trigger.page_tracking_event.php" />
+      </list>
+    </option>
+  </component>
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="-9" />
+    <option name="y" value="-9" />
+    <option name="width" value="1938" />
+    <option name="height" value="1170" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+    <OptionsSetting value="true" id="Add" />
+    <OptionsSetting value="true" id="Remove" />
+    <OptionsSetting value="true" id="Checkout" />
+    <OptionsSetting value="true" id="Update" />
+    <OptionsSetting value="true" id="Status" />
+    <OptionsSetting value="true" id="Edit" />
+    <ConfirmationsSetting value="0" id="Add" />
+    <ConfirmationsSetting value="0" id="Remove" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="inbound-automation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="inbound-automation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="inbound-automation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="inbound-automation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="inbound-automation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="definitions" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="inbound-automation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="inbound-automation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="classes" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="inbound-automation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="inbound-automation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="inbound-automation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="inbound-automation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="inbound-automation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="inbound-automation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="css" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/.." />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+      <TestRunner />
+      <method />
+    </configuration>
+    <configuration default="true" type="PhpLocalRunConfigurationType" factoryName="PHP Console">
+      <method />
+    </configuration>
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
+      <method />
+    </configuration>
+    <configuration default="true" type="PhpBehatConfigurationType" factoryName="Behat">
+      <BehatRunner />
+      <method />
+    </configuration>
+    <configuration default="true" type="NodeJSConfigurationType" factoryName="Node.js" working-dir="">
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
+      <pass-parent-envs>true</pass-parent-envs>
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server">
+      <method />
+    </configuration>
+    <list size="0" />
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0d1f2f1b-6b9a-4626-b98a-1d3ce9e6e6b1" name="Default" comment="" />
+      <created>1433448971219</created>
+      <option name="number" value="Default" />
+      <updated>1433448971219</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-9" y="-9" width="1938" height="1170" extended-state="0" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32922202" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20979765" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24973376" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+    </layout>
+    <layout-to-restore>
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20766774" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24973376" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+    </layout-to-restore>
+  </component>
+  <component name="Vcs.Log.UiProperties">
+    <option name="RECENTLY_FILTERED_USER_GROUPS">
+      <collection />
+    </option>
+    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+      <collection />
+    </option>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="myTodoPanelSettings">
+      <TodoPanelSettings />
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <option name="time" value="1" />
+    </breakpoint-manager>
+    <watches-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/classes/class.metaboxes.automation.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="19560">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1433818362579" expanded="true" signature="29504:29528" placeholder="..." />
+            <marker date="1433818362579" expanded="true" signature="32193:32208" placeholder="..." />
+            <marker date="1433818362579" expanded="true" signature="47267:47327" placeholder="..." />
+            <marker date="1433818362579" expanded="true" signature="56842:56877" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../inbound-goole-calendar/classes/class.leads-profile.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="495" max-vertical-offset="4335">
+          <caret line="49" column="50" selection-start-line="49" selection-start-column="50" selection-end-line="49" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/css/admin.post-edit.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="3599" max-vertical-offset="4830">
+          <caret line="256" column="12" selection-start-line="256" selection-start-column="12" selection-end-line="256" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/js/admin.rule-setup.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="228" max-vertical-offset="6975">
+          <caret line="37" column="8" selection-start-line="37" selection-start-column="8" selection-end-line="37" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/classes/class.post-type.automation.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="45" max-vertical-offset="1845">
+          <caret line="42" column="14" selection-start-line="42" selection-start-column="14" selection-end-line="42" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/classes/class.post-type.automation.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="45" max-vertical-offset="1845">
+          <caret line="42" column="14" selection-start-line="42" selection-start-column="14" selection-end-line="42" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../inbound-goole-calendar/classes/class.leads-profile.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="495" max-vertical-offset="4335">
+          <caret line="49" column="50" selection-start-line="49" selection-start-column="50" selection-end-line="49" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../inbound-mailer/classes/class.statistics.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.0" vertical-offset="2181" max-vertical-offset="6270">
+          <caret line="167" column="0" selection-start-line="167" selection-start-column="0" selection-end-line="167" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../inbound-mailer/classes/class.metaboxes.inbound-email.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-10.351851" vertical-offset="6836" max-vertical-offset="32880">
+          <caret line="493" column="39" selection-start-line="493" selection-start-column="39" selection-end-line="493" selection-end-column="39" />
+          <folding>
+            <marker date="1433809340268" expanded="true" signature="17592:17605" placeholder="..." />
+            <marker date="1433809340268" expanded="true" signature="53935:54452" placeholder="..." />
+            <marker date="1433809340268" expanded="true" signature="53997:54152" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/css/admin.post-edit.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.5666666" vertical-offset="3823" max-vertical-offset="5115">
+          <caret line="270" column="19" selection-start-line="270" selection-start-column="19" selection-end-line="270" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/js/admin.rule-setup.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-16.566668" vertical-offset="7288" max-vertical-offset="9330">
+          <caret line="519" column="53" selection-start-line="519" selection-start-column="53" selection-end-line="519" selection-end-column="53" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/classes/class.metaboxes.automation.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.9074073" vertical-offset="10376" max-vertical-offset="19575">
+          <caret line="713" column="65" selection-start-line="713" selection-start-column="65" selection-end-line="713" selection-end-column="65" />
+          <folding>
+            <marker date="1433818362579" expanded="true" signature="29504:29528" placeholder="..." />
+            <marker date="1433818362579" expanded="true" signature="32193:32208" placeholder="..." />
+            <marker date="1433818362579" expanded="true" signature="47267:47327" placeholder="..." />
+            <marker date="1433818362579" expanded="true" signature="56842:56877" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/definitions/action.send_email.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.0" vertical-offset="411" max-vertical-offset="2670">
+          <caret line="49" column="54" selection-start-line="49" selection-start-column="48" selection-end-line="49" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/definitions/query.lead_data.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.0" vertical-offset="426" max-vertical-offset="1575">
+          <caret line="50" column="47" selection-start-line="50" selection-start-column="42" selection-end-line="50" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/definitions/trigger.form_submission_event.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-9.25" vertical-offset="378" max-vertical-offset="1635">
+          <caret line="40" column="32" selection-start-line="40" selection-start-column="32" selection-end-line="40" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/definitions/trigger.page_tracking_event.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5740458" vertical-offset="254" max-vertical-offset="975">
+          <caret line="42" column="51" selection-start-line="42" selection-start-column="51" selection-end-line="42" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

@@ -99,6 +99,7 @@ if (!class_exists('Inbound_Feedback')) {
 		return $count;
 	}
 	public static function get_stats($type) {
+		// $pro = self::get_pro_user_data();
 		/*
 		$payload = { e: 'pageview',
 		  t: '2015-05-13T00:17:49.650Z',
@@ -107,10 +108,14 @@ if (!class_exists('Inbound_Feedback')) {
 		     name: '',
 		     referrer: '',
 		     id: '781cad1f-7d7b-4493-8ec3-2b2de17c2ef1',
-		     ip: '::1',
+			domain: "site.com",
 		     origin: 'localhost:8080',
 		     page: 'http://localhost:8080/',
-		     useragent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36' } }
+		     pro: true,
+		     leads: count,
+		     lp: count,
+		     cta: count
+		    }
 		 */
 	}
 	public static function ispro($type) {
@@ -125,7 +130,7 @@ if (!class_exists('Inbound_Feedback')) {
 	 */
 	public static function  count_pro_extensions( ) {
 	    /* check for premium plugins */
-	    $extensions =  apply_filters( 'inbound_settings/extend' , array()) ;
+	    $extensions = apply_filters( 'inbound_settings/extend', array()) ;
 	    if (isset($extensions['inbound-pro-settings'])) {
 	        return count($extensions['inbound-pro-settings']);
 	    } else {
@@ -135,7 +140,7 @@ if (!class_exists('Inbound_Feedback')) {
 	/**
 	 * Counts templates by reading directories in each plugin's updload folder
 	 */
-	public static function  count_non_core_templates( ) {
+	public static function count_non_core_templates( ) {
 	    /* count templates in landing pages uploads folder */
 	    if( is_defined('LANDINGPAGES_UPLOADS_PATH') ) {
 	        $templates['landing-pages'] = self::count_templates( LANDINGPAGES_UPLOADS_PATH );
@@ -253,7 +258,7 @@ if (!class_exists('Inbound_Feedback')) {
 	<div id="launch-feedback" style='z-index:9999999999999; background:gray; position:fixed; bottom:0px; right:20px; width:200px; height:30px;'>
 	<div id="inbound-fb-request">
 	<div class="inbound-close-fb"><?php _e( 'close' , INBOUNDNOW_TEXT_DOMAIN ); ?></div>
-			<div id="lp-slide-toggle">
+		<div id="lp-slide-toggle">
 			<header id="header" class='inbound-customhead'>
 			<a href="http://www.inboundnow.com" target="_blank" title="<?php _e( 'Visit Inbound Now' , INBOUNDNOW_TEXT_DOMAIN ); ?>"><img src="<?php echo INBOUNDNOW_SHARED_URLPATH . 'assets/images/admin/inbound-now-logo.png';?>" width="315px"></a>
 			<h3 class="main-feedback-header" ><?php _e( 'We love hearing from You!' , INBOUNDNOW_TEXT_DOMAIN ); ?></h3>
@@ -278,194 +283,85 @@ if (!class_exists('Inbound_Feedback')) {
 			<div class="inbound-feedback-desc" style="display: block;"><strong><?php _e( 'Please note:' , INBOUNDNOW_TEXT_DOMAIN ); ?></strong> <?php _e( 'Support requests will not be handled through this form' , INBOUNDNOW_TEXT_DOMAIN ); ?></div>
 			</form>
 			</section>
-			</div>
+		</div>
 			<div id="inbound-automation-footer" class="inbound-selectron-foot"><?php _e( 'Submit a Feature Request' , INBOUNDNOW_TEXT_DOMAIN ); ?></div>
 	</div>
-	<style type="text/css">
-	#wpfooter {
-		display: none;
-	}
-	.main-feedback-header {
-		font-size: 21px;
-		padding-top: 0px;
-		margin-top: 14px;
-		margin-bottom: 10px;
-		padding-bottom: 0px;
-	}
-	.inbound-close-fb {
-		font-size: 10px;
-		position: absolute;
-		right: 5px;
-		top: -17px;
-		cursor: pointer;
-	}
-	.inbound-customhead {
-		text-align: center;
-	}
-	#inbound-fb-request {
-	background: #fff;
-	background: rgba(255, 255, 255, 1);
-	margin: 0px;
-	padding: 10px;
-	margin-bottom: -1px;
-	border: 1px solid #ccc;
-	position: relative;
-	border-top-left-radius: 2px;
-	border-top-right-radius: 2px;
-	box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.15);
-	}
-	#inbound-feedback h1 {
-		font-size: 20px;
-		color: green;
-	}
-	#inbound-feedback h3 {
-		font-size: 13px;
-		padding-bottom: 15px;
-	}
-	#inbound-fb-request h4{
-		padding-right: 5px;
-		text-align: left;
-		font-weight: 300;
-		font-size: 16px;
-		line-height: 22px;
-		margin-top: 13px;
-		margin-bottom: 7px;
-	}
-	.inbound-feedback-actions {
-		text-align: center;
-		margin-top: 10px;
-		margin-bottom: 5px;
-	}
-	.inbound-feedback-desc {
-		color:#000;
-		font-weight: 300;
-	padding-bottom: 5px;
-	padding-top: 5px;
-	}
-	#inbound-fb-request {
-	position: fixed !important;
-	right: 10px;
-	bottom: 0px;
-	width: 330px;
-	}
-	#lp-slide-toggle {
-	margin-bottom: 30px;
-	}
-	#lp-slide-toggle {
-	display: none;
-	}
-	#inbound-automation-footer.inbound-selectron-foot {
-		color: #777;
-		font-size: 20px;
-		padding: 0 15px !important;
-		cursor: pointer;
-		padding-bottom: 0px !important;
-		padding-top: 11px !important;
-		position: absolute !important;
-		right: 0 !important;
-		bottom: 0px !important;
-		left: 0 !important;
-		background: #E9E9E9 !important;
-		height: 26px !important;
-		z-index: 8 !important;
-		text-align: center;
-		box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
-	}
-	.submit-inbound-feedback {
-		position: relative;
-		display: block;
-		line-height: 40px;
-		font-size: 18px;
-		font-weight: 500;
-		color: white;
-		cursor: pointer;
-		text-align: center;
-		text-decoration: none;
-		text-shadow: 0 1px rgba(0, 0, 0, 0.1);
-		background: #fd935c;
-		border-bottom: 2px solid #cf7e3b;
-		border-color: rgba(0, 0, 0, 0.15);
-		border-radius: 4px;
-		width: 95%;
-		margin: auto;
-	}
-	#lp-slide-toggle textarea, #inbound-feedback-email-field {
-		width: 100%;
 
-		padding: 6px 12px;
-		font-size: 14px;
-		line-height: 1.428571429;
-		color: #555;
-		vertical-align: middle;
-		background-color: #fff;
-		background-image: none;
-		border: 1px solid #ccc;
-		border-radius: 4px;
-		-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
-		box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
-		-webkit-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
-		transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
-
-	}
-	#inbound-feedback-email-field {
-		margin-top: 5px;
-	}
-	#lp-slide-toggle textarea	{
-		min-height: 125px;
-	}
-
-	#lp-slide-toggle textarea:focus, #inbound-feedback-email-field:focus {
-border-color: #66afe9;
-outline: 0;
--webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(102,175,233,0.6);
-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(102,175,233,0.6);}
- </style>
 	<script type="text/javascript">
 	jQuery(document).ready(function($) {
-            jQuery("body").on('click', '#inbound-automation-footer', function () {
 
-            jQuery("#lp-slide-toggle").slideToggle();
-            jQuery("#lp-open-close").toggleClass("lp-options-up");
+		jQuery("body").on('click', '#inbound-automation-footer', function () {
+			jQuery("#lp-slide-toggle").slideToggle();
+			jQuery("#lp-open-close").toggleClass("lp-options-up");
+			jQuery("#footer").toggleClass("lp-options-on");
+		});
 
-            jQuery("#footer").toggleClass("lp-options-on");
-            });
-            jQuery("body").on('click', '.inbound-close-fb', function () {
-            jQuery("#lp-slide-toggle").slideToggle();
-                });
-            jQuery("body").on('submit', '#inbound-feedback', function (e) {
-            e.preventDefault(); // halt normal form
-            var feedback = jQuery('#inbound-feedback-message').val();
-            var email = jQuery('#inbound-feedback-email-field').val();
-            if (typeof (feedback) != "undefined" && feedback != null && feedback != "") {
-                jQuery.ajax({
-                type: 'POST',
-                url: ajaxurl,
-                timeout: 10000,
-                data: {
-                    feedback : feedback,
-                    email: email,
-                    page: document.title,
-                    plugin: "<?php echo $plugin_name;?>",
-                    action: 'send_inbound_feedback'
-                },
-                success: function(user_id){
-                    console.log('feedback sent');
-                    $(".inbound-customhead").hide();
-                    $("#inbound-feedback").html('<h1>Thank You for your feedback!</h1><h3>Our team is hard at work to improve things for you!</h3>');
-                    },
-                error: function(MLHttpRequest, textStatus, errorThrown){
-                    //alert(MLHttpRequest+' '+errorThrown+' '+textStatus); // debug
+		jQuery("body").on('click', '.inbound-close-fb', function () {
+			jQuery("#lp-slide-toggle").slideToggle();
+		});
 
-                    }
-                });
-                } else {
-                $("#lp-slide-toggle textarea").css('border', 'red');
-                }
-            });
+		jQuery("body").on('submit', '#inbound-feedback', function (e) {
+			e.preventDefault(); // halt normal form
+			var feedback = jQuery('#inbound-feedback-message').val();
+			var email = jQuery('#inbound-feedback-email-field').val();
+			if (typeof (feedback) != "undefined" && feedback != null && feedback != "") {
+				jQuery.ajax({
+					type: 'POST',
+					url: ajaxurl,
+					timeout: 10000,
+					data: {
+						feedback : feedback,
+						email: email,
+						page: document.title,
+						plugin: "<?php echo $plugin_name;?>",
+						action: 'send_inbound_feedback'
+					},
+					success: function(user_id){
+						console.log('feedback sent');
+						$(".inbound-customhead").hide();
+						$("#inbound-feedback").html('<h1>Thank You for your feedback!</h1><h3>Our team is hard at work to improve things for you!</h3>');
+					}
+				});
+			} else {
+				$("#lp-slide-toggle textarea").css('border', 'red');
+			}
+		});
+		/* Stash
+		count = 0;
+		var test = {};
+		var what = { e: 'pageview',
+		  t: '2015-05-13T00:17:49.650Z',
+		  kv:
+		   { url: 'http://localhost:8080/',
+		     name: '',
+		     referrer: '',
+		     id: '781cad1f-7d7b-4493-8ec3-2b2de17c2ef1',
+			domain: "site.com",
+		     origin: 'localhost:8080',
+		     page: 'http://localhost:8080/',
+		     pro: true,
+		     leads: count,
+		     lp: count,
+		     cta: count
+			}
+		};
+		jQuery.ajax({
+			type: 'POST',
+			url: 'http://localhost:3000/users',
+			timeout: 10000,
+			data: what,
+			success: function(user_id){
+				console.log('feedback sent');
+				$(".inbound-customhead").hide();
+				$("#inbound-feedback").html('<h1>Thank You for your feedback!</h1><h3>Our team is hard at work to improve things for you!</h3>');
+			}
+		});
+		*/
 	});
-
 	</script>
-
+	<style type="text/css">
+	#wpfooter{display:none}.main-feedback-header{font-size:21px;padding-top:0;margin-top:14px;margin-bottom:10px;padding-bottom:0}.inbound-close-fb{font-size:10px;position:absolute;right:5px;top:-17px;cursor:pointer}.inbound-customhead{text-align:center}#inbound-fb-request{background:#fff;background:rgba(255,255,255,1);margin:0 0 -1px;padding:10px;border:1px solid #ccc;border-top-left-radius:2px;border-top-right-radius:2px;box-shadow:0 2px 6px 0 rgba(0,0,0,.2),0 25px 50px 0 rgba(0,0,0,.15)}#inbound-feedback h1{font-size:20px;color:green}#inbound-feedback h3{font-size:13px;padding-bottom:15px}#inbound-fb-request h4{padding-right:5px;text-align:left;font-weight:300;font-size:16px;line-height:22px;margin-top:13px;margin-bottom:7px}.inbound-feedback-actions{text-align:center;margin-top:10px;margin-bottom:5px}.inbound-feedback-desc{color:#000;font-weight:300;padding-bottom:5px;padding-top:5px}#inbound-fb-request{position:fixed!important;right:10px;bottom:0;width:330px}#lp-slide-toggle{margin-bottom:30px;display:none}#inbound-automation-footer.inbound-selectron-foot{color:#777;font-size:20px;padding:11px 15px 0!important;cursor:pointer;position:absolute!important;right:0!important;bottom:0!important;left:0!important;background:#E9E9E9!important;height:26px!important;z-index:8!important;text-align:center;box-shadow:0 1px 1px rgba(0,0,0,.3)}.submit-inbound-feedback{position:relative;display:block;line-height:40px;font-size:18px;font-weight:500;color:#fff;cursor:pointer;text-align:center;text-decoration:none;text-shadow:0 1px rgba(0,0,0,.1);background:#fd935c;border-bottom:2px solid #cf7e3b;border-color:rgba(0,0,0,.15);border-radius:4px;width:95%;margin:auto}#inbound-feedback-email-field,#lp-slide-toggle textarea{width:100%;padding:6px 12px;font-size:14px;line-height:1.428571429;color:#555;vertical-align:middle;background-color:#fff;background-image:none;border:1px solid #ccc;border-radius:4px;-webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);box-shadow:inset 0 1px 1px rgba(0,0,0,.075);-webkit-transition:border-color ease-in-out .15s,box-shadow ease-in-out .15s;transition:border-color ease-in-out .15s,box-shadow ease-in-out .15s}#inbound-feedback-email-field{margin-top:5px}#lp-slide-toggle textarea{min-height:125px}#inbound-feedback-email-field:focus,#lp-slide-toggle textarea:focus{border-color:#66afe9;outline:0;-webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);box-shadow:inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)}
+	 </style>
 	<?php }
 
 	}

@@ -165,7 +165,7 @@ class Inbound_Email_Stats {
 
         $tags = array();
         $senders = array();
-        echo $query;
+
         self::$results = $mandrill->messages->searchTimeSeries($query, self::$stats['date_from'] , self::$stats['date_to'] , $tags, $senders);
 
         /* echo microtime(true) - $start; */

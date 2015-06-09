@@ -40,9 +40,9 @@ node_modules
 Desktop.ini
 
 #codeception
-tests/_output
-tests/_support
-tests/_data
+tests/codeception/_output
+tests/codeception/_support
+tests/codeception/_data
 
 #composer
 composer.lock

@@ -1,9 +1,9 @@
 actor: Tester
 paths:
-    tests: tests
-    log: tests/_output
-    data: tests/_data
-    helpers: tests/_support
+    tests: tests/codeception
+    log: tests/codeception/_output
+    data: tests/codeception/_data
+    helpers: tests/codeception/_support
 settings:
     bootstrap: _bootstrap.php
     colors: false
@@ -14,4 +14,4 @@ modules:
             dsn: ''
             user: ''
             password: ''
-            dump: tests/_data/dump.sql
+            dump: tests/codeception/_data/dump.sql
