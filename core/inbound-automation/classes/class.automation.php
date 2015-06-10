@@ -44,11 +44,20 @@ class Inbound_Automation_Processing {
 			return true;
 		}
 
-		if (isset($_GET['debuga'])) {
+		if (isset($_GET['inbound-automation-view-rule-queue'])) {
 			self::load_queue();
 			echo '<pre>';
 			print_r(self::$queue);
 			echo '</pre>';exit;
+		}
+
+		if (isset($_GET['inbound-automation-empty-queue'])) {
+            update_option( 'inbound_automation_queue' , null );
+		}
+
+		if (isset($_GET['inbound-automation-run-rules'])) {
+            self::process_rules();
+            exit;
 		}
 	}
 
@@ -74,8 +83,6 @@ class Inbound_Automation_Processing {
 
 			/* run job */
 			self::run_job();
-
-			//error_log( print_r(self::$job , true));
 
 			/* unset completed job from queue */
 			self::unset_completed_job();
@@ -111,8 +118,6 @@ class Inbound_Automation_Processing {
 	*/
 	public static function run_job() {
 
-		$action_blocks =  self::$job['rule']['action_blocks'];
-
 		/* Tell Log We Are Running An Job */
 		inbound_record_log(  'Starting Job' , '<pre>' . print_r( self::$job , true ) . '</pre>', self::$job['rule']['ID'] , self::$job_id , 'processing_event' );
 
@@ -125,50 +130,27 @@ class Inbound_Automation_Processing {
 			if ( !$evaluate ) {
 				/* Run 'Else' Actions & Unset Action Block*/
 				if ( isset($block['actions']['else']) ) {
-
 					self::$job['rule']['action_blocks'][ $block_id ] = self::run_actions( $block , 'else' );
-
-				}
-
-				/* If 'While' Action Block & Evalute Equals False Then Unset Action Block */
-				else if ( isset($block['actions']['while']) ) {
-
-					unset( self::$job['rule']['action_blocks'][$block_id] );
-
 				}
 
 				/* Continue to Next Action Block If Above Coditions are False & Unset Action Block */
 				else {
-
 					unset( self::$job['rule']['action_blocks'][$block_id] );
 					continue;
-
 				}
 			}
 
 			/* If Evaluates to True */
 			else {
-
 				/* Run 'Then' Actions */
 				if ( isset($block['actions']['then']) ) {
-
 					self::$job['rule']['action_blocks'][ $block_id ] = self::run_actions( $block , 'then' );
-
-				}
-
-				/* Run 'While' Actions and Do Not Unset Data Block */
-				else if ( isset($block['actions']['while']) ) {
-
-					self::$job['rule']['action_blocks'][ $block_id ] = self::run_actions( $block , 'while'  );
-
 				}
 			}
 
 		}
-
 		/* remove action blocks with completed actions */
 		Inbound_Automation_Processing::unset_completed_actions( );
-
 	}
 
 	/**
@@ -238,6 +220,7 @@ class Inbound_Automation_Processing {
 	public static function run_action( $action  ) {
 
 		$class = new $action['action_class_name'];
+
 		$action = $class->run_action( $action  , self::$job['arguments'] , self::$job['rule']['ID'] );
 
 		return $action;
@@ -248,11 +231,6 @@ class Inbound_Automation_Processing {
 	* Evaluate Action Block
 	*/
 	public static function evaluate_action_block( $block ) {
-
-		/* Automatically Evaluate True When There Is No Conditionals */
-		if ( $block['action_block_type'] == 'actions' ) {
-			return true;
-		}
 
 		/* Check Action Filters */
 		if ( isset( $block['filters'] )  && $block['filters'] && $filters = $block['filters'] ) {
@@ -265,19 +243,21 @@ class Inbound_Automation_Processing {
 			$evals = array();
 
 			/* Check How Many Conditions as True */
-			foreach($filters as $filter) {
+			foreach( $block['filters'] as $filter) {
 
-				$db_lookup_filter = self::$definitions->db_lookup_filters[ $filter['filter_id'] ];
+				$db_lookup_filter = self::$definitions->db_lookup_filters[ $filter['action_filter_id'] ];
 
 				$evals[] = self::evaluate_filter( $db_lookup_filter , $filter );
 
 			}
 
+            //error_log( print_r( $block , true ) );exit;
+
 			/* Return Final Evaluation Decision Based On Eval Nature */
 			$evaluate = self::evaluate_filters( $block['action_block_filters_evaluate'] , $evals );
 
 			/* Add Extra Data to $block for Log Event */
-			$block['arguments'] = $arguments;
+			$block['arguments'] = $filters;
 			$block['evaluated'] = $evaluate;
 			$block['evals'] = $evals;
 
@@ -463,8 +443,12 @@ class Inbound_Automation_Processing {
 				if ( count($actions) < 1 ) {
 					unset( self::$job['rule']['action_blocks'][ $block_id ]['actions'][ $type ] );
 				}
-
 			}
+
+            /* if 'then' actions exausted also delete else actions
+            if (self::$job['rule']['action_blocks'][ $block_id ]['actions']['then']) {
+                unset( self::$job['rule']['action_blocks'][ $block_id ]['actions']['else' ] );
+            }*/
 
 			/* Remove Actionless Action Blocks */
 			if ( count(self::$job['rule']['action_blocks'][ $block_id ]['actions']) < 1 ) {
@@ -493,17 +477,6 @@ class Inbound_Automation_Processing {
 			);
 
 		} else {
-
-			/* Tell Log The Job Has Completed */
-			$remaining_actions = self::$job['rule']['action_blocks'] ;
-			inbound_record_log(
-				__( 'Ending Job - Tasks Remain' , 'inbound-pro' ) ,
-				'<h2>Actions Left</h2> <pre>' . print_r( $remaining_actions , true ) .'</pre><h2>Raw Job Data</h2><pre>' . print_r( self::$job , true ) . '</pre>',
-				self::$job['rule']['ID'] ,
-				self::$job_id,
-				'processing_event'
-			);
-
 			Inbound_Automation_Processing::$queue[ self::$job_id ] = self::$job;
 		}
 

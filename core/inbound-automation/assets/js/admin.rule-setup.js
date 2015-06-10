@@ -1,5 +1,6 @@
 var InboundRulesJs = ( function() {
 
+	var rule_id; /* placeholder for current rule ID */
 	var trigger; /* placeholder for selected trigger */
 	var ladda_trigger_filters; /* placeholder for ladda button */
 	var ladda_add_action_block; /* placeholder for ladda button */
@@ -7,6 +8,7 @@ var InboundRulesJs = ( function() {
 	var current_element; /* placeholder for current element being processed */
 	var target_container; /* placeholder for html placements */
 	var block_id; /* placeholder for current action block id  */
+	var action_type; /* placeholder for current action type */
 
 	var construct = {
 		/**
@@ -17,6 +19,13 @@ var InboundRulesJs = ( function() {
 			jQuery('#minor-publishing').hide();
 			jQuery('#publish').val('Save Rule');
 			jQuery('#slugdiv').remove();
+
+			/* disable dragging */
+            jQuery('.meta-box-sortables').sortable({
+                disabled: true
+            });
+
+            jQuery('.postbox .hndle').css('cursor', 'pointer');
 
 			/* Load Listeners */
 			InboundRulesJs.listeners_navigation();
@@ -111,7 +120,7 @@ var InboundRulesJs = ( function() {
                 var row =  jQuery(this).parent().parent().parent().parent();
                 swal({
                     title: "Are you sure?",
-                    text: "Are you sure you want to delete this filter>?",
+                    text: "Are you sure you want to delete this filter?",
                     type: "warning",
                     showCancelButton: true,
                     confirmButtonColor: "#DD6B55",
@@ -139,16 +148,35 @@ var InboundRulesJs = ( function() {
 
             /* Moves Action Block Up In Order */
             jQuery('body').on( 'click' , '.up-action-order' , function() {
-                var block_id = jQuery(this).data('block-id');
-                var child_id = jQuery(this).data('child-id');
-                InboundRulesJs.change_action_order('up', block_id , child_id );
+                InboundRulesJs.block_id = jQuery(this).attr('data-block-id');
+                InboundRulesJs.child_id = jQuery(this).attr('data-child-id');
+                InboundRulesJs.action_type = jQuery(this).attr('data-action-type');
+                InboundRulesJs.change_action_order('up' );
             });
 
             /* Moves Action Block Down In Order */
             jQuery('body').on( 'click' , '.down-action-order' , function() {
-                var block_id = jQuery(this).data('block-id');
-                var child_id = jQuery(this).data('child-id');
-                InboundRulesJs.change_action_order('down', block_id , child_id );
+                InboundRulesJs.block_id = jQuery(this).attr('data-block-id');
+                InboundRulesJs.child_id = jQuery(this).attr('data-child-id');
+                InboundRulesJs.action_type = jQuery(this).attr('data-action-type');
+                InboundRulesJs.change_action_order('down');
+            });
+
+            /* Clears logs */
+            jQuery('body').on( 'click' , '#clear-logs' , function() {
+                InboundRulesJs.rule_id = jQuery(this).data('rule-id');
+                swal({
+                    title: "Are you sure?",
+                    text: "Are you sure you want to clear these logs?",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Yes, clear them!",
+                    closeOnConfirm: false
+                }, function(){
+                    InboundRulesJs.delete_logs();
+                    swal("Deleted!", "Logs have been cleared.", "success");
+                });
             });
 
 
@@ -249,7 +277,7 @@ var InboundRulesJs = ( function() {
 
                 var action_name = jQuery(this).attr('data-value');
                 var block_id = jQuery(this).parent().parent().parent().attr('data-block-id');
-                var action_type = jQuery(this).parent().parent().parent().attr('data-action-type');
+                InboundRulesJs.action_type = jQuery(this).parent().parent().parent().attr('data-action-type');
 
                 var child_id = jQuery( "body" ).find( '.action-block-actions-container .table-action:last' ).attr( 'data-child-id' );
 
@@ -264,7 +292,7 @@ var InboundRulesJs = ( function() {
 				InboundRulesJs.run_ajax(  {
 					'action' : 'automation_build_action',
 					'action_name' : action_name,
-					'action_type' : action_type,
+					'action_type' : InboundRulesJs.action_type,
 					'action_block_id' : block_id,
 					'child_id' : child_id,
 					'defaults' : null
@@ -313,8 +341,9 @@ var InboundRulesJs = ( function() {
 		  *  Adds trigger action html
 		  */
 		add_action: function( html ) {
+
 			/* Reveal Trigger Evaluation Options */
-			jQuery('.action-block-actions-container').append(html);
+			jQuery('.action-block-'+ InboundRulesJs.action_type +'-actions-container').append(html);
 
             /* make sure conditional fields render correctly */
             InboundRulesJs.toggle_conditional_fields();
@@ -453,9 +482,9 @@ var InboundRulesJs = ( function() {
         /**
          * Promote action order
          */
-        change_action_order: function (direction, block_id, child_id ) {
+        change_action_order: function (direction ) {
 
-            var action = jQuery('.action-sub-wrapper[data-block-id="'+block_id+'"][data-child-id="'+child_id+'"]');
+            var action = jQuery('.action-block-'+ InboundRulesJs.action_type +'-actions-container .action-sub-wrapper[data-block-id="'+ InboundRulesJs.block_id +'"][data-child-id="'+ InboundRulesJs.child_id +'"]');
 
             switch (direction) {
                 case 'up':
@@ -575,6 +604,24 @@ var InboundRulesJs = ( function() {
             /* init select2 */
             jQuery('select.select2').select2();
         },
+        /**
+         * Delete logs
+         */
+         delete_logs: function() {
+
+            /* Run Ajax Call */
+            var result = InboundRulesJs.run_ajax({
+                'action' : 'automation_clear_logs',
+                'rule_id' : InboundRulesJs.rule_id
+            } , 'html' , 'clear_logs' );
+
+        },
+        /**
+         * Clear logs
+         */
+        clear_logs: function() {
+            jQuery('.tablesorter tr:gt(0)').remove();
+        },
 		/**
 		 *  Runs AJAX
 		 */
@@ -605,13 +652,5 @@ var InboundRulesJs = ( function() {
 jQuery(document).ready(function() {
 
 	InboundRulesJs.init();
-
-
-
-
-
-
-
-
 
 });

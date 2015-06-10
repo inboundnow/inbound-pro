@@ -108,6 +108,7 @@ if (!class_exists('Inbound_Automation_Plugin')) {
 					/* loads admin files */
 					include_once('classes/class.activation.php');
 					include_once('classes/class.activation.upgrade-routines.php');
+					include_once('classes/class.adminbar.php');
 					include_once('classes/class.post-type.automation.php');
 					include_once('classes/class.logs.php');
 					include_once('classes/class.definitions.loader.php');

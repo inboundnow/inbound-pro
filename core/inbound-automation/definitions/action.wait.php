@@ -43,34 +43,34 @@ if ( !class_exists( 'Inbound_Automation_Action_Wait' ) ) {
 
 			return $actions;
 		}
-		
+
 		/*
-		* Sets the wait time 
+		* Sets the wait time
 		*/
 		public static function run_action( $action , $arguments ) {
-			
+
 			/* get current time formatted */
 			$current_time = current_time('Y-m-d H:i:s');
-			
+
 			/* turn current time into string */
 			$currentDate = strtotime($current_time);
-			
+
 			/* Add minutes */
 			$futureDate = $currentDate + ( 60 * $action['wait_time_minutes'] );
-			
+
 			/* Add hour */
 			$futureDate = $futureDate + ( 60 * 60 * $action['wait_time_hours'] );
-			
+
 			$action['run_date'] = date("Y-m-d H:i:s", $futureDate);
-			
-			inbound_record_log(  
-				__( 'Wait' , 'inbound-pro') , 
-				__( 'Scheduling Next Action to Run at:' , 'inbound-pro' ) . $action['run_date'] . 
-				'<h2>'.__( 'Action Settings' , 'inbound-pro' ) .'</h2> ' . print_r( $action , true ) , $action['rule_id'] , $action['job_id'] , 'action_event' 
+
+			inbound_record_log(
+				__( 'Wait' , 'inbound-pro') ,
+				__( 'Scheduling Next Action to Run at:' , 'inbound-pro' ) . $action['run_date'] .
+				'<h2>'.__( 'Action Settings' , 'inbound-pro' ) .'</h2> <pre>' . print_r( $action , true ).'</pre>' , $action['rule_id'] , $action['job_id'] , 'action_event'
 			);
-			
+
 			return $action;
-			
+
 		}
 
 	}

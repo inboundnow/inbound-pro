@@ -157,7 +157,12 @@ if ( ! class_exists( 'Inbound_Mailer_Variations' ) ) {
 			}
 			
 			/* get last known variation marker if it exists else create it with first key in array */
-			$variation_marker = ( isset($settings['variation_marker']) ) ? $settings['variation_marker'] : current(array_keys($array));
+			$variation_marker = ( !empty($settings['variation_marker']) ) ? $settings['variation_marker'] : current(array_keys($variations));
+			
+			/* safety fallback */
+			if (empty($variation_marker)) {
+				return 0;
+			}
 			
 			/* set pointer to variation id in array */
 			while (key($variations) !== $variation_marker) next($variations);

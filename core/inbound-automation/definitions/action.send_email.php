@@ -142,6 +142,7 @@ if ( !class_exists( 'Inbound_Automation_Action_Send_Email' ) ) {
 						'vid' => $vid,
 						'tags' => array('automated')
 					));
+
 					BREAK;
 				case 'lead_list':
 					$Inbound_Mailer_Scheduling = new Inbound_Mailer_Scheduling;
@@ -156,7 +157,7 @@ if ( !class_exists( 'Inbound_Automation_Action_Send_Email' ) ) {
 			inbound_record_log(
 				__( 'Send Email' , 'inbound-pro') ,
 				'<h2>'.__('Mandrill Response', 'inbound-pro') .'</h2><pre>'.print_r($response,true).'</pre>' .
-				'<h2>'.__('Action Settings' , 'inbound-pro') .'</h2><pre>'. print_r($action,true).print_r($filter,true) .'</pre>',
+				'<h2>'.__('Action Settings' , 'inbound-pro') .'</h2><pre>'. print_r($action,true).print_r($trigger_data,true) .'</pre>',
 				$action['rule_id'] ,
 				$action['job_id'] ,
 				'action_event'

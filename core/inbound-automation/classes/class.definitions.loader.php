@@ -351,7 +351,8 @@ if ( !class_exists( 'Inbound_Automation_Loader' ) ) {
 		* Evaluate Filter By Comparing Filter with Corresponding Incoming Data
 		*/
 		public static function evaluate_trigger_filter( $filter , $target_argument ) {
-
+            error_log(print_r( $filter , true ) );
+            error_log(print_r( $target_argument , true ));
 			$eval = false;
 
 			switch ($filter['trigger_filter_compare']) {

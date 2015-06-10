@@ -53,9 +53,10 @@ class Inbound_Mailer_Unsubscribe {
 		/* loop through lists and show unsubscribe inputs */
 		if ( isset($params['list_ids']) ) {
 			foreach ($params['list_ids'] as $list_id ) {
-				if ($list_id == '-1') {
+				if ($list_id == '-1' || !$list_id ) {
 					continue;
 				}
+
 				$html .= "<span class='unsubscribe-span'><label class='lead-list-label'><input type='checkbox' name='list_id[]' value='".$list_id."' class='lead-list-class'> " . $lead_lists[ $list_id ] . '</label></span>';
 
 			}

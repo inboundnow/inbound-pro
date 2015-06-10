@@ -276,6 +276,7 @@
 .action-buttons .delete-action {
     vertical-align:-webkit-baseline-middle;
 }
+
 .action-filter-delete {
 	display:inline;
 }
@@ -333,4 +334,11 @@
 
 .table-action .select2-container {
 	min-width:350px;
+}
+
+/**
+ * LOGS
+ */
+.clear-logs-container {
+    text-align:right;
 }
