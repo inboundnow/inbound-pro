@@ -657,6 +657,20 @@ class Inbound_Shortcodes {
 			</ol>
 		</div>
 		<div id="inbound-email-response">
+		    <?php
+
+            if (defined('INBOUND_PRO_PATH')) {
+            ?>
+            <h3><?php _e( 'Inbound Pro Users' , INBOUNDNOW_TEXT_DOMAIN ); ?></h3>
+            <div class='' style='padding-left:20px;'>
+
+                <?php echo sprintf( __( ' Membership holders should ignore the setup area below and referrer to %s this document %s for instructions on setting up a followup email. We are leaveing this section in up for non members and for members that are leveraging it. We may remove it remove it entirely from the Inbound Pro plugin. ' , INBOUNDNOW_TEXT_DOMAIN ) , '<a href="http://docs.inboundnow.com/guide/creating-a-follow-up-email-using-inbound-now-as-an-autoresponder-marketing-automation/">', '</a>') ; ?>
+            </div>
+            <br>
+            <?php
+            }
+            ?>
+
 			<h2><?php _e( 'Set Email Response to Send to the person filling out the form' , INBOUNDNOW_TEXT_DOMAIN ); ?></h2>
 			<?php
 			$values = get_post_custom( $post->ID );

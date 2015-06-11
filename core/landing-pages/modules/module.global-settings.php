@@ -11,6 +11,39 @@ if (isset($_GET['page'])&&($_GET['page']=='lp_global_settings'&&$_GET['page']=='
 	}
 }
 
+/**
+ * Add action links in Plugins table
+ */
+add_filter( 'plugin_action_links_landing-pages/landing-pages.php', 'landing_page_plugin_action_links' );
+function landing_page_plugin_action_links( $links ) {
+
+	return array_merge(
+		array(
+			'settings' => '<a href="' . admin_url( 'edit.php?post_type=landing-page&page=lp_global_settings' ) . '">' . __( 'Settings', 'ts-fab' ) . '</a>'
+		),
+		$links
+	);
+
+}
+
+/**
+ * Add meta links in Plugins table
+ */
+
+add_filter( 'plugin_row_meta', 'landing_pages_plugin_meta_links', 10, 2 );
+function landing_pages_plugin_meta_links( $links, $file ) {
+
+	$plugin = 'landing-pages/landing-pages.php';
+
+	// create link
+	if ( $file == $plugin ) {
+		return array_merge(
+			$links,
+			array( '<a href="http://www.inboundnow.com/membership-packages/">Upgrade to Pro</a>' )
+		);
+	}
+	return $links;
+}
 
 function lp_get_global_settings() {
 	global $lp_global_settings;

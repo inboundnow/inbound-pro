@@ -1,103 +1,103 @@
 <?php
 
 /* ADMIN ONLY AB TESTING FUNCTIONS */
+if (is_admin())
+{
+    include_once(LANDINGPAGES_PATH.'modules/module.ab-testing.metaboxes.php');
 
-if (is_admin()) {
-	include_once(LANDINGPAGES_PATH.'modules/module.ab-testing.metaboxes.php');
+    /**
+     * [lp_ab_unset_variation description]
+     * @param  [type] $variations [description]
+     * @param  [type] $vid        [description]
+     * @return [type]             [description]
+     */
+    function lp_ab_unset_variation($variations,$vid)
+    {
+        if(($key = array_search($vid, $variations)) !== false) {
+            unset($variations[$key]);
+        }
 
-	/**
-	 * [lp_ab_unset_variation description]
-	 * @param  [type] $variations [description]
-	 * @param  [type] $vid        [description]
-	 * @return [type]             [description]
-	 */
-	function lp_ab_unset_variation($variations,$vid){
-			if(($key = array_search($vid, $variations)) !== false) {
-					unset($variations[$key]);
-			}
+        return $variations;
+    }
 
-			return $variations;
-	}
+    /**
+     * [lp_ab_get_lp_active_status returns if landing page is in rotation or not]
+     * @param  [OBJ] $post [description]
+     * @param  [INT] $vid  [description]
+     * @return [INT]
+     */
+    function lp_ab_get_lp_active_status($post,$vid=null)
+    {
+        if ($vid==0)
+        {
+            $variation_status = get_post_meta( $post->ID , 'lp_ab_variation_status' , true);
+        }
+        else
+        {
+            $variation_status = get_post_meta( $post->ID , 'lp_ab_variation_status-'.$vid , true);
+        }
 
-	/**
-	 * [lp_ab_get_lp_active_status returns if landing page is in rotation or not]
-	 * @param  [OBJ] $post [description]
-	 * @param  [INT] $vid  [description]
-	 * @return [INT]
-	 */
-	function lp_ab_get_lp_active_status($post,$vid=null) {
-		if ($vid==0)
-		{
-				$variation_status = get_post_meta( $post->ID , 'lp_ab_variation_status' , true);
-		}
-		else
-		{
-				$variation_status = get_post_meta( $post->ID , 'lp_ab_variation_status-'.$vid , true);
-		}
-
-		if (!is_numeric($variation_status))
-		{
-				return 1;
-		}
-		else
-		{
-				return $variation_status;
-		}
-	}
-
-
-	add_action('init','lp_ab_testing_admin_init');
-	function lp_ab_testing_admin_init($hook)
-	{
-		if (!is_admin()||!isset($_GET['post']))
-			return;
-
-		$post = get_post($_GET['post']);
-
-		if (isset($post)&&($post->post_type=='landing-page'&&(isset($_GET['action'])&&$_GET['action']=='edit')))
-		{
-
-			$current_variation_id = lp_ab_testing_get_current_variation_id();
-			//echo $current_variation_id;
-			$variations = get_post_meta($post->ID,'lp-ab-variations', true);
-
-			//remove landing page's main save_post action
-			if ($current_variation_id>0)
-			{
-				remove_action('save_post','lp_save_meta',10);
-			}
-
-			//check for delete command
-			if (isset($_GET['ab-action'])&&$_GET['ab-action']=='delete-variation')
-			{
-				$array_variations = explode(',',$variations);
-				$array_variations = lp_ab_unset_variation($array_variations,$_GET['lp-variation-id']);
-
-				/* set next variation to be open */
-				$current_variation_id = current($array_variations);
-				$_SESSION['lp_ab_test_open_variation'] = $current_variation_id;
-
-				$variations = implode(',' , $array_variations);
-				update_post_meta($post->ID,'lp-ab-variations', $variations);
+        if (!is_numeric($variation_status))
+        {
+            return 1;
+        }
+        else
+        {
+            return $variation_status;
+        }
+    }
 
 
-				if (isset($_GET['lp-variation-id']) && $_GET['lp-variation-id'] > 0 ) {
-					$suffix = '-'.$_GET['lp-variation-id'];
-					$len = strlen($suffix);
-				} else {
-					$suffix = '';
-					$len = strlen($suffix);
-				}
+    add_action('init','lp_ab_testing_admin_init');
+    function lp_ab_testing_admin_init($hook)
+    {
+        if (!is_admin()||!isset($_GET['post']))
+            return;
 
-				//delete each meta value associated with variation
-				global $wpdb;
-				$data = array();
-				$post__ID =  (is_numeric($_GET['post'])) ? $_GET['post'] : '0';
+        $post = get_post($_GET['post']);
 
-				$wpdb->query("
+        if (isset($post)&&($post->post_type=='landing-page'&&(isset($_GET['action'])&&$_GET['action']=='edit')))
+        {
+
+            $current_variation_id = lp_ab_testing_get_current_variation_id();
+            //echo $current_variation_id;
+            $variations = get_post_meta($post->ID,'lp-ab-variations', true);
+
+            //remove landing page's main save_post action
+            if ($current_variation_id>0)
+            {
+                remove_action('save_post','lp_save_meta',10);
+            }
+
+            //check for delete command
+            if (isset($_GET['ab-action'])&&$_GET['ab-action']=='delete-variation')
+            {
+                $array_variations = explode(',',$variations);
+                $array_variations = lp_ab_unset_variation($array_variations,$_GET['lp-variation-id']);
+
+                /* set next variation to be open */
+                $current_variation_id = current($array_variations);
+                $_SESSION['lp_ab_test_open_variation'] = $current_variation_id;
+
+                $variations = implode(',' , $array_variations);
+                update_post_meta($post->ID,'lp-ab-variations', $variations);
+
+
+                if (isset($_GET['lp-variation-id']) && $_GET['lp-variation-id'] > 0 ) {
+                    $suffix = '-'.$_GET['lp-variation-id'];
+                    $len = strlen($suffix);
+                } else {
+                    $suffix = '';
+                    $len = strlen($suffix);
+                }
+
+                //delete each meta value associated with variation
+                global $wpdb;
+                $data   =   array();
+                $wpdb->query("
 					SELECT `meta_key`, `meta_value`
 					FROM $wpdb->postmeta
-					WHERE `post_id` = ".$post__ID."
+					WHERE `post_id` = ".$_GET['post']."
 				");
 
                 foreach($wpdb->last_result as $k => $v){

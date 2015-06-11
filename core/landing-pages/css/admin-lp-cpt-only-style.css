@@ -1,11 +1,8 @@
 #main-title-area #lp-main-headline {
 width: 100%;
-
 font-size: 23px;
-
 outline: 0 none;
 padding: 0px 7px;
-
 }
 #post-body-content, .edit-form-section {
 	margin-bottom: 0px;
@@ -64,7 +61,10 @@ ul#template-filter .button-primary a {
 	vertical-align: middle;
 	float: none !important;
 	font-weight: normal;
-	margin-left: 20px;
+	font-size: 20px;
+}
+#more-templates-button a {
+	font-size: 15px;
 }
 #lp_2_form_content .hndle em {
 	font-size: 13px;

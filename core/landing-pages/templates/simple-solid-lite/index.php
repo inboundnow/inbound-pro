@@ -17,6 +17,8 @@ if (have_posts()) : while (have_posts()) : the_post();
 
 $content = lp_get_value($post, $key, 'main-content');
 $conversion_area = lp_get_value($post, $key, 'conversion-area-content');
+$header = lp_get_value($post, $key, 'header-display');
+$footer = lp_get_value($post, $key, 'footer-display');
 $background_style = lp_get_value($post, $key, 'background-style' );
 $background_image = lp_get_value($post, $key, 'background-image' );
 $background_color = lp_get_value($post, $key, 'background-color' );
@@ -63,6 +65,18 @@ $test = inbound_color_scheme($background_color, 'hex' );
 
 <?php wp_head(); do_action('lp_head');?>
 <style id="inbound-style-overrides" type="text/css">
+
+<?php
+$header_display = ($header != 'off') ? 'inherit' : 'none';
+$footer_display = ($footer != 'off') ? 'inherit' : 'none';
+?>
+header {
+	display: <?php echo $header_display; ?>;
+}
+footer {
+	display: <?php echo $footer_display; ?>;
+}
+
 html, body {<?php echo $bg_style;?>}
 #inbound-form-wrapper input[type=text], #inbound-form-wrapper input[type=url], #inbound-form-wrapper input[type=email], #inbound-form-wrapper input[type=tel], #inbound-form-wrapper input[type=number], #inbound-form-wrapper input[type=password] {
 width: 100% !important;
@@ -127,7 +141,7 @@ h1 {
 			<div class="logo"><a href="<?php echo $site_url;?>" class="inbound_option_area" data-eq-selector=".logo a:eq(0)" data-count-size="1" data-css-selector=".logo a" data-js-selector=".logo a" data-option-name="Logo" data-option-kind="media" inbound-option-name="Logo"><img class="not-image inbound-media inbound_option_area" src="<?php echo lp_get_value($post, $key, "logo"); ?>" /></a></div>
 			<div class="network inbound_option_area" data-eq-selector=".inner .network:eq(0)" data-count-size="1" data-css-selector=".inner .network" data-js-selector=".inner .network" data-option-name="Social Media Options" data-option-kind="text" inbound-option-name="Social Media Options"><?php echo lp_get_value($post, $key, "social-media-options"); ?></div>
 		</div>
-	</header>
+</header>
 <section class="cf container outline-element">
 <?php if (get_the_title() != ""){ ?>
 <h1><?php the_title();?></h1>

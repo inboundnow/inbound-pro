@@ -76,7 +76,7 @@ install:
   - mysql -e "CREATE DATABASE inboundtesting;" -uroot
   - cd /var/www/inboundtesting.dev/
   - wp core download --locale=en_US
-  - wp core config --dbname=inboundtesting --dbuser=root --dbuser=wp --dbpass=wp 
+  - wp core config --dbname=inboundtesting --dbuser=root 
   - wp core install --url="http://inboundtesting.dev" --title="Inbound Now Unit Testing" --admin_user="admin" --admin_password="admin" --admin_email="tests@inboundnow.com" 
   
   # Install CTA (from master)

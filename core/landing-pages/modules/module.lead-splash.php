@@ -5,8 +5,8 @@ require_once('../../../../wp-admin/admin.php');
 $matches = array();
 preg_match('/wp-admin/', $_SERVER['HTTP_REFERER'], $matches, null, 0);
 
-$lead_id = $_GET['lead_id'];
-$page_id = $_GET['post_id'];
+$lead_id = preg_replace('/[^-a-zA-Z0-9_]/', '', $_GET['lead_id']);
+$page_id = preg_replace('/[^-a-zA-Z0-9_]/', '', $_GET['post_id']);
 $wplead_data = get_post_custom($lead_id);
 
 $data['lead_id'] = $lead_id;

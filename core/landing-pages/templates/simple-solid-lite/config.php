@@ -49,25 +49,36 @@ $lp_data[$key]['settings'] = array(
 [/list]
 
 <p>This is the final sentence or paragraph reassuring the visitor of the benefits of filling out the form and how their data will be safe.</p>'
-		),
-
+	),
 	array(
 			'label' => __( 'Conversion Area' , 'landing-pages' ),
-			'description' => __( 'Place your call to action here.' , 'landing-page' ),
+			'description' => __( 'Place your call to action here.' , 'landing-pages' ),
 			'id' => "conversion-area-content",
 			'type' => "wysiwyg",
 			'default' => ''
-		),
+	),		
 	array(
-		'label' => "Logo",
-		'description' => "Logo",
+		'label' => __( 'Top Bar' , 'landing-pages' ),
+		'description' => __( 'Hide/Reveal the top bar.' , 'landing-pages' ),
+		'id'	=> 'header-display',
+		'type'	=> 'radio',
+		'default'	=> 'on',
+		'context'	=> 'normal',
+		'options'	=> array(
+			'off' => __( 'Hide' , 'landing-pages' ),
+			'on' => __( 'Show' , 'landing-pages' )			
+		)
+	),
+	array(
+		'label' => __( 'Logo' , 'landing-pages' ),
+		'description' => __( 'Logo' , 'landing-pages' ),
 		'id' => "logo",
 		'type' => "media",
 		'default' => $path . "/images/inbound-logo.png",
 		'selector' => ".logo a",
 	),
 	array(
-		'label' => "Top Right Area",
+		'label' => __( 'Top Right Area' , 'landing-pages' ),
 		'description' => "",
 		'id' => "social-media-options",
 		'type' => "textarea",
@@ -75,44 +86,56 @@ $lp_data[$key]['settings'] = array(
 		'selector' => ".inner .network",
 	 ),
 	 array(
-		'label' => 'Submit Button Color',
+		'label' => __( 'Submit Button Color' , 'landing-pages' ),
 		'description' => '',
 		'id'	=> 'submit-color',
 		'type'	=> 'colorpicker',
 		'default'	=> '27ae60',
 		'context'	=> 'normal'
-		),
-	 array(
-		'label' => "Copyright Text",
-		'description' => "Copyright Text",
+	),		
+	array(
+		'label' => __( 'Footer Bar' , 'landing-pages' ),
+		'description' => __( 'Hide/Reveal the footer bar.' , 'landing-pages' ),
+		'id'	=> 'footer-display',
+		'type'	=> 'radio',
+		'default'	=> 'on',
+		'context'	=> 'normal',
+		'options'	=> array(
+			'off' => __( 'Hide' , 'landing-pages' ),
+			'on' => __( 'Show' , 'landing-pages' )			
+		)
+	),
+	array(
+		'label' => __( 'Copyright Text' , 'landing-pages' ),
+		'description' => __( 'Copyright Text' , 'landing-pages' ),
 		'id' => "copyright-text",
 		'type' => "text",
-		'default' => "© 2013 Your Company | All Right Reserved",
+		'default' => __( '© 2013 Your Company | All Right Reserved' , 'landing-pages' ),
 		'selector' => ".cf.container .foot-left",
-	 ),
+	),
 	array(
-		'label' => 'Background Settings',
-		'description' => 'Set the template\'s background',
+		'label' => __( 'Background Settings' , 'landing-pages' ),
+		'description' => __( 'Set the template\'s background' , 'landing-pages' ),
 		'id'	=> 'background-style',
 		'type'	=> 'dropdown',
 		'default'	=> 'color',
 		'options' => array('fullscreen'=>'Fullscreen Image', 'tile'=>'Tile Background Image', 'color' => 'Solid Color', 'repeat-x' => 'Repeat Image Horizontally', 'repeat-y' => 'Repeat Image Vertically', 'custom' => 'Custom CSS'),
 		'context'	=> 'normal'
-		),
+	),
 	array(
-		'label' => 'Background Image',
-		'description' => 'Enter an URL or upload an image for the banner.',
+		'label' => __( 'Background Image', 'landing-pages' ),
+		'description' => __( 'Enter an URL or upload an image for the banner.' , 'landing-pages' ),
 		'id'	=> 'background-image',
 		'type'	=> 'media',
 		'default'	=> '',
 		'context'	=> 'normal'
-		),
+	),
 	array(
-		'label' => 'Background Color',
-		'description' => 'Use this setting to change the templates background color',
+		'label' => __( 'Background Color', 'landing-pages' ),
+		'description' => __( 'Use this setting to change the templates background color' , 'landing-pages' ),
 		'id'	=> 'background-color',
 		'type'	=> 'colorpicker',
 		'default'	=> '186d6d',
 		'context'	=> 'normal'
-		),
+		)
 	);
