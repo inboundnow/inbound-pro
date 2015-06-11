@@ -11,7 +11,10 @@ if ( !class_exists( 'Inbound_Automation_Trigger_Update_Lead' ) ) {
 
 	class Inbound_Automation_Trigger_Update_Lead {
 
+        static $trigger;
+
 		function __construct() {
+            self::$trigger = 'inbound_store_lead_post';
 			add_filter( 'inbound_automation_triggers' , array( __CLASS__ , 'define_trigger' ) , 1 , 1);
 		}
 
@@ -20,7 +23,7 @@ if ( !class_exists( 'Inbound_Automation_Trigger_Update_Lead' ) ) {
 
 			/* Set & Extend Trigger Argument Filters */
 			$arguments = apply_filters('inbound_automation_trigger_arguments-track-lead' , array(
-					array(
+					'lead_data' => array(
 						'id' => 'lead_data',
 						'label' => 'Lead Data'
 					)
@@ -29,21 +32,21 @@ if ( !class_exists( 'Inbound_Automation_Trigger_Update_Lead' ) ) {
 			/* Set & Extend Action DB Lookup Filters */
 			$db_lookup_filters = apply_filters( 'inbound_automation_db_lookup_filters-update-lead' , array (
 				array(
-						'id' => 'lead_data',
-						'label' => __( 'Validate Lead Data', 'inbound-pro' ),
-						'class_name' => 'Inbound_Automation_Query_Lead'
-					)
+                    'id' => 'lead_data',
+                    'label' => __( 'Validate Lead Data', 'inbound-pro' ),
+                    'class_name' => 'Inbound_Automation_Query_Lead'
+                )
 			));
 
 			/* Set & Extend Available Actions */
 			$actions = apply_filters('inbound_automation_trigger_actions-update-lead' , array(
-				'send_email' , 'wait' , 'relay_data' , 'add_lead_to_list'
+				'send_email' , 'wait' , 'relay_data' , 'add_remove_lead_list'
 			) );
 
-			$triggers['wplead_page_view'] = array (
+			$triggers[ self::$trigger ] = array (
 				'label' => 'On Lead Tracking Event',
 				'description' => 'This trigger fires whenever a tracked lead visits a new page.',
-				'action_hook' => 'wplead_page_view',
+				'action_hook' => self::$trigger ,
 				'scheduling' => false,
 				'arguments' => $arguments,
 				'db_lookup_filters' => $db_lookup_filters,

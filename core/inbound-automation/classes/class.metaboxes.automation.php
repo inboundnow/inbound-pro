@@ -734,6 +734,7 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
             $html .= '            </div>';
 
             /* Add Action Filter Evaluation Nature */
+            $block['action_block_filters_evaluate'] = (isset($block['action_block_filters_evaluate'])) ? $block['action_block_filters_evaluate'] : 'match-all' ;
             $html .= "            <div class='action-block-filter-evaluate' style='display:inline;'>";
             $html .= '                <div class="btn-group" data-toggle="buttons">';
             $html .= '                    <label class="btn btn-default ' . ( $block['action_block_filters_evaluate'] == 'match-all'  ? 'active' : '' ) .'">';
