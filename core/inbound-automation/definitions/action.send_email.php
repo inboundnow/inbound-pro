@@ -162,7 +162,6 @@ if ( !class_exists( 'Inbound_Automation_Action_Send_Email' ) ) {
 				$action['job_id'] ,
 				'action_event'
 			);
-
 		}
 
 	}

@@ -230,7 +230,6 @@ if ( !class_exists( 'Inbound_Automation_Loader' ) ) {
 		public static function add_trigger_listeners() {
 			foreach (self::$instance->triggers as $hook_name => $trigger) {
 				if ( isset($trigger['action_hook']) ) {
-					add_action( $trigger['action_hook'] , array( __CLASS__ , 'generate_arguments' ) , 10 , count($trigger['arguments']) ) ;
 					add_action( $trigger['action_hook'] , array( __CLASS__ , 'process_trigger' ) , 10 , count($trigger['arguments']) ) ;
 				}
 			}
@@ -257,14 +256,13 @@ if ( !class_exists( 'Inbound_Automation_Loader' ) ) {
 
 					$evaluate = true;
 					$evals = array();
-					$arguments =  func_get_args();
+					$arguments = self::generate_arguments();
 
 					/* Check Trigger Filters */
 					if ( isset( self::$rule['trigger_filters'] )  && self::$rule['trigger_filters'] ) {
 
 						foreach( self::$rule['trigger_filters'] as $filter) {
-							$key = self::get_argument_key_from_trigger( $filter , $trigger );
-							$target_argument = $arguments[ $key ];
+							$target_argument = $arguments[ $filter['trigger_filter_id'] ];
 							$evals[] = self::evaluate_trigger_filter( $filter , $target_argument );
 						}
 
@@ -339,8 +337,11 @@ if ( !class_exists( 'Inbound_Automation_Loader' ) ) {
 		*/
 		public static function get_argument_key_from_trigger( $argument , $trigger ) {
 
+            error_log(print_r($argument,true));exit;
+            error_log(print_r(self::$instance->triggers[$trigger],true));
 			foreach ( self::$instance->triggers[$trigger]['arguments'] as $key => $arg ) {
-				if ( $argument['filter_id'] == $arg['id'] ) {
+
+				if ( $argument['trigger_filter_id'] == $arg['id'] ) {
 					return $key;
 				}
 			}
@@ -351,8 +352,8 @@ if ( !class_exists( 'Inbound_Automation_Loader' ) ) {
 		* Evaluate Filter By Comparing Filter with Corresponding Incoming Data
 		*/
 		public static function evaluate_trigger_filter( $filter , $target_argument ) {
-            error_log(print_r( $filter , true ) );
-            error_log(print_r( $target_argument , true ));
+            //error_log(print_r( $filter , true ) );
+            //error_log(print_r( $target_argument , true ));
 			$eval = false;
 
 			switch ($filter['trigger_filter_compare']) {
@@ -451,7 +452,6 @@ if ( !class_exists( 'Inbound_Automation_Loader' ) ) {
 			/* loop through arguments and update memory with available data with latest submission */
 			foreach ($arguments as $key => $argument) {
 
-
                 /* Get argument identification id */
                 $argument_id = self::$instance->triggers[$hook_name]['arguments'][$key]['id'];
                 self::$instance->inbound_arguments[$hook_name][ $argument_id ] = self::prepare_mixed_data($argument);
@@ -460,6 +460,9 @@ if ( !class_exists( 'Inbound_Automation_Loader' ) ) {
 
 			/* update inbound arguments dataset with new data */
 			self::update_arguments();
+
+			/* return arguments */
+			return self::$instance->inbound_arguments[$hook_name];
 
 		}
 

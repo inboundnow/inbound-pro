@@ -11,7 +11,6 @@ if (!class_exists('Inbound_Automation_Plugin')) {
 
 	final class Inbound_Automation_Plugin {
 
-		/* START PHP VERSION CHECKS */
 		/**
 		 * Admin notices, collected and displayed on proper action
 		 *
@@ -120,7 +119,7 @@ if (!class_exists('Inbound_Automation_Plugin')) {
 					include_once('definitions/action.wait.php');
 					include_once('definitions/action.send_email.php');
 					include_once('definitions/action.relay_data.php');
-					include_once('definitions/action.add_lead_to_list.php');
+					include_once('definitions/action.add-remove-list.php');
 					include_once('definitions/query.lead_data.php');
 
 					BREAK;
@@ -139,7 +138,7 @@ if (!class_exists('Inbound_Automation_Plugin')) {
 					include_once('definitions/action.wait.php');
 					include_once('definitions/action.send_email.php');
 					include_once('definitions/action.relay_data.php');
-					include_once('definitions/action.add_lead_to_list.php');
+					include_once('definitions/action.add-remove-list.php');
 					include_once('definitions/query.lead_data.php');
 
 					BREAK;

@@ -28,7 +28,7 @@ class Inbound_Automation_Trigger_Form_Submission {
 
 		/* Set & Extend Trigger Argument Filters */
 		$arguments = apply_filters('trigger/inbound_store_lead_post/args' , array(
-			array(
+			'lead_data' => array(
 				'id' => 'lead_data',
 				'label' => __( 'Lead Data' , 'inbound-pro' )
 			)
@@ -45,7 +45,10 @@ class Inbound_Automation_Trigger_Form_Submission {
 
 		/* Set & Extend Available Actions */
 		$actions = apply_filters('trigger/inbound_store_lead_post/actions' , array(
-			'send_email' , 'wait' , 'relay_data' , 'add_lead_to_list'
+			'send_email' ,
+			'wait' ,
+			'relay_data' ,
+			'add_remove_lead_list'
 		) );
 
 		$triggers[self::$trigger] = array (

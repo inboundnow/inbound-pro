@@ -1,0 +1,1634 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2015-06-10 17:23-0600\n"
+"PO-Revision-Date: 2015-06-10 17:23-0600\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.7.6\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: __;_e;_x\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: ./..\n"
+
+#: ../classes/class.acf-integration.php:226
+msgid "Saving"
+msgstr ""
+
+#: ../classes/class.activation.database-routines.php:17
+#: ../classes/class.unsubscribe.php:91
+msgid "Unsubscribe"
+msgstr ""
+
+#: ../classes/class.activation.database-routines.php:49
+msgid "Inbound Now Example Email"
+msgstr ""
+
+#: ../classes/class.activation.php:125
+msgid "Inbound Email Component plugin requires  a database upgrade:"
+msgstr ""
+
+#: ../classes/class.activation.php:125
+msgid "Upgrade Database Now"
+msgstr ""
+
+#: ../classes/class.activation.php:177 ../classes/class.activation.php:191
+#: ../classes/class.activation.php:205 ../classes/class.activation.php:219
+msgid "Inbound Email Component plugin could not be installed"
+msgstr ""
+
+#: ../classes/class.activation.php:179
+msgid "Server PHP Version"
+msgstr ""
+
+#: ../classes/class.activation.php:180
+msgid "Required PHP Version"
+msgstr ""
+
+#: ../classes/class.activation.php:182
+#, php-format
+msgid "Please contact your hosting provider to upgrade PHP to %s or greater"
+msgstr ""
+
+#: ../classes/class.activation.php:193
+msgid "WordPress Version"
+msgstr ""
+
+#: ../classes/class.activation.php:194
+msgid "Required WordPress Version"
+msgstr ""
+
+#: ../classes/class.activation.php:196
+#, php-format
+msgid "Please update landing pages to version %s or greater."
+msgstr ""
+
+#: ../classes/class.activation.php:207
+msgid "Inbound Email Component Version"
+msgstr ""
+
+#: ../classes/class.activation.php:208
+msgid "Required Inbound Email Component Version"
+msgstr ""
+
+#: ../classes/class.activation.php:210
+#, php-format
+msgid "Please update Inbound Email Component to version %s or greater."
+msgstr ""
+
+#: ../classes/class.activation.php:221
+msgid "Leads Version"
+msgstr ""
+
+#: ../classes/class.activation.php:222
+msgid "Required Leads Version"
+msgstr ""
+
+#: ../classes/class.activation.php:224
+#, php-format
+msgid "Please update Leads to version %s or greater."
+msgstr ""
+
+#: ../classes/class.ajax.listeners.php:137
+msgid "Here are your send results:"
+msgstr ""
+
+#: ../classes/class.clone-post.php:37
+msgid "Clone this item"
+msgstr ""
+
+#: ../classes/class.clone-post.php:38
+msgid "Clone"
+msgstr ""
+
+#: ../classes/class.clone-post.php:91
+msgid "Copy creation failed, could not find original:"
+msgstr ""
+
+#: ../classes/class.clone-post.php:114
+msgid "Copy of "
+msgstr ""
+
+#: ../classes/class.cron-api.php:74
+msgid "Every Two Minutes"
+msgstr ""
+
+#: ../classes/class.extension.wp-lead.php:41
+msgid "Email Clicks"
+msgstr ""
+
+#: ../classes/class.extension.wp-lead.php:48
+#: ../classes/class.extension.wp-lead.php:111
+#: ../classes/class.metaboxes.inbound-email.php:786
+msgid "Unsubscribes"
+msgstr ""
+
+#: ../classes/class.extension.wp-lead.php:63
+msgid "Email's Clicked"
+msgstr ""
+
+#: ../classes/class.extension.wp-lead.php:85
+msgid "Email Clickthrough"
+msgstr ""
+
+#: ../classes/class.extension.wp-lead.php:95
+#: ../classes/class.extension.wp-lead.php:141
+msgid "No Email Clickthroughs!"
+msgstr ""
+
+#: ../classes/class.extension.wp-lead.php:131
+msgid "Lead unsubscribed from"
+msgstr ""
+
+#: ../classes/class.load.email-settings.php:43
+msgid "Subject line of the email. This field is variation dependant!"
+msgstr ""
+
+#: ../classes/class.load.email-settings.php:44
+msgid "Subject Line"
+msgstr ""
+
+#: ../classes/class.load.email-settings.php:53
+msgid "From Name"
+msgstr ""
+
+#: ../classes/class.load.email-settings.php:54
+msgid "The name of the sender. This field is variation dependant!"
+msgstr ""
+
+#: ../classes/class.load.email-settings.php:63
+msgid "From Email"
+msgstr ""
+
+#: ../classes/class.load.email-settings.php:64
+msgid "The email address of the sender. This field is variation dependant!"
+msgstr ""
+
+#: ../classes/class.load.email-settings.php:73
+msgid "Reply Email"
+msgstr ""
+
+#: ../classes/class.load.email-settings.php:74
+msgid ""
+"The email address recipients can reply to. This field is variation dependant!"
+msgstr ""
+
+#: ../classes/class.load.email-settings.php:95
+msgid "Recipient Lists"
+msgstr ""
+
+#: ../classes/class.load.email-settings.php:96
+msgid "This option provides a placeholder for the selected template data."
+msgstr ""
+
+#: ../classes/class.load.email-settings.php:99
+#: ../classes/class.load.email-settings.php:113
+msgid "Select lists to send mail to."
+msgstr ""
+
+#: ../classes/class.load.email-settings.php:108
+msgid "Send Date/Time"
+msgstr ""
+
+#: ../classes/class.load.email-settings.php:109
+msgid "Select the date and time you would like this message to send."
+msgstr ""
+
+#: ../classes/class.menus.php:32
+#: ../classes/class.post-type.inbound-email.php:1
+msgid "Templates"
+msgstr ""
+
+#: ../classes/class.menus.php:36
+msgid "Settings"
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:74
+msgid "Actions"
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:77
+msgid "Send Type"
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:80
+msgid "Selected Template"
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:410
+msgid "Select Your Email Template!"
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:554
+msgid "Reporting"
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:591
+msgid "Recipient"
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:592
+#: ../classes/class.metaboxes.inbound-email.php:856
+msgid "Variation"
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:593
+msgid "Status"
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:594
+#: ../classes/class.metaboxes.inbound-email.php:675
+#: ../classes/class.metaboxes.inbound-email.php:746
+msgid "Opens"
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:595
+msgid "Cicked"
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:667
+msgid "Sends"
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:683
+#: ../classes/class.metaboxes.inbound-email.php:754
+msgid "Clicks"
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:691
+#: ../classes/class.metaboxes.inbound-email.php:762
+msgid "Unopened"
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:699
+#: ../classes/class.metaboxes.inbound-email.php:770
+msgid "Bounces"
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:707
+#: ../classes/class.metaboxes.inbound-email.php:778
+msgid "Rejects"
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:715
+msgid "Unsubscribed"
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:738
+msgid "Sent"
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:827
+msgid "Target Audiences"
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:833
+msgid "Automated sends"
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:848
+#: ../classes/class.metaboxes.inbound-email.php:901
+msgid "Variations"
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:906
+msgid "Add New Variation"
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:942
+#: ../classes/class.metaboxes.inbound-email.php:1037
+msgid "Preview"
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:957
+msgid "Batch Send Settings"
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:1028
+msgid "Current Status"
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:1034
+msgid "Trash this email."
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:1040
+msgid "Send a test email"
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:1043
+msgid "Unschedule this email."
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:1045
+msgid "Clone this email"
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:1048
+msgid "Abort Send"
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:1054
+#: ../classes/class.metaboxes.inbound-email.php:1055
+#: ../classes/class.metaboxes.inbound-email.php:1549
+msgid "Save"
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:1057
+msgid "Send Email"
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:1058
+msgid "Send"
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:1085
+msgid "Switch Templates"
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:1088
+msgid "Launch Visual Editor"
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:1244
+msgid "Select Date"
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:1245
+msgid "Select Time"
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:1360
+msgid "Enter Email Description"
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:1749
+msgid "Time until send:"
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:1787
+msgid "Email requires subject to send."
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:1791
+msgid "Email requires from name to send."
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:1795
+msgid "Email requires from email address to send."
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:1810
+msgid "Please set email recipients."
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:1821
+#: ../classes/class.metaboxes.inbound-email.php:1916
+#: ../classes/class.metaboxes.inbound-email.php:1948
+#: ../classes/class.metaboxes.inbound-email.php:1977
+msgid "Are you sure?"
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:1822
+msgid "Are you sure you want to clone this email?"
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:1826
+msgid "Yes, clone it!"
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:1832
+#: ../classes/class.metaboxes.inbound-email.php:1878
+#: ../classes/class.metaboxes.inbound-email.php:1927
+#: ../classes/class.metaboxes.inbound-email.php:1959
+#: ../classes/class.metaboxes.inbound-email.php:1988
+#: ../classes/class.metaboxes.inbound-email.php:2024
+msgid "Please wait"
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:1833
+msgid "We are cloning your email now."
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:1858
+msgid "Send Test Email"
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:1863
+msgid "Send test email!"
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:1866
+msgid "Enter target e-mail address."
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:1879
+msgid "We are sending a test email now."
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:1917
+msgid "Are you sure you want to begin sending this email?"
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:1921
+msgid "Yes, send it!"
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:1928
+msgid "We are scheduling your email now."
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:1949
+msgid ""
+"Cancelling this email will remove all unsent emails from our send queue. "
+"Cancel now to stop sending."
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:1953
+msgid "Yes, cancel it now!"
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:1960
+msgid "We are cancelling your email now."
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:1978
+msgid ""
+"Trashing this email will remove all unsent emails from our send queue. And "
+"set it's status to 'trash'."
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:1982
+msgid "Yes, trash it now!"
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:1989
+msgid "We are trashing your email now."
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:2014
+msgid "Are you sure you want to select this template?"
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:2018
+msgid "Yes"
+msgstr ""
+
+#: ../classes/class.metaboxes.inbound-email.php:2025
+msgid "We are setting up your email now."
+msgstr ""
+
+#: ../classes/class.notifications.php:71
+msgid "settings page"
+msgstr ""
+
+#: ../classes/class.notifications.php:102
+msgid ""
+"Disable this notification. Note this error message will still appear in the "
+"email listing area until all scheduled emails are canceled or the error "
+"itself resolves."
+msgstr ""
+
+#: ../classes/class.post-type.inbound-email.php:1
+msgid "Emails"
+msgstr ""
+
+#: ../classes/class.post-type.inbound-email.php:1
+msgid "Email Campaigns"
+msgstr ""
+
+#: ../classes/class.post-type.inbound-email.php:1
+msgid "Add New"
+msgstr ""
+
+#: ../classes/class.post-type.inbound-email.php:1
+msgid "Add New Campaign"
+msgstr ""
+
+#: ../classes/class.post-type.inbound-email.php:1
+msgid " "
+msgstr ""
+
+#: ../classes/class.post-type.inbound-email.php:1
+msgid "New Campaign"
+msgstr ""
+
+#: ../classes/class.post-type.inbound-email.php:1
+msgid "View Email"
+msgstr ""
+
+#: ../classes/class.post-type.inbound-email.php:1
+msgid "Search Email Campaigns"
+msgstr ""
+
+#: ../classes/class.post-type.inbound-email.php:1
+msgid "Nothing found"
+msgstr ""
+
+#: ../classes/class.post-type.inbound-email.php:1
+msgid "Nothing found in Trash"
+msgstr ""
+
+#: ../classes/class.post-type.inbound-email.php:1
+msgid "Tags"
+msgstr ""
+
+#: ../classes/class.post-type.inbound-email.php:1
+msgid "Tag"
+msgstr ""
+
+#: ../classes/class.post-type.inbound-email.php:1
+msgid "Tag email"
+msgstr ""
+
+#: ../classes/class.post-type.inbound-email.php:1
+msgid "Title"
+msgstr ""
+
+#: ../classes/class.post-type.inbound-email.php:1
+msgid "status"
+msgstr ""
+
+#: ../classes/class.post-type.inbound-email.php:1
+msgid "statistics"
+msgstr ""
+
+#: ../classes/class.post-type.inbound-email.php:1
+msgid "Show All "
+msgstr ""
+
+#: ../classes/class.scheduling.php:159
+msgid "Niue Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:160
+msgid "Samoa Standard Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:161
+msgid "Cook Island Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:162
+msgid "Hawaii-Aleutian Standard Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:163
+msgid "Hawaii Standard Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:164
+msgid "Tahiti Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:165 ../classes/class.scheduling.php:166
+msgid "Marquesas Islands Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:167
+msgid "Alaska Standard Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:168
+msgid "Gambier Islands"
+msgstr ""
+
+#: ../classes/class.scheduling.php:169
+msgid "Gambier Island Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:170
+msgid "Hawaii-Aleutian Daylight Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:171
+msgid "Alaska Daylight Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:172
+msgid "Clipperton Island Standard Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:173
+msgid "Pacific Standard Time (North America)"
+msgstr ""
+
+#: ../classes/class.scheduling.php:174 ../classes/class.scheduling.php:180
+msgid "Mountain Daylight Time (North America)"
+msgstr ""
+
+#: ../classes/class.scheduling.php:175 ../classes/class.scheduling.php:176
+msgid "Pacific Daylight Time (North America)"
+msgstr ""
+
+#: ../classes/class.scheduling.php:177
+msgid "Central Standard Time (North America)"
+msgstr ""
+
+#: ../classes/class.scheduling.php:178
+msgid "Easter Island Standard Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:179
+msgid "Galapagos Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:181
+msgid "Central Daylight Time (North America)"
+msgstr ""
+
+#: ../classes/class.scheduling.php:182
+msgid "Colombia Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:183
+msgid "Cuba Standard Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:184
+msgid "Easter Island Standard Summer Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:185
+msgid "Ecuador Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:186
+msgid "Eastern Standard Time (North America)"
+msgstr ""
+
+#: ../classes/class.scheduling.php:187
+msgid "Peru Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:188
+msgid "Venezuelan Standard Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:189
+msgid "Amazon Time (Brazil)[2]"
+msgstr ""
+
+#: ../classes/class.scheduling.php:190
+msgid "Atlantic Standard Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:191
+msgid "Bolivia Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:192
+msgid "Cuba Daylight Time[3]"
+msgstr ""
+
+#: ../classes/class.scheduling.php:193
+msgid "Chile Standard Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:194
+msgid "Colombia Summer Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:195
+msgid "Eastern Caribbean Time (does not recognise DST)"
+msgstr ""
+
+#: ../classes/class.scheduling.php:196
+msgid "Eastern Daylight Time (North America)"
+msgstr ""
+
+#: ../classes/class.scheduling.php:197
+msgid "Falkland Islands Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:198
+msgid "Guyana Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:199
+msgid "Paraguay Time (Brazil)[7]"
+msgstr ""
+
+#: ../classes/class.scheduling.php:200
+msgid "Newfoundland Standard Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:201
+msgid "Newfoundland Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:202
+msgid "Atlantic Daylight Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:203
+msgid "Amazon Summer Time (Brazil)[1]"
+msgstr ""
+
+#: ../classes/class.scheduling.php:204
+msgid "Argentina Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:205
+msgid "Brasilia Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:206
+msgid "Chile Summer Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:207
+msgid "Falkland Islands Standard Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:208
+msgid "Falkland Islands Summer Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:209
+msgid "French Guiana Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:210
+msgid "Saint Pierre and Miquelon Standard Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:211
+msgid "Paraguay Summer Time (Brazil)"
+msgstr ""
+
+#: ../classes/class.scheduling.php:212
+msgid "Rothera Research Station Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:213
+msgid "Suriname Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:214
+msgid "Uruguay Standard Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:215
+msgid "Newfoundland Daylight Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:216
+msgid "Fernando de Noronha Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:217
+msgid "South Georgia and the South Sandwich Islands"
+msgstr ""
+
+#: ../classes/class.scheduling.php:218
+msgid "Saint Pierre and Miquelon Daylight time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:219
+msgid "Uruguay Summer Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:220
+msgid "Azores Standard Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:221
+msgid "Cape Verde Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:222
+msgid "Eastern Greenland Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:223
+msgid "Greenwich Mean Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:224 ../classes/class.scheduling.php:225
+msgid "Coordinated Universal Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:226
+msgid "Western European Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:227
+msgid "Zulu Time (Coordinated Universal Time)"
+msgstr ""
+
+#: ../classes/class.scheduling.php:228
+msgid "Eastern Greenland Summer Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:229
+msgid "British Summer Time (British Standard Time from Feb 1968 to Oct 1971)"
+msgstr ""
+
+#: ../classes/class.scheduling.php:230
+msgid "Central European Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:231
+msgid "AIX specific equivalent of Central European Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:232
+msgid "Irish Standard Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:233
+msgid "Middle European Time Same zone as CET"
+msgstr ""
+
+#: ../classes/class.scheduling.php:234
+msgid "West Africa Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:235
+msgid "Western European Daylight Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:236
+msgid "Western European Summer Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:237
+msgid "Central Africa Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:238
+msgid "Central European Daylight Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:239
+msgid "Central European Summer Time (Cf. HAEC)"
+msgstr ""
+
+#: ../classes/class.scheduling.php:240
+msgid "Eastern European Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:241
+msgid "Heure Avancée d'Europe Centrale francised name for CEST"
+msgstr ""
+
+#: ../classes/class.scheduling.php:242
+msgid "Israel Standard Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:243
+msgid "Middle European Saving Time Same zone as CEST"
+msgstr ""
+
+#: ../classes/class.scheduling.php:244
+msgid "South African Standard Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:245
+msgid "West Africa Summer Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:246
+msgid "Arabia Standard Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:247
+msgid "East Africa Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:248
+msgid "Eastern European Daylight Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:249
+msgid "Eastern European Summer Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:250
+msgid "Further-eastern European Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:251
+msgid "Israel Daylight Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:252
+msgid "Indian Ocean Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:253
+msgid "Showa Station Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:254
+msgid "Iran Standard Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:255
+msgid "Armenia Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:256
+msgid "Azerbaijan Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:257
+msgid "Georgia Standard Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:258
+msgid "Gulf Standard Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:259
+msgid "Moscow Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:260
+msgid "Mauritius Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:261
+msgid "Réunion Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:262
+msgid "Samara Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:263
+msgid "Seychelles Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:264
+msgid "Volgograd Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:265
+msgid "Afghanistan Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:266
+msgid "Armenia Summer Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:267
+msgid "Heard and McDonald Islands Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:268
+msgid "Mawson Station Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:269
+msgid "Maldives Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:270
+msgid "Oral Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:271
+msgid "Pakistan Standard Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:272
+msgid "Indian/Kerguelen"
+msgstr ""
+
+#: ../classes/class.scheduling.php:273
+msgid "Tajikistan Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:274
+msgid "Turkmenistan Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:275
+msgid "Uzbekistan Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:276
+msgid "Indian Standard Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:277
+msgid "Sri Lanka Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:278
+msgid "Nepal Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:279
+msgid "British Indian Ocean Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:280
+msgid "Bangladesh Standard Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:281
+msgid "Bhutan Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:282
+msgid "Kyrgyzstan time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:283
+msgid "Vostok Station Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:284
+msgid "Yekaterinburg Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:285
+msgid "Cocos Islands Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:286
+msgid "Myanmar Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:287
+msgid "Myanmar Standard Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:288
+msgid "Christmas Island Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:289
+msgid "Davis Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:290
+msgid "Khovd Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:291
+msgid "Indochina Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:292
+msgid "Krasnoyarsk Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:293
+msgid "Omsk Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:294
+msgid "Thailand Standard Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:295
+msgid "ASEAN Common Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:296
+msgid "Australian Western Standard Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:297
+msgid "Brunei Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:298
+msgid "Choibalsan"
+msgstr ""
+
+#: ../classes/class.scheduling.php:299
+msgid "Central Indonesia Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:300
+msgid "China Standard Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:301
+msgid "China time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:302
+msgid "Hong Kong Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:303
+msgid "Iran Daylight Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:304
+msgid "Malaysia Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:305
+msgid "Philippine Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:306
+msgid "Singapore Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:307
+msgid "Singapore Standard Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:308
+msgid "Ulaanbaatar Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:309
+msgid "Western Standard Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:310
+msgid "Central Western Standard Time (Australia)"
+msgstr ""
+
+#: ../classes/class.scheduling.php:311
+msgid "Australian Western Daylight Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:312
+msgid "Eastern Indonesian Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:313
+msgid "Irkutsk Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:314
+msgid "Japan Standard Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:315
+msgid "Korea Standard Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:316
+msgid "Timor Leste Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:317
+msgid "Australian Central Standard Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:318
+msgid "Central Standard Time (Australia)"
+msgstr ""
+
+#: ../classes/class.scheduling.php:319
+msgid "Australian Eastern Standard Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:320
+msgid "Chamorro Standard Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:321
+msgid "Chuuk Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:322
+msgid "Dumont d'Urville Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:323
+msgid "Eastern Standard Time (Australia)"
+msgstr ""
+
+#: ../classes/class.scheduling.php:324
+msgid "Papua New Guinea Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:325
+msgid "Vladivostok Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:326
+msgid "Yakutsk Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:327
+msgid "Australian Central Daylight Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:328
+msgid "Central Summer Time (Australia)"
+msgstr ""
+
+#: ../classes/class.scheduling.php:329
+msgid "Lord Howe Standard Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:330
+msgid "Australian Eastern Daylight Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:331
+msgid "Kosrae Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:332
+msgid "Lord Howe Summer Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:333
+msgid "Macquarie Island Station Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:334
+msgid "New Caledonia Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:335
+msgid "Pohnpei Standard Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:336
+msgid "Sakhalin Island time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:337
+msgid "Solomon Islands Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:338
+msgid "Vanuatu Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:339
+msgid "Norfolk Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:340
+msgid "Fiji Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:341
+msgid "Gilbert Island Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:342
+msgid "Magadan Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:343
+msgid "Marshall Islands"
+msgstr ""
+
+#: ../classes/class.scheduling.php:344
+msgid "New Zealand Standard Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:345
+msgid "Kamchatka Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:346
+msgid "Tuvalu Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:347
+msgid "Wake Island Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:348
+msgid "Chatham Standard Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:349
+msgid "New Zealand Daylight Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:350
+msgid "Phoenix Island Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:351
+msgid "Tonga Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:352
+msgid "Chatham Daylight Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:353
+msgid "Line Islands Time"
+msgstr ""
+
+#: ../classes/class.scheduling.php:354
+msgid "Tokelau Time"
+msgstr ""
+
+#: ../classes/class.settings.php:41
+msgid "email,mailer,marketing automation"
+msgstr ""
+
+#: ../classes/class.settings.php:46
+msgid "Inbound Mailer Settings"
+msgstr ""
+
+#: ../classes/class.settings.php:51
+msgid "Unsubscribe Location"
+msgstr ""
+
+#: ../classes/class.settings.php:52 ../classes/class.settings.php:101
+msgid ""
+"Where to send readers to unsubscribe. We auto create an unsubscribe page on "
+"activation, but you can use our shortcode on any page [inbound-email-"
+"unsubscribe]. "
+msgstr ""
+
+#: ../classes/class.settings.php:59 ../classes/class.settings.php:109
+msgid "Mandrill API Key"
+msgstr ""
+
+#: ../classes/class.settings.php:60 ../classes/class.settings.php:110
+msgid "Enter in your maindrill API Key here."
+msgstr ""
+
+#: ../classes/class.settings.php:68 ../classes/class.settings.php:118
+msgid "Setup Instructions:"
+msgstr ""
+
+#: ../classes/class.settings.php:70 ../classes/class.settings.php:121
+#, php-format
+msgid "Register for an account over at %s and create a new application."
+msgstr ""
+
+#: ../classes/class.settings.php:71 ../classes/class.settings.php:122
+#, php-format
+msgid "Create an API Key for this website in your %s."
+msgstr ""
+
+#: ../classes/class.settings.php:72
+msgid ""
+"Mailer requires that your Mandrill account have a positive balance in order "
+"to schedule emails."
+msgstr ""
+
+#: ../classes/class.settings.php:119
+msgid "Use links above for help with setup!"
+msgstr ""
+
+#: ../classes/class.settings.php:200
+msgid "Follow Updates on Facebook"
+msgstr ""
+
+#: ../classes/class.settings.php:237
+msgid "Installation Status"
+msgstr ""
+
+#: ../classes/class.settings.php:241
+msgid "PHP Version"
+msgstr ""
+
+#: ../classes/class.settings.php:255
+msgid "Gravity Forms requires PHP 5 or above."
+msgstr ""
+
+#: ../classes/class.settings.php:276
+msgid "Gravity Forms requires MySQL 5 or above."
+msgstr ""
+
+#: ../classes/class.settings.php:297
+msgid "landing pages requires version X or higher"
+msgstr ""
+
+#: ../classes/class.settings.php:304
+msgid "WordPress CTA Version"
+msgstr ""
+
+#: ../classes/class.templates.list-table.php:193
+msgid ""
+"No premium templates installed. Templates included in the Call to Action "
+"core plugin will not be listed here."
+msgstr ""
+
+#: ../classes/class.templates.manage.php:175
+#: ../classes/class.templates.manage.php:201
+msgid "There was a problem. Please try again!"
+msgstr ""
+
+#: ../classes/class.templates.manage.php:197
+msgid ""
+"WARNING! This zip file does not seem to be a call to action template file! "
+"If you are trying to install an inbound now extension please use the "
+"Plugin's upload section! Please press the back button and try again!"
+msgstr ""
+
+#: ../classes/class.templates.manage.php:204
+msgid "Template uploaded successfully!"
+msgstr ""
+
+#: ../classes/class.templates.manage.php:371
+msgid "Install Templates"
+msgstr ""
+
+#: ../classes/class.templates.manage.php:374
+msgid "Upload"
+msgstr ""
+
+#: ../classes/class.templates.manage.php:378
+msgid ""
+"Install Inbound Email Component template by uploading them here in .zip "
+"format"
+msgstr ""
+
+#: ../classes/class.templates.manage.php:380
+msgid ""
+"Warning: Only upload email template zip files downloaded from Inbound Now "
+"here."
+msgstr ""
+
+#: ../classes/class.templates.manage.php:385
+msgid "Template zip file"
+msgstr ""
+
+#: ../classes/class.templates.manage.php:387
+msgid "Install Now"
+msgstr ""
+
+#: ../classes/class.templates.manage.php:403
+msgid "Manage Templates"
+msgstr ""
+
+#: ../classes/class.token-engine.php:58
+msgid "Lead Fields"
+msgstr ""
+
+#: ../classes/class.token-engine.php:91
+msgid "Select Field"
+msgstr ""
+
+#: ../classes/class.token-engine.php:106
+msgid "Set Default"
+msgstr ""
+
+#: ../classes/class.token-engine.php:114
+msgid "Insert Shortcode"
+msgstr ""
+
+#: ../classes/class.unsubscribe.php:34
+msgid "Invalid token"
+msgstr ""
+
+#: ../classes/class.unsubscribe.php:38
+msgid "Thank you!"
+msgstr ""
+
+#: ../classes/class.unsubscribe.php:65
+msgid "Usubscribe from all emails"
+msgstr ""
+
+#: ../classes/class.unsubscribe.php:67
+msgid "Please help us improve by letting us know why you are unsubscribing."
+msgstr ""
+
+#: ../classes/class.unsubscribe.php:68
+msgid "Comments:"
+msgstr ""
+
+#: ../classes/class.unsubscribe.php:70
+msgid "Usubscribe"
+msgstr ""
+
+#: ../classes/class.unsubscribe.php:201
+msgid "all"
+msgstr ""
+
+#: ../classes/class.variations.php:474
+msgid "A"
+msgstr ""
+
+#: ../classes/class.variations.php:475
+msgid "B"
+msgstr ""
+
+#: ../classes/class.variations.php:476
+msgid "C"
+msgstr ""
+
+#: ../classes/class.variations.php:477
+msgid "D"
+msgstr ""
+
+#: ../classes/class.variations.php:478
+msgid "E"
+msgstr ""
+
+#: ../classes/class.variations.php:479
+msgid "F"
+msgstr ""
+
+#: ../classes/class.variations.php:480
+msgid "G"
+msgstr ""
+
+#: ../classes/class.variations.php:481
+msgid "H"
+msgstr ""
+
+#: ../classes/class.variations.php:482
+msgid "I"
+msgstr ""
+
+#: ../classes/class.variations.php:483
+msgid "J"
+msgstr ""
+
+#: ../classes/class.variations.php:484
+msgid "K"
+msgstr ""
+
+#: ../classes/class.variations.php:485
+msgid "L"
+msgstr ""
+
+#: ../classes/class.variations.php:486
+msgid "M"
+msgstr ""
+
+#: ../classes/class.variations.php:487
+msgid "N"
+msgstr ""
+
+#: ../classes/class.variations.php:488
+msgid "O"
+msgstr ""
+
+#: ../classes/class.variations.php:489
+msgid "P"
+msgstr ""
+
+#: ../classes/class.variations.php:490
+msgid "Q"
+msgstr ""
+
+#: ../classes/class.variations.php:491
+msgid "R"
+msgstr ""
+
+#: ../classes/class.variations.php:492
+msgid "S"
+msgstr ""
+
+#: ../classes/class.variations.php:493
+msgid "T"
+msgstr ""
+
+#: ../classes/class.variations.php:494
+msgid "U"
+msgstr ""
+
+#: ../classes/class.variations.php:495
+msgid "V"
+msgstr ""
+
+#: ../classes/class.variations.php:496
+msgid "W"
+msgstr ""
+
+#: ../classes/class.variations.php:497
+msgid "X"
+msgstr ""
+
+#: ../classes/class.variations.php:498
+msgid "Y"
+msgstr ""
+
+#: ../classes/class.variations.php:499
+msgid "Z"
+msgstr ""
+
+#: ../inbound-mailer.php:49
+msgid ""
+"Inbound Email Component requires PHP version 5.3+, plugin is currently NOT "
+"ACTIVE."
+msgstr ""
+
+#: ../templates/simple-responsive/config.php:14
+msgid "Simple Responsive"
+msgstr ""
+
+#: ../templates/simple-responsive/config.php:17
+msgid "Responsive email template."
+msgstr ""
+
+#: ../templates/simple-responsive/index.php:151
+msgid "online"
+msgstr ""
+
+#: ../templates/simple-responsive/index.php:184
+msgid "Unsubscribe from this list"
+msgstr ""

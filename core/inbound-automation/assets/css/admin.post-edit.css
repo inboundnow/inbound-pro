@@ -4,6 +4,10 @@
 	display:none;
 }
 
+.updated a {
+    display:none;
+}
+
 .nav-reveal {
 	display:block;
 }

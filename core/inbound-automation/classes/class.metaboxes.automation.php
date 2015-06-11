@@ -567,6 +567,7 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
                             }
 
                             $actions[$child_id]['action_name'] = $action_name;
+                            $actions[$child_id]['action_class_name'] = $this_action['class_name'];
 
                             foreach ($this_action['settings'] as $setting) {
 
@@ -735,14 +736,14 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
             /* Add Action Filter Evaluation Nature */
             $html .= "            <div class='action-block-filter-evaluate' style='display:inline;'>";
             $html .= '                <div class="btn-group" data-toggle="buttons">';
-            $html .= '                    <label class="btn btn-default	active">';
-            $html .= '                      <input type="radio" name="action_block_filters_evaluate[' . $action_block_id . ']" value="match-all" checked="checked"> ' . __('Match All', 'inbound-pro');
+            $html .= '                    <label class="btn btn-default ' . ( $block['action_block_filters_evaluate'] == 'match-all'  ? 'active' : '' ) .'">';
+            $html .= '                      <input type="radio" name="action_block_filters_evaluate[' . $action_block_id . ']" value="match-all" ' . ( $block['action_block_filters_evaluate'] == 'match-all'  ? 'checked="checked"' : '' ) .' > ' . __('Match All', 'inbound-pro');
             $html .= '                    </label>';
-            $html .= '                    <label class="btn btn-default	">';
-            $html .= '                          <input type="radio" name="action_block_filters_evaluate[' . $action_block_id . ']" value="match-any"> ' . __('Match Any', 'inbound-pro');
+            $html .= '                    <label class="btn btn-default	' . ( $block['action_block_filters_evaluate'] == 'match-any'  ? 'active' : '' ) .'">';
+            $html .= '                          <input type="radio" name="action_block_filters_evaluate[' . $action_block_id . ']" value="match-any" ' . ( $block['action_block_filters_evaluate'] == 'match-any'  ? 'checked="checked"' : '' ) .'> ' . __('Match Any', 'inbound-pro');
             $html .= '                    </label>';
-            $html .= '                    <label class="btn btn-default">';
-            $html .= '                         <input type="radio" name="action_block_filters_evaluate[' . $action_block_id . ']" value="match-none"> ' . __('Match None', 'inbound-pro');
+            $html .= '                    <label class="btn btn-default ' . ( $block['action_block_filters_evaluate'] == 'match-none'  ? 'active' : '' ) .'"  >';
+            $html .= '                         <input type="radio" name="action_block_filters_evaluate[' . $action_block_id . ']" value="match-none" ' . ( $block['action_block_filters_evaluate'] == 'match-none'  ? 'checked="checked"' : '' ) .'> ' . __('Match None', 'inbound-pro');
             $html .= '                    </label>';
             $html .= '                </div>';
             $html .= "            </div>";
@@ -1038,8 +1039,10 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
                 (isset($setting['options']) && is_array($setting['options'])) ? $setting_args['options'] = $setting['options'] : $settings_args['options'] = null;
 
                 /* Generate Action Setting HTML */
-                $setting_html = self::build_input($setting_args);
+                $setting_html = ( $setting_args['type'] == 'html' ) ? $setting['default'] : self::build_input($setting_args);
+                if ( $setting['type'] == 'html' ) {
 
+                }
                 /* prepare hidden fields */
                 $class = '';
                 if (isset($setting['hidden']) && $setting['hidden']) {
@@ -1211,6 +1214,9 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
                     break;
                 case 'text':
                     $html .= '<input type="text" name="' . $name . '" value="' . $default . '" data-block-id="' . $block_id . '" data-child-id="' . $child_id . '"  data-id="' . $args['name'] . '">';
+                    break;
+                case 'html':
+                    $html .=  $args['options'];
                     break;
                 case 'checkbox':
 
