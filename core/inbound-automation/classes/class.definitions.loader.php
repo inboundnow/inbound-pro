@@ -127,8 +127,9 @@ if ( !class_exists( 'Inbound_Automation_Loader' ) ) {
 
 				foreach ($trigger['arguments'] as $key => $argument ) {
 
+                    $keys = array();
 					if ( !isset( self::$instance->inbound_arguments[ $hook ] [ $argument['id'] ] ) ) {
-						$keys = array( '-1' => 'No Options Detected' );
+						$keys = array( '-1' => __( 'No Options Detected' , 'inbound-pro' ) );
 					} else {
 						/* Load Historic Arugment Keys Associated With Trigger Hook */
 						$args = self::$instance->inbound_arguments[ $hook ] [ $argument['id'] ];
@@ -241,6 +242,7 @@ if ( !class_exists( 'Inbound_Automation_Loader' ) ) {
 		public static function process_trigger() {
 
 			$trigger = current_filter();
+            $args = func_get_args();
 
 			foreach (self::$instance->rules  as $rule) {
 
@@ -256,7 +258,7 @@ if ( !class_exists( 'Inbound_Automation_Loader' ) ) {
 
 					$evaluate = true;
 					$evals = array();
-					$arguments = self::generate_arguments();
+					$arguments = self::generate_arguments( $trigger , $args );
 
 					/* Check Trigger Filters */
 					if ( isset( self::$rule['trigger_filters'] )  && self::$rule['trigger_filters'] ) {
@@ -337,8 +339,6 @@ if ( !class_exists( 'Inbound_Automation_Loader' ) ) {
 		*/
 		public static function get_argument_key_from_trigger( $argument , $trigger ) {
 
-            error_log(print_r($argument,true));exit;
-            error_log(print_r(self::$instance->triggers[$trigger],true));
 			foreach ( self::$instance->triggers[$trigger]['arguments'] as $key => $arg ) {
 
 				if ( $argument['trigger_filter_id'] == $arg['id'] ) {
@@ -352,8 +352,9 @@ if ( !class_exists( 'Inbound_Automation_Loader' ) ) {
 		* Evaluate Filter By Comparing Filter with Corresponding Incoming Data
 		*/
 		public static function evaluate_trigger_filter( $filter , $target_argument ) {
-            //error_log(print_r( $filter , true ) );
-            //error_log(print_r( $target_argument , true ));
+
+
+            $target_argument = Inbound_Automation_Loader::flatten_array( $target_argument );
 			$eval = false;
 
 			switch ($filter['trigger_filter_compare']) {
@@ -441,20 +442,18 @@ if ( !class_exists( 'Inbound_Automation_Loader' ) ) {
 		* This method creates a key->value data map of data being passed from a action hook
 		* This data is used to assist in designing filters for triggers
 		*/
-		public static function generate_arguments() {
+		public static function generate_arguments( $hook, $args) {
 
-			/* get arguments associated with this action hook */
-			$arguments = func_get_args();
-
-			/* get the name of this action hook */
-			$hook_name =  current_filter();
 
 			/* loop through arguments and update memory with available data with latest submission */
-			foreach ($arguments as $key => $argument) {
+			$argument_definitions = self::$instance->triggers[$hook]['arguments'];
+			foreach ($args as $key => $argument) {
 
                 /* Get argument identification id */
-                $argument_id = self::$instance->triggers[$hook_name]['arguments'][$key]['id'];
-                self::$instance->inbound_arguments[$hook_name][ $argument_id ] = self::prepare_mixed_data($argument);
+                $definition = array_shift($argument_definitions);
+
+                /* Place argument data into memory */
+                self::$instance->inbound_arguments[$hook][ $definition['id'] ] = self::prepare_mixed_data($argument);
 
 			}
 
@@ -462,9 +461,31 @@ if ( !class_exists( 'Inbound_Automation_Loader' ) ) {
 			self::update_arguments();
 
 			/* return arguments */
-			return self::$instance->inbound_arguments[$hook_name];
+			return self::$instance->inbound_arguments[$hook];
 
 		}
+
+        /**
+         * Takes a multidimensional argument array and flattens it
+         */
+        public static function flatten_array( $array ) {
+            $flatten = array();
+
+            foreach ($array as $k => $value ) {
+                if ( is_array($value) ) {
+                    foreach ($value as $k1 => $v1 ) {
+                        if (is_array($v1)){
+                            continue;
+                        }
+                        $flatten[ $k.':'.$k1 ] =  $v1;
+                    }
+                } else {
+                    $flatten[ $k ] = $value;
+                }
+            }
+
+            return $flatten;
+        }
 
 		/**
 		*  Updates the dataset that contains information on our tracked hooks

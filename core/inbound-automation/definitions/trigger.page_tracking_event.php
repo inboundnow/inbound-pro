@@ -14,8 +14,9 @@ if ( !class_exists( 'Inbound_Automation_Trigger_Update_Lead' ) ) {
         static $trigger;
 
 		function __construct() {
-            self::$trigger = 'inbound_store_lead_post';
+            self::$trigger = 'wplead_page_view';
 			add_filter( 'inbound_automation_triggers' , array( __CLASS__ , 'define_trigger' ) , 1 , 1);
+            add_action( 'activate/inbound-automation' , array( __CLASS__ , 'create_dummy_event' ) );
 		}
 
 		/* Build Trigger Definitions */
@@ -55,6 +56,28 @@ if ( !class_exists( 'Inbound_Automation_Trigger_Update_Lead' ) ) {
 
 			return $triggers;
 		}
+
+        /**
+         * Simulate trigger - perform on plugin activation
+         */
+        public static function create_dummy_event() {
+
+
+            $lead = array (
+                'lead_id' => 97351,
+                'nature' => 'non-conversion',
+                'json' => 0,
+                'wp_lead_uid' => 'mxb8EHq5H71LtVmOTyXINufHKwA3EaUxTpH',
+                'page_id' => 97188,
+                'current_url' => 'http://inboundsoon.dev/go/flat-ui/'
+            );
+
+            $inbound_arguments = Inbound_Options_API::get_option( 'inbound_automation' , 'arguments' );
+            $inbound_arguments = ( $inbound_arguments  ) ?  $inbound_arguments : array();
+            $inbound_arguments[self::$trigger]['lead_data'] = $lead;
+
+            Inbound_Options_API::update_option( 'inbound_automation' , 'arguments' ,  $inbound_arguments );
+        }
 	}
 
 	/* Load Trigger */

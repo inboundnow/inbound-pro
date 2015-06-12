@@ -865,7 +865,14 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
                 return '';
             }
 
-            $key_args = array('name' => 'trigger_filter_key', 'type' => self::$argument_filters[$args['trigger_id']][$args['trigger_filter_id']]['key_input_type'], 'options' => self::$argument_filters[$args['trigger_id']][$args['trigger_filter_id']]['keys'], 'child_id' => $args['child_id'], 'default' => $args['defaults'], 'class' => 'trigger-filter-key');
+            $key_args = array(
+                'name' => 'trigger_filter_key',
+                'type' => self::$argument_filters[$args['trigger_id']][$args['trigger_filter_id']]['key_input_type'],
+                'options' => self::$argument_filters[$args['trigger_id']][$args['trigger_filter_id']]['keys'],
+                'child_id' => $args['child_id'],
+                'default' => $args['defaults'],
+                'class' => 'trigger-filter-key'
+            );
 
 
             $compare_args = array('name' => 'trigger_filter_compare', 'type' => 'dropdown', 'options' => self::$argument_filters[$args['trigger_id']][$args['trigger_filter_id']]['compare'], 'child_id' => $args['child_id'], 'default' => $args['defaults'], 'class' => 'trigger-filter-compare');
