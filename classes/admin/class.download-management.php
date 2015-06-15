@@ -240,7 +240,7 @@ class Inbound_Pro_Downloads {
         $objects = scandir($dirPath);
 
         /* if there is a .git directory assume local development and bail */
-        if ( in_array( $objects , '.git' ) ) {
+        if ( in_array( '.git' , $objects ) ) {
             return;
         }
 
