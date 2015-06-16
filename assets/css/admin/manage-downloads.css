@@ -125,6 +125,15 @@ body .filter-label {
 	font-size:24px;
 }
 
+.action-update {
+   position:relative;
+   left:25px;
+}
+.action-update .fa {
+    color:blueviolet !important;
+    font-size: 26px;
+}
+
 .action-settings .fa {
 	font-size:26px;
 	//color:red;
@@ -224,7 +233,7 @@ body .filter-label {
 	border: solid 1px #11273E;
 	z-index: 9999;
 
-    
+
 }
 
 .mail-ribbon {
@@ -255,7 +264,7 @@ body .filter-label {
 	border: solid 1px #11273E;
 	z-index: 9999;
 
-   
+
 }
 
 

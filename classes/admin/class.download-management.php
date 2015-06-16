@@ -403,14 +403,21 @@ class Inbound_Pro_Downloads {
 			<div id="grid" class="container-fluid">
 				<?php $count = 1;
 
-
 				foreach (self::$downloads as $download) {
 
-					?>
-					<?php if ($count % 3 == 0) {
+
+					if ($count % 3 == 0) {
 						echo "<div></div>";
 					}
-					   $count++;
+                    $count++;
+
+                    /**
+                     * Determine if needs update
+                     */
+                    if ( version_compare( $download['current_version'] ,  $download['server_version']) == -1  && !in_array('uninstalled', $download['status']) )  {
+                        $download['status'][] = 'needs-update';
+                    }
+
 					?>
 					<div class="row col-md-2 col-xs-2 download-item " data-plugins='<?php echo json_encode( $download['plugins'] );	?>' data-meta='<?php echo json_encode( $download['status'] ); ?>'  >
 
@@ -461,7 +468,7 @@ class Inbound_Pro_Downloads {
 						<div class="download-image" style='background-image:url(<?php echo INBOUND_PRO_URLPATH. 'assets/images/downloads/'.$download['post_name'].'.jpg'; ?>);' >
 						</div>
 
-						<div class="col-template-content more-details" data-download='<?php echo $download['post_name']; ?>' data-toggle="tooltip" data-placement="top" data-original-title='<?php _e( 'View Details' , INBOUNDNOW_TEXT_DOMAIN ); ?>'>
+						<div class="col-template-content more-details" data-download='<?php echo $download['post_name']; ?>'  data-toggle="tooltip" data-placement="top" data-original-title='<?php _e( 'View Details' , INBOUNDNOW_TEXT_DOMAIN ); ?>'>
 							<div class="col-template-info-title"><?php echo $download['post_title']; ?></div>
 						</div>
 
@@ -474,12 +481,22 @@ class Inbound_Pro_Downloads {
 								</div>
 								<?php
 							}
+
 							if ( in_array( 'installed' , $download['status'] ) ) {
 								?>
 								<div class="action-uninstall">
 									<a href="admin.php?page=<?php echo $_GET['page']; ?>&action=uninstall&download=<?php echo $download['post_name']; ?>" class="power-toggle power-is-on fa fa-power-off"  data-toggle="tooltip" id='<?php echo $download['post_name']; ?>' title='<?php _e( 'Turn Off' , INBOUNDNOW_TEXT_DOMAIN ); ?>'></a>
 								</div>
+
 								<?php
+                                if ( in_array( 'needs-update' , $download['status'] ) ) {
+                                    ?>
+                                    <div class="action-update">
+                                        <a href="admin.php?page=<?php echo $_GET['page']; ?>&action=install&download=<?php echo $download['post_name']; ?>&download_type=<?php echo $download['download_type']; ?>&filename=<?php echo $download['zip_filename']; ?>" class="fa fa-floppy-o"  data-toggle="tooltip" id='<?php echo $download['post_name']; ?>' title='<?php _e( 'Update' , INBOUNDNOW_TEXT_DOMAIN ); ?>'></a>
+                                    </div>
+                                    <?php
+                                }
+
 								if ($download['download_type'] == 'extension' ) {
 									$settings_url = apply_filters(
 										'inbound-pro/download-setting-url' ,
@@ -492,6 +509,7 @@ class Inbound_Pro_Downloads {
 									<?php
 								}
 							}
+
 							if (!self::$customer) {
                                 ?>
                                 <div class="action-locked">

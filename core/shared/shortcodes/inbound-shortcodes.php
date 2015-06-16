@@ -77,7 +77,7 @@ class Inbound_Shortcodes {
 
 			if (isset($post)&&post_type_supports($post->post_type,'editor')||isset($post)&&'wp-call-to-action' === $post->post_type) {
 				wp_enqueue_script('inbound-shortcodes', INBOUNDNOW_SHARED_URLPATH . 'shortcodes/js/shortcodes.js', array( 'jquery', 'jquery-cookie' ));
-				$form_id = (isset($_GET['post'])) ? $_GET['post'] : '';
+				$form_id = (isset($_GET['post']) && is_int( $_GET['post'] )) ? $_GET['post'] : ''; 
 				wp_localize_script( 'inbound-shortcodes', 'inbound_shortcodes', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) , 'adminurl' => admin_url(), 'inbound_shortcode_nonce' => wp_create_nonce('inbound-shortcode-nonce') , 'form_id' => $form_id ) );
 				wp_enqueue_script('selectjs', INBOUNDNOW_SHARED_URLPATH . 'shortcodes/js/select2.min.js');
 				wp_enqueue_style('selectjs', INBOUNDNOW_SHARED_URLPATH . 'shortcodes/css/select2.css');
@@ -772,7 +772,7 @@ class Inbound_Shortcodes {
 							<?php if( $shortcode->no_preview ) : ?>
 								<div id="inbound-shortcodes-nopreview"><?php _e('Shortcode has no preview', 'leads'); ?></div>
 							<?php else :
-							    if ( isset($_REQUEST['post']) ) {
+							    if ( isset($_REQUEST['post']) && is_int($_REQUEST['post'])  ) {
 								    $post_id = html_entity_decode( $_REQUEST['post'] );
                                 } else {
                                     $post_id = 0;

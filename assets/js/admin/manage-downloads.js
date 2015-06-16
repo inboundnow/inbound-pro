@@ -165,7 +165,7 @@ Downloads.Modules.Templates = (function($, undefined) {
 	 */
 	initDetails = function() {
 		$template = getDetailsTemplate();
-
+        console.log(downloads);
 
 		/* on more details click */
 		jQuery('.more-details').on('click', function() {
@@ -198,15 +198,24 @@ Downloads.Modules.Templates = (function($, undefined) {
 
 		/* on install */
 		jQuery('body').on( 'click' , '.overlay-install' , function() {
-			var download = jQuery( this ).data('download');
-			console.log( download );
-			window.location.href = "admin.php?page=" + downloads.current_page + "&action=install&download=" + download ;
+            var download = jQuery( this ).data('download');
+            var filename = jQuery( this ).data('filename');
+            var download_type = jQuery( this ).data('download-type');
+            window.location.href = "admin.php?page=" + downloads.current_page + "&action=install&download=" + download + '&filename=' + filename + '&download_type=' + download_type;
 		});
 
 		/* on uninstall */
 		jQuery('body').on( 'click' , '.overlay-uninstall' , function() {
 			var download = jQuery( this ).data('download');
 			window.location.href = "admin.php?page=" + downloads.current_page + "&action=uninstall&download=" + download ;
+		});
+
+		/* on update */
+		jQuery('body').on( 'click' , '.overlay-update' , function() {
+            var download = jQuery( this ).data('download');
+            var filename = jQuery( this ).data('filename');
+            var download_type = jQuery( this ).data('download-type');
+            window.location.href = "admin.php?page=" + downloads.current_page + "&action=install&download=" + download + '&filename=' + filename + '&download_type=' + download_type;
 		});
 
 	},

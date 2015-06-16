@@ -353,52 +353,54 @@ if ( !class_exists( 'Inbound_Automation_Loader' ) ) {
 		*/
 		public static function evaluate_trigger_filter( $filter , $target_argument ) {
 
-
             $target_argument = Inbound_Automation_Loader::flatten_array( $target_argument );
+            $compare_value = ( isset($target_argument[ $filter['trigger_filter_key'] ]) ) ? $target_argument[ $filter['trigger_filter_key'] ] : __('notset','inbound-pro');
 			$eval = false;
 
-			switch ($filter['trigger_filter_compare']) {
+            if (isset($target_argument[ $filter['trigger_filter_key'] ])) {
+                switch ($filter['trigger_filter_compare']) {
 
-				case 'greater-than' :
-					if ( $filter['trigger_filter_value'] < $target_argument[ $filter['trigger_filter_key'] ] ) {
-						$eval = true;
-					}
-					BREAK;
-				case 'greater-than-equal-to' :
-					if ( $filter['trigger_filter_value'] <= $target_argument[ $filter['trigger_filter_key'] ] ) {
-						$eval = true;
-					}
-					BREAK;
-				case 'less-than' :
-					if ( $filter['trigger_filter_value'] > $target_argument[ $filter['trigger_filter_key'] ] ) {
-						$eval = true;
-					}
-					BREAK;
-				case 'less-than-equal-to' :
-					if ( $filter['trigger_filter_value'] >= $target_argument[ $filter['trigger_filter_key'] ] ) {
-						$eval = true;
-					}
-					BREAK;
+                    case 'greater-than' :
+                        if ( $filter['trigger_filter_value'] < $compare_value ) {
+                            $eval = true;
+                        }
+                        BREAK;
+                    case 'greater-than-equal-to' :
+                        if ( $filter['trigger_filter_value'] <= $compare_value ) {
+                            $eval = true;
+                        }
+                        BREAK;
+                    case 'less-than' :
+                        if ( $filter['trigger_filter_value'] > $compare_value ) {
+                            $eval = true;
+                        }
+                        BREAK;
+                    case 'less-than-equal-to' :
+                        if ( $filter['trigger_filter_value'] >= $compare_value ) {
+                            $eval = true;
+                        }
+                        BREAK;
 
-				case 'contains' :
-					if ( stristr( $target_argument[ $filter['trigger_filter_key'] ] , $filter['trigger_filter_value'] ) ) {
-						$eval = true;
-					}
-					BREAK;
+                    case 'contains' :
+                        if ( stristr( $compare_value , $filter['trigger_filter_value'] ) ) {
+                            $eval = true;
+                        }
+                        BREAK;
 
-				case 'equals' :
-					if (  $filter['trigger_filter_value'] == $target_argument[ $filter['trigger_filter_key'] ] ) {
-						$eval = true;
-					}
-					BREAK;
+                    case 'equals' :
 
-			}
+                        if (  $filter['trigger_filter_value'] == $compare_value ) {
+                            $eval = true;
+                        }
+                        BREAK;
+                }
+            }
 
 			return array(
 				'filter_key' => $filter['trigger_filter_key'] ,
 				'filter_compare' => $filter['trigger_filter_compare'],
 				'filter_value' => $filter['trigger_filter_value'],
-				'compare_value' => $target_argument[ $filter['trigger_filter_key'] ] ,
+				'compare_value' => $compare_value ,
 				'eval' => $eval
 			);
 
