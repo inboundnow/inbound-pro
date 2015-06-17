@@ -82,7 +82,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
         }
 
         /**
-         *
+         * Get Send Aggregate Statistics
          */
         public static function load_statistics() {
             global $post;

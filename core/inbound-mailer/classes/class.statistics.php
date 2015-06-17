@@ -19,10 +19,15 @@ class Inbound_Email_Stats {
      *	@param BOOLEAN $return false for json return true for array return
      *	@return JSON
      */
-    public static function get_email_timeseries_stats( ) {
+    public static function get_email_timeseries_stats( $email_id = null ) {
         global $Inbound_Mailer_Variations, $post;
 
+        /* check if email id is set else use global post object */
+        if ( is_int($email_id) ) {
+            $post = get_post($email_id);
+        }
 
+        /* we do not collect stats for statuses not in this array */
         if ( !in_array( $post->post_status , array( 'sent' , 'sending', 'automated' )) ) {
             return '{}';
         }
