@@ -513,9 +513,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
                 $css_styleblock_class = apply_filters( 'wp_cta_styleblock_class' , '' , $selected_cta['id'] , $vid );
 
-                if (!stristr($custom_css,'<style')){
-                    $custom_css = strip_tags($custom_css);
-                }
+                $custom_css = strip_tags($custom_css,'<style>');
 
                 /* If style.css exists in root cta directory, insert here */
                 $slug = $selected_cta['templates'][$vid]['slug'];
@@ -1459,7 +1457,6 @@ if (!function_exists('inbound_template_brightness')) {
 }
 
 
-function wp_cta_check_active()
-{
+function wp_cta_check_active() {
     return 1;
 }

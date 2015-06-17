@@ -16,51 +16,51 @@ if (!class_exists('CTA_Metaboxes')) {
 		function __construct() {
 			self::load_hooks();
 		}
-		
+
 		public static function load_hooks() {
 			/* Add metaboxes */
-			add_action('add_meta_boxes', array( __CLASS__ , 'load_metaboxes' ) );	
-			
+			add_action('add_meta_boxes', array( __CLASS__ , 'load_metaboxes' ) );
+
 			/* Load template selector in background */
 			add_action('admin_notices', array( __CLASS__ , 'load_template_select_container' ) );
-			
+
 			/* Add ajax listeners for switching templates */
 			add_action( 'wp_ajax_nopriv_wp_cta_get_template_meta', array( __CLASS__ , 'switch_templates' ) );
 			add_action( 'wp_ajax_wp_cta_get_template_meta', array( __CLASS__ , 'switch_templates' )  );
 
 			/* Add shortcode information */
 			add_action( 'edit_form_after_title',	array( __CLASS__ , 'add_shortcode_data' ) );
-			
+
 			/* Add variation tabs */
 			add_action('edit_form_after_title', array( __CLASS__ , 'add_variation_tabs' ) , 5);
-			
+
 			/* Add hidden inputs */
 			add_action( 'edit_form_after_title',	array( __CLASS__ , 'add_hidden_inputs' ) );
-			
+
 			/* Change default title placeholder */
 			add_filter( 'enter_title_here', array( __CLASS__ , 'change_title_placeholder_text' ) , 10, 2 );
-			
+
 			/* Add variation notes input box */
 			add_action( 'edit_form_after_title',	array( __CLASS__ , 'add_variation_notes' ) );
-			
+
 			/* Enqueue JS */
 			add_action( 'admin_enqueue_scripts', array( __CLASS__ , 'enqueue_admin_scripts' ) );
 			add_action( 'admin_print_footer_scripts', array( __CLASS__ , 'print_admin_scripts' ) );
-						
+
 			/* Saves all all incoming POST data as meta pairs */
 			add_action( 'save_post' , array( __CLASS__ , 'save_call_to_action_data' ) );
 
-			/* Remove WordPress SEO Metabox from wp-call-to-action post_type */		
+			/* Remove WordPress SEO Metabox from wp-call-to-action post_type */
 			add_action( 'add_meta_boxes', array( __CLASS__  , 'remove_wp_seo' ) , 100000 );
-			
+
 		}
-		
+
 		/**
-		*  		Loads Metaboxes 
+		*  		Loads Metaboxes
 		*/
 		public static function load_metaboxes() {
 			global $post , $CTA_Variations;
-			
+
 			$CTAExtensions = CTA_Load_Extensions();
 
 			if ($post->post_type!='wp-call-to-action') {
@@ -69,13 +69,13 @@ if (!class_exists('CTA_Metaboxes')) {
 
 			/* Loads Template Options */
 			$template_id = $CTA_Variations->get_current_template( $post->ID );
-			
+
 			/* If new variation use historic template id */
 			if ( isset($_GET['new-variation'] ) ){
 				$variations = $CTA_Variations->get_variations( $post->ID, $vid = null );
 				$vid = key($variations);
 				$template_id = $CTA_Variations->get_current_template( $post->ID , $vid );
-			} 
+			}
 
 			if ($template_id) {
 				$template_name = ucwords(str_replace('-',' ',$template_id));
@@ -89,8 +89,8 @@ if (!class_exists('CTA_Metaboxes')) {
 					array('template_id'=>$template_id)
 				); //callback args
 			}
-			
-		
+
+
 			/* render templates and extension metaboxes */
 			$extension_data = $CTAExtensions->definitions;
 
@@ -130,7 +130,7 @@ if (!class_exists('CTA_Metaboxes')) {
 				'low'
 			); // $priority
 
-			
+
 			/* Custom CSS */
 			add_meta_box(
 				'wp_cta_3_custom_css',
@@ -150,7 +150,7 @@ if (!class_exists('CTA_Metaboxes')) {
 				'normal',
 				'low'
 			);
-				
+
 			/* AB Testing Statistics Box */
 			add_meta_box(
 				'wp_cta_ab_display_stats_metabox',
@@ -161,29 +161,29 @@ if (!class_exists('CTA_Metaboxes')) {
 				'high'
 			);
 		}
-		
-		
+
+
 		/**
-		* Show Template Settings Metabox 
+		* Show Template Settings Metabox
 		*/
-		public static function show_template_settings(	$post , $metabox_args ) {	
+		public static function show_template_settings(	$post , $metabox_args ) {
 			global $CTA_Variations;
-			
+
 			$CTAExtensions = CTA_Load_Extensions();
 			$extension_data = $CTAExtensions->definitions;
 
 			$template_id = $metabox_args['args']['template_id'];
 
 			$wp_cta_custom_fields = $extension_data[$template_id]['settings'];
-			
+
 			$template_id = ($template_id) ? $template_id : 'blank-template';
 
 			$template_input_name = apply_filters('wp_cta_prepare_input_id','wp-cta-selected-template');
 
-			
+
 			// Use nonce for verification
 			echo "<input type='hidden' name='wp_cta_wp-cta_custom_fields_nonce' value='".wp_create_nonce('wp-cta-nonce')."' />";
-			
+
 			/* Display customizer launch button */
 			if ( !isset($_GET['frontend']) || $_GET['frontend'] == 'false' )  {
 
@@ -198,9 +198,9 @@ if (!class_exists('CTA_Metaboxes')) {
 			self::render_settings( $template_id , $wp_cta_custom_fields , $post);
 
 		}
-		
+
 		/**
-		* Show Extension Metabox - loads & displays metaboxes built from extension settings 
+		* Show Extension Metabox - loads & displays metaboxes built from extension settings
 		*/
 		public static function show_extension_metabox( $post,$key ) {
 			$CTAExtensions = CTA_Load_Extensions();
@@ -214,9 +214,9 @@ if (!class_exists('CTA_Metaboxes')) {
 
 			self::render_settings('cta' , $key, $wp_cta_custom_fields, $post);
 		}
-		
+
 		/**
-		* Show Custom JS Metabox 
+		* Show Custom JS Metabox
 		*
 		*/
 		public static function show_custom_js() {
@@ -224,7 +224,7 @@ if (!class_exists('CTA_Metaboxes')) {
 
 			$custom_js = CTA_Variations::get_variation_custom_js ( $post->ID );
 			$custom_js_meta_key = apply_filters('wp_cta_prepare_input_id','wp-cta-custom-js');
-			
+
 			$line_count = substr_count( $custom_js , "\n" );
 
 			($line_count) ? $line_count : $line_count = 5;
@@ -232,53 +232,53 @@ if (!class_exists('CTA_Metaboxes')) {
 			echo '<input type="hidden" name="wp_cta_custom_js_noncename" id="wp_cta_custom_js_noncename" value="'.wp_create_nonce(basename(__FILE__)).'" />';
 			echo '<textarea name="'.$custom_js_meta_key.'" id="wp_cta_custom_js" rows="'.$line_count.'" cols="30" style="width:100%;">'.$custom_js.'</textarea>';
 		}
-		
-		
-		/* 
-		* Show Custom CSS Metabox 
+
+
+		/*
+		* Show Custom CSS Metabox
 		*
 		*/
 		public static function show_custom_css() {
 			global $post;
 
 			echo "<em>Custom CSS may be required to customize this call to action. Insert Your CSS Below. Format: #element-id { display:none !important; }</em>";
-			
+
 			$custom_css = CTA_Variations::get_variation_custom_css ( $post->ID );
-			$custom_css_meta_key = apply_filters( 'wp_cta_prepare_input_id' , 'wp-cta-custom-css' );	
+			$custom_css_meta_key = apply_filters( 'wp_cta_prepare_input_id' , 'wp-cta-custom-css' );
 
 			$line_count = substr_count( $custom_css , "\n" );
 			($line_count) ? $line_count : $line_count = 5;
 
 			echo '<textarea name="'.$custom_css_meta_key.'" id="wp-cta-custom-css" rows="'. $line_count .'" cols="30" style="width:100%;">'.$custom_css .'</textarea>';
 		}
-		
-		/* 
+
+		/*
 		* Show Variation Statistics Metabox
 		*
 		*/
 		public static function show_stats_metabox() {
-			
+
 			global $post, $CTA_Variations;
-		
-			$variations = $CTA_Variations->get_variations($post->ID);		
+
+			$variations = $CTA_Variations->get_variations($post->ID);
 			$next_available_variation_id = $CTA_Variations->get_next_available_variation_id( $post->ID );
-			
+
 			echo '<div id="bab-stat-box">';
 
 			foreach ($variations as $vid=>$variation)
 			{
-				
+
 				/* Get variation status */
 				$status = $CTA_Variations->get_variation_status( $post->ID , $vid  );
 
 				$variation_notes = $CTA_Variations->get_variation_notes( $post->ID , $vid );
 				$permalink = $CTA_Variations->get_variation_permalink( $post->ID , $vid );
-				
+
 
 				$impressions = $CTA_Variations->get_impressions( $post->ID , $vid );
 				$conversions = $CTA_Variations->get_conversions( $post->ID , $vid );
 				$conversion_rate = $CTA_Variations->get_conversion_rate( $post->ID , $vid );
-			
+
 
 				?>
 
@@ -334,17 +334,17 @@ if (!class_exists('CTA_Metaboxes')) {
 			?>
 		</div>
 		<?php
-			
+
 		}
-		
-		
+
+
 		/**
 		* Display CTA Settings for templates AND extensions
 		*/
 		public static function render_settings( $settings_key , $custom_fields , $post ) {
-			
+
 			global $CTA_Variations;
-			
+
 			$CTAExtensions = CTA_Load_Extensions();
 			$extension_data = $CTAExtensions->definitions;
 
@@ -354,21 +354,21 @@ if (!class_exists('CTA_Metaboxes')) {
 			// Begin the field table and loop
 			echo '<div class="form-table" id="inbound-meta">';
 
-			foreach ($custom_fields as $field) 
+			foreach ($custom_fields as $field)
 			{
 
 				$field_id = apply_filters('wp_cta_prepare_input_id', $settings_key . "-" .$field['id'] );
-				
+
 				$label_class = $field['id'] . "-label";
 				$type_class = " inbound-" . $field['type'];
 				$type_class_row = " inbound-" . $field['type'] . "-row";
 				$type_class_option = " inbound-" . $field['type'] . "-option";
-				$option_class = (isset($field['class'])) ? $field['class'] : ''; 
-				
+				$option_class = (isset($field['class'])) ? $field['class'] : '';
+
 				/* if setting does has a stored value then use default value */
 				if ( metadata_exists( 'post', $post->ID , $field_id ) ) {
-					$meta = get_post_meta($post->ID, $field_id, true);				
-				} 
+					$meta = get_post_meta($post->ID, $field_id, true);
+				}
 				/* else set value to stored value */
 				else {
 					$meta = $field['default'];
@@ -376,10 +376,10 @@ if (!class_exists('CTA_Metaboxes')) {
 
 				// Remove prefixes on global => true template options
 				if (isset($field['global']) && $field['global'] === true) {
-					$field_id = apply_filters('wp_cta_prepare_input_id', $field['id'] );						
+					$field_id = apply_filters('wp_cta_prepare_input_id', $field['id'] );
 					$meta = get_post_meta($post->ID, $field_id , true);
 				}
-				
+
 				/* Set setting value to cloned value if clone command is enabled */
 				if ( isset($_GET['clone']) ) {
 
@@ -427,7 +427,7 @@ if (!class_exists('CTA_Metaboxes')) {
 											<p class="description">'.$field['description'].'</p>
 									</div>';
 								break;
-							case 'width-height':							
+							case 'width-height':
 								echo '<input type="text" class="'.$option_class.'" name="'.$field_id.'" id="'.$field_id.'" value="'.$meta.'" size="30" />
 										<div class="wp_cta_tooltip" title="'.$field['description'].'"></div>';
 								break;
@@ -515,8 +515,8 @@ if (!class_exists('CTA_Metaboxes')) {
 			echo '</div>'; // end table
 			//exit;
 		}
-		
-		
+
+
 		/**
 		* Loads and hide the template selection grid
 		*
@@ -616,56 +616,56 @@ if (!class_exists('CTA_Metaboxes')) {
 			echo "<div class='clear'></div>";
 			echo "</div>";
 		}
-		
+
 		/**
 		*	Listenens for template id and returns template settings
 		*
 		*
 		*/
 		public static function switch_templates( ) {
-				
+
 			$current_template = $_POST['selected_template'];
 			$post_id = $_POST['post_id'];
 			$post = get_post($post_id);
 
 			$key['args']['template_id'] = $current_template;
-			
+
 			CTA_Metaboxes::show_template_settings($post,$key);
 			die();
 		}
-		
-		
+
+
 		/**
 		* Adds variation navigation tabs to call to action edit screen
 		*
-		*/	
+		*/
 		public static function add_variation_tabs() {
 			global $post, $CTA_Variations;
-			
+
 			if ( !$post || $post->post_type != 'wp-call-to-action' ) {
 				return;
 			}
-			
+
 			$next_available_variation_id = $CTA_Variations->get_next_available_variation_id( $post->ID );
 			$current_variation_id = $CTA_Variations->get_current_variation_id();
-			
+
 			if ( isset($_GET['new-variation']) || isset($_GET['clone']) ) {
 				$current_variation_id = $next_available_variation_id;
 			}
-			
-			
-			$variations = $CTA_Variations->get_variations($post->ID);		
-			
+
+
+			$variations = $CTA_Variations->get_variations($post->ID);
+
 
 			echo '<h2 class="nav-tab-wrapper a_b_tabs">';
 
 			$var_id_marker = 1;
 
 			foreach ($variations as $vid => $variation) {
-				
+
 				$permalink = $CTA_Variations->get_variation_permalink( $post->ID , $vid );
 				$letter = $CTA_Variations->vid_to_letter( $post->ID , $vid );
-				
+
 				//alert (variation.new_variation);
 				if ($current_variation_id==$vid&&!isset($_GET['new-variation']) || $current_variation_id==$vid && isset($_GET['clone'])) {
 					$cur_class = 'active';
@@ -687,58 +687,58 @@ if (!class_exists('CTA_Metaboxes')) {
 
 			}
 
-			
+
 			echo '</h2>';
-			
+
 		}
-		
-		
+
+
 		/**
-		* Renders shortcode data for user to copy for user 
+		* Renders shortcode data for user to copy for user
 		*/
 		public static function add_shortcode_data() {
 			global $post;
-		
+
 			if ( !$post || $post->post_type != 'wp-call-to-action' ) {
 				return;
 			}
-			
+
 			$vid = CTA_Variations::get_current_variation_id();
 
 			echo '<span id="cta_shortcode_form" style="display:none; font-size: 13px;margin-left: 15px;">
 				'. __('Variation Shortcode' , 'cta' ) .': <input type="text" style="width: 200px;" class="regular-text code short-shortcode-input" readonly="readonly" id="shortcode" name="shortcode" value=\'[cta id="'.$post->ID.'" vid="'.$vid.'"]\'>
 				<div class="wp_cta_tooltip" style="margin-left: 0px;" title="'. __( 'You can copy and paste this shortcode into any page or post to render this call to action. You can also insert CTAs from the WordPress editor on any given page. To enable variation rotation remove the vid= attribute.' , 'cta' ) .'"></div></span>';
-			
+
 		}
-		
+
 		/**
-		* Renders shortcode data for user to copy for user 
+		* Renders shortcode data for user to copy for user
 		*/
 		public static function add_hidden_inputs() {
 			global $post, $CTA_Variations;
-		
+
 			if ( !$post || $post->post_type != 'wp-call-to-action' ) {
 				return;
 			}
-			
+
 			/* Add hidden param for visual editor */
 			if(isset($_REQUEST['frontend']) && $_REQUEST['frontend'] == 'true') {
 				echo '<input type="hidden" name="frontend" id="frontend-on" value="true" />';
 			}
-			
+
 			/* Get current variation id */
 			$vid = CTA_Variations::get_current_variation_id();
-			
+
 			/* Add variation status */
 			$variations_status = $CTA_Variations->get_variation_status( $post->ID , $vid );
 			echo '<input type="hidden" name="wp-cta-variation-status['.$vid.']" value = "'.$variations_status .'">';
-			
-			/* Add variation id */		
+
+			/* Add variation id */
 			echo '<input type="hidden" name="wp-cta-variation-id" id="open_variation" value = "'.$vid .'">';
-			
+
 			/* Add call to action permalink */
 		}
-		
+
 		/**
 		* Changes the default placeholder text of wp_title when cta is being created. With CTAs, wp_title is a descriptive title.
 		*
@@ -749,28 +749,28 @@ if (!class_exists('CTA_Metaboxes')) {
 			}
 			return __( 'Enter Call to Action Description' , 'cta' );
 		}
-		
+
 		/**
 		* Adds variation notes below title
 		*/
 		public static function add_variation_notes() {
 			global $post, $CTA_Variations;
-			
+
 			if ($post->post_type!='wp-call-to-action') {
 				return;
 			}
-			
+
 			$variation_notes = $CTA_Variations->get_variation_notes ( $post->ID );
-			
+
 			echo "<div id='wp-cta-notes-area' data-field-type='text'>";
 			$id = apply_filters( 'wp_cta_prepare_input_id' , 'wp-cta-variation-notes' );
 			echo "<span id='add-wp-cta-notes'>". __( 'Notes:' , 'cta' ) ."</span><input placeholder='". __( 'Add Notes to your variation. Example: This version is testing a green submit button' , 'cta' ) ."' type='text' class='wp-cta-notes' name='{$id}' id='{$id}' value='{$variation_notes}' size='30'>";
 			echo '</div>';
 
 		}
-		
+
 		/**
-		* Enqueues js 
+		* Enqueues js
 		*/
 		public static function enqueue_admin_scripts() {
 			$screen = get_current_screen();
@@ -781,29 +781,29 @@ if (!class_exists('CTA_Metaboxes')) {
 
 			wp_enqueue_style('wp-cta-ab-testing-admin-css', WP_CTA_URLPATH . 'css/admin-ab-testing.css');
 		}
-		
+
 		/**
 		* Prints js at admin footer
 		*/
 		public static function print_admin_scripts() {
 			$screen = get_current_screen();
-			
+
 			if ( !isset( $screen ) || $screen->id != 'wp-call-to-action' || $screen->parent_base != 'edit' ) {
 				return;
 			}
-			
+
 			?>
 			<script>
 			jQuery(document).ready(function() {
-				
-				
-				
+
+
+
 			});
 			</script>
-			
+
 			<?php
 		}
-		
+
 		/**
 		* Updates call to action variation data on post save
 		*
@@ -828,16 +828,16 @@ if (!class_exists('CTA_Metaboxes')) {
 
 			/* Set the call to action variation into a session variable */
 			$_SESSION[ $post->ID . '-variation-id'] = (isset($_POST[ 'wp-cta-variation-id'])) ? $_POST[ 'wp-cta-variation-id'] : '0';
-		
+
 			foreach ($_POST as $key => $value) {
-				
+
 				update_post_meta( $cta_id , $key , $value );
-				
+
 			}
-			
+
 		}
-		
-		
+
+
 		public static function show_advanced_settings () {
 			global $post;
 
@@ -870,16 +870,16 @@ if (!class_exists('CTA_Metaboxes')) {
 
 			echo '</div>'; // end table
 		}
-		
+
 		/**
 		*  Removes WordPress SEO metabox from wp-call-to-action post type.
-		*  Currently disabled. This throws admin js error. 
-		*  
+		*  Currently disabled. This throws admin js error.
+		*
 		*/
 		public static function remove_wp_seo() {
 			//remove_meta_box( 'wpseo_meta', 'wp-call-to-action', 'normal' ); // change custom-post-type into the name of your custom post type
 		}
-		
+
 	}
 
 	$GLOBALS['CTA_Metaboxes'] = new CTA_Metaboxes;
