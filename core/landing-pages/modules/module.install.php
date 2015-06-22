@@ -2,7 +2,7 @@
 // Added Demo Landing on Install
 add_action('admin_init', 'inbound_create_default_post_type');
 function inbound_create_default_post_type(){
-	
+
 
     $lp_default_options = get_option( 'lp_settings_general' );
 
@@ -18,7 +18,7 @@ function inbound_create_default_post_type(){
 */
 function inbound_install_example_lander() {
 
-	
+
 	$landing_page_id = wp_insert_post(
         array(
             'post_title'     => __( 'A/B Testing Landing Page Example' , 'landing-pages'),
@@ -28,7 +28,7 @@ function inbound_install_example_lander() {
             'comment_status' => 'closed'
         )
     );
-	
+
 
     // Variation A
     add_post_meta($landing_page_id, 'lp-main-headline', __( 'Main Catchy Headline (A)' , 'landing-pages') );
@@ -77,7 +77,7 @@ function inbound_install_example_lander() {
         "default_landing_page" => $landing_page_id
     );
 
-	
+
     update_option( "lp_settings_general" , $options );
 
     return $landing_page_id;
@@ -96,9 +96,11 @@ function activation_save_error(){
 /**
  * Include the TGM_Plugin_Activation class.
  */
+if(!defined('INBOUND_PRO_PATH')) {
+ require_once(LANDINGPAGES_PATH."/libraries/class-tgm-plugin-activation.php");
+ add_action( 'tgmpa_register', 'lp_install_register_required_plugins' );
+}
 
-require_once(LANDINGPAGES_PATH."/libraries/class-tgm-plugin-activation.php");
-add_action( 'tgmpa_register', 'lp_install_register_required_plugins' );
 /**
  * Register the required plugins for this theme.
  *

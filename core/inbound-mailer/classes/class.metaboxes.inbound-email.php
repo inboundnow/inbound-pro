@@ -838,6 +838,11 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                                 $settings['recipients'] = array();
                             }
 
+                            /* if is a sample email then return dummy stats */
+                            if ( !empty($settings['is_sample_email']) ) {
+                                echo "<a href='" . admin_url('edit.php?page=lead_management&post_type=wp-lead&wplead_list_category%5B%5D=9999&relation=AND&orderby=date&order=asc&s=&t=&submit=Search+Leads') . "' target='_blank' class='label label-default' style='text-decoration:none'>" . __( 'Example List' , 'inbound-mailer' ) . " ( 800 )</a>";
+                            }
+
                             foreach ($settings['recipients'] as $list_id) {
                                 $list = Inbound_Leads::get_lead_list_by('id', $list_id);
 
@@ -2198,6 +2203,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
             $settings = get_post_meta( $post->ID , 'inbound_settings' ,true );
             $settings['is_sample_email'] = true;
+            unset($settings['recipients']);
             echo json_encode($settings);exit;
         }
     }

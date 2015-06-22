@@ -39,7 +39,7 @@ class Inbound_Mailer_Activation_Update_Routines {
 	/**
 	*  Create example email (turned off)
 	*/
-	public static function create_example_email_ballzzzz() {
+	public static function create_example_email_ballzzzzz() {
 
 		// Set the post ID so that we know the post was created successfully
 		$email_id = wp_insert_post(
@@ -52,7 +52,7 @@ class Inbound_Mailer_Activation_Update_Routines {
 			)
 		);
 
-		$email_settings = '{"variations":[{"selected_template":"simple-responsive","user_ID":"2","subject":"Subject A","from_name":"a@inboundnow.com","from_email":"a@inboundnow.com","reply_email":"a@inboundnow.com","variation_status":"active","content":"","mm":"06","jj":"22","aa":"2015","hh":"13","mn":"08","ss":"43","acf":{"field_544ebf0aa4133":"http:\/\/inboundsoon.dev\/wp-content\/plugins\/_inbound-pro\/core\/inbound-mailer\/templates\/simple-responsive\/images\/logo-wide-3.png","field_544ebfe4a4135":"Dear [lead-field id=\"wpleads_first_name\" default=\"Subscriber\"],\r\n\r\nThank you for taking the time to read this email.\r\n\r\nWarm regards from Inbound Now"}},{"selected_template":"simple-responsive","user_ID":"2","subject":"Subject B","from_name":"b@inboundnow.com","from_email":"b@inboundnow.com","reply_email":"b@inboundnow.com","variation_status":"active","content":"","mm":"06","jj":"22","aa":"2015","hh":"13","mn":"09","ss":"21","acf":{"field_544ebf0aa4133":"http:\/\/inboundsoon.dev\/wp-content\/plugins\/_inbound-pro\/core\/inbound-mailer\/templates\/simple-responsive\/images\/logo-wide-3.png","field_544ebfe4a4135":"Dear [lead-field id=\"wpleads_first_name\" default=\"Subscriber\"],\r\n\r\nThank you for being a part of Inbound Now\r\n\r\nWarm regards from Inbound Now"}}],"recipients":["152"],"send_datetime":"","timezone":"MDT-UTC-7","email_type":"batch","is_sample_email":"true"}';
+		$email_settings = '{"variations":[{"selected_template":"simple-responsive","user_ID":"2","subject":"Subject A","from_name":"a@inboundnow.com","from_email":"a@inboundnow.com","reply_email":"a@inboundnow.com","variation_status":"active","content":"","mm":"06","jj":"22","aa":"2015","hh":"13","mn":"08","ss":"43","acf":{"field_544ebf0aa4133":"http:\/\/inboundsoon.dev\/wp-content\/plugins\/_inbound-pro\/core\/inbound-mailer\/templates\/simple-responsive\/images\/logo-wide-3.png","field_544ebfe4a4135":"Dear [lead-field id=\"wpleads_first_name\" default=\"Subscriber\"],\r\n\r\nThank you for taking the time to read this email.\r\n\r\nWarm regards from Inbound Now"}},{"selected_template":"simple-responsive","user_ID":"2","subject":"Subject B","from_name":"b@inboundnow.com","from_email":"b@inboundnow.com","reply_email":"b@inboundnow.com","variation_status":"active","content":"","mm":"06","jj":"22","aa":"2015","hh":"13","mn":"09","ss":"21","acf":{"field_544ebf0aa4133":"http:\/\/inboundsoon.dev\/wp-content\/plugins\/_inbound-pro\/core\/inbound-mailer\/templates\/simple-responsive\/images\/logo-wide-3.png","field_544ebfe4a4135":"Dear [lead-field id=\"wpleads_first_name\" default=\"Subscriber\"],\r\n\r\nThank you for being a part of Inbound Now\r\n\r\nWarm regards from Inbound Now"}}],"send_datetime":"","timezone":"MDT-UTC-7","email_type":"batch","is_sample_email":"true"}';
 		$email_settings = json_decode( $email_settings , true );
 
 
