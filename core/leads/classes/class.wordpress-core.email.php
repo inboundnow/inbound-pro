@@ -65,7 +65,9 @@ if ( !class_exists( 'Inbound_WP_Core_Email_Templates' ) ) {
 			return 'text/html';
 		}
 
-		/* Notify New User of Account Details */
+		/**
+         * Notify New User of Account Details
+         */
 		public static function new_user_notification( $user_id , $plaintext_pass ) {
 
 			self::set_email_type();
@@ -100,7 +102,9 @@ if ( !class_exists( 'Inbound_WP_Core_Email_Templates' ) ) {
 
 		}
 
-		/* Notify Post/Comment Author of new Post */
+		/**
+         * Notify Post/Comment Author of new Post
+         */
 		public static function notify_postauthor( $template , $comment_id ) {
 
 			$comment = get_comment( $comment_id );

@@ -39,7 +39,7 @@ class Inbound_Mailer_Activation_Update_Routines {
 	/**
 	*  Create example email (turned off)
 	*/
-	private static function create_example_email_xxxxx() {
+	public static function create_example_email_ballz() {
 
 		// Set the post ID so that we know the post was created successfully
 		$email_id = wp_insert_post(
@@ -69,7 +69,7 @@ Warm regards from {{site-name}}";}s:2:"ID";i:97098;s:6:"status";N;}}s:15:"inboun
 		Inbound_Email_Meta::update_settings( $email_id , $email_settings );
 
 		/* add statistics */
-		Inbound_Email_Stats::prepare_dummy_stats( $email_id );
+		self::prepare_dummy_stats( $email_id );
 
 		/* Insert required acf field maps */
 		update_post_meta( $email_id , '_logo_url' , 'field_544ebf0aa4133');
@@ -110,4 +110,44 @@ Warm regards from {{site-name}}";}s:2:"ID";i:97098;s:6:"status";N;}}s:15:"inboun
 
 		dbDelta( $sql );
 	}
+
+    /**
+     *	Prepare dummy stats - populates an email with dummy statistics
+     */
+    private static function prepare_dummy_stats( $email_id ) {
+
+        $settings = Inbound_Email_Meta::get_settings( $email_id );
+
+        if (!isset( $settings ) ) {
+            return;
+        }
+
+        /* V1 */
+        $settings['statistics']['variations'][0] = array(
+            'label' => Inbound_Mailer_Variations::vid_to_letter( $email_id , 0 ),
+            'sends' => 400,
+            'opens' => 300,
+            'unopened' => 100,
+            'clicks' => 19
+        );
+
+        /* V2 */
+        $settings['statistics']['variations'][1] = array(
+            'label' => Inbound_Mailer_Variations::vid_to_letter( $email_id , 1 ),
+            'sends' => 400,
+            'opens' => 350,
+            'unopened' => 50,
+            'clicks' => 28
+        );
+
+        /* Totals */
+        $settings['statistics']['totals'] = array(
+            'sends' => 800,
+            'opens' => 650,
+            'unopened' => 150,
+            'clicks' => 47
+        );
+
+        $settings = Inbound_Email_Meta::update_settings( $email_id , $settings );
+    }
 }

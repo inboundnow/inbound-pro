@@ -375,43 +375,5 @@ class Inbound_Email_Stats {
 
     }
 
-    /**
-     *	Prepare dummy stats - populates an email with dummy statistics
-     */
-    public static function prepare_dummy_stats( $email_id ) {
 
-        $settings = Inbound_Email_Meta::get_settings( $email_id );
-
-        if (!isset( $settings ) ) {
-            return;
-        }
-
-        /* V1 */
-        $settings['statistics']['variations'][0] = array(
-            'label' => Inbound_Mailer_Variations::vid_to_letter( $email_id , 0 ),
-            'sends' => 400,
-            'opens' => 300,
-            'unopened' => 100,
-            'clicks' => 19
-        );
-
-        /* V2 */
-        $settings['statistics']['variations'][1] = array(
-            'label' => Inbound_Mailer_Variations::vid_to_letter( $email_id , 1 ),
-            'sends' => 400,
-            'opens' => 350,
-            'unopened' => 50,
-            'clicks' => 28
-        );
-
-        /* Totals */
-        $settings['statistics']['totals'] = array(
-            'sends' => 800,
-            'opens' => 650,
-            'unopened' => 150,
-            'clicks' => 47
-        );
-
-        $settings = Inbound_Email_Meta::update_settings( $email_id , $settings );
-    }
 }

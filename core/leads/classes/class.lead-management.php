@@ -308,7 +308,7 @@ if (!class_exists('Leads_Manager')) {
 		public static function display_pagination() {
 
 			$pagination = '';
-			if ( $query->max_num_pages > 1 ) {
+			if ( isset($query) && $query->max_num_pages > 1 ) {
 				$current = preg_replace('/&?paged=[0-9]+/i', '', strip_tags($_SERVER['REQUEST_URI'])); // I'll happily take suggestions on a better way to do this, but it's 3am so
 
 				$pagination .= "<div class='tablenav-pages'>";
@@ -432,10 +432,10 @@ if (!class_exists('Leads_Manager')) {
 
 						/* show tags */
 						echo '<td class="tags-column-row">';
-							$_tags = wp_get_post_terms( $post->ID, 'lead-tags', 'id' );
+							$tags = wp_get_post_terms( $post->ID, 'lead-tags', 'id' );
 
 							if ($tags) {
-								foreach ( $_tags as $tag ) {
+								foreach ( $tags as $tag ) {
 									echo  "<a title='Click to Edit Lead Tag Name' target='_blank' href='".admin_url('edit-tags.php?action=edit&taxonomy=lead-tags&tag_ID='.$tag->term_id.'&post_type=wp-lead')."'>$tag->name</a>, ";
 								}
 							} else {

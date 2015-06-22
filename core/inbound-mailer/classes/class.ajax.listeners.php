@@ -68,6 +68,13 @@ class Inbound_Mailer_Ajax_Listeners {
 		/* Update Settings */
 		Inbound_Email_Meta::update_settings( $_POST['post_ID'] , $email_settings );
 
+        /* Update Tags */
+        if ( isset( $_POST['tax_input'] ) ) {
+            foreach ( $_POST['tax_input']  as $tax => $terms ) {
+                wp_set_post_terms( $_POST['post_ID'], $terms, $tax, false );
+            }
+        }
+
 		header('HTTP/1.1 200 OK');
 		exit;
 	}

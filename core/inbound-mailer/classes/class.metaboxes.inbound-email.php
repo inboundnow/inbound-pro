@@ -48,6 +48,9 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             /* changes the post status 'published' to 'unsent' */
             add_filter('wp_insert_post_data', array(__CLASS__, 'check_post_stats'));
 
+            /* generate serialized settings for this email (used for creating example email) */
+            add_action( 'admin_notices' , array( __CLASS__ , 'generate_serialized_email_settings' ) );
+
         }
 
         /**
@@ -1435,6 +1438,9 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             <script>
                 jQuery(document).ready(function () {
 
+                    /* disable post save navigation confrimation listener */
+                    jQuery(window).unbind('beforeunload');
+
                     /* Initialize CPT UI default changes */
                     Settings.init();
 
@@ -1493,6 +1499,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
                     /* Fire: Load post status toggles */
                     Settings.toggle_post_status('<?php echo $post->post_status; ?>');
+
 
                 });
             </script>
@@ -1865,7 +1872,6 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                                 inputField: {
                                     placeholder: '<?php _e( 'Enter target e-mail address.' , 'inbound-email' ); ?>',
                                     padding: '20px',
-                                    width: '271px',
                                     width: '271px'
                                 }
                             }, function (email_address) {
@@ -2177,11 +2183,25 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             return $data;
         }
 
+        /**
+         * Print serialized email settings
+         */
+        public static function generate_serialized_email_settings() {
+
+            global $post;
+
+            if ( !isset($_GET['inbound_generate_serialed_email_settings'] ) ) {
+                return;
+            }
+
+
+            $settings = get_post_meta( $post->ID , 'inbound_settings' ,true );
+            $serialized = serialize($settings);
+            echo $serialized;exit;
+
+        }
     }
 
     $GLOBALS['Inbound_Mailer_Metaboxes'] = new Inbound_Mailer_Metaboxes;
 }
 
-//delete_post_meta( 97079 , 'inbound_settings' );
-//$settings = get_post_meta( 97079 , 'inbound_settings' ,true );
-//print_r($settings);exit;
