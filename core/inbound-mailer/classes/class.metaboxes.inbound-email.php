@@ -49,7 +49,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             add_filter('wp_insert_post_data', array(__CLASS__, 'check_post_stats'));
 
             /* generate serialized settings for this email (used for creating example email) */
-            add_action( 'admin_notices' , array( __CLASS__ , 'generate_serialized_email_settings' ) );
+            add_action( 'admin_notices' , array( __CLASS__ , 'generate_json' ) );
 
         }
 
@@ -156,7 +156,8 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                                 }
                             ];
 
-
+                            console.log('here');
+                            console.log(this.stats.variations);
                             for (id in this.stats.variations) {
                                 chart[0]['values'].push({
                                     "label": this.stats.variations[id].label,
@@ -2186,19 +2187,18 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
         /**
          * Print serialized email settings
          */
-        public static function generate_serialized_email_settings() {
+        public static function generate_json() {
 
             global $post;
 
-            if ( !isset($_GET['inbound_generate_serialed_email_settings'] ) ) {
+            if ( !isset($_GET['inbound_generate_email_json'] ) ) {
                 return;
             }
 
 
             $settings = get_post_meta( $post->ID , 'inbound_settings' ,true );
-            $serialized = serialize($settings);
-            echo $serialized;exit;
-
+            $settings['is_sample_email'] = true;
+            echo json_encode($settings);exit;
         }
     }
 

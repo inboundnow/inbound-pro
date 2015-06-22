@@ -38,6 +38,18 @@ class Inbound_Email_Stats {
         /* get settings from db */
         self::$settings = Inbound_Email_Meta::get_settings( $post->ID );
 
+        /* if is a sample email then return dummy stats */
+        if ( !empty(self::$settings['is_sample_email']) ) {
+
+            /* prepare totals from variations */
+            Inbound_Email_Stats::prepare_dummy_stats( $post->ID);
+
+            /* prepare totals from variations */
+            Inbound_Email_Stats::prepare_totals();
+
+            return self::$stats;
+        }
+
         /* prepare processing criteria */
         self::prepare_date_ranges();
 
@@ -95,6 +107,10 @@ class Inbound_Email_Stats {
      *	@param DATETIME $timestamp timestamp in gmt before calculating timezone
      */
     public static function get_mandrill_timestamp( $timestamp ) {
+
+        /* make sure we have a timezone set */
+        $tz = Inbound_Mailer_Scheduling::get_current_timezone();
+        self::$settings['timezone'] = (!empty(self::$settings['timezone'])) ? self::$settings['timezone'] :  $tz['abbr'] . '-UTC' . $tz['offset'];
 
         /* get timezone */
         $tz = explode( '-UTC' , self::$settings['timezone'] );
@@ -207,6 +223,7 @@ class Inbound_Email_Stats {
             self::$stats[ 'mandrill' ] = array();
             return;
         }
+
         /* stores data by hour */
         foreach ( self::$results as $key => $totals ) {
 
@@ -298,7 +315,7 @@ class Inbound_Email_Stats {
                 self::$stats['date_to'] = self::get_mandrill_timestamp( gmdate( "Y-m-d\\TG:i:s\\Z" ) );
             }
         } else {
-            self::$stats['date_from'] = (self::$settings['send_datetime']) ? self::get_mandrill_timestamp( self::$settings['send_datetime'] ) :  self::get_mandrill_timestamp( $post->post_date ) ;
+            self::$stats['date_from'] = ( !empty(self::$settings['send_datetime']) ) ? self::get_mandrill_timestamp( self::$settings['send_datetime'] ) :  self::get_mandrill_timestamp( $post->post_date ) ;
             self::$stats['date_to'] = self::get_mandrill_timestamp( gmdate( "Y-m-d\\TG:i:s\\Z" ) );
         }
 
@@ -372,6 +389,48 @@ class Inbound_Email_Stats {
             'unopened' => 0,
             'clicks' => 0
         );
+
+    }
+
+    /**
+     *	Prepare dummy stats - populates an email with dummy statistics
+     */
+    public static function prepare_dummy_stats( $email_id ) {
+
+        /* variation 1 */
+        self::$stats[ 'variations' ][ 0 ] = array(
+            'sent' => 400,
+            'opens' => 300,
+            'clicks' => 19,
+            'hard_bounces' => 0,
+            'soft_bounces' => 0,
+            'rejects' => 0,
+            'complaints' => 0,
+            'unsubs' => 1,
+            'unique_opens' => 0,
+            'unique_clicks' => 0,
+            'unopened' => 100
+        );
+        self::$stats[ 'variations' ][ 0 ][ 'label' ] =	Inbound_Mailer_Variations::vid_to_letter( self::$email_id , 0 );
+        self::$stats[ 'variations' ][ 0 ][ 'subject' ] = self::$settings['variations'][ 0 ][ 'subject' ];
+
+        /* variation 2 */
+        self::$stats[ 'variations' ][ 1 ] = array(
+            'sent' => 400,
+            'opens' => 350,
+            'clicks' => 28,
+            'hard_bounces' => 0,
+            'soft_bounces' => 0,
+            'rejects' => 0,
+            'complaints' => 0,
+            'unsubs' => 0,
+            'unique_opens' => 0,
+            'unique_clicks' => 0,
+            'unopened' => 50
+        );
+        self::$stats[ 'variations' ][ 1 ][ 'label' ] =	Inbound_Mailer_Variations::vid_to_letter( self::$email_id , 1 );
+        self::$stats[ 'variations' ][ 1 ][ 'subject' ] = self::$settings['variations'][ 1 ][ 'subject' ];
+
 
     }
 
