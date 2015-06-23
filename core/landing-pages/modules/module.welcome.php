@@ -36,6 +36,7 @@ class LandingPages_Welcome {
 		add_action( 'admin_menu', array( $this, 'admin_menus') );
 		add_action( 'admin_head', array( $this, 'admin_head' ) );
 		add_action( 'admin_init', array( $this, 'welcome'    ) );
+		add_action('admin_footer', array( $this, 'force_permalink_flush' ) );
 	}
 
 	/**
@@ -587,18 +588,36 @@ class LandingPages_Welcome {
 		</div>
 		<?php
 	}
-
+	public function force_permalink_flush(){
+		// Bail if multisite
+		if ( is_network_admin() || isset( $_GET['activate-multi'] ) ) {
+			return;
+		}
+		// check if flushed
+		$hasFlushed = get_option( 'inbound_permalink_flush' );
+		if($hasFlushed) {
+			return;
+		} else {
+			update_option( 'inbound_permalink_flush', true);
+			$link = admin_url( 'options-permalink.php' );
+			echo "<script type='text/javascript'>
+					jQuery(document).ready(function($) {
+						var link = '$link';
+   						setTimeout(function() {
+   							if(window.location.href !== link) {
+								jQuery('#flush_permalinks').attr('src', link);
+							}
+   						}, 100);
+ 					});
+				</script>";
+			echo '<iframe style="display:none;" id="flush_permalinks"></iframe>';
+		}
+	}
 	/**
-	 * Sends user to the Welcome page on first activation of EDD as well as each
-	 * time EDD is upgraded to a new version
-	 *
-	 * @access public
-	 * @since 1.4
-	 * @global $edd_options Array of all the EDD Options
-	 * @return void
+	 * Sends user to the Welcome page on first activation of LPs as well as each
+	 * time LPs is upgraded to a new version
 	 */
 	public function welcome() {
-
 
 		// Bail if no activation redirect
 		if ( ! get_transient( '_landing_page_activation_redirect' ) )

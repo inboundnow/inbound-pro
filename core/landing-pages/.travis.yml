@@ -49,10 +49,10 @@ install:
   - sudo apt-get install apache2 libapache2-mod-fastcgi
   
   # create hosts file for site
-  - sudo cp -f tests/build/travis-ci-apache /etc/apache2/sites-available/inboundsoon.dev
+  - sudo cp -f tests/build/travis-ci-apache /etc/apache2/sites-available/inboundtesting.dev
   
   # enable new hosts file
-  - sudo a2ensite inboundsoon.dev 
+  - sudo a2ensite inboundtesting.dev 
   
   # enable php-fpm
   - sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
@@ -105,8 +105,6 @@ install:
 
 before_script:
 
-  # change directory into inboundtesting.dev
-  - cd /var/www/inboundtesting.dev
 
   # change into plugin directory to make sure our script runs the right tests
   - cd /var/www/inboundtesting.dev/wp-content/plugins/$PLUGIN_SLUG

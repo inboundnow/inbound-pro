@@ -52,11 +52,11 @@ function inbound_get_all_lead_data() {
 	if (isset($wp_lead_id) && is_numeric($wp_lead_id)) {
 		global $wpdb;
 		$data   =   array();
-		$wpdb->query("
+		$wpdb->query($wpdb->prepare("
 		  SELECT `meta_key`, `meta_value`
 			FROM $wpdb->postmeta
-			WHERE `post_id` = ".mysql_real_escape_string($wp_lead_id)."
-		");
+			WHERE `post_id` = %d", $wp_lead_id
+		));
 
 		foreach($wpdb->last_result as $k => $v) {
 			$data[$v->meta_key] =   $v->meta_value;

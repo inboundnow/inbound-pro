@@ -13,6 +13,9 @@
 	margin-top:30px;
 	z-index:999999;
 }
+#setting-error-tgmpa a:-webkit-any-link {
+	text-decoration: none;
+}
 
 tr#leads {
 	display: table-row !important;

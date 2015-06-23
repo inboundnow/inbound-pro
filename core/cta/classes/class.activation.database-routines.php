@@ -101,17 +101,17 @@ if ( !class_exists('CTA_Activation_Update_Routines') ) {
 					)
 				);
 			/* Variation A */
-			add_post_meta($default_lander, 'wp-cta-selected-template', 'flat-cta');
+			add_post_meta($default_lander, 'wp-cta-selected-template-0', 'flat-cta');
 			add_post_meta($default_lander, 'wp_cta_width-0', '310');
 			add_post_meta($default_lander, 'wp_cta_height-0', '300');
-			add_post_meta($default_lander, 'flat-cta-header-text', __( 'Snappy Headline' , 'cta' ));
-			add_post_meta($default_lander, 'flat-cta-sub-header-text', __('Awesome Subheadline Text Goes here' , 'cta' ));
-			add_post_meta($default_lander, 'flat-cta-text-color', '000000');
-			add_post_meta($default_lander, 'flat-cta-content-color', '60BCF0');
-			add_post_meta($default_lander, 'flat-cta-content-text-color', 'ffffff');
-			add_post_meta($default_lander, 'flat-cta-submit-button-color', 'ffffff');
-			add_post_meta($default_lander, 'flat-cta-submit-button-text', __( 'Download Now' , 'cta' ));
-			add_post_meta($default_lander, 'flat-cta-link_url', 'http://www.inboundnow.com');
+			add_post_meta($default_lander, 'flat-cta-header-text-0', __( 'Snappy Headline' , 'cta' ));
+			add_post_meta($default_lander, 'flat-cta-sub-header-text-0', __('Awesome Subheadline Text Goes here' , 'cta' ));
+			add_post_meta($default_lander, 'flat-cta-text-color-0', '000000');
+			add_post_meta($default_lander, 'flat-cta-content-color-0', '60BCF0');
+			add_post_meta($default_lander, 'flat-cta-content-text-color-0', 'ffffff');
+			add_post_meta($default_lander, 'flat-cta-submit-button-color-0', 'ffffff');
+			add_post_meta($default_lander, 'flat-cta-submit-button-text-0', __( 'Download Now' , 'cta' ));
+			add_post_meta($default_lander, 'flat-cta-link_url-0', 'http://www.inboundnow.com');
 
 			/* Variation B */
 			add_post_meta($default_lander, 'wp-cta-selected-template-1', 'flat-cta');
@@ -137,7 +137,7 @@ if ( !class_exists('CTA_Activation_Update_Routines') ) {
 
 
 		}
-		
+
 		/**
 		* @introduced: 1.5.1
 		* @migration-type: db modification

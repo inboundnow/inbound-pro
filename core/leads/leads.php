@@ -4,7 +4,7 @@ Plugin Name: Leads
 Plugin URI: http://www.inboundnow.com/leads/
 Description: Track website visitor activity, manage incoming leads, and send collected emails to your email service provider.
 Author: Inbound Now
-Version: 1.6.6
+Version: 1.7.0
 Author URI: http://www.inboundnow.com/
 Text Domain: leads
 Domain Path: lang
@@ -26,9 +26,9 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 		*  Setup plugin constants
 		*/
 		private static function define_constants() {
-			define('WPL_CURRENT_VERSION', '1.6.6' );
+			define('WPL_CURRENT_VERSION', '1.7.0' );
 			define('WPL_URLPATH',  plugins_url( '/', __FILE__ ) );
-			define('WPL_PATH', WP_PLUGIN_DIR."/".dirname( plugin_basename( __FILE__ ) ) );
+			define('WPL_PATH', WP_PLUGIN_DIR."/".dirname( plugin_basename( __FILE__ ) ) . '/' );
 			define('WPL_CORE', plugin_basename( __FILE__ ) );
 			define('WPL_SLUG', plugin_basename( dirname(__FILE__) ) );
 			define('WPL_FILE',  __FILE__ );
@@ -46,39 +46,39 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 			if ( is_admin() ) {
 
 				/* Admin Includes */
-				require_once('classes/class.activation.php');
-				require_once('classes/class.activation.upgrade-routines.php');
-				require_once('modules/module.ajax-setup.php');
-				require_once('modules/module.nav-menus.php');
-				require_once('classes/class.metaboxes.wp-lead.php');
-				require_once('modules/module.post-type.wp-lead.php');
-				require_once('modules/module.post-type.landing-pages.php');
-				require_once('classes/class.lead-management.php');
-				require_once('modules/module.form-integrations.php');
-				require_once('modules/module.global-settings.php');
-				require_once('classes/class.dashboard.php');
-				require_once('modules/module.tracking.php');
-				require_once('modules/module.enqueue-admin.php');
-				require_once('modules/module.form-integrations.php');
-				require_once('classes/class.metaboxes.email-template.php');
-				require_once('classes/class.wordpress-core.email.php');
-				require_once('classes/class.admin-notices.php');
-				require_once('classes/class.branching.php');
-				require_once('classes/class.login.php');
+				include_once( WPL_PATH . 'classes/class.activation.php');
+				include_once( WPL_PATH . 'classes/class.activation.upgrade-routines.php');
+				include_once( WPL_PATH . 'modules/module.ajax-setup.php');
+				include_once( WPL_PATH . 'modules/module.nav-menus.php');
+				include_once( WPL_PATH . 'classes/class.metaboxes.wp-lead.php');
+				include_once( WPL_PATH . 'modules/module.post-type.wp-lead.php');
+				include_once( WPL_PATH . 'modules/module.post-type.landing-pages.php');
+				include_once( WPL_PATH . 'classes/class.lead-management.php');
+				include_once( WPL_PATH . 'modules/module.form-integrations.php');
+				include_once( WPL_PATH . 'modules/module.global-settings.php');
+				include_once( WPL_PATH . 'classes/class.dashboard.php');
+				include_once( WPL_PATH . 'modules/module.tracking.php');
+				include_once( WPL_PATH . 'modules/module.enqueue-admin.php');
+				include_once( WPL_PATH . 'modules/module.form-integrations.php');
+				include_once( WPL_PATH . 'classes/class.metaboxes.email-template.php');
+				include_once( WPL_PATH . 'classes/class.wordpress-core.email.php');
+				include_once( WPL_PATH . 'classes/class.admin-notices.php');
+				include_once( WPL_PATH . 'classes/class.branching.php');
+				include_once( WPL_PATH . 'classes/class.login.php');
 
 			} else {
 				/* Frontend Includes */
 				/* load global */
-				require_once('modules/module.ajax-setup.php');
-				require_once('modules/module.post-type.wp-lead.php');
-				require_once('modules/module.form-integrations.php');
-				require_once('classes/class.metaboxes.email-template.php');
-				require_once('classes/class.wordpress-core.email.php');
-				require_once('classes/class.login.php');
+				include_once( WPL_PATH . 'modules/module.ajax-setup.php');
+				include_once( WPL_PATH . 'modules/module.post-type.wp-lead.php');
+				include_once( WPL_PATH . 'modules/module.form-integrations.php');
+				include_once( WPL_PATH . 'classes/class.metaboxes.email-template.php');
+				include_once( WPL_PATH . 'classes/class.wordpress-core.email.php');
+				include_once( WPL_PATH . 'classes/class.login.php');
 
 				/* load frontend */
-				require_once('modules/module.enqueue-frontend.php');
-				require_once('modules/module.tracking.php');
+				include_once( WPL_PATH . 'modules/module.enqueue-frontend.php');
+				include_once( WPL_PATH . 'modules/module.tracking.php');
 
 
 			}
@@ -93,7 +93,7 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
             if (defined('INBOUND_PRO_PATH')) {
                 include_once( INBOUND_PRO_PATH . 'core/shared/classes/class.load-shared.php' );
             } else {
-                require_once('shared/classes/class.load-shared.php');
+                include_once( WPL_PATH . 'shared/classes/class.load-shared.php');
             }
             add_action( 'plugins_loaded', array( 'Inbound_Load_Shared' , 'init') , 1 );
 		}

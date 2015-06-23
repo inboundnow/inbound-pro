@@ -10,6 +10,31 @@ class Inbound_Mailer_Activation {
 	static $version_lp;
 	static $version_leads;
 
+    /**
+     * Initiate class
+     */
+    public function __construct() {
+        self::load_hooks();
+    }
+
+    /**
+     * load supporting hooks and filters
+     */
+    public static function load_hooks() {
+        if (!is_admin()) {
+            return;
+        }
+
+        /* Make sure supporting Inbound Now plugins are activated */
+        add_action( 'admin_init' , array( __CLASS__ , 'require_leads' ) );
+
+        /* Add listener for Permalink refresh */
+        add_action( 'admin_init' , array( __CLASS__ , 'flush_rules' ) );
+
+        /* Add listener for uncompleted upgrade routines */
+        add_action( 'admin_init' , array( __CLASS__ , 'run_upgrade_routine_checks' ) );
+    }
+
 	public static function activate() {
 		self::load_static_vars();
 		self::run_version_checks();
@@ -243,13 +268,8 @@ class Inbound_Mailer_Activation {
 register_activation_hook( INBOUND_EMAIL_FILE , array( 'Inbound_Mailer_Activation' , 'activate' ) );
 register_deactivation_hook( INBOUND_EMAIL_FILE , array( 'Inbound_Mailer_Activation' , 'deactivate' ) );
 
-/* Add listener for uncompleted upgrade routines */
-add_action( 'admin_init' , array( 'Inbound_Mailer_Activation' , 'run_upgrade_routine_checks' ) );
+new Inbound_Mailer_Activation;
 
-/* Add listener for Permalink refresh */
-add_action( 'admin_init' , array( 'Inbound_Mailer_Activation' , 'flush_rules' ) );
 
-/* Make sure supporting Inbound Now plugins are activated */
-add_action( 'admin_init' , array( 'Inbound_Mailer_Activation' , 'require_leads' ) );
 
 }

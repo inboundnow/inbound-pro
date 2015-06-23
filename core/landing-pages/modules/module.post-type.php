@@ -1,15 +1,5 @@
 <?php
 
-add_action('admin_init', 'lp_rebuild_permalinks');
-function lp_rebuild_permalinks() {
-    $activation_check = get_option('lp_activate_rewrite_check',0);
-
-    if ($activation_check) {
-        global $wp_rewrite;
-        $wp_rewrite->flush_rules();
-        update_option( 'lp_activate_rewrite_check', '0');
-    }
-}
 
 add_action('init', 'landing_page_register');
 function landing_page_register() {

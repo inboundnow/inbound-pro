@@ -18,19 +18,10 @@
     "php": ">=5.4.0",
     "ext-json": "*",
     "ext-mbstring": "*",
-    "phpunit/phpunit": "~4.6.0",
-	"jonnyw/php-phantomjs": "3.*"
+    "phpunit/phpunit": "~4.6.0"
   },
   "config": {
     "bin-dir": "tests/bin"
-  },
-  "scripts": {
-    "post-install-cmd": [
-       "PhantomInstaller\\Installer::installPhantomJS"
-    ],
-    "post-update-cmd": [
-        "PhantomInstaller\\Installer::installPhantomJS"
-    ]
   },
   "require-dev": {
     "codeception/specify": "~0.3",

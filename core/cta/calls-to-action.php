@@ -35,7 +35,6 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 			define('WP_CTA_PATH', WP_PLUGIN_DIR.'/'.plugin_basename( dirname(__FILE__) ).'/' );
 			define('WP_CTA_SLUG', plugin_basename( dirname(__FILE__) ) );
 			define('WP_CTA_FILE', __FILE__ );
-
 			$uploads = wp_upload_dir();
 			define('WP_CTA_UPLOADS_PATH', $uploads['basedir'].'/calls-to-action/templates/' );
 			define('WP_CTA_UPLOADS_URLPATH', $uploads['baseurl'].'/calls-to-action/templates/' );
@@ -49,47 +48,47 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 			switch (is_admin()) :
 				case true :
 					/* loads admin files */
-					include_once('classes/class.activation.php');
-					include_once('classes/class.activation.database-routines.php');
-					include_once('classes/class.post-type.wp-call-to-action.php');
-					include_once('classes/class.extension.wp-lead.php');
-					include_once('classes/class.extension.wordpress-seo.php');
-					include_once('classes/class.metaboxes.wp-call-to-action.php');
-					include_once('classes/class.menus.php');
-					include_once('classes/class.ajax.listeners.php');
-					include_once('classes/class.enqueues.php');
-					include_once('classes/class.global-settings.php');
-					include_once('classes/class.clone-post.php');
-					include_once('classes/class.cta.variations.php');
-					include_once('classes/class.widget.static.php');
-					include_once('classes/class.widget.dynamic.php');
-					include_once('classes/class.load-extensions.php');
-					include_once('classes/class.cta.render.php');
-					include_once('classes/class.metaboxes.global.php');
-					include_once('classes/class.templates.list-table.php');
-					include_once('classes/class.templates.manage.php');
-					include_once('modules/module.utils.php');
-					include_once('classes/class.customizer.php');
-					include_once('classes/class.tracking.php');
-					include_once('classes/class.branching.php');
+					include_once( WP_CTA_PATH . 'classes/class.activation.php');
+					include_once( WP_CTA_PATH . 'classes/class.activation.database-routines.php');
+					include_once( WP_CTA_PATH . 'classes/class.post-type.wp-call-to-action.php');
+					include_once( WP_CTA_PATH . 'classes/class.extension.wp-lead.php');
+					include_once( WP_CTA_PATH . 'classes/class.extension.wordpress-seo.php');
+					include_once( WP_CTA_PATH . 'classes/class.metaboxes.wp-call-to-action.php');
+					include_once( WP_CTA_PATH . 'classes/class.menus.php');
+					include_once( WP_CTA_PATH . 'classes/class.ajax.listeners.php');
+					include_once( WP_CTA_PATH . 'classes/class.enqueues.php');
+					include_once( WP_CTA_PATH . 'classes/class.global-settings.php');
+					include_once( WP_CTA_PATH . 'classes/class.clone-post.php');
+					include_once( WP_CTA_PATH . 'classes/class.cta.variations.php');
+					include_once( WP_CTA_PATH . 'classes/class.widget.static.php');
+					include_once( WP_CTA_PATH . 'classes/class.widget.dynamic.php');
+					include_once( WP_CTA_PATH . 'classes/class.load-extensions.php');
+					include_once( WP_CTA_PATH . 'classes/class.cta.render.php');
+					include_once( WP_CTA_PATH . 'classes/class.metaboxes.global.php');
+					include_once( WP_CTA_PATH . 'classes/class.templates.list-table.php');
+					include_once( WP_CTA_PATH . 'classes/class.templates.manage.php');
+					include_once( WP_CTA_PATH . 'modules/module.utils.php');
+					include_once( WP_CTA_PATH . 'classes/class.customizer.php');
+					include_once( WP_CTA_PATH . 'classes/class.tracking.php');
+					include_once( WP_CTA_PATH . 'classes/class.branching.php');
 
 					BREAK;
 
 				case false :
 					/* load front-end files */
-					include_once('classes/class.load-extensions.php');
-					include_once('classes/class.post-type.wp-call-to-action.php');
-					include_once('classes/class.extension.wp-lead.php');
-					include_once('classes/class.extension.wordpress-seo.php');
-					include_once('classes/class.enqueues.php');
-					include_once('classes/class.tracking.php');
-					include_once('classes/class.ajax.listeners.php');
-					include_once('classes/class.widget.static.php');
-					include_once('classes/class.widget.dynamic.php');
-					include_once('classes/class.cta.variations.php');
-					include_once('classes/class.cta.render.php');
-					include_once('modules/module.utils.php');
-					include_once('classes/class.customizer.php');
+					include_once( WP_CTA_PATH . 'classes/class.load-extensions.php');
+					include_once( WP_CTA_PATH . 'classes/class.post-type.wp-call-to-action.php');
+					include_once( WP_CTA_PATH . 'classes/class.extension.wp-lead.php');
+					include_once( WP_CTA_PATH . 'classes/class.extension.wordpress-seo.php');
+					include_once( WP_CTA_PATH . 'classes/class.enqueues.php');
+					include_once( WP_CTA_PATH . 'classes/class.tracking.php');
+					include_once( WP_CTA_PATH . 'classes/class.ajax.listeners.php');
+					include_once( WP_CTA_PATH . 'classes/class.widget.static.php');
+					include_once( WP_CTA_PATH . 'classes/class.widget.dynamic.php');
+					include_once( WP_CTA_PATH . 'classes/class.cta.variations.php');
+					include_once( WP_CTA_PATH . 'classes/class.cta.render.php');
+					include_once( WP_CTA_PATH . 'modules/module.utils.php');
+					include_once( WP_CTA_PATH . 'classes/class.customizer.php');
 
 					BREAK;
 			endswitch;
