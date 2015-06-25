@@ -375,8 +375,6 @@ if (!class_exists('LeadStorage')) {
 		*/
 		static function update_common_meta($lead) {
 
-			//print_r($lead);
-
 			if (!empty($lead['user_ID'])) {
 				/* Update user_ID if exists */
 				update_post_meta( $lead['id'], 'wpleads_wordpress_user_id', $lead['user_ID'] );
@@ -396,11 +394,10 @@ if (!class_exists('LeadStorage')) {
 			$lead_fields = Leads_Field_Map::build_map_array();
 			foreach ( $lead_fields as $key => $value ) {
 				$shortkey = str_replace('wpleads_' , '' , $key );
-				if (isset($lead[$shortkey])) {
+				if (!empty($lead[$shortkey]) && $lead[$shortkey] !== 0 ) {
 					update_post_meta( $lead['id'], $key, $lead[$shortkey] );
 				}
 			}
-			//exit;
 		}
 
 		/**
@@ -491,6 +488,14 @@ if (!class_exists('LeadStorage')) {
 		static function improve_lead_name( $lead ) {
             /* */
             $lead['name'] = (isset($lead['name'])) ? $lead['name'] : '';
+
+            /* do not let names with 'false' pass */
+            if ( !empty($lead['name']) && $lead['name'] == 'false' ) {
+                $lead['name'] = '';
+            }
+            if ( !empty($lead['first_name']) && $lead['first_name'] == 'false' ) {
+                $lead['first_name'] = '';
+            }
 
 			/* if last name empty and full name present */
 			if ( empty($lead['last_name']) && $lead['name'] ) {

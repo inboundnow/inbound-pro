@@ -664,7 +664,7 @@ class Inbound_Shortcodes {
             <h3><?php _e( 'Inbound Pro Users' , INBOUNDNOW_TEXT_DOMAIN ); ?></h3>
             <div class='' style='padding-left:20px;'>
 
-                <?php echo sprintf( __( ' Membership holders should ignore the setup area below and referrer to %s this document %s for instructions on setting up a followup email. We are leaveing this section in up for non members and for members that are leveraging it. We may remove it remove it entirely from the Inbound Pro plugin. ' , INBOUNDNOW_TEXT_DOMAIN ) , '<a href="http://docs.inboundnow.com/guide/creating-a-follow-up-email-using-inbound-now-as-an-autoresponder-marketing-automation/">', '</a>') ; ?>
+                <?php echo sprintf( __( 'To learn how to creat a follow email series please referrer to %s this document %s. ' , INBOUNDNOW_TEXT_DOMAIN ) , '<a href="http://docs.inboundnow.com/guide/creating-a-follow-up-email-using-inbound-now-as-an-autoresponder-marketing-automation/">', '</a>') ; ?>
             </div>
             <br>
             <?php
@@ -770,36 +770,6 @@ class Inbound_Shortcodes {
 				</div>
 		</div>
 
-		<script type="text/javascript">
-
-			function inbound_forms_select_email_template() {
-				var selected = jQuery('#inbound_email_send_notification_template').val();
-
-				if ( selected != 'custom') {
-					jQuery('#postdivrich').hide();
-					jQuery('#inbound_confirmation_subject').hide();
-					jQuery('.tokens').hide();
-				} else {
-					jQuery('#postdivrich').show();
-					jQuery('#inbound_confirmation_subject').show();
-					jQuery('.tokens').show();
-				}
-			}
-
-			jQuery(document).ready(function($) {
-
-				jQuery('.child-clone-row').first().attr('id', 'row-1');
-				setTimeout(function() {
-						jQuery('#inbound-shortcodes-form input:visible').first().focus();
-				}, 500);
-
-				/* Hide Options Based on Selected Template */
-				jQuery('body').on('change' , '#inbound_email_send_notification_template' , function() {
-					inbound_forms_select_email_template();
-				});
-
-			});
-		</script>
 
 			<?php
 	}

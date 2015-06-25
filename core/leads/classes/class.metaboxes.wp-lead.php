@@ -254,7 +254,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             }
 
             if (!isset($geodata)) {
-                $geodata = wp_remote_get('http://www.geoplugin.net/php.gp?ip=' . $ip_address);
+                $geodata = wp_remote_get('http://www.geoplugin.net/php.gp?ip=' . $ip_address , array('timeout'=>'2'));
                 if (!is_wp_error($geodata)) {
                     $geodata = unserialize($geodata['body']);
                 }
