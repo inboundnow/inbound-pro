@@ -60,8 +60,6 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 				include_once( WPL_PATH . 'modules/module.tracking.php');
 				include_once( WPL_PATH . 'modules/module.enqueue-admin.php');
 				include_once( WPL_PATH . 'modules/module.form-integrations.php');
-				include_once( WPL_PATH . 'classes/class.metaboxes.email-template.php');
-				include_once( WPL_PATH . 'classes/class.wordpress-core.email.php');
 				include_once( WPL_PATH . 'classes/class.admin-notices.php');
 				include_once( WPL_PATH . 'classes/class.branching.php');
 				include_once( WPL_PATH . 'classes/class.login.php');
@@ -72,8 +70,6 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 				include_once( WPL_PATH . 'modules/module.ajax-setup.php');
 				include_once( WPL_PATH . 'modules/module.post-type.wp-lead.php');
 				include_once( WPL_PATH . 'modules/module.form-integrations.php');
-				include_once( WPL_PATH . 'classes/class.metaboxes.email-template.php');
-				include_once( WPL_PATH . 'classes/class.wordpress-core.email.php');
 				include_once( WPL_PATH . 'classes/class.login.php');
 
 				/* load frontend */

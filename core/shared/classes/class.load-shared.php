@@ -41,7 +41,7 @@ if (!class_exists('Inbound_Load_Shared')) {
 		public static function load_files() {
 
 			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.post-type.wp-lead.php');
-			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.post-type.email-template.php');
+			/* include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.post-type.email-template.php'); LEGACY */
 			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.form.php');
 			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.menus.adminbar.php');
 			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.debug.php');

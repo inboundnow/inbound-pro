@@ -266,7 +266,6 @@ class Landing_Pages_Activation {
         }
 
         flush_rewrite_rules( true );
-        generate_rewrite_rules( true );
         delete_option( 'lp_activate_rewrite_check' );
     }
 

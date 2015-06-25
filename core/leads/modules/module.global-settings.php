@@ -116,15 +116,6 @@ function wpleads_get_global_settings() {
 			'options' => array('1'=>'On','0'=>'Off')
 		),
 		array(
-			'id'  => 'inbound_email_replace_core_template',
-			'option_name'  => 'inbound_email_replace_core_template',
-			'label' => __('Replace WordPress Email Templates with Inbound Now Email Templates' , 'leads' ),
-			'description' => __("This option replaces frequently used core WordPress email templates with Inbound Now templates that are editable within the Leads->Email Templates area. If your website is set to a a language besides English it may be best to turn this off until test strings have been translated for your language." , 'leads' ),
-			'type'  => 'radio',
-			'default'  => '1',
-			'options' => array('1'=>'On','0'=>'Off')
-		),
-		array(
 			'id'  => 'inbound_forms_enable_akismet',
 			'option_name'  => 'inbound_forms_enable_akismet',
 			'label' => __('Run form submissions through Akismet if akismet is enabled.' , 'leads' ),
