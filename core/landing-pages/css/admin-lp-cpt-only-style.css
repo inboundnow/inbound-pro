@@ -66,8 +66,11 @@ ul#template-filter .button-primary a {
 #more-templates-button a {
 	font-size: 15px;
 }
+#lp_2_form_content  {
+	margin-top:20px;	
+}
 #lp_2_form_content .hndle em {
-	font-size: 13px;
+	font-size: 13px;	
 }
 .template-thumbnail
 {

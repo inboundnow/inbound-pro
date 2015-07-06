@@ -17,24 +17,24 @@ $shortcodes_config['forms'] = array(
     'no_preview' => false,
     'options' => array(
         'insert_default' => array(
-            'name' => __('Choose Starting Template', 'leads'),
-            'desc' => __('Start Building Your Form from premade templates', 'leads'),
+            'name' => __('Choose Starting Template', INBOUNDNOW_TEXT_DOMAIN ),
+            'desc' => __('Start Building Your Form from premade templates', INBOUNDNOW_TEXT_DOMAIN ),
             'type' => 'select',
             'options' => $form_names,
             'std' => 'none',
             'class' => 'main-form-settings',
         ),
         'form_name' => array(
-            'name' => __('Form Name<span class="small-required-text">*</span>', 'leads'),
-            'desc' => __('This is not shown to visitors', 'leads'),
+            'name' => __('Form Name<span class="small-required-text">*</span>', INBOUNDNOW_TEXT_DOMAIN ),
+            'desc' => __('This is not shown to visitors', INBOUNDNOW_TEXT_DOMAIN ),
             'type' => 'text',
             'placeholder' => "Example: XYZ Whitepaper Download",
             'std' => '',
             'class' => 'main-form-settings',
         ),
         /*'confirmation' => array(
-                    'name' => __('Form Layout', 'leads'),
-                    'desc' => __('Choose Your Form Layout', 'leads'),
+                    'name' => __('Form Layout', INBOUNDNOW_TEXT_DOMAIN ),
+                    'desc' => __('Choose Your Form Layout', INBOUNDNOW_TEXT_DOMAIN ),
                     'type' => 'select',
                     'options' => array(
                         "redirect" => "Redirect After Form Completion",
@@ -43,8 +43,8 @@ $shortcodes_config['forms'] = array(
                     'std' => 'redirect'
         ),*/
         'redirect' => array(
-            'name' => __('Redirect URL<span class="small-required-text">*</span>', 'leads'),
-            'desc' => __('Where do you want to send people after they fill out the form?', 'leads'),
+            'name' => __('Redirect URL<span class="small-required-text">*</span>', INBOUNDNOW_TEXT_DOMAIN ),
+            'desc' => __('Where do you want to send people after they fill out the form?', INBOUNDNOW_TEXT_DOMAIN ),
             'type' => 'text',
             'placeholder' => "http://www.yoursite.com/thank-you",
             'std' => '',
@@ -52,61 +52,61 @@ $shortcodes_config['forms'] = array(
             'class' => 'main-form-settings',
         ),
         /*'thank_you_text' => array(
-                'name' => __('Field Description <span class="small-optional-text">(optional)</span>',  'leads'),
-                'desc' => __('Put field description here.',  'leads'),
+                'name' => __('Field Description <span class="small-optional-text">(optional)</span>',  INBOUNDNOW_TEXT_DOMAIN ),
+                'desc' => __('Put field description here.',  INBOUNDNOW_TEXT_DOMAIN ),
                 'type' => 'textarea',
                 'std' => '',
                 'class' => 'advanced',
                 'reveal_on' => 'text'
         ), */
         'notify' => array(
-            'name' => __('Notify on Form Completions<span class="small-required-text">*</span>', 'leads'),
-            'desc' => __('Who should get admin notifications on this form?<br>For multiple notifications separate email addresses with commas', 'leads'),
+            'name' => __('Notify on Form Completions<span class="small-required-text">*</span>', INBOUNDNOW_TEXT_DOMAIN ),
+            'desc' => __('Who should get admin notifications on this form?<br>For multiple notifications separate email addresses with commas', INBOUNDNOW_TEXT_DOMAIN ),
             'type' => 'text',
             'placeholder' => "youremail@email.com",
             'std' => '',
             'class' => 'main-form-settings',
         ),
         'notify_subject' => array(
-            'name' => __('Admin Email Subject Line<span class="small-required-text">*</span>', 'leads'),
-            'desc' => __('Customize the subject line of email notifications arriving from this form. default: {{site-name}} {{form-name}} - New Lead Conversion', 'leads'),
+            'name' => __('Admin Email Subject Line<span class="small-required-text">*</span>', INBOUNDNOW_TEXT_DOMAIN ),
+            'desc' => __('Customize the subject line of email notifications arriving from this form. default: {{site-name}} {{form-name}} - New Lead Conversion', INBOUNDNOW_TEXT_DOMAIN ),
             'type' => 'text',
             'std' => "{{site-name}} {{form-name}} - New Lead Conversion",
             'palceholder' => '{{site-name}} {{form-name}} - New Lead Conversion',
             'class' => 'main-form-settings',
         ),
         'lists' => array(
-            'name' => __('Add to List(s)', 'leads'),
-            'desc' => __('Add the converting lead to 1 or more lead lists', 'leads'),
+            'name' => __('Add to List(s)', INBOUNDNOW_TEXT_DOMAIN ),
+            'desc' => __('Add the converting lead to 1 or more lead lists', INBOUNDNOW_TEXT_DOMAIN ),
             'type' => 'leadlists',
             'options' => $lead_list_names,
             'class' => 'main-form-settings',
         ),
 
         'lists_hidden' => array(
-            'name' => __('Hidden List Values', 'leads'),
-            'desc' => __('Hidden list values', 'leads'),
+            'name' => __('Hidden List Values', INBOUNDNOW_TEXT_DOMAIN ),
+            'desc' => __('Hidden list values', INBOUNDNOW_TEXT_DOMAIN ),
             'type' => 'hidden',
             'class' => 'main-form-settings',
         ),
 
         'helper-block-one' => array(
-            'name' => __('Name Name Name',  'leads'),
-            'desc' => __('<span class="switch-to-form-insert button">Cancel Form Creation & Insert Existing Form</span>',  'leads'),
+            'name' => __('Name Name Name',  INBOUNDNOW_TEXT_DOMAIN ),
+            'desc' => __('<span class="switch-to-form-insert button">Cancel Form Creation & Insert Existing Form</span>',  INBOUNDNOW_TEXT_DOMAIN ),
             'type' => 'helper-block',
             'std' => '',
             'class' => 'main-form-settings',
         ),
         'heading_design' => array(
-            'name' => __('Name Name Name',  'leads'),
-            'desc' => __('Layout Options',  'leads'),
+            'name' => __('Name Name Name',  INBOUNDNOW_TEXT_DOMAIN ),
+            'desc' => __('Layout Options',  INBOUNDNOW_TEXT_DOMAIN ),
             'type' => 'helper-block',
             'std' => '',
             'class' => 'main-design-settings',
         ),
         'layout' => array(
-            'name' => __('Form Layout', 'leads'),
-            'desc' => __('Choose Your Form Layout', 'leads'),
+            'name' => __('Form Layout', INBOUNDNOW_TEXT_DOMAIN ),
+            'desc' => __('Choose Your Form Layout', INBOUNDNOW_TEXT_DOMAIN ),
             'type' => 'select',
             'options' => array(
                 "vertical" => "Vertical",
@@ -116,8 +116,8 @@ $shortcodes_config['forms'] = array(
             'class' => 'main-design-settings',
         ),
         'labels' => array(
-            'name' => __('Label Alignment', 'leads'),
-            'desc' => __('Choose Label Layout', 'leads'),
+            'name' => __('Label Alignment', INBOUNDNOW_TEXT_DOMAIN ),
+            'desc' => __('Choose Label Layout', INBOUNDNOW_TEXT_DOMAIN ),
             'type' => 'select',
             'options' => array(
                 "top" => "Labels on Top",
@@ -129,30 +129,30 @@ $shortcodes_config['forms'] = array(
             'class' => 'main-design-settings',
         ),
         'font-size' => array(
-            'name' => __('Form Font Size', 'leads'),
-            'desc' => __('Size of Label Font. This also determines default submit button size', 'leads'),
+            'name' => __('Form Font Size', INBOUNDNOW_TEXT_DOMAIN ),
+            'desc' => __('Size of Label Font. This also determines default submit button size', INBOUNDNOW_TEXT_DOMAIN ),
             'type' => 'text',
             'std' => '16',
             'class' => 'main-design-settings',
         ),
         'icon' => array(
-            'name' => __('Submit Button Icon', 'leads'),
-            'desc' => __('Select an icon.', 'leads'),
+            'name' => __('Submit Button Icon', INBOUNDNOW_TEXT_DOMAIN ),
+            'desc' => __('Select an icon.', INBOUNDNOW_TEXT_DOMAIN ),
             'type' => 'select',
             'options' => $fontawesome,
             'std' => 'none',
             'class' => 'main-design-settings'
         ),
         'submit' => array(
-            'name' => __('Submit Button Text', 'leads'),
-            'desc' => __('Enter the text you want to show on the submit button. (or a link to a custom submit button image)', 'leads'),
+            'name' => __('Submit Button Text', INBOUNDNOW_TEXT_DOMAIN ),
+            'desc' => __('Enter the text you want to show on the submit button. (or a link to a custom submit button image)', INBOUNDNOW_TEXT_DOMAIN ),
             'type' => 'text',
             'std' => 'Submit',
             'class' => 'main-design-settings',
         ),
         'submit-colors' => array(
-            'name' => __('Submit Color Options', 'leads'),
-            'desc' => __('Choose Your Form Layout', 'leads'),
+            'name' => __('Submit Color Options', INBOUNDNOW_TEXT_DOMAIN ),
+            'desc' => __('Choose Your Form Layout', INBOUNDNOW_TEXT_DOMAIN ),
             'type' => 'select',
             'options' => array(
                 "on" => "Color Options On",
@@ -162,22 +162,22 @@ $shortcodes_config['forms'] = array(
             'class' => 'main-design-settings',
         ),
         'submit-text-color' => array(
-            'name' => __('Button Text Color', 'leads'),
-            'desc' => __('Color of text. Must toggle on "Submit Color Options" on', 'leads'),
+            'name' => __('Button Text Color', INBOUNDNOW_TEXT_DOMAIN ),
+            'desc' => __('Color of text. Must toggle on "Submit Color Options" on', INBOUNDNOW_TEXT_DOMAIN ),
             'type' => 'colorpicker',
             'std' => '#434242',
             'class' => 'main-design-settings',
         ),
         'submit-bg-color' => array(
-            'name' => __('Button BG Color', 'leads'),
-            'desc' => __('Background color of button.  Must toggle on "Submit Color Options" on', 'leads'),
+            'name' => __('Button BG Color', INBOUNDNOW_TEXT_DOMAIN ),
+            'desc' => __('Background color of button.  Must toggle on "Submit Color Options" on', INBOUNDNOW_TEXT_DOMAIN ),
             'type' => 'colorpicker',
             'std' => '#E9E9E9',
             'class' => 'main-design-settings',
         ),
         'width' => array(
-            'name' => __('Custom Width', 'leads'),
-            'desc' => __('Enter in pixel width or % width. Example: 400 <u>or</u> 100%', 'leads'),
+            'name' => __('Custom Width', INBOUNDNOW_TEXT_DOMAIN ),
+            'desc' => __('Enter in pixel width or % width. Example: 400 <u>or</u> 100%', INBOUNDNOW_TEXT_DOMAIN ),
             'type' => 'text',
             'std' => '',
             'class' => 'main-design-settings',
@@ -186,15 +186,15 @@ $shortcodes_config['forms'] = array(
     'child' => array(
         'options' => array(
             'label' => array(
-                'name' => __('Field Label',  'leads'),
+                'name' => __('Field Label',  INBOUNDNOW_TEXT_DOMAIN ),
                 'desc' => '',
                 'type' => 'text',
                 'std' => '',
                 'placeholder' => __("Enter the Form Field Label. Example: First Name" , "leads" )
             ),
             'field_type' => array(
-                'name' => __('Field Type', 'leads'),
-                'desc' => __('Select an form field type', 'leads'),
+                'name' => __('Field Type', INBOUNDNOW_TEXT_DOMAIN ),
+                'desc' => __('Select an form field type', INBOUNDNOW_TEXT_DOMAIN ),
                 'type' => 'select',
                 'options' => array(
                     "text" => __('Single Line Text' , INBOUNDNOW_TEXT_DOMAIN ),
@@ -217,122 +217,130 @@ $shortcodes_config['forms'] = array(
                     'tel' => __( 'Telephone' , INBOUNDNOW_TEXT_DOMAIN ),
                     'datetime-local' => __('Date Time Pick Selector Field' , INBOUNDNOW_TEXT_DOMAIN ),
                     'file_upload' => __('File Upload' , INBOUNDNOW_TEXT_DOMAIN ),
-                    'editor' => __('HTML Editor' ,'leads'),
-                    'multi-select' => __('multi-select' ,  'leads')
+                    'editor' => __('HTML Editor' ,INBOUNDNOW_TEXT_DOMAIN ),
+                    'multi-select' => __('multi-select' ,  INBOUNDNOW_TEXT_DOMAIN )
                     */
                 ),
                 'std' => ''
             ),
 
             'dropdown_options' => array(
-                'name' => __('Dropdown choices',  'leads'),
-                'desc' => __('Enter Your Dropdown Options. Separate by commas. You may also use label|value to have a different value than the label stored.',  'leads'),
+                'name' => __('Dropdown choices',  INBOUNDNOW_TEXT_DOMAIN ),
+                'desc' => __('Enter Your Dropdown Options. Separate by commas. You may also use label|value to have a different value than the label stored.',  INBOUNDNOW_TEXT_DOMAIN ),
                 'type' => 'text',
                 'std' => '',
                 'placeholder' => __('Choice 1|a, Choice 2, Choice 3' , 'cta' ),
                 'reveal_on' => 'dropdown' // on select choice show this
             ),
             'radio_options' => array(
-                'name' => __('Radio Choices',  'leads'),
-                'desc' => __('Enter Your Radio Options. Separate by commas. You may also use label|value to have a different value than the label stored.',  'leads'),
+                'name' => __('Radio Choices',  INBOUNDNOW_TEXT_DOMAIN ),
+                'desc' => __('Enter Your Radio Options. Separate by commas. You may also use label|value to have a different value than the label stored.',  INBOUNDNOW_TEXT_DOMAIN ),
                 'type' => 'text',
                 'std' => '',
                 'placeholder' => 'Choice 1|a, Choice 2',
                 'reveal_on' => 'radio' // on select choice show this
             ),
             'checkbox_options' => array(
-                'name' => __('Checkbox choices',  'leads'),
-                'desc' => __('Enter Your Checkbox Options. Separate by commas. You may also use label|value to have a different value than the label stored.',  'leads'),
+                'name' => __('Checkbox choices',  INBOUNDNOW_TEXT_DOMAIN ),
+                'desc' => __('Enter Your Checkbox Options. Separate by commas. You may also use label|value to have a different value than the label stored.',  INBOUNDNOW_TEXT_DOMAIN ),
                 'type' => 'text',
                 'std' => '',
                 'placeholder' => __( 'Choice 1|a, Choice 2, Choice 3', 'cta' ),
                 'reveal_on' => 'checkbox' // on select choice show this
             ),
             'html_block_options' => array(
-                'name' => __('HTML Block',  'leads'),
-                'desc' => __('This is a raw HTML block in the form. Insert text/HTML',  'leads'),
+                'name' => __('HTML Block',  INBOUNDNOW_TEXT_DOMAIN ),
+                'desc' => __('This is a raw HTML block in the form. Insert text/HTML',  INBOUNDNOW_TEXT_DOMAIN ),
                 'type' => 'textarea',
                 'std' => '',
                 'reveal_on' => 'html-block' // on select choice show this
             ),
+            'range_options' => array(
+                'name' => __('Range Setup',  INBOUNDNOW_TEXT_DOMAIN ),
+                'desc' => __('Enter the min, max, and steps inside the range input. Separate each with a pipe, eg: min|max|steps',  INBOUNDNOW_TEXT_DOMAIN ),
+                'type' => 'text',
+                'std' => '',
+                'placeholder' => __('0|100|10' , INBOUNDNOW_TEXT_DOMAIN ),
+                'reveal_on' => 'range' // on select choice show this
+            ),
             'default_value' => array(
-                'name' => __('Default Value',  'leads'),
-                'desc' => __('Enter the Default Value',  'leads'),
+                'name' => __('Default Value',  INBOUNDNOW_TEXT_DOMAIN ),
+                'desc' => __('Enter the Default Value',  INBOUNDNOW_TEXT_DOMAIN ),
                 'type' => 'text',
                 'std' => '',
                 'placeholder' => 'Enter Default Value',
                 'reveal_on' => 'hidden' // on select choice show this
             ),
             'divider_options' => array(
-                'name' => __('Divider Text (optional)',  'leads'),
-                'desc' => __('This is the text in the divider',  'leads'),
+                'name' => __('Divider Text (optional)',  INBOUNDNOW_TEXT_DOMAIN ),
+                'desc' => __('This is the text in the divider',  INBOUNDNOW_TEXT_DOMAIN ),
                 'type' => 'text',
                 'std' => '',
                 'reveal_on' => 'divider' // on select choice show this
             ),
             'required' => array(
-                'name' => __('Required Field? <span class="small-optional-text">(optional)</span>', 'leads'),
-                'checkbox_text' => __('Check to make field required', 'leads'),
+                'name' => __('Required Field? <span class="small-optional-text">(optional)</span>', INBOUNDNOW_TEXT_DOMAIN ),
+                'checkbox_text' => __('Check to make field required', INBOUNDNOW_TEXT_DOMAIN ),
                 'desc' => '',
                 'type' => 'checkbox',
                 'std' => '0',
                 'class' => '',
             ),
             'exclude_tracking' => array(
-                'name' => __('Exclude Tracking? <span class="small-optional-text">(optional)</span>', 'leads'),
-                'checkbox_text' => __('Check to exclude this form field from being tracked. Note this will not store in your Database', 'leads'),
+                'name' => __('Exclude Tracking? <span class="small-optional-text">(optional)</span>', INBOUNDNOW_TEXT_DOMAIN ),
+                'checkbox_text' => __('Check to exclude this form field from being tracked. Note this will not store in your Database', INBOUNDNOW_TEXT_DOMAIN ),
                 'desc' => '',
                 'type' => 'checkbox',
                 'std' => '0',
                 'class' => 'advanced',
             ),
             'helper' => array(
-                'name' => __('Field Description <span class="small-optional-text">(optional)</span>',  'leads'),
-                'desc' => __('<span class="show-advanced-fields">Show advanced fields</span>',  'leads'),
+                'name' => __('Field Description <span class="small-optional-text">(optional)</span>',  INBOUNDNOW_TEXT_DOMAIN ),
+                'desc' => __('<span class="show-advanced-fields">Show advanced fields</span>',  INBOUNDNOW_TEXT_DOMAIN ),
                 'type' => 'helper-block',
                 'std' => '',
                 'class' => '',
             ),
             'map_to' => array(
-                'name' => __('Map Field To  <span class="small-optional-text">(optional)</span>', 'leads'),
-                'desc' => __('Map this field to Leads Value', 'leads'),
+                'name' => __('Map Field To  <span class="small-optional-text">(optional)</span>', INBOUNDNOW_TEXT_DOMAIN ),
+                'desc' => __('Map this field to Leads Value', INBOUNDNOW_TEXT_DOMAIN ),
                 'type' => 'select',
                 'options' => $lead_mapping_fields,
                 'std' => 'none',
                 'class' => 'advanced exclude',
             ),
             'placeholder' => array(
-                'name' => __('Field Placeholder <span class="small-optional-text">(optional)</span>',  'leads'),
-                'desc' => __('Put field placeholder text here. Only works for normal text inputs',  'leads'),
+                'name' => __('Field Placeholder <span class="small-optional-text">(optional)</span>',  INBOUNDNOW_TEXT_DOMAIN ),
+                'desc' => __('Put field placeholder text here. Only works for normal text inputs',  INBOUNDNOW_TEXT_DOMAIN ),
                 'type' => 'text',
                 'std' => '',
                 'class' => 'advanced',
             ),
             'description' => array(
-                'name' => __('Field Description <span class="small-optional-text">(optional)</span>',  'leads'),
-                'desc' => __('Put field description here.',  'leads'),
+                'name' => __('Field Description <span class="small-optional-text">(optional)</span>',  INBOUNDNOW_TEXT_DOMAIN ),
+                'desc' => __('Put field description here.',  INBOUNDNOW_TEXT_DOMAIN ),
                 'type' => 'textarea',
                 'std' => '',
                 'class' => 'advanced',
             ),
             'field_container_class' => array(
-                'name' => __('Field Container Classes <span class="small-optional-text">(optional)</span>',  'leads'),
-                'desc' => __('Add additional class ids to the div that contains this field. Separate classes with spaces.',  'leads'),
+                'name' => __('Field Container Classes <span class="small-optional-text">(optional)</span>',  INBOUNDNOW_TEXT_DOMAIN ),
+                'desc' => __('Add additional class ids to the div that contains this field. Separate classes with spaces.',  INBOUNDNOW_TEXT_DOMAIN ),
                 'type' => 'text',
                 'std' => '',
                 'class' => 'advanced',
             ),
             'field_input_class' => array(
-                'name' => __('Field Input Classes <span class="small-optional-text">(optional)</span>',  'leads'),
-                'desc' => __('Add additional class ids to this input field. Separate classes with spaces.',  'leads'),
+                'name' => __('Field Input Classes <span class="small-optional-text">(optional)</span>',  INBOUNDNOW_TEXT_DOMAIN ),
+                'desc' => __('Add additional class ids to this input field. Separate classes with spaces.',  INBOUNDNOW_TEXT_DOMAIN ),
                 'type' => 'text',
                 'std' => '',
                 'class' => 'advanced',
             ),
 
             'hidden_input_options' => array(
-                'name' => __('Dynamic Field Filling <span class="small-optional-text">(optional)</span>',  'leads'),
-                'desc' => __('Enter Your Dynamic URL parameter',  'leads'),
+                'name' => __('Dynamic Field Filling <span class="small-optional-text">(optional)</span>',  INBOUNDNOW_TEXT_DOMAIN ),
+                'desc' => __('Enter Your Dynamic URL parameter',  INBOUNDNOW_TEXT_DOMAIN ),
                 'type' => 'text',
                 'std' => '',
                 'placeholder' => 'enter dynamic url parameter example: utm_campaign ',
@@ -340,8 +348,8 @@ $shortcodes_config['forms'] = array(
                 //'reveal_on' => 'hidden' // on select choice show this
             )
         ),
-        'shortcode' => '[inbound_field label="{{label}}" type="{{field_type}}" description="{{description}}" required="{{required}}" exclude_tracking={{exclude_tracking}} dropdown="{{dropdown_options}}" radio="{{radio_options}}"  checkbox="{{checkbox_options}}" placeholder="{{placeholder}}" field_container_class="{{field_container_class}}"  field_input_class="{{field_input_class}}" html="{{html_block_options}}" dynamic="{{hidden_input_options}}" default="{{default_value}}" map_to="{{map_to}}" divider_options="{{divider_options}}"]',
-        'clone' => __('Add Another Field',  'cta' )
+        'shortcode' => '[inbound_field label="{{label}}" type="{{field_type}}" description="{{description}}" required="{{required}}" exclude_tracking={{exclude_tracking}} dropdown="{{dropdown_options}}" radio="{{radio_options}}"  checkbox="{{checkbox_options}}"  range="{{range_options}}" placeholder="{{placeholder}}" field_container_class="{{field_container_class}}"  field_input_class="{{field_input_class}}" html="{{html_block_options}}" dynamic="{{hidden_input_options}}" default="{{default_value}}" map_to="{{map_to}}" divider_options="{{divider_options}}"]',
+        'clone' => __('Add Another Field',  INBOUNDNOW_TEXT_DOMAIN )
     ),
     'shortcode' => '[inbound_form name="{{form_name}}" lists="{{lists_hidden}}" redirect="{{redirect}}" notify="{{notify}}" notify_subject="{{notify_subject}}" layout="{{layout}}" font_size="{{font-size}}"  labels="{{labels}}" icon="{{icon}}" submit="{{submit}}" submit="{{submit}}" submit_colors="{{submit-colors}}" submit_text_color="{{submit-text-color}}" submit_bg_color="{{submit-bg-color}}" width="{{width}}"]{{child}}[/inbound_form]',
     'popup_title' => 'Insert Inbound Form Shortcode'

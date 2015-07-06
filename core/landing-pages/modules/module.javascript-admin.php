@@ -55,14 +55,13 @@ function lp_admin_enqueue($hook) {
 
 		// Add New and Edit Screens
 		if ( $hook == 'post-new.php' || $hook == 'post.php' ) {
-			add_filter( 'wp_default_editor', 'lp_ab_testing_force_default_editor' ); // force html view
+
 			//admin.metaboxes.js - Template Selector - Media Uploader
 			wp_enqueue_script('lp-js-metaboxes', LANDINGPAGES_URLPATH . 'js/admin/admin.metaboxes.js');
 
 			$template_data = lp_get_extension_data();
 			$template_data = json_encode($template_data);
-			$template = get_post_meta($post->ID, 'lp-selected-template', true);
-			$template = apply_filters('lp_selected_template',$template);
+			$template = Landing_Pages_Variations::get_current_template( $post->ID );
 			$template = strtolower($template);
 			$params = array('selected_template'=>$template, 'templates'=>$template_data);
 			wp_localize_script('lp-js-metaboxes', 'data', $params);
@@ -79,7 +78,7 @@ function lp_admin_enqueue($hook) {
 		}
 		// Edit Screen
 		if ( $hook == 'post.php' ){
-
+			wp_enqueue_script('jquery-zoomer', LANDINGPAGES_URLPATH . 'js/libraries/jquery.zoomer.js');
 			wp_enqueue_script('lp-post-edit-ui', LANDINGPAGES_URLPATH . 'js/admin/admin.post-edit.js');
 			wp_localize_script( 'lp-post-edit-ui', 'lp_post_edit_ui', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'post_id' => $post->ID , 'wp_landing_page_meta_nonce' => wp_create_nonce('wp-landing-page-meta-nonce'),  'lp_template_nonce' => wp_create_nonce('lp-nonce') ) );
 			wp_enqueue_style('admin-post-edit-css', LANDINGPAGES_URLPATH . 'css/admin-post-edit.css');

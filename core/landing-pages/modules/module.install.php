@@ -17,18 +17,17 @@ function inbound_create_default_post_type(){
 *  Install example landing page and return landing page id
 */
 function inbound_install_example_lander() {
-
-
+	
+	
 	$landing_page_id = wp_insert_post(
         array(
             'post_title'     => __( 'A/B Testing Landing Page Example' , 'landing-pages'),
             'post_content'   => __( '<p>This is the first paragraph of your landing page where you want to draw the viewers in and quickly explain your value proposition.</p><p><strong>Use Bullet Points to:</strong><ul><li>Explain why they should fill out the form</li><li>What they will learn if they download</li><li>A problem this form will solve for them</li></ul></p><p>Short ending paragraph reiterating the value behind the form</p>' , 'post'),
             'post_status'    => 'publish',
             'post_type'      => 'landing-page',
-            'comment_status' => 'closed'
-        )
+        ) , true
     );
-
+	shell_exec( json_encode( $landing_page_id) );
 
     // Variation A
     add_post_meta($landing_page_id, 'lp-main-headline', __( 'Main Catchy Headline (A)' , 'landing-pages') );
@@ -70,7 +69,6 @@ function inbound_install_example_lander() {
     add_post_meta($landing_page_id, 'svtle-sidebar-color-1', '51b0ef');
     add_post_meta($landing_page_id, 'svtle-sidebar-text-color-1', '000000');
     add_post_meta($landing_page_id, 'svtle-header-color-1', '51b0ef');
-
 
     // Store our page IDs
     $options = array(

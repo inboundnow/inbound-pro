@@ -50,7 +50,7 @@ class Inbound_Mailer_Tokens {
 	public static function token_button() {
 		global $post;
 
-		if ( $post->post_type!='inbound-email' ) {
+		if ( !isset($post) || $post->post_type!='inbound-email' ) {
 			return;
 		}
 

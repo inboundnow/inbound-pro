@@ -23,8 +23,6 @@ if (!class_exists('Inbound_Mailer_ACF')) {
 			/* Intercept load custom field value request and hijack it */
 			add_filter( 'acf/load_value' , array( __CLASS__ , 'load_value' ) , 10 , 3 );
 
-			/* JS bug fixes for disabled submit buttons */
-			add_action('in_admin_footer', array( __CLASS__ , 'load_javascript_on_admin_edit_post_page') );
 		}
 
 
@@ -199,11 +197,11 @@ if (!class_exists('Inbound_Mailer_ACF')) {
 		*/
 		public static function load_acf_on_template( $allow , $rule, $args ) {
 			global $post;
-			
+
 			if ($post->post_type != 'inbound-email' ) {
-				return;
+				 return $allow;
 			}
-			
+
 			$template =	Inbound_Mailer_Variations::get_current_template( $args['post_id'] );
 
 			if ($template == $rule['value']) {

@@ -60,9 +60,9 @@ function lp_Hex_2_RGB($hex) {
 
 }
 $RBG_array = lp_Hex_2_RGB($submit_button_color);
-$red = $RBG_array['r'];
-$green = $RBG_array["g"];
-$blue = $RBG_array["b"];
+$red = (isset($RBG_array['r'])) ? $RBG_array['r'] : '0';
+$green = (isset($RBG_array['g'])) ? $RBG_array['g'] : '0';
+$blue =  (isset($RBG_array['b'])) ? $RBG_array['b'] : '0';
 
 
 
@@ -86,7 +86,7 @@ $blue = $RBG_array["b"];
    #content-background{ width: 550px; padding-top: 20px; padding-bottom:20px;border-radius: 6px; margin: auto; }
 
 <?php if ($bg_image != "") { ?>
-    
+
 	html { background: none;}
 
 	body {  background: url(<?php echo $bg_image; ?>) no-repeat center center fixed;
@@ -100,8 +100,8 @@ $blue = $RBG_array["b"];
 	div, p, #note, label, #lp_container  { color: #<?php echo $text_color; ?>}
     .countDiv::before, .countDiv::after {
 		background-color: #<?php echo $text_color; ?>;
-	} 
-	
+	}
+
 <?php if ($headline_color != "") { echo "h1 {color: #$headline_color;}"; } ?>
 <?php if ($background_on === "on") { echo "#content-background{background: url('".$path."image.php?hex=$content_color');}"; }?>
  <?php if ($submit_button_color != "") {

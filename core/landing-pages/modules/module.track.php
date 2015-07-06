@@ -1,5 +1,7 @@
 <?php
- 
+
+
+
 // Tracking impressions and conversions
 add_action('inboundnow_store_lead_pre_filter_data','lp_set_conversion',10,1);
 function lp_set_conversion($data) {
@@ -36,15 +38,24 @@ function lp_set_conversion($data) {
 	return $data;
 }
 
-function lp_get_page_views($postID) {
-    $count_key = 'lp_page_views_count';
-    $count = get_post_meta($postID, $count_key, true);
-    if($count==''){
-        delete_post_meta($postID, $count_key);
-        add_post_meta($postID, $count_key, '0');
-        return;
-   }
-   return $count;
-}
 
-?>
+add_action('lp_record_impression', 'lp_ab_testing_record_impression', 10, 3);
+function lp_ab_testing_record_impression($post_id, $post_type = 'landing-page', $variation_id = 0) {
+
+    /* If Landing Page Post Type */
+    if ($post_type == 'landing-page') {
+        $meta_key = 'lp-ab-variation-impressions-' . $variation_id;
+    } /* If Non Landing Page Post Type */ else {
+        $meta_key = '_inbound_impressions_count';
+    }
+
+    $impressions = get_post_meta($post_id, $meta_key, true);
+
+    if (!is_numeric($impressions)) {
+        $impressions = 1;
+    } else {
+        $impressions++;
+    }
+
+    update_post_meta($post_id, $meta_key, $impressions);
+}

@@ -66,7 +66,7 @@ array(
         'description' => "What date are we counting down to?", // what field does
         'id' => 'date-picker', // metakey. $key Prefix is appended from parent in array loop
         'type'  => 'datepicker', // metafield type
-        'default'  => '2013-1-31 13:00', // default content
+        'default'  => '2015-12-31 13:00', // default content
         'context'  => 'normal' // Context in screen (advanced layouts in future)
         ),
     array(

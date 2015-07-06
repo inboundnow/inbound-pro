@@ -8,7 +8,7 @@ function lp_fontend_enqueue_scripts($hook) {
 	if (!isset($post)) {
 		return;
 	}
-	
+
 	/* dequeue third party scripts */
 	global $wp_scripts;
 	$store = '';
@@ -34,7 +34,7 @@ function lp_fontend_enqueue_scripts($hook) {
 			show_admin_bar( false );
 			wp_register_script('lp-customizer-load-js', LANDINGPAGES_URLPATH . 'js/customizer.load.js', array('jquery'));
 			wp_enqueue_script('lp-customizer-load-js');
-			
+
 		}
 	}
 	/* Requeue third party scripts */
@@ -66,13 +66,22 @@ function lp_header_load(){
 		<?php if (isset($_GET['lp-variation-id']) && !isset($_GET['template-customize']) && !isset($_GET['iframe_window']) && !isset($_GET['live-preview-area'])) {
 			do_action('landing_page_header_script');
 		?>
+		<script type="text/javascript">
+			/* For Iframe previews to stop saving page views */
+			var dont_save_page_view = _inbound.Utils.getParameterVal('dont_save', window.location.href);
+			if (dont_save_page_view) {
+				//console.log('turn off page tracking');
+				window.inbound_settings.page_tracking = 'off';
+			}
+		</script>
 		<?php if(!defined('Inbound_Now_Disable_URL_CLEAN')) { ?>
 		<script type="text/javascript">
-		//var inbound_param_overide = 'off';
-		// Automation pass params to GA. Look for documentation
+		/* Then strip params if pushstate exists */
 		if (typeof window.history.pushState == 'function') {
-				var current=window.location.href;var cleanparams=current.split("?");var clean_url=cleanparams[0];history.replaceState({},"landing page",clean_url);
-		}</script>
+				var cleanparams=window.location.href.split("?");
+				var clean_url=cleanparams[0];history.replaceState({},"landing page",clean_url);
+		}
+		</script>
 		<?php } ?>
 		<?php }
 	}

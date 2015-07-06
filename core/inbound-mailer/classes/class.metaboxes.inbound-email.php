@@ -1072,7 +1072,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
         }
 
         /**
-         *    Adds template select box
+         *  Adds template select box
          */
         public static function add_selected_tamplate_info() {
             global $Inbound_Mailer_Variations, $post;
@@ -2113,9 +2113,9 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
         }
 
         /**
-         * Updates call to action variation data on post save
+         * Updates email variation data on post save
          *
-         * @param INT $inbound_email_id of call to action id
+         * @param INT $inbound_email_id of email id
          *
          */
         public static function action_save_data($inbound_email_id) {

@@ -411,12 +411,13 @@ if (!class_exists('Inbound_Forms')) {
                         $form .=	'<input type="email" class="inbound-input inbound-input-email '.$formatted_label . $input_classes.' '.$field_input_class.'" name="'.$field_name.'" '.$form_placeholder.' id="'.$field_name.'" value="'.$fill_value.'" '.$data_mapping_attr.$et_output.' '.$req.'/>';
 
                     } else if ($type === 'range')  {
-
+                        $range = $matches[3][$i]['range'];
+                        $options = explode( '|' , $range );
                         $hidden_param = (isset($matches[3][$i]['dynamic'])) ? $matches[3][$i]['dynamic'] : '';
                         $fill_value = (isset($matches[3][$i]['default'])) ? $matches[3][$i]['default'] : '';
                         $dynamic_value = (isset($_GET[$hidden_param])) ? $_GET[$hidden_param] : '';
 
-                        $form .=	'<input type="range" class="inbound-input inbound-input-range '.$formatted_label . $input_classes.' '.$field_input_class.'" name="'.$field_name.'" '.$form_placeholder.' id="'.$field_name.'" value="'.$fill_value.'" '.$data_mapping_attr.$et_output.' '.$req.'/>';
+                        $form .=	'<input type="range" min="'.$options[0].'" max="'.$options[1].'" step="'.$options[2].'" class="inbound-input inbound-input-range '.$formatted_label . $input_classes.' '.$field_input_class.'" name="'.$field_name.'" '.$form_placeholder.' id="'.$field_name.'" value="'.$fill_value.'" '.$data_mapping_attr.$et_output.' '.$req.'/>';
 
                     } else if ($type === 'text')  {
 

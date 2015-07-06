@@ -48,3 +48,6 @@ tests/codeception/_data
 composer.lock
 vendor
 bin
+
+#phpstorm
+.idea
