@@ -139,7 +139,7 @@ class  Landing_Pages_Template_Management {
                 if (count($_REQUEST['template']) > 0) {
 
                     foreach ($_REQUEST['template'] as $key => $slug) {
-                        delete_template(LANDINGPAGES_UPLOADS_PATH . $slug, $slug);
+                        self::delete_template(LANDINGPAGES_UPLOADS_PATH . $slug, $slug);
                     }
                 }
                 break;
@@ -215,7 +215,8 @@ class  Landing_Pages_Template_Management {
             <div class="icon32" id="icon-plugins"><br></div><h2><?php _e( 'Install Templates' , 'landing-pages'); ?></h2>
 
             <ul class="subsubsub">
-                <li class="plugin-install-dashboard"><a href="#search" id='menu_search'><?php _e( 'Search' ,'landing-pages'); ?></a> |</li>
+                <li class="plugin-install-manager"><a href="<?php echo admin_url('edit.php?post_type=landing-page&page=lp_manage_templates' ); ?>" id='manage'><?php _e( 'Back' ,'landing-pages'); ?></a> |</li>
+                <li class="plugin-install-dashboard"><a href="<?php echo admin_url('edit.php?post_type=landing-page&page=lp_store&inbound-store=templates'); ?>" id='menu_search'><?php _e( 'Fine New Templates' ,'landing-pages'); ?></a> |</li>
                 <li class="plugin-install-upload"><a class="current" href="#upload" id='menu_upload'><?php _e( 'Upload' , 'landing-pages'); ?></a> </li>
             </ul>
 
@@ -231,14 +232,14 @@ class  Landing_Pages_Template_Management {
                 <input type="submit" value="Install Now" class="button" id="install-template-submit" name="install-template-submit" disabled="">
             </form>
         </div>
-        <?php
+    <?php
     }
 
     /**
      * Display template search input
      */
-     public static function display_template_search() {
-         ?>
+    public static function display_template_search() {
+        ?>
 
          <div class="wrap templates_search" style='display:none'>
              <div class="icon32" id="icon-plugins"><br></div><h2><?php _e( 'Search Templates' , 'landing-pages'); ?></h2>
@@ -258,7 +259,7 @@ class  Landing_Pages_Template_Management {
          </div>
 
         <?php
-     }
+    }
 
     /**
      * Perform action: upgrade ticket
@@ -267,7 +268,7 @@ class  Landing_Pages_Template_Management {
     public static function action_upgrade_template( $slug ) {
         global $lp_data;
         $data = $lp_data[$slug];
-
+        print_r($data);exit;
         $item['ID'] = $slug;
         $item['template'] = $slug;
         $item['name'] = $data['label'];
@@ -322,25 +323,25 @@ class  Landing_Pages_Template_Management {
     /**
      * Action: delete template
      */
-     public static function delete_template($dir, $slug) {
-         global $lp_data;
-         $data = $lp_data[$slug];
+    public static function delete_template($dir, $slug) {
+        global $lp_data;
+        $data = $lp_data[$slug];
 
-         if (!file_exists($dir)) return true;
+        if (!file_exists($dir)) return true;
 
-         if (!is_dir($dir) || is_link($dir)) return unlink($dir);
-         foreach (scandir($dir) as $item) {
-             if ($item == '.' || $item == '..') continue;
-             if (!self::delete_template($dir . "/" . $item, $slug)) {
-                 chmod($dir . "/" . $item, 0777);
-                 if (!self::delete_template($dir . "/" . $item, $slug)) return false;
-             };
-         }
-         return rmdir($dir);
+        if (!is_dir($dir) || is_link($dir)) return unlink($dir);
+        foreach (scandir($dir) as $item) {
+            if ($item == '.' || $item == '..') continue;
+            if (!self::delete_template($dir . "/" . $item, $slug)) {
+                chmod($dir . "/" . $item, 0777);
+                if (!self::delete_template($dir . "/" . $item, $slug)) return false;
+            };
+        }
+        return rmdir($dir);
 
 
-         echo '<div class="updated"><p>' . $data['label'] . ' deleted successfully!</div>';
-     }
+        echo '<div class="updated"><p>' . $data['label'] . ' deleted successfully!</div>';
+    }
 
 }
 

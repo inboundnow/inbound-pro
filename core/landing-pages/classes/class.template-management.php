@@ -139,7 +139,7 @@ class  Landing_Pages_Template_Management {
                 if (count($_REQUEST['template']) > 0) {
 
                     foreach ($_REQUEST['template'] as $key => $slug) {
-                        delete_template(LANDINGPAGES_UPLOADS_PATH . $slug, $slug);
+                        self::delete_template(LANDINGPAGES_UPLOADS_PATH . $slug, $slug);
                     }
                 }
                 break;
@@ -215,7 +215,8 @@ class  Landing_Pages_Template_Management {
             <div class="icon32" id="icon-plugins"><br></div><h2><?php _e( 'Install Templates' , 'landing-pages'); ?></h2>
 
             <ul class="subsubsub">
-                <li class="plugin-install-dashboard"><a href="#search" id='menu_search'><?php _e( 'Search' ,'landing-pages'); ?></a> |</li>
+                <li class="plugin-install-manager"><a href="<?php echo admin_url('edit.php?post_type=landing-page&page=lp_manage_templates' ); ?>" id='manage'><?php _e( 'Back' ,'landing-pages'); ?></a> |</li>
+                <li class="plugin-install-dashboard"><a href="<?php echo admin_url('edit.php?post_type=landing-page&page=lp_store&inbound-store=templates'); ?>" id='menu_search'><?php _e( 'Fine New Templates' ,'landing-pages'); ?></a> |</li>
                 <li class="plugin-install-upload"><a class="current" href="#upload" id='menu_upload'><?php _e( 'Upload' , 'landing-pages'); ?></a> </li>
             </ul>
 
@@ -231,14 +232,14 @@ class  Landing_Pages_Template_Management {
                 <input type="submit" value="Install Now" class="button" id="install-template-submit" name="install-template-submit" disabled="">
             </form>
         </div>
-        <?php
+    <?php
     }
 
     /**
      * Display template search input
      */
-     public static function display_template_search() {
-         ?>
+    public static function display_template_search() {
+        ?>
 
          <div class="wrap templates_search" style='display:none'>
              <div class="icon32" id="icon-plugins"><br></div><h2><?php _e( 'Search Templates' , 'landing-pages'); ?></h2>
@@ -258,7 +259,7 @@ class  Landing_Pages_Template_Management {
          </div>
 
         <?php
-     }
+    }
 
     /**
      * Perform action: upgrade ticket
@@ -266,21 +267,19 @@ class  Landing_Pages_Template_Management {
      */
     public static function action_upgrade_template( $slug ) {
         global $lp_data;
-        $data = $lp_data[$slug];
-
+        $data = $lp_data[$slug]['info'];
         $item['ID'] = $slug;
         $item['template'] = $slug;
         $item['name'] = $data['label'];
         $item['category'] = $data['category'];
         $item['description'] = $data['description'];
 
-        //print_r($item);exit;
-
-        $response = lp_template_api_request($item);
+        $response = self::poll_api($item);
         $package = $response['package'];
         IF (!isset($package) || empty($package)) return;
-        //echo $package;exit;
-        $zip_array = wp_remote_get($package, null);
+
+        $zip_array = wp_remote_get( $package , array( 'timeout' => 60 , 'sslverify'   => false ) );
+
         ($zip_array['response']['code'] == 200) ? $zip = $zip_array['body'] : die("<div class='error'><p>{$slug}: Invalid download location (Version control not provided).</p></div>");
 
         $uploads = wp_upload_dir();
@@ -322,25 +321,45 @@ class  Landing_Pages_Template_Management {
     /**
      * Action: delete template
      */
-     public static function delete_template($dir, $slug) {
-         global $lp_data;
-         $data = $lp_data[$slug];
+    public static function delete_template($dir, $slug) {
+        global $lp_data;
+        $data = $lp_data[$slug];
 
-         if (!file_exists($dir)) return true;
+        if (!file_exists($dir)) return true;
 
-         if (!is_dir($dir) || is_link($dir)) return unlink($dir);
-         foreach (scandir($dir) as $item) {
-             if ($item == '.' || $item == '..') continue;
-             if (!self::delete_template($dir . "/" . $item, $slug)) {
-                 chmod($dir . "/" . $item, 0777);
-                 if (!self::delete_template($dir . "/" . $item, $slug)) return false;
-             };
-         }
-         return rmdir($dir);
+        if (!is_dir($dir) || is_link($dir)) return unlink($dir);
+        foreach (scandir($dir) as $item) {
+            if ($item == '.' || $item == '..') continue;
+            if (!self::delete_template($dir . "/" . $item, $slug)) {
+                chmod($dir . "/" . $item, 0777);
+                if (!self::delete_template($dir . "/" . $item, $slug)) return false;
+            };
+        }
+        return rmdir($dir);
 
 
-         echo '<div class="updated"><p>' . $data['label'] . ' deleted successfully!</div>';
-     }
+        echo '<div class="updated"><p>' . $data['label'] . ' deleted successfully!</div>';
+    }
+
+    /**
+     * Check Inbound Now API to see if template is ready for an update
+     * @param $item
+     * @return bool
+     */
+    public static function poll_api( $item ) {
+        $api_params = array('edd_action' => 'get_version', 'license' => get_option('lp-license-keys-' . $item['ID']), 'name' => $item['name'], 'slug' => $item['ID'], 'nature' => 'template',);
+
+        $request = wp_remote_post(LANDINGPAGES_STORE_URL, array('timeout' => 15, 'sslverify' => false, 'body' => $api_params));
+
+        if (!is_wp_error($request)):
+            $request = json_decode(wp_remote_retrieve_body($request), true);
+            if ($request) $request['sections'] = maybe_unserialize($request['sections']);
+            return $request;
+        else:
+            return false;
+        endif;
+    }
+
 
 }
 
