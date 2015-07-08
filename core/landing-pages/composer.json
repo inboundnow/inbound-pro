@@ -24,10 +24,11 @@
     "bin-dir": "tests/bin"
   },
   "require-dev": {
+	"badcow/lorem-ipsum": "*",
+    "codeception/codeception": "*",
     "codeception/specify": "~0.3",
-	"badcow/lorem-ipsum": "dev-master",
-	"lucatume/wp-browser": "*",
-	"wp-cli/wp-cli": "*"
+    "lucatume/wp-browser": "dev-master",
+    "wp-cli/wp-cli": "*"
   },
   "suggest": {
     "codeception/phpbuiltinserver": "Extension to start and stop PHP built-in web server for your tests",
@@ -35,7 +36,6 @@
     "codeception/verify": "BDD-style assertions",
     "phpseclib/phpseclib": "Extension required to use the SFTP option in the FTP Module."
   },
-
   "autoload":{
     "psr-0":{
       "Codeception":"src"

@@ -43,6 +43,12 @@ install:
   
   # make symlink - PhantomJs
   - sudo ln -s /home/travis/build/inboundnow/landing-pages/vendor/jakoch/phantomjs/phantomjs /usr/bin/phantomjs
+ 
+  # make symlink - Codeception
+  - sudo ln -s /home/travis/build/inboundnow/landing-pages/vendor/codeception/codeception/codecept /usr/bin/codecept
+  
+  # make symlink - WPBRowser
+  #- sudo ln -s /home/travis/build/inboundnow/landing-pages/vendor/lucatume/wp-browser/wpcept /usr/bin/WPBrowser
   
   # install Apache
   - sudo apt-get update
@@ -115,7 +121,8 @@ before_script:
 
 script:
   - phpunit
-  - php codecept run
+  - codecept run
+  #- codecept run  --debug -vvv
 
 addons:
   hosts:
