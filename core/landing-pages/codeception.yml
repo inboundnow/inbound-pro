@@ -16,4 +16,4 @@ modules:
             password: ''
             dump: tests/codeception/_data/dump.sql
 extensions:
-    enabled: [Codeception\Extension\WPBrowser]
+    enabled: [WPBrowser]

@@ -65,16 +65,10 @@ install:
   - sudo a2enmod rewrite actions fastcgi alias
   - echo "cgi.fix_pathinfo = 1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - ~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
-
       
   # restart apache & reload configuration files
   - sudo service apache2 restart 
   - sudo service apache2 reload 
-  
-  # install codeception
-  - wget http://codeception.com/codecept.phar
-  - chmod +x codecept.phar
-  - sudo mv codecept.phar /usr/local/bin/codecept
   
   # install WordPress 
   - sudo mkdir /var/www/inboundtesting.dev/
