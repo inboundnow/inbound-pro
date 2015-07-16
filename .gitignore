@@ -143,3 +143,5 @@ core/leads/.idea/
 /core/inbound-mailer/readme.txt
 /core/inbound-mailer/phpunit.xml.dist
 /core/inbound-automation/README.md
+
+/core/inbound-mailer/.travis.yml
