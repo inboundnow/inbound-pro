@@ -282,37 +282,8 @@ class Inbound_Pro_Settings {
 
 		?>
 		<section class="xlarge-20 large-20 medium-30 small-100 tiny-100">
-
-				<ul class="unstyled">
-					<!--- Show blog posts --->
-					<?php
-					$i=0;
-					$limit = 20;
-					foreach ($blogs as $item) {
-						if ($i>5) {
-							break;
-						}
-
-						$excerpt = explode('The post' ,  $item['description']);
-						$excerpt = $excerpt[0];
-
-						?>
-						<div class="all-80 small-50 tiny-50">
-							<h6 class='sidebar-h6'><?php echo $item['title']; ?></h6>
-							<!--<img class="half-bottom-space" src="holder.js/1200x600/auto/ink" alt="">-->
-							<p><a href='<?php echo $item['guid']; ?>' target='_blank'><?php _e( 'Read more &#8594;' , 'inbound-pro'); ?></a></p>
-						</div>
-						<?php
-						$i++;
-					}
-					?>
-				</ul>
-				<hr>
-				<h2 style='font-size:12px;'>
-				</h2>
-				<iframe src='//www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Finboundnow&amp;width=234&amp;height=65&amp;colorscheme=light&amp;show_faces=false&amp;border_color&amp;stream=false&amp;header=false&amp;appId=364256913591848' scrolling='no' frameborder='0' style='border:none; overflow:hidden; width:234px; height:65px;' allowTransparency='true'>
-				</iframe>
-			</section>
+			Nav to Tools
+		</section>
 		</section>
 		<?php
 	}
@@ -327,47 +298,7 @@ class Inbound_Pro_Settings {
 		}
 		?>
 
-		<table>
-			<tr>
-				<td class='footer-left' style='vertical-align:top;'>
-					<section class="column-group gutters">
-						<!--- Show Twitter Timeline --->
-						<div class="xlarge-100 large-100 all-100">
-							<a class="twitter-timeline" href="https://twitter.com/InboundNow" data-widget-id="577529141597216768"><?php _e('Tweets by @InboundNow' , 'inbound-pro'); ?></a>
-							<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-						</div>
-					</section>
-				</td>
-				<td class='footer-right' style='vertical-align:top;'>
-					<h2 class='footer-right-h2'><?php _e('Latest Inbound Now Docs:' , INBOUNDNOW_TEXT_DOMAIN ); ?></h2>
-					<section class="column-group gutters">
-						<!--- Show docs --->
-						<?php
-						$i=0;
-						$limit = 8;
-						foreach ($docs as $item) {
-							if ($i>5) {
-								break;
-							}
 
-							$excerpt = explode('The post' ,  $item['description']);
-							$excerpt = $excerpt[0];
-							$excerpt = str_replace( '<a ' , '<a target="_blank" ' , $excerpt );
-
-							?>
-							<div class="all-50 large-30 small-50 tiny-50">
-								<h4><?php echo $item['title']; ?></h4>
-								<!--<img class="half-bottom-space" src="holder.js/1200x600/auto/ink" alt="">-->
-								<p><?php echo $excerpt; ?></p>
-							</div>
-							<?php
-							$i++;
-						}
-						?>
-					</section>
-				</td>
-			</tr>
-		</table>
 		<footer class="clearfix pro-footer">
             <div class="ink-grid">
                 <ul class="unstyled inline half-vertical-space">
@@ -389,8 +320,8 @@ class Inbound_Pro_Settings {
 	static function display_nav_menu() {
 
 		$pages_array = array(
-			'inbound-pro-setup' => __( 'Main Settings' , INBOUNDNOW_TEXT_DOMAIN ),
-			'inbound-pro-settings' => __( 'Extension Settings' , INBOUNDNOW_TEXT_DOMAIN ),
+			'inbound-pro-setup' => __( 'Core Settings' , INBOUNDNOW_TEXT_DOMAIN ),
+			'inbound-pro-settings' => __( 'Feature Settings' , INBOUNDNOW_TEXT_DOMAIN ),
 			'inbound-pro-welcome' => __( 'Quick Start' , INBOUNDNOW_TEXT_DOMAIN )
 		);
 
