@@ -72,3 +72,11 @@ core/leads/.idea/
 /core/leads/*.dist
 /core/leads/*.md
 /core/leads/*.txt
+
+/core/landing-pages/screenshot-1.jpg
+
+/core/landing-pages/phpunit.xml.dist
+/core/landing-pages/package.json
+
+/core/landing-pages/readme.txt
+/core/landing-pages/README.md
