@@ -114,6 +114,7 @@ class Inbound_Pro_Activation {
 	 * Automatically install certain extensions on pro activation
 	 */
 	 public static function install_extensions() {
+	 	return;
 	 	$extensions = array(
 	 		'',
 	 		'',
