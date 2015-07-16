@@ -84,3 +84,5 @@ core/leads/.idea/
 /core/landing-pages/composer.json
 
 /core/landing-pages/codeception.yml
+
+/core/landing-pages/LICENSE
