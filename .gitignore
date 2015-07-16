@@ -123,3 +123,8 @@ core/leads/.idea/
 /core/cta/tests/spec/_inbound-spec.js
 /core/cta/tests/readme.txt
 /core/cta/tests/karma.conf.js
+
+/core/leads/readme.md
+/core/leads/phpunit.xml.dist
+/core/leads/Gruntfile.js
+/core/leads/.travis.yml
