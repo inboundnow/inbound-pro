@@ -114,3 +114,8 @@ core/leads/.idea/
 /core/cta/gulpfile.js
 /core/cta/Gruntfile.js
 /core/cta/.travis.yml
+
+/core/landing-pages/landing-pages.php___jb_bak___
+/core/landing-pages/landing-pages.php.orig
+/core/landing-pages/Gruntfile.js
+/core/landing-pages/.travis.yml
