@@ -108,18 +108,37 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 		}
 
 		/**
-		*  Include required plugin files
+		*  Conditionally load core components
 		*/
 		private static function load_core_components() {
+			/* settings */
+			$settings = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
 
-            include_once('core/cta/calls-to-action.php');
-            include_once('core/leads/leads.php');
-            include_once('core/landing-pages/landing-pages.php');
+			/* load calls to action  */
+			if ( !isset($settings['inbound-core-loading']['toggle-calls-to-action']) || $settings['inbound-core-loading']['toggle-calls-to-action'] =='on' ) {
+            	include_once('core/cta/calls-to-action.php');
+			}
+
+			/* load leads */
+			if ( !isset($settings['inbound-core-loading']['toggle-leads']) || $settings['inbound-core-loading']['toggle-leads'] =='on' ) {
+           		include_once('core/leads/leads.php');
+			}
+
+			/* load landing pages */
+			if ( !isset($settings['inbound-core-loading']['toggle-landing-pages']) || $settings['inbound-core-loading']['toggle-landing-pages'] =='on' ) {
+            	include_once('core/landing-pages/landing-pages.php');
+			}
+
+			/* ignore the rest if not a registered pro user */
             if (!self::get_customer_status()) {
                 return;
             }
-			include_once('core/inbound-mailer/inbound-mailer.php');
-			include_once('core/inbound-automation/inbound-automation.php');
+
+            /* load inbound mailer & inbound automation */
+			if ( !isset($settings['inbound-core-loading']['toggle-email-automation']) || $settings['inbound-core-loading']['toggle-email-automation'] =='on' ) {
+				include_once('core/inbound-mailer/inbound-mailer.php');
+				include_once('core/inbound-automation/inbound-automation.php');
+			}
 
 		}
 
@@ -159,7 +178,7 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
          */
         public static function get_customer_status() {
             $customer = Inbound_Options_API::get_option( 'inbound-pro' , 'customer' , array() );
-            $status = ( isset($customer['active']) ) ? $customer['active'] : false;
+            $status = ( isset($customer['is_pro']) ) ? $customer['is_pro'] : false;
             return $status;
         }
 
