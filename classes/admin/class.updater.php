@@ -118,6 +118,12 @@ class Inbound_Updater {
         }
 
         self::$info  = json_decode( self::$response['body'] );
+
+        if (!is_object(self::$info)) {
+            self::$info = false;
+            return false;
+        }
+        
         self::$info->slug = self::$slug;
         self::$info->plugin = self::$name;
         self::$info->last_updated = '';
@@ -426,7 +432,7 @@ class Inbound_Pro_Automatic_Updates {
     public static function load_static_vars() {
         self::$api_key = Inbound_API_Wrapper::get_api_key();
         self::$domain = site_url();
-        self::$api_url =  add_query_arg( array( 'api' => self::$api_key , 'site' => self::$domain ), Inbound_API_Wrapper::get_pro_info_endpoint() );
+        self::$api_url =  add_query_arg( array( 'api-key' => self::$api_key , 'site' => self::$domain ), Inbound_API_Wrapper::get_pro_info_endpoint() );
     }
 
     /**
