@@ -30,19 +30,21 @@ function landing_page_plugin_action_links( $links ) {
  * Add meta links in Plugins table
  */
 
-add_filter( 'plugin_row_meta', 'landing_pages_plugin_meta_links', 10, 2 );
-function landing_pages_plugin_meta_links( $links, $file ) {
+if (!defined('INBOUND_PRO_PATH')) {
+	add_filter( 'plugin_row_meta', 'landing_pages_plugin_meta_links', 10, 2 );
+	function landing_pages_plugin_meta_links( $links, $file ) {
 
-	$plugin = 'landing-pages/landing-pages.php';
+		$plugin = 'landing-pages/landing-pages.php';
 
-	// create link
-	if ( $file == $plugin ) {
-		return array_merge(
-			$links,
-			array( '<a href="http://www.inboundnow.com/membership-packages/">Upgrade to Pro</a>' )
-		);
+		// create link
+		if ( $file == $plugin ) {
+			return array_merge(
+				$links,
+				array( '<a href="http://www.inboundnow.com/membership-packages/">Upgrade to Pro</a>' )
+			);
+		}
+		return $links;
 	}
-	return $links;
 }
 
 function lp_get_global_settings() {
