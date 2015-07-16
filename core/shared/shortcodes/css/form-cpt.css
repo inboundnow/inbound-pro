@@ -1,9 +1,12 @@
-#side-sortables, #cpt-form-serialize, #inbound-shortcodes-form-wrap #inbound-shortcodes-form-head, #inbound_insert_shortcode_two, #shortcode_cancel, #entire-form-area, .inbound_tbody.parent-inbound_shortcode_helper-block-one, #postdivrich, #inbound-email-response, #postcustom, #cpt-form-serialize-default {
+#side-sortables, #cpt-form-serialize, #inbound-shortcodes-form-wrap #inbound-shortcodes-form-head, #inbound_insert_shortcode_two, #shortcode_cancel, #entire-form-area, .inbound_tbody.parent-inbound_shortcode_helper-block-one, #postdivrich, #inbound-email-response, #postcustom, #cpt-form-serialize-default, .add-new-h2 {
 	display: none;
 }
 #inbound-email-response h2{
 	margin-bottom: 0px;
 	margin-top: 5px;
+}
+#view-form-builder {
+	margin-left: 10px;
 }
 .inbound_tbody.parent-inbound_shortcode_helper-block-one, #local-storage-notice, #setting-error-tgmpa, #screen-options-link-wrap, #notice, .updated.inbound-shortcode-trigger {
 	display: none !important;

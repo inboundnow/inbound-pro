@@ -251,7 +251,7 @@ if (!class_exists('Inbound_Feedback')) {
 		} else if (in_array($screen->id, $cta_page_array)) {
 			$plugin_name = __( 'Calls to Action plugin' , INBOUNDNOW_TEXT_DOMAIN );
 		} else if (in_array($screen->id, $leads_page_array)) {
-			$plugin_name = __( 'Leads Pages plugin' , INBOUNDNOW_TEXT_DOMAIN );
+			$plugin_name = __( 'Leads plugin' , INBOUNDNOW_TEXT_DOMAIN );
 		}
 
 		?>
