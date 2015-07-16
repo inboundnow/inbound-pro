@@ -119,3 +119,7 @@ core/leads/.idea/
 /core/landing-pages/landing-pages.php.orig
 /core/landing-pages/Gruntfile.js
 /core/landing-pages/.travis.yml
+
+/core/cta/tests/spec/_inbound-spec.js
+/core/cta/tests/readme.txt
+/core/cta/tests/karma.conf.js
