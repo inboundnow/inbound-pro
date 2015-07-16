@@ -29,7 +29,6 @@ function landing_page_plugin_action_links( $links ) {
 /**
  * Add meta links in Plugins table
  */
-
 if (!defined('INBOUND_PRO_PATH')) {
 	add_filter( 'plugin_row_meta', 'landing_pages_plugin_meta_links', 10, 2 );
 	function landing_pages_plugin_meta_links( $links, $file ) {

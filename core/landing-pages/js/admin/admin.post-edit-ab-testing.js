@@ -1,8 +1,14 @@
 jQuery(document).ready(function ($) {	
 	var variations = new Array();
 	var has_variations = 0;
-	variations = variation.variations;
+	if (variation.variations)
+	{	
+		variations = variation.variations.split(",");
+	}
 
+
+	var hidden_html = '<input type="hidden" id="better-ab-testing-variation" name="lp-variation-id" value="'+ variation.vid +'">';
+	jQuery('.wrap form').prepend(hidden_html);
 	
 	var replace_slash = '\\'; 
 
@@ -28,7 +34,9 @@ jQuery(document).ready(function ($) {
 	//alter preview and customizer buttons based on open variation
 	var preview_href = jQuery('#post-preview').attr('href');
 	jQuery('#post-preview').attr('href',preview_href+'?lp-variation-id='+variation.vid);
-
+	//jQuery('#view-post-btn a:first').attr('href',preview_href+'?lp-variation-id='+variation.vid);
+	//jQuery('.new-save-lp-frontend').attr('href',preview_href+'?template-customize=on&lp-variation-id='+variation.vid);
+	
 	//setup timer and and navigation change events
 	var input_change = jQuery("#switch-lp").text();	
 	jQuery('.wrap').on('keyup change', jQuery('form').find('input[type=text],textarea,select'), function() {	
