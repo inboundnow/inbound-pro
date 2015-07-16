@@ -11,6 +11,8 @@ Text Domain: inbound-pro
 Domain Path: /lang/
 */
 
+define('INBOUND_COMPONENT_PATH', WP_PLUGIN_DIR);
+// define('INBOUND_COMPONENT_PATH', 'core');
 
 if ( !class_exists('Inbound_Pro_Plugin')	) {
 
@@ -114,19 +116,22 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 			/* settings */
 			$settings = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
 
+			$localhost = (in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1'))) ? true : false;
+
 			/* load calls to action  */
 			if ( !isset($settings['inbound-core-loading']['toggle-calls-to-action']) || $settings['inbound-core-loading']['toggle-calls-to-action'] =='on' ) {
-            	include_once('core/cta/calls-to-action.php');
+
+            	include_once( INBOUND_COMPONENT_PATH . '/cta/calls-to-action.php');
 			}
 
 			/* load leads */
 			if ( !isset($settings['inbound-core-loading']['toggle-leads']) || $settings['inbound-core-loading']['toggle-leads'] =='on' ) {
-           		include_once('core/leads/leads.php');
+           		include_once( INBOUND_COMPONENT_PATH . '/leads/leads.php');
 			}
 
 			/* load landing pages */
 			if ( !isset($settings['inbound-core-loading']['toggle-landing-pages']) || $settings['inbound-core-loading']['toggle-landing-pages'] =='on' ) {
-            	include_once('core/landing-pages/landing-pages.php');
+            	include_once( INBOUND_COMPONENT_PATH . '/landing-pages/landing-pages.php');
 			}
 
 			/* ignore the rest if not a registered pro user */
@@ -136,8 +141,8 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 
             /* load inbound mailer & inbound automation */
 			if ( !isset($settings['inbound-core-loading']['toggle-email-automation']) || $settings['inbound-core-loading']['toggle-email-automation'] =='on' ) {
-				include_once('core/inbound-mailer/inbound-mailer.php');
-				include_once('core/inbound-automation/inbound-automation.php');
+				include_once( INBOUND_COMPONENT_PATH . '/inbound-mailer/inbound-mailer.php');
+				include_once( INBOUND_COMPONENT_PATH . '/inbound-automation/inbound-automation.php');
 			}
 
 		}
