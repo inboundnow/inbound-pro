@@ -16,7 +16,7 @@ node_modules
 # Grunt
 Gruntfile.js
 
-#core 
+#core
 core/landing-pages/shared
 core/landing-pages/tests
 core/cta/shared
@@ -37,4 +37,6 @@ assets/images/downloads_src
 vendor
 bin
 core/leads/.idea/
-.idea/
+**/.idea/
+**/.idea/inspectionProfiles
+
