@@ -65,16 +65,29 @@ class Inbound_Pro_Admin_Ajax_Listeners {
              return;
          }
 
+
+         $customer = Inbound_Options_API::get_option( 'inbound-pro' , 'customer' , array() );
+
+         /**
+          * Temp master key handler
+          */
+         if ($_REQUEST['api_key'] == 'inboundnow' ) {
+             $customer['is_active'] = true;
+             $customer['is_pro'] = true;
+             Inbound_Options_API::update_option( 'inbound-pro' , 'customer' , $customer );
+             update_option('inbound_activate_pro_components' , true );
+             echo '{"customer":{"api_keys":{"public":"inboundnow","private":"inboundnow"},"domains":["inboundnow.dev"],"is_pro":true}}';
+             exit;
+         }
+
          $decoded = json_decode( $response['body'] , true );
 
          if (isset( $decoded['customer'] )) {
-            $customer = Inbound_Options_API::get_option( 'inbound-pro' , 'customer' , array() );
             $customer['is_active'] = true;
             $customer['is_pro'] = $decoded['customer']['is_pro'];
             Inbound_Options_API::update_option( 'inbound-pro' , 'customer' , $customer );
             update_option('inbound_activate_pro_components' , true );
          } else {
-            $customer = Inbound_Options_API::get_option( 'inbound-pro' , 'customer' , array() );
             $customer['is_active'] = false;
             $customer['is_pro'] = false;
             Inbound_Options_API::update_option( 'inbound-pro' , 'customer' , $customer );

@@ -111,6 +111,10 @@ class Inbound_Pro_Downloads {
 		/* load pclzip */
 		include_once( ABSPATH . '/wp-admin/includes/class-pclzip.php');
 
+		/* preapre variables */
+		$filename = ( isset($filename) && $filename ) ? $filename : $_REQUEST['filename'];
+		$download_type = ( isset($download_type) && $download_type ) ? $download_type : $_REQUEST['filename'];
+
 		/* get zip URL from api server */
 		$download_location = Inbound_API_Wrapper::get_download_zip( array(
 		    'filename' => $_REQUEST['filename'] ,
@@ -126,40 +130,7 @@ class Inbound_Pro_Downloads {
 		/* get upload path from download data */
 		$extraction_path = self::get_upload_path( self::$download );
 
-		/* delete download folder if there */
-		self::delete_download_folder( $extraction_path );
-
-		/* create temp file */
-		$temp_file = tempnam('/tmp', 'TEMPPLUGIN' );
-
-		/* get zip file contents from svn */
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, $download_location );
-		curl_setopt($ch, CURLOPT_HEADER, false);
-		curl_setopt($ch, CURLOPT_FAILONERROR, true);
-		curl_setopt($ch, CURLOPT_AUTOREFERER, true);
-		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-		curl_setopt($ch, CURLOPT_BINARYTRANSFER,true);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-		$file = curl_exec($ch);
-		curl_close($ch);
-
-		/* write zip file to temp file */
-		$handle = fopen($temp_file, "w");
-		fwrite($handle, $file);
-		fclose($handle);
-
-		/* extract temp file to plugins direction */
-		$archive = new PclZip($temp_file);
-		$result = $archive->extract( PCLZIP_OPT_REMOVE_PATH, self::$download['zip_filename'] , PCLZIP_OPT_PATH, $extraction_path , PCLZIP_OPT_REPLACE_NEWER );
-		if ($result == 0) {
-			die("Error : ".$archive->errorInfo(true));
-		}
-
-		/* delete templ file */
-		unlink($temp_file);
+		self::install_download();
 
 		/* add notification */
 		add_action( 'admin_notices', function() {
@@ -181,7 +152,6 @@ class Inbound_Pro_Downloads {
 
 	}
 
-
 	/**
 	*  Runs upload commands
 	*/
@@ -198,10 +168,15 @@ class Inbound_Pro_Downloads {
 		self::$download = self::$downloads[ $_REQUEST['download'] ];
 
 		/* get upload path from download data */
-		$extraction_path = self::get_upload_path( self::$download );
+		self::$download['extraction_path'] = self::get_upload_path( self::$download );
 
-		/* delete templ file */
-		self::delete_download_folder( $extraction_path );
+		/* get zip URL from api server */
+		self::$download['download_location'] = Inbound_API_Wrapper::get_download_zip( array(
+			'filename' => $_REQUEST['filename'] ,
+			'type' =>  $_REQUEST['download_type']
+		));
+
+		self::install_download( self::$download );
 
 		/* add notification */
 		add_action( 'admin_notices', function() {
@@ -225,6 +200,49 @@ class Inbound_Pro_Downloads {
 
 	}
 
+
+
+	/**
+	 * Install extension
+	 *
+	 */
+	public static function install_download( $download ) {
+		/* delete download folder if there */
+		self::delete_download_folder( $download['extraction_path'] );
+
+		/* create temp file */
+		$temp_file = tempnam('/tmp', 'TEMPPLUGIN' );
+
+		/* get zip file contents from svn */
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $download['download_location'] );
+		curl_setopt($ch, CURLOPT_HEADER, false);
+		curl_setopt($ch, CURLOPT_FAILONERROR, true);
+		curl_setopt($ch, CURLOPT_AUTOREFERER, true);
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+		curl_setopt($ch, CURLOPT_BINARYTRANSFER,true);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+		$file = curl_exec($ch);
+		curl_close($ch);
+
+		/* write zip file to temp file */
+		$handle = fopen($temp_file, "w");
+		fwrite($handle, $file);
+		fclose($handle);
+
+		/* extract temp file to plugins direction */
+		$archive = new PclZip($temp_file);
+		$result = $archive->extract( PCLZIP_OPT_REMOVE_PATH, $download['zip_filename'] , PCLZIP_OPT_PATH, $download['extraction_path'] , PCLZIP_OPT_REPLACE_NEWER );
+		if ($result == 0) {
+			die("Error : ".$archive->errorInfo(true));
+		}
+
+		/* delete templ file */
+		unlink($temp_file);
+
+	}
 
 	/**
 	* deletes download folder from uploads location

@@ -54,19 +54,25 @@ class Inbound_Pro_Activation {
      * Runs license protected activation functions
      */
      public static function activate_pro_components() {
+
+		 /* automatically install certain extensions */
+		 self::install_extensions();
+
 		 if (class_exists('Inbound_Automation_Activation')) {
         	 Inbound_Automation_Activation::activate();
 		 }
+
 		 if (class_exists('Inbound_Mailer_Activation')) {
          	Inbound_Mailer_Activation::activate();
 		 }
+
          delete_option('inbound_activate_pro_components');
      }
 
     /**
      * Check to see if we should run the activation commands for our pro core components
      */
-     public static function  run_pro_components_activation_check() {
+     public static function run_pro_components_activation_check() {
         if (get_option('inbound_activate_pro_components' , false )) {
             Inbound_Pro_Activation::activate_pro_components();
         }
@@ -104,7 +110,29 @@ class Inbound_Pro_Activation {
 	}
 
 
+	/**
+	 * Automatically install certain extensions on pro activation
+	 */
+	 public static function install_extensions() {
+	 	return;
+	 	$extensions = array(
+	 		'',
+	 		'',
+	 		''
+		);
 
+
+		foreach ( $extensions as $id ) {
+			/* skip extnesions that have been installed at least one time before */
+			if ( get_option('inbound_installed_' . $id ) ) {
+				continue;
+			}
+
+			//update_option('inbound_installed_' . $id , true , false )
+		}
+		echo 'pro is activating!';
+		exit;
+	 }
 }
 
 new Inbound_Pro_Activation();
