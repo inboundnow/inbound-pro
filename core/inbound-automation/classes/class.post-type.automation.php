@@ -48,7 +48,7 @@ if ( !class_exists('Inbound_Automation_Post_Type') ) {
 				'publicly_queryable' => false,
 				'show_ui' => true,
 				'query_var' => true,
-				'menu_icon' => INBOUND_AUTOMATION_URLPATH . 'assets/images/automation.png',
+				'menu_icon' => '',
 				'show_in_menu'	=> true,
 				'show_in_nav_menus'	=> false,
 				'capability_type' => 'post',

@@ -52,11 +52,6 @@ gulp.task('sync-cta', function () {
         return gulp.src(['../cta/**']).pipe(gulp.dest('./core/cta/'));
 });
 
-gulp.task('update-cta-shared', ['sync-cta', 'move-shared'], function () {
-   var removeFiles = getPath('cta');
-    return gulp.src(removeFiles, {read: false})
-        .pipe(clean());
-});
 gulp.task('sync-leads', function () {
 
         return gulp.src(['../leads/**'])
@@ -78,7 +73,7 @@ gulp.task('sync-automation', function () {
         .pipe(gulp.dest('./core/inbound-automation/'));
 });
 
-gulp.task('move-shared', function () {
+gulp.task('move-shared', ['sync-cta'], function () {
         return gulp.src(['./core/cta/shared/**'])
         //.pipe(gulpIgnore.exclude(condition))
         .pipe(gulp.dest('./core/shared/'));
@@ -139,7 +134,7 @@ gulp.task('clean-core', function () {
 });
 
 /* Sync all core plugins */
-gulp.task('sync', ['sync-lp', 'sync-leads', 'sync-mailer', 'sync-automation', 'update-cta-shared']);
+gulp.task('sync', ['sync-lp', 'sync-leads', 'sync-mailer', 'sync-automation', 'move-shared']);
 /* production build that cleans out shared */
 gulp.task('build', ['clean-lp','clean-leads','clean-automation','clean-mailer','clean-cta']);
 
