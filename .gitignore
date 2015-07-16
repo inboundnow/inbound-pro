@@ -139,3 +139,7 @@ core/leads/.idea/
 /core/inbound-automation/.idea/inbound-automation.iml
 /core/inbound-automation/.idea/encodings.xml
 /core/inbound-automation/.idea/.name
+
+/core/inbound-mailer/readme.txt
+/core/inbound-mailer/phpunit.xml.dist
+/core/inbound-automation/README.md
