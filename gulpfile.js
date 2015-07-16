@@ -67,6 +67,7 @@ gulp.task('move-shared', function () {
 function getPath(path){
 
     var removeFiles = ['./core/'+path+'/node_modules/',
+                        './core/'+path+'/tests/',
                         './core/'+path+'/shared/',
                         './core/'+path+'/*.jpg',
                         './core/'+path+'/*.js',
