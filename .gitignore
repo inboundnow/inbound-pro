@@ -145,3 +145,6 @@ core/leads/.idea/
 /core/inbound-automation/README.md
 
 /core/inbound-mailer/.travis.yml
+
+/inbound-pro.sublime-project
+/inbound-pro.sublime-workspace
