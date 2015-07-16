@@ -123,7 +123,7 @@ class Inbound_Updater {
             self::$info = false;
             return false;
         }
-        
+
         self::$info->slug = self::$slug;
         self::$info->plugin = self::$name;
         self::$info->last_updated = '';
