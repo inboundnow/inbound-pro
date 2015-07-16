@@ -80,3 +80,7 @@ core/leads/.idea/
 
 /core/landing-pages/readme.txt
 /core/landing-pages/README.md
+
+/core/landing-pages/composer.json
+
+/core/landing-pages/codeception.yml
