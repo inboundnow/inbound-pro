@@ -466,15 +466,17 @@ var InboundSettings = ( function() {
                 url:  ajaxurl ,
                 data: {
                     action: 'inbound_validate_api_key',
-                    api : InboundSettings.input.val(),
+                    api_key : InboundSettings.input.val(),
                     site: inboundSettingsLoacalVars.siteURL
                 },
                 dataType: "json",
                 timeout: 10000,
                 success: function (response) {
-                    if ( typeof response.apikey  != 'undefined' ) {
-
+                    if ( typeof response.customer  != 'undefined' ) {
                         InboundSettings.markKeyValid();
+                        console.log('Hey David, we can use response.customer.is_pro to determine if user is a pro user or not on this page');
+                        console.log('is_pro=' + response.customer.is_pro);
+                        alert( 'Hey David check the console');
                     } else {
                         InboundSettings.markKeyInvalid();
                     }
