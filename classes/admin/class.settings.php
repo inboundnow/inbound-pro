@@ -181,6 +181,93 @@ class Inbound_Pro_Settings {
 							)
 						),
 					),
+				),
+				/* add core plugin exclusion options */
+				array(
+					'group_name' => 'inbound-core-loading',
+					'keywords' => __('core,cta,calls to action,lp,landing pages,leads,activate,deactivate' , 'inbound-pro'),
+					'fields' => array (
+						array (
+							'id'	=> 'load-core-comonents-header',
+							'type'	=> 'header',
+							'default'	=> __( 'Core Components' , INBOUNDNOW_TEXT_DOMAIN ),
+							'placeholder'	=> null,
+							'options' => false,
+							'hidden' => false,
+							'reveal' => array(
+								'selector' => null ,
+								'value' => null
+							)
+						),
+						array (
+							'id'	=> 'toggle-landing-pages',
+							'type'	=> 'radio',
+							'label'	=> __( 'Landing Pages' , INBOUNDNOW_TEXT_DOMAIN ),
+							'description'	=> __( 'Toggle this off to stop loading Landing Pages component.' , INBOUNDNOW_TEXT_DOMAIN ),
+							'default'	=> 'on',
+							'placeholder'	=> null,
+							'options' => array(
+								'off' => __( 'Off' , INBOUNDNOW_TEXT_DOMAIN ),
+								'on' => __( 'On' , INBOUNDNOW_TEXT_DOMAIN ),
+							),
+							'hidden' => false,
+							'reveal' => array(
+								'selector' => null ,
+								'value' => null
+							)
+						),
+						array (
+							'id'	=> 'toggle-calls-to-action',
+							'type'	=> 'radio',
+							'label'	=> __( 'Calls to Action' , INBOUNDNOW_TEXT_DOMAIN ),
+							'description'	=> __( 'Toggle this off to stop loading Calls to Action component.' , INBOUNDNOW_TEXT_DOMAIN ),
+							'default'	=> 'on',
+							'placeholder'	=> null,
+							'options' => array(
+								'off' => __( 'Off' , INBOUNDNOW_TEXT_DOMAIN ),
+								'on' => __( 'On' , INBOUNDNOW_TEXT_DOMAIN ),
+							),
+							'hidden' => false,
+							'reveal' => array(
+								'selector' => null ,
+								'value' => null
+							)
+						),
+						array (
+							'id'	=> 'toggle-leads',
+							'type'	=> 'radio',
+							'label'	=> __( 'Leads' , INBOUNDNOW_TEXT_DOMAIN ),
+							'description'	=> __( 'Toggle this off to stop loading Leads component.' , INBOUNDNOW_TEXT_DOMAIN ),
+							'default'	=> 'on',
+							'placeholder'	=> null,
+							'options' => array(
+								'off' => __( 'Off' , INBOUNDNOW_TEXT_DOMAIN ),
+								'on' => __( 'On' , INBOUNDNOW_TEXT_DOMAIN ),
+							),
+							'hidden' => false,
+							'reveal' => array(
+								'selector' => null ,
+								'value' => null
+							)
+						),
+						array (
+							'id'	=> 'toggle-email-automation',
+							'type'	=> 'radio',
+							'label'	=> __( 'Mailer & Automation' , INBOUNDNOW_TEXT_DOMAIN ),
+							'description'	=> __( 'Toggle this off to stop loading Mailer & Marketing Automation component. These components require an active pro membership.' , INBOUNDNOW_TEXT_DOMAIN ),
+							'default'	=> 'on',
+							'placeholder'	=> null,
+							'options' => array(
+								'off' => __( 'Off' , INBOUNDNOW_TEXT_DOMAIN ),
+								'on' => __( 'On' , INBOUNDNOW_TEXT_DOMAIN ),
+							),
+							'hidden' => true,
+							'reveal' => array(
+								'selector' => null ,
+								'value' => null
+							)
+						)
+					),
 				)
 			)
 		);
@@ -405,6 +492,14 @@ class Inbound_Pro_Settings {
 			$data = '';
 		}
 
+		/* prepare additional classes */
+		if ( isset($field['hidden']) && $field['hidden'] ) {
+			$field['class'] = $field['class'] . ' hidden';
+		}
+
+		/* run class variable through filter */
+		$field['class'] = apply_filters('inbound-settings/field/class', $field['class'] );
+
 		echo '<div class="inbound-setting '.$field['class'].' " '.$data.' data-field-id="'.$field['id'].'" id="field-'.$field['id'].'">';
 		switch($field['type']) {
 			// text
@@ -440,7 +535,7 @@ class Inbound_Pro_Settings {
 					$unauth_class = "hidden";
 				}
 				echo '<button class="ink-button orange unauth thickbox '.$unauth_class.'" id="'.$field['id'].'" data-field-type="'.$field['type'].'" data-field-group="'.$group['group_name'].'" '.$data.' >'.__( 'Un-Authorize' , INBOUNDNOW_TEXT_DOMAIN ).'</button>';
-					$class = 'hidden';
+				$class = 'hidden';
 
 				$params['action'] = 'request_access_token';
 				$params['group'] = $group['group_name'];

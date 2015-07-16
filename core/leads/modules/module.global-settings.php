@@ -1,6 +1,30 @@
 <?php
 
 
+
+// Start Landing Page Welcome
+add_action('admin_notices', 'leads_user_notice');
+function leads_user_notice() {
+    global $current_user ;
+        $user_id = $current_user->ID;
+    if ( ! get_user_meta($user_id, 'leads_user_message_ignore') ) {
+        echo '<div class="updated">';
+        echo "<a style='float:right;color:red; margin-top:10px;' href='?leads_user_message_ignore=0'>Dismiss This</a>";
+        echo "<h2>Attention Leads users</h2><p>The email templating system, <a href='http://www.screencast.com/t/Z80uAWrvD'>seen here</a>, has been depricated in preparation for our improved email tool (<a href='http://www.inboundnow.com/automation/'>coming soon</a>)<br><br> If you used the email templating features to customize email responses or customize core WordPress email templates you can restore your setup with this additional wordpress plugin:</p>
+        	<p><a href='https://wordpress.org/plugins/leads-edit-core-email-templates/'>https://wordpress.org/plugins/leads-edit-core-email-templates/</a> - this will not be supported once the new email tool is out</p>";
+        echo "<a style='margin-bottom:10px;' class='button button-primary button-large' href='?leads_user_message_ignore=0'>Got it. Dismiss this</a>";
+        echo "</div>";
+    }
+}
+add_action('admin_init', 'leads_user_message_ignore');
+function leads_user_message_ignore() {
+    global $current_user;
+        $user_id = $current_user->ID;
+        if ( isset($_GET['leads_user_message_ignore']) && '0' == $_GET['leads_user_message_ignore'] ) {
+             add_user_meta($user_id, 'leads_user_message_ignore', 'true', true);
+    }
+}
+
 /**
  * Add action links in Plugins table
  */

@@ -101,9 +101,9 @@ class Inbound_Now_Welcome {
 		foreach ($page_array as $key => $value) {
 			$active = ($current_view === $key) ? 'nav-tab-active' : '';
 
-		echo '<a class="nav-tab '.$active.'" href="'.esc_url( admin_url( add_query_arg( array( 'page' => $key ), 'index.php' ) ) ).'">';
-		echo _e( $value, 'inbound-now');
-		echo '</a>';
+			echo '<a class="nav-tab '.$active.'" href="'.esc_url( admin_url( add_query_arg( array( 'page' => $key ), 'index.php' ) ) ).'">';
+			echo _e( $value, 'inbound-now');
+			echo '</a>';
 
 		}
 		echo '</h2>';

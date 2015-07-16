@@ -54,8 +54,12 @@ class Inbound_Pro_Activation {
      * Runs license protected activation functions
      */
      public static function activate_pro_components() {
-         Inbound_Automation_Activation::activate();
-         Inbound_Mailer_Activation::activate();
+		 if (class_exists('Inbound_Automation_Activation')) {
+        	 Inbound_Automation_Activation::activate();
+		 }
+		 if (class_exists('Inbound_Mailer_Activation')) {
+         	Inbound_Mailer_Activation::activate();
+		 }
          delete_option('inbound_activate_pro_components');
      }
 

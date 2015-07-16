@@ -47,6 +47,7 @@ if (!class_exists('Inbound_Asset_Loader')) {
 			} else {
 
 				global $wp_scripts;
+				$store = false;
 
 				if ( !empty( $wp_scripts->queue ) ) {
 					  $store = $wp_scripts->queue; // store the scripts

@@ -10,6 +10,10 @@ if (!class_exists('Landing_Pages_Variations')) {
 
         public static function load_hooks() {
 
+            /* load ajax listeners */
+            add_action('wp_ajax_lp_clear_stats_action',  array( __CLASS__ , 'ajax_clear_stats' ) );
+            add_action('wp_ajax_lp_clear_stats_single', array( __CLASS__ , 'ajax_clear_stats_single'));
+
         }
 
 
@@ -210,11 +214,11 @@ if (!class_exists('Landing_Pages_Variations')) {
          *
          * @param INT $landing_page_id id of call to action
          * @param INT $variation_id id of variation belonging to call to action
+         * @param INT $count
          *
          */
-        public static function set_impression_count($landing_page_id, $variation_id, $count) {
-
-            update_post_meta($landing_page_id, 'inbound-mailer-ab-variation-impressions-' . $variation_id, $count);
+        public static function set_impressions_count($landing_page_id, $variation_id, $count) {
+            update_post_meta($landing_page_id, 'lp-ab-variation-impressions-' . $variation_id, $count);
         }
 
 
@@ -222,13 +226,12 @@ if (!class_exists('Landing_Pages_Variations')) {
         /**
          * Manually sets conversion count for given cta id and variation id
          *
-         * @param INT $landing_page_id id of call to action
-         * @param INT $variation_id id of variation belonging to call to action
-         *
+         * @param INT $landing_page_id id of landing page
+         * @param INT $variation_id id of variation
+         * @param INT $count
          */
-        public static function set_conversion_count($landing_page_id, $variation_id, $count) {
-
-            update_post_meta($landing_page_id, 'inbound-mailer-ab-variation-conversions-' . $variation_id, $count);
+        public static function set_conversions_count( $landing_page_id , $variation_id , $count) {
+            update_post_meta($landing_page_id, 'lp-ab-variation-conversions-' . $variation_id , $count);
         }
 
         /**
@@ -727,6 +730,42 @@ if (!class_exists('Landing_Pages_Variations')) {
             }
         }
 
+
+        /**
+         * Adds Ajax for Clear Stats button
+         * clear stats for all variations
+         */
+        public static function ajax_clear_stats() {
+            global $wpdb;
+
+            $landing_page_id = mysql_real_escape_string($_POST['page_id']);
+
+            $variations = self::get_variations( $landing_page_id );
+
+            foreach ($variations as $vid) {
+                update_post_meta( $landing_page_id , 'lp-ab-variation-impressions-' . $vid, 0 , false);
+                update_post_meta( $landing_page_id , 'lp-ab-variation-conversions-' . $vid, 0 , false);
+            }
+
+            header('HTTP/1.1 200 OK');
+        }
+
+
+        /**
+         * Adds Ajax for Clear Stats button
+         * clear stats for single variations
+         */
+        public static function ajax_clear_stats_single() {
+            global $wpdb;
+
+            $landing_page_id = mysql_real_escape_string($_POST['page_id']);
+            $vid = $_POST['variation'];
+
+            self::set_impressions_count( $landing_page_id , $vid , 0 );
+            self::set_conversions_count( $landing_page_id , $vid , 0 );
+
+            header('HTTP/1.1 200 OK');
+        }
 
     }
 

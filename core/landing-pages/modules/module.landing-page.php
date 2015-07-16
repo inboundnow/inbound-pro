@@ -249,7 +249,7 @@ function lp_body_class() {
     global $post;
     global $lp_data;
 
-    $template = Landing_Pages_Variations::get_selected_template( $post->ID );
+    $template = Landing_Pages_Variations::get_current_template( $post->ID );
     if ($template) {
         $lp_body_class = "template-" . $template;
         $postid = "page-id-" . get_the_ID();

@@ -51,12 +51,12 @@ class Inbound_Pro_Admin_Ajax_Listeners {
 
         /* save api key */
          $settings = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
-         $settings[ 'api-key' ][ 'api-key' ] = trim($_REQUEST['api']);
+         $settings[ 'api-key' ][ 'api-key' ] = trim($_REQUEST['api_key']);
          Inbound_Options_API::update_option( 'inbound-pro' , 'settings' , $settings );
 
          $response = wp_remote_post( Inbound_API_Wrapper::get_api_url() . 'key/check' ,  array(
             'body' => array(
-                'api' => trim($_REQUEST['api']),
+                'api-key' => trim($_REQUEST['api_key']),
                 'site' => $_REQUEST['site']
             )
          ));
@@ -67,14 +67,16 @@ class Inbound_Pro_Admin_Ajax_Listeners {
 
          $decoded = json_decode( $response['body'] , true );
 
-         if (isset( $decoded['apikey'] )) {
+         if (isset( $decoded['customer'] )) {
             $customer = Inbound_Options_API::get_option( 'inbound-pro' , 'customer' , array() );
-             $customer['active'] = true;
+            $customer['is_active'] = true;
+            $customer['is_pro'] = $decoded['customer']['is_pro'];
             Inbound_Options_API::update_option( 'inbound-pro' , 'customer' , $customer );
             update_option('inbound_activate_pro_components' , true );
          } else {
             $customer = Inbound_Options_API::get_option( 'inbound-pro' , 'customer' , array() );
-            $customer['active'] = false;
+            $customer['is_active'] = false;
+            $customer['is_pro'] = false;
             Inbound_Options_API::update_option( 'inbound-pro' , 'customer' , $customer );
          }
 

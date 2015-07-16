@@ -51,8 +51,9 @@ if ( ! class_exists( 'Inbound_License' ) )
 			add_filter( 'wpleads_define_global_settings', array( $this, 'wpleads_settings' ), 2 );
 
 			/* save license key data / activate license keys */
-			if (is_admin())
+			if (is_admin()) {
 				$this->save_license_field();
+			}
 
 			/* render license key settings in license keys tab */
 			add_action('lp_render_global_settings', array( $this, 'display_license_field' ) );
@@ -174,8 +175,7 @@ if ( ! class_exists( 'Inbound_License' ) )
 			echo "<br>";
 			*/
 
-			if (isset($cache_date)&&($date<$cache_date)&&$license_status=='valid')
-			{
+			if (isset($cache_date)&&($date<$cache_date)&&$license_status=='valid') {
 				return "valid";
 			}
 
@@ -217,8 +217,9 @@ if ( ! class_exists( 'Inbound_License' ) )
 		public function save_license_field()
 		{
 
-			if (!isset($_POST['inboundnow_master_license_key']))
+			if (!isset($_POST['inboundnow_master_license_key'])) {
 				return;
+			}
 
 			$field_id  = "inboundnow-license-keys-".$this->plugin_slug;
 
@@ -240,8 +241,7 @@ if ( ! class_exists( 'Inbound_License' ) )
 			if ($license_status=='valid' && $master_license_key == $this->master_license_key )
 				return;
 
-			if ( $master_license_key )
-			{
+			if ( $master_license_key ) {
 				update_option($field_id ,$master_license_key);
 
 				// data to send in our API request
@@ -289,15 +289,16 @@ if ( ! class_exists( 'Inbound_License' ) )
 		public function pre_set_site_transient_update_plugins_filter( $_transient_data )
 		{
 
-			if( empty( $_transient_data ) ) return $_transient_data;
+			if( empty( $_transient_data ) ) {
+				return $_transient_data;
+			}
 
 			$to_send = array( 'slug' => $this->plugin_slug );
 
 			$api_response = $this->api_request( );
 
 
-			if( false !== $api_response && is_object( $api_response ) )
-			{
+			if( false !== $api_response && is_object( $api_response ) ) {
 				if( version_compare( $this->plugin_version, $api_response->new_version, '<' ) )
 					$_transient_data->response[$this->plugin_basename] = $api_response;
 			}
@@ -319,7 +320,7 @@ if ( ! class_exists( 'Inbound_License' ) )
 		}
 
 		/*** Calls the API and, if successfull, returns the object delivered by the API. */
-		public function api_request(  ) {
+		public function api_request() {
 
 			$api_params = array(
 				'edd_action' 	=> 'get_version',

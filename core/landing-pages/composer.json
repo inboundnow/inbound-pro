@@ -38,7 +38,8 @@
   },
   "autoload":{
     "psr-0":{
-      "Codeception":"src"
+      "Codeception":"src",
+      "WPBrowser":"src"
     }
   },
   "extra": {

@@ -270,6 +270,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
          *  @param INT $vid id of variation being processed
          */
         public static function prepare_tracked_links( $variation_html , $selected_cta , $vid ) {
+			$variation_html = do_shortcode($variation_html);
             $doc = new DOMDocument();
             @$doc->loadHTML( $variation_html );
 
@@ -1206,8 +1207,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
         /**
          *  This method processes the [cta] shortcode
          */
-        function process_shortcode_cta( $atts )
-        {
+        function process_shortcode_cta( $atts ) {
             extract(shortcode_atts(array(
                 'id' => '',
                 'vid' => null,

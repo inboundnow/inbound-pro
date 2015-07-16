@@ -36,3 +36,5 @@ assets/images/downloads_src
 #composer
 vendor
 bin
+core/leads/.idea/
+.idea/

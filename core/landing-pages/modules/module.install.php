@@ -17,8 +17,8 @@ function inbound_create_default_post_type(){
 *  Install example landing page and return landing page id
 */
 function inbound_install_example_lander() {
-	
-	
+
+
 	$landing_page_id = wp_insert_post(
         array(
             'post_title'     => __( 'A/B Testing Landing Page Example' , 'landing-pages'),
@@ -134,12 +134,12 @@ function lp_install_register_required_plugins() {
 
         // This is an example of how to include a plugin from the WordPress Plugin Repository
         array(
-            'name'      => __('WordPress Leads' , 'landing-pages') .' <span class=\'inbound-install-notice\'> - '. __('This <b>free</b> landing page addon will give you the ability to track and manage incoming web leads. Gather advanced Lead Intelligence and close more deals.' , 'landing-pages') .' <a class=\'inbound-install-notice-links\' href=\'http://wordpress.org/plugins/leads/\'> '. __('Learn more about WordPress Leads' , 'landing-pages') .'</a></span>',
+            'name'      => __('WordPress Leads' , 'landing-pages') .' <span class=\'inbound-install-notice\'> - '. __('This <b>free</b> landing page addon will give you the ability to track and manage incoming web leads. Gather advanced Lead Intelligence and close more deals.', 'landing-pages') .'</span>',
             'slug'      => 'leads',
             'required'  => false,
         ),
         array(
-            'name'      => __('WordPress Calls to Action' , 'landing-pages') .' <span class=\'inbound-install-notice\'> - '. __('This <b>free</b> landing page addon will drive more traffic into your Landing Pages with Targeted Calls to Action in your sites sidebars & content. Create popups to capture visitor attention and convert more leads.' , 'landing-pages') . ' <a class=\'inbound-install-notice-links\' href=\'http://wordpress.org/plugins/cta/\'> ' . __('Learn more about WordPress Calls to Action' , 'landing-pages') . '</a></span>',
+            'name'      => __('WordPress Calls to Action' , 'landing-pages') .' <span class=\'inbound-install-notice\'> - '. __('This <b>free</b> landing page addon will drive more traffic into your Landing Pages with Targeted Calls to Action in your sites sidebars & content. Create popups to capture visitor attention and convert more leads.' , 'landing-pages') .'</span>',
             'slug'      => 'cta',
             'required'  => false,
         ),
@@ -187,6 +187,6 @@ function lp_install_register_required_plugins() {
         )
     );
 
-    tgmpa( $plugins, $config );
+    inbound_activate( $plugins, $config );
 
 }

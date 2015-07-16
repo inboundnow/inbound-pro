@@ -22,16 +22,16 @@ if (!function_exists('inboundnow_add_master_license'))
 			case 'wp_cta_define_global_settings':
 				$key = 'wp-cta-license-keys';
 				$text_domain = 'cta';
-				break;	
+				break;
 		}
-		
+
 		$global_settings[$key]['settings']['master-key'] = 	array(
 						'id'  => 'extensions-license-keys-master-key-header',
 						'description' => __( "Head to http://www.inboundnow.com/ to retrieve your extension-ready license key." , $text_domain ),
 						'type'  => 'header',
 						'default' => '<h3 class="lp_global_settings_header">'. __( 'InboundNow Master Key' , $text_domain ) .'</h3>'
 				);
-				
+
 		$global_settings[$key]['settings']['master-key'] = 	array(
 				'id'  => 'inboundnow_master_license_key',
 				'option_name'  => 'inboundnow_master_license_key',
@@ -40,7 +40,7 @@ if (!function_exists('inboundnow_add_master_license'))
 				'type'  => 'text',
 				'default' => ''
 		);
-		
+
 		return $global_settings;
 	}
 }

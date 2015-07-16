@@ -337,6 +337,7 @@ var _inboundPageTracking = (function(_inbound) {
 				return;
 			}
 
+
             var leadID = ( _inbound.Utils.readCookie('wp_lead_id') ) ? _inbound.Utils.readCookie('wp_lead_id') : '';
             var lead_uid = ( _inbound.Utils.readCookie('wp_lead_uid') ) ? _inbound.Utils.readCookie('wp_lead_uid') : '';
 

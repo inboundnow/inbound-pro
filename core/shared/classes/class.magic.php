@@ -41,7 +41,7 @@ if ( ! class_exists( 'Inbound_Magic' ) ) {
 		 */
 		public static function buffer_callback( $content ) {
 
-			
+
 			$main = "#/jquery\.js(.*?)</script>#";
 			$patternFrontEnd = "#wp-includes/js/jquery/jquery\.js\?ver=([^']+)'></script>#";
 			$patternFrontTwo = "#wp-includes/js/jquery/jquery\.js'></script>#";
@@ -56,7 +56,7 @@ if ( ! class_exists( 'Inbound_Magic' ) ) {
 		    	$content = preg_replace( $main, '$0<script>jQuery = jQuery;</script>', $content );
 				return $content;
 
-			}else if ( preg_match( $patternFrontEnd, $content ) ) {
+			} else if ( preg_match( $patternFrontEnd, $content ) ) {
 				//jQuery = (typeof jQuery !== "undefined") ? jQuery : false;
 				$content = preg_replace( $patternFrontEnd, '$0<script>jQuery = jQuery;</script>', $content );
 				return $content;

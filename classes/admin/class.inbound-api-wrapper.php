@@ -4,7 +4,7 @@
  *
  *	Manage Inbound Templates
  *
-*/
+ */
 
 
 class Inbound_API_Wrapper {
@@ -20,36 +20,37 @@ class Inbound_API_Wrapper {
 	static $docs;
 	static $response;
 
-    /**
-     * Get API Endpoits
-     */
-     public function __construct() {
-        self::get_api_url();
-     }
-
-    /**
-     * Get API URL base
-     */
-     public static function get_api_url() {
-         if ( strstr( site_url() , 'inboundsoon.dev') || strstr( site_url() , 'inboundnow.dev')) {
-             self::$inbound_api_uri = 'http://localhost:3001/api/';
-         } else {
-             self::$inbound_api_uri = 'http://api.inboundnow.com/api/';
-         }
-
-         return self::$inbound_api_uri;
-     }
-    /**
-     * Get license key
-     */
-    public static function get_api_key() {
-        $settings_values = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
-        return (isset($settings_values['api-key']['api-key'])) ? trim($settings_values['api-key']['api-key']) : '';
-    }
+	/**
+	 * Get API Endpoits
+	 */
+	public function __construct() {
+		self::get_api_url();
+	}
 
 	/**
-	*  Gets data array of available products
-	*/
+	 * Get API URL base
+	 */
+	public static function get_api_url() {
+		if ( strstr( site_url() , 'inboundsoon.dev') || strstr( site_url() , 'inboundnow.dev')) {
+			self::$inbound_api_uri = 'http://inboundnow.dev/pro-api/';
+		} else {
+			self::$inbound_api_uri = 'http://inboundsite.wpengine.com/pro-api/';
+		}
+
+		return self::$inbound_api_uri;
+	}
+
+	/**
+	 * Get license key
+	 */
+	public static function get_api_key() {
+		$settings_values = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
+		return (isset($settings_values['api-key']['api-key'])) ? trim($settings_values['api-key']['api-key']) : '';
+	}
+
+	/**
+	 *  Gets data array of available products
+	 */
 	public static function get_downloads() {
 
 		/* check history first for cached object */
@@ -74,8 +75,8 @@ class Inbound_API_Wrapper {
 	}
 
 	/**
-	*  Get latest docs
-	*/
+	 *  Get latest docs
+	 */
 	public static function get_docs() {
 		/* check history first for cached object */
 		self::$remote_content = Inbound_Options_API::get_option( 'inbound-api' , 'remote' , array() );
@@ -110,8 +111,8 @@ class Inbound_API_Wrapper {
 	}
 
 	/**
-	*  Get latest blog posts
-	*/
+	 *  Get latest blog posts
+	 */
 	public static function get_blog_posts() {
 		/* check history first for cached object */
 		self::$remote_content = Inbound_Options_API::get_option( 'inbound-api' , 'remote' , array() );
@@ -142,9 +143,9 @@ class Inbound_API_Wrapper {
 	}
 
 	/**
-	*  Returns templates from dataset
-	*  @return ARRAY
-	*/
+	 *  Returns templates from dataset
+	 *  @return ARRAY
+	 */
 	public static function get_pro_templates() {
 
 		self::get_downloads();
@@ -162,9 +163,9 @@ class Inbound_API_Wrapper {
 	}
 
 	/**
-	*  Returns extensions from dataset
-	*  @return ARRAY
-	*/
+	 *  Returns extensions from dataset
+	 *  @return ARRAY
+	 */
 	public static function get_pro_extensions() {
 		self::get_downloads();
 		self::$extensions = array();
@@ -179,23 +180,23 @@ class Inbound_API_Wrapper {
 	}
 
 	/**
-	*  Get latest blog posts
-	*/
+	 *  Get latest blog posts
+	 */
 	public static function get_inboundnow_blog_posts() {
 
 	}
 
-    /**
-     * Get the pro download url
-     */
-    public static function get_pro_info_endpoint() {
-        return self::get_api_url().'pro/info';
-    }
+	/**
+	 * Get the pro download url
+	 */
+	public static function get_pro_info_endpoint() {
+		return self::get_api_url().'pro/info';
+	}
 
 
 	/**
-	*  Get download zip file from inbound now
-	*/
+	 *  Get download zip file from inbound now
+	 */
 	public static function get_download_zip( $download ) {
 
 		/* get license key */
@@ -215,15 +216,15 @@ class Inbound_API_Wrapper {
 				'filename' => $download['filename'],
 				'type' => $download['type'],
 				'site' => $domain,
-				'api' => $license_key
+				'api-key' => $license_key
 			)
 		));
 
 		/* print error if wp_remote_post has error */
 		if ( is_wp_error( $response ) ) {
-		   $error_message = $response->get_error_message();
-		   echo "Something went wrong: $error_message";
-		   exit;
+			$error_message = $response->get_error_message();
+			echo "Something went wrong: $error_message";
+			exit;
 		}
 
 		/* decode response from body */
