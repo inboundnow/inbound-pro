@@ -192,7 +192,7 @@ float: left;
 /* Form Table
  * ---------------------------------------- */
 #inbound-shortcodes-form-table {
-	width:520px;
+	width:100%;
 	position: relative;
 }
 #form-extra-controls {
@@ -213,8 +213,8 @@ float: left;
 	border-bottom:none;
 }
 #inbound-shortcodes-form-table tbody tr.form-row td.label{
-	min-width: 160px;
-	/*max-width:120px;*/
+    min-width:120px;
+	max-width:120px;
 	text-align:left;
 	vertical-align:top;
 	line-height:35px;
@@ -238,6 +238,7 @@ float: left;
 #inbound-shortcodes-form-table textarea{=
 	padding:5px 6px;
 	margin:0 0 0px 0;
+    width: 100%;
 }
 #inbound-shortcodes-form-table textarea{
 	max-width: 100%;

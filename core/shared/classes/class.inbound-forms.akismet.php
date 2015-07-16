@@ -156,8 +156,6 @@ if ( !class_exists('Inbound_Akismet') ) {
 				}
 			}
 
-
-
 			return '';
 		}
 

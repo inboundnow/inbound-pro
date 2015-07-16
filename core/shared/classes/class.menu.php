@@ -107,16 +107,15 @@ if (!class_exists('Inbound_Menu')) {
 				'meta'   => array( 'class' => 'ab-sub-secondary' )
 			) );
 
-			foreach ( $secondary_menu_items as $id => $menu_item )
-			{
+			foreach ( $secondary_menu_items as $id => $menu_item ) {
 				$menu_item['id'] =  $id;
 
 				if ( ! isset( $menu_item['meta']['target'] ) ) {
 					$menu_item['meta']['target'] = '_blank';
 				}
 
-				if ( '_blank' === $menu_item['meta']['target'] )
-				{
+				if ( '_blank' === $menu_item['meta']['target'] ) {
+
 					if ( ! isset( $menu_item['meta']['class'] ) ) {
 					  $menu_item['meta']['class'] = '';
 					}
@@ -414,8 +413,7 @@ if (!class_exists('Inbound_Menu')) {
 
 			/* 1.1.x Get Forms and List */
 			$forms = get_posts(array('post_type'=>'inbound-forms','post_status'=>'published'));
-			foreach ($forms as $form)
-			{
+			foreach ($forms as $form) {
 				$menu_items['inbound-form-'.$form->ID] = array(
 				  'parent' => 'inbound-forms-view',
 				  'title'  => $form->post_title,

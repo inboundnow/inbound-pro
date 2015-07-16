@@ -64,11 +64,23 @@ display: none;
 #setting-error-tgmpa p {
 	text-decoration: bold;
 }
+.appearance_page_install-inbound-plugins .inbound-install-notice {
+ display: none;
+}
 #setting-error-tgmpa p:nth-last-child(2), #setting-error-tgmpa a, #setting-error-tgmpa strong {
 	text-decoration: normal;
 }
+#setting-error-tgmpa em:last-of-type {
+	display: inline-block;
+}
+.inbound-and {
+	display: block;
+	  margin-top: 10px;
+	  font-size: 15px;
+}
 #setting-error-tgmpa p:nth-last-child(2) a:first-child{
 	padding-left: 0px;
+	text-decoration: none;
 }
 #setting-error-tgmpa p:nth-last-child(2) a {
 	padding-right: 10px;

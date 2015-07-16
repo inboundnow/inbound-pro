@@ -26,7 +26,7 @@ $shortcodes_config['forms'] = array(
         ),
         'form_name' => array(
             'name' => __('Form Name<span class="small-required-text">*</span>', INBOUNDNOW_TEXT_DOMAIN ),
-            'desc' => __('This is not shown to visitors', INBOUNDNOW_TEXT_DOMAIN ),
+            'desc' => __('This is for internal use and is not shown to visitors', INBOUNDNOW_TEXT_DOMAIN ),
             'type' => 'text',
             'placeholder' => "Example: XYZ Whitepaper Download",
             'std' => '',

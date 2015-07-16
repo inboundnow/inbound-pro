@@ -692,31 +692,33 @@ class Inbound_Shortcodes {
 			<?php
             do_action('inbound-forms/before-email-reponse-setup');
             ?>
-            <table class='widefat tokens'>
-                <tr><td>
-                <h2>Available Dynamic Email Tokens</h2>
-                <ul id="email-token-list">
-                    <li class='core_token' title='Email address of sender' style='cursor:pointer;'>{{admin-email-address}}</li>
-                    <li class='core_token' title='Name of this website' style='cursor:pointer;'>{{site-name}}</li>
-                    <li class='core_token' title='URL of this website' style='cursor:pointer;'>{{site-url}}</li>
-                    <li class='core_token' title='Datetime of Sent Email.' style='cursor:pointer;'>{{date-time}}</li>
-                    <li class='lead_token' title='First & Last name of recipient' style='cursor:pointer;'>{{lead-full-name}}</li>
-                    <li class='lead_token' title='First name of recipient' style='cursor:pointer;'>{{lead-first-name}}</li>
-                    <li class='lead_token' title='Last name of recipient' style='cursor:pointer;'>{{lead-last-name}}</li>
 
-                    <li class='lead_token' title='Email address of recipient' style='cursor:pointer;'>{{lead-email-address}}</li>
-                    <li class='lead_token' title='Company Name of recipient' style='cursor:pointer;'>{{lead-company-name}}</li>
-                    <li class='lead_token' title='Address Line 1 of recipient' style='cursor:pointer;'>{{lead-address-line-1}}</li>
-                    <li class='lead_token' title='Address Line 2 of recipient' style='cursor:pointer;'>{{lead-address-line-2}}</li>
-                    <li class='lead_token' title='City of recipient' style='cursor:pointer;'>{{lead-city}}</li>
-                    <li class='lead_token' title='Name of Inbound Now form user converted on' style='cursor:pointer;'>{{form-name}}</li>
-                    <li class='lead_token' title='Page the visitor singed-up on.' style='cursor:pointer;'>{{source}}</li>
-                </ul>
-                </td>
-                </tr>
-            </table>
 
 			<input type="text" name="inbound_confirmation_subject" placeholder="Email Subject Line" size="30" value="<?php echo $email_subject;?>" id="inbound_confirmation_subject" autocomplete="off">
+
+			<table class='widefat tokens'>
+			    <tr><td>
+			    <h2>Available Dynamic Email Tokens</h2>
+			    <ul id="email-token-list">
+			        <li class='core_token' title='Email address of sender' >{{admin-email-address}}</li>
+			        <li class='core_token' title='Name of this website' >{{site-name}}</li>
+			        <li class='core_token' title='URL of this website' >{{site-url}}</li>
+			        <li class='core_token' title='Datetime of Sent Email.' >{{date-time}}</li>
+			        <li class='lead_token' title='First & Last name of recipient' >{{lead-full-name}}</li>
+			        <li class='lead_token' title='First name of recipient' >{{lead-first-name}}</li>
+			        <li class='lead_token' title='Last name of recipient' >{{lead-last-name}}</li>
+
+			        <li class='lead_token' title='Email address of recipient' >{{lead-email-address}}</li>
+			        <li class='lead_token' title='Company Name of recipient' >{{lead-company-name}}</li>
+			        <li class='lead_token' title='Address Line 1 of recipient' >{{lead-address-line-1}}</li>
+			        <li class='lead_token' title='Address Line 2 of recipient' >{{lead-address-line-2}}</li>
+			        <li class='lead_token' title='City of recipient' >{{lead-city}}</li>
+			        <li class='lead_token' title='Name of Inbound Now form user converted on' >{{form-name}}</li>
+			        <li class='lead_token' title='Page the visitor singed-up on.' >{{source}}</li>
+			    </ul>
+			    </td>
+			    </tr>
+			</table>
 
 		</div>
 		<div id="inbound-shortcodes-popup">

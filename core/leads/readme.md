@@ -1,15 +1,13 @@
-![](https://travis-ci.org/inboundnow/leads.svg?branch=master)
-
 # WordPress Leads #
 
 **Contributors:** David Wells, Hudson Atwell  
 **Donate link:** mailto:marketplace@inboundnow.com  
 **License:** GPLv2 or later  
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html  
-**Tags:** leads, lead capture, lead tracking, lead collection, lead management, crm, crm tools,customer relationship management, contact management, landing page leads, extendable  
+**Tags:** leads, lead capture, lead tracking, lead collection, lead management, crm, crm tools  
 **Requires at least:** 3.8  
 **Tested up to:** 4.1  
-**Stable Tag:** 1.5.9  
+**Stable Tag:** 1.7.1  
 
 Track visitor activity, capture and manage incoming leads, and send collected emails to your email service provider.
 
@@ -81,19 +79,55 @@ We built Lead Management as a framework! You can use our extendable framework to
 ## Screenshots ##
 
 ### 1. Lead Management Custom Post Type ###
-![Lead Management Custom Post Type](screenshot-1.jpg)
+![Lead Management Custom Post Type](http://s.wordpress.org/extend/plugins/wordpress-leads/screenshot-1.png)
 
 ### 2. View and Edit Customer(Lead) Information ###
-![View and Edit Customer(Lead) Information](screenshot-2.jpg)
+![View and Edit Customer(Lead) Information](http://s.wordpress.org/extend/plugins/wordpress-leads/screenshot-2.png)
 
 ### 3. View Conversion Funnel Log for Each Customer(Lead) ###
-![View Conversion Funnel Log for Each Customer(Lead)](screenshot-3.jpg)
+![View Conversion Funnel Log for Each Customer(Lead)](http://s.wordpress.org/extend/plugins/wordpress-leads/screenshot-3.png)
 
 ### 4. Get Notified on Lead Conversions ###
-![Get Notified on Lead Conversions](screenshot-4.jpg)
+![Get Notified on Lead Conversions](http://s.wordpress.org/extend/plugins/wordpress-leads/screenshot-4.png)
 
 
 ## Changelog ##
+
+### 1.7.1 ###
+* Attention Leads users, if you used the email templating features to customize email responses or customize core WordPress email templates please head here to restore your original setup, these features have been backed out of our Leads plugin. https://wordpress.org/plugins/leads-edit-core-email-templates/
+* Temporarily disabling geolocation services
+
+### 1.7.0 ###
+* Security Patch for firefox
+
+### 1.6.8 ###
+* Security Patch
+
+### 1.6.6 ###
+* Security Patch
+
+### 1.6.5 ###
+* Fix for lead conversions not tracking on certain B variations
+
+### 1.6.4 ###
+* Adding support for Inbound Attachments extension
+* Bug fixes and general improvements.
+
+### 1.6.3 ###
+* Fixing white screen of death issues with other plugin conflicts
+* Improvements on NoConflict jQuery Class
+
+### 1.6.2 ###
+* Debugging release issues with 1.8.1
+* security update
+
+### 1.6.1 ###
+* Fixes issue with using Form Name and First Name when no name field is present in Inbound Now Forms
+* Required Fields no longer allow empty spaces as values.
+* Restored way to disable field pre-population
+* Improvement helps with checkbox required field validation
+* For detailed list of changes see [here](https://github.com/inboundnow/leads/issues?q=label%3A1.6.1+is%3Aclosed)
+
 ### 1.5.9 ###
 * Better required field validation for checkboxes
 

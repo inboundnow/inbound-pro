@@ -111,16 +111,14 @@ if (!class_exists('Inbound_Menus_Adminbar')) {
 				'meta'   => array( 'class' => 'ab-sub-secondary' )
 			) );
 
-			foreach ( $secondary_menu_items as $id => $menu_item )
-			{
+			foreach ( $secondary_menu_items as $id => $menu_item ) {
 				$menu_item['id'] =  $id;
 
 				if ( ! isset( $menu_item['meta']['target'] ) ) {
 					$menu_item['meta']['target'] = '_blank';
 				}
 
-				if ( '_blank' === $menu_item['meta']['target'] )
-				{
+				if ( '_blank' === $menu_item['meta']['target'] ) {
 					if ( ! isset( $menu_item['meta']['class'] ) ) {
 					  $menu_item['meta']['class'] = '';
 					}

@@ -8,7 +8,7 @@ if ( !class_exists('CTA_WordPress_Leads') ) {
 			self::load_hooks();
 		}
 
-		private function load_hooks() {
+		public static function load_hooks() {
 
 			add_filter('wpl_lead_activity_tabs', array( __CLASS__ , 'create_nav_tabs' ) , 10, 1);
 			add_action('wpleads_after_activity_log' , array( __CLASS__ , 'show_cta_click_content' ) );
@@ -45,7 +45,7 @@ if ( !class_exists('CTA_WordPress_Leads') ) {
 
 					foreach($the_array as $key=>$val) {
 						$id = $the_array[$count]['id'];
-						$title = get_the_title($id);
+						$title = get_the_title($id) . ' ( '. __('variation:' , 'cta') . ( isset($the_array[$count]['variation']) ? $the_array[$count]['variation'] : '0' ) . ' )';
 
 						$date_raw = new DateTime($the_array[$count]['datetime']);
 
@@ -59,7 +59,7 @@ if ( !class_exists('CTA_WordPress_Leads') ) {
 
 									<div class="lead-timeline-body">
 										<div class="lead-event-text">
-											<p><span class="lead-item-num">'.$count.'. </span><span class="lead-helper-text">Call to Action Click: </span><a href="#">'.$title.'</a><span class="conversion-date">'.$date_of_conversion.'</span></p>
+											<p><span class="lead-item-num">'.$count.'. </span><span class="lead-helper-text">' . __( 'Call to Action Click:' , 'cta') .' </span><a href="#">'.$title.'</a><span class="conversion-date">'.$date_of_conversion.'</span></p>
 										</div>
 									</div>
 								</div>';
