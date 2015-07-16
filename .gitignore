@@ -94,3 +94,23 @@ core/leads/.idea/
 
 /core/leads/readme.txt
 /core/leads/package.json
+
+/core/cta/deploy.sh
+
+/core/cta/screenshot-8.jpg
+/core/cta/screenshot-7.jpg
+/core/cta/screenshot-6.jpg
+/core/cta/screenshot-5.jpg
+/core/cta/screenshot-4.jpg
+/core/cta/screenshot-3.jpg
+/core/cta/screenshot-2.jpg
+/core/cta/screenshot-1.jpg
+
+/core/cta/readme.txt
+/core/cta/readme.md
+/core/cta/phpunit.xml.dist
+/core/cta/package.json
+
+/core/cta/gulpfile.js
+/core/cta/Gruntfile.js
+/core/cta/.travis.yml
