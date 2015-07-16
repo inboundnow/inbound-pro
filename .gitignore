@@ -128,3 +128,14 @@ core/leads/.idea/
 /core/leads/phpunit.xml.dist
 /core/leads/Gruntfile.js
 /core/leads/.travis.yml
+
+/core/inbound-automation/.idea/workspace.xml
+/core/inbound-automation/.idea/vcs.xml
+/core/inbound-automation/.idea/scopes/scope_settings.xml
+/core/inbound-automation/.idea/modules.xml
+/core/inbound-automation/.idea/misc.xml
+/core/inbound-automation/.idea/inspectionProfiles/Project_Default.xml
+/core/inbound-automation/.idea/inspectionProfiles/profiles_settings.xml
+/core/inbound-automation/.idea/inbound-automation.iml
+/core/inbound-automation/.idea/encodings.xml
+/core/inbound-automation/.idea/.name
