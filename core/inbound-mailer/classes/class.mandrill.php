@@ -64,7 +64,9 @@ if ( !class_exists('Mandrill') ) {
 		public function __construct( $apikey=null ) {
 			
 			if(!$apikey) $apikey = $this->readConfigs();
-			if(!$apikey) throw new Mandrill_Error('You must provide a Mandrill API key');
+			if(!$apikey) {
+				return;
+			}
 			$this->apikey = $apikey;
 
 			$this->ch = curl_init();
