@@ -170,7 +170,7 @@ class Inbound_Updater {
                 return;
             }
 
-            if( version_compare( self::current_version, self::$info->new_version, '<' ) ) {
+            if( version_compare( self::$current_version, self::$info->new_version, '<' ) ) {
 
                 $update_cache->response[ self::$name ] = self::$info;
 
