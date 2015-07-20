@@ -11,9 +11,6 @@ Text Domain: inbound-pro
 Domain Path: /lang/
 */
 
-define('INBOUND_COMPONENT_PATH', WP_PLUGIN_DIR);
-// define('INBOUND_COMPONENT_PATH', 'core');
-
 if ( !class_exists('Inbound_Pro_Plugin')	) {
 
 	final class Inbound_Pro_Plugin {
