@@ -1,6 +1,6 @@
 <?php
 
-/* uncomment this line for testing */
+/* uncomment this line for testing *
 set_site_transient( 'update_plugins', null );
 /**/
 
@@ -128,12 +128,12 @@ class Inbound_Updater {
         self::$info->plugin = self::$name;
         self::$info->last_updated = '';
         self::$info->sections =  (array) self::$info->sections;
-        self::$info->package = add_query_arg( array( 'api' => self::$api_key , 'site' => self::$domain ) , self::$info->package );
+        //self::$info->package = add_query_arg( array( 'api' => self::$api_key , 'site' => self::$domain ) , self::$info->package );
     }
 
 
     /**
-     * show update nofication row -- needed for multisite subsites, because WP won't tell you otherwise!
+     * show update nofication row -- because WP won't tell you otherwise!
      *
      * @param string  $file
      * @param array   $plugin
@@ -141,10 +141,6 @@ class Inbound_Updater {
     public static function show_update_notification( $file , $plugin ) {
 
         if( ! current_user_can( 'update_plugins' ) ) {
-            return;
-        }
-
-        if( ! is_multisite() ) {
             return;
         }
 
