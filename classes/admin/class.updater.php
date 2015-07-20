@@ -1,6 +1,6 @@
 <?php
 
-/* uncomment this line for testing *
+/* uncomment this line for testing */
 set_site_transient( 'update_plugins', null );
 /**/
 
