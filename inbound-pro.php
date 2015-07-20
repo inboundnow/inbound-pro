@@ -107,6 +107,11 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 			define('INBOUND_PRO_UPLOADS_URLPATH', $uploads['baseurl'].'/inbound-pro/' );
 			define('INBOUND_PRO_STORE_URL', 'http://www.inboundnow.com/market/' );
 
+			if (strstr( 'inboundnow.dev' , site_url() )) {
+				define('INBOUND_COMPONENT_PATH', WP_PLUGIN_DIR);
+			} else {
+				define('INBOUND_COMPONENT_PATH', 'core');
+			}
 		}
 
 		/**
