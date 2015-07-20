@@ -144,7 +144,7 @@ class Inbound_Updater {
             return;
         }
 
-        if ( self::$name != $file ) {
+        if ( self::$name != $file || !is_multisite() ) {
             return;
         }
 
