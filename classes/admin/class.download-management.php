@@ -115,22 +115,22 @@ class Inbound_Pro_Downloads {
 		$filename = ( isset($filename) && $filename ) ? $filename : $_REQUEST['filename'];
 		$download_type = ( isset($download_type) && $download_type ) ? $download_type : $_REQUEST['filename'];
 
-		/* get zip URL from api server */
-		$download_location = Inbound_API_Wrapper::get_download_zip( array(
-		    'filename' => $_REQUEST['filename'] ,
-		    'type' =>  $_REQUEST['download_type']
-		));
-
 		/* get downloads dataset */
 		self::build_main_dataset();
 
 		/* get download array from */
 		self::$download = self::$downloads[ $_REQUEST['download'] ];
 
-		/* get upload path from download data */
-		$extraction_path = self::get_upload_path( self::$download );
+		/* get zip URL from api server */
+		self::$download['download_location'] = Inbound_API_Wrapper::get_download_zip( array(
+			'filename' => $_REQUEST['filename'] ,
+			'type' =>  $_REQUEST['download_type']
+		));
 
-		self::install_download();
+		/* get upload path from download data */
+		self::$download['extraction_path'] = self::get_upload_path( self::$download );
+
+		self::install_download( self::$download );
 
 		/* add notification */
 		add_action( 'admin_notices', function() {
@@ -207,6 +207,7 @@ class Inbound_Pro_Downloads {
 	 *
 	 */
 	public static function install_download( $download ) {
+
 		/* delete download folder if there */
 		self::delete_download_folder( $download['extraction_path'] );
 
@@ -432,6 +433,7 @@ class Inbound_Pro_Downloads {
                     /**
                      * Determine if needs update
                      */
+					//error_log(print_r($download,true));
                     if ( version_compare( $download['current_version'] ,  $download['server_version']) == -1  && !in_array('uninstalled', $download['status']) )  {
                         $download['status'][] = 'needs-update';
                     }
