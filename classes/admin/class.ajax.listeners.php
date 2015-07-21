@@ -48,12 +48,24 @@ class Inbound_Pro_Admin_Ajax_Listeners {
      * Validate API Key
      */
      public static function  validate_api_key() {
+         /* get customer data */
+         $customer = Inbound_Options_API::get_option( 'inbound-pro' , 'customer' , array() );
 
-        /* save api key */
+         /* get api key */
          $settings = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
+
+         /* if there is no change in the api get then return the data on record */
+         if ( $_REQUEST['api_key'] == $settings[ 'api-key' ][ 'api-key' ] && get_transient( 'inbound_api_key_cache') ) {
+            $data['customer'] = $customer;
+            echo  json_encode($data);
+            exit;
+         }
+
+         /* update api key if changed */
          $settings[ 'api-key' ][ 'api-key' ] = trim($_REQUEST['api_key']);
          Inbound_Options_API::update_option( 'inbound-pro' , 'settings' , $settings );
 
+         /* look up api key to see what permissions it has */
          $response = wp_remote_post( Inbound_API_Wrapper::get_api_url() . 'key/check' ,  array(
             'body' => array(
                 'api-key' => trim($_REQUEST['api_key']),
@@ -65,21 +77,7 @@ class Inbound_Pro_Admin_Ajax_Listeners {
              return;
          }
 
-
-         $customer = Inbound_Options_API::get_option( 'inbound-pro' , 'customer' , array() );
-
-         /**
-          * Temp master key handler
-          */
-         if ($_REQUEST['api_key'] == 'inboundnow' ) {
-             $customer['is_active'] = true;
-             $customer['is_pro'] = true;
-             Inbound_Options_API::update_option( 'inbound-pro' , 'customer' , $customer );
-             update_option('inbound_activate_pro_components' , true );
-             echo '{"customer":{"api_keys":{"public":"inboundnow","private":"inboundnow"},"domains":["inboundnow.dev"],"is_pro":true}}';
-             exit;
-         }
-
+         /* decode json response */
          $decoded = json_decode( $response['body'] , true );
 
          if (isset( $decoded['customer'] )) {
@@ -87,6 +85,7 @@ class Inbound_Pro_Admin_Ajax_Listeners {
             $customer['is_pro'] = $decoded['customer']['is_pro'];
             Inbound_Options_API::update_option( 'inbound-pro' , 'customer' , $customer );
             update_option('inbound_activate_pro_components' , true );
+            set_transient( 'inbound_api_key_cache' , 60 * 60 * 24 ); /* cache the good results for one day */
          } else {
             $customer['is_active'] = false;
             $customer['is_pro'] = false;

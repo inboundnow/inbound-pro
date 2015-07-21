@@ -108,9 +108,6 @@ class Inbound_Pro_Downloads {
 			wp_die( __('You do not have sufficient permissions to delete plugins for this site.') );
 		}
 
-		/* load pclzip */
-		include_once( ABSPATH . '/wp-admin/includes/class-pclzip.php');
-
 		/* preapre variables */
 		$filename = ( isset($filename) && $filename ) ? $filename : $_REQUEST['filename'];
 		$download_type = ( isset($download_type) && $download_type ) ? $download_type : $_REQUEST['filename'];
@@ -207,6 +204,9 @@ class Inbound_Pro_Downloads {
 	 *
 	 */
 	public static function install_download( $download ) {
+
+		/* load pclzip */
+		include_once( ABSPATH . '/wp-admin/includes/class-pclzip.php');
 
 		/* delete download folder if there */
 		self::delete_download_folder( $download['extraction_path'] );
@@ -315,7 +315,7 @@ class Inbound_Pro_Downloads {
 			$i++;
 		}
 
-		//print_r(self::$downloads);exit;
+		return self::$downloads;
 	}
 
 	/**
@@ -588,9 +588,9 @@ class Inbound_Pro_Downloads {
 	/**
 	*  Display management page
 	*/
-	public static function load_management_vars() {
-
-		switch( $_REQUEST['page'] ) {
+	public static function load_management_vars( ) {
+		$page = (isset($_REQUEST['page'])) ? $_REQUEST['page'] : 'inbound-manage-extensions';
+		switch( $page ) {
 			case 'inbound-manage-templates':
 
 				/* set mode to templates */
@@ -601,7 +601,6 @@ class Inbound_Pro_Downloads {
 
 				/* set pre-processed download items */
 				self::$items = Inbound_API_Wrapper::get_pro_templates();
-
 				break;
 			case 'inbound-manage-extensions':
 
@@ -615,6 +614,7 @@ class Inbound_Pro_Downloads {
 				self::$items = Inbound_API_Wrapper::get_pro_extensions();
 
 				break;
+
 		}
 	}
 
