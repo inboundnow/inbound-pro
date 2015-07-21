@@ -422,6 +422,23 @@ class Inbound_Pro_Downloads {
 			<div id="grid" class="container-fluid">
 				<?php $count = 1;
 
+				/* determine permissions from customer access level*/
+				$permitted = false;
+				$access_level = Inbound_Pro_Plugin::get_customer_status();
+
+				switch (self::$management_mode) {
+					case 'templates':
+						if ($access_level > 0 ) {
+							$permitted = true;
+						}
+						break;
+					case 'extensions':
+						if ($access_level > 2 ) {
+							$permitted = true;
+						}
+						break;
+				}
+
 				foreach (self::$downloads as $download) {
 
 
@@ -430,13 +447,12 @@ class Inbound_Pro_Downloads {
 					}
                     $count++;
 
-                    /**
-                     * Determine if needs update
-                     */
-					//error_log(print_r($download,true));
+                    /* Determine if needs update */
                     if ( version_compare( $download['current_version'] ,  $download['server_version']) == -1  && !in_array('uninstalled', $download['status']) )  {
                         $download['status'][] = 'needs-update';
                     }
+
+
 
 					?>
 					<div class="row col-md-2 col-xs-2 download-item " data-plugins='<?php echo json_encode( $download['plugins'] );	?>' data-meta='<?php echo json_encode( $download['status'] ); ?>'  >
@@ -494,7 +510,7 @@ class Inbound_Pro_Downloads {
 
 						<div class="col-template-actions">
 							<?php
-							if ( in_array( 'uninstalled' , $download['status'] ) &&  self::$customer ) {
+							if ( in_array( 'uninstalled' , $download['status'] )&& $permitted ) {
 								?>
 								<div class="action-install">
 									<a  href="admin.php?page=<?php echo $_GET['page']; ?>&action=install&download=<?php echo $download['post_name']; ?>&download_type=<?php echo $download['download_type']; ?>&filename=<?php echo $download['zip_filename']; ?>" class="power-toggle power-is-off fa fa-power-off"  data-toggle="tooltip" id='<?php echo $download['post_name']; ?>' title='<?php _e( 'Turn On' , INBOUNDNOW_TEXT_DOMAIN ); ?>'></a>
@@ -502,7 +518,7 @@ class Inbound_Pro_Downloads {
 								<?php
 							}
 
-							if ( in_array( 'installed' , $download['status'] ) ) {
+							if ( in_array( 'installed' , $download['status'] ) && $permitted ) {
 								?>
 								<div class="action-uninstall">
 									<a href="admin.php?page=<?php echo $_GET['page']; ?>&action=uninstall&download=<?php echo $download['post_name']; ?>" class="power-toggle power-is-on fa fa-power-off"  data-toggle="tooltip" id='<?php echo $download['post_name']; ?>' title='<?php _e( 'Turn Off' , INBOUNDNOW_TEXT_DOMAIN ); ?>'></a>
@@ -530,10 +546,10 @@ class Inbound_Pro_Downloads {
 								}
 							}
 
-							if (!self::$customer) {
+							if (!$permitted) {
                                 ?>
                                 <div class="action-locked">
-                                  <i class="fa fa-lock"  data-toggle="tooltip" id='' title='<?php _e( 'Active license required to install.' , INBOUNDNOW_TEXT_DOMAIN ); ?>'></i>
+                                  <i class="fa fa-lock"  data-toggle="tooltip" id='' title='<?php _e( 'Active license with correct permissions required to install.' , INBOUNDNOW_TEXT_DOMAIN ); ?>'></i>
                                 </div>
                                  <?php
                             }
