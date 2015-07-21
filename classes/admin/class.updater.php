@@ -128,12 +128,12 @@ class Inbound_Updater {
         self::$info->plugin = self::$name;
         self::$info->last_updated = '';
         self::$info->sections =  (array) self::$info->sections;
-        self::$info->package = add_query_arg( array( 'api' => self::$api_key , 'site' => self::$domain ) , self::$info->package );
+        //self::$info->package = add_query_arg( array( 'api' => self::$api_key , 'site' => self::$domain ) , self::$info->package );
     }
 
 
     /**
-     * show update nofication row -- needed for multisite subsites, because WP won't tell you otherwise!
+     * show update nofication row -- because WP won't tell you otherwise!
      *
      * @param string  $file
      * @param array   $plugin
@@ -144,11 +144,7 @@ class Inbound_Updater {
             return;
         }
 
-        if( ! is_multisite() ) {
-            return;
-        }
-
-        if ( self::$name != $file ) {
+        if ( self::$name != $file || !is_multisite() ) {
             return;
         }
 
@@ -174,7 +170,7 @@ class Inbound_Updater {
                 return;
             }
 
-            if( version_compare( self::current_version, self::$info->new_version, '<' ) ) {
+            if( version_compare( self::$current_version, self::$info->new_version, '<' ) ) {
 
                 $update_cache->response[ self::$name ] = self::$info;
 

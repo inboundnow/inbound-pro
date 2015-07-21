@@ -634,6 +634,9 @@ class Inbound_Mail_Daemon {
 	*  Runs a command to create metafields in Manrill
 	*/
 	public static function create_metafields_in_mandrill( $api_key ) {
+		if (!$api_key) {
+			return;
+		}
 		$mandrill = new Mandrill(  $api_key );
 		self::$response = $mandrill->metadata->add( 'email_id' , '{{value}}');
 		self::$response = $mandrill->metadata->add( 'lead_id' , '{{value}}');

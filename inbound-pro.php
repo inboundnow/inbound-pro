@@ -5,14 +5,11 @@ Plugin URI: http://www.inboundnow.com/
 Description: Pro Version of Inbound Now Plugins
 Author: Inbound Now
 Author: Inbound Now
-Version: 1.0.1
+Version: 1.0.3
 Author URI: http://www.inboundnow.com/
 Text Domain: inbound-pro
 Domain Path: /lang/
 */
-
-define('INBOUND_COMPONENT_PATH', WP_PLUGIN_DIR);
-// define('INBOUND_COMPONENT_PATH', 'core');
 
 if ( !class_exists('Inbound_Pro_Plugin')	) {
 
@@ -96,7 +93,7 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 		*/
 		private static function define_constants() {
 
-			define('INBOUND_PRO_CURRENT_VERSION', '1.0.1' );
+			define('INBOUND_PRO_CURRENT_VERSION', '1.0.3' );
 			define('INBOUND_PRO_URLPATH', WP_PLUGIN_URL.'/'.plugin_basename( dirname(__FILE__) ).'/' );
 			define('INBOUND_PRO_PATH', WP_PLUGIN_DIR.'/'.plugin_basename( dirname(__FILE__) ).'/' );
 			define('INBOUND_PRO_SLUG', plugin_basename( dirname(__FILE__) ) );
@@ -107,6 +104,11 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 			define('INBOUND_PRO_UPLOADS_URLPATH', $uploads['baseurl'].'/inbound-pro/' );
 			define('INBOUND_PRO_STORE_URL', 'http://www.inboundnow.com/market/' );
 
+			if (strstr( 'inboundnow.dev' , site_url() )) {
+				define('INBOUND_COMPONENT_PATH', WP_PLUGIN_DIR);
+			} else {
+				define('INBOUND_COMPONENT_PATH', 'core');
+			}
 		}
 
 		/**

@@ -177,7 +177,7 @@ class Landing_Pages_Click_Tracking {
         $meta = get_post_meta( $lead_ID, 'times', TRUE ); // replace times
         $meta++;
         $conversions_count = get_post_meta($lead_ID,'wpl-lead-conversion-count', true);
-        $conversions_couloadnt++;
+        $conversions_count++;
         if ($conversion_data) {
 
             $conversion_data = json_decode($conversion_data,true);
