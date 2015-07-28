@@ -12,11 +12,12 @@ class Landing_Pages_Meta {
 	*/
 	public static function get_settings( $landing_pages_id ) {
 
-		$landing_page_settings = get_post_meta( $landing_pages_id , 'inbound_settings' , true );
+		$landing_page_settings = maybe_unserialize(get_post_meta( $landing_pages_id , 'inbound_settings' , true ));
 
 		if (!$landing_page_settings) {
 			$landing_page_settings = array();
 		}
+
 
 		return $landing_page_settings;
 	}

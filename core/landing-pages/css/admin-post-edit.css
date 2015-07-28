@@ -19,7 +19,12 @@ h2#convert-header {
 .mceIframeContainer.mceFirst.mceLast iframe{
 	height: 335px !important;
 }
-/* FIX WORDPRESS BULLSHIT */
+
+#slugdiv {
+	display:none;
+}
+
+/* FIX WORDPRESS modal button */
 body.modal-open {
 overflow: visible !important;
 }
