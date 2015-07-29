@@ -37,6 +37,8 @@ class Landing_Pages_Metaboxes {
         /* save landing page */
         add_action('save_post', array( __CLASS__ , 'save_landing_page' ) );
 
+        /* set wpseo priority to low */
+        add_filter('wpseo_metabox_prio', array( __CLASS__ , 'set_wpseo_priority' ));
 
     }
 
@@ -60,7 +62,6 @@ class Landing_Pages_Metaboxes {
             'normal',
             'high'
         );
-
 
         /* Load Template Settings */
         $extension_data = lp_get_extension_data();
@@ -1025,6 +1026,14 @@ class Landing_Pages_Metaboxes {
             $settings['variations'][$variation_id]['acf'] = $_POST['acf'];
             Landing_Pages_Meta::update_settings( $post->ID , $settings );
         }
+    }
+
+    /**
+     * Sets WPSEO metabox priority to low
+     * @return string
+     */
+    public static function set_wpseo_priority() {
+        return 'low';
     }
 
 }

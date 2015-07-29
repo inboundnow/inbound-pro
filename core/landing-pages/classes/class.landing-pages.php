@@ -39,6 +39,12 @@ class Landing_Pages_Template_Switcher {
 
         /* add conversion area shortcode */
         add_shortcode('lp_conversion_area', array( __CLASS__ , 'process_conversion_area_shortcode') );
+
+        /* Add Custom Class to Landing Page Nav Menu to hide/remove */
+        add_filter('wp_nav_menu_args', array( __CLASS__ , 'hide_nav_menu' ) );
+
+        /* strips active theme styling from non default landing pages */
+        add_action('wp_print_styles', array( __CLASS__ , 'strip_styles' ), 100);
     }
 
     /**
@@ -192,6 +198,87 @@ class Landing_Pages_Template_Switcher {
         $conversion_area = lp_conversion_area($post = null, $content = null, $return = true, $doshortcode = true, $rebuild_attributes = true);
 
         return $conversion_area;
+    }
+
+
+    /**
+     * Hides navigation menu on default landing page tempaltes
+     * @param string $args
+     * @return string
+     */
+    public static function hide_nav_menu($args = '') {
+        global $post;
+
+        if ( !isset($post) || $post->post_type != 'landing-page') {
+            return $args;
+        }
+
+
+        $template_name = Landing_Pages_Variation::get_current_tempalte( $post->ID );
+        if ($template_name != 'default') {
+            return $args;
+        }
+
+        $nav_status = get_post_meta($post->ID, 'default-lp_hide_nav', true);
+
+        if ($nav_status != 'off' ) {
+            return $args;
+        }
+
+        if (isset($args['container_class'])) {
+            $current_class = " " . $args['container_class'];
+        }
+
+        $args['container_class'] = "custom_landing_page_nav{$current_class}";
+
+        $args['echo'] = false;
+
+        return $args;
+    }
+
+    /**
+     * Remove all base css from the current active wordpress theme in landing pages
+     * currently removes all css from wp_head and re-enqueues the admin bar css.
+     */
+    public static function strip_styles() {
+
+        if (is_admin() || 'landing-page' != get_post_type()) {
+            return;
+        }
+
+        global $post;
+        $template = Landing_Pages_Variations::get_current_temaplte( $post->ID );
+
+        $my_theme = wp_get_theme($template);
+
+        if ($my_theme->exists() || $template == 'default') {
+            return;
+        }
+
+        global $wp_styles;
+
+        $registered_scripts = $wp_styles->registered;
+        $inbound_white_list = array();
+        foreach ($registered_scripts as $handle) {
+            if (preg_match("/\/plugins\/leads\//", $handle->src)) {
+                //echo $handle->handle;
+                $inbound_white_list[] = $handle->handle;
+            }
+            if (preg_match("/\/plugins\/cta\//", $handle->src)) {
+                //echo $handle->handle;
+                $inbound_white_list[] = $handle->handle;
+            }
+            if (preg_match("/\/plugins\/landing-pages\//", $handle->src)) {
+                //echo $handle->handle;
+                $inbound_white_list[] = $handle->handle;
+            }
+        }
+
+        $wp_styles->queue = $inbound_white_list;
+
+        wp_enqueue_style('admin-bar');
+
+
     }
 }
 

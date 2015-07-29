@@ -601,7 +601,7 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
          */
         public static function add_quick_actions($actions, $post) {
             if ($post->post_type != 'landing-page') {
-                return $action;
+                return $actions;
             }
 
             $actions['clear'] = '<a href="#clear-stats" id="lp_clear_' . $post->ID . '" class="clear_stats" title="' . esc_attr(__("Clear impression and conversion records", 'landing-pages')) . '" >' . __('Clear All Stats', 'landing-pages') . '</a><span class="hover-description">' . __('Hover over the letters to the right for more options', 'landing-pages') . '</span>';
