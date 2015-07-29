@@ -57,7 +57,6 @@ if (!class_exists('Inbound_Landing_Pages_Plugin')) {
 			switch (is_admin()) :
 				case true :
 					/* loads admin files */
-					include_once( LANDINGPAGES_PATH . 'modules/module.javascript-admin.php');
 					include_once( LANDINGPAGES_PATH . 'classes/class.activation.php');
 					include_once( LANDINGPAGES_PATH . 'classes/class.activation.upgrade-routines.php');
                     include_once( LANDINGPAGES_PATH . 'classes/class.variations.php');
@@ -93,7 +92,6 @@ if (!class_exists('Inbound_Landing_Pages_Plugin')) {
                     include_once( LANDINGPAGES_PATH . 'classes/class.postmeta.php');
                     include_once( LANDINGPAGES_PATH . 'classes/class.inbound-statistics.php');
 					include_once( LANDINGPAGES_PATH . 'classes/class.click-tracking.php');
-					include_once( LANDINGPAGES_PATH . 'modules/module.javascript-frontend.php');
 					include_once( LANDINGPAGES_PATH . 'classes/class.post-type.landing-page.php');
 					include_once( LANDINGPAGES_PATH . 'modules/module.utils.php');
 					include_once( LANDINGPAGES_PATH . 'classes/class.sidebars.php');
