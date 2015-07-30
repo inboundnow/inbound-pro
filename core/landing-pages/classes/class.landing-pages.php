@@ -39,6 +39,7 @@ class Landing_Pages_Template_Switcher {
 
         /* add conversion area shortcode */
         add_shortcode('lp_conversion_area', array( __CLASS__ , 'process_conversion_area_shortcode') );
+        add_shortcode('landing-page-conversion', array( __CLASS__ , 'process_conversion_shortcode') );
 
         /* Add Custom Class to Landing Page Nav Menu to hide/remove */
         add_filter('wp_nav_menu_args', array( __CLASS__ , 'hide_nav_menu' ) );
@@ -200,6 +201,30 @@ class Landing_Pages_Template_Switcher {
         return $conversion_area;
     }
 
+    /**
+     *
+     * [landing-page-conversion] shortcode support
+     *
+     */
+    public static function process_conversion_shortcode($atts, $content = null) {
+        extract(shortcode_atts(array(
+            'id' => '',
+            'vid' => '0'
+        ), $atts));
+
+
+        /* check do not track flag */
+        $do_not_track = apply_filters('inbound_analytics_stop_track' , false );
+        if ( $do_not_track || isset($_SESSION['landing_page_conversions']) && in_array( $id , $_SESSION['landing_page_conversions'] ) )  {
+            return;
+        }
+
+        Landing_Pages_Variations::record_conversion($id , $vid);
+
+        $_SESSION['landing_page_conversions'][] = $id;
+
+    }
+
 
     /**
      * Hides navigation menu on default landing page tempaltes
@@ -247,7 +272,7 @@ class Landing_Pages_Template_Switcher {
         }
 
         global $post;
-        $template = Landing_Pages_Variations::get_current_temaplte( $post->ID );
+        $template = Landing_Pages_Variations::get_current_template( $post->ID );
 
         $my_theme = wp_get_theme($template);
 

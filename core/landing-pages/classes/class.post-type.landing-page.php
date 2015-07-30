@@ -14,7 +14,6 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
         private function load_hooks() {
             add_action('init', array( __CLASS__ , 'register_post_type' ) );
             add_action('init', array( __CLASS__ , 'register_taxonomies' ) );
-            add_action('admin_init', array( __CLASS__ , 'change_excerpt_to_summary' ) );
             add_action('init', array( __CLASS__ , 'add_rewrite_rules') );
             add_filter('mod_rewrite_rules', array( __CLASS__ , 'filter_rewrite_rules' ) , 1);
 
@@ -138,6 +137,10 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
             global $post;
             $screen = get_current_screen();
 
+            if (!isset($post) ||$post->post_type != 'landing-page') {
+                return;
+            }
+
             /* listing page only */
             if ($screen->id == 'edit-landing-page' ) {
                 /* load stat clear handlers */
@@ -157,7 +160,6 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
 
             /* landing page edit screen */
             if ($screen->id == 'landing-page' ) {
-                wp_enqueue_style('lp-admin-css', LANDINGPAGES_URLPATH . 'css/admin/landing-page-edit.css');
                 wp_enqueue_script(array('jquery', 'jqueryui', 'editor', 'thickbox', 'media-upload'));
                 wp_enqueue_style('edit-landing-page', LANDINGPAGES_URLPATH . 'css/admin/edit-landing-page.css');
                 wp_enqueue_script('lp-js-metaboxes', LANDINGPAGES_URLPATH . 'js/admin/admin.metaboxes.js');
@@ -193,6 +195,10 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
                 wp_enqueue_script('jquery-datepicker-functions', LANDINGPAGES_URLPATH . 'js/libraries/jquery-datepicker/picker_functions.js');
                 wp_enqueue_style('jquery-timepicker-css', LANDINGPAGES_URLPATH . 'js/libraries/jquery-datepicker/jquery.timepicker.css');
                 wp_enqueue_style('jquery-datepicker-base.css', LANDINGPAGES_URLPATH . 'js/libraries/jquery-datepicker/lib/base.css');
+
+                /* Load FontAwesome */
+                wp_register_style('font-awesome', LANDINGPAGES_URLPATH . 'libraries/FontAwesome/css/font-awesome.min.css');
+                wp_enqueue_style('font-awesome');
 
             }
 
@@ -453,14 +459,6 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
             return $rules;
         }
 
-        public static function change_excerpt_to_summary() {
-            if (!post_type_supports("landing-page", 'excerpt')) {
-                return;
-            }
-
-            add_meta_box('postexcerpt', __('Short Description', 'landing-pages'), 'post_excerpt_meta_box', 'landing-page', 'normal', 'core');
-
-        }
 
         /**
          * Show stats container on Landing Page lists page
@@ -718,5 +716,5 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
     }
 
     /* Load Post Type Pre Init */
-    $GLOBALS['Landing_Pages_Post_Type'] = new Landing_Pages_Post_Type();
+   new Landing_Pages_Post_Type();
 }

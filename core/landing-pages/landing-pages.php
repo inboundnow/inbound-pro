@@ -20,8 +20,8 @@ if (!class_exists('Inbound_Landing_Pages_Plugin')) {
 		public function __construct() {
 
 			/* Start a PHP Session if in wp-admin */
-			if (is_admin()) {
-				if(!isset($_SESSION)){@session_start();}
+			if(session_id() == '') {
+				session_start();
 			}
 
 			/* Run Loaders */

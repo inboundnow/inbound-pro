@@ -67,10 +67,10 @@ ul#template-filter .button-primary a {
 	font-size: 15px;
 }
 #lp_2_form_content  {
-	margin-top:20px;	
+	margin-top:20px;
 }
 #lp_2_form_content .hndle em {
-	font-size: 13px;	
+	font-size: 13px;
 }
 .template-thumbnail
 {
@@ -100,4 +100,8 @@ ul#template-filter a.current{ background-color: #DDD; }
 bottom: 6px;
     position: absolute;
     right: 8px;
+}
+
+.lp_tooltip {
+	display:inline;
 }

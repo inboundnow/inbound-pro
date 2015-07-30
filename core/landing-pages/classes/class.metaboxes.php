@@ -161,6 +161,24 @@ class Landing_Pages_Metaboxes {
                 array('key' => $key)
             );
         }
+
+        /* Display short description */
+        add_meta_box(
+            'postexcerpt',
+            __('Short Description', 'landing-pages'),
+            'post_excerpt_meta_box',
+            'landing-page',
+            'normal', 'core'
+        );
+
+        /* Display conversion tracking helper */
+        add_meta_box(
+            'lp_conversion_tracking',
+            __('Additional Documentation', 'landing-pages'),
+            array( __CLASS__ , 'display_additional_documentation' ),
+            'landing-page',
+            'normal', 'core'
+        );
     }
 
     /**
@@ -792,6 +810,32 @@ class Landing_Pages_Metaboxes {
         $lp_custom_fields = $extension_data[$key]['settings'];
 
         self::render_fields($key , $lp_custom_fields , $post);
+    }
+
+
+    /**
+     * Display additional documentaiton metabox
+     */
+    public static function display_additional_documentation() {
+        global $post;
+
+        $variation_id = Landing_Pages_Variations::get_current_variation_id();
+
+       ?>
+       <div>
+            <table style='width:100%'>
+                <tr>
+                    <td>
+                        <?php _e( 'Conversion Shortcode' , 'landing-pages' ); ?>
+                    </td>
+                    <td>
+                        <input type='text' style='width:95%;display:inline;' disabled value="[landing-page-conversion id='<?php echo $post->ID; ?>' vid='<?php echo $variation_id; ?>']">
+                        <div class="lp_tooltip" title="<?php _e( 'Instead of depending on Inbound Forms or tracked clicks for conversion tracking, enter this shortcode into your final destination page to manually increment this variation\'s conversion count' , 'landing-page' ); ?>" ><i class="fa fa-question-circle"></i></div>
+                    </td>
+                </tr>
+            </table>
+       </div>
+       <?php
     }
 
 
