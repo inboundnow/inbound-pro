@@ -174,8 +174,8 @@ class Landing_Pages_Metaboxes {
         /* Display conversion tracking helper */
         add_meta_box(
             'lp_conversion_tracking',
-            __('Additional Documentation', 'landing-pages'),
-            array( __CLASS__ , 'display_additional_documentation' ),
+            __('Additional Resources', 'landing-pages'),
+            array( __CLASS__ , 'display_additional_resources' ),
             'landing-page',
             'normal', 'core'
         );
@@ -816,7 +816,7 @@ class Landing_Pages_Metaboxes {
     /**
      * Display additional documentaiton metabox
      */
-    public static function display_additional_documentation() {
+    public static function display_additional_resources() {
         global $post;
 
         $variation_id = Landing_Pages_Variations::get_current_variation_id();
