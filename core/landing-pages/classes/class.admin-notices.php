@@ -17,22 +17,30 @@ class Landing_Pages_Admin_Notices {
      * Persistant message to not install landing page themes at templates.
      */
     public static function dont_install_landing_page_templates_here() {
+
         $screen = get_current_screen();
 
-        if ( $screen->id !== 'themes') {
-            return;
-        }
+        if( $screen->id === 'themes' ||
+            $screen->id === 'theme-install' ||
+            $screen->id === 'update' && isset($_GET['action']) && $_GET['action'] === "upload-theme"
+          ) {
 
-        $link = admin_url( 'edit.php?post_type=landing-page&page=lp_manage_templates' );
+            $doc = 'http://docs.inboundnow.com/guide/installing-new-templates/';
+            $link = admin_url( 'edit.php?post_type=landing-page&page=lp_templates_upload' );
+
         ?>
         <div class="error">
             <h3 style='font-weight:normal;'>
-                <strong><u><?php _e( 'Please Note' , 'landing-pages' ); ?></u>:</strong>
-                 <?php _e( sprintf( 'Do not try to install %s Inbound Now WordPress Landing page templates%s as a WordPres theme.' , '<a href=\'http://www.inboundnow.com/products/landing-pages/templates/\' target=\'_blank\'>' , '</a>' ) , 'landing-pages' ); ?>
-                 <?php _e( sprintf( '%sClick here to install Landing page templates%s in the Landing pages > Manage templates area' , '<br><br><a href="'.$link.'">' , '</a>')  , 'landing-pages' ); ?>
+                <strong><?php _e( 'Attention Landing Page Users:' , 'landing-pages' ); ?></strong>
             </h3>
+            <p><?php _e( sprintf( 'If you are trying to install a <strong>landing page template</strong> from Inbound Now, %s Please Follow these instructions%s' , '<a href=\'http://docs.inboundnow.com/guide/installing-new-templates/\' target=\'_blank\'>' , '</a>' ) , 'landing-pages' ); ?>
+            </p>
+
+            <p><?php echo "<p>Landing page templates need to be installed <a href='".$link."'>here</a> in the <strong><a href='".$link."'>Landing pages</a> > <a href='".$link."'>Manage templates area</a></strong>"; ?>
+            </p>
         </div>
         <?php
+        }
     }
 
 

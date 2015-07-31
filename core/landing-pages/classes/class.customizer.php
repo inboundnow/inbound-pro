@@ -27,7 +27,7 @@ class Landing_Pages_Customizer {
         }
 
         /* load landing page edit area */
-        if (isset($_GET['frontend']) && $_GET['frontend'] === 'true') {
+        if (isset($_GET['frontend']) && $_GET['frontend'] ) {
             add_action('admin_enqueue_scripts', array( __CLASS__ , 'enqueue_scripts_editor' )  );
         }
 
@@ -36,6 +36,8 @@ class Landing_Pages_Customizer {
             add_action('wp_enqueue_scripts', array( __CLASS__ , 'enqueue_scripts_controller' )  );
             add_filter('wp_head', array( __CLASS__ , 'load_customizer_controller' ) );
         }
+
+        add_filter('redirect_post_location' , array( __CLASS__ , 'redirect_after_save' ) );
     }
 
     /**
@@ -170,6 +172,18 @@ class Landing_Pages_Customizer {
         exit;
     }
 
+    /**
+     * Redirect post location after save
+     */
+    public static function redirect_after_save($url) {
+
+        if( !isset($_REQUEST['_wp_http_referer']) || !strstr( $_REQUEST['_wp_http_referer'] , 'frontend' ) ) {
+            return $url;
+        }
+
+        return add_query_arg( array('frontend' => true )  , $url );
+
+    }
 
 }
 
