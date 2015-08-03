@@ -168,7 +168,8 @@ class Landing_Pages_Metaboxes {
             __('Short Description', 'landing-pages'),
             'post_excerpt_meta_box',
             'landing-page',
-            'normal', 'core'
+            'normal',
+            'core'
         );
 
         /* Display conversion tracking helper */
@@ -177,7 +178,8 @@ class Landing_Pages_Metaboxes {
             __('Additional Resources', 'landing-pages'),
             array( __CLASS__ , 'display_additional_resources' ),
             'landing-page',
-            'normal', 'core'
+            'normal',
+            'low'
         );
     }
 
@@ -829,7 +831,7 @@ class Landing_Pages_Metaboxes {
                         <?php _e( 'Conversion Shortcode' , 'landing-pages' ); ?>
                     </td>
                     <td>
-                        <input type='text' style='width:95%;display:inline;' disabled value="[landing-page-conversion id='<?php echo $post->ID; ?>' vid='<?php echo $variation_id; ?>']">
+                        <input type='text' style='width:95%;display:inline;' readonly='readonly' value="[landing-page-conversion id='<?php echo $post->ID; ?>' vid='<?php echo $variation_id; ?>']">
                         <div class="lp_tooltip" title="<?php _e( 'Instead of depending on Inbound Forms or tracked clicks for conversion tracking, enter this shortcode into your final destination page to manually increment this variation\'s conversion count' , 'landing-page' ); ?>" ><i class="fa fa-question-circle"></i></div>
                     </td>
                 </tr>
