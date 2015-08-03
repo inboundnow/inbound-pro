@@ -40,9 +40,15 @@ class Inbound_Pro_Activation {
 	 *  Runs Core Activation Processes
 	 */
 	public static function activate_core_components() {
-		Landing_Pages_Activation::activate();
-		CTA_Activation::activate();
-		Leads_Activation::activate();
+		if (class_exists('Landing_Pages_Activation')) {
+			Landing_Pages_Activation::activate();
+		}
+		if (class_exists('CTA_Activation')) {
+			CTA_Activation::activate();
+		}
+		if (class_exists('Leads_Activation')) {
+			Leads_Activation::activate();
+		}
 
 		/* if license valid activate pro core components */
 		if ( Inbound_Pro_Plugin::get_customer_status() ) {
