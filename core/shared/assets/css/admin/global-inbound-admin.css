@@ -3,13 +3,106 @@
 #wpadminbar.nojs .ab-top-menu > li.menupop.inbound-nav-marketing > .ab-item,
 #wpadminbar .ab-top-menu > li.menupop.inbound-nav-marketing > .ab-item, #inboundnow-media-button {
 
-    background-image: url('../../images/global/shortcodes-blue.png');
-
+    background-image: url('../../images/global/inbound-icon.png');
     background-repeat: no-repeat;
     background-position: 0.15em 50%;
-    padding-left: 22px;
+    margin-left: 1px;
+    padding-left: 25px;
+    background-size: 20px;
+}
+#setting-error-tgmpa a:-webkit-any-link {
+    text-decoration: none;
 }
 
+tr#leads {
+    display: table-row !important;
+}
+#setting-error-tgmpa p:nth-child(2) strong em {
+    margin-top: 5px;
+}
+#setting-error-tgmpa em {
+    display: block;
+}
+#add-landing-page.hide-if-js {
+    display: block !important;
+}
+#setting-error-tgmpa {
+    padding-bottom: 5px;
+padding-top: 5px;
+padding-left: 10px;
+
+}
+#menu-posts-landing-page .wp-submenu.wp-submenu-wrap {
+z-index: 99999;
+}
+@font-face {
+    font-family: 'FontAwesome';
+    src: url('../shared/assets/fonts/fontawesome/fontawesome-webfont.eot?v=3.0.2');
+    src: url('../shared/assets/fonts/fontawesome/fontawesome-webfont.eot?#iefix&v=3.0.2') format('embedded-opentype'),
+    url('../shared/assets/fonts/fontawesome/fontawesome-webfont.woff?v=3.0.2') format('woff'),
+    url('../shared/assets/fonts/fontawesome/fontawesome-webfont.ttf?v=3.0.2') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+#adminmenu .menu-icon-landing-page div.wp-menu-image:before {
+    font-family: "FontAwesome" !important;
+    content: "\f15c";
+
+}
+.branch-3-7 #adminmenu .menu-icon-landing-page div.wp-menu-image:before {
+display: none;
+}
+#adminmenu .menu-icon-landing-page div.wp-menu-image img{
+    display: none;
+}
+.branch-3-7 #adminmenu .menu-icon-landing-page div.wp-menu-image img {
+    display: block;
+}
+#setting-error-tgmpa p {
+    text-decoration: bold;
+}
+.appearance_page_install-inbound-plugins .inbound-install-notice {
+ display: none;
+}
+#setting-error-tgmpa p:nth-last-child(2), #setting-error-tgmpa a, #setting-error-tgmpa strong {
+    text-decoration: normal;
+}
+#setting-error-tgmpa em:last-of-type {
+    display: inline-block;
+}
+.inbound-and {
+    display: block;
+      margin-top: 10px;
+      font-size: 15px;
+}
+#setting-error-tgmpa p:nth-last-child(2) a:first-child{
+    padding-left: 0px;
+    text-decoration: none;
+}
+#setting-error-tgmpa p:nth-last-child(2) a {
+    padding-right: 10px;
+    padding-left: 10px;
+    font-size: 13px;
+    margin-top: 10px;
+    display: inline-block;
+}
+#setting-error-tgmpa a.thickbox {
+font-size: 16px;
+padding-top: 5px;
+display: inline-block;
+padding-bottom: 5px;
+}
+#setting-error-tgmpa.updated p {
+width: 99%;
+margin: 0px;
+}
+#setting-error-tgmpa a span {
+    color: #000 !important;
+text-decoration: none;
+font-size: 14px !important;
+font-style: normal !important;
+font-weight: normal !important;
+}
 #inboundnow-media-button {
     padding-left: 5px;
 }
@@ -175,6 +268,11 @@ body #calls-to-action .toggle .switch-versions, body #landing-pages .toggle .swi
     font: 400 24px/1 "FontAwesome" !important;
     padding-top: 6px;
 
+}
+
+#adminmenu .menu-icon-automation div.wp-menu-image:before {
+    content: "\f111";
+    font-family: dashicons;
 }
 
 .short-list-inbound .mceIcon {

@@ -124,7 +124,7 @@ display: block;
 	width: 70%;
 }
 .inbound-meta-box-label {
-text-decoration: underline;
+font-weight: bold;
 }
 #template-item {
 width: 100%;

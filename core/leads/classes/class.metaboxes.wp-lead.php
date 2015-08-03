@@ -832,12 +832,28 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             global $post;
 
 
-            $nav_items = array(array('id' => 'lead-conversions', 'label' => __('Conversions', 'leads'), 'count' => self::get_conversion_count()), array('id' => 'lead-page-views', 'label' => __('Page Views', 'leads'), 'count' => get_post_meta($post->ID, 'wpleads_page_view_count', true)), array('id' => 'lead-comments', 'label' => __('Comments', 'leads'), 'count' => self::get_comment_count()), /*array(
-					'id'=>'lead-searches',
-					'label'=> __( 'Searches' , 'leads' ),
-					'count' => self::get_search_count()
-				),*/
-                array('id' => 'lead-tracked-links', 'label' => __('Custom Events', 'leads'), 'count' => self::get_custom_events_count()));
+            $nav_items = array(
+                array(
+                    'id' => 'lead-conversions',
+                    'label' => __('Conversions', 'leads'),
+                    'count' => self::get_conversion_count()
+                ),
+                array(
+                    'id' => 'lead-page-views',
+                    'label' => __('Page Views', 'leads'),
+                    'count' => get_post_meta($post->ID, 'wpleads_page_view_count', true)
+                ),
+                array(
+                    'id' => 'lead-comments',
+                    'label' => __('Comments', 'leads'),
+                    'count' => self::get_comment_count()
+                ),
+                array(
+                    'id' => 'lead-tracked-links',
+                    'label' => __('Custom Events', 'leads'),
+                    'count' => self::get_custom_events_count()
+                )
+            );
 
             $nav_items = apply_filters('wpl_lead_activity_tabs', $nav_items); ?>
 
@@ -893,6 +909,10 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
             $i = count(self::$conversions);
             foreach (self::$conversions as $key => $value) {
+
+                if (!isset($value['id']) || !isset($value['datetime'])) {
+                    continue;
+                }
 
                 $converted_page_id = $value['id'];
                 $converted_page_permalink = get_permalink($converted_page_id);
@@ -1141,7 +1161,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             global $post;
             ?>
             <div id="lead-tracked-links" class='lead-activity'>
-                <h2><?php _e('Custom Events', 'cta'); ?></h2>
+                <h2><?php _e('Custom Events', 'leads'); ?></h2>
                 <?php
 
 
@@ -1151,6 +1171,11 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
                     foreach (self::$custom_events as $key => $event) {
                         $id = $event['tracking_id'];
+
+                        /* skip events without dates */
+                        if (!self::$custom_events[$key]['datetime']) {
+                            continue;
+                        }
 
                         $date_raw = new DateTime(self::$custom_events[$key]['datetime']);
                         $date_of_conversion = $date_raw->format('F jS, Y	g:ia (l)');
@@ -1171,7 +1196,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
                     }
                 } else {
-                    printf(__('%1$s No custom events discovered! %2$s', 'cta'), '<span id=\'wpl-message-none\'>', '</span>');
+                    printf(__('%1$s No custom events discovered! %2$s', 'leads'), '<span id=\'wpl-message-none\'>', '</span>');
                 }
 
 
@@ -1211,6 +1236,11 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
                 $c_count = 0;
                 foreach (self::$conversions as $key => $value) {
+
+                    if (!isset($value['id']) || !isset($value['datetime'])) {
+                        continue;
+                    }
+
                     $c_array[$c_count]['page'] = $value['id'];
                     $c_array[$c_count]['date'] = $value['datetime'];
                     $c_array[$c_count]['conversion'] = 'yes';
