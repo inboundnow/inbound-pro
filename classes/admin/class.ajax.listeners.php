@@ -90,6 +90,7 @@ class Inbound_Pro_Admin_Ajax_Listeners {
             $customer['is_active'] = false;
             $customer['is_pro'] = false;
             Inbound_Options_API::update_option( 'inbound-pro' , 'customer' , $customer );
+            delete_transient( 'inbound_api_key_cache');
          }
 
          echo wp_remote_retrieve_body( $response );

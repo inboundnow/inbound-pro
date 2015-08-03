@@ -144,6 +144,11 @@ class Inbound_Pro_Activation {
 				'type' =>  $download['download_type']
 			));
 
+			/* bail if fail */
+			if (!strstr($download['download_location'] , 'http' )) {
+				return;
+			}
+
 			/* get upload path from download data */
 			$download['extraction_path'] = Inbound_Pro_Downloads::get_upload_path( $download );
 
