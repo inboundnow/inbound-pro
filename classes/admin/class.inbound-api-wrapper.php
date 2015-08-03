@@ -232,7 +232,11 @@ class Inbound_API_Wrapper {
 
 		/* if error show error message and die */
 		if(isset($array['error']) || !isset( $array['url'] )) {
-			print_r($array); exit;
+			if ($GLOBALS['is_activating']) {
+				return '';
+			} else {
+				print_r($array);exit;
+			}
 		}
 
 		return $array['url'];
