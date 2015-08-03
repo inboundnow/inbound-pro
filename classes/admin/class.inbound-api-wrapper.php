@@ -224,7 +224,6 @@ class Inbound_API_Wrapper {
 		if ( is_wp_error( $response ) ) {
 			$error_message = $response->get_error_message();
 			echo "Something went wrong: $error_message";
-			exit;
 		}
 
 		/* decode response from body */
