@@ -108,7 +108,7 @@ class Inbound_Updater {
     }
 
     /**
-     * API Call
+     * API Call -
      */
     public static function api_request() {
         self::$response  = wp_remote_get( self::$api_url );
@@ -122,6 +122,12 @@ class Inbound_Updater {
         if (!is_object(self::$info)) {
             self::$info = false;
             return false;
+        }
+
+        /* error */
+        if (self::$info->error) {
+            self::$info = false;
+            return;
         }
 
         self::$info->slug = self::$slug;

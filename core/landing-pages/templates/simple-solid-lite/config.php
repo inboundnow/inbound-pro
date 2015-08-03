@@ -56,7 +56,7 @@ $lp_data[$key]['settings'] = array(
 			'id' => "conversion-area-content",
 			'type' => "wysiwyg",
 			'default' => ''
-	),		
+	),
 	array(
 		'label' => __( 'Top Bar' , 'landing-pages' ),
 		'description' => __( 'Hide/Reveal the top bar.' , 'landing-pages' ),
@@ -66,7 +66,7 @@ $lp_data[$key]['settings'] = array(
 		'context'	=> 'normal',
 		'options'	=> array(
 			'off' => __( 'Hide' , 'landing-pages' ),
-			'on' => __( 'Show' , 'landing-pages' )			
+			'on' => __( 'Show' , 'landing-pages' )
 		)
 	),
 	array(
@@ -92,7 +92,7 @@ $lp_data[$key]['settings'] = array(
 		'type'	=> 'colorpicker',
 		'default'	=> '27ae60',
 		'context'	=> 'normal'
-	),		
+	),
 	array(
 		'label' => __( 'Footer Bar' , 'landing-pages' ),
 		'description' => __( 'Hide/Reveal the footer bar.' , 'landing-pages' ),
@@ -102,7 +102,7 @@ $lp_data[$key]['settings'] = array(
 		'context'	=> 'normal',
 		'options'	=> array(
 			'off' => __( 'Hide' , 'landing-pages' ),
-			'on' => __( 'Show' , 'landing-pages' )			
+			'on' => __( 'Show' , 'landing-pages' )
 		)
 	),
 	array(
@@ -110,7 +110,7 @@ $lp_data[$key]['settings'] = array(
 		'description' => __( 'Copyright Text' , 'landing-pages' ),
 		'id' => "copyright-text",
 		'type' => "text",
-		'default' => __( '© 2013 Your Company | All Right Reserved' , 'landing-pages' ),
+		'default' => '@' .__( ' 2013 Your Company | All Right Reserved' , 'landing-pages' ),
 		'selector' => ".cf.container .foot-left",
 	),
 	array(

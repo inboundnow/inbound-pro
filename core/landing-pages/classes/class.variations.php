@@ -661,16 +661,17 @@ if (!class_exists('Landing_Pages_Variations')) {
 
         }
 
+
         /**
-         * Increments conversion count for given cta id and variation id
+         * Increments conversion count for given landing page id and variation id
          *
-         * @param INT $landing_page_id id of call to action
+         * @param INT $landing_page_id id of landing page
          * @param INT $variation_id id of variation belonging to call to action
          *
          */
         public static function record_conversion($landing_page_id, $variation_id) {
 
-            $conversions = get_post_meta($landing_page_id, 'inbound-mailer-ab-variation-conversions-' . $variation_id, true);
+            $conversions = self::get_conversions( $landing_page_id , $variation_id);
 
             if (!is_numeric($conversions)) {
                 $conversions = 1;
@@ -678,7 +679,7 @@ if (!class_exists('Landing_Pages_Variations')) {
                 $conversions++;
             }
 
-            update_post_meta($landing_page_id, 'inbound-mailer-ab-variation-conversions-' . $variation_id, $conversions);
+            self::set_conversions_count( $landing_page_id , $variation_id , $conversions );
         }
 
         /**

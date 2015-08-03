@@ -118,8 +118,6 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 			/* settings */
 			$settings = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
 
-			$localhost = (in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1'))) ? true : false;
-
 			/* load calls to action  */
 			if ( !isset($settings['inbound-core-loading']['toggle-calls-to-action']) || $settings['inbound-core-loading']['toggle-calls-to-action'] =='on' ) {
 
@@ -137,7 +135,9 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 			}
 
 			/* ignore the rest if not a registered pro user */
-            if (!self::get_customer_status()) {
+			$access_level = self::get_customer_status();
+
+            if ($access_level < 5) {
                 return;
             }
 
@@ -185,7 +185,7 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
          */
         public static function get_customer_status() {
             $customer = Inbound_Options_API::get_option( 'inbound-pro' , 'customer' , array() );
-            $status = ( isset($customer['is_pro']) ) ? $customer['is_pro'] : false;
+            $status = ( isset($customer['is_pro']) ) ? $customer['is_pro'] : 0;
             return $status;
         }
 

@@ -37,6 +37,8 @@ class Landing_Pages_Metaboxes {
         /* save landing page */
         add_action('save_post', array( __CLASS__ , 'save_landing_page' ) );
 
+        /* set wpseo priority to low */
+        add_filter('wpseo_metabox_prio', array( __CLASS__ , 'set_wpseo_priority' ));
 
     }
 
@@ -60,7 +62,6 @@ class Landing_Pages_Metaboxes {
             'normal',
             'high'
         );
-
 
         /* Load Template Settings */
         $extension_data = lp_get_extension_data();
@@ -160,6 +161,26 @@ class Landing_Pages_Metaboxes {
                 array('key' => $key)
             );
         }
+
+        /* Display short description */
+        add_meta_box(
+            'postexcerpt',
+            __('Short Description', 'landing-pages'),
+            'post_excerpt_meta_box',
+            'landing-page',
+            'normal',
+            'core'
+        );
+
+        /* Display conversion tracking helper */
+        add_meta_box(
+            'lp_conversion_tracking',
+            __('Additional Resources', 'landing-pages'),
+            array( __CLASS__ , 'display_additional_resources' ),
+            'landing-page',
+            'normal',
+            'low'
+        );
     }
 
     /**
@@ -795,6 +816,32 @@ class Landing_Pages_Metaboxes {
 
 
     /**
+     * Display additional documentaiton metabox
+     */
+    public static function display_additional_resources() {
+        global $post;
+
+        $variation_id = Landing_Pages_Variations::get_current_variation_id();
+
+       ?>
+       <div>
+            <table style='width:100%'>
+                <tr>
+                    <td>
+                        <?php _e( 'Conversion Shortcode' , 'landing-pages' ); ?>
+                    </td>
+                    <td>
+                        <input type='text' style='width:95%;display:inline;' readonly='readonly' value="[landing-page-conversion id='<?php echo $post->ID; ?>' vid='<?php echo $variation_id; ?>']">
+                        <div class="lp_tooltip" title="<?php _e( 'Instead of depending on Inbound Forms or tracked clicks for conversion tracking, enter this shortcode into your final destination page to manually increment this variation\'s conversion count' , 'landing-page' ); ?>" ><i class="fa fa-question-circle"></i></div>
+                    </td>
+                </tr>
+            </table>
+       </div>
+       <?php
+    }
+
+
+    /**
      * Renders metabox html
      * @param STRING $key data key
      * @param ARRAY $custom_fields field data
@@ -1018,9 +1065,21 @@ class Landing_Pages_Metaboxes {
         /* save acf settings - uses our future data array - eventually we will migrate all post meta into this data object */
         if ( isset($_POST['acf']) ) {
             $settings = Landing_Pages_Meta::get_settings( $post->ID );
+
+            if (!isset($settings['variations'])) {
+                $settings['variations'] = array();
+            }
             $settings['variations'][$variation_id]['acf'] = $_POST['acf'];
             Landing_Pages_Meta::update_settings( $post->ID , $settings );
         }
+    }
+
+    /**
+     * Sets WPSEO metabox priority to low
+     * @return string
+     */
+    public static function set_wpseo_priority() {
+        return 'low';
     }
 
 }

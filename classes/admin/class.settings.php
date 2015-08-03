@@ -261,7 +261,7 @@ class Inbound_Pro_Settings {
 								'off' => __( 'Off' , INBOUNDNOW_TEXT_DOMAIN ),
 								'on' => __( 'On' , INBOUNDNOW_TEXT_DOMAIN ),
 							),
-							'hidden' => true,
+							'hidden' => (Inbound_Pro_Plugin::get_customer_status() > 4 ? false : true ),
 							'reveal' => array(
 								'selector' => null ,
 								'value' => null

@@ -197,7 +197,7 @@ if (!class_exists('Inbound_Content_Statistics')) {
             else {
                 $impressions = Inbound_Content_Statistics::get_impressions_count( $post_id );
                 $impressions++;
-                Inbound_Content_Statistics::set_impressions_count( $post_id );
+                Inbound_Content_Statistics::set_impressions_count( $post_id , 0 , $impressions );
             }
         }
 
