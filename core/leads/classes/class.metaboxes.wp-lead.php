@@ -579,7 +579,20 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
          */
         public static function setup_tabs() {
 
-            $tabs = array(array('id' => 'wpleads_lead_tab_main', 'label' => __('Profile', 'leads')), array('id' => 'wpleads_lead_tab_activity', 'label' => __('Activity', 'leads')), array('id' => 'wpleads_lead_tab_conversions', 'label' => __('Conversion Path', 'leads')), array('id' => 'wpleads_lead_tab_raw_form_data', 'label' => __('Logs', 'leads')));
+            $tabs = array(
+                array(
+                    'id' => 'wpleads_lead_tab_main',
+                    'label' => __('Profile', 'leads')
+                ),
+                array(
+                    'id' => 'wpleads_lead_tab_activity',
+                    'label' => __('Activity', 'leads')
+                ),
+                array(
+                    'id' => 'wpleads_lead_tab_conversions',
+                    'label' => __('Conversion Path', 'leads')
+                )
+            );
 
             self::$tabs = apply_filters('wpl_lead_tabs', $tabs);
 
@@ -832,12 +845,28 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             global $post;
 
 
-            $nav_items = array(array('id' => 'lead-conversions', 'label' => __('Conversions', 'leads'), 'count' => self::get_conversion_count()), array('id' => 'lead-page-views', 'label' => __('Page Views', 'leads'), 'count' => get_post_meta($post->ID, 'wpleads_page_view_count', true)), array('id' => 'lead-comments', 'label' => __('Comments', 'leads'), 'count' => self::get_comment_count()), /*array(
-					'id'=>'lead-searches',
-					'label'=> __( 'Searches' , 'leads' ),
-					'count' => self::get_search_count()
-				),*/
-                array('id' => 'lead-tracked-links', 'label' => __('Custom Events', 'leads'), 'count' => self::get_custom_events_count()));
+            $nav_items = array(
+                array(
+                    'id' => 'lead-conversions',
+                    'label' => __('Conversions', 'leads'),
+                    'count' => self::get_conversion_count()
+                ),
+                array(
+                    'id' => 'lead-page-views',
+                    'label' => __('Page Views', 'leads'),
+                    'count' => get_post_meta($post->ID, 'wpleads_page_view_count', true)
+                ),
+                array(
+                    'id' => 'lead-comments',
+                    'label' => __('Comments', 'leads'),
+                    'count' => self::get_comment_count()
+                ),
+                array(
+                    'id' => 'lead-tracked-links',
+                    'label' => __('Custom Events', 'leads'),
+                    'count' => self::get_custom_events_count()
+                )
+            );
 
             $nav_items = apply_filters('wpl_lead_activity_tabs', $nav_items); ?>
 
@@ -893,6 +922,10 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
             $i = count(self::$conversions);
             foreach (self::$conversions as $key => $value) {
+
+                if (!isset($value['id']) || !isset($value['datetime'])) {
+                    continue;
+                }
 
                 $converted_page_id = $value['id'];
                 $converted_page_permalink = get_permalink($converted_page_id);
@@ -1141,7 +1174,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             global $post;
             ?>
             <div id="lead-tracked-links" class='lead-activity'>
-                <h2><?php _e('Custom Events', 'cta'); ?></h2>
+                <h2><?php _e('Custom Events', 'leads'); ?></h2>
                 <?php
 
 
@@ -1151,6 +1184,11 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
                     foreach (self::$custom_events as $key => $event) {
                         $id = $event['tracking_id'];
+
+                        /* skip events without dates */
+                        if (!self::$custom_events[$key]['datetime']) {
+                            continue;
+                        }
 
                         $date_raw = new DateTime(self::$custom_events[$key]['datetime']);
                         $date_of_conversion = $date_raw->format('F jS, Y	g:ia (l)');
@@ -1171,7 +1209,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
                     }
                 } else {
-                    printf(__('%1$s No custom events discovered! %2$s', 'cta'), '<span id=\'wpl-message-none\'>', '</span>');
+                    printf(__('%1$s No custom events discovered! %2$s', 'leads'), '<span id=\'wpl-message-none\'>', '</span>');
                 }
 
 
@@ -1211,6 +1249,11 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
                 $c_count = 0;
                 foreach (self::$conversions as $key => $value) {
+
+                    if (!isset($value['id']) || !isset($value['datetime'])) {
+                        continue;
+                    }
+
                     $c_array[$c_count]['page'] = $value['id'];
                     $c_array[$c_count]['date'] = $value['datetime'];
                     $c_array[$c_count]['conversion'] = 'yes';
@@ -1438,76 +1481,6 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                 </div>
             </div>
 
-            <div class="lead-profile-section" id="wpleads_lead_tab_raw_form_data">
-                <div id="raw-data-display">
-                    <div class="nav-container">
-                        <nav>
-                            <ul>
-                                <li class="active"><a href="index.html"><?php _e('All', 'leads'); ?></a></li>
-                                <li><a href="index.html"><?php _e('Form Data', 'leads'); ?></a></li>
-                                <li><a href="index.html"><?php _e('Page Data', 'leads'); ?></a></li>
-                                <li><a href="index.html"><?php _e('Event Data', 'leads'); ?></a></li>
-                            </ul>
-                        </nav>
-                    </div>
-
-                    <?php
-
-                    // Get Raw form Data
-                    $raw_data = get_post_meta($post->ID, 'wpleads_raw_post_data', true);
-                    if ($raw_data) {
-                        $raw_data = json_decode(stripslashes($raw_data), true);
-                        $raw_data = ($raw_data) ? $raw_data : array();
-                        echo "<h2>" . __('Form Inputs with Values', 'leads') . "</h2>";
-                        echo "<span id='click-to-map'></span>";
-                        echo "<div id='wpl-raw-form-data-table'>";
-                        foreach ($raw_data as $key => $value) {
-                            ?>
-                            <div class="wpl-raw-data-tr">
-							<span class="wpl-raw-data-td-label">
-								<?php echo __('Input name:', 'leads') . " <span class='lead-key-normal'>" . $key . "</span> &rarr; values:"; ?>
-							</span>
-							<span class="wpl-raw-data-td-value">
-								<?php
-                                if (is_array($value)) {
-                                    $value = array_filter($value);
-                                    $value = array_unique($value);
-                                    $num_loop = 1;
-                                    foreach ($value as $k => $v) {
-                                        echo "<span class='" . $key . "-" . $num_loop . " possible-map-value'>" . $v . "</span>";
-                                        $num_loop++;
-                                    }
-                                } else {
-                                    echo "<span class='" . $key . "-1 possible-map-value'>" . $value . "</span>";
-                                }
-                                ?>
-							</span>
-                                <span class="map-raw-field"><span
-                                        class="map-this-text">Map this field to lead</span><span style="display:none;"
-                                                                                                 class='lead_map_select'><select
-                                            name="NOA" class="field_map_select"></select></span><span
-                                        class="apply-map button button-primary"
-                                        style="display:none;">Apply</span></span>
-                            </div>
-                        <?php
-
-                        }
-                        echo "<div id='raw-array'>";
-                        echo "<h2>" . __('Raw Form Data Array', 'leads') . "</h2>";
-                        echo "<pre>";
-                        print_r($raw_data);
-                        echo "</pre>";
-                        echo "</div>";
-                        echo "</div>";
-                    } else {
-                        //echo "<span id='wpl-message-none'>". __( 'No raw data found!' ,'leads') ."</span>";
-                    }
-
-                    ?>
-
-                </div>
-                <!-- end #raw-data-display -->
-            </div>
 
             <?php
             do_action('wpl_print_lead_tab_sections');

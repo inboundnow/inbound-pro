@@ -183,13 +183,16 @@ line-height: 20px;
 	display: block;
 	text-align: center;
 }
+.inbound-meta-box-label {
+    font-weight: bold;
+    text-decoration: none;
+}
 .form-table .inbound-meta-box-label label{
 	width: 100% !important;
 	display: block !important;
 	margin-bottom: 15px;
 	margin-top: 10px;
 	font-size: 15px !important;
-	text-decoration: underline;
 }
 .form-table .inbound-wysiwyg-row .inbound-meta-box-label label{
 	margin-left: -10px !important;

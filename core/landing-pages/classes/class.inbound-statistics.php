@@ -89,7 +89,7 @@ if (!class_exists('Inbound_Content_Statistics')) {
 					jQuery( 'body' ).on( 'click', '.lp-delete-var-stats', function() {
 						var post_id = jQuery(this).attr("rel");
 
-						if (confirm( '<?php _e( 'Are you sure you want to delete stats for this post?' , 'landing-pages' ); ?> ')) {
+						if (confirm( '<?php _e( "Are you sure you want to delete stats for this post?" , "landing-pages" ); ?> ')) {
 							jQuery.ajax({
 								  type: 'POST',
 								  url: ajaxurl,
@@ -102,7 +102,6 @@ if (!class_exists('Inbound_Content_Statistics')) {
 									jQuery(".bab-stat-span-impressions").text("0");
 									jQuery(".bab-stat-span-conversions").text("0");
 									jQuery(".bab-stat-span-conversion_rate").text("0");
-
 								},
 
 								  error: function(MLHttpRequest, textStatus, errorThrown){
@@ -123,13 +122,13 @@ if (!class_exists('Inbound_Content_Statistics')) {
 					$conversions = apply_filters('inbound_conversions' , get_post_meta($post->ID,'_inbound_conversions_count', true) );
 
 
-					(is_numeric($impressions)) ? $impressions = $impressions : $impressions = 0;
-					(is_numeric($conversions)) ? $conversions = $conversions : $conversions = 0;
+					$impressions = (is_numeric($impressions)) ?  $impressions :  0;
+					$conversions = (is_numeric($conversions)) ?  $conversions :  0;
 
-					if ($impressions>0) {
+					if ($impressions > 0) {
 						$conversion_rate = $conversions / $impressions;
-						(($conversions===0)) ? $sign = "" : $sign = "%";
-						$conversion_rate = round($conversion_rate,2) * 100 . $sign;
+						$sign = (($conversions === 0)) ?  "" : "%";
+						$conversion_rate = round($conversion_rate, 2) * 100 . $sign;
 					} else {
 						$conversion_rate = 0;
 					}
@@ -189,15 +188,15 @@ if (!class_exists('Inbound_Content_Statistics')) {
 
             /* If Landing Page Post Type */
             if ( $post_type == 'landing-page' ) {
-                $impressions = Landing_Pages_Variations::get_impressions( $post_id , $variation_id );
+                $impressions = Landing_Pages_Variations::get_impressions( $post_id, $variation_id );
                 $impressions++;
-                Landing_Pages_Variations::set_impressions_count( $post_id , $variation_id , $impressions );
+                Landing_Pages_Variations::set_impressions_count( $post_id, $variation_id, $impressions );
             }
             /* If Non Landing Page Post Type */
             else {
                 $impressions = Inbound_Content_Statistics::get_impressions_count( $post_id );
                 $impressions++;
-                Inbound_Content_Statistics::set_impressions_count( $post_id , 0 , $impressions );
+                Inbound_Content_Statistics::set_impressions_count( $post_id, 0, $impressions );
             }
         }
 

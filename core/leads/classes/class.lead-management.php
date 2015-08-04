@@ -922,7 +922,7 @@ if (!class_exists('Leads_Manager')) {
 				echo '<td class="tags-column-row">';
 					$_tags = wp_get_post_terms( $post->ID, 'lead-tags', 'id' );
 
-					if ($tags) {
+					if ($_tags) {
 						foreach ( $_tags as $tag ) {
 							echo  "<a title='Click to Edit Lead Tag Name' target='_blank' href='".admin_url('edit-tags.php?action=edit&taxonomy=lead-tags&tag_ID='.$tag->term_id.'&post_type=wp-lead')."'>$tag->name</a>, ";
 						}
