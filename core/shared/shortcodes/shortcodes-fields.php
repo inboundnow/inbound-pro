@@ -72,6 +72,7 @@ if ( !class_exists('Inbound_Shortcodes_Fields') ) {
 					$std = ( isset($option['std']) ) ? $option['std'] : '';
 					$global = ( isset($option['global']) ) ? $option['global'] : '';
 					
+					
 					if ($global) {
 						$uniquekey = $key;
 					}

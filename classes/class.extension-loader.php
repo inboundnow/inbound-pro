@@ -51,7 +51,7 @@ class Inbound_Extension_Loads {
 	*  check to see if plugins_url() is being called from an uploads folder
 	*/
 	public static function alter_constants( $url, $path, $plugin ) {
-
+		/* TODO remove extra layer of folders */
 		if ( !strstr($plugin , 'uploads/inbound-pro/extensions/' ) ) {
 			return $url;
 		}
