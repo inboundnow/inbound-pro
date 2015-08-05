@@ -108,7 +108,7 @@ class Inbound_Shortcodes {
 			wp_localize_script( 'inbound-shortcodes-plugins', 'inbound_load', array( 'image_dir' => INBOUNDNOW_SHARED_URLPATH . 'shortcodes/', 'inbound_plugins' => $plugins_loaded, 'pop_title' => 'Insert Shortcode' ));
 
 			if (isset($post)&&$post->post_type=='inbound-forms') {
-				require_once( INBOUNDNOW_SHARED_PATH . 'shortcodes/shortcodes-fields.php' );  
+				require_once( INBOUNDNOW_SHARED_PATH . 'shortcodes/shortcodes-fields.php' );
 				add_action( 'admin_footer',	array(__CLASS__, 'inbound_forms_header_area'));
 			}
 

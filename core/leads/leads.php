@@ -96,7 +96,7 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 		*   Loads the text domain
 		*/
 		public static function load_text_domain() {
-			load_plugin_textdomain( 'leads' , false , WPL_SLUG . '/lang/' );
+			load_plugin_textdomain( 'leads' , false , WPL_SLUG . '/assets/lang/' );
 		}
 
 		/* START PHP VERSION CHECKS */

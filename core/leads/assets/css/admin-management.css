@@ -1,6 +1,6 @@
 
-div.wrap { 
-	width:100%; 
+div.wrap {
+	width:100%;
 	display: none;
 	margin: 0px 20px 0 2px;
 }
@@ -13,10 +13,10 @@ div.wrap {
 .media-upload-form div.error, .wrap div.error, .wrap div.updated {
 
 }
-#lead-tag-filter, #lead-keyword-filter, .action { 
+#lead-tag-filter, #lead-keyword-filter, .action {
 	display: none;
 }
- 
+
 #leads-date-range-options {
 	display:inline;
 }
@@ -453,7 +453,7 @@ text-shadow: 0 1px 0 #ddd;
 color: #0074a2 !important;
 }
 #all-actions {
- /* background:url('/wp-content/plugins/leads/images/lead-actions.png') repeat;
+ /* background:url('/wp-content/plugins/leads/assets/images/lead-actions.png') repeat;
   -webkit-border-radius: 5px 5px 0px 0px;
   -moz-border-radius: 5px 5px 0px 0px;
   border-radius: 5px 5px 0px 0px;
@@ -537,7 +537,7 @@ table th.sort-up:after {
 
   }
   .legend div {
-    background: rgba(0, 0, 0, 0) url('/wp-content/plugins/leads/images/black-50-trans.png') top left !important;
+    background: rgba(0, 0, 0, 0) url('/wp-content/plugins/leads/assets/images/black-50-trans.png') top left !important;
   }
   .axisLabels.xaxisLabel {
   top: 13px !important;
@@ -546,7 +546,7 @@ table th.sort-up:after {
   color: #FFF !important;
   border-radius: 5px;
   left: 28% !important;
-  background: rgba(0, 0, 0, 0) url('/wp-content/plugins/leads/images/black-50-trans.png') top left !important;
+  background: rgba(0, 0, 0, 0) url('/wp-content/plugins/leads/assets/images/black-50-trans.png') top left !important;
   padding: 5px !important;
   padding-right: 10px !important;
   padding-left: 10px !important;
@@ -796,11 +796,11 @@ table th.sort-up:after {
 
   @font-face {
     font-family: 'ecoicon';
-    src:url('../fonts/ecoicon.eot');
-    src:url('../fonts/ecoicon.eot?#iefix') format('embedded-opentype'),
-      url('../fonts/ecoicon.woff') format('woff'),
-      url('../fonts/ecoicon.ttf') format('truetype'),
-      url('../fonts/ecoicon.svg#ecoicon') format('svg');
+    src:url('../assets/fonts/ecoicon.eot');
+    src:url('../assets/fonts/ecoicon.eot?#iefix') format('embedded-opentype'),
+      url('../assets/fonts/ecoicon.woff') format('woff'),
+      url('../assets/fonts/ecoicon.ttf') format('truetype'),
+      url('../assets/fonts/ecoicon.svg#ecoicon') format('svg');
     font-weight: normal;
     font-style: normal;
   }

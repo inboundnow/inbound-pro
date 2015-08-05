@@ -507,7 +507,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             $organizations = (isset($person_obj['organizations'])) ? $person_obj['organizations'] : "No Organizations Found";
             $demographics = (isset($person_obj['demographics'])) ? $person_obj['demographics'] : "N/A";
             $interested_in = (isset($person_obj['digitalFootprint']['topics'])) ? $person_obj['digitalFootprint']['topics'] : "N/A";
-            $image = (isset($person_obj['photos'][0]['url'])) ? $person_obj['photos'][0]['url'] : "/wp-content/plugins/leads/images/gravatar_default_150.jpg";
+            $image = (isset($person_obj['photos'][0]['url'])) ? $person_obj['photos'][0]['url'] : "/wp-content/plugins/leads/assets/images/gravatar_default_150.jpg";
 
             $klout_score = (isset($person_obj['digitalFootprint']['scores'][0]['value'])) ? $person_obj['digitalFootprint']['scores'][0]['value'] : "N/A";
 
@@ -729,14 +729,14 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             $size = 150;
             $size_small = 36;
             $url = site_url();
-            $default = WPL_URLPATH . '/images/gravatar_default_150.jpg';
+            $default = WPL_URLPATH . '/assets/images/gravatar_default_150.jpg';
 
             $gravatar = "//www.gravatar.com/avatar/" . md5(strtolower(trim(self::$mapped_fields['wpleads_email_address']['value']))) . "?d=" . urlencode($default) . "&s=" . $size;
             $gravatar2 = "//www.gravatar.com/avatar/" . md5(strtolower(trim(self::$mapped_fields['wpleads_email_address']['value']))) . "?d=" . urlencode($default) . "&s=" . $size_small;
 
             if (in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1'))) {
                 $gravatar = $default;
-                $gravatar2 = WPL_URLPATH . '/images/gravatar_default_32-2x.png';
+                $gravatar2 = WPL_URLPATH . '/assets/images/gravatar_default_32-2x.png';
             }
             // If social picture exists use it
             if (preg_match("/gravatar_default_/", $gravatar) && $extra_image != "") {
@@ -945,7 +945,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                 // Display Data
                 echo '	<div class="lead-timeline recent-conversion-item landing-page-conversion" data-date="' . $conversion_clean_date . '">
 							<a class="lead-timeline-img" href="#non">
-								<img src="/wp-content/plugins/leads/images/page-view.png" alt="" width="50" height="50" />
+								<img src="/wp-content/plugins/leads/assets/images/page-view.png" alt="" width="50" height="50" />
 							</a>
 
 							<div class="lead-timeline-body">
@@ -991,7 +991,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                 // Display Data
                 echo '<div class="lead-timeline recent-conversion-item lead-comment-conversion" data-date="' . $comment_clean_date . '">
 						<a class="lead-timeline-img" href="#non">
-							<img src="/wp-content/plugins/leads/images/comment.png" alt="" width="50" height="50" />
+							<img src="/wp-content/plugins/leads/assets/images/comment.png" alt="" width="50" height="50" />
 						</a>
 
 						<div class="lead-timeline-body">
@@ -1537,10 +1537,10 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                         $links = explode(';', $field['value']);
                         $links = array_filter($links);
 
-                        echo "<div style='position:relative;'><span class='add-new-link'>" . __('Add New Link') . " <img src='" . WPL_URLPATH . "/images/add.png' title='" . __('add link') . "' align='ABSMIDDLE' class='wpleads-add-link' 'id='{$id}-add-link'></span></div>";
+                        echo "<div style='position:relative;'><span class='add-new-link'>" . __('Add New Link') . " <img src='" . WPL_URLPATH . "/assets/assets/images/add.png' title='" . __('add link') . "' align='ABSMIDDLE' class='wpleads-add-link' 'id='{$id}-add-link'></span></div>";
                         echo "<div class='wpleads-links-container' id='{$id}-container'>";
 
-                        $remove_icon = WPL_URLPATH . '/images/remove.png';
+                        $remove_icon = WPL_URLPATH . '/assets/images/remove.png';
 
                         if (count($links) > 0) {
                             foreach ($links as $key => $link) {
@@ -1878,43 +1878,43 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
         public static function get_social_link_icon($link) {
             switch (true) {
                 case strstr($link, 'facebook.com'):
-                    $icon = WPL_URLPATH . '/images/icons/facebook.png';
+                    $icon = WPL_URLPATH . '/assets/images/icons/facebook.png';
                     break;
                 case strstr($link, 'linkedin.com'):
-                    $icon = WPL_URLPATH . '/images/icons/linkedin.png';
+                    $icon = WPL_URLPATH . '/assets/images/icons/linkedin.png';
                     break;
                 case strstr($link, 'twitter.com'):
-                    $icon = WPL_URLPATH . '/images/icons/twitter.png';
+                    $icon = WPL_URLPATH . '/assets/images/icons/twitter.png';
                     break;
                 case strstr($link, 'pinterest.com'):
-                    $icon = WPL_URLPATH . '/images/icons/pinterest.png';
+                    $icon = WPL_URLPATH . '/assets/images/icons/pinterest.png';
                     break;
                 case strstr($link, 'plus.google.'):
-                    $icon = WPL_URLPATH . '/images/icons/google.png';
+                    $icon = WPL_URLPATH . '/assets/images/icons/google.png';
                     break;
                 case strstr($link, 'youtube.com'):
-                    $icon = WPL_URLPATH . '/images/icons/youtube.png';
+                    $icon = WPL_URLPATH . '/assets/images/icons/youtube.png';
                     break;
                 case strstr($link, 'reddit.com'):
-                    $icon = WPL_URLPATH . '/images/icons/reddit.png';
+                    $icon = WPL_URLPATH . '/assets/images/icons/reddit.png';
                     break;
                 case strstr($link, 'badoo.com'):
-                    $icon = WPL_URLPATH . '/images/icons/badoo.png';
+                    $icon = WPL_URLPATH . '/assets/images/icons/badoo.png';
                     break;
                 case strstr($link, 'meetup.com'):
-                    $icon = WPL_URLPATH . '/images/icons/meetup.png';
+                    $icon = WPL_URLPATH . '/assets/images/icons/meetup.png';
                     break;
                 case strstr($link, 'livejournal.com'):
-                    $icon = WPL_URLPATH . '/images/icons/livejournal.png';
+                    $icon = WPL_URLPATH . '/assets/images/icons/livejournal.png';
                     break;
                 case strstr($link, 'myspace.com'):
-                    $icon = WPL_URLPATH . '/images/icons/myspace.png';
+                    $icon = WPL_URLPATH . '/assets/images/icons/myspace.png';
                     break;
                 case strstr($link, 'deviantart.com'):
-                    $icon = WPL_URLPATH . '/images/icons/deviantart.png';
+                    $icon = WPL_URLPATH . '/assets/images/icons/deviantart.png';
                     break;
                 default:
-                    $icon = WPL_URLPATH . '/images/icons/link.png';
+                    $icon = WPL_URLPATH . '/assets/images/icons/link.png';
                     break;
             }
 

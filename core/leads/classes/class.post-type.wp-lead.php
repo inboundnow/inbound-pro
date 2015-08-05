@@ -117,7 +117,7 @@ class Leads_Post_Type {
                 $email = get_post_meta($post_id, 'wpleads_email_address', true);
                 $size = 50;
                 $url = site_url();
-                $default = WPL_URLPATH . '/images/gravatar_default_50.jpg'; // doesn't work for some sites
+                $default = WPL_URLPATH . '/assets/images/gravatar_default_50.jpg'; // doesn't work for some sites
 
                 $gravatar = "//www.gravatar.com/avatar/" . md5(strtolower(trim($email))) . "?d=" . urlencode($default) . "&s=" . $size;
                 $extra_image = get_post_meta($post_id, 'lead_main_image', true);
@@ -125,7 +125,7 @@ class Leads_Post_Type {
                 Super expensive call. Need more elegant solution
                  $response = get_headers($gravatar);
                 if ($response[0] === "HTTP/1.0 302 Found"){
-                    $gravatar = $url . '/wp-content/plugins/leads/images/gravatar_default_50.jpg';
+                    $gravatar = $url . '/wp-content/plugins/leads/assets/images/gravatar_default_50.jpg';
                 } else {
                     $gravatar = "http://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size;
                 }
