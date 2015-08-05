@@ -354,8 +354,7 @@ if (!class_exists('CTA_Metaboxes')) {
 			// Begin the field table and loop
 			echo '<div class="form-table" id="inbound-meta">';
 
-			foreach ($custom_fields as $field)
-			{
+			foreach ($custom_fields as $field) {
 
 				$field_id = apply_filters('wp_cta_prepare_input_id', $settings_key . "-" .$field['id'] );
 
@@ -417,15 +416,6 @@ if (!class_exists('CTA_Metaboxes')) {
 								$var_id = (isset($_GET['new_meta_key'])) ? "-" . $_GET['new_meta_key'] : '';
 								echo '<input type="text" class="jpicker" style="background-color:#'.$meta.'" name="'.$field_id.'" id="'.$field_id.'" value="'.$meta.'" size="5" /><span class="button-primary new-save-wp-cta" data-field-type="text" id="'.$field_id.$var_id.'" style="margin-left:10px; display:none;">Update</span>
 										<div class="wp_cta_tooltip tool_color" title="'.$field['description'].'"></div>';
-								break;
-							case 'datepicker':
-								echo '<div class="jquery-date-picker inbound-datepicker" id="date-picking" data-field-type="text">
-								<span class="datepair" data-language="javascript">
-											Date: <input type="text" id="date-picker-'.$settings_key.'" class="date start" /></span>
-											Time: <input id="time-picker-'.$settings_key.'" type="text" class="time time-picker" />
-											<input type="hidden" name="'.$field_id.'" id="'.$field_id.'" value="'.$meta.'" class="new-date" value="" >
-											<p class="description">'.$field['description'].'</p>
-									</div>';
 								break;
 							case 'width-height':
 								echo '<input type="text" class="'.$option_class.'" name="'.$field_id.'" id="'.$field_id.'" value="'.$meta.'" size="30" />
