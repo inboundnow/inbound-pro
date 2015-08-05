@@ -160,4 +160,4 @@ class Leads_Tracking {
     }
 }
 
-new Lead_Tracking;
+new Leads_Tracking;
