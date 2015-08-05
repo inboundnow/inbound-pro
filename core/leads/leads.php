@@ -49,16 +49,13 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 				include_once( WPL_PATH . 'classes/class.activation.php');
 				include_once( WPL_PATH . 'classes/class.activation.upgrade-routines.php');
 				include_once( WPL_PATH . 'classes/class.post-type.wp-lead.php');
-				include_once( WPL_PATH . 'modules/module.nav-menus.php');
 				include_once( WPL_PATH . 'classes/class.metaboxes.wp-lead.php');
-				include_once( WPL_PATH . 'modules/module.post-type.landing-pages.php');
 				include_once( WPL_PATH . 'classes/class.lead-management.php');
-				include_once( WPL_PATH . 'modules/module.form-integrations.php');
-				include_once( WPL_PATH . 'modules/module.global-settings.php');
+				include_once( WPL_PATH . 'classes/class.form-integrations.php');
+				include_once( WPL_PATH . 'classes/class.settings.php');
 				include_once( WPL_PATH . 'classes/class.dashboard.php');
-				include_once( WPL_PATH . 'modules/module.tracking.php');
+				include_once( WPL_PATH . 'classes/class.tracking.php');
 				include_once( WPL_PATH . 'modules/module.enqueue-admin.php');
-				include_once( WPL_PATH . 'modules/module.form-integrations.php');
 				include_once( WPL_PATH . 'classes/class.admin-notices.php');
 				include_once( WPL_PATH . 'classes/class.branching.php');
 				include_once( WPL_PATH . 'classes/class.login.php');
@@ -66,11 +63,10 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 			} else {
 				/* Frontend Includes */
 				include_once( WPL_PATH . 'classes/class.post-type.wp-lead.php');
-				include_once( WPL_PATH . 'modules/module.form-integrations.php');
+				include_once( WPL_PATH . 'classes/class.form-integrations.php');
 				include_once( WPL_PATH . 'classes/class.login.php');
 				include_once( WPL_PATH . 'modules/module.enqueue-frontend.php');
-				include_once( WPL_PATH . 'modules/module.tracking.php');
-
+				include_once( WPL_PATH . 'classes/class.tracking.php');
 
 			}
 
