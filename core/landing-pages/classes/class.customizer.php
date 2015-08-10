@@ -71,7 +71,7 @@ class Landing_Pages_Customizer {
      * Enqueue scripts and css for preview side of customizer
      */
     public static function enqueue_scripts_preview() {
-        wp_enqueue_script('lp-customizer-load', LANDINGPAGES_URLPATH . 'js/customizer.load.js', array('jquery'));
+        wp_enqueue_script('lp-customizer-load', LANDINGPAGES_URLPATH . 'assets/js/customizer.load.js', array('jquery'));
         echo '<style type="text/css">
                 html, html.no-js, html[dir="ltr"] {
                     margin-top: 0px !important;
@@ -84,8 +84,8 @@ class Landing_Pages_Customizer {
      */
     public static function enqueue_scripts_editor() {
 
-        wp_enqueue_style('lp-customizer-admin', LANDINGPAGES_URLPATH . 'css/admin/customizer-edit.css');
-        wp_enqueue_script('lp-customizer-admin', LANDINGPAGES_URLPATH . 'js/admin/new-customizer-admin.js');
+        wp_enqueue_style('lp-customizer-admin', LANDINGPAGES_URLPATH . 'assets/css/admin/customizer-edit.css');
+        wp_enqueue_script('lp-customizer-admin', LANDINGPAGES_URLPATH . 'assets/js/admin/new-customizer-admin.js');
 
     }
 
@@ -98,11 +98,11 @@ class Landing_Pages_Customizer {
         $permalink = get_permalink($post->ID);
         $randomstring = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 10);
 
-        wp_enqueue_script('lp_ab_testing_customizer_js', LANDINGPAGES_URLPATH . 'js/customizer.ab-testing.js', array('jquery'));
+        wp_enqueue_script('lp_ab_testing_customizer_js', LANDINGPAGES_URLPATH . 'assets/js/customizer.ab-testing.js', array('jquery'));
         wp_localize_script('lp_ab_testing_customizer_js', 'ab_customizer', array('lp_id' => $post->ID, 'permalink' => $permalink, 'randomstring' => $randomstring));
-        wp_enqueue_style('lp_ab_testing_customizer_css', LANDINGPAGES_URLPATH . 'css/customizer-ab-testing.css');
+        wp_enqueue_style('lp_ab_testing_customizer_css', LANDINGPAGES_URLPATH . 'assets/css/customizer-ab-testing.css');
 
-        echo "<style type='text/css'>#variation-list{background:#eaeaea !important; top: 26px !important; height: 35px !important;padding-top: 10px !important;}#wpadminbar {height: 32px !important;}</style>"; // enqueue styles not firing
+        echo "<style type='text/css'>#variation-list{background:#eaeaea !important; top: 26px !important; height: 35px !important;padding-top: 10px !important;}#wpadminbar {height: 32px !important;}</style>"; /* enqueue styles not firing */
 
     }
 

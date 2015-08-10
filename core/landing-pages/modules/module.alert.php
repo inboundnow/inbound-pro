@@ -45,7 +45,7 @@ function lp_template_page_ignore() {
              add_user_meta($user_id, 'lp_template_page_ignore', 'true', true);
     }
 }
-// Start Landing Page Welcome
+/* Start Landing Page Welcome */
 add_action('admin_notices', 'lp_activation_notice');
 function lp_activation_notice() {
     global $current_user ;

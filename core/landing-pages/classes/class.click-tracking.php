@@ -12,7 +12,8 @@ class Landing_Pages_Click_Tracking {
     public static function add_hooks() {
 
         add_action('wp_footer', array( __CLASS__ , 'build_trackable_links') );
-        add_action('init', array( __CLASS__ , 'intecept_tracked_link' ), 11); // Click Tracking init'
+        /* Click Tracking init */
+        add_action('init', array( __CLASS__ , 'intecept_tracked_link' ), 11);
     }
 
     /**
@@ -87,20 +88,20 @@ class Landing_Pages_Click_Tracking {
             $pos = strpos($qs, 'lp_redirect');
             if (!(false === $pos)) {
                 $link = substr($qs, $pos);
-                $link = str_replace('lp_redirect=', '', $link); // clean url
+                $link = str_replace('lp_redirect=', '', $link); /* clean url */
 
-                // Extract the ID and get the link
+                /* Extract the ID and get the link */
                 $pattern = '/lp_redirect_(\d+?)\=/';
                 preg_match($pattern, $link, $matches);
                 $link = preg_replace($pattern, '', $link);
-                $landing_page_id = $matches[1]; // Event ID
+                $landing_page_id = $matches[1]; /* Event ID */
                 $lead_ID = false;
                 $append = true;
-                // If lead post id exists
+                /* If lead post id exists */
                 if ($type === 'wplid') {
                     $lead_ID = $lead_id;
                 }
-                // If lead email exists
+                /* If lead email exists */
                 elseif ($type === 'wplemail') {
                     $query = $wpdb->prepare(
                         'SELECT ID FROM ' . $wpdb->posts . '
@@ -113,7 +114,7 @@ class Landing_Pages_Click_Tracking {
                         $lead_ID = $wpdb->get_var( $query );
                     }
                 }
-                // If lead wp_uid exists
+                /* If lead wp_uid exists */
                 elseif ($type === 'wpluid') {
                     $query = $wpdb->prepare(
                         'SELECT post_id FROM ' . $wpdb->prefix . 'postmeta
@@ -129,21 +130,21 @@ class Landing_Pages_Click_Tracking {
                     }
                 }
 
-                // Save click!
-                self::store_click( $landing_page_id, $variation_id); // Store CTA data to CTA CPT
+                /* Save click! */
+                self::store_click( $landing_page_id, $variation_id); /* Store CTA data to CTA CPT */
 
                 if( $lead_ID && $append != false ) {
                     /* Add landing page click to lead profile */
                     self::log_lead_click($landing_page_id, $lead_ID, $variation_id);
                 }
-                $link = preg_replace('/(?<=wpl_id)(.*)(?=&)/s', '', $link); // clean url
-                $link = preg_replace('/&wpl_id&l_type=(\D*)/', '', $link); // clean url2
-                $link = preg_replace('/&vid=(\d*)/', '', $link); // clean url3
+                $link = preg_replace('/(?<=wpl_id)(.*)(?=&)/s', '', $link); /* clean url */
+                $link = preg_replace('/&wpl_id&l_type=(\D*)/', '', $link); /* clean url2 */
+                $link = preg_replace('/&vid=(\d*)/', '', $link); /* clean url3 */
                 $link = urldecode( $link );
-                // Redirect
+                /* Redirect */
                 header("HTTP/1.1 302 Temporary Redirect");
                 header("Location:" . $link);
-                // I'm outta here!
+                /* I'm outta here! */
                 exit(1);
             }
         }
@@ -163,7 +164,8 @@ class Landing_Pages_Click_Tracking {
      */
     public static function log_lead_click($landing_page_id, $lead_ID, $variation_id) {
 
-        $time = current_time( 'timestamp', 0 ); // Current wordpress time from settings
+        /* Current wordpress time from settings */
+        $time = current_time( 'timestamp', 0 );
         $wordpress_date_time = date("Y-m-d G:i:s T", $time);
 
         if ( !$lead_ID ) {
@@ -174,7 +176,8 @@ class Landing_Pages_Click_Tracking {
         $individual_event_count = get_post_meta( $lead_ID, 'wpleads_landing_page_'.$landing_page_id, TRUE );
         $individual_event_count = ($individual_event_count != "") ? $individual_event_count : 0;
         $individual_event_count++;
-        $meta = get_post_meta( $lead_ID, 'times', TRUE ); // replace times
+        /* todo replace times */
+        $meta = get_post_meta( $lead_ID, 'times', TRUE );
         $meta++;
         $conversions_count = get_post_meta($lead_ID,'wpl-lead-conversion-count', true);
         $conversions_count++;
@@ -192,18 +195,17 @@ class Landing_Pages_Click_Tracking {
             $conversion_data[1]['variation'] = $variation_id;
             $conversion_data[1]['datetime'] = $wordpress_date_time;
             $conversion_data[1]['first_time'] = 1;
-            // Add in exact link url clicked
+            /* Add in exact link url clicked */
             $conversion_data = json_encode($conversion_data);
             update_post_meta( $lead_ID, 'wpleads_conversion_data', $conversion_data );
             update_post_meta( $lead_ID, 'wpleads_landing_page_'.$landing_page_id, $individual_event_count );
-            //	update_post_meta( $lead_ID, 'lt_event_tracked_'.$landing_page_id, $individual_event_count );
+            /*	update_post_meta( $lead_ID, 'lt_event_tracked_'.$landing_page_id, $individual_event_count ); */
         }
         update_post_meta( $lead_ID, 'times', $meta );
         update_post_meta( $lead_ID, 'wpl-lead-conversion-count', $meta );
-        // Need to call conversion paths too
+        /* Need to call conversion paths too */
     }
 
 }
 
 new Landing_Pages_Click_Tracking;
-

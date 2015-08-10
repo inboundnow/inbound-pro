@@ -31,8 +31,8 @@ if ( ! class_exists( 'Inbound_Now_Store' ) ) {
             }
 
             wp_dequeue_script('easyXDM');
-            wp_enqueue_script('easyXDM', LANDINGPAGES_URLPATH . 'js/libraries/easyXDM.debug.js');
-            wp_enqueue_script('lp-js-store', LANDINGPAGES_URLPATH . 'js/admin/admin.store.js');
+            wp_enqueue_script('easyXDM', LANDINGPAGES_URLPATH . 'assets/libraries/easyXDM.debug.js');
+            wp_enqueue_script('lp-js-store', LANDINGPAGES_URLPATH . 'assets/js/admin/admin.store.js');
 
         }
 
@@ -69,7 +69,7 @@ if ( ! class_exists( 'Inbound_Now_Store' ) ) {
             if ( !get_user_meta($user_id, 'inbound_show_store') ) {
                 self::inbound_store_notice();
             } else {
-                // normal display here
+                /* normal display here */
                 self::display_store();
             }
 
@@ -159,7 +159,7 @@ if ( ! class_exists( 'Inbound_Now_Store' ) ) {
                         },
                         onReady: function() {
                             socket.postMessage("Yay, it works!");
-                            //alert('run');
+                            /*alert('run'); */
                         }
                     });
 

@@ -158,14 +158,16 @@ class Landing_Pages_Templates_List_Table extends WP_List_Table {
 
                 return;
             default:
-                return print_r($item, true); //Show the whole array for troubleshooting purposes
+                return print_r($item, true); /*Show the whole array for troubleshooting purposes */
         }
     }
 
     function admin_header() {
         $page = (isset($_GET['page'])) ? esc_attr($_GET['page']) : false;
 
-        if ('lp_manage_templates' != $page) return;
+        if ('lp_manage_templates' != $page) {
+            return;
+        }
     }
 
     function no_items() {
@@ -173,6 +175,15 @@ class Landing_Pages_Templates_List_Table extends WP_List_Table {
     }
 
     function get_bulk_actions() {
+
+        if (defined('INBOUND_PRO_PATH') && Inbound_Pro_Plugin::get_customer_status() > 0 ) {
+            return array(
+
+                '0' => __('See Inbound Pro -> Templates for template options. ', 'landing-pages'),
+
+            );
+        }
+
         $actions = array(
 
             'upgrade' => __('Upgrade', 'landing-pages'), 'delete' => __('Delete', 'landing-pages'),
@@ -189,6 +200,10 @@ class Landing_Pages_Templates_List_Table extends WP_List_Table {
      */
     function check_template_for_update($item) {
         $version = $item['version'];
+
+        if (defined('INBOUND_PRO_PATH') && Inbound_Pro_Plugin::get_customer_status() > 0 ) {
+            return $version;
+        }
         $api_response = self::poll_api($item);
 
         if (false !== $api_response) {
@@ -215,13 +230,13 @@ class Landing_Pages_Templates_List_Table extends WP_List_Table {
 
         $request = wp_remote_post(LANDINGPAGES_STORE_URL, array('timeout' => 15, 'sslverify' => false, 'body' => $api_params));
 
-        if (!is_wp_error($request)):
+        if (!is_wp_error($request)) {
             $request = json_decode(wp_remote_retrieve_body($request), true);
             if ($request) $request['sections'] = maybe_unserialize($request['sections']);
             return $request;
-        else:
+        } else {
             return false;
-        endif;
+        }
     }
 
 

@@ -21,12 +21,12 @@ if ( !class_exists('Landing_Pages_Branching')	) {
 			add_filter( 'inbound_plugin_branches' , array( __CLASS__ ,  'add_branches' )  , 10 , 1 );
 
 			/* reset active branch during svn update */
-			//add_action( 'activate_landing_pages' , array( __CLASS__ , 'reset_branch_status' ) , 10 , 1 );
+			/* add_action( 'activate_landing_pages' , array( __CLASS__ , 'reset_branch_status' ) , 10 , 1 );
+			/**/
 		}
 
 		/**
 		* Add branches to branching api for landing pages plugin
-		*
 		*/
 		public static function add_branches( $branches ) {
 			$branches['landing-pages'] = array(

@@ -12,6 +12,10 @@ do_action('lp_global_config'); // The lp_global_config function is for global co
 //gets template directory name to use as identifier - do not edit - include in all template files
 $key = lp_get_parent_directory(dirname(__FILE__));
 
+//sets the default date for the countdown
+$next_month_timestamp = strtotime("+1 month");
+$next_month = date('Y-m-d H:i', $next_month_timestamp);
+
 $lp_data[$key]['info'] =
 array(
 	'data_type' => 'template', // Template Data Type
@@ -66,7 +70,7 @@ array(
         'description' => "What date are we counting down to?", // what field does
         'id' => 'date-picker', // metakey. $key Prefix is appended from parent in array loop
         'type'  => 'datepicker', // metafield type
-        'default'  => '2015-12-31 13:00', // default content
+        'default'  => $next_month, // default content
         'context'  => 'normal' // Context in screen (advanced layouts in future)
         ),
     array(
@@ -136,3 +140,21 @@ array(
         'context'  => 'normal'
         )
     );
+
+
+/**
+*  Enqueue JS & CSS
+*/
+function lp_countdown_lander_enqueue_scripts() {
+	global $post;
+	if ( isset($post) && $post->post_type != 'landing-page' ) {
+		return;
+	}
+
+	/* Get file locations */
+	$key = basename(dirname(__FILE__));
+	$url_path = LANDINGPAGES_URLPATH.'templates/'.$key.'/';
+
+
+}
+//add_action('admin_enqueue_scripts' , 'lp_countdown_lander_enqueue_scripts');

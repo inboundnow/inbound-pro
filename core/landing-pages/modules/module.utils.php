@@ -20,7 +20,7 @@ if (!function_exists('inbound_qtrans_disable')) {
     function inbound_qtrans_disable() {
         global $typenow, $pagenow;
 
-        if (in_array($typenow, array('landing-page' || 'wp-call-to-action')) && // post_types where qTranslate should be disabled
+        if (in_array($typenow, array('landing-page' || 'wp-call-to-action')) && /* post_types where qTranslate should be disabled */
             in_array($pagenow, array('post-new.php', 'post.php'))
         ) {
             remove_action('admin_head', 'qtrans_adminHeader');

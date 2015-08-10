@@ -135,8 +135,8 @@ class Landing_Pages_Settings {
             return;
         }
 
-        wp_enqueue_style('lp-css-global-settings-here', LANDINGPAGES_URLPATH . 'css/admin/global-settings.css');
-        wp_enqueue_script('lp-settings-js', LANDINGPAGES_URLPATH . 'js/admin/admin.global-settings.js');
+        wp_enqueue_style('lp-css-global-settings-here', LANDINGPAGES_URLPATH . 'assets/css/admin/global-settings.css');
+        wp_enqueue_script('lp-settings-js', LANDINGPAGES_URLPATH . 'assets/js/admin/admin.global-settings.js');
 
     }
 
@@ -192,7 +192,7 @@ class Landing_Pages_Settings {
                 $htaccess = '<textarea readonly="readonly" onclick="this.focus();this.select()" style="width: 90%;" rows="15" name="robotsnew">' . $contentht . '</textarea><br/>';
             }
         }
-        //print_r($lp_global_settings);
+        /*print_r($lp_global_settings); */
         $active_tab = 'lp-main';
         if (isset($_REQUEST['open-tab'])) {
             $active_tab = $_REQUEST['open-tab'];
@@ -239,19 +239,19 @@ class Landing_Pages_Settings {
             <div id="more-templates">
                 <center>
                     <a href="http://www.inboundnow.com/products/landing-pages/templates/" target="_blank"><img
-                            src="<?php echo LANDINGPAGES_URLPATH; ?>/images/templates-image.png"></a>
+                            src="<?php echo LANDINGPAGES_URLPATH; ?>assets/images/templates-image.png"></a>
 
                 </center>
             </div>
             <div id="more-addons">
                 <center>
                     <a href="http://www.inboundnow.com/products/landing-pages/extensions/" target="_blank"><img
-                            src="<?php echo LANDINGPAGES_URLPATH; ?>/images/add-on-image.png"></a>
+                            src="<?php echo LANDINGPAGES_URLPATH; ?>assets/images/add-on-image.png"></a>
                 </center>
             </div>
             <div id="custom-templates">
                 <center><a href="http://dev.inboundnow.com/submit-a-work-request/" target=="_blank"><img
-                            src="<?php echo LANDINGPAGES_URLPATH; ?>/images/custom-setup-image.png"></a>
+                            src="<?php echo LANDINGPAGES_URLPATH; ?>assets/images/custom-setup-image.png"></a>
                 </center>
             </div>
         </div>
@@ -277,11 +277,11 @@ class Landing_Pages_Settings {
                             <?php
                             if (version_compare(phpversion(), '5.3.3', '>')) {
                                 ?>
-                                <img src="<?php echo LANDINGPAGES_URLPATH; ?>/images/tick.png"/>
+                                <img src="<?php echo LANDINGPAGES_URLPATH; ?>assets/images/tick.png"/>
                                 <?php
                             } else {
                                 ?>
-                                <img src="<?php echo LANDINGPAGES_URLPATH; ?>/images/cross.png"/>
+                                <img src="<?php echo LANDINGPAGES_URLPATH; ?>assets/images/cross.png"/>
                                 <span
                                     class="installation_item_message"><?php _e("Landing Pages requires PHP 5 or above.", "gravityforms"); ?></span>
                                 <?php
@@ -298,11 +298,11 @@ class Landing_Pages_Settings {
                             <?php
                             if (version_compare($wpdb->db_version(), '5.0.0', '>')) {
                                 ?>
-                                <img src="<?php echo LANDINGPAGES_URLPATH; ?>/images/tick.png"/>
+                                <img src="<?php echo LANDINGPAGES_URLPATH; ?>assets/images/tick.png"/>
                                 <?php
                             } else {
                                 ?>
-                                <img src="<?php echo LANDINGPAGES_URLPATH; ?>/images/cross.png"/>
+                                <img src="<?php echo LANDINGPAGES_URLPATH; ?>assets/images/cross.png"/>
                                 <span
                                     class="installation_item_message"><?php _e("Gravity Forms requires MySQL 5 or above.", "gravityforms"); ?></span>
                                 <?php
@@ -319,11 +319,11 @@ class Landing_Pages_Settings {
                             <?php
                             if (version_compare(get_bloginfo("version"), '3.6', '>')) {
                                 ?>
-                                <img src="<?php echo LANDINGPAGES_URLPATH; ?>/images/tick.png"/>
+                                <img src="<?php echo LANDINGPAGES_URLPATH; ?>assets/images/tick.png"/>
                                 <?php
                             } else {
                                 ?>
-                                <img src="<?php echo LANDINGPAGES_URLPATH; ?>/images/cross.png"/>
+                                <img src="<?php echo LANDINGPAGES_URLPATH; ?>assets/images/cross.png"/>
                                 <span
                                     class="installation_item_message"><?php _e('landing pages requires version X or higher', 'landing-pages'); ?></span>
                                 <?php
@@ -372,7 +372,7 @@ class Landing_Pages_Settings {
             $theme = $theme_data->Name . ' ' . $theme_data->Version;
         }
 
-        // Try to identifty the hosting provider
+        /* Try to identifty the hosting provider */
         $host = false;
         if (defined('WPE_APIKEY')) {
             $host = 'WP Engine';
@@ -459,7 +459,7 @@ class Landing_Pages_Settings {
 
                 - INSTALLED LP TEMPLATES:
                 <?php
-                // Show templates that have been copied to the theme's edd_templates dir
+                /* Show templates that have been copied to the theme's edd_templates dir */
                 $dir = LANDINGPAGES_UPLOADS_PATH . '/*';
                 if (!empty($dir)) {
                     foreach (glob($dir) as $file) {
@@ -476,7 +476,7 @@ class Landing_Pages_Settings {
                 $active_plugins = get_option('active_plugins', array());
 
                 foreach ($plugins as $plugin_path => $plugin) {
-                    // If the plugin isn't active, don't show it.
+                    /* If the plugin isn't active, don't show it. */
                     if (!in_array($plugin_path, $active_plugins)) continue;
 
                     echo $plugin['Name'] . ': ' . $plugin['Version'] . "\n";
@@ -494,7 +494,7 @@ class Landing_Pages_Settings {
                     foreach ($plugins as $plugin_path) {
                         $plugin_base = plugin_basename($plugin_path);
 
-                        // If the plugin isn't active, don't show it.
+                        /* If the plugin isn't active, don't show it. */
                         if (!array_key_exists($plugin_base, $active_plugins)) continue;
 
                         $plugin = get_plugin_data($plugin_path);
@@ -541,7 +541,7 @@ class Landing_Pages_Settings {
 
         foreach ($lp_global_settings as $key => $data) {
             $tab_settings = $lp_global_settings[$key]['settings'];
-            // loop through fields and save the data
+            /* loop through fields and save the data */
             foreach ($tab_settings as $field) {
                 $field['id'] = $key . "-" . $field['id'];
 
@@ -555,7 +555,7 @@ class Landing_Pages_Settings {
                 if (($field['new_value'] !== null) && ($field['new_value'] !== $field['old_value'])) {
                     update_option($field['id'], $field['new_value']);
                     if ($field['id'] == 'main-landing-page-permalink-prefix') {
-                        //echo "here";
+                        /*echo "here"; */
                         global $wp_rewrite;
                         $wp_rewrite->flush_rules();
                     }
@@ -619,18 +619,18 @@ class Landing_Pages_Settings {
             $display = 'none';
         }
 
-        //echo $display;
+        /*echo $display; */
 
-        // Use nonce for verification
+        /* Use nonce for verification */
         echo "<input type='hidden' name='lp_{$key}_custom_fields_nonce' value='" . wp_create_nonce('lp-nonce') . "' />";
 
-        // Begin the field table and loop
+        /* Begin the field table and loop */
         echo '<table class="lp-tab-display" id="' . $key . '" style="display:' . $display . '">';
-        //print_r($custom_fields);exit;
+        /*print_r($custom_fields);exit; */
         foreach ($custom_fields as $field) {
-            //echo $field['type'];exit;
-            //print_r($field);
-            // get value of this field if it exists for this post
+            /*echo $field['type'];exit; */
+            /*print_r($field); */
+            /* get value of this field if it exists for this post */
             if (isset($field['default'])) {
                 $default = $field['default'];
             } else {
@@ -644,7 +644,7 @@ class Landing_Pages_Settings {
 
             $field['value'] = get_option($field['id'], $default);
 
-            // begin a table row with
+            /* begin a table row with */
             echo '<tr><th class="lp-gs-th" valign="top" style="font-weight:300;">';
             if ($field['type'] == 'header') {
                 echo '<h4>' . $field['default'] . '</h4>';
@@ -654,7 +654,7 @@ class Landing_Pages_Settings {
             echo '</th><td>';
 
             switch ($field['type']) {
-                // text
+                /* text */
                 case 'colorpicker':
                     if (!$field['value']) {
                         $field['value'] = $field['default'];
@@ -694,25 +694,25 @@ class Landing_Pages_Settings {
                     echo '<input type="text" name="' . $field['id'] . '" id="' . $field['id'] . '" value="' . $field['value'] . '" size="30" />
 							<div class="lp_tooltip tool_text" title="' . $field['description'] . '"></div>';
                     continue 2;
-                // textarea
+                /* textarea */
                 case 'textarea':
                     echo '<textarea name="' . $field['id'] . '" id="' . $field['id'] . '" cols="106" rows="6">' . $field['value'] . '</textarea>
 							<div class="lp_tooltip tool_textarea" title="' . $field['description'] . '"></div>';
                     continue 2;
-                // wysiwyg
+                /* wysiwyg */
                 case 'wysiwyg':
                     wp_editor($field['value'], $field['id'], $settings = array());
                     echo '<span class="description">' . $field['description'] . '</span><br><br>';
                     continue 2;
-                // media
+                /* media */
                 case 'media':
-                    //echo 1; exit;
+                    /*echo 1; exit; */
                     echo '<label for="upload_image">';
                     echo '<input name="' . $field['id'] . '"  id="' . $field['id'] . '" type="text" size="36" name="upload_image" value="' . $field['value'] . '" />';
                     echo '<input class="upload_image_button" id="uploader_' . $field['id'] . '" type="button" value="Upload Image" />';
                     echo '<br /><div class="lp_tooltip tool_media" title="' . $field['description'] . '"></div>';
                     continue 2;
-                // checkbox
+                /* checkbox */
                 case 'checkbox':
                     $i = 1;
                     echo "<table>";
@@ -736,17 +736,17 @@ class Landing_Pages_Settings {
                     echo "</table>";
                     echo '<br><div class="lp_tooltip tool_checkbox" title="' . $field['description'] . '"></div>';
                     continue 2;
-                // radio
+                /* radio */
                 case 'radio':
                     foreach ($field['options'] as $value => $label) {
-                        //echo $meta.":".$field['id'] ;
-                        //echo "<br>";
+                        /*echo $meta.":".$field['id'] ; */
+                        /*echo "<br>"; */
                         echo '<input type="radio" name="' . $field['id'] . '" id="' . $field['id'] . '" value="' . $value . '" ', $field['value'] == $value ? ' checked="checked"' : '', '/>';
                         echo '<label for="' . $value . '">&nbsp;&nbsp;' . $label . '</label> &nbsp;&nbsp;&nbsp;&nbsp;';
                     }
                     echo '<div class="lp_tooltip tool_radio" title="' . $field['description'] . '"></div>';
                     continue 2;
-                // select
+                /* select */
                 case 'dropdown':
                     echo '<select name="' . $field['id'] . '" id="' . $field['id'] . '">';
                     foreach ($field['options'] as $value => $label) {
@@ -755,18 +755,18 @@ class Landing_Pages_Settings {
                     echo '</select><br /><div class="lp_tooltip tool_dropdown" title="' . $field['description'] . '"></div>';
                     continue 2;
                 case 'html':
-                    //print_r($field);
+                    /*print_r($field); */
                     echo $field['default'];
                     continue 2;
 
 
-            } //end switch
+            } /*end switch */
 
             do_action('lp_render_global_settings', $field);
 
             echo '</td></tr>';
-        } // end foreach
-        echo '</table>'; // end table
+        } /* end foreach */
+        echo '</table>'; /* end table */
     }
 
     /**
@@ -787,10 +787,12 @@ class Landing_Pages_Settings {
         if ($field['value']) {
             $api_params = array('edd_action' => 'check_license', 'license' => $field['value'], 'key' => $field['value'], 'item_name' => urlencode($field['slug']), 'cache_bust' => substr(md5(rand()), 0, 7));
 
-            // Call the custom API.
+            /* Call the custom API. */
             $response = wp_remote_get(add_query_arg($api_params, LANDINGPAGES_STORE_URL), array('timeout' => 15, 'sslverify' => false));
 
-            if (is_wp_error($response)) return false;
+            if (is_wp_error($response)) {
+                return false;
+            }
 
             $license_data = json_decode(wp_remote_retrieve_body($response));
 
@@ -798,7 +800,7 @@ class Landing_Pages_Settings {
                 $newDate = date('Y-m-d', strtotime($license_data->expires));
                 update_option($field['id'] . "-expire", $newDate);
                 return 'valid';
-                // this license is still valid
+                /* this license is still valid */
             } else {
                 return 'invalid';
             }

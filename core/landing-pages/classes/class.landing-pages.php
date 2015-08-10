@@ -54,7 +54,9 @@ class Landing_Pages_Template_Switcher {
     public static function display_landing_page_title( $content, $id = null ) {
         global $post;
 
-        if (!isset($post)) return $content;
+        if (!isset($post)) {
+            return $content;
+        }
 
         if ( ($post->post_type != 'landing-page' || is_admin()) || $id != $post->ID ) {
             return $content;
@@ -192,7 +194,7 @@ class Landing_Pages_Template_Switcher {
      *
      */
     public static function process_conversion_area_shortcode($atts, $content = null) {
-        extract(shortcode_atts(array('id' => '', 'align' => ''//'style' => ''
+        extract(shortcode_atts(array('id' => '', 'align' => '' /*'style' => ''*/
         ), $atts));
 
 
@@ -286,15 +288,15 @@ class Landing_Pages_Template_Switcher {
         $inbound_white_list = array();
         foreach ($registered_scripts as $handle) {
             if (preg_match("/\/plugins\/leads\//", $handle->src)) {
-                //echo $handle->handle;
+                /*echo $handle->handle; */
                 $inbound_white_list[] = $handle->handle;
             }
             if (preg_match("/\/plugins\/cta\//", $handle->src)) {
-                //echo $handle->handle;
+                /*echo $handle->handle; */
                 $inbound_white_list[] = $handle->handle;
             }
             if (preg_match("/\/plugins\/landing-pages\//", $handle->src)) {
-                //echo $handle->handle;
+                /*echo $handle->handle; */
                 $inbound_white_list[] = $handle->handle;
             }
         }
@@ -326,7 +328,6 @@ function lp_main_headline($post = null, $headline = null, $return = false) {
 
     if (!$return) {
         echo $main_headline;
-
     } else {
         return $main_headline;
     }
@@ -357,8 +358,8 @@ function lp_conversion_area($post = null, $content = null, $return = false, $dos
 
     if (!$return) {
         $content = str_replace('<p><div id="inbound-form-wrapper"', '<div id="inbound-form-wrapper"', $content);
-        $content = preg_replace('/<p[^>]*><\/p[^>]*>/', '', $content); // remove empty p tags
-        $content = preg_replace('/<\/p>/', '', $content); // remove last empty p tag
+        $content = preg_replace('/<p[^>]*><\/p[^>]*>/', '', $content); /* remove empty p tags */
+        $content = preg_replace('/<\/p>/', '', $content); /* remove last empty p tag */
         echo do_shortcode($content);
     } else {
         return $content;
@@ -531,9 +532,11 @@ function lp_discover_important_wrappers($content) {
  * @return null|string
  */
 function lp_rebuild_attributes($content = null, $wrapper_class = null) {
-    if (strstr($content, '<form')) return $content;
+    if (strstr($content, '<form')) {
+        return $content;
+    }
 
-    // Standardize all links
+    /* Standardize all links */
     $inputs = preg_match_all('/\<a(.*?)\>/s', $content, $matches);
     if (!empty($matches[0])) {
         foreach ($matches[0] as $key => $value) {
@@ -596,7 +599,7 @@ function lp_add_option($key, $type, $id, $default = null, $label = null, $descri
             return array('label' => $label, 'description' => $description, 'id' => $id, 'type' => 'html', 'default' => $default);
             break;
         case "custom-css":
-            return array('label' => $label, 'description' => $description, 'id' => $id, 'type' => 'turn-off-editor', 'default' => $default // inline css
+            return array('label' => $label, 'description' => $description, 'id' => $id, 'type' => 'turn-off-editor', 'default' => $default /* inline css */
             );
             break;
         case "description-block":
@@ -617,17 +620,17 @@ function lp_ab_testing_get_current_variation_id() {
     if (!isset($_SESSION['lp_ab_test_open_variation']) && !isset($_REQUEST['lp-variation-id'])) {
         $current_variation_id = 0;
     }
-    //echo $_REQUEST['lp-variation-id'];
+    /*echo $_REQUEST['lp-variation-id']; */
     if (isset($_REQUEST['lp-variation-id'])) {
         $_SESSION['lp_ab_test_open_variation'] = $_REQUEST['lp-variation-id'];
         $current_variation_id = $_REQUEST['lp-variation-id'];
-        //echo "setting session $current_variation_id";
+        /*echo "setting session $current_variation_id"; */
     }
 
     if (isset($_GET['message']) && $_GET['message'] == 1 && isset($_SESSION['lp_ab_test_open_variation'])) {
         $current_variation_id = $_SESSION['lp_ab_test_open_variation'];
 
-        //echo "here:".$_SESSION['lp_ab_test_open_variation'];
+        /*echo "here:".$_SESSION['lp_ab_test_open_variation']; */
     }
 
     if (isset($_GET['ab-action']) && $_GET['ab-action'] == 'delete-variation') {

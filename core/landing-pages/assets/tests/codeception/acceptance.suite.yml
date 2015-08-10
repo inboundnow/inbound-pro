@@ -1,0 +1,25 @@
+# Codeception Test Suite Configuration
+
+# suite for acceptance tests.
+# perform tests in browser using the WebDriver or PhpBrowser.
+# If you need both WebDriver and PHPBrowser tests - create a separate suite.
+
+class_name: AcceptanceTester
+modules:
+    enabled:
+        - PhpBrowser
+        - Asserts
+        - WPBrowser
+    config:
+        WebDriver:
+            url: 'http://inboundtesting.dev/'
+            browser: firefox
+            clear_cookies: false
+            window_size: 1024x768
+        PhpBrowser:
+            url: 'http://inboundsoon.dev'
+        WPBrowser:
+              url: 'http://inboundsoon.dev'
+              adminUsername: 'admin'
+              adminPassword: 'admin'
+              adminUrl: 'wp-admin'

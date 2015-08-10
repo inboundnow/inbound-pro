@@ -38,7 +38,7 @@ class  Landing_Pages_Template_Management {
         $_registered_pages[$hookname] = true;
 
         $hookname = get_plugin_page_hookname('lp_templates_search', 'edit.php?post_type=landing-page');
-        //echo $hookname;exit;
+        /*echo $hookname;exit; */
         if (!empty($hookname)) {
             add_action($hookname, 'lp_templates_search');
         }
@@ -56,8 +56,8 @@ class  Landing_Pages_Template_Management {
             return;
         }
 
-        wp_enqueue_style( 'lp-css-templates' , LANDINGPAGES_URLPATH . 'css/admin-templates.css');
-        wp_enqueue_script( 'lp-js-templates' , LANDINGPAGES_URLPATH . 'js/admin/admin.templates.js');
+        wp_enqueue_style( 'lp-css-templates' , LANDINGPAGES_URLPATH . 'assets/css/admin-templates.css');
+        wp_enqueue_script( 'lp-js-templates' , LANDINGPAGES_URLPATH . 'assets/js/admin/admin.templates.js');
     }
 
     /**
@@ -70,7 +70,7 @@ class  Landing_Pages_Template_Management {
             return;
         }
 
-        wp_enqueue_script( 'lp-js-templates-upload' , LANDINGPAGES_URLPATH . 'js/admin/admin.templates-upload.js');
+        wp_enqueue_script( 'lp-js-templates-upload' , LANDINGPAGES_URLPATH . 'assets/js/admin/admin.templates-upload.js');
     }
 
     /**
@@ -312,7 +312,7 @@ class  Landing_Pages_Template_Management {
         if (!$result) {
             die("There was a problem. Please try again!");
         } else {
-            //print_r($result);exit;
+            /*print_r($result);exit; */
             unlink($file_path);
             echo '<div class="updated"><p>' . $data['label'] . ' upgraded successfully!</div>';
         }
@@ -325,14 +325,26 @@ class  Landing_Pages_Template_Management {
         global $lp_data;
         $data = $lp_data[$slug];
 
-        if (!file_exists($dir)) return true;
+        if (!file_exists($dir)) {
+            return true;
+        }
 
-        if (!is_dir($dir) || is_link($dir)) return unlink($dir);
+        if (!is_dir($dir) || is_link($dir)) {
+            return unlink($dir);
+        }
+
         foreach (scandir($dir) as $item) {
-            if ($item == '.' || $item == '..') continue;
+            if ($item == '.' || $item == '..') {
+                continue;
+            }
+
             if (!self::delete_template($dir . "/" . $item, $slug)) {
+
                 chmod($dir . "/" . $item, 0777);
-                if (!self::delete_template($dir . "/" . $item, $slug)) return false;
+
+                if (!self::delete_template($dir . "/" . $item, $slug)) {
+                    return false;
+                }
             };
         }
         return rmdir($dir);
@@ -351,13 +363,13 @@ class  Landing_Pages_Template_Management {
 
         $request = wp_remote_post(LANDINGPAGES_STORE_URL, array('timeout' => 15, 'sslverify' => false, 'body' => $api_params));
 
-        if (!is_wp_error($request)):
+        if (!is_wp_error($request)) {
             $request = json_decode(wp_remote_retrieve_body($request), true);
             if ($request) $request['sections'] = maybe_unserialize($request['sections']);
             return $request;
-        else:
+        } else {
             return false;
-        endif;
+        }
     }
 
 

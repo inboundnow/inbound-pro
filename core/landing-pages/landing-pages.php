@@ -7,7 +7,7 @@ Version: 1.9.0
 Author: Inbound Now
 Author URI: http://www.inboundnow.com/
 Text Domain: landing-pages
-Domain Path: lang
+Domain Path: assets/lang
 */
 
 if (!class_exists('Inbound_Landing_Pages_Plugin')) {
@@ -125,7 +125,7 @@ if (!class_exists('Inbound_Landing_Pages_Plugin')) {
 		*  Loads the correct .mo file for this plugin
 		*/
 		public static function load_text_domain() {
-			load_plugin_textdomain( 'landing-pages' , false , LANDINGPAGES_PLUGIN_SLUG . '/lang/' );
+			load_plugin_textdomain( 'landing-pages' , false , LANDINGPAGES_PLUGIN_SLUG . '/assets/lang/' );
 		}
 
 		/**

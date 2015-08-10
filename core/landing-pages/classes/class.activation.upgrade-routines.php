@@ -179,16 +179,16 @@ if ( !class_exists('Landing_Pages_Activation_Update_Routines') ) {
 			}
 
 			foreach ($files as $file) {
-				if (in_array($file, array(".",".."))) continue;
+				if (in_array($file, array(".",".."))) {
+					continue;
+				}
 
-				if ($file==".DS_Store")
-				{
+				if ($file==".DS_Store") {
 					unlink($old_path.$file);
 					continue;
 				}
 
-				if (is_dir($old_path.$file))
-				{
+				if (is_dir($old_path.$file)) {
 					@mkdir($new_path.$file.'/' , 0775);
 					chmod($old_path.$file.'/' , 0775);
 					lp_move_template_files( $old_path.$file.'/' , $new_path.$file.'/' );
