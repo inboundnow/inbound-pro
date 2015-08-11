@@ -381,6 +381,10 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
             $post_type = isset($post) ? get_post_type( $post ) : null;
 
+            if ( $post_type != 'wp-lead' ) {
+                return;
+            }
+
             $screen = get_current_screen();
 
             if ($screen->id == 'wp-lead') {
@@ -1470,7 +1474,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             global $post;
             ?>
             <div id="raw-data-display">
-                   
+
             </div>
             <?php
         }
