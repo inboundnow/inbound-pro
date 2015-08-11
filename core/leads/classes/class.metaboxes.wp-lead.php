@@ -1470,74 +1470,8 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             global $post;
             ?>
             <div id="raw-data-display">
-                    <div class="nav-container">
-                        <nav>
-                            <ul>
-                                <li class="active"><a href="index.html"><?php _e('All', 'leads'); ?></a></li>
-                                <li><a href="index.html"><?php _e('Form Data', 'leads'); ?></a></li>
-                                <li><a href="index.html"><?php _e('Page Data', 'leads'); ?></a></li>
-                                <li><a href="index.html"><?php _e('Event Data', 'leads'); ?></a></li>
-                            </ul>
-                        </nav>
-                    </div>
-
-                    <?php
-
-                    // Get Raw form Data
-                    $raw_data = get_post_meta($post->ID, 'wpleads_raw_post_data', true);
-
-                    if ($raw_data) {
-                        $raw_data = json_decode(stripslashes($raw_data), true);
-                        $raw_data = ($raw_data) ? $raw_data : array();
-                        echo "<h2>" . __('Form Inputs with Values', 'leads') . "</h2>";
-                        echo "<span id='click-to-map'></span>";
-                        echo "<div id='wpl-raw-form-data-table'>";
-                        foreach ($raw_data as $key => $value) {
-                            ?>
-                            <div class="wpl-raw-data-tr">
-                            <span class="wpl-raw-data-td-label">
-                                <?php echo __('Input name:', 'leads') . " <span class='lead-key-normal'>" . $key . "</span> &rarr; values:"; ?>
-                            </span>
-                            <span class="wpl-raw-data-td-value">
-                                <?php
-                                if (is_array($value)) {
-                                    $value = array_filter($value);
-                                    $value = array_unique($value);
-                                    $num_loop = 1;
-                                    foreach ($value as $k => $v) {
-                                        echo "<span class='" . $key . "-" . $num_loop . " possible-map-value'>" . $v . "</span>";
-                                        $num_loop++;
-                                    }
-                                } else {
-                                    echo "<span class='" . $key . "-1 possible-map-value'>" . $value . "</span>";
-                                }
-                                ?>
-                            </span>
-                                <span class="map-raw-field"><span
-                                        class="map-this-text">Map this field to lead</span><span style="display:none;"
-                                                                                                 class='lead_map_select'><select
-                                            name="NOA" class="field_map_select"></select></span><span
-                                        class="apply-map button button-primary"
-                                        style="display:none;">Apply</span></span>
-                            </div>
-                        <?php
-
-                        }
-                        echo "<div id='raw-array'>";
-                        echo "<h2>" . __('Raw Form Data Array', 'leads') . "</h2>";
-                        echo "<pre>";
-                        print_r($raw_data);
-                        echo "</pre>";
-                        echo "</div>";
-                        echo "</div>";
-                    } else {
-                        //echo "<span id='wpl-message-none'>". __( 'No raw data found!' ,'leads') ."</span>";
-                    }
-
-                    ?>
-
-                </div>
-                <!-- end #raw-data-display -->
+                   
+            </div>
             <?php
         }
 

@@ -168,7 +168,7 @@ if (!class_exists('LeadStorage')) {
 				}
 
 				/* store raw form data */
-				self::store_raw_form_data($lead);
+				//self::store_raw_form_data($lead);
 
 				if ( self::$is_ajax ) {
 					echo $lead['id'];
