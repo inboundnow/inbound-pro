@@ -6,9 +6,8 @@
 if (!class_exists('Inbound_Forms')) {
     class Inbound_Forms {
         static $add_script;
-        //=============================================
-        // Hooks and Filters
-        //=============================================
+
+
         static function init()	{
 
             add_shortcode('inbound_form', array(__CLASS__, 'inbound_forms_create'));
@@ -37,7 +36,7 @@ if (!class_exists('Inbound_Forms')) {
                 'notify' => $email,
                 'notify_subject' => '{{site-name}} {{form-name}} - New Lead Conversion',
                 'labels' => '',
-                'font_size' => '', // set default from CSS
+                'font_size' => '', /* set default from CSS */
                 'width' => '',
                 'redirect' => '',
                 'icon' => '',
@@ -55,14 +54,14 @@ if (!class_exists('Inbound_Forms')) {
 
 
             $form_name = $name;
-            //$form_name = strtolower(str_replace(array(' ','_', '"', "'"),'-',$form_name));
+            /*$form_name = strtolower(str_replace(array(' ','_', '"', "'"),'-',$form_name)); */
             $form_layout = $layout;
             $form_labels = $labels;
             $form_labels_class = (isset($form_labels)) ? "inbound-label-".$form_labels : 'inbound-label-inline';
             $submit_button = ($submit != "") ? $submit : 'Submit';
             $icon_insert = ($icon != "" && $icon != 'none') ? '<i class="fa-'. $icon . ' font-awesome fa"></i>' : '';
 
-            // Set submit button colors
+            /* Set submit button colors */
             if(isset($submit_colors) && $submit_colors === 'on'){
                 $submit_bg = " background:" . $submit_bg_color . "; border: 5px solid ".$submit_bg_color."; border-radius: 3px;";
                 $submit_color = " color:" . $submit_text_color . ";";
@@ -84,7 +83,7 @@ if (!class_exists('Inbound_Forms')) {
                 $font_size = (isset($font_size)) ? " font-size:" . $font_size . "px;" : '';
             }
 
-            // Check for image in submit button option
+            /* Check for image in submit button option */
             if (preg_match('/\.(jpg|jpeg|png|gif)(?:[\?\#].*)?$/i',$submit_button)) {
                 $image_button = ' color: rgba(0, 0, 0, 0);border: none;box-shadow: none;background: transparent; border-radius:0px;padding: 0px;';
                 $inner_button = "<img src='$submit_button' width='100%'>";
@@ -109,7 +108,7 @@ if (!class_exists('Inbound_Forms')) {
 
             $form_width = ($width != "") ? $width_output : '';
 
-            //if (!preg_match_all("/(.?)\[(inbound_field)\b(.*?)(?:(\/))?\](?:(.+?)\[\/inbound_field\])?(.?)/s", $content, $matches)) {
+            /*if (!preg_match_all("/(.?)\[(inbound_field)\b(.*?)(?:(\/))?\](?:(.+?)\[\/inbound_field\])?(.?)/s", $content, $matches)) { */
             if (!preg_match_all('/(.?)\[(inbound_field)(.*?)\]/s',$content, $matches)) {
 
                 return '';
@@ -119,8 +118,8 @@ if (!class_exists('Inbound_Forms')) {
                 for($i = 0; $i < count($matches[0]); $i++) {
                     $matches[3][$i] = shortcode_parse_atts($matches[3][$i]);
                 }
-                //print_r($matches[3]);
-                // matches are $matches[3][$i]['label']
+                /*print_r($matches[3]); */
+                /* matches are $matches[3][$i]['label'] */
                 $clean_form_id = preg_replace("/[^A-Za-z0-9 ]/", '', trim($name));
                 $form_id = strtolower(str_replace(array(' ','_'),'-',$clean_form_id));
 
@@ -160,7 +159,7 @@ if (!class_exists('Inbound_Forms')) {
                     if ($map_field != "") {
                         $field_name = $map_field;
                     } else {
-                        //$label = self::santize_inputs($label);
+                        /*$label = self::santize_inputs($label); */
                         $field_name = strtolower(str_replace(array(' ','_'),'-',$label));
                     }
 
@@ -169,13 +168,13 @@ if (!class_exists('Inbound_Forms')) {
                     /* Map Common Fields */
                     (preg_match( '/Email|e-mail|email/i', $label, $email_input)) ? $email_input = " inbound-email" : $email_input = "";
 
-                    // Match Phone
+                    /* Match Phone */
                     (preg_match( '/Phone|phone number|telephone/i', $label, $phone_input)) ? $phone_input = " inbound-phone" : $phone_input = "";
 
-                    // match name or first name. (minus: name=, last name, last_name,)
+                    /* match name or first name. (minus: name=, last name, last_name,) */
                     (preg_match( '/(?<!((last |last_)))name(?!\=)/im', $label, $first_name_input)) ? $first_name_input = " inbound-first-name" : $first_name_input =	"";
 
-                    // Match Last Name
+                    /* Match Last Name */
                     (preg_match( '/(?<!((first)))(last name|last_name|last)(?!\=)/im', $label, $last_name_input)) ? $last_name_input = " inbound-last-name" : $last_name_input =	"";
 
                     $input_classes = $email_input . $first_name_input . $last_name_input . $phone_input;
@@ -187,7 +186,7 @@ if (!class_exists('Inbound_Forms')) {
                         $show_labels = false;
                     }
 
-                    // added by kirit dholakiya for validation of multiple checkbox
+                    /* added by kirit dholakiya for validation of multiple checkbox */
                     $div_chk_req = '';
                     if($type=='checkbox' && $required=='1') {
                         $div_chk_req =' checkbox-required ';
@@ -218,14 +217,14 @@ if (!class_exists('Inbound_Forms')) {
                             $drop_val_trimmed =	trim($value);
                             $dropdown_val = strtolower(str_replace(array(' ','_'),'-',$drop_val_trimmed));
 
-                            //check for label-value separator (pipe)
+                            /*check for label-value separator (pipe) */
                             $pos = strrpos($value, "|");
 
-                            //if not found, use standard replacement (lowercase and spaces become dashes)
+                            /*if not found, use standard replacement (lowercase and spaces become dashes) */
                             if ($pos === false) {
                                 $form .= '<option value="'. trim(str_replace('"', '\"' , $dropdown_val)) .'">'. $drop_val_trimmed .'</option>';
                             } else {
-                                //otherwise left side of separator is label, right side is value
+                                /*otherwise left side of separator is label, right side is value */
                                 $option = explode("|", $value);
                                 $form .= '<option value="'. trim(str_replace('"', '\"' , trim($option[1]))) .'">'. trim($option[0]) .'</option>';
                             }
@@ -303,20 +302,20 @@ if (!class_exists('Inbound_Forms')) {
                         $radio_fields = array();
                         $radio = $matches[3][$i]['radio'];
                         $radio_fields = explode(",", $radio);
-                        // $clean_radio = str_replace(array(' ','_'),'-',$value) // clean leading spaces. finish
+                        /* $clean_radio = str_replace(array(' ','_'),'-',$value) /* clean leading spaces. finish */
 
                         foreach ($radio_fields as $key => $value) {
                             $radio_val_trimmed = trim($value);
                             $radio_val = strtolower(str_replace(array(' ','_'),'-',$radio_val_trimmed));
 
-                            //check for label-value separator (pipe)
+                            /*check for label-value separator (pipe) */
                             $pos = strrpos($value, "|");
 
-                            //if not found, use standard replacement (lowercase and spaces become dashes)
+                            /*if not found, use standard replacement (lowercase and spaces become dashes) */
                             if ($pos === false) {
                                 $form .= '<span class="radio-'.$main_layout.' radio-'.$form_labels_class.' '.$field_input_class.'"><input type="radio" name="'. $field_name .'" value="'. $radio_val .'">'. $radio_val_trimmed .'</span>';
                             } else {
-                                //otherwise left side of separator is label, right side is value
+                                /*otherwise left side of separator is label, right side is value */
                                 $option = explode("|", $value);
                                 $form .= '<span class="radio-'.$main_layout.' radio-'.$form_labels_class.' '.$field_input_class.'"><input type="radio" name="'. $field_name .'" value="'. trim(str_replace('"', '\"' , trim($option[1]))) .'">'. trim($option[0]) .'</span>';
                             }
@@ -335,14 +334,14 @@ if (!class_exists('Inbound_Forms')) {
                             $checkbox_val_trimmed =	trim($value);
                             $checkbox_val =	strtolower(str_replace(array(' ','_'),'-',$checkbox_val_trimmed));
 
-                            //check for label-value separator (pipe)
+                            /*check for label-value separator (pipe) */
                             $pos = strrpos($value, "|");
 
-                            //if not found, use standard replacement (lowercase and spaces become dashes)
+                            /*if not found, use standard replacement (lowercase and spaces become dashes) */
                             if ($pos === false) {
                                 $form .= '<input class="checkbox-'.$main_layout.' checkbox-'.$form_labels_class.' '.$field_input_class.'" type="checkbox" name="'. $field_name .'[]" value="'. $checkbox_val .'" >'.$checkbox_val_trimmed.'<br>';
                             } else {
-                                //otherwise left side of separator is label, right side is value
+                                /*otherwise left side of separator is label, right side is value */
                                 $option = explode("|", $value);
                                 $form .= '<input class="checkbox-'.$main_layout.' checkbox-'.$form_labels_class.' '.$field_input_class.'" type="checkbox" name="'. $field_name .'[]" value="'. trim(str_replace('"', '\"' , trim($option[1]))) .'" >'. trim($option[0]) .'<br>';
                             }
@@ -350,7 +349,7 @@ if (!class_exists('Inbound_Forms')) {
                     } else if ($type === 'html-block') {
 
                         $html = $matches[3][$i]['html'];
-                        //echo $html;
+                        /*echo $html; */
                         $form .= "<div class={$field_input_class}>";
                         $form .= do_shortcode(html_entity_decode($html));
                         $form .= "</div>";
@@ -358,11 +357,11 @@ if (!class_exists('Inbound_Forms')) {
                     } else if ($type === 'divider') {
 
                         $divider = $matches[3][$i]['divider_options'];
-                        //echo $html;
+                        /*echo $html; */
                         $form .= "<div class='inbound-form-divider {$field_input_class}'>" . $divider . "<hr></div>";
 
                     } else if ($type === 'editor') {
-                        //wp_editor(); // call wp editor
+                        /*wp_editor(); /* call wp editor */
                     } else if ($type === 'honeypot') {
 
                         $form .= '<input type="hidden" name="stop_dirty_subs" class="stop_dirty_subs" value="">';
@@ -452,16 +451,16 @@ if (!class_exists('Inbound_Forms')) {
 
                     $form .= '</div>';
                 }
-                // End Loop
+                /* End Loop */
 
                 $current_page =  "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
                 $form .= '<div class="inbound-field '.$main_layout.' inbound-submit-area"><button type="submit" class="inbound-button-submit inbound-submit-action" value="'.$submit_button.'" name="send" id="inbound_form_submit" data-ignore-form-field="true" style="'.$submit_bg.$submit_color.$image_button.'">
 							'.$icon_insert.''.$submit_button.$inner_button.'</button></div><input data-ignore-form-field="true" type="hidden" name="inbound_submitted" value="1">';
-                // <!--<input type="submit" '.$submit_button_type.' class="button" value="'.$submit_button.'" name="send" id="inbound_form_submit" />-->
+                /* <!--<input type="submit" '.$submit_button_type.' class="button" value="'.$submit_button.'" name="send" id="inbound_form_submit" />--> */
 
                 $form .= '<input type="hidden" name="inbound_form_n" class="inbound_form_n" value="'.$form_name.'"><input type="hidden" name="inbound_form_lists" id="inbound_form_lists" value="'.$lists.'" data-map-form-field="inbound_form_lists"><input type="hidden" name="inbound_form_id" class="inbound_form_id" value="'.$id.'"><input type="hidden" name="inbound_current_page_url" value="'.$current_page.'"><input type="hidden" name="inbound_furl" value="'. base64_encode($redirect) .'"><input type="hidden" name="inbound_notify" value="'. base64_encode($notify) .'"><input type="hidden" class="inbound_params" name="inbound_params" value=""></form></div>';
                 $form .= "<style type='text/css'>.inbound-button-submit{ {$font_size} }</style>";
-                $form = preg_replace('/<br class="inbr".\/>/', '', $form); // remove editor br tags
+                $form = preg_replace('/<br class="inbr".\/>/', '', $form); /* remove editor br tags */
 
                 return $form;
             }
@@ -471,17 +470,17 @@ if (!class_exists('Inbound_Forms')) {
          *  Sanitizes form inputs
          */
         static function santize_inputs($content) {
-            // Strip HTML Tags
+            /* Strip HTML Tags */
             $clear = strip_tags($content);
-            // Clean up things like &amp;
+            /* Clean up things like &amp; */
             $clear = html_entity_decode($clear);
-            // Strip out any url-encoded stuff
+            /* Strip out any url-encoded stuff */
             $clear = urldecode($clear);
-            // Replace non-AlNum characters with space
+            /* Replace non-AlNum characters with space */
             $clear = preg_replace('/[^A-Za-z0-9]/', ' ', $clear);
-            // Replace Multiple spaces with single space
+            /* Replace Multiple spaces with single space */
             $clear = preg_replace('/ +/', ' ', $clear);
-            // Trim the string of leading/trailing space
+            /* Trim the string of leading/trailing space */
             $clear = trim($clear);
             return $clear;
         }
@@ -496,7 +495,7 @@ if (!class_exists('Inbound_Forms')) {
 
             $shortcode = get_post_meta( $id, 'inbound_shortcode', TRUE );
 
-            // If form id missing add it
+            /* If form id missing add it */
             if (!preg_match('/id="/', $shortcode)) {
                 $shortcode = str_replace("[inbound_form", "[inbound_form id=\"" . $id . "\"", $shortcode);
             }
@@ -562,7 +561,7 @@ if (!class_exists('Inbound_Forms')) {
 
 					jQuery("form").submit(function(e) {
 
-						// added below condition for check any of checkbox checked or not by kirit dholakiya
+						/* added below condition for check any of checkbox checked or not by kirit dholakiya */
 						if( jQuery(\'.checkbox-required\')[0] && jQuery(\'.checkbox-required input[type=checkbox]:checked\').length==0)
 						{
 							jQuery(\'.checkbox-required input[type=checkbox]:first\').focus();
@@ -582,7 +581,7 @@ if (!class_exists('Inbound_Forms')) {
 						});
 					});
 
-					jQuery("#inbound_form_submit br").remove(); // remove br tags
+					jQuery("#inbound_form_submit br").remove(); /* remove br tags */
 					function validateEmail(email) {
 
 						var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -592,7 +591,7 @@ if (!class_exists('Inbound_Forms')) {
 					jQuery("#inbound_parent_page").val(parent_redirect);
 
 
-					// validate email
+					/* validate email */
 					jQuery("input.inbound-email").on("change keyup", function (e) {
 						var $this = jQuery(this);
 						var email = $this.val();
@@ -630,7 +629,7 @@ if (!class_exists('Inbound_Forms')) {
 
             /* replace core tokens */
             $content = str_replace('{{site-name}}', get_bloginfo( 'name' ) , $content);
-            //$content = str_replace('{{form-name}}', $form_data['inbound_form_n']		, $content);
+            /*$content = str_replace('{{form-name}}', $form_data['inbound_form_n']		, $content); */
 
             foreach ($form_data as $key => $value) {
                 $token_key = str_replace('_','-', $key);
@@ -647,25 +646,25 @@ if (!class_exists('Inbound_Forms')) {
          */
         static function store_form_stats($form_id, $email) {
 
-            //$time = current_time( 'timestamp', 0 ); // Current wordpress time from settings
-            // $wordpress_date_time = date("Y-m-d G:i:s", $time);
+            /* $time = current_time( 'timestamp', 0 ); Current wordpress time from settings */
+            /* $wordpress_date_time = date("Y-m-d G:i:s", $time); */
             $form_conversion_num = get_post_meta($form_id, 'inbound_form_conversion_count', true);
             $form_conversion_num++;
             update_post_meta( $form_id, 'inbound_form_conversion_count', $form_conversion_num );
 
-            // Add Lead Email to Conversions List
+            /* Add Lead Email to Conversions List */
             $lead_conversion_list = get_post_meta( $form_id, 'lead_conversion_list', TRUE );
             $lead_conversion_list = json_decode($lead_conversion_list,true);
             if (is_array($lead_conversion_list)) {
                 $lead_count = count($lead_conversion_list);
                 $lead_conversion_list[$lead_count]['email'] = $email;
-                // $lead_conversion_list[$lead_count]['date'] = $wordpress_date_time;
+                /* $lead_conversion_list[$lead_count]['date'] = $wordpress_date_time; */
                 $lead_conversion_list = json_encode($lead_conversion_list);
                 update_post_meta( $form_id, 'lead_conversion_list', $lead_conversion_list );
             } else {
                 $lead_conversion_list = array();
                 $lead_conversion_list[0]['email'] = $email;
-                //	$lead_conversion_list[0]['date'] = $wordpress_date_time;
+                /*	$lead_conversion_list[0]['date'] = $wordpress_date_time; */
                 $lead_conversion_list = json_encode($lead_conversion_list);
                 update_post_meta( $form_id, 'lead_conversion_list', $lead_conversion_list );
             }
@@ -694,7 +693,7 @@ if (!class_exists('Inbound_Forms')) {
 
 
 
-                //print_r($_POST);
+                /*print_r($_POST); */
                 foreach ( $_POST as $field => $value ) {
 
                     if ( get_magic_quotes_gpc() && is_string($value) ) {
@@ -715,7 +714,7 @@ if (!class_exists('Inbound_Forms')) {
 
                 }
 
-                $form_meta_data['post_id'] = $_POST['inbound_form_id']; // pass in form id
+                $form_meta_data['post_id'] = $_POST['inbound_form_id']; /* pass in form id */
 
                 /* Send emails if passes spam check returns false */
                 if ( !apply_filters( 'inbound_check_if_spam' , false ,  $form_post_data ) ) {
@@ -814,7 +813,7 @@ if (!class_exists('Inbound_Forms')) {
                 $body = $Inbound_Templating_Engine->replace_tokens( $template['body'] , array($form_post_data, $form_meta_data )	);
 
                 /* Fix broken HTML tags from wp_mail garbage */
-                // $body = '<tbody> <t body> <tb ody > <tbo dy> <tbod y> < t d class = "test" > < / td > ';
+                /* $body = '<tbody> <t body> <tb ody > <tbo dy> <tbod y> < t d class = "test" > < / td > '; */
                 $body = preg_replace("/ \>/", ">", $body);
                 $body = preg_replace("/\/ /", "/", $body);
                 $body = preg_replace("/\< /", "<", $body);
@@ -883,7 +882,7 @@ if (!class_exists('Inbound_Forms')) {
 
 
             $Inbound_Templating_Engine = Inbound_Templating_Engine();
-            $form_id = $form_meta_data['post_id']; //This is page id or post id
+            $form_id = $form_meta_data['post_id']; /*This is page id or post id */
 
             /* Rebuild Form Meta Data to Load Single Values	*/
             foreach( $form_meta_data as $key => $value ) {

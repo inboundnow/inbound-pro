@@ -13,7 +13,24 @@ class Leads_Settings {
      * load hooks and filters
      */
     public static function load_hooks() {
+        add_action( 'admin_enqueue_scripts' , array( __CLASS__ , 'enqueue_admin_scripts' ) , 10 , 1 );
 
+    }
+
+    public static function enqueue_admin_scripts( $hook ) {
+        global $post;
+
+        $post_type = isset($post) ? get_post_type( $post ) : null;
+
+        $screen = get_current_screen();
+
+        // Global Settings Screen
+        if ( $screen->id != 'wp-lead_page_wpleads_global_settings') {
+            return;
+        }
+
+        wp_enqueue_script('wpleads-list-page', WPL_URLPATH.'assets/js/wpl.global-settings.js', array('jquery'));
+        wp_enqueue_style('wpl_manage_lead_css', WPL_URLPATH. 'assets/css/wpl.admin-global-settings.css');
 
     }
 

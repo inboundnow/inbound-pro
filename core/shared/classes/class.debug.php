@@ -7,7 +7,7 @@
 if (!defined('INBOUND_CLASS_URL'))
 	define('INBOUND_CLASS_URL', plugin_dir_url(__FILE__));
 
-	//update_option( 'inbound_global_dequeue', "" );
+	/*update_option( 'inbound_global_dequeue', "" ); */
 	/*
 	$global_array = get_option( 'inbound_global_dequeue' );
 	print_r($global_array);
@@ -21,9 +21,9 @@ if (!class_exists('Inbound_Debug_Scripts')) {
 	*	--------------------------------------------------------- */
 	static function init() {
 		self::$add_debug = true;
-		//add_action('wp_loaded', array(__CLASS__, 'inbound_check_for_error'));
-		//add_action('wp_footer', array(__CLASS__, 'display_errors'));
-		//add_action('init', array(__CLASS__, 'admin_display_errors'));
+		/*add_action('wp_loaded', array(__CLASS__, 'inbound_check_for_error')); */
+		/*add_action('wp_footer', array(__CLASS__, 'display_errors')); */
+		/*add_action('init', array(__CLASS__, 'admin_display_errors')); */
 		add_action( 'init',	array(__CLASS__, 'inbound_output_meta_debug') );
 		add_action('wp_enqueue_scripts', array(__CLASS__, 'inbound_kill_bogus_scripts'), 100);
 		add_action('wp_enqueue_scripts', array(__CLASS__, 'inbound_compatibilities'), 101);
@@ -41,7 +41,7 @@ if (!class_exists('Inbound_Debug_Scripts')) {
 	}
 
 	static function inbound_output_meta_debug() {
-		//print all global fields for post
+		/*print all global fields for post */
 		if (isset($_GET['debug']) && ( isset($_GET['post']) && is_numeric($_GET['post']) ) ) {
 			global $wpdb;
 			$data	=	array();
@@ -63,16 +63,16 @@ if (!class_exists('Inbound_Debug_Scripts')) {
 		}
 	}
 
-	// dequeue all js and set first script, then requeue scripts
+	/* dequeue all js and set first script, then requeue scripts */
 	static function run_debug_script() {
 		global $wp_scripts;
 
 		if ( !empty( $wp_scripts->queue ) ) {
-			$store = $wp_scripts->queue; // store the scripts
+			$store = $wp_scripts->queue; /* store the scripts */
 			foreach ( $wp_scripts->queue as $handle ) {
 				wp_dequeue_script( $handle );
 			}
-			//wp_enqueue_script( 'jquery' );
+			/*wp_enqueue_script( 'jquery' ); */
 			wp_register_script('inbound-debug', INBOUNDNOW_SHARED_URLPATH . 'assets/js/global/debug.js', array('jquery'));
 			wp_enqueue_script( 'inbound-debug' );
 
@@ -87,7 +87,7 @@ if (!class_exists('Inbound_Debug_Scripts')) {
 		if ( ! self::$add_debug )
 		return;
 
-		// Post Values
+		/* Post Values */
 		$post_id = (isset( $_POST['post_id'] )) ? $_POST['post_id'] : "";
 		$the_script = (isset( $_POST['the_script'] )) ? $_POST['the_script'] : "";
 		$status = (isset( $_POST['status'] )) ? $_POST['status'] : "";
@@ -99,14 +99,14 @@ if (!class_exists('Inbound_Debug_Scripts')) {
 			if(is_array($script_data)) {
 
 			if($status === 'off') {
-				// add or remove from list
+				/* add or remove from list */
 				$script_data[$the_script] = $status;
 			} else {
 				unset($script_data[$the_script]);
 			}
 
 		} else {
-			// Create the first item in array
+			/* Create the first item in array */
 			if($status === 'off') {
 			$script_data[$the_script] = $status;
 			}
@@ -116,7 +116,7 @@ if (!class_exists('Inbound_Debug_Scripts')) {
 
 		update_post_meta( $post_id, 'inbound_dequeue_js', $script_save );
 
-		// Set global option inbound_global_dequeue_js
+		/* Set global option inbound_global_dequeue_js */
 
 		$output =	array('encode'=> $script_save );
 
@@ -129,7 +129,7 @@ if (!class_exists('Inbound_Debug_Scripts')) {
 			return;
 		}
 
-		// Post Values
+		/* Post Values */
 		$post_id = (isset( $_POST['post_id'] )) ? $_POST['post_id'] : "";
 		$the_script = (isset( $_POST['the_script'] )) ? $_POST['the_script'] : "";
 		$status = (isset( $_POST['status'] )) ? $_POST['status'] : "";
@@ -141,14 +141,14 @@ if (!class_exists('Inbound_Debug_Scripts')) {
 		if(is_array($script_data)) {
 
 			if($status === 'off') {
-				// add or remove from list
+				/* add or remove from list */
 				$script_data[$the_script] = $admin_screen;
 			} else {
 				unset($script_data[$the_script]);
 			}
 
 		} else {
-			// Create the first item in array
+			/* Create the first item in array */
 			if($status === 'off') {
 			$script_data[$the_script] = $admin_screen;
 			}
@@ -156,7 +156,7 @@ if (!class_exists('Inbound_Debug_Scripts')) {
 
 		update_option( 'inbound_global_dequeue', $script_data );
 
-		// Set global option inbound_global_dequeue_js
+		/* Set global option inbound_global_dequeue_js */
 
 		$output =	array('encode'=> $script_data );
 
@@ -165,17 +165,17 @@ if (!class_exists('Inbound_Debug_Scripts')) {
 		}
 
 	static function wp_core_script_whitelist() {
-		// Wordpress Core Scripts List
+		/* Wordpress Core Scripts List */
 		$wp_core_scripts = array("jcrop", "swfobject", "swfupload", "swfupload-degrade", "swfupload-queue", "swfupload-handlers", "jquery", "jquery-form", "jquery-color", "jquery-masonry", "jquery-ui-core", "jquery-ui-widget", "jquery-ui-mouse", "jquery-ui-accordion", "jquery-ui-autocomplete", "jquery-ui-slider", "jquery-ui-progressbar", "jquery-ui-tabs", "jquery-ui-sortable", "jquery-ui-draggable", "jquery-ui-droppable", "jquery-ui-selectable", "jquery-ui-position", "jquery-ui-datepicker", "jquery-ui-tooltip", "jquery-ui-resizable", "jquery-ui-dialog", "jquery-ui-button", "jquery-effects-core", "jquery-effects-blind", "jquery-effects-bounce", "jquery-effects-clip", "jquery-effects-drop", "jquery-effects-explode", "jquery-effects-fade", "jquery-effects-fold", "jquery-effects-highlight", "jquery-effects-pulsate", "jquery-effects-scale", "jquery-effects-shake", "jquery-effects-slide", "jquery-effects-transfer", "wp-mediaelement", "schedule", "suggest", "thickbox", "hoverIntent", "jquery-hotkeys", "sack", "quicktags", "iris", "farbtastic", "colorpicker", "tiny_mce", "autosave", "wp-ajax-response", "wp-lists", "common", "editorremov", "editor-functions", "ajaxcat", "admin-categories", "admin-tags", "admin-custom-fields", "password-strength-meter", "admin-comments", "admin-users", "admin-forms", "xfn", "upload", "postbox", "slug", "post", "page", "link", "comment", "comment-reply", "admin-gallery", "media-upload", "admin-widgets", "word-count", "theme-preview", "json2", "plupload", "plupload-all", "plupload-html4", "plupload-html5", "plupload-flash", "plupload-silverlight", "underscore", "backbone", 'admin-bar', 'media-editor', 'svg-painter', 'wp-auth-check', 'editor', 'utils', 'customize-controls', 'plugin-install', 'customize-loader', 'dashboard');
 
-		// add filter;
+		/* add filter; */
 
 		return $wp_core_scripts;
 	}
 
 	static function inbound_now_script_whitelist() {
 		global $wp_scripts;
-		// Match our plugins and whitelist them
+		/* Match our plugins and whitelist them */
 		$registered_scripts = ( $wp_scripts->registered ) ? $wp_scripts->registered : array();
 		$inbound_white_list = array();
 
@@ -183,27 +183,27 @@ if (!class_exists('Inbound_Debug_Scripts')) {
 			$src = $handle->src;
 			if (!is_array($src)) {
 			if(preg_match("/\/plugins\/leads\//", $src)) {
-				//echo $handle->handle;
+				/*echo $handle->handle; */
 				$inbound_white_list[] = $handle->handle;
 			}
 			if(preg_match("/\/plugins\/cta\//", $handle->src)) {
-				//echo $handle->handle;
+				/*echo $handle->handle; */
 				$inbound_white_list[]= $handle->handle;
 			}
 			if(preg_match("/\/plugins\/landing-pages\//", $handle->src)) {
-				//echo $handle->handle;
+				/*echo $handle->handle; */
 				$inbound_white_list[]= $handle->handle;
 			}
 		}
 		}
-		//print_r($inbound_white_list);
+		/*print_r($inbound_white_list); */
 		return $inbound_white_list;
 	}
-	// Destroy all bad frontend scripts
+	/* Destroy all bad frontend scripts */
 	static function inbound_kill_bogus_scripts() {
 		if (!isset($_GET['inbound-dequeue-scripts'])) {
 			global $wp_scripts, $wp_query;
-			$script_list = ( $wp_scripts->queue ) ? $wp_scripts->queue : array(); // All enqueued scripts
+			$script_list = ( $wp_scripts->queue ) ? $wp_scripts->queue : array(); /* All enqueued scripts */
 			$current_page_id = $wp_query->get_queried_object_id();
 			$script_data = get_post_meta( $current_page_id , 'inbound_dequeue_js', TRUE );
 			$script_data = json_decode($script_data,true);
@@ -211,12 +211,12 @@ if (!class_exists('Inbound_Debug_Scripts')) {
 			$inbound_white_list = self::inbound_now_script_whitelist();
 			$wp_core_scripts = self::wp_core_script_whitelist();
 
-			// dequeue frontent scripts
+			/* dequeue frontent scripts */
 			foreach ($script_list as $key => $value) {
 			if (!in_array($value, $inbound_white_list) && !in_array($value, $wp_core_scripts)){
-				// Kill bad scripts
+				/* Kill bad scripts */
 				if (isset($script_data[$value]) && in_array($script_data[$value], $script_data)) {
-				wp_dequeue_script( $value ); // Kill bad script
+				wp_dequeue_script( $value ); /* Kill bad script */
 				}
 			}
 			}
@@ -224,16 +224,16 @@ if (!class_exists('Inbound_Debug_Scripts')) {
 		}
 	}
 
-	// Destroy all bad admin scripts
+	/* Destroy all bad admin scripts */
 	static function inbound_kill_bogus_admin_scripts() {
 		if (!isset($_GET['inbound-dequeue-scripts'])) {
-			// dequeue admin scripts
+			/* dequeue admin scripts */
 			$screen = get_current_screen();
 
 				$array = array('load-qtip' => 'wp-call-to-action');
-				//update_option( 'inbound_global_dequeue', $array );
+				/*update_option( 'inbound_global_dequeue', $array ); */
 				$global_array = get_option( 'inbound_global_dequeue' );
-				//print_r($global_array);
+				/*print_r($global_array); */
 
 
 			if (!$global_array){
@@ -268,32 +268,32 @@ if (!class_exists('Inbound_Debug_Scripts')) {
 				$page_id = $current_page_id;
 			}
 
-			//show_admin_bar( false );
+			/*show_admin_bar( false ); */
 			wp_enqueue_script('inbound-dequeue-scripts', INBOUNDNOW_SHARED_URLPATH . 'assets/js/global/inbound-dequeue-scripts.js', array( 'jquery' ));
 			wp_localize_script( 'inbound-dequeue-scripts' , 'inbound_debug' , array( 'admin_url' => admin_url( 'admin-ajax.php' ), 'admin_screen' => $current, 'page_id' => $page_id));
 
 			global $wp_scripts;
 
 			$scripts_registers = $wp_scripts->registered;
-			//echo "<pre>";
-			//print_r($scripts_registers);
-			//echo $scripts_registers['common']->src;
+			/*echo "<pre>"; */
+			/*print_r($scripts_registers); */
+			/*echo $scripts_registers['common']->src; */
 
 
-			$script_list = $wp_scripts->queue; // All enqueued scripts
+			$script_list = $wp_scripts->queue; /* All enqueued scripts */
 			$inbound_white_list = self::inbound_now_script_whitelist();
 			$wp_core_scripts = self::wp_core_script_whitelist();
-			// TURN OFF ALL OTHER SCRIPTS FOR DISABLING
+			/* TURN OFF ALL OTHER SCRIPTS FOR DISABLING */
 			$count = 0;
 			foreach ($script_list as $key => $value) {
-			// echo $key . $value;
+			/* echo $key . $value; */
 			if (!in_array($value, $inbound_white_list) && !in_array($value, $wp_core_scripts)){
 				wp_dequeue_script( $value );
 				$count++;
 			}
 
 			}
-			// If no scripts third party enqueued scripts leave
+			/* If no scripts third party enqueued scripts leave */
 
 			/* echo "<pre>";
 			print_r($wp_scripts->queue);
@@ -350,20 +350,20 @@ display: inline-block;}
 				if (!in_array($value, $inbound_white_list) && !in_array($value, $wp_core_scripts)){
 				$checked =	"";
 				$status_class = "";
-				// Kill bad frontend script
+				/* Kill bad frontend script */
 				if (isset($script_data[$value]) && in_array($script_data[$value], $script_data)){
 					$checked =	"checked";
 					$status_class =	"status-off";
-					wp_dequeue_script( $value ); // Kill bad script
+					wp_dequeue_script( $value ); /* Kill bad script */
 				}
-				// Kill bad admin script
+				/* Kill bad admin script */
 				if (is_array($global_array)) {
 					if (is_admin() && array_key_exists($value, $global_array)) {
 
 					if ($current === $global_array[$value] ) {
 					$checked =	"checked";
 					$status_class =	"status-off";
-					wp_dequeue_script( $value ); // Kill bad script
+					wp_dequeue_script( $value ); /* Kill bad script */
 					}
 					}
 				}
@@ -399,7 +399,7 @@ display: inline-block;}
 			}
 			echo "</div>";
 
-			// This will control the dequing
+			/* This will control the dequing */
 			/*
 			foreach ($scripts_queued as $key => $value) {
 				//echo $key . $value;

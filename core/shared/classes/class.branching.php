@@ -64,7 +64,7 @@ if ( !class_exists('Inbound_Branching')	) {
 			/* generate branch toggle button */
 			$links['toggle'] =  self::generate_version_toggle();
 
-			//echo self::$plugin;
+			/*echo self::$plugin; */
 			return $links;
 		}
 

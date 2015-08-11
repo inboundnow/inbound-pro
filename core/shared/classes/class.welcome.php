@@ -11,7 +11,7 @@
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 if(!defined('INBOUND_WELCOME_PATH')) { define('INBOUND_WELCOME_PATH', WP_PLUGIN_DIR . '/inbound-now-pro'); }
 /**
  * Inbound_Now_Welcome Class

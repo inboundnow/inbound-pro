@@ -19,7 +19,7 @@ if (!class_exists('Inbound_Feedback')) {
 		if ( ! self::$add_feedback )
 		return;
 		global $wp_admin_bar;
-		// CHECK FOR ACTIVE PLUGINS
+		/* CHECK FOR ACTIVE PLUGINS */
 		$leads_status = FALSE; $landing_page_status = FALSE; $cta_status = FALSE;
 		if (function_exists( 'is_plugin_active' ) && is_plugin_active('leads/leads.php')) {
 			$leads_status = TRUE;
@@ -37,12 +37,12 @@ if (!class_exists('Inbound_Feedback')) {
 
 		if ( $leads_status == FALSE && $landing_page_status == FALSE && $cta_status == FALSE	) {
 
-			return; // end plugin is
+			return; /* end plugin is */
 
 		}
 
 
-		// Exit if admin bar not there
+		/* Exit if admin bar not there */
 		if ( ! is_user_logged_in() || ! is_admin_bar_showing() ) {
 			return;
 		}
@@ -54,7 +54,7 @@ if (!class_exists('Inbound_Feedback')) {
 
 	}
 	static function send_inbound_feedback(){
-		// process feedback
+		/* process feedback */
 			if (isset($_POST['feedback'])) {
 			$firstname= 'anonymous';
 			$lastname= 'anonymous';
@@ -70,7 +70,7 @@ if (!class_exists('Inbound_Feedback')) {
 					'pageTitle' => $page
 				);
 			$context_json = json_encode($context);
-			//Need to populate these varilables with values from the form.
+			/*Need to populate these varilables with values from the form. */
 			$str_post2 = "message=" . urlencode($feedback)
 						. "&email=" . urlencode($email)
 						. "&plugin=" . urlencode($plugin)
@@ -84,7 +84,7 @@ if (!class_exists('Inbound_Feedback')) {
 			@curl_setopt($ch2, CURLOPT_URL, $endpoint2);
 			@curl_setopt($ch2, CURLOPT_HTTPHEADER, array('application/x-www-form-urlencoded'));
 			@curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-			$response2 = @curl_exec($ch2);	//Log the response from HubSpot as needed.
+			$response2 = @curl_exec($ch2);	/*Log the response from HubSpot as needed. */
 			@curl_close($ch2);
 			echo $response2;
 
@@ -99,7 +99,7 @@ if (!class_exists('Inbound_Feedback')) {
 		return $count;
 	}
 	public static function get_stats($type) {
-		// $pro = self::get_pro_user_data();
+		/* $pro = self::get_pro_user_data(); */
 		/*
 		$payload = { e: 'pageview',
 		  t: '2015-05-13T00:17:49.650Z',
@@ -245,7 +245,7 @@ if (!class_exists('Inbound_Feedback')) {
 				return;
 		}
 
-		$plugin_name = __( 'Inbound Now Marketing Plugins' , INBOUNDNOW_TEXT_DOMAIN ); // default
+		$plugin_name = __( 'Inbound Now Marketing Plugins' , INBOUNDNOW_TEXT_DOMAIN ); /* default */
 		if (in_array($screen->id, $lp_page_array)) {
 			$plugin_name = __( 'Landing Pages plugin' , INBOUNDNOW_TEXT_DOMAIN );
 		} else if (in_array($screen->id, $cta_page_array)) {
@@ -301,7 +301,7 @@ if (!class_exists('Inbound_Feedback')) {
 		});
 
 		jQuery("body").on('submit', '#inbound-feedback', function (e) {
-			e.preventDefault(); // halt normal form
+			e.preventDefault(); /* halt normal form */
 			var feedback = jQuery('#inbound-feedback-message').val();
 			var email = jQuery('#inbound-feedback-email-field').val();
 			if (typeof (feedback) != "undefined" && feedback != null && feedback != "") {

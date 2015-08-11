@@ -163,10 +163,12 @@ if (!class_exists('LeadStorage')) {
 
 				/* Store IP addresss & Store GEO Data */
 				if ($lead['ip_address']) {
-                    update_post_meta( $lead['id'], 'wpleads_ip_address', $lead['ip_address'] ); 
+                    update_post_meta( $lead['id'], 'wpleads_ip_address', $lead['ip_address'] );
 					//self::store_geolocation_data($lead);
 				}
 
+				/* store raw form data */
+				self::store_raw_form_data($lead);
 
 				if ( self::$is_ajax ) {
 					echo $lead['id'];
@@ -436,50 +438,54 @@ if (!class_exists('LeadStorage')) {
 		*	Updates raw form data object
 		*/
 		static function store_raw_form_data($lead){
+
 			/* Raw Form Values Store */
-			if ($lead_data['form_input_values']) {
-				$raw_post_data = get_post_meta($$lead['id'],'wpleads_raw_post_data', true);
-				$a1 = json_decode( $raw_post_data, true );
-				$a2 = json_decode( stripslashes($lead_data['form_input_values']), true );
-				$exclude_array = array('card_number','card_cvc','card_exp_month','card_exp_year'); // add filter
-				$lead_mapping_fields = Leads_Field_Map::build_map_array();
-
-				foreach ($a2 as $key=>$value)
-				{
-					if (array_key_exists( $key , $exclude_array )) {
-						unset($a2[$key]);
-						continue;
-					}
-					if (preg_match("/\[\]/", $key)) {
-						$key = str_replace("[]", "", $key); // fix array value keys
-					}
-					if (array_key_exists($key, $lead_mapping_fields)) {
-						update_post_meta( $lead_id, $key, $value );
-					}
-
-					if (stristr($key,'company')) {
-						update_post_meta( $lead_id, 'wpleads_company_name', $value );
-					}
-					else if (stristr($key,'website'))
-					{
-						$websites = get_post_meta( $lead_id, 'wpleads_websites', $value );
-						if(is_array($websites)) {
-							$array_websites = explode(';',$websites);
-						}
-						$array_websites[] = $value;
-						$websites = implode(';',$array_websites);
-						update_post_meta( $lead_id, 'wpleads_websites', $websites );
-					}
-				}
-				// Merge form fields if exist
-				if (is_array($a1)) {
-					$new_raw_post_data = array_merge_recursive( $a1, $a2 );
-				} else {
-					$new_raw_post_data = $a2;
-				}
-				$new_raw_post_data = json_encode( $new_raw_post_data );
-				update_post_meta( $lead_id,'wpleads_raw_post_data', $new_raw_post_data );
+			if (!$lead['raw_params']) {
+				return;
 			}
+
+			$raw_post_data = get_post_meta($lead['id'],'wpleads_raw_post_data', true);
+			$a1 = json_decode( $raw_post_data, true );
+			parse_str($lead['raw_params'] , $a2 );
+			$exclude_array = array('card_number','card_cvc','card_exp_month','card_exp_year'); // add filter
+			$lead_mapping_fields = Leads_Field_Map::build_map_array();
+
+			foreach ($a2 as $key=>$value)
+			{
+				if (array_key_exists( $key , $exclude_array )) {
+					unset($a2[$key]);
+					continue;
+				}
+				if (preg_match("/\[\]/", $key)) {
+					$key = str_replace("[]", "", $key); // fix array value keys
+				}
+				if (array_key_exists($key, $lead_mapping_fields)) {
+					update_post_meta( $lead['id'], $key, $value );
+				}
+
+				if (stristr($key,'company')) {
+					update_post_meta( $lead['id'], 'wpleads_company_name', $value );
+				}
+				else if (stristr($key,'website'))
+				{
+					$websites = get_post_meta( $lead['id'], 'wpleads_websites', $value );
+					if(is_array($websites)) {
+						$array_websites = explode(';',$websites);
+					}
+					$array_websites[] = $value;
+					$websites = implode(';',$array_websites);
+					update_post_meta( $lead['id'], 'wpleads_websites', $websites );
+				}
+			}
+			// Merge form fields if exist
+			if (is_array($a1)) {
+				$new_raw_post_data = array_merge_recursive( $a1, $a2 );
+			} else {
+				$new_raw_post_data = $a2;
+			}
+			$new_raw_post_data = json_encode( $new_raw_post_data );
+			update_post_meta( $lead['id'],'wpleads_raw_post_data', $new_raw_post_data );
+
 		}
 
 		/**

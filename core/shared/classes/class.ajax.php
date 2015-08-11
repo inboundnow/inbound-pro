@@ -45,7 +45,7 @@ if (!class_exists('Inbound_Ajax')) {
 			global $wpdb;
 
 			(isset(	$_POST['wp_lead_id'] )) ? $lead_data['lead_id'] = $_POST['wp_lead_id'] : $lead_data['lead_id'] = '';
-			(isset(	$_POST['nature'] )) ? $lead_data['nature'] = $_POST['nature'] : $lead_data['nature'] = 'non-conversion'; // what is nature?
+			(isset(	$_POST['nature'] )) ? $lead_data['nature'] = $_POST['nature'] : $lead_data['nature'] = 'non-conversion'; /* what is nature? */
 			(isset(	$_POST['json'] )) ? $lead_data['json'] = addslashes($_POST['json']) : $lead_data['json'] = 0;
 			(isset(	$_POST['wp_lead_uid'] )) ? $lead_data['wp_lead_uid'] = $_POST['wp_lead_uid'] : $lead_data['wp_lead_uid'] = 0;
 			(isset(	$_POST['page_id'] )) ? $lead_data['page_id'] = $_POST['page_id'] : $lead_data['page_id'] = 0;
