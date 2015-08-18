@@ -16,7 +16,7 @@ if (!class_exists('CTA_Dynamic_Widget')) {
 		function CTA_Dynamic_Widget() {
 
 			/* Widget settings. */
-			$widget_ops = array( 'classname' => 'class_CTA_Dynamic_Widget', 'description' => __('Use this widget to accept Calls to Action placements.', 'cta') );
+			$widget_ops = array( 'classname' => 'class_CTA_Dynamic_Widget', 'description' => __('Use this widget to accept Calls to Action placements.', 'cta'));
 
 			/* Widget control settings. */
 			$control_ops = array( 'width' => 300, 'height' => 350, 'id_base' => 'id_wp_cta_dynamic_widget' );
@@ -57,14 +57,14 @@ if (!class_exists('CTA_Dynamic_Widget')) {
 
 			<!-- Widget Title: Text Input -->
 			<p>
-				<?php _e('This call to action area is dynamic. It will be completely empty unless you have toggled on a call to action on the individual pages settings and selected the "sidebar" option.' , 'cta' ); ?>
+				<?php _e('This call to action area is dynamic. It will be completely empty unless you have toggled on a call to action on the individual pages settings and selected the "sidebar" option.', 'cta' ); ?>
 			</p>
 
 		<?php
 		}
 	}
-	
-	
+
+
 	/**
 	*  Loads the dynamic widget class
 	*/

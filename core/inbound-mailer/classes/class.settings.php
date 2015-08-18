@@ -55,6 +55,17 @@ if ( !class_exists('Inbound_Mailer_Settings') ) {
 						'options' => Inbound_Mailer_Settings::get_pages_array()
 					),
 					array(
+						'id'  => 'customize-permalinks',
+						'label'  => __('Permalink Name Editing', 'inbound-email' ),
+						'description'  => __( 'Enabling this option will allow you to change the permalink slug of creted emails.' , 'inbound-email' ),
+						'type'  => 'dropdown',
+						'default'  => 'no',
+						'options' => array(
+							'no' => __( 'No' , 'inbound-email' ),
+							'yes' => __( 'Yes' , 'inbound-email' )
+						)
+					),
+					array(
 						'id'  => 'mandrill-key',
 						'label'  => __('Mandrill API Key', 'inbound-email' ),
 						'description'  => __( 'Enter in your maindrill API Key here.' , 'inbound-email' ),
@@ -105,9 +116,22 @@ if ( !class_exists('Inbound_Mailer_Settings') ) {
 					'options' => $pages_array
 				),
 				array(
+					'id'  => 'customize-permalinks',
+					'option_name'  => 'customize-permalinks',
+					'label'  => __('Permalink Name Editing', 'inbound-email' ),
+					'description'  => __( 'Enabling this option will allow you to change the permalink slug of creted emails.' , 'inbound-email' ),
+					'type'  => 'dropdown',
+					'default'  => '',
+					'options' => array(
+						'no' => __( 'No' , 'inbound-email' ),
+						'yes' => __( 'Yes' , 'inbound-email' )
+					)
+				),
+				array(
 						'id'  => 'mandrill-key',
 						'label'  => __('Mandrill API Key', 'inbound-email' ),
 						'description'  => __( 'Enter in your maindrill API Key here.' , 'inbound-email' ),
+						'option_name'  => 'mandrill-key',
 						'type'  => 'text',
 						'default'  => '',
 						'options' => null
@@ -173,10 +197,9 @@ if ( !class_exists('Inbound_Mailer_Settings') ) {
 
 			echo '<h2 class="nav-tab-wrapper">';
 
-			foreach (self::$core_settings	as $key => $data)
-			{
+			foreach (self::$core_settings	as $key => $data) {
 				?>
-				<a	id='tabs-<?php echo $key; ?>' class="inbound-mailer-nav-tab nav-tab nav-tab-special<?php echo $active_tab == $key ? '-active' : '-inactive'; ?>"><?php echo $data['label']; ?></a>
+				<a	id='tabs-<?php echo $key; ?>' class="inbound-mailer-nav-tab nav-tab nav-tab-special<?php echo self::$active_tab == $key ? '-active' : '-inactive'; ?>"><?php echo $data['label']; ?></a>
 				<?php
 			}
 			echo "</h2>";
@@ -348,8 +371,9 @@ if ( !class_exists('Inbound_Mailer_Settings') ) {
 
 				$field['id'] = $key."-".$field['id'];
 
-				if (array_key_exists('option_name',$field) && $field['option_name'] )
+				if (array_key_exists('option_name',$field) && $field['option_name'] ) {
 					$field['id'] = $field['option_name'];
+				}
 
 				$field['value'] = Inbound_Options_API::get_option( 'inbound-email' , $field['id'] , $field['default'] );
 
@@ -365,15 +389,6 @@ if ( !class_exists('Inbound_Mailer_Settings') ) {
 					}
 				echo '</th><td>';
 						switch($field['type']) {
-							// text
-							case 'colorpicker':
-								if (!$field['value'])
-								{
-									$field['value'] = $field['default'];
-								}
-								echo '<input type="text" class="jpicker" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$field['value'].'" size="5" />
-										<div class="inbound_email_tooltip tool_color" title="'.$field['description'].'"></div>';
-								break;
 							case 'header':
 								$extra = (isset($field['description'])) ? $field['description'] : '';
 								echo $extra;
@@ -559,7 +574,6 @@ if ( !class_exists('Inbound_Mailer_Settings') ) {
 				return;
 			}
 
-
 			/* Loop through post vars and save as global setting */
 			foreach ($_POST as $key => $value ) {
 				Inbound_Options_API::update_option( 'inbound-email' , $key , $value );
@@ -570,13 +584,16 @@ if ( !class_exists('Inbound_Mailer_Settings') ) {
 		*  Gets settings value depending on if Inbound Pro or single installation.
 		*/
 		public static function get_settings() {
+
 			if (!defined('INBOUND_PRO_CURRENT_VERSION')) {
 				$keys['unsubscribe_page'] = Inbound_Options_API::get_option( 'inbound-email' , 'unsubscribe-page' , null);
 				$keys['api_key'] = Inbound_Options_API::get_option( 'inbound-email' , 'mandrill-key' , null);
+				$keys['customize-permalinks'] = Inbound_Options_API::get_option( 'inbound-email' , 'customize-permalinks' , null);
 			} else {
 				$settings = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
 				$keys['api_key'] =  ( isset($settings[ INBOUND_EMAIL_SLUG ][ 'mandrill-key' ]) ) ? $settings[ INBOUND_EMAIL_SLUG ][ 'mandrill-key' ] : '';
 				$keys['unsubscribe_page'] = ( isset($settings[ INBOUND_EMAIL_SLUG ][ 'unsubscribe-page' ]) ) ? $settings[ INBOUND_EMAIL_SLUG ][ 'unsubscribe-page' ] : '';
+				$keys['customize-permalinks'] = ( isset($settings[ INBOUND_EMAIL_SLUG ][ 'customize-permalinks' ]) ) ? $settings[ INBOUND_EMAIL_SLUG ][ 'customize-permalinks' ] : '';
 			}
 
 			return $keys;

@@ -27,7 +27,7 @@ class Landing_Pages_Customizer {
         }
 
         /* load landing page edit area */
-        if (isset($_GET['frontend']) && $_GET['frontend'] ) {
+        if (isset($_GET['frontend']) && $_GET['frontend'] === 'true' ) {
             add_action('admin_enqueue_scripts', array( __CLASS__ , 'enqueue_scripts_editor' )  );
         }
 

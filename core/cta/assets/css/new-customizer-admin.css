@@ -1,0 +1,241 @@
+#wpadminbar, #edit-slug-box, #post-status-info, #screen-options-link-wrap, #leads-table-container, .misc-pub-section, #minor-publishing, .misc-pub-section, .misc-pub-section.curtime, #delete-action, #convert-header, #wp-cta-tour, #view-post-btn, #launch-visual-editer, #adminmenuwrap, #lp_ab_display_stats_metabox, #wp-cta-thumbnail-sidebar-preview, #landing_page_categorydiv, #postimagediv, #leads-table-container-inside, .updated.below-h2 a, #cta_shortcode_form, .wp_cta_tooltip, #wp_cta_ab_display_stats_metabox, #wp_call_to_action_categorydiv, .new-save-wp-cta-frontend, #launch-feedback  {
+	display: none !important;
+}
+#titlediv #title {
+	margin-bottom: 20px;
+}
+html.wp-toolbar {
+	padding-top: 0px !important;
+}
+.auto-fold #adminmenuback, .auto-fold #adminmenuwrap, .auto-fold #adminmenu, .auto-fold #adminmenu li.menu-top {
+	width: 0px !important;
+}
+.wp-cta-success-message,.button-primary.new-save-wp-cta {
+
+display: block;
+
+text-align: center;
+margin-top: 10px;
+margin-left: 0px !important; }
+
+#post-body-content .nav-tab-wrapper .nav-tab {
+	font-weight: 600;
+	font-size: 12px;
+	line-height: 24px;
+}
+
+.inbound-textarea-option .button-primary.new-save-wp-cta, .inbound-textarea-option .wp-cta-success-message {
+position: inherit;
+/* bottom: -21px; */
+display: block;
+width: 75%;
+margin-top: 0px;
+}
+.auto-fold #wpcontent, .auto-fold #wpfooter {
+margin-left: 10px !important;
+}
+.version-3-8 #wpbody-content {
+padding-bottom: 90px !important;
+width: 100% !important;
+}
+#wpbody-content {
+padding-bottom: 80px !important;
+
+}
+#wpbody {
+padding-top: 0px !important;
+}
+@media screen and (max-width: 600px) {
+.version-3-8 #wpbody {
+padding-top: 5px !important;
+}
+}
+
+#submitdiv .handlediv , #submitdiv .hndle {
+	display: none !important;
+}
+.wrap div.updated, .wrap div.error, .media-upload-form div.error {
+margin: 5px 0 0px !important;
+}
+#publishing-action {
+text-align: center !important;
+float: none !important;
+margin-bottom: 15px;
+line-height: 32px; }
+#minor-publishing-actions input, #major-publishing-actions input, #minor-publishing-actions .preview {
+text-align: center !important;
+width: 280px !important;
+margin: auto !important;
+height: 44px !important;
+font-size: 17px !important;
+}
+#major-publishing-actions {
+padding: 10px 10px 10px !important;}
+.select2-container {
+	min-width: 100% !important;
+}
+.inbound-meta-box-option.inbound-media-option input[type=text] {
+width: 100%;
+}
+#submitdiv {
+	position: fixed !important;
+bottom: 0px !important;
+z-index: 999999 !important;
+width: 100% !important;
+margin-left: -10px !important;
+padding-bottom: 10px !important;
+margin-bottom: 0px !important;
+
+}
+.version-3-8 #submitdiv {
+	margin-left: -20px !important;
+}
+.jPicker .Grid {
+	display: none;
+}
+.jPicker .Button {
+text-align: center;
+padding: 0 4px;
+width: 264px;
+position: absolute;
+border-bottom: none;
+left: 0px;
+bottom: 3px;
+}
+.jPicker .Button input {
+	font-size: 18px !important;
+}
+.jPicker .Icon span.Color, .jPicker .Icon span.Alpha {
+width: 97% !important;
+}
+.jPicker .Title {
+width: 254px;
+}
+.jPicker hr {
+	display: none !important;
+}
+.inbound-meta-box-option.inbound-datepicker-option span{
+display: block;
+}
+.inbound-meta-box-option.inbound-datepicker-option input {
+	width: 70%;
+}
+.inbound-meta-box-label {
+font-weight: bold;
+}
+#template-item {
+width: 100%;
+}
+#template-item #template-box {
+display: block;
+width: 65%;
+margin: auto;
+}
+table.jPicker {
+width: 430px !important;}
+@media only screen and (max-width: 600px) {
+.media-modal {
+width: 432px !important;
+position: fixed !important;
+height: 484px !important;
+}
+#inboundnow-media-button {
+	padding-left: 0px !important;
+	padding-top: 5px;
+}
+.media-modal-backdrop {
+width: 600px;
+position: fixed !important;
+}
+}
+@media screen and (max-width: 782px) {
+#wp-content-editor-tools {
+overflow: hidden;
+padding: 0px 15px 1px 0; }
+}
+ul#template-filter {
+	clear: both !important;
+margin: 0px 0;
+padding: 0;
+padding-left: 0px;
+line-height: 28px;
+margin-bottom: 20px;
+}
+#wp-cta-cancel-selection {
+display: block;
+float: none;
+width: 70%;
+text-align: center;
+margin: auto;
+margin-bottom: 10px;
+margin-top: 10px;
+}
+.template-thumbnail {
+width: 100%;
+height: auto !important;}
+ul#template-filter li {
+display: inline-block;
+
+padding-bottom: 0px;
+padding-top: 0px;
+margin: 0px;
+line-height: 20px;
+}
+.wp-cta-selection-heading h1 {
+	font-size: 18px;
+	display: block;
+	text-align: center;
+}
+.inbound-meta-box-label {
+width: 100% !important;
+display: block !important;
+margin-bottom: 5px;
+}
+.inbound-wysiwyg-option, .inbound-textarea-option {
+    width: 99%;
+}
+.mceIframeContainer.mceFirst.mceLast iframe {
+	width: 90% !important;
+}
+#lp_metabox_select_template {
+margin-left: -10px !important;
+}
+.wp-editor-container {
+
+}
+.wp-media-buttons .insert-media {
+margin-left: 0px !important;
+}
+.cta-options-row {
+width: 95% !important; }
+#inbound-shortcodes-preview-wrap {
+	display: none !important;
+}
+#inbound-shortcodes-form-wrap {
+width: 96% !important;}
+#inbound-shortcodes-form-wrap tbody tr.form-row td.label {
+line-height: 29px !important;
+display: block !important;
+}
+#popup-controls {
+position: fixed;
+border-top: 1px solid transparent !important;
+bottom: 90px !important;
+width: 300px !important;
+left: 15% !important;
+background: transparent !important;}
+#inbound-shortcodes-form-table tbody tr.form-row {
+display: block;
+padding: 0px !important;
+border-bottom: none !important;}
+#inbound-shortcodes-form-wrap #inbound-shortcodes-form {
+padding-bottom: 300px !important;
+}
+#inbound-shortcodes-form-table input[type="text"], #inbound-shortcodes-form-table input[type="email"], #inbound-shortcodes-form-table input[type="url"], #inbound-shortcodes-form-table input[type="number"], #inbound-shortcodes-form-table input[type="password"], #inbound-shortcodes-form-table textarea {
+width: 100% !important;
+}
+#inbound_insert_shortcode_two, #shortcode_cancel, #inbound_save_form {
+margin-bottom: 10px !important; }
+.inbound-description-block-option {
+max-width: 100% !important;
+}

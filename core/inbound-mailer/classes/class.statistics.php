@@ -187,6 +187,10 @@ class Inbound_Email_Stats {
         $tags = array();
         $senders = array();
 
+        if ( !isset($mandrill->messages) ) {
+            return;
+        }
+
         self::$results = $mandrill->messages->searchTimeSeries($query, self::$stats['date_from'] , self::$stats['date_to'] , $tags, $senders);
 
         /* echo microtime(true) - $start; */
@@ -219,7 +223,7 @@ class Inbound_Email_Stats {
     public static function process_mandrill_stats() {
 
         /* skip processing if no data */
-        if ( isset(self::$results['status']) && self::$results['status'] == 'error' ) {
+        if ( isset(self::$results['status']) && self::$results['status'] == 'error'  || !isset(self::$results) ) {
             self::$stats[ 'mandrill' ] = array();
             return;
         }

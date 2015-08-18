@@ -20,15 +20,15 @@ if ( !class_exists('CTA_Template_Manager_List') ) {
 		private $plural;
 
 		function __construct() {
-			
+
 			$CTA_Load_Extensions = CTA_Load_Extensions();
 			$wp_cta_data = $CTA_Load_Extensions->template_definitions;
-			
+
 			$final_data = array();
-			
+
 			foreach ($wp_cta_data as $key=>$data)
 			{
-				$array_core_templates = array('auto-focus' , 'thumbnail-cta' , 'breathing' , 'clean-cta' , 'blank-template','call-out-box','cta-one','demo', 'flat-cta', 'peek-a-boo', 'popup-ebook', 'facebook-like-button', 'facebook-like-to-download', 'feedburner-subscribe-to-download', 'linkedin-share-to-download', 'tweet-to-download', 'follow-to-download', 'ebook-call-out');
+				$array_core_templates = array('auto-focus', 'thumbnail-cta', 'breathing', 'clean-cta', 'blank-template','call-out-box','cta-one','demo', 'flat-cta', 'peek-a-boo', 'popup-ebook', 'facebook-like-button', 'facebook-like-to-download', 'feedburner-subscribe-to-download', 'linkedin-share-to-download', 'tweet-to-download', 'follow-to-download', 'ebook-call-out');
 
 				if ($key == 'wp-cta' || substr($key,0,4) == 'ext-' )
 					continue;
@@ -55,7 +55,7 @@ if ( !class_exists('CTA_Template_Manager_List') ) {
 				} else {
 					$thumbnail = WP_CTA_UPLOADS_URLPATH.$key."/thumbnail.png";
 				}
-				
+
 				//echo $thumbnail;
 
 				$this_data['ID']  = $key;
@@ -143,7 +143,7 @@ if ( !class_exists('CTA_Template_Manager_List') ) {
 			$this->_column_headers = array( $columns, $hidden, $sortable );
 			if(is_array($this->template_data))
 			{
-				usort( $this->template_data, array( &$this, 'usort_reorder' ) );
+				usort( $this->template_data, array( &$this, 'usort_reorder'));
 			}
 
 			$per_page = 25;
@@ -159,7 +159,7 @@ if ( !class_exists('CTA_Template_Manager_List') ) {
 			$this->set_pagination_args( array(
 				'total_items' => $total_items,                  //WE have to calculate the total number of items
 				'per_page'    => $per_page                     //WE have to determine how many items to show on a page
-			) );
+			));
 
 
 			$this->items = $this->found_data;

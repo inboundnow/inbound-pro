@@ -20,7 +20,7 @@ if ( !class_exists('Mandrill') ) {
 	require_once 'Mandrill/Exceptions.php';
 
 	class Mandrill {
-		
+
 		public $apikey;
 		public $ch;
 		public $root = 'https://mandrillapp.com/api/1.0';
@@ -62,7 +62,7 @@ if ( !class_exists('Mandrill') ) {
 		*  Initialize Class
 		*/
 		public function __construct( $apikey=null ) {
-			
+
 			if(!$apikey) $apikey = $this->readConfigs();
 			if(!$apikey) {
 				return;
@@ -100,7 +100,9 @@ if ( !class_exists('Mandrill') ) {
 		}
 
 		public function __destruct() {
-			curl_close($this->ch);
+			if ( isset($this->ch) ) {
+				curl_close($this->ch);
+			}
 		}
 
 		public function call($url, $params) {
@@ -136,7 +138,7 @@ if ( !class_exists('Mandrill') ) {
 			}
 			$result = json_decode($response_body, true);
 			if($result === null) throw new Mandrill_Error('We were unable to decode the JSON response from the Mandrill API: ' . $response_body);
-			
+
 			if(floor($info['http_code'] / 100) >= 4) {
 				return $result;
 			}

@@ -7,7 +7,7 @@ Version: 2.4.3
 Author: InboundNow
 Author URI: http://www.inboundnow.com/
 Text Domain: cta
-Domain Path: lang
+Domain Path: assets/lang
 */
 
 if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
@@ -110,11 +110,11 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 		*  Loads the correct .mo file for this plugin
 		*/
 		private static function load_text_domain_init() {
-			add_action( 'init' , array( __CLASS__ , 'load_text_domain' ) );
+			add_action( 'init' , array(__CLASS__, 'load_text_domain' ) );
 		}
 
 		public static function load_text_domain() {
-			load_plugin_textdomain( 'cta' , false , WP_CTA_SLUG . '/lang/' );
+			load_plugin_textdomain( 'cta' , false , WP_CTA_SLUG . 'assets/lang/' );
 		}
 
 		/* START PHP VERSION CHECKS */

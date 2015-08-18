@@ -18,10 +18,10 @@ class CTA_Clone_Post {
 	public static function load_hooks() {
 
 		/* Adds quick actions to row */
-		add_filter('post_row_actions', array( __CLASS__ , 'add_row_actions' ) ,8,2);
+		add_filter('post_row_actions', array(__CLASS__, 'add_row_actions'),8,2);
 
 		/* Add listener for processing clone request */
-		add_action('admin_action_cta_clone_post', array( __CLASS__ , 'clone_post' ) );
+		add_action('admin_action_cta_clone_post', array(__CLASS__, 'clone_post'));
 	}
 
 	/**
@@ -33,9 +33,9 @@ class CTA_Clone_Post {
 			return $actions;
 		}
 
-		$actions['clone'] = '<a href="'. self::build_clone_link( $post->ID , 'display', true ).'" title="'
-		. esc_attr(__( 'Clone this item' , 'cta' ))
-		. '">' .	__( 'Clone' , 'cta' ) . '</a>';
+		$actions['clone'] = '<a href="'. self::build_clone_link( $post->ID, 'display', true ).'" title="'
+		. esc_attr(__( 'Clone this item', 'cta' ))
+		. '">' .	__( 'Clone', 'cta' ) . '</a>';
 
 		return $actions;
 	}
@@ -61,7 +61,7 @@ class CTA_Clone_Post {
 		if ( !$post_type_object )
 		return;
 
-		return apply_filters( 'wp_cta_build_clone_link' , admin_url( "admin.php". $action ), $post->ID, $context );
+		return apply_filters( 'wp_cta_build_clone_link', admin_url( "admin.php". $action ), $post->ID, $context );
 	}
 
 	/**
@@ -79,10 +79,10 @@ class CTA_Clone_Post {
 
 			if ($status == ''){
 				// Redirect to the post list screen
-				wp_redirect( admin_url( 'edit.php?post_type='.$post->post_type) );
+				wp_redirect( admin_url( 'edit.php?post_type='.$post->post_type));
 			} else {
 				// Redirect to the edit screen for the new draft post
-				wp_redirect( admin_url( 'post.php?action=edit&post=' . $new_id ) );
+				wp_redirect( admin_url( 'post.php?action=edit&post=' . $new_id ));
 			}
 			exit;
 

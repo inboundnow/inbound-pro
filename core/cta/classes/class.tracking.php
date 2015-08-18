@@ -14,10 +14,10 @@ class CTA_Conversion_Tracking {
 	public static function load_hooks() {
 
 		/* track masked cta links */
-		add_action( 'inbound_track_link' , array( __CLASS__ , 'track_link' ) );
+		add_action( 'inbound_track_link', array(__CLASS__, 'track_link'));
 
 		/* Track form submissions related to call to actions a conversions */
-		add_action('inboundnow_store_lead_pre_filter_data' , array( __CLASS__ , 'set_form_submission_conversion' ) , 20 , 1 );
+		add_action('inboundnow_store_lead_pre_filter_data', array(__CLASS__, 'set_form_submission_conversion'), 20, 1 );
 	}
 
 	/**
@@ -25,17 +25,17 @@ class CTA_Conversion_Tracking {
 	*/
 	public static function track_link( $args ) {
 
-		$do_not_track = apply_filters('inbound_analytics_stop_track' , false );
+		$do_not_track = apply_filters('inbound_analytics_stop_track', false );
 
 		if ( $do_not_track ) {
 			return;
 		}
 
-		self::store_click_data( $args['cta_id'] , $args['vid'] );
+		self::store_click_data( $args['cta_id'], $args['vid'] );
 		if (isset($args['id'])) {
 
-			self::store_as_cta_click(  $args['cta_id'] , $args['vid'] , $args['id'] , 'clicked-link' );
-			self::store_as_conversion(  $args['cta_id'] , $args['id'] , $args['vid'] );
+			self::store_as_cta_click(  $args['cta_id'], $args['vid'], $args['id'], 'clicked-link' );
+			self::store_as_conversion(  $args['cta_id'], $args['id'], $args['vid'] );
 		}
 
 	}
@@ -45,13 +45,13 @@ class CTA_Conversion_Tracking {
 	*/
 	public static function set_form_submission_conversion( $data ) {
 
-		parse_str($data['raw_params'] , $raw_post_values );
+		parse_str($data['raw_params'], $raw_post_values );
 
 		if (!isset($raw_post_values['wp_cta_id']) || !$raw_post_values['wp_cta_id'] ) {
 			return $data;
 		}
 
-		$do_not_track = apply_filters('inbound_analytics_stop_track' , false );
+		$do_not_track = apply_filters('inbound_analytics_stop_track', false );
 
 		if ( $do_not_track ) {
 			return;
@@ -60,9 +60,9 @@ class CTA_Conversion_Tracking {
 		$cta_id = $raw_post_values['wp_cta_id'];
 		$vid = $raw_post_values['wp_cta_vid'];
 
-		$lp_conversions = get_post_meta( $cta_id , 'wp-cta-ab-variation-conversions-'.$vid, true );
+		$lp_conversions = get_post_meta( $cta_id, 'wp-cta-ab-variation-conversions-'.$vid, true );
 		$lp_conversions++;
-		update_post_meta(  $cta_id , 'wp-cta-ab-variation-conversions-'.$vid, $lp_conversions );
+		update_post_meta(  $cta_id, 'wp-cta-ab-variation-conversions-'.$vid, $lp_conversions );
 
 		return $data;
 	}
@@ -76,7 +76,7 @@ class CTA_Conversion_Tracking {
 	 */
 	public static function store_click_data($cta_id, $variation_id) {
 		// If leads_triggered meta exists do this
-		$event_trigger_log = get_post_meta( $cta_id , 'leads_triggered' ,true );
+		$event_trigger_log = get_post_meta( $cta_id, 'leads_triggered' ,true );
 		$timezone_format = 'Y-m-d G:i:s T';
 		$wordpress_date_time =  date_i18n($timezone_format);
 		$conversion_count = get_post_meta($cta_id,'wp-cta-ab-variation-conversions-'.$variation_id ,true);
@@ -157,7 +157,7 @@ class CTA_Conversion_Tracking {
 
 
 		update_post_meta( $lead_id, 'wpleads_conversion_data', $conversion_data );
-		update_post_meta( $lead_id, 'wpl-lead-conversion-count', count($conversion_data) );
+		update_post_meta( $lead_id, 'wpl-lead-conversion-count', count($conversion_data));
 
 	}
 }

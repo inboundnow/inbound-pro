@@ -26,13 +26,13 @@ if ( !class_exists('CTA_Activation') ) {
             }
 
             /* Add listener for unset permalinks  */
-            add_action('admin_notices', array( __CLASS__ , 'permastruct_check' ) );
+            add_action('admin_notices', array(__CLASS__, 'permastruct_check'));
 
             /** add listener for permlaink flush command  */
-            add_action('admin_init', array( __CLASS__ , 'flush_permalinks' ) , 11 );
+            add_action('admin_init', array(__CLASS__, 'flush_permalinks'), 11 );
 
             /* Add listener for uncompleted upgrade routines */
-            add_action( 'admin_init' , array( 'CTA_Activation' , 'run_upgrade_routine_checks' ) );
+            add_action( 'admin_init', array( 'CTA_Activation', 'run_upgrade_routine_checks'));
         }
 
         /**
@@ -76,7 +76,7 @@ if ( !class_exists('CTA_Activation') ) {
             self::activate_shared();
 
             /* Flush permalinks */
-            update_option( 'wp_cta_flush_permalinks', true , true);
+            update_option( 'wp_cta_flush_permalinks', true, true);
         }
 
         /**
@@ -94,7 +94,7 @@ if ( !class_exists('CTA_Activation') ) {
             $completed = ( get_option( 'cta_completed_upgrade_routines' ) ) ?  get_option( 'cta_completed_upgrade_routines' ) : array();
 
             /* Get the difference between the two arrays */
-            $remaining = array_diff( $updaters , $completed );
+            $remaining = array_diff( $updaters, $completed );
 
             /* Loop through updaters and run updaters that have not been ran */
             foreach ( $remaining as $updater ) {
@@ -105,7 +105,7 @@ if ( !class_exists('CTA_Activation') ) {
             }
 
             /* Update this transient value with list of completed upgrade processes */
-            update_option( 'cta_completed_upgrade_routines' , $completed );
+            update_option( 'cta_completed_upgrade_routines', $completed );
 
         }
 
@@ -129,17 +129,17 @@ if ( !class_exists('CTA_Activation') ) {
             $completed = ( get_option( 'cta_completed_upgrade_routines' ) ) ?  get_option( 'cta_completed_upgrade_routines' ) : array();
 
             /* Get the difference between the two arrays */
-            $remaining = array_diff( $updaters , $completed );
+            $remaining = array_diff( $updaters, $completed );
 
             if (count($remaining)>0) {
-                add_action( 'admin_notices', array( __CLASS__ , 'display_upgrade_routine_notice' ) );
+                add_action( 'admin_notices', array(__CLASS__, 'display_upgrade_routine_notice'));
             }
         }
 
         public static function display_upgrade_routine_notice() {
             ?>
             <div class="error">
-                <p><?php _e( 'Calls to Action plugin requires  a database upgrade:', 'cta' ); ?> <a href='?plugin=cta&plugin_action=upgrade_routines'><?php _e('Upgrade Database Now' , 'cta' ); ?></a></p>
+                <p><?php _e( 'Calls to Action plugin requires  a database upgrade:', 'cta' ); ?> <a href='?plugin=cta&plugin_action=upgrade_routines'><?php _e('Upgrade Database Now', 'cta' ); ?></a></p>
             </div>
         <?php
         }
@@ -149,8 +149,8 @@ if ( !class_exists('CTA_Activation') ) {
         public static function store_version_data() {
 
             $old = get_transient('cta_current_version');
-            set_transient( 'cta_previous_version' , $old );
-            set_transient( 'cta_current_version' , WP_CTA_CURRENT_VERSION );
+            set_transient( 'cta_previous_version', $old );
+            set_transient( 'cta_current_version', WP_CTA_CURRENT_VERSION );
 
         }
 
@@ -193,54 +193,54 @@ if ( !class_exists('CTA_Activation') ) {
                 self::abort_activation(
                     array(
                         'title' => 'Installation aborted',
-                        'message' => __('Calls to Action plugin could not be installed' , 'landing-pages'),
+                        'message' => __('Calls to Action plugin could not be installed', 'landing-pages'),
                         'details' => array(
-                            __( 'Server PHP Version' , 'landing-pages' ) => phpversion(),
-                            __( 'Required PHP Version' , 'landing-pages' ) => self::$version_php
+                            __( 'Server PHP Version', 'landing-pages' ) => phpversion(),
+                            __( 'Required PHP Version', 'landing-pages' ) => self::$version_php
                         ),
-                        'solution' => sprintf( __( 'Please contact your hosting provider to upgrade PHP to %s or greater' , 'landing-pages' ) , self::$version_php )
+                        'solution' => sprintf( __( 'Please contact your hosting provider to upgrade PHP to %s or greater', 'landing-pages'), self::$version_php )
                     )
                 );
             }
 
             /* Check WP Version */
-            if ( version_compare( $wp_version , self::$version_wp, '<' ) ) {
+            if ( version_compare( $wp_version, self::$version_wp, '<' ) ) {
                 self::abort_activation( array(
                         'title' => 'Installation aborted',
-                        'message' => __('Calls to Action plugin could not be installed' , 'landing-pages'),
+                        'message' => __('Calls to Action plugin could not be installed', 'landing-pages'),
                         'details' => array(
-                            __( 'WordPress Version' , 'landing-pages' ) => $wp_version,
-                            __( 'Required WordPress Version' , 'landing-pages' ) => self::$version_wp
+                            __( 'WordPress Version', 'landing-pages' ) => $wp_version,
+                            __( 'Required WordPress Version', 'landing-pages' ) => self::$version_wp
                         ),
-                        'solution' => sprintf( __( 'Please update landing pages to version %s or greater.' , 'landing-pages' ) , self::$version_wp )
+                        'solution' => sprintf( __( 'Please update landing pages to version %s or greater.', 'landing-pages'), self::$version_wp )
                     )
                 );
             }
 
             /* Check Landing Pages Version */
-            if ( defined('LANDINGPAGES_CURRENT_VERSION') && version_compare( LANDINGPAGES_CURRENT_VERSION , self::$version_lp , '<' ) ) {
+            if ( defined('LANDINGPAGES_CURRENT_VERSION') && version_compare( LANDINGPAGES_CURRENT_VERSION, self::$version_lp, '<' ) ) {
                 self::abort_activation( array(
                         'title' => 'Installation aborted',
-                        'message' => __('Calls to Action plugin could not be installed' , 'landing-pages'),
+                        'message' => __('Calls to Action plugin could not be installed', 'landing-pages'),
                         'details' => array(
-                            __( 'Calls to Action Version' , 'landing-pages' ) => LANDINGPAGES_CURRENT_VERSION,
-                            __( 'Required Calls to Action Version' , 'landing-pages' ) => self::$version_lp
+                            __( 'Calls to Action Version', 'landing-pages' ) => LANDINGPAGES_CURRENT_VERSION,
+                            __( 'Required Calls to Action Version', 'landing-pages' ) => self::$version_lp
                         ),
-                        'solution' => sprintf( __( 'Please update Calls to Action to version %s or greater.' , 'landing-pages' ) , self::$version_lp )
+                        'solution' => sprintf( __( 'Please update Calls to Action to version %s or greater.', 'landing-pages'), self::$version_lp )
                     )
                 );
             }
 
             /* Check Leads Version */
-            if ( defined('WPL_CURRENT_VERSION') && version_compare( WPL_CURRENT_VERSION , self::$version_leads , '<' ) ) {
+            if ( defined('WPL_CURRENT_VERSION') && version_compare( WPL_CURRENT_VERSION, self::$version_leads, '<' ) ) {
                 self::abort_activation( array(
                         'title' => 'Installation aborted',
-                        'message' => __('Calls to Action plugin could not be installed' , 'landing-pages'),
+                        'message' => __('Calls to Action plugin could not be installed', 'landing-pages'),
                         'details' => array(
-                            __( 'Leads Version' , 'landing-pages' ) => WPL_CURRENT_VERSION,
-                            __( 'Required Leads Version' , 'landing-pages' ) => self::$version_leads
+                            __( 'Leads Version', 'landing-pages' ) => WPL_CURRENT_VERSION,
+                            __( 'Required Leads Version', 'landing-pages' ) => self::$version_leads
                         ),
-                        'solution' => sprintf( __( 'Please update Leads to version %s or greater.' , 'landing-pages' ) , self::$version_leads )
+                        'solution' => sprintf( __( 'Please update Leads to version %s or greater.', 'landing-pages'), self::$version_leads )
                     )
                 );
             }
@@ -268,7 +268,7 @@ if ( !class_exists('CTA_Activation') ) {
             if ( '' == get_option( 'permalink_structure' ) ) {
                 ?>
                 <div class="error">
-                    <p><?php _e( 'Calls To Action plugin requires you to use a non default permlaink structure. Please head into your pemalink settings and choose an option besides \'default\'.' , 'cta'); ?></p>
+                    <p><?php _e( 'Calls To Action plugin requires you to use a non default permlaink structure. Please head into your pemalink settings and choose an option besides \'default\'.', 'cta'); ?></p>
                 </div>
             <?php
             }
@@ -276,8 +276,8 @@ if ( !class_exists('CTA_Activation') ) {
     }
 
     /* Add Activation Hook */
-    register_activation_hook( WP_CTA_FILE , array( 'CTA_Activation' , 'activate' ) );
-    register_deactivation_hook( WP_CTA_FILE , array( 'CTA_Activation' , 'deactivate' ) );
+    register_activation_hook( WP_CTA_FILE, array( 'CTA_Activation', 'activate'));
+    register_deactivation_hook( WP_CTA_FILE, array( 'CTA_Activation', 'deactivate'));
 
     new CTA_Activation;
 }
