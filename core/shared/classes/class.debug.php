@@ -205,7 +205,7 @@ if (!class_exists('Inbound_Debug_Scripts')) {
 			global $wp_scripts, $wp_query;
 			$script_list = ( $wp_scripts->queue ) ? $wp_scripts->queue : array(); /* All enqueued scripts */
 			$current_page_id = $wp_query->get_queried_object_id();
-			$script_data = get_post_meta( $current_page_id , 'inbound_dequeue_js', TRUE );
+			$script_data = get_post_meta( $current_page_id, 'inbound_dequeue_js', TRUE );
 			$script_data = json_decode($script_data,true);
 
 			$inbound_white_list = self::inbound_now_script_whitelist();
@@ -270,7 +270,7 @@ if (!class_exists('Inbound_Debug_Scripts')) {
 
 			/*show_admin_bar( false ); */
 			wp_enqueue_script('inbound-dequeue-scripts', INBOUNDNOW_SHARED_URLPATH . 'assets/js/global/inbound-dequeue-scripts.js', array( 'jquery' ));
-			wp_localize_script( 'inbound-dequeue-scripts' , 'inbound_debug' , array( 'admin_url' => admin_url( 'admin-ajax.php' ), 'admin_screen' => $current, 'page_id' => $page_id));
+			wp_localize_script( 'inbound-dequeue-scripts', 'inbound_debug', array( 'admin_url' => admin_url( 'admin-ajax.php' ), 'admin_screen' => $current, 'page_id' => $page_id));
 
 			global $wp_scripts;
 
@@ -333,7 +333,7 @@ display: inline-block;}
 			#debug-close-link { color:red; float:right; font-size:10px; text-decoration:none;}
 			</style>';
 
-		$script_data = get_post_meta( $current_page_id , 'inbound_dequeue_js', TRUE );
+		$script_data = get_post_meta( $current_page_id, 'inbound_dequeue_js', TRUE );
 		$script_data = json_decode($script_data,true);
 		$close_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 		$close_link = str_replace(array("&inbound-dequeue-scripts", "?inbound-dequeue-scripts"), "", $close_link);
@@ -402,7 +402,7 @@ display: inline-block;}
 			/* This will control the dequing */
 			/*
 			foreach ($scripts_queued as $key => $value) {
-				//echo $key . $value;
+
 				if (!in_array($value, $white_list_scripts)){
 				wp_dequeue_script( $value );
 				}

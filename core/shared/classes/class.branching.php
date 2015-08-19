@@ -21,7 +21,7 @@ if ( !class_exists('Inbound_Branching')	) {
 		*  Load static vars
 		*/
 		public static function load_static_vars() {
-			self::$plugins = apply_filters( 'inbound_plugin_branches' , array() );
+			self::$plugins = apply_filters( 'inbound_plugin_branches', array() );
 		}
 		/**
 		* Load hooks and filters
@@ -29,16 +29,16 @@ if ( !class_exists('Inbound_Branching')	) {
 		*/
 		private static function load_hooks() {
 			/* add controls */
-			add_filter('plugin_action_links', array( __CLASS__ ,  'add_plugin_options' ) , 20 , 2);
+			add_filter('plugin_action_links', array(__CLASS__,  'add_plugin_options' ), 20, 2);
 
 			/* enqueue js includes */
-			add_action( 'admin_enqueue_scripts', array( __CLASS__ , 'enqueue_admin_scripts' ) );
+			add_action( 'admin_enqueue_scripts', array(__CLASS__, 'enqueue_admin_scripts' ) );
 
 			/* add js listeners */
-			add_action( 'admin_print_footer_scripts', array( __CLASS__ , 'print_js_css' ) );
+			add_action( 'admin_print_footer_scripts', array(__CLASS__, 'print_js_css' ) );
 
 			/* Adds listener to save email data */
-			add_action( 'wp_ajax_inbound_toggle_branch', array( __CLASS__ , 'toggle_branch' ) );
+			add_action( 'wp_ajax_inbound_toggle_branch', array(__CLASS__, 'toggle_branch' ) );
 		}
 
 
@@ -54,7 +54,7 @@ if ( !class_exists('Inbound_Branching')	) {
 			self::$plugin = $parts[0];
 
 			/* if array is not in our processing queue then skip */
-			if ( !array_key_exists( self::$plugin , self::$plugins ) ) {
+			if ( !array_key_exists( self::$plugin, self::$plugins ) ) {
 				return $links;
 			}
 
@@ -73,14 +73,14 @@ if ( !class_exists('Inbound_Branching')	) {
 		*  Look in in options api to determine current branch
 		*/
 		public static function get_current_branch() {
-			self::$branch = Inbound_Options_API::get_option( 'inbound-branching' ,  self::$plugin , 'svn' );
+			self::$branch = Inbound_Options_API::get_option( 'inbound-branching',  self::$plugin, 'svn' );
 		}
 
 		/**
 		*  Store current branch URL in options api
 		*/
 		public static function set_current_branch() {
-			self::$branch = Inbound_Options_API::update_option( 'inbound-branching' ,  self::$plugin , self::$branch );
+			self::$branch = Inbound_Options_API::update_option( 'inbound-branching',  self::$plugin, self::$branch );
 		}
 
 
@@ -91,13 +91,13 @@ if ( !class_exists('Inbound_Branching')	) {
 			if ( self::$branch == 'svn' ) {
 				$class = "switch-versions";
 				$switch_to = "git";
-				$title = __( 'Switch to lastest development release. Warning this should not be performed on a live site.' , INBOUNDNOW_TEXT_DOMAIN );
-				$button_text = __( 'Switch to latest git' , INBOUNDNOW_TEXT_DOMAIN );
+				$title = __( 'Switch to lastest development release. Warning this should not be performed on a live site.', INBOUNDNOW_TEXT_DOMAIN );
+				$button_text = __( 'Switch to latest git', INBOUNDNOW_TEXT_DOMAIN );
 			} else {
 				$class = "switch-versions";
 				$switch_to = "svn";
-				$title = __( 'Switch to latest stable release.' , INBOUNDNOW_TEXT_DOMAIN );
-				$button_text = __( 'Switch to latest svn' , INBOUNDNOW_TEXT_DOMAIN );
+				$title = __( 'Switch to latest stable release.', INBOUNDNOW_TEXT_DOMAIN );
+				$button_text = __( 'Switch to latest svn', INBOUNDNOW_TEXT_DOMAIN );
 			}
 			return '<a href="#" class="'.$class.'" id="'.self::$plugin.'-toggle" data-branch="'.$switch_to.'" data-plugin="'.self::$plugin.'" title="'.$title.'">'. $button_text .'</a> <div class="spinner" id="spinner-'.self::$plugin.'-toggle"></span></div>';
 		}
@@ -136,14 +136,14 @@ if ( !class_exists('Inbound_Branching')	) {
 			<script>
 			jQuery( 'document' ).ready( function() {
 
-				jQuery( '.switch-versions' ).on( 'click' , function() {
+				jQuery( '.switch-versions' ).on( 'click', function() {
 
 
 					/* get download url */
 					var branch = jQuery( '#' + this.id ).data( 'branch' );
 					var plugin = jQuery( '#' + this.id ).data( 'plugin' );
 
-					var result = confirm("<?php _e('Switching branches on a live site should be avoided. Are you sure you would like to switch filesets?' , INBOUNDNOW_TEXT_DOMAIN ); ?>");
+					var result = confirm("<?php _e('Switching branches on a live site should be avoided. Are you sure you would like to switch filesets?', INBOUNDNOW_TEXT_DOMAIN ); ?>");
 
 					if (!result) {
 						return;
@@ -254,9 +254,9 @@ if ( !class_exists('Inbound_Branching')	) {
 			/* extract temp file to plugins direction */
 			$archive = new PclZip($temp_file);
 			if (self::$branch == 'git') {
-				$result = $archive->extract( PCLZIP_OPT_REMOVE_PATH, self::$plugin.'-master' , PCLZIP_OPT_PATH, $plugin_path , PCLZIP_OPT_REPLACE_NEWER );
+				$result = $archive->extract( PCLZIP_OPT_REMOVE_PATH, self::$plugin.'-master', PCLZIP_OPT_PATH, $plugin_path, PCLZIP_OPT_REPLACE_NEWER );
 			} else {
-				$result = $archive->extract( PCLZIP_OPT_PATH, WP_PLUGIN_DIR , PCLZIP_OPT_REPLACE_NEWER );
+				$result = $archive->extract( PCLZIP_OPT_PATH, WP_PLUGIN_DIR, PCLZIP_OPT_REPLACE_NEWER );
 			}
 
 			if ($result == 0) {

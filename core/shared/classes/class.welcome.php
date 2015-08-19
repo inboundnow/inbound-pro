@@ -10,7 +10,7 @@
  * Forked from pippin's https://easydigitaldownloads.com/
  */
 
-// Exit if accessed directly
+/* Exit if accessed directly */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 if(!defined('INBOUND_WELCOME_PATH')) { define('INBOUND_WELCOME_PATH', WP_PLUGIN_DIR . '/inbound-now-pro'); }
 /**
@@ -48,13 +48,13 @@ class Inbound_Now_Welcome {
         Person(array('isFat' => true, 'canRunFast' => false))
         */
 	    if (preg_match('/components/', $type)) {
-	    	$this->plugin_type = 'pro'; // check if loaded from pro or from addon plugin
+	    	$this->plugin_type = 'pro'; /* check if loaded from pro or from addon plugin */
 	    }
 
         $this->plugin_slug = $plugin_slug;
         $this->plugin_name = $plugin_name;
 
-    	// Set Variable if welcome folder exists
+    	/* Set Variable if welcome folder exists */
     	$dir = INBOUND_WELCOME_PATH . '/components/'. $plugin_slug . '/welcome/';
     	$plugin_dir = WP_PLUGIN_DIR . '/' . $plugin_slug;
 		if(file_exists($dir)) {
@@ -70,7 +70,7 @@ class Inbound_Now_Welcome {
 		if ( !$this->welcome_folder_exists ) {
 			return;
 		}
-		// Add menu page
+		/* Add menu page */
 		add_dashboard_page(
 			__( 'Welcome to', $this->plugin_name),
 			__( 'Welcome to', $this->plugin_name),
@@ -89,7 +89,7 @@ class Inbound_Now_Welcome {
 	public function admin_head() {
 		$plugin = $this->plugin_slug;
 		remove_submenu_page( 'index.php', $plugin . '-welcome' );
-		// GET style.css from /welcome folder of target
+		/* GET style.css from /welcome folder of target */
 	}
 	/* Render About Welcome Nav */
 	public function render_nav_menu() {
@@ -115,33 +115,33 @@ class Inbound_Now_Welcome {
 	}
 	/* Render About Screen */
 	public function quick_start_screen() {
-		// If no /welcome folder exists exit class
+		/* If no /welcome folder exists exit class */
 		if ( !$this->welcome_folder_exists ) {
 			return;
 		}
-		$display_version = '1.1.1.1.1'; // Parse main file for version #;
+		$display_version = '1.1.1.1.1'; /* Parse main file for version #; */
 		$plugin_name = $this->plugin_name;
 		$plugin_slug = $this->plugin_slug;
 		$Recommended = "";
 		$cta_install = "";
 		$leads_install = "";
 		$rec_end = "";
-		//$test = get_transient('_inboundnow_zapier_activation_redirect', true, 30 );
+		/*$test = get_transient('_inboundnow_zapier_activation_redirect', true, 30 ); */
 
 		$current_view = $_GET['page'];
 		if (function_exists( 'is_plugin_active' ) && is_plugin_active('inbound-now-pro/inbound-now-pro.php')) {
-			//echo 'Pro on';
+			/*echo 'Pro on'; */
 			$dir = INBOUND_WELCOME_PATH . '/components/'. $plugin_slug . '/welcome/';
 
 		} else if (function_exists( 'is_plugin_active' ) && is_plugin_active($plugin_slug .'/'. $plugin_slug . '.php')) {
-			//echo 'Pro off';
+			/*echo 'Pro off'; */
 			$dir = WP_PLUGIN_DIR . '/' . $plugin_slug . '/welcome/';
 		}
 
 		if(file_exists($dir)) {
-			//$contents = file_get_contents($file);
+			/*$contents = file_get_contents($file); */
 			$results = scandir($dir);
-			//print_r($results);
+			/*print_r($results); */
 			$contents = '';
 			$nav_items = '<h2 class="nav-tab-wrapper" style="margin-left: -40px; padding-left: 40px;">';
 			foreach ($results as $name) {
@@ -181,14 +181,14 @@ class Inbound_Now_Welcome {
 		$slug = self::get_plugin_slug();
 		$transient = "_" . str_replace('-', "_", $slug) . '_activation_redirect';
 
-		// Bail if no activation redirect
+		/* Bail if no activation redirect */
 		if ( ! get_transient( $transient ) )
 			return;
 
-		// Delete the redirect transient
+		/* Delete the redirect transient */
 		delete_transient( $transient );
 
-		// Bail if activating from network, or bulk
+		/* Bail if activating from network, or bulk */
 		if ( is_network_admin() || isset( $_GET['activate-multi'] ) )
 			return;
 

@@ -11,7 +11,7 @@
  *
  */
 
-// Exit if accessed directly
+/* Exit if accessed directly */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 if (!class_exists('Inbound_API')) {
@@ -107,14 +107,14 @@ if (!class_exists('Inbound_API')) {
 		 */
 		public function __construct() {
 			/* Create endpoint listeners */
-			add_action( 'init',                     array( __CLASS__ , 'add_endpoint'     ) );
+			add_action( 'init',                     array(__CLASS__, 'add_endpoint'     ) );
 
 			/* Build Query Router */
-			add_action( 'template_redirect',        array( __CLASS__ , 'process_api_query'    ), -1 );
-			add_action( 'template_redirect',        array( __CLASS__ , 'process_tracked_link'    ), -1 );
+			add_action( 'template_redirect',        array(__CLASS__, 'process_api_query'    ), -1 );
+			add_action( 'template_redirect',        array(__CLASS__, 'process_tracked_link'    ), -1 );
 
 			/* Listen for & execute api key commands */
-			add_action( 'inbound_process_api_key',  array( __CLASS__ , 'process_api_key'  ) );
+			add_action( 'inbound_process_api_key',  array(__CLASS__, 'process_api_key'  ) );
 
 			/* Determine if JSON_PRETTY_PRINT is available */
 			self::$pretty_print = defined( 'JSON_PRETTY_PRINT' ) ? JSON_PRETTY_PRINT : null;
@@ -137,7 +137,7 @@ if (!class_exists('Inbound_API')) {
 			add_rewrite_endpoint( 'inbound-api', EP_ALL );
 
 			/* for click event tracking */
-			self::$tracking_endpoint = apply_filters( 'inbound_event_endpoint' , self::$tracking_endpoint );
+			self::$tracking_endpoint = apply_filters( 'inbound_event_endpoint', self::$tracking_endpoint );
 			add_rewrite_endpoint( 'inbound', EP_ALL );
 		}
 
@@ -163,7 +163,7 @@ if (!class_exists('Inbound_API')) {
 				self::missing_auth();
 			}
 
-			// Retrieve the user by public API key and ensure they exist
+			/* Retrieve the user by public API key and ensure they exist */
 			if ( ! ( $user = self::get_user( $_REQUEST['key'] ) ) ) {
 				self::invalid_key();
 			} else {
@@ -204,7 +204,7 @@ if (!class_exists('Inbound_API')) {
 
 			if ( false === $user ) {
 				$user = $wpdb->get_var( $wpdb->prepare( "SELECT user_id FROM $wpdb->usermeta WHERE meta_key = 'inbound_user_public_key' AND meta_value = %s LIMIT 1", $key ) );
-				set_transient( md5( 'inbound_api_user_' . $key ) , $user, DAY_IN_SECONDS );
+				set_transient( md5( 'inbound_api_user_' . $key ), $user, DAY_IN_SECONDS );
 			}
 
 			if ( $user != NULL ) {
@@ -268,13 +268,13 @@ if (!class_exists('Inbound_API')) {
 		 * @param $accepted value type desired
 		 * @return $value or die();
 		 */
-		private static function validate_parameter( $value , $key , $accepted ) {
+		private static function validate_parameter( $value, $key, $accepted ) {
 
 			if (gettype($value) == $accepted ) {
 				return $value;
 			}
 
-			$error['error'] = sprintf( __( 'Invalid parameter provided. Expecting a %1$s for \'%2$s\' while a field type with %3$s was provided', INBOUNDNOW_TEXT_DOMAIN ) , $accepted , $key , gettype($value)) ;
+			$error['error'] = sprintf( __( 'Invalid parameter provided. Expecting a %1$s for \'%2$s\' while a field type with %3$s was provided', INBOUNDNOW_TEXT_DOMAIN ), $accepted, $key, gettype($value)) ;
 
 			self::$data = $error;
 			self::output( 401 );
@@ -287,8 +287,8 @@ if (!class_exists('Inbound_API')) {
 		 * @uses Inbound_API::output()
 		 * @return void
 		 */
-		private static function invalid_parameter( $key , $accepted, $provided ) {
-			$error['error'] = sprintf( __( 'Invalid parameter provided. Expecting %1$s for %2$s the %3$s was provided', INBOUNDNOW_TEXT_DOMAIN ) , $accepted , $key , $provided) ;
+		private static function invalid_parameter( $key, $accepted, $provided ) {
+			$error['error'] = sprintf( __( 'Invalid parameter provided. Expecting %1$s for %2$s the %3$s was provided', INBOUNDNOW_TEXT_DOMAIN ), $accepted, $key, $provided) ;
 
 			self::$data = $error;
 			self::output( 401 );
@@ -333,7 +333,7 @@ if (!class_exists('Inbound_API')) {
 			}
 
 			if( ! defined( 'INBOUND_DOING_API' ) ) {
-				define( 'INBOUND_DOING_API', true );
+				define('INBOUND_DOING_API', true );
 			}
 
 			/* Determine the kind of query */
@@ -412,7 +412,7 @@ if (!class_exists('Inbound_API')) {
 		public static function get_query_type() {
 			global $wp_query;
 
-			// Whitelist our query options
+			/* Whitelist our query options */
 			$accepted = apply_filters( 'inbound_api_valid_query_types', array(
 				'v1/leads',
 				'v1/leads/add',
@@ -428,9 +428,9 @@ if (!class_exists('Inbound_API')) {
 
 			$query = isset( $wp_query->query_vars['inbound-api'] ) ? $wp_query->query_vars['inbound-api'] : null;
 
-			// Make sure our query is valid
+			/* Make sure our query is valid */
 			if ( ! in_array( $query, $accepted ) ) {
-				$error['error'] = __( 'Invalid endpoint: ' . $query , INBOUNDNOW_TEXT_DOMAIN );
+				$error['error'] = __( 'Invalid endpoint: ' . $query, INBOUNDNOW_TEXT_DOMAIN );
 
 				self::$data = $error;
 				self::output();
@@ -496,7 +496,7 @@ if (!class_exists('Inbound_API')) {
 				$dates['year'] 		= date( 'Y', $startdate );
 				$dates['year_end'] 	= date( 'Y', $enddate );
 			} else {
-				// Modify dates based on predefined ranges
+				/* Modify dates based on predefined ranges */
 				switch ( $args['date'] ) :
 
 					case 'this_month' :
@@ -571,7 +571,7 @@ if (!class_exists('Inbound_API')) {
 
 							$dates['m_start'] 	= 10;
 							$dates['m_end']		= 12;
-							$dates['year']		= date( 'Y', $current_time ) - 1; // Previous year
+							$dates['year']		= date( 'Y', $current_time ) - 1; /* Previous year */
 
 						} else if ( $month_now <= 6 ) {
 
@@ -642,7 +642,7 @@ if (!class_exists('Inbound_API')) {
 		public static function output( $status_code = 200 ) {
 			global $wp_query;
 
-			$format = apply_filters('inbound_api_output_format' , 'json');
+			$format = apply_filters('inbound_api_output_format', 'json');
 
 			status_header( $status_code );
 
@@ -664,7 +664,7 @@ if (!class_exists('Inbound_API')) {
 
 				default :
 
-					// Allow other formats to be added via extensions
+					/* Allow other formats to be added via extensions */
 					do_action( 'inbound_api_output_' . $format, self::$data, $this );
 
 					break;
@@ -692,22 +692,22 @@ if (!class_exists('Inbound_API')) {
 		 *  Query designed to return leads based on conditions defined by user.
 		 *
 		 *  @access public
-		 *  @param ARRAY $params key/value pairs that will direct the building of WP_Query , optional
+		 *  @param ARRAY $params key/value pairs that will direct the building of WP_Query, optional
 		 */
 		public static function leads_get( $params = array() ) {
 
 			/* Merge POST & GET & @param vars into array variable */
-			$params = array_merge( $params , $_REQUEST );
+			$params = array_merge( $params, $_REQUEST );
 
 			/* prepare WP_Query defaults */
 			$args = self::leads_prepare_defaults( $params );
 
 			/* Prepare WP_Query arguments with tax_query rules */
-			$args = self::leads_prepare_tax_query( $args , $params );
+			$args = self::leads_prepare_tax_query( $args, $params );
 
 			/* Prepare WP_Query arguments with meta_query rules */
 			if (isset($params['meta_query'])) {
-				$args['meta_query'] = self::validate_parameter( $params['meta_query'] , 'meta_query',  'array'  );
+				$args['meta_query'] = self::validate_parameter( $params['meta_query'], 'meta_query',  'array'  );
 			}
 
 			/* Run Query */
@@ -715,7 +715,7 @@ if (!class_exists('Inbound_API')) {
 
 			/* If no results let them know */
 			if (!$results) {
-				$message['message'] = __( 'No leads were found given this query.' , INBOUNDNOW_TEXT_DOMAIN ) ;
+				$message['message'] = __( 'No leads were found given this query.', INBOUNDNOW_TEXT_DOMAIN ) ;
 				self::$data = $message;
 				self::output( 401 );
 			}
@@ -740,10 +740,10 @@ if (!class_exists('Inbound_API')) {
 		 */
 		public static function leads_prepare_defaults( $params ) {
 
-			$args['s'] = (isset($params['email'])) ? self::validate_parameter( $params['email'] , 'email' , 'string'  ) : '';
-			$args['p'] = (isset($params['ID'])) ? self::validate_parameter( intval($params['ID']) , 'ID' , 'integer'  ) : '';
+			$args['s'] = (isset($params['email'])) ? self::validate_parameter( $params['email'], 'email', 'string'  ) : '';
+			$args['p'] = (isset($params['ID'])) ? self::validate_parameter( intval($params['ID']), 'ID', 'integer'  ) : '';
 			$args['posts_per_page'] = isset($params['results_per_page']) ? $params['results_per_page'] :  self::get_results_per_page();
-			$args['paged'] = (isset($params['page'])) ? self::validate_parameter( intval($params['page']) , 'page' , 'integer' ) : 1 ;
+			$args['paged'] = (isset($params['page'])) ? self::validate_parameter( intval($params['page']), 'page', 'integer' ) : 1 ;
 			$args['orderby'] = (isset($params['orderby'])) ?  $params['orderby'] : 'date' ;
 
 			if (isset($params['fields'])) {
@@ -752,7 +752,7 @@ if (!class_exists('Inbound_API')) {
 
 
 			if ($args['orderby'] != 'rand') {
-				$args['order'] = (isset($params['order'])) ? self::validate_parameter( $params['order'] , 'order_by' , 'string' ) : 'DESC' ;
+				$args['order'] = (isset($params['order'])) ? self::validate_parameter( $params['order'], 'order_by', 'string' ) : 'DESC' ;
 			}
 
 			$args['post_type'] = 'wp-lead';
@@ -768,7 +768,7 @@ if (!class_exists('Inbound_API')) {
 		 *  @param ARRAY $params includes param key/value pairs submitted to the api
 		 *  @returns ARRAY $args
 		 */
-		public static function leads_prepare_tax_query( $args , $params ) {
+		public static function leads_prepare_tax_query( $args, $params ) {
 
 			/* if tax_query ovverride rules are manually set by user then use them  */
 			if (isset($params['tax_query'])) {
@@ -784,7 +784,7 @@ if (!class_exists('Inbound_API')) {
 				$args['tax_query'][] = array(
 					'taxonomy' => 'wplead_list_category',
 					'field'    => 'term_id',
-					'terms'    => self::validate_parameter( $params['include_lists'] , 'include_lists' , 'array'  ),
+					'terms'    => self::validate_parameter( $params['include_lists'], 'include_lists', 'array'  ),
 					'operator' => 'IN',
 				);
 			}
@@ -793,13 +793,13 @@ if (!class_exists('Inbound_API')) {
 				$args['tax_query'][] = array(
 					'taxonomy' => 'wplead_list_category',
 					'field'    => 'term_id',
-					'terms'    => self::validate_parameter( $params['exclude_lists'] , 'exclude_lists' , 'array'  ),
+					'terms'    => self::validate_parameter( $params['exclude_lists'], 'exclude_lists', 'array'  ),
 					'operator' => 'NOT IN',
 				);
 			}
 
 			if ( isset($params['include_tags']) ) {
-				$tags = self::get_tag_ids(self::validate_parameter( $params['include_tags'] , 'include_tags' , 'array'  ));
+				$tags = self::get_tag_ids(self::validate_parameter( $params['include_tags'], 'include_tags', 'array'  ));
 				$args['tax_query'][] = array(
 					'taxonomy' => 'lead-tags',
 					'field'    => 'term_id',
@@ -809,7 +809,7 @@ if (!class_exists('Inbound_API')) {
 			}
 
 			if ( isset($params['exclude_tags']) ) {
-				$tags = self::get_tag_ids(self::validate_parameter( $params['exclude_tags'] , 'exclude_tags' , 'array'  ));
+				$tags = self::get_tag_ids(self::validate_parameter( $params['exclude_tags'], 'exclude_tags', 'array'  ));
 				$args['tax_query'][] = array(
 					'taxonomy' => 'lead-tags',
 					'field'    => 'ID',
@@ -832,7 +832,7 @@ if (!class_exists('Inbound_API')) {
 			$tag_ids = array();
 
 			foreach ($tags as $name) {
-				$tag = get_term_by( 'name' , $name , 'lead-tags' );
+				$tag = get_term_by( 'name', $name, 'lead-tags' );
 
 				if ($tag) {
 					$tag_ids[] = $tag->term_id;
@@ -869,11 +869,11 @@ if (!class_exists('Inbound_API')) {
 				$leads['results'][ $ID ]['ID'] = $ID;
 
 				/* set lead lists */
-				$lists = get_the_terms( $ID , 'wplead_list_category' );
+				$lists = get_the_terms( $ID, 'wplead_list_category' );
 				$leads['results'][ $ID ]['lists'] = $lists;
 
 				/* set lead tags */
-				$tags = get_the_terms( $ID , 'lead-tags' );
+				$tags = get_the_terms( $ID, 'lead-tags' );
 				$leads['results'][ $ID ]['tags'] = $tags;
 
 				/* set lead meta data */
@@ -887,20 +887,20 @@ if (!class_exists('Inbound_API')) {
 
 		/**
 		 *  Adds a lead to the wp-lead custom post type
-		 *  @param ARRAY $params key/value pairs that will direct the building of WP_Query , optional
+		 *  @param ARRAY $params key/value pairs that will direct the building of WP_Query, optional
 		 *  @global OBJECT $Inbound_Leads Inbound_Leads
 		 */
 		public static function leads_add( $params = array() ) {
 			global $Inbound_Leads;
 
 			/* Merge POST & GET & @param vars into array variable */
-			$params = array_merge( $params , $_REQUEST );
+			$params = array_merge( $params, $_REQUEST );
 
 			/* Make sure our meta_data field is setup correctly */
-			self::validate_parameter( $params['meta_data'] , 'meta_data' ,  'array'  );
+			self::validate_parameter( $params['meta_data'], 'meta_data',  'array'  );
 
 			$args = array(
-				'post_title' =>  self::validate_parameter( $params['meta_data']['wpleads_email_address'] , 'meta_data[wpleads_email_address]' ,  'string'  ), /* validate email address */
+				'post_title' =>  self::validate_parameter( $params['meta_data']['wpleads_email_address'], 'meta_data[wpleads_email_address]',  'string'  ), /* validate email address */
 				'post_status' => 'publish',
 				'post_type' => 'wp-lead'
 			);
@@ -909,14 +909,14 @@ if (!class_exists('Inbound_API')) {
 			$already_exists = self::leads_get( array( 'email' => $params['meta_data']['wpleads_email_address'] ) );
 
 			if ( $already_exists ) {
-				$error['error'] = __( 'Lead already exists.' , INBOUNDNOW_TEXT_DOMAIN ) ;
+				$error['error'] = __( 'Lead already exists.', INBOUNDNOW_TEXT_DOMAIN ) ;
 
 				self::$data = $error;
 				self::output( 401 );
 			}
 
 			/* Insert Lead */
-			$lead_id = wp_insert_post( $args , true );
+			$lead_id = wp_insert_post( $args, true );
 
 			/* Check for error and send message back if contains error */
 			if( is_wp_error($lead_id) ) {
@@ -925,21 +925,21 @@ if (!class_exists('Inbound_API')) {
 
 			/* Add meta data to lead record */
 			foreach ($params['meta_data'] as $key => $value ) {
-				update_post_meta( $lead_id , $key , $value );
+				update_post_meta( $lead_id, $key, $value );
 			}
 
 			/* Add lead to lists */
-			if (isset($params['lead_lists']) && self::validate_parameter( $params['lead_lists'] , 'lead_lists' , 'array' ) ) {
+			if (isset($params['lead_lists']) && self::validate_parameter( $params['lead_lists'], 'lead_lists', 'array' ) ) {
 
 				foreach ( $params['lead_lists'] as $list_id ) {
-					$Inbound_Leads->add_lead_to_list( $lead_id , $list_id );
+					$Inbound_Leads->add_lead_to_list( $lead_id, $list_id );
 				}
 			}
 
 			/* Add tag to leads */
-			if (isset($params['tags']) && self::validate_parameter( $params['tags'] , 'tags' , 'array' ) ) {
+			if (isset($params['tags']) && self::validate_parameter( $params['tags'], 'tags', 'array' ) ) {
 				foreach ( $params['tags'] as $tag ) {
-					$Inbound_Leads->add_tag_to_lead( $lead_id , $tag );
+					$Inbound_Leads->add_tag_to_lead( $lead_id, $tag );
 				}
 			}
 
@@ -956,11 +956,11 @@ if (!class_exists('Inbound_API')) {
 			global $Inbound_Leads;
 
 			/* Merge POST & GET & @param vars into array variable */
-			$params = array_merge( $params , $_REQUEST );
+			$params = array_merge( $params, $_REQUEST );
 
 			/* Validate lead ID param */
 			if (isset( $params['ID'] ) ) {
-				self::validate_parameter( intval($params['ID']) , 'ID' ,  'integer'  );
+				self::validate_parameter( intval($params['ID']), 'ID',  'integer'  );
 			}
 
 			/* if email is set get lead ID by email */
@@ -973,7 +973,7 @@ if (!class_exists('Inbound_API')) {
 
 			/* ID must be set by this point */
 			if ( !isset( $params['ID'] ) ) {
-				$error['error'] = __( 'Valid ID or email address not set.' , INBOUNDNOW_TEXT_DOMAIN ) ;
+				$error['error'] = __( 'Valid ID or email address not set.', INBOUNDNOW_TEXT_DOMAIN ) ;
 				self::$data = $error;
 				self::output( 401 );
 			}
@@ -982,7 +982,7 @@ if (!class_exists('Inbound_API')) {
 			if ( isset( $params['meta_data']['wpleads_email_address'] ) ) {
 				$args = array(
 					'ID' => $params['ID'],
-					'post_title' => self::validate_parameter( $params['meta_data']['wpleads_email_address'] , 'meta_data[wpleads_email_address]' ,  'string'  ),
+					'post_title' => self::validate_parameter( $params['meta_data']['wpleads_email_address'], 'meta_data[wpleads_email_address]',  'string'  ),
 					'post_status' => 'publish',
 					'post_type' => 'wp-lead'
 				);
@@ -993,11 +993,11 @@ if (!class_exists('Inbound_API')) {
 			if ( isset( $params['meta_data']) ) {
 
 				/* Make sure our meta_data field is setup correctly */
-				self::validate_parameter( $params['meta_data'] , 'meta_data' ,  'array'  );
+				self::validate_parameter( $params['meta_data'], 'meta_data',  'array'  );
 
 				/* Loop through meta data fields and update key/value pairs */
 				foreach ($params['meta_data'] as $key => $value ) {
-					update_post_meta( $params['ID'] , $key , $value );
+					update_post_meta( $params['ID'], $key, $value );
 				}
 			}
 
@@ -1005,11 +1005,11 @@ if (!class_exists('Inbound_API')) {
 			if ( isset( $params['add_to_lists']) ) {
 
 				/* Make sure our add_to_lists field is setup correctly */
-				self::validate_parameter( $params['add_to_lists'] , 'add_to_lists' ,  'array'  );
+				self::validate_parameter( $params['add_to_lists'], 'add_to_lists',  'array'  );
 
 				/* Loop through list ids and add */
 				foreach ($params['add_to_lists'] as $list_id ) {
-					$Inbound_Leads->add_lead_to_list( $params['ID'] , $list_id );
+					$Inbound_Leads->add_lead_to_list( $params['ID'], $list_id );
 				}
 			}
 
@@ -1017,11 +1017,11 @@ if (!class_exists('Inbound_API')) {
 			if ( isset( $params['remove_from_lists']) ) {
 
 				/* Make sure our remove_from_lists field is setup correctly */
-				self::validate_parameter( $params['remove_from_lists'] , 'remove_from_lists' ,  'array'  );
+				self::validate_parameter( $params['remove_from_lists'], 'remove_from_lists',  'array'  );
 
 				/* Loop through list ids and remove */
 				foreach ($params['remove_from_lists'] as $list_id ) {
-					$Inbound_Leads->remove_lead_from_list( $params['ID'] , $list_id );
+					$Inbound_Leads->remove_lead_from_list( $params['ID'], $list_id );
 				}
 			}
 
@@ -1029,11 +1029,11 @@ if (!class_exists('Inbound_API')) {
 			if ( isset( $params['add_tags']) ) {
 
 				/* Make sure our add_tags field is setup correctly */
-				self::validate_parameter( $params['add_tags'] , 'add_tags' ,  'array'  );
+				self::validate_parameter( $params['add_tags'], 'add_tags',  'array'  );
 
 				/* Loop through tags and add */
 				foreach ($params['add_tags'] as $tag ) {
-					$Inbound_Leads->add_tag_to_lead( $params['ID'] , $tag );
+					$Inbound_Leads->add_tag_to_lead( $params['ID'], $tag );
 				}
 			}
 
@@ -1041,11 +1041,11 @@ if (!class_exists('Inbound_API')) {
 			if ( isset( $params['remove_tags']) ) {
 
 				/* Make sure our remove_tags field is setup correctly */
-				self::validate_parameter( $params['remove_tags'] , 'remove_tags' ,  'array'  );
+				self::validate_parameter( $params['remove_tags'], 'remove_tags',  'array'  );
 
 				/* Loop through tags and remove */
 				foreach ($params['remove_tags'] as $tag ) {
-					$Inbound_Leads->remove_tag_from_lead( $params['ID'] , $tag );
+					$Inbound_Leads->remove_tag_from_lead( $params['ID'], $tag );
 				}
 			}
 
@@ -1059,17 +1059,17 @@ if (!class_exists('Inbound_API')) {
 		public static function leads_delete( $params = array() ) {
 
 			/* Merge POST & GET & @param vars into array variable */
-			$params = array_merge( $params , $_REQUEST );
+			$params = array_merge( $params, $_REQUEST );
 
 			/* Validate lead ID param */
 			if ( isset( $params['ID'] ) ) {
-				self::validate_parameter( intval($params['ID']) , 'ID' ,  'integer'  );
+				self::validate_parameter( intval($params['ID']), 'ID',  'integer'  );
 			}
 			/* if email is set get lead ID by email */
 			else if ( isset( $params['email'] ) ) {
 				$params['ID'] = self::leads_get_id_from_email( $params['email'] );
 
-				self::validate_parameter( $params['email'] , 'email' ,  'string'  );
+				self::validate_parameter( $params['email'], 'email',  'string'  );
 
 				/* perform lead lookup by email */
 				$result = self::leads_get( array( 'email' => $params['email'] ) );
@@ -1082,16 +1082,16 @@ if (!class_exists('Inbound_API')) {
 
 			/* ID must be set by this point */
 			if ( !isset( $params['ID'] ) ) {
-				$error['error'] = __( 'Valid ID or email address not set.' , INBOUNDNOW_TEXT_DOMAIN ) ;
+				$error['error'] = __( 'Valid ID or email address not set.', INBOUNDNOW_TEXT_DOMAIN ) ;
 				self::$data = $error;
 				self::output( 401 );
 			}
 
 			/* Delete lead */
-			wp_delete_post(  $params['ID'] , true );
+			wp_delete_post(  $params['ID'], true );
 
 			return array (
-				'message' => __( 'Lead successfully deleted' , INBOUNDNOW_TEXT_DOMAIN ),
+				'message' => __( 'Lead successfully deleted', INBOUNDNOW_TEXT_DOMAIN ),
 				'ID' => $params['ID']
 			);
 		}
@@ -1103,7 +1103,7 @@ if (!class_exists('Inbound_API')) {
 		*/
 		public static function leads_get_id_from_email( $email ) {
 
-			self::validate_parameter( $email , 'email' ,  'string'  );
+			self::validate_parameter( $email, 'email',  'string'  );
 
 			/* perform lead lookup by email */
 			$result = self::leads_get( array( 'email' => $email ) );
@@ -1135,20 +1135,20 @@ if (!class_exists('Inbound_API')) {
 			global $Inbound_Leads;
 
 			/* Merge POST & GET & @param vars into array variable */
-			$params = array_merge( $params , $_REQUEST );
+			$params = array_merge( $params, $_REQUEST );
 
-			self::validate_parameter( $params['name'] , 'name' ,  'string'  );
+			self::validate_parameter( $params['name'], 'name',  'string'  );
 
 			/* Prepare list description */
 			if (isset($params['description'])) {
-				self::validate_parameter( $params['description'] , 'description' ,  'string'  );
+				self::validate_parameter( $params['description'], 'description',  'string'  );
 			} else {
 				$params['description'] = '';
 			}
 
 			/* Prepare parent */
 			if (isset($params['parent'])) {
-				self::validate_parameter( $params['parent'] , 'parent' ,  'string'  );
+				self::validate_parameter( $params['parent'], 'parent',  'string'  );
 			} else {
 				$params['parent'] = '';
 			}
@@ -1165,34 +1165,34 @@ if (!class_exists('Inbound_API')) {
 			global $Inbound_Leads;
 
 			/* Merge POST & GET & @param vars into array variable */
-			$params = array_merge( $params , $_REQUEST );
+			$params = array_merge( $params, $_REQUEST );
 
 			/* Get list id */
 			if (isset($params['id'])) {
-				self::validate_parameter( intval($params['id']) , 'id' ,  'integer'  );
+				self::validate_parameter( intval($params['id']), 'id',  'integer'  );
 			} else {
-				$error['error'] = __( 'This endpoint requires that the \'id\' be set.' , INBOUNDNOW_TEXT_DOMAIN ) ;
+				$error['error'] = __( 'This endpoint requires that the \'id\' be set.', INBOUNDNOW_TEXT_DOMAIN ) ;
 				self::$data = $error;
 				self::output( 401 );
 			}
 
 			/* Prepare new list name if available */
 			if (isset($params['name'])) {
-				self::validate_parameter( $params['name'] , 'name' ,  'string'  );
+				self::validate_parameter( $params['name'], 'name',  'string'  );
 			} else {
 				$params['name'] = '';
 			}
 
 			/* Prepare new list description if available */
 			if (isset($params['description'])) {
-				self::validate_parameter( $params['description'] , 'description' ,  'string'  );
+				self::validate_parameter( $params['description'], 'description',  'string'  );
 			} else {
 				$params['description'] = '';
 			}
 
 			/* Prepare new parent if available*/
 			if (isset($params['parent'])) {
-				self::validate_parameter( intval($params['parent']) , 'parent' ,  'integer'  );
+				self::validate_parameter( intval($params['parent']), 'parent',  'integer'  );
 			} else {
 				$params['parent'] = 0;
 			}
@@ -1207,13 +1207,13 @@ if (!class_exists('Inbound_API')) {
 			global $Inbound_Leads;
 
 			/* Merge POST & GET & @param vars into array variable */
-			$params = array_merge( $params , $_REQUEST );
+			$params = array_merge( $params, $_REQUEST );
 
 			/* Get list id */
 			if (isset($params['id'])) {
-				self::validate_parameter( intval($params['id']) , 'id' ,  'integer'  );
+				self::validate_parameter( intval($params['id']), 'id',  'integer'  );
 			} else {
-				$error['error'] = __( 'This endpoint requires that the \'id\' be set.' , INBOUNDNOW_TEXT_DOMAIN ) ;
+				$error['error'] = __( 'This endpoint requires that the \'id\' be set.', INBOUNDNOW_TEXT_DOMAIN ) ;
 				self::$data = $error;
 				self::output( 401 );
 			}
@@ -1234,8 +1234,8 @@ if (!class_exists('Inbound_API')) {
 		*  Generates random token
 		*  @param length
 		*/
-		public static function generate_token( $min = 7 , $max = 11 ) {
-			$length = mt_rand( $min , $max );
+		public static function generate_token( $min = 7, $max = 11 ) {
+			$length = mt_rand( $min, $max );
 			return substr(str_shuffle("0123456789iloveinboundnow"), 0, $length);
 		}
 
@@ -1252,7 +1252,7 @@ if (!class_exists('Inbound_API')) {
 			if (isset($args['cta_id'])) {
 				$results = $wpdb->get_results("SELECT * FROM $table_name WHERE args = '".serialize( $args )."' LIMIT 1", ARRAY_A );
 				if ($results) {
-					return get_site_url( get_current_blog_id() , self::$tracking_endpoint . '/' . $results[0]['token'] );
+					return get_site_url( get_current_blog_id(), self::$tracking_endpoint . '/' . $results[0]['token'] );
 				}
 			}
 
@@ -1267,7 +1267,7 @@ if (!class_exists('Inbound_API')) {
 			);
 
 			/* return tracked link */
-			return get_site_url( get_current_blog_id() , self::$tracking_endpoint . '/' . $token );
+			return get_site_url( get_current_blog_id(), self::$tracking_endpoint . '/' . $token );
 		}
 
 		/**
@@ -1276,25 +1276,25 @@ if (!class_exists('Inbound_API')) {
 		public static function analytics_track_links( $params = array() ) {
 
 			/* Merge POST & GET & @param vars into array variable */
-			$params = array_merge( $params , $_REQUEST );
+			$params = array_merge( $params, $_REQUEST );
 
 			/* lead email or lead id required */
 			if ( !isset( $params['id'] ) && !isset( $params['email']) && !isset( $params['cta_id']) ) {
-				$error['error'] = __( 'This endpoint requires either the \'id\' or the \'email\' or the \'cta_id\' parameter be set.' , INBOUNDNOW_TEXT_DOMAIN ) ;
+				$error['error'] = __( 'This endpoint requires either the \'id\' or the \'email\' or the \'cta_id\' parameter be set.', INBOUNDNOW_TEXT_DOMAIN ) ;
 				self::$data = $error;
 				self::output( 401 );
 			}
 
 			/* a link to mask is required */
 			if ( !isset( $params['url'] ) && !isset( $params['url'] ) ) {
-				$error['error'] = __( 'This endpoint requires the \'url\' parameter be set.' , INBOUNDNOW_TEXT_DOMAIN ) ;
+				$error['error'] = __( 'This endpoint requires the \'url\' parameter be set.', INBOUNDNOW_TEXT_DOMAIN ) ;
 				self::$data = $error;
 				self::output( 401 );
 			}
 
 			/* a tracking_id is required */
 			if ( !isset( $params['tracking_id'] ) ) {
-				$error['error'] = __( 'This endpoint requires the \'tracking_id\' parameter be set.' , INBOUNDNOW_TEXT_DOMAIN ) ;
+				$error['error'] = __( 'This endpoint requires the \'tracking_id\' parameter be set.', INBOUNDNOW_TEXT_DOMAIN ) ;
 				self::$data = $error;
 				self::output( 401 );
 			}
@@ -1307,9 +1307,9 @@ if (!class_exists('Inbound_API')) {
 
 			/* Set custom_data */
 			if (isset($params['custom_data'])) {
-				self::validate_parameter( $params['custom_data'] , 'custom_data' ,  'array'  );
+				self::validate_parameter( $params['custom_data'], 'custom_data',  'array'  );
 
-				$args = array_merge( $args , $params['custom_data'] );
+				$args = array_merge( $args, $params['custom_data'] );
 			}
 
 			/* Set datetime */
@@ -1331,15 +1331,17 @@ if (!class_exists('Inbound_API')) {
 		 * @return void
 		 */
 		public static function process_tracked_link() {
-			global $wp_query , $wpdb , $Inbound_Leads;
+			global $wp_query, $wpdb, $Inbound_Leads;
 
 			/* Check for inbound-api var. Get out if not present */
-			if ( ! isset( $wp_query->query_vars[ self::$tracking_endpoint ] ) ) {
+			if ( ! isset( $wp_query->query_vars[ self::$tracking_endpoint ] ) && ( isset($_SERVER["REQUEST_URI"]) && !strstr($_SERVER["REQUEST_URI"], self::$tracking_endpoint.'/' ) )) {
 				return;
 			}
 
+			/* discover token */
+			$token = ( isset($wp_query->query_vars[ self::$tracking_endpoint ]) ) ? $wp_query->query_vars[ self::$tracking_endpoint ] : str_replace( '/'.self::$tracking_endpoint.'/', '', $_SERVER["REQUEST_URI"] );
+
 			/* Pull record from database */
-			$token = $wp_query->query_vars[ self::$tracking_endpoint ];
 			$table_name = $wpdb->prefix . "inbound_tracked_links";
 			$profiles = $wpdb->get_results("SELECT * FROM {$table_name} where `token` = '{$token}' ;");
 
@@ -1355,37 +1357,36 @@ if (!class_exists('Inbound_API')) {
 
 
 			/* Add lead to lists */
-			if (isset($args['add_lists']) && self::validate_parameter( $args['add_lists'] , 'add_lists' , 'array' ) ) {
-
+			if (isset($args['add_lists']) && self::validate_parameter( $args['add_lists'], 'add_lists', 'array' ) ) {
 				foreach ( $args['add_lists'] as $list_id ) {
-					$Inbound_Leads->add_lead_to_list( $args['id'] , $list_id );
+					$Inbound_Leads->add_lead_to_list( $args['id'], $list_id );
 				}
 			}
 
 			/* Remove lead from lists */
-			if (isset($args['remove_lists']) && self::validate_parameter( $args['remove_lists'] , 'remove_lists' , 'array' ) ) {
+			if (isset($args['remove_lists']) && self::validate_parameter( $args['remove_lists'], 'remove_lists', 'array' ) ) {
 
 				foreach ( $args['remove_lists'] as $list_id ) {
-					$Inbound_Leads->remove_lead_from_list( $args['id'] , $list_id );
+					$Inbound_Leads->remove_lead_from_list( $args['id'], $list_id );
 				}
 			}
 
 			/* Add tag to leads */
-			if (isset($args['add_tags']) && self::validate_parameter( $args['add_tags'] , 'add_tags' , 'array' ) ) {
+			if (isset($args['add_tags']) && self::validate_parameter( $args['add_tags'], 'add_tags', 'array' ) ) {
 				foreach ( $args['add_tags'] as $tag ) {
-					$Inbound_Leads->add_tag_to_lead( $args['id'] , $tag );
+					$Inbound_Leads->add_tag_to_lead( $args['id'], $tag );
 				}
 			}
 
 			/* Remvoe tags from leads */
-			if (isset($args['remove_tags']) && self::validate_parameter( $args['remove_tags'] , 'remove_tags' , 'array' ) ) {
+			if (isset($args['remove_tags']) && self::validate_parameter( $args['remove_tags'], 'remove_tags', 'array' ) ) {
 				foreach ( $args['remove_tags'] as $tag ) {
-					$Inbound_Leads->remove_tag_from_lead( $args['id'] , $tag );
+					$Inbound_Leads->remove_tag_from_lead( $args['id'], $tag );
 				}
 			}
 
 			/* Add link click event to lead profile */
-			do_action( 'inbound_track_link' , $args );
+			do_action( 'inbound_track_link', $args );
 
 			/* redirect to  url */
 			header('Location: '. $args['url'] );

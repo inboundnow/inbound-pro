@@ -21,14 +21,14 @@ if (!class_exists('LeadStorage')) {
 			add_action('wp_ajax_nopriv_inbound_lead_store', array(__CLASS__, 'inbound_lead_store'), 10, 1);
 
 			/* filters name data to build a more comprehensive data set */
-			add_filter( 'inboundnow_store_lead_pre_filter_data',	array(__CLASS__, 'improve_lead_name'), 10 , 1);
+			add_filter( 'inboundnow_store_lead_pre_filter_data',	array(__CLASS__, 'improve_lead_name'), 10, 1);
 		}
 
 		/**
 		*	Checks if running in ajax mode
 		*/
 		static function set_mode( $mode = 'auto' ) {
-			// http://davidwalsh.name/detect-ajax
+			/* http://davidwalsh.name/detect-ajax */
 			switch( $mode ) {
 				case 'auto':
 					self::$is_ajax =	( defined( 'DOING_AJAX' ) && DOING_AJAX ) ? true : false;
@@ -113,7 +113,7 @@ if (!class_exists('LeadStorage')) {
 				/* do everything else for lead storage */
 				self::update_common_meta($lead);
 
-				do_action('wpleads_after_conversion_lead_insert', $lead['id']); // action hook on all lead inserts
+				do_action('wpleads_after_conversion_lead_insert', $lead['id']); /* action hook on all lead inserts */
 
 				/* Add Leads to List on creation */
 				if(!empty($lead['lead_lists']) && is_array($lead['lead_lists'])){
@@ -122,7 +122,7 @@ if (!class_exists('LeadStorage')) {
 				}
 
 				/* Store page views for people with ajax tracking off */
-				$ajax_tracking_off = false; // get_option
+				$ajax_tracking_off = false; /* get_option */
 				if($lead['page_views'] && $ajax_tracking_off ) {
 					self::store_page_views($lead);
 				}
@@ -150,7 +150,7 @@ if (!class_exists('LeadStorage')) {
 				/* Store URL Params */
 				if($lead['url_params']) {
 					$param_array = json_decode(stripslashes($lead['url_params']));
-					//print_r($param_array); exit;
+					/*print_r($param_array); exit; */
 					if(is_array($param_array)){
 
 					}
@@ -164,11 +164,11 @@ if (!class_exists('LeadStorage')) {
 				/* Store IP addresss & Store GEO Data */
 				if ($lead['ip_address']) {
                     update_post_meta( $lead['id'], 'wpleads_ip_address', $lead['ip_address'] );
-					//self::store_geolocation_data($lead);
+					/*self::store_geolocation_data($lead); */
 				}
 
 				/* store raw form data */
-				//self::store_raw_form_data($lead);
+				/*self::store_raw_form_data($lead); */
 
 				if ( self::$is_ajax ) {
 					echo $lead['id'];
@@ -189,13 +189,13 @@ if (!class_exists('LeadStorage')) {
 			/* Create New Lead */
 			$post = array(
 				'post_title'		=> $lead['email'],
-				//'post_content'		=> $json,
+				/*'post_content'		=> $json, */
 				'post_status'		=> 'publish',
 				'post_type'		=> 'wp-lead',
 				'post_author'		=> 1
 			);
 
-			//$post = add_filter('lp_leads_post_vars',$post);
+			/*$post = add_filter('lp_leads_post_vars',$post); */
 			$id = wp_insert_post($post);
 			/* specific updates for new leads */
 			update_post_meta( $id, 'wpleads_email_address', $lead['email'] );
@@ -203,7 +203,7 @@ if (!class_exists('LeadStorage')) {
 			update_post_meta( $id, 'page_views', $lead['page_views']);
 			/* dont need update_post_meta( $id, 'wpleads_page_view_count', $lead['page_view_count']); */
 
-			do_action('wpleads_new_lead_insert', $lead ); // action hook on new leads only
+			do_action('wpleads_new_lead_insert', $lead ); /* action hook on new leads only */
 			return $id;
 		}
 
@@ -214,12 +214,12 @@ if (!class_exists('LeadStorage')) {
 			$page_view_data = get_post_meta( $lead['id'], 'page_views', TRUE );
 			$page_view_data = json_decode($page_view_data,true);
 
-			// If page_view meta exists do this
+			/* If page_view meta exists do this */
 			if (is_array($page_view_data)) {
 				$new_page_views = self::json_array_merge( $page_view_data, $lead['page_views']);
 				$page_views = json_encode($new_page_views);
 			} else {
-			// Create page_view meta if it doesn't exist
+			/* Create page_view meta if it doesn't exist */
 				$page_views = $lead['page_views'];
 				$page_views = json_encode($page_views);
 			}
@@ -270,7 +270,7 @@ if (!class_exists('LeadStorage')) {
 					$s_count++; $loop_count++;
 					}
 				} else {
-					// Create search obj
+					/* Create search obj */
 					$s_count = 1;
 					$loop_count = 1;
 					foreach ($search as $key => $value) {
@@ -280,7 +280,7 @@ if (!class_exists('LeadStorage')) {
 					}
 				}
 				$search_data = json_encode($search_data);
-				update_post_meta($lead['id'], 'wpleads_search_data', $search_data); // Store search object
+				update_post_meta($lead['id'], 'wpleads_search_data', $search_data); /* Store search object */
 		}
 
 		/**
@@ -306,8 +306,8 @@ if (!class_exists('LeadStorage')) {
 				}
 
 				$lead['conversion_data'] = json_encode($conversion_data);
-				update_post_meta($lead['id'],'wpleads_conversion_count', $c_count); // Store conversions count
-				update_post_meta($lead['id'], 'wpleads_conversion_data', $lead['conversion_data']);// Store conversion obj
+				update_post_meta($lead['id'],'wpleads_conversion_count', $c_count); /* Store conversions count */
+				update_post_meta($lead['id'], 'wpleads_conversion_data', $lead['conversion_data']);/* Store conversion obj */
 
 		}
 		/**
@@ -337,20 +337,20 @@ if (!class_exists('LeadStorage')) {
 		static function store_referral_data($lead) {
 			$referral_data = get_post_meta( $lead['id'], 'wpleads_referral_data', TRUE );
 
-			// Parse referral for additional data
+			/* Parse referral for additional data */
 			include_once( INBOUNDNOW_SHARED_PATH. 'assets/includes/Snowplow/RefererParser/INBOUND_Parser.php');
 			include_once( INBOUNDNOW_SHARED_PATH .'assets/includes/Snowplow/RefererParser/INBOUND_Referer.php');
 			include_once(INBOUNDNOW_SHARED_PATH . 'assets/includes/Snowplow/RefererParser/INBOUND_Medium.php');
-			// intialized the parser class
+			/* intialized the parser class */
 			$parser = new INBOUND_Parser();
-			//$array = array('http://google.com', 'http://twitter.com', 'http://tumblr.com?query=test', '');
+			/*$array = array('http://google.com', 'http://twitter.com', 'http://tumblr.com?query=test', ''); */
 			$referer = $parser->parse($lead['source']);
 
 			 if ( $referer->isKnown() ) {
 					$ref_type = $referer->getMedium();
 
 			 } else {
-			 	// check if ref exists
+			 	/* check if ref exists */
 			 	$ref_type = ($lead['source'] === "Direct Traffic") ? 'Direct Traffic' : 'referral';
 			 }
 
@@ -368,9 +368,9 @@ if (!class_exists('LeadStorage')) {
 			}
 
 			$lead['referral_data'] = json_encode($referral_data);
-			//echo $lead['referral_data']; exit;
-			update_post_meta($lead['id'], 'wpleads_referral_data', $lead['referral_data']); // Store referral object
-			update_post_meta($lead['id'], 'wpleads_referral_type', $ref_type); // Store referral object
+			/*echo $lead['referral_data']; exit; */
+			update_post_meta($lead['id'], 'wpleads_referral_data', $lead['referral_data']); /* Store referral object */
+			update_post_meta($lead['id'], 'wpleads_referral_type', $ref_type); /* Store referral object */
 		}
 
 		/**
@@ -396,7 +396,7 @@ if (!class_exists('LeadStorage')) {
 			/* Update mappable fields that have a value associated with them */
 			$lead_fields = Leads_Field_Map::build_map_array();
 			foreach ( $lead_fields as $key => $value ) {
-				$shortkey = str_replace('wpleads_' , '' , $key );
+				$shortkey = str_replace('wpleads_', '', $key );
 				if (!empty($lead[$shortkey]) && $lead[$shortkey] !== 0 ) {
 					update_post_meta( $lead['id'], $key, $lead[$shortkey] );
 				}
@@ -410,7 +410,7 @@ if (!class_exists('LeadStorage')) {
 		static function store_geolocation_data( $lead ) {
 
 			$ip_addresses = get_post_meta( $lead['id'], 'wpleads_ip_address', true );
-			$ip_addresses = json_decode( stripslashes($ip_addresses) , true);
+			$ip_addresses = json_decode( stripslashes($ip_addresses), true);
 
 			if (!$ip_addresses) {
 				$ip_addresses = array();
@@ -419,7 +419,7 @@ if (!class_exists('LeadStorage')) {
 			$new_record[ $lead['ip_address'] ]['ip_address'] = $lead['ip_address'];
 
 			/* ignore for local environments */
-			if ($lead['ip_address']!= "127.0.0.1"){ // exclude localhost
+			if ($lead['ip_address']!= "127.0.0.1"){ /* exclude localhost */
 				$response = wp_remote_get('http://www.geoplugin.net/php.gp?ip='.$lead['ip_address']);
 				if ( !is_wp_error($response) &&  isset($response['body'])  ) {
 					$geo_array = @unserialize($response['body']);
@@ -446,18 +446,18 @@ if (!class_exists('LeadStorage')) {
 
 			$raw_post_data = get_post_meta($lead['id'],'wpleads_raw_post_data', true);
 			$a1 = json_decode( $raw_post_data, true );
-			parse_str($lead['raw_params'] , $a2 );
-			$exclude_array = array('card_number','card_cvc','card_exp_month','card_exp_year'); // add filter
+			parse_str($lead['raw_params'], $a2 );
+			$exclude_array = array('card_number','card_cvc','card_exp_month','card_exp_year'); /* add filter */
 			$lead_mapping_fields = Leads_Field_Map::build_map_array();
 
 			foreach ($a2 as $key=>$value)
 			{
-				if (array_key_exists( $key , $exclude_array )) {
+				if (array_key_exists( $key, $exclude_array )) {
 					unset($a2[$key]);
 					continue;
 				}
 				if (preg_match("/\[\]/", $key)) {
-					$key = str_replace("[]", "", $key); // fix array value keys
+					$key = str_replace("[]", "", $key); /* fix array value keys */
 				}
 				if (array_key_exists($key, $lead_mapping_fields)) {
 					update_post_meta( $lead['id'], $key, $value );
@@ -477,7 +477,7 @@ if (!class_exists('LeadStorage')) {
 					update_post_meta( $lead['id'], 'wpleads_websites', $websites );
 				}
 			}
-			// Merge form fields if exist
+			/* Merge form fields if exist */
 			if (is_array($a1)) {
 				$new_raw_post_data = array_merge_recursive( $a1, $a2 );
 			} else {
@@ -505,7 +505,7 @@ if (!class_exists('LeadStorage')) {
 
 			/* if last name empty and full name present */
 			if ( empty($lead['last_name']) && $lead['name'] ) {
-				$parts = explode(' ' , $lead['name']);
+				$parts = explode(' ', $lead['name']);
 
 				/* Set first name */
 				$lead['first_name'] = $parts[0];
@@ -517,7 +517,7 @@ if (!class_exists('LeadStorage')) {
 			}
 			/* if last name empty and first name present */
 			else if (empty($lead['last_name']) && $lead['first_name'] ) {
-				$parts = explode(' ' , $lead['first_name']);
+				$parts = explode(' ', $lead['first_name']);
 
 				/* Set First Name */
 				$lead['first_name'] = $parts[0];
@@ -639,7 +639,7 @@ if (!class_exists('LeadStorage')) {
 * @param BOOL $return set to true to disable printing of lead id
 */
 if (!function_exists('inbound_store_lead')) {
-	function inbound_store_lead( $args , $return = true	) {
+	function inbound_store_lead( $args, $return = true	) {
 		global $user_ID, $wpdb;
 
 		if (!is_array($args)) {
@@ -647,14 +647,14 @@ if (!function_exists('inbound_store_lead')) {
 		}
 
 		/* Mergs $args with POST request for support of ajax and direct calls */
-		$args = array_merge( $args , $_POST );
+		$args = array_merge( $args, $_POST );
 
 		/* wpleads_email_address becomes wpleads_email */
 		$args['email'] = $args['wpleads_email_address'];
 
 		/* loop through and remove wpleads_ (we will add them back in the new method ) */
 		foreach ($args as $key => $value) {
-			$newkey = str_replace( 'wpleads_' , '' , $key );
+			$newkey = str_replace( 'wpleads_', '', $key );
 			unset($args[$key]);
 			$args[$newkey] = $value;
 		}
@@ -687,11 +687,11 @@ if (!function_exists('inbound_store_lead')) {
 *  @param ARRAY dataset of lead informaiton
 */
 if (!function_exists('inbound_add_conversion_to_lead')) {
-	function inbound_add_conversion_to_lead( $lead_id , $lead_data ) {
+	function inbound_add_conversion_to_lead( $lead_id, $lead_data ) {
 
 
 		if ( $lead_data['page_id'] ) {
-			$time = current_time( 'timestamp', 0 ); // Current wordpress time from settings
+			$time = current_time( 'timestamp', 0 ); /* Current wordpress time from settings */
 			$lead_data['wordpress_date_time'] = date("Y-m-d G:i:s T", $time);
 			$conversion_data = get_post_meta( $lead_id, 'wpleads_conversion_data', TRUE );
 			$conversion_data = json_decode($conversion_data,true);
@@ -711,8 +711,8 @@ if (!function_exists('inbound_add_conversion_to_lead')) {
 			}
 
 			$lead_data['conversion_data'] = json_encode($conversion_data);
-			update_post_meta($lead_id,'wpleads_conversion_count', $c_count); // Store conversions count
-			update_post_meta($lead_id, 'wpleads_conversion_data', $lead_data['conversion_data']); // Store conversion object
+			update_post_meta($lead_id,'wpleads_conversion_count', $c_count); /* Store conversions count */
+			update_post_meta($lead_id, 'wpleads_conversion_data', $lead_data['conversion_data']); /* Store conversion object */
 
 		}
 	}

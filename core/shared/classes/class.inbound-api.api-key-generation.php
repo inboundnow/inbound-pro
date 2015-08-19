@@ -150,7 +150,7 @@ if (!class_exists('Inbound_API_Keys_Generation')) {
 
 	}
 
-	add_action('admin_init' , 'load_Inbound_API_Keys_Generation');
+	add_action('admin_init', 'load_Inbound_API_Keys_Generation');
 
 	function load_Inbound_API_Keys_Generation() {
 		$Inbound_API_Keys_Generation = new Inbound_API_Keys_Generation();

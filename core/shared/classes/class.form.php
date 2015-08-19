@@ -16,7 +16,7 @@ if (!class_exists('Inbound_Forms')) {
             add_action('wp_footer', array(__CLASS__, 'print_script'));
             add_action('wp_footer', array(__CLASS__, 'inline_my_script'));
             add_action( 'init',	array(__CLASS__, 'do_actions'));
-            add_filter( 'inbound_replace_email_tokens' , array( __CLASS__ , 'replace_tokens' ) , 10 , 3 );
+            add_filter( 'inbound_replace_email_tokens', array(__CLASS__, 'replace_tokens' ), 10, 3 );
 
         }
 
@@ -210,7 +210,7 @@ if (!class_exists('Inbound_Forms')) {
                         $form .= '<select name="'. $field_name .'" class="'.$field_input_class.'"'.$data_mapping_attr.$et_output.' '.$req.'>';
 
                         if ($placeholder_use) {
-                            $form .= '<option value="" disabled selected>'.str_replace( '%3F' , '?' , $placeholder_use).'</option>';
+                            $form .= '<option value="" disabled selected>'.str_replace( '%3F', '?', $placeholder_use).'</option>';
                         }
 
                         foreach ($dropdown_fields as $key => $value) {
@@ -222,11 +222,11 @@ if (!class_exists('Inbound_Forms')) {
 
                             /*if not found, use standard replacement (lowercase and spaces become dashes) */
                             if ($pos === false) {
-                                $form .= '<option value="'. trim(str_replace('"', '\"' , $dropdown_val)) .'">'. $drop_val_trimmed .'</option>';
+                                $form .= '<option value="'. trim(str_replace('"', '\"', $dropdown_val)) .'">'. $drop_val_trimmed .'</option>';
                             } else {
                                 /*otherwise left side of separator is label, right side is value */
                                 $option = explode("|", $value);
-                                $form .= '<option value="'. trim(str_replace('"', '\"' , trim($option[1]))) .'">'. trim($option[0]) .'</option>';
+                                $form .= '<option value="'. trim(str_replace('"', '\"', trim($option[1]))) .'">'. trim($option[0]) .'</option>';
                             }
                         }
                         $form .= '</select>';
@@ -317,7 +317,7 @@ if (!class_exists('Inbound_Forms')) {
                             } else {
                                 /*otherwise left side of separator is label, right side is value */
                                 $option = explode("|", $value);
-                                $form .= '<span class="radio-'.$main_layout.' radio-'.$form_labels_class.' '.$field_input_class.'"><input type="radio" name="'. $field_name .'" value="'. trim(str_replace('"', '\"' , trim($option[1]))) .'">'. trim($option[0]) .'</span>';
+                                $form .= '<span class="radio-'.$main_layout.' radio-'.$form_labels_class.' '.$field_input_class.'"><input type="radio" name="'. $field_name .'" value="'. trim(str_replace('"', '\"', trim($option[1]))) .'">'. trim($option[0]) .'</span>';
                             }
 
                         }
@@ -343,7 +343,7 @@ if (!class_exists('Inbound_Forms')) {
                             } else {
                                 /*otherwise left side of separator is label, right side is value */
                                 $option = explode("|", $value);
-                                $form .= '<input class="checkbox-'.$main_layout.' checkbox-'.$form_labels_class.' '.$field_input_class.'" type="checkbox" name="'. $field_name .'[]" value="'. trim(str_replace('"', '\"' , trim($option[1]))) .'" >'. trim($option[0]) .'<br>';
+                                $form .= '<input class="checkbox-'.$main_layout.' checkbox-'.$form_labels_class.' '.$field_input_class.'" type="checkbox" name="'. $field_name .'[]" value="'. trim(str_replace('"', '\"', trim($option[1]))) .'" >'. trim($option[0]) .'<br>';
                             }
                         }
                     } else if ($type === 'html-block') {
@@ -411,7 +411,7 @@ if (!class_exists('Inbound_Forms')) {
 
                     } else if ($type === 'range')  {
                         $range = $matches[3][$i]['range'];
-                        $options = explode( '|' , $range );
+                        $options = explode( '|', $range );
                         $hidden_param = (isset($matches[3][$i]['dynamic'])) ? $matches[3][$i]['dynamic'] : '';
                         $fill_value = (isset($matches[3][$i]['default'])) ? $matches[3][$i]['default'] : '';
                         $dynamic_value = (isset($_GET[$hidden_param])) ? $_GET[$hidden_param] : '';
@@ -438,7 +438,7 @@ if (!class_exists('Inbound_Forms')) {
                         $form .=	'<input type="hidden" class="inbound-input inbound-input-text '.$formatted_label . $input_classes.' '.$field_input_class.'" name="'.$field_name.'" '.$form_placeholder.' id="'.$field_name.'" value="'.$fill_value.'" '.$data_mapping_attr.$et_output.' '.$req.'/>';
 
                     } else {
-                        $form = apply_filters('inbound_form_custom_field', $form, $matches[3][$i] , $form_id );
+                        $form = apply_filters('inbound_form_custom_field', $form, $matches[3][$i], $form_id );
                     }
 
                     if ($show_labels && $form_labels === "bottom" && $type != "radio") {
@@ -565,14 +565,14 @@ if (!class_exists('Inbound_Forms')) {
 						if( jQuery(\'.checkbox-required\')[0] && jQuery(\'.checkbox-required input[type=checkbox]:checked\').length==0)
 						{
 							jQuery(\'.checkbox-required input[type=checkbox]:first\').focus();
-							alert("' . __( 'Oops! Looks like you have not filled out all of the required fields!' , INBOUNDNOW_TEXT_DOMAIN ) .'");
+							alert("' . __( 'Oops! Looks like you have not filled out all of the required fields!', INBOUNDNOW_TEXT_DOMAIN ) .'");
 							e.preventDefault();
 							e.stopImmediatePropagation();
 						}
 						jQuery(this).find("input").each(function(){
 							if(!jQuery(this).prop("required")){
 							} else if (!jQuery(this).val()) {
-							alert("' . __( 'Oops! Looks like you have not filled out all of the required fields!' , INBOUNDNOW_TEXT_DOMAIN ) .'");
+							alert("' . __( 'Oops! Looks like you have not filled out all of the required fields!', INBOUNDNOW_TEXT_DOMAIN ) .'");
 
 							e.preventDefault();
 							e.stopImmediatePropagation();
@@ -611,7 +611,7 @@ if (!class_exists('Inbound_Forms')) {
 					});
 
 					/* Trims whitespace on advancing to the next input */
-					jQuery("input[type=\'text\']").on("blur" , function() {
+					jQuery("input[type=\'text\']").on("blur", function() {
 						var value = jQuery.trim( $(this).val() );
 						jQuery(this).val( value );
 					})
@@ -625,17 +625,17 @@ if (!class_exists('Inbound_Forms')) {
         /**
          *  Replaces tokens in automated email
          */
-        public static function replace_tokens( $content , $form_data = null , $form_meta_data = null ) {
+        public static function replace_tokens( $content, $form_data = null, $form_meta_data = null ) {
 
             /* replace core tokens */
-            $content = str_replace('{{site-name}}', get_bloginfo( 'name' ) , $content);
+            $content = str_replace('{{site-name}}', get_bloginfo( 'name' ), $content);
             /*$content = str_replace('{{form-name}}', $form_data['inbound_form_n']		, $content); */
 
             foreach ($form_data as $key => $value) {
                 $token_key = str_replace('_','-', $key);
                 $token_key = str_replace('inbound-','', $token_key);
 
-                $content = str_replace( '{{'.trim($token_key).'}}' , $value , $content );
+                $content = str_replace( '{{'.trim($token_key).'}}', $value, $content );
             }
 
             return $content;
@@ -717,9 +717,9 @@ if (!class_exists('Inbound_Forms')) {
                 $form_meta_data['post_id'] = $_POST['inbound_form_id']; /* pass in form id */
 
                 /* Send emails if passes spam check returns false */
-                if ( !apply_filters( 'inbound_check_if_spam' , false ,  $form_post_data ) ) {
-                    self::send_conversion_admin_notification($form_post_data , $form_meta_data);
-                    self::send_conversion_lead_notification($form_post_data , $form_meta_data);
+                if ( !apply_filters( 'inbound_check_if_spam', false,  $form_post_data ) ) {
+                    self::send_conversion_admin_notification($form_post_data, $form_meta_data);
+                    self::send_conversion_lead_notification($form_post_data, $form_meta_data);
 
                     /* hook runs after form actions are completed and before page redirect */
                     do_action('inboundnow_form_submit_actions', $form_post_data, $form_meta_data);
@@ -740,7 +740,7 @@ if (!class_exists('Inbound_Forms')) {
         /**
          *  Sends Notification of New Lead Conversion to Admin & Others Listed on the Form Notification List
          */
-        public static function send_conversion_admin_notification( $form_post_data , $form_meta_data ) {
+        public static function send_conversion_admin_notification( $form_post_data, $form_meta_data ) {
 
             if ( $template = self::get_new_lead_email_template()) {
 
@@ -788,7 +788,7 @@ if (!class_exists('Inbound_Forms')) {
                 $email_default = 'wordpress@' . $domain;
 
                 /* Leave here for now
-                switch( get_option('inbound_forms_enable_akismet' , 'noreply' ) ) {
+                switch( get_option('inbound_forms_enable_akismet', 'noreply' ) ) {
                     case 'noreply':
                         BREAK;
 
@@ -798,19 +798,19 @@ if (!class_exists('Inbound_Forms')) {
                 }
                 */
 
-                $from_email = get_option( 'admin_email' , $email_default );
-                $from_email = apply_filters( 'inbound_admin_notification_from_email' , $from_email );
+                $from_email = get_option( 'admin_email', $email_default );
+                $from_email = apply_filters( 'inbound_admin_notification_from_email', $from_email );
                 $reply_to_email = (isset($reply_to_email)) ? $reply_to_email : $from_email;
                 /* Prepare Additional Data For Token Engine */
                 $form_post_data['redirect_message'] = (isset($form_post_data['inbound_redirect']) && $form_post_data['inbound_redirect'] != "") ? "They were redirected to " . $form_post_data['inbound_redirect'] : '';
 
                 /* Discover From Name */
-                $from_name = get_option( 'blogname' , '' );
+                $from_name = get_option( 'blogname', '' );
                 $from_name = apply_filters( 'inbound_admin_notification_from_name', $from_name  );
 
                 $Inbound_Templating_Engine = Inbound_Templating_Engine();
                 $subject = $Inbound_Templating_Engine->replace_tokens( $subject, array($form_post_data, $form_meta_data));
-                $body = $Inbound_Templating_Engine->replace_tokens( $template['body'] , array($form_post_data, $form_meta_data )	);
+                $body = $Inbound_Templating_Engine->replace_tokens( $template['body'], array($form_post_data, $form_meta_data )	);
 
                 /* Fix broken HTML tags from wp_mail garbage */
                 /* $body = '<tbody> <t body> <tb ody > <tbo dy> <tbod y> < t d class = "test" > < / td > '; */
@@ -829,10 +829,10 @@ if (!class_exists('Inbound_Forms')) {
 
                 $headers = 'From: '. $from_name .' <'. $from_email .'>' . "\r\n";
                 $headers = "Reply-To: ".$reply_to_email . "\r\n";
-                $headers = apply_filters( 'inbound_lead_notification_email_headers' , $headers );
+                $headers = apply_filters( 'inbound_lead_notification_email_headers', $headers );
 
                 foreach ($to_address as $key => $recipient) {
-                    $result = wp_mail( $recipient, $subject, $body, $headers , apply_filters('inbound_lead_notification_attachments' , false)  );
+                    $result = wp_mail( $recipient, $subject, $body, $headers, apply_filters('inbound_lead_notification_attachments', false)  );
                 }
 
             }
@@ -842,7 +842,7 @@ if (!class_exists('Inbound_Forms')) {
         /**
          *  Sends An Email to Lead After Conversion
          */
-        public static function send_conversion_lead_notification( $form_post_data , $form_meta_data ) {
+        public static function send_conversion_lead_notification( $form_post_data, $form_meta_data ) {
 
 
             /* If Notifications Are Off Then Exit */
@@ -851,7 +851,7 @@ if (!class_exists('Inbound_Forms')) {
             }
 
             /* Listen for Inbound Mailer takeover */
-            if (apply_filters('inbound-forms/email-reponse-hijack' , false, $form_meta_data , $form_post_data ) ) {
+            if (apply_filters('inbound-forms/email-reponse-hijack', false, $form_meta_data, $form_post_data ) ) {
                 return;
             }
 
@@ -901,26 +901,26 @@ if (!class_exists('Inbound_Forms')) {
 
 
 
-            $confirm_subject  = apply_filters( 'inbound_email_response/subject' , $confirm_subject , $form_meta_data , $form_post_data );
-            $confirm_email_message  = apply_filters( 'inbound_email_response/body' , $confirm_email_message , $form_meta_data , $form_post_data );
+            $confirm_subject  = apply_filters( 'inbound_email_response/subject', $confirm_subject, $form_meta_data, $form_post_data );
+            $confirm_email_message  = apply_filters( 'inbound_email_response/body', $confirm_email_message, $form_meta_data, $form_post_data );
 
             $confirm_subject = $Inbound_Templating_Engine->replace_tokens( $confirm_subject, array($form_post_data, $form_meta_data ));
 
             /* add default subject if empty */
             if (!$confirm_subject) {
-                $confirm_subject = __( 'Thank you!' , INBOUNDNOW_TEXT_DOMAIN );
+                $confirm_subject = __( 'Thank you!', INBOUNDNOW_TEXT_DOMAIN );
             }
 
-            $confirm_email_message = $Inbound_Templating_Engine->replace_tokens( $confirm_email_message , array( $form_post_data, $form_meta_data )	);
+            $confirm_email_message = $Inbound_Templating_Engine->replace_tokens( $confirm_email_message, array( $form_post_data, $form_meta_data )	);
 
 
-            $from_name = get_option( 'blogname' , '' );
+            $from_name = get_option( 'blogname', '' );
             $from_email = get_option( 'admin_email' );
 
             $headers	= "From: " . $from_name . " <" . $from_email . ">\n";
             $headers .= 'Content-type: text/html';
 
-            wp_mail( $lead_email, $confirm_subject , $confirm_email_message, $headers );
+            wp_mail( $lead_email, $confirm_subject, $confirm_email_message, $headers );
 
         }
 
@@ -959,8 +959,8 @@ if (!class_exists('Inbound_Forms')) {
                             <tbody><tr>
                               <td valign="top" style="font-size:13px;line-height:20px;color:#545454;font-family:Arial,sans-serif;border-radius:0 0 3px 3px;padding-top:3px;padding-right:30px;padding-bottom:15px;padding-left:30px">
 
-                      <h1 style="margin-top:20px;margin-right:0;margin-bottom:20px;margin-left:0; font-size:28px; line-height: 28px; color:#000;"> '. __('New Lead on {{form-name}}' , 'ma' ) .'</h1>
-                      <p style="margin-top:20px;margin-right:0;margin-bottom:20px;margin-left:0">'. __('There is a new lead that just converted on <strong>{{date-time}}</strong> from page: <a href="{{source}}">{{source}}</a> {{redirect-message}}' , 'ma' ) .'</p>
+                      <h1 style="margin-top:20px;margin-right:0;margin-bottom:20px;margin-left:0; font-size:28px; line-height: 28px; color:#000;"> '. __('New Lead on {{form-name}}', 'ma' ) .'</h1>
+                      <p style="margin-top:20px;margin-right:0;margin-bottom:20px;margin-left:0">'. __('There is a new lead that just converted on <strong>{{date-time}}</strong> from page: <a href="{{source}}">{{source}}</a> {{redirect-message}}', 'ma' ) .'</p>
 
                     <!-- NEW TABLE -->
                     <table class="heavyTable" style="width: 100%;
@@ -972,14 +972,14 @@ if (!class_exists('Inbound_Forms')) {
                        <tbody>
                          <tr style="background: #3A9FD1; height: 54px; font-weight: lighter; color: #fff;border: 1px solid #3A9FD1;text-align: left; padding-left: 10px;">
                                  <td  align="left" width="600" style="-webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px; color: #fff; font-weight: bold; text-decoration: none; font-family: Helvetica, Arial, sans-serif; display: block;">
-                                  <h1 style="font-size: 30px; display: inline-block;margin-top: 15px;margin-left: 10px; margin-bottom: 0px; letter-spacing: 0px; word-spacing: 0px; font-weight: 300;">'. __('Lead Information' , 'ma' ) .'</h1>
+                                  <h1 style="font-size: 30px; display: inline-block;margin-top: 15px;margin-left: 10px; margin-bottom: 0px; letter-spacing: 0px; word-spacing: 0px; font-weight: 300;">'. __('Lead Information', 'ma' ) .'</h1>
                                   <div style="float:right; margin-top: 5px; margin-right: 15px;"><!--[if mso]>
                                     <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="{{admin-url}}edit.php?post_type=wp-lead&lead-email-redirect={{lead-email-address}}" style="height:40px;v-text-anchor:middle;width:130px;font-size:18px;" arcsize="10%" stroke="f" fillcolor="#ffffff">
                                       <w:anchorlock/>
                                       <center>
                                     <![endif]-->
                                         <a href="{{admin-url}}edit.php?post_type=wp-lead&lead-email-redirect={{lead-email-address}}"
-                                  style="background-color:#ffffff;border-radius:4px;color:#3A9FD1;display:inline-block;font-family:sans-serif;font-size:18px;font-weight:bold;line-height:40px;text-align:center;text-decoration:none;width:130px;-webkit-text-size-adjust:none;">'. __('View Lead' , 'ma' ) .'</a>
+                                  style="background-color:#ffffff;border-radius:4px;color:#3A9FD1;display:inline-block;font-family:sans-serif;font-size:18px;font-weight:bold;line-height:40px;text-align:center;text-decoration:none;width:130px;-webkit-text-size-adjust:none;">'. __('View Lead', 'ma' ) .'</a>
                                     <!--[if mso]>
                                       </center>
                                     </v:roundrect>
@@ -1004,15 +1004,15 @@ if (!class_exists('Inbound_Forms')) {
                     <tbody valign="top">
                      <tr valign="top" border="0">
                       <td width="160" height="50" align="center" valign="top" border="0">
-                         <h3 style="color:#2e2e2e;font-size:15px;"><a style="text-decoration: none;" href="{{admin-url}}edit.php?post_type=wp-lead&lead-email-redirect={{lead-email-address}}&tab=tabs-wpleads_lead_tab_conversions">'. __( 'View Lead Activity' , 'ma' ) .'</a></h3>
+                         <h3 style="color:#2e2e2e;font-size:15px;"><a style="text-decoration: none;" href="{{admin-url}}edit.php?post_type=wp-lead&lead-email-redirect={{lead-email-address}}&tab=tabs-wpleads_lead_tab_conversions">'. __( 'View Lead Activity', 'ma' ) .'</a></h3>
                       </td>
 
                       <td width="160" height="50" align="center" valign="top" border="0">
-                         <h3 style="color:#2e2e2e;font-size:15px;"><a style="text-decoration: none;" href="{{admin-url}}edit.php?post_type=wp-lead&lead-email-redirect={{lead-email-address}}&scroll-to=wplead_metabox_conversion">'. __( 'Pages Viewed' , 'ma' ) .'</a></h3>
+                         <h3 style="color:#2e2e2e;font-size:15px;"><a style="text-decoration: none;" href="{{admin-url}}edit.php?post_type=wp-lead&lead-email-redirect={{lead-email-address}}&scroll-to=wplead_metabox_conversion">'. __( 'Pages Viewed', 'ma' ) .'</a></h3>
                       </td>
 
                      <td width="160" height="50" align="center" valign="top" border="0">
-                        <h3 style="color:#2e2e2e;font-size:15px;"><a style="text-decoration: none;" href="{{admin-url}}edit.php?post_type=wp-lead&lead-email-redirect={{lead-email-address}}&tab=tabs-wpleads_lead_tab_raw_form_data">'. __( 'View Form Data' , 'ma' ) .'</a></h3>
+                        <h3 style="color:#2e2e2e;font-size:15px;"><a style="text-decoration: none;" href="{{admin-url}}edit.php?post_type=wp-lead&lead-email-redirect={{lead-email-address}}&tab=tabs-wpleads_lead_tab_raw_form_data">'. __( 'View Form Data', 'ma' ) .'</a></h3>
                      </td>
                      </tr>
                     </tbody></table>
@@ -1024,21 +1024,21 @@ if (!class_exists('Inbound_Forms')) {
                              <div><!--[if mso]>
                                <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="{{admin-url}}edit.php?post_type=wp-lead&lead-email-redirect={{lead-email-address}}" style="height:40px;v-text-anchor:middle;width:250px;" arcsize="10%" strokecolor="#7490af" fillcolor="#3A9FD1">
                                  <w:anchorlock/>
-                                 <center style="color:#ffffff;font-family:sans-serif;font-size:13px;font-weight:bold;">'. __( 'View Lead' , 'ma' ) .'</center>
+                                 <center style="color:#ffffff;font-family:sans-serif;font-size:13px;font-weight:bold;">'. __( 'View Lead', 'ma' ) .'</center>
                                </v:roundrect>
                              <![endif]--><a href="{{admin-url}}edit.php?post_type=wp-lead&lead-email-redirect={{lead-email-address}}"
-                             style="background-color:#3A9FD1;border:1px solid #7490af;border-radius:4px;color:#ffffff;display:inline-block;font-family:sans-serif;font-size:18px;font-weight:bold;line-height:40px;text-align:center;text-decoration:none;width:250px;-webkit-text-size-adjust:none;mso-hide:all;" title="'. __( 'View the full Lead details in WordPress' , 'ma' ) .'">'. __( 'View Full Lead Details' ,'ma' ) .'</a>
+                             style="background-color:#3A9FD1;border:1px solid #7490af;border-radius:4px;color:#ffffff;display:inline-block;font-family:sans-serif;font-size:18px;font-weight:bold;line-height:40px;text-align:center;text-decoration:none;width:250px;-webkit-text-size-adjust:none;mso-hide:all;" title="'. __( 'View the full Lead details in WordPress', 'ma' ) .'">'. __( 'View Full Lead Details' ,'ma' ) .'</a>
                            </div>
                           </td>
 
                            <td align="center" width="250" height="30" cellpadding="5">
                              <div><!--[if mso]>
-                               <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="mailto:{{lead-email-address}}?subject=RE:{{form-name}}&body='. __( 'Thanks for filling out our form.' , 'ma' ) .'" style="height:40px;v-text-anchor:middle;width:250px;" arcsize="10%" strokecolor="#558939" fillcolor="#59b329">
+                               <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="mailto:{{lead-email-address}}?subject=RE:{{form-name}}&body='. __( 'Thanks for filling out our form.', 'ma' ) .'" style="height:40px;v-text-anchor:middle;width:250px;" arcsize="10%" strokecolor="#558939" fillcolor="#59b329">
                                  <w:anchorlock/>
                                  <center style="color:#ffffff;font-family:sans-serif;font-size:13px;font-weight:bold;">'. __( 'Reply to Lead Now' ,'ma' ) .'</center>
                                </v:roundrect>
-                             <![endif]--><a href="mailto:{{lead-email-address}}?subject=RE:{{form-name}}&body='. __( 'Thanks for filling out our form on {{current-page-url}}' , 'ma' ).'"
-                             style="background-color:#59b329;border:1px solid #558939;border-radius:4px;color:#ffffff;display:inline-block;font-family:sans-serif;font-size:18px;font-weight:bold;line-height:40px;text-align:center;text-decoration:none;width:250px;-webkit-text-size-adjust:none;mso-hide:all;" title="'. __( 'Email This Lead now' , 'ma' ) .'">'. __( 'Reply to Lead Now' , 'ma' ).'</a></div>
+                             <![endif]--><a href="mailto:{{lead-email-address}}?subject=RE:{{form-name}}&body='. __( 'Thanks for filling out our form on {{current-page-url}}', 'ma' ).'"
+                             style="background-color:#59b329;border:1px solid #558939;border-radius:4px;color:#ffffff;display:inline-block;font-family:sans-serif;font-size:18px;font-weight:bold;line-height:40px;text-align:center;text-decoration:none;width:250px;-webkit-text-size-adjust:none;mso-hide:all;" title="'. __( 'Email This Lead now', 'ma' ) .'">'. __( 'Reply to Lead Now', 'ma' ).'</a></div>
 
                            </td>
                          </tr>
@@ -1067,7 +1067,7 @@ if (!class_exists('Inbound_Forms')) {
                           </td>
                         <td style="color:#272727"><a style="color:#272727;text-decoration:none;" href="http://www.inboundnow.com" target="_blank">
                           '. __( '<b>Leads</b>
-                           from Inbound Now' , 'ma' ) .'</a>
+                           from Inbound Now', 'ma' ) .'</a>
                         </td>
                         <td valign="middle" align="left" style="color:#545454;text-align:right">{{date-time}}</td>
                         <td valign="middle" width="30" style="color:#272727">&nbsp;</td>
@@ -1097,8 +1097,8 @@ if (!class_exists('Inbound_Forms')) {
                     </body>';
 
 
-            $email_template['subject'] = apply_filters( 'inbound_new_lead_notification/subject' , '' );
-            $email_template['body'] = apply_filters( 'inbound_new_lead_notification/body' , $html );
+            $email_template['subject'] = apply_filters( 'inbound_new_lead_notification/subject', '' );
+            $email_template['body'] = apply_filters( 'inbound_new_lead_notification/body', $html );
 
 
             return $email_template;
@@ -1116,18 +1116,18 @@ if (!class_exists('Inbound_Forms')) {
 
                 case 'months':
                     return array(
-                        '01' => __( 'Jan' , INBOUNDNOW_TEXT_DOMAIN ),
-                        '02' => __( 'Feb' , INBOUNDNOW_TEXT_DOMAIN ),
-                        '03' => __( 'Mar' , INBOUNDNOW_TEXT_DOMAIN ),
-                        '04' => __( 'Apr' , INBOUNDNOW_TEXT_DOMAIN ),
-                        '05' => __( 'May' , INBOUNDNOW_TEXT_DOMAIN ),
-                        '06' => __( 'Jun' , INBOUNDNOW_TEXT_DOMAIN ),
-                        '07' => __( 'Jul' , INBOUNDNOW_TEXT_DOMAIN ),
-                        '08' => __( 'Aug' , INBOUNDNOW_TEXT_DOMAIN ),
-                        '09' => __( 'Sep' , INBOUNDNOW_TEXT_DOMAIN ),
-                        '10' => __( 'Oct' , INBOUNDNOW_TEXT_DOMAIN ),
-                        '11' => __( 'Nov' , INBOUNDNOW_TEXT_DOMAIN ),
-                        '12' => __( 'Dec' , INBOUNDNOW_TEXT_DOMAIN )
+                        '01' => __( 'Jan', INBOUNDNOW_TEXT_DOMAIN ),
+                        '02' => __( 'Feb', INBOUNDNOW_TEXT_DOMAIN ),
+                        '03' => __( 'Mar', INBOUNDNOW_TEXT_DOMAIN ),
+                        '04' => __( 'Apr', INBOUNDNOW_TEXT_DOMAIN ),
+                        '05' => __( 'May', INBOUNDNOW_TEXT_DOMAIN ),
+                        '06' => __( 'Jun', INBOUNDNOW_TEXT_DOMAIN ),
+                        '07' => __( 'Jul', INBOUNDNOW_TEXT_DOMAIN ),
+                        '08' => __( 'Aug', INBOUNDNOW_TEXT_DOMAIN ),
+                        '09' => __( 'Sep', INBOUNDNOW_TEXT_DOMAIN ),
+                        '10' => __( 'Oct', INBOUNDNOW_TEXT_DOMAIN ),
+                        '11' => __( 'Nov', INBOUNDNOW_TEXT_DOMAIN ),
+                        '12' => __( 'Dec', INBOUNDNOW_TEXT_DOMAIN )
                     );
                     break;
                 case 'days' :
@@ -1157,255 +1157,255 @@ if (!class_exists('Inbound_Forms')) {
          */
         public static function get_countries_array() {
             return array (
-                __( 'AF' , 'leads') => __( 'Afghanistan' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'AX' , 'leads') => __( 'Aland Islands' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'AL' , 'leads') => __( 'Albania' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'DZ' , 'leads') => __( 'Algeria' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'AS' , 'leads') => __( 'American Samoa' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'AD' , 'leads') => __( 'Andorra' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'AO' , 'leads') => __( 'Angola' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'AI' , 'leads') => __( 'Anguilla' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'AQ' , 'leads') => __( 'Antarctica' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'AG' , 'leads') => __( 'Antigua and Barbuda' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'AR' , 'leads') => __( 'Argentina' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'AM' , 'leads') => __( 'Armenia' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'AW' , 'leads') => __( 'Aruba' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'AU' , 'leads') => __( 'Australia' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'AT' , 'leads') => __( 'Austria' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'AZ' , 'leads') => __( 'Azerbaijan' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'BS' , 'leads') => __( 'Bahamas' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'BH' , 'leads') => __( 'Bahrain' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'BD' , 'leads') => __( 'Bangladesh' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'BB' , 'leads') => __( 'Barbados' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'BY' , 'leads') => __( 'Belarus' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'BE' , 'leads') => __( 'Belgium' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'BZ' , 'leads') => __( 'Belize' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'BJ' , 'leads') => __( 'Benin' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'BM' , 'leads') => __( 'Bermuda' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'BT' , 'leads') => __( 'Bhutan' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'BO' , 'leads') => __( 'Bolivia' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'BA' , 'leads') => __( 'Bosnia and Herzegovina' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'BW' , 'leads') => __( 'Botswana' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'BV' , 'leads') => __( 'Bouvet Island' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'BR' , 'leads') => __( 'Brazil' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'IO' , 'leads') => __( 'British Indian Ocean Territory' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'BN' , 'leads') => __( 'Brunei Darussalam' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'BG' , 'leads') => __( 'Bulgaria' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'BF' , 'leads') => __( 'Burkina Faso' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'BI' , 'leads') => __( 'Burundi' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'KH' , 'leads') => __( 'Cambodia' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'CM' , 'leads') => __( 'Cameroon' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'CA' , 'leads') => __( 'Canada' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'CV' , 'leads') => __( 'Cape Verde' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'BQ' , 'leads') => __( 'Caribbean Netherlands ' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'KY' , 'leads') => __( 'Cayman Islands' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'CF' , 'leads') => __( 'Central African Republic' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'TD' , 'leads') => __( 'Chad' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'CL' , 'leads') => __( 'Chile' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'CN' , 'leads') => __( 'China' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'CX' , 'leads') => __( 'Christmas Island' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'CC' , 'leads') => __( 'Cocos (Keeling) Islands' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'CO' , 'leads') => __( 'Colombia' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'KM' , 'leads') => __( 'Comoros' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'CG' , 'leads') => __( 'Congo' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'CD' , 'leads') => __( 'Congo, Democratic Republic of' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'CK' , 'leads') => __( 'Cook Islands' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'CR' , 'leads') => __( 'Costa Rica' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'CI' , 'leads') => __( 'Cote d\'Ivoire' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'HR' , 'leads') => __( 'Croatia' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'CU' , 'leads') => __( 'Cuba' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'CW' , 'leads') => __( 'Curacao' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'CY' , 'leads') => __( 'Cyprus' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'CZ' , 'leads') => __( 'Czech Republic' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'DK' , 'leads') => __( 'Denmark' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'DJ' , 'leads') => __( 'Djibouti' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'DM' , 'leads') => __( 'Dominica' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'DO' , 'leads') => __( 'Dominican Republic' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'EC' , 'leads') => __( 'Ecuador' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'EG' , 'leads') => __( 'Egypt' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'SV' , 'leads') => __( 'El Salvador' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'GQ' , 'leads') => __( 'Equatorial Guinea' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'ER' , 'leads') => __( 'Eritrea' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'EE' , 'leads') => __( 'Estonia' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'ET' , 'leads') => __( 'Ethiopia' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'FK' , 'leads') => __( 'Falkland Islands' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'FO' , 'leads') => __( 'Faroe Islands' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'FJ' , 'leads') => __( 'Fiji' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'FI' , 'leads') => __( 'Finland' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'FR' , 'leads') => __( 'France' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'GF' , 'leads') => __( 'French Guiana' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'PF' , 'leads') => __( 'French Polynesia' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'TF' , 'leads') => __( 'French Southern Territories' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'GA' , 'leads') => __( 'Gabon' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'GM' , 'leads') => __( 'Gambia' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'GE' , 'leads') => __( 'Georgia' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'DE' , 'leads') => __( 'Germany' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'GH' , 'leads') => __( 'Ghana' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'GI' , 'leads') => __( 'Gibraltar' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'GR' , 'leads') => __( 'Greece' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'GL' , 'leads') => __( 'Greenland' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'GD' , 'leads') => __( 'Grenada' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'GP' , 'leads') => __( 'Guadeloupe' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'GU' , 'leads') => __( 'Guam' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'GT' , 'leads') => __( 'Guatemala' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'GG' , 'leads') => __( 'Guernsey' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'GN' , 'leads') => __( 'Guinea' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'GW' , 'leads') => __( 'Guinea-Bissau' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'GY' , 'leads') => __( 'Guyana' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'HT' , 'leads') => __( 'Haiti' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'HM' , 'leads') => __( 'Heard and McDonald Islands' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'HN' , 'leads') => __( 'Honduras' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'HK' , 'leads') => __( 'Hong Kong' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'HU' , 'leads') => __( 'Hungary' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'IS' , 'leads') => __( 'Iceland' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'IN' , 'leads') => __( 'India' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'ID' , 'leads') => __( 'Indonesia' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'IR' , 'leads') => __( 'Iran' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'IQ' , 'leads') => __( 'Iraq' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'IE' , 'leads') => __( 'Ireland' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'IM' , 'leads') => __( 'Isle of Man' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'IL' , 'leads') => __( 'Israel' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'IT' , 'leads') => __( 'Italy' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'JM' , 'leads') => __( 'Jamaica' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'JP' , 'leads') => __( 'Japan' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'JE' , 'leads') => __( 'Jersey' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'JO' , 'leads') => __( 'Jordan' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'KZ' , 'leads') => __( 'Kazakhstan' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'KE' , 'leads') => __( 'Kenya' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'KI' , 'leads') => __( 'Kiribati' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'KW' , 'leads') => __( 'Kuwait' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'KG' , 'leads') => __( 'Kyrgyzstan' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'LA' , 'leads') => __( 'Lao People\'s Democratic Republic' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'LV' , 'leads') => __( 'Latvia' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'LB' , 'leads') => __( 'Lebanon' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'LS' , 'leads') => __( 'Lesotho' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'LR' , 'leads') => __( 'Liberia' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'LY' , 'leads') => __( 'Libya' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'LI' , 'leads') => __( 'Liechtenstein' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'LT' , 'leads') => __( 'Lithuania' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'LU' , 'leads') => __( 'Luxembourg' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'MO' , 'leads') => __( 'Macau' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'MK' , 'leads') => __( 'Macedonia' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'MG' , 'leads') => __( 'Madagascar' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'MW' , 'leads') => __( 'Malawi' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'MY' , 'leads') => __( 'Malaysia' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'MV' , 'leads') => __( 'Maldives' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'ML' , 'leads') => __( 'Mali' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'MT' , 'leads') => __( 'Malta' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'MH' , 'leads') => __( 'Marshall Islands' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'MQ' , 'leads') => __( 'Martinique' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'MR' , 'leads') => __( 'Mauritania' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'MU' , 'leads') => __( 'Mauritius' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'YT' , 'leads') => __( 'Mayotte' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'MX' , 'leads') => __( 'Mexico' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'FM' , 'leads') => __( 'Micronesia, Federated States of' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'MD' , 'leads') => __( 'Moldova' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'MC' , 'leads') => __( 'Monaco' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'MN' , 'leads') => __( 'Mongolia' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'ME' , 'leads') => __( 'Montenegro' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'MS' , 'leads') => __( 'Montserrat' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'MA' , 'leads') => __( 'Morocco' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'MZ' , 'leads') => __( 'Mozambique' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'MM' , 'leads') => __( 'Myanmar' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'NA' , 'leads') => __( 'Namibia' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'NR' , 'leads') => __( 'Nauru' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'NP' , 'leads') => __( 'Nepal' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'NC' , 'leads') => __( 'New Caledonia' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'NZ' , 'leads') => __( 'New Zealand' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'NI' , 'leads') => __( 'Nicaragua' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'NE' , 'leads') => __( 'Niger' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'NG' , 'leads') => __( 'Nigeria' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'NU' , 'leads') => __( 'Niue' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'NF' , 'leads') => __( 'Norfolk Island' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'KP' , 'leads') => __( 'North Korea' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'MP' , 'leads') => __( 'Northern Mariana Islands' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'NO' , 'leads') => __( 'Norway' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'OM' , 'leads') => __( 'Oman' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'PK' , 'leads') => __( 'Pakistan' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'PW' , 'leads') => __( 'Palau' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'PS' , 'leads') => __( 'Palestinian Territory, Occupied' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'PA' , 'leads') => __( 'Panama' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'PG' , 'leads') => __( 'Papua New Guinea' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'PY' , 'leads') => __( 'Paraguay' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'PE' , 'leads') => __( 'Peru' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'PH' , 'leads') => __( 'Philippines' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'PN' , 'leads') => __( 'Pitcairn' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'PL' , 'leads') => __( 'Poland' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'PT' , 'leads') => __( 'Portugal' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'PR' , 'leads') => __( 'Puerto Rico' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'QA' , 'leads') => __( 'Qatar' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'RE' , 'leads') => __( 'Reunion' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'RO' , 'leads') => __( 'Romania' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'RU' , 'leads') => __( 'Russian Federation' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'RW' , 'leads') => __( 'Rwanda' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'BL' , 'leads') => __( 'Saint Barthelemy' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'SH' , 'leads') => __( 'Saint Helena' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'KN' , 'leads') => __( 'Saint Kitts and Nevis' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'LC' , 'leads') => __( 'Saint Lucia' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'VC' , 'leads') => __( 'Saint Vincent and the Grenadines' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'MF' , 'leads') => __( 'Saint-Martin (France)' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'SX' , 'leads') => __( 'Saint-Martin (Pays-Bas)' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'WS' , 'leads') => __( 'Samoa' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'SM' , 'leads') => __( 'San Marino' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'ST' , 'leads') => __( 'Sao Tome and Principe' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'SA' , 'leads') => __( 'Saudi Arabia' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'SN' , 'leads') => __( 'Senegal' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'RS' , 'leads') => __( 'Serbia' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'SC' , 'leads') => __( 'Seychelles' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'SL' , 'leads') => __( 'Sierra Leone' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'SG' , 'leads') => __( 'Singapore' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'SK' , 'leads') => __( 'Slovakia (Slovak Republic)' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'SI' , 'leads') => __( 'Slovenia' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'SB' , 'leads') => __( 'Solomon Islands' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'SO' , 'leads') => __( 'Somalia' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'ZA' , 'leads') => __( 'South Africa' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'GS' , 'leads') => __( 'South Georgia and the South Sandwich Islands' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'KR' , 'leads') => __( 'South Korea' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'SS' , 'leads') => __( 'South Sudan' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'ES' , 'leads') => __( 'Spain' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'LK' , 'leads') => __( 'Sri Lanka' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'PM' , 'leads') => __( 'St. Pierre and Miquelon' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'SD' , 'leads') => __( 'Sudan' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'SR' , 'leads') => __( 'Suriname' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'SJ' , 'leads') => __( 'Svalbard and Jan Mayen Islands' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'SZ' , 'leads') => __( 'Swaziland' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'SE' , 'leads') => __( 'Sweden' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'CH' , 'leads') => __( 'Switzerland' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'SY' , 'leads') => __( 'Syria' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'TW' , 'leads') => __( 'Taiwan' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'TJ' , 'leads') => __( 'Tajikistan' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'TZ' , 'leads') => __( 'Tanzania' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'TH' , 'leads') => __( 'Thailand' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'NL' , 'leads') => __( 'The Netherlands' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'TL' , 'leads') => __( 'Timor-Leste' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'TG' , 'leads') => __( 'Togo' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'TK' , 'leads') => __( 'Tokelau' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'TO' , 'leads') => __( 'Tonga' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'TT' , 'leads') => __( 'Trinidad and Tobago' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'TN' , 'leads') => __( 'Tunisia' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'TR' , 'leads') => __( 'Turkey' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'TM' , 'leads') => __( 'Turkmenistan' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'TC' , 'leads') => __( 'Turks and Caicos Islands' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'TV' , 'leads') => __( 'Tuvalu' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'UG' , 'leads') => __( 'Uganda' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'UA' , 'leads') => __( 'Ukraine' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'AE' , 'leads') => __( 'United Arab Emirates' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'GB' , 'leads') => __( 'United Kingdom' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'US' , 'leads') => __( 'United States' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'UM' , 'leads') => __( 'United States Minor Outlying Islands' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'UY' , 'leads') => __( 'Uruguay' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'UZ' , 'leads') => __( 'Uzbekistan' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'VU' , 'leads') => __( 'Vanuatu' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'VA' , 'leads') => __( 'Vatican' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'VE' , 'leads') => __( 'Venezuela' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'VN' , 'leads') => __( 'Vietnam' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'VG' , 'leads') => __( 'Virgin Islands (British)' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'VI' , 'leads') => __( 'Virgin Islands (U.S.)' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'WF' , 'leads') => __( 'Wallis and Futuna Islands' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'EH' , 'leads') => __( 'Western Sahara' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'YE' , 'leads') => __( 'Yemen' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'ZM' , 'leads') => __( 'Zambia' , INBOUNDNOW_TEXT_DOMAIN ) ,
-                __( 'ZW' , 'leads') => __( 'Zimbabwe' , INBOUNDNOW_TEXT_DOMAIN )
+                __( 'AF', 'leads') => __( 'Afghanistan', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'AX', 'leads') => __( 'Aland Islands', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'AL', 'leads') => __( 'Albania', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'DZ', 'leads') => __( 'Algeria', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'AS', 'leads') => __( 'American Samoa', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'AD', 'leads') => __( 'Andorra', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'AO', 'leads') => __( 'Angola', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'AI', 'leads') => __( 'Anguilla', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'AQ', 'leads') => __( 'Antarctica', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'AG', 'leads') => __( 'Antigua and Barbuda', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'AR', 'leads') => __( 'Argentina', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'AM', 'leads') => __( 'Armenia', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'AW', 'leads') => __( 'Aruba', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'AU', 'leads') => __( 'Australia', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'AT', 'leads') => __( 'Austria', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'AZ', 'leads') => __( 'Azerbaijan', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'BS', 'leads') => __( 'Bahamas', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'BH', 'leads') => __( 'Bahrain', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'BD', 'leads') => __( 'Bangladesh', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'BB', 'leads') => __( 'Barbados', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'BY', 'leads') => __( 'Belarus', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'BE', 'leads') => __( 'Belgium', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'BZ', 'leads') => __( 'Belize', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'BJ', 'leads') => __( 'Benin', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'BM', 'leads') => __( 'Bermuda', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'BT', 'leads') => __( 'Bhutan', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'BO', 'leads') => __( 'Bolivia', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'BA', 'leads') => __( 'Bosnia and Herzegovina', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'BW', 'leads') => __( 'Botswana', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'BV', 'leads') => __( 'Bouvet Island', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'BR', 'leads') => __( 'Brazil', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'IO', 'leads') => __( 'British Indian Ocean Territory', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'BN', 'leads') => __( 'Brunei Darussalam', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'BG', 'leads') => __( 'Bulgaria', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'BF', 'leads') => __( 'Burkina Faso', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'BI', 'leads') => __( 'Burundi', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'KH', 'leads') => __( 'Cambodia', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'CM', 'leads') => __( 'Cameroon', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'CA', 'leads') => __( 'Canada', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'CV', 'leads') => __( 'Cape Verde', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'BQ', 'leads') => __( 'Caribbean Netherlands ', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'KY', 'leads') => __( 'Cayman Islands', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'CF', 'leads') => __( 'Central African Republic', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'TD', 'leads') => __( 'Chad', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'CL', 'leads') => __( 'Chile', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'CN', 'leads') => __( 'China', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'CX', 'leads') => __( 'Christmas Island', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'CC', 'leads') => __( 'Cocos (Keeling) Islands', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'CO', 'leads') => __( 'Colombia', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'KM', 'leads') => __( 'Comoros', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'CG', 'leads') => __( 'Congo', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'CD', 'leads') => __( 'Congo, Democratic Republic of', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'CK', 'leads') => __( 'Cook Islands', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'CR', 'leads') => __( 'Costa Rica', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'CI', 'leads') => __( 'Cote d\'Ivoire', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'HR', 'leads') => __( 'Croatia', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'CU', 'leads') => __( 'Cuba', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'CW', 'leads') => __( 'Curacao', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'CY', 'leads') => __( 'Cyprus', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'CZ', 'leads') => __( 'Czech Republic', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'DK', 'leads') => __( 'Denmark', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'DJ', 'leads') => __( 'Djibouti', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'DM', 'leads') => __( 'Dominica', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'DO', 'leads') => __( 'Dominican Republic', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'EC', 'leads') => __( 'Ecuador', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'EG', 'leads') => __( 'Egypt', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'SV', 'leads') => __( 'El Salvador', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'GQ', 'leads') => __( 'Equatorial Guinea', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'ER', 'leads') => __( 'Eritrea', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'EE', 'leads') => __( 'Estonia', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'ET', 'leads') => __( 'Ethiopia', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'FK', 'leads') => __( 'Falkland Islands', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'FO', 'leads') => __( 'Faroe Islands', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'FJ', 'leads') => __( 'Fiji', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'FI', 'leads') => __( 'Finland', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'FR', 'leads') => __( 'France', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'GF', 'leads') => __( 'French Guiana', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'PF', 'leads') => __( 'French Polynesia', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'TF', 'leads') => __( 'French Southern Territories', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'GA', 'leads') => __( 'Gabon', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'GM', 'leads') => __( 'Gambia', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'GE', 'leads') => __( 'Georgia', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'DE', 'leads') => __( 'Germany', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'GH', 'leads') => __( 'Ghana', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'GI', 'leads') => __( 'Gibraltar', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'GR', 'leads') => __( 'Greece', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'GL', 'leads') => __( 'Greenland', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'GD', 'leads') => __( 'Grenada', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'GP', 'leads') => __( 'Guadeloupe', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'GU', 'leads') => __( 'Guam', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'GT', 'leads') => __( 'Guatemala', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'GG', 'leads') => __( 'Guernsey', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'GN', 'leads') => __( 'Guinea', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'GW', 'leads') => __( 'Guinea-Bissau', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'GY', 'leads') => __( 'Guyana', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'HT', 'leads') => __( 'Haiti', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'HM', 'leads') => __( 'Heard and McDonald Islands', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'HN', 'leads') => __( 'Honduras', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'HK', 'leads') => __( 'Hong Kong', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'HU', 'leads') => __( 'Hungary', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'IS', 'leads') => __( 'Iceland', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'IN', 'leads') => __( 'India', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'ID', 'leads') => __( 'Indonesia', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'IR', 'leads') => __( 'Iran', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'IQ', 'leads') => __( 'Iraq', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'IE', 'leads') => __( 'Ireland', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'IM', 'leads') => __( 'Isle of Man', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'IL', 'leads') => __( 'Israel', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'IT', 'leads') => __( 'Italy', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'JM', 'leads') => __( 'Jamaica', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'JP', 'leads') => __( 'Japan', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'JE', 'leads') => __( 'Jersey', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'JO', 'leads') => __( 'Jordan', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'KZ', 'leads') => __( 'Kazakhstan', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'KE', 'leads') => __( 'Kenya', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'KI', 'leads') => __( 'Kiribati', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'KW', 'leads') => __( 'Kuwait', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'KG', 'leads') => __( 'Kyrgyzstan', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'LA', 'leads') => __( 'Lao People\'s Democratic Republic', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'LV', 'leads') => __( 'Latvia', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'LB', 'leads') => __( 'Lebanon', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'LS', 'leads') => __( 'Lesotho', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'LR', 'leads') => __( 'Liberia', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'LY', 'leads') => __( 'Libya', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'LI', 'leads') => __( 'Liechtenstein', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'LT', 'leads') => __( 'Lithuania', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'LU', 'leads') => __( 'Luxembourg', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'MO', 'leads') => __( 'Macau', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'MK', 'leads') => __( 'Macedonia', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'MG', 'leads') => __( 'Madagascar', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'MW', 'leads') => __( 'Malawi', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'MY', 'leads') => __( 'Malaysia', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'MV', 'leads') => __( 'Maldives', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'ML', 'leads') => __( 'Mali', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'MT', 'leads') => __( 'Malta', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'MH', 'leads') => __( 'Marshall Islands', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'MQ', 'leads') => __( 'Martinique', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'MR', 'leads') => __( 'Mauritania', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'MU', 'leads') => __( 'Mauritius', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'YT', 'leads') => __( 'Mayotte', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'MX', 'leads') => __( 'Mexico', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'FM', 'leads') => __( 'Micronesia, Federated States of', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'MD', 'leads') => __( 'Moldova', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'MC', 'leads') => __( 'Monaco', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'MN', 'leads') => __( 'Mongolia', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'ME', 'leads') => __( 'Montenegro', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'MS', 'leads') => __( 'Montserrat', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'MA', 'leads') => __( 'Morocco', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'MZ', 'leads') => __( 'Mozambique', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'MM', 'leads') => __( 'Myanmar', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'NA', 'leads') => __( 'Namibia', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'NR', 'leads') => __( 'Nauru', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'NP', 'leads') => __( 'Nepal', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'NC', 'leads') => __( 'New Caledonia', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'NZ', 'leads') => __( 'New Zealand', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'NI', 'leads') => __( 'Nicaragua', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'NE', 'leads') => __( 'Niger', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'NG', 'leads') => __( 'Nigeria', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'NU', 'leads') => __( 'Niue', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'NF', 'leads') => __( 'Norfolk Island', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'KP', 'leads') => __( 'North Korea', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'MP', 'leads') => __( 'Northern Mariana Islands', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'NO', 'leads') => __( 'Norway', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'OM', 'leads') => __( 'Oman', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'PK', 'leads') => __( 'Pakistan', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'PW', 'leads') => __( 'Palau', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'PS', 'leads') => __( 'Palestinian Territory, Occupied', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'PA', 'leads') => __( 'Panama', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'PG', 'leads') => __( 'Papua New Guinea', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'PY', 'leads') => __( 'Paraguay', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'PE', 'leads') => __( 'Peru', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'PH', 'leads') => __( 'Philippines', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'PN', 'leads') => __( 'Pitcairn', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'PL', 'leads') => __( 'Poland', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'PT', 'leads') => __( 'Portugal', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'PR', 'leads') => __( 'Puerto Rico', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'QA', 'leads') => __( 'Qatar', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'RE', 'leads') => __( 'Reunion', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'RO', 'leads') => __( 'Romania', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'RU', 'leads') => __( 'Russian Federation', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'RW', 'leads') => __( 'Rwanda', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'BL', 'leads') => __( 'Saint Barthelemy', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'SH', 'leads') => __( 'Saint Helena', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'KN', 'leads') => __( 'Saint Kitts and Nevis', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'LC', 'leads') => __( 'Saint Lucia', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'VC', 'leads') => __( 'Saint Vincent and the Grenadines', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'MF', 'leads') => __( 'Saint-Martin (France)', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'SX', 'leads') => __( 'Saint-Martin (Pays-Bas)', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'WS', 'leads') => __( 'Samoa', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'SM', 'leads') => __( 'San Marino', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'ST', 'leads') => __( 'Sao Tome and Principe', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'SA', 'leads') => __( 'Saudi Arabia', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'SN', 'leads') => __( 'Senegal', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'RS', 'leads') => __( 'Serbia', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'SC', 'leads') => __( 'Seychelles', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'SL', 'leads') => __( 'Sierra Leone', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'SG', 'leads') => __( 'Singapore', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'SK', 'leads') => __( 'Slovakia (Slovak Republic)', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'SI', 'leads') => __( 'Slovenia', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'SB', 'leads') => __( 'Solomon Islands', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'SO', 'leads') => __( 'Somalia', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'ZA', 'leads') => __( 'South Africa', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'GS', 'leads') => __( 'South Georgia and the South Sandwich Islands', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'KR', 'leads') => __( 'South Korea', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'SS', 'leads') => __( 'South Sudan', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'ES', 'leads') => __( 'Spain', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'LK', 'leads') => __( 'Sri Lanka', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'PM', 'leads') => __( 'St. Pierre and Miquelon', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'SD', 'leads') => __( 'Sudan', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'SR', 'leads') => __( 'Suriname', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'SJ', 'leads') => __( 'Svalbard and Jan Mayen Islands', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'SZ', 'leads') => __( 'Swaziland', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'SE', 'leads') => __( 'Sweden', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'CH', 'leads') => __( 'Switzerland', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'SY', 'leads') => __( 'Syria', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'TW', 'leads') => __( 'Taiwan', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'TJ', 'leads') => __( 'Tajikistan', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'TZ', 'leads') => __( 'Tanzania', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'TH', 'leads') => __( 'Thailand', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'NL', 'leads') => __( 'The Netherlands', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'TL', 'leads') => __( 'Timor-Leste', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'TG', 'leads') => __( 'Togo', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'TK', 'leads') => __( 'Tokelau', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'TO', 'leads') => __( 'Tonga', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'TT', 'leads') => __( 'Trinidad and Tobago', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'TN', 'leads') => __( 'Tunisia', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'TR', 'leads') => __( 'Turkey', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'TM', 'leads') => __( 'Turkmenistan', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'TC', 'leads') => __( 'Turks and Caicos Islands', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'TV', 'leads') => __( 'Tuvalu', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'UG', 'leads') => __( 'Uganda', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'UA', 'leads') => __( 'Ukraine', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'AE', 'leads') => __( 'United Arab Emirates', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'GB', 'leads') => __( 'United Kingdom', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'US', 'leads') => __( 'United States', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'UM', 'leads') => __( 'United States Minor Outlying Islands', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'UY', 'leads') => __( 'Uruguay', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'UZ', 'leads') => __( 'Uzbekistan', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'VU', 'leads') => __( 'Vanuatu', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'VA', 'leads') => __( 'Vatican', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'VE', 'leads') => __( 'Venezuela', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'VN', 'leads') => __( 'Vietnam', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'VG', 'leads') => __( 'Virgin Islands (British)', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'VI', 'leads') => __( 'Virgin Islands (U.S.)', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'WF', 'leads') => __( 'Wallis and Futuna Islands', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'EH', 'leads') => __( 'Western Sahara', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'YE', 'leads') => __( 'Yemen', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'ZM', 'leads') => __( 'Zambia', INBOUNDNOW_TEXT_DOMAIN ) ,
+                __( 'ZW', 'leads') => __( 'Zimbabwe', INBOUNDNOW_TEXT_DOMAIN )
             );
         }
 

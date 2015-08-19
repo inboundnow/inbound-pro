@@ -8,10 +8,10 @@
  * @since       2.0
  */
 
-// Exit if accessed directly
+/* Exit if accessed directly */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-// Load WP_List_Table if not loaded
+/* Load WP_List_Table if not loaded */
 if ( ! class_exists( 'WP_List_Table' ) ) {
 	require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
 }
@@ -44,11 +44,11 @@ if (!class_exists('Inbound_API_Keys_Table')) {
 		public function __construct() {
 			global $status, $page;
 
-			// Set parent defaults
+			/* Set parent defaults */
 			parent::__construct( array(
-				'singular'  => __( 'API Key', INBOUNDNOW_TEXT_DOMAIN ),     // Singular name of the listed records
-				'plural'    => __( 'API Keys', INBOUNDNOW_TEXT_DOMAIN ),    // Plural name of the listed records
-				'ajax'      => false                       // Does this table support ajax?
+				'singular'  => __( 'API Key', INBOUNDNOW_TEXT_DOMAIN ),     /* Singular name of the listed records */
+				'plural'    => __( 'API Keys', INBOUNDNOW_TEXT_DOMAIN ),    /* Plural name of the listed records */
+				'ajax'      => false                       /* Does this table support ajax? */
 			) );
 
 			$this->inline_js();
@@ -70,12 +70,12 @@ if (!class_exists('Inbound_API_Keys_Table')) {
 
 				revoke_api_key : function() {
 					jQuery( 'body' ).on( 'click', '.inbound-revoke-api-keys', function( e ) {
-						return confirm( '<?php _e('Are you sure you want to revoke permissions for this API Key?' , INBOUNDNOW_TEXT_DOMAIN ); ?> ');
+						return confirm( '<?php _e('Are you sure you want to revoke permissions for this API Key?', INBOUNDNOW_TEXT_DOMAIN ); ?> ');
 					} );
 				},
 				regenerate_api_key : function() {
 					jQuery( 'body' ).on( 'click', '.inbound-regenerate-api-keys', function( e ) {
-						return confirm( '<?php _e('Are you sure you want to regenerate API Keys for this user?' , INBOUNDNOW_TEXT_DOMAIN ); ?>  ');
+						return confirm( '<?php _e('Are you sure you want to regenerate API Keys for this user?', INBOUNDNOW_TEXT_DOMAIN ); ?>  ');
 					} );
 				},
 			};
@@ -159,7 +159,7 @@ if (!class_exists('Inbound_API_Keys_Table')) {
 		 * @return void
 		 */
 		public function bulk_actions( $which = '' ) {
-			// These aren't really bulk actions but this outputs the markup in the right place
+			/* These aren't really bulk actions but this outputs the markup in the right place */
 			static $inbound_api_is_bottom;
 
 			if( $inbound_api_is_bottom ) {
@@ -171,9 +171,9 @@ if (!class_exists('Inbound_API_Keys_Table')) {
 			?>
 			<form method="post" action="<?php echo admin_url( 'edit.php?post_type=wp-lead&page=wpleads_global_settings&tab=tabs-wpleads-apikeys' ); ?>">
 				<input type="hidden" name="inbound_action" value="generate-api-keys" />
-				<input type='text' name="user_id" placeholder="<?php _e( 'Enter User ID' , INBOUNDNOW_TEXT_DOMAIN ); ?>" title="Your Current ID is <?php echo $user->ID; ?> ">
+				<input type='text' name="user_id" placeholder="<?php _e( 'Enter User ID', INBOUNDNOW_TEXT_DOMAIN ); ?>" title="Your Current ID is <?php echo $user->ID; ?> ">
 				<?php submit_button( __( 'Generate New API Keys', INBOUNDNOW_TEXT_DOMAIN ), 'secondary', 'submit', false ); ?>
-				&nbsp;<a class='button button-primary' href='http://docs.inboundnow.com/guide/lead-api-documentation-v1/' target='_blank'><?php _e('View Documentation' , 'leads'); ?></a>
+				&nbsp;<a class='button button-primary' href='http://docs.inboundnow.com/guide/lead-api-documentation-v1/' target='_blank'><?php _e('View Documentation', 'leads'); ?></a>
 			</form>
 			<?php
 			$inbound_api_is_bottom = true;
@@ -249,8 +249,8 @@ if (!class_exists('Inbound_API_Keys_Table')) {
 		public function prepare_items() {
 			$columns = $this->get_columns();
 
-			$hidden = array(); // No hidden columns
-			$sortable = array(); // Not sortable... for now
+			$hidden = array(); /* No hidden columns */
+			$sortable = array(); /* Not sortable... for now */
 
 			$this->_column_headers = array( $columns, $hidden, $sortable );
 

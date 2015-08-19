@@ -238,39 +238,6 @@ class Inbound_Shortcodes {
 
 		return $button;
 	}
- /*
-	static function inbound_shortcode_prompt($hook) {
-
-		global $pagenow, $current_user, $post;
-		$user_id = $current_user->ID;
-
-		if ( ! get_user_meta($user_id, 'inbound_shortcode_ignore') && ( $pagenow == 'post-new.php' || $pagenow == 'post.php' ) ) {
-			$url = $_SERVER['REQUEST_URI'];
-			echo '<div class="updated inbound-shortcode-trigger" style="position:relative;">
-			<a style="position: absolute; font-size: 13px; top: 0px; right: 30px; color:red;" href="'.$url.'&inbound_shortcode_ignore=0">
-			Sounds good! Dismiss this
-			</a>
-			Looks like you haven\'t clicked the <img style="vertical-align: bottom;" src="'.INBOUNDNOW_SHARED_URLPATH . 'assets/' ..'images/global/shortcodes-blue.png"> button <span style="background:yellow">(highlighted in yellow)</span> in the content editor below. There are some great shortcodes for you to use!
-			</div>';
-			echo "<style type='text/css'>.mce_Inbound_ShortcodesButton { background-color: yellow; }</style>";
-
-		}
-	}
-
-	static function inbound_shortcode_prompt_ignore() {
-		global $pagenow, $current_user, $post;
-			$user_id = $current_user->ID;
-			if (( $pagenow == 'post-new.php' || $pagenow == 'post.php' )) {
-			if ( isset($_GET['inbound_shortcode_ignore']) && '0' == $_GET['inbound_shortcode_ignore'] ) {
-				add_user_meta($user_id, 'inbound_shortcode_ignore', 'true', true);
-			}
-			}
-	}
-
-	static function inbound_shortcode_prompt_ajax() {
-		$user_id = (isset($_POST['user_id'])) ? $_POST['user_id'] : 1;
-		add_user_meta($user_id, 'inbound_shortcode_ignore', 'true', true);
-	} */
 
 	static function inbound_shortcode_social_links( $atts, $content = null ) {
 		$final_path = INBOUND_FORMS;
