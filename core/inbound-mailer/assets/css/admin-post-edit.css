@@ -1,9 +1,9 @@
 
-	
+
 .mail-send-settings-container {
 	background: #268bd2 !important;
 	color:#fff;
-}	
+}
 
 .mail-send-settings-container  h4, .mail-send-settings-container .inbound_email_tooltip {
 	color:#fff !important;
@@ -39,7 +39,7 @@
 }
 
 .variations-menu a {
-	text-decoration:none;	
+	text-decoration:none;
 }
 
 /*
@@ -58,15 +58,15 @@
 
  .bs-callout {
 	background-color:#fff;
- } 
- 
+ }
+
  .template-settings-container {
 	background-color:#fff;
 	padding-top:20px;
  }
 
 
- 
+
 #titlediv #title, #inbound-mailer-notes-area input {
 	background-color: #fff;
 	border: none;
@@ -163,18 +163,7 @@
 	width: 60%;
 }
 
-#page-cat-tag, .calc.button-secondary {
-	display: none !important;
-}
 
-.calc.button-secondary {
-	display: inline-block;
-	width: 141px;
-	text-align: center;
-	margin-top: -1px;
-	margin-bottom: 0px;
-	margin-left: 8px;
-}
 
 tr.description th.description-label {
 	display: none;
@@ -201,7 +190,7 @@ tr.description th.description-label {
 #adminmenu .wp-menu-arrow div {
 	left: -2px;
 }
-	
+
 #add-inbound-mailer-notes {
 	display: none;
 	vertical-align: middle;
@@ -266,9 +255,6 @@ padding-top: 6px !important; }
 	float:right;
 	margin-right:19px;
 }
-.calc.button-primary {
-	display: none;}
-	
 
 .bs-callout {
     padding: 20px;
@@ -360,7 +346,7 @@ padding-top: 6px !important; }
 
 .action-preview i {
 	padding:0px;
-	height:28px;	
+	height:28px;
 	width:30px;
 }
 
@@ -414,7 +400,7 @@ padding-top: 6px !important; }
 
 .preview-container iframe{
 	width:100%;
-	
+
 }
 
 #main-title-area #inbound-mailer-main-headline {
@@ -469,53 +455,53 @@ padding-top: 6px !important; }
 	box-shadow: rgba(0, 0, 0, 0.2) 0 0 0 1px,rgba(0, 0, 0, 0.3) 0 2px 5px;
 }
 
-ul#template-filter { 
-	margin: 0px 0; 
-	padding: 0; 
-	height: 64px; 
-	padding-left: 0px; 
-	line-height: 64px;  
+ul#template-filter {
+	margin: 0px 0;
+	padding: 0;
+	height: 64px;
+	padding-left: 0px;
+	line-height: 64px;
 }
 
-ul#template-filter li { 
-	display: inline; 
+ul#template-filter li {
+	display: inline;
 }
 
-ul#template-filter a { 
-	margin-right: 0.5em; 
-	padding: 0em 1em;  
-	font-weight: bold; 
-	text-decoration: none; 
+ul#template-filter a {
+	margin-right: 0.5em;
+	padding: 0em 1em;
+	font-weight: bold;
+	text-decoration: none;
 }
 
-ul#template-filter .button-primary a:hover { 
+ul#template-filter .button-primary a:hover {
 	color:#fff;
 }
 
-ul#template-filter a.current{ 
-	background-color: #DDD; 
+ul#template-filter a.current{
+	background-color: #DDD;
 }
 
-#template-item { 
-	float: left; 
-	margin-right: 18px; 
-	overflow: hidden; 
-	margin: 0px 0 0 0; 
-	padding: 0; 
-	list-style: none; 
-	width: 300px; 
-	margin-bottom: 10px; 
+#template-item {
+	float: left;
+	margin-right: 18px;
+	overflow: hidden;
+	margin: 0px 0 0 0;
+	padding: 0;
+	list-style: none;
+	width: 300px;
+	margin-bottom: 10px;
 }
 
-#template-item div  {  
-	display: block;  
+#template-item div  {
+	display: block;
 }
 
-#template-item li p { 
-	font-size: 11px; 
-	line-height: 15px; 
-	color: #AAA; 
-	margin: 5px 0; 
+#template-item li p {
+	font-size: 11px;
+	line-height: 15px;
+	color: #AAA;
+	margin: 5px 0;
 }
 
 #template-box .inbound_email_tooltip_templates{
@@ -537,4 +523,8 @@ ul#template-filter a.current{
 
 #ui-datepicker-div {
 	background-color:#fff;
+}
+
+#tax-input-inbound_email_tag {
+    display:none;
 }

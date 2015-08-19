@@ -11,8 +11,8 @@ if ( !class_exists('Inbound_Akismet') ) {
 
 		private function load_hooks() {
 			/* Load hooks if akismet filtering is enabled */
-			if (get_option('inbound_forms_enable_akismet' , '1' )) {
-				add_action( 'inbound_check_if_spam' , array( __CLASS__ , 'check_is_spam' ) , 10 , 2 );
+			if (get_option('inbound_forms_enable_akismet', '1' )) {
+				add_action( 'inbound_check_if_spam', array(__CLASS__, 'check_is_spam' ), 10, 2 );
 			} else {
 
 			}
@@ -25,7 +25,7 @@ if ( !class_exists('Inbound_Akismet') ) {
 		* @return BOOL true for spam and false for spam
 		*
 		*/
-		public static function check_is_spam( $is_spam = false ,  $lead_data ) {
+		public static function check_is_spam( $is_spam = false,  $lead_data ) {
 			$api_key = Inbound_Akismet::get_api_key();
 
 			/* return false if akismet is not setup */
@@ -62,7 +62,7 @@ if ( !class_exists('Inbound_Akismet') ) {
 				$query_string .= $key . '=' . urlencode( wp_unslash( (string) $data ) ) . '&';
 			}
 
-			if ( is_callable( array( 'Akismet', 'http_post' ) ) ) { // Akismet v3.0+
+			if ( is_callable( array( 'Akismet', 'http_post' ) ) ) { /* Akismet v3.0+ */
 				$response = Akismet::http_post( $query_string, 'comment-check' );
 			} else {
 				$response = akismet_http_post( $query_string, $akismet_api_host,
@@ -80,7 +80,7 @@ if ( !class_exists('Inbound_Akismet') ) {
 		/* Get Akismet API key */
 		public static function get_api_key() {
 
-			if ( is_callable( array( 'Akismet', 'get_api_key' ) ) ) { // Akismet v3.0+
+			if ( is_callable( array( 'Akismet', 'get_api_key' ) ) ) { /* Akismet v3.0+ */
 				return (bool) Akismet::get_api_key();
 			}
 
@@ -103,7 +103,7 @@ if ( !class_exists('Inbound_Akismet') ) {
 
 			$params = array(
 				'comment_author' => $first_name . ' ' . $last_name,
-				//'comment_author' => 'spamcheck-test-123',
+				/*'comment_author' => 'spamcheck-test-123', */
 				'comment_author_email' => $email_address,
 				'comment_content' => $content
 			);
@@ -124,7 +124,7 @@ if ( !class_exists('Inbound_Akismet') ) {
 
 			/* Look for the form_input_values key in lead data array first */
 			if (isset($lead_data['form_input_values'])) {
-				$form_submit_values = json_decode( stripslashes($lead_data['form_input_values']) , true );
+				$form_submit_values = json_decode( stripslashes($lead_data['form_input_values']), true );
 
 				if (!is_array($form_submit_values)) {
 					$form_submit_values = array();

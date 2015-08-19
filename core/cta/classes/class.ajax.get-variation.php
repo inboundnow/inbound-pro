@@ -125,7 +125,7 @@ Class WP_DB_Connect {
 			$dsn = 'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME;
 			$this->_con = @new PDO($dsn, DB_USER, DB_PASSWORD);
 		} catch (PDOException $e) {
-			exit ('Error on line	' . $e->getLine(). ' in ' . $e->getFile() . ': ' . $e->getMessage() );
+			exit ('Error on line	' . $e->getLine(). ' in ' . $e->getFile() . ': ' . $e->getMessage());
 		}
 	}
 
@@ -137,14 +137,14 @@ Class WP_DB_Connect {
 	private function getFile() {
 		try {
 			$this->str = @file_get_contents($this->filePath);
-			
+
 			if ($this->str == false){
 				throw new Exception ('Failed to read file (' . $this->filePath . ') into string.');
 			}
 			$this->str = str_replace('"', "'", $this->str);
 			$this->str = str_replace(' ', "", $this->str);
 		} catch (Exception $e) {
-			exit ('Error on line	' . $e->getLine(). ' in ' . $e->getFile() . ': ' . $e->getMessage() );
+			exit ('Error on line	' . $e->getLine(). ' in ' . $e->getFile() . ': ' . $e->getMessage());
 		}
 	}
 
@@ -180,7 +180,7 @@ Class WP_DB_Connect {
 		$str1=substr($str,strpos($str,$pre));
 
 		$str1=substr($str1,0,strpos($str1,$post) + strlen($post));
-		$table_prefix = explode("'" , $str1);
+		$table_prefix = explode("'", $str1);
 		$table_prefix = $table_prefix[1];
 
 		$str = "define('TABLE_PREFIX','".$table_prefix."');";
@@ -300,11 +300,11 @@ class CTA_AJAX_Return_Variation {
 	{
 		/* Connect to MYSQL Datababase */
 		if ( file_exists ( './../../../../wp-config.php' ) ){
-			$this->db = new WP_DB_Connect( 1 , './../../../../wp-config.php' );
+			$this->db = new WP_DB_Connect( 1, './../../../../wp-config.php' );
 		} else if ( './../../../../../../wp-config.php' ){
-			$this->db = new WP_DB_Connect( 1 , './../../../../../../wp-config.php' );
+			$this->db = new WP_DB_Connect( 1, './../../../../../../wp-config.php' );
 		} else if ( './../../../../../../../wp-config.php' ) {
-			$this->db = new WP_DB_Connect( 1 , './../../../../../../../wp-config.php' );
+			$this->db = new WP_DB_Connect( 1, './../../../../../../../wp-config.php' );
 		} else {
 			echo 'wp-config.php cannot be found.';
 			echo 0; // default
@@ -328,7 +328,7 @@ class CTA_AJAX_Return_Variation {
 
 		$this->variations = $this->get_post_meta('wp-cta-variations');
 
-		$this->variations_array = json_decode( $this->variations , true );
+		$this->variations_array = json_decode( $this->variations, true );
 		$this->variation_marker = $this->get_post_meta('_cta_ab_variation_marker');
 
 		if (!is_numeric($this->variation_marker)) {
@@ -336,7 +336,7 @@ class CTA_AJAX_Return_Variation {
 		}
 
 		if ($this->variations_array) {
-			foreach ($this->variations_array as $vid => $variation ){				
+			foreach ($this->variations_array as $vid => $variation ){
 				if (!isset($variation['status']) || $variation['status'] == 'active'  ){
 					$this->live_variations[] = $vid;
 				}
@@ -344,7 +344,7 @@ class CTA_AJAX_Return_Variation {
 		}
 	}
 
-	/** 
+	/**
 	*  Return variations
 	*/
 	function return_variation() {
@@ -431,7 +431,7 @@ class CTA_AJAX_Return_Variation {
 	}
 
 
-	function update_post_meta( $meta_key , $meta_value )
+	function update_post_meta( $meta_key, $meta_value )
 	{
 		$query = 'SELECT meta_value FROM '.TABLE_PREFIX.'postmeta where post_id = "'.$this->cta_id.'" and meta_key = "'.$meta_key.'"';
 		$result = mysql_query($query);

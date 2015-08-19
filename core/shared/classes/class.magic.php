@@ -14,17 +14,17 @@ if ( ! class_exists( 'Inbound_Magic' ) ) {
 		static function init() {
 			/* determines if in ajax mode */
 			if(is_admin()) {
-				add_action( 'admin_enqueue_scripts', array( __CLASS__ , 'start_buffer'), -9999 );
-				add_action( 'admin_head', array( __CLASS__ , 'end_buffer'), -9999 );
+				add_action( 'admin_enqueue_scripts', array(__CLASS__, 'start_buffer'), -9999 );
+				add_action( 'admin_head', array(__CLASS__, 'end_buffer'), -9999 );
 			} else {
-				add_action( 'wp_enqueue_scripts', array( __CLASS__ , 'start_buffer'), -9999 );
+				add_action( 'wp_enqueue_scripts', array(__CLASS__, 'start_buffer'), -9999 );
 				include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 				// check for plugin using plugin name
 				if ( is_plugin_active( 'wordpress-seo/wp-seo.php' ) ) {
 				  //plugin is activated
-				  add_action( 'wp_footer', array( __CLASS__ , 'end_buffer'), -9999 );
+				  add_action( 'wp_footer', array(__CLASS__, 'end_buffer'), -9999 );
 				} else {
-				  add_action( 'wp_head', array( __CLASS__ , 'end_buffer'), -9999 );
+				  add_action( 'wp_head', array(__CLASS__, 'end_buffer'), -9999 );
 				}
 
 			}

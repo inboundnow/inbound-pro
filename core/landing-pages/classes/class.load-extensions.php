@@ -1,18 +1,18 @@
 <?php
 
 class Landing_Pages_Load_Extensions {
-	
+
 	/**
 	*  Initializes Landing_Pages_Load_Extensions
 	*/
 	public function __construct() {
-		
+
 		/* Load core landing page config.php files */
 		self::load_core_template_configurations();
-		
+
 		/* Load uploaded landing page config.php files */
 		self::load_uploaded_template_configurations();
-		
+
 		/* load hooks & filters  */
 		self::load_hooks();
 	}
@@ -21,48 +21,48 @@ class Landing_Pages_Load_Extensions {
 	*  Loads hooks and filiters
 	*/
 	public static function load_hooks() {
-		
+
 		/* Adds core metabox settings to extension data array */
 		add_filter( 'lp_extension_data' , array( __CLASS__ , 'add_core_setting_data' ) , 1 , 1);
-		
+
 		/* Modifies legacy template data key names for old, un-updated legacy templates */
 		add_filter( 'lp_extension_data', array( __CLASS__ , 'add_legacy_data_support') , 10 , 1 );
-		
+
 		/* Add license key inputs to all uploaded templates */
 		add_filter( 'lp_define_global_settings' , array( __CLASS__ , 'prepare_license_keys' ), 99, 1);
 	}
-	
+
 	/**
 	*  Adds core metaboxes setting data using lp_extension_data filter
 	*/
 	public static function add_core_setting_data( $data ) {
-		
+
 		if ( !is_admin() ) {
 			return;
 		}
-		
+
 		$data[ 'lp' ]['settings'] = 	array(
 			array(
 				'id'  => 'selected-template',
 				'label' => __( 'Select Template' , 'landing-pages'),
 				'description' =>  __( "This option provides a placeholder for the selected template data." , 'landing-pages'),
-				'type'  => 'radio', // this is not honored. Template selection setting is handled uniquely by core.
+				'type'  => 'radio', /* this is not honored. Template selection setting is handled uniquely by core. */
 				'default'  => 'default',
-				'options' => null // this is not honored. Template selection setting is handled uniquely by core.
+				'options' => null /* this is not honored. Template selection setting is handled uniquely by core. */
 			),
 			array(
 				'id'  => 'main-headline',
 				'label' => __('Set Main Headline' , 'landing-pages'),
 				'description' => __( "Set Main Headline" , 'landing-pages'),
-				'type'  => 'text', // this is not honored. Main Headline Input setting is handled uniquely by core.
+				'type'  => 'text', /* this is not honored. Main Headline Input setting is handled uniquely by core. */
 				'default'  => '',
 				'options' => null
 			),
 		);
-		
+
 		return $data;
 	}
-	
+
 	/**
 	*  Looks for occurances of 'options' in template & extension data arrays and replaces key with 'settings'
 	*/
@@ -70,7 +70,7 @@ class Landing_Pages_Load_Extensions {
 		if ( !is_admin() ) {
 			return;
 		}
-		
+
 		foreach ($data as $parent_key => $subarray)
 		{
 			if (is_array($subarray))
@@ -98,20 +98,20 @@ class Landing_Pages_Load_Extensions {
 
 		return $data;
 	}
-	
+
 	/**
 	*  Adds licensing & automatic updates to uploaded templates
-	*  
+	*
 	*  @param ARRAY $global_settings contains all global setting data
-	*  
+	*
 	*  @retuns ARRAY $global_settings contains modified global setting data
 	*/
 	public static function prepare_license_keys( $global_settings ) {
-		
+
 		if ( !is_admin() ) {
 			return;
 		}
-		
+
 		$lp_data = self::get_extended_data();
 
 		$global_settings['lp-license-keys']['settings'][] = 	array(
@@ -133,11 +133,11 @@ class Landing_Pages_Load_Extensions {
 			if ($key == 'lp' || substr($key,0,4) == 'ext-' ) {
 				continue;
 			}
-			
+
 			if (isset($data['info']['data_type']) && $data['info']['data_type']=='metabox') {
 				continue;
 			}
-			
+
 			if (in_array($key,$array_core_templates)) {
 				continue;
 			}
@@ -154,21 +154,21 @@ class Landing_Pages_Load_Extensions {
 
 		return $global_settings;
 	}
-	
+
 	/**
 	* Loads core template config.php files
 	*
 	* @returns ARRAY contains template setting data
 	*/
 	public static function load_core_template_configurations() {
-		
+
 		if ( !is_admin() ) {
 			return;
 		}
-		
+
 		$template_ids = self::get_core_template_ids();
 
-		//Now load all config.php files with their custom meta data
+		/*Now load all config.php files with their custom meta data */
 		if (count($template_ids)>0)
 		{
 			foreach ($template_ids as $name)
@@ -178,21 +178,21 @@ class Landing_Pages_Load_Extensions {
 				}
 			}
 		}
-		
-		
+
+
 		/* Store all template config files in global */
 		$GLOBALS['lp_data'] = $lp_data;
-		
+
 		return $lp_data;
 	}
-	
+
 	/**
 	* Loads uploaded template config.php files
 	*
 	*/
 	public static function load_uploaded_template_configurations() {
 		global $lp_data;
-		
+
 		$template_ids = self::get_uploaded_template_ids();
 
 		/* loop through template ids and include their config file */
@@ -204,16 +204,16 @@ class Landing_Pages_Load_Extensions {
 			}
 			if ($name != ".svn" && $name != ".git" && $name != 'template-generator' && $match === FALSE){
 				if (file_exists( LANDINGPAGES_UPLOADS_PATH . "$name/config.php")) {
-					include_once( LANDINGPAGES_UPLOADS_PATH . "$name/config.php");					
+					include_once( LANDINGPAGES_UPLOADS_PATH . "$name/config.php");
 				}
 			}
 		}
-		
-		
-		return $lp_data;		
+
+
+		return $lp_data;
 
 	}
-	
+
 	/**
 	* Gets array of uploaded template paths
 	*
@@ -230,7 +230,9 @@ class Landing_Pages_Load_Extensions {
 		$results = scandir( LANDINGPAGES_UPLOADS_PATH );
 
 		foreach ($results as $name) {
-			if ($name === '.' or $name === '..' or $name === '__MACOSX') continue;
+			if ($name === '.' or $name === '..' or $name === '__MACOSX') {
+				continue;
+			}
 
 			if (is_dir( LANDINGPAGES_UPLOADS_PATH . '/' . $name)) {
 				$template_ids[] = $name;
@@ -239,7 +241,7 @@ class Landing_Pages_Load_Extensions {
 
 		return $template_ids;
 	}
-	
+
 	/**
 	* Gets array of uploaded template paths
 	*
@@ -248,13 +250,15 @@ class Landing_Pages_Load_Extensions {
 	public static function get_core_template_ids()
 	{
 		$template_ids = array();
-		
+
 		$template_path = LANDINGPAGES_PATH."/templates/" ;
 		$results = scandir($template_path);
 
-		//scan through templates directory and pull in name paths
+		/*scan through templates directory and pull in name paths */
 		foreach ($results as $name) {
-			if ($name === '.' or $name === '..' or $name === '__MACOSX') continue;
+			if ($name === '.' or $name === '..' or $name === '__MACOSX') {
+				continue;
+			}
 
 			if (is_dir($template_path . '/' . $name)) {
 				$template_ids[] = $name;
@@ -263,22 +267,22 @@ class Landing_Pages_Load_Extensions {
 
 		return $template_ids;
 	}
-	
+
 	/**
 	*  Get's array of template categories from loaded templates
-	*  
+	*
 	*  @returns ARRAY $template_cats array if template categories
-	*/	
+	*/
 	public static function get_template_categories()
 	{
-		$template_settings = self::get_extended_data();	
-		
+		$template_settings = self::get_extended_data();
+
 		foreach ($template_settings as $key=>$val)
 		{
 			if ( $key=='lp' || substr($key,0,4)=='ext-' || isset($val['info']['data_type']) && $val['info']['data_type']=='metabox' ) {
 				continue;
 			}
-			
+
 			/* account for legacy data models */
 			if (isset($val['category'])) {
 				$cats = $val['category'];
@@ -312,20 +316,20 @@ class Landing_Pages_Load_Extensions {
 
 		return $template_cats;
 	}
-	
+
 	/**
 	 *  Get's template and extension setting data
-	 *  
+	 *
 	 *  @retuns ARRAY of template & extension data
 	 */
 	public static function get_extended_data() {
 		global $lp_data;
-		
+
 		$lp_data = apply_filters( 'lp_extension_data' , $lp_data);
-		
+
 		return $lp_data;
 	}
-	
+
 
 }
 
@@ -334,7 +338,7 @@ $GLOBALS['Landing_Pages_Load_Extensions'] = new Landing_Pages_Load_Extensions;
 
 /* Get data array of template settings */
 function lp_get_extension_data() {
-	return Landing_Pages_Load_Extensions::get_extended_data();	
+	return Landing_Pages_Load_Extensions::get_extended_data();
 }
 
 

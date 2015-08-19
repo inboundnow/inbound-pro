@@ -65,6 +65,8 @@ class Leads_Post_Type {
         /* Add plugin page 'upgrade to pro' call to action */
         add_filter( 'plugin_row_meta', array( __CLASS__ , 'display_plugin_meta_link' ), 10, 2 );
 
+        /* enqueue scripts and styles in admin  */
+        add_action('admin_enqueue_scripts', array( __CLASS__ , 'enqueue_admin_scripts' ) );
     }
 
     /**
@@ -754,6 +756,31 @@ class Leads_Post_Type {
 
 
 
+    }
+
+    /**
+     * Enqueue scripts and styles for admin
+     */
+    public static function enqueue_admin_scripts( $hook ) {
+        global $post;
+
+        $post_type = isset($post) ? get_post_type( $post ) : null;
+
+        $screen = get_current_screen();
+
+        /*  list setup page */
+        if ( $screen->id === 'edit-wplead_list_category') {
+            wp_enqueue_script('wpleads-list-page', WPL_URLPATH.'assets/js/wpl.list-page.js', array('jquery'));
+            wp_enqueue_style('wpleads-list-page-css', WPL_URLPATH.'assets/css/wpl.list-page.css');
+            return;
+        }
+
+        /*  list page */
+        if ( $screen->id === 'edit-wp-lead') {
+            wp_enqueue_script('wpleads-list', WPL_URLPATH. 'assets/js/wpl.leads-list.js');
+            wp_enqueue_style('wpleads-list-css', WPL_URLPATH.'assets/css/wpl.leads-list.css');
+            return;
+        }
     }
 
     /**

@@ -5,7 +5,7 @@
 /*****************************************/
 
 /* Include Shareme Library */
-include_once(LANDINGPAGES_PATH.'libraries/library.shareme.php');
+include_once(LANDINGPAGES_PATH.'assets/libraries/shareme/library.shareme.php');
 
 /* Declare Template Key */
 $key = lp_get_parent_directory(dirname(__FILE__));
@@ -18,51 +18,45 @@ do_action('lp_init');
 if (have_posts()) : while (have_posts()) : the_post();
 
     /* Pre-load meta data into variables */
-    $content = lp_get_value($post, $key, 'main-content');
-    $conversion_area = lp_get_value($post, $key, 'conversion-area-content');
-    $body_color = lp_get_value($post, $key, 'body-color');
-    $headline_color = lp_get_value($post, $key, 'headline-color');
-    $text_color = lp_get_value($post, $key, 'other-text-color');
-    $content_color = lp_get_value($post, $key, 'content-background');
-    $background_on = lp_get_value($post, $key, 'background-on');
+    $content = get_field( 'countdown-lander-main-content', $post->ID );
+    $conversion_area = get_field( 'countdown-lander-conversion-area-content' , $post->ID );
+    $body_color = get_field( 'countdown-lander-body-color', $post->ID );
+    $headline_color = get_field( 'countdown-lander-headline-color' , $post->ID );
+	$text_color = get_field( 'countdown-lander-other-text-color' , $post->ID );	
+	$content_color = get_field( 'countdown-lander-content-background' , $post->ID );
+	$background_on = get_field( 'countdown-lander-background-on' , $post->ID );
+	$date_picker = get_field( 'countdown-lander-date-picker' , $post->ID );	
+	$social_display = get_field( 'countdown-lander-display-social' , $post->ID );
+	$countdown_message = get_field( 'countdown-message', $post->ID );	
+	$bg_image = get_field( 'countdown-lander-bg-image', $post->ID );
+	$submit_button_color = get_field( 'countdown-lander-submit-button-color', $post->ID );
 
-    $date_picker = lp_get_value($post, $key, 'date-picker');
-    $social_display = lp_get_value($post, $key, 'display-social');
-    $countdown_message = lp_get_value($post, $key, 'countdown-message');
-    $bg_image = lp_get_value($post, $key, 'bg-image');
-    $submit_button_color = lp_get_value($post, $key, 'submit-button-color');
+	/* Date Formatting */
+	$date_array = explode("/", $date_picker);
 
-	// Date Formatting
-	$new_value = str_replace('-',' ', $date_picker);
-	$js_date = str_replace(':',' ', $new_value);
-	$res = preg_replace('/[^a-z0-9åäö\s]/ui', '', $js_date);
-	$arr = preg_split('/\s+/', $res, 6);
-	$imploded = implode(',', array_slice($arr, 0, 5));
-	$date_array = explode(",", $imploded);
+	/* Convert Hex to RGB Value for submit button */
+	function lp_Hex_2_RGB($hex) {
+			$hex = @preg_replace("/#/", "", $hex);
+			$color = array();
 
-// Convert Hex to RGB Value for submit button
-function lp_Hex_2_RGB($hex) {
-        $hex = @preg_replace("/#/", "", $hex);
-        $color = array();
+			if(strlen($hex) == 3) {
+				$color['r'] = hexdec(substr($hex, 0, 1) . $r);
+				$color['g'] = hexdec(substr($hex, 1, 1) . $g);
+				$color['b'] = hexdec(substr($hex, 2, 1) . $b);
+			}
+			else if(strlen($hex) == 6) {
+				$color['r'] = hexdec(substr($hex, 0, 2));
+				$color['g'] = hexdec(substr($hex, 2, 2));
+				$color['b'] = hexdec(substr($hex, 4, 2));
+			}
 
-        if(strlen($hex) == 3) {
-            $color['r'] = hexdec(substr($hex, 0, 1) . $r);
-            $color['g'] = hexdec(substr($hex, 1, 1) . $g);
-            $color['b'] = hexdec(substr($hex, 2, 1) . $b);
-        }
-        else if(strlen($hex) == 6) {
-            $color['r'] = hexdec(substr($hex, 0, 2));
-            $color['g'] = hexdec(substr($hex, 2, 2));
-            $color['b'] = hexdec(substr($hex, 4, 2));
-        }
+			return $color;
 
-        return $color;
-
-}
-$RBG_array = lp_Hex_2_RGB($submit_button_color);
-$red = (isset($RBG_array['r'])) ? $RBG_array['r'] : '0';
-$green = (isset($RBG_array['g'])) ? $RBG_array['g'] : '0';
-$blue =  (isset($RBG_array['b'])) ? $RBG_array['b'] : '0';
+	}
+	$RBG_array = lp_Hex_2_RGB($submit_button_color);
+	$red = (isset($RBG_array['r'])) ? $RBG_array['r'] : '0';
+	$green = (isset($RBG_array['g'])) ? $RBG_array['g'] : '0';
+	$blue =  (isset($RBG_array['b'])) ? $RBG_array['b'] : '0';
 
 
 
@@ -180,8 +174,13 @@ jQuery(function(){
 
     var note = jQuery('#note'),
     // year, month-1, date
-        ts = new Date(<?php if (isset($date_array[0])) { echo $date_array[0] ; } ?>,<?php if (isset($date_array[1])) { echo $date_array[1] - 1 ; } ?>,<?php if (isset($date_array[2])) { echo $date_array[2] ; } ?><?php if ($date_array[3] != "") { echo "," . $date_array[3] ; } ?>),
-        newYear = false;
+	ts = new Date(<?php
+		echo $date_array[2];
+		echo ',';
+		echo $date_array[1] - 1;
+		echo ',';
+		echo $date_array[0]; ?> ),
+	newYear = false;
 
     jQuery('#countdown').countdown({
         timestamp   : ts,

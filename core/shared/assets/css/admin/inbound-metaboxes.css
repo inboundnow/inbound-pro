@@ -11,6 +11,11 @@ padding-bottom: 10px;
 .inbound-wysiwyg-option, .inbound-textarea-option {
 	width: 75%;
 }
+@media only screen and (max-width: 600px) {
+	.inbound-wysiwyg-option, .inbound-textarea-option {
+		width: 100%;
+	}
+}
 .inbound-meta-box-option {
 	position: relative;
 }
@@ -20,9 +25,7 @@ position: absolute;
 .inbound-datepicker .button-primary.new-save-wp-cta {
 	display: none;
 }
-.inbound-description-block-option {
-	max-width: 55%;
-}
+
 .inbound-media-row .button-primary.new-save-wp-cta {
 	position: absolute;
 right: -94px;

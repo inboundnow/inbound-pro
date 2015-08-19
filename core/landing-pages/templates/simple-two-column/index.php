@@ -5,7 +5,7 @@
 /*****************************************/
 
 /* Include Shareme Library */
-include_once(LANDINGPAGES_PATH.'libraries/library.shareme.php');
+include_once(LANDINGPAGES_PATH.'assets/libraries/shareme/library.shareme.php');
 
 /* Declare Template Key */
 $key = lp_get_parent_directory(dirname(__FILE__));
@@ -50,14 +50,14 @@ $blue_1 = $RBG_array_1["b"];
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-US"><head profile="http://gmpg.org/xfn/11"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1"> 
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title><?php wp_title(); ?></title>
 <link rel="stylesheet" href="<?php echo $path; ?>assets/css/style.css" type="text/css" media="screen">
-<?php wp_enqueue_script('sharrre', LANDINGPAGES_URLPATH . 'js/sharrre/jquery.sharrre-1.3.3.min.js', array('jquery')); ?>
+<?php wp_enqueue_script('sharrre', LANDINGPAGES_URLPATH . 'assets/libraries/sharrre/jquery.sharrre-1.3.3.min.js', array('jquery')); ?>
 
 <style media="screen" type="text/css">
 
-<?php 
+<?php
 
 if ($sidebar_color !="") {
 	echo "#right { background-color: #$sidebar_color;}"; // change sidebar color
@@ -79,11 +79,11 @@ if ($text_color !="") {
 								opacity: 0.8;} ";
 }
 ?>
-<?php 
-if ($sidebar === "left" ) {  
+<?php
+if ($sidebar === "left" ) {
 	echo "#right {left:0px;} #left {right: 0;} #left-content {padding-left: 40px;} #social-share-buttons {margin-left: -115px !important;}";
-} else { 
-	echo "#left {left: 0;}"; 
+} else {
+	echo "#left {left: 0;}";
 }
 
 if ($submit_button_color != "") {
@@ -137,13 +137,13 @@ if ($submit_button_color != "") {
 </script>
 </head>
 <body>
-<?php 
+<?php
 if ($social_display==="1" ) { // Show Social Media Icons?>
 <div id="social-holder">
    <?php lp_social_media(); // print out social media buttons?>
 </div>
-<?php  
-} 
+<?php
+}
 ?>
 <div class="container">
 
@@ -177,11 +177,11 @@ if ($social_display==="1" ) { // Show Social Media Icons?>
 </div><!-- end content-wrapper -->
 
  </div><!-- end container -->
-<?php 
- break; 
- endwhile; 
+<?php
+ break;
+ endwhile;
  endif; // end wordpress loop
-    
+
 do_action('lp_footer'); // load landing pages footer hook
 wp_footer(); // load normal wordpress footer ?>
 

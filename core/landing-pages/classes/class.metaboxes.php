@@ -55,7 +55,7 @@ class Landing_Pages_Metaboxes {
 
         /* Select Template Metbox */
         add_meta_box(
-            'lp_metabox_select_template', // $id
+            'lp_metabox_select_template', /* $id */
             __( 'Landing Page Templates', 'landing-pages'),
             array( __CLASS__ , 'display_select_template' ),
             'landing-page',
@@ -76,12 +76,12 @@ class Landing_Pages_Metaboxes {
             $id = strtolower(str_replace(' ', '-', $key));
 
             add_meta_box(
-                "lp_{$id}_custom_meta_box", // $id
+                "lp_{$id}_custom_meta_box", /* $id */
                 "<small>$template_name</small>",
                 array( __CLASS__ , 'display_extended_metabox' ),
-                'landing-page', // post-type
-                'normal', // $context
-                'default',// $priority
+                'landing-page', /* post-type */
+                'normal', /* $context */
+                'default',/* $priority */
                 array('key' => $key)
             );
 
@@ -202,18 +202,18 @@ class Landing_Pages_Metaboxes {
         self::$current_vid = Landing_Pages_Variations::get_current_variation_id( $post->ID );
         self::$variations =Landing_Pages_Variations::get_variations( $post->ID );
 
-        //check for delete command
+        /*check for delete command */
         if (isset($_GET['ab-action']) && $_GET['ab-action'] == 'delete-variation') {
             Landing_Pages_Variations::delete_variation( $post->ID , $_REQUEST['action-variation-id'] );
         }
 
-        //check for pause command
+        /*check for pause command */
         if (isset($_GET['ab-action']) && $_GET['ab-action'] == 'pause-variation') {
             Landing_Pages_Variations::pause_variation( $post->ID ,  $_REQUEST['action-variation-id'] );
 
         }
 
-        //check for pause command
+        /*check for pause command */
         if (isset($_GET['ab-action']) && $_GET['ab-action'] == 'play-variation') {
             Landing_Pages_Variations::play_variation( $post->ID ,  $_REQUEST['action-variation-id'] );
         }
@@ -224,7 +224,7 @@ class Landing_Pages_Metaboxes {
 
         (isset($_GET['new-variation']) && $_GET['new-variation'] == 1) ? $new_variation = 1 : $new_variation = 0;
 
-        //if new variation and cloning then programatically prepare the next variation id
+        /*if new variation and cloning then programatically prepare the next variation id */
         if (self::$is_new ) {
             $_SESSION['lp_ab_test_open_variation'] = Landing_Pages_Variations::prepare_new_variation_id( $post->ID );
         }
@@ -234,18 +234,61 @@ class Landing_Pages_Metaboxes {
     /**
      * Enqueue scripts
      */
-    public static function enqueue_scripts() {
+    public static function enqueue_scripts( $hook ) {
 
         global $post;
+        $screen = get_current_screen();
 
-        if ( !isset($post) || $post->post_type != 'landing-page') {
+        if ( !isset($screen) || $screen->id != 'landing-page') {
             return;
         }
 
-        wp_enqueue_style('lp-ab-testing-admin', LANDINGPAGES_URLPATH . 'css/admin-ab-testing.css');
-        wp_enqueue_script('lp-ab-testing-admin', LANDINGPAGES_URLPATH . 'js/admin/admin.post-edit-ab-testing.js', array('jquery'));
+        wp_enqueue_script(array('jquery', 'jqueryui', 'editor', 'thickbox', 'media-upload'));
+        wp_enqueue_style('edit-landing-page', LANDINGPAGES_URLPATH . 'assets/css/admin/edit-landing-page.css');
+        wp_enqueue_script('lp-js-metaboxes', LANDINGPAGES_URLPATH . 'assets/js/admin/admin.metaboxes.js');
+        wp_enqueue_script('jpicker', LANDINGPAGES_URLPATH . 'assets/libraries/jpicker/jpicker-1.1.6.min.js');
+        wp_localize_script( 'jpicker', 'jpicker', array( 'thispath' => LANDINGPAGES_URLPATH.'assets/libraries/jpicker/images/' ));
+        wp_enqueue_style('jpicker-css', LANDINGPAGES_URLPATH . 'assets/libraries/jpicker/css/jPicker-1.1.6.min.css');
+        wp_enqueue_script('jquery-qtip', LANDINGPAGES_URLPATH . 'assets/libraries/jquery-qtip/jquery.qtip.min.js');
+        wp_enqueue_script('load-qtip', LANDINGPAGES_URLPATH . 'assets/libraries/jquery-qtip/load.qtip.js', array('jquery-qtip'));
+        wp_enqueue_style('qtip-css', LANDINGPAGES_URLPATH . 'assets/css/jquery.qtip.min.css'); /*Tool tip css */
+
+        $template_data = lp_get_extension_data();
+        $template_data = json_encode($template_data);
+        $template = Landing_Pages_Variations::get_current_template( $post->ID );
+        $template = strtolower($template);
+        $params = array('selected_template'=>$template, 'templates'=>$template_data);
+        wp_localize_script('lp-js-metaboxes', 'data', $params);
+
+        wp_enqueue_style('inbound-metaboxes', LANDINGPAGES_URLPATH . 'shared/assets/css/admin/inbound-metaboxes.css');
+
+        wp_enqueue_script( 'lp-admin-clear-stats-ajax-request', LANDINGPAGES_URLPATH . 'assets/js/ajax.clearstats.js', array( 'jquery' ) );
+        wp_localize_script( 'lp-admin-clear-stats-ajax-request', 'ajaxadmin', array( 'ajaxurl' => admin_url('admin-ajax.php'), 'lp_clear_nonce' => wp_create_nonce('lp-clear-nonce') ) );
+
+        wp_enqueue_script('jquery-zoomer', LANDINGPAGES_URLPATH . 'assets/libraries/jquery.zoomer.js');
+        wp_enqueue_script('lp-post-edit-ui', LANDINGPAGES_URLPATH . 'assets/js/admin/admin.post-edit.js');
+        wp_localize_script( 'lp-post-edit-ui', 'lp_post_edit_ui', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'post_id' => $post->ID , 'wp_landing_page_meta_nonce' => wp_create_nonce('wp-landing-page-meta-nonce'),  'lp_template_nonce' => wp_create_nonce('lp-nonce') ) );
+        wp_enqueue_style('admin-post-edit-css', LANDINGPAGES_URLPATH . 'assets/css/admin-post-edit.css');
+
+        /* Load FontAwesome */
+        wp_register_style('font-awesome', LANDINGPAGES_URLPATH . 'assets/libraries/FontAwesome/css/font-awesome.min.css');
+        wp_enqueue_style('font-awesome');
+
+        wp_enqueue_style('lp-ab-testing-admin', LANDINGPAGES_URLPATH . 'assets/css/admin-ab-testing.css');
+        wp_enqueue_script('lp-ab-testing-admin', LANDINGPAGES_URLPATH . 'assets/js/admin/admin.post-edit-ab-testing.js', array('jquery'));
         wp_localize_script('lp-ab-testing-admin', 'variation', array('pid' => $post->ID , 'vid' => self::$current_vid, 'new_variation' => self::$is_new , 'variations' => self::$variations, 'content_area' => self::$content_area));
 
+        /* enqueue supportive scripts */
+        wp_enqueue_script( 'jquery-time-picker', LANDINGPAGES_URLPATH . 'assets/libraries/datetimepicker/jquery.datetimepicker.js', array('jquery') );
+        wp_enqueue_style( 'jquery-time-picker', LANDINGPAGES_URLPATH . 'assets/libraries/datetimepicker/jquery.datetimepicker.css' );
+        wp_enqueue_script( 'jquery-date-picker', LANDINGPAGES_URLPATH . 'assets/libraries/datetimepicker/picker_functions.js', array('jquery') );
+
+        /* only load these scripts and styles when creatng a new landing page  */
+        if ( $hook == 'post-new.php'  ) {
+            wp_enqueue_script('lp-js-create-new-lander', LANDINGPAGES_URLPATH . 'assets/js/admin/admin.post-new.js', array('jquery'), '1.0', true );
+            wp_localize_script( 'lp-js-create-new-lander', 'lp_post_new_ui', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'post_id' => $post->ID , 'wp_landing_page_meta_nonce' => wp_create_nonce('lp_nonce')  , 'LANDINGPAGES_URLPATH' => LANDINGPAGES_URLPATH ) );
+            wp_enqueue_style('lp-css-post-new', LANDINGPAGES_URLPATH . 'assets/css/admin-post-new.css');
+        }
     }
 
     /**
@@ -302,7 +345,7 @@ class Landing_Pages_Metaboxes {
         <div id="switch-lp">0</div>
 
         <?php
-        // Frontend params
+        /* Frontend params */
         if(isset($_REQUEST['frontend']) && $_REQUEST['frontend'] == 'true') {
             echo('<input type="hidden" name="frontend" id="frontend-on" value="true" />');
         }
@@ -318,7 +361,7 @@ class Landing_Pages_Metaboxes {
 
         $name = Landing_Pages_Variations::prepare_input_id( 'lp-selected-template' );
 
-        // Use nonce for verification
+        /* Use nonce for verification */
         echo "<input type='hidden' name='lp_lp_custom_fields_nonce' value='".wp_create_nonce('lp-nonce')."' />";
         ?>
 
@@ -363,7 +406,7 @@ class Landing_Pages_Metaboxes {
 
         foreach ($variations as $i => $vid) {
             $letter = Landing_Pages_Variations::vid_to_letter( $post->ID , $i);
-            ($i < 1) ? $pre = __('Version ', 'landing-pages') : $pre = '';
+            $pre = ($i < 1) ? __('Version ', 'landing-pages') : '';
 
             if ($current_variation_id == $vid && !isset($_GET['new-variation'])) {
                 $cur_class = 'active';
@@ -407,11 +450,11 @@ class Landing_Pages_Metaboxes {
                 <div id="bab-stat-box">
                     <?php
 
-                    if (isset($_GET['new_meta_key'])) {
+                    if (isset($_GET['new_meta_key']) && is_numeric($_GET['new_meta_key']) ) {
                     ?>
                         <script type="text/javascript">
                             jQuery(document).ready(function($) {
-                                // This fixes meta data saves for cloned pages
+                                /* This fixes meta data saves for cloned pages */
                                 function isNumber (o) {
                                     return ! isNaN (o-0) && o !== null && o !== "" && o !== false;
                                 }
@@ -577,7 +620,7 @@ class Landing_Pages_Metaboxes {
                         jQuery('#$meta_box_id #ed_toolbar').show();
                 });
 
-                //Tell the uploader to insert content into the correct WYSIWYG editor
+                /*Tell the uploader to insert content into the correct WYSIWYG editor */
                 jQuery('#media-buttons a').bind('click', function(){
                     var customEditor = jQuery(this).parents('#$meta_box_id');
                     if(customEditor.length > 0){
@@ -591,11 +634,11 @@ class Landing_Pages_Metaboxes {
 			</script>
 	    ";
 
-        //Create The Editor
+        /*Create The Editor */
         $conversion_area = Landing_Pages_Variations::get_conversion_area( $post->ID );
         wp_editor($conversion_area, $editor_id);
 
-        //Clear The Room!
+        /*Clear The Room! */
         echo "<div style='clear:both; display:block;'></div>";
         echo "<div style='width:100%;text-align:right;margin-top:11px;'><div class='lp_tooltip'  title=\"". __('To help track conversions Landing Pages Plugin will automatically add a tracking class to forms. If you would like to track a link add this class to it' , 'landing-pages') ." class='wpl-track-me-link'\" ></div></div>";
 
@@ -682,9 +725,13 @@ class Landing_Pages_Metaboxes {
 
         foreach ($extension_data as $this_extension => $data) {
 
-            if (substr($this_extension, 0, 4) == 'ext-') continue;
+            if (substr($this_extension, 0, 4) == 'ext-') {
+                continue;
+            }
 
-            if (isset($data['info']['data_type']) && $data['info']['data_type'] == 'metabox') continue;
+            if (isset($data['info']['data_type']) && $data['info']['data_type'] == 'metabox') {
+                continue;
+            }
 
 
             $cats = explode(',', $data['info']['category']);
@@ -697,7 +744,7 @@ class Landing_Pages_Metaboxes {
             $cat_slug = implode(' ', $cats);
 
             $thumb = false;
-            // Get Thumbnail
+            /* Get Thumbnail */
             if (file_exists(LANDINGPAGES_PATH . 'templates/' . $this_extension . "/thumbnail.png")) {
                 if ($this_extension == 'default') {
 
@@ -808,7 +855,6 @@ class Landing_Pages_Metaboxes {
         $extension_data = lp_get_extension_data();
 
         $key = $args['args']['key'];
-
         $lp_custom_fields = $extension_data[$key]['settings'];
 
         self::render_fields($key , $lp_custom_fields , $post);
@@ -936,7 +982,7 @@ class Landing_Pages_Metaboxes {
                     break;
                 /* media */
                 case 'media':
-                    //echo 1; exit;
+                    /*echo 1; exit; */
                     echo '<label for="upload_image" data-field-type="text">';
                     echo '<input name="' . $field_id . '"  id="' . $field_id . '" type="text" size="36" name="upload_image" value="' . $meta . '" />';
                     echo '<input class="upload_image_button" id="uploader_' . $field_id . '" type="button" value="Upload Image" />';
@@ -969,8 +1015,8 @@ class Landing_Pages_Metaboxes {
                 /* radio */
                 case 'radio':
                     foreach ($field['options'] as $value => $label) {
-                        //echo $meta.":".$field_id;
-                        //echo "<br>";
+                        /*echo $meta.":".$field_id; */
+                        /*echo "<br>"; */
                         echo '<input type="radio" name="' . $field_id . '" id="' . $field_id . '" value="' . $value . '" ', $meta == $value ? ' checked="checked"' : '', '/>';
                         echo '<label for="' . $value . '">&nbsp;&nbsp;' . $label . '</label> &nbsp;&nbsp;&nbsp;&nbsp;';
                     }
@@ -988,9 +1034,9 @@ class Landing_Pages_Metaboxes {
 
             }
             echo '</div></div>';
-        } // end foreach
-        echo '</div>'; // end table
-        //exit;
+        } /* end foreach */
+        echo '</div>'; /* end table */
+        /*exit; */
     }
 
 

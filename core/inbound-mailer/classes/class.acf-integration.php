@@ -27,25 +27,6 @@ if (!class_exists('Inbound_Mailer_ACF')) {
 
 
 		/**
-		*	Save ACF fields under variation
-		*/
-		public static function save_acf_fields(	$post_id ) {
-			global $post;
-
-			if ( !isset($post) || $post->post_type != 'inbound-email' || !isset($_POST['acf']) ) {
-				return;
-			}
-
-			/* get variation */
-			$vid = Inbound_Mailer_Variations::get_current_variation_id();
-
-			/* Update special variation object */
-			update_post_meta( $post_id , 'acf-' . $vid , $_POST['acf'] );
-
-		}
-
-
-		/**
 		* Finds the correct value given the variation
 		*
 		* @param MIXED $value contains the non-variation value
@@ -80,8 +61,13 @@ if (!class_exists('Inbound_Mailer_ACF')) {
 					$value = $new_value;
 				}
 			} else {
-				if ( strlen($value) && isset($field['default_value']) ) {
+
+				if ( !is_array($value) && strlen($value) && isset($field['default_value']) ) {
 					$value = $field['default_value'];
+				} else {
+					if ($field['type'] == 'color_picker' ) {
+						$value = $field['default_value'];
+					}
 				}
 			}
 			/**
@@ -122,6 +108,17 @@ if (!class_exists('Inbound_Mailer_ACF')) {
 							return $repeater_array;
 
 						} else	{
+							/* color pickers seem to be special */
+							if ($field['type'] == 'color_picker' ) {
+								$color = json_decode($value[1] , true);
+								if (is_array($color)) {
+									$value = json_decode($color[1] , true);
+									$value = $value[1];
+								} else {
+									$value = $value[1];
+								}
+							}
+
 							return $value;
 						}
 

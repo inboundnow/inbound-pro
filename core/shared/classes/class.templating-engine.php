@@ -27,11 +27,11 @@ class Inbound_Templating_Engine {
 	/* Set Default Token Values */
 	public static function define_default_tokens() {
 		self::$instance->defaults = array (
-			'admin-email-address' => get_option( 'admin_email' , '' ),
+			'admin-email-address' => get_option( 'admin_email', '' ),
 			'admin-url' => admin_url(),
-			'site-name' => get_option( 'blogname' , '' ),
-			'site-tagline' => get_option( 'blogdescription' , '' ),
-			'site-url' => get_option( 'siteurl' , '' ) ,
+			'site-name' => get_option( 'blogname', '' ),
+			'site-tagline' => get_option( 'blogdescription', '' ),
+			'site-url' => get_option( 'siteurl', '' ) ,
 			'date-time' =>  date( 'Y-m-d H:i:s A', current_time( 'timestamp', 1 ) )
 		);
 
@@ -50,17 +50,17 @@ class Inbound_Templating_Engine {
 	}
 
 	/* Replace Tokens */
-	public static function replace_tokens( $template , $args ) {
+	public static function replace_tokens( $template, $args ) {
 
 		/* Add default key/value pairs to front of $args array */
-		array_unshift( $args , self::$instance->defaults );
+		array_unshift( $args, self::$instance->defaults );
 
 		/* Loop through arguments in $args and replacec template tokens with values found in arguments */
 		foreach ($args as $arg) {
 
 			/* Lets look for certain nested arrays and pull their content into the main $arg array */
 			if ( isset($arg['Mapped_Data']) ) {
-				$arg_json = json_decode( stripslashes($arg['Mapped_Data']) , true);
+				$arg_json = json_decode( stripslashes($arg['Mapped_Data']), true);
 				foreach ($arg_json as $k=>$v) {
 					$arg[$k] = $v;
 				}
@@ -74,21 +74,21 @@ class Inbound_Templating_Engine {
 				}
 
 				/* prepare/re-map keys */
-				$key = str_replace( 'inbound_current_page_url' , 'source' , $key );
-				$key = str_replace( 'inbound_' , '' , $key );
-				$key = str_replace( 'wpleads_' , 'lead_' , $key );
-				$key = str_replace( '_' , '-' , $key );
+				$key = str_replace( 'inbound_current_page_url', 'source', $key );
+				$key = str_replace( 'inbound_', '', $key );
+				$key = str_replace( 'wpleads_', 'lead_', $key );
+				$key = str_replace( '_', '-', $key );
 
 
 				/* replace tokens in template */
-				$template = str_replace( '{{'.$key.'}}' , $value , $template );
+				$template = str_replace( '{{'.$key.'}}', $value, $template );
 
 			}
 
 		}
 
 		/* Replace All Leftover Tokens */
-		$template = preg_replace( '/{{(.*?)}}/si' , '', $template , -1 );
+		$template = preg_replace( '/{{(.*?)}}/si', '', $template, -1 );
 
 		return do_shortcode($template);
 	}

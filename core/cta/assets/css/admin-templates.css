@@ -1,0 +1,48 @@
+.update-message {
+    background-color: #FFFBE4;
+    border-color: #DFDFDF;
+	border-bottom-color: #DFDFDF;
+    border-top-color: #FFFFFF;
+	padding:3px;
+}
+
+.update-available
+{
+	font-weight:600;
+	color:cadetblue;
+}
+
+.template-thumbnail {
+    background-color: #A9A9A9;
+    border-radius: 2px;
+    height: 120px;
+    width: 150px;
+	padding:6px;
+}
+
+.wp-list-table .column-thumbnail
+{
+	height:0px;
+}
+
+.capty-wrapper
+{
+	margin-left:20px;
+	height:140px;
+}
+
+.column-template
+{
+	width:200px;
+}
+
+.column-description
+{
+	width:377px;
+	font-style:italic;
+}
+
+.column-category
+{
+	width:160px;
+}

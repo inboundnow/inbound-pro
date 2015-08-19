@@ -23,6 +23,9 @@ if (!class_exists('Landing_Pages_ACF')) {
 			/* Intercept load custom field value request and hijack it */
 			add_filter( 'acf/load_value' , array( __CLASS__ , 'load_value' ) , 10 , 3 );
 
+			/* on landing page save - not needed
+			add_action( 'save_post' , array( __CLASS__ , 'save_acf_fields' ) , 10 , 1 );
+			*/
 		}
 
 
@@ -64,10 +67,11 @@ if (!class_exists('Landing_Pages_ACF')) {
 			$vid = Landing_Pages_Variations::get_new_variation_reference_id( $post->ID );
 
 			$settings = Landing_Pages_Meta::get_settings( $post->ID );
+
 			$variations = ( isset($settings['variations']) ) ? $settings['variations'] : null;
 
 			if (!$variations) {
-				return $value;
+				return self::load_legacy_value(  $value, $post_id, $field  );
 			}
 
 			if ( isset( $variations[ $vid ][ 'acf' ] ) ) {
@@ -83,6 +87,32 @@ if (!class_exists('Landing_Pages_ACF')) {
 				if ( strlen($value) && isset($field['default_value']) ) {
 					$value = $field['default_value'];
 				}
+			}
+			/**
+			var_dump($new);
+			echo "\r\n";echo "\r\n";echo "\r\n";
+			/**/
+			return $value;
+
+		}
+		/**
+		* Finds the correct value given the variation - uses legacy meta system
+		*
+		* @param MIXED $value contains the non-variation value
+		* @param INT $post_id ID of landing page being loaded
+		* @param ARRAY $field wide array of data belonging to custom field (not leveraged in this method)
+		*
+		* @returns MIXED $new_value value mapped to variation.
+		*/
+		public static function load_legacy_value( $value, $post_id, $field ) {
+			global $post;
+
+			$vid = Landing_Pages_Variations::get_new_variation_reference_id( $post->ID );
+
+			if ( $vid ) {
+				$value = get_post_meta( $post_id ,  $field['name'] . '-' . $vid , true );
+			} else {
+				$value = get_post_meta( $post_id ,  $field['name']  , true );
 			}
 			/**
 			var_dump($new);
@@ -216,8 +246,8 @@ if (!class_exists('Landing_Pages_ACF')) {
 	/**
 	*	Initialize ACF Integrations
 	*/
-    if ( defined('INBOUND_PRO_PATH')) {
-         new Landing_Pages_ACF();
-    }
+
+	new Landing_Pages_ACF();
+
 
 }

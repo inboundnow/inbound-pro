@@ -27,14 +27,14 @@ if (!class_exists('Inbound_Asset_Loader')) {
 			/* Conditionals for admin or frontend */
 			if(is_admin()) {
 
-				//self::enqueue_shared_file('inbound-analytics', 'assets/js/frontend/analytics/inboundAnalytics.js', array( 'jquery' ), 'inbound_settings', self::localize_lead_data());
+				/*self::enqueue_shared_file('inbound-analytics', 'assets/js/frontend/analytics/inboundAnalytics.js', array( 'jquery' ), 'inbound_settings', self::localize_lead_data()); */
 
 				self::enqueue_shared_file('jquery-cookie', 'assets/js/global/jquery.cookie.js', array( 'jquery' ));
 				self::enqueue_shared_file('jquery-total-storage', 'assets/js/global/jquery.total-storage.min.js', array( 'jquery' ));
-				$inbound_now_screens = Inbound_Compatibility::return_inbound_now_screens(); // list of inbound now screens
+				$inbound_now_screens = Inbound_Compatibility::return_inbound_now_screens(); /* list of inbound now screens */
 				$screen = get_current_screen();
 
-				/* Target Specific screen with // echo $screen->id; */
+				/* Target Specific screen with echo $screen->id; */
 
 				if ( $screen->id == 'wp-call-to-action') {
 					self::enqueue_shared_file('image-picker-js', 'assets/js/admin/image-picker.js');
@@ -50,7 +50,7 @@ if (!class_exists('Inbound_Asset_Loader')) {
 				$store = false;
 
 				if ( !empty( $wp_scripts->queue ) ) {
-					  $store = $wp_scripts->queue; // store the scripts
+					  $store = $wp_scripts->queue; /* store the scripts */
 					  foreach ( $wp_scripts->queue as $handle ) {
 						  wp_dequeue_script( $handle );
 					  }
@@ -66,7 +66,7 @@ if (!class_exists('Inbound_Asset_Loader')) {
 				}
 
 			}
-		} // end register_scripts_and_styles
+		} /* end register_scripts_and_styles */
 
 		/**
 		 * Helper function for registering and enqueueing scripts and styles.
@@ -118,7 +118,7 @@ if (!class_exists('Inbound_Asset_Loader')) {
 			$lead_uid = (isset($_COOKIE['wp_lead_uid'])) ? $_COOKIE['wp_lead_uid'] : false;
 			$custom_map_values = array();
 			$custom_map_values = apply_filters( 'inboundnow_custom_map_values_filter' , $custom_map_values);
-			// Get correct post ID
+			/* Get correct post ID */
 
 			global $wp_query;
 			$current_page_id = $wp_query->get_queried_object_id();
@@ -138,7 +138,7 @@ if (!class_exists('Inbound_Asset_Loader')) {
 				$id_check = ($post_id != null) ? true : false;
 			}
 
-			// If page tracking on
+			/* If page tracking on */
 			$lead_page_view_tracking = get_option( 'wpl-main-page-view-tracking', 1);
 			$lead_search_tracking = get_option( 'wpl-main-search-tracking', 1);
 			$lead_comment_tracking = get_option( 'wpl-main-comment-tracking', 1);
@@ -152,12 +152,12 @@ if (!class_exists('Inbound_Asset_Loader')) {
 				$page_tracking = 'off';
 			}
 
-			// Localize lead data
+			/* Localize lead data */
 			$lead_data_array = array();
 			$lead_data_array['lead_id'] = ($lead_id) ? $lead_id : null;
 			$lead_data_array['lead_email'] = ($lead_email) ? $lead_email : null;
 			$lead_data_array['lead_uid'] = ($lead_uid) ? $lead_uid : null;
-			$time = current_time( 'timestamp', 0 ); // Current wordpress time from settings
+			$time = current_time( 'timestamp', 0 ); /* Current wordpress time from settings */
 			$wordpress_date_time = date("Y/m/d G:i:s", $time);
 			$inbound_track_include = get_option( 'wpl-main-tracking-ids');
 			$inbound_track_exclude = get_option( 'wpl-main-exclude-tracking-ids');
@@ -189,9 +189,9 @@ if (!class_exists('Inbound_Asset_Loader')) {
 			);
 
 			return apply_filters( 'inbound_analytics_localized_data' , $inbound_localized_data);
-		} // end localize lead data
+		} /* end localize lead data */
 
-	} // end class
+	} /* end class */
 }
 
 Inbound_Asset_Loader::load_inbound_assets();

@@ -18,10 +18,10 @@ if ( !class_exists('Calls_To_Action_Branching')	) {
 		public static function load_hooks() {
 
 			/* adds branching capabilities to branching API for landing pages */
-			add_filter( 'inbound_plugin_branches' , array( __CLASS__ ,  'add_branches' )  , 10 , 1 );
+			add_filter( 'inbound_plugin_branches', array(__CLASS__,  'add_branches' ) , 10, 1 );
 
 			/* reset active branch during svn update */
-			//add_action( 'activate_landing_pages' , array( __CLASS__ , 'reset_branch_status' ) , 10 , 1 );
+			//add_action( 'activate_landing_pages', array(__CLASS__, 'reset_branch_status'), 10, 1 );
 		}
 
 		/**

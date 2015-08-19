@@ -25,8 +25,8 @@ if ( !class_exists('CTA_Global_Settings') ) {
 		*	Loads hooks and filters
 		*/
 		public static function add_hooks() {
-			add_action( 'admin_enqueue_scripts' , array( __CLASS__ , 'enqueue_scripts' ) );
-			add_filter( 'plugin_action_links_cta/calls-to-action.php',  array( __CLASS__ , 'plugin_action_links' ));
+			add_action( 'admin_enqueue_scripts', array(__CLASS__, 'enqueue_scripts'));
+			add_filter( 'plugin_action_links_cta/calls-to-action.php',  array(__CLASS__, 'plugin_action_links'));
 		}
 
 		/**
@@ -39,7 +39,7 @@ if ( !class_exists('CTA_Global_Settings') ) {
 				return;
 			}
 
-			wp_enqueue_style('wp-cta-css-global-settings-here', WP_CTA_URLPATH . 'css/admin-global-settings.css');
+			wp_enqueue_style('wp-cta-css-global-settings-here', WP_CTA_URLPATH . 'assets/css/admin-global-settings.css');
 		}
 
 
@@ -59,36 +59,36 @@ if ( !class_exists('CTA_Global_Settings') ) {
 				array(
 					'id'	=> 'cta-global-settings-main-header',
 					'type'	=> 'header',
-					'default'	=> __( '<h4>CTA Core Settings</h4>' , 'cta' ),
-					'description' => "<a id='clear-cta-cookies' class='button'>".__( 'Clear & Reset all Call to Action Cookies' , 'cta' ) ."</a><div class='wp_cta_tooltip tool_radio' title='". __( 'This will reset all CTA cookies to make popups work again etc. For testing purposes.' , 'cta' ) ."'></div>",
+					'default'	=> __( '<h4>CTA Core Settings</h4>', 'cta' ),
+					'description' => "<a id='clear-cta-cookies' class='button'>".__( 'Clear & Reset all Call to Action Cookies', 'cta' ) ."</a><div class='wp_cta_tooltip tool_radio' title='". __( 'This will reset all CTA cookies to make popups work again etc. For testing purposes.', 'cta' ) ."'></div>",
 					'options' => null
 				),
 				array(
 					'id'	=> 'use-lite-ajax-mode',
-					'label' => __( 'Enable fast ajax.' , 'cta' ),
-					'description' => __( 'Enabling this setting may improve server performance. Currently not compatible with Multi-site.' , 'cta' ),
+					'label' => __( 'Enable fast ajax.', 'cta' ),
+					'description' => __( 'Enabling this setting may improve server performance. Currently not compatible with Multi-site.', 'cta' ),
 					'type'	=> 'radio',
 					'default'	=> '1',
-					'options' => array( 0 => 'Off' , 1 => 'On' )
+					'options' => array( 0 => 'Off', 1 => 'On' )
 				),
 				array(
 					'id'	=> 'disable-ajax-variation-discovery',
-					'label' => __( 'Disable Split Testing.' , 'cta' ),
-					'description' => __( 'Enabling this setting may improve server performance at the loss of split testing. Only version A will be displayed for every CTA.' , 'cta' ),
+					'label' => __( 'Disable Split Testing.', 'cta' ),
+					'description' => __( 'Enabling this setting may improve server performance at the loss of split testing. Only version A will be displayed for every CTA.', 'cta' ),
 					'type'	=> 'radio',
 					'default'	=> '0',
-					'options' => array( 0 => 'Off' , 1 => 'On' )
+					'options' => array( 0 => 'Off', 1 => 'On' )
 				)
 			);
 
 			/* Setup License Keys Tab */
 			$tab_slug = 'wp-cta-license-keys';
-			$wp_cta_global_settings[$tab_slug]['label'] = __( 'License Keys' , 'cta' );
+			$wp_cta_global_settings[$tab_slug]['label'] = __( 'License Keys', 'cta' );
 
 
 			/* Setup Extensions Tab */
 			$tab_slug = 'wp-cta-extensions';
-			$wp_cta_global_settings[$tab_slug]['label'] = __( 'Extensions' , 'cta' );
+			$wp_cta_global_settings[$tab_slug]['label'] = __( 'Extensions', 'cta' );
 
 			$wp_cta_global_settings = apply_filters('wp_cta_define_global_settings',$wp_cta_global_settings);
 
@@ -145,20 +145,20 @@ if ( !class_exists('CTA_Global_Settings') ) {
 			<div class='wp-cta-settings-tab-sidebar'>
 				<div class='wp-cta-sidebar-settings'>
 					<h2 style='font-size:17px;'>
-					<?php _e( 'Like the Plugin? Leave us a review' , 'cta' ); ?>
+					<?php _e( 'Like the Plugin? Leave us a review', 'cta' ); ?>
 					</h2>
 					<center>
 						<a class='review-button' href='http://wordpress.org/support/view/plugin-reviews/cta?rate=5#postform' target='_blank'>
-							<?php _e( 'Leave a Review' , 'cta' ); ?>
+							<?php _e( 'Leave a Review', 'cta' ); ?>
 						</a>
 					</center>
 					<small>
-						<?php _e( 'Reviews help constantly improve the plugin & keep us motivated! <strong>Thank you for your support!</strong>' , 'cta' ); ?>
+						<?php _e( 'Reviews help constantly improve the plugin & keep us motivated! <strong>Thank you for your support!</strong>', 'cta' ); ?>
 					</small>
 				</div>
 				<div class='wp-cta-sidebar-settings'>
 					<h2>
-						<?php _e( 'Help keep the plugin up to date, awesome & free!' , 'cta' ); ?>
+						<?php _e( 'Help keep the plugin up to date, awesome & free!', 'cta' ); ?>
 					</h2>
 					<form action='https://www.paypal.com/cgi-bin/webscr' method='post' target='_top'>
 						<input type='hidden' name='cmd' value='_s-xclick'>
@@ -167,12 +167,12 @@ if ( !class_exists('CTA_Global_Settings') ) {
 						<img alt='' border='0' src='https://www.paypalobjects.com/en_US/i/scr/pixel.gif' width='1' height='1'>
 					</form>
 						<small>
-						<?php _e( 'Spare some change? Buy us a coffee/beer.<strong> We appreciate your continued support.</strong>' , 'cta' ); ?>
+						<?php _e( 'Spare some change? Buy us a coffee/beer.<strong> We appreciate your continued support.</strong>', 'cta' ); ?>
 						</small>
 				</div>
 				<div class='wp-cta-sidebar-settings'>
 					<h2 style='font-size:18px;'>
-						<?php _e( 'Follow Updates on Facebook' , 'cta' ); ?>
+						<?php _e( 'Follow Updates on Facebook', 'cta' ); ?>
 					</h2>
 					<iframe src='//www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Finboundnow&amp;width=234&amp;height=65&amp;colorscheme=light&amp;show_faces=false&amp;border_color&amp;stream=false&amp;header=false&amp;appId=364256913591848' scrolling='no' frameborder='0' style='border:none; overflow:hidden; width:234px; height:65px;' allowTransparency='true'>
 					</iframe>
@@ -197,7 +197,7 @@ if ( !class_exists('CTA_Global_Settings') ) {
 			foreach ( self::$core_settings as $key => $data)
 			{
 				if (isset($data['settings'])) {
-					self::render_setting($key , $data['settings']);
+					self::render_setting($key, $data['settings']);
 				}
 			}
 
@@ -209,11 +209,11 @@ if ( !class_exists('CTA_Global_Settings') ) {
 			?>
 
 			<div class="clear" id="php-sql-wp-cta-version">
-			<h3><?php _e( 'Installation Status' , 'cta' ); ?></h3>
+			<h3><?php _e( 'Installation Status', 'cta' ); ?></h3>
 					<table class="form-table" id="wp-cta-wordpress-site-status">
 
 					<tr valign="top">
-						<th scope="row"><label><?php _e( 'PHP Version' , 'cta' ); ?></label></th>
+						<th scope="row"><label><?php _e( 'PHP Version', 'cta' ); ?></label></th>
 						<td class="installation_item_cell">
 							<strong><?php echo phpversion(); ?></strong>
 						</td>
@@ -221,13 +221,13 @@ if ( !class_exists('CTA_Global_Settings') ) {
 							<?php
 								if(version_compare(phpversion(), '5.0.0', '>')){
 									?>
-									<img src="<?php echo WP_CTA_URLPATH;?>/images/tick.png"/>
+									<img src="<?php echo WP_CTA_URLPATH;?>assets/images/tick.png"/>
 									<?php
 								}
 								else{
 									?>
-									<img src="<?php echo WP_CTA_URLPATH;?>/images/cross.png"/>
-									<span class="installation_item_message"><?php _e( "Inbound Now requires PHP 5 or above." , "cta"); ?></span>
+									<img src="<?php echo WP_CTA_URLPATH;?>assets/images/cross.png"/>
+									<span class="installation_item_message"><?php _e( "Inbound Now requires PHP 5 or above.", "cta"); ?></span>
 									<?php
 								}
 							?>
@@ -242,13 +242,13 @@ if ( !class_exists('CTA_Global_Settings') ) {
 							<?php
 								if(version_compare($wpdb->db_version(), '5.0.0', '>')){
 									?>
-									<img src="<?php echo WP_CTA_URLPATH;?>/images/tick.png"/>
+									<img src="<?php echo WP_CTA_URLPATH;?>assets/images/tick.png"/>
 									<?php
 								}
 								else{
 									?>
-									<img src="<?php echo WP_CTA_URLPATH;?>/images/cross.png"/>
-									<span class="installation_item_message"><?php _e( "Inbound Now requires MySQL 5 or above." , "cta"); ?></span>
+									<img src="<?php echo WP_CTA_URLPATH;?>assets/images/cross.png"/>
+									<span class="installation_item_message"><?php _e( "Inbound Now requires MySQL 5 or above.", "cta"); ?></span>
 									<?php
 								}
 							?>
@@ -263,20 +263,20 @@ if ( !class_exists('CTA_Global_Settings') ) {
 							<?php
 								if(version_compare(get_bloginfo("version"), '3.3', '>')){
 									?>
-									<img src="<?php echo WP_CTA_URLPATH;?>/images/tick.png"/>
+									<img src="<?php echo WP_CTA_URLPATH;?>assets/images/tick.png"/>
 									<?php
 								}
 								else{
 									?>
-									<img src="<?php echo WP_CTA_URLPATH;?>/images/cross.png"/>
-									<span class="installation_item_message"><?php _e( 'landing pages requires version X or higher' , 'cta' ) ?></span>
+									<img src="<?php echo WP_CTA_URLPATH;?>assets/images/cross.png"/>
+									<span class="installation_item_message"><?php _e( 'landing pages requires version X or higher', 'cta' ) ?></span>
 									<?php
 								}
 							?>
 						</td>
 					</tr>
 					<tr valign="top">
-						<th scope="row"><label><?php _e( 'WordPress CTA Version' , 'cta' ); ?></label></th>
+						<th scope="row"><label><?php _e( 'WordPress CTA Version', 'cta' ); ?></label></th>
 						<td class="installation_item_cell">
 							<strong>Version <?php echo WP_CTA_CURRENT_VERSION;?></strong>
 						</td>
@@ -295,7 +295,7 @@ if ( !class_exists('CTA_Global_Settings') ) {
 		*	@param STRING $key tab key
 		*	@param ARRAY $custom_fields field settings
 		*/
-		public static function render_setting($key , $custom_fields ) {
+		public static function render_setting($key, $custom_fields ) {
 
 			( $key==self::$active_tab ) ? $display = 'block' : 	$display = 'none';
 
@@ -358,7 +358,7 @@ if ( !class_exists('CTA_Global_Settings') ) {
 								break;
 							case 'license-key':
 								$license_status = self::check_license_status($field);
-								$master_key = get_option('inboundnow_master_license_key' , '');
+								$master_key = get_option('inboundnow_master_license_key', '');
 
 								if ($master_key)
 								{
@@ -395,7 +395,7 @@ if ( !class_exists('CTA_Global_Settings') ) {
 								break;
 							// wysiwyg
 							case 'wysiwyg':
-								wp_editor( $field['value'], $field['id'], $settings = array() );
+								wp_editor( $field['value'], $field['id'], $settings = array());
 								echo	'<span class="description">'.$field['description'].'</span><br><br>';
 								break;
 							// media
@@ -546,13 +546,13 @@ if ( !class_exists('CTA_Global_Settings') ) {
 			);
 
 			// Call the custom API.
-			$response = wp_remote_get( add_query_arg( $api_params, WP_CTA_STORE_URL ), array( 'timeout' => 15, 'sslverify' => false ) );
+			$response = wp_remote_get( add_query_arg( $api_params, WP_CTA_STORE_URL ), array( 'timeout' => 15, 'sslverify' => false ));
 
 			if ( is_wp_error( $response ) ) {
 				return false;
 			}
 
-			$license_data = json_decode( wp_remote_retrieve_body( $response ) );
+			$license_data = json_decode( wp_remote_retrieve_body( $response ));
 
 			if( $license_data->license == 'valid' ) {
 				$newDate = date('Y-m-d', $license_data->expires );
@@ -606,7 +606,7 @@ if ( !class_exists('CTA_Global_Settings') ) {
 						if ($field['type']=='license-key')
 						{
 							// retrieve the license from the database
-							$license = trim( get_option( 'edd_sample_license_key' ) );
+							$license = trim( get_option( 'edd_sample_license_key'));
 
 							// data to send in our API request
 							$api_params = array(
@@ -616,14 +616,14 @@ if ( !class_exists('CTA_Global_Settings') ) {
 							);
 
 							// Call the custom API.
-							$response = wp_remote_get( add_query_arg( $api_params, WP_CTA_STORE_URL ), array( 'timeout' => 15, 'sslverify' => false ) );
+							$response = wp_remote_get( add_query_arg( $api_params, WP_CTA_STORE_URL ), array( 'timeout' => 15, 'sslverify' => false ));
 
 							// make sure the response came back okay
 							if ( is_wp_error( $response ) )
 								break;
 
 							// decode the license data
-							$license_data = json_decode( wp_remote_retrieve_body( $response ) );
+							$license_data = json_decode( wp_remote_retrieve_body( $response ));
 
 							// $license_data->license will be either "active" or "inactive"
 							$license_status = update_option('wp_cta_license_status-'.$field['slug'], $license_data->license);
@@ -633,7 +633,7 @@ if ( !class_exists('CTA_Global_Settings') ) {
 					{
 						if ($field['type']=='license-key')
 						{
-							$master_key = get_option('inboundnow_master_license_key' , '');
+							$master_key = get_option('inboundnow_master_license_key', '');
 							if ($master_key)
 							{
 								$bool = update_option($field['id'], $master_key );
@@ -662,7 +662,7 @@ if ( !class_exists('CTA_Global_Settings') ) {
 							}
 
 							// retrieve the license from the database
-							$license = trim( get_option( 'edd_sample_license_key' ) );
+							$license = trim( get_option( 'edd_sample_license_key'));
 
 							// data to send in our API request
 							$api_params = array(
@@ -672,14 +672,14 @@ if ( !class_exists('CTA_Global_Settings') ) {
 							);
 
 							// Call the custom API.
-							$response = wp_remote_get( add_query_arg( $api_params, WP_CTA_STORE_URL ), array( 'timeout' => 15, 'sslverify' => false ) );
+							$response = wp_remote_get( add_query_arg( $api_params, WP_CTA_STORE_URL ), array( 'timeout' => 15, 'sslverify' => false ));
 
 							// make sure the response came back okay
 							if ( is_wp_error( $response ) )
 								break;
 
 							// decode the license data
-							$license_data = json_decode( wp_remote_retrieve_body( $response ) );
+							$license_data = json_decode( wp_remote_retrieve_body( $response ));
 
 							// $license_data->license will be either "active" or "inactive"
 							$license_status = update_option('wp_cta_license_status-'.$field['slug'], $license_data->license);
@@ -702,7 +702,7 @@ if ( !class_exists('CTA_Global_Settings') ) {
 	function load_CTA_Global_Settings() {
 		$CTA_Global_Settings = new CTA_Global_Settings;
 	}
-	add_action( 'admin_init' , 'load_CTA_Global_Settings' );
+	add_action( 'admin_init', 'load_CTA_Global_Settings' );
 
 }
 

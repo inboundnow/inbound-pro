@@ -1,0 +1,28 @@
+.media-upload-form {
+margin-top: 20px;
+width: 376px;
+}
+#media-upload #filter {
+width: 376px;
+}
+.post_title, .image_alt, .post_excerpt, .post_content, .url, .align, .upload-flash-bypass, .max-upload-size {
+	display: none;
+}
+.savesend input.button {
+	background-color: #21759b;
+background-image: -webkit-gradient(linear,left top,left bottom,from(#2a95c5),to(#21759b));
+background-image: -webkit-linear-gradient(top,#2a95c5,#21759b);
+background-image: -moz-linear-gradient(top,#2a95c5,#21759b);
+background-image: -ms-linear-gradient(top,#2a95c5,#21759b);
+background-image: -o-linear-gradient(top,#2a95c5,#21759b);
+background-image: linear-gradient(to bottom,#2a95c5,#21759b);
+border-color: #21759b;
+border-bottom-color: #1e6a8d;
+-webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,0.5);
+box-shadow: inset 0 1px 0 rgba(120,200,230,0.5);
+color: #fff;
+text-decoration: none;
+text-shadow: 0 1px 0 rgba(0,0,0,0.1);
+height: 35px;
+font-size: 20px;
+}

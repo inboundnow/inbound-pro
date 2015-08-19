@@ -15,10 +15,10 @@ if ( !class_exists('CTA_Template_Manager') ) {
 		*	Initializes class
 		*/
 		public function __construct() {
-			add_action( 'admin_enqueue_scripts' , array( __CLASS__ , 'enqueue_scripts' ) );
+			add_action( 'admin_enqueue_scripts', array(__CLASS__, 'enqueue_scripts'));
 			/* prepare handler hook for uploads page */
-			add_action('admin_menu', array( __CLASS__ , 'add_pages') );
-			add_action('admin_notices',  array( __CLASS__ , 'dont_install_cta_templates_here'));
+			add_action('admin_menu', array(__CLASS__, 'add_pages'));
+			add_action('admin_notices',  array(__CLASS__, 'dont_install_cta_templates_here'));
 		}
 
 		/**
@@ -29,18 +29,18 @@ if ( !class_exists('CTA_Template_Manager') ) {
 
 			/* Load assets for upload page */
 			if ( ( isset($screen) && $screen->base == 'wp-call-to-action_page_wp_cta_templates_upload' ) ){
-				wp_enqueue_script('wp-cta-js-templates-upload', WP_CTA_URLPATH . 'js/admin/admin.templates-upload.js');
+				wp_enqueue_script('wp-cta-js-templates-upload', WP_CTA_URLPATH . 'assets/js/admin/admin.templates-upload.js');
 			}
 
 			/* Load assets for Templates listing page */
 			if ( ( isset($screen) && $screen->base == 'wp-call-to-action_page_wp_cta_manage_templates' ) ){
-				wp_enqueue_style('wp-cta-css-templates', WP_CTA_URLPATH . 'css/admin-templates.css');
-				wp_enqueue_script('wp-cta-js-templates', WP_CTA_URLPATH . 'js/admin/admin.templates.js');
+				wp_enqueue_style('wp-cta-css-templates', WP_CTA_URLPATH . 'assets/css/admin-templates.css');
+				wp_enqueue_script('wp-cta-js-templates', WP_CTA_URLPATH . 'assets/js/admin/admin.templates.js');
 			}
 
 			/* Load assets for store search */
 			if ( ( isset($screen) && $screen->base == 'wp-call-to-action_page_wp_cta_store' ) ){
-					wp_enqueue_script('easyXDM', WP_CTA_URLPATH . 'js/libraries/easyXDM.debug.js');
+					wp_enqueue_script('easyXDM', WP_CTA_URLPATH . 'assets/lib/easyXDM.debug.js');
 			}
 		}
 
@@ -67,21 +67,21 @@ if ( !class_exists('CTA_Template_Manager') ) {
 			/** Template management page */
 			$hookname = get_plugin_page_hookname('wp_cta_manage_templates', 'edit.php?post_type=wp-call-to-action');
 			if (!empty($hookname)) {
-				add_action( $hookname , array( __CLASS__ , 'display_management_page') );
+				add_action( $hookname, array(__CLASS__, 'display_management_page'));
 			}
 			$_registered_pages[$hookname] = true;
 
 			/** Template upload page */
 			$hookname = get_plugin_page_hookname('wp_cta_templates_upload', 'edit.php?post_type=wp-call-to-action');
 			if (!empty($hookname)) {
-				add_action( $hookname , array( __CLASS__ , 'display_upload_page') );
+				add_action( $hookname, array(__CLASS__, 'display_upload_page'));
 			}
 			$_registered_pages[$hookname] = true;
 
 			/** Template search page */
 			$hookname = get_plugin_page_hookname('wp_cta_store', 'edit.php?post_type=wp-call-to-action');
 			if (!empty($hookname)) {
-				add_action( $hookname , array( __CLASS__ , 'display_store_search') );
+				add_action( $hookname, array(__CLASS__, 'display_store_search'));
 			}
 			$_registered_pages[$hookname] = true;
 
@@ -142,7 +142,7 @@ if ( !class_exists('CTA_Template_Manager') ) {
 					if (count($_REQUEST['template'])>0) {
 
 						foreach ($_REQUEST['template'] as $key=>$slug) {
-							self::delete_template( WP_CTA_PATH.'templates/'.$slug , $slug );
+							self::delete_template( WP_CTA_PATH.'templates/'.$slug, $slug );
 						}
 
 					}
@@ -225,7 +225,7 @@ if ( !class_exists('CTA_Template_Manager') ) {
 				wp_mkdir_p( $extended_path );
 			}
 
-			$result = $zip->extract(PCLZIP_OPT_PATH, $extended_path , PCLZIP_OPT_REPLACE_NEWER );
+			$result = $zip->extract(PCLZIP_OPT_PATH, $extended_path, PCLZIP_OPT_REPLACE_NEWER );
 
 			if (!$result){
 				die("There was a problem. Please try again!");
@@ -240,7 +240,7 @@ if ( !class_exists('CTA_Template_Manager') ) {
 		*  @param STRING $dir
 		*  @param STRING $slug
 		*/
-		public static function delete_template( $dir , $slug) {
+		public static function delete_template( $dir, $slug) {
 
 			if (!file_exists($dir)) {
 				return true;
@@ -252,9 +252,9 @@ if ( !class_exists('CTA_Template_Manager') ) {
 			if (!is_dir($dir) || is_link($dir)) return unlink($dir);
 			foreach (scandir($dir) as $item) {
 				if ($item == '.' || $item == '..') continue;
-				if (!self::delete_template($dir . "/" . $item , $slug)) {
+				if (!self::delete_template($dir . "/" . $item, $slug)) {
 					chmod($dir . "/" . $item, 0777);
-					if (!self::delete_template($dir . "/" . $item , $slug)) return false;
+					if (!self::delete_template($dir . "/" . $item, $slug)) return false;
 				};
 			}
 
@@ -276,7 +276,7 @@ if ( !class_exists('CTA_Template_Manager') ) {
 				'nature' 			=> 'template',
 			);
 
-			$request = wp_remote_post( WP_CTA_STORE_URL, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );
+			$request = wp_remote_post( WP_CTA_STORE_URL, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ));
 
 			if ( !is_wp_error( $request ) ):
 				$request = json_decode( wp_remote_retrieve_body( $request ), true );
@@ -311,24 +311,24 @@ if ( !class_exists('CTA_Template_Manager') ) {
 		public static function display_upload_form() {
 		?>
 			<div class="wrap templates_upload">
-				<div class="icon32" id="icon-plugins"><br></div><h2><?php _e( 'Install Templates' , 'cta' ); ?></h2>
+				<div class="icon32" id="icon-plugins"><br></div><h2><?php _e( 'Install Templates', 'cta' ); ?></h2>
 
 				<ul class="subsubsub">
-					<li class="plugin-install-dashboard"><a href="#search" id='menu_search'><?php _e( 'Search' , 'cta' ) ; ?></a> |</li>
-					<li class="plugin-install-upload"><a class="current" href="#upload" id='menu_upload'><?php _e( 'Upload' , 'cta' ) ; ?></a> </li>
+					<li class="plugin-install-dashboard"><a href="#search" id='menu_search'><?php _e( 'Search', 'cta' ) ; ?></a> |</li>
+					<li class="plugin-install-upload"><a class="current" href="#upload" id='menu_upload'><?php _e( 'Upload', 'cta' ) ; ?></a> </li>
 				</ul>
 
 				<br class="clear">
-					<h4><?php _e( 'Install Calls to Action template by uploading them here in .zip format' , 'cta' ) ; ?></h4>
+					<h4><?php _e( 'Install Calls to Action template by uploading them here in .zip format', 'cta' ) ; ?></h4>
 
-					 <p class="install-help"><?php _e( 'Warning: Do not upload landing page extensions here or you will break the plugin! <br>Extensions are uploaded in the WordPress plugins section.' , 'cta' ) ; ?>
+					 <p class="install-help"><?php _e( 'Warning: Do not upload landing page extensions here or you will break the plugin! <br>Extensions are uploaded in the WordPress plugins section.', 'cta' ) ; ?>
 					</p>
 					<form action="" class="wp-upload-form" enctype="multipart/form-data" method="post">
 						<input type="hidden" value="<?php echo wp_create_nonce('wp-cta-nonce'); ?>" name="wp_cta_wpnonce" id="_wpnonce">
 						<input type="hidden" value="/wp-admin/plugin-install.php?tab=upload" name="_wp_http_referer">
-						<label for="pluginzip" class="screen-reader-text"><?php _e('Template zip file' , 'cta' ) ; ?></label>
+						<label for="pluginzip" class="screen-reader-text"><?php _e('Template zip file', 'cta' ) ; ?></label>
 						<input type="file" name="templatezip" id="templatezip">
-						<input type="submit" value="<?php _e('Install Now' , 'cta' ) ; ?>" class="button" id="install-template-submit" name="install-template-submit" disabled="">
+						<input type="submit" value="<?php _e('Install Now', 'cta' ) ; ?>" class="button" id="install-template-submit" name="install-template-submit" disabled="">
 					</form>
 			</div>
 		<?php
@@ -360,7 +360,7 @@ if ( !class_exists('CTA_Template_Manager') ) {
 			}
 
 			if (($list = $zip->listContent()) == 0) {
-				die(__('There was a problem. Please try again!' , 'cta' ));
+				die(__('There was a problem. Please try again!', 'cta'));
 			}
 
 			$is_template = false;
@@ -380,14 +380,14 @@ if ( !class_exists('CTA_Template_Manager') ) {
 
 			if (!$is_template) {
 				echo "<br><br><br><br>";
-				die(__( 'WARNING! This zip file does not seem to be a call to action template file! If you are trying to install an inbound now extension please use the Plugin\'s upload section! Please press the back button and try again!' , 'cta' ));
+				die(__( 'WARNING! This zip file does not seem to be a call to action template file! If you are trying to install an inbound now extension please use the Plugin\'s upload section! Please press the back button and try again!', 'cta'));
 			}
 
-			if ($result = $zip->extract(PCLZIP_OPT_PATH, WP_CTA_UPLOADS_PATH ,  PCLZIP_OPT_REPLACE_NEWER  ) == 0) {
-				die(__( 'There was a problem. Please try again!' , 'cta' ));
+			if ($result = $zip->extract(PCLZIP_OPT_PATH, WP_CTA_UPLOADS_PATH,  PCLZIP_OPT_REPLACE_NEWER  ) == 0) {
+				die(__( 'There was a problem. Please try again!', 'cta'));
 			} else 	{
 				unlink( $_FILES['templatezip']["tmp_name"]);
-				echo '<div class="updated"><p>'. __( 'Template uploaded successfully!' , 'cta' ) .'</div>';
+				echo '<div class="updated"><p>'. __( 'Template uploaded successfully!', 'cta' ) .'</div>';
 			}
 		}
 
@@ -398,18 +398,18 @@ if ( !class_exists('CTA_Template_Manager') ) {
 			?>
 
 			<div class="wrap templates_search" style='display:none'>
-				<div class="icon32" id="icon-plugins"><br></div><h2><?php _e('Search Templates' , 'cta' ) ; ?></h2>
+				<div class="icon32" id="icon-plugins"><br></div><h2><?php _e('Search Templates', 'cta' ) ; ?></h2>
 
 				<ul class="subsubsub">
-						<li class="plugin-install-dashboard"><a href="#search" id='menu_search'><?php _e('Search' , 'cta' ) ; ?></a> |</li>
-						<li class="plugin-install-upload"><a class="current" href="#upload" id='menu_upload'><?php _e('Upload' , 'cta' ) ; ?></a> </li>
+						<li class="plugin-install-dashboard"><a href="#search" id='menu_search'><?php _e('Search', 'cta' ) ; ?></a> |</li>
+						<li class="plugin-install-upload"><a class="current" href="#upload" id='menu_upload'><?php _e('Upload', 'cta' ) ; ?></a> </li>
 				</ul>
 
 				<br class="clear">
-					<p class="install-help"><?php _e('Search the Inboundnow marketplace for free and premium templates.' , 'cta' ) ; ?></p>
+					<p class="install-help"><?php _e('Search the Inboundnow marketplace for free and premium templates.', 'cta' ) ; ?></p>
 					<form action="edit.php?post_type=wp-call-to-action&page=wp_cta_store" method="POST" id="">
 						<input type="search" autofocus="autofocus" value="" name="search">
-						<label for="plugin-search-input" class="screen-reader-text"><?php _e('Search Templates' , 'cta' ) ; ?></label>
+						<label for="plugin-search-input" class="screen-reader-text"><?php _e('Search Templates', 'cta' ) ; ?></label>
 						<input type="submit" value="Search Templates" class="button" id="plugin-search-input" name="plugin-search-input">
 					</form>
 			</div>
@@ -469,6 +469,6 @@ if ( !class_exists('CTA_Template_Manager') ) {
 	function load_CTA_Template_Manager() {
 		$CTA_Template_Manager = new CTA_Template_Manager;
 	}
-	add_action( 'init' , 'load_CTA_Template_Manager' );
+	add_action( 'init', 'load_CTA_Template_Manager' );
 
 }

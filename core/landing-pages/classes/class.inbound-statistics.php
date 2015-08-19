@@ -231,9 +231,9 @@ if (!class_exists('Inbound_Content_Statistics')) {
             }
             /* increment conversions for non landing pages */
             else  {
-                $impressions = Inbound_Content_Statistics::get_conversions_count( $post_id );
-                $impressons++;
-                Inbound_Content_Statistics::set_conversions_count( $post_id );
+                $conversions = Inbound_Content_Statistics::get_conversions_count( $data['page_id'] );
+				$conversions++;
+                Inbound_Content_Statistics::set_conversions_count( $data['page_id'] , $conversions );
             }
 
             return $data;
@@ -336,14 +336,14 @@ if (!class_exists('Inbound_Content_Statistics')) {
         /**
          * Set impression count
          */
-        public static function set_impressions_count( $post_id , $vid , $count ) {
+        public static function set_impressions_count( $post_id , $count ) {
             update_post_meta( $post_id, '_inbound_impressions_count', $count );
         }
 
         /**
          * Set conversion count
          */
-        public static function set_conversions_count( $post_id , $vid , $count ) {
+        public static function set_conversions_count( $post_id , $count ) {
             update_post_meta( $post_id, '_inbound_conversions_count', $count );
         }
 

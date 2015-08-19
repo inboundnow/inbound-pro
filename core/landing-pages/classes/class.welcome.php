@@ -10,8 +10,8 @@
  * Forked from pippin's WordPress Landing Pages! https://easydigitaldownloads.com/
  */
 
-// Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+/* Exit if accessed directly */
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
  * LandingPages_Welcome Class
@@ -48,7 +48,7 @@ class LandingPages_Welcome {
      * @return void
      */
     public function admin_menus() {
-        // About Page
+        /* About Page */
         add_dashboard_page(
             __( 'Welcome to WordPress Landing Pages', 'landing-pages'),
             __( 'Welcome to WordPress Landing Pages', 'landing-pages'),
@@ -56,7 +56,7 @@ class LandingPages_Welcome {
             'lp-quick-start',
             array( $this, 'quick_start_screen' )
         );
-        // About InboundNow Page
+        /* About InboundNow Page */
         add_dashboard_page(
             __( 'About the Inbound Now Marketing Platform', 'landing-pages'),
             __( 'About the Inbound Now Marketing Platform', 'landing-pages'),
@@ -64,7 +64,7 @@ class LandingPages_Welcome {
             'about-inboundnow',
             array( $this, 'about_inboundnow_screen' )
         );
-        // Developer Page
+        /* Developer Page */
         add_dashboard_page(
             __( 'Developers and Designers', 'landing-pages'),
             __( 'Developers and Designers', 'landing-pages'),
@@ -87,8 +87,6 @@ class LandingPages_Welcome {
         remove_submenu_page( 'index.php', 'about-inboundnow' );
         remove_submenu_page( 'index.php', 'inbound-developers' );
 
-        // Badge for welcome page
-        $badge_url = WP_PLUGIN_DIR . 'assets/images/edd-badge.png';
         ?>
         <style type="text/css" media="screen">
             /*<![CDATA[*/
@@ -102,7 +100,6 @@ class LandingPages_Welcome {
                 text-align: center;
                 text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
                 margin: 0 -5px;
-                background: url('<?php echo $badge_url; ?>') no-repeat;
             }
 
             .about-wrap .edd-badge {
@@ -286,13 +283,13 @@ class LandingPages_Welcome {
         $rec_end = "";
         if (!is_plugin_active('cta/wordpress-cta.php')) {
             $Recommended = "<div id='recommended-other-plugins'><h4>Recommended Other Plugins</h4>";
-            $cta_install = "<a href='".esc_url( admin_url( add_query_arg( array( 'tab' => 'search', 's' => 'wordpress+call+to+action' ), 'plugin-install.php' ) ) )."'><img src='".LANDINGPAGES_URLPATH."images/cta-install.png'></a>";
+            $cta_install = "<a href='".esc_url( admin_url( add_query_arg( array( 'tab' => 'search', 's' => 'wordpress+call+to+action' ), 'plugin-install.php' ) ) )."'><img src='".LANDINGPAGES_URLPATH."assets/images/cta-install.png'></a>";
             $rec_end = "</div>";
 
         }
         if (!is_plugin_active('leads/wordpress-leads.php')) {
             $Recommended = "<div id='recommended-other-plugins'><h4>Install Recommended Plugins</h4>";
-            $leads_install = "<a href='".esc_url( admin_url( add_query_arg( array( 'tab' => 'search', 's' => 'WordPress%20Leads' ), 'plugin-install.php' ) ) )."'><img src='".LANDINGPAGES_URLPATH."images/leads-install.png'></a>";
+            $leads_install = "<a href='".esc_url( admin_url( add_query_arg( array( 'tab' => 'search', 's' => 'WordPress%20Leads' ), 'plugin-install.php' ) ) )."'><img src='".LANDINGPAGES_URLPATH."assets/images/leads-install.png'></a>";
             $rec_end = "</div>";
 
         }
@@ -582,18 +579,18 @@ class LandingPages_Welcome {
                 </div>
                 <div class='grid one-third' id="inbound-contribute" style="text-align: center;">
                     <p class="about-description" style=""><a href="https://github.com/inboundnow/landing-pages" target="_blank"><b>Contribute Code</b> + <span style="font-size:21px"><b>Submit Feature Requests</b></span></a></p>
-                    <a href="https://github.com/inboundnow/landing-pages"  target="_blank"><img src="<?php echo LANDINGPAGES_URLPATH;?>images/github-help.jpg"></a>
+                    <a href="https://github.com/inboundnow/landing-pages"  target="_blank"><img src="<?php echo LANDINGPAGES_URLPATH;?>assets/images/github-help.jpg"></a>
                 </div>
             </div>
         </div>
         <?php
     }
     public function force_permalink_flush(){
-        // Bail if multisite
+        /* Bail if multisite */
         if ( is_network_admin() || isset( $_GET['activate-multi'] ) ) {
             return;
         }
-        // check if flushed
+        /* check if flushed */
         $hasFlushed = get_option( 'inbound_permalink_flush' );
         if($hasFlushed) {
             return;
@@ -619,16 +616,18 @@ class LandingPages_Welcome {
      */
     public function welcome() {
 
-        // Bail if no activation redirect
-        if ( ! get_transient( '_landing_page_activation_redirect' ) )
+        /* Bail if no activation redirect */
+        if ( ! get_transient( '_landing_page_activation_redirect' ) ) {
             return;
+        }
 
-        // Delete the redirect transient
+        /* Delete the redirect transient */
         delete_transient( '_landing_page_activation_redirect' );
 
-        // Bail if activating from network, or bulk
-        if ( is_network_admin() || isset( $_GET['activate-multi'] ) )
+        /* Bail if activating from network, or bulk */
+        if ( is_network_admin() || isset( $_GET['activate-multi'] ) ){
             return;
+        }
 
         wp_safe_redirect( admin_url( 'index.php?page=lp-quick-start' ) ); exit;
     }

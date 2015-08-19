@@ -18,27 +18,27 @@ class CTA_Ajax_Listeners {
 	public static function load_hooks() {
 
 		/* Add listener to clear "all" CTA statistics */
-		add_action( 'wp_ajax_wp_cta_clear_all_cta_stats', array( __CLASS__ , 'clear_all_stats') );
+		add_action( 'wp_ajax_wp_cta_clear_all_cta_stats', array(__CLASS__, 'clear_all_stats'));
 
 		/* Adds listener to clear CTA stats */
-		add_action( 'wp_ajax_wp_cta_clear_stats_action', array( __CLASS__ , 'clear_stats' ) );
+		add_action( 'wp_ajax_wp_cta_clear_stats_action', array(__CLASS__, 'clear_stats'));
 
 		/* Adds listener to clear CTA Variation stats	*/
-		add_action( 'wp_ajax_wp_cta_clear_variation_stats', array( __CLASS__ , 'clear_variation_stats' ) );
+		add_action( 'wp_ajax_wp_cta_clear_variation_stats', array(__CLASS__, 'clear_variation_stats'));
 
 		/* Adds listener to record CTA Variation impression */
-		add_action('wp_ajax_wp_cta_record_impressions', array( __CLASS__ , 'record_impression' ) );
-		add_action('wp_ajax_nopriv_wp_cta_record_impressions', array( __CLASS__ , 'record_impression' ) );
+		add_action('wp_ajax_wp_cta_record_impressions', array(__CLASS__, 'record_impression'));
+		add_action('wp_ajax_nopriv_wp_cta_record_impressions', array(__CLASS__, 'record_impression'));
 
 		/* Adds listener to record CTA variation conversions */
-		add_action('wp_ajax_wp_cta_record_conversion', array( __CLASS__ , 'record_conversion' ) );
-		add_action('wp_ajax_nopriv_wp_cta_record_conversion', array( __CLASS__ , 'record_conversion' ) );
+		add_action('wp_ajax_wp_cta_record_conversion', array(__CLASS__, 'record_conversion'));
+		add_action('wp_ajax_nopriv_wp_cta_record_conversion', array(__CLASS__, 'record_conversion'));
 
 		/* Adds listener to save CTA post meta */
-		add_action( 'wp_ajax_wp_wp_call_to_action_meta_save', array( __CLASS__ , 'save_meta' ) );
+		add_action( 'wp_ajax_wp_wp_call_to_action_meta_save', array(__CLASS__, 'save_meta'));
 
 		/* Adds listener to serve next cta variation in line & update markers */
-		add_action( 'wp_ajax_nopriv_cta_get_variation', array( __CLASS__ , 'serve_varition' ) );
+		add_action( 'wp_ajax_nopriv_cta_get_variation', array(__CLASS__, 'serve_varition'));
 	}
 
 	/**
@@ -76,7 +76,7 @@ class CTA_Ajax_Listeners {
 		$post_id = mysql_real_escape_string($_POST['page_id']);
 		$vid = $_POST['variation'];
 
-		$CTA_Call_To_Action_Post_Type->clear_cta_variation_stats( $post_id , $vid );
+		$CTA_Call_To_Action_Post_Type->clear_cta_variation_stats( $post_id, $vid );
 
 		header('HTTP/1.1 200 OK');
 		exit;
@@ -93,14 +93,14 @@ class CTA_Ajax_Listeners {
 			return;
 		}
 
-		$do_not_track = apply_filters('inbound_analytics_stop_track' , false );
+		$do_not_track = apply_filters('inbound_analytics_stop_track', false );
 
 		if ( $do_not_track ) {
 			return;
 		}
 
 		foreach ( $_POST['ctas'] as $cta_id => $vid ) {
-			do_action('wp_cta_record_impression' , $cta_id , $vid );
+			do_action('wp_cta_record_impression', $cta_id, $vid );
 		}
 
 		//print_r($ctas);
@@ -119,7 +119,7 @@ class CTA_Ajax_Listeners {
 		$cta_id = trim($_POST['cta_id']);
 		$variation_id = trim($_POST['variation_id']);
 
-		$do_not_track = apply_filters('inbound_analytics_stop_track' , false );
+		$do_not_track = apply_filters('inbound_analytics_stop_track', false );
 
 		if ( $do_not_track ) {
 			return;
@@ -185,9 +185,9 @@ class CTA_Ajax_Listeners {
 			$cta_id = $_GET['cta_id'];
 		}
 
-		$variations = get_post_meta( $_GET['cta_id'] , 'wp-cta-variations' , true);
-		$variations_array = json_decode( $variations , true );
-		$variation_marker = get_post_meta( $_GET['cta_id'] , '_cta_ab_variation_marker' , true );
+		$variations = get_post_meta( $_GET['cta_id'], 'wp-cta-variations', true);
+		$variations_array = json_decode( $variations, true );
+		$variation_marker = get_post_meta( $_GET['cta_id'], '_cta_ab_variation_marker', true );
 
 		if (!is_numeric($variation_marker)) {
 			$variation_marker = 0;
@@ -243,7 +243,7 @@ class CTA_Ajax_Listeners {
 		}
 
 
-		update_post_meta( $_GET['cta_id'] ,  '_cta_ab_variation_marker', $variation_marker);
+		update_post_meta( $_GET['cta_id'],  '_cta_ab_variation_marker', $variation_marker);
 		echo $variation_marker;
 		exit;
 

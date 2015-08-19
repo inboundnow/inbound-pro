@@ -1,0 +1,72 @@
+/* CSS for the Customizer Edit */
+
+:root:root:root .inbound-customizer {
+
+    #wpadminbar, #edit-slug-box, #post-status-info, #screen-options-link-wrap, #leads-table-container, .misc-pub-section, #minor-publishing, .misc-pub-section, .misc-pub-section.curtime, #delete-action, #convert-header, #wp-cta-tour, #view-post-btn, #launch-visual-editer, #adminmenuwrap, #lp_ab_display_stats_metabox, #wp-cta-thumbnail-sidebar-preview, #landing_page_categorydiv, #postimagediv, #leads-table-container-inside, .updated.below-h2 a, #cta_shortcode_form, .wp_cta_tooltip, #wp_cta_ab_display_stats_metabox, #wp_call_to_action_categorydiv, .new-save-wp-cta-frontend, #launch-feedback, .notice, .nav-tab-add-new-variation, #cta-launch-front, #wp-cta-change-template-button  {
+        display: none !important;
+    }
+    #wpbody {
+        padding-top: 0px;
+        #inboundnow-media-button {
+            padding-left: 0px !important;
+            padding-top: 5px;
+        }
+    }
+
+    .wrap h1:first-of-type, .ed_button.button.button-small[value="more"], .ed_button.button.button-small[value="/ins"] {
+        display: none;
+    }
+    .auto-fold {
+        #wpfooter, #wpcontent {
+            margin-left: 0px;
+        }
+    }
+    .mce-container-body.mce-flow-layout {
+        font-size: 0px;
+    }
+    .media-modal {
+        top: 20px;
+    }
+    .wp-editor-container {
+        iframe, textarea {
+            height: 180px !important;
+        }
+    }
+    .acf-gallery {
+        height: 220px !important;
+    }
+    #submitdiv {
+        position: fixed !important;
+        bottom: 0px !important;
+        z-index: 999999 !important;
+        width: 100% !important;
+        margin-left: -10px !important;
+        padding-bottom: 10px !important;
+        margin-bottom: 0px !important;
+        .handlediv, .hndle {
+            display: none !important;
+        }
+        #publishing-action {
+            text-align: center !important;
+            float: none !important;
+            margin-bottom: 15px;
+            line-height: 32px;
+        }
+        input, .preview {
+            text-align: center !important;
+            width: 280px !important;
+            margin: auto !important;
+            height: 44px !important;
+            font-size: 17px !important;
+        }
+    }
+    input[type="text"], input[type="email"], input[type="url"], input[type="number"],  input[type="password"], textarea, label, .inbound-meta-box-label, .inbound-description-block-option {
+        width: 100%;
+    }
+    label {
+        font-weight: bold;
+        margin-bottom: 5px;
+        display: block;
+    }
+
+}
