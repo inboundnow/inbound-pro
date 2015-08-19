@@ -52,7 +52,7 @@ class Inbound_Pro_Settings {
 		}
 
 		wp_enqueue_script('jquery');
-		wp_enqueue_script('jquery-ui', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js', array('jquery'), '1.8.6');
+		wp_enqueue_script('jquery-ui-sortable');
 		wp_enqueue_script('modernizr');
 		wp_enqueue_script('underscore');
 		add_thickbox();
@@ -62,7 +62,7 @@ class Inbound_Pro_Settings {
 
 		/* load custom CSS & JS for inbound pro welcome */
 		wp_enqueue_style('inbound-settings', INBOUND_PRO_URLPATH . 'assets/css/admin/settings.css');
-		wp_enqueue_script('inbound-settings', INBOUND_PRO_URLPATH . 'assets/js/admin/settings.js' );
+		wp_enqueue_script('inbound-settings', INBOUND_PRO_URLPATH . 'assets/js/admin/settings.js', array('jquery', 'jquery-ui-sortable') );
 		wp_localize_script('inbound-settings', 'inboundSettingsLoacalVars' ,  array('apiURL' => Inbound_API_Wrapper::get_api_url() , 'siteURL' => site_url() ) );
 
 		/* load Ink */
@@ -207,8 +207,8 @@ class Inbound_Pro_Settings {
 							'default'	=> 'on',
 							'placeholder'	=> null,
 							'options' => array(
-								'off' => __( 'Off' , INBOUNDNOW_TEXT_DOMAIN ),
 								'on' => __( 'On' , INBOUNDNOW_TEXT_DOMAIN ),
+								'off' => __( 'Off' , INBOUNDNOW_TEXT_DOMAIN ),
 							),
 							'hidden' => false,
 							'reveal' => array(
@@ -224,8 +224,9 @@ class Inbound_Pro_Settings {
 							'default'	=> 'on',
 							'placeholder'	=> null,
 							'options' => array(
-								'off' => __( 'Off' , INBOUNDNOW_TEXT_DOMAIN ),
 								'on' => __( 'On' , INBOUNDNOW_TEXT_DOMAIN ),
+								'off' => __( 'Off' , INBOUNDNOW_TEXT_DOMAIN ),
+
 							),
 							'hidden' => false,
 							'reveal' => array(
@@ -241,8 +242,9 @@ class Inbound_Pro_Settings {
 							'default'	=> 'on',
 							'placeholder'	=> null,
 							'options' => array(
-								'off' => __( 'Off' , INBOUNDNOW_TEXT_DOMAIN ),
 								'on' => __( 'On' , INBOUNDNOW_TEXT_DOMAIN ),
+								'off' => __( 'Off' , INBOUNDNOW_TEXT_DOMAIN ),
+
 							),
 							'hidden' => false,
 							'reveal' => array(
@@ -258,8 +260,8 @@ class Inbound_Pro_Settings {
 							'default'	=> 'on',
 							'placeholder'	=> null,
 							'options' => array(
-								'off' => __( 'Off' , INBOUNDNOW_TEXT_DOMAIN ),
 								'on' => __( 'On' , INBOUNDNOW_TEXT_DOMAIN ),
+								'off' => __( 'Off' , INBOUNDNOW_TEXT_DOMAIN ),
 							),
 							'hidden' => (Inbound_Pro_Plugin::get_customer_status() > 4 ? false : true ),
 							'reveal' => array(
