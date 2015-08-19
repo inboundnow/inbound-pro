@@ -125,7 +125,7 @@ class Inbound_Updater {
         }
 
         /* error */
-        if (self::$info->error) {
+        if (isset(self::$info->error) && self::$info->error) {
             self::$info = false;
             return;
         }
