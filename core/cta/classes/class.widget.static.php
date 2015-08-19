@@ -22,7 +22,7 @@ if (!class_exists('CTA_Dynamic_Widget')) {
 			$control_ops = array( 'width' => 300, 'height' => 350, 'id_base' => 'id_wp_cta_static_widget' );
 
 			/* Create the widget. */
-			$this->WP_Widget( 'id_wp_cta_static_widget', __('Call to Action Static Widget', 'cta'), $widget_ops, $control_ops );
+			parent::__construct( 'id_wp_cta_static_widget', __('Call to Action Static Widget', 'cta'), $widget_ops, $control_ops );
 		}
 
 		/**

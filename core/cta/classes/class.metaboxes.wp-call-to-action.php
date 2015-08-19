@@ -662,7 +662,7 @@ if (!class_exists('CTA_Metaboxes')) {
 				} else {
 					$cur_class = 'inactive';
 				}
-				echo '<a href="?post='.$post->ID.'&wp-cta-variation-id='.$vid.'&action=edit" class="wp-cta-nav-tab nav-tab nav-tab-special-'.$cur_class.'" id="tab-'.$vid.'" data-permalink="'.$permalink.'" target="_parent">Version '.$letter.'</a>';
+				echo '<a href="?post='.$post->ID.'&wp-cta-variation-id='.$vid.'&action=edit" class="wp-cta-nav-tab nav-tab nav-tab-special-'.$cur_class.'" id="tab-'.$vid.'" data-permalink="'.$permalink.'" target="_parent">'.$letter.'</a>';
 
 			}
 

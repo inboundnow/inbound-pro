@@ -7,7 +7,7 @@ jQuery(document).ready(function($) {
 	jQuery('#edit-slug-box').hide();
 
 	/* Removes handle from templates option box */
-	jQuery('#postbox-container-2 .handlediv').hide();
+	//jQuery('#postbox-container-2 .handlediv').hide();
 
 	/* Check to See if cookies are on */
 	var cookies = (typeof (jQuery.cookie) != "undefined" ? true : false); // Check for jQuery Cookie
@@ -55,7 +55,8 @@ jQuery(document).ready(function($) {
 			var ctmce= "#" + jQuery(this).attr('id') + '-tmce';
 			var html_box = jQuery(chtml);
 			var tinymce_box = jQuery(ctmce);
-			switchEditors.switchto(tinymce_box[0]); // switch to tinymce
+			jQuery('.wp-switch-editor.switch-tmce').click();
+			//switchEditors.switchto(tinymce_box[0]); // switch to tinymce
 		});
 		}, 1000);
 	}
@@ -116,7 +117,7 @@ jQuery(document).ready(function($) {
 	jQuery(current_template_meta).removeClass("postbox").appendTo("#template-display-options").addClass("Old-Template");
 	var current_template_h3 = "#wp_cta_" + current_template + "_custom_meta_box h3";
 
-	jQuery(current_template_meta +' .handlediv').hide();
+	//jQuery(current_template_meta +' .handlediv').hide();
 	jQuery(current_template_meta +' .hndle').css('cursor','default');
 
 

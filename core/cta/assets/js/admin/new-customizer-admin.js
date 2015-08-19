@@ -7,9 +7,9 @@ jQuery(document).ready(function($) {
 
 	});
 
-	jQuery('#tabs-add-variation').remove();
+	//jQuery('#tabs-add-variation').remove();
 	jQuery('#wp-cta-notes-area').hide();
-	jQuery('.wrap h2:first').hide();
+	//jQuery('.wrap h2:first').hide();
 	jQuery('#wp-cta-change-template-button').hide();
 
 	jQuery('body').on( 'submit' , 'form' , function() {

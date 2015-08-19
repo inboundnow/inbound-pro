@@ -1,5 +1,33 @@
-jQuery(document).ready(function($) {
+window.refresh_customizer_preview = false;
 
+function once(fn, context) {
+	var result;
+
+	return function() {
+		if(fn) {
+			result = fn.apply(context || this, arguments);
+			fn = null;
+		}
+
+		return result;
+	};
+}
+
+// Usage
+var canOnlyFireOnce = once(function() {
+	console.log('Fired!');
+	window.refresh_customizer_preview = true;
+});
+
+
+
+jQuery(document).ready(function($) {
+	var test = $('.hidden-customizer').val();
+	console.log(test);
+	console.log(window.refresh_customizer_preview);
+	canOnlyFireOnce(); // "Fired!"
+	canOnlyFireOnce(); // nada
+	console.log(window.refresh_customizer_preview);
 	var window_width = jQuery(window).width();
 	var parent_window = parent.document.width;
 	iframe_size = parent_window * 0.334;

@@ -289,7 +289,6 @@ class Inbound_Pro_Downloads {
 		/* get install configuaration dataset from db */
 		$configuration = Inbound_Options_API::get_option( 'inbound-pro' , 'configuration' , array() );
 
-		/* loop through relevant items and build a more robost dataset */
 		$i=0;
 		foreach (self::$items as $key => $download ) {
 
@@ -605,6 +604,7 @@ class Inbound_Pro_Downloads {
 	*  Display management page
 	*/
 	public static function load_management_vars( ) {
+
 		$page = (isset($_REQUEST['page'])) ? $_REQUEST['page'] : 'inbound-manage-extensions';
 		switch( $page ) {
 			case 'inbound-manage-templates':
@@ -628,10 +628,15 @@ class Inbound_Pro_Downloads {
 
 				/* set pre-processed download items */
 				self::$items = Inbound_API_Wrapper::get_pro_extensions();
-
 				break;
-
+			default:
+				/* if not calling from the template or extension management page let's make sure our download dataset is primed and up to date */
+				Inbound_API_Wrapper::get_downloads();
+				self::$items = array();
+				break;
 		}
+
+
 	}
 
 

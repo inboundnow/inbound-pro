@@ -1,3 +1,4 @@
+/* moving to shared customizer */
 #wpadminbar, #edit-slug-box, #post-status-info, #screen-options-link-wrap, #leads-table-container, .misc-pub-section, #minor-publishing, .misc-pub-section, .misc-pub-section.curtime, #delete-action, #convert-header, #lp-tour, #view-post-btn, #launch-visual-editer, #adminmenuwrap, #lp_ab_display_stats_metabox, #lp-thumbnail-sidebar-preview, #landing_page_categorydiv, #postimagediv, #leads-table-container-inside, .updated.below-h2 a, .mceButton.mceButtonEnabled.mce_fullscreen, .mce_strikethrough, .mce_wp_more, #setting-error-tgmpa, #lp_preview_this_template  {
 	display: none !important;
 }
@@ -13,10 +14,6 @@ margin-left: 10px !important;
 #wpbody-content {
 padding-bottom: 90px !important;
 width: 100% !important;
-}
-.wp-media-buttons {
-float: none !important;
-text-align: center !important;
 }
 .wp_themeSkin .mceButton {
 display: block;
@@ -197,14 +194,8 @@ line-height: 20px;
 .form-table .inbound-wysiwyg-row .inbound-meta-box-label label{
 	margin-left: -10px !important;
 }
-.inbound-textarea-option {
-width: 106% !important; }
-.inbound-wysiwyg-option {
-width: 103% !important;
-}
-.inbound-wysiwyg-option {
-margin-left: -10px !important;
-}
+
+
 .mceIframeContainer.mceFirst.mceLast iframe {
 	width: 100% !important;
 }

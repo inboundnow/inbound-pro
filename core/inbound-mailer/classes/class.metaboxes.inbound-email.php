@@ -2042,14 +2042,15 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                                 confirmButtonColor: "#449d44",
                                 confirmButtonText: "<?php _e( 'Yes' , 'inbound-email' ); ?>",
                                 closeOnConfirm: false,
-                                closeOnCancel: false
+                                closeOnCancel: true
                             }, function () {
 
                                 swal({
                                     title: "<?php _e('Please wait' , 'inbound-email' ); ?>",
                                     text: "<?php _e('We are setting up your email now.' , 'inbound-email' ); ?>",
-                                    imageUrl: '<?php echo INBOUND_EMAIL_URLPATH; ?>/assets/images/loading_colorful.gif'
-
+                                    imageUrl: '<?php echo INBOUND_EMAIL_URLPATH; ?>/assets/images/loading_colorful.gif',
+                                    closeOnConfirm: false,
+                                    showConfirmButton: false,
                                 }, function () {
 
                                 });

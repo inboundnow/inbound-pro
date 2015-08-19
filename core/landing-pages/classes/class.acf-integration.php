@@ -5,16 +5,16 @@ if (!class_exists('Landing_Pages_ACF')) {
 	class Landing_Pages_ACF {
 
 		/**
-		* Initialize Landing_Pages_ACF Class
-		*/
+		 * Initialize Landing_Pages_ACF Class
+		 */
 		public function __construct() {
 			self::load_hooks();
 		}
 
 
 		/**
-		* Load Hooks & Filters
-		*/
+		 * Load Hooks & Filters
+		 */
 		public static function load_hooks() {
 
 			/* Load ACF Fields On ACF powered Email Template */
@@ -23,12 +23,15 @@ if (!class_exists('Landing_Pages_ACF')) {
 			/* Intercept load custom field value request and hijack it */
 			add_filter( 'acf/load_value' , array( __CLASS__ , 'load_value' ) , 10 , 3 );
 
+			/* on landing page save - not needed
+			add_action( 'save_post' , array( __CLASS__ , 'save_acf_fields' ) , 10 , 1 );
+			*/
 		}
 
 
 		/**
-		*	Save ACF fields under variation
-		*/
+		 *	Save ACF fields under variation
+		 */
 		public static function save_acf_fields(	$post_id ) {
 			global $post;
 
@@ -46,14 +49,14 @@ if (!class_exists('Landing_Pages_ACF')) {
 
 
 		/**
-		* Finds the correct value given the variation
-		*
-		* @param MIXED $value contains the non-variation value
-		* @param INT $post_id ID of landing page being loaded
-		* @param ARRAY $field wide array of data belonging to custom field (not leveraged in this method)
-		*
-		* @returns MIXED $new_value value mapped to variation.
-		*/
+		 * Finds the correct value given the variation
+		 *
+		 * @param MIXED $value contains the non-variation value
+		 * @param INT $post_id ID of landing page being loaded
+		 * @param ARRAY $field wide array of data belonging to custom field (not leveraged in this method)
+		 *
+		 * @returns MIXED $new_value value mapped to variation.
+		 */
 		public static function load_value( $value, $post_id, $field ) {
 			global $post;
 
@@ -64,10 +67,11 @@ if (!class_exists('Landing_Pages_ACF')) {
 			$vid = Landing_Pages_Variations::get_new_variation_reference_id( $post->ID );
 
 			$settings = Landing_Pages_Meta::get_settings( $post->ID );
+
 			$variations = ( isset($settings['variations']) ) ? $settings['variations'] : null;
 
 			if (!$variations) {
-				return $value;
+				return self::load_legacy_value(  $value, $post_id, $field  );
 			}
 
 			if ( isset( $variations[ $vid ][ 'acf' ] ) ) {
@@ -84,6 +88,44 @@ if (!class_exists('Landing_Pages_ACF')) {
 					$value = $field['default_value'];
 				}
 			}
+
+			/**
+			var_dump($new);
+			echo "\r\n";echo "\r\n";echo "\r\n";
+			/**/
+			return $value;
+
+		}
+		/**
+		 * Finds the correct value given the variation - uses legacy meta system
+		 *
+		 * @param MIXED $value contains the non-variation value
+		 * @param INT $post_id ID of landing page being loaded
+		 * @param ARRAY $field wide array of data belonging to custom field (not leveraged in this method)
+		 *
+		 * @returns MIXED $new_value value mapped to variation.
+		 */
+		public static function load_legacy_value( $value, $post_id, $field ) {
+			global $post;
+
+			$vid = Landing_Pages_Variations::get_new_variation_reference_id( $post->ID );
+
+			if ( $vid ) {
+				$value = get_post_meta( $post_id ,  $field['name'] . '-' . $vid , true );
+			} else {
+				$value = get_post_meta( $post_id ,  $field['name']  , true );
+			}
+
+			if ($field['type']=='image') {
+				$value = self::get_image_id_from_url( $value );
+			}
+
+			if ($field['type']=='date_picker') {
+				$value = str_replace('-' , '', $value);
+				$value = explode(' ' , $value);
+				$value = $value[0];
+			}
+
 			/**
 			var_dump($new);
 			echo "\r\n";echo "\r\n";echo "\r\n";
@@ -94,13 +136,13 @@ if (!class_exists('Landing_Pages_ACF')) {
 
 
 		/**
-		* Searches ACF variation array and returns the correct field value given the field key
-		*
-		* @param ARRAY $array of custom field keys and values stored for variation
-		* @param STRING $needle acf form field key
-		*
-		* @return $feild value
-		*/
+		 * Searches ACF variation array and returns the correct field value given the field key
+		 *
+		 * @param ARRAY $array of custom field keys and values stored for variation
+		 * @param STRING $needle acf form field key
+		 *
+		 * @return $feild value
+		 */
 		public static function search_field_array( $array , $field ) {
 
 			$needle = $field['key'];
@@ -142,10 +184,10 @@ if (!class_exists('Landing_Pages_ACF')) {
 		}
 
 		/**
-		*	Searches an array assumed to be a repeater field dataset and returns an array of repeater field layout definitions
-		*
-		*	@retuns ARRAY $fields this array will either be empty of contain repeater field layout definitions.
-		*/
+		 *	Searches an array assumed to be a repeater field dataset and returns an array of repeater field layout definitions
+		 *
+		 *	@retuns ARRAY $fields this array will either be empty of contain repeater field layout definitions.
+		 */
 		public static function get_repeater_layouts( $array ) {
 
 			$fields = array();
@@ -161,10 +203,10 @@ if (!class_exists('Landing_Pages_ACF')) {
 
 
 		/**
-		*	Searches an array assumed to be a repeater field dataset and returns an array of repeater field layout definitions
-		*
-		*	@retuns ARRAY $fields this array will either be empty of contain repeater field layout definitions.
-		*/
+		 *	Searches an array assumed to be a repeater field dataset and returns an array of repeater field layout definitions
+		 *
+		 *	@retuns ARRAY $fields this array will either be empty of contain repeater field layout definitions.
+		 */
 		public static function get_repeater_values( $array , $field ) {
 
 			/* Discover correct repeater pointer by parsing field name */
@@ -189,12 +231,12 @@ if (!class_exists('Landing_Pages_ACF')) {
 		}
 
 		/**
-		*	Check if current post is a landing page using an ACF powered template
-		*
-		*	@filter acf/location/rule_match/template_id
-		*
-		*	@returns BOOL declaring if current page is a landing page with an ACF template loaded or not
-		*/
+		 *	Check if current post is a landing page using an ACF powered template
+		 *
+		 *	@filter acf/location/rule_match/template_id
+		 *
+		 *	@returns BOOL declaring if current page is a landing page with an ACF template loaded or not
+		 */
 		public static function load_acf_on_template( $allow , $rule, $args ) {
 			global $post;
 
@@ -211,13 +253,76 @@ if (!class_exists('Landing_Pages_ACF')) {
 			}
 		}
 
+		/**
+		 *
+		 * @param $image_url
+		 * @return mixed
+		 */
+		public static function get_image_id_from_url($url) {
+			$dir = wp_upload_dir();
+
+			// baseurl never has a trailing slash
+			if ( false === strpos( $url, $dir['baseurl'] . '/' ) ) {
+				// URL points to a place outside of upload directory
+				return false;
+			}
+
+			$file  = basename( $url );
+			$query = array(
+				'post_type'  => 'attachment',
+				'fields'     => 'ids',
+				'meta_query' => array(
+					array(
+						'value'   => $file,
+						'compare' => 'LIKE',
+					),
+				)
+			);
+
+			$query['meta_query'][0]['key'] = '_wp_attached_file';
+
+			// query attachments
+			$ids = get_posts( $query );
+
+			if ( ! empty( $ids ) ) {
+
+				foreach ( $ids as $id ) {
+
+					// first entry of returned array is the URL
+					if ( $url === array_shift( wp_get_attachment_image_src( $id, 'full' ) ) )
+						return $id;
+				}
+			}
+
+			$query['meta_query'][0]['key'] = '_wp_attachment_metadata';
+
+			// query attachments again
+			$ids = get_posts( $query );
+
+			if ( empty( $ids) )
+				return false;
+
+			foreach ( $ids as $id ) {
+
+				$meta = wp_get_attachment_metadata( $id );
+
+				foreach ( $meta['sizes'] as $size => $values ) {
+
+					if ( $values['file'] === $file && $url === array_shift( wp_get_attachment_image_src( $id, $size ) ) )
+						return $id;
+				}
+			}
+
+			return false;
+		}
+
 	}
 
 	/**
-	*	Initialize ACF Integrations
-	*/
-    if ( defined('INBOUND_PRO_PATH')) {
-         new Landing_Pages_ACF();
-    }
+	 *	Initialize ACF Integrations
+	 */
+
+	new Landing_Pages_ACF();
+
 
 }

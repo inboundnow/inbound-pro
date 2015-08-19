@@ -92,7 +92,7 @@ class CTA_Customizer {
 		}
 		wp_enqueue_script('inbound-customizer-editor-js', INBOUNDNOW_SHARED_URLPATH . 'assets/js/admin/customizer-editor.js');
 		wp_enqueue_style('inbound-customizer-editor-css', INBOUNDNOW_SHARED_URLPATH . 'assets/css/customizer-editor.css');
-		wp_enqueue_style('cta-customizer-admin', WP_CTA_URLPATH . 'assets/css/new-customizer-admin.css');
+		//wp_enqueue_style('cta-customizer-admin', WP_CTA_URLPATH . 'assets/css/new-customizer-admin.css');
 		wp_enqueue_script('cta-frontend-editor-js', WP_CTA_URLPATH . 'assets/js/customizer.save.js');
 		wp_enqueue_script('cta-customizer-admin', WP_CTA_URLPATH . 'assets/js/admin/new-customizer-admin.js');
 

@@ -855,7 +855,6 @@ class Landing_Pages_Metaboxes {
         $extension_data = lp_get_extension_data();
 
         $key = $args['args']['key'];
-
         $lp_custom_fields = $extension_data[$key]['settings'];
 
         self::render_fields($key , $lp_custom_fields , $post);
