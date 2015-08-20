@@ -17,10 +17,9 @@ if (have_posts()) : while (have_posts()) : the_post();
 /* Header */
 $post_id = get_the_ID();
 $logo_url = get_field('logo_url', $post_id);
-$header_bg_color_array = get_field('header_bg_color', $post_id);
-$header_bg_color = $header_bg_color_array[1];
+$header_bg_color = get_field('header_bg_color', $post_id);
 
-/* Email Body 
+/* Email Body
 $text_above_hero_image = get_field('text_above_hero_image', $post_id);
 $hero_image_url = get_field('hero_image', $post_id);
 $hero_image_callout = get_field('hero_image_callout', $post_id);
@@ -29,15 +28,14 @@ $hero_callout_background_color = $hero_callout_background_color_array[1];
 $main_email_content = get_field('main_email_content', $post_id);
 $button_link = get_field('button_link', $post_id);
 $button_text = get_field('button_text', $post_id);
- * 
+ *
  */
 
 /* Social Box */
 $facebook_page_url = get_field('facebook_page', $post_id);
 $twitter_handle = get_field('twitter_handle', $post_id);
 $google_plus_url = get_field('google_plus', $post_id);
-$social_bg_color_array = get_field('footer_background_color', $post_id);
-$social_bg_color = $social_bg_color_array[1];
+$social_bg_color = get_field('footer_background_color', $post_id);
 $phone_number = get_field('phone_number', $post_id);
 $email = get_field('email', $post_id);
 
@@ -57,32 +55,32 @@ $privacy_page_url = get_field('privacy_page_url', $post_id);
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
 <style type="css/text">
-	/* ------------------------------------- 
-			GLOBAL 
+	/* -------------------------------------
+			GLOBAL
 	------------------------------------- */
-	* { 
+	* {
 		margin:0;
 		padding:0;
 	}
 	* { font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif; }
 
-	img { 
-		max-width: 100%; 
+	img {
+		max-width: 100%;
 	}
 	.collapse {
 		margin:0;
 		padding:0;
 	}
 	body {
-		-webkit-font-smoothing:antialiased; 
-		-webkit-text-size-adjust:none; 
-		width: 100%!important; 
+		-webkit-font-smoothing:antialiased;
+		-webkit-text-size-adjust:none;
+		width: 100%!important;
 		height: 100%;
 	}
 
 
-	/* ------------------------------------- 
-			ELEMENTS 
+	/* -------------------------------------
+			ELEMENTS
 	------------------------------------- */
 	a { color: #2BA6CB;}
 
@@ -127,13 +125,13 @@ $privacy_page_url = get_field('privacy_page_url', $post_id);
 	a.gp { background-color: #DB4A39!important; }
 	a.ms { background-color: #000!important; }
 
-	.sidebar .soc-btn { 
+	.sidebar .soc-btn {
 		display:block;
 		width:100%;
 	}
 
-	/* ------------------------------------- 
-			HEADER 
+	/* -------------------------------------
+			HEADER
 	------------------------------------- */
 	table.head-wrap { width: 100%;}
 
@@ -141,14 +139,14 @@ $privacy_page_url = get_field('privacy_page_url', $post_id);
 	.header.container table td.label { padding: 15px; padding-left:0px;}
 
 
-	/* ------------------------------------- 
-			BODY 
+	/* -------------------------------------
+			BODY
 	------------------------------------- */
 	table.body-wrap { width: 100%;}
 
 
-	/* ------------------------------------- 
-			FOOTER 
+	/* -------------------------------------
+			FOOTER
 	------------------------------------- */
 	table.footer-wrap { width: 100%;	clear:both!important;
 	}
@@ -160,8 +158,8 @@ $privacy_page_url = get_field('privacy_page_url', $post_id);
 	}
 
 
-	/* ------------------------------------- 
-			TYPOGRAPHY 
+	/* -------------------------------------
+			TYPOGRAPHY
 	------------------------------------- */
 	h1,h2,h3,h4,h5,h6 {
 	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; line-height: 1.1; margin-bottom:15px; color:#000;
@@ -177,10 +175,10 @@ $privacy_page_url = get_field('privacy_page_url', $post_id);
 
 	.collapse { margin:0!important;}
 
-	p, ul { 
-		margin-bottom: 10px; 
-		font-weight: normal; 
-		font-size:14px; 
+	p, ul {
+		margin-bottom: 10px;
+		font-weight: normal;
+		font-size:14px;
 		line-height:1.6;
 	}
 	p.lead { font-size:17px; }
@@ -191,8 +189,8 @@ $privacy_page_url = get_field('privacy_page_url', $post_id);
 		list-style-position: inside;
 	}
 
-	/* ------------------------------------- 
-			SIDEBAR 
+	/* -------------------------------------
+			SIDEBAR
 	------------------------------------- */
 	ul.sidebar {
 		background:#ebebeb;
@@ -218,9 +216,9 @@ $privacy_page_url = get_field('privacy_page_url', $post_id);
 
 
 
-	/* --------------------------------------------------- 
+	/* ---------------------------------------------------
 			RESPONSIVENESS
-			Nuke it from orbit. It's the only way to be sure. 
+			Nuke it from orbit. It's the only way to be sure.
 	------------------------------------------------------ */
 
 	/* Set a max-width, and make it display as block so it will automatically stretch to that width, but will also shrink down on a phone or something */
@@ -236,7 +234,7 @@ $privacy_page_url = get_field('privacy_page_url', $post_id);
 		padding:15px;
 		max-width:600px;
 		margin:0 auto;
-		display:block; 
+		display:block;
 	}
 
 	/* Let's make sure tables in the content area are 100% wide */
@@ -249,9 +247,9 @@ $privacy_page_url = get_field('privacy_page_url', $post_id);
 		float:left;
 	}
 	.column tr td { padding: 15px; }
-	.column-wrap { 
-		padding:0!important; 
-		margin:0 auto; 
+	.column-wrap {
+		padding:0!important;
+		margin:0 auto;
 		max-width:600px!important;
 	}
 	.column table { width:100%;}
@@ -265,10 +263,10 @@ $privacy_page_url = get_field('privacy_page_url', $post_id);
 	.clear { display: block; clear: both; }
 
 
-	/* ------------------------------------------- 
+	/* -------------------------------------------
 			PHONE
 			For clients that support media queries.
-			Nothing fancy. 
+			Nothing fancy.
 	-------------------------------------------- */
 	@media only screen and (max-width: 600px) {
 
@@ -285,7 +283,7 @@ $privacy_page_url = get_field('privacy_page_url', $post_id);
 
 </head>
 
-	
+
 <body bgcolor="#FFFFFF" style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;-webkit-font-smoothing: antialiased;-webkit-text-size-adjust: none;height: 100%;width: 100%!important;">
 
 <!-- HEADER -->
@@ -293,7 +291,7 @@ $privacy_page_url = get_field('privacy_page_url', $post_id);
 	<tr style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;">
 		<td style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;"></td>
 		<td class="header container" style="margin: 0 auto!important;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;display: block!important;max-width: 600px!important;clear: both!important;">
-			
+
 				<div class="content" style="margin: 0 auto;padding: 15px;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;max-width: 600px;display: block;">
 					<table bgcolor="<?php  echo $header_bg_color; ?>" style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;width: 100%;">
 					<tr style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;">
@@ -306,7 +304,7 @@ $privacy_page_url = get_field('privacy_page_url', $post_id);
 					</tr>
 				</table>
 				</div>
-				
+
 		</td>
 		<td style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;"></td>
 	</tr>
@@ -323,7 +321,7 @@ $privacy_page_url = get_field('privacy_page_url', $post_id);
 			<table style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;width: 100%;">
 				<tr style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;">
 					<td style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;">
-						
+
 						<?php
 						if ( function_exists('have_rows') ) {
 							if (have_rows('email_hero_box')) {
@@ -337,20 +335,20 @@ $privacy_page_url = get_field('privacy_page_url', $post_id);
 											<p><?php if ( $hero_image_url = get_sub_field('hero_image_url') ) { ?>
 											<img alt="hero image" src="<?php  echo $hero_image_url; ?>" width="600" height="300"/>
 											<?php } ?></p><!-- /hero -->
-											<?php 
-											$main_email_content = get_sub_field('main_content'); 
+											<?php
+											$main_email_content = get_sub_field('main_content');
 											?>
-											<?php 
-											echo $main_email_content; 
-											$button_link = get_sub_field('button_link'); 
+											<?php
+											echo $main_email_content;
+											$button_link = get_sub_field('button_link');
 											$button_text = get_sub_field('button_text');
 											$style = 'color: ';
 											if ( $button_text_color = get_sub_field('button_text_color') ) {
-												$style .= $button_text_color[1] . ';';
+												$style .= $button_text_color . ';';
 											} else { $style .= '#fff;'; }
 											$style .= 'background-color: ';
 											if ( $button_bg_color = get_sub_field('button_bg_color') ) {
-												$style .= $button_bg_color[1] . ';';
+												$style .= $button_bg_color . ';';
 											} else { $style .= '#666;'; }
 											?>
 											<a href="<?php echo $button_link; ?>" style="<?php echo $style; ?>
@@ -360,7 +358,7 @@ $privacy_page_url = get_field('privacy_page_url', $post_id);
 									}
 								}
 							}
-							
+
 							if(!have_rows('email_hero_box')) {
 								echo '<div class="container">';
 								the_content();
@@ -368,44 +366,44 @@ $privacy_page_url = get_field('privacy_page_url', $post_id);
 							}
 						}
 
-						?>								
+						?>
 						<br/>
-						<br/>					
-												
+						<br/>
+
 						<!-- social & contact -->
 						<table class="social" width="100%" style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;background-color: <?php  echo $social_bg_color; ?>;width: 100%;">
 							<tr style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;">
 								<td style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;">
-									
+
 									<!--- column 1 -->
 									<table align="left" class="column" style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;width: 280px;float: left;min-width: 279px;">
 										<tr style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;">
-											<td style="margin: 0;padding: 15px;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;">				
-												
+											<td style="margin: 0;padding: 15px;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;">
+
 												<h5 class="" style="margin: 0;padding: 0;font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;line-height: 1.1;margin-bottom: 15px;color: #000;font-weight: 900;font-size: 17px;">Connect with Us:</h5>
 												<p class="" style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;margin-bottom: 10px;font-weight: normal;font-size: 14px;line-height: 1.6;">
 													<?php if ($facebook_page_url) { ?>
 														<a href="<?php echo $facebook_page_url; ?>" class="soc-btn fb" style="margin: 0;padding: 3px 7px;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;color: #FFF;font-size: 12px;margin-bottom: 10px;text-decoration: none;font-weight: bold;display: block;text-align: center;background-color: #3B5998!important;">Facebook</a>
 													<?php } ?>
 													<?php if ($twitter_handle) { ?>
-														<a href="<?php echo $twitter_handle; ?>" class="soc-btn tw" style="margin: 0;padding: 3px 7px;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;color: #FFF;font-size: 12px;margin-bottom: 10px;text-decoration: none;font-weight: bold;display: block;text-align: center;background-color: #1daced!important;">Twitter</a> 
+														<a href="<?php echo $twitter_handle; ?>" class="soc-btn tw" style="margin: 0;padding: 3px 7px;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;color: #FFF;font-size: 12px;margin-bottom: 10px;text-decoration: none;font-weight: bold;display: block;text-align: center;background-color: #1daced!important;">Twitter</a>
 													<?php } ?>
 													<?php if ($google_plus_url) { ?>
 														<a href="<?php echo $google_plus_url; ?>" class="soc-btn gp" style="margin: 0;padding: 3px 7px;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;color: #FFF;font-size: 12px;margin-bottom: 10px;text-decoration: none;font-weight: bold;display: block;text-align: center;background-color: #DB4A39!important;">Google+</a>
 													<?php } ?>
 												</p>
-						
-												
+
+
 											</td>
 										</tr>
-									</table><!-- /column 1 -->	
-									
+									</table><!-- /column 1 -->
+
 									<!--- column 2 -->
 									<table align="left" class="column" style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;width: 280px;float: left;min-width: 279px;">
 										<tr style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;">
-											<td style="margin: 0;padding: 15px;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;">				
-												<?php if ( $phone_number || $email ) { ?>							
-													<h5 class="" style="margin: 0;padding: 0;font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;line-height: 1.1;margin-bottom: 15px;color: #000;font-weight: 900;font-size: 17px;">Contact Info:</h5>	
+											<td style="margin: 0;padding: 15px;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;">
+												<?php if ( $phone_number || $email ) { ?>
+													<h5 class="" style="margin: 0;padding: 0;font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;line-height: 1.1;margin-bottom: 15px;color: #000;font-weight: 900;font-size: 17px;">Contact Info:</h5>
 													<?php if ( $phone_number ) { ?>
 														<p style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;margin-bottom: 10px;font-weight: normal;font-size: 14px;line-height: 1.6;">Phone: <strong style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;"><?php echo $phone_number; ?></strong><br/>>
 													<?php } ?>
@@ -413,23 +411,23 @@ $privacy_page_url = get_field('privacy_page_url', $post_id);
 														Email: <strong><a href="emailto:<?php echo $email; ?>" style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;color: #2BA6CB;"><?php echo $email; ?></a></strong></p>
 													<?php } ?>
 												<?php } ?>
-                
+
 											</td>
 										</tr>
 									</table><!-- /column 2 -->
-									
-									<span class="clear" style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;display: block;clear: both;"></span>	
-									
+
+									<span class="clear" style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;display: block;clear: both;"></span>
+
 								</td>
 							</tr>
 						</table><!-- /social & contact -->
-					
-					
+
+
 					</td>
 				</tr>
 			</table>
 			</div>
-									
+
 		</td>
 		<td style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;"></td>
 	</tr>
@@ -440,7 +438,7 @@ $privacy_page_url = get_field('privacy_page_url', $post_id);
 	<tr style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;">
 		<td style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;"></td>
 		<td class="container" style="margin: 0 auto!important;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;display: block!important;max-width: 600px!important;clear: both!important;">
-			
+
 				<!-- content -->
 				<div class="content" style="margin: 0 auto;padding: 15px;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;max-width: 600px;display: block;">
 				<table style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;width: 100%;">
@@ -459,7 +457,7 @@ $privacy_page_url = get_field('privacy_page_url', $post_id);
 				</tr>
 			</table>
 				</div><!-- /content -->
-				
+
 		</td>
 		<td style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;"></td>
 	</tr>

@@ -22,10 +22,13 @@
         height:1000px;
         left: 32%;
         position: fixed;
-        top: 20%;
+        top: 32px;
         z-index: 1;
         border: none;
         overflow:hidden;
+    }
+    .wp-call-to-action .inbound-customizer-preview {
+        top: 20%;
     }
     #inbound-customizer-overlay {
         top: 0;

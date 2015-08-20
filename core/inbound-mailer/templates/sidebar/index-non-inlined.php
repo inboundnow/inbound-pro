@@ -22,34 +22,33 @@ do_action('inbound_mail_header');
 if (have_posts()) : while (have_posts()) : the_post();
 
 /* Main content */
-$post_id = get_the_ID();
-$logo_url = get_field('logo_url', $post_id);
-$header_bg_color_array = get_field('header_bg_color', $post_id);
-$header_bg_color = $header_bg_color_array[1];
-$callout_text = get_field('callout_text', $post_id);
-$callout_background_color_array = get_field('callout_background_color', $post_id);
-$callout_background_color = $callout_background_color_array[1];
+$post_id		 = get_the_ID();
+$logo_url		 = get_field('logo_url', $post_id);
+$header_bg_color = get_field('header_bg_color', $post_id);
+$callout_text	 = get_field('callout_text', $post_id);
+/*
+$callout_background_color = get_field('callout_background_color', $post_id);
 $main_email_content = get_field('main_email_content', $post_id);
 $content_after_callout = get_field('content_after_callout', $post_id);
 $button_link = get_field('button_link', $post_id);
 $button_text = get_field('button_text', $post_id);
+ * 
+ */
 
 /* Footer */
-$footer_bg_color_array = get_field('footer_bg_color', $post_id);
-$footer_bg_color = $footer_bg_color_array[1];
+$footer_bg_color   = get_field('footer_bg_color', $post_id);
 $facebook_page_url = get_field('facebook_page', $post_id);
-$twitter_handle = get_field('twitter_handle', $post_id);
-$google_plus_url = get_field('google_plus', $post_id);
-$phone_number = get_field('phone_number', $post_id);
-$email = get_field('email', $post_id);
-$terms_page_url = get_field('terms_page_url', $post_id);
-$privacy_page_url = get_field('privacy_page_url', $post_id);
+$twitter_handle	   = get_field('twitter_handle', $post_id);
+$google_plus_url   = get_field('google_plus', $post_id);
+$phone_number	   = get_field('phone_number', $post_id);
+$email			   = get_field('email', $post_id);
+$terms_page_url    = get_field('terms_page_url', $post_id);
+$privacy_page_url  = get_field('privacy_page_url', $post_id);
 
 /* Sidebar */
-$sidebar_bg_color_array = get_field('sidebar_bg_color', $post_id);
-$sidebar_bg_color = $sidebar_bg_color_array[1];
-$sidebar_header = get_field('sidebar_header', $post_id);
-$sidebar_subheader = get_field('sidebar_subheader', $post_id);
+$sidebar_bg_color   = get_field('sidebar_bg_color', $post_id);
+$sidebar_header     = get_field('sidebar_header', $post_id);
+$sidebar_subheader  = get_field('sidebar_subheader', $post_id);
 $sidebar_header_url = get_field('sidebar_header_link', $post_id);
 
 ?>
@@ -106,7 +105,7 @@ $sidebar_header_url = get_field('sidebar_header_link', $post_id);
 
 	div.callout {
 		padding:15px;
-		background-color:<?php echo (!empty($callout_background_color) ? $callout_background_color : '#ffffff');  ?>;
+		background-color:<?php echo (!empty($callout_bg_color) ? $callout_bg_color : '#ffffff');  ?>;
 		margin-bottom: 15px;
 	}
 	.callout a {
@@ -330,15 +329,61 @@ $sidebar_header_url = get_field('sidebar_header_link', $post_id);
 				<tr>
 					<td>				
 						
-						<?php echo $main_email_content; ?>
-						<!-- Callout Panel -->
-						
-							<div class="callout">
-								<?php echo $callout_text; ?>
-							</div><!-- /Callout Panel -->
-						
-						<?php echo $content_after_callout; ?>
-						<a href="<?php echo $button_link; ?>" class="btn"><?php echo $button_text; ?></a>
+						<?php
+						if ( function_exists('have_rows') ) {
+							if (have_rows('email_body')) {
+								while ( have_rows('email_body')) {
+									the_row();
+
+									switch( get_row_layout() ) {
+										case 'email_content':
+											?>
+											<?php 
+											$main_email_content = get_sub_field('main_content'); 
+											?>
+											<?php 
+											echo $main_email_content;
+											break;
+										
+										case 'button':
+											$button_link = get_sub_field('button_link'); 
+											$button_text = get_sub_field('button_text');
+											$style = 'color: ';
+											if ( $button_text_color = get_sub_field('button_text_color') ) {
+												$style .= $button_text_color[1] . ';';
+											} else { $style .= '#fff;'; }
+											$style .= 'background-color: ';
+											if ( $button_bg_color = get_sub_field('button_bg_color') ) {
+												$style .= $button_bg_color[1] . ';';
+											} else { $style .= '#666;'; }
+											?>
+											<a href="<?php echo $button_link; ?>" style="<?php echo $style; ?>
+												 margin: 0;padding: 10px 16px;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;text-decoration: none;font-weight: bold;margin-right: 10px;text-align: center;cursor: pointer;display: inline-block;" class="btn"><?php echo $button_text; ?></a>
+											<?php
+											break;
+											
+										case 'callout':
+											$callout_text = get_sub_field('callout_text');
+											$callout_bg_color_array = get_sub_field('callout_bg_color');
+											$callout_bg_color = $callout_bg_color_array[1];
+											?>
+											<div class="callout">
+												<?php echo $callout_text; ?>
+											</div><!-- Callout Panel -->
+											<?php
+											break;
+									}
+								}
+							}
+							
+							if(!have_rows('email_body')) {
+								echo '<div class="container">';
+								the_content();
+								echo "</div>";
+							}
+						}
+
+					?>
 						
 					</td>
 				</tr>

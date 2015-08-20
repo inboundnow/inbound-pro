@@ -24,8 +24,7 @@ if (have_posts()) : while (have_posts()) : the_post();
 /* Header */
 $post_id = get_the_ID();
 $logo_url = get_field('logo_url', $post_id);
-$header_bg_color_array = get_field('header_bg_color', $post_id);
-$header_bg_color = $header_bg_color_array[1];
+$header_bg_color = get_field('header_bg_color', $post_id);
 
 /* Email Body 
 $text_above_hero_image = get_field('text_above_hero_image', $post_id);
@@ -43,8 +42,7 @@ $button_text = get_field('button_text', $post_id);
 $facebook_page_url = get_field('facebook_page', $post_id);
 $twitter_handle = get_field('twitter_handle', $post_id);
 $google_plus_url = get_field('google_plus', $post_id);
-$social_bg_color_array = get_field('footer_background_color', $post_id);
-$social_bg_color = $social_bg_color_array[1];
+$social_bg_color = get_field('footer_background_color', $post_id);
 $phone_number = get_field('phone_number', $post_id);
 $email = get_field('email', $post_id);
 
@@ -358,7 +356,7 @@ $privacy_page_url = get_field('privacy_page_url', $post_id);
 											} else { $style .= '#666;'; }
 											?>
 											<a href="<?php echo $button_link; ?>" style="<?php echo $style; ?>
-												 margin: 0;padding: 10px 16px;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;text-decoration: none;font-weight: bold;margin-right: 10px;text-align: center;cursor: pointer;display: inline-block;" class="btn"><?php echo $button_text; ?></a>
+												 margin: 0;padding: 10px 16px;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;text-decoration: none;font-weight: bold;margin-right: 10px;text-align: center;cursor: pointer;display: inline-block;" class="btn"><?php echo $button_text; ?></a>
 											<?php
 											break;
 									}

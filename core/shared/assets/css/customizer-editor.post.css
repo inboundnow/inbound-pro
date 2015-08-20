@@ -1,8 +1,10 @@
 /* CSS for the Customizer Edit */
-
+:root:root:root .auto-fold #wpcontent {
+    padding-left: 0px !important;
+}
 :root:root:root .inbound-customizer {
 
-    #wpadminbar, #edit-slug-box, #post-status-info, #screen-options-link-wrap, #leads-table-container, .misc-pub-section, #minor-publishing, .misc-pub-section, .misc-pub-section.curtime, #delete-action, #convert-header, #wp-cta-tour, #view-post-btn, #launch-visual-editer, #adminmenuwrap, #lp_ab_display_stats_metabox, #wp-cta-thumbnail-sidebar-preview, #landing_page_categorydiv, #postimagediv, #leads-table-container-inside, .updated.below-h2 a, #cta_shortcode_form, .wp_cta_tooltip, #wp_cta_ab_display_stats_metabox, #wp_call_to_action_categorydiv, .new-save-wp-cta-frontend, #launch-feedback, .notice, .nav-tab-add-new-variation, #cta-launch-front, #wp-cta-change-template-button  {
+    #wpadminbar, #edit-slug-box, #post-status-info, #screen-options-link-wrap, #leads-table-container, .misc-pub-section, #minor-publishing, .misc-pub-section, .misc-pub-section.curtime, #delete-action, #convert-header, #wp-cta-tour, #view-post-btn, #launch-visual-editer, #adminmenuwrap, #lp_ab_display_stats_metabox, #wp-cta-thumbnail-sidebar-preview, #landing_page_categorydiv, #postimagediv, #leads-table-container-inside, .updated.below-h2 a, #cta_shortcode_form, .wp_cta_tooltip, #wp_cta_ab_display_stats_metabox, #wp_call_to_action_categorydiv, .new-save-wp-cta-frontend, #launch-feedback, .notice, .nav-tab-add-new-variation, #cta-launch-front, #wp-cta-change-template-button, #wp-cta-notes-area, #wp-cta-change-template-button  {
         display: none !important;
     }
     #wpbody {
@@ -12,13 +14,41 @@
             padding-top: 5px;
         }
     }
+    .wrap {
+        margin-right: 0px;
+    }
+    .postbox {
+        border: none;
 
+    }
+    .acf-field-google-map {
+        width: 90%;
+    }
+    .acf-gallery-toolbar select {
+        height: 29px !important;
+    }
+    #post-body .nav-tab-special-active {
+        background: #fff !important;
+        font-size: 23px;
+        padding-bottom: 6px;
+        padding-top: 7px;
+        vertical-align: bottom;
+    }
+    #post-body-content .a_b_tabs {
+        margin-right: 0px;
+        margin-bottom: 0px;
+        margin-left: -12px;
+    }
     .wrap h1:first-of-type, .ed_button.button.button-small[value="more"], .ed_button.button.button-small[value="/ins"] {
         display: none;
     }
     .auto-fold {
         #wpfooter, #wpcontent {
             margin-left: 0px;
+
+            @media screen and (max-width: 782px) {
+                padding-left: 0px !important;
+            }
         }
     }
     .mce-container-body.mce-flow-layout {
@@ -26,6 +56,7 @@
     }
     .media-modal {
         top: 20px;
+        max-height: 600px;
     }
     .wp-editor-container {
         iframe, textarea {
@@ -40,7 +71,6 @@
         bottom: 0px !important;
         z-index: 999999 !important;
         width: 100% !important;
-        margin-left: -10px !important;
         padding-bottom: 10px !important;
         margin-bottom: 0px !important;
         .handlediv, .hndle {
@@ -60,13 +90,62 @@
             font-size: 17px !important;
         }
     }
-    input[type="text"], input[type="email"], input[type="url"], input[type="number"],  input[type="password"], textarea, label, .inbound-meta-box-label, .inbound-description-block-option {
+    .inbound-meta-box-label, label {
         width: 100%;
+    }
+    input[type="text"], input[type="email"], input[type="url"], input[type="number"],  input[type="password"], textarea, .inbound-description-block-option {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+    .inbound-colorpicker-option input[type="text"] {
+        width: 80px;
+    }
+    input[type="text"].wp-color-picker {
+        width: 80px;
     }
     label {
         font-weight: bold;
         margin-bottom: 5px;
         display: block;
+        font-size: 15px;
+    }
+    .jPicker.Container {
+        top: 50px !important;
+        left: 10px !important;
+        position: fixed !important;
+    }
+    /* to be removed when new colorpicker arrives */
+    table.jPicker {
+        width: 430px !important;
+        max-height: 300px !important;
+
+        .Grid {
+            display: none;
+        }
+        .Icon span.Color, .Icon span.Alpha  {
+            width: 97% !important;
+        }
+        .Title {
+            width: 254px;
+        }
+        .Move {
+            display: none;
+        }
+        .Button {
+           text-align: center;
+           padding: 0 4px;
+           width: 264px;
+           position: absolute;
+           border-bottom: none;
+           left: 0px;
+           bottom: 3px;
+           input {
+                   font-size: 18px !important;
+            }
+        }
+        hr {
+            display: none !important;
+        }
     }
 
 }

@@ -15,7 +15,7 @@ function generate_random_cache_bust(length) {
 jQuery(document).ready(function($) {
 	jQuery('.nav-tab-wrapper.a_b_tabs a').each(function(){
 	var this_link = jQuery(this).attr('href');
-
+	console.log(this_link);
 	jQuery(this).attr('href', this_link + "&frontend=true");
 
 	});

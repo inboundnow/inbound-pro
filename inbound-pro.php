@@ -198,6 +198,7 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 		}
 
 		public static function load_text_domain() {
+			define('INBOUNDNOW_TEXT_DOMAIN', 'inbound-pro' );
 			load_plugin_textdomain( 'inbound-pro' , false , INBOUND_PRO_SLUG . '/lang/' );
 		}
 

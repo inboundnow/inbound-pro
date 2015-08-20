@@ -70,6 +70,7 @@ if (!class_exists('Inbound_Mailer_ACF')) {
 					}
 				}
 			}
+
 			/**
 			var_dump($new);
 			echo "\r\n";echo "\r\n";echo "\r\n";
@@ -88,6 +89,7 @@ if (!class_exists('Inbound_Mailer_ACF')) {
 		* @return $feild value
 		*/
 		public static function search_field_array( $array , $field ) {
+
 
 			$needle = $field['key'];
 
@@ -108,14 +110,11 @@ if (!class_exists('Inbound_Mailer_ACF')) {
 							return $repeater_array;
 
 						} else	{
+
 							/* color pickers seem to be special */
 							if ($field['type'] == 'color_picker' ) {
-								$color = json_decode($value[1] , true);
-								if (is_array($color)) {
-									$value = json_decode($color[1] , true);
-									$value = $value[1];
-								} else {
-									$value = $value[1];
+								if (is_array($value)) {
+									$value = $array[ $field['key'] ][1];
 								}
 							}
 
@@ -123,6 +122,7 @@ if (!class_exists('Inbound_Mailer_ACF')) {
 						}
 
 					}
+
 
 					/* Check if array is repeater fields and determine correct value given a parsed field name with field key */
 					$repeater_value = self::get_repeater_values( $value , $field );
@@ -175,6 +175,13 @@ if (!class_exists('Inbound_Mailer_ACF')) {
 
 			$i = 0;
 			foreach ($array as $key => $value) {
+				/* color pickers seem to be special */
+				if ($field['type'] == 'color_picker' ) {
+					if (is_array($value)) {
+						return $value[ $field['key'] ][1];
+					}
+				}
+
 				if (isset($value[ $field['key'] ])	&& $pointer == $i ) {
 					return $value[ $field['key'] ];
 				}

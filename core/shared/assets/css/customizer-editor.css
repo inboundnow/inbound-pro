@@ -4,110 +4,147 @@
  */
 
 /* CSS for the Customizer Edit */
+:root:root:root .auto-fold #wpcontent {
+    padding-left: 0px !important;
+}
+:root:root:root .inbound-customizer {
+    /* to be removed when new colorpicker arrives */
 
-:root:root:root .inbound-customizer #wpadminbar, :root:root:root .inbound-customizer #edit-slug-box, :root:root:root .inbound-customizer #post-status-info, :root:root:root .inbound-customizer #screen-options-link-wrap, :root:root:root .inbound-customizer #leads-table-container, :root:root:root .inbound-customizer .misc-pub-section, :root:root:root .inbound-customizer #minor-publishing, :root:root:root .inbound-customizer .misc-pub-section, :root:root:root .inbound-customizer .misc-pub-section.curtime, :root:root:root .inbound-customizer #delete-action, :root:root:root .inbound-customizer #convert-header, :root:root:root .inbound-customizer #wp-cta-tour, :root:root:root .inbound-customizer #view-post-btn, :root:root:root .inbound-customizer #launch-visual-editer, :root:root:root .inbound-customizer #adminmenuwrap, :root:root:root .inbound-customizer #lp_ab_display_stats_metabox, :root:root:root .inbound-customizer #wp-cta-thumbnail-sidebar-preview, :root:root:root .inbound-customizer #landing_page_categorydiv, :root:root:root .inbound-customizer #postimagediv, :root:root:root .inbound-customizer #leads-table-container-inside, :root:root:root .inbound-customizer .updated.below-h2 a, :root:root:root .inbound-customizer #cta_shortcode_form, :root:root:root .inbound-customizer .wp_cta_tooltip, :root:root:root .inbound-customizer #wp_cta_ab_display_stats_metabox, :root:root:root .inbound-customizer #wp_call_to_action_categorydiv, :root:root:root .inbound-customizer .new-save-wp-cta-frontend, :root:root:root .inbound-customizer #launch-feedback, :root:root:root .inbound-customizer .notice, :root:root:root .inbound-customizer .nav-tab-add-new-variation, :root:root:root .inbound-customizer #cta-launch-front, :root:root:root .inbound-customizer #wp-cta-change-template-button  {
-
+}
+:root:root:root .inbound-customizer #wpadminbar, :root:root:root .inbound-customizer #edit-slug-box, :root:root:root .inbound-customizer #post-status-info, :root:root:root .inbound-customizer #screen-options-link-wrap, :root:root:root .inbound-customizer #leads-table-container, :root:root:root .inbound-customizer .misc-pub-section, :root:root:root .inbound-customizer #minor-publishing, :root:root:root .inbound-customizer .misc-pub-section, :root:root:root .inbound-customizer .misc-pub-section.curtime, :root:root:root .inbound-customizer #delete-action, :root:root:root .inbound-customizer #convert-header, :root:root:root .inbound-customizer #wp-cta-tour, :root:root:root .inbound-customizer #view-post-btn, :root:root:root .inbound-customizer #launch-visual-editer, :root:root:root .inbound-customizer #adminmenuwrap, :root:root:root .inbound-customizer #lp_ab_display_stats_metabox, :root:root:root .inbound-customizer #wp-cta-thumbnail-sidebar-preview, :root:root:root .inbound-customizer #landing_page_categorydiv, :root:root:root .inbound-customizer #postimagediv, :root:root:root .inbound-customizer #leads-table-container-inside, :root:root:root .inbound-customizer .updated.below-h2 a, :root:root:root .inbound-customizer #cta_shortcode_form, :root:root:root .inbound-customizer .wp_cta_tooltip, :root:root:root .inbound-customizer #wp_cta_ab_display_stats_metabox, :root:root:root .inbound-customizer #wp_call_to_action_categorydiv, :root:root:root .inbound-customizer .new-save-wp-cta-frontend, :root:root:root .inbound-customizer #launch-feedback, :root:root:root .inbound-customizer .notice, :root:root:root .inbound-customizer .nav-tab-add-new-variation, :root:root:root .inbound-customizer #cta-launch-front, :root:root:root .inbound-customizer #wp-cta-change-template-button, :root:root:root .inbound-customizer #wp-cta-notes-area, :root:root:root .inbound-customizer #wp-cta-change-template-button  {
     display: none !important;
 }
-
 :root:root:root .inbound-customizer #wpbody {
-
     padding-top: 0px;
 }
-
 :root:root:root .inbound-customizer #wpbody #inboundnow-media-button {
-
     padding-left: 0px !important;
-
     padding-top: 5px;
 }
-
+:root:root:root .inbound-customizer .wrap {
+    margin-right: 0px;
+}
+:root:root:root .inbound-customizer .postbox {
+    border: none;
+}
+:root:root:root .inbound-customizer .acf-field-google-map {
+    width: 90%;
+}
+:root:root:root .inbound-customizer .acf-gallery-toolbar select {
+    height: 29px !important;
+}
+:root:root:root .inbound-customizer #post-body .nav-tab-special-active {
+    background: #fff !important;
+    font-size: 23px;
+    padding-bottom: 6px;
+    padding-top: 7px;
+    vertical-align: bottom;
+}
+:root:root:root .inbound-customizer #post-body-content .a_b_tabs {
+    margin-right: 0px;
+    margin-bottom: 0px;
+    margin-left: -12px;
+}
 :root:root:root .inbound-customizer .wrap h1:first-of-type, :root:root:root .inbound-customizer .ed_button.button.button-small[value="more"], :root:root:root .inbound-customizer .ed_button.button.button-small[value="/ins"] {
-
     display: none;
 }
-
 :root:root:root .inbound-customizer .auto-fold #wpfooter, :root:root:root .inbound-customizer .auto-fold #wpcontent {
-
     margin-left: 0px;
 }
-
+@media screen and (max-width: 782px) {
+    :root:root:root .inbound-customizer .auto-fold #wpfooter, :root:root:root .inbound-customizer .auto-fold #wpcontent {
+        padding-left: 0px !important;
+    }
+}
 :root:root:root .inbound-customizer .mce-container-body.mce-flow-layout {
-
     font-size: 0px;
 }
-
 :root:root:root .inbound-customizer .media-modal {
-
     top: 20px;
+    max-height: 600px;
 }
-
 :root:root:root .inbound-customizer .wp-editor-container iframe, :root:root:root .inbound-customizer .wp-editor-container textarea {
-
     height: 180px !important;
 }
-
 :root:root:root .inbound-customizer .acf-gallery {
-
     height: 220px !important;
 }
-
 :root:root:root .inbound-customizer #submitdiv {
-
     position: fixed !important;
-
     bottom: 0px !important;
-
     z-index: 999999 !important;
-
     width: 100% !important;
-
-    margin-left: -10px !important;
-
     padding-bottom: 10px !important;
-
     margin-bottom: 0px !important;
 }
-
 :root:root:root .inbound-customizer #submitdiv .handlediv, :root:root:root .inbound-customizer #submitdiv .hndle {
-
     display: none !important;
 }
-
 :root:root:root .inbound-customizer #submitdiv #publishing-action {
-
     text-align: center !important;
-
     float: none !important;
-
     margin-bottom: 15px;
-
     line-height: 32px;
 }
-
 :root:root:root .inbound-customizer #submitdiv input, :root:root:root .inbound-customizer #submitdiv .preview {
-
     text-align: center !important;
-
     width: 280px !important;
-
     margin: auto !important;
-
     height: 44px !important;
-
     font-size: 17px !important;
 }
-
-:root:root:root .inbound-customizer input[type="text"], :root:root:root .inbound-customizer input[type="email"], :root:root:root .inbound-customizer input[type="url"], :root:root:root .inbound-customizer input[type="number"], :root:root:root .inbound-customizer input[type="password"], :root:root:root .inbound-customizer textarea, :root:root:root .inbound-customizer label, :root:root:root .inbound-customizer .inbound-meta-box-label, :root:root:root .inbound-customizer .inbound-description-block-option {
-
+:root:root:root .inbound-customizer .inbound-meta-box-label, :root:root:root .inbound-customizer label {
     width: 100%;
 }
-
-:root:root:root .inbound-customizer label {
-
-    font-weight: bold;
-
+:root:root:root .inbound-customizer input[type="text"], :root:root:root .inbound-customizer input[type="email"], :root:root:root .inbound-customizer input[type="url"], :root:root:root .inbound-customizer input[type="number"], :root:root:root .inbound-customizer input[type="password"], :root:root:root .inbound-customizer textarea, :root:root:root .inbound-customizer .inbound-description-block-option {
+    width: 100%;
     margin-bottom: 5px;
-
+}
+:root:root:root .inbound-customizer .inbound-colorpicker-option input[type="text"] {
+    width: 80px;
+}
+:root:root:root .inbound-customizer input[type="text"].wp-color-picker {
+    width: 80px;
+}
+:root:root:root .inbound-customizer label {
+    font-weight: bold;
+    margin-bottom: 5px;
     display: block;
+    font-size: 15px;
+}
+:root:root:root .inbound-customizer .jPicker.Container {
+    top: 50px !important;
+    left: 10px !important;
+    position: fixed !important;
+}
+:root:root:root .inbound-customizer table.jPicker {
+    width: 430px !important;
+    max-height: 300px !important;
+}
+:root:root:root .inbound-customizer table.jPicker .Grid {
+    display: none;
+}
+:root:root:root .inbound-customizer table.jPicker .Icon span.Color, :root:root:root .inbound-customizer table.jPicker .Icon span.Alpha  {
+    width: 97% !important;
+}
+:root:root:root .inbound-customizer table.jPicker .Title {
+    width: 254px;
+}
+:root:root:root .inbound-customizer table.jPicker .Move {
+    display: none;
+}
+:root:root:root .inbound-customizer table.jPicker .Button {
+    text-align: center;
+    padding: 0 4px;
+    width: 264px;
+    position: absolute;
+    border-bottom: none;
+    left: 0px;
+    bottom: 3px;
+}
+:root:root:root .inbound-customizer table.jPicker .Button input {
+    font-size: 18px !important;
+}
+:root:root:root .inbound-customizer table.jPicker hr {
+    display: none !important;
 }

@@ -81,21 +81,11 @@ jQuery(document).ready(function($) {
 	if(which_editor === 'editor'){
 	  setTimeout(function() {
 
-        var ctmce= jQuery('#content-tmce');
-        switchEditors.switchto(ctmce[0]); // switch to tinymce
+            jQuery('.switch-tmce').each(function(){
+                jQuery(this).click();
+            });
 
-        var conversion_area = jQuery("#landing-page-myeditor-tmce");
-        switchEditors.switchto(conversion_area[0]); // switch to tinymce
-		//jQuery("#content-tmce").click();
-		//jQuery(".wp-switch-editor.switch-tmce").click();
-        jQuery('.inbound-wysiwyg-option textarea').each(function(){
-            var chtml= "#" + jQuery(this).attr('id') + '-html';
-            var ctmce= "#" + jQuery(this).attr('id') + '-tmce';
-            var html_box = jQuery(chtml);
-            var tinymce_box = jQuery(ctmce);
-            switchEditors.switchto(tinymce_box[0]); // switch to tinymce
-        });
-		}, 1000);
+	   }, 1000);
 	}
 
     /* Tour Start JS */

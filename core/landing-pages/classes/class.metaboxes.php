@@ -413,7 +413,8 @@ class Landing_Pages_Metaboxes {
             } else {
                 $cur_class = 'inactive';
             }
-            echo '<a href="?post=' . $post->ID . '&lp-variation-id=' . $vid . '&action=edit" class="lp-nav-tab nav-tab nav-tab-special-' . $cur_class . '" id="tabs-add-variation">' . $pre . $letter . '</a>';
+            $permalink = get_permalink($post->ID) . '?' . '&lp-variation-id=' . $vid ;
+            echo '<a href="?post=' . $post->ID . '&lp-variation-id=' . $vid . '&action=edit" class="lp-nav-tab nav-tab nav-tab-special-' . $cur_class . '" data-permalink="'.$permalink.'" id="tabs-add-variation" target="_parent">' . $pre . $letter . '</a>';
         }
 
         if (!isset($_GET['new-variation'])) {

@@ -1,26 +1,25 @@
-var Module = (function () {
+/* This is the customizer preview window */
 
-  var _privateMethod = function () {};
+var InboundCustomizerPreview = (function () {
 
-  var myObject = {
-    someMethod:  function () {
-
+  var Preview = {
+    init:  function () {
+      this.disableLinks();
     },
-    anotherMethod:  function () {
-
+    disableLinks: function () {
+      jQuery('a').each(function(e){
+          console.log('Links disabled in editor');
+          jQuery(this).on('click', function (e) {
+              e.preventDefault();
+          });
+      });
     }
   };
 
-  return myObject;
+  return Preview;
 
 })();
 
-var ModuleTwo = (function (Module) {
-
-    Module.extension = function () {
-        // another method!
-    };
-
-    return Module;
-
-})(Module || {});
+jQuery(document).ready(function($) {
+      InboundCustomizerPreview.init();
+ });

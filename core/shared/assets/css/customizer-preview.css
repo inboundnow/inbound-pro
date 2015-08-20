@@ -3,7 +3,10 @@
  * Any edits you make in this file will not be saved
  */
 
-/* CSS for the Customizer Edit */
-:root:root:root .inbound-customizer div {
-    display:inline;
+/* CSS for the Preview */
+:root body, :root body:before {
+    background-color: transparent !important;
+    background:transparent !important;
+    box-shadow: none !important;
+    border: none !important;
 }

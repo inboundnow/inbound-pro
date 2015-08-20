@@ -28,7 +28,7 @@ $background_on = get_field( 'countdown-lander-background-on' , $post->ID );
 $date_picker = get_field( 'countdown-lander-date-picker' , $post->ID );
 $social_display = get_field( 'countdown-lander-display-social' , $post->ID );
 $countdown_message = get_field( 'countdown-message', $post->ID );
-$bg_image = wp_get_attachment_url(get_field( 'countdown-lander-bg-image', $post->ID ));
+$bg_image = get_field( 'countdown-lander-bg-image', $post->ID );
 $submit_button_color = get_field( 'countdown-lander-submit-button-color', $post->ID );
 
 /* Date Formatting */
@@ -37,6 +37,11 @@ if (strstr($date_picker,'/')) {
 
 } else {
     $date_array = date_parse($date_picker);
+}
+
+/* image handling - provides legacy support */
+if (!strstr( $bg_image , 'http')) {
+    $bg_image = wp_get_attachment_url( $bg_image);
 }
 
 /* Convert Hex to RGB Value for submit button */
@@ -185,10 +190,13 @@ $blue =  (isset($RBG_array['b'])) ? $RBG_array['b'] : '0';
 		echo $date_array['month'] - 1;
 		echo ',';
 		echo $date_array['day'];
+		/* these aren't available with ACF currently *
 		echo ',';
 		echo $date_array['hour'];
 		echo ',';
-		echo $date_array['second']; ?> ),
+		echo $date_array['second'];
+		*/
+		?> ),
                 newYear = false;
 
             jQuery('#countdown').countdown({

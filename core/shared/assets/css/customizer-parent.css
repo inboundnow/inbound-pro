@@ -40,13 +40,18 @@
 
     position: fixed;
 
-    top: 20%;
+    top: 32px;
 
     z-index: 1;
 
     border: none;
 
     overflow:hidden;
+}
+
+:root:root:root .wp-call-to-action .inbound-customizer-preview {
+
+    top: 20%;
 }
 
 :root:root:root #inbound-customizer-overlay {

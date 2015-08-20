@@ -70,7 +70,7 @@ if (!class_exists('Landing_Pages_ACF')) {
 
 			$variations = ( isset($settings['variations']) ) ? $settings['variations'] : null;
 
-			if (!$variations) {
+			if (!$variations[ $vid ][ 'acf' ]) {
 				return self::load_legacy_value(  $value, $post_id, $field  );
 			}
 
@@ -80,19 +80,11 @@ if (!class_exists('Landing_Pages_ACF')) {
 				/* sometimes value is an array count when new_value believes it should be an array in this case get new count */
 				if (!is_array($value) && is_array($new_value)) {
 					$value = count($new_value);
-				} else {
+				} else if( $new_value) {
 					$value = $new_value;
-				}
-			} else {
-				if ( strlen($value) && isset($field['default_value']) ) {
-					$value = $field['default_value'];
 				}
 			}
 
-			/**
-			var_dump($new);
-			echo "\r\n";echo "\r\n";echo "\r\n";
-			/**/
 			return $value;
 
 		}
@@ -116,6 +108,7 @@ if (!class_exists('Landing_Pages_ACF')) {
 				$value = get_post_meta( $post_id ,  $field['name']  , true );
 			}
 
+
 			if ($field['type']=='image') {
 				$value = self::get_image_id_from_url( $value );
 			}
@@ -124,6 +117,12 @@ if (!class_exists('Landing_Pages_ACF')) {
 				$value = str_replace('-' , '', $value);
 				$value = explode(' ' , $value);
 				$value = $value[0];
+			}
+
+			if ($field['type']=='color_picker') {
+				if (!strstr( $value , '#' )) {
+					$value = '#'.$value;
+				}
 			}
 
 			/**

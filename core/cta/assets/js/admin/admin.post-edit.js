@@ -38,26 +38,14 @@ jQuery(document).ready(function($) {
 		cookie_notice();
 	}
 
-	if(which_editor === null){
-		setTimeout(function() {
-		//jQuery("#content-tmce").click();
-		//jQuery(".wp-switch-editor.switch-tmce").click();
-		}, 1000);
-
-	}
 
 	if(which_editor === 'editor'){
 		setTimeout(function() {
-		//jQuery("#content-tmce").click();
-		//jQuery(".wp-switch-editor.switch-tmce").click();
-		jQuery('.inbound-wysiwyg-option textarea').each(function(){
-			var chtml= "#" + jQuery(this).attr('id') + '-html';
-			var ctmce= "#" + jQuery(this).attr('id') + '-tmce';
-			var html_box = jQuery(chtml);
-			var tinymce_box = jQuery(ctmce);
-			jQuery('.wp-switch-editor.switch-tmce').click();
-			//switchEditors.switchto(tinymce_box[0]); // switch to tinymce
-		});
+
+            jQuery('.switch-tmce').each(function(){
+                jQuery(this).click();
+            });
+
 		}, 1000);
 	}
 
@@ -268,9 +256,9 @@ jQuery(document).ready(function($) {
 			var all = color.val('all');
 		// alert('Color chosen - hex: ' + (all && '#' + all.hex || 'none') + ' - alpha: ' + (all && all.a + '%' || 'none'));
 			//jQuery(this).attr('rel', all.hex);
-			jQuery(this).parent().find(".wp-cta-success-message").remove();
-			jQuery(this).parent().find(".new-save-wp-cta").show();
-			jQuery(this).parent().find(".new-save-wp-cta-frontend").show();
+			//jQuery(this).parent().find(".wp-cta-success-message").remove();
+			//jQuery(this).parent().find(".new-save-wp-cta").show();
+			//jQuery(this).parent().find(".new-save-wp-cta-frontend").show();
 
 			//jQuery(this).attr('value', all.hex);
 		});
@@ -385,21 +373,7 @@ function getURLParameter(name) {
 
 
 
-	jQuery('#main-title-area input').on("change keyup", function (e) {
-		// iframe content change needs its own change function $("#iFrame").contents().find("#someDiv")
-		// media uploader needs its own change function
-		var this_id = jQuery(this).attr("id");
-		var current_view = jQuery("#wp-cta-current-view").text();
-		if (current_view !== "0") {
-			this_id = this_id + '-' + current_view;
-		}
-		var parent_el = jQuery(this).parent();
-		jQuery(parent_el).find(".wp-cta-success-message").remove();
-		jQuery(parent_el).find(".new-save-wp-cta").remove();
-		var ajax_save_button = jQuery('<span class="button-primary new-save-wp-cta" id="' + this_id + '" style="margin-left:10px">Update</span>');
-		//console.log(parent_el);
-		jQuery(ajax_save_button).appendTo(parent_el);
-	});
+
 
 
 

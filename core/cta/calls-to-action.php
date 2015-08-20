@@ -68,7 +68,6 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 					include_once( WP_CTA_PATH . 'classes/class.templates.list-table.php');
 					include_once( WP_CTA_PATH . 'classes/class.templates.manage.php');
 					include_once( WP_CTA_PATH . 'modules/module.utils.php');
-					include_once( WP_CTA_PATH . 'classes/class.customizer.php');
 					include_once( WP_CTA_PATH . 'classes/class.tracking.php');
 					include_once( WP_CTA_PATH . 'classes/class.branching.php');
 
@@ -88,7 +87,7 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 					include_once( WP_CTA_PATH . 'classes/class.cta.variations.php');
 					include_once( WP_CTA_PATH . 'classes/class.cta.render.php');
 					include_once( WP_CTA_PATH . 'modules/module.utils.php');
-					include_once( WP_CTA_PATH . 'classes/class.customizer.php');
+
 
 					BREAK;
 			endswitch;
