@@ -16,6 +16,8 @@ class Inbound_Pro_Activation {
 
 
 	public static function activate() {
+		/* tell environment we are activating */
+		$GLOBALS['is_activating'] = true;
 
 		/* Activate shared components */
 		self::activate_shared();

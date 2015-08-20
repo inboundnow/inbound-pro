@@ -30,8 +30,9 @@ if (!class_exists('Inbound_Load_Shared')) {
 			define('INBOUNDNOW_SHARED_PATH', self::get_shared_path() );
 			define('INBOUNDNOW_SHARED_URLPATH', self::get_shared_urlpath() );
 			define('INBOUNDNOW_SHARED_FILE', self::get_shared_file() );
-			define('INBOUNDNOW_TEXT_DOMAIN', self::get_text_domain() );
-
+			if (!defined('INBOUNDNOW_TEXT_DOMAIN')) {
+				define('INBOUNDNOW_TEXT_DOMAIN', self::get_text_domain() );
+			}
 		}
 
 		/**
@@ -57,6 +58,7 @@ if (!class_exists('Inbound_Load_Shared')) {
 			include_once( INBOUNDNOW_SHARED_PATH . 'shortcodes/inbound-shortcodes.php');
 			include_once( INBOUNDNOW_SHARED_PATH . 'legacy/functions.php');
 			include_once( INBOUNDNOW_SHARED_PATH . 'assets/assets.loader.class.php');
+			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.inbound-customizer.php');
 
 			/* load admin only */
 			if (is_admin()) {
