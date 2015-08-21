@@ -7,10 +7,16 @@
 /* Include Shareme Library */
 include_once(LANDINGPAGES_PATH.'assets/libraries/shareme/library.shareme.php');
 
+
 /* Declare Template Key */
 $key = lp_get_parent_directory(dirname(__FILE__));
 $path = LANDINGPAGES_URLPATH.'templates/'.$key.'/';
 $url = plugins_url();
+
+/* Include ACF Field Definitions  */
+include_once(LANDINGPAGES_PATH.'templates/'.$key.'/config.php');
+
+
 /* Define Landing Pages's custom pre-load hook for 3rd party plugin integration */
 do_action('lp_init');
 
@@ -28,7 +34,7 @@ $background_on = get_field( 'countdown-lander-background-on' , $post->ID );
 $date_picker = get_field( 'countdown-lander-date-picker' , $post->ID );
 $social_display = get_field( 'countdown-lander-display-social' , $post->ID );
 $countdown_message = get_field( 'countdown-message', $post->ID );
-$bg_image = get_field( 'countdown-lander-bg-image', $post->ID );
+$bg_image = get_field( 'countdown-lander-bg-image', $post->ID  );
 $submit_button_color = get_field( 'countdown-lander-submit-button-color', $post->ID );
 
 /* Date Formatting */
@@ -37,11 +43,6 @@ if (strstr($date_picker,'/')) {
 
 } else {
     $date_array = date_parse($date_picker);
-}
-
-/* image handling - provides legacy support */
-if (!strstr( $bg_image , 'http')) {
-    $bg_image = wp_get_attachment_url( $bg_image);
 }
 
 /* Convert Hex to RGB Value for submit button */
