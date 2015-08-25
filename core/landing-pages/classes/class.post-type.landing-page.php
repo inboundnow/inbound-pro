@@ -43,6 +43,13 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
             /* enqueue scripts for landing page listings */
             add_action( 'admin_enqueue_scripts' , array( __CLASS__ , 'enqueue_admin_scripts' ) );
 
+            /* enqueue scripts for landing page listings */
+            if (isset($_GET['dont_save'])
+                || isset($_GET['iframe_window'])
+                || isset($_GET['inbound-preview']) ) {
+                add_action('wp_enqueue_scripts', array(__CLASS__, 'stop_stat_tracking'));
+            }
+
             /* load iframed preview page when preview is clicked from AB stats box */
             if (isset($_GET['iframe_window'])) {
                 add_action('wp_head', array( __CLASS__ , 'load_preview_iframe' ) );
@@ -50,7 +57,7 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
             }
 
             /* Miscelanous wp_head - Should probably be refactored into enqueue - h */
-            add_action('wp_head', array( __CLASS__ , 'wp_head' ));
+            add_action('wp_head', array(__CLASS__, 'wp_head' ));
 
         }
 
@@ -177,11 +184,6 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
 
             wp_enqueue_style('inbound-wordpress-base', LANDINGPAGES_URLPATH . 'assets/css/frontend/global-landing-page-style.css');
             wp_enqueue_style('inbound-shortcodes', INBOUND_FORMS.'css/frontend-render.css');
-
-
-            if (isset($_GET['template-customize']) &&$_GET['template-customize']=='on') {
-                echo "<style type='text/css'>#variation-list{background:#eaeaea !important; top: 26px !important; height: 35px !important;padding-top: 10px !important;}#wpadminbar {height: 32px !important;}</style>"; /* enqueue styles not firing */
-            }
 
 
         }
@@ -628,27 +630,39 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
 
             echo '</div>';
         }
-
+        /*
+        Load JS to disable stats from working for preview windows
+         */
+        public static function stop_stat_tracking() {
+            show_admin_bar(false);
+            wp_enqueue_script('stop-inbound-stats-js', LANDINGPAGES_URLPATH . 'assets/js/stop_page_stats.js');
+            wp_enqueue_style('inbound-preview-window-css', LANDINGPAGES_URLPATH . 'assets/css/iframe-preview.css');
+        }
         /**
          * Load misc wp_head
          */
         public static function wp_head() {
             global $post;
-            if (isset($post) && $post->post_type=='landing-page') {
+
+            if (isset($post) && $post->post_type !=='landing-page') {
                 return;
             }
+            /* if is tiny iframe preview window force these styles */
+            if (isset($_GET['dont_save'])) { ?>
+                <style type="text/css">
+                    :root:root:root #wpadminbar {
+                        display:none !important;
+                    }
+                    :root:root:root {
+                        margin-top: 0px !important;
+                    }
+                </style>
+            <?php }
 
-            if (isset($_GET['lp-variation-id']) && !isset($_GET['template-customize']) && !isset($_GET['iframe_window']) && !isset($_GET['live-preview-area'])) {
+            if (isset($_GET['lp-variation-id']) && !isset($_GET['inbound-customizer']) && !isset($_GET['iframe_window']) && !isset($_GET['live-preview-area'])) {
                 do_action('landing_page_header_script');
                 ?>
-                <script type="text/javascript">
-                    /* For Iframe previews to stop saving page views */
-                    var dont_save_page_view = _inbound.Utils.getParameterVal('dont_save', window.location.href);
-                    if (dont_save_page_view) {
-                        /*console.log('turn off page tracking'); */
-                        window.inbound_settings.page_tracking = 'off';
-                    }
-                </script>
+
                 <?php
                 if(!defined('Inbound_Now_Disable_URL_CLEAN')) {
                 ?>

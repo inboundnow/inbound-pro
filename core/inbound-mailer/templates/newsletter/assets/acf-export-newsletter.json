@@ -1,0 +1,430 @@
+[
+    {
+        "key": "group_55d6e2cc2e65e",
+        "title": "Newsletter",
+        "fields": [
+            {
+                "key": "field_55d6e4135c28f",
+                "label": "Header",
+                "name": "",
+                "type": "tab",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "placement": "top",
+                "endpoint": 0
+            },
+            {
+                "key": "field_55d6e4275c290",
+                "label": "Header Background Image",
+                "name": "header_bg_image",
+                "type": "image",
+                "instructions": "Please add your header background image. The right dimensions are 730px X 100PX\r\nLeave empty if you don't want a background image",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "return_format": "url",
+                "preview_size": "thumbnail",
+                "library": "all",
+                "min_width": "",
+                "min_height": "",
+                "min_size": "",
+                "max_width": "",
+                "max_height": "",
+                "max_size": "",
+                "mime_types": "jpg,jpeg,png"
+            },
+            {
+                "key": "field_55d6e58ae73bf",
+                "label": "Header Background Color",
+                "name": "header_bg_color",
+                "type": "color_picker",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "#efefef"
+            },
+            {
+                "key": "field_55d6e5b6aa61a",
+                "label": "Header Logo",
+                "name": "header_logo",
+                "type": "image",
+                "instructions": "Please add your logo. It will be positioned at the center of the header",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "return_format": "url",
+                "preview_size": "thumbnail",
+                "library": "all",
+                "min_width": "",
+                "min_height": "",
+                "min_size": "",
+                "max_width": "",
+                "max_height": "",
+                "max_size": "",
+                "mime_types": ""
+            },
+            {
+                "key": "field_55da8fd91c345",
+                "label": "Home Page URL",
+                "name": "home_page_url",
+                "type": "url",
+                "instructions": "Add the URL of the page you want to send people to when they click on the logo",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "#",
+                "placeholder": ""
+            },
+            {
+                "key": "field_55d6e678b0a66",
+                "label": "Issue Title",
+                "name": "issue_title",
+                "type": "text",
+                "instructions": "Add the issue title that will show up on the left side of the header",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "Today's news",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "maxlength": "",
+                "readonly": 0,
+                "disabled": 0
+            },
+            {
+                "key": "field_55d6e6bcb9bd9",
+                "label": "Issue date",
+                "name": "issue_date",
+                "type": "text",
+                "instructions": "Please add a date. Leave empty if you don't want one",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "maxlength": "",
+                "readonly": 0,
+                "disabled": 0
+            },
+            {
+                "key": "field_55d723425d2ce",
+                "label": "Title And Date Color",
+                "name": "title_date_color",
+                "type": "color_picker",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "#fff"
+            },
+            {
+                "key": "field_55da94d1ac6cf",
+                "label": "Email Body",
+                "name": "",
+                "type": "tab",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "placement": "top",
+                "endpoint": 0
+            },
+            {
+                "key": "field_55db264da6f06",
+                "label": "Thumbnails Alignment",
+                "name": "thumbnails_alignment",
+                "type": "radio",
+                "instructions": "Choose where you want your images to be aligned",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "choices": {
+                    "left": "Left",
+                    "right": "Right"
+                },
+                "other_choice": 0,
+                "save_other_choice": 0,
+                "default_value": "left",
+                "layout": "vertical"
+            },
+            {
+                "key": "field_55da94eb0c0b7",
+                "label": "News line",
+                "name": "news_line",
+                "type": "flexible_content",
+                "instructions": "Add a block with a news article",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "button_label": "Add News Line",
+                "min": "",
+                "max": "",
+                "layouts": [
+                    {
+                        "key": "55da94fb9cbba",
+                        "name": "news_line",
+                        "label": "News Line",
+                        "display": "block",
+                        "sub_fields": [
+                            {
+                                "key": "field_55da955e074c2",
+                                "label": "News title",
+                                "name": "news_title",
+                                "type": "text",
+                                "instructions": "Add your title here",
+                                "required": 0,
+                                "conditional_logic": 0,
+                                "wrapper": {
+                                    "width": "",
+                                    "class": "",
+                                    "id": ""
+                                },
+                                "default_value": "",
+                                "placeholder": "",
+                                "prepend": "",
+                                "append": "",
+                                "maxlength": "",
+                                "readonly": 0,
+                                "disabled": 0
+                            },
+                            {
+                                "key": "field_55da9623074c3",
+                                "label": "News URL",
+                                "name": "news_url",
+                                "type": "url",
+                                "instructions": "Add the complete URL of your news. It can be an article on your website, a landing page, or an external website",
+                                "required": 0,
+                                "conditional_logic": 0,
+                                "wrapper": {
+                                    "width": "",
+                                    "class": "",
+                                    "id": ""
+                                },
+                                "default_value": "#",
+                                "placeholder": ""
+                            },
+                            {
+                                "key": "field_55da966a38123",
+                                "label": "News Excerpt",
+                                "name": "news_excerpt",
+                                "type": "wysiwyg",
+                                "instructions": "Here you should add an excerpt of your news",
+                                "required": 0,
+                                "conditional_logic": 0,
+                                "wrapper": {
+                                    "width": "",
+                                    "class": "",
+                                    "id": ""
+                                },
+                                "default_value": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam quis gravida ex, quis molestie turpis. Nunc eget rhoncus nulla. Quisque condimentum, ipsum non porta placerat, tellus neque malesuada ante, sed dignissim diam elit sit amet ligula. Nullam ut lorem vestibulum, malesuada nulla at, viverra urna. Ut sapien massa, dictum in metus sit amet, sodales finibus ex.",
+                                "tabs": "all",
+                                "toolbar": "basic",
+                                "media_upload": 0
+                            },
+                            {
+                                "key": "field_55da9717c86fc",
+                                "label": "Featured Image",
+                                "name": "featured_image",
+                                "type": "image",
+                                "instructions": "Add the image that will appear on the left side of the news. The image must be 150px X 150px. If bigger, it will be resized. It is recommended to add a square image to avoid distorsion.",
+                                "required": 0,
+                                "conditional_logic": 0,
+                                "wrapper": {
+                                    "width": "",
+                                    "class": "",
+                                    "id": ""
+                                },
+                                "return_format": "url",
+                                "preview_size": "thumbnail",
+                                "library": "all",
+                                "min_width": "",
+                                "min_height": "",
+                                "min_size": "",
+                                "max_width": "",
+                                "max_height": "",
+                                "max_size": "",
+                                "mime_types": ""
+                            },
+                            {
+                                "key": "field_55da980d63e0b",
+                                "label": "Featured image URL",
+                                "name": "featured_image_url",
+                                "type": "url",
+                                "instructions": "You can use the fatured image as a call to action. Add here the URL of the landing page the user will be sent to when cliks to the image. LEave the default value if you don't want to use this URL",
+                                "required": 0,
+                                "conditional_logic": 0,
+                                "wrapper": {
+                                    "width": "",
+                                    "class": "",
+                                    "id": ""
+                                },
+                                "default_value": "#",
+                                "placeholder": ""
+                            }
+                        ],
+                        "min": 1,
+                        "max": ""
+                    },
+                    {
+                        "key": "55da98b89078d",
+                        "name": "callout",
+                        "label": "Callout",
+                        "display": "row",
+                        "sub_fields": [
+                            {
+                                "key": "field_55da990a9078e",
+                                "label": "Callout text",
+                                "name": "callout_text",
+                                "type": "wysiwyg",
+                                "instructions": "Her you should add the text of your callout",
+                                "required": 0,
+                                "conditional_logic": 0,
+                                "wrapper": {
+                                    "width": "",
+                                    "class": "",
+                                    "id": ""
+                                },
+                                "default_value": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam quis gravida ex, quis molestie turpis. Nunc eget rhoncus nulla. Quisque condimentum, ipsum non porta placerat, tellus neque malesuada ante, sed dignissim diam elit sit amet ligula. Nullam ut lorem vestibulum, malesuada nulla at, viverra urna",
+                                "tabs": "all",
+                                "toolbar": "full",
+                                "media_upload": 1
+                            },
+                            {
+                                "key": "field_55da99b59078f",
+                                "label": "Callout Background Color",
+                                "name": "callout_bg_color",
+                                "type": "color_picker",
+                                "instructions": "The background color of your callout area",
+                                "required": 0,
+                                "conditional_logic": 0,
+                                "wrapper": {
+                                    "width": "",
+                                    "class": "",
+                                    "id": ""
+                                },
+                                "default_value": "#efefef"
+                            }
+                        ],
+                        "min": "",
+                        "max": ""
+                    }
+                ]
+            },
+            {
+                "key": "field_55daf73c5a124",
+                "label": "Footer",
+                "name": "",
+                "type": "tab",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "placement": "top",
+                "endpoint": 0
+            },
+            {
+                "key": "field_55daf74d5a125",
+                "label": "Terms Page URL",
+                "name": "terms_page_url",
+                "type": "url",
+                "instructions": "Enter the URL of your terms page here. Leave blank if you don't have one",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": ""
+            },
+            {
+                "key": "field_55daf7a05a126",
+                "label": "Privacy Page URL",
+                "name": "privacy_page_url",
+                "type": "url",
+                "instructions": "Enter the URL of your privacy page here. Leave blank if you don't have one",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": ""
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "post_type",
+                    "operator": "==",
+                    "value": "inbound-email"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "top",
+        "instruction_placement": "label",
+        "hide_on_screen": "",
+        "active": 1,
+        "description": ""
+    }
+]

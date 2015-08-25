@@ -17,36 +17,115 @@ if (!class_exists('Landing_Pages_ACF')) {
 		 */
 		public static function load_hooks() {
 
+			/* load ACF if not already loaded */
+			if( !class_exists('acf') ) {
+
+				define( 'ACF_LITE', true );
+
+				include_once( LANDINGPAGES_PATH . 'shared/assets/plugins/advanced-custom-fields/acf.php');
+
+				/* customize ACF path */
+				add_filter('acf/settings/path', array( __CLASS__ , 'define_acf_settings_path' ) );
+
+				/* customize ACF URL path */
+				add_filter('acf/settings/dir', array( __CLASS__ , 'define_acf_settings_url' ) );
+
+				/* Hide ACF field group menu item */
+				add_filter('acf/settings/show_admin', '__return_false');
+
+				/* make sure fields are placed in the correct location */
+				add_action( 'admin_print_footer_scripts', array( __CLASS__ , 'reposition_acf_fields' ) );
+
+
+			}
+
 			/* Load ACF Fields On ACF powered Email Template */
 			add_filter( 'acf/location/rule_match/template_id' , array( __CLASS__ , 'load_acf_on_template' ) , 10 , 3 );
+
+			/* make sure fields are placed in the correct location */
+			add_action( 'save_post', array( __CLASS__ , 'save_acf_fields' ) );
 
 			/* Intercept load custom field value request and hijack it */
 			add_filter( 'acf/load_value' , array( __CLASS__ , 'load_value' ) , 10 , 3 );
 
-			/* on landing page save - not needed
-			add_action( 'save_post' , array( __CLASS__ , 'save_acf_fields' ) , 10 , 1 );
-			*/
 		}
 
 
 		/**
-		 *	Save ACF fields under variation
+		 * define custom ACF path
+		 * @param $path
+		 * @return string
 		 */
-		public static function save_acf_fields(	$post_id ) {
-			global $post;
+		public static function define_acf_settings_path( $path ) {
 
-			if ( !isset($post) || $post->post_type != 'landing-page' || !isset($_POST['acf']) ) {
-				return;
-			}
+			$path = LANDINGPAGES_PATH . 'shared/assets/plugins/advanced-custom-fields/';
 
-			/* get variation */
-			$vid = Inbound_Mailer_Variations::get_current_variation_id();
-
-			/* Update special variation object */
-			update_post_meta( $post_id , 'acf-' . $vid , $_POST['acf'] );
+			return $path;
 
 		}
 
+		/**
+		 * define custom settings URL
+		 * @param $url
+		 * @return string
+		 */
+		public static function define_acf_settings_url( $url ) {
+
+			$url = LANDINGPAGES_URLPATH . 'shared/assets/plugins/advanced-custom-fields/';
+
+			return $url;
+		}
+
+		/**
+		 * Adds javascript to make sure ACF fields load inside template container
+		 */
+		public static function reposition_acf_fields() {
+			global $post;
+
+			if ( !isset($post) || $post->post_type != 'landing-page' ) {
+				return;
+			}
+
+			?>
+			<script type='text/javascript'>
+				jQuery('.acf_postbox').each(function(){
+					jQuery('#inbound-meta').append(jQuery(this));
+				});
+			</script>
+			<?php
+		}
+
+		public static function save_acf_fields( $landing_page_id ) {
+
+			if ( wp_is_post_revision( $landing_page_id ) ) {
+				return;
+			}
+
+			if (  !isset($_POST['post_type']) || $_POST['post_type'] != 'landing-page' ) {
+				return;
+			}
+
+			if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) {
+				return;
+			}
+
+			/* save acf settings - uses our future data array - eventually we will migrate all post meta into this data object */
+			$fields = (isset($_POST['fields'])) ? $_POST['fields'] : null;
+			$fields = (isset($_POST['acf'])) ? $_POST['acf'] : $fields;
+
+			if ( $fields ) {
+
+				$settings = Landing_Pages_Meta::get_settings( $landing_page_id );
+				$variation_id = (isset($_REQUEST['lp-variation-id'])) ? $_REQUEST['lp-variation-id'] : '0';
+
+				if (!isset($settings['variations'])) {
+					$settings['variations'] = array();
+				}
+
+				$settings['variations'][$variation_id]['acf'] = $fields;
+				Landing_Pages_Meta::update_settings( $landing_page_id , $settings );
+			}
+		}
 
 		/**
 		 * Finds the correct value given the variation
@@ -239,7 +318,7 @@ if (!class_exists('Landing_Pages_ACF')) {
 		public static function load_acf_on_template( $allow , $rule, $args ) {
 			global $post;
 
-			if ($post->post_type != 'landing-page' ) {
+			if ( !isset($post) || $post->post_type != 'landing-page' ) {
 				return $allow;
 			}
 

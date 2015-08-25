@@ -19,18 +19,6 @@ $post_id = get_the_ID();
 $logo_url = get_field('logo_url', $post_id);
 $header_bg_color = get_field('header_bg_color', $post_id);
 
-/* Email Body
-$text_above_hero_image = get_field('text_above_hero_image', $post_id);
-$hero_image_url = get_field('hero_image', $post_id);
-$hero_image_callout = get_field('hero_image_callout', $post_id);
-$hero_callout_background_color_array = get_field('hero_callout_background_color', $post_id);
-$hero_callout_background_color = $hero_callout_background_color_array[1];
-$main_email_content = get_field('main_email_content', $post_id);
-$button_link = get_field('button_link', $post_id);
-$button_text = get_field('button_text', $post_id);
- *
- */
-
 /* Social Box */
 $facebook_page_url = get_field('facebook_page', $post_id);
 $twitter_handle = get_field('twitter_handle', $post_id);

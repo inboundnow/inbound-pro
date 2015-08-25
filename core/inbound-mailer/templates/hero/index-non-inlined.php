@@ -26,18 +26,6 @@ $post_id = get_the_ID();
 $logo_url = get_field('logo_url', $post_id);
 $header_bg_color = get_field('header_bg_color', $post_id);
 
-/* Email Body 
-$text_above_hero_image = get_field('text_above_hero_image', $post_id);
-$hero_image_url = get_field('hero_image', $post_id);
-$hero_image_callout = get_field('hero_image_callout', $post_id);
-$hero_callout_background_color_array = get_field('hero_callout_background_color', $post_id);
-$hero_callout_background_color = $hero_callout_background_color_array[1];
-$main_email_content = get_field('main_email_content', $post_id);
-$button_link = get_field('button_link', $post_id);
-$button_text = get_field('button_text', $post_id);
- * 
- */
-
 /* Social Box */
 $facebook_page_url = get_field('facebook_page', $post_id);
 $twitter_handle = get_field('twitter_handle', $post_id);
@@ -299,15 +287,15 @@ $privacy_page_url = get_field('privacy_page_url', $post_id);
 			
 				<div class="content">
 					<table bgcolor="<?php  echo $header_bg_color; ?>">
-					<tr>
-						<td><?php if ($logo_url) { ?>
-						<img src="<?php  echo $logo_url; ?>" width='188'/>
-						<?php } ?></td>
-						<td align="right" height="70" class="viewWebsite">
-						<p style="font-family: Arial, Helvetica, sans-serif; color: #555555; font-size: 10px; padding: 0; margin: 0;">Trouble viewing? Read this <a href="<?php echo get_permalink( $post_id ); ?>" style="color: #990000;" class='do-not-tracks'><?php _e('online' , 'inbound-email' ); ?></a>.</p>
-						</td>
-					</tr>
-				</table>
+						<tr>
+							<td><?php if ($logo_url) { ?>
+							<img src="<?php  echo $logo_url; ?>" width='188'/>
+							<?php } ?></td>
+							<td align="right" height="70" class="viewWebsite">
+							<p style="font-family: Arial, Helvetica, sans-serif; color: #555555; font-size: 10px; padding: 0; margin: 0;">Trouble viewing? Read this <a href="<?php echo get_permalink( $post_id ); ?>" style="color: #990000;" class='do-not-tracks'><?php _e('online' , 'inbound-email' ); ?></a>.</p>
+							</td>
+						</tr>
+					</table>
 				</div>
 				
 		</td>
@@ -348,11 +336,11 @@ $privacy_page_url = get_field('privacy_page_url', $post_id);
 											$button_text = get_sub_field('button_text');
 											$style = 'color: ';
 											if ( $button_text_color = get_sub_field('button_text_color') ) {
-												$style .= $button_text_color[1] . ';';
+												$style .= $button_text_color . ';';
 											} else { $style .= '#fff;'; }
 											$style .= 'background-color: ';
 											if ( $button_bg_color = get_sub_field('button_bg_color') ) {
-												$style .= $button_bg_color[1] . ';';
+												$style .= $button_bg_color . ';';
 											} else { $style .= '#666;'; }
 											?>
 											<a href="<?php echo $button_link; ?>" style="<?php echo $style; ?>

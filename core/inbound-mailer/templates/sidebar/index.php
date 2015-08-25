@@ -19,14 +19,6 @@ $post_id = get_the_ID();
 $logo_url = get_field('logo_url', $post_id);
 $header_bg_color = get_field('header_bg_color', $post_id);
 $callout_text = get_field('callout_text', $post_id);
-/*
-$callout_background_color = get_field('callout_background_color', $post_id);
-$main_email_content = get_field('main_email_content', $post_id);
-$content_after_callout = get_field('content_after_callout', $post_id);
-$button_link = get_field('button_link', $post_id);
-$button_text = get_field('button_text', $post_id);
- * 
- */
 
 /* Footer */
 $footer_bg_color = get_field('footer_bg_color', $post_id);
@@ -53,34 +45,34 @@ $sidebar_header_url = get_field('sidebar_header_link', $post_id);
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title >Sidebar Template</title>
-	
+
 <style type='css/text'>
-	/* ------------------------------------- 
-			GLOBAL 
+	/* -------------------------------------
+			GLOBAL
 	------------------------------------- */
-	* { 
+	* {
 		margin:0;
 		padding:0;
 	}
 	* { font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif; }
 
-	img { 
-		max-width: 100%; 
+	img {
+		max-width: 100%;
 	}
 	.collapse {
 		margin:0;
 		padding:0;
 	}
 	body {
-		-webkit-font-smoothing:antialiased; 
-		-webkit-text-size-adjust:none; 
-		width: 100%!important; 
+		-webkit-font-smoothing:antialiased;
+		-webkit-text-size-adjust:none;
+		width: 100%!important;
 		height: 100%;
 	}
 
 
-	/* ------------------------------------- 
-			ELEMENTS 
+	/* -------------------------------------
+			ELEMENTS
 	------------------------------------- */
 	a { color: #2BA6CB;}
 
@@ -125,13 +117,13 @@ $sidebar_header_url = get_field('sidebar_header_link', $post_id);
 	a.gp { background-color: #DB4A39!important; }
 	a.ms { background-color: #000!important; }
 
-	.sidebar .soc-btn { 
+	.sidebar .soc-btn {
 		display:block;
 		width:100%;
 	}
 
-	/* ------------------------------------- 
-			HEADER 
+	/* -------------------------------------
+			HEADER
 	------------------------------------- */
 	table.head-wrap { width: 100%;}
 
@@ -139,14 +131,14 @@ $sidebar_header_url = get_field('sidebar_header_link', $post_id);
 	.header.container table td.label { padding: 15px; padding-left:0px;}
 
 
-	/* ------------------------------------- 
-			BODY 
+	/* -------------------------------------
+			BODY
 	------------------------------------- */
 	table.body-wrap { width: 100%;}
 
 
-	/* ------------------------------------- 
-			FOOTER 
+	/* -------------------------------------
+			FOOTER
 	------------------------------------- */
 	table.footer-wrap { width: 100%;	clear:both!important;
 	}
@@ -158,8 +150,8 @@ $sidebar_header_url = get_field('sidebar_header_link', $post_id);
 	}
 
 
-	/* ------------------------------------- 
-			TYPOGRAPHY 
+	/* -------------------------------------
+			TYPOGRAPHY
 	------------------------------------- */
 	h1,h2,h3,h4,h5,h6 {
 	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; line-height: 1.1; margin-bottom:15px; color:#000;
@@ -175,10 +167,10 @@ $sidebar_header_url = get_field('sidebar_header_link', $post_id);
 
 	.collapse { margin:0!important;}
 
-	p, ul { 
-		margin-bottom: 10px; 
-		font-weight: normal; 
-		font-size:14px; 
+	p, ul {
+		margin-bottom: 10px;
+		font-weight: normal;
+		font-size:14px;
 		line-height:1.6;
 	}
 	p.lead { font-size:17px; }
@@ -189,8 +181,8 @@ $sidebar_header_url = get_field('sidebar_header_link', $post_id);
 		list-style-position: inside;
 	}
 
-	/* ------------------------------------- 
-			SIDEBAR 
+	/* -------------------------------------
+			SIDEBAR
 	------------------------------------- */
 	ul.sidebar {
 		background:<?php echo $sidebar_bg_color; ?>;
@@ -216,9 +208,9 @@ $sidebar_header_url = get_field('sidebar_header_link', $post_id);
 
 
 
-	/* --------------------------------------------------- 
+	/* ---------------------------------------------------
 			RESPONSIVENESS
-			Nuke it from orbit. It's the only way to be sure. 
+			Nuke it from orbit. It's the only way to be sure.
 	------------------------------------------------------ */
 
 	/* Set a max-width, and make it display as block so it will automatically stretch to that width, but will also shrink down on a phone or something */
@@ -234,7 +226,7 @@ $sidebar_header_url = get_field('sidebar_header_link', $post_id);
 		padding:15px;
 		max-width:600px;
 		margin:0 auto;
-		display:block; 
+		display:block;
 	}
 
 	/* Let's make sure tables in the content area are 100% wide */
@@ -247,9 +239,9 @@ $sidebar_header_url = get_field('sidebar_header_link', $post_id);
 		float:left;
 	}
 	.column tr td { padding: 15px; }
-	.column-wrap { 
-		padding:0!important; 
-		margin:0 auto; 
+	.column-wrap {
+		padding:0!important;
+		margin:0 auto;
 		max-width:600px!important;
 	}
 	.column table { width:100%;}
@@ -263,10 +255,10 @@ $sidebar_header_url = get_field('sidebar_header_link', $post_id);
 	.clear { display: block; clear: both; }
 
 
-	/* ------------------------------------------- 
+	/* -------------------------------------------
 			PHONE
 			For clients that support media queries.
-			Nothing fancy. 
+			Nothing fancy.
 	-------------------------------------------- */
 	@media only screen and (max-width: 600px) {
 
@@ -282,7 +274,7 @@ $sidebar_header_url = get_field('sidebar_header_link', $post_id);
 </style>
 
 </head>
- 
+
 <body bgcolor="#FFFFFF">
 
 <!-- HEADER -->
@@ -290,7 +282,7 @@ $sidebar_header_url = get_field('sidebar_header_link', $post_id);
 	<tr style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;">
 		<td style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;"></td>
 		<td class="header container" style="margin: 0 auto!important;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;display: block!important;max-width: 600px!important;clear: both!important;">
-				
+
 			<div class="content" style="margin: 0 auto;padding: 15px;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;max-width: 600px;display: block;">
 				<table bgcolor="<?php  echo $header_bg_color; ?>" style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;width: 100%;">
 					<tr style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;">
@@ -303,7 +295,7 @@ $sidebar_header_url = get_field('sidebar_header_link', $post_id);
 					</tr>
 				</table>
 			</div>
-				
+
 		</td>
 		<td style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;"></td>
 	</tr>
@@ -314,14 +306,14 @@ $sidebar_header_url = get_field('sidebar_header_link', $post_id);
 	<tr style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;">
 		<td style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;"></td>
 		<td class="container" bgcolor="#FFFFFF" style="margin: 0 auto!important;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;display: block!important;max-width: 600px!important;clear: both!important;">
-			
+
 			<div class="column-wrap" style="margin: 0 auto;padding: 0!important;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;max-width: 600px!important;">
-				
+
 				<div class="column" style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;width: 300px;float: left;">
 				<table style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;width: 100%;">
 				<tr style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;">
-					<td style="margin: 0;padding: 15px;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;">				
-						
+					<td style="margin: 0;padding: 15px;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;">
+
 						<?php
 						if ( function_exists('have_rows') ) {
 							if (have_rows('email_body')) {
@@ -331,34 +323,34 @@ $sidebar_header_url = get_field('sidebar_header_link', $post_id);
 									switch( get_row_layout() ) {
 										case 'email_content':
 											?>
-											<?php 
-											$main_email_content = get_sub_field('main_content'); 
+											<?php
+											$main_email_content = get_sub_field('main_content');
 											?>
-											<?php 
+											<?php
 											echo $main_email_content;
 											break;
-										
+
 										case 'button':
-											$button_link = get_sub_field('button_link'); 
+											$button_link = get_sub_field('button_link');
 											$button_text = get_sub_field('button_text');
 											$style = 'color: ';
 											if ( $button_text_color = get_sub_field('button_text_color') ) {
-												$style .= $button_text_color[1] . ';';
+												$style .= $button_text_color . ';';
 											} else { $style .= '#fff;'; }
 											$style .= 'background-color: ';
 											if ( $button_bg_color = get_sub_field('button_bg_color') ) {
-												$style .= $button_bg_color[1] . ';';
+												$style .= $button_bg_color . ';';
 											} else { $style .= '#666;'; }
 											?>
 											<a href="<?php echo $button_link; ?>" style="<?php echo $style; ?>
 												 margin: 0;padding: 10px 16px;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;text-decoration: none;font-weight: bold;margin-right: 10px;text-align: center;cursor: pointer;display: inline-block;margin: 0;color: #FFF;background-color: #666;" class="btn"><?php echo $button_text; ?></a>
 											<?php
 											break;
-											
+
 										case 'callout':
 											$callout_text = get_sub_field('callout_text');
-											$callout_bg_color_array = get_sub_field('callout_bg_color');
-											$callout_bg_color = $callout_bg_color_array[1];
+											$callout_bg_color = get_sub_field('callout_bg_color');
+											//$callout_bg_color = $callout_bg_color_array[1];
 											?>
 											<div class="callout" style="margin: 0;padding: 15px;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;background-color: <?php echo (!empty($callout_bg_color) ? $callout_bg_color : '#ffffff');?> ;margin-bottom: 15px;">
 												<?php echo $callout_text; ?>
@@ -368,7 +360,7 @@ $sidebar_header_url = get_field('sidebar_header_link', $post_id);
 									}
 								}
 							}
-							
+
 							if(!have_rows('email_body')) {
 								echo '<div class="container">';
 								the_content();
@@ -377,17 +369,17 @@ $sidebar_header_url = get_field('sidebar_header_link', $post_id);
 						}
 
 					?>
-						
+
 					</td>
 				</tr>
 			</table>
 			</div>
-			
+
 				<div class="column" style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;width: 300px;float: left;">
 				<table style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;width: 100%;">
 				<tr style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;">
-					<td style="margin: 0;padding: 15px;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;">				
-													
+					<td style="margin: 0;padding: 15px;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;">
+
 						<ul class="sidebar" style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;margin-bottom: 10px;font-weight: normal;font-size: 14px;line-height: 1.6;background: <?php echo $sidebar_bg_color;?> ;display: block;list-style-type: none;">
 							<li style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;margin-left: 5px;list-style-position: inside;display: block;">
 								<a href="<?php echo $sidebar_header_url; ?>" style="margin: 0;padding: 10px 16px;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;color: #666;text-decoration: none;margin-right: 10px;cursor: pointer;border-bottom: 1px solid #777777;border-top: 1px solid #FFFFFF;display: block;">
@@ -395,26 +387,26 @@ $sidebar_header_url = get_field('sidebar_header_link', $post_id);
 									<?php echo $sidebar_subheader; ?>
 								</a>
 							</li>
-							<?php 
-							
-							if ( have_rows('sidebar_sections') ) { 
-								
+							<?php
+
+							if ( have_rows('sidebar_sections') ) {
+
 								while( have_rows('sidebar_sections') ){
 									the_row();
-									
+
 									$section_link_text = get_sub_field('section_link_text');
 									$section_link_url = get_sub_field('section_link_url');
 							?>
 								<li style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;margin-left: 5px;list-style-position: inside;display: block;">
 									<a href="<?php echo $section_link_url; ?>" class="" style="margin: 0;padding: 10px 16px;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;color: #666;text-decoration: none;margin-right: 10px;cursor: pointer;border-bottom: 1px solid #777777;border-top: 1px solid #FFFFFF;display: block;"><?php echo $section_link_text; ?></a>
 								</li>
-							<?php 
-								}	
+							<?php
+								}
 							}
 							?>
-							
+
 						</ul>
-						
+
 						<!-- social & contact -->
 						<table class="social" width="100%" style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;background-color: <?php echo $footer_bg_color;?> ;width: 100%;">
 							<tr style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;">
@@ -425,15 +417,15 @@ $sidebar_header_url = get_field('sidebar_header_link', $post_id);
 											<a href="<?php echo $facebook_page_url; ?>" class="soc-btn fb" style="margin: 0;padding: 3px 7px;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;color: #FFF;font-size: 12px;margin-bottom: 10px;text-decoration: none;font-weight: bold;display: block;text-align: center;background-color: #3B5998!important;">Facebook</a>
 										<?php } ?>
 										<?php if ($twitter_handle) { ?>
-											<a href="<?php echo $twitter_handle; ?>" class="soc-btn tw" style="margin: 0;padding: 3px 7px;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;color: #FFF;font-size: 12px;margin-bottom: 10px;text-decoration: none;font-weight: bold;display: block;text-align: center;background-color: #1daced!important;">Twitter</a> 
+											<a href="<?php echo $twitter_handle; ?>" class="soc-btn tw" style="margin: 0;padding: 3px 7px;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;color: #FFF;font-size: 12px;margin-bottom: 10px;text-decoration: none;font-weight: bold;display: block;text-align: center;background-color: #1daced!important;">Twitter</a>
 										<?php } ?>
 										<?php if ($google_plus_url) { ?>
 											<a href="<?php echo $google_plus_url; ?>" class="soc-btn gp" style="margin: 0;padding: 3px 7px;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;color: #FFF;font-size: 12px;margin-bottom: 10px;text-decoration: none;font-weight: bold;display: block;text-align: center;background-color: #DB4A39!important;">Google+</a>
 										<?php } ?>
 									</p>
 
-									<?php if ( $phone_number || $email ) { ?>							
-										<h6 class="" style="margin: 0;padding: 0;font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;line-height: 1.1;margin-bottom: 15px;color: #444;font-weight: 900;font-size: 14px;text-transform: uppercase;">Contact Info:</h6>	
+									<?php if ( $phone_number || $email ) { ?>
+										<h6 class="" style="margin: 0;padding: 0;font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;line-height: 1.1;margin-bottom: 15px;color: #444;font-weight: 900;font-size: 14px;text-transform: uppercase;">Contact Info:</h6>
 										<?php if ( $phone_number ) { ?>
 											<p style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;margin-bottom: 10px;font-weight: normal;font-size: 14px;line-height: 1.6;">Phone: <strong style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;"><?php echo $phone_number; ?></strong><br/>
 										<?php } ?>
@@ -447,11 +439,11 @@ $sidebar_header_url = get_field('sidebar_header_link', $post_id);
 
 					</td>
 				</tr>
-			</table>				
+			</table>
 			</div>
-				
-				<div class="clear" style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;display: block;clear: both;"></div>			
-			
+
+				<div class="clear" style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;display: block;clear: both;"></div>
+
 			</div>
 
 		</td>
@@ -464,7 +456,7 @@ $sidebar_header_url = get_field('sidebar_header_link', $post_id);
 	<tr style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;">
 		<td style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;"></td>
 		<td class="container" style="margin: 0 auto!important;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;display: block!important;max-width: 600px!important;clear: both!important;">
-			
+
 			<!-- content -->
 			<div class="content" style="margin: 0 auto;padding: 15px;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;max-width: 600px;display: block;">
 				<table style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;width: 100%;">
@@ -483,7 +475,7 @@ $sidebar_header_url = get_field('sidebar_header_link', $post_id);
 				</tr>
 				</table>
 			</div><!-- /content -->
-				
+
 		</td>
 		<td style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;"></td>
 	</tr>
