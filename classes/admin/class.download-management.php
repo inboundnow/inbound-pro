@@ -287,7 +287,7 @@ class Inbound_Pro_Downloads {
 		self::load_management_vars();
 
 		/* get install configuaration dataset from db */
-		$configuration = Inbound_Options_API::get_option( 'inbound-pro' , 'configuration' , array() );
+		$configuration= Inbound_Options_API::get_option('inbound-pro', 'configuration', array());
 
 		$i=0;
 		foreach (self::$items as $key => $download ) {
@@ -418,6 +418,12 @@ class Inbound_Pro_Downloads {
 		?>
 
 		<div class="wrap">
+		<?php
+			/*
+			echo "<pre>";
+			print_r(self::$downloads);exit;
+			/**/
+		?>
 			<div id="grid" class="container-fluid">
 				<?php $count = 1;
 
