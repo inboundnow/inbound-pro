@@ -23,8 +23,14 @@ var InboundCustomizerEditor = (function () {
     },
     rewriteTabLinks: function() {
         jQuery('.nav-tab-wrapper.a_b_tabs a').each(function(){
-            var permalink = jQuery(this).attr('data-permalink');
-            jQuery(this).attr('href', permalink + "&inbound-editor=true&inbound-customizer=on");
+            var $this = jQuery(this);
+            var permalink = $this.attr('data-permalink');
+
+            if( permalink ) {
+                console.log(permalink);
+                $this.attr('href', permalink + "&inbound-editor=true&inbound-customizer=on");
+            }
+
 
         });
     },

@@ -3,7 +3,8 @@
 // Dynamically Create a clear png for css background opacities
 header("Content-type: image/png");
 
-$hex_value = $_GET['hex'];
+$hex = $_GET['hex'];
+$hex_value = (isset($hex)) ? $hex : '000000';
 // Convert Hex to RGB Value
 function HexToRGB($hex) {
         $hex = preg_replace("/#/", "", $hex);

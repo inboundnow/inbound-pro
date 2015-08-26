@@ -4,7 +4,7 @@
 }
 :root:root:root .inbound-customizer {
 
-    #wpadminbar, #edit-slug-box, #post-status-info, #screen-options-link-wrap, #leads-table-container, .misc-pub-section, #minor-publishing, .misc-pub-section, .misc-pub-section.curtime, #delete-action, #convert-header, #wp-cta-tour, #view-post-btn, #launch-visual-editer, #adminmenuwrap, #lp_ab_display_stats_metabox, #wp-cta-thumbnail-sidebar-preview, #landing_page_categorydiv, #postimagediv, #leads-table-container-inside, .updated.below-h2 a, #cta_shortcode_form, .wp_cta_tooltip, #wp_cta_ab_display_stats_metabox, #wp_call_to_action_categorydiv, .new-save-wp-cta-frontend, #launch-feedback, .notice, .nav-tab-add-new-variation, #cta-launch-front, #wp-cta-change-template-button, #wp-cta-notes-area, #wp-cta-change-template-button  {
+    #wpadminbar, #edit-slug-box, #post-status-info, #screen-options-link-wrap, #leads-table-container, .misc-pub-section, #minor-publishing, .misc-pub-section, .misc-pub-section.curtime, #delete-action, #convert-header, #wp-cta-tour, #view-post-btn, #launch-visual-editer, #adminmenuwrap, #lp_ab_display_stats_metabox, #wp-cta-thumbnail-sidebar-preview, #landing_page_categorydiv, #postimagediv, #leads-table-container-inside, .updated.below-h2 a, #cta_shortcode_form, .wp_cta_tooltip, #wp_cta_ab_display_stats_metabox, #wp_call_to_action_categorydiv, .new-save-wp-cta-frontend, #launch-feedback, .notice, .nav-tab-add-new-variation, #cta-launch-front, #wp-cta-change-template-button, #wp-cta-notes-area, #lp-notes-area, #wp-cta-change-template-button, #lp_template_change, #lp-tour  {
         display: none !important;
     }
     #wpbody {
@@ -109,6 +109,12 @@
         display: block;
         font-size: 15px;
     }
+    .inbound-radio-option {
+        margin-top: 5px;
+        label {
+               display: inline;
+           }
+    }
     .jPicker.Container {
         top: 50px !important;
         left: 10px !important;
@@ -118,7 +124,9 @@
     table.jPicker {
         width: 430px !important;
         max-height: 300px !important;
-
+        td {
+            vertical-align: top;
+        }
         .Grid {
             display: none;
         }
@@ -138,10 +146,18 @@
            position: absolute;
            border-bottom: none;
            left: 0px;
-           bottom: 3px;
+           bottom: -22px;
+           background-color: #efefef;
+           border-right: 1px solid #000;
+           border-left: 1px solid #000;
+           border-bottom: 1px solid #000;
+           width: 100% !important;
            input {
                    font-size: 18px !important;
             }
+        }
+        .Green, .Red, .Blue, .Alpha, .Hex {
+            display: none !important;
         }
         hr {
             display: none !important;

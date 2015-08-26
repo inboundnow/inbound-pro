@@ -655,6 +655,7 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
                     }
                     :root:root:root {
                         margin-top: 0px !important;
+                        min-height: 714px !important;
                     }
                 </style>
             <?php }

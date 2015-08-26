@@ -15,7 +15,8 @@ jQuery(document).ready(function ($) {
     var build_form = ' <span id="view-form-builder" class="button view-form-builder">Build Form</span>';
     var view_leads_list = '<span id="view-leads-list" class="button view-leads-list">View Conversions</span>';
     var view_email_response = '<span id="view-email-response" class="button">Set Email Response</span>';
-    jQuery('.add-new-h2').after(build_form);
+    jQuery('.page-title-action').after(build_form); /* 4.3 + */
+    jQuery('.add-new-h2').after(build_form); /* <4.3 */
     jQuery('#view-form-builder').after(view_leads_list);
     jQuery('#view-leads-list').after(view_email_response);
 
@@ -152,6 +153,21 @@ jQuery(document).ready(function ($) {
     /* Hide Options Based on Selected Template */
     jQuery('body').on('change' , '#inbound_email_send_notification_template' , function() {
         inbound_forms_select_email_template();
+    });
+
+    jQuery('body').on('change', 'select[data-field-name="map_to"]', function () {
+        console.log('changed mapping');
+         var values = [];
+         jQuery('select[data-field-name="map_to"]').each(function(){
+           var value = jQuery(this).val();
+           var a = values.indexOf(value);
+            if (a != -1) {
+             alert('Warning You have already mapped the ' + value + ' field. You can only map a field one time.');
+            }
+            values.push(value);
+
+         });
+
     });
 
 });

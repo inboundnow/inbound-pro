@@ -24,6 +24,7 @@ do_action('lp_init');
 if (have_posts()) : while (have_posts()) : the_post();
 
 /* Pre-load meta data into variables */
+$bg_image = get_field( 'countdown-lander-bg-image', $post->ID  , false ); /* non acf pro templates need to set the 3rd param to false for image field types */
 $content = get_field( 'countdown-lander-main-content', $post->ID );
 $conversion_area = get_field( 'countdown-lander-conversion-area-content' , $post->ID );
 $body_color = get_field( 'countdown-lander-body-color', $post->ID );
@@ -34,7 +35,6 @@ $background_on = get_field( 'countdown-lander-background-on' , $post->ID );
 $date_picker = get_field( 'countdown-lander-date-picker' , $post->ID );
 $social_display = get_field( 'countdown-lander-display-social' , $post->ID );
 $countdown_message = get_field( 'countdown-message', $post->ID );
-$bg_image = get_field( 'countdown-lander-bg-image', $post->ID  );
 $submit_button_color = get_field( 'countdown-lander-submit-button-color', $post->ID );
 
 /* Date Formatting */
@@ -102,13 +102,16 @@ $blue =  (isset($RBG_array['b'])) ? $RBG_array['b'] : '0';
             filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='<?php echo $bg_image; ?>', sizingMethod='scale');
             ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='<?php echo $bg_image; ?>', sizingMethod='scale')";}
         <?php } ?>
-        div, p, #note, label, #lp_container  { color: #<?php echo $text_color; ?>}
+        div, p, #note, label, #lp_container  { color: <?php echo $text_color; ?>}
         .countDiv::before, .countDiv::after {
-            background-color: #<?php echo $text_color; ?>;
+            background-color: <?php echo $text_color; ?>;
         }
 
-        <?php if ($headline_color != "") { echo "h1 {color: #$headline_color;}"; } ?>
-        <?php if ($background_on === "on") { echo "#content-background{background: url('".$path."image.php?hex=$content_color');}"; }?>
+        <?php if ($headline_color != "") { echo "h1 {color: $headline_color;}"; } ?>
+        <?php if ($background_on === "on") {
+            $hex = preg_replace("/#/", "", $content_color);
+            echo "#content-background{background: url('".$path."image.php?hex=$hex');}"; }
+        ?>
         <?php if ($submit_button_color != "") {
                  echo"input[type='submit'] {
                       background: -moz-linear-gradient(rgba($red,$green,$blue, 0.5), rgba($red,$green,$blue, 0.7));
