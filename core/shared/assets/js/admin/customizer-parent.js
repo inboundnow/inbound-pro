@@ -11,7 +11,10 @@ var InboundCustomizerParent = (function () {
     togglePreviewReload:  function () {
         /* triggered from editor frame */
         setTimeout(function() {
-            document.getElementById('wp-cta-live-preview').contentDocument.location.reload(true);
+          console.log('reload preview');
+          document.getElementById('wp-cta-live-preview').src = document.getElementById('wp-cta-live-preview').src
+          //document.getElementById('wp-cta-live-preview').contentDocument.location.reload(true);
+
         }, 1500);
     }
   };

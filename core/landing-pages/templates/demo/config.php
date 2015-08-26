@@ -10,9 +10,7 @@
 *
 */
 
-do_action('lp_global_config'); // The lp_global_config function is for global code added by 3rd party extensions
-
-//gets template directory name to use as identifier - do not edit - include in all template files
+do_action('lp_global_config');
 $key = lp_get_parent_directory(dirname(__FILE__));
 $path = (preg_match("/uploads/", dirname(__FILE__))) ? LANDINGPAGES_UPLOADS_URLPATH . $key .'/' : LANDINGPAGES_URLPATH.'templates/'.$key.'/'; // This defines the path to your template folder. /wp-content/uploads/landing-pages/templates by default
 

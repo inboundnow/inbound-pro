@@ -1,4 +1,4 @@
-/** 
+/**
  *  Record Impressions For Each Variation in CTA Object
  *
  * @param JSON ctas : a json string of {'cta':'vid'}
@@ -123,7 +123,10 @@ function wp_cta_load_variation( cta_id, vid, disable_ajax ) {
 }
 
 /* reset local storage variable every page load */
-_inbound.totalStorage.deleteItem('wp_cta_loaded');
+if (typeof(_inbound) !== "undefined") {
+	_inbound.totalStorage.deleteItem('wp_cta_loaded');
+}
+
 
 jQuery(document).ready(function($) {
 

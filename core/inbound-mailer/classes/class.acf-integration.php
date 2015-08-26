@@ -25,7 +25,6 @@ if (!class_exists('Inbound_Mailer_ACF')) {
 
 		}
 
-
 		/**
 		* Finds the correct value given the variation
 		*
@@ -61,7 +60,6 @@ if (!class_exists('Inbound_Mailer_ACF')) {
 					$value = $new_value;
 				}
 			} else {
-
 				if ( !is_array($value) && strlen($value) && isset($field['default_value']) ) {
 					$value = $field['default_value'];
 				} else {
@@ -104,7 +102,6 @@ if (!class_exists('Inbound_Mailer_ACF')) {
 
 					/* Check if this array contains a repeater field layouts. If it does then return layouts, else this array is a non-repeater value set so return it */
 					if ( $key === $needle ) {
-
 						$repeater_array = self::get_repeater_layouts( $value );
 						if ($repeater_array) {
 							return $repeater_array;
@@ -135,7 +132,7 @@ if (!class_exists('Inbound_Mailer_ACF')) {
 
 			}
 
-			return false;
+			return '';
 		}
 
 		/**
@@ -175,10 +172,15 @@ if (!class_exists('Inbound_Mailer_ACF')) {
 
 			$i = 0;
 			foreach ($array as $key => $value) {
+
 				/* color pickers seem to be special */
 				if ($field['type'] == 'color_picker' ) {
-					if (is_array($value)) {
-						return $value[ $field['key'] ][1];
+
+					if (isset($value[ $field['key'] ])) {
+						return $value[ $field['key'] ];
+					} else {
+						$field = get_field_object($field['key']);
+						return $field['default_value'];
 					}
 				}
 
@@ -188,7 +190,6 @@ if (!class_exists('Inbound_Mailer_ACF')) {
 
 				$i++;
 			}
-
 			return false;
 		}
 

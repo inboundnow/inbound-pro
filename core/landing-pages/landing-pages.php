@@ -79,7 +79,7 @@ if (!class_exists('Inbound_Landing_Pages_Plugin')) {
 					include_once( LANDINGPAGES_PATH . 'classes/class.sidebars.php');
 					include_once( LANDINGPAGES_PATH . 'classes/class.widgets.php');
 					include_once( LANDINGPAGES_PATH . 'classes/class.store.php');
-					include_once( LANDINGPAGES_PATH . 'classes/class.customizer.php');
+
 					//include_once( LANDINGPAGES_PATH . 'classes/class.branching.php');
 
 
@@ -98,7 +98,7 @@ if (!class_exists('Inbound_Landing_Pages_Plugin')) {
 					include_once( LANDINGPAGES_PATH . 'classes/class.widgets.php');
 					include_once( LANDINGPAGES_PATH . 'classes/class.landing-pages.php');
 					include_once( LANDINGPAGES_PATH . 'classes/class.load-extensions.php');
-					include_once( LANDINGPAGES_PATH . 'classes/class.customizer.php');
+
 
 					BREAK;
 			endswitch;

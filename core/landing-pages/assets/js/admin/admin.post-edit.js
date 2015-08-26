@@ -92,9 +92,10 @@ jQuery(document).ready(function($) {
     var tourbutton = '<a class="" id="lp-tour" style="font-size:13px;">Need help? Take the tour</a>';
     jQuery(tourbutton).appendTo("h2:eq(0)");
     jQuery("body").on('click', '#lp-tour', function () {
+        jQuery(this).hide();
         var tour = jQuery("#lp-tour-style").length;
          if ( tour === 0 ) {
-            jQuery('head').append("<link rel='stylesheet' id='lp-tour-style' href='/wp-content/plugins/landing-pages/assets/css/admin-tour.css' type='text/css' /><script type='text/javascript' src='/wp-content/plugins/landing-pages/js/admin/tour/tour.post-edit.js'></script><script type='text/javascript' src='/wp-content/plugins/landing-pages/js/admin/intro.js'></script>");
+            jQuery('head').append("<link rel='stylesheet' id='lp-tour-style' href='/wp-content/plugins/landing-pages/assets/css/admin-tour.css' type='text/css' /><script type='text/javascript' src='/wp-content/plugins/landing-pages/assets/js/admin/tour/tour.post-edit.js'></script><script type='text/javascript' src='/wp-content/plugins/landing-pages/assets/js/admin/intro.js'></script>");
           }
         setTimeout(function() {
                 introJs().start(); // start tour

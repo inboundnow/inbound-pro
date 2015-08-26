@@ -318,7 +318,7 @@ ul#template-filter li {
 }
 
 .wp-media-buttons .button {
-    font-size:13px;
+    font-size:11px;
 }
 
 .mail-headers-container {
@@ -328,3 +328,4 @@ ul#template-filter li {
 #slugdiv {
     display:none;
 }
+

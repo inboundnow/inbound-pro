@@ -11,7 +11,7 @@
     /* to be removed when new colorpicker arrives */
 
 }
-:root:root:root .inbound-customizer #wpadminbar, :root:root:root .inbound-customizer #edit-slug-box, :root:root:root .inbound-customizer #post-status-info, :root:root:root .inbound-customizer #screen-options-link-wrap, :root:root:root .inbound-customizer #leads-table-container, :root:root:root .inbound-customizer .misc-pub-section, :root:root:root .inbound-customizer #minor-publishing, :root:root:root .inbound-customizer .misc-pub-section, :root:root:root .inbound-customizer .misc-pub-section.curtime, :root:root:root .inbound-customizer #delete-action, :root:root:root .inbound-customizer #convert-header, :root:root:root .inbound-customizer #wp-cta-tour, :root:root:root .inbound-customizer #view-post-btn, :root:root:root .inbound-customizer #launch-visual-editer, :root:root:root .inbound-customizer #adminmenuwrap, :root:root:root .inbound-customizer #lp_ab_display_stats_metabox, :root:root:root .inbound-customizer #wp-cta-thumbnail-sidebar-preview, :root:root:root .inbound-customizer #landing_page_categorydiv, :root:root:root .inbound-customizer #postimagediv, :root:root:root .inbound-customizer #leads-table-container-inside, :root:root:root .inbound-customizer .updated.below-h2 a, :root:root:root .inbound-customizer #cta_shortcode_form, :root:root:root .inbound-customizer .wp_cta_tooltip, :root:root:root .inbound-customizer #wp_cta_ab_display_stats_metabox, :root:root:root .inbound-customizer #wp_call_to_action_categorydiv, :root:root:root .inbound-customizer .new-save-wp-cta-frontend, :root:root:root .inbound-customizer #launch-feedback, :root:root:root .inbound-customizer .notice, :root:root:root .inbound-customizer .nav-tab-add-new-variation, :root:root:root .inbound-customizer #cta-launch-front, :root:root:root .inbound-customizer #wp-cta-change-template-button, :root:root:root .inbound-customizer #wp-cta-notes-area, :root:root:root .inbound-customizer #wp-cta-change-template-button  {
+:root:root:root .inbound-customizer #wpadminbar, :root:root:root .inbound-customizer #edit-slug-box, :root:root:root .inbound-customizer #post-status-info, :root:root:root .inbound-customizer #screen-options-link-wrap, :root:root:root .inbound-customizer #leads-table-container, :root:root:root .inbound-customizer .misc-pub-section, :root:root:root .inbound-customizer #minor-publishing, :root:root:root .inbound-customizer .misc-pub-section, :root:root:root .inbound-customizer .misc-pub-section.curtime, :root:root:root .inbound-customizer #delete-action, :root:root:root .inbound-customizer #convert-header, :root:root:root .inbound-customizer #wp-cta-tour, :root:root:root .inbound-customizer #view-post-btn, :root:root:root .inbound-customizer #launch-visual-editer, :root:root:root .inbound-customizer #adminmenuwrap, :root:root:root .inbound-customizer #lp_ab_display_stats_metabox, :root:root:root .inbound-customizer #wp-cta-thumbnail-sidebar-preview, :root:root:root .inbound-customizer #landing_page_categorydiv, :root:root:root .inbound-customizer #postimagediv, :root:root:root .inbound-customizer #leads-table-container-inside, :root:root:root .inbound-customizer .updated.below-h2 a, :root:root:root .inbound-customizer #cta_shortcode_form, :root:root:root .inbound-customizer .wp_cta_tooltip, :root:root:root .inbound-customizer #wp_cta_ab_display_stats_metabox, :root:root:root .inbound-customizer #wp_call_to_action_categorydiv, :root:root:root .inbound-customizer .new-save-wp-cta-frontend, :root:root:root .inbound-customizer #launch-feedback, :root:root:root .inbound-customizer .notice, :root:root:root .inbound-customizer .nav-tab-add-new-variation, :root:root:root .inbound-customizer #cta-launch-front, :root:root:root .inbound-customizer #wp-cta-change-template-button, :root:root:root .inbound-customizer #wp-cta-notes-area, :root:root:root .inbound-customizer #lp-notes-area, :root:root:root .inbound-customizer #wp-cta-change-template-button, :root:root:root .inbound-customizer #lp_template_change, :root:root:root .inbound-customizer #lp-tour  {
     display: none !important;
 }
 :root:root:root .inbound-customizer #wpbody {
@@ -112,6 +112,12 @@
     display: block;
     font-size: 15px;
 }
+:root:root:root .inbound-customizer .inbound-radio-option {
+    margin-top: 5px;
+}
+:root:root:root .inbound-customizer .inbound-radio-option label {
+    display: inline;
+}
 :root:root:root .inbound-customizer .jPicker.Container {
     top: 50px !important;
     left: 10px !important;
@@ -120,6 +126,9 @@
 :root:root:root .inbound-customizer table.jPicker {
     width: 430px !important;
     max-height: 300px !important;
+}
+:root:root:root .inbound-customizer table.jPicker td {
+    vertical-align: top;
 }
 :root:root:root .inbound-customizer table.jPicker .Grid {
     display: none;
@@ -140,10 +149,18 @@
     position: absolute;
     border-bottom: none;
     left: 0px;
-    bottom: 3px;
+    bottom: -22px;
+    background-color: #efefef;
+    border-right: 1px solid #000;
+    border-left: 1px solid #000;
+    border-bottom: 1px solid #000;
+    width: 100% !important;
 }
 :root:root:root .inbound-customizer table.jPicker .Button input {
     font-size: 18px !important;
+}
+:root:root:root .inbound-customizer table.jPicker .Green, :root:root:root .inbound-customizer table.jPicker .Red, :root:root:root .inbound-customizer table.jPicker .Blue, :root:root:root .inbound-customizer table.jPicker .Alpha, :root:root:root .inbound-customizer table.jPicker .Hex {
+    display: none !important;
 }
 :root:root:root .inbound-customizer table.jPicker hr {
     display: none !important;

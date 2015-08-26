@@ -53,6 +53,18 @@ class Landing_Pages_Metaboxes {
             return;
         }
 
+
+        if($post->post_status !== 'draft') {
+            add_meta_box(
+                'lp-thumbnail-sidebar-preview',
+                __( 'Template Preview', 'landing-pages'),
+                array( __CLASS__ , 'display_template_preview_metabox' ),
+                'landing-page' ,
+                'side',
+                'high'
+            );
+        }
+
         /* Select Template Metbox */
         add_meta_box(
             'lp_metabox_select_template', /* $id */
@@ -126,17 +138,6 @@ class Landing_Pages_Metaboxes {
             'side',
             'high'
         );
-
-        if($post->post_status !== 'draft') {
-            add_meta_box(
-                'lp-thumbnail-sidebar-preview',
-                __( 'Template Preview', 'landing-pages'),
-                array( __CLASS__ , 'display_template_preview_metabox' ),
-                'landing-page' ,
-                'side',
-                'high'
-            );
-        }
 
         /* discover extended metaboxes and render them */
         foreach ($extension_data as $key => $data) {
@@ -427,7 +428,7 @@ class Landing_Pages_Metaboxes {
         $edit_link = (isset($_GET['lp-variation-id'])) ? '?lp-variation-id=' . $_GET['lp-variation-id'] . '' : '?lp-variation-id=0';
         $post_link = get_permalink($post->ID);
         $post_link = preg_replace('/\?.*/', '', $post_link);
-        echo "<a rel='" . $post_link . "' id='launch-visual-editer' class='button-primary new-save-lp-frontend' href='$post_link$edit_link&template-customize=on'>" . __('Launch Visual Editor', 'landing-pages') . "</a>";
+        echo "<a rel='" . $post_link . "' id='launch-visual-editer' class='button-primary new-save-lp-frontend' href='$post_link$edit_link&inbound-customizer=on'>" . __('Launch Visual Editor', 'landing-pages') . "</a>";
         echo '</h2>';
 
 
@@ -842,9 +843,15 @@ class Landing_Pages_Metaboxes {
         </style>
         <?php
 
-        if (!isset($_GET['new-variation']) ) {
-            echo "<iframe src='$permalink' id='zoomer'></iframe>";
+        if (isset($_GET['new-variation'])) {
+            return;
         }
+        if( isset($_GET['inbound-editor']) && $_GET['inbound-editor'] !== true ) {
+            return;
+        }
+        // default
+        echo "<iframe src='$permalink' id='zoomer'></iframe>";
+
     }
 
 
@@ -1109,16 +1116,6 @@ class Landing_Pages_Metaboxes {
             update_post_meta( $landing_page_id , $conversion_area_key , $conversion_area);
         }
 
-        /* save acf settings - uses our future data array - eventually we will migrate all post meta into this data object */
-        if ( isset($_POST['acf']) ) {
-            $settings = Landing_Pages_Meta::get_settings( $post->ID );
-
-            if (!isset($settings['variations'])) {
-                $settings['variations'] = array();
-            }
-            $settings['variations'][$variation_id]['acf'] = $_POST['acf'];
-            Landing_Pages_Meta::update_settings( $post->ID , $settings );
-        }
     }
 
     /**

@@ -18,7 +18,7 @@ $next_month = date('Y-m-d H:i', $next_month_timestamp);
 
 $lp_data[$key]['info'] = array(
 	'data_type' => 'template', // Template Data Type
-	'version' => "1.0.0.5", // Version Number
+	'version' => "1.0.5", // Version Number
 	'label' => __( 'Countdown Lander' , 'landing-pages' ), // Nice Name
 	'category' => 'Countdown, v1, 1 column layout', // Template Category
 	'demo' => 'http://demo.inboundnow.com/go/countdown-lander/', // Demo Link
@@ -44,9 +44,8 @@ $lp_data[$key]['settings'] = array(
 	)
 );
 
-if( function_exists('acf_add_local_field_group') ):
-
-	acf_add_local_field_group(array (
+if( function_exists('register_field_group') ):
+	register_field_group(array (
 		'key' => 'group_55d38b033048e',
 		'title' => 'Countdown Lander',
 		'fields' => array (

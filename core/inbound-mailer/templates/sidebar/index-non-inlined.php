@@ -26,14 +26,6 @@ $post_id		 = get_the_ID();
 $logo_url		 = get_field('logo_url', $post_id);
 $header_bg_color = get_field('header_bg_color', $post_id);
 $callout_text	 = get_field('callout_text', $post_id);
-/*
-$callout_background_color = get_field('callout_background_color', $post_id);
-$main_email_content = get_field('main_email_content', $post_id);
-$content_after_callout = get_field('content_after_callout', $post_id);
-$button_link = get_field('button_link', $post_id);
-$button_text = get_field('button_text', $post_id);
- * 
- */
 
 /* Footer */
 $footer_bg_color   = get_field('footer_bg_color', $post_id);
