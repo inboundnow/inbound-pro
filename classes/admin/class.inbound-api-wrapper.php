@@ -68,7 +68,7 @@ class Inbound_API_Wrapper {
 		self::$data = unserialize( $response['body'] );
 
 		/* build new expiration date */
-		self::$data['expire'] = gmdate('Y-m-d G:i:s' , strtotime( "+1 hours" ));
+		self::$data['expire'] = gmdate('Y-m-d G:i:s' , strtotime( "+1 days" ));
 
 		/* update data object */
 		Inbound_Options_API::update_option( 'inbound-api' , 'downloads' , self::$data );
