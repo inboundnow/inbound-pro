@@ -38,10 +38,10 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
             add_filter('display_post_states', array( __CLASS__ , 'filter_custom_post_states' ) );
 
             /* add quick actions to lists mode */
-            add_filter('post_row_actions', array( __CLASS__ , 'add_quick_actions' ) , 10, 2);
+            add_filter('post_row_actions', array(__CLASS__, 'add_quick_actions' ) , 10, 2);
 
             /* enqueue scripts for landing page listings */
-            add_action( 'admin_enqueue_scripts' , array( __CLASS__ , 'enqueue_admin_scripts' ) );
+            add_action( 'admin_enqueue_scripts' , array(__CLASS__, 'enqueue_admin_scripts' ) );
 
             /* enqueue scripts for landing page listings */
             if (isset($_GET['dont_save'])
@@ -52,8 +52,8 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
 
             /* load iframed preview page when preview is clicked from AB stats box */
             if (isset($_GET['iframe_window'])) {
-                add_action('wp_head', array( __CLASS__ , 'load_preview_iframe' ) );
-                add_action('admin_enqueue_scripts', array( __CLASS__ , 'enqueue_scripts_iframe' ) );
+                /*add_action('wp_head', array( __CLASS__ , 'load_preview_iframe' ) );*/
+                add_action('admin_enqueue_scripts', array(__CLASS__, 'enqueue_scripts_iframe') );
             }
 
             /* Miscelanous wp_head - Should probably be refactored into enqueue - h */
@@ -87,7 +87,7 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
                 'publicly_queryable' => true,
                 'show_ui' => true,
                 'query_var' => true,
-                'menu_icon' => LANDINGPAGES_URLPATH . 'assets/images/plus.gif',
+                'menu_icon' => '',
                 'rewrite' => array("slug" => "$slug",'with_front' => false),
                 'capability_type' => 'post',
                 'hierarchical' => false,
@@ -561,7 +561,7 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
         }
 
         /**
-         * Loads preview iframe
+         * Loads preview iframe. Currently disabled. Plans to update @DavidWells
          */
         public static function load_preview_iframe() {
             $variation_id = Landing_Pages_Variations::get_current_variation_id();
@@ -611,6 +611,7 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
                 });
             </script>
             <?php
+            /*
             if ($variations[0] === "") {
                 echo '<div id="variation-list" class="no-abtests"><h3>' . __('No A/B Tests running for this page', 'landing-pages') . '</h3>';
             } else {
@@ -623,12 +624,13 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
                 echo "<div class='variation-lp " . $current_view . "' id=" . $val . ">";
                 echo Landing_Pages_Variations::vid_to_letter( $landing_page_id , $key);
 
-                /* echo $val; number */
+                /* echo $val; number
                 echo "</div>";
             }
             echo "<span id='current-post-id'>$landing_page_id</span>";
 
             echo '</div>';
+            */
         }
         /*
         Load JS to disable stats from working for preview windows

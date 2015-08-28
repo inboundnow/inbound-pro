@@ -13,77 +13,56 @@ if (defined('ABSPATH')) {
 
 /*	Get Shortcodes
  *	--------------------------------------------------------------------------- */
+$shortcode = html_entity_decode( trim( $_GET['sc'] ) );
 
-$broekn = "divider_options=%22%3Ca%20href=%22http://glocal.dev/wp-admin/edit.php?post_type=inbound-forms%22%3ELeads%3C/a%3E%22";
-
-$test = "http://glocal.dev/wp-content/plugins/leads/shared/shortcodes/preview.php?post=1544&sc=[inbound_form%20id=%221544%22%20name=%22New%20Icon%20Form%22%20redirect=%22http://fontawesome.io/%22%20notify=%22ccc%22%20layout=%22vertical%22%20font_size=%2216%22%20%20labels=%22top%22%20icon=%22check-circle-o%22%20submit=%22Submit%22%20width=%22%22]
-
-[inbound_field%20label=%22First%20Name%22%20type=%22divider%22%20description=%22%22%20required=%220%22%20dropdown=%22%22%20radio=%22%22%20%20checkbox=%22%22%20placeholder=%22%22%20html=%22%22%20dynamic=%22%22%20map_to=%22%22%20
-
-divider_options=%22%3Ca%20href=%22%22%3ETest%3C/a%3E%22]
-
-[/inbound_form]";
-
-$html_test = "divider_options=%22&lt;h3&gt;Hi&lt;/h3&gt;%22";
-$html_test2 = "divider_options=%22<h3>Hi</h3>%22";
-$extra_content = "";
-$html_test = preg_replace("/%22/", "'", $html_test);
-$test =  html_entity_decode( trim( $html_test2 ) );
-//echo $test;
-	$shortcode = html_entity_decode( trim( $_GET['sc'] ) );
-	// SET CORRECT FILE PATHS FOR SCRIPTS
-	if ( defined( 'WPL_URL' )) {
-	   $final_path = WPL_URL . "/";
-	} else if (defined( 'LANDINGPAGES_URLPATH' )){
-		$final_path = LANDINGPAGES_URLPATH;
-	} else if (defined( 'WP_CTA_URLPATH' )){
-		$final_path = WP_CTA_URLPATH;
-	} else {
-		$final_path = preg_replace("/\/shared\/shortcodes\//", "/", INBOUND_FORMS);
-	}
-/* HTML MATCHES */
-// $test = 'html="&lt;span%20class="test"&gt;tes&lt;/span&gt;"';
-// preg_match_all('%\[inbound_form_test\s*(?:(layout)\s*=\s*(.*?))?\](.*?)\[/inbound_form_test\]%', $shortcode, $matches);
-// preg_match_all('/'.$varname.'\s*?=\s*?(.*)\s*?(;|$)/msU',$shortcode,$matches);
-
-
-$horiz = "";
-if (preg_match("/horizontal/i", $shortcode)) {
-$horiz = "<h2 title='Open preview in new tab' class='open_new_tab'>Horizontal Previews detected.<br>Click to Preview Horizontal shortcode in new tab</h2>";
+// SET CORRECT FILE PATHS FOR SCRIPTS
+if ( defined( 'WPL_URL' )) {
+   $final_path = WPL_URL . "/";
+} else if (defined( 'LANDINGPAGES_URLPATH' )){
+	$final_path = LANDINGPAGES_URLPATH;
+} else if (defined( 'WP_CTA_URLPATH' )){
+	$final_path = WP_CTA_URLPATH;
+} else {
+	$final_path = preg_replace("/\/shared\/shortcodes\//", "/", INBOUND_FORMS);
 }
 
 
-	$shortcode = str_replace('\"', '"', $shortcode);
-	$shortcode = str_replace('&lt;', '<', $shortcode);
-	$shortcode = str_replace('&gt;', '>', $shortcode);
-	$shortcode = str_replace('{{child}}', '', $shortcode);
-	$shortcode = str_replace('label=""', 'label="Default"', $shortcode);
+if (preg_match("/horizontal/i", $shortcode)) {
+	$horiz = "<h2 title='Open preview in new tab' class='open_new_tab'>Horizontal Previews detected.<br>Click to Preview Horizontal shortcode in new tab</h2>";
+} else {
+	$horiz = "";
+}
+
+$shortcode = str_replace('\"', '"', $shortcode);
+$shortcode = str_replace('&lt;', '<', $shortcode);
+$shortcode = str_replace('&gt;', '>', $shortcode);
+$shortcode = str_replace('{{child}}', '', $shortcode);
+$shortcode = str_replace('label=""', 'label="Default"', $shortcode);
 	//$field_name_fallback = ($field_name === "") ? 'fallback_name' : '0';
-	?>
-	<!DOCTYPE HTML>
-	<html lang="en">
-	<head>
-	<link rel="stylesheet" type="text/css" href="../shortcodes/css/frontend-render.css" media="all" />
-
+?>
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<link rel="stylesheet" type="text/css" href="../shortcodes/css/frontend-render.css" media="all" />
 <?php // FIX THESE AND ROLL SHARE TRACKING INTO SHARED
-		wp_enqueue_script( 'jquery' );
+	wp_enqueue_script( 'jquery' );
 
-		wp_enqueue_script( 'inbound-analytics' , $final_path . 'shared/assets/js/frontend/analytics/inboundAnalytics.js');
-		$inbound_localized_data = array('post_id' => 'test',
-										'ip_address' => 'test',
-										'wp_lead_data' => 'test',
-										'admin_url' => 'test',
-										'track_time' => 'test',
-										'post_type' => 'test',
-										'page_tracking' => 'test',
-										'search_tracking' => 'test',
-										'comment_tracking' => 'test',
-										'custom_mapping' => 'test',
-										'inbound_track_exclude' => 'test',
-										'inbound_track_include' => 'test'
-										);
-		wp_localize_script( 'inbound-analytics' , 'inbound_settings', $inbound_localized_data);
-		wp_head();
+	wp_enqueue_script( 'inbound-analytics' , $final_path . 'shared/assets/js/frontend/analytics/inboundAnalytics.js');
+	$inbound_localized_data = array('post_id' => 'test',
+									'ip_address' => 'test',
+									'wp_lead_data' => 'test',
+									'admin_url' => 'test',
+									'track_time' => 'test',
+									'post_type' => 'test',
+									'page_tracking' => 'test',
+									'search_tracking' => 'test',
+									'comment_tracking' => 'test',
+									'custom_mapping' => 'test',
+									'inbound_track_exclude' => 'test',
+									'inbound_track_include' => 'test'
+									);
+	wp_localize_script( 'inbound-analytics' , 'inbound_settings', $inbound_localized_data);
+	wp_head();
 ?>
 <style type="text/css">
 html {margin: 0 !important;}
@@ -152,12 +131,16 @@ display: none;
 	display: none;
 }
 <?php if (preg_match("/social_share/i", $shortcode)) {
-echo "body {
-padding: 10px 0px !important;
-padding-left: 5px !important;
-}";
-$extra_content = "<p>This is dummy text and not part of the shortcode. This is dummy text and not part of the shortcode. This is dummy text and not part of the shortcode. This is dummy text and not part of the shortcode. This is dummy text and not part of the shortcode. This is dummy text and not part of the shortcode. This is dummy text and not part of the shortcode. This is dummy text and not part of the shortcode. This is dummy text and not part of the shortcode.</p>";
-}?>
+		echo "body {
+		padding: 10px 0px !important;
+		padding-left: 5px !important;
+		}";
+		$extra_content = "<p>This is dummy text and not part of the shortcode. This is dummy text and not part of the shortcode. This is dummy text and not part of the shortcode. This is dummy text and not part of the shortcode. This is dummy text and not part of the shortcode. This is dummy text and not part of the shortcode. This is dummy text and not part of the shortcode. This is dummy text and not part of the shortcode. This is dummy text and not part of the shortcode.</p>";
+	} else {
+
+		$extra_content = "";
+	}
+?>
 			</style>
 		</head>
 		<body>
@@ -199,7 +182,6 @@ $extra_content = "<p>This is dummy text and not part of the shortcode. This is d
 		<?php wp_footer();?>
 		<script>
 		(function () {
-
 		  if ( !window.jQuery ) {
 		    var s = document.createElement('script');
 		    s.setAttribute('src', '//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js');
@@ -216,7 +198,6 @@ $extra_content = "<p>This is dummy text and not part of the shortcode. This is d
 		   	alert('Sweet button! Link disabled in preview window ' + link_text);
 		   });
 		 });
-
 		</script>
 		</body>
 	</html>

@@ -2,39 +2,6 @@
 /**
  * Global Shared function for all inbound now plugins
  */
-function inbound_media_button() {
-	global $pagenow, $typenow, $wp_version;
-	$output = '';
-
-	$shortcodes = array(
-		'quick-forms' => 'Insert Existing Form',
-		'button' => 'Build a Button',
-		'call-to-action' => "Call to action Shortcodes",
-		'social-share' => 'Social Share',
-		'lists' => 'Insert Icon List',
-		'columns' => 'Insert Columns'
-	);
-
-	/** Only run in post/page creation and edit screens */
-	if ( in_array( $pagenow, array( 'post.php', 'page.php', 'post-new.php', 'post-edit.php' ) ) ) {
-		/* check current WP version */
-		if ( version_compare( $wp_version, '3.5', '<' ) ) {
-			$img = '<img src="' . EDD_PLUGIN_URL . 'assets/images/edd-media.png" alt="' . __( 'Marketing', 'inbound-pro' ) . '"/>';
-			$output = '<a href="#TB_inline?width=640&inlineId=choose-download" class="thickbox" title="' . __( 'Marketing', 'inbound-pro' ) . '">' . $img . '</a>';
-		} else {
-			$img = '<span class="wp-media-buttons-icon" id="inboundnow-media-button"></span>';
-			$output = '<a href="#TB_inline?width=640&inlineId=choose-inbound-shortcode" class="thickbox button new-inbound-shortcode" title="' . __( 'Marketing', 'inbound-pro' ). '" style="padding-left: .4em;">' . $img .  __( 'Marketing', 'inbound-pro' ). '</a>';
-			$output .= "<div class='short-list-inbound wp_themeSkin' style='margin-top:0px; padding-top:0px; display:none;' id='choose-inbound-shortcode'><h2>" . __( 'Choose a Shortcode' , INBOUNDNOW_TEXT_DOMAIN ) ."</h2><ul class='inbound-short-list' style=''>";
-			foreach ($shortcodes as $key => $value) {
-				$output .= "<li class='launch-marketing-sc' data-launch-sc='".$key."'><span class='new-sc-icons mceIcon mce_editor-icon-".$key."'></span>" . $value . "</li>";
-			}
-			$output .= "</ul></div>";
-		}
-	}
-	echo $output;
-}
-add_action( 'media_buttons', 'inbound_media_button', 11 );
-
 
 /* Get Page Id for Lead Tracking, fallback if $post->ID fails */
 if (!function_exists('wpl_url_to_postid')) {

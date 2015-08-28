@@ -9,10 +9,18 @@ if (!class_exists('Inbound_Asset_Loader')) {
 
 		static function load_inbound_assets() {
 		  self::$load_assets = true;
+		  add_action('admin_enqueue_scripts', array(__CLASS__, 'load_admin_scripts'), 101);
 		  add_action('wp_enqueue_scripts', array(__CLASS__, 'register_scripts_and_styles'), 101);
 		  add_action('admin_enqueue_scripts', array(__CLASS__, 'register_scripts_and_styles'), 101);
 		}
 
+		static function load_admin_scripts(){
+			wp_enqueue_style('inbound-global-styles', INBOUNDNOW_SHARED_URLPATH . 'assets/css/admin/global-inbound-admin.css');
+			wp_enqueue_style('inbound-global-css', INBOUNDNOW_SHARED_URLPATH . 'assets/css/global-admin.css');
+			wp_enqueue_style('inbound-metaboxes', INBOUNDNOW_SHARED_URLPATH . 'assets/css/admin/inbound-metaboxes.css');
+
+			//wp_enqueue_script('inbound-forms-cpt-js', INBOUNDNOW_SHARED_URLPATH . 'assets/css/admin/inbound-metaboxes.css');
+		}
 		/**
 		 * Registers and enqueues stylesheets for the administration panel and the
 		 * public facing site.
@@ -40,9 +48,7 @@ if (!class_exists('Inbound_Asset_Loader')) {
 					self::enqueue_shared_file('image-picker-js', 'assets/js/admin/image-picker.js');
 					self::enqueue_shared_file('image-picker-css', 'assets/css/admin/image-picker.css');
 				}
-				/* Metabox CSS */
-				self::enqueue_shared_file('inbound-metaboxes', 'assets/css/admin/inbound-metaboxes.css');
-				self::enqueue_shared_file('inbound-global-styles', 'assets/css/admin/global-inbound-admin.css');
+
 
 			} else {
 

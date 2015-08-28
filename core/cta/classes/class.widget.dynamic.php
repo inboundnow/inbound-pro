@@ -10,8 +10,7 @@
 
 if (!class_exists('CTA_Dynamic_Widget')) {
 
-	class CTA_Dynamic_Widget extends WP_Widget
-	{
+	class CTA_Dynamic_Widget extends WP_Widget {
 
 		function CTA_Dynamic_Widget() {
 

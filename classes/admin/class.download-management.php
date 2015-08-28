@@ -342,7 +342,14 @@ class Inbound_Pro_Downloads {
 
 	}
 
+	/**
+	*  Loads all UI elements
+	*/
+	public static function test_ui() {
 
+		/* get download data */
+		echo "new ui";
+	}
 
 	/**
 	*  Loads all UI elements

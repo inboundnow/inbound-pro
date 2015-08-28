@@ -36,12 +36,7 @@ if (!class_exists('Landing_Pages_ACF')) {
 				/* make sure fields are placed in the correct location */
 				add_action( 'admin_print_footer_scripts', array( __CLASS__ , 'reposition_acf_fields' ) );
 
-			} else {
-				/* find out if ACF free or ACF Pro is installed */
-				include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-				if ( is_plugin_active('advanced-custom-fields/acf.php') && !is_plugin_active('advanced-custom-fields-pro/acf.php') ) {
-					define( 'ACF_FREE', true );
-				}
+
 			}
 
 			/* Load ACF Fields On ACF powered Email Template */
@@ -409,7 +404,6 @@ if (!class_exists('Landing_Pages_ACF')) {
 
 			if ($field['type'] == 'image' && $field['return_format'] == 'url' && !strstr($value , 'http' ) ) {
 				$image_array = wp_get_attachment_image_src( $value );
-
 				return $image_array[0];
 			}
 

@@ -430,7 +430,7 @@ if (is_admin()) {
                         $shortcode = 'N/A';
                     }
 
-                    echo '<input type="text" class="regular-text code short-shortcode-input" readonly="readonly" id="shortcode" name="shortcode" value=\'[inbound_forms id="'.$post_id.'" name="'.$form_name.'"]\'>';
+                    echo '<input type="text" onclick="select()" class="regular-text code short-shortcode-input" readonly="readonly" id="shortcode" name="shortcode" value=\'[inbound_forms id="'.$post_id.'" name="'.$form_name.'"]\'>';
                     break;
                 case "inbound-form-converions":
                     $count = get_post_meta( $post_id, 'inbound_form_conversion_count', true);

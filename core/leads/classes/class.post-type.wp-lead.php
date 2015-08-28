@@ -161,14 +161,8 @@ class Leads_Post_Type {
                 echo $lead_status;
                 break;
             case "conversion-count":
-                $last_conversion = get_post_meta($post_id, 'wpleads_conversion_data', true);
-                $last_conversion = json_decode($last_conversion, true);
-                if (is_array($last_conversion)) {
-                    $count_conversions = count($last_conversion);
-                } else {
-                    $count_conversions = get_post_meta($post_id, 'wpleads_conversion_count', true);
-                }
-                echo $count_conversions;
+                $count_conversions = get_post_meta($post_id, 'wpleads_conversion_count', true);
+                echo ( $count_conversions ? $count_conversions : 0 );
                 break;
             case "custom":
                 if (isset($_GET['wp_leads_filter_field'])) {
@@ -181,17 +175,8 @@ class Leads_Post_Type {
                 echo $custom_val;
                 break;
             case "page-views":
-                $page_views = get_post_meta($post_id, 'page_views', true);
-                $page_view_array = json_decode($page_views, true);
-                $page_view_count = 0;
-                if (is_array($page_view_array)) {
-                    foreach ($page_view_array as $key => $val) {
-                        $page_view_count += count($page_view_array[$key]);
-                    }
-                } else {
-                    $page_view_count = get_post_meta($post_id, 'wpleads_page_view_count', true);
-                }
-                echo $page_view_count;
+                $page_view_count = get_post_meta($post_id, 'wpleads_page_view_count', true);
+                echo ( $page_view_count ? $page_view_count : 0 );
                 break;
             case "company":
                 $company = get_post_meta($post_id, 'wpleads_company_name', true);

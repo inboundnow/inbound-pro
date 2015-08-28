@@ -384,15 +384,6 @@ h2 .nav-tab {
 	padding-top: 10px;
 }
 
-.lp-next-path {
-	background: transparent url('/wp-content/plugins/leads/assets/images/arrow-down.png') top left no-repeat;
-	width: 16px;
-	height: 16px;
-	position: absolute;
-	top: 33px;
-	left: 137px;
-	opacity: .9;
-}
 
 .toggle-conversion-list {
 	margin-right: 10px;

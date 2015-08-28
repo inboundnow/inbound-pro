@@ -205,8 +205,7 @@ if ( !class_exists('CTA_Template_Manager') ) {
 			$uploads_dir = $uploads['path'];
 
 			$temp = ini_get('upload_tmp_dir');
-			if (empty($temp))
-			{
+			if (empty($temp)) {
 				$temp = "/tmp";
 			}
 
@@ -251,15 +250,19 @@ if ( !class_exists('CTA_Template_Manager') ) {
 
 			if (!is_dir($dir) || is_link($dir)) return unlink($dir);
 			foreach (scandir($dir) as $item) {
-				if ($item == '.' || $item == '..') continue;
+				if ($item == '.' || $item == '..') {
+					continue;
+				}
+
 				if (!self::delete_template($dir . "/" . $item, $slug)) {
 					chmod($dir . "/" . $item, 0777);
-					if (!self::delete_template($dir . "/" . $item, $slug)) return false;
-				};
+					if (!self::delete_template($dir . "/" . $item, $slug)) {
+						return false;
+					}
+				}
 			}
 
 			rmdir($dir);
-
 
 			echo '<div class="updated"><p>'.$data['label'].' deleted successfully!</div>';
 		}
@@ -278,15 +281,21 @@ if ( !class_exists('CTA_Template_Manager') ) {
 
 			$request = wp_remote_post( WP_CTA_STORE_URL, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ));
 
-			if ( !is_wp_error( $request ) ):
+			if ( !is_wp_error( $request ) ) {
 				$request = json_decode( wp_remote_retrieve_body( $request ), true );
+
 				if( $request ) {
 					$request['sections'] = maybe_unserialize( $request['sections'] );
 				}
+
 				return $request;
-			else:
+
+			} else {
+
 				return false;
-			endif;
+
+			}
+
 		}
 
 
@@ -308,8 +317,7 @@ if ( !class_exists('CTA_Template_Manager') ) {
 		/**
 		*  Displays upload form
 		*/
-		public static function display_upload_form() {
-		?>
+		public static function display_upload_form() { ?>
 			<div class="wrap templates_upload">
 				<div class="icon32" id="icon-plugins"><br></div><h2><?php _e( 'Install Templates', 'cta' ); ?></h2>
 
@@ -394,8 +402,7 @@ if ( !class_exists('CTA_Template_Manager') ) {
 		/**
 		*  Prompt to search the inbound now marketplace for call to action templates
 		*/
-		public static function search_templates() {
-			?>
+		public static function search_templates() { ?>
 
 			<div class="wrap templates_search" style='display:none'>
 				<div class="icon32" id="icon-plugins"><br></div><h2><?php _e('Search Templates', 'cta' ) ; ?></h2>
@@ -434,8 +441,7 @@ if ( !class_exists('CTA_Template_Manager') ) {
 					</form>
 				</div>
 				<?php
-			}
-			else {
+			} else {
 				$url = WP_CTA_STORE_URL;
 			}
 			?>
@@ -459,7 +465,6 @@ if ( !class_exists('CTA_Template_Manager') ) {
 
 			<?php
 		}
-
 
 	}
 

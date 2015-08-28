@@ -82,7 +82,7 @@ class CTA_Enqueues {
 		wp_enqueue_style('wp-cta-admin-css', WP_CTA_URLPATH . 'assets/css/admin-style.css');
 
 		/* Enqueue select2 support */
-		wp_enqueue_script('select2', WP_CTA_URLPATH . 'assets/js/select2.min.js');
+		wp_enqueue_script('selectjs', INBOUNDNOW_SHARED_URLPATH . 'assets/js/admin/select2.min.js', array( 'jquery' ));
 
 		/* Load enqueues directly related to wp-call-to-action post type */
 		self::backend_cta_enqueues( $hook );
@@ -100,7 +100,7 @@ class CTA_Enqueues {
 		$CTAExtensions = CTA_Load_Extensions();
 		$screen = get_current_screen();
 
-		if ( ( isset($screen) && $screen->post_type != 'wp-call-to-action' ) ){
+		if ((isset($screen) && $screen->post_type != 'wp-call-to-action')){
 			return;
 		}
 
@@ -131,7 +131,7 @@ class CTA_Enqueues {
 		}
 
 		/* enqueue scripts and styles for CTA listing page */
-		if ( $screen->id == 'edit-wp-call-to-action') {
+		if ($screen->id == 'edit-wp-call-to-action') {
 			wp_enqueue_script('wp-call-to-action-list', WP_CTA_URLPATH . 'assets/js/admin/admin.wp-call-to-action-list.js');
 			wp_enqueue_style('wp-call-to-action-list-css', WP_CTA_URLPATH.'assets/css/admin-wp-call-to-action-list.css');
 			wp_admin_css('thickbox');
@@ -139,7 +139,7 @@ class CTA_Enqueues {
 		}
 
 		/* Enqueue scripts required on create cta page and edit cta page */
-		if ( isset($hooks) && $hook == 'post-new.php' || $hook == 'post.php') {
+		if (isset($hooks) && $hook == 'post-new.php' || $hook == 'post.php') {
 
 			/* Set the default editor mode */
 			add_filter( 'wp_default_editor', array(__CLASS__, 'set_default_editor_mode'));/* force visual editor to open in text mode */
@@ -166,7 +166,7 @@ class CTA_Enqueues {
 		}
 
 		/* Enqueue scripts & styles for cta creation page alone */
-		if ( $hook == 'post-new.php'){
+		if ($hook == 'post-new.php'){
 			wp_enqueue_script('wp-cta-js-create-new', WP_CTA_URLPATH . 'assets/js/admin/admin.post-new.js', array('jquery'), '1.0', true );
 			wp_enqueue_style('wp-cta-css-post-new', WP_CTA_URLPATH . 'assets/css/admin-post-new.css');
 		}

@@ -239,7 +239,7 @@ if (!class_exists('CTA_Metaboxes_Global')) {
 				$field['default'] = '';
 			}
 
-			$final['value'] = ( !empty($meta) || is_numeric( $meta ) ) ? $meta : $field['default'];
+			$final['value'] = (!empty($meta) || is_numeric($meta)) ? $meta : $field['default'];
 
 			$meta_class = (isset($field['class'])) ? " " . $field['class'] : '';
 			$dynamic_hide = (isset($field['reveal_on'])) ? ' inbound-hidden-row' : '';
@@ -341,13 +341,11 @@ if (!class_exists('CTA_Metaboxes_Global')) {
 							"wpl-lead-conversion-count" => "Number of Conversions"
 						);
 
-						foreach ($meta_keys as $meta_key)
-						{
+						foreach ($meta_keys as $meta_key) {
 							if (array_key_exists($meta_key, $nice_names)) {
 								$label = $nice_names[$meta_key];
 
-
-								(in_array($meta_key, $list)) ? $selected = " selected='selected'" : $selected ="";
+								$selected = (in_array($meta_key, $list)) ? " selected='selected'" : "";
 
 								echo '<option', $selected, ' value="'.$meta_key.'" rel="" >'.$label.'</option>';
 
@@ -363,12 +361,11 @@ if (!class_exists('CTA_Metaboxes_Global')) {
 						echo '<select multiple name="'.$field['id'].'[]" class="inbound-multi-select" id="'.$field['id'].'">';
 
 
-						foreach ( $field['options'] as $id => $value )
-						{
-							(in_array($id, $selected_lists)) ? $selected = " selected='selected'" : $selected ="";
+						foreach ($field['options'] as $id => $value) {
+							$selected = (in_array($id, $selected_lists)) ? " selected='selected'" : "";
 							echo '<option', $selected, ' value="'.$id.'" rel="" >'.$value.'</option>';
-
 						}
+
 						echo "</select><br><span class='description'>'".$field['description']."'</span>";
 						break;
 
@@ -400,8 +397,7 @@ if (!class_exists('CTA_Metaboxes_Global')) {
 			$CTAExtensions = CTA_Load_Extensions();
 			$extension_data = $CTAExtensions->definitions;
 
-			foreach ($extension_data['wp-cta-controller']['settings'] as $key=>$field)
-			{
+			foreach ($extension_data['wp-cta-controller']['settings'] as $key=>$field) {
 				( isset($field['global']) && $field['global'] ) ? $field['id'] : $field['id'] = $field['id'];
 
 				if($field['type'] == 'tax_select'){
@@ -409,7 +405,7 @@ if (!class_exists('CTA_Metaboxes_Global')) {
 				}
 
 				$old = get_post_meta($post_id, $field['id'], true);
-				(isset($_POST[$field['id']])) ? $new = $_POST[$field['id']] : $new = null;
+				$new = (isset($_POST[$field['id']])) ? $_POST[$field['id']] : null;
 
 				/*
 				echo $field['id'].' old:'.$old.'<br>';
@@ -440,4 +436,3 @@ if (!class_exists('CTA_Metaboxes_Global')) {
 
 	$GLOBALS['CTA_Metaboxes_Global'] = new CTA_Metaboxes_Global;
 }
-

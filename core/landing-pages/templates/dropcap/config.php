@@ -13,53 +13,30 @@ do_action('lp_global_config');
 $lp_data[$key]['info'] =
 array(
 	'data_type' => 'template', // Template Data Type
-	'version' => "2.0.1", // Version Number
+	'version' => "2.0.0", // Version Number
 	'label' => "Dropcap", // Nice Name
-	'category' => '1 column layout', // Template Category
+	'category' => 'v1, 1 column layout', // Template Category
 	'demo' => 'http://demo.inboundnow.com/go/dropcap-lander-preview/', // Demo Link
-	'description'  => __( 'Create a great looking quote styled landing page' , 'landing-pages' ) // template description
+	'description'  => 'Create a great looking quote styled landing page' // template description
 );
 
-
-/* disables editor */
-$lp_data[$key]['settings'] = array(
-    array(
-        'label' => 'turn-off-editor', /* Turns off main content */
-        'description' => 'Turn off editor',
-        'id'	=> 'turn-off-editor',
-        'type'	=> 'custom-css',
-        'default'	=> '#postdivrich, #lp_2_form_content {display:none !important;}'
-    ),
-    array(
-        'label' => 'Instructions', /* Turns off main content */
-        'description' => __( 'If changing to this template from another template, save the landing page and after the refresh the page will display the template settings.' , 'landing-pages' ),
-        'id'	=> 'instructions',
-        'type'	=> 'description-block',
-        'default'	=> 'test'
-    )
-);
-
-/* Load ACF definitions for Dropcap */
-if( function_exists('register_field_group') ):
-
-    register_field_group(array (
-        'key' => 'group_55dcf14c4c7e3',
-        'title' => 'Dropcap',
-        'fields' => array (
-            array (
-                'key' => 'field_55dcf15e758b0',
-                'label' => __( 'Main Content', 'landing-pages' ),
-                'name' => 'dropcap-main-content',
-                'type' => 'wysiwyg',
-                'instructions' => __( 'This is the default content from template.', 'landing-pages' ),
-                'required' => 0,
-                'conditional_logic' => 0,
-                'wrapper' => array (
-                    'width' => '',
-                    'class' => '',
-                    'id' => '',
-                ),
-                'default_value' => '<p>This is the first paragraph of your landing page. You want to grab the visitors attention and describe a commonly felt problem that they might be experiencing. Try and relate to your target audience and draw them in.</p>
+// Define Meta Options for template
+// These values are returned in the template's index.php file with lp_get_value($post, $key, 'field-id') function
+$lp_data[$key]['settings'] =
+array(
+	array(
+		'label' => 'turn-off-editor', /* Turns off main content */
+		'description' => 'Turn off editor',
+		'id'	=> 'turn-off-editor',
+		'type'	=> 'custom-css',
+		'default'	=> '#postdivrich, #lp_2_form_content {display:none !important;}'
+		),
+     array(
+           'label' => __( 'Main Content' , 'landing-pages' ) ,
+           'description' => __( 'This is the default content from template.' , 'landing-pages' ),
+           'id' => "main-content",
+           'type' => "wysiwyg",
+           'default' => '<p>This is the first paragraph of your landing page. You want to grab the visitors attention and describe a commonly felt problem that they might be experiencing. Try and relate to your target audience and draw them in.</p>
 
 <strong>In this guide you will learn:</strong>
 
@@ -73,168 +50,63 @@ if( function_exists('register_field_group') ):
 </ul>
 [/list]
 
-<p>This is the final sentence or paragraph reassuring the visitor of the benefits of filling out the form and how their data will be safe.</p>',
-                'tabs' => 'all',
-                'toolbar' => 'full',
-                'media_upload' => 1,
-            ),
-            array (
-                'key' => 'field_55dcf19d758b1',
-                'label' => __( 'Conversion Area', 'landing-pages' ),
-                'name' => 'dropcap-conversion-area-content',
-                'type' => 'wysiwyg',
-                'instructions' => __( 'Place your call to action here.', 'landing-pages' ),
-                'required' => 0,
-                'conditional_logic' => 0,
-                'wrapper' => array (
-                    'width' => '',
-                    'class' => '',
-                    'id' => '',
-                ),
-                'default_value' => '',
-                'tabs' => 'all',
-                'toolbar' => 'full',
-                'media_upload' => 1,
-            ),
-            array (
-                'key' => 'field_55dcf1d4f7702',
-                'label' => __( 'Text Color', 'landing-pages' ),
-                'name' => 'dropcap-text-color',
-                'type' => 'color_picker',
-                'instructions' => __( 'Use this setting to change the Text Color', 'landing-pages' ),
-                'required' => 0,
-                'conditional_logic' => 0,
-                'wrapper' => array (
-                    'width' => '',
-                    'class' => '',
-                    'id' => '',
-                ),
-                'default_value' => '#ffffff',
-            ),
-            array (
-                'key' => 'field_55dcf213a7269',
-                'label' => __( 'Content Background Color', 'landing-pages' ),
-                'name' => 'dropcap-content-background',
-                'type' => 'color_picker',
-                'instructions' => __( 'Use this setting to change the Content Area Background Color', 'landing-pages' ),
-                'required' => 0,
-                'conditional_logic' => 0,
-                'wrapper' => array (
-                    'width' => '',
-                    'class' => '',
-                    'id' => '',
-                ),
-                'default_value' => '#000000',
-            ),
-            array (
-                'key' => 'field_55dcf24aa726a',
-                'label' => __( 'Conversion Area Text Color', 'landing-pages' ),
-                'name' => 'dropcap-form-text-color',
-                'type' => 'color_picker',
-                'instructions' => __( 'Use this setting to change the Conversion Area text Color', 'landing-pages' ),
-                'required' => 0,
-                'conditional_logic' => 0,
-                'wrapper' => array (
-                    'width' => '',
-                    'class' => '',
-                    'id' => '',
-                ),
-                'default_value' => '#ffffff',
-            ),
-            array (
-                'key' => 'field_55dcf276a726b',
-                'label' => __( 'Background Settings', 'landing-pages' ),
-                'name' => 'dropcap-background-style',
-                'type' => 'select',
-                'instructions' => __( 'Set the template\'s background', 'landing-pages' ),
-                'required' => 0,
-                'conditional_logic' => 0,
-                'wrapper' => array (
-                    'width' => '',
-                    'class' => '',
-                    'id' => '',
-                ),
-                'choices' => array (
-                    'fullscreen' => __( 'Fullscreen Image','landing-pages'),
-                    'tile' => __( 'Tile Background Image','landing-pages'),
-                    'color' => __( 'Solid Color','landing-pages'),
-                    'repeat-x' => __( 'Repeat Image Horizontally','landing-pages'),
-                    'repeat-y' => __( 'Repeat Image Vertically','landing-pages'),
-                    'custom' => __( 'Custom CSS','landing-pages'),
-                ),
-                'default_value' => array (
-                    'fullscreen' => 'color',
-                ),
-                'allow_null' => 0,
-                'multiple' => 0,
-                'ui' => 0,
-                'ajax' => 0,
-                'placeholder' => '',
-                'disabled' => 0,
-                'readonly' => 0,
-            ),
-            array (
-                'key' => 'field_55dcf31b70c76',
-                'label' => __( 'Background Image', 'landing-pages' ),
-                'name' => 'dropcap-background-image',
-                'type' => 'image',
-                'instructions' => __( 'Upload or select a background image from the media library.', 'landing-pages' ),
-                'required' => 0,
-                'conditional_logic' => 0,
-                'wrapper' => array (
-                    'width' => '',
-                    'class' => '',
-                    'id' => '',
-                ),
-                'return_format' => 'url',
-                'preview_size' => 'thumbnail',
-                'library' => 'all',
-                'min_width' => '',
-                'min_height' => '',
-                'min_size' => '',
-                'max_width' => '',
-                'max_height' => '',
-                'max_size' => '',
-                'mime_types' => '',
-            ),
-            array (
-                'key' => 'field_55dcf36870c77',
-                'label' => __( 'Background Color', 'landing-pages' ),
-                'name' => 'dropcap-background-color',
-                'type' => 'color_picker',
-                'instructions' => __( 'Use this setting to change the templates background color', 'landing-pages' ),
-                'required' => 0,
-                'conditional_logic' => 0,
-                'wrapper' => array (
-                    'width' => '',
-                    'class' => '',
-                    'id' => '',
-                ),
-                'default_value' => '#186d6d',
-            ),
+<p>This is the final sentence or paragraph reassuring the visitor of the benefits of filling out the form and how their data will be safe.</p>'
+         ),
+	array(
+           'label' => __( 'Conversion Area' , 'landing-pages' ),
+           'description' => __( 'Place your call to action here.' , 'landing-page' ),
+           'id' => "conversion-area-content",
+           'type' => "wysiwyg",
+           'default' => ''
+         ),
+    array(
+        'label' => 'Text color', // Label of field
+        'description' => "Use this setting to change the Text Color", // field description
+        'id' => 'text-color', // metakey.
+        'type'  => 'colorpicker', // text metafield type
+        'default'  => 'ffffff', // default content
+        'context'  => 'normal' // Context in screen for organizing options
         ),
-        'location' => array (
-            array (
-                array (
-                    'param' => 'post_type',
-                    'operator' => '==',
-                    'value' => 'landing-page',
-                ),
-                array (
-                    'param' => 'template_id',
-                    'operator' => '==',
-                    'value' => $key,
-                )
-            ),
+    array(
+        'label' => 'Content Background Color',
+        'description' => "Use this setting to change the Content Area Background Color",
+        'id'  => 'content-background',
+        'type'  => 'colorpicker',
+        'default'  => '000000',
+        'context'  => 'normal'
         ),
-        'menu_order' => 0,
-        'position' => 'normal',
-        'style' => 'default',
-        'label_placement' => 'top',
-        'instruction_placement' => 'label',
-        'hide_on_screen' => '',
-        'active' => 1,
-        'description' => '',
-    ));
-
-endif;
+    array(
+        'label' => 'Conversion Area Text Color',
+        'description' => "Use this setting to change the Conversion Area text Color",
+        'id'  => 'form-text-color',
+        'type'  => 'colorpicker',
+        'default'  => 'ffffff',
+        'context'  => 'normal'
+        ),
+    /* Background Settings */
+    array(
+        'label' => 'Background Settings',
+        'description' => "Set the template's background",
+        'id'  => 'background-style',
+        'type'  => 'dropdown',
+        'default'  => 'fullscreen',
+        'options' => array('fullscreen'=>'Fullscreen Image', 'tile'=>'Tile Background Image', 'color' => 'Solid Color', 'repeat-x' => 'Repeat Image Horizontally', 'repeat-y' => 'Repeat Image Vertically', 'custom' => 'Custom CSS'),
+        'context'  => 'normal'
+        ),
+    array(
+        'label' => 'Background Image',
+        'description' => "Enter an URL or upload an image for the banner.",
+        'id'  => 'background-image',
+        'type'  => 'media',
+        'default'  => '/wp-content/plugins/landing-pages/templates/dropcap/assets/images/beach-1.jpg',
+        'context'  => 'normal'
+        ),
+    array(
+        'label' => 'Background Color',
+        'description' => "Use this setting to change the templates background color",
+        'id'  => 'background-color',
+        'type'  => 'colorpicker',
+        'default'  => '186d6d',
+        'context'  => 'normal'
+        )
+    );

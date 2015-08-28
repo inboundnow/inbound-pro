@@ -380,9 +380,6 @@ if ( !class_exists( 'CTA_Render' ) ) {
                 $global_cookie = get_option( 'wp-cta-main-global-cookie', 0 );
                 $global_cookie_length = get_option( 'wp-cta-main-global-cookie-length', 30 );
 
-                wp_enqueue_script('magnific-popup', WP_CTA_URLPATH . 'assets/lib/popup/jquery.magnific-popup.min.js', array( 'jquery'));
-                wp_enqueue_style('magnific-popup-css', WP_CTA_URLPATH . 'assets/lib/popup/magnific-popup.css');
-
                 $popup_params = array(	'timeout' => $pop_time_final,
                     'c_status' => $popup_cookie,
                     'c_length' => $popup_cookie_length,
@@ -391,10 +388,10 @@ if ( !class_exists( 'CTA_Render' ) ) {
                     'global_c_length' => $global_cookie_length
                 );
 
-                wp_enqueue_style('magnific-popup-css', WP_CTA_URLPATH . 'assets/lib/popup/magnific-popup.css');
-                wp_enqueue_script('magnific-popup', WP_CTA_URLPATH . 'assets/lib/popup/jquery.magnific-popup.min.js', array('jquery'), true );
-                wp_localize_script( 'magnific-popup', 'wp_cta_popup', $popup_params );
-                wp_enqueue_script('cta-popup-onpage', WP_CTA_URLPATH . 'assets/lib/popup/cta-popup-onpage.js', array('jquery', 'magnific-popup'), true );
+                wp_enqueue_style('maginificient-popup-css', INBOUNDNOW_SHARED_URLPATH . 'assets/css/magnific-popup.css');
+                wp_enqueue_script('maginificient-popup', INBOUNDNOW_SHARED_URLPATH . 'assets/js/global/jquery.magnific-popup.min.js',array('jquery'), true );
+                wp_localize_script( 'maginificient-popup', 'wp_cta_popup', $popup_params );
+                wp_enqueue_script('cta-popup-onpage', WP_CTA_URLPATH . 'assets/js/cta-popup-onpage.js', array('jquery', 'maginificient-popup'), true );
             }
 
             /* If placement is slideout load slideout asset files */
@@ -559,8 +556,8 @@ if ( !class_exists( 'CTA_Render' ) ) {
             preg_match_all('/{%+(.*?)%}/', $template, $php_tokens); // check for conditionals
 
             /* Get width and height */
-            (isset($selected_cta['meta'][$vid]['wp_cta_width-'.$vid])) ? $w = $selected_cta['meta'][$vid]['wp_cta_width-'.$vid] : $w = 'auto';
-            (isset($selected_cta['meta'][$vid]['wp_cta_height-'.$vid])) ? $h = $selected_cta['meta'][$vid]['wp_cta_height-'.$vid] : $h = 'auto';
+            $w = (isset($selected_cta['meta'][$vid]['wp_cta_width-'.$vid])) ? $selected_cta['meta'][$vid]['wp_cta_width-'.$vid] : 'auto';
+            $h = (isset($selected_cta['meta'][$vid]['wp_cta_height-'.$vid])) ? $selected_cta['meta'][$vid]['wp_cta_height-'.$vid] : 'auto';
 
             /* validate/correct impropper css property value setup */
             $width = CTA_Render::validate_css_property_value($w, 'width');
@@ -1069,8 +1066,8 @@ if ( !class_exists( 'CTA_Render' ) ) {
                 }
 
                 /* get width and height values */
-                (isset($selected_cta['meta'][$vid]['wp_cta_width-'.$vid])) ? $w = $selected_cta['meta'][$vid]['wp_cta_width-'.$vid] : $w = 'auto';
-                (isset($selected_cta['meta'][$vid]['wp_cta_height-'.$vid])) ? $h = $selected_cta['meta'][$vid]['wp_cta_height-'.$vid] : $h = 'auto';
+                $w = (isset($selected_cta['meta'][$vid]['wp_cta_width-'.$vid])) ? $selected_cta['meta'][$vid]['wp_cta_width-'.$vid] : 'auto';
+                $h = (isset($selected_cta['meta'][$vid]['wp_cta_height-'.$vid])) ? $selected_cta['meta'][$vid]['wp_cta_height-'.$vid] : 'auto';
 
                 /* validate/correct impropper css property value setup */
                 $width = self::$instance->validate_css_property_value($w, 'width');
@@ -1127,7 +1124,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
                 return $content;
             }
 
-            if ( !self::$instance->selected_cta || self::$instance->cta_content_placement =='off' ) {
+            if (!self::$instance->selected_cta || self::$instance->cta_content_placement=='off'){
                 return $content;
             }
 
@@ -1155,7 +1152,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
                 $content = $content . "<div class='below_content'>" . self::$instance->cta_template . "</div>";
 
             } elseif (self::$instance->cta_content_placement=='popup') {
-                $content = $content . "<a id='cta-no-show' class='popup-modal' href='#wp-cta-popup'>Open modal</a><div id='wp-cta-popup' class='mfp-hide white-popup-block' style='display:none;'><button title='Close (Esc)' type='button' class='mfp-close'></button>" . self::$instance->cta_template . "</div>";
+                $content = $content . "<a id='cta-no-show' class='popup-modal' href='#wp-cta-popup'>Open modal</a><div id='wp-cta-popup' class='mfp-hide white-popup-block' style='display:none;'><button title='Close (Esc)' type='button' class='mfp-close'>&times;</button>" . self::$instance->cta_template . "</div>";
 
                 foreach (self::$instance->cta_width as $key => $value) {
                     $content .= "<span class='data-vid-w-".$key."' data-width='" . $value ."'></span>";
@@ -1186,7 +1183,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
          *  Determines if cta is set to display in dynamic widget placeholder and if it is then redners it inside the appropriate hook
          */
         function add_cta_to_dynamic_widget() {
-            if ( !self::$instance->selected_cta || self::$instance->cta_content_placement =='off') {
+            if (!self::$instance->selected_cta || self::$instance->cta_content_placement=='off'){
                 return;
             }
 
@@ -1220,15 +1217,14 @@ if ( !class_exists( 'CTA_Render' ) ) {
                 return "";
             }
 
-            $custom_css_js = self::load_custom_js_css( $selected_cta, true );
+            $custom_css_js = self::load_custom_js_css($selected_cta, true);
 
-            $cta_template = self::$instance->build_cta_content( $selected_cta );
+            $cta_template = self::$instance->build_cta_content($selected_cta);
 
             /* account for preview mode  */
             $vid = (isset($_GET['wp-cta-variation-id'])) ? $_GET['wp-cta-variation-id'] : $vid;
 
             $script = self::$instance->load_shortcode_variation_js( $id, $vid, true );
-
 
             if ($align === 'right') {
                 return	$script . $custom_css_js . '<div style="float:right;">' . do_shortcode($cta_template) . "</div>";
@@ -1270,7 +1266,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
          */
         function preview_cta() {
 
-            if ( ( isset(self::$instance->obj->post_type) && self::$instance->obj->post_type != 'wp-call-to-action' ) ||	( !isset(self::$instance->obj->post_type) && !isset($_GET['wp-cta-variation-id']) ) ){
+            if ((isset(self::$instance->obj->post_type) && self::$instance->obj->post_type != 'wp-call-to-action' ) || ( !isset(self::$instance->obj->post_type) && !isset($_GET['wp-cta-variation-id']))){
                 return;
             }
 
@@ -1296,8 +1292,6 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
             echo '</head>';
 
-            (!isset($_GET['inbound-preview'])) ? $margin = 'margin-top:100px' : '';
-
             echo '<body style="backgorund-image:none;background-color:#fff;width:100%;">';
             echo '<div id="cta-preview-container" style="margin:auto;">';
             if ( isset($_GET['post_id'] ) || isset($_GET['wp-cta-variation-id']) ) {
@@ -1308,8 +1302,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
             echo "</div>";
 
-            if (!isset($_GET['inbound-preview']) && is_user_logged_in()) {
-                ?>
+            if (!isset($_GET['inbound-preview']) && is_user_logged_in()) { ?>
                 <script type="text/javascript">
                     jQuery(document).ready(function($) {
                         //jQuery('#cta-preview-container').cta_center();
@@ -1325,9 +1318,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
                         return this;
                     }
                 </script>
-            <?php
-            }
-            ?>
+            <?php } ?>
             <script type="text/javascript">
                 jQuery(document).ready(function($) {
                     jQuery('.wp_cta_<?php echo $cta_id; ?>_variation_<?php echo $_GET['wp-cta-variation-id']; ?>').show();
@@ -1342,14 +1333,12 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
 
 
-        function modify_admin_url( $link )
-        {
+        function modify_admin_url( $link ) {
             if (isset($_GET['page'])) {
                 return $link;
             }
 
-            if (	( isset($post) && 'wp-call-to-action' == $post->post_type ) || ( isset($_REQUEST['post_type']) && $_REQUEST['post_type']=='wp-call-to-action' ) )
-            {
+            if ((isset($post) && 'wp-call-to-action' == $post->post_type ) || ( isset($_REQUEST['post_type']) && $_REQUEST['post_type']=='wp-call-to-action')) {
                 $params['inbound-editor'] = 'false';
                 if(isset($_GET['inbound-editor']) && $_GET['inbound-editor'] == 'true') {
                     $params['inbound-editor'] = 'true';
@@ -1358,7 +1347,6 @@ if ( !class_exists( 'CTA_Render' ) ) {
                     $params['inbound-editor'] = 'true';
                 }
                 $link = add_query_arg( $params, $link );
-
             }
 
             return $link;
@@ -1429,15 +1417,14 @@ if (!function_exists('inbound_template_brightness')) {
                 0 => array(255-(255-$col[0])/15, 255-(255-$col[1])/15, 255-(255-$col[2])/15)
             );
 
-        ($format === 'hex') ? $sign = "#" : $sign = '';
+        $sign = ($format === 'hex') ? "#" : '';
         $return_scheme = array();
+
         foreach ($color_scheme_array as $key => $val) {
-
-            $each_color_return =	$sign.sprintf("%02X%02X%02X", $val[0], $val[1], $val[2]);
+            $each_color_return = $sign.sprintf("%02X%02X%02X", $val[0], $val[1], $val[2]);
             $return_scheme[$key] = $each_color_return;
-
         }
-        //return $closest;
+
         if(isset($_GET['color_scheme'])) {
             foreach ($return_scheme as $key => $hex_value) {
                 echo "<div style='background:$hex_value; display:block; width:100%;'>$key</div>";
@@ -1455,7 +1442,6 @@ if (!function_exists('inbound_template_brightness')) {
 
     }
 }
-
 
 function wp_cta_check_active() {
     return 1;
