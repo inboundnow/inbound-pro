@@ -71,12 +71,12 @@ if ( !class_exists('Inbound_Shortcodes_Fields') ) {
 					$desc = ( isset($option['desc'])) ? $option['desc'] : '';
 					$std = ( isset($option['std']) ) ? $option['std'] : '';
 					$global = ( isset($option['global']) ) ? $option['global'] : '';
-					
-					
+
+
 					if ($global) {
 						$uniquekey = $key;
 					}
-					
+
 					$placeholder = (isset($option['placeholder'])) ? $option['placeholder'] : '';
 					$parent_class = (isset($option['class'])) ? $option['class'] : '';
 
@@ -152,7 +152,7 @@ if ( !class_exists('Inbound_Shortcodes_Fields') ) {
 							<label for="newcategory" class="screen-reader-text">Add New Lead List</label>
 							<input type="text" aria-required="true" placeholder="New List Name" class="inbound-shortcodes-input inbound_shortcode_notify form-required" id="newformlist" name="newformlist" autocorrect="off" autocomplete="off" style="width: 80%;"></li>';
 							$output .= '<li><label for="newlist_parent" class="screen-reader-text"> Parent List: </label><select class="postform" id="newlist_parent" name="newlist_parent"><option value="-1">&mdash; Parent List &mdash;</option>';
-							$args = array('hide_empty' => false); 
+							$args = array('hide_empty' => false);
 							$terms = get_terms('wplead_list_category', $args);
 							foreach($terms as $term){
 								$term_id=$term->term_id;
@@ -160,7 +160,7 @@ if ( !class_exists('Inbound_Shortcodes_Fields') ) {
 								$parent_level = ($term->parent == 0 ) ? '' : '-';
 								$output .='<option value="'.$term_id.'" class="level-0">'.$parent_level.$term_name.'</option>';
 							}
-							$output .='</select></li>';	
+							$output .='</select></li>';
 							$output .='<li><input type="button" value="Add New Lead List" class="button button-primary" data-wp-lists="add:listchecklist:list-add" id="list-add-submit"></li></ul><span id="list-ajax-response"></span></div></div>';
 							$output .= $row_end;
 							$this->append_output($output);

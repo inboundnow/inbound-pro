@@ -8,8 +8,6 @@
 //gets template directory name to use as identifier - do not edit - include in all template files
 $key = lp_get_parent_directory(dirname(__FILE__));
 
-do_action('lp_global_config');
-
 $lp_data[$key]['info'] =
 array(
 	'data_type' => 'template', // Template Data Type
@@ -28,7 +26,7 @@ $lp_data[$key]['settings'] = array(
         'description' => 'Turn off editor',
         'id'	=> 'turn-off-editor',
         'type'	=> 'custom-css',
-        'default'	=> '#postdivrich, #lp_2_form_content {display:none !important;}'
+        'default'	=> '#postdivrich, #lp_2_form_content, #main-title-area {display:none !important;}'
     ),
     array(
         'label' => 'Instructions', /* Turns off main content */
@@ -46,6 +44,27 @@ if( function_exists('register_field_group') ):
         'key' => 'group_55dcf14c4c7e3',
         'title' => 'Dropcap',
         'fields' => array (
+            array (
+                'key' => 'field_55de10a366359',
+                'label' => __('Main Headline','landing-pages'),
+                'name' => 'lp-main-headline',
+                'type' => 'text',
+                'instructions' => __('Enter in the headline here','landing-pages'),
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'default_value' => '',
+                'placeholder' => '',
+                'prepend' => '',
+                'append' => '',
+                'maxlength' => '',
+                'readonly' => 0,
+                'disabled' => 0,
+            ),
             array (
                 'key' => 'field_55dcf15e758b0',
                 'label' => __( 'Main Content', 'landing-pages' ),

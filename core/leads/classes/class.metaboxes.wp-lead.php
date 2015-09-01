@@ -74,7 +74,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             add_meta_box('wplead-quick-stats-metabox', __("Lead Stats", 'leads'), array(__CLASS__, 'display_quick_stats'), 'wp-lead', 'side', 'high');
 
             /* Show IP Address & Geolocation metabox */
-            //add_meta_box('lp-ip-address-sidebar-preview', __('Last Conversion Activity Location', 'leads'), array(__CLASS__, 'display_geolocation'), 'wp-lead', 'side', 'low');
+            add_meta_box('lp-ip-address-sidebar-preview', __('Last Conversion Activity Location', 'leads'), array(__CLASS__, 'display_geolocation'), 'wp-lead', 'side', 'low');
 
             /* Main metabox */
             add_meta_box('wplead_metabox_main', // $id
@@ -250,23 +250,29 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                     $geodata = $array[$ip_address]['geodata'];
                 }
             } else {
-                $ip_address = $ip_addresses;
+				$array = array();
+                $ip_address = $ip_addresses;				
             }
-
-            if (!isset($geodata)) {
+			
+			 if ($ip_address === "127.0.0.1") {
+                echo "<h3>" . __('Last conversion detected from localhost', 'leads') . "</h3>";
+				return;
+            }
+			
+            if ( !isset($geodata[$ip_address]) && $ip_address  ) {
                 $geodata = wp_remote_get('http://www.geoplugin.net/php.gp?ip=' . $ip_address , array('timeout'=>'2'));
                 if (!is_wp_error($geodata)) {
                     $geodata = unserialize($geodata['body']);
+					$array[$ip_address]['geodata'] = $geodata;
+					update_post_meta($post->ID, 'wpleads_ip_address', json_encode($ip_addresses));
                 }
             }
 
-            if (!is_array($geodata) || is_wp_error($geodata)) {
+            if (!is_array($geodata) || is_wp_error($geodata) || !$ip_address ) {
                 echo "<h2>" . __('No Geo data collected', 'leads') . "</h2>";
                 return;
             }
-            if ($ip_address === "127.0.0.1") {
-                echo "<h3>" . __('Last conversion detected from localhost', 'leads') . "</h3>";
-            }
+          
             $latitude = (isset($geodata['geoplugin_latitude'])) ? $geodata['geoplugin_latitude'] : 'NA';
             $longitude = (isset($geodata['geoplugin_longitude'])) ? $geodata['geoplugin_longitude'] : 'NA';
 
@@ -1586,7 +1592,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                         $links = explode(';', $field['value']);
                         $links = array_filter($links);
 
-                        echo "<div style='position:relative;'><span class='add-new-link'>" . __('Add New Link') . " <img src='" . WPL_URLPATH . "/assets/assets/images/add.png' title='" . __('add link') . "' align='ABSMIDDLE' class='wpleads-add-link' 'id='{$id}-add-link'></span></div>";
+                        echo "<div style='position:relative;'><span class='add-new-link'>" . __('Add New Link') . " <span title='" . __('add link') . "' align='ABSMIDDLE' class='wpleads-add-link' 'id='{$id}-add-link'>+</span></div>";
                         echo "<div class='wpleads-links-container' id='{$id}-container'>";
 
                         $remove_icon = WPL_URLPATH . '/assets/images/remove.png';

@@ -2,10 +2,8 @@
 /**
 * Template Name:  3 Column Lander Template
 * @package  WordPress Landing Pages
-* @author 	David Wells
+* @author 	Inbound Now
 */
-
-do_action('lp_global_config'); // global config action hook
 
 //gets template directory name to use as identifier - do not edit - include in all template files
 $key = lp_get_parent_directory(dirname(__FILE__));
@@ -13,30 +11,74 @@ $key = lp_get_parent_directory(dirname(__FILE__));
 $lp_data[$key]['info'] =
 array(
 	'data_type' => 'template', // Template Data Type
-	'version' => "1.0.1", // Version Number
+	'version' => "2.0.1", // Version Number
 	'label' => "3 Column Lander", // Nice Name
-	'category' => '3 column layout, Responsive, V2', // Template Category
+	'category' => '3 column, responsive', // Template Category
 	'demo' => 'http://demo.inboundnow.com/go/3-column-lander/', // Demo Link
 	'description'  => '' // template description
 );
 
-// Define Meta Options for template
-// These values are returned in the template's index.php file with lp_get_value($post, $key, 'field-id') function
-$lp_data[$key]['settings'] =
-array(
-   array(
-		'label' => 'turn-off-editor', /* Turns off main content */
-		'description' => 'Turn off editor',
-		'id'	=> 'turn-off-editor',
-		'type'	=> 'custom-css',
-		'default'	=> '#postdivrich, #lp_2_form_content {display:none !important;}'
-		),
-     array(
-           'label' => __( 'Main Content' , 'landing-pages' ) ,
-           'description' => __( 'This is the default content from template.' , 'landing-pages' ),
-           'id' => "main-content",
-           'type' => "wysiwyg",
-           'default' => '<p>This is the first paragraph of your landing page. You want to grab the visitors attention and describe a commonly felt problem that they might be experiencing. Try and relate to your target audience and draw them in.</p>
+
+/* disables editor */
+$lp_data[$key]['settings'] = array(
+    array(
+        'label' => 'turn-off-editor', /* Turns off main content */
+        'description' => 'Turn off legacy editors',
+        'id'	=> 'turn-off-editor',
+        'type'	=> 'custom-css',
+        'default'	=> '#postdivrich, #lp_2_form_content, #main-title-area {display:none !important;}'
+    ),
+    array(
+        'label' => 'Instructions', /* Turns off main content */
+        'description' => __( 'If changing to this template from another template, save the landing page and after the refresh the page will display the template settings.' , 'landing-pages' ),
+        'id'	=> 'instructions',
+        'type'	=> 'description-block',
+        'default'	=> 'test'
+    )
+);
+
+
+/* define ACF fields here */
+if( function_exists('register_field_group') ):
+    register_field_group(array (
+        'key' => 'group_55e4bdb6b1985',
+        'title' => 'Three Column Lander',
+        'fields' => array (
+            array (
+                'key' => 'field_55e4bdc9e878f',
+                'label' => __('Main Headline','landing-pages'),
+                'name' => 'lp-main-headline',
+                'type' => 'text',
+                'instructions' => __('Insert main headline here.','landing-pages'),
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'default_value' => '',
+                'placeholder' => '',
+                'prepend' => '',
+                'append' => '',
+                'maxlength' => '',
+                'readonly' => 0,
+                'disabled' => 0,
+            ),
+            array (
+                'key' => 'field_55e4bdd1e8790',
+                'label' => __('Middle Content','landing-pages'),
+                'name' => 'three-column-lander-main-content',
+                'type' => 'wysiwyg',
+                'instructions' => __('This is the default content for the center column. ','landing-pages'),
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'default_value' => '<p>This is the first paragraph of your landing page. You want to grab the visitors attention and describe a commonly felt problem that they might be experiencing. Try and relate to your target audience and draw them in.</p>
 
 <strong>In this guide you will learn:</strong>
 
@@ -50,94 +92,222 @@ array(
 </ul>
 [/list]
 
-<p>This is the final sentence or paragraph reassuring the visitor of the benefits of filling out the form and how their data will be safe.</p>'
-         ),
-	array(
-           'label' => __( 'Conversion Area' , 'landing-pages' ),
-           'description' => __( 'Place your call to action here.' , 'landing-page' ),
-           'id' => "conversion-area-content",
-           'type' => "wysiwyg",
-           'default' => ''
-         ),
-    array(
-        'label' => __( 'Conversion Area Placement' , 'landing-pages' ) ,
-        'description' => __( 'Where do you want to place the conversion area?' , 'landing-pages' ) ,
-        'id'  => 'conversion_area',
-        'type'  => 'dropdown',
-        'default'  => 'middle',
-        'options' => array('right'=>'Conversion Area on right', 'middle'=>'Conversion Area in middle', 'left'=>'Conversion Area on left' ),
-        'context'  => 'normal'
+<p>This is the final sentence or paragraph reassuring the visitor of the benefits of filling out the form and how their data will be safe.</p>',
+                'tabs' => 'all',
+                'toolbar' => 'full',
+                'media_upload' => 1,
+            ),
+            array (
+                'key' => 'field_55e4beb2e8797',
+                'label' => __('Middle Content Background Color','landing-pages'),
+                'name' => 'three-column-lander-middle-content-bg-color',
+                'type' => 'color_picker',
+                'instructions' => __('Input the color of the middle content column.','landing-pages'),
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'default_value' => '#F3F1EF',
+            ),
+            array (
+                'key' => 'field_55e4bec6e8798',
+                'label' => __('Middle Content Text Color','landing-pages'),
+                'name' => 'three-column-lander-middle-content-text-color',
+                'type' => 'color_picker',
+                'instructions' => __('Font color of the middle content box.','landing-pages'),
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'default_value' => '#000000',
+            ),
+            array (
+                'key' => 'field_55e4bdfae8791',
+                'label' => __('Conversion Area','landing-pages'),
+                'name' => 'three-column-lander-conversion-area',
+                'type' => 'wysiwyg',
+                'instructions' => __('Place your call to action or Inbound Form here. ','landing-pages'),
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'default_value' => '',
+                'tabs' => 'all',
+                'toolbar' => 'full',
+                'media_upload' => 1,
+            ),
+            array (
+                'key' => 'field_55e4be1ae8792',
+                'label' => __('Conversion Area Placement','landing-pages'),
+                'name' => 'three-column-lander-conversions_area',
+                'type' => 'select',
+                'instructions' => __('Determine which side the call to action should display on.','landing-pages'),
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'choices' => array (
+                    'right' => 'Conversion Area on Right Column',
+                    'left' => 'Conversion Area on Left Column',
+                    'middle' => 'Conversion Area in Middle Column',
+                ),
+                'default_value' => array (
+                    'left' => 'left',
+                ),
+                'allow_null' => 0,
+                'multiple' => 0,
+                'ui' => 0,
+                'ajax' => 0,
+                'placeholder' => '',
+                'disabled' => 0,
+                'readonly' => 0,
+            ),
+            array (
+                'key' => 'field_55e4be2de8793',
+                'label' => __('Submit Button Color','landing-pages'),
+                'name' => 'three-column-lander-submit-button-color',
+                'type' => 'color_picker',
+                'instructions' => __('Select the background color of the submit button.','landing-pages'),
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'default_value' => '#33B96B',
+            ),
+            array (
+                'key' => 'field_55e4be6ee8795',
+                'label' => __('Left Content','landing-pages'),
+                'name' => 'three-column-lander-left-content-area',
+                'type' => 'wysiwyg',
+                'instructions' => __('Input the content of the left column. ','landing-pages'),
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'default_value' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
+                'tabs' => 'all',
+                'toolbar' => 'full',
+                'media_upload' => 1,
+            ),
+            array (
+                'key' => 'field_55e4be45e8794',
+                'label' => __('Left Content Background Color','landing-pages'),
+                'name' => 'three-column-lander-left-content-bg-color',
+                'type' => 'color_picker',
+                'instructions' => __('Input the background color of the left content column.','landing-pages'),
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'default_value' => '#0B61A4',
+            ),
+            array (
+                'key' => 'field_55e4be8ce8796',
+                'label' => __('Left Content Text Color','landing-pages'),
+                'name' => 'three-column-lander-left-content-text-color',
+                'type' => 'color_picker',
+                'instructions' => __('Input the font color of the left content column.','landing-pages'),
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'default_value' => '#ffffff',
+            ),
+            array (
+                'key' => 'field_55e4bf0ae879b',
+                'label' => __('Right Content','landing-pages'),
+                'name' => 'three-column-lander-right-content-area',
+                'type' => 'wysiwyg',
+                'instructions' => __('Right area content. ','landing-pages'),
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'default_value' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
+                'tabs' => 'all',
+                'toolbar' => 'full',
+                'media_upload' => 1,
+            ),
+            array (
+                'key' => 'field_55e4bedae8799',
+                'label' => __('Right Content Background Color','landing-pages'),
+                'name' => 'three-column-lander-right content-bg-color',
+                'type' => 'color_picker',
+                'instructions' => __('Input the color of the right content column.','landing-pages'),
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'default_value' => '#0B61A4',
+            ),
+            array (
+                'key' => 'field_55e4bef6e879a',
+                'label' => __('Right Content Text Color','landing-pages'),
+                'name' => 'three-column-lander-right-content-text-color',
+                'type' => 'color_picker',
+                'instructions' => __('Right content text color.','landing-pages'),
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'default_value' => '#ffffff',
+            ),
         ),
-    array(
-        'label' => __( 'Submit Button Color' , 'landing-pages' ) ,
-        'description' => __( 'Submit Button Color' , 'landing-pages' ) ,
-        'id'  => 'submit-button-color',
-        'type'  => 'colorpicker',
-        'default'  => '33B96B',
-        'context'  => 'normal'
+        'location' => array (
+            array (
+                array (
+                    'param' => 'post_type',
+                    'operator' => '==',
+                    'value' => 'landing-page',
+                ),
+                array (
+                    'param' => 'template_id',
+                    'operator' => '==',
+                    'value' => $key,
+                )
+            ),
         ),
-    array(
-        'label' => __( 'Left Content Background Color' , 'landing-pages' ) ,
-        'description' => __( 'Content Background Color' , 'landing-pages' ) ,
-        'id'  => 'left-content-bg-color',
-        'type'  => 'colorpicker',
-        'default'  => '0B61A4',
-        'context'  => 'normal'
-        ),
-    array(
-        'label' => __( 'Left Content Text Color' , 'landing-pages' ) ,
-        'description' => __( 'Content Text Color' , 'landing-pages' ) ,
-        'id'  => 'left-content-text-color',
-        'type'  => 'colorpicker',
-        'default'  => 'ffffff',
-        'context'  => 'normal'
-        ),
-     array(
-        'label' => __( 'Left Content' , 'landing-pages' ) ,
-        'description' => __( 'Left Content Area' , 'landing-pages' ) ,
-        'id'  => 'left-content-area', // called in template's index.php file with lp_get_value($post, $key, 'wysiwyg-id');
-        'type'  => 'wysiwyg',
-        'default'  => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vitae mauris arcu, eu pretium nisi. Praesent fringilla ornare ullamcorper. Pellentesque diam orci, sodales in blandit ut, placerat quis felis. Vestibulum at sem massa, in tempus nisi. Vivamus ut fermentum odio. Etiam porttitor faucibus volutpat. Vivamus vitae mi ligula, non hendrerit urna. Suspendisse potenti. Quisque eget massa a massa semper mollis.',
-        'context'  => 'normal'
-        ),
-    array(
-        'label' => __( 'Middle Content Background Color' , 'landing-pages' ) ,
-        'description' => __( 'Content Background Color. The content of this area is controlled by the main editor above' , 'landing-pages' ) ,
-        'id'  => 'middle-content-bg-color',
-        'type'  => 'colorpicker',
-        'default'  => 'F3F1EF',
-        'context'  => 'normal'
-        ),
-    array(
-        'label' => __( 'Middle Content Text Color' , 'landing-pages' ) ,
-        'description' => __( 'Content Text Color. The content of this area is controlled by the main editor above' , 'landing-pages' ) ,
-        'id'  => 'middle-content-text-color',
-        'type'  => 'colorpicker',
-        'default'  => '000000',
-        'context'  => 'normal'
-        ),
-     array(
-        'label' => __( 'Right Content Background Color', 'landing-pages' ) ,
-        'description' => __( 'Content Background Color' , 'landing-pages' ) ,
-        'id'  => 'right-content-bg-color',
-        'type'  => 'colorpicker',
-        'default'  => '0B61A4',
-        'context'  => 'normal'
-        ),
-    array(
-        'label' => __( 'Right Content Text Color' , 'landing-pages' ) ,
-        'description' => __( 'Content Text Color' , 'landing-pages' ) ,
-        'id'  => 'right-content-text-color',
-        'type'  => 'colorpicker',
-        'default'  => 'ffffff',
-        'context'  => 'normal'
-        ),
-    array(
-        'label' => __( 'Right Content' , 'landing-pages' ) ,
-        'description' => __( 'Right Content Area' , 'landing-pages' ) ,
-        'id'  => 'right-content-area', // called in template's index.php file with lp_get_value($post, $key, 'wysiwyg-id');
-        'type'  => 'wysiwyg',
-        'default'  => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vitae mauris arcu, eu pretium nisi. Praesent fringilla ornare ullamcorper. Pellentesque diam orci, sodales in blandit ut, placerat quis felis. Vestibulum at sem massa, in tempus nisi. Vivamus ut fermentum odio. Etiam porttitor faucibus volutpat. Vivamus vitae mi ligula, non hendrerit urna. Suspendisse potenti. Quisque eget massa a massa semper mollis.',
-        'context'  => 'normal'
-        )
-);
+        'menu_order' => 0,
+        'position' => 'normal',
+        'style' => 'default',
+        'label_placement' => 'top',
+        'instruction_placement' => 'label',
+        'hide_on_screen' => '',
+        'active' => 1,
+        'description' => '',
+    ));
+
+endif;

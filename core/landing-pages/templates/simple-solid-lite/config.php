@@ -5,7 +5,7 @@
 * @author	Inbound Template Generator!
 * WordPress Landing Page Config File
 */
-do_action('lp_global_config');
+
 $key = lp_get_parent_directory(dirname(__FILE__));
 
 $path = (preg_match("/uploads/", dirname(__FILE__))) ? LANDINGPAGES_UPLOADS_URLPATH . $key .'/' : LANDINGPAGES_URLPATH.'templates/'.$key.'/';
@@ -20,21 +20,47 @@ $lp_data[$key]['info'] = array(
 	'description' => 'This is an auto generated template from Inbound Now'
 );
 
-/* Configures Template Editor Options */
+
+
+/* disables editor */
 $lp_data[$key]['settings'] = array(
- array(
+	array(
 		'label' => 'turn-off-editor', /* Turns off main content */
 		'description' => 'Turn off editor',
 		'id'	=> 'turn-off-editor',
 		'type'	=> 'custom-css',
-		'default'	=> '#postdivrich, #lp_2_form_content {display:none !important;}'
-		),
+		'default'	=> '#postdivrich, #lp_2_form_content, #main-title-area {display:none !important;}'
+	),
 	array(
-			'label' => __( 'Main Content' , 'landing-pages' ) ,
-			'description' => __( 'This is the default content from template.' , 'landing-pages' ),
-			'id' => "main-content",
-			'type' => "wysiwyg",
-			'default' => '<p>This is the first paragraph of your landing page. You want to grab the visitors attention and describe a commonly felt problem that they might be experiencing. Try and relate to your target audience and draw them in.</p>
+		'label' => 'Instructions', /* Turns off main content */
+		'description' => __( 'If changing to this template from another template, save the landing page and after the refresh the page will display the template settings.' , 'landing-pages' ),
+		'id'	=> 'instructions',
+		'type'	=> 'description-block',
+		'default'	=> 'test'
+	)
+);
+
+/* Configures template ACF fields here */
+if( function_exists('register_field_group') ):
+
+	register_field_group(array (
+		'key' => 'group_55df73a9053d1',
+		'title' => 'Simple Solid Lite',
+		'fields' => array (
+			array (
+				'key' => 'field_55df73bb3fb9a',
+				'label' => 'Main Content',
+				'name' => 'simple-solid-lite-main-content',
+				'type' => 'wysiwyg',
+				'instructions' => 'Insert your main content here.',
+				'required' => 0,
+				'conditional_logic' => 0,
+				'wrapper' => array (
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'default_value' => '<p>This is the first paragraph of your landing page. You want to grab the visitors attention and describe a commonly felt problem that they might be experiencing. Try and relate to your target audience and draw them in.</p>
 
 <strong>In this guide you will learn:</strong>
 
@@ -48,94 +74,261 @@ $lp_data[$key]['settings'] = array(
 </ul>
 [/list]
 
-<p>This is the final sentence or paragraph reassuring the visitor of the benefits of filling out the form and how their data will be safe.</p>'
-	),
-	array(
-			'label' => __( 'Conversion Area' , 'landing-pages' ),
-			'description' => __( 'Place your call to action here.' , 'landing-pages' ),
-			'id' => "conversion-area-content",
-			'type' => "wysiwyg",
-			'default' => ''
-	),
-	array(
-		'label' => __( 'Top Bar' , 'landing-pages' ),
-		'description' => __( 'Hide/Reveal the top bar.' , 'landing-pages' ),
-		'id'	=> 'header-display',
-		'type'	=> 'radio',
-		'default'	=> 'on',
-		'context'	=> 'normal',
-		'options'	=> array(
-			'off' => __( 'Hide' , 'landing-pages' ),
-			'on' => __( 'Show' , 'landing-pages' )
-		)
-	),
-	array(
-		'label' => __( 'Logo' , 'landing-pages' ),
-		'description' => __( 'Logo' , 'landing-pages' ),
-		'id' => "logo",
-		'type' => "media",
-		'default' => $path . "/images/inbound-logo.png",
-		'selector' => ".logo a",
-	),
-	array(
-		'label' => __( 'Top Right Area' , 'landing-pages' ),
-		'description' => "",
-		'id' => "social-media-options",
-		'type' => "textarea",
-		'default' => '[social_share style="bar" align="horizontal" heading_align="inline" heading="" facebook="1" twitter="1" google_plus="1" linkedin="1" pinterest="0" /]',
-		'selector' => ".inner .network",
-	 ),
-	 array(
-		'label' => __( 'Submit Button Color' , 'landing-pages' ),
+<p>This is the final sentence or paragraph reassuring the visitor of the benefits of filling out the form and how their data will be safe.</p>',
+				'tabs' => 'all',
+				'toolbar' => 'full',
+				'media_upload' => 1,
+			),
+			array (
+				'key' => 'field_55df73e03fb9b',
+				'label' => 'Conversion Area',
+				'name' => 'simple-solid-lite-conversion-area-content',
+				'type' => 'wysiwyg',
+				'instructions' => 'Insert a call to action or Inbound form here. ',
+				'required' => 0,
+				'conditional_logic' => 0,
+				'wrapper' => array (
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'default_value' => '',
+				'tabs' => 'all',
+				'toolbar' => 'full',
+				'media_upload' => 1,
+			),
+			array (
+				'key' => 'field_55df73f73fb9c',
+				'label' => 'Top Bar',
+				'name' => 'simple-solid-lite-header-display',
+				'type' => 'select',
+				'instructions' => 'Hide/reveal the top bar',
+				'required' => 0,
+				'conditional_logic' => 0,
+				'wrapper' => array (
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'choices' => array (
+					'off' => 'Hide',
+					'on' => 'Show',
+				),
+				'default_value' => array (
+					'on' => 'on',
+				),
+				'allow_null' => 0,
+				'multiple' => 0,
+				'ui' => 0,
+				'ajax' => 0,
+				'placeholder' => '',
+				'disabled' => 0,
+				'readonly' => 0,
+			),
+			array (
+				'key' => 'field_55df74123fb9d',
+				'label' => 'Logo',
+				'name' => 'simple-solid-lite-logo',
+				'type' => 'image',
+				'instructions' => 'Upload your logo here',
+				'required' => 0,
+				'conditional_logic' => 0,
+				'wrapper' => array (
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'return_format' => 'url',
+				'default_value' => $path . "/images/inbound-logo.png",
+				'preview_size' => 'thumbnail',
+				'library' => 'all',
+				'min_width' => '',
+				'min_height' => '',
+				'min_size' => '',
+				'max_width' => '',
+				'max_height' => '',
+				'max_size' => '',
+				'mime_types' => '',
+			),
+			array (
+				'key' => 'field_55df74203fb9e',
+				'label' => 'Top Right Area',
+				'name' => 'simple-solid-lite-social-media-options',
+				'type' => 'textarea',
+				'instructions' => 'Insert your social media shortcode/snippet here. We provide one out of the box for you but you are welcome to change it.',
+				'required' => 0,
+				'conditional_logic' => 0,
+				'wrapper' => array (
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'default_value' => '',
+				'placeholder' => '',
+				'maxlength' => '',
+				'rows' => '',
+				'new_lines' => 'wpautop',
+				'readonly' => 0,
+				'disabled' => 0,
+			),
+			array (
+				'key' => 'field_55df74363fb9f',
+				'label' => 'Submit Button Color',
+				'name' => 'simple-solid-lite-submit-color',
+				'type' => 'color_picker',
+				'instructions' => 'Background color of the submit bar',
+				'required' => 0,
+				'conditional_logic' => 0,
+				'wrapper' => array (
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'default_value' => '#27ae60',
+			),
+			array (
+				'key' => 'field_55df75043fba0',
+				'label' => 'Footer Bar',
+				'name' => 'simple-solid-lite-footer-display',
+				'type' => 'select',
+				'instructions' => 'Hide/reveal the footer bar',
+				'required' => 0,
+				'conditional_logic' => 0,
+				'wrapper' => array (
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'choices' => array (
+					'off' => 'Hide',
+					'on' => 'Show',
+				),
+				'default_value' => array (
+					'on' => 'on',
+				),
+				'allow_null' => 0,
+				'multiple' => 0,
+				'ui' => 0,
+				'ajax' => 0,
+				'placeholder' => '',
+				'disabled' => 0,
+				'readonly' => 0,
+			),
+			array (
+				'key' => 'field_55df75153fba1',
+				'label' => 'Copyright Text',
+				'name' => 'simple-solid-lite-copyright-text',
+				'type' => 'text',
+				'instructions' => 'Set the copyright text here',
+				'required' => 0,
+				'conditional_logic' => 0,
+				'wrapper' => array (
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'default_value' => '2013 Your Company | All Right Reserved',
+				'placeholder' => '',
+				'prepend' => '',
+				'append' => '',
+				'maxlength' => '',
+				'readonly' => 0,
+				'disabled' => 0,
+			),
+			array (
+				'key' => 'field_55df75263fba2',
+				'label' => 'Background Setting',
+				'name' => 'simple-solid-lite-background-style',
+				'type' => 'select',
+				'instructions' => 'Set the template\'s background',
+				'required' => 0,
+				'conditional_logic' => 0,
+				'wrapper' => array (
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'choices' => array (
+					'fullscreen' => 'Fullscreen Image',
+					'tile' => 'Tile Background Image',
+					'color' => 'Solid Color',
+					'repeat-x' => 'Repeat Image Horizontally',
+					'repeat-y' => 'Repeat Image Vertically',
+					'custom' => 'Custom CSS',
+				),
+				'default_value' => array (
+					'color' => 'color',
+				),
+				'allow_null' => 0,
+				'multiple' => 0,
+				'ui' => 0,
+				'ajax' => 0,
+				'placeholder' => '',
+				'disabled' => 0,
+				'readonly' => 0,
+			),
+			array (
+				'key' => 'field_55df753a3fba3',
+				'label' => 'Background Image',
+				'name' => 'simple-solid-lite-background-image',
+				'type' => 'image',
+				'instructions' => 'Enter an URL or upload an image for the banner.',
+				'required' => 0,
+				'conditional_logic' => 0,
+				'wrapper' => array (
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'return_format' => 'url',
+				'preview_size' => 'thumbnail',
+				'library' => 'all',
+				'min_width' => '',
+				'min_height' => '',
+				'min_size' => '',
+				'max_width' => '',
+				'max_height' => '',
+				'max_size' => '',
+				'mime_types' => '',
+			),
+			array (
+				'key' => 'field_55df754c3fba4',
+				'label' => 'Background Color',
+				'name' => 'simple-solid-lite-background-color',
+				'type' => 'color_picker',
+				'instructions' => 'Use this setting to change the templates background color',
+				'required' => 0,
+				'conditional_logic' => 0,
+				'wrapper' => array (
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'default_value' => '#186d6d',
+			),
+		),
+		'location' => array (
+			array (
+				array (
+					'param' => 'post_type',
+					'operator' => '==',
+					'value' => 'landing-page',
+				),
+				array (
+					'param' => 'template_id',
+					'operator' => '==',
+					'value' => $key,
+				)
+			),
+		),
+		'menu_order' => 0,
+		'position' => 'normal',
+		'style' => 'default',
+		'label_placement' => 'top',
+		'instruction_placement' => 'label',
+		'hide_on_screen' => '',
+		'active' => 1,
 		'description' => '',
-		'id'	=> 'submit-color',
-		'type'	=> 'colorpicker',
-		'default'	=> '27ae60',
-		'context'	=> 'normal'
-	),
-	array(
-		'label' => __( 'Footer Bar' , 'landing-pages' ),
-		'description' => __( 'Hide/Reveal the footer bar.' , 'landing-pages' ),
-		'id'	=> 'footer-display',
-		'type'	=> 'radio',
-		'default'	=> 'on',
-		'context'	=> 'normal',
-		'options'	=> array(
-			'off' => __( 'Hide' , 'landing-pages' ),
-			'on' => __( 'Show' , 'landing-pages' )
-		)
-	),
-	array(
-		'label' => __( 'Copyright Text' , 'landing-pages' ),
-		'description' => __( 'Copyright Text' , 'landing-pages' ),
-		'id' => "copyright-text",
-		'type' => "text",
-		'default' => '@' .__( ' 2013 Your Company | All Right Reserved' , 'landing-pages' ),
-		'selector' => ".cf.container .foot-left",
-	),
-	array(
-		'label' => __( 'Background Settings' , 'landing-pages' ),
-		'description' => __( 'Set the template\'s background' , 'landing-pages' ),
-		'id'	=> 'background-style',
-		'type'	=> 'dropdown',
-		'default'	=> 'color',
-		'options' => array('fullscreen'=>'Fullscreen Image', 'tile'=>'Tile Background Image', 'color' => 'Solid Color', 'repeat-x' => 'Repeat Image Horizontally', 'repeat-y' => 'Repeat Image Vertically', 'custom' => 'Custom CSS'),
-		'context'	=> 'normal'
-	),
-	array(
-		'label' => __( 'Background Image', 'landing-pages' ),
-		'description' => __( 'Enter an URL or upload an image for the banner.' , 'landing-pages' ),
-		'id'	=> 'background-image',
-		'type'	=> 'media',
-		'default'	=> '',
-		'context'	=> 'normal'
-	),
-	array(
-		'label' => __( 'Background Color', 'landing-pages' ),
-		'description' => __( 'Use this setting to change the templates background color' , 'landing-pages' ),
-		'id'	=> 'background-color',
-		'type'	=> 'colorpicker',
-		'default'	=> '186d6d',
-		'context'	=> 'normal'
-		)
-	);
+	));
+
+endif;

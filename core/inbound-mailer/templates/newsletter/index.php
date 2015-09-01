@@ -133,7 +133,7 @@ $privacy_page_url = get_field('privacy_page_url', $post_id);
 						<table style="width:730px; border:0;" class="header-table header-cell-table" id="header-cell" cellspacing="0" cellpadding="0" >
 
 							<tr class="image-row">
-								<td class="logo-cell-with-bg" style="background-color:<?php echo $header_bg_color ?>; background-image:url(<?php echo $title_date_color ?>); height:100px; vertical-align:middle;">
+								<td class="logo-cell-with-bg" style="background-color:<?php echo $header_bg_color ?>; background-image:url(<?php echo $header_bg_image ?>); height:100px; vertical-align:middle;">
 
 									<table style="width:100%; vertical-align:middle;" cellspacing="0" cellpadding="0">
 										<tr>
@@ -219,7 +219,7 @@ $privacy_page_url = get_field('privacy_page_url', $post_id);
 												$callout_text     = get_sub_field('callout_text');
 												$callout_bg_color = get_sub_field('callout_bg_color');
 												$bg_color_dec	  = hexdec(substr($callout_bg_color, 1));
-												$border_color	  = dechex($bg_color_dec + 1184274);
+												$border_color	  = dechex($bg_color_dec - 1184274);
 												?>
 												<tr class="sec-separator"><td height="30"></td></tr>
 												<tr>

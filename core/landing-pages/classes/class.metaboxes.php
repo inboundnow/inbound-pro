@@ -272,7 +272,7 @@ class Landing_Pages_Metaboxes {
         wp_enqueue_style('admin-post-edit-css', LANDINGPAGES_URLPATH . 'assets/css/admin-post-edit.css');
 
         /* Load FontAwesome */
-        wp_register_style('font-awesome', LANDINGPAGES_URLPATH . 'assets/libraries/FontAwesome/css/font-awesome.min.css');
+        wp_register_style('font-awesome', INBOUNDNOW_SHARED_URLPATH.'assets/css/fontawesome.min.css');
         wp_enqueue_style('font-awesome');
 
         wp_enqueue_style('lp-ab-testing-admin', LANDINGPAGES_URLPATH . 'assets/css/admin-ab-testing.css');
@@ -765,10 +765,15 @@ class Landing_Pages_Metaboxes {
                 $thumb = true;
             }
 
+            if (file_exists(LANDINGPAGES_UPLOADS_PATH . $this_extension . "/thumbnail.jpg")) {
+                $thumbnail = LANDINGPAGES_UPLOADS_URLPATH . $this_extension . "/thumbnail.jpg";
+                $thumb = true;
+            }
+
             if ($thumb === false) {
                 $thumbnail = LANDINGPAGES_URLPATH . 'templates/default/thumbnail.png';
-
             }
+
             $demo_link = (isset($data['info']['demo'])) ? $data['info']['demo'] : '';
             ?>
             <div id='template-item' class="<?php echo $cat_slug; ?> template-item-boxes">

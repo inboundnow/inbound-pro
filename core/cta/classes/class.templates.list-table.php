@@ -26,12 +26,12 @@ if ( !class_exists('CTA_Template_Manager_List') ) {
 
 			$final_data = array();
 
-			foreach ($wp_cta_data as $key=>$data)
-			{
+			foreach ($wp_cta_data as $key=>$data) {
 				$array_core_templates = array('auto-focus', 'thumbnail-cta', 'breathing', 'clean-cta', 'blank-template','call-out-box','cta-one','demo', 'flat-cta', 'peek-a-boo', 'popup-ebook', 'facebook-like-button', 'facebook-like-to-download', 'feedburner-subscribe-to-download', 'linkedin-share-to-download', 'tweet-to-download', 'follow-to-download', 'ebook-call-out');
 
-				if ($key == 'wp-cta' || substr($key,0,4) == 'ext-' )
+				if ($key == 'wp-cta' || substr($key,0,4) == 'ext-' ) {
 					continue;
+				}
 
 				if (isset($data['info']['data_type']) && $data['info']['data_type']=='metabox') {
 					continue;
@@ -60,18 +60,15 @@ if ( !class_exists('CTA_Template_Manager_List') ) {
 
 				$this_data['ID']  = $key;
 				$this_data['template']  = $key;
-				( array_key_exists('info',$data) ) ? $this_data['name'] = $data['info']['label'] :  $this_data['name'] = $data['label'];
-				( array_key_exists('info',$data) ) ? $this_data['category'] = $data['info']['category'] :  $this_data['category'] = $data['category'];
-				( array_key_exists('info',$data) ) ? $this_data['description'] = $data['info']['description'] :  $this_data['description'] = $data['description'];
+				$this_data['name'] = (array_key_exists('info',$data)) ? $data['info']['label'] : $data['label'];
+				$this_data['category'] = (array_key_exists('info',$data)) ? $data['info']['category'] : $data['category'];
+				$this_data['description'] = (array_key_exists('info',$data)) ? $data['info']['description'] : $data['description'];
 
 				$this_data['thumbnail']  = $thumbnail;
 
-				if (isset($data['version'])&&!empty($data['info']['version']))
-				{
+				if (isset($data['version'])&&!empty($data['info']['version'])) {
 					$this_data['version']  = $data['info']['version'];
-				}
-				else
-				{
+				} else {
 					$this_data['version'] = "1.0.1";
 				}
 
@@ -79,7 +76,6 @@ if ( !class_exists('CTA_Template_Manager_List') ) {
 			}
 
 			$this->template_data = $final_data;
-
 
 			$this->singular = 'ID';
 			$this->plural = 'ID';
@@ -100,7 +96,6 @@ if ( !class_exists('CTA_Template_Manager_List') ) {
 			'description' => 'Description',
 			'category' => 'Category',
 			'version' => 'Current Version'
-
 			);
 			return $columns;
 		}
@@ -141,8 +136,7 @@ if ( !class_exists('CTA_Template_Manager_List') ) {
 			$sortable = $this->get_sortable_columns();
 
 			$this->_column_headers = array( $columns, $hidden, $sortable );
-			if(is_array($this->template_data))
-			{
+			if(is_array($this->template_data)) {
 				usort( $this->template_data, array( &$this, 'usort_reorder'));
 			}
 
@@ -151,8 +145,7 @@ if ( !class_exists('CTA_Template_Manager_List') ) {
 
 			$total_items = count( $this->template_data );
 
-			if (is_array($this->template_data))
-			{
+			if (is_array($this->template_data)) {
 				$this->found_data = array_slice( $this->template_data,( ( $current_page-1 )* $per_page ), $per_page );
 			}
 
@@ -167,8 +160,7 @@ if ( !class_exists('CTA_Template_Manager_List') ) {
 
 		function column_default( $item, $column_name ) {
 			//echo $item;exit;
-			switch( $column_name )
-			{
+			switch( $column_name ) {
 				case 'template':
 					return '<div class="capty-wrapper" style="overflow: hidden; position: relative; "><div class="capty-image"><img src="'.$item[ 'thumbnail' ].'" class="template-thumbnail" alt="'.$item['name'].'" id="id_'.$item['ID'].'" title="'.$item['name'].'">
 					</div><div class="capty-caption" style="text-align:center;width:158px;margin-left:-6px;height: 20px; opacity: 0.7; top:-82px;position: relative;">'.$item['name'].'</div></div>';
@@ -203,19 +195,13 @@ if ( !class_exists('CTA_Template_Manager_List') ) {
 
 		function get_bulk_actions() {
 			$actions = array(
-
 				'upgrade'    => 'Upgrade',
 				'delete'    => 'Delete',
-
 			);
 
 			return $actions;
 		}
 
 	}
-
-
-
-
 
 }

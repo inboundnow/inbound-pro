@@ -21,6 +21,7 @@ if (!class_exists('Landing_Pages_ACF')) {
 			if( !class_exists('acf') ) {
 
 				define( 'ACF_LITE', true );
+				define( 'ACF_FREE', true );
 
 				include_once( LANDINGPAGES_PATH . 'shared/assets/plugins/advanced-custom-fields/acf.php');
 
@@ -37,11 +38,15 @@ if (!class_exists('Landing_Pages_ACF')) {
 				add_action( 'admin_print_footer_scripts', array( __CLASS__ , 'reposition_acf_fields' ) );
 
 			} else {
-				/* find out if ACF free or ACF Pro is installed */
+				/* find out if ACF free or ACF Pro is installed & activated*/
 				include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-				if ( is_plugin_active('advanced-custom-fields/acf.php') && !is_plugin_active('advanced-custom-fields-pro/acf.php') ) {
+				if ( !function_exists('acf_add_local_field_group') ) {
 					define( 'ACF_FREE', true );
+				}  else {
+					define( 'ACF_PRO', true );
+					add_filter('lp_init' , array(__CLASS__,'acf_register_global') , 20 , 1 ); /* registeres a global of registered field values for support between ACF5 & ACF6 */
 				}
+
 			}
 
 			/* Load ACF Fields On ACF powered Email Template */
@@ -154,7 +159,7 @@ if (!class_exists('Landing_Pages_ACF')) {
 
 			$variations = ( isset($settings['variations']) ) ? $settings['variations'] : null;
 
-			if (!$variations[ $vid ][ 'acf' ]) {
+			if ( !isset( $variations[ $vid ][ 'acf' ] ) || !$variations[ $vid ][ 'acf' ]) {
 				return self::load_legacy_value(  $value, $post_id, $field  );
 			}
 
@@ -169,7 +174,9 @@ if (!class_exists('Landing_Pages_ACF')) {
 				}
 
 				/* acf lite isn't processing return values correctly */
-				$value = self::afc_free_value_formatting( $value , $field );
+				if (!is_admin()) {
+					$value = self::acf_free_value_formatting( $value , $field );
+				}
 			}
 
 			return $value;
@@ -195,6 +202,7 @@ if (!class_exists('Landing_Pages_ACF')) {
 				$value = get_post_meta( $post_id ,  $field['name']  , true );
 			}
 
+			$field = self::acf_get_registered_field( $field );
 
 			if ($field['type']=='image') {
 				$value = self::get_image_id_from_url( $value );
@@ -212,10 +220,10 @@ if (!class_exists('Landing_Pages_ACF')) {
 				}
 			}
 
-			/*
-			var_dump($new);
-			echo "\r\n";echo "\r\n";echo "\r\n";
-			/**/
+			if (!is_array($value) && !is_admin() ) {
+				$value = do_shortcode($value);
+			}
+
 			return $value;
 
 		}
@@ -402,20 +410,48 @@ if (!class_exists('Landing_Pages_ACF')) {
 			return false;
 		}
 
+		public static function acf_get_registered_field( $field ) {
+			global $acf_register_field_group;
+
+			if (!$acf_register_field_group) {
+				return $field;
+			}
+
+			foreach ($acf_register_field_group as $key => $group) {
+				foreach ( $group['fields'] as $this_field ) {
+					if ( $this_field['name'] == $field['name'] ){
+						return $this_field;
+					}
+				}
+			}
+		}
+
+
 		/**
 		 * Correct return value formatting when Pro is NOT installed
 		 */
-		public static function afc_free_value_formatting( $value , $field ) {
+		public static function acf_free_value_formatting( $value , $field ) {
 
 			if ($field['type'] == 'image' && $field['return_format'] == 'url' && !strstr($value , 'http' ) ) {
-				$image_array = wp_get_attachment_image_src( $value );
-
+				$image_array = wp_get_attachment_image_src( $value , 'full' );
 				return $image_array[0];
+			}
+
+			if ($field['type'] == 'file' && $field['return_format'] == 'url' && !strstr($value , 'http' ) ) {
+				return wp_get_attachment_url( $value );
 			}
 
 			return $value;
 		}
 
+		/**
+		 * If ACF Pro is active then register a global for active fields - this provides legacy support to Landing Pages
+		 */
+		public static function acf_register_global( $field_group ) {
+			$GLOBALS['acf_register_field_group'][] = array(
+				'fields' => acf_local()->fields
+			);
+		}
 	}
 
 	/**

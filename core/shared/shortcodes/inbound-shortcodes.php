@@ -35,7 +35,6 @@ class Inbound_Shortcodes {
 
 		self::$add_script = true;
 		add_action('admin_enqueue_scripts', array( __CLASS__, 'loads' ));
-		add_action('init', array( __CLASS__, 'shortcodes_tinymce' ));
 		add_action('init', array( __CLASS__, 'shortcodes_include' ));
 
 		add_action( 'wp_enqueue_scripts',	array(__CLASS__, 'frontend_loads')); // load styles
@@ -76,11 +75,11 @@ class Inbound_Shortcodes {
 			wp_enqueue_script('inbound-shortcodes-plugins', INBOUNDNOW_SHARED_URLPATH . 'shortcodes/js/shortcodes-plugins.js', array( 'jquery', 'jquery-cookie' ));
 
 			if (isset($post)&&post_type_supports($post->post_type,'editor')||isset($post)&&'wp-call-to-action' === $post->post_type) {
-				wp_enqueue_script('inbound-shortcodes', INBOUNDNOW_SHARED_URLPATH . 'shortcodes/js/shortcodes.js', array( 'jquery', 'jquery-cookie' ));
+				wp_enqueue_script('inbound-shortcodes', INBOUNDNOW_SHARED_URLPATH . 'shortcodes/js/shortcodes.js', array( 'jquery', 'jquery-cookie' ), '1', true);
 				$form_id = (isset($_GET['post']) && is_int( $_GET['post'] )) ? $_GET['post'] : '';
 				wp_localize_script( 'inbound-shortcodes', 'inbound_shortcodes', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) , 'adminurl' => admin_url(), 'inbound_shortcode_nonce' => wp_create_nonce('inbound-shortcode-nonce') , 'form_id' => $form_id ) );
-				wp_enqueue_script('selectjs', INBOUNDNOW_SHARED_URLPATH . 'shortcodes/js/select2.min.js');
-				wp_enqueue_style('selectjs', INBOUNDNOW_SHARED_URLPATH . 'shortcodes/css/select2.css');
+				wp_enqueue_script('selectjs', INBOUNDNOW_SHARED_URLPATH . 'assets/js/admin/select2.min.js', array( 'jquery' ));
+				wp_enqueue_style('selectjs', INBOUNDNOW_SHARED_URLPATH . 'assets/css/admin/select2.css');
 			}
 
 			// Forms CPT only
@@ -134,31 +133,6 @@ class Inbound_Shortcodes {
 		/* ]]> */
 		</script>
 		<?php
-	}
-
-	/*	TinyMCE
-	*	--------------------------------------------------------- */
-	static function shortcodes_tinymce() {
-		if ( ! current_user_can('edit_posts') && ! current_user_can('edit_pages') )
-			return;
-
-		if ( get_user_option('rich_editing') == 'true' ) {
-			add_filter( 'mce_external_plugins', array( __CLASS__, 'add_rich_plugins' ) );
-			add_filter( 'mce_buttons', array( __CLASS__, 'register_rich_buttons' ) );
-		}
-	}
-
-	static function add_rich_plugins( $plugins ) {
-
-		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-		$plugins['Inbound_Shortcodes'] = INBOUNDNOW_SHARED_URLPATH . 'shortcodes/js/tinymce.js';
-		return $plugins;
-
-	}
-
-	static function register_rich_buttons( $buttons ) {
-		array_push( $buttons, "|", 'Inbound_ShortcodesButton' );
-		return $buttons;
 	}
 
 	static function inbound_shortcode_button( $atts, $content = null ) {
@@ -556,30 +530,33 @@ class Inbound_Shortcodes {
 
 		return '<div id="inbound-list" class="inbound-list class-'.$num.' fa-list-'.$icon.'">'. do_shortcode($content).'</div>' . '<style type="text/css">
 			#inbound-list.class-'.$num.' li {
-			'.$final_text_color.'
-			list-style: none;
-			font-weight: 500;
-			font-size: '.$font_size.'px;
-			vertical-align: top;
-			margin-bottom: '.$bottom_margin.'px;
+				'.$final_text_color.'
+				list-style: none;
+				font-weight: 500;
+				font-size: '.$font_size.'px;
+				vertical-align: top;
+				margin-bottom: '.$bottom_margin.'px;
 			}
 			#inbound-list.class-'.$num.' li:before {
-			background: transparent;
-			border-radius: 50% 50% 50% 50%;
-			'.$final_icon_color.'
-			display: inline-block;
-			font-family: \'FontAwesome\';
-			font-size: '.$icon_size.'px;
-			line-height: '.$line_size.'px;
-			margin-right: 0.5em;
-			margin-top: 0;
-			text-align: center;
+				background: transparent;
+				border-radius: 50% 50% 50% 50%;
+				'.$final_icon_color.'
+				display: inline-block;
+				font-family: \'FontAwesome\';
+				font-size: '.$icon_size.'px;
+				line-height: '.$line_size.'px;
+				margin-right: 0.5em;
+				margin-top: 0;
+				text-align: center;
 			}
 			'.$column_css.'
 			@media only screen and (max-width: 580px) {
-			#inbound-list.class-'.$num.' li {
-				width:100%;
+				#inbound-list.class-'.$num.' li {
+					width:100%;
+				}
 			}
+			p:empty {
+				display:none;
 			}
 			</style>';
 	}

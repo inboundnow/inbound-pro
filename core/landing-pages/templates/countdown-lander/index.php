@@ -16,7 +16,6 @@ $url = plugins_url();
 /* Include ACF Field Definitions  */
 include_once(LANDINGPAGES_PATH.'templates/'.$key.'/config.php');
 
-
 /* Define Landing Pages's custom pre-load hook for 3rd party plugin integration */
 do_action('lp_init');
 
@@ -28,6 +27,7 @@ $bg_image = get_field( 'countdown-lander-bg-image', $post->ID  , false ); /* non
 $content = get_field( 'countdown-lander-main-content', $post->ID );
 $conversion_area = get_field( 'countdown-lander-conversion-area-content' , $post->ID );
 $body_color = get_field( 'countdown-lander-body-color', $post->ID );
+$main_headline = get_field( 'lp-main-headline' , $post->ID ); /* legacy support */
 $headline_color = get_field( 'countdown-lander-headline-color' , $post->ID );
 $text_color = get_field( 'countdown-lander-other-text-color' , $post->ID );
 $content_color = get_field( 'countdown-lander-content-background' , $post->ID );
@@ -113,7 +113,7 @@ $blue =  (isset($RBG_array['b'])) ? $RBG_array['b'] : '0';
             echo "#content-background{background: url('".$path."image.php?hex=$hex');}"; }
         ?>
         <?php if ($submit_button_color != "") {
-                 echo"input[type='submit'] {
+                 echo"#form-area input[type='submit'] {
                       background: -moz-linear-gradient(rgba($red,$green,$blue, 0.5), rgba($red,$green,$blue, 0.7));
                       background: -ms-linear-gradient(rgba($red,$green,$blue, 0.5), rgba($red,$green,$blue, 0.7));
                       background: -o-linear-gradient(rgba($red,$green,$blue, 0.5), rgba($red,$green,$blue, 0.7));
@@ -138,7 +138,7 @@ $blue =  (isset($RBG_array['b'])) ? $RBG_array['b'] : '0';
 <body <?php lp_body_class();?>>
 <div id="page-wrapper">
     <div id="heading-area">
-        <h1><?php lp_main_headline(); ?></h1>
+        <h1><?php echo $main_headline; ?></h1>
     </div>
     <div id="content-wrapper">
         <div id="content-background">

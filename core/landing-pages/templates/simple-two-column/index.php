@@ -11,6 +11,10 @@ include_once(LANDINGPAGES_PATH.'assets/libraries/shareme/library.shareme.php');
 $key = lp_get_parent_directory(dirname(__FILE__));
 $path = LANDINGPAGES_URLPATH.'templates/'.$key.'/';
 $url = plugins_url();
+
+/* Include ACF Field Definitions  */
+include_once(LANDINGPAGES_PATH.'templates/'.$key.'/config.php');
+
 /* Define Landing Pages's custom pre-load hook for 3rd party plugin integration */
 do_action('lp_init');
 
@@ -18,18 +22,18 @@ do_action('lp_init');
 if (have_posts()) : while (have_posts()) : the_post();
 
 /* Pre-load meta data into variables */
-$content = lp_get_value($post, $key, 'main-content');
-$conversion_area = lp_get_value($post, $key, 'conversion-area-content');
-$content_color = lp_get_value($post, $key, 'content-color');
-$body_color = lp_get_value($post, $key, 'body-color');
-$sidebar_color = lp_get_value($post, $key, 'sidebar-color');
-$text_color = lp_get_value($post, $key, 'content-text-color');
-$sidebar_text_color = lp_get_value($post, $key, 'sidebar-text-color');
-$headline_color = lp_get_value($post, $key, 'headline-color');
-$logo = lp_get_value($post, $key, 'logo');
-$sidebar = lp_get_value($post, $key, 'sidebar');
-$social_display = lp_get_value($post, $key, 'display-social');
-$submit_button_color = lp_get_value($post, $key, 'submit-button-color');
+$main_headline = get_field( 'lp-main-headline', $post->ID );
+$content = get_field( 'simple-two-column-main-content', $post->ID );
+$conversion_area = get_field( 'simple-two-column-conversion-area-content', $post->ID );
+$content_color = get_field( 'simple-two-column-content-color', $post->ID );
+$body_color = get_field( 'simple-two-column-body-color', $post->ID );
+$sidebar_color = get_field( 'simple-two-column-sidebar-color', $post->ID );
+$text_color = get_field( 'simple-two-column-content-text-color', $post->ID );
+$sidebar_text_color = get_field( 'simple-two-column-sidebar-text-color', $post->ID );
+$headline_color = get_field( 'simple-two-column-headline-color', $post->ID );
+$sidebar = get_field( 'simple-two-column-sidebar', $post->ID );
+$social_display = get_field( 'simple-two-column-display-social', $post->ID );
+$submit_button_color = get_field( 'simple-two-column-submit-button-color', $post->ID );
 
 // Get Colorscheme
 $submit_color_scheme = inbound_color_scheme($submit_button_color, 'int');
@@ -60,22 +64,22 @@ $blue_1 = $RBG_array_1["b"];
 <?php
 
 if ($sidebar_color !="") {
-	echo "#right { background-color: #$sidebar_color;}"; // change sidebar color
+	echo "#right { background-color: $sidebar_color;}"; // change sidebar color
 }
 if ($content_color !="") {
-	echo "#left {background-color: #$content_color;}"; // change header color
+	echo "#left {background-color: $content_color;}"; // change header color
 }
 
 if ($body_color !="") {
-	echo "body {background-color: #$body_color;}"; // Change Body BG color
+	echo "body {background-color: $body_color;}"; // Change Body BG color
 }
 if ($text_color !="") {
-	echo "#left-content {color: #$text_color;}";
+	echo "#left-content {color: $text_color;}";
 }
 ?>
 <?php if ($sidebar_text_color !="") {
-	echo "#right-content {color: #$sidebar_text_color;} input[type=\"text\"], input[type=\"email\"] {
-								border: 1px solid #$sidebar_text_color;
+	echo "#right-content {color: $sidebar_text_color;} input[type=\"text\"], input[type=\"email\"] {
+								border: 1px solid $sidebar_text_color;
 								opacity: 0.8;} ";
 }
 ?>
@@ -152,14 +156,14 @@ if ($social_display==="1" ) { // Show Social Media Icons?>
 
 <div id="left">
 	<div id="left-content">
-		<h1><?php lp_main_headline(); ?></h1>
-		<?php echo do_shortcode($content); ?>
+		<h1><?php echo $main_headline; ?></h1>
+		<?php echo $content; ?>
 	</div> <!-- end left-content -->
 </div> <!-- end left -->
 
 <div id="right">
 	<div id="right-content">
- <?php echo do_shortcode( $conversion_area ); /* Print out form content */ ?>
+ <?php echo  $conversion_area; /* Print out form content */ ?>
 	</div> <!-- end right-content -->
 </div> <!-- end left-content -->
 

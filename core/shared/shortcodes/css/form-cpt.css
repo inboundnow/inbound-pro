@@ -8,6 +8,9 @@
 #view-form-builder {
 	margin-left: 10px;
 }
+#inbound-shortcodes-preview {
+    height: 89% !important;
+}
 .inbound_tbody.parent-inbound_shortcode_helper-block-one, #local-storage-notice, #setting-error-tgmpa, #screen-options-link-wrap, #notice, .updated.inbound-shortcode-trigger {
 	display: none !important;
 }

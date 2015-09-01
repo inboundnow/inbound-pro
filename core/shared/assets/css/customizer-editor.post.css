@@ -4,7 +4,7 @@
 }
 :root:root:root .inbound-customizer {
 
-    #wpadminbar, #edit-slug-box, #post-status-info, #screen-options-link-wrap, #leads-table-container, .misc-pub-section, #minor-publishing, .misc-pub-section, .misc-pub-section.curtime, #delete-action, #convert-header, #wp-cta-tour, #view-post-btn, #launch-visual-editer, #adminmenuwrap, #lp_ab_display_stats_metabox, #wp-cta-thumbnail-sidebar-preview, #landing_page_categorydiv, #postimagediv, #leads-table-container-inside, .updated.below-h2 a, #cta_shortcode_form, .wp_cta_tooltip, #wp_cta_ab_display_stats_metabox, #wp_call_to_action_categorydiv, .new-save-wp-cta-frontend, #launch-feedback, .notice, .nav-tab-add-new-variation, #cta-launch-front, #wp-cta-change-template-button, #wp-cta-notes-area, #lp-notes-area, #wp-cta-change-template-button, #lp_template_change, #lp-tour  {
+    #wpadminbar, #edit-slug-box, #post-status-info, #screen-options-link-wrap, #leads-table-container, .misc-pub-section, #minor-publishing, .misc-pub-section, .misc-pub-section.curtime, #delete-action, #convert-header, #wp-cta-tour, #view-post-btn, #launch-visual-editer, #adminmenuwrap, #lp_ab_display_stats_metabox, #wp-cta-thumbnail-sidebar-preview, #landing_page_categorydiv, #postimagediv, #leads-table-container-inside, .updated.below-h2 a, #cta_shortcode_form, .wp_cta_tooltip, #wp_cta_ab_display_stats_metabox, #wp_call_to_action_categorydiv, .new-save-wp-cta-frontend, #launch-feedback, .notice, .nav-tab-add-new-variation, #cta-launch-front, #wp-cta-change-template-button, #wp-cta-notes-area, #lp-notes-area, #wp-cta-change-template-button, #lp_template_change, #lp-tour, #inbound-shortcodes-preview-wrap  {
         display: none !important;
     }
     #wpbody {
@@ -21,8 +21,45 @@
         border: none;
 
     }
+    .shortcode-popup-block {
+        max-height: 550px;
+    }
+    .mfp-auto-cursor .mfp-content {
+        top:-50px;
+    }
+    #marketing-popup-controls {
+        bottom:50px;
+    }
+    #inbound-shortcodes-form-wrap #inbound-shortcodes-form-head {
+        font-size: 10px;
+    }
     .acf-field-google-map {
         width: 90%;
+    }
+    #inbound-shortcodes-form-wrap {
+        width: 100%;
+        #inbound-shortcodes-form {
+            padding-left: 5px;
+        }
+        #inbound-shortcodes-form-table tbody tr.form-row td.label {
+            min-width: 100px;
+            max-width: 100px;
+            line-height: 21px;
+        }
+    }
+    .field_type-wysiwyg {
+        .inbound-marketing-button.open-marketing-button-popup {
+            #inboundnow-media-button {
+                display: inline-block;
+                width: 23px;
+                height: 15px;
+                vertical-align: text-top;
+                margin: 0 2px;
+                margin-left: -10px;
+                margin-right: 2px;
+            }
+
+        }
     }
     .acf-gallery-toolbar select {
         height: 29px !important;
@@ -96,6 +133,12 @@
     input[type="text"], input[type="email"], input[type="url"], input[type="number"],  input[type="password"], textarea, .inbound-description-block-option {
         width: 100%;
         margin-bottom: 5px;
+    }
+    .form-table {
+        input[type=checkbox], input[type=radio] {
+        height: 25px !important;
+        width: 25px !important;
+        }
     }
     .inbound-colorpicker-option input[type="text"] {
         width: 80px;

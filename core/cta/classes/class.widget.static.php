@@ -9,8 +9,7 @@
 
 if (!class_exists('CTA_Dynamic_Widget')) {
 
-	class CTA_Static_Widget extends WP_Widget
-	{
+	class CTA_Static_Widget extends WP_Widget {
 		private $cta_templates;
 
 		function CTA_Static_Widget() {
@@ -28,8 +27,7 @@ if (!class_exists('CTA_Dynamic_Widget')) {
 		/**
 		 * How to display the widget on the screen.
 		 */
-		function widget( $args, $instance )
-		{
+		function widget( $args, $instance ) {
 			global $wp_query; global $post;
 
 
@@ -65,8 +63,7 @@ if (!class_exists('CTA_Dynamic_Widget')) {
 
 			/* Import Correct CSS & JS from Assets folder and Enqueue */
 			$loaded = array();
-			foreach ($selected_cta['templates'] as $template)
-			{
+			foreach ($selected_cta['templates'] as $template) {
 				if ( in_array( $template['slug'], $loaded) ){
 					continue;
 				}
@@ -74,20 +71,16 @@ if (!class_exists('CTA_Dynamic_Widget')) {
 				$loaded[] = $template['slug'];
 				$assets = $CTA_Render->get_template_asset_files($template);
 				$localized_template_id = str_replace( '-', '_', $template['slug'] );
-				foreach ($assets as $type => $file)
-				{
-					switch ($type)
-					{
+				foreach ($assets as $type => $file) {
+					switch ($type) {
 						case 'js':
-							foreach ($file as $js)
-							{
+							foreach ($file as $js) {
 								wp_enqueue_script( md5($js) ,$js, array( 'jquery'));
 								wp_localize_script( md5($js), $localized_template_id, array( 'ajaxurl' => admin_url( 'admin-ajax.php'),  'post_id' => $obj_id ));
 							}
 							break;
 						case 'css':
-							foreach ($file as $css)
-							{
+							foreach ($file as $css) {
 								wp_enqueue_style( md5($css), $css );
 							}
 							break;
@@ -229,8 +222,7 @@ if (!class_exists('CTA_Dynamic_Widget')) {
 		/**
 		*  Run load variation javascript
 		*/
-		function load_variation()
-		{
+		function load_variation() {
 			$disable_ajax = get_option('wp-cta-main-disable-ajax-variation-discovery');
 
 			?>
@@ -250,7 +242,5 @@ if (!class_exists('CTA_Dynamic_Widget')) {
 		register_widget( 'CTA_Static_Widget' );
 	}
 	add_action( 'widgets_init', 'cta_load_static_widget' );
-
-
 
 }

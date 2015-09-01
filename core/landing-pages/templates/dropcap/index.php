@@ -20,6 +20,7 @@ if (have_posts()) : while (have_posts()) : the_post();
 
 /* Pre-load meta data into variables */
 $content = get_field( 'dropcap-main-content', $post->ID );
+$main_headline = get_field( 'lp-main-headline' , $post->ID ); /* legacy support */
 $conversion_area = get_field( 'dropcap-conversion-content-area', $post->ID );
 $text_color = get_field( 'dropcap-text-color', $post->ID );
 $content_background = get_field( 'dropcap-content-background', $post->ID );
@@ -100,7 +101,7 @@ ul { margin-bottom: 20px;}
 <div id="wrapper">
 <div id="content">
 <div id="textspot">
-	<p><?php lp_main_headline(); ?></p>
+	<p><?php echo $main_headline; ?></p>
 </div>
 <div id="main-content-area">
 	<?php echo do_shortcode( $content ); ?>

@@ -277,11 +277,11 @@ class Landing_Pages_Settings {
                             <?php
                             if (version_compare(phpversion(), '5.3.3', '>')) {
                                 ?>
-                                <img src="<?php echo LANDINGPAGES_URLPATH; ?>assets/images/tick.png"/>
+                                ✓
                                 <?php
                             } else {
                                 ?>
-                                <img src="<?php echo LANDINGPAGES_URLPATH; ?>assets/images/cross.png"/>
+                                &times;
                                 <span
                                     class="installation_item_message"><?php _e("Landing Pages requires PHP 5 or above.", "gravityforms"); ?></span>
                                 <?php
@@ -298,11 +298,11 @@ class Landing_Pages_Settings {
                             <?php
                             if (version_compare($wpdb->db_version(), '5.0.0', '>')) {
                                 ?>
-                                <img src="<?php echo LANDINGPAGES_URLPATH; ?>assets/images/tick.png"/>
+                                ✓
                                 <?php
                             } else {
                                 ?>
-                                <img src="<?php echo LANDINGPAGES_URLPATH; ?>assets/images/cross.png"/>
+                                &times;
                                 <span
                                     class="installation_item_message"><?php _e("Gravity Forms requires MySQL 5 or above.", "gravityforms"); ?></span>
                                 <?php
@@ -319,11 +319,11 @@ class Landing_Pages_Settings {
                             <?php
                             if (version_compare(get_bloginfo("version"), '3.6', '>')) {
                                 ?>
-                                <img src="<?php echo LANDINGPAGES_URLPATH; ?>assets/images/tick.png"/>
+                                ✓
                                 <?php
                             } else {
                                 ?>
-                                <img src="<?php echo LANDINGPAGES_URLPATH; ?>assets/images/cross.png"/>
+                               &times;
                                 <span
                                     class="installation_item_message"><?php _e('landing pages requires version X or higher', 'landing-pages'); ?></span>
                                 <?php

@@ -51,3 +51,8 @@ bin
 
 #phpstorm
 .idea
+/shared/assets/plugins/advanced-custom-fields/**.png
+/shared/assets/plugins/advanced-custom-fields/images/add-ons/**.jpg
+/shared/assets/plugins/advanced-custom-fields/lang/**.pot
+/shared/assets/plugins/advanced-custom-fields/lang/**.po
+/shared/assets/plugins/advanced-custom-fields/lang/**.mo

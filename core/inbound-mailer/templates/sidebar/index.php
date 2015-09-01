@@ -322,11 +322,7 @@ $sidebar_header_url = get_field('sidebar_header_link', $post_id);
 
 									switch( get_row_layout() ) {
 										case 'email_content':
-											?>
-											<?php
 											$main_email_content = get_sub_field('main_content');
-											?>
-											<?php
 											echo $main_email_content;
 											break;
 

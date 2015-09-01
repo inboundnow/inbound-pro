@@ -1,0 +1,194 @@
+/**
+ * This CSS is compiled from the THIS_FILE_NAME.post.css version of this file
+ * Any edits you make in this file will not be saved
+ */
+
+/* CSS for Inbound Now in WordPress Admin */
+@font-face {
+    font-family: 'FontAwesome';
+    src: url('../fonts/fontawesome/fontawesome-webfont.eot?v=3.0.2');
+    src: url('../fonts/fontawesome/fontawesome-webfont.eot?#iefix&v=3.0.2') format('embedded-opentype'),
+    url('../fonts/fontawesome/fontawesome-webfont.woff?v=3.0.2') format('woff'),
+    url('../fonts/fontawesome/fontawesome-webfont.ttf?v=3.0.2') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+:root:root:root {
+    /* for refacotring  */
+}
+:root:root:root #wpadminbar.nojs .ab-top-menu > li.menupop.inbound-nav-marketing:hover > .ab-item, :root:root:root #wpadminbar .ab-top-menu > li.menupop.inbound-nav-marketing.hover > .ab-item, :root:root:root #wpadminbar.nojs .ab-top-menu > li.menupop.inbound-nav-marketing > .ab-item, :root:root:root #wpadminbar .ab-top-menu > li.menupop.inbound-nav-marketing > .ab-item, :root:root:root #inboundnow-media-button, :root:root:root #wpadminbar.nojs .ab-top-menu > li.menupop.inbound-nav-marketing:focus > .ab-item {
+    background-image: url('../images/global/inbound-icon.png');
+    background-repeat: no-repeat;
+    background-position: 0.15em 50%;
+    margin-left: 1px;
+    padding-left: 25px;
+    background-size: 20px;
+}
+:root:root:root #adminmenu .menu-icon-landing-page div.wp-menu-image:before {
+    font-family: "FontAwesome" !important;
+    content: "\f15c";
+}
+:root:root:root #adminmenu .menu-icon-automation div.wp-menu-image:before {
+    content: "\f111";
+    font-family: dashicons;
+}
+:root:root:root #adminmenu .menu-icon-wp-call-to-action div.wp-menu-image:before {
+    font-family: "FontAwesome" !important;
+    content: "\f05b";
+    font: 400 24px/1 "FontAwesome" !important;
+    padding-top: 6px;
+}
+:root:root:root #adminmenu .menu-icon-landing-page div.wp-menu-image img, :root:root:root #adminmenu .menu-icon-wp-lead div.wp-menu-image img {
+    display: none;
+}
+:root:root:root #adminmenu #wp-admin-bar-inbound-cta a:first-child, :root:root:root #adminmenu #wp-admin-bar-inbound-templates .ab-item.ab-empty-item, :root:root:root #adminmenu #wp-admin-bar-inbound-settings .ab-item.ab-empty-item, :root:root:root #adminmenu #wp-admin-bar-inbound-analytics a:first-child {
+    padding-left: 30px !important;
+}
+:root:root:root #adminmenu #wp-admin-bar-inbound-leads a:first-child, :root:root:root #adminmenu #wp-admin-bar-inbound-seo a:first-child, :root:root:root #adminmenu #wp-admin-bar-inbound-landingpages a:first-child, :root:root:root #adminmenu #wp-admin-bar-inbound-forms a:first-child {
+    padding-left: 31px !important;
+}
+:root:root:root #adminmenu #wp-admin-bar-inbound-templates .ab-item.ab-empty-item:hover, :root:root:root #adminmenu #wp-admin-bar-inbound-settings .ab-item.ab-empty-item:hover, :root:root:root #adminmenu #wp-admin-bar-inbound-templates .ab-item.ab-empty-item:focus, :root:root:root #adminmenu #wp-admin-bar-inbound-settings .ab-item.ab-empty-item:focus {
+    color: #2ea2cc;
+}
+:root:root:root #wp-admin-bar-inbound-admin-bar #wp-admin-bar-inbound-admin-bar-default .menupop:hover:before, :root:root:root #wp-admin-bar-inbound-admin-bar #wp-admin-bar-inbound-admin-bar-default .menupop:focus:before {
+    color:#fff;
+}
+:root:root:root #wpwrap #wpadminbar #search-inbound-menu {
+    height: 23px !important;
+    padding: 0px !important;
+    padding-left: 3px !important;
+    margin-bottom: 1px !important;
+}
+:root:root:root #wpwrap #wpadminbar .inbound-search-input {
+    width: 140px;
+}
+:root:root:root #wpwrap #wpadminbar .inbound-search-input, :root:root:root #wpwrap #wpadminbar .inbound-search-go {
+    color: #21759b !important;
+    text-shadow: none;
+    background-color: #fff;
+    height: 18px;
+    line-height: 18px;
+    padding: 1px 4px;
+}
+:root:root:root #wpwrap #wpadminbar .inbound-search-go {
+    width: 30px;
+    font-size: 14px;
+    margin: 0 0 0 2px;
+}
+:root:root:root .inbound-nav-marketing div:first-of-type {
+    color: rgba(240, 245, 250, 1);
+}
+:root:root:root .field_type-wysiwyg .inbound-marketing-button.open-marketing-button-popup {
+    margin-left:10px;
+}
+:root:root:root .field_type-wysiwyg #inboundnow-media-button {
+    display: inline-block;
+    width: 23px;
+    height: 19px;
+    vertical-align: text-top;
+    margin: 0 2px;
+    margin-left: -5px;
+    margin-right: -5px;
+}
+:root:root:root #setting-error-tgmpa{
+    padding-bottom: 5px;
+    padding-top: 5px;
+    padding-left: 10px;
+}
+:root:root:root #setting-error-tgmpa p {
+    text-decoration: bold;
+}
+:root:root:root #setting-error-tgmpa p:nth-child(2) strong em {
+    margin-top: 5px;
+}
+:root:root:root #setting-error-tgmpa p:nth-last-child(2), :root:root:root #setting-error-tgmpa a, :root:root:root #setting-error-tgmpa strong {
+    text-decoration: none;
+}
+:root:root:root #setting-error-tgmpa p:nth-last-child(2) a:first-child{
+    padding-left: 0px;
+    text-decoration: none;
+}
+:root:root:root #setting-error-tgmpa p:nth-last-child(2) a {
+    padding-right: 10px;
+    padding-left: 10px;
+    font-size: 13px;
+    margin-top: 10px;
+    display: inline-block;
+}
+:root:root:root #setting-error-tgmpa a span {
+    color: #000 !important;
+    text-decoration: none;
+    font-size: 14px !important;
+    font-style: normal !important;
+    font-weight: normal !important;
+}
+:root:root:root #setting-error-tgmpa a.thickbox {
+    font-size: 16px;
+    padding-top: 5px;
+    display: inline-block;
+    padding-bottom: 5px;
+}
+:root:root:root #setting-error-tgmpa em {
+    display: block;
+}
+:root:root:root #setting-error-tgmpa em:last-of-type {
+    display: inline-block;
+}
+:root:root:root #setting-error-tgmpa .inbound-and {
+    display: block;
+    margin-top: 10px;
+    font-size: 15px;
+}
+:root:root:root #inboundnow-media-button {
+    padding-left: 5px;
+}
+:root:root:root .appearance_page_install-inbound-plugins .inbound-install-notice {
+    display: none;
+}
+:root:root:root #wp-admin-bar-inbound-cta .ab-submenu a, :root:root:root #wp-admin-bar-inbound-leads .ab-submenu a, :root:root:root #wp-admin-bar-inbound-landingpages .ab-submenu a, :root:root:root #wp-admin-bar-inbound-forms .ab-submenu a, :root:root:root #wp-admin-bar-inbound-templates .ab-submenu a, :root:root:root #wp-admin-bar-inbound-analytics .ab-submenu a, :root:root:root #wp-admin-bar-inbound-seo .ab-submenu a {
+    padding-left: 10px !important;
+}
+:root:root:root #wp-admin-bar-inbound-cta:before, :root:root:root #wp-admin-bar-inbound-leads:before, :root:root:root #wp-admin-bar-inbound-landingpages:before, :root:root:root #wp-admin-bar-inbound-forms:before, :root:root:root #wp-admin-bar-inbound-templates:before, :root:root:root #wp-admin-bar-inbound-settings:before, :root:root:root #wp-admin-bar-inbound-analytics:before, :root:root:root #wp-admin-bar-inbound-seo:before {
+    font-family: "FontAwesome" !important;
+    content: "\f05b" !important;
+    font: 100 19px/1 "FontAwesome" !important;
+    padding-top: 4px;
+    width: 30px;
+    display: inline-block;
+    height: 30px;
+    position: absolute;
+    left: 6px;
+}
+:root:root:root #adminmenu .menu-icon-wp-lead div.wp-menu-image:before {
+    font-family: "FontAwesome" !important;
+    content: "\f0c0";
+}
+:root:root:root #wp-admin-bar-inbound-leads:before {
+    content: "\f0c0" !important;
+    font: 100 17px/1 "FontAwesome" !important;
+}
+:root:root:root #wp-admin-bar-inbound-landingpages:before {
+    content: "\f15c" !important;
+    left: 7px;
+    font-size: 21px !important;
+}
+:root:root:root #wp-admin-bar-inbound-forms:before {
+    font: 400 18px/1 dashicons !important;
+    content: "\f163" !important;
+}
+:root:root:root #wp-admin-bar-inbound-templates:before {
+    content: "\f0c5" !important;
+    font-size: 18px !important;
+}
+:root:root:root #wp-admin-bar-inbound-settings:before {
+    content: "\f013" !important;
+    left: 7px !important;
+}
+:root:root:root #wp-admin-bar-inbound-analytics:before {
+    content: "\f012" !important;
+    font-size: 17px !important;
+}
+:root:root:root #wp-admin-bar-inbound-seo:before {
+    content: "\f002" !important;
+    font-size: 17px !important;
+}

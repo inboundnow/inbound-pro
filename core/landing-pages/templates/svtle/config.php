@@ -2,40 +2,83 @@
 /**
 * Template Name:  Svtle Template
 * @package  WordPress Landing Pages
-* @author 	David Wells
+* @author 	Inbound Now
 */
 
-do_action('lp_global_config'); // global config action hook
-
-//gets template directory name to use as identifier - do not edit - include in all template files
+/* gets template directory name to use as identifier - do not edit - include in all template files */
 $key = lp_get_parent_directory(dirname(__FILE__));
 
 $lp_data[$key]['info'] = array(
-	'data_type' => 'template', // Template Data Type
-	'version' => "1.0.1", // Version Number
-	'label' => "Svbtle", // Nice Name
-	'category' => 'v1, 2 column layout', // Template Category
-	'demo' => 'http://demo.inboundnow.com/go/sbvtle-lander-preview/', // Demo Link
-	'description'  => 'Clean and minimalistic design for a straight forward conversion page.' // template description
+	'data_type' => 'template',
+	'version' => "1.0.1",
+	'label' => "Svbtle",
+	'category' => '2 column',
+	'demo' => 'http://demo.inboundnow.com/go/sbvtle-lander-preview/',
+	'description'  => __('Clean and minimalistic design for a straight forward conversion page.','landing-pages')
 );
 
-// Define Meta Options for template
-// These values are returned in the template's index.php file with lp_get_value($post, $key, 'field-id') function
-$lp_data[$key]['settings'] =
-array(
-	array(
-		'label' => 'turn-off-editor', /* Turns off main content */
-		'description' => 'Turn off editor',
-		'id'	=> 'turn-off-editor',
-		'type'	=> 'custom-css',
-		'default'	=> '#postdivrich, #lp_2_form_content {display:none !important;}'
-		),
-     array(
-           'label' => __( 'Main Content' , 'landing-pages' ) ,
-           'description' => __( 'This is the default content from template.' , 'landing-pages' ),
-           'id' => "main-content",
-           'type' => "wysiwyg",
-           'default' => '<p>This is the first paragraph of your landing page. You want to grab the visitors attention and describe a commonly felt problem that they might be experiencing. Try and relate to your target audience and draw them in.</p>
+
+/* disables editor */
+$lp_data[$key]['settings'] = array(
+    array(
+        'label' => 'turn-off-editor', /* Turns off main content */
+        'description' => 'Turn off legacy editors',
+        'id'	=> 'turn-off-editor',
+        'type'	=> 'custom-css',
+        'default'	=> '#postdivrich, #lp_2_form_content, #main-title-area {display:none !important;}'
+    ),
+    array(
+        'label' => 'Instructions', /* Turns off main content */
+        'description' => __( 'If changing to this template from another template, save the landing page and after the refresh the page will display the template settings.' , 'landing-pages' ),
+        'id'	=> 'instructions',
+        'type'	=> 'description-block',
+        'default'	=> 'test'
+    )
+);
+
+
+/* define ACF fields here */
+if( function_exists('register_field_group') ):
+
+    register_field_group(array (
+        'key' => 'group_55e4ad14ab37b',
+        'title' => 'Svtle',
+        'fields' => array (
+            array (
+                'key' => 'field_55e4ae2e31895',
+                'label' => __('Main Headline','landing-pages'),
+                'name' => 'lp-main-headline',
+                'type' => 'text',
+                'instructions' => __('Insert the main headline here.','landing-pages'),
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'default_value' => '',
+                'placeholder' => '',
+                'prepend' => '',
+                'append' => '',
+                'maxlength' => '',
+                'readonly' => 0,
+                'disabled' => 0,
+            ),
+            array (
+                'key' => 'field_55e4ae4a1810b',
+                'label' => __('Main Content','landing-pages'),
+                'name' => 'svtle-main-content',
+                'type' => 'wysiwyg',
+                'instructions' => __('This is the default content from template.','landing-pages'),
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'default_value' => '<p>This is the first paragraph of your landing page. You want to grab the visitors attention and describe a commonly felt problem that they might be experiencing. Try and relate to your target audience and draw them in.</p>
 
 <strong>In this guide you will learn:</strong>
 
@@ -49,96 +92,244 @@ array(
 </ul>
 [/list]
 
-<p>This is the final sentence or paragraph reassuring the visitor of the benefits of filling out the form and how their data will be safe.</p>'
-         ),
-	array(
-           'label' => __( 'Conversion Area' , 'landing-pages' ),
-           'description' => __( 'Place your call to action here.' , 'landing-page' ),
-           'id' => "conversion-area-content",
-           'type' => "wysiwyg",
-           'default' => ''
-         ),
-    array(
-        'label' => __( 'Display Social Media Share Buttons', 'landing-pages' ), // Label of field
-        'description' => __( 'Display Social Media Share Buttons' , 'landing-pages' ), // field description
-        'id' => 'display-social', // metakey.
-        'type'  => 'radio', // text metafield type
-        'default'  => '1', // default content
-        'options' => array('1' => 'on','0'=>'off'),
-        'context'  => 'normal' // Context in screen for organizing options
+<p>This is the final sentence or paragraph reassuring the visitor of the benefits of filling out the form and how their data will be safe.</p>',
+                'tabs' => 'all',
+                'toolbar' => 'full',
+                'media_upload' => 1,
+            ),
+            array (
+                'key' => 'field_55e4aef61810c',
+                'label' => __('Conversion Area','landing-pages'),
+                'name' => 'svtle-conversion-area-content',
+                'type' => 'wysiwyg',
+                'instructions' => __('Place your call to action or Inbound Form here.','landing-pages'),
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'default_value' => '',
+                'tabs' => 'all',
+                'toolbar' => 'full',
+                'media_upload' => 1,
+            ),
+            array (
+                'key' => 'field_55e4af0c1810d',
+                'label' => __('Display Social Media Share Buttons','landing-pages'),
+                'name' => 'svtle-display-social',
+                'type' => 'select',
+                'instructions' => __('Display Social Media Share Buttons.','landing-pages'),
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'choices' => array (
+                    1 => 'on',
+                    0 => 'off',
+                ),
+                'default_value' => array (
+                    0 => 1,
+                ),
+                'allow_null' => 0,
+                'multiple' => 0,
+                'ui' => 0,
+                'ajax' => 0,
+                'placeholder' => '',
+                'disabled' => 0,
+                'readonly' => 0,
+            ),
+            array (
+                'key' => 'field_55e4af861810e',
+                'label' => __('Sidebar Layout','landing-pages'),
+                'name' => 'svtle-sidebar',
+                'type' => 'select',
+                'instructions' => __('Align sidebar to the left or the right.','landing-pages'),
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'choices' => array (
+                    'left' => 'Sidebar on left',
+                    'right' => 'Sidebar on right',
+                ),
+                'default_value' => array (
+                    'left' => 'left',
+                ),
+                'allow_null' => 0,
+                'multiple' => 0,
+                'ui' => 0,
+                'ajax' => 0,
+                'placeholder' => '',
+                'disabled' => 0,
+                'readonly' => 0,
+            ),
+            array (
+                'key' => 'field_55e4af961810f',
+                'label' => __('Submit Button Background Color','landing-pages'),
+                'name' => 'svtle-submit-button-color',
+                'type' => 'color_picker',
+                'instructions' => __('Use this setting to change the template\'s submit button background color','landing-pages'),
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'default_value' => '#5baa1e',
+            ),
+            array (
+                'key' => 'field_55e4b08318110',
+                'label' => __('Logo Image','landing-pages'),
+                'name' => 'svtle-logo',
+                'type' => 'image',
+                'instructions' => __('Upload Your Logo (300x110px)','landing-pages'),
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'return_format' => 'url',
+                'preview_size' => 'thumbnail',
+                'library' => 'all',
+                'min_width' => '',
+                'min_height' => '',
+                'min_size' => '',
+                'max_width' => '',
+                'max_height' => '',
+                'max_size' => '',
+                'mime_types' => '',
+            ),
+            array (
+                'key' => 'field_55e4b09018111',
+                'label' => __('Content Area Background Color','landing-pages'),
+                'name' => 'svtle-body-color',
+                'type' => 'color_picker',
+                'instructions' => __('Use this setting to change the template\'s main content area background color','landing-pages'),
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'default_value' => '#ffffff',
+            ),
+            array (
+                'key' => 'field_55e4b17918112',
+                'label' => __('Content Area Text Color','landing-pages'),
+                'name' => 'svtle-page-text-color',
+                'type' => 'color_picker',
+                'instructions' => __('Use this setting to change the template\'s content area text color','landing-pages'),
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'default_value' => '#4D4D4D',
+            ),
+            array (
+                'key' => 'field_55e4b19618113',
+                'label' => __('Sidebar Color','landing-pages'),
+                'name' => 'svtle-sidebar-color',
+                'type' => 'color_picker',
+                'instructions' => __('Use this setting to change the template\'s sidebar color','landing-pages'),
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'default_value' => '#ffffff',
+            ),
+            array (
+                'key' => 'field_55e4b24111a74',
+                'label' => __('Sidebar Text Color','landing-pages'),
+                'name' => 'svtle-sidebar-text-color',
+                'type' => 'color_picker',
+                'instructions' => __('Use this setting to change the template\'s sidebar color','landing-pages'),
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'default_value' => '#000000',
+            ),
+            array (
+                'key' => 'field_55e4b1ab18114',
+                'label' => __('Header Color','landing-pages'),
+                'name' => 'svtle-header-color',
+                'type' => 'color_picker',
+                'instructions' => __('Use this setting to change the template\'s header color','landing-pages'),
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'default_value' => '#ffffff',
+            ),
+            array (
+                'key' => 'field_55e4b1ba18115',
+                'label' => __('Display Form Below Content On Mobile?','landing-pages'),
+                'name' => 'display_form_below_content_on_mobile',
+                'type' => 'radio',
+                'instructions' => __('Toggle this on to render the form below the content in the mobile view','landing-pages'),
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'choices' => array (
+                    'on' => 'on',
+                    'off' => 'off',
+                ),
+                'other_choice' => 0,
+                'save_other_choice' => 0,
+                'default_value' => '',
+                'layout' => 'vertical',
+            ),
         ),
-    array(
-        'label' => __( 'Sidebar Layout' , 'landing-pages' ),
-        'description' => __( 'Align sidebar to the left or the right' , 'landing-pages' ),
-        'id'  => 'sidebar',
-        'type'  => 'dropdown',
-        'default'  => 'left',
-        'options' => array('left'=> __( 'Sidebar on left' , 'landing-pages' ) , 'right' => __( 'Sidebar on right' , 'landing-pages' ) ),
-        'context'  => 'normal'
+         'location' => array (
+            array (
+                array (
+                    'param' => 'post_type',
+                    'operator' => '==',
+                    'value' => 'landing-page',
+                ),
+                array (
+                    'param' => 'template_id',
+                    'operator' => '==',
+                    'value' => $key,
+                )
+            ),
         ),
-    array(
-        'label' => __( 'Submit Button Background Color' , 'landing-pages' ),
-        'description' => __( 'Submit Button Background Color' , 'landing-pages' ) ,
-        'id'  =>'submit-button-color',
-        'type'  => 'colorpicker',
-        'default'  => '5baa1e',
-        'context'  => 'normal'
-        ),
-    array(
-        'label' => __( 'Logo Image' , 'landing-pages') ,
-        'description' => __('Upload Your Logo (300x110px)' , 'landing-pages') ,
-        'id'  => 'logo',
-        'type'  => 'media',
-        'default'  => '/wp-content/plugins/landing-pages/templates/svtle/assets/images/inbound-logo.png',
-        'context'  => 'normal'
-        ),
-    array(
-        'label' => __( 'Content Area Background Color' , 'landing-pages') ,
-        'description' => __( 'Content Area Background Color' , 'landing-pages') ,
-        'id'  => 'body-color',
-        'type'  => 'colorpicker',
-        'default'  => 'ffffff',
-        'context'  => 'normal'
-        ),
-    array(
-        'label' => __( 'Content Area Text Color' , 'landing-pages') ,
-        'description' => __( 'Use this setting to change the template\'s text color' , 'landing-pages') ,
-        'id'  => 'page-text-color',
-        'type'  => 'colorpicker',
-        'default'  => '4D4D4D',
-        'context'  => 'normal'
-        ),
-	array(
-        'label' => __( 'Sidebar color' , 'landing-pages') ,
-        'description' => __( 'Use this setting to change the template\'s sidebar color' , 'landing-pages') ,
-        'id'  => 'sidebar-color',
-        'type'  => 'colorpicker',
-        'default'  => 'ffffff',
-        'context'  => 'normal'
-        ),
-	array(
-        'label' => __( 'Sidebar Text Color' , 'landing-pages') ,
-        'description' => __( 'Use this setting to change the template\'s sidebar text color' , 'landing-pages') ,
-        'id'  => 'sidebar-text-color',
-        'type'  => 'colorpicker',
-        'default'  => '000000',
-        'context'  => 'normal'
-        ),
-  	array(
-        'label' => __( 'Header Color' , 'landing-pages') ,
-        'description' => __( 'Use this setting to change the template\'s header color' , 'landing-pages') ,
-        'id'  => 'header-color',
-        'type'  => 'colorpicker',
-        'default'  => 'ffffff',
-        'context'  => 'normal'
-        ),
-   array(
-        'label' => __( 'Display form below content on mobile?' , 'landing-pages') ,
-        'description' => __( 'Toggle this on to render the form below the content in the mobile view' , 'landing-pages') ,
-        'id'  => 'mobile-form',
-        'type'  => 'radio',
-        'default'  => 'off',
-        'options' => array('on' => 'on','off'=>'off'),
-        'context'  => 'normal'
-        )
-    );
+        'menu_order' => 0,
+        'position' => 'normal',
+        'style' => 'default',
+        'label_placement' => 'top',
+        'instruction_placement' => 'label',
+        'hide_on_screen' => '',
+        'active' => 1,
+        'description' => '',
+    ));
+
+endif;

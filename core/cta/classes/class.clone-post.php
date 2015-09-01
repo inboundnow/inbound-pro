@@ -43,8 +43,7 @@ class CTA_Clone_Post {
 	/**
 	*	Buids quick action link to clone cta
 	*/
-	public static function build_clone_link( $id = 0, $context = 'display', $draft = true )
-	{
+	public static function build_clone_link( $id = 0, $context = 'display', $draft = true){
 
 		if ( !$post = get_post( $id ) ) {
 			return;
@@ -67,8 +66,7 @@ class CTA_Clone_Post {
 	/**
 	*	Clones CTA & redirects
 	*/
-	public static function clone_post($status = '')
-	{
+	public static function clone_post($status = '') {
 		// Get the original post
 		$id = (isset($_GET['post']) ? $_GET['post'] : $_POST['post']);
 		$post = get_post($id);
@@ -99,8 +97,7 @@ class CTA_Clone_Post {
 		$prefix = "";
 		$suffix = "";
 
-		if (!is_object($post)&&is_numeric($post))
-		{
+		if (!is_object($post)&&is_numeric($post)) {
 			$post = get_post($post);
 		}
 
@@ -118,8 +115,7 @@ class CTA_Clone_Post {
 
 		$new_post_author = wp_get_current_user();
 
-		if ($blank==false)
-		{
+		if ($blank==false) {
 			$new_post = array(
 				'menu_order' => $post->menu_order,
 				'comment_status' => $post->comment_status,
@@ -137,9 +133,9 @@ class CTA_Clone_Post {
 
 			$new_post['post_date'] = $new_post_date =	$post->post_date ;
 			$new_post['post_date_gmt'] = get_gmt_from_date($new_post_date);
-		}
-		else
-		{
+
+		} else {
+
 			$new_post = array(
 				'menu_order' => $post->menu_order,
 				'comment_status' => $post->comment_status,
@@ -158,8 +154,7 @@ class CTA_Clone_Post {
 		$new_post_id = wp_insert_post($new_post);
 
 		$meta_data = self::get_post_meta($post->ID);
-		foreach ($meta_data as $key=>$value)
-		{
+		foreach ($meta_data as $key=>$value) {
 			update_post_meta($new_post_id,$key,$value);
 		}
 
@@ -179,8 +174,7 @@ class CTA_Clone_Post {
 			WHERE `post_id` = $post_id
 		");
 
-		foreach($wpdb->last_result as $k => $v)
-		{
+		foreach($wpdb->last_result as $k => $v) {
 			$data[$v->meta_key] =	$v->meta_value;
 		}
 

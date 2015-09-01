@@ -6,9 +6,7 @@ class CTA_Conversion_Tracking {
 	*  Initializes Class
 	*/
 	public function __construct() {
-
 		self::load_hooks();
-
 	}
 
 	public static function load_hooks() {
@@ -34,8 +32,9 @@ class CTA_Conversion_Tracking {
 		self::store_click_data( $args['cta_id'], $args['vid'] );
 		if (isset($args['id'])) {
 
-			self::store_as_cta_click(  $args['cta_id'], $args['vid'], $args['id'], 'clicked-link' );
-			self::store_as_conversion(  $args['cta_id'], $args['id'], $args['vid'] );
+			self::store_as_cta_click($args['cta_id'], $args['vid'], $args['id'], 'clicked-link');
+			self::store_as_conversion($args['cta_id'], $args['id'], $args['vid']);
+
 		}
 
 	}
@@ -62,7 +61,7 @@ class CTA_Conversion_Tracking {
 
 		$lp_conversions = get_post_meta( $cta_id, 'wp-cta-ab-variation-conversions-'.$vid, true );
 		$lp_conversions++;
-		update_post_meta(  $cta_id, 'wp-cta-ab-variation-conversions-'.$vid, $lp_conversions );
+		update_post_meta($cta_id, 'wp-cta-ab-variation-conversions-'.$vid, $lp_conversions );
 
 		return $data;
 	}
@@ -99,7 +98,7 @@ class CTA_Conversion_Tracking {
 			$event_count = get_post_meta( $lead_id, 'wp_cta_trigger_count', TRUE );
 			$event_count++;
 
-			$individual_event_count = get_post_meta( $lead_id, 'lt_event_tracked_'.$cta_id, TRUE );
+			$individual_event_count = get_post_meta($lead_id, 'lt_event_tracked_'.$cta_id, TRUE);
 			$individual_event_count = ($individual_event_count != "") ? $individual_event_count : 0;
 			$individual_event_count++;
 

@@ -306,3 +306,8 @@ only screen and (                min-resolution: 2dppx) {
  }
 
 }
+
+
+.inbound-row {
+	margin-left:0px !important;
+}
