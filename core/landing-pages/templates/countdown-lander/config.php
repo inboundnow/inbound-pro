@@ -16,7 +16,7 @@ $next_month = date('Y-m-d H:i', $next_month_timestamp);
 
 $lp_data[$key]['info'] = array(
 	'data_type' => 'template', // Template Data Type
-	'version' => "1.0.5", // Version Number
+	'version' => "1.0.0.5", // Version Number
 	'label' => __( 'Countdown Lander' , 'landing-pages' ), // Nice Name
 	'category' => 'Countdown,1 column', // Template Category
 	'demo' => 'http://demo.inboundnow.com/go/countdown-lander/', // Demo Link

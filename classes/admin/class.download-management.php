@@ -287,7 +287,7 @@ class Inbound_Pro_Downloads {
 		self::load_management_vars();
 
 		/* get install configuaration dataset from db */
-		$configuration = Inbound_Options_API::get_option( 'inbound-pro' , 'configuration' , array() );
+		$configuration= Inbound_Options_API::get_option('inbound-pro', 'configuration', array());
 
 		$i=0;
 		foreach (self::$items as $key => $download ) {
@@ -342,7 +342,144 @@ class Inbound_Pro_Downloads {
 
 	}
 
+	/**
+	*  Loads all UI elements
+	*/
+	public static function test_ui() {
 
+		/* get download data */
+		self::build_main_dataset();
+		self::grid_container();
+	}
+	public static function grid_container() {
+		// Conditional showing of tabs
+		$showAll = true;
+		$showLP = false;
+		$showCTA = false;
+		$showLeads = false;
+		$showEmail = false;
+		$openTab = 0;
+
+		if (isset($_GET['show'])) {
+			$showAll = false;
+			if( $_GET['show'] === "landing-pages" ) {
+				$showLP = true;
+				$openTab = 1;
+			}  else if( $_GET['show'] === "leads" ) {
+				$showLeads = true;
+				$openTab = 2;
+			} else if( $_GET['show'] === "cta" ) {
+				$showCTA = true;
+				$openTab = 3;
+			} else if( $_GET['show'] === "email" ) {
+				$showEmail = true;
+				$openTab = 4;
+			}
+		}
+
+		$AllTabClass = ($showAll) ? 'tab-current' : '';
+		$allClass = ($showAll) ? 'content-current' : '';
+		$leadsTabClass = ($showLeads) ? 'tab-current' : '';
+		$leadsClass = ($showLeads) ? 'content-current' : '';
+		$emailTabClass = ($showEmail) ? 'tab-current' : '';
+		$emailClass = ($showEmail) ? 'content-current' : '';
+		$ctaTabClass = ($showCTA) ? 'tab-current' : '';
+		$ctaClass = ($showCTA) ? 'content-current' : '';
+		$lpTabClass = ($showLP) ? 'tab-current' : '';
+		$lpClass = ($showLP) ? 'content-current' : '';
+
+		?>
+		<link rel='stylesheet' id='edd-styles-css'  href='/wp-content/plugins/_inbound-pro/assets/css/store.css' type='text/css' media='all' />
+			<!--START -->
+			<div id="tabs" class="tabs">
+				<nav>
+					<ul>
+						<li class="<?php echo $AllTabClass; ?>"><a href="#section-1" ><span>All</span></a></li>
+						<li class="<?php echo $lpTabClass; ?>"><a href="#section-2" class="icon-article"><span>Landing Pages</span></a></li>
+						<li class="<?php echo $leadsTabClass; ?>"><a href="#section-3" class="icon-user"><span>Leads</span></a></li>
+						<li class="<?php echo $ctaTabClass; ?>"><a href="#section-4" class="icon-eye"><span>Calls to Action</span></a></li>
+						<li class="<?php echo $emailTabClass;?>"><a href="#section-5" class="fa fa-envelope-o"><span>Email</span></a></li>
+
+					</ul>
+
+
+				</nav>
+					<div class="content" id="market-content">
+						<section id="section-1" class="<?php echo $allClass;?>">
+
+								<div class="store-container">
+								<div class="main">
+									<span class="center-text area-desc">From email marketing to CRMs these add-ons will make your life easier</span>
+									<div id="cbp-vm" class="cbp-vm-switcher cbp-vm-view-grid">
+
+										<div class="cbp-vm-options">
+											<span>Change View</span>
+											<a href="#" class="cbp-vm-icon cbp-vm-grid cbp-vm-selected" data-view="cbp-vm-view-grid">Grid View</a>
+											<a href="#" class="cbp-vm-icon cbp-vm-list" data-view="cbp-vm-view-list">List View</a>
+										</div>
+
+										<?php self::store_listings();?>
+									</div>
+								</div><!-- /main -->
+							</div><!-- /store container -->
+						</section>
+
+					</div><!-- /content -->
+				</div>
+				<!-- END -->
+
+	<?php }
+	/* Prepping for new layout */
+	public static function store_listings($slug = 'default') {
+
+		?>
+
+		<ul>
+			<?php $count = 0;
+				foreach (self::$downloads as $download) {
+					//print_r($download);
+					//print_r($stored_transient->posts[$count]);
+					$id = $download['ID'];
+					//$title = get_the_title($id); // post_title
+					$title = $download['post_title'];
+					$title_class = (strlen($title) > 30 ) ? "long-title" : 'short-title';
+					$exerpt = $download['post_excerpt'];
+					$link = $download['permalink'];
+					$terms = get_the_terms( $id, 'download_category' ); ?>
+
+				<li class="">
+				<?php $img = $download['featured_image'];
+						if(!$img){
+							$img = '<img src="http://inboundnew.dev/wp-content/uploads/2014/08/medium_wype-1.jpg">';
+						}
+				?>
+					<a class="cbp-vm-image" href="<?php echo $link;?>"><img src="<?php echo $img;?>"/></a>
+
+					<!--<div class="cbp-vm-price">$19.90</div>-->
+					<div class="cbp-vm-details">
+					<h3 class="cbp-vm-title <?php echo $title_class;?>"><a href="<?php echo $link;?>"><?php echo $title;?></a></h3>
+						<span class='details-text'>
+						<?php
+		                if( $exerpt != "" ) :
+		                   echo $exerpt;
+		                else :
+		                   echo "short description This is the headline text. This is the headline text. more text here. Testing testing";
+		                endif;
+		                ?>
+		                </span>
+					</div>
+					<a class="cbp-vm-icon cbp-vm-add" href="<?php echo $link; ?>">Add to cart</a>
+				</li>
+				<?php $count++; ?>
+
+				<?php }
+
+			?>
+
+				<!--<div id="load_more">Load More</div> -->
+		</ul>
+
+	<?php }
 
 	/**
 	*  Loads all UI elements
@@ -418,6 +555,12 @@ class Inbound_Pro_Downloads {
 		?>
 
 		<div class="wrap">
+		<?php
+			/*
+			echo "<pre>";
+			print_r(self::$downloads);exit;
+			/**/
+		?>
 			<div id="grid" class="container-fluid">
 				<?php $count = 1;
 
@@ -607,6 +750,17 @@ class Inbound_Pro_Downloads {
 
 		$page = (isset($_REQUEST['page'])) ? $_REQUEST['page'] : 'inbound-manage-extensions';
 		switch( $page ) {
+			case 'inbound-marketing':
+
+				/* set mode to templates */
+				self::$management_mode = 'templates';
+
+				/* set headline */
+				self::$headline = __( 'Manage Templates' , INBOUNDNOW_TEXT_DOMAIN );
+
+				/* set pre-processed download items */
+				self::$items = Inbound_API_Wrapper::get_pro_templates();
+				break;
 			case 'inbound-manage-templates':
 
 				/* set mode to templates */
