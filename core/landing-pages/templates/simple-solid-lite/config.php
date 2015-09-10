@@ -6,38 +6,18 @@
 * WordPress Landing Page Config File
 */
 
-$key = lp_get_parent_directory(dirname(__FILE__));
+$key = basename(dirname(__FILE__));
 
 $path = (preg_match("/uploads/", dirname(__FILE__))) ? LANDINGPAGES_UPLOADS_URLPATH . $key .'/' : LANDINGPAGES_URLPATH.'templates/'.$key.'/';
 
 /* Configures Template Information */
 $lp_data[$key]['info'] = array(
-	'data_type' => 'template',
+	'data_type' => 'acf',
 	'version' => '1.0',
 	'label' => 'Simple Solid Lite',
 	'category' => '1 Column',
 	'demo' => 'http://demo.inboundnow.com/go/simple/',
-	'description' => 'This is an auto generated template from Inbound Now'
-);
-
-
-
-/* disables editor */
-$lp_data[$key]['settings'] = array(
-	array(
-		'label' => 'turn-off-editor', /* Turns off main content */
-		'description' => 'Turn off editor',
-		'id'	=> 'turn-off-editor',
-		'type'	=> 'custom-css',
-		'default'	=> '#postdivrich, #lp_2_form_content, #main-title-area {display:none !important;}'
-	),
-	array(
-		'label' => 'Instructions', /* Turns off main content */
-		'description' => __( 'If changing to this template from another template, save the landing page and after the refresh the page will display the template settings.' , 'landing-pages' ),
-		'id'	=> 'instructions',
-		'type'	=> 'description-block',
-		'default'	=> 'test'
-	)
+	'description' => __( 'This is a free template provided by Inbound Now' , 'landing-pages' )
 );
 
 /* Configures template ACF fields here */

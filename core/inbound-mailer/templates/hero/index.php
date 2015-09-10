@@ -316,7 +316,7 @@ $privacy_page_url = get_field('privacy_page_url', $post_id);
 								while ( have_rows('email_hero_box')) {
 									the_row();
 
-									switch( get_row_layout() ) {
+									switch( get_sub_field('acf_fc_layout') ) {
 										case 'email_body':
 											?>
 											<!-- A Real Hero (and a real human being) -->

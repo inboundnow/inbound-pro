@@ -443,6 +443,21 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		}
 
 		/**
+		 * Returns templat thumbnail
+		 */
+		public static function get_template_thumbnail( $template ) {
+
+			if (file_exists(WP_CTA_PATH.'templates/'.$template."/thumbnail.png")) {
+				$thumbnail = WP_CTA_URLPATH.'templates/'.$template."/thumbnail.png";
+			} else {
+				$thumbnail = WP_CTA_UPLOADS_URLPATH.$template."/thumbnail.png";
+			}
+
+			return $thumbnail;
+		}
+
+
+		/**
 		* Get Screenshot URL for Call to Action preview. If local environment show template thumbnail.
 		*
 		* @param INT $cta_id id if of call to action

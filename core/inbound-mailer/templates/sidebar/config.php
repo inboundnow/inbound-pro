@@ -2,7 +2,7 @@
 /**
 * Template Name: Sidebar
 * @package	Inbound Email
-* 
+*
 */
 
 $key = basename(dirname(__FILE__));
@@ -394,7 +394,7 @@ acf_add_local_field_group(array (
 		array (
 			'key' => 'field_55cc4524caab3',
 			'label' => 'Sidebar',
-			'name' => 'sidebar',
+			'name' => 'sidebar_tab',
 			'type' => 'tab',
 			'instructions' => '',
 			'required' => 0,

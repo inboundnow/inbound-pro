@@ -9,39 +9,19 @@
 
 
 //gets template directory name to use as identifier - do not edit - include in all template files
-$key = lp_get_parent_directory(dirname(__FILE__));
+$key = basename(dirname(__FILE__));
 
 $lp_data[$key]['info'] =
 array(
-	'data_type' => 'template', // Template Data Type
-	'version' => "1.0.1", // Version Number
-	'label' => "Simple Two Column", // Nice Name
-	'category' => '2 column', // Template Category
-	'demo' => 'http://demo.inboundnow.com/go/simple-two-column/', // Demo Link
-	'description'  => 'Two column landing page template.' // template description
-);
-
-
-/* disables editor */
-$lp_data[$key]['settings'] = array(
-    array(
-        'label' => 'turn-off-editor', /* Turns off main content */
-        'description' => 'Turn off legacy editors',
-        'id'	=> 'turn-off-editor',
-        'type'	=> 'custom-css',
-        'default'	=> '#postdivrich, #lp_2_form_content, #main-title-area {display:none !important;}'
-    ),
-    array(
-        'label' => 'Instructions', /* Turns off main content */
-        'description' => __( 'If changing to this template from another template, save the landing page and after the refresh the page will display the template settings.' , 'landing-pages' ),
-        'id'	=> 'instructions',
-        'type'	=> 'description-block',
-        'default'	=> 'test'
-    )
+	'data_type' => 'acf',
+	'version' => "1.0.1",
+	'label' => "Simple Two Column",
+	'category' => '2 column',
+	'demo' => 'http://demo.inboundnow.com/go/simple-two-column/',
+	'description'  => 'Two column landing page template.'
 );
 
 /* ACF field definitions here */
-
 if( function_exists('register_field_group') ):
 
     register_field_group(array (

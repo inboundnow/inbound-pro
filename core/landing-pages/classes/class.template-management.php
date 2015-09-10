@@ -91,7 +91,7 @@ class  Landing_Pages_Template_Management {
 
         <h2><?php  _e( 'Manage Templates' , 'landing-pages' ); ?>
             <a href="edit.php?post_type=landing-page&page=lp_templates_upload"
-               class="add-new-h2"><?php echo esc_html_x('Add New Template', 'template'); ?></a>
+               class="add-new-h2"><?php echo esc_html_x('Add New Template', 'landing-pages'); ?></a>
         </h2>
         <?php
 

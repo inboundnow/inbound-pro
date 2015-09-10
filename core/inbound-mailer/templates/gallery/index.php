@@ -6,7 +6,7 @@
  * The html of this template has been passed through http://templates.mailchimp.com/resources/inline-css/
  * After the html is passed through the inliner it's necessary to check and fix the php inside the html because the inliner turns '<' and '>' characters in their html entities
  * The result is the index.php file that produces the actual email code.
- * 
+ *
  * Template Name: Gallery
  * @package  Inbound Email
  * @author   Inbound Now
@@ -46,7 +46,7 @@ $privacy_page_url  = get_field('privacy_page_url', $post_id);
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="viewport" content="width=device-width" />
-        <!--<link rel="stylesheet" href="ink.css"> -->         
+        <!--<link rel="stylesheet" href="ink.css"> -->
         <!-- For testing only -->
         <style type="text/css">
             /**********************************************
@@ -70,11 +70,11 @@ $privacy_page_url  = get_field('privacy_page_url', $post_id);
             {
             width: 100%;
             }
-            .ExternalClass, 
-            .ExternalClass p, 
-            .ExternalClass span, 
-            .ExternalClass font, 
-            .ExternalClass td, 
+            .ExternalClass,
+            .ExternalClass p,
+            .ExternalClass span,
+            .ExternalClass font,
+            .ExternalClass td,
             .ExternalClass div
             {
             line-height: 100%;
@@ -605,29 +605,29 @@ $privacy_page_url  = get_field('privacy_page_url', $post_id);
             {
             color: #2ba6cb !important;
             }
-            h1 a, 
-            h2 a, 
-            h3 a, 
-            h4 a, 
-            h5 a, 
+            h1 a,
+            h2 a,
+            h3 a,
+            h4 a,
+            h5 a,
             h6 a
             {
             color: #2ba6cb;
             }
-            h1 a:active, 
-            h2 a:active,  
-            h3 a:active, 
-            h4 a:active, 
-            h5 a:active, 
+            h1 a:active,
+            h2 a:active,
+            h3 a:active,
+            h4 a:active,
+            h5 a:active,
             h6 a:active
             {
             color: #2ba6cb !important;
             }
-            h1 a:visited, 
-            h2 a:visited,  
-            h3 a:visited, 
-            h4 a:visited, 
-            h5 a:visited, 
+            h1 a:visited,
+            h2 a:visited,
+            h3 a:visited,
+            h4 a:visited,
+            h5 a:visited,
             h6 a:visited
             {
             color: #2ba6cb !important;
@@ -1230,7 +1230,7 @@ $privacy_page_url  = get_field('privacy_page_url', $post_id);
                                     <tr style="padding: 0;text-align: left;">
                                         <td class="center" style="word-break: break-word;-webkit-hyphens: auto;-moz-hyphens: auto;hyphens: auto;padding: 0px 0px 10px;text-align: center;color: #222222;font-family: 'Helvetica', 'Arial', sans-serif;font-weight: normal;margin: 0;line-height: 19px;font-size: 14px;border-collapse: collapse !important;">
                                             <div class="view-website" style="vertical-align: middle;font-family: Arial, Helvetica, sans-serif;font-size: 10px;color: #555555;line-height: 20px;">
-                                                Trouble viewing? Read this 
+                                                <?php _e('Trouble viewing? Read this' , 'inbound-mailer'); ?>
                                                 <a href="<?php echo get_permalink( $post_id ); ?>" style="color: #990000;text-decoration: none;" class="do-not-tracks">online</a>.
                                             </div>
                                         </td>
@@ -1332,7 +1332,7 @@ $privacy_page_url  = get_field('privacy_page_url', $post_id);
                             </td>
                         </tr>
                     </table>
-					
+
 					<?php
 						if ( function_exists('have_rows') ) {
 							if (have_rows('gallery')) {
@@ -1422,7 +1422,7 @@ $privacy_page_url  = get_field('privacy_page_url', $post_id);
 											</table>
 											<?php
 											break;
-										
+
 										case 'callout':
 											$callout_message			= get_sub_field('callout_message');
 											$callout_font_size			= get_sub_field('callout_font_size');
@@ -1472,7 +1472,7 @@ $privacy_page_url  = get_field('privacy_page_url', $post_id);
 								}
 							}
 						}
-						?>										
+						?>
                 </td>
             </tr>
         </table>
@@ -1486,14 +1486,14 @@ $privacy_page_url  = get_field('privacy_page_url', $post_id);
                                     <tr class="" style="padding: 0;text-align: left;">
                                         <td class="center footer-cell" style="word-break: break-word;-webkit-hyphens: auto;-moz-hyphens: auto;hyphens: auto;padding: 0px 0px 10px;text-align: center;color: #222222;font-family: 'Helvetica', 'Arial', sans-serif;font-weight: normal;margin: 0;line-height: 19px;font-size: 14px;margin-left: auto;margin-right: auto;border-top: 1px solid #<?php echo $divider_color;?>: ;border-collapse: collapse !important;">
                                             <p style="margin: 0;margin-bottom: 10px;color: #222222;font-family: 'Helvetica', 'Arial', sans-serif;font-weight: normal;padding: 0;text-align: center;line-height: 19px;font-size: 14px;text-decoration: none;">
-												<?php 
-												if ( $terms_page_url ) { 
+												<?php
+												if ( $terms_page_url ) {
 													?><a href="<?php echo $terms_page_url; ?>" style="color: #8f8a83;text-decoration: none;">Terms</a> |
 												<?php } ?>
-												<?php 
-												if ( $privacy_page_url ) { 
+												<?php
+												if ( $privacy_page_url ) {
 													?><a href="<?php echo $privacy_page_url; ?>" style="color: #8f8a83;text-decoration: none;">Privacy</a> |
-												<?php } 
+												<?php }
 												?><a href="<?php echo do_shortcode('[unsubscribe-link]'); ?>" style="color: #8f8a83;text-decoration: none;">
                                                     <?php _e('Unsubscribe from this list' , 'inbound-mailer' ); ?>
                                                 </a></p>

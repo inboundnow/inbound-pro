@@ -172,11 +172,16 @@ table.jPicker {
     width: 430px !important;
 }
 
+.page-title-action, .updated {
+    display:none;
+}
+
 @media only screen and (max-width: 600px) {
     .media-modal {
-        width: 432px !important;
+        width: 100% !important;
         position: fixed !important;
         height: 484px !important;
+        top:10% !important;
     }
 
     .media-modal-backdrop {

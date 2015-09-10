@@ -5,7 +5,7 @@
  * @author   Inbound Template Generator!
  */
 /* Declare Template Key */
-$key = lp_get_parent_directory(dirname(__FILE__));
+$key = basename(dirname(__FILE__));
 $path = (preg_match("/uploads/", dirname(__FILE__))) ? LANDINGPAGES_UPLOADS_URLPATH . $key . '/' : LANDINGPAGES_URLPATH . 'templates/' . $key . '/';
 $url = plugins_url();
 
@@ -30,7 +30,7 @@ $background_image = get_field( 'simple-solid-lite-background-image', $post->ID ,
 $background_color = get_field( 'simple-solid-lite-background-color', $post->ID );
 $submit_color = get_field( 'simple-solid-lite-submit-color', $post->ID );
 $social_media_options = get_field( 'simple-solid-lite-social-media-options', $post->ID );
-$social_media_options = get_field( 'simple-solid-lite-copyright-text', $post->ID );
+$copyright_text = get_field( 'simple-solid-lite-copyright-text', $post->ID );
 
 if ($background_style === "fullscreen") {
     $bg_style = 'background: url(' . $background_image . ') no-repeat center center fixed;

@@ -18,6 +18,13 @@
     background-position: 0 0, 30px 30px !important;
 }
 
+:root:root:root body.customize-support.landing-page, :root:root:root body.landing-page {
+
+    background-color: transparent !important;
+
+    background-image: none !important;
+}
+
 :root:root:root #wpadminbar {
 
     z-index: 99999999999 !important;

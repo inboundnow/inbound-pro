@@ -6,13 +6,6 @@ class Landing_Pages_Load_Extensions {
      *  Initializes Landing_Pages_Load_Extensions
      */
     public function __construct() {
-
-        /* Load core landing page config.php files */
-        self::load_core_template_configurations();
-
-        /* Load uploaded landing page config.php files */
-        self::load_uploaded_template_configurations();
-
         /* load hooks & filters  */
         self::load_hooks();
     }
@@ -21,6 +14,10 @@ class Landing_Pages_Load_Extensions {
      *  Loads hooks and filiters
      */
     public static function load_hooks() {
+
+        /*load core & uploaded templates */
+        add_action('init',array(__CLASS__,'load_core_template_configurations') , 5  );
+        add_action('init',array(__CLASS__,'load_uploaded_template_configurations') , 5  );
 
         /* Adds core metabox settings to extension data array */
         add_filter('lp_extension_data', array(__CLASS__, 'add_core_setting_data'), 1, 1);

@@ -14,7 +14,7 @@
  */
 
 /* get the name of the template folder */
-$key = lp_get_parent_directory(dirname(__FILE__));
+$key = basename(dirname(__FILE__));
 
 /* discover the absolute path of where this template is located. Core templates are loacted in /wp-content/plugins/landing-pages/templates/ while custom templates belong in /wp-content/uploads/landing-pages/tempaltes/ */
 $path = (preg_match("/uploads/", dirname(__FILE__))) ? LANDINGPAGES_UPLOADS_URLPATH . $key .'/' : LANDINGPAGES_URLPATH.'templates/'.$key.'/'; // This defines the path to your template folder. /wp-content/uploads/landing-pages/templates by default
@@ -27,25 +27,8 @@ $lp_data[$key]['info'] = array(
 	'label' => __( 'Demo','landing-pages'), 							/* Let's give our template a nice name */
 	'category' => 'Demo', 												/* you can categorize your landing pages by adding comma separated keywords */
 	'demo' => 'http://demo.inboundnow.com/go/demo-template-preview/', 	/* a link to a third party demo page if applicable */
-	'description'	=> __( 'The Demo theme is here to help developers and designs implement their own designs into the landing page plugin. Study this template to learn about Landing Page Plugin\'s templating system and to assist in building new templates.' , 'landing-pages' ) /* template description here! */
-);
-
-/* this little bit of code hides unused parts of the page - in the near future these rules will be applied automatically but it is required for now. You can copy and paste it verbatum when creating a new template */
-$lp_data[$key]['settings'] = array(
-	array(
-		'label' => 'turn-off-editor', /* Turns off main content */
-		'description' => 'Turn off editor',
-		'id'	=> 'turn-off-editor',
-		'type'	=> 'custom-css',
-		'default'	=> '#postdivrich, #lp_2_form_content, #main-title-area {display:none !important;}'
-	),
-	array(
-		'label' => 'Instructions', /* Turns off main content */
-		'description' => __( 'If changing to this template from another template, save the landing page and after the refresh the page will display the template settings.' , 'landing-pages' ),
-		'id'	=> 'instructions',
-		'type'	=> 'description-block',
-		'default'	=> 'test'
-	)
+	'description'	=> __( 'The Demo theme is here to help developers and designs implement their own designs into the landing page plugin. Study this template to learn about Landing Page Plugin\'s templating system and to assist in building new templates.' , 'landing-pages' ), /* template description here! */
+	'acf' => true														/* tells landing pages that ACF powers this template */
 );
 
 /* now setup ACF field definitions */

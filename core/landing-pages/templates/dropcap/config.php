@@ -6,35 +6,16 @@
  */
 
 //gets template directory name to use as identifier - do not edit - include in all template files
-$key = lp_get_parent_directory(dirname(__FILE__));
+$key = basename(dirname(__FILE__));
 
 $lp_data[$key]['info'] =
 array(
-	'data_type' => 'template', // Template Data Type
-	'version' => "2.0.1", // Version Number
-	'label' => "Dropcap", // Nice Name
-	'category' => '1 column layout', // Template Category
-	'demo' => 'http://demo.inboundnow.com/go/dropcap-lander-preview/', // Demo Link
-	'description'  => __( 'Create a great looking quote styled landing page' , 'landing-pages' ) // template description
-);
-
-
-/* disables editor */
-$lp_data[$key]['settings'] = array(
-    array(
-        'label' => 'turn-off-editor', /* Turns off main content */
-        'description' => 'Turn off editor',
-        'id'	=> 'turn-off-editor',
-        'type'	=> 'custom-css',
-        'default'	=> '#postdivrich, #lp_2_form_content, #main-title-area {display:none !important;}'
-    ),
-    array(
-        'label' => 'Instructions', /* Turns off main content */
-        'description' => __( 'If changing to this template from another template, save the landing page and after the refresh the page will display the template settings.' , 'landing-pages' ),
-        'id'	=> 'instructions',
-        'type'	=> 'description-block',
-        'default'	=> 'test'
-    )
+	'data_type' => 'acf',
+	'version' => "2.0.1",
+	'label' => "Dropcap",
+	'category' => '1 column layout',
+	'demo' => 'http://demo.inboundnow.com/go/dropcap-lander-preview/',
+	'description'  => __( 'Create a great looking quote styled landing page' , 'landing-pages' )
 );
 
 /* Load ACF definitions for Dropcap */
@@ -181,9 +162,7 @@ if( function_exists('register_field_group') ):
                     'repeat-y' => __( 'Repeat Image Vertically','landing-pages'),
                     'custom' => __( 'Custom CSS','landing-pages'),
                 ),
-                'default_value' => array (
-                    'fullscreen' => 'color',
-                ),
+                'default_value' => 'fullscreen',
                 'allow_null' => 0,
                 'multiple' => 0,
                 'ui' => 0,
@@ -215,6 +194,7 @@ if( function_exists('register_field_group') ):
                 'max_height' => '',
                 'max_size' => '',
                 'mime_types' => '',
+                'default_value' => LANDINGPAGES_URLPATH.'templates/dropcap/assets/images/beach-1.jpg'
             ),
             array (
                 'key' => 'field_55dcf36870c77',

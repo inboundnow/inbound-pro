@@ -4,7 +4,6 @@
 * @package  Inbound Email
 * @author   Inbound Now
 */
-
 /* Declare Template Key */
 $key = basename(dirname(__FILE__));
 
@@ -320,7 +319,7 @@ $sidebar_header_url = get_field('sidebar_header_link', $post_id);
 								while ( have_rows('email_body')) {
 									the_row();
 
-									switch( get_row_layout() ) {
+									switch( get_sub_field('acf_fc_layout') ) {
 										case 'email_content':
 											$main_email_content = get_sub_field('main_content');
 											echo $main_email_content;
@@ -385,7 +384,7 @@ $sidebar_header_url = get_field('sidebar_header_link', $post_id);
 							</li>
 							<?php
 
-							if ( have_rows('sidebar_sections') ) {
+							if ( @have_rows('sidebar_sections') ) {
 
 								while( have_rows('sidebar_sections') ){
 									the_row();

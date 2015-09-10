@@ -27,7 +27,7 @@ $home_page_url	  = get_field('home_page_url', $post_id);
 /* Email Body */
 $thumbnails_align   = get_field('thumbnails_alignment');
 $thumbnails_align == 'left' ? ($img_float = $news_margin = 'left') : ($img_float = $news_margin = 'right');
-$thumbnails_align == 'left' ? ($img_margin = 'right') : ($img_margin = 'left');	
+$thumbnails_align == 'left' ? ($img_margin = 'right') : ($img_margin = 'left');
 
 /* Footer */
 $terms_page_url	  = get_field('terms_page_url', $post_id);
@@ -47,17 +47,17 @@ $privacy_page_url = get_field('privacy_page_url', $post_id);
   .reverse-row .text-wrap{ float:right; width:512px; }
   .reverse-row .img-wrap{ float:left !important; margin-left:0 !important; margin-right:30px; }
   .reverse-row .pcont-text { margin-right:0 !important;}
-  
+
   @media screen and (max-width: 480px), only screen and (device-aspect-ratio: 40/71), only screen and (device-aspect-ratio: 2/3)
-    
+
    {
       .logo-cell-with-bg { background-position:-300px center; }
-      .logo-cell { display:none;} 
-      #header-cell { margin-bottom:20px; margin-top:0;}  
-      
+      .logo-cell { display:none;}
+      #header-cell { margin-bottom:20px; margin-top:0;}
+
       .img-wrap { float:none !important; margin:0 0 10px !important; text-align:center; display:block;}
       .img-wrap a { display:inline-block; width:100%;}
-      
+
     .gap-cell { width:14px !important;}
     .post-cell { background:#fff; padding:19px 19px 10px; border:1px solid #ccc;
     border-radius:6px;
@@ -67,16 +67,16 @@ $privacy_page_url = get_field('privacy_page_url', $post_id);
     .post-cell h1 { font-size:20px !important; line-height:25px !important;}
     .post-cell p { font-size:14px; line-height:21px; }
     .post-cell img{ width:100%; max-width:100%; height:auto;}
-    
+
     .pcont-text { margin-right:0px !important;}
-    
+
     .top-unsub-txt,
     .title-cell, .bottom-gap , .shd-cell, .sec-separator{ display:none;}
     .hhs-block { width:100% !important;}
-   
+
       .nl-issue-row table, .nl-issue-row td{ width:100% !important; background:inherit;}
       .issue-cell span { font-weight:bold; font-size:14px !important; padding-right:10px; }
-    
+
     .header-table, .content-table { width:100% !important; max-width:100%;}
     .content-table { background:#dfdfdf;}
 
@@ -86,8 +86,8 @@ $privacy_page_url = get_field('privacy_page_url', $post_id);
     .bottom-space { height:14px !important;}
 
     .fb-img-lnk img, .rss-img-lnk img, .tw-img-lnk img{display:none;}
-   
-    
+
+
     .footer-row br { display:none;}
     .footer-row * { font-weight:normal !important;}
     .footer-row *, .footer-row td{ font-size:4px !important; }
@@ -95,26 +95,26 @@ $privacy_page_url = get_field('privacy_page_url', $post_id);
     .view-online { display:none;}
     .header-cell-table { margin-top:20px;}
     .footer-support-row { display:none; }
-    
-    table  {max-width:100%; width:100%;}  
-    
+
+    table  {max-width:100%; width:100%;}
+
 
   }
 </style>
-	
+
 </head>
 
 <body style="padding:0; margin:0;">
 
 <table style="width:100%;float:left;background-color:#dfdfdf;font-family:Arial, sans serif;">
-  
-	<tr>                            
+
+	<tr>
 		<td align="center">
-      
+
 			<table cellspacing="0" cellpadding="0" border="0">
 
-				<tr class="view-online">    
-					<td>      
+				<tr class="view-online">
+					<td>
 						<table width="100%">
 							<tr>
 								<td width="100"></td>
@@ -140,7 +140,7 @@ $privacy_page_url = get_field('privacy_page_url', $post_id);
 											<td width="2%" class="title-cell"></td>
 
 											<td class="title-cell" width="30%" align="left" style="white-space:nowrap;font-size:13px; font-weight:bold;font-family:Arial, sans serif;color:<?php echo $title_date_color ?>; ">
-												<b><span><?php echo $issue_title ?></span></b> 
+												<b><span><?php echo $issue_title ?></span></b>
 											</td>
 											<td width="10"></td>
 
@@ -166,17 +166,17 @@ $privacy_page_url = get_field('privacy_page_url', $post_id);
 								</td>
 							</tr>
 
-						</table>            
+						</table>
 						<!-- content-table -->
-						<table width="730" class="content-table" cellspacing="0" cellpadding="0" bgcolor="#ffffff">  
-								
+						<table width="730" class="content-table" cellspacing="0" cellpadding="0" bgcolor="#ffffff">
+
 							<?php
 							if ( function_exists('have_rows') ) {
 								if (have_rows('news_line')) {
 									while ( have_rows('news_line')) {
 										the_row();
 
-										switch( $layout = get_row_layout() ) {
+										switch( $layout = get_sub_field('acf_fc_layout') ) {
 											case 'news_line':
 												$news_title			= get_sub_field('news_title');
 												$news_url			= get_sub_field('news_url');
@@ -214,7 +214,7 @@ $privacy_page_url = get_field('privacy_page_url', $post_id);
 												<tr class="bottom-space"><td height="18"></td></tr>
 												<?php
 												break;
-											
+
 											case 'callout':
 												$callout_text     = get_sub_field('callout_text');
 												$callout_bg_color = get_sub_field('callout_bg_color');
@@ -260,7 +260,7 @@ $privacy_page_url = get_field('privacy_page_url', $post_id);
 								}
 							}
 							?>
-							
+
 							<tr class="sec-separator"><td height="60"></td></tr>
 
 							<tr bgcolor="#dfdfdf"><td height="25"></td></tr>
@@ -269,26 +269,26 @@ $privacy_page_url = get_field('privacy_page_url', $post_id);
 							  <td align="center" style="font-family:Arial, sans serif; font-size:12px; font-weight:bold; color:#666;">
 								<?php if ( $terms_page_url ) { ?>
 									<a href="<?php echo $terms_page_url; ?>" style="color:#666;text-decoration:none;margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;">Terms</a>&nbsp; | &nbsp;
-								<?php } ?>								
+								<?php } ?>
 								<?php if ( $privacy_page_url ) { ?>
 									<a href="<?php echo $privacy_page_url; ?>" style="color:#666;text-decoration:none;margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;">Privacy</a>&nbsp; | &nbsp;
-								<?php } ?>								
+								<?php } ?>
 								<a href="<?php echo do_shortcode('[unsubscribe-link]'); ?>" style="color:#666;text-decoration:none;margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;"><?php _e('Unsubscribe from this list' , 'inbound-mailer' ); ?></a>
 							  </td>
 							</tr>
 
-						</table> <!-- end of content table -->          
+						</table> <!-- end of content table -->
 					</td>
 
 				</tr>
 
 			</table>
-    
+
 		</td> <!-- main inner cell -->
 	</tr>
-  
+
 	<tr class="bottom-gap"><td height="30"></td></tr>
-  
+
 </table>
 
 </body>

@@ -36,6 +36,13 @@
     .acf-field-google-map {
         width: 90%;
     }
+    .acf-table {
+        .acf-label, .acf-input {
+            width: 93%;
+            display: table;
+            margin-bottom: 0px;
+        }
+    }
     #inbound-shortcodes-form-wrap {
         width: 100%;
         #inbound-shortcodes-form {

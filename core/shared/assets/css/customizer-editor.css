@@ -42,6 +42,11 @@
 :root:root:root .inbound-customizer .acf-field-google-map {
     width: 90%;
 }
+:root:root:root .inbound-customizer .acf-table .acf-label, :root:root:root .inbound-customizer .acf-table .acf-input {
+    width: 93%;
+    display: table;
+    margin-bottom: 0px;
+}
 :root:root:root .inbound-customizer #inbound-shortcodes-form-wrap {
     width: 100%;
 }

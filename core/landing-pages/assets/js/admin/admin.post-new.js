@@ -10,6 +10,7 @@ jQuery(document).ready(function ($) {
 	jQuery("#submitdiv").siblings().hide();
 
     jQuery("#title-prompt-text").text("Name Your New Landing Page");
+    jQuery("#title").attr("required","required");
 
     var titledescription = jQuery("<span id='descriptor'>This will be the administrative title your landing page, the main headline is created in the next step</span>");
     jQuery(titledescription).appendTo("#titlewrap");

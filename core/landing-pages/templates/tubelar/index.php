@@ -8,7 +8,7 @@
 include_once(LANDINGPAGES_PATH . 'assets/libraries/shareme/library.shareme.php');
 
 /* Declare Template Key */
-$key = lp_get_parent_directory(dirname(__FILE__));
+$key = basename(dirname(__FILE__));
 $path = LANDINGPAGES_URLPATH . 'templates/' . $key . '/';
 $url = plugins_url();
 

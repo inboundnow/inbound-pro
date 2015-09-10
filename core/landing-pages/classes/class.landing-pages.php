@@ -421,7 +421,11 @@ function lp_get_parent_directory($path) {
         $parent = $array[$key];
         return $parent;
     } else {
-        $array = explode('/', $path);
+		if ( !strpos('/', $path)) {
+			$array = explode('\\', $path);
+		} else {
+	        $array = explode('/', $path);
+		}
         $count = count($array);
         $key = $count - 1;
         $parent = $array[$key];

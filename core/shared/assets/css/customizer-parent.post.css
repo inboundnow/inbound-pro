@@ -10,6 +10,10 @@
         background-size: 60px 60px !important;
         background-position: 0 0, 30px 30px !important;
     }
+    body.customize-support.landing-page, body.landing-page {
+        background-color: transparent !important;
+        background-image: none !important;
+    }
     #wpadminbar {
         z-index: 99999999999 !important;
     }

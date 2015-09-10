@@ -567,12 +567,9 @@ if (!class_exists('CTA_Metaboxes')) {
 
 					$cat_slug = implode(' ', $cats);
 
-					// Get Thumbnail
-					if (file_exists(WP_CTA_PATH.'templates/'.$this_template."/thumbnail.png")) {
-						$thumbnail = WP_CTA_URLPATH.'templates/'.$this_template."/thumbnail.png";
-					} else {
-						$thumbnail = WP_CTA_UPLOADS_URLPATH.$this_template."/thumbnail.png";
-					}
+					/* Get Thumbnail */
+					$thumbnail = CTA_Variations::get_template_thumbnail( $this_template );
+
 					?>
 					<div id='template-item' class="<?php echo $cat_slug; ?> template-item-boxes">
 						<div id="template-box">
@@ -791,6 +788,9 @@ if (!class_exists('CTA_Metaboxes')) {
 		}
 
 
+		/**
+		 *
+		 */
 		public static function show_advanced_settings () {
 			global $post;
 

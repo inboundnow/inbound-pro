@@ -15,10 +15,18 @@ if (!class_exists('Inbound_Asset_Loader')) {
 		}
 
 		static function load_admin_scripts(){
+
 			wp_enqueue_style('inbound-global-styles', INBOUNDNOW_SHARED_URLPATH . 'assets/css/admin/global-inbound-admin.css');
 			wp_enqueue_style('inbound-global-css', INBOUNDNOW_SHARED_URLPATH . 'assets/css/global-admin.css');
 			wp_enqueue_style('inbound-metaboxes', INBOUNDNOW_SHARED_URLPATH . 'assets/css/admin/inbound-metaboxes.css');
 
+			$screen = get_current_screen();
+
+			if ( !isset($screen) || $screen->base != 'post') {
+			    return;
+			}
+
+			wp_enqueue_script('inbound-editor-js', INBOUNDNOW_SHARED_URLPATH . 'assets/js/admin/editor.js');
 			//wp_enqueue_script('inbound-forms-cpt-js', INBOUNDNOW_SHARED_URLPATH . 'assets/css/admin/inbound-metaboxes.css');
 		}
 		/**

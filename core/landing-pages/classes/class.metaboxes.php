@@ -68,7 +68,7 @@ class Landing_Pages_Metaboxes {
         /* Select Template Metbox */
         add_meta_box(
             'lp_metabox_select_template', /* $id */
-            __( 'Landing Page Templates', 'landing-pages'),
+            __( 'Template Selection', 'landing-pages'),
             array( __CLASS__ , 'display_select_template' ),
             'landing-page',
             'normal',
@@ -80,7 +80,7 @@ class Landing_Pages_Metaboxes {
         $current_template = Landing_Pages_Variations::get_current_template($post->ID);
         foreach ($extension_data as $key => $data) {
 
-            if ( $key != $current_template) {
+            if ( $key != $current_template || ( isset($data['info']['data_type']) && $data['info']['data_type'] =='acf' ) ) {
                 continue;
             }
 
@@ -255,14 +255,17 @@ class Landing_Pages_Metaboxes {
         wp_enqueue_style('qtip-css', LANDINGPAGES_URLPATH . 'assets/css/jquery.qtip.min.css'); /*Tool tip css */
 
         $template_data = lp_get_extension_data();
-        $template_data = json_encode($template_data);
+        $template_data_json = json_encode($template_data);
         $template = Landing_Pages_Variations::get_current_template( $post->ID );
-        $template = strtolower($template);
-        $params = array('selected_template'=>$template, 'templates'=>$template_data);
+        $params = array('selected_template'=>$template, 'templates'=>$template_data_json);
         wp_localize_script('lp-js-metaboxes', 'data', $params);
 
-        wp_enqueue_style('inbound-metaboxes', LANDINGPAGES_URLPATH . 'shared/assets/css/admin/inbound-metaboxes.css');
+        /* if ACF load CSS to hide WordPress core elements */
+        if ( isset($template_data[$template]['info']['data_type'])&& $template_data[$template]['info']['data_type']=='acf' ){
+            wp_enqueue_style('lp-acf-template', LANDINGPAGES_URLPATH . 'assets/css/admin/acf-hide-wp-elements.css');
+        }
 
+        wp_enqueue_style('inbound-metaboxes', LANDINGPAGES_URLPATH . 'shared/assets/css/admin/inbound-metaboxes.css');
         wp_enqueue_script( 'lp-admin-clear-stats-ajax-request', LANDINGPAGES_URLPATH . 'assets/js/ajax.clearstats.js', array( 'jquery' ) );
         wp_localize_script( 'lp-admin-clear-stats-ajax-request', 'ajaxadmin', array( 'ajaxurl' => admin_url('admin-ajax.php'), 'lp_clear_nonce' => wp_create_nonce('lp-clear-nonce') ) );
 
@@ -274,6 +277,21 @@ class Landing_Pages_Metaboxes {
         /* Load FontAwesome */
         wp_register_style('font-awesome', INBOUNDNOW_SHARED_URLPATH.'assets/css/fontawesome.min.css');
         wp_enqueue_style('font-awesome');
+
+        /* Load Sweet Alert */
+        wp_enqueue_script('sweet-alert', INBOUNDNOW_SHARED_URLPATH.'assets/includes/SweetAlert/sweetalert.min.js');
+        $localized = array(
+            'title' => __("Are you sure?","landing-pages"),
+            'text' => __("Are you sure you want to select this template?","landing-pages"),
+            'confirmButtonText' => __("Yes","landing-pages"),
+            'confirmTextTitle' =>  __("Deleted!","landing-pages"),
+            'confirmText' =>  __("Your imaginary file has been deleted.","landing-pages"),
+            'waitTitle' =>  __("Please wait","landing-pages"),
+            'waitText' =>  __("We are peparing your template now.","landing-pages"),
+            'waitImage' => INBOUNDNOW_SHARED_URLPATH .'assets/includes/SweetAlert/loading_colorful.gif'
+        );
+        wp_localize_script('sweet-alert', 'sweetalert', $localized );
+        wp_enqueue_style('sweet-alert', INBOUNDNOW_SHARED_URLPATH.'assets/includes/SweetAlert/sweetalert.css');
 
         wp_enqueue_style('lp-ab-testing-admin', LANDINGPAGES_URLPATH . 'assets/css/admin-ab-testing.css');
         wp_enqueue_script('lp-ab-testing-admin', LANDINGPAGES_URLPATH . 'assets/js/admin/admin.post-edit-ab-testing.js', array('jquery'));
@@ -289,6 +307,11 @@ class Landing_Pages_Metaboxes {
             wp_enqueue_script('lp-js-create-new-lander', LANDINGPAGES_URLPATH . 'assets/js/admin/admin.post-new.js', array('jquery'), '1.0', true );
             wp_localize_script( 'lp-js-create-new-lander', 'lp_post_new_ui', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'post_id' => $post->ID , 'wp_landing_page_meta_nonce' => wp_create_nonce('lp_nonce')  , 'LANDINGPAGES_URLPATH' => LANDINGPAGES_URLPATH ) );
             wp_enqueue_style('lp-css-post-new', LANDINGPAGES_URLPATH . 'assets/css/admin-post-new.css');
+        }
+
+        if ( $hook == 'post.php'  ) {
+            /* change template sweet alert support */
+            wp_enqueue_script('lp-change-template', LANDINGPAGES_URLPATH . 'assets/js/admin/admin.post.js', array('jquery'), '1.0', true );
         }
     }
 
@@ -868,9 +891,12 @@ class Landing_Pages_Metaboxes {
         $extension_data = lp_get_extension_data();
 
         $key = $args['args']['key'];
-        $lp_custom_fields = $extension_data[$key]['settings'];
 
-        self::render_fields($key , $lp_custom_fields , $post);
+        if (!isset( $extension_data[$key]['settings'] ) ) {
+            return;
+        }
+
+        self::render_fields($key ,  $extension_data[$key]['settings'] , $post);
     }
 
 
@@ -1077,18 +1103,19 @@ class Landing_Pages_Metaboxes {
     public static function save_landing_page( $landing_page_id ) {
         global $post;
 
+        $screen = get_current_screen();
+
         if ( wp_is_post_revision( $landing_page_id ) ) {
             return;
         }
 
-        if (  !isset($_POST['post_type']) || $_POST['post_type'] != 'landing-page' ) {
+        if (  $screen->id != 'landing-page' ) {
             return;
         }
 
-        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) {
+        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE || $screen->action == 'add' ) {
             return;
         }
-
 
         $variations = Landing_Pages_Variations::get_variations( $landing_page_id );
         $variation_id = (isset($_REQUEST['lp-variation-id'])) ? $_REQUEST['lp-variation-id'] : '0';

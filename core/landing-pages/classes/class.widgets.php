@@ -41,10 +41,10 @@ class LP_Widget_Conversion_Area extends WP_Widget {
         if ($this_type == 'landing-page') {
             extract($args);
 
-
+            $position = Landing_Pages_Variations::get_conversion_area_placement( $wp_query->post->ID );
             if ($position == 'widget') {
-                $title = apply_filters('widget_title', $instance['title']);
 
+                $title = apply_filters('widget_title', $instance['title']);
 
                 /* Before widget (defined by themes). */
                 echo $before_widget;

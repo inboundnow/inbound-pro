@@ -828,7 +828,7 @@ if (!class_exists('Inbound_Forms')) {
                 $body = preg_replace("/tbod y/", "tbody", $body);
 
                 $headers = 'From: '. $from_name .' <'. $from_email .'>' . "\r\n";
-                $headers = "Reply-To: ".$reply_to_email . "\r\n";
+                $headers .= "Reply-To: ".$reply_to_email . "\r\n";
                 $headers = apply_filters( 'inbound_lead_notification_email_headers', $headers );
 
                 foreach ($to_address as $key => $recipient) {

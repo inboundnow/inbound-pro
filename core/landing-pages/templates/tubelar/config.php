@@ -8,38 +8,19 @@
 */
 
 /* gets template directory name to use as identifier - do not edit - include in all template files */
-$key = lp_get_parent_directory(dirname(__FILE__));
+$key = basename(dirname(__FILE__));
 
 $lp_data[$key]['info'] = array(
-	'data_type' => 'template',
+	'data_type' => 'acf',
 	'version' => "2.0.1",
 	'label' => __( 'Tublar' , 'landing-pages' ),
 	'category' => 'Video',
 	'demo' => 'http://demo.inboundnow.com/tubelar-lander-lander-preview/',
-	'description'  => __( 'Tublar template is a simple video background template.' , 'landing-pages' ),
-	'acf' => true
+	'description'  => __( 'Tublar template is a simple video background template.' , 'landing-pages' )
 );
 
-/* disables editor */
-$lp_data[$key]['settings'] = array(
-	array(
-		'label' => 'turn-off-editor', /* Turns off main content */
-		'description' => 'Turn off legacy editors',
-		'id'	=> 'turn-off-editor',
-		'type'	=> 'custom-css',
-		'default'	=> '#postdivrich, #lp_2_form_content, #main-title-area {display:none !important;}'
-	),
-	array(
-		'label' => 'Instructions', /* Turns off main content */
-		'description' => __( 'If changing to this template from another template, save the landing page and after the refresh the page will display the template settings.' , 'landing-pages' ),
-		'id'	=> 'instructions',
-		'type'	=> 'description-block',
-		'default'	=> 'test'
-	)
-);
 
 /* define ACF fields here */
-
 if( function_exists('register_field_group') ):
 
 	register_field_group(array (
