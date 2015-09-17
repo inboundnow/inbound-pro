@@ -143,9 +143,7 @@ if( function_exists('register_field_group') ):
                     'left' => 'Conversion Area on Left Column',
                     'middle' => 'Conversion Area in Middle Column',
                 ),
-                'default_value' => array (
-                    'left' => 'left',
-                ),
+                'default_value' => 'left',
                 'allow_null' => 0,
                 'multiple' => 0,
                 'ui' => 0,

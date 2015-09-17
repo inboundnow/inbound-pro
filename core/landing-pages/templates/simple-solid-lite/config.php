@@ -94,9 +94,7 @@ if( function_exists('register_field_group') ):
 					'off' => 'Hide',
 					'on' => 'Show',
 				),
-				'default_value' => array (
-					'on' => 'on',
-				),
+				'default_value' => 'on',
 				'allow_null' => 0,
 				'multiple' => 0,
 				'ui' => 0,
@@ -183,9 +181,7 @@ if( function_exists('register_field_group') ):
 					'off' => 'Hide',
 					'on' => 'Show',
 				),
-				'default_value' => array (
-					'on' => 'on',
-				),
+				'default_value' => 'on',
 				'allow_null' => 0,
 				'multiple' => 0,
 				'ui' => 0,
@@ -236,9 +232,7 @@ if( function_exists('register_field_group') ):
 					'repeat-y' => 'Repeat Image Vertically',
 					'custom' => 'Custom CSS',
 				),
-				'default_value' => array (
-					'color' => 'color',
-				),
+				'default_value' => 'color',
 				'allow_null' => 0,
 				'multiple' => 0,
 				'ui' => 0,

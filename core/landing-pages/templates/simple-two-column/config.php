@@ -116,9 +116,7 @@ if( function_exists('register_field_group') ):
                     1 => __('on','landing-pages'),
                     0 => __('off','landing-pages'),
                 ),
-                'default_value' => array (
-                    0 => 1,
-                ),
+                'default_value' => 1,
                 'allow_null' => 0,
                 'multiple' => 0,
                 'ui' => 0,
@@ -144,9 +142,7 @@ if( function_exists('register_field_group') ):
                     'right' => __('Sidebar on right','landing-pages'),
                     'left' => __('Sidebar on left','landing-pages'),
                 ),
-                'default_value' => array (
-                    'left' => 'left',
-                ),
+                'default_value' => 'left',
                 'allow_null' => 0,
                 'multiple' => 0,
                 'ui' => 0,

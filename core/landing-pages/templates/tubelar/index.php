@@ -71,7 +71,7 @@ $videoid = youtubeid($yt_video);
             background: url('<?php echo $path; ?>assets/img/black-65-trans.png');
         }
 
-        <?php if ($sidebar == "lp_left") { echo "#main {float: right;} #sidebar { width: 320px;}"; }?>
+        <?php if ($sidebar == "lp_left") { echo "#main {float: right;} #tube-sidebar { width: 320px;}"; }?>
         <?php if ($textcolor != "") { echo "#wrapper {color: $textcolor;}  #video-controls a {color: $textcolor;}
                                             input[type=\"text\"], input[type=\"email\"] {
                                             border: 1px solid $textcolor;
@@ -126,7 +126,7 @@ $videoid = youtubeid($yt_video);
 
     </div>
 
-    <div id="sidebar">
+    <div id="tube-sidebar">
 
         <div class="black-50">
 

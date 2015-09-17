@@ -354,9 +354,7 @@ $sidebar_header_url = get_field('sidebar_header_link', $post_id);
 											break;
 									}
 								}
-							}
-
-							if(!have_rows('email_body')) {
+							} else {
 								echo '<div class="container">';
 								the_content();
 								echo "</div>";
@@ -384,7 +382,7 @@ $sidebar_header_url = get_field('sidebar_header_link', $post_id);
 							</li>
 							<?php
 
-							if ( @have_rows('sidebar_sections') ) {
+							if ( have_rows('sidebar_sections') ) {
 
 								while( have_rows('sidebar_sections') ){
 									the_row();

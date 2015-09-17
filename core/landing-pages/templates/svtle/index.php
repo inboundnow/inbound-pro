@@ -2,9 +2,9 @@
 /*
  * Template Name: Svtle Template
  * @package  WordPress Landing Pages
- * @author   David Wells
- * @version  1.0
- * @since    1.0
+ * @author   Inbound Now
+ * @version  1.0.1
+ * @since    1.0.0
  */
 
 /* Include Shareme Library */
@@ -35,6 +35,7 @@ $body_color = get_field('svtle-body-color', $post->ID);
 $text_color = get_field('svtle-page_text-color', $post->ID);
 $headline_color = get_field('svtle-headline-color', $post->ID);
 $logo = get_field('svtle-logo', $post->ID, false); /* images need the false to disable formatting by ACF to be compatible with ACF 4 & 5 */
+
 $sidebar = get_field('svtle-sidebar', $post->ID);
 $social_display = get_field('svtle-display-social', $post->ID);
 $mobile_form = get_field('svtle-mobile-form', $post->ID);

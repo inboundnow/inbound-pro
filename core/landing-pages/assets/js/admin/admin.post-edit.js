@@ -14,7 +14,7 @@ jQuery(document).ready(function ($) {
     });
 
     var width = jQuery("#lp-thumbnail-sidebar-preview").width();
-    jQuery('#zoomer').zoomer({width: width, height: 225, zoom: 0.3, tranformOrigin: '0 43px',});
+    jQuery('#zoomer').zoomer({width: width, height: 225, zoom: 0.27, tranformOrigin: '0px 40px 1px',});
 
     // Filter Styling
     jQuery('#template-filter li').first().addClass('button-primary');

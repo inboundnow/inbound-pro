@@ -26,6 +26,8 @@ $header = get_field( 'simple-solid-lite-header-display', $post->ID );
 $footer = get_field( 'simple-solid-lite-footer-display', $post->ID );
 $background_style = get_field( 'simple-solid-lite-background-style', $post->ID );
 $logo = get_field( 'simple-solid-lite-logo', $post->ID , false); /* needs to be false for acf lite users */
+$old_logo = lp_get_value($post, $key, 'logo');
+$logo = ($logo) ? $logo : $old_logo;
 $background_image = get_field( 'simple-solid-lite-background-image', $post->ID , false); /* needs to be false for acf lite users */
 $background_color = get_field( 'simple-solid-lite-background-color', $post->ID );
 $submit_color = get_field( 'simple-solid-lite-submit-color', $post->ID );
@@ -173,11 +175,10 @@ $test = inbound_color_scheme($background_color, 'hex');
 <body class="lp_ext_customizer_on single-area-edit-on">
 <header class="">
     <div class="inner">
-        <div class="logo"><a href="<?php echo $site_url; ?>" class="inbound_option_area"
-                             data-eq-selector=".logo a:eq(0)" data-count-size="1" data-css-selector=".logo a"
-                             data-js-selector=".logo a" data-option-name="Logo" data-option-kind="media"
-                             inbound-option-name="Logo"><img class="not-image inbound-media inbound_option_area"
-                                                             src="<?php echo $logo; ?>"/></a>
+        <div class="logo">
+            <a href="<?php echo $site_url; ?>" class="inbound_option_area">
+    <img class="not-image inbound-media inbound_option_area" src="<?php echo $logo; ?>"/>
+            </a>
         </div>
         <div class="network inbound_option_area" data-eq-selector=".inner .network:eq(0)" data-count-size="1"
              data-css-selector=".inner .network" data-js-selector=".inner .network"

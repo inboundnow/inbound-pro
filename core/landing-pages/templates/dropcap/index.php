@@ -104,8 +104,8 @@ ul { margin-bottom: 20px;}
 	<p><?php echo $main_headline; ?></p>
 </div>
 <div id="main-content-area">
-	<?php echo do_shortcode( $content ); ?>
-	<?php echo do_shortcode( $conversion_area ); /* Print out form content */ ?>
+	<?php echo  $content; ?>
+	<?php echo $conversion_area; /* Print out form content */ ?>
 </div>
 </div>
 </div>

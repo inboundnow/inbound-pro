@@ -254,9 +254,7 @@ if( function_exists('register_field_group') ):
 					'0' => 'no',
 					'1' => 'yes',
 				),
-				'default_value' => array (
-					0 => 1,
-				),
+				'default_value' => 1,
 				'allow_null' => 0,
 				'multiple' => 0,
 				'ui' => 0,
@@ -282,9 +280,7 @@ if( function_exists('register_field_group') ):
 					'0' => 'no',
 					'1' => 'yes',
 				),
-				'default_value' => array (
-					0 => 1,
-				),
+				'default_value' =>  1,
 				'layout' => 'vertical',
 				'toggle' => 0,
 			),

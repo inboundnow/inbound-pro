@@ -135,9 +135,7 @@ if( function_exists('register_field_group') ):
                     'right' => 'Call to Action on right',
                     'left' => 'Call to Action on left',
                 ),
-                'default_value' => array (
-                    'left' => 'left',
-                ),
+                'default_value' => 'left',
                 'allow_null' => 0,
                 'multiple' => 0,
                 'ui' => 0,

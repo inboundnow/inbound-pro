@@ -131,8 +131,7 @@ if( function_exists('register_field_group') ):
 					'lp_right' => 'Sidebar on Right',
 					'lp_left' => 'Sidebar on Left',
 				),
-				'default_value' => array (
-				),
+				'default_value' => 'lp_right',
 				'allow_null' => 0,
 				'multiple' => 0,
 				'ui' => 0,
@@ -188,9 +187,7 @@ if( function_exists('register_field_group') ):
 					'transparent' => 'Transparent Background',
 					'solid' => 'Solid',
 				),
-				'default_value' => array (
-					'trasparent' => 'trasparent',
-				),
+				'default_value' => 'trasparent',
 				'allow_null' => 0,
 				'multiple' => 0,
 				'ui' => 0,

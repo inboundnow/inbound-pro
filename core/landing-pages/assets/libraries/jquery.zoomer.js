@@ -384,7 +384,8 @@ $('iframe').zoomer({ width: 200, zoom: 0.5 });
                                 'transform': 'scale(' + options.zoom + ')',
                         '-webkit-transform': 'scale(' + options.zoom + ')',
                            '-moz-transform': 'scale(' + options.zoom + ')',
-                             '-o-transform': 'scale(' + options.zoom + ')'
+                             '-o-transform': 'scale(' + options.zoom + ')',
+                             'width': '100%',
                     });
 
 
