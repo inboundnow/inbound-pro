@@ -617,7 +617,6 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
             <?php }
 
             if (isset($_GET['lp-variation-id']) && !isset($_GET['inbound-customizer']) && !isset($_GET['iframe_window']) && !isset($_GET['live-preview-area'])) {
-                do_action('landing_page_header_script');
                 ?>
 
                 <?php
