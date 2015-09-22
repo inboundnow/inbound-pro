@@ -3,7 +3,7 @@
  * Any edits you make in this file will not be saved
  */
 
-/* CSS for Inbound Now in WordPress Admin */
+
 @font-face {
     font-family: 'FontAwesome';
     src: url('../fonts/fontawesome/fontawesome-webfont.eot?v=3.0.2');
@@ -12,9 +12,6 @@
     url('../fonts/fontawesome/fontawesome-webfont.ttf?v=3.0.2') format('truetype');
     font-weight: normal;
     font-style: normal;
-}
-:root:root:root {
-    /* for refacotring  */
 }
 :root:root:root #wpadminbar.nojs .ab-top-menu > li.menupop.inbound-nav-marketing:hover > .ab-item, :root:root:root #wpadminbar .ab-top-menu > li.menupop.inbound-nav-marketing.hover > .ab-item, :root:root:root #wpadminbar.nojs .ab-top-menu > li.menupop.inbound-nav-marketing > .ab-item, :root:root:root #wpadminbar .ab-top-menu > li.menupop.inbound-nav-marketing > .ab-item, :root:root:root #inboundnow-media-button, :root:root:root #wpadminbar.nojs .ab-top-menu > li.menupop.inbound-nav-marketing:focus > .ab-item {
     background-image: url('../images/global/inbound-icon.png');

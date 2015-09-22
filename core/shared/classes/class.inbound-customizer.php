@@ -38,6 +38,7 @@ class Inbound_Customizer {
         if (isset($_GET['inbound-customizer']) && $_GET['inbound-customizer']=='on') {
             add_filter('wp_head', array(__CLASS__, 'launch_customizer'));
             add_action('wp_enqueue_scripts', array(__CLASS__, 'customizer_parent_scripts'));
+
         }
 
         /* Load customizer editor */
@@ -51,11 +52,50 @@ class Inbound_Customizer {
         /* Load customizer preview */
         if (isset($_GET['inbound-preview'])) {
             add_action('wp_enqueue_scripts', array(__CLASS__, 'customizer_preview_scripts'));
+             // prep for better customizer visualizations
+            //add_filter( 'acf/load_field',  array(__CLASS__,'filter_acf_load_field'), 10, 2 );
+            add_filter('acf/load_value', array(__CLASS__, 'filter_acf_load_field'), 12, 3 );
         }
 
         add_filter('redirect_post_location', array(__CLASS__,'redirect_after_save'));
 
     }
+
+    public static function filter_acf_load_field( $value, $post_id, $field ) {
+        // make filter magic happen here...
+
+        if(isset($field) && isset($field['type'])) {
+
+            if($field['type'] === "text" || $field['type'] === "wysiwyg") {
+            //*
+            //print_r($field); exit;
+                $style = "margin: 0 !important;
+                        padding: 0 !important;
+                        border: 0 !important;
+                        outline: 0 !important;
+                        color: inherit !important;
+                        font-weight: inherit !important;
+                        font-style: inherit !important;
+                        font-size: 100% !important;
+                        font-family: inherit !important;
+                        visibility:visible !important;
+                        vertical-align: baseline !important;";
+                $new_value = "<span style='$style' class='wrap-this' data-key='".$field['key']."'>";
+                $new_value .= $value;
+                //print_r($field);
+                //echo "<pre>";
+                //print_r($value);
+                $new_value .= "</span>";
+
+                return $new_value;
+            }
+            /**/
+
+        }
+        return $value;
+    }
+
+
     /* Load Scripts for Iframe Popup Preview Window */
     public static function popup_preview_scripts() {
         wp_enqueue_style('inbound-iframe-popup-preview', INBOUNDNOW_SHARED_URLPATH . 'assets/css/iframe-preview.css');
@@ -144,7 +184,24 @@ class Inbound_Customizer {
         <!-- http://stackoverflow.com/questions/7816372/make-iframes-resizable-dynamically -->
         <body class="<?php echo $post_type; ?>">
             <div id="inbound-customizer-overlay" class="wp-cta-load-overlay"
-            style="display:none;"></div>
+            style="display:none;">
+                <div class="inbound-loading">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="220" height="220" fill="white">
+                  <circle transform="translate(8 0)" cx="0" cy="16" r="0">
+                    <animate attributeName="r" values="0; 4; 0; 0" dur="1.2s" repeatCount="indefinite" begin="0"
+                      keytimes="0;0.2;0.7;1" keySplines="0.2 0.2 0.4 0.8;0.2 0.6 0.4 0.8;0.2 0.6 0.4 0.8" calcMode="spline" />
+                  </circle>
+                  <circle transform="translate(16 0)" cx="0" cy="16" r="0">
+                    <animate attributeName="r" values="0; 4; 0; 0" dur="1.2s" repeatCount="indefinite" begin="0.3"
+                      keytimes="0;0.2;0.7;1" keySplines="0.2 0.2 0.4 0.8;0.2 0.6 0.4 0.8;0.2 0.6 0.4 0.8" calcMode="spline" />
+                  </circle>
+                  <circle transform="translate(24 0)" cx="0" cy="16" r="0">
+                    <animate attributeName="r" values="0; 4; 0; 0" dur="1.2s" repeatCount="indefinite" begin="0.6"
+                      keytimes="0;0.2;0.7;1" keySplines="0.2 0.2 0.4 0.8;0.2 0.6 0.4 0.8;0.2 0.6 0.4 0.8" calcMode="spline" />
+                  </circle>
+                </svg>
+                </div>
+            </div>
 
             <table style="width:100%">
                 <tr>

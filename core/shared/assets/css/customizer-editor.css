@@ -3,16 +3,15 @@
  * Any edits you make in this file will not be saved
  */
 
-/* CSS for the Customizer Edit */
+
 :root:root:root .auto-fold #wpcontent {
     padding-left: 0px !important;
 }
-:root:root:root .inbound-customizer {
-    /* to be removed when new colorpicker arrives */
-
-}
 :root:root:root .inbound-customizer #wpadminbar, :root:root:root .inbound-customizer #edit-slug-box, :root:root:root .inbound-customizer #post-status-info, :root:root:root .inbound-customizer #screen-options-link-wrap, :root:root:root .inbound-customizer #leads-table-container, :root:root:root .inbound-customizer .misc-pub-section, :root:root:root .inbound-customizer #minor-publishing, :root:root:root .inbound-customizer .misc-pub-section, :root:root:root .inbound-customizer .misc-pub-section.curtime, :root:root:root .inbound-customizer #delete-action, :root:root:root .inbound-customizer #convert-header, :root:root:root .inbound-customizer #wp-cta-tour, :root:root:root .inbound-customizer #view-post-btn, :root:root:root .inbound-customizer #launch-visual-editer, :root:root:root .inbound-customizer #adminmenuwrap, :root:root:root .inbound-customizer #lp_ab_display_stats_metabox, :root:root:root .inbound-customizer #wp-cta-thumbnail-sidebar-preview, :root:root:root .inbound-customizer #landing_page_categorydiv, :root:root:root .inbound-customizer #postimagediv, :root:root:root .inbound-customizer #leads-table-container-inside, :root:root:root .inbound-customizer .updated.below-h2 a, :root:root:root .inbound-customizer #cta_shortcode_form, :root:root:root .inbound-customizer .wp_cta_tooltip, :root:root:root .inbound-customizer #wp_cta_ab_display_stats_metabox, :root:root:root .inbound-customizer #wp_call_to_action_categorydiv, :root:root:root .inbound-customizer .new-save-wp-cta-frontend, :root:root:root .inbound-customizer #launch-feedback, :root:root:root .inbound-customizer .notice, :root:root:root .inbound-customizer .nav-tab-add-new-variation, :root:root:root .inbound-customizer #cta-launch-front, :root:root:root .inbound-customizer #wp-cta-change-template-button, :root:root:root .inbound-customizer #wp-cta-notes-area, :root:root:root .inbound-customizer #lp-notes-area, :root:root:root .inbound-customizer #wp-cta-change-template-button, :root:root:root .inbound-customizer #lp_template_change, :root:root:root .inbound-customizer #lp-tour, :root:root:root .inbound-customizer #inbound-shortcodes-preview-wrap  {
     display: none !important;
+}
+:root:root:root .inbound-customizer .media-modal .media-sidebar {
+    padding-bottom: 40px;
 }
 :root:root:root .inbound-customizer #wpbody {
     padding-top: 0px;

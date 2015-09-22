@@ -5,6 +5,17 @@ var InboundCustomizerEditor = (function () {
     init:  function () {
         this.handleEditorSave();
         this.rewriteTabLinks();
+
+        // Scroll handler to save scroll position
+
+        var scrollPoint = localStorage.getItem('inbound-scroll');
+
+        setTimeout(function() {
+              window.scrollTo(0, scrollPoint);
+        }, 100);
+
+
+        window.addEventListener('scroll', this.onScroll, false);
     },
     /* when options saved */
     handleEditorSave: function() {
@@ -59,7 +70,61 @@ var InboundCustomizerEditor = (function () {
             jQuery(ajax_save_button).appendTo(parent_el);
         });
          */
+    },
+    attachHoverListeners: function(){
+        var that = this;
+        jQuery('.acf-field').each(function(){
+            var $this = jQuery(this),
+            type = $this.attr('data-type');
+            if(type === "text" || type === "wysiwyg") {
+                that.onMouseOver($this);
+                that.onMouseLeave($this);
+            }
+
+        });
+    },
+
+    onScroll: function(e) {
+      console.log(window.pageYOffset);
+      localStorage.setItem('inbound-scroll', window.pageYOffset);
+    },
+    onMouseOver: function(label){
+        label.on('mouseenter', function () {
+            console.log('hover');
+            var key = label.attr('data-key');
+
+            var parent = jQuery(window.parent.document);
+            var previewWindow = parent.find(".inbound-customizer-preview").contents();
+            var matchingEl = previewWindow.find('[data-key="'+key+'"]');
+            if(matchingEl){
+                matchingEl.css({
+                    'outline': '1px solid red'
+                })
+            }
+            //console.log(test)
+            /* Draw outline here */
+        });
+    },
+    onMouseLeave: function(label){
+        label.on('mouseleave', function () {
+            console.log('mouseout')
+            var key = label.attr('data-key');
+
+            var parent = jQuery(window.parent.document);
+            var previewWindow = parent.find(".inbound-customizer-preview").contents();
+            var matchingEl = previewWindow.find('[data-key="'+key+'"]');
+
+            if(matchingEl){
+                matchingEl.css({
+                    'outline': 'none'
+                })
+            }
+
+            //console.log(test)
+            /* Draw outline here */
+        });
     }
+
   };
 
   return EditorCode;
@@ -71,4 +136,9 @@ jQuery(document).ready(function($) {
     InboundCustomizerEditor.init();
     /* on page load, hide overlay if visible */
     InboundCustomizerEditor.hideOverlay();
+    /* show area that is being edited in preview window */
+    InboundCustomizerEditor.attachHoverListeners();
 });
+
+
+

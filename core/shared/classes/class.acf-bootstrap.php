@@ -17,10 +17,10 @@ class Inbound_Shared_ACF_BootStrap {
             include_once( INBOUNDNOW_SHARED_PATH . 'assets/plugins/advanced-custom-fields/acf.php');
 
             /* customize ACF path */
-            add_filter('acf/settings/path', array( __CLASS__ , 'define_acf_settings_path' ) );
+            add_filter('acf/settings/path', array( __CLASS__, 'define_acf_settings_path' ) );
 
             /* customize ACF URL path */
-            add_filter('acf/settings/dir', array( __CLASS__ , 'define_acf_settings_url' ) );
+            add_filter('acf/settings/dir', array( __CLASS__, 'define_acf_settings_url' ) );
 
             /* Hide ACF field group menu item */
             add_filter('acf/settings/show_admin', '__return_false');
@@ -47,6 +47,14 @@ class Inbound_Shared_ACF_BootStrap {
         }
     }
 
+    /**
+     * If ACF Pro is active then register a global for active fields - this provides legacy support to Landing Pages
+     */
+    public static function acf_register_global( $field_group ) {
+        $GLOBALS['acf_register_field_group'][] = array(
+            'fields' => acf_local()->fields
+        );
+    }
     /**
      * define custom ACF path
      * @param $path

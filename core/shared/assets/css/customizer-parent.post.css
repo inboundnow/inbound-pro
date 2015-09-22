@@ -1,8 +1,11 @@
 /* CSS for the Customizer Edit */
 
 :root:root:root {
-
-    body.customize-support, body {
+    body.customize-support.landing-page, body.landing-page {
+        background-color: transparent !important;
+        background-image: none !important;
+    }
+    body.customize-support.wp-call-to-action , body.wp-call-to-action  {
         background-color: #eee !important;
         background-image: -webkit-linear-gradient(bottom left, rgb(213, 213, 213) 25%, transparent 25%, transparent 75%, rgb(213, 213, 213) 75%, rgb(213, 213, 213)), -webkit-linear-gradient(bottom left, rgb(213, 213, 213) 25%, transparent 25%, transparent 75%, rgb(213, 213, 213) 75%, rgb(213, 213, 213)) !important;
         background-image: -o-linear-gradient(bottom left, rgb(213, 213, 213) 25%, transparent 25%, transparent 75%, rgb(213, 213, 213) 75%, rgb(213, 213, 213)), -o-linear-gradient(bottom left, rgb(213, 213, 213) 25%, transparent 25%, transparent 75%, rgb(213, 213, 213) 75%, rgb(213, 213, 213)) !important;
@@ -10,9 +13,15 @@
         background-size: 60px 60px !important;
         background-position: 0 0, 30px 30px !important;
     }
-    body.customize-support.landing-page, body.landing-page {
-        background-color: transparent !important;
-        background-image: none !important;
+    .inbound-loading {
+        position: relative;
+        height: 100%;
+        text-align: center;
+        svg {
+             position: relative;
+             top: 50%;
+             transform: translateY(-50%);
+           }
     }
     #wpadminbar {
         z-index: 99999999999 !important;
@@ -23,7 +32,7 @@
     .inbound-customizer-preview {
         max-width: 68%;
         width:100%;
-        height:1000px;
+        height:100%;
         left: 32%;
         position: fixed;
         top: 32px;
@@ -32,7 +41,7 @@
         overflow:hidden;
     }
     .wp-call-to-action .inbound-customizer-preview {
-        top: 20%;
+        top: 10%;
     }
     #inbound-customizer-overlay {
         top: 0;

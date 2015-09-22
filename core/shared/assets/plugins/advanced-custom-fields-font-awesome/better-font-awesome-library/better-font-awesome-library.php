@@ -236,8 +236,9 @@ class Better_Font_Awesome_Library {
 		// Initialize library properties and actions as needed.
 		$this->initialize( $this->args );
 
+		/* @inboundnow - remove this
 		// Use the jsDelivr API to fetch info on the jsDelivr Font Awesome CDN.
-		$this->setup_api_data();
+		$this->setup_api_data(); */
 
 		// Set the version of Font Awesome to be used.
 		$this->set_active_version();
@@ -250,9 +251,6 @@ class Better_Font_Awesome_Library {
 
 		// Add Font Awesome and/or custom CSS to the editor.
 		$this->add_editor_styles();
-
-		// Output any necessary admin notices.
-		add_action( 'admin_notices', array( $this, 'do_admin_notice' ) );
 
 		/**
 		 * Remove existing Font Awesome CSS and shortcodes if needed.
@@ -508,11 +506,8 @@ class Better_Font_Awesome_Library {
 	 */
 	private function set_active_version() {
 
-		if ( 'latest' == $this->args['version'] ) {
-			$this->font_awesome_version = $this->get_latest_version();
-		} else {
-			$this->font_awesome_version = $this->args['version'];
-		}
+		$this->font_awesome_version = $this->get_latest_version();
+
 
 	}
 
@@ -526,13 +521,7 @@ class Better_Font_Awesome_Library {
 	 *                  fallback version data.
 	 */
 	private function get_latest_version() {
-
-		if ( $this->api_data_exists() ) {
-			return $this->get_api_value( 'lastversion' );
-		} else {
-			return $this->guess_latest_version();
-		}
-
+		return $this->guess_latest_version();
 	}
 
 	/**
@@ -622,43 +611,14 @@ class Better_Font_Awesome_Library {
 	 */
 	private function get_css( $url, $version ) {
 
-		// First try getting the transient CSS.
-		$response = $this->get_transient_css( $version );
+		// Use the local fallback CSS.
+		$response = $this->fallback_data['css'];
 
-		// Next, try fetching the CSS from the remote jsDelivr CDN.
-		if ( ! $response ) {
-			$response = $this->get_remote_css( $url, $version );
-		}
+		// Update the version string to match the fallback version.
+		$this->font_awesome_version = $this->fallback_data['version'];
 
-		/**
-		 * Filter the force fallback flag.
-		 *
-		 * @since  1.0.4
-		 *
-		 * @param  bool  Whether or not to force the fallback CSS.
-		 */
-		$force_fallback = apply_filters( 'bfa_force_fallback', false );
-
-		/**
-		 * Use the local fallback if both the transient and wp_remote_get()
-		 * methods fail, or if fallback is forced with bfa_force_fallback filter.
-		 */
-		if ( is_wp_error( $response ) || $force_fallback ) {
-
-			// Log the CSS fetch error.
-			if ( ! $force_fallback ) {
-				$this->set_error( 'css', $response->get_error_code(), $response->get_error_message() . " (URL: $url)" );
-			}
-
-			// Use the local fallback CSS.
-			$response = $this->fallback_data['css'];
-
-			// Update the version string to match the fallback version.
-			$this->font_awesome_version = $this->fallback_data['version'];
-
-			// Update the stylesheet URL to match the fallback version.
-			$this->stylesheet_url = $this->fallback_data['url'];
-		}
+		// Update the stylesheet URL to match the fallback version.
+		$this->stylesheet_url = $this->fallback_data['url'];
 
 		return $response;
 
@@ -1046,64 +1006,6 @@ class Better_Font_Awesome_Library {
 		<?php
 		echo ob_get_clean();
 
-	}
-
-	/**
-	 * Generate admin notices.
-	 *
-	 * @since  1.0.0
-	 */
-	public function do_admin_notice() {
-
-		if ( ! empty( $this->errors ) && apply_filters( 'bfa_show_errors', true ) ) :
-			?>
-		    <div class="error">
-		    	<p>
-		    		<b><?php _e( 'Better Font Awesome', 'better-font-awesome' ); ?></b>
-		    	</p>
-
-	        	<!-- API Error -->
-	        	<?php if ( is_wp_error ( $this->get_error('api') ) ) : ?>
-		        	<p>
-		        		<b><?php _e( 'API Error', 'better-font-awesome' ); ?></b><br />
-		        		<?php
-		        		printf( __( 'The attempt to reach the jsDelivr API server failed with the following error: %s', 'better-font-awesome' ),
-		        			'<code>' . $this->get_error('api')->get_error_code() . ': ' . $this->get_error('api')->get_error_message() . '</code>'
-		        		);
-		        		?>
-		        	</p>
-		        <?php endif; ?>
-
-				<!-- CSS Error -->
-	        	<?php if ( is_wp_error ( $this->get_error('css') ) ) : ?>
-		        	<p>
-		        		<b><?php _e( 'Remote CSS Error', 'better-font-awesome' ); ?></b><br />
-		        		<?php
-		        		printf( __( 'The attempt to fetch the remote Font Awesome stylesheet failed with the following error: %s %s The embedded fallback Font Awesome will be used instead (version: %s).', 'better-font-awesome' ),
-		        			'<code>' . $this->get_error('css')->get_error_code() . ': ' . $this->get_error('css')->get_error_message() . '</code>',
-		        			'<br />',
-		        			'<code>' . $this->font_awesome_version . '</code>'
-		        		);
-			        	?>
-			        </p>
-		        <?php endif; ?>
-
-		        <!-- Fallback Text -->
-		        <p><?php echo __( '<b>Don\'t worry! Better Font Awesome will still render using the included fallback version:</b> ', 'better-font-awesome' ) . '<code>' . $this->fallback_data['version'] . '</code>' ; ?></p>
-
-		        <!-- Solution Text -->
-		        <p>
-		        	<b><?php _e( 'Solution', 'better-font-awesome' ); ?></b><br />
-			        <?php
-			        printf( __( 'This may be the result of a temporary server or connectivity issue which will resolve shortly. However if the problem persists please file a support ticket on the %splugin forum%s, citing the errors listed above. ', 'better-font-awesome' ),
-	                    '<a href="http://wordpress.org/support/plugin/better-font-awesome" target="_blank" title="Better Font Awesome support forum">',
-	                    '</a>'
-	                );
-	                ?>
-	            </p>
-		    </div>
-		    <?php
-	    endif;
 	}
 
 	/*----------------------------------------------------------------------------*

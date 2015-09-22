@@ -7,12 +7,16 @@
     #wpadminbar, #edit-slug-box, #post-status-info, #screen-options-link-wrap, #leads-table-container, .misc-pub-section, #minor-publishing, .misc-pub-section, .misc-pub-section.curtime, #delete-action, #convert-header, #wp-cta-tour, #view-post-btn, #launch-visual-editer, #adminmenuwrap, #lp_ab_display_stats_metabox, #wp-cta-thumbnail-sidebar-preview, #landing_page_categorydiv, #postimagediv, #leads-table-container-inside, .updated.below-h2 a, #cta_shortcode_form, .wp_cta_tooltip, #wp_cta_ab_display_stats_metabox, #wp_call_to_action_categorydiv, .new-save-wp-cta-frontend, #launch-feedback, .notice, .nav-tab-add-new-variation, #cta-launch-front, #wp-cta-change-template-button, #wp-cta-notes-area, #lp-notes-area, #wp-cta-change-template-button, #lp_template_change, #lp-tour, #inbound-shortcodes-preview-wrap  {
         display: none !important;
     }
+    .media-modal .media-sidebar {
+        padding-bottom: 40px;
+    }
     #wpbody {
         padding-top: 0px;
         #inboundnow-media-button {
             padding-left: 0px !important;
             padding-top: 5px;
         }
+
     }
     .wrap {
         margin-right: 0px;

@@ -3,10 +3,8 @@
  * Any edits you make in this file will not be saved
  */
 
-/* CSS for the Preview */
-:root body, :root body:before {
-    background-color: transparent !important;
-    background:transparent !important;
-    box-shadow: none !important;
-    border: none !important;
+
+:root html, :root body, :root body:before {
+    margin: 0px !important;
+    padding: 0px !important;
 }

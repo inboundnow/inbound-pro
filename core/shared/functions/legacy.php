@@ -11,14 +11,16 @@ if (!function_exists('wpl_url_to_postid')) {
 		$url = apply_filters('url_to_postid', $url);
 
 		$id = url_to_postid($url);
-		if (isset($id)&&$id>0)
+		if (isset($id)&&$id>0){
 			return $id;
+		}
 
 		// First, check to see if there is a 'p=N' or 'page_id=N' to match against
 		if ( preg_match('#[?&](p|page_id|attachment_id)=(\d+)#', $url, $values) )	{
 			$id = absint($values[2]);
-			if ( $id )
+			if ( $id ){
 				return $id;
+			}
 		}
 
 		//first check if URL is homepage
@@ -35,8 +37,9 @@ if (!function_exists('wpl_url_to_postid')) {
 		$rewrite = $wp_rewrite->wp_rewrite_rules();
 
 		// Not using rewrite rules, and 'p=N' and 'page_id=N' methods failed, so we're out of options
-		if ( empty($rewrite) )
+		if ( empty($rewrite) ){
 			return 0;
+		}
 
 		// Get rid of the #anchor
 		$url_split = explode('#', $url);
@@ -77,8 +80,9 @@ if (!function_exists('wpl_url_to_postid')) {
 		foreach ( (array)$rewrite as $match => $query) {
 			// If the requesting file is the anchor of the match, prepend it
 			// to the path info.
-			if ( !empty($url) && ($url != $request) && (strpos($match, $url) === 0) )
+			if ( !empty($url) && ($url != $request) && (strpos($match, $url) === 0) ){
 				$request_match = $url . '/' . $request;
+			}
 
 			if ( preg_match("!^$match!", $request_match, $matches) ) {
 				// Got a match.
@@ -93,8 +97,9 @@ if (!function_exists('wpl_url_to_postid')) {
 				parse_str($query, $query_vars);
 				$query = array();
 				foreach ( (array) $query_vars as $key => $value ) {
-					if ( in_array($key, $wp->public_query_vars) )
+					if ( in_array($key, $wp->public_query_vars) ){
 						$query[$key] = $value;
+					}
 				}
 
 			// Taken from class-wp.php
@@ -103,14 +108,15 @@ if (!function_exists('wpl_url_to_postid')) {
 					$post_type_query_vars[$t->query_var] = $post_type;
 
 			foreach ( $wp->public_query_vars as $wpvar ) {
-				if ( isset( $wp->extra_query_vars[$wpvar] ) )
+				if ( isset( $wp->extra_query_vars[$wpvar] ) ) {
 					$query[$wpvar] = $wp->extra_query_vars[$wpvar];
-				elseif ( isset( $_POST[$wpvar] ) )
+				} elseif ( isset( $_POST[$wpvar] ) ){
 					$query[$wpvar] = $_POST[$wpvar];
-				elseif ( isset( $_GET[$wpvar] ) )
+				} elseif ( isset( $_GET[$wpvar] ) ){
 					$query[$wpvar] = $_GET[$wpvar];
-				elseif ( isset( $query_vars[$wpvar] ) )
+				} elseif ( isset( $query_vars[$wpvar] ) ){
 					$query[$wpvar] = $query_vars[$wpvar];
+				}
 
 				if ( !empty( $query[$wpvar] ) ) {
 					if ( ! is_array( $query[$wpvar] ) ) {
@@ -132,10 +138,11 @@ if (!function_exists('wpl_url_to_postid')) {
 
 				// Do the query
 				$query = new WP_Query($query);
-				if ( !empty($query->posts) && $query->is_singular )
+				if ( !empty($query->posts) && $query->is_singular ) {
 					return $query->post->ID;
-				else
+				} else {
 					return 0;
+				}
 			}
 		}
 		return 0;
@@ -145,8 +152,10 @@ if (!function_exists('wpl_url_to_postid')) {
 if (!function_exists('wp_leads_get_page_final_id')) {
 	function wp_leads_get_page_final_id(){
 			global $post;
-			if (!isset($post))
-			return;
+			if (!isset($post)) {
+					return;
+			}
+
 			$current_url = "http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 			$current_url = preg_replace('/\?.*/', '', $current_url);
 			$page_id = wpl_url_to_postid($current_url);
@@ -159,18 +168,20 @@ if (!function_exists('wp_leads_get_page_final_id')) {
 			}
 			// If category page
 			if (is_category() || is_archive()) {
-			    $cat = get_category_by_path(get_query_var('category_name'),false);
-				$page_id = "cat_" . $cat->cat_ID;
-				$post_type = "category";
+					$cat = get_category_by_path(get_query_var('category_name'),false);
+					$page_id = "cat_" . $cat->cat_ID;
+					$post_type = "category";
 			}
 			// If tag page
 			if (is_tag()){
 				$page_id = "tag_" . get_query_var('tag_id');
 			}
 
-			if(is_home()) { $page_id = get_option( 'page_for_posts' ); }
-
-			elseif(is_front_page()){ $page_id = get_option('page_on_front'); }
+			if(is_home()) {
+				$page_id = get_option( 'page_for_posts' );
+			} elseif(is_front_page()){
+				$page_id = get_option('page_on_front');
+			}
 
 			if ($page_id === 0) {
 				$page_id = $post->ID;
@@ -183,43 +194,45 @@ if (!function_exists('wp_leads_get_page_final_id')) {
 /* PHP 5.2 json encode fallback */
 if (!function_exists('json_encode_fallback')) {
   function json_encode_fallback($a=false) {
-    if (is_null($a)) return 'null';
-    if ($a === false) return 'false';
-    if ($a === true) return 'true';
-    if (is_scalar($a))
-    {
-      if (is_float($a))
-      {
+    if (is_null($a)) {
+    	return 'null';
+    }
+    if ($a === false) {
+    	return 'false';
+    }
+    if ($a === true) {
+    	return 'true';
+    }
+    if (is_scalar($a)) {
+      if (is_float($a)) {
         // Always use "." for floats.
         return floatval(str_replace(",", ".", strval($a)));
       }
 
-      if (is_string($a))
-      {
+      if (is_string($a)) {
         static $jsonReplaces = array(array("\\", "/", "\n", "\t", "\r", "\b", "\f", '"'), array('\\\\', '\\/', '\\n', '\\t', '\\r', '\\b', '\\f', '\"'));
         return '"' . str_replace($jsonReplaces[0], $jsonReplaces[1], $a) . '"';
-      }
-      else
+      } else {
         return $a;
+      }
     }
     $isList = true;
-    for ($i = 0, reset($a); $i < count($a); $i++, next($a))
-    {
-      if (key($a) !== $i)
-      {
+    for ($i = 0, reset($a); $i < count($a); $i++, next($a)) {
+      if (key($a) !== $i) {
         $isList = false;
         break;
       }
     }
     $result = array();
-    if ($isList)
-    {
-      foreach ($a as $v) $result[] = json_encode($v);
+    if ($isList) {
+      foreach ($a as $v) {
+      	$result[] = json_encode($v);
+      }
       return '[' . join(',', $result) . ']';
-    }
-    else
-    {
-      foreach ($a as $k => $v) $result[] = json_encode($k).':'.json_encode($v);
+    } else {
+      foreach ($a as $k => $v){
+      	$result[] = json_encode($k).':'.json_encode($v);
+      }
       return '{' . join(',', $result) . '}';
     }
   }

@@ -1,6 +1,4 @@
-
-
-/* This code runs inside the wordpress editor screen when customizer active */
+/* This code runs inside the wordpress editor screen */
 var InboundEditor = (function () {
 
   var EditorCode = {

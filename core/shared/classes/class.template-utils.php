@@ -242,11 +242,19 @@ $field_groups = $json;
 * Template Name: __TEMPLATE_NAME__
 * @package  WordPress Landing Pages
 * @author   Inbound Template Generator
-*/\r\n
+*/
+
 /* Declare Template Key */
-\$key = lp_get_parent_directory(dirname(__FILE__));
-\$path = LANDINGPAGES_UPLOADS_URLPATH .\"\$key/\";
-\$url = plugins_url();
+\$key = basename(dirname(__FILE__));
+
+/* discover the absolute path of where this template is located. Core templates are loacted in /wp-content/plugins/landing-pages/templates/ while custom templates belong in /wp-content/uploads/landing-pages/tempaltes/ */
+\$path = (preg_match(\"/uploads/\", dirname(__FILE__))) ? LANDINGPAGES_UPLOADS_PATH . \$key .'/' : LANDINGPAGES_PATH.'templates/'.\$key.'/';
+
+\$urlpath = (preg_match(\"/uploads/\", dirname(__FILE__))) ? LANDINGPAGES_UPLOADS_URLPATH . \$key .'/' : LANDINGPAGES_URLPATH.'templates/'.\$key.'/';
+
+/* Include ACF Field Definitions  */
+include_once(\$path .'config.php');
+
 /* Define Landing Pages's custom pre-load hook for 3rd party plugin integration */
 do_action('wp_head');
 \$post_id = get_the_ID(); ";?>
@@ -267,8 +275,8 @@ echo '<!DOCTYPE html>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- include your assets -->
-    <!-- <link rel="stylesheet" href="<?php echo $path; ?>css/css_file_name.css"> -->
-    <!-- <script src="<?php echo $path; ?>js/js_file_name.js"></script> -->
+    <!-- <link rel="stylesheet" href="<?php echo $urlpath; ?>css/css_file_name.css"> -->
+    <!-- <script src="<?php echo $urlpath; ?>js/js_file_name.js"></script> -->
 
     <!-- Load Normal WordPress wp_head() function -->
     <?php wp_head(); ?>
@@ -296,7 +304,7 @@ foreach( $field_groups as $field_group ) {
             echo "\tif(function_exists('have_rows')) :" ."\r\n";
             echo "\t\tif(have_rows('".$field['name']."')) :" ."\r\n";
             echo "\t\t\t while(have_rows('".$field['name']."')) : the_row();" ."\r\n";
-            echo "\t\t\t\t switch(get_row_layout()) :" ."\r\n";
+            echo "\t\t\t\t switch(get_sub_field('acf_fc_layout')) :" ."\r\n";
             foreach ($field['layouts'] as $layout) {
                 //print_r($layout);
                 echo "\t\t\t\t/* start layout ".$layout['name']." */"."\r\n";
