@@ -446,11 +446,12 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		 * Returns templat thumbnail
 		 */
 		public static function get_template_thumbnail( $template ) {
-
 			if (file_exists(WP_CTA_PATH.'templates/'.$template."/thumbnail.png")) {
 				$thumbnail = WP_CTA_URLPATH.'templates/'.$template."/thumbnail.png";
-			} else {
+			} else if (file_exists(WP_CTA_UPLOADS_PATH.$template."/thumbnail.png")) {
 				$thumbnail = WP_CTA_UPLOADS_URLPATH.$template."/thumbnail.png";
+			} else if (file_exists(WP_CTA_THEME_TEMPLATES_PATH.$template."/thumbnail.png")) {
+				$thumbnail = WP_CTA_THEME_TEMPLATES_URLPATH.$template."/thumbnail.png";
 			}
 
 			return $thumbnail;

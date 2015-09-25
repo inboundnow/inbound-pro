@@ -38,6 +38,8 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 			$uploads = wp_upload_dir();
 			define('WP_CTA_UPLOADS_PATH', $uploads['basedir'].'/calls-to-action/templates/' );
 			define('WP_CTA_UPLOADS_URLPATH', $uploads['baseurl'].'/calls-to-action/templates/' );
+			define('WP_CTA_THEME_TEMPLATES_PATH' , get_template_directory(). '/calls-to-action/' );
+			define('WP_CTA_THEME_TEMPLATES_URLPATH' , get_template_directory_uri(). '/calls-to-action/' );
 			define('WP_CTA_STORE_URL', 'http://www.inboundnow.com/market/' );
 
 		}

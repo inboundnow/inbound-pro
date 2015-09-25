@@ -7,6 +7,17 @@ function getURLParameter(name) {
 
 jQuery(document).ready(function ($) {
 
+
+    jQuery(document).ready(function() {
+        jQuery('.tooltip').tooltipster({
+            contentAsHTML: true,
+            interactive: true,
+            maxWidth: 350,
+            position: "right",
+            theme: "tooltipster-noir"
+        });
+    });
+
     // Getting URL var by its nam
     var byName = getURLParameter('tab');
 

@@ -75,7 +75,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
             add_action( 'wp_head', array( $this, 'load_custom_js_css'));
 
             /* Add CTA Render to Content */
-            add_filter( 'the_content', array( $this, 'add_cta_to_post_content'), 10);
+            add_filter( 'the_content', array( $this, 'add_cta_to_post_content'), apply_filters('cta_the_content_priority', 10) );
 
             /* Add CTA Render to Dynamic Widget */
             add_filter( 'wp_cta_after_global_init', array( $this, 'add_cta_to_dynamic_widget'), 10);

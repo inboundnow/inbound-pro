@@ -32,6 +32,10 @@ class Leads_Settings {
         wp_enqueue_script('wpleads-list-page', WPL_URLPATH.'assets/js/wpl.global-settings.js', array('jquery'));
         wp_enqueue_style('wpl_manage_lead_css', WPL_URLPATH. 'assets/css/wpl.admin-global-settings.css');
 
+        /* load ToolTipster */
+        wp_enqueue_style('tooltipster', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/ToolTipster/css/tooltipster.css');
+        wp_enqueue_style('tooltipster-theme', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/ToolTipster/css/themes/tooltipster-noir.css');
+        wp_enqueue_script('tooltipster', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/ToolTipster/js/jquery.tooltipster.min.js');
     }
 
 
@@ -141,8 +145,10 @@ class Leads_Settings {
 
 
         /* Setup License Keys Tab */
-        $tab_slug = 'wpleads-license-keys';
-        $wpleads_global_settings[$tab_slug]['label'] = __('License Keys' , 'leads' );
+        if ( !defined('INBOUND_PRO_PATH') && $_SERVER['REMOTE_ADDR']!='127.0.0.1') {
+            $tab_slug = 'wpleads-license-keys';
+            $wpleads_global_settings[$tab_slug]['label'] = __('License Keys' , 'leads' );
+        }
 
         /* Setup Extensions Tab */
         $tab_slug = 'wpleads-extensions';
@@ -177,7 +183,7 @@ class Leads_Settings {
         $wpleads_global_settings = self::get_settings();
 
         /* if running pro do not load license keys tab */
-        if (defined('INBOUND_PRO_PATH')) {
+        if (defined('INBOUND_PRO_PATH') || $_SERVER['REMOTE_ADDR']=='127.0.0.1') {
             unset($wpleads_global_settings['wpleads-license-keys']);
         }
 
@@ -407,7 +413,7 @@ class Leads_Settings {
             if ($field['type']=='header'){
                 echo $field['default'];
             } else {
-                echo "<div class='inbound-setting-label'>".$field['label']."</div>";
+                echo '<div class="inbound-setting-label tooltip" title="' . $field['description'] . '">'.$field['label'].'</div>';
             }
             echo '</th><td>';
             switch($field['type']) {
@@ -417,26 +423,21 @@ class Leads_Settings {
                     {
                         $field['value'] = $field['default'];
                     }
-                    echo '<input type="text" class="jpicker" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$field['value'].'" size="5" />
-								<div class="wpl_tooltip tool_color" title="'. $field['description'] .'"></div>';
+                    echo '<input type="text" class="jpicker" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$field['value'].'" size="5" />';
                     break;
                 case 'datepicker':
-                    echo '<input id="datepicker-example2" class="Zebra_DatePicker_Icon" type="text" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$field['value'].'" size="8" />
-								<div class="wpl_tooltip tool_date" title="'. $field['description'] .'"></div><p class="description">'. $field['description'] .'</p>';
+                    echo '<input id="datepicker-example2" class="Zebra_DatePicker_Icon" type="text" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$field['value'].'" size="8" />';
                     break;
                 case 'text':
-                    echo '<input type="text" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$field['value'].'" size="30" />
-								<div class="wpl_tooltip tool_text"  title="'. $field['description'] .'"></div>';
+                    echo '<input type="text" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$field['value'].'" size="30" />';
                     break;
                 // textarea
                 case 'textarea':
-                    echo '<textarea name="'.$field['id'].'" id="'.$field['id'].'" cols="106" rows="6">'.$field['value'].'</textarea>
-								<div class="wpl_tooltip tool_textarea" title="'. $field['description'] .'"></div>';
+                    echo '<textarea name="'.$field['id'].'" id="'.$field['id'].'" cols="106" rows="6">'.$field['value'].'</textarea>';
                     break;
                 // wysiwyg
                 case 'wysiwyg':
                     wp_editor( $field['value'], $field['id'], $settings = array() );
-                    echo	'<span class="description">'. $field['description'] .'</span><br><br>';
                     break;
                 // media
                 case 'media':
@@ -444,7 +445,6 @@ class Leads_Settings {
                     echo '<label for="upload_image">';
                     echo '<input name="'.$field['id'].'"  id="'.$field['id'].'" type="text" size="36" name="upload_image" value="'.$field['value'].'" />';
                     echo '<input class="upload_image_button" id="uploader_'.$field['id'].'" type="button" value="Upload Image" />';
-                    echo '<br /><div class="wpl_tooltip tool_media" title="'. $field['description'] .'"></div>';
                     break;
                 // checkbox
                 case 'checkbox':
@@ -467,7 +467,6 @@ class Leads_Settings {
                         $i++;
                     }
                     echo "</table>";
-                    echo '<div class="wpl_tooltip tool_checkbox" title="'. $field['description'] .'"></div><p class="description">'. $field['description'] .'</p>';
                     break;
                 // radio
                 case 'radio':
@@ -477,7 +476,6 @@ class Leads_Settings {
                         echo '<input type="radio" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$value.'" ',$field['value']==$value ? ' checked="checked"' : '','/>';
                         echo '<label for="'.$value.'">&nbsp;&nbsp;'.$label.'</label> &nbsp;&nbsp;&nbsp;&nbsp;';
                     }
-                    echo '<div class="wpl_tooltip tool_radio" title="'. $field['description'] .'"></div>';
                     break;
                 // select
                 case 'dropdown':
@@ -485,11 +483,10 @@ class Leads_Settings {
                     foreach ($field['options'] as $value=>$label) {
                         echo '<option', $field['value'] == $value ? ' selected="selected"' : '', ' value="'.$value.'">'.$label.'</option>';
                     }
-                    echo '</select><div class="wpl_tooltip tool_dropdown" title="'. $field['description'] .'"></div>';
+                    echo '</select>';
                     break;
                 case 'html':
                     echo $field['value'];
-                    echo '<div class="wpl_tooltip tool_dropdown" title="'. $field['description'] .'"></div>';
                     break;
 
 

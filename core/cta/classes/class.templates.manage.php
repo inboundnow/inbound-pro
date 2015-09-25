@@ -47,13 +47,23 @@ if ( !class_exists('CTA_Template_Manager') ) {
 
 		public static function dont_install_cta_templates_here(){
 		    $screen = get_current_screen();
-		    if ( $screen->id !== 'themes')
-		            return; // exit if incorrect screen id
-		        $link = admin_url( 'edit.php?post_type=wp-call-to-action&page=wp_cta_manage_templates' );
-		        echo '<div class="error" style="margin-top:-20px;">';
-		        echo "<h3 style='font-weight:normal;'><strong><u>Please Note</u>:</strong> Do not try to install Call to Action templates</a> as a WordPres theme.<br><br><a href='".$link."'>Click here to install CTA templates</a> in the Calls to Action > Manage templates area";
-		        echo "</h3></div>";
-		}
+		    if ( $screen->id !== 'themes') {
+		    return; // exit if incorrect screen id
+		  	}
+		        $link = admin_url( 'edit.php?post_type=wp-call-to-action&page=wp_cta_manage_templates' ); ?>
+
+		        <div class="error" style="margin-top:-20px;">
+
+		        <h3 style='font-weight:normal; margin-bottom:0px;padding-bottom:0px;'>
+		            <strong>
+		            <?php _e( 'Attention Calls to Action Users:' , 'cta' ); ?>
+		            </strong>
+		        </h3>
+		        <p style='font-weight:normal;margin-top:0px; margin-bottom:0px;padding-bottom:10px;'><?php _e( sprintf( 'If you are trying to install a <strong>call to action template</strong> from Inbound Now, %s Please Follow these instructions%s' , '<a href=\'http://docs.inboundnow.com/guide/installing-new-templates/\' target=\'_blank\'>' , '</a>' ) , 'lcta' ); ?><br>
+		        <?php echo "CTA templates need to be installed <a href='".$link."'>here</a> in the <strong><a href='".$link."'>Calls to Action</a> > <a href='".$link."'>Manage templates area</a></strong>"; ?>
+		        </p>
+		        </div>
+		<?php }
 
 		/**
 		*  Adds additional management pages

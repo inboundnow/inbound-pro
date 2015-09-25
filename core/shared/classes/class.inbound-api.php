@@ -1349,6 +1349,7 @@ if (!class_exists('Inbound_API')) {
 			if (empty( $profiles )) {
 				/* redirect to  url */
 				header('Location: '. get_site_url() );
+				exit;
 			}
 
 			/* Get first result & prepare args */

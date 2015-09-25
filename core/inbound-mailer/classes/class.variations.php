@@ -423,11 +423,12 @@ if ( ! class_exists( 'Inbound_Mailer_Variations' ) ) {
 
 			if (in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1'))) {
 
-				if (file_exists(INBOUND_EMAIL_UPLOADS_URLPATH . 'templates/' . $template . '/thumbnail.png')) {
-					$screenshot = INBOUND_EMAIL_UPLOADS_URLPATH . 'templates/' . $template . '/thumbnail.png';
-				}
-				else {
+				if (file_exists(INBOUND_EMAIL_PATH . 'templates/' . $template . '/thumbnail.png')) {
 					$screenshot = INBOUND_EMAIL_URLPATH . 'templates/' . $template . '/thumbnail.png';
+				} else if (file_exists(INBOUND_EMAIL_UPLOADS_PATH . 'templates/' . $template . '/thumbnail.png')) {
+					$screenshot = INBOUND_EMAIL_UPLOADS_URLPATH . 'templates/' . $template . '/thumbnail.png';
+				} else if (file_exists(INBOUND_EMAIL_THEME_TEMPLATES_PATH . 'templates/' . $template . '/thumbnail.png')) {
+					$screenshot = INBOUND_EMAIL_THEME_TEMPLATES_URLPATH . 'templates/' . $template . '/thumbnail.png';
 				}
 
 			} else {

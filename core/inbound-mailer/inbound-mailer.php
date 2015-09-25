@@ -108,6 +108,8 @@ if ( !class_exists('Inbound_Mailer_Plugin')	) {
 			$uploads = wp_upload_dir();
 			define('INBOUND_EMAIL_UPLOADS_PATH', $uploads['basedir'].'/inbound-email/templates/' );
 			define('INBOUND_EMAIL_UPLOADS_URLPATH', $uploads['baseurl'].'/inbound-email/templates/' );
+			define('INBOUND_EMAIL_THEME_TEMPLATES_PATH' , get_template_directory(). '/emails/' );
+			define('INBOUND_EMAIL_THEME_TEMPLATES_URLPATH' , get_template_directory_uri(). '/emails/' );
 			define('INBOUND_EMAIL_STORE_URL', 'http://www.inboundnow.com/market/' );
 
 		}

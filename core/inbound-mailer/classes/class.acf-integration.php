@@ -162,7 +162,11 @@ if (!class_exists('Inbound_Mailer_ACF')) {
 			$pointer = str_replace('_' , '' , $matches[0]);
 			$repeater_key = self::key_search($array, $field , true ); /* returns parent flexible content field key using sub field key */
 
-			return $array[$repeater_key][$pointer][$field['key']];
+			if (isset($array[$repeater_key][$pointer][$field['key']])){
+				return $array[$repeater_key][$pointer][$field['key']];
+			}
+
+			return '';
 
 		}
 
@@ -176,7 +180,7 @@ if (!class_exists('Inbound_Mailer_ACF')) {
 		public static function load_acf_on_template( $allow , $rule, $args ) {
 			global $post;
 
-			if ($post->post_type != 'inbound-email' ) {
+			if (!isset($post) || $post->post_type != 'inbound-email' ) {
 				 return $allow;
 			}
 
