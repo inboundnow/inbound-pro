@@ -13,7 +13,7 @@ $key = basename(dirname(__FILE__));
 
 $lp_data[$key]['info'] =
 array(
-	'data_type' => 'acf',
+	'data_type' => 'acf4',
 	'version' => "1.0.1",
 	'label' => "Simple Two Column",
 	'category' => '2 column',

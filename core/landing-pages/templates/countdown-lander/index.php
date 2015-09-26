@@ -24,18 +24,18 @@ if (have_posts()) : while (have_posts()) : the_post();
 
 /* Pre-load meta data into variables */
 $bg_image = get_field( 'countdown-lander-bg-image', $post->ID  , false ); /* non acf pro templates need to set the 3rd param to false for image field types */
-$content = get_field( 'countdown-lander-main-content', $post->ID );
-$conversion_area = get_field( 'countdown-lander-conversion-area-content' , $post->ID );
-$body_color = get_field( 'countdown-lander-body-color', $post->ID );
-$main_headline = get_field( 'lp-main-headline' , $post->ID ); /* legacy support */
-$headline_color = get_field( 'countdown-lander-headline-color' , $post->ID );
-$text_color = get_field( 'countdown-lander-other-text-color' , $post->ID );
-$content_color = get_field( 'countdown-lander-content-background' , $post->ID );
-$background_on = get_field( 'countdown-lander-background-on' , $post->ID );
-$date_picker = get_field( 'countdown-lander-date-picker' , $post->ID );
-$social_display = get_field( 'countdown-lander-display-social' , $post->ID );
-$countdown_message = get_field( 'countdown-lander-countdown-message', $post->ID );
-$submit_button_color = get_field( 'countdown-lander-submit-button-color', $post->ID );
+$content = get_field( 'countdown-lander-main-content', $post->ID , false );
+$conversion_area = get_field( 'countdown-lander-conversion-area-content' , $post->ID , false );
+$body_color = get_field( 'countdown-lander-body-color', $post->ID , false );
+$main_headline = get_field( 'lp-main-headline' , $post->ID , false ); /* legacy support */
+$headline_color = get_field( 'countdown-lander-headline-color' , $post->ID , false );
+$text_color = get_field( 'countdown-lander-other-text-color' , $post->ID , false );
+$content_color = get_field( 'countdown-lander-content-background' , $post->ID , false );
+$background_on = get_field( 'countdown-lander-background-on' , $post->ID , false );
+$date_picker = get_field( 'countdown-lander-date-picker' , $post->ID , false );
+$social_display = get_field( 'countdown-lander-display-social' , $post->ID , false );
+$countdown_message = get_field( 'countdown-lander-countdown-message', $post->ID , false );
+$submit_button_color = get_field( 'countdown-lander-submit-button-color', $post->ID , false );
 
 /* Date Formatting */
 $date_array = date_parse($date_picker);

@@ -23,17 +23,17 @@ if (have_posts()) : while (have_posts()) :
 the_post();
 
 /* Pre-load meta data into variables */
-$yt_video = get_field( 'tubelar-yt-video' , $post->ID );
-$logo = get_field( 'tubelar-logo' , $post->ID , false ); /* acf 4 images need false for formatting */
-$sidebar = get_field( 'tubelar-sidebar' , $post->ID );
-$controls = get_field( 'tubelar-controls' , $post->ID );
-$boxcolor = get_field( 'tubelar-box-color' , $post->ID );
-$textcolor = get_field( 'tubelar-text-color' , $post->ID );
-$clear_bg_settings = get_field( 'tubelar-clear-bg-settings' , $post->ID );
-$social_display = get_field( 'tubelar-display-social' , $post->ID );
-$content = get_field( 'tubelar-main-content' , $post->ID );
-$conversion_area = get_field( 'tubelar-conversion-area-content' , $post->ID );
-$main_headline = get_field( 'lp-main-headline' , $post->ID ); /* legacy support */
+$yt_video = get_field( 'tubelar-yt-video' , $post->ID , false );
+$logo = get_field( 'tubelar-logo' , $post->ID , false );
+$sidebar = get_field( 'tubelar-sidebar' , $post->ID , false );
+$controls = get_field( 'tubelar-controls' , $post->ID , false );
+$boxcolor = get_field( 'tubelar-box-color' , $post->ID , false );
+$textcolor = get_field( 'tubelar-text-color' , $post->ID , false );
+$clear_bg_settings = get_field( 'tubelar-clear-bg-settings' , $post->ID , false );
+$social_display = get_field( 'tubelar-display-social' , $post->ID , false );
+$content = get_field( 'tubelar-main-content' , $post->ID , false );
+$conversion_area = get_field( 'tubelar-conversion-area-content' , $post->ID , false );
+$main_headline = get_field( 'lp-main-headline' , $post->ID , false );
 
 // function to parse url and grab id
 function youtubeid($url) {

@@ -137,7 +137,6 @@ class Landing_Pages_Template_Switcher {
 
         $template = Landing_Pages_Variations::get_current_template( $post->ID );
 
-
         if (!isset($template) || $template === 'default' ) {
             return $single;
         }
@@ -148,13 +147,20 @@ class Landing_Pages_Template_Switcher {
             return $single;
         }
 
-        /* check if core template first, else assume it's an uploaded template */
+        /* check if core template first */
         if (file_exists(LANDINGPAGES_PATH . 'templates/' . $template . '/index.php')) {
             return LANDINGPAGES_PATH . 'templates/' . $template . '/index.php';
-        } else {
+        }
+        /* next check if it is an uploaded template */
+        else if (file_exists(LANDINGPAGES_UPLOADS_PATH . $template . '/index.php')) {
             return LANDINGPAGES_UPLOADS_PATH . $template . '/index.php';
         }
+        /* next check if it is included with a WordPress theme */
+        else if (file_exists(LANDINGPAGES_THEME_TEMPLATES_PATH . $template . '/index.php')) {
+            return LANDINGPAGES_THEME_TEMPLATES_PATH . $template . '/index.php';
+        }
 
+        return $single;
     }
 
     /**

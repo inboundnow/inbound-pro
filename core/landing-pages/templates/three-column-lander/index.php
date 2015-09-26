@@ -15,24 +15,29 @@ include_once(LANDINGPAGES_PATH . 'templates/' . $key . '/config.php');
 /* Define Landing Pages's custom pre-load do_action('lp_init'); hook for 3rd party plugin integration */
 do_action('lp_init');
 
+function enqueue_landing_page_scripts() {
+    wp_enqueue_script('jquery');
+}
+add_action('wp_head','enqueue_landing_page_scripts');
+
 /* Start WordPress Loop and Load $post data */
 if (have_posts()) : while (have_posts()) :
 the_post();
 
 /* Pre-load meta data into variables. These are defined in the templates config.php file */
-$conversion_area_placement = get_field('three-column-lander-conversion_area', $post->ID);
-$left_content_bg_color = get_field('three-column-lander-left-content-bg-color', $post->ID);
-$left_content_text_color = get_field('three-column-lander-left-content-text-color', $post->ID);
-$left_content_area = get_field('three-column-lander-left-content-area', $post->ID);
-$middle_content_bg_color = get_field('three-column-lander-middle-content-bg-color', $post->ID);
-$middle_content_text_color = get_field('three-column-lander-middle-content-text-color', $post->ID);
-$right_content_bg_color = get_field('three-column-lander-right-content-bg-color', $post->ID);
-$right_content_text_color = get_field('three-column-lander-right-content-text-color', $post->ID);
-$right_content_area = get_field('three-column-lander-right-content-area', $post->ID);
-$submit_button_color = get_field('three-column-lander-submit-button-color', $post->ID);
-$content = get_field('three-column-lander-main-content', $post->ID);
-$conversion_area = get_field('three-column-lander-conversion-area-content', $post->ID);
-$main_headline = get_field('lp-main-headline', $post->ID);
+$conversion_area_placement = get_field('three-column-lander-conversion_area', $post->ID , false );
+$left_content_bg_color = get_field('three-column-lander-left-content-bg-color', $post->ID , false );
+$left_content_text_color = get_field('three-column-lander-left-content-text-color', $post->ID , false );
+$left_content_area = get_field('three-column-lander-left-content-area', $post->ID , false );
+$middle_content_bg_color = get_field('three-column-lander-middle-content-bg-color', $post->ID , false );
+$middle_content_text_color = get_field('three-column-lander-middle-content-text-color', $post->ID , false );
+$right_content_bg_color = get_field('three-column-lander-right-content-bg-color', $post->ID , false );
+$right_content_text_color = get_field('three-column-lander-right-content-text-color', $post->ID , false );
+$right_content_area = get_field('three-column-lander-right-content-area', $post->ID , false );
+$submit_button_color = get_field('three-column-lander-submit-button-color', $post->ID , false );
+$content = get_field('three-column-lander-main-content', $post->ID , false );
+$conversion_area = get_field('three-column-lander-conversion-area-content', $post->ID , false );
+$main_headline = get_field('lp-main-headline', $post->ID , false );
 
 ?>
 <!DOCTYPE html>
@@ -48,13 +53,14 @@ $main_headline = get_field('lp-main-headline', $post->ID);
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title>
-        <?php wp_title(); // Load Normal WordPress Page Title
-        ?>
+        <?php wp_title();  ?>
     </title>
-
+    <?php wp_head(); ?>
+    <?php do_action('lp_head');   ?>
     <link rel="stylesheet" href="<?php echo $path; ?>assets/css/normalize.css">
     <link rel="stylesheet" href="<?php echo $path; ?>assets/css/style.css">
     <script src="<?php echo $path; ?>assets/js/modernizr-2.6.2.min.js"></script>
+    <script src="<?php echo $path; ?>assets/js/custom.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.5, minimum-scale=0.5">
     <style type="text/css">
         body {
@@ -110,10 +116,6 @@ $main_headline = get_field('lp-main-headline', $post->ID);
         }
 
     </style>
-    <?php wp_head(); // Load Regular WP Head
-    ?>
-    <?php do_action('lp_head'); // Load Landing Page Specific Header Items
-    ?>
 </head>
 <body <?php body_class(); ?>>
 <!--[if lt IE 7]>

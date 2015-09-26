@@ -143,6 +143,43 @@ class acf_field_true_false extends acf_field {
 		
 	}
 	
+	
+	/*
+	*  validate_value
+	*
+	*  description
+	*
+	*  @type	function
+	*  @date	11/02/2014
+	*  @since	5.0.0
+	*
+	*  @param	$post_id (int)
+	*  @return	$post_id (int)
+	*/
+	
+	function validate_value( $valid, $value, $field, $input ){
+		
+		// bail early if not required
+		if( ! $field['required'] ) {
+			
+			return $valid;
+			
+		}
+		
+		
+		// value may be '0'
+		if( !$value ) {
+			
+			return false;
+			
+		}
+		
+		
+		// return
+		return $valid;
+				
+	}
+	
 }
 
 new acf_field_true_false();

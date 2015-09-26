@@ -148,13 +148,14 @@ function acf_format_value( $value, $post_id, $field ) {
 	// apply filters
 	$value = apply_filters( "acf/format_value", $value, $post_id, $field );
 	$value = apply_filters( "acf/format_value/type={$field['type']}", $value, $post_id, $field );
+	$value = apply_filters( "acf/format_value/name={$field['name']}", $value, $post_id, $field );
+	$value = apply_filters( "acf/format_value/key={$field['key']}", $value, $post_id, $field );
 	
 	
 	// return
 	return $value;
 	
 } 
-
 
 
 /*
@@ -179,10 +180,10 @@ function acf_update_value( $value = null, $post_id = 0, $field ) {
 	
 	
 	// strip slashes
-	// allow 3rd party customisation
-	if( acf_get_setting('stripslashes') )
-	{
+	if( acf_get_setting('stripslashes') ) {
+		
 		$value = stripslashes_deep($value);
+		
 	}
 	
 	
@@ -248,11 +249,19 @@ function acf_update_value( $value = null, $post_id = 0, $field ) {
 *  @return	(boolean)
 */
 
-function acf_update_option( $option = '', $value = false, $autoload = 'no' ) {
+function acf_update_option( $option = '', $value = false, $autoload = null ) {
 	
 	// vars
 	$deprecated = '';
 	$return = false;
+	
+	
+	// autoload
+	if( $autoload === null ){
+		
+		$autoload = acf_get_setting('autoload') ? 'yes' : 'no';
+		
+	}
 	
 	
 	// add or update
@@ -261,7 +270,7 @@ function acf_update_option( $option = '', $value = false, $autoload = 'no' ) {
 	    $return = update_option( $option, $value );
 	    
 	} else {
-	
+		
 		$return = add_option( $option, $value, $deprecated, $autoload );
 		
 	}
@@ -283,47 +292,87 @@ function acf_update_option( $option = '', $value = false, $autoload = 'no' ) {
 *  @since	5.0.0
 *
 *  @param	$post_id (mixed)
-*  @param	$key (string)
-*  @return	$field (boolean)
+*  @param	$key (string|array) the meta_name or $field
+*  @return	(boolean)
 */
 
 function acf_delete_value( $post_id = 0, $key = '' ) {
 	
 	// vars
+	$field = false;
 	$return = false;
 	
 	
-	// if $post_id is a string, then it is used in the everything fields and can be found in the options table
-	if( is_numeric($post_id) )
-	{
+	// string
+	if( is_string($key) ) {
+		
+		// find selector
+		$field = acf_get_field_reference( $key, $post_id );
+		
+		
+		// get field key
+		$field = acf_get_field( $field );
+	
+	
+	// field
+	} elseif( is_array($key) ) {
+		
+		// set vars
+		$field = $key;
+		$key = $field['name'];
+	
+	
+	// bail early if not valid key
+	} else {
+		
+		return false;
+		
+	}
+	
+	
+	// action for 3rd party customization
+	do_action("acf/delete_value", $post_id, $key, $field);
+	
+	if( $field ) {
+		
+		do_action("acf/delete_value/type={$field['type']}", $post_id, $key, $field);
+		do_action("acf/delete_value/name={$field['_name']}", $post_id, $key, $field);
+		do_action("acf/delete_value/key={$field['key']}", $post_id, $key, $field);
+		
+	}
+	
+	
+	// post
+	if( is_numeric($post_id) ) {
+		
 		$return = delete_metadata('post', $post_id, $key );
 				  delete_metadata('post', $post_id, '_' . $key );
-	}
-	elseif( strpos($post_id, 'user_') !== false )
-	{
+	
+	// user		  
+	} elseif( strpos($post_id, 'user_') !== false ) {
+		
 		$user_id = str_replace('user_', '', $post_id);
 		$return = delete_metadata('user', $user_id, $key);
 				  delete_metadata('user', $user_id, '_' . $key);
-	}
-	elseif( strpos($post_id, 'comment_') !== false )
-	{
+	
+	// comment
+	} elseif( strpos($post_id, 'comment_') !== false ) {
+		
 		$comment_id = str_replace('comment_', '', $post_id);
 		$return = delete_metadata('comment', $comment_id, $key);
 				  delete_metadata('comment', $comment_id, '_' . $key);
-	}
-	else
-	{
+	
+	// option
+	} else {
+		
 		$return = delete_option( $post_id . '_' . $key );
 				  delete_option( '_' . $post_id . '_' . $key );
+				  
 	}
 	
 	
 	// clear cache
 	wp_cache_delete( "load_value/post_id={$post_id}/name={$key}", 'acf' );
-	
-	
-	// action for 3rd party customization
-	do_action('acf/delete_value', $post_id, $key);
 	
 	
 	// return

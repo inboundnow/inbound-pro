@@ -48,7 +48,7 @@ $fields[] = acf_get_valid_field(array(
 	
 	<ul class="acf-hl acf-tfoot">
 		<li class="comic-sans">
-			<i class="acf-sprite-arrow"></i><?php _e('Drag and drop to reorder','acf'); ?>
+			<i class="acf-icon acf-icon-arrow-combo"></i><?php _e('Drag and drop to reorder','acf'); ?>
 		</li>
 		<li class="acf-fr">
 			<a href="#" class="acf-button blue acf-add-field"><?php _e('+ Add Field','acf'); ?></a>

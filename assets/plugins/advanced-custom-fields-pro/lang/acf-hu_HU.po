@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Advanced Custom Fields\n"
-"POT-Creation-Date: 2014-09-03 09:49+1000\n"
-"PO-Revision-Date: 2014-09-03 09:49+1000\n"
-"Last-Translator: Balazs Tihanyi <balazstihanyi@t-email.hu>\n"
+"POT-Creation-Date: 2015-03-05 11:24+1000\n"
+"PO-Revision-Date: 2015-03-05 11:26+1000\n"
+"Last-Translator: Elliot Condon <e@elliotcondon.com>\n"
 "Language-Team: Elliot Condon <e@elliotcondon.com>\n"
 "Language: hu_HU\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.7\n"
+"X-Generator: Poedit 1.7.4\n"
 "X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
 "_n_noop:1,2;_x:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;_ex:1,2c;esc_html__;"
 "esc_html_e;esc_html_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c\n"
@@ -23,81 +23,82 @@ msgstr ""
 msgid "Advanced Custom Fields"
 msgstr "Advanced Custom Fields"
 
-#: acf.php:240
+#: acf.php:244
+#, fuzzy
 msgid "Field&nbsp;Groups"
 msgstr "Mezőcsoportok"
 
-#: acf.php:241
+#: acf.php:245
 msgid "Field Group"
 msgstr "Mezőcsoport"
 
-#: acf.php:242 acf.php:268 pro/fields/flexible-content.php:498
+#: acf.php:246 acf.php:272 pro/fields/flexible-content.php:498
 msgid "Add New"
 msgstr "Új hozzáadása"
 
-#: acf.php:243
+#: acf.php:247
 msgid "Add New Field Group"
 msgstr "Új mezőcsoport hozzáadása"
 
-#: acf.php:244
+#: acf.php:248
 msgid "Edit Field Group"
 msgstr "Mezőcsoport szerkesztése"
 
-#: acf.php:245
+#: acf.php:249
 msgid "New Field Group"
 msgstr "Új mezőcsoport"
 
-#: acf.php:246
+#: acf.php:250
 msgid "View Field Group"
 msgstr "Mezőcsoport megtekintése"
 
-#: acf.php:247
+#: acf.php:251
 msgid "Search Field Groups"
 msgstr "Mezőcsoportok keresése"
 
-#: acf.php:248
+#: acf.php:252
 msgid "No Field Groups found"
 msgstr "Nincsenek mezőcsoportok"
 
-#: acf.php:249
+#: acf.php:253
 msgid "No Field Groups found in Trash"
 msgstr "Nem található mezőcsoport a lomtárban."
 
-#: acf.php:266 admin/field-group.php:211 admin/field-group.php:240
-#: admin/field-group.php:279 admin/field-groups.php:270
+#: acf.php:270 admin/field-group.php:211 admin/field-group.php:242
+#: admin/field-group.php:281 admin/field-groups.php:270
 msgid "Fields"
 msgstr "Mezők"
 
-#: acf.php:267
+#: acf.php:271
 msgid "Field"
 msgstr "Mező"
 
-#: acf.php:269
+#: acf.php:273
 msgid "Add New Field"
 msgstr "Mező hozzáadása"
 
-#: acf.php:270
+#: acf.php:274
 msgid "Edit Field"
 msgstr "Mező szerkesztése"
 
-#: acf.php:271 admin/views/field-group-fields.php:18
+#: acf.php:275 admin/views/field-group-fields.php:18
 #: admin/views/settings-info.php:109
 msgid "New Field"
 msgstr "Új mező"
 
-#: acf.php:272
+#: acf.php:276
 msgid "View Field"
 msgstr "Mező megtekintése"
 
-#: acf.php:273
+#: acf.php:277
 msgid "Search Fields"
 msgstr "Mezők keresése"
 
-#: acf.php:274
+#: acf.php:278
 msgid "No Fields found"
 msgstr "Mezők nem találhatók"
 
-#: acf.php:275
+#: acf.php:279
 msgid "No Fields found in Trash"
 msgstr "Nem található mezőcsoport a lomtárban."
 
@@ -153,7 +154,8 @@ msgstr "Váltómezők nem elérhetők"
 msgid "Field group title is required"
 msgstr "A mezőcsoport címét kötelező megadni"
 
-#: admin/field-group.php:209 api/api-field-group.php:567
+#: admin/field-group.php:209 api/api-field-group.php:577 js/field-group.js:906
+#: js/field-group.js:907 js/field-group.min.js:1
 msgid "copy"
 msgstr "másolat"
 
@@ -189,131 +191,135 @@ msgstr "A mező nem helyezhető át, amíg a változtatások nincsenek elmentve"
 msgid "Null"
 msgstr "Null"
 
-#: admin/field-group.php:241
+#: admin/field-group.php:218 core/input.php:112
+msgid "The changes you made will be lost if you navigate away from this page"
+msgstr ""
+
+#: admin/field-group.php:243
 msgid "Location"
 msgstr "Megjelenítés helye"
 
-#: admin/field-group.php:242 pro/api/api-options-page.php:22
+#: admin/field-group.php:244 pro/api/api-options-page.php:22
 #: pro/api/api-options-page.php:23
 msgid "Options"
 msgstr "Beállítások"
 
-#: admin/field-group.php:283
+#: admin/field-group.php:285
 msgid "Show Field Keys"
 msgstr "Mezőkulcsok megjelenítése"
 
-#: admin/field-group.php:284
+#: admin/field-group.php:286
 #: admin/views/field-group-field-conditional-logic.php:40
-#: admin/views/field-group-field.php:132 fields/page_link.php:489
-#: fields/page_link.php:503 fields/post_object.php:454
-#: fields/post_object.php:468 fields/select.php:394 fields/select.php:408
-#: fields/select.php:422 fields/select.php:436 fields/taxonomy.php:626
-#: fields/user.php:345 fields/user.php:359 fields/wysiwyg.php:374
+#: admin/views/field-group-field.php:132 fields/page_link.php:522
+#: fields/page_link.php:536 fields/post_object.php:460
+#: fields/post_object.php:474 fields/select.php:394 fields/select.php:408
+#: fields/select.php:422 fields/select.php:436 fields/taxonomy.php:630
+#: fields/user.php:345 fields/user.php:359 fields/wysiwyg.php:384
 #: pro/admin/views/settings-updates.php:93
 msgid "Yes"
 msgstr "Igen"
 
-#: admin/field-group.php:285
+#: admin/field-group.php:287
 #: admin/views/field-group-field-conditional-logic.php:41
-#: admin/views/field-group-field.php:133 fields/page_link.php:490
-#: fields/page_link.php:504 fields/post_object.php:455
-#: fields/post_object.php:469 fields/select.php:395 fields/select.php:409
-#: fields/select.php:423 fields/select.php:437 fields/taxonomy.php:627
-#: fields/user.php:346 fields/user.php:360 fields/wysiwyg.php:375
+#: admin/views/field-group-field.php:133 fields/page_link.php:523
+#: fields/page_link.php:537 fields/post_object.php:461
+#: fields/post_object.php:475 fields/select.php:395 fields/select.php:409
+#: fields/select.php:423 fields/select.php:437 fields/taxonomy.php:631
+#: fields/user.php:346 fields/user.php:360 fields/wysiwyg.php:385
 #: pro/admin/views/settings-updates.php:102
 msgid "No"
 msgstr "Nem"
 
-#: admin/field-group.php:570
+#: admin/field-group.php:572
 msgid "Super Admin"
 msgstr "Szuper admin"
 
-#: admin/field-group.php:643 pro/admin/views/options-page.php:50
+#: admin/field-group.php:645 pro/admin/views/options-page.php:52
 msgid "Publish"
 msgstr "Közzététel"
 
-#: admin/field-group.php:644
+#: admin/field-group.php:646
 msgid "Pending Review"
 msgstr "Függőben lévő"
 
-#: admin/field-group.php:645
+#: admin/field-group.php:647
 msgid "Draft"
 msgstr "Vázlat"
 
-#: admin/field-group.php:646
+#: admin/field-group.php:648
 msgid "Future"
 msgstr "Ütemezve"
 
-#: admin/field-group.php:647
+#: admin/field-group.php:649
 msgid "Private"
 msgstr "Magánjellegű"
 
-#: admin/field-group.php:648
+#: admin/field-group.php:650
 msgid "Revision"
 msgstr "Változat"
 
-#: admin/field-group.php:649
+#: admin/field-group.php:651
 msgid "Trash"
 msgstr "Lomtár"
 
-#: admin/field-group.php:713
+#: admin/field-group.php:715
 msgid "Front Page"
 msgstr "Kezdőoldal"
 
-#: admin/field-group.php:714
+#: admin/field-group.php:716
 msgid "Posts Page"
 msgstr "Bejegyzések oldala"
 
-#: admin/field-group.php:715
+#: admin/field-group.php:717
 msgid "Top Level Page (parent of 0)"
 msgstr "Felső szintű oldal (0 szülője)"
 
-#: admin/field-group.php:716
+#: admin/field-group.php:718
 msgid "Parent Page (has children)"
 msgstr "Szülőoldal (vannak gyermekei)"
 
-#: admin/field-group.php:717
+#: admin/field-group.php:719
 msgid "Child Page (has parent)"
 msgstr "Gyermekoldal (van szülőoldala)"
 
-#: admin/field-group.php:733
+#: admin/field-group.php:735
 msgid "Default Template"
 msgstr "Alapértelmezett sablonminta"
 
-#: admin/field-group.php:755 admin/field-group.php:763
-#: admin/field-group.php:777 admin/field-group.php:784
-#: admin/field-group.php:799 admin/field-group.php:809 fields/file.php:184
-#: fields/image.php:175 pro/fields/gallery.php:561
+#: admin/field-group.php:757 admin/field-group.php:765
+#: admin/field-group.php:779 admin/field-group.php:786
+#: admin/field-group.php:801 admin/field-group.php:811 fields/file.php:184
+#: fields/image.php:175 pro/fields/gallery.php:562
 msgid "All"
 msgstr "Összes"
 
-#: admin/field-group.php:764
+#: admin/field-group.php:766
 msgid "Add / Edit"
 msgstr "Hozzáadás / Szerkesztés"
 
-#: admin/field-group.php:765
+#: admin/field-group.php:767
 msgid "Register"
 msgstr "Regisztrálás"
 
-#: admin/field-group.php:996
+#: admin/field-group.php:998
 msgid "Move Complete."
 msgstr "Áthelyezés befejeződött."
 
-#: admin/field-group.php:997
+#: admin/field-group.php:999
 #, fuzzy, php-format
 msgid "The %s field can now be found in the %s field group"
 msgstr "A(z) %s mező mostantól a %s mezőcsoportban található."
 
-#: admin/field-group.php:999
+#: admin/field-group.php:1001
 msgid "Close Window"
 msgstr "Ablak bezárása"
 
-#: admin/field-group.php:1034
+#: admin/field-group.php:1036
 #, fuzzy
 msgid "Please select the destination for this field"
 msgstr "Válasszuk ki a mező áthelyezésének célját"
 
-#: admin/field-group.php:1041
+#: admin/field-group.php:1043
 msgid "Move Field"
 msgstr "Mező áthelyezése"
 
@@ -364,7 +370,7 @@ msgstr "Funkciók (functions)"
 msgid "Actions"
 msgstr "Műveletek (actions)"
 
-#: admin/field-groups.php:334 fields/relationship.php:742
+#: admin/field-groups.php:334 fields/relationship.php:741
 msgid "Filters"
 msgstr "Szűrők"
 
@@ -530,7 +536,7 @@ msgstr ""
 "Egyetlen szó, szóközök és ékezetek nélkül, alulvonás és kötőjel használata "
 "megengedett"
 
-#: admin/views/field-group-field.php:101 fields/taxonomy.php:601
+#: admin/views/field-group-field.php:101 fields/taxonomy.php:605
 msgid "Field Type"
 msgstr "Mezőtípus"
 
@@ -602,7 +608,7 @@ msgstr "Mezőcsoport megjelenítése, ha"
 msgid "Basic"
 msgstr "Alapvető"
 
-#: admin/views/field-group-locations.php:72 fields/relationship.php:748
+#: admin/views/field-group-locations.php:72 fields/relationship.php:747
 msgid "Post Type"
 msgstr "Bejegyzés típusa"
 
@@ -799,7 +805,7 @@ msgstr "Formátum"
 msgid "Page Attributes"
 msgstr "Oldal tulajdonságai"
 
-#: admin/views/field-group-options.php:118 fields/relationship.php:761
+#: admin/views/field-group-options.php:118 fields/relationship.php:760
 msgid "Featured Image"
 msgstr "Kiemelt kép"
 
@@ -828,11 +834,13 @@ msgid "Export Field Groups to PHP"
 msgstr "Mezőcsoport exportálása PHP kódba"
 
 #: admin/views/settings-export-generate.php:17
+#, fuzzy
 msgid ""
 "The following code can be used to register a local version of the selected "
 "field group(s). A local field group can provide many benefits such as faster "
 "load times, version control & dynamic fields/settings. Simply copy and paste "
-"the following code to your theme's functions.php file"
+"the following code to your theme's functions.php file or include it within "
+"an external file."
 msgstr ""
 "A következő kód segítségével regisztrálható a kiválasztott mezőcsoportok "
 "helyi változata. A helyi mezőcsoportok számos előnnyel rendelkeznek: "
@@ -1261,28 +1269,33 @@ msgstr "Újdonságok áttekintése"
 msgid "Data is at the latest version."
 msgstr "Az adatok megfelelnek a legújabb verziónak."
 
-#: api/api-helpers.php:1151
+#: api/api-helpers.php:1158
 msgid "Thumbnail"
 msgstr "Bélyegkép"
 
-#: api/api-helpers.php:1152
+#: api/api-helpers.php:1159
 msgid "Medium"
 msgstr "Közepes méret"
 
-#: api/api-helpers.php:1153
+#: api/api-helpers.php:1160
 msgid "Large"
 msgstr "Nagy méret"
 
-#: api/api-helpers.php:1154
+#: api/api-helpers.php:1161
 #, fuzzy
 msgid "Full Size"
 msgstr "Fájlméret"
 
-#: api/api-template.php:1186 pro/fields/gallery.php:487
+#: api/api-helpers.php:1747
+#, fuzzy
+msgid "(no title)"
+msgstr "Rendezés cím szerint"
+
+#: api/api-template.php:1187 pro/fields/gallery.php:488
 msgid "Update"
 msgstr "Frissítés"
 
-#: api/api-template.php:1187
+#: api/api-template.php:1188
 msgid "Post updated"
 msgstr "Bejegyzés frissítve"
 
@@ -1302,81 +1315,77 @@ msgstr "Relációs"
 msgid "jQuery"
 msgstr "jQuery"
 
-#: core/field.php:135 fields/checkbox.php:185 fields/radio.php:231
+#: core/field.php:135 fields/checkbox.php:187 fields/radio.php:231
 #: pro/fields/flexible-content.php:493 pro/fields/repeater.php:394
 msgid "Layout"
 msgstr "Tartalom elrendezés"
 
-#: core/input.php:118
+#: core/input.php:113
 msgid "Expand Details"
 msgstr "Részletek kibontása"
 
-#: core/input.php:119
+#: core/input.php:114
 msgid "Collapse Details"
 msgstr "Részletek bezárása"
 
-#: core/input.php:122
-msgid "Validation Failed. One or more fields below are required."
-msgstr "Érvényesítés sikertelen. Az alábbi mező(k) kitöltése kötelező."
-
-#: core/input.php:155
+#: core/input.php:146
 msgid "Validation successful"
 msgstr "Érvényesítés sikeres"
 
-#: core/input.php:166
+#: core/input.php:157
 msgid "Validation failed"
 msgstr "Érvényesítés sikertelen"
 
-#: core/input.php:173
+#: core/input.php:164
 #, php-format
 msgid "1 required field below is empty"
 msgid_plural "%s required fields below are empty"
 msgstr[0] "1 kötelező mező nincs kitöltve"
 msgstr[1] "%s kötelező mező nincs kitöltve"
 
-#: core/input.php:473
+#: core/input.php:464
 #, php-format
 msgid "%s value is required"
 msgstr "%s kitöltése kötelező"
 
-#: fields/checkbox.php:36 fields/taxonomy.php:608
+#: fields/checkbox.php:36 fields/taxonomy.php:612
 msgid "Checkbox"
 msgstr "Jelölődoboz (checkbox)"
 
-#: fields/checkbox.php:167 fields/radio.php:193 fields/select.php:371
+#: fields/checkbox.php:169 fields/radio.php:193 fields/select.php:371
 msgid "Choices"
 msgstr "Választási lehetőségek"
 
-#: fields/checkbox.php:168 fields/radio.php:194 fields/select.php:372
+#: fields/checkbox.php:170 fields/radio.php:194 fields/select.php:372
 msgid "Enter each choice on a new line."
 msgstr "Minden választási lehetőséget új sorba kell írni"
 
-#: fields/checkbox.php:168 fields/radio.php:194 fields/select.php:372
+#: fields/checkbox.php:170 fields/radio.php:194 fields/select.php:372
 msgid "For more control, you may specify both a value and label like this:"
 msgstr ""
 "A testreszabhatóság érdekében az érték és a felirat is meghatározható a "
 "következő módon:"
 
-#: fields/checkbox.php:168 fields/radio.php:194 fields/select.php:372
+#: fields/checkbox.php:170 fields/radio.php:194 fields/select.php:372
 msgid "red : Red"
 msgstr "voros : Vörös"
 
-#: fields/checkbox.php:176 fields/color_picker.php:158 fields/email.php:124
+#: fields/checkbox.php:178 fields/color_picker.php:158 fields/email.php:124
 #: fields/number.php:150 fields/radio.php:222 fields/select.php:380
 #: fields/text.php:148 fields/textarea.php:145 fields/true_false.php:115
-#: fields/wysiwyg.php:348
+#: fields/url.php:117 fields/wysiwyg.php:345
 msgid "Default Value"
 msgstr "Alapértelmezett érték"
 
-#: fields/checkbox.php:177 fields/select.php:381
+#: fields/checkbox.php:179 fields/select.php:381
 msgid "Enter each default value on a new line"
 msgstr "Minden alapértelmezett értéket új sorba kell írni"
 
-#: fields/checkbox.php:191 fields/radio.php:237
+#: fields/checkbox.php:193 fields/radio.php:237
 msgid "Vertical"
 msgstr "Függőleges"
 
-#: fields/checkbox.php:192 fields/radio.php:238
+#: fields/checkbox.php:194 fields/radio.php:238
 msgid "Horizontal"
 msgstr "Vízszintes"
 
@@ -1437,17 +1446,18 @@ msgid "Email"
 msgstr "Email (email)"
 
 #: fields/email.php:125 fields/number.php:151 fields/radio.php:223
-#: fields/text.php:149 fields/textarea.php:146 fields/wysiwyg.php:349
+#: fields/text.php:149 fields/textarea.php:146 fields/url.php:118
+#: fields/wysiwyg.php:346
 msgid "Appears when creating a new post"
 msgstr "Új bejegyzés létrehozásánál"
 
 #: fields/email.php:133 fields/number.php:159 fields/password.php:137
-#: fields/text.php:157 fields/textarea.php:154
+#: fields/text.php:157 fields/textarea.php:154 fields/url.php:126
 msgid "Placeholder Text"
 msgstr "Helyőrző szöveg"
 
 #: fields/email.php:134 fields/number.php:160 fields/password.php:138
-#: fields/text.php:158 fields/textarea.php:155
+#: fields/text.php:158 fields/textarea.php:155 fields/url.php:127
 msgid "Appears within the input"
 msgstr "Beviteli mezőben jelenik meg"
 
@@ -1503,7 +1513,7 @@ msgstr "Nincs fájl kiválasztva"
 msgid "Add File"
 msgstr "Fájl hozzáadása"
 
-#: fields/file.php:163 fields/image.php:143 fields/taxonomy.php:645
+#: fields/file.php:163 fields/image.php:143 fields/taxonomy.php:649
 msgid "Return Value"
 msgstr "Visszaadott érték"
 
@@ -1524,15 +1534,15 @@ msgstr "Fájl URL"
 msgid "File ID"
 msgstr "Fájl azonosító"
 
-#: fields/file.php:178 fields/image.php:169 pro/fields/gallery.php:555
+#: fields/file.php:178 fields/image.php:169 pro/fields/gallery.php:556
 msgid "Library"
 msgstr "Médiatár"
 
-#: fields/file.php:179 fields/image.php:170 pro/fields/gallery.php:556
+#: fields/file.php:179 fields/image.php:170 pro/fields/gallery.php:557
 msgid "Limit the media library choice"
 msgstr "Kiválasztható médiatár elemek korlátozása"
 
-#: fields/file.php:185 fields/image.php:176 pro/fields/gallery.php:562
+#: fields/file.php:185 fields/image.php:176 pro/fields/gallery.php:563
 msgid "Uploaded to post"
 msgstr "Feltöltve a bejegyzéshez"
 
@@ -1620,11 +1630,11 @@ msgstr "Kép URL"
 msgid "Image ID"
 msgstr "Kép azonosító"
 
-#: fields/image.php:158 pro/fields/gallery.php:544
+#: fields/image.php:158 pro/fields/gallery.php:545
 msgid "Preview Size"
 msgstr "Előnézeti méret"
 
-#: fields/image.php:159 pro/fields/gallery.php:545
+#: fields/image.php:159 pro/fields/gallery.php:546
 msgid "Shown when entering data"
 msgstr "Adatok bevitelénél jelenik meg"
 
@@ -1682,36 +1692,36 @@ msgstr "Nem található beágyazható elem a megadott URL-en"
 msgid "Embed Size"
 msgstr "Beágyazási méret"
 
-#: fields/page_link.php:187
+#: fields/page_link.php:215
 msgid "Archives"
 msgstr "Archívumok"
 
-#: fields/page_link.php:456 fields/post_object.php:421
-#: fields/relationship.php:714
+#: fields/page_link.php:489 fields/post_object.php:427
+#: fields/relationship.php:713
 msgid "Filter by Post Type"
 msgstr "Szűrés bejegyzéstípusra"
 
-#: fields/page_link.php:464 fields/post_object.php:429
-#: fields/relationship.php:722
+#: fields/page_link.php:497 fields/post_object.php:435
+#: fields/relationship.php:721
 msgid "All post types"
 msgstr "Minden bejegyzéstípus"
 
-#: fields/page_link.php:470 fields/post_object.php:435
-#: fields/relationship.php:728
+#: fields/page_link.php:503 fields/post_object.php:441
+#: fields/relationship.php:727
 msgid "Filter by Taxonomy"
 msgstr "Szűrés osztályozásra"
 
-#: fields/page_link.php:478 fields/post_object.php:443
-#: fields/relationship.php:736
+#: fields/page_link.php:511 fields/post_object.php:449
+#: fields/relationship.php:735
 msgid "No taxonomy filter"
 msgstr "Nincs szűrés osztályozásra"
 
-#: fields/page_link.php:484 fields/post_object.php:449 fields/select.php:389
-#: fields/taxonomy.php:621 fields/user.php:340
+#: fields/page_link.php:517 fields/post_object.php:455 fields/select.php:389
+#: fields/taxonomy.php:625 fields/user.php:340
 msgid "Allow Null?"
 msgstr "Üres mező engedélyezése"
 
-#: fields/page_link.php:498 fields/post_object.php:463 fields/select.php:403
+#: fields/page_link.php:531 fields/post_object.php:469 fields/select.php:403
 #: fields/user.php:354
 msgid "Select multiple values?"
 msgstr "Többszörös választás"
@@ -1720,16 +1730,16 @@ msgstr "Többszörös választás"
 msgid "Password"
 msgstr "Jelszó (password)"
 
-#: fields/post_object.php:36 fields/post_object.php:482
-#: fields/relationship.php:789
+#: fields/post_object.php:36 fields/post_object.php:488
+#: fields/relationship.php:788
 msgid "Post Object"
 msgstr "Bejegyzés objektum (post object)"
 
-#: fields/post_object.php:477 fields/relationship.php:784
+#: fields/post_object.php:483 fields/relationship.php:783
 msgid "Return Format"
 msgstr "Visszaadott formátum"
 
-#: fields/post_object.php:483 fields/relationship.php:790
+#: fields/post_object.php:489 fields/relationship.php:789
 msgid "Post ID"
 msgstr "Bejegyzés azonosító"
 
@@ -1769,39 +1779,39 @@ msgstr "Betöltés"
 msgid "No matches found"
 msgstr "Nincs egyezés"
 
-#: fields/relationship.php:606
+#: fields/relationship.php:605
 msgid "Search..."
 msgstr "Keresés..."
 
-#: fields/relationship.php:615
+#: fields/relationship.php:614
 msgid "Select post type"
 msgstr "Bejegyzéstípus kiválasztása"
 
-#: fields/relationship.php:628
+#: fields/relationship.php:627
 msgid "Select taxonomy"
 msgstr "Osztályozás kiválasztása"
 
-#: fields/relationship.php:747
+#: fields/relationship.php:746
 msgid "Search"
 msgstr "Keresés"
 
-#: fields/relationship.php:749 fields/taxonomy.php:36 fields/taxonomy.php:592
+#: fields/relationship.php:748 fields/taxonomy.php:36 fields/taxonomy.php:596
 msgid "Taxonomy"
 msgstr "Osztályozás (taxonomy)"
 
-#: fields/relationship.php:756
+#: fields/relationship.php:755
 msgid "Elements"
 msgstr "Elemek"
 
-#: fields/relationship.php:757
+#: fields/relationship.php:756
 msgid "Selected elements will be displayed in each result"
 msgstr "A kiválasztott elemek jelennek meg az eredményekben"
 
-#: fields/relationship.php:775
+#: fields/relationship.php:774
 msgid "Maximum posts"
 msgstr "Bejegyzések maximális száma"
 
-#: fields/select.php:36 fields/select.php:160 fields/taxonomy.php:613
+#: fields/select.php:36 fields/select.php:160 fields/taxonomy.php:617
 msgid "Select"
 msgstr "Választólista (select)"
 
@@ -1846,42 +1856,42 @@ msgstr ""
 "A lap típusú mezőt követő összes mező egy csoportba kerül (egy újabb lap "
 "beillesztéséig), a lap címsora pedig a mező felirata lesz."
 
-#: fields/taxonomy.php:561
+#: fields/taxonomy.php:565
 msgid "None"
 msgstr "Nincs"
 
-#: fields/taxonomy.php:607
+#: fields/taxonomy.php:611
 msgid "Multiple Values"
 msgstr "Több érték"
 
-#: fields/taxonomy.php:609
+#: fields/taxonomy.php:613
 msgid "Multi Select"
 msgstr "Többszörös választó (multi select)"
 
-#: fields/taxonomy.php:611
+#: fields/taxonomy.php:615
 msgid "Single Value"
 msgstr "Egyetlen érték"
 
-#: fields/taxonomy.php:612
+#: fields/taxonomy.php:616
 msgid "Radio Buttons"
 msgstr "Választógombok (radio buttons)"
 
-#: fields/taxonomy.php:635
+#: fields/taxonomy.php:639
 msgid "Load & Save Terms to Post"
 msgstr "Kifejezések a bejegyzéshez kapcsolva (betöltés és mentés)"
 
-#: fields/taxonomy.php:639
+#: fields/taxonomy.php:643
 msgid ""
 "Load value based on the post's terms and update the post's terms on save"
 msgstr ""
 "Az érték betöltése a bejegyzéshez rendelt kifejezések alapján és a "
 "kifejezések frissítése mentéskor"
 
-#: fields/taxonomy.php:650
+#: fields/taxonomy.php:654
 msgid "Term Object"
 msgstr "Kifejezés objektum"
 
-#: fields/taxonomy.php:651
+#: fields/taxonomy.php:655
 msgid "Term ID"
 msgstr "Kifejezés azonosító"
 
@@ -1938,6 +1948,15 @@ msgstr "Igaz / Hamis (true/false)"
 msgid "eg. Show extra content"
 msgstr "pl. Extra tartalom megjelenítése"
 
+#: fields/url.php:36
+msgid "Url"
+msgstr ""
+
+#: fields/url.php:160
+#, fuzzy
+msgid "Value must be a valid URL"
+msgstr "Az érték nem szám"
+
 #: fields/user.php:325
 msgid "Filter by role"
 msgstr "Szűrés szerepkörre"
@@ -1950,11 +1969,38 @@ msgstr "Minden felhasználói szerepkör"
 msgid "Wysiwyg Editor"
 msgstr "Wysiwyg szerkesztő"
 
-#: fields/wysiwyg.php:357
+#: fields/wysiwyg.php:297
+#, fuzzy
+msgctxt "Name for the Text editor tab (formerly HTML)"
+msgid "Text"
+msgstr "Szöveg (text)"
+
+#: fields/wysiwyg.php:298
+msgid "Visual"
+msgstr ""
+
+#: fields/wysiwyg.php:354
+msgid "Tabs"
+msgstr ""
+
+#: fields/wysiwyg.php:359
+msgid "Visual & Text"
+msgstr ""
+
+#: fields/wysiwyg.php:360
+msgid "Visual Only"
+msgstr ""
+
+#: fields/wysiwyg.php:361
+#, fuzzy
+msgid "Text Only"
+msgstr "Szöveg (text)"
+
+#: fields/wysiwyg.php:368
 msgid "Toolbar"
 msgstr "Eszközsáv"
 
-#: fields/wysiwyg.php:368
+#: fields/wysiwyg.php:378
 msgid "Show Media Upload Buttons?"
 msgstr "'Média hozzáadása' gomb megjelenítése"
 
@@ -1963,11 +2009,11 @@ msgstr "'Média hozzáadása' gomb megjelenítése"
 msgid "Advanced Custom Fields PRO"
 msgstr "Advanced Custom Fields PRO"
 
-#: pro/acf-pro.php:145
+#: pro/acf-pro.php:149
 msgid "Flexible Content requires at least 1 layout"
 msgstr "Rugalmas tartalomnál legalább egy elrendezést definiálni kell."
 
-#: pro/acf-pro.php:414
+#: pro/acf-pro.php:418
 msgid "Column Width"
 msgstr "Oszlopszélesség"
 
@@ -2010,7 +2056,7 @@ msgstr "<b>Hiba</b>. Nem hozható létre kapcsolat a frissítési szerverrel."
 msgid "<b>Connection Error</b>. Sorry, please try again"
 msgstr "<b>Kapcsolódási hiba</b>. Elnézést, próbáljuk meg újra."
 
-#: pro/admin/views/options-page.php:56
+#: pro/admin/views/options-page.php:58
 msgid "Save Options"
 msgstr "Beállítások mentése"
 
@@ -2210,47 +2256,43 @@ msgstr "Elértük a kiválasztható elemek maximális számát"
 msgid "Attachment Details"
 msgstr "Csatolmány részletei"
 
-#: pro/fields/gallery.php:453
+#: pro/fields/gallery.php:459
 msgid "Add to gallery"
 msgstr "Hozzáadás galériához"
 
-#: pro/fields/gallery.php:457
+#: pro/fields/gallery.php:463
 msgid "Bulk actions"
 msgstr "Csoportművelet"
 
-#: pro/fields/gallery.php:458
+#: pro/fields/gallery.php:464
 msgid "Sort by date uploaded"
 msgstr "Rendezés feltöltési dátum szerint"
 
-#: pro/fields/gallery.php:459
+#: pro/fields/gallery.php:465
 msgid "Sort by date modified"
 msgstr "Rendezés módosítási dátum szerint"
 
-#: pro/fields/gallery.php:460
+#: pro/fields/gallery.php:466
 msgid "Sort by title"
 msgstr "Rendezés cím szerint"
 
-#: pro/fields/gallery.php:461
+#: pro/fields/gallery.php:467
 msgid "Reverse current order"
 msgstr "Fordított sorrend"
 
-#: pro/fields/gallery.php:463
-msgid "Apply"
-msgstr "Alkalmaz"
-
-#: pro/fields/gallery.php:484
+#: pro/fields/gallery.php:485
 msgid "Close"
 msgstr "Bezárás"
 
-#: pro/fields/gallery.php:524
+#: pro/fields/gallery.php:525
 msgid "Minimum Selection"
 msgstr "Minimális választás"
 
-#: pro/fields/gallery.php:534
+#: pro/fields/gallery.php:535
 msgid "Maximum Selection"
 msgstr "Maximális választás"
 
-#: pro/fields/gallery.php:717
+#: pro/fields/gallery.php:718
 #, php-format
 msgid "%s requires at least %s selection"
 msgid_plural "%s requires at least %s selections"
@@ -2293,6 +2335,93 @@ msgstr "Sorok minimális száma"
 #: pro/fields/repeater.php:384
 msgid "Maximum Rows"
 msgstr "Sorok maximális száma"
+
+#: js/field-group.js:463 js/field-group.min.js:1
+#, fuzzy
+msgid "title_is_required"
+msgstr "A mezőcsoport címét kötelező megadni"
+
+#: js/field-group.js:539 js/field-group.min.js:1
+msgid "move_to_trash"
+msgstr ""
+
+#: js/field-group.js:994 js/field-group.min.js:1
+msgid "move_field_warning"
+msgstr ""
+
+#: js/field-group.js:1002 js/field-group.min.js:1
+#, fuzzy
+msgid "move_field"
+msgstr "Mező áthelyezése"
+
+#: js/field-group.js:1858 js/field-group.min.js:1
+msgid "null"
+msgstr ""
+
+#: js/field-group.js:2318 js/field-group.min.js:1
+msgid "hide_show_all"
+msgstr ""
+
+#: js/input.js:1813 js/input.js:4322 js/input.js:4435 js/input.js:4436
+#: js/input.min.js:1 js/input/acf.js:1556 js/input/image.js:38
+#: js/input/image.js:151 js/input/image.js:152 pro/js/pro-input.js:1482
+#: pro/js/pro-input.js:1483 pro/js/pro-input.min.js:1
+#, fuzzy
+msgid "image"
+msgstr "Kép"
+
+#: js/input.js:2086 js/input.min.js:1 js/input/acf.js:1829
+#, fuzzy
+msgid "expand_details"
+msgstr "Részletek kibontása"
+
+#: js/input.js:2087 js/input.min.js:1 js/input/acf.js:1830
+#, fuzzy
+msgid "collapse_details"
+msgstr "Részletek bezárása"
+
+#: js/input.js:2710 js/input.min.js:1 js/input/acf.js:2453
+msgid "unload"
+msgstr ""
+
+#: js/input.js:3572 js/input.js:3692 js/input.js:3693 js/input.min.js:1
+#: js/input/file.js:39 js/input/file.js:159 js/input/file.js:160
+msgid "file"
+msgstr ""
+
+#: js/input.js:4962 js/input.js:5017 js/input.js:5175 js/input.min.js:2
+#: js/input/relationship.js:166 js/input/relationship.js:221
+#: js/input/relationship.js:379
+#, fuzzy
+msgid "relationship"
+msgstr "Kapcsolat (relationship)"
+
+#: pro/js/pro-field-group.js:663 pro/js/pro-field-group.min.js:1
+#: pro/js/pro-input.js:611 pro/js/pro-input.js:616 pro/js/pro-input.js:639
+#: pro/js/pro-input.js:645 pro/js/pro-input.js:669 pro/js/pro-input.js:674
+#: pro/js/pro-input.js:675 pro/js/pro-input.js:695 pro/js/pro-input.js:701
+#: pro/js/pro-input.js:702 pro/js/pro-input.js:741 pro/js/pro-input.js:749
+#: pro/js/pro-input.js:770 pro/js/pro-input.js:778 pro/js/pro-input.min.js:1
+#, fuzzy
+msgid "flexible_content"
+msgstr "Rugalmas tartalom (flexible content)"
+
+#: pro/js/pro-input.js:362 pro/js/pro-input.js:425 pro/js/pro-input.min.js:1
+#, fuzzy
+msgid "repeater"
+msgstr "Ismétlő csoportmező (repeater)"
+
+#: pro/js/pro-input.js:1445 pro/js/pro-input.js:1457 pro/js/pro-input.js:1587
+#: pro/js/pro-input.js:1605 pro/js/pro-input.min.js:1
+#, fuzzy
+msgid "gallery"
+msgstr "Galéria"
+
+#~ msgid "Validation Failed. One or more fields below are required."
+#~ msgstr "Érvényesítés sikertelen. Az alábbi mező(k) kitöltése kötelező."
+
+#~ msgid "Apply"
+#~ msgstr "Alkalmaz"
 
 #, fuzzy
 #~ msgid "Run the updater"

@@ -11,7 +11,7 @@
 $key = basename(dirname(__FILE__));
 
 $lp_data[$key]['info'] = array(
-	'data_type' => 'acf',
+	'data_type' => 'acf4',
 	'version' => "2.0.1",
 	'label' => __( 'Tublar' , 'landing-pages' ),
 	'category' => 'Video',

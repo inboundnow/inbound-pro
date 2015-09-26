@@ -87,7 +87,7 @@ class acf_field_url extends acf_field {
 		
 		// render
 		$e .= '<div class="acf-input-wrap acf-url">';
-		$e .= '<i class="acf-sprite-url"></i><input ' . acf_esc_attr( $atts ) . ' />';
+		$e .= '<i class="acf-icon acf-icon-globe small"></i><input ' . acf_esc_attr( $atts ) . ' />';
 		$e .= '</div>';
 		
 		

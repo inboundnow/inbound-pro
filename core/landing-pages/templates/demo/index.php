@@ -25,24 +25,24 @@ do_action('lp_init');
 if (have_posts()) : while (have_posts()) : the_post();
 
 /* load ACF Input values */
-$wysiwyg = get_field( 'wysiwyg', $post->ID );
-$text = get_field( 'text', $post->ID );
-$textarea = get_field( 'textarea', $post->ID );
-$number = get_field( 'number', $post->ID );
-$email = get_field( 'email', $post->ID );
-$url = get_field( 'url', $post->ID );
-$password = get_field( 'password', $post->ID );
-$oembed = get_field( 'oembed', $post->ID );
+$wysiwyg = get_field( 'wysiwyg',$post->ID , false );
+$text = get_field( 'text',$post->ID , false );
+$textarea = get_field( 'textarea',$post->ID , false );
+$number = get_field( 'number',$post->ID , false );
+$email = get_field( 'email',$post->ID , false );
+$url = get_field( 'url',$post->ID , false );
+$password = get_field( 'password',$post->ID , false );
+$oembed = get_field( 'oembed',$post->ID , false );
 $image = get_field( 'image', $post->ID , false ); /* images need formatting set false for non ACF Pro templates */
 $file = get_field( 'file', $post->ID , false ); /* file urls need formatting set false for non ACF Pro templates */
-$gallery = get_field( 'gallery', $post->ID );
-$select = get_field( 'select', $post->ID );
-$checkbox = get_field( 'checkbox', $post->ID );
-$radio = get_field( 'radio', $post->ID );
-$truefalse = get_field( 'truefalse', $post->ID );
-$googlemap = get_field( 'googlemap', $post->ID );
-$datepicker = get_field( 'datepicker', $post->ID );
-$colorpicker = get_field( 'colorpicker', $post->ID );
+$gallery = get_field( 'gallery',$post->ID , false );
+$select = get_field( 'select',$post->ID , false );
+$checkbox = get_field( 'checkbox',$post->ID , false );
+$radio = get_field( 'radio',$post->ID , false );
+$truefalse = get_field( 'truefalse',$post->ID , false );
+$googlemap = get_field( 'googlemap',$post->ID , false );
+$datepicker = get_field( 'datepicker',$post->ID , false );
+$colorpicker = get_field( 'colorpicker',$post->ID , false );
 
 ?>
 <!DOCTYPE html>

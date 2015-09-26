@@ -80,7 +80,7 @@ class Landing_Pages_Metaboxes {
         $current_template = Landing_Pages_Variations::get_current_template($post->ID);
         foreach ($extension_data as $key => $data) {
 
-            if ( $key != $current_template || ( isset($data['info']['data_type']) && $data['info']['data_type'] =='acf' ) ) {
+            if ( $key != $current_template || ( isset($data['info']['data_type']) && strstr( $data['info']['data_type'] , 'acf') ) ) {
                 continue;
             }
 
@@ -261,7 +261,7 @@ class Landing_Pages_Metaboxes {
         wp_localize_script('lp-js-metaboxes', 'data', $params);
 
         /* if ACF load CSS to hide WordPress core elements */
-        if ( isset($template_data[$template]['info']['data_type'])&& $template_data[$template]['info']['data_type']=='acf' ){
+        if ( isset($template_data[$template]['info']['data_type']) && strstr( $template_data[$template]['info']['data_type'] , 'acf')){
             wp_enqueue_style('lp-acf-template', LANDINGPAGES_URLPATH . 'assets/css/admin/acf-hide-wp-elements.css');
         }
 

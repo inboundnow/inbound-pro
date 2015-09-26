@@ -37,7 +37,10 @@ class acf_field_file extends acf_field {
 		$this->category = 'content';
 		$this->defaults = array(
 			'return_format'	=> 'array',
-			'library' 		=> 'all'
+			'library' 		=> 'all',
+			'min_size'		=> 0,
+			'max_size'		=> 0,
+			'mime_types'	=> ''
 		);
 		$this->l10n = array(
 			'select'		=> __("Select File",'acf'),
@@ -72,13 +75,20 @@ class acf_field_file extends acf_field {
 	
 	function render_field( $field ) {
 		
+		// vars
+		$uploader = acf_get_setting('uploader');
+		
+		
 		// enqueue
-		acf_enqueue_uploader();
+		if( $uploader == 'wp' ) {
+			
+			acf_enqueue_uploader();
+			
+		}
 		
 		
 		// vars
 		$o = array(
-			'class'		=> 'acf-file-uploader acf-cf',
 			'icon'		=> '',
 			'title'		=> '',
 			'size'		=> '',
@@ -86,13 +96,23 @@ class acf_field_file extends acf_field {
 			'name'		=> '',
 		);
 		
+		$div = array(
+			'class'				=> 'acf-file-uploader acf-cf',
+			'data-library' 		=> $field['library'],
+			'data-mime_types'	=> $field['mime_types'],
+			'data-uploader'		=> $uploader
+		);
+		
+		
+		// has value
 		if( $field['value'] && is_numeric($field['value']) ) {
 			
 			$file = get_post( $field['value'] );
 			
 			if( $file ) {
 				
-				$o['class'] .= ' has-value';
+				$div['class'] .= ' has-value';
+				
 				$o['icon'] = wp_mime_type_icon( $file->ID );
 				$o['title']	= $file->post_title;
 				$o['size'] = @size_format(filesize( get_attached_file( $file->ID ) ));
@@ -104,21 +124,11 @@ class acf_field_file extends acf_field {
 			}
 			
 		}
-		
-		
-		// basic?
-		$basic = !current_user_can( 'upload_files' );
-		
-		if( $basic ) {
-			
-			$o['class'] .= ' basic';
-			
-		}
-		
+				
 ?>
-<div <?php acf_esc_attr_e(array( 'class' => $o['class'], 'data-library' => $field['library'] )); ?>>
+<div <?php acf_esc_attr_e($div); ?>>
 	<div class="acf-hidden">
-		<input type="hidden" <?php acf_esc_attr_e(array( 'name' => $field['name'], 'value' => $field['value'], 'data-name' => 'id' )); ?> />	
+		<?php acf_hidden_input(array( 'name' => $field['name'], 'value' => $field['value'], 'data-name' => 'id' )); ?>
 	</div>
 	<div class="show-if-value file-wrap acf-soh">
 		<div class="file-icon">
@@ -138,16 +148,15 @@ class acf_field_file extends acf_field {
 			</p>
 			
 			<ul class="acf-hl acf-soh-target">
-				<?php if( !$basic ): ?>
-					<li><a class="acf-icon dark" data-name="edit" href="#"><i class="acf-sprite-edit"></i></a></li>
+				<?php if( $uploader != 'basic' ): ?>
+					<li><a class="acf-icon acf-icon-pencil dark" data-name="edit" href="#"></a></li>
 				<?php endif; ?>
-				<li><a class="acf-icon dark" data-name="remove" href="#"><i class="acf-sprite-delete"></i></a></li>
+				<li><a class="acf-icon acf-icon-cancel dark" data-name="remove" href="#"></a></li>
 			</ul>
-			
 		</div>
 	</div>
 	<div class="hide-if-value">
-		<?php if( $basic ): ?>
+		<?php if( $uploader == 'basic' ): ?>
 			
 			<?php if( $field['value'] && !is_numeric($field['value']) ): ?>
 				<div class="acf-error-message"><p><?php echo $field['value']; ?></p></div>
@@ -183,6 +192,23 @@ class acf_field_file extends acf_field {
 	
 	function render_field_settings( $field ) {
 		
+		// clear numeric settings
+		$clear = array(
+			'min_size',
+			'max_size'
+		);
+		
+		foreach( $clear as $k ) {
+			
+			if( empty($field[$k]) ) {
+				
+				$field[$k] = '';
+				
+			}
+			
+		}
+		
+		
 		// return_format
 		acf_render_field_setting( $field, array(
 			'label'			=> __('Return Value','acf'),
@@ -209,7 +235,38 @@ class acf_field_file extends acf_field {
 				'all'			=> __('All', 'acf'),
 				'uploadedTo'	=> __('Uploaded to post', 'acf')
 			)
-		));	
+		));
+		
+		
+		// min
+		acf_render_field_setting( $field, array(
+			'label'			=> __('Minimum','acf'),
+			'instructions'	=> __('Restrict which files can be uploaded','acf'),
+			'type'			=> 'text',
+			'name'			=> 'min_size',
+			'prepend'		=> __('File size', 'acf'),
+			'append'		=> 'MB',
+		));
+		
+		
+		// max
+		acf_render_field_setting( $field, array(
+			'label'			=> __('Maximum','acf'),
+			'instructions'	=> __('Restrict which files can be uploaded','acf'),
+			'type'			=> 'text',
+			'name'			=> 'max_size',
+			'prepend'		=> __('File size', 'acf'),
+			'append'		=> 'MB',
+		));
+		
+		
+		// allowed type
+		acf_render_field_setting( $field, array(
+			'label'			=> __('Allowed file types','acf'),
+			'instructions'	=> __('Comma separated list. Leave blank for all types','acf'),
+			'type'			=> 'text',
+			'name'			=> 'mime_types',
+		));
 		
 	}
 	

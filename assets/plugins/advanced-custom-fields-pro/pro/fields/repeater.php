@@ -110,7 +110,7 @@ class acf_field_repeater extends acf_field {
 		
 		foreach( $field['sub_fields'] as $f ) {
 			
-			$empty_row[ $f['key'] ] = isset( $f['default_value'] ) ? $f['default_value'] : false;
+			$empty_row[ $f['key'] ] = isset( $f['default_value'] ) ? $f['default_value'] : null;
 			
 		}
 				
@@ -215,7 +215,7 @@ class acf_field_repeater extends acf_field {
 		<thead>
 			<tr>
 				<?php if( $show_order ): ?>
-					<th class="order"></th>
+					<th class="order"><span class="order-spacer"></span></th>
 				<?php endif; ?>
 				
 				<?php foreach( $field['sub_fields'] as $sub_field ): 
@@ -245,7 +245,7 @@ class acf_field_repeater extends acf_field {
 				<?php endforeach; ?>
 
 				<?php if( $show_remove ): ?>
-					<th class="remove"></th>
+					<th class="remove"><span class="remove-spacer"></span></th>
 				<?php endif; ?>
 			</tr>
 		</thead>
@@ -298,8 +298,8 @@ class acf_field_repeater extends acf_field {
 				
 				<?php if( $show_remove ): ?>
 					<td class="remove">
-						<a class="acf-icon small acf-repeater-add-row" href="#" data-before="1" title="<?php _e('Add row','acf'); ?>"><i class="acf-sprite-add"></i></a>
-						<a class="acf-icon small acf-repeater-remove-row" href="#" title="<?php _e('Remove row','acf'); ?>"><i class="acf-sprite-remove"></i></a>
+						<a class="acf-icon acf-icon-plus small acf-repeater-add-row" href="#" data-before="1" title="<?php _e('Add row','acf'); ?>"></a>
+						<a class="acf-icon acf-icon-minus small acf-repeater-remove-row" href="#" title="<?php _e('Remove row','acf'); ?>"></a>
 					</td>
 				<?php endif; ?>
 				
@@ -632,16 +632,16 @@ class acf_field_repeater extends acf_field {
 	
 	function update_value( $value, $post_id, $field ) {
 		
+		// vars
+		$total = 0;
+		
+		
 		// remove acfcloneindex
 		if( isset($value['acfcloneindex']) ) {
 		
 			unset($value['acfcloneindex']);
 			
 		}
-		
-		
-		// vars
-		$total = 0;
 		
 		
 		// update sub fields
@@ -662,44 +662,47 @@ class acf_field_repeater extends acf_field {
 				$total++;
 				
 				
-				// loop through sub fields
-				if( !empty($field['sub_fields']) ) {
-				
-					foreach( $field['sub_fields'] as $sub_field ) {
-						
-						// value
-						$v = false;
-						
-						
-						// key (backend)
-						if( isset($row[ $sub_field['key'] ]) ) {
-							
-							$v = $row[ $sub_field['key'] ];
-							
-						} elseif( isset($row[ $sub_field['name'] ]) ) {
-							
-							$v = $row[ $sub_field['name'] ];
-							
-						} else {
-							
-							// input is not set (hidden by conditioanl logic)
-							continue;
-							
-						}
-						
-						
-						// modify name for save
-						$sub_field['name'] = "{$field['name']}_{$i}_{$sub_field['name']}";
-						
-						
-						// update field
-						acf_update_value( $v, $post_id, $sub_field );
-						
-					}
-					// foreach
+				// continue if no sub fields
+				if( !$field['sub_fields'] ) {
+					
+					continue;
 					
 				}
-				// if
+					
+					
+				// loop through sub fields
+				foreach( $field['sub_fields'] as $sub_field ) {
+					
+					// value
+					$v = false;
+					
+					
+					// key (backend)
+					if( isset($row[ $sub_field['key'] ]) ) {
+						
+						$v = $row[ $sub_field['key'] ];
+						
+					} elseif( isset($row[ $sub_field['name'] ]) ) {
+						
+						$v = $row[ $sub_field['name'] ];
+						
+					} else {
+						
+						// input is not set (hidden by conditioanl logic)
+						continue;
+						
+					}
+					
+					
+					// modify name for save
+					$sub_field['name'] = "{$field['name']}_{$i}_{$sub_field['name']}";
+					
+					
+					// update value
+					acf_update_value( $v, $post_id, $sub_field );
+					
+				}
+				// foreach
 				
 			}
 			// foreach
@@ -713,11 +716,16 @@ class acf_field_repeater extends acf_field {
 		
 		if( $old_total > $total ) {
 			
-			for ( $i = $total; $i < $old_total; $i++ ) {
+			for( $i = $total; $i < $old_total; $i++ ) {
 				
 				foreach( $field['sub_fields'] as $sub_field ) {
 					
-					acf_delete_value( $post_id, "{$field['name']}_{$i}_{$sub_field['name']}" );
+					// modify name for delete
+					$sub_field['name'] = "{$field['name']}_{$i}_{$sub_field['name']}";
+					
+					
+					// delete value
+					acf_delete_value( $post_id, $sub_field );
 				
 				}
 				// foreach
@@ -735,6 +743,52 @@ class acf_field_repeater extends acf_field {
 		
 		// return
 		return $value;
+	}
+	
+	
+	/*
+	*  delete_value
+	*
+	*  description
+	*
+	*  @type	function
+	*  @date	1/07/2015
+	*  @since	5.2.3
+	*
+	*  @param	$post_id (int)
+	*  @return	$post_id (int)
+	*/
+	
+	function delete_value( $post_id, $key, $field ) {
+		
+		// get old value (db only)
+		$old_total = intval( acf_get_value( $post_id, $field, true ) );
+		
+		
+		// bail early if no rows or no sub fields
+		if( !$old_total || !$field['sub_fields'] ) {
+			
+			return;
+			
+		}
+		
+		
+		for( $i = 0; $i < $old_total; $i++ ) {
+			
+			foreach( $field['sub_fields'] as $sub_field ) {
+				
+				// modify name for delete
+				$sub_field['name'] = "{$key}_{$i}_{$sub_field['name']}";
+				
+				
+				// delete value
+				acf_delete_value( $post_id, $sub_field );
+			
+			}
+			// foreach
+			
+		}
+			
 	}
 	
 	

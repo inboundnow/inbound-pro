@@ -11,7 +11,7 @@ $key = basename(dirname(__FILE__));
 $path = (preg_match("/uploads/", dirname(__FILE__))) ? LANDINGPAGES_UPLOADS_URLPATH . $key .'/' : LANDINGPAGES_URLPATH.'templates/'.$key.'/';
 
 $lp_data[$key]['info'] = array(
-	'data_type' => 'acf',
+	'data_type' => 'acf4',
 	'version' => "1.0.1",
 	'label' => "Svbtle",
 	'category' => '2 column',

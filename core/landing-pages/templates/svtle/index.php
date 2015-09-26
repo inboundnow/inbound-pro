@@ -27,21 +27,20 @@ if (have_posts()) : while (have_posts()) :
 the_post();
 
 /* Pre-load meta data into variables */
-$main_headline = get_field('lp-main-headline', $post->ID);
-$sidebar_color = get_field('svtle-sidebar-color', $post->ID);
-$sidebar_text_color = get_field('svtle-sidebar-text-color', $post->ID);
-$header_color = get_field('svtle-header-color', $post->ID);
-$body_color = get_field('svtle-body-color', $post->ID);
-$text_color = get_field('svtle-page_text-color', $post->ID);
-$headline_color = get_field('svtle-headline-color', $post->ID);
-$logo = get_field('svtle-logo', $post->ID, false); /* images need the false to disable formatting by ACF to be compatible with ACF 4 & 5 */
-
-$sidebar = get_field('svtle-sidebar', $post->ID);
-$social_display = get_field('svtle-display-social', $post->ID);
-$mobile_form = get_field('svtle-mobile-form', $post->ID);
-$submit_button_color = get_field('svtle-submit-button-color', $post->ID);
-$content = get_field('svtle-main-content', $post->ID);
-$conversion_area = get_field('svtle-conversion-area-content', $post->ID);
+$main_headline = get_field('lp-main-headline', $post->ID , false );
+$sidebar_color = get_field('svtle-sidebar-color', $post->ID , false );
+$sidebar_text_color = get_field('svtle-sidebar-text-color', $post->ID , false );
+$header_color = get_field('svtle-header-color', $post->ID , false );
+$body_color = get_field('svtle-body-color', $post->ID , false );
+$text_color = get_field('svtle-page_text-color', $post->ID , false );
+$headline_color = get_field('svtle-headline-color', $post->ID , false );
+$logo = get_field('svtle-logo', $post->ID, false);
+$sidebar = get_field('svtle-sidebar', $post->ID , false );
+$social_display = get_field('svtle-display-social', $post->ID , false );
+$mobile_form = get_field('svtle-mobile-form', $post->ID , false );
+$submit_button_color = get_field('svtle-submit-button-color', $post->ID , false );
+$content = get_field('svtle-main-content', $post->ID , false );
+$conversion_area = get_field('svtle-conversion-area-content', $post->ID , false );
 
 // Convert Hex to RGB Value for submit button
 function Hex_2_RGB($hex) {

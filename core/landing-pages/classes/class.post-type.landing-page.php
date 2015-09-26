@@ -225,7 +225,7 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
                         $thumbnail = 'http://s.wordpress.com/mshots/v1/' . urlencode(esc_url($permalink)) . '?w=140';
                     }
 
-                    echo "<a title='" . __('Click to Preview this variation', 'landing-pages') . "' class='thickbox' href='" . $permalink . "?lp-variation-id=0&iframe_window=on&post_id=" . $post->ID . "&TB_iframe=true&width=640&height=703' target='_blank'><img src='" . $thumbnail . "' style='width:130px;height:110px;' title='Click to Preview'></a>";
+                    echo "<a title='" . __('Click to Preview this variation', 'landing-pages') . "' class='thickbox' href='" . $permalink . "?lp-variation-id=0&iframe_window=on&post_id=" . $post->ID . "&TB_iframe=true&width=640&height=703' target='_blank'><img src='" . $thumbnail . "' style='width:155px;height:110px;' title='Click to Preview'></a>";
                     BREAK;
                 case "stats":
                     self::show_stats();

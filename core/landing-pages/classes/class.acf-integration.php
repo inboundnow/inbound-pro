@@ -26,6 +26,9 @@ if (!class_exists('Landing_Pages_ACF')) {
 			/* Intercept load custom field value request and hijack it */
 			add_filter( 'acf/load_value' , array( __CLASS__ , 'load_value' ) , 11 , 3 );
 
+			/* extra field formatting */
+			add_filter( 'acf/format_value' , array( __CLASS__ , 'format_value' ) , 11 , 3 );
+
 			/* make sure fields are placed in the correct location */
 			add_action( 'admin_print_footer_scripts', array( __CLASS__ , 'reposition_acf_fields' ) );
 
@@ -85,6 +88,10 @@ if (!class_exists('Landing_Pages_ACF')) {
 			}
 		}
 
+		public static function format_value() {
+
+		}
+
 		/**
 		 * Finds the correct value given the variation
 		 *
@@ -127,6 +134,16 @@ if (!class_exists('Landing_Pages_ACF')) {
 				if ( !is_admin() &&  defined('ACF_FREE')  ) {
 					$value = self::acf_free_value_formatting( $value , $field );
 				}
+
+				if ( !is_admin() && is_string($value) ) {
+					$value = do_shortcode($value);
+				}
+
+				/* handle non acf5 template return formatting */
+				if (defined('ACF_PRO')) {
+					$value = self::acf_check_if_acf4( $value , $field );
+				}
+
 			}
 
 			return $value;
@@ -402,11 +419,31 @@ if (!class_exists('Landing_Pages_ACF')) {
 		}
 
 		/**
+		 * checks template data type
+		 * @param $value
+		 * @param $field
+		 * @return mixed
+		 */
+		public static function acf_check_if_acf4( $value , $field ) {
+			global $key, $lp_data;
+
+			if (!isset($lp_data[$key])) {
+				return $value;
+			}
+
+			if ( $lp_data[$key]['info']['data_type'] == 'acf4' ) {
+				return self::acf_free_value_formatting($value , $field);
+			} else {
+				return $value;
+			}
+		}
+
+		/**
 		 * adds a standard set of instructions to all acf templates via our legacy field system
 		 */
 		public static function lp_add_instructions( $data ) {
 			foreach ($data as $key => $object ) {
-				if ( isset($object['info']['data_type']) && $object['info']['data_type'] == 'acf' ) {
+				if ( isset($object['info']['data_type']) && strstr( $object['info']['data_type'] , 'acf')  ) {
 
 				}
 			}

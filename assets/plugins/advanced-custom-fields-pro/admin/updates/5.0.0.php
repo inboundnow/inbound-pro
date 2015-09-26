@@ -171,6 +171,10 @@ function _migrate_field_group_500( $ofg ) {
 	// Note: acf_update_field_group will call the acf_get_valid_field_group function and apply 'compatibility' changes
 	
 	
+	// add old ID reference
+	$nfg['old_ID'] = $ofg->ID;
+	
+	
 	// save field group
 	$nfg = acf_update_field_group( $nfg );
 	
@@ -181,10 +185,6 @@ function _migrate_field_group_500( $ofg ) {
 		acf_trash_field_group( $nfg['ID'] );
 		
 	}
-	
-	
-	// action for 3rd party customization
-	do_action('acf/update/migrate_field_group', $ofg->ID, $nfg['ID'] );
 	
 	
 	// return

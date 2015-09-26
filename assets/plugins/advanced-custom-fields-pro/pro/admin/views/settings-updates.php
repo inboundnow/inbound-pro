@@ -90,7 +90,7 @@ $readonly = $active ? 1 : 0;
 						<td>
 							<?php if( $update_available ): ?>
 								
-								<?php _e('Yes', 'acf'); ?> &nbsp;&nbsp; 
+								<span style="margin-right: 5px;"><?php _e('Yes', 'acf'); ?></span>
 								
 								<?php if( $active ): ?>
 									<a class="acf-button blue" href="<?php echo admin_url('plugins.php?s=Advanced+Custom+Fields+Pro'); ?>"><?php _e('Update Plugin', 'acf'); ?></a>
@@ -99,7 +99,9 @@ $readonly = $active ? 1 : 0;
 								<?php endif; ?>
 								
 							<?php else: ?>
-								<?php _e('No', 'acf'); ?> &nbsp;&nbsp; <a class="acf-button" href="<?php echo add_query_arg('force-check', 1); ?>"><?php _e('Check Again', 'acf'); ?></a>
+								
+								<span style="margin-right: 5px;"><?php _e('No', 'acf'); ?></span>
+								<a class="acf-button" href="<?php echo add_query_arg('force-check', 1); ?>"><?php _e('Check Again', 'acf'); ?></a>
 							<?php endif; ?>
 						</td>
 					</tr>

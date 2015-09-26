@@ -191,8 +191,12 @@ class acf_form_attachment {
 			if( $this->validate_page() ) {
 				
 				echo '<style type="text/css">
-					.compat-attachment-fields {
-						width: 100%;
+					.compat-attachment-fields,
+					.compat-attachment-fields > tbody,
+					.compat-attachment-fields > tbody > tr,
+					.compat-attachment-fields > tbody > tr > th,
+					.compat-attachment-fields > tbody > tr > td {
+						display: block;
 					}
 					tr.acf-field {
 						display: block;

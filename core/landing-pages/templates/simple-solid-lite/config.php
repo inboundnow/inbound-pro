@@ -12,7 +12,7 @@ $path = (preg_match("/uploads/", dirname(__FILE__))) ? LANDINGPAGES_UPLOADS_URLP
 
 /* Configures Template Information */
 $lp_data[$key]['info'] = array(
-	'data_type' => 'acf',
+	'data_type' => 'acf4',
 	'version' => '1.0',
 	'label' => 'Simple Solid Lite',
 	'category' => '1 Column',

@@ -15,7 +15,7 @@ $next_month_timestamp = strtotime("+1 month");
 $next_month = date('Y-m-d H:i', $next_month_timestamp);
 
 $lp_data[$key]['info'] = array(
-	'data_type' => 'acf',
+	'data_type' => 'acf4',
 	'version' => "1.0.5",
 	'label' => __( 'Countdown Lander' , 'landing-pages' ),
 	'category' => 'Countdown,1 column',

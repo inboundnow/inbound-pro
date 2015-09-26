@@ -22,18 +22,18 @@ do_action('lp_init');
 if (have_posts()) : while (have_posts()) : the_post();
 
 /* Pre-load meta data into variables */
-$main_headline = get_field( 'lp-main-headline', $post->ID );
-$content = get_field( 'simple-two-column-main-content', $post->ID );
-$conversion_area = get_field( 'simple-two-column-conversion-area-content', $post->ID );
-$content_color = get_field( 'simple-two-column-content-color', $post->ID );
-$body_color = get_field( 'simple-two-column-body-color', $post->ID );
-$sidebar_color = get_field( 'simple-two-column-sidebar-color', $post->ID );
-$text_color = get_field( 'simple-two-column-content-text-color', $post->ID );
-$sidebar_text_color = get_field( 'simple-two-column-sidebar-text-color', $post->ID );
-$headline_color = get_field( 'simple-two-column-headline-color', $post->ID );
-$sidebar = get_field( 'simple-two-column-sidebar', $post->ID );
-$social_display = get_field( 'simple-two-column-display-social', $post->ID );
-$submit_button_color = get_field( 'simple-two-column-submit-button-color', $post->ID );
+$main_headline = get_field( 'lp-main-headline', $post->ID , false );
+$content = get_field( 'simple-two-column-main-content', $post->ID , false );
+$conversion_area = get_field( 'simple-two-column-conversion-area-content', $post->ID , false );
+$content_color = get_field( 'simple-two-column-content-color', $post->ID , false );
+$body_color = get_field( 'simple-two-column-body-color', $post->ID , false );
+$sidebar_color = get_field( 'simple-two-column-sidebar-color', $post->ID , false );
+$text_color = get_field( 'simple-two-column-content-text-color', $post->ID , false );
+$sidebar_text_color = get_field( 'simple-two-column-sidebar-text-color', $post->ID , false );
+$headline_color = get_field( 'simple-two-column-headline-color', $post->ID , false );
+$sidebar = get_field( 'simple-two-column-sidebar', $post->ID , false );
+$social_display = get_field( 'simple-two-column-display-social', $post->ID , false );
+$submit_button_color = get_field( 'simple-two-column-submit-button-color', $post->ID , false );
 
 // Get Colorscheme
 $submit_color_scheme = inbound_color_scheme($submit_button_color, 'int');

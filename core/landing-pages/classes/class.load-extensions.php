@@ -18,6 +18,7 @@ class Landing_Pages_Load_Extensions {
         /*load core & uploaded templates */
         add_action('init',array(__CLASS__,'load_core_template_configurations') , 5  );
         add_action('init',array(__CLASS__,'load_uploaded_template_configurations') , 5  );
+        add_action('init',array(__CLASS__,'load_theme_privided_template_configurations') , 5  );
 
         /* Adds core metabox settings to extension data array */
         add_filter('lp_extension_data', array(__CLASS__, 'add_core_setting_data'), 1, 1);
@@ -171,6 +172,56 @@ class Landing_Pages_Load_Extensions {
 
         return $lp_data;
 
+    }
+
+    /**
+     * Loads landing pages found in theme forlder
+     *
+     */
+    public static function load_theme_privided_template_configurations() {
+        global $lp_data;
+
+        $template_ids = self::get_theme_provided_template_ids();
+
+        /* loop through template ids and include their config file */
+        foreach ($template_ids as $name) {
+            if (file_exists(LANDINGPAGES_THEME_TEMPLATES_PATH . "$name/config.php")) {
+                include_once(LANDINGPAGES_THEME_TEMPLATES_PATH . "$name/config.php");
+            }
+        }
+
+
+        return $lp_data;
+
+    }
+
+    /**
+     * Gets array of landing page templates provided by WordPress theme
+     *
+     * @returns ARRAY $template_ids array of uploaded template ids
+     */
+    public static function get_theme_provided_template_ids() {
+
+        $template_ids = array();
+
+
+        if (!is_dir( LANDINGPAGES_THEME_TEMPLATES_PATH )) {
+            return $template_ids;
+        }
+
+        $results = scandir(LANDINGPAGES_THEME_TEMPLATES_PATH);
+
+        foreach ($results as $name) {
+            if ($name === '.' or $name === '..' or $name === '__MACOSX') {
+                continue;
+            }
+
+            if (is_dir(LANDINGPAGES_THEME_TEMPLATES_PATH . '/' . $name)) {
+                $template_ids[] = $name;
+            }
+        }
+
+        return $template_ids;
     }
 
     /**

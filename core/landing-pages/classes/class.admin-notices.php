@@ -8,9 +8,9 @@ class Landing_Pages_Admin_Notices {
 
 
     public static function add_hooks() {
-        add_action('admin_notices', array( __CLASS__ , 'dont_install_landing_page_templates_here') );
-        add_action('admin_notices', array( __CLASS__  , 'get_more_templates_notice' ) );
-        add_action('admin_notices', array( __CLASS__ , 'permalink_structure_notice' ) );
+        add_action('admin_notices', array( __CLASS__, 'dont_install_landing_page_templates_here'));
+        add_action('admin_notices', array( __CLASS__, 'get_more_templates_notice' ) );
+        add_action('admin_notices', array( __CLASS__, 'permalink_structure_notice' ) );
     }
 
     /**
@@ -25,18 +25,27 @@ class Landing_Pages_Admin_Notices {
             $screen->id === 'update' && isset($_GET['action']) && $_GET['action'] === "upload-theme"
           ) {
 
+        if (is_plugin_active('landing-pages/landing-pages.php')) {
+            $lp = true;
+        }
+
+        if (is_plugin_active('cta/calls-to-action.php')) {
+           $cta = true;
+        }
+
             $doc = 'http://docs.inboundnow.com/guide/installing-new-templates/';
             $link = admin_url( 'edit.php?post_type=landing-page&page=lp_templates_upload' );
 
         ?>
-        <div class="error">
-            <h3 style='font-weight:normal;'>
-                <strong><?php _e( 'Attention Landing Page Users:' , 'landing-pages' ); ?></strong>
+        <div class="error" style="margin-bottom:10px;">
+            <h3 style='font-weight:normal; margin-bottom:0px;padding-bottom:0px;'>
+                <strong>
+                <?php _e( 'Attention Landing Page Users:' , 'landing-pages' ); ?>
+                </strong>
             </h3>
-            <p><?php _e( sprintf( 'If you are trying to install a <strong>landing page template</strong> from Inbound Now, %s Please Follow these instructions%s' , '<a href=\'http://docs.inboundnow.com/guide/installing-new-templates/\' target=\'_blank\'>' , '</a>' ) , 'landing-pages' ); ?>
-            </p>
-
-            <p><?php echo "<p>Landing page templates need to be installed <a href='".$link."'>here</a> in the <strong><a href='".$link."'>Landing pages</a> > <a href='".$link."'>Manage templates area</a></strong>"; ?>
+            <p style='font-weight:normal; margin-top:0px;margin-bottom:0px;'><?php _e( sprintf( 'If you are trying to install a <strong>landing page template</strong> from Inbound Now, %s Please Follow these instructions%s' , '<a href=\'http://docs.inboundnow.com/guide/installing-new-templates/\' target=\'_blank\'>' , '</a>' ) , 'landing-pages' ); ?>
+                <br>
+            <?php echo "Landing page templates need to be installed <a href='".$link."'>here</a> in the <strong><a href='".$link."'>Landing pages</a> > <a href='".$link."'>Manage templates area</a></strong>"; ?>
             </p>
         </div>
         <?php

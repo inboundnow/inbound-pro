@@ -23,17 +23,17 @@ if (have_posts()) : while (have_posts()) : the_post();
 
 /* Pre-load meta data into variables. These are defined in the templates config.php file */
 
-    $main_headline = get_field( 'lp-main-headline', $post->ID );
-    $content = get_field( 'half-and-half-main-content', $post->ID );
-    $content = get_field( 'half-and-half-main-content', $post->ID );
-    $conversion_area = get_field( 'half-and-half-conversion-area-content', $post->ID );
-    $social_display = get_field( 'half-and-half-display-social', $post->ID );
-    $sidebar = get_field( 'half-and-half-sidebar', $post->ID );
-    $content_color = get_field( 'half-and-half-content-color', $post->ID );
-    $content_text_color = get_field( 'half-and-half-content-text-color', $post->ID );
-    $sidebar_color = get_field( 'half-and-half-sidebar-color', $post->ID );
-    $sidebar_text_color = get_field( 'half-and-half-sidebar-text-color', $post->ID );
-    $submit_button_color = get_field( 'half-and-half-submit-button-color', $post->ID );
+    $main_headline = get_field( 'lp-main-headline', $post->ID , false );
+    $content = get_field( 'half-and-half-main-content', $post->ID , false );
+    $content = get_field( 'half-and-half-main-content', $post->ID , false );
+    $conversion_area = get_field( 'half-and-half-conversion-area-content', $post->ID , false );
+    $social_display = get_field( 'half-and-half-display-social', $post->ID , false );
+    $sidebar = get_field( 'half-and-half-sidebar', $post->ID , false );
+    $content_color = get_field( 'half-and-half-content-color', $post->ID , false );
+    $content_text_color = get_field( 'half-and-half-content-text-color', $post->ID , false );
+    $sidebar_color = get_field( 'half-and-half-sidebar-color', $post->ID , false );
+    $sidebar_text_color = get_field( 'half-and-half-sidebar-text-color', $post->ID , false );
+    $submit_button_color = get_field( 'half-and-half-submit-button-color', $post->ID , false );
 
 
 ?>

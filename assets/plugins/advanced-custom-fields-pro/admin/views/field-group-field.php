@@ -1,15 +1,18 @@
 <?php 
 
+// global
 global $post;
 
 
-// get vars ($field)
+// extract args
 extract( $args );
 
 
 // add prefix
 $field['prefix'] = "acf_fields[{$field['ID']}]";
 
+
+// vars
 $atts = array(
 	'class' => "acf-field-object acf-field-object-{$field['type']}",
 	'data-id'	=> $field['ID'],
@@ -43,7 +46,7 @@ $atts['class'] = str_replace('_', '-', $atts['class']);
 	<div class="handle">
 		<ul class="acf-hl acf-tbody">
 			<li class="li-field-order">
-				<span class="acf-icon large"><?php echo ($i + 1); ?></span>
+				<span class="acf-icon acf-icon-order"><?php echo ($i + 1); ?></span>
 				<pre class="pre-field-key"><?php echo $field['key']; ?></pre>
 			</li>
 			<li class="li-field-label">
@@ -138,64 +141,60 @@ $atts['class'] = str_replace('_', '-', $atts['class']);
 				), 'tr');
 				
 				
-				// custom field options
-				acf_render_field_settings( $field );
+				// type specific settings
+				do_action("acf/render_field_settings/type={$field['type']}", $field);
 				
 				
-				// load view
+				// 3rd party settings
+				do_action('acf/render_field_settings', $field);
+				
+				
+				// conditional logic
 				acf_get_view('field-group-field-conditional-logic', array( 'field' => $field ));
 				
+				
+				// wrapper
+				acf_render_field_wrap(array(
+					'label'			=> __('Wrapper Attributes','acf'),
+					'instructions'	=> '',
+					'type'			=> 'text',
+					'name'			=> 'width',
+					'prefix'		=> $field['prefix'] . '[wrapper]',
+					'value'			=> $field['wrapper']['width'],
+					'prepend'		=> __('width', 'acf'),
+					'append'		=> '%',
+					'wrapper'		=> array(
+						'data-name' => 'wrapper'
+					)
+				), 'tr');
+				
+				acf_render_field_wrap(array(
+					'label'			=> '',
+					'instructions'	=> '',
+					'type'			=> 'text',
+					'name'			=> 'class',
+					'prefix'		=> $field['prefix'] . '[wrapper]',
+					'value'			=> $field['wrapper']['class'],
+					'prepend'		=> __('class', 'acf'),
+					'wrapper'		=> array(
+						'data-append' => 'wrapper'
+					)
+				), 'tr');
+				
+				acf_render_field_wrap(array(
+					'label'			=> '',
+					'instructions'	=> '',
+					'type'			=> 'text',
+					'name'			=> 'id',
+					'prefix'		=> $field['prefix'] . '[wrapper]',
+					'value'			=> $field['wrapper']['id'],
+					'prepend'		=> __('id', 'acf'),
+					'wrapper'		=> array(
+						'data-append' => 'wrapper'
+					)
+				), 'tr');
+				
 				?>
-				<tr class="acf-field acf-field-wrapper" data-name="wrapper" >
-					<td class="acf-label">
-						<label><?php _e("Wrapper Attributes",'acf'); ?></label>
-					</td>
-					<td class="acf-input">
-						<ul class="acf-hl">
-							<li style="width:33%; padding-right:15px;">
-							<?php 
-							
-							acf_render_field(array(
-								'type'			=> 'text',
-								'name'			=> 'width',
-								'prefix'		=> $field['prefix'] . '[wrapper]',
-								'value'			=> $field['wrapper']['width'],
-								'prepend'		=> __('width', 'acf'),
-								'append'		=> '%',
-								//'placeholder'	=> '100',
-							));
-							
-							?>
-							</li>
-							<li style="width:33%; padding-right:15px;">
-							<?php 
-							
-							acf_render_field(array(
-								'type'			=> 'text',
-								'name'			=> 'class',
-								'prefix'		=> $field['prefix'] . '[wrapper]',
-								'value'			=> $field['wrapper']['class'],
-								'prepend'		=> __('class', 'acf'),
-							));
-							
-							?>
-							</li>
-							<li style="float:none;">
-							<?php 
-							
-							acf_render_field(array(
-								'type'			=> 'text',
-								'name'			=> 'id',
-								'prefix'		=> $field['prefix'] . '[wrapper]',
-								'value'			=> $field['wrapper']['id'],
-								'prepend'		=> __('id', 'acf'),
-							));
-							
-							?>
-							</li>
-						</ul>
-					</td>
-				</tr>	
 				<tr class="acf-field acf-field-save">
 					<td class="acf-label"></td>
 					<td class="acf-input">

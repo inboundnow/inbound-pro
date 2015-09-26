@@ -366,14 +366,10 @@ class acf_field_flexible_content extends acf_field {
 	
 	<ul class="acf-fc-layout-controlls acf-hl acf-clearfix">
 		<li>
-			<a class="acf-icon small acf-fc-add" href="#" data-before="1" title="<?php _e('Add layout','acf'); ?>">
-				<i class="acf-sprite-add"></i>
-			</a>
+			<a class="acf-icon acf-icon-plus small acf-fc-add" href="#" data-before="1" title="<?php _e('Add layout','acf'); ?>"></a>
 		</li>
 		<li>
-			<a class="acf-icon small acf-fc-remove" href="#" title="<?php _e('Remove layout','acf'); ?>">
-				<i class="acf-sprite-remove"></i>
-			</a>
+			<a class="acf-icon acf-icon-minus small acf-fc-remove" href="#" title="<?php _e('Remove layout','acf'); ?>"></a>
 		</li>
 	</ul>
 	
@@ -684,7 +680,7 @@ class acf_field_flexible_content extends acf_field {
 		
 		
 		// value must be an array
-		$value = acf_force_type_array( $value );
+		$value = acf_get_array( $value );
 		
 		
 		// vars
@@ -1064,8 +1060,13 @@ class acf_field_flexible_content extends acf_field {
 				if( !empty($layouts[ $l ]) ) {
 					
 					foreach( $layouts[ $l ] as $sub_field ) {
-					
-						acf_delete_value( $post_id, "{$field['name']}_{$i}_{$sub_field['name']}" );
+						
+						// modify name for delete
+						$sub_field['name'] = "{$field['name']}_{$i}_{$sub_field['name']}";
+						
+						
+						// delete value
+						acf_delete_value( $post_id, $sub_field );
 						
 					}
 					

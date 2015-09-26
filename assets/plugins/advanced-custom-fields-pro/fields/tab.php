@@ -36,13 +36,46 @@ class acf_field_tab extends acf_field {
 		$this->label = __("Tab",'acf');
 		$this->category = 'layout';
 		$this->defaults = array(
-			'placement'	=> 'top'
+			'value'		=> false, // prevents acf_render_fields() from attempting to load value
+			'placement'	=> 'top',
+			'endpoint'	=> 0 // added in 5.2.8
 		);
 		
 		
 		// do not delete!
     	parent::__construct();
 	}
+	
+	
+	/*
+	*  prepare_field
+	*
+	*  description
+	*
+	*  @type	function
+	*  @date	9/07/2015
+	*  @since	5.2.3
+	*
+	*  @param	$post_id (int)
+	*  @return	$post_id (int)
+	*/
+	
+/*
+	function prepare_field( $field ) {
+		
+		// append class
+		if( $field['endpoint'] ) {
+			
+			$field['wrapper']['class'] .= ' acf-field-tab-endpoint';
+			
+		}
+		
+		
+		// return
+		return $field;
+		
+	}
+*/
 	
 	
 	/*
@@ -62,7 +95,8 @@ class acf_field_tab extends acf_field {
 		// vars
 		$atts = array(
 			'class'				=> 'acf-tab',
-			'data-placement'	=> $field['placement']
+			'data-placement'	=> $field['placement'],
+			'data-endpoint'		=> $field['endpoint']
 		);
 		
 		?>
@@ -125,6 +159,20 @@ class acf_field_tab extends acf_field {
 				'top'			=>	__("Top aligned",'acf'),
 				'left'			=>	__("Left Aligned",'acf'),
 			)
+		));
+		
+		
+		// endpoint
+		acf_render_field_setting( $field, array(
+			'label'			=> __('End-point','acf'),
+			'instructions'	=> __('Use this field as an end-point and start a new group of tabs','acf'),
+			'type'			=> 'radio',
+			'name'			=> 'endpoint',
+			'choices'		=> array(
+				1				=> __("Yes",'acf'),
+				0				=> __("No",'acf'),
+			),
+			'layout'	=>	'horizontal',
 		));
 				
 	}

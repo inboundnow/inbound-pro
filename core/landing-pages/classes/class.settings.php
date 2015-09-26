@@ -15,8 +15,7 @@ class Landing_Pages_Settings {
     public static function load_hooks() {
 
         /* load settings scripts and styles */
-        add_action('admin_init', array( __CLASS__ , 'enqueue_settings_scripts' ) );
-
+        add_action('admin_enqueue_scripts', array( __CLASS__ , 'enqueue_settings_scripts' ) );
 
         /* add quick link to access settings in plugins list table */
         add_filter( 'plugin_action_links_landing-pages/landing-pages.php', array( __CLASS__ , 'extend_plugin_quicklinks' ) );
@@ -87,7 +86,7 @@ class Landing_Pages_Settings {
         );
 
 
-        if (!defined('INBOUND_PRO_PATH')) {
+        if (!defined('INBOUND_PRO_PATH') && $_SERVER['REMOTE_ADDR']!='127.0.0.1') {
             /* Setup License Keys Tab */
             $lp_global_settings['lp-license-keys']['label'] = __( 'License Keys' , 'landing-pages');
             $lp_global_settings['lp-license-keys']['settings'][] = 	array(
@@ -138,6 +137,10 @@ class Landing_Pages_Settings {
         wp_enqueue_style('lp-css-global-settings-here', LANDINGPAGES_URLPATH . 'assets/css/admin/global-settings.css');
         wp_enqueue_script('lp-settings-js', LANDINGPAGES_URLPATH . 'assets/js/admin/admin.global-settings.js');
 
+        /* load ToolTipster */
+        wp_enqueue_style('tooltipster', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/ToolTipster/css/tooltipster.css');
+        wp_enqueue_style('tooltipster-theme', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/ToolTipster/css/themes/tooltipster-noir.css');
+        wp_enqueue_script('tooltipster', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/ToolTipster/js/jquery.tooltipster.min.js');
     }
 
     /**
@@ -205,10 +208,12 @@ class Landing_Pages_Settings {
         echo '<h2 class="nav-tab-wrapper">';
 
         foreach ($lp_global_settings as $key => $data) {
-            $label = (isset($data['label'])) ? $data['label'] : 'Main';
+            if (!isset($data['label'])) {
+                continue;
+            }
             ?>
             <a id='tabs-<?php echo $key; ?>'
-               class="lp-nav-tab nav-tab nav-tab-special<?php echo $active_tab == $key ? '-active' : '-inactive'; ?>"><?php echo $label; ?></a>
+               class="lp-nav-tab nav-tab nav-tab-special<?php echo $active_tab == $key ? '-active' : '-inactive'; ?>"><?php echo $data['label']; ?></a>
             <?php
         }
 
@@ -628,8 +633,7 @@ class Landing_Pages_Settings {
         echo '<table class="lp-tab-display" id="' . $key . '" style="display:' . $display . '">';
         /*print_r($custom_fields);exit; */
         foreach ($custom_fields as $field) {
-            /*echo $field['type'];exit; */
-            /*print_r($field); */
+
             /* get value of this field if it exists for this post */
             if (isset($field['default'])) {
                 $default = $field['default'];
@@ -649,7 +653,7 @@ class Landing_Pages_Settings {
             if ($field['type'] == 'header') {
                 echo '<h4>' . $field['default'] . '</h4>';
             } else {
-                echo "<div class='inbound-setting-label'>" . $field['label'] . "</div>";
+                echo '<div class="inbound-setting-label tooltip" title="' . $field['description'] . '">' . $field['label'] . '</div>';
             }
             echo '</th><td>';
 
@@ -659,14 +663,17 @@ class Landing_Pages_Settings {
                     if (!$field['value']) {
                         $field['value'] = $field['default'];
                     }
-                    echo '<input type="text" class="jpicker" name="' . $field['id'] . '" id="' . $field['id'] . '" value="' . $field['value'] . '" size="5" />
-							<div class="lp_tooltip tool_color" title="' . $field['description'] . '"></div>';
+                    echo '<input type="text" class="jpicker" name="' . $field['id'] . '" id="' . $field['id'] . '" value="' . $field['value'] . '" size="5" />';
                     continue 2;
                 case 'datepicker':
-                    echo '<input id="datepicker-example2" class="Zebra_DatePicker_Icon" type="text" name="' . $field['id'] . '" id="' . $field['id'] . '" value="' . $field['value'] . '" size="8" />
-							<div class="lp_tooltip tool_date" title="' . $field['description'] . '"></div><p class="description">' . $field['description'] . '</p>';
+                    echo '<input id="datepicker-example2" class="Zebra_DatePicker_Icon" type="text" name="' . $field['id'] . '" id="' . $field['id'] . '" value="' . $field['value'] . '" size="8" />';
                     continue 2;
                 case 'license-key':
+
+                    if (!defined('INBOUND_PRO_PATH') || $_SERVER['REMOTE_ADDR']=='127.0.0.1') {
+                        continue;
+                    }
+
                     if ($master_license_key) {
                         $field['value'] = $master_license_key;
                         $input_type = 'hidden';
@@ -687,17 +694,13 @@ class Landing_Pages_Settings {
                         echo '<div class="lp_license_status_invalid">Disabled</div>';
                     }
 
-                    echo '<div class="lp_tooltip tool_text" title="' . $field['description'] . '"></div>';
-
                     continue 2;
                 case 'text':
-                    echo '<input type="text" name="' . $field['id'] . '" id="' . $field['id'] . '" value="' . $field['value'] . '" size="30" />
-							<div class="lp_tooltip tool_text" title="' . $field['description'] . '"></div>';
+                    echo '<input type="text" name="' . $field['id'] . '" id="' . $field['id'] . '" value="' . $field['value'] . '" size="30" class=""  />';
                     continue 2;
                 /* textarea */
                 case 'textarea':
-                    echo '<textarea name="' . $field['id'] . '" id="' . $field['id'] . '" cols="106" rows="6">' . $field['value'] . '</textarea>
-							<div class="lp_tooltip tool_textarea" title="' . $field['description'] . '"></div>';
+                    echo '<textarea name="' . $field['id'] . '" id="' . $field['id'] . '" cols="106" rows="6"></textarea>';
                     continue 2;
                 /* wysiwyg */
                 case 'wysiwyg':
@@ -710,7 +713,6 @@ class Landing_Pages_Settings {
                     echo '<label for="upload_image">';
                     echo '<input name="' . $field['id'] . '"  id="' . $field['id'] . '" type="text" size="36" name="upload_image" value="' . $field['value'] . '" />';
                     echo '<input class="upload_image_button" id="uploader_' . $field['id'] . '" type="button" value="Upload Image" />';
-                    echo '<br /><div class="lp_tooltip tool_media" title="' . $field['description'] . '"></div>';
                     continue 2;
                 /* checkbox */
                 case 'checkbox':
@@ -726,7 +728,7 @@ class Landing_Pages_Settings {
                             echo "<tr>";
                             $i = 1;
                         }
-                        echo '<td><input type="checkbox" name="' . $field['id'] . '[]" id="' . $field['id'] . '" value="' . $value . '" ', in_array($value, $field['value']) ? ' checked="checked"' : '', '/>';
+                        echo '<td><input type="checkbox" name="' . $field['id'] . '[]" id="' . $field['id'] . '" value="' . $value . '" ', in_array($value, $field['value']) ? ' checked="checked"' : '', '  class="tooltip tool_text" title="' . $field['description'] . '" />';
                         echo '<label for="' . $value . '">&nbsp;&nbsp;' . $label . '</label></td>';
                         if ($i == 4) {
                             echo "</tr>";
@@ -734,17 +736,15 @@ class Landing_Pages_Settings {
                         $i++;
                     }
                     echo "</table>";
-                    echo '<br><div class="lp_tooltip tool_checkbox" title="' . $field['description'] . '"></div>';
                     continue 2;
                 /* radio */
                 case 'radio':
                     foreach ($field['options'] as $value => $label) {
                         /*echo $meta.":".$field['id'] ; */
                         /*echo "<br>"; */
-                        echo '<input type="radio" name="' . $field['id'] . '" id="' . $field['id'] . '" value="' . $value . '" ', $field['value'] == $value ? ' checked="checked"' : '', '/>';
+                        echo '<input type="radio" name="' . $field['id'] . '" id="' . $field['id'] . '" value="' . $value . '" ', $field['value'] == $value ? ' checked="checked"' : '', ' class="tooltip tool_radio" title="' . $field['description'] . '" />';
                         echo '<label for="' . $value . '">&nbsp;&nbsp;' . $label . '</label> &nbsp;&nbsp;&nbsp;&nbsp;';
                     }
-                    echo '<div class="lp_tooltip tool_radio" title="' . $field['description'] . '"></div>';
                     continue 2;
                 /* select */
                 case 'dropdown':
@@ -752,10 +752,9 @@ class Landing_Pages_Settings {
                     foreach ($field['options'] as $value => $label) {
                         echo '<option', $field['value'] == $value ? ' selected="selected"' : '', ' value="' . $value . '">' . $label . '</option>';
                     }
-                    echo '</select><br /><div class="lp_tooltip tool_dropdown" title="' . $field['description'] . '"></div>';
+                    echo '</select>';
                     continue 2;
                 case 'html':
-                    /*print_r($field); */
                     echo $field['default'];
                     continue 2;
 

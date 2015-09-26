@@ -1,137 +1,126 @@
-# Copyright (C) 2013 
-# This file is distributed under the same license as the  package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Advanced Custom Fields 4.3.0\n"
-"Report-Msgid-Bugs-To: http://wordpress.org/tag/advanced-custom-fields\n"
-"POT-Creation-Date: 2014-09-03 09:50+1000\n"
-"PO-Revision-Date: 2014-09-03 09:50+1000\n"
-"Last-Translator: Mikael Jorhult <mikael@jorhult.se>\n"
-"Language-Team: Mikael Jorhult <mikael@jorhult.se>\n"
-"Language: Swedish\n"
+"Project-Id-Version: Advanced Custom Fields\n"
+"POT-Creation-Date: 2015-03-05 11:24+1000\n"
+"PO-Revision-Date: 2015-03-05 11:27+1000\n"
+"Last-Translator: Elliot Condon <e@elliotcondon.com>\n"
+"Language-Team: Elliot Condon <e@elliotcondon.com>\n"
+"Language: sv_SE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.7\n"
+"X-Generator: Poedit 1.7.4\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
+"_n_noop:1,2;_x:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;_ex:1,2c;esc_html__;"
+"esc_html_e;esc_html_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-Basepath: ..\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: /Users/elliotcondon/Dropbox/Work/Sites/acf5/wp-content/"
+"plugins/advanced-custom-fields-pro\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: acf.php:63
 msgid "Advanced Custom Fields"
 msgstr "Advanced Custom Fields"
 
-#: acf.php:244
-msgid "Field&nbsp;Groups"
+#: acf.php:251
+msgid "Field Groups"
 msgstr "Fältgrupper"
 
-#: acf.php:245
-#, fuzzy
+#: acf.php:252
 msgid "Field Group"
-msgstr "Fältgrupper"
+msgstr "Fältgrupp"
 
-#: acf.php:246 acf.php:272 pro/fields/flexible-content.php:498
+#: acf.php:253 acf.php:285 admin/admin.php:56
+#: pro/fields/flexible-content.php:521
 msgid "Add New"
-msgstr "Lägg till ny"
+msgstr "Nytt fält"
 
-#: acf.php:247
+#: acf.php:254
 msgid "Add New Field Group"
 msgstr "Lägg till ny fältgrupp"
 
-#: acf.php:248
+#: acf.php:255
 msgid "Edit Field Group"
 msgstr "Redigera fältgrupp"
 
-#: acf.php:249
+#: acf.php:256
 msgid "New Field Group"
-msgstr "Ny fältgrupp"
+msgstr "Skapa fältgrupp"
 
-#: acf.php:250
+#: acf.php:257
 msgid "View Field Group"
 msgstr "Visa fältgrupp"
 
-#: acf.php:251
+#: acf.php:258
 msgid "Search Field Groups"
 msgstr "Sök fältgrupp"
 
-#: acf.php:252
+#: acf.php:259
 msgid "No Field Groups found"
 msgstr "Inga fältgrupper hittades"
 
-#: acf.php:253
+#: acf.php:260
 msgid "No Field Groups found in Trash"
-msgstr "Inga fältgrupper finns i papperskorgen"
+msgstr "Inga fältgrupper hittades i papperskorgen"
 
-#: acf.php:270 admin/field-group.php:211 admin/field-group.php:242
-#: admin/field-group.php:281 admin/field-groups.php:270
+#: acf.php:283 admin/field-group.php:178 admin/field-group.php:210
+#: admin/field-group.php:249 admin/field-groups.php:487
 msgid "Fields"
 msgstr "Fält"
 
-#: acf.php:271
-#, fuzzy
+#: acf.php:284
 msgid "Field"
 msgstr "Fält"
 
-#: acf.php:273
-#, fuzzy
+#: acf.php:286
 msgid "Add New Field"
-msgstr "Nytt fält"
+msgstr "Skapa nytt fält"
 
-#: acf.php:274
-#, fuzzy
+#: acf.php:287
 msgid "Edit Field"
-msgstr "Redigera fil"
+msgstr "Redigera fält"
 
-#: acf.php:275 admin/views/field-group-fields.php:18
+#: acf.php:288 admin/views/field-group-fields.php:18
 #: admin/views/settings-info.php:109
 msgid "New Field"
 msgstr "Nytt fält"
 
-#: acf.php:276
-#, fuzzy
+#: acf.php:289
 msgid "View Field"
-msgstr "Nytt fält"
+msgstr "Visa fält"
 
-#: acf.php:277
-#, fuzzy
+#: acf.php:290
 msgid "Search Fields"
-msgstr "Sök fältgrupp"
+msgstr "Sök fält"
 
-#: acf.php:278
-#, fuzzy
+#: acf.php:291
 msgid "No Fields found"
-msgstr "Inga fältgrupper hittades"
+msgstr "Inga fält hittades"
 
-#: acf.php:279
-#, fuzzy
+#: acf.php:292
 msgid "No Fields found in Trash"
-msgstr "Inga fältgrupper finns i papperskorgen"
+msgstr "Inga fält hittades i papperskorgen"
 
-#: admin/admin.php:49 admin/views/field-group-options.php:110
+#: admin/admin.php:52 admin/views/field-group-options.php:93
 msgid "Custom Fields"
 msgstr "Egna fält"
 
-#: admin/field-group.php:68 admin/field-group.php:71
+#: admin/field-group.php:68 admin/field-group.php:69 admin/field-group.php:71
 msgid "Field group updated."
-msgstr "Fältgruppen uppdaterades."
-
-#: admin/field-group.php:69
-msgid "Custom field updated."
-msgstr "Eget fält uppdaterades."
+msgstr "Fältgrupper uppdaterades."
 
 #: admin/field-group.php:70
-msgid "Custom field deleted."
-msgstr "Eget fält raderades."
+msgid "Field group deleted."
+msgstr "Fältgrupper raderades."
 
 #: admin/field-group.php:73
 msgid "Field group published."
-msgstr "Fältgruppen publicerades."
+msgstr "Fältgrupper publicerades."
 
 #: admin/field-group.php:74
 msgid "Field group saved."
-msgstr "Fältgruppen sparades."
+msgstr "Fältgrupper sparades."
 
 #: admin/field-group.php:75
 msgid "Field group submitted."
@@ -139,269 +128,325 @@ msgstr "Fältgruppen skickades."
 
 #: admin/field-group.php:76
 msgid "Field group scheduled for."
-msgstr "Fältgruppen schemalades."
+msgstr "Fältgruppen schemalades för."
 
 #: admin/field-group.php:77
 msgid "Field group draft updated."
 msgstr "Utkastet till fältgrupp uppdaterades."
 
-#: admin/field-group.php:205
+#: admin/field-group.php:172
 msgid "Move to trash. Are you sure?"
 msgstr "Flytta till papperskorgen. Är du säker?"
 
-#: admin/field-group.php:206
+#: admin/field-group.php:173
 msgid "checked"
 msgstr "vald"
 
-#: admin/field-group.php:207
+#: admin/field-group.php:174
 msgid "No toggle fields available"
 msgstr "Det finns inga aktiveringsbara fält"
 
-#: admin/field-group.php:208
+#: admin/field-group.php:175
 msgid "Field group title is required"
-msgstr "Fältgruppen måste ha en titel"
+msgstr "Fältgruppen behöver en titel"
 
-#: admin/field-group.php:209 api/api-field-group.php:577
+#: admin/field-group.php:176 api/api-field-group.php:609
+#: assets/_build/js/field-group.js:919 assets/_build/js/field-group.js:920
+#: assets/js/acf-field-group.js:919 assets/js/acf-field-group.js:920
+#: assets/js/acf-field-group.min.js:1
 msgid "copy"
 msgstr "kopiera"
 
-#: admin/field-group.php:210
+#: admin/field-group.php:177
 #: admin/views/field-group-field-conditional-logic.php:67
 #: admin/views/field-group-field-conditional-logic.php:162
-#: admin/views/field-group-locations.php:53
-#: admin/views/field-group-locations.php:162
+#: admin/views/field-group-locations.php:23
+#: admin/views/field-group-locations.php:131 core/media.php:150
 msgid "or"
 msgstr "eller"
 
-#: admin/field-group.php:212
+#: admin/field-group.php:179
 msgid "Parent fields"
-msgstr ""
+msgstr "Förälder fält"
 
-#: admin/field-group.php:213
+#: admin/field-group.php:180
 msgid "Sibling fields"
-msgstr ""
+msgstr "Syskon fält"
 
-#: admin/field-group.php:214
+#: admin/field-group.php:181
 msgid "Hide / Show All"
 msgstr "Dölj / Visa alla"
 
-#: admin/field-group.php:215
-#, fuzzy
+#: admin/field-group.php:182
 msgid "Move Custom Field"
-msgstr "Egna fält"
+msgstr "Flytta egna fält"
 
-#: admin/field-group.php:216
+#: admin/field-group.php:183
 msgid "This field cannot be moved until its changes have been saved"
-msgstr ""
+msgstr "Detta fält kan inte flyttas förrän ändringarna har sparats"
 
-#: admin/field-group.php:217
+#: admin/field-group.php:184
 msgid "Null"
-msgstr ""
+msgstr "Nollvärde"
 
-#: admin/field-group.php:218 core/input.php:119
+#: admin/field-group.php:185 core/input.php:128
 msgid "The changes you made will be lost if you navigate away from this page"
 msgstr ""
+"De ändringar som du gjort kommer att förloras om du navigerar bort från "
+"denna sida"
 
-#: admin/field-group.php:243
+#: admin/field-group.php:186
+msgid "The string \"field_\" may not be used at the start of a field name"
+msgstr "Strängen  \"field_\" får inte användas i början av ett fältnamn"
+
+#: admin/field-group.php:211
 msgid "Location"
 msgstr "Plats"
 
-#: admin/field-group.php:244 pro/api/api-options-page.php:22
+#: admin/field-group.php:212 pro/api/api-options-page.php:22
 #: pro/api/api-options-page.php:23
 msgid "Options"
 msgstr "Alternativ"
 
-#: admin/field-group.php:285
-#, fuzzy
+#: admin/field-group.php:253
 msgid "Show Field Keys"
-msgstr "Visa fältnyckel:"
+msgstr "Visa fältnyckel"
 
-#: admin/field-group.php:286
+#: admin/field-group.php:254
 #: admin/views/field-group-field-conditional-logic.php:40
-#: admin/views/field-group-field.php:132 fields/page_link.php:522
-#: fields/page_link.php:536 fields/post_object.php:460
-#: fields/post_object.php:474 fields/select.php:394 fields/select.php:408
-#: fields/select.php:422 fields/select.php:436 fields/taxonomy.php:630
-#: fields/user.php:345 fields/user.php:359 fields/wysiwyg.php:384
-#: pro/admin/views/settings-updates.php:93
+#: admin/views/field-group-field.php:134 fields/message.php:116
+#: fields/page_link.php:567 fields/page_link.php:581
+#: fields/post_object.php:436 fields/post_object.php:450 fields/select.php:397
+#: fields/select.php:411 fields/select.php:425 fields/select.php:439
+#: fields/taxonomy.php:751 fields/user.php:377 fields/user.php:391
+#: fields/wysiwyg.php:384 pro/admin/views/settings-updates.php:93
 msgid "Yes"
 msgstr "Ja"
 
-#: admin/field-group.php:287
+#: admin/field-group.php:255
 #: admin/views/field-group-field-conditional-logic.php:41
-#: admin/views/field-group-field.php:133 fields/page_link.php:523
-#: fields/page_link.php:537 fields/post_object.php:461
-#: fields/post_object.php:475 fields/select.php:395 fields/select.php:409
-#: fields/select.php:423 fields/select.php:437 fields/taxonomy.php:631
-#: fields/user.php:346 fields/user.php:360 fields/wysiwyg.php:385
-#: pro/admin/views/settings-updates.php:102
+#: admin/views/field-group-field.php:135 fields/message.php:117
+#: fields/page_link.php:568 fields/page_link.php:582
+#: fields/post_object.php:437 fields/post_object.php:451 fields/select.php:398
+#: fields/select.php:412 fields/select.php:426 fields/select.php:440
+#: fields/taxonomy.php:752 fields/user.php:378 fields/user.php:392
+#: fields/wysiwyg.php:385 pro/admin/views/settings-updates.php:103
 msgid "No"
 msgstr "Nej"
 
-#: admin/field-group.php:572
-msgid "Super Admin"
-msgstr "Superadministratör"
-
-#: admin/field-group.php:645 pro/admin/views/options-page.php:52
+#: admin/field-group.php:642 pro/admin/views/options-page.php:52
 msgid "Publish"
-msgstr "Publicerat"
+msgstr "Publicera"
 
-#: admin/field-group.php:646
+#: admin/field-group.php:643
 msgid "Pending Review"
 msgstr "Väntar på granskning"
 
-#: admin/field-group.php:647
+#: admin/field-group.php:644
 msgid "Draft"
 msgstr "Utkast"
 
-#: admin/field-group.php:648
+#: admin/field-group.php:645
 msgid "Future"
-msgstr "Tidsbestämt"
+msgstr "Framtid"
 
-#: admin/field-group.php:649
+#: admin/field-group.php:646
 msgid "Private"
-msgstr "Privat"
+msgstr "Private"
 
-#: admin/field-group.php:650
+#: admin/field-group.php:647
 msgid "Revision"
 msgstr "Revision"
 
-#: admin/field-group.php:651
+#: admin/field-group.php:648
 msgid "Trash"
-msgstr "I papperskorgen"
+msgstr "Papperskorg"
 
-#: admin/field-group.php:715
+#: admin/field-group.php:712
 msgid "Front Page"
 msgstr "Förstasida"
 
-#: admin/field-group.php:716
+#: admin/field-group.php:713
 msgid "Posts Page"
 msgstr "Inläggssida"
 
-#: admin/field-group.php:717
-msgid "Top Level Page (parent of 0)"
+#: admin/field-group.php:714
+#, fuzzy
+msgid "Top Level Page (no parent)"
 msgstr "Toppsida (förälder satt till 0)"
 
-#: admin/field-group.php:718
+#: admin/field-group.php:715
 msgid "Parent Page (has children)"
 msgstr "Föräldersida (har undersidor)"
 
-#: admin/field-group.php:719
+#: admin/field-group.php:716
 msgid "Child Page (has parent)"
 msgstr "Undersida (har föräldersida)"
 
-#: admin/field-group.php:735
+#: admin/field-group.php:732
 msgid "Default Template"
 msgstr "Standardmall"
 
-#: admin/field-group.php:757 admin/field-group.php:765
-#: admin/field-group.php:779 admin/field-group.php:786
-#: admin/field-group.php:801 admin/field-group.php:811 fields/file.php:184
-#: fields/image.php:175 pro/fields/gallery.php:562
+#: admin/field-group.php:754
+#, fuzzy
+msgid "Logged in"
+msgstr "Inloggad användartyp"
+
+#: admin/field-group.php:755
+msgid "Viewing front end"
+msgstr ""
+
+#: admin/field-group.php:756
+msgid "Viewing back end"
+msgstr ""
+
+#: admin/field-group.php:775
+msgid "Super Admin"
+msgstr "Superadministratör"
+
+#: admin/field-group.php:786 admin/field-group.php:794
+#: admin/field-group.php:808 admin/field-group.php:815
+#: admin/field-group.php:830 admin/field-group.php:840 fields/file.php:234
+#: fields/image.php:223 pro/fields/gallery.php:656
 msgid "All"
 msgstr "Alla"
 
-#: admin/field-group.php:766
-#, fuzzy
+#: admin/field-group.php:795
 msgid "Add / Edit"
-msgstr "Användare (Lägg till / Redigera)"
+msgstr "Skapa / Redigera"
 
-#: admin/field-group.php:767
+#: admin/field-group.php:796
 msgid "Register"
-msgstr ""
+msgstr "Registrera"
 
-#: admin/field-group.php:998
+#: admin/field-group.php:1027
 msgid "Move Complete."
-msgstr ""
+msgstr "Flyttning färdig."
 
-#: admin/field-group.php:999
+#: admin/field-group.php:1028
 #, php-format
 msgid "The %s field can now be found in the %s field group"
-msgstr ""
+msgstr "Det %s fält kan nu hittas i %s fältgrupp"
 
-#: admin/field-group.php:1001
-#, fuzzy
+#: admin/field-group.php:1030
 msgid "Close Window"
-msgstr "Stäng fält"
+msgstr "Stäng fönster"
 
-#: admin/field-group.php:1036
-#, fuzzy
+#: admin/field-group.php:1065
 msgid "Please select the destination for this field"
 msgstr "Läs dokumentationen för detta fält"
 
-#: admin/field-group.php:1043
-#, fuzzy
+#: admin/field-group.php:1072
 msgid "Move Field"
-msgstr "Stäng fält"
+msgstr "Flytta fält"
 
-#: admin/field-groups.php:223
+#: admin/field-groups.php:109
 #, php-format
-msgid "Field group duplicated! Edit the new \"%s\" field group."
-msgstr ""
+msgid "Field group duplicated. %s"
+msgstr "Fältgruppen kopierad. %s"
 
-#: admin/field-groups.php:269
+#: admin/field-groups.php:113
+#, php-format
+msgid "%s field group duplicated."
+msgid_plural "%s field groups duplicated."
+msgstr[0] "%s fältgrupp duplicerade."
+msgstr[1] "%s fältgrupper duplicerade."
+
+#: admin/field-groups.php:195
+#, php-format
+msgid "Field group synchronised. %s"
+msgstr "Fältgrupp synkroniserad. %s"
+
+#: admin/field-groups.php:199
+#, php-format
+msgid "%s field group synchronised."
+msgid_plural "%s field groups synchronised."
+msgstr[0] "%s fältgrupp synkroniserade."
+msgstr[1] "%s fältgrupper synkroniserade."
+
+#: admin/field-groups.php:370
+msgid "Sync available"
+msgstr "Synkronisering tillgänglig"
+
+#: admin/field-groups.php:486
 msgid "Title"
 msgstr "Titel"
 
-#: admin/field-groups.php:324 admin/settings-info.php:75
-#: pro/admin/views/settings-updates.php:109
+#: admin/field-groups.php:544 admin/settings-info.php:76
+#: pro/admin/views/settings-updates.php:111
 msgid "Changelog"
 msgstr "Versionshistorik"
 
-#: admin/field-groups.php:325
+#: admin/field-groups.php:545
 msgid "See what's new in"
 msgstr "Se vad som är nytt i"
 
-#: admin/field-groups.php:325
+#: admin/field-groups.php:545
 msgid "version"
 msgstr "version"
 
-#: admin/field-groups.php:327
+#: admin/field-groups.php:547
 msgid "Resources"
 msgstr "Resurser"
 
-#: admin/field-groups.php:329
+#: admin/field-groups.php:549
 msgid "Getting Started"
 msgstr "Kom igång"
 
-#: admin/field-groups.php:330 pro/admin/settings-updates.php:51
+#: admin/field-groups.php:550 pro/admin/settings-updates.php:51
 #: pro/admin/views/settings-updates.php:17
-#, fuzzy
 msgid "Updates"
-msgstr "Uppdatera"
+msgstr "Uppdateringar"
 
-#: admin/field-groups.php:331
+#: admin/field-groups.php:551
 msgid "Field Types"
 msgstr "Fälttyper"
 
-#: admin/field-groups.php:332
+#: admin/field-groups.php:552
 msgid "Functions"
 msgstr "Funktioner"
 
-#: admin/field-groups.php:333
+#: admin/field-groups.php:553
 msgid "Actions"
 msgstr "Actions"
 
-#: admin/field-groups.php:334 fields/relationship.php:741
+#: admin/field-groups.php:554 fields/relationship.php:719
 msgid "Filters"
 msgstr "Filter"
 
-#: admin/field-groups.php:335
+#: admin/field-groups.php:555
 msgid "'How to' guides"
 msgstr "Användarguider"
 
-#: admin/field-groups.php:336
+#: admin/field-groups.php:556
 msgid "Tutorials"
 msgstr "Handledningar"
 
-#: admin/field-groups.php:341
+#: admin/field-groups.php:561
 msgid "Created by"
 msgstr "Skapad av"
 
-#: admin/field-groups.php:376 admin/views/field-group-field.php:55
-#: pro/fields/flexible-content.php:497
+#: admin/field-groups.php:596
+msgid "Duplicate this item"
+msgstr "Duplicera detta objekt"
+
+#: admin/field-groups.php:596 admin/field-groups.php:605
+#: admin/views/field-group-field.php:55 pro/fields/flexible-content.php:520
 msgid "Duplicate"
 msgstr "Duplicera"
+
+#: admin/field-groups.php:635
+#, php-format
+msgid "Select %s"
+msgstr "Välj %s"
+
+#: admin/field-groups.php:641
+msgid "Synchronise field group"
+msgstr "Synkronisera fältgrupp"
+
+#: admin/field-groups.php:641 admin/field-groups.php:656
+msgid "Sync"
+msgstr "Synkronisera"
 
 #: admin/settings-addons.php:51 admin/views/settings-addons.php:9
 msgid "Add-ons"
@@ -409,60 +454,54 @@ msgstr "Tillägg"
 
 #: admin/settings-addons.php:87
 msgid "<b>Error</b>. Could not load add-ons list"
-msgstr ""
+msgstr "<b>Fel</b>. Kunde inte ladda tilläggslistan"
 
 #: admin/settings-export.php:54 admin/views/settings-export-generate.php:9
 #: admin/views/settings-export.php:3
 msgid "Import / Export"
-msgstr ""
+msgstr "Import / Export"
 
-#: admin/settings-export.php:54
-#, fuzzy
-msgid "Import/Export"
-msgstr "Viktigt"
+#: admin/settings-export.php:147 admin/settings-export.php:361
+msgid "No field groups selected"
+msgstr "Inga fältgrupper valda"
 
-#: admin/settings-export.php:217
-#, fuzzy
+#: admin/settings-export.php:184
 msgid "No file selected"
-msgstr "Inga filer valda"
+msgstr "Ingen fil vald"
 
-#: admin/settings-export.php:230
+#: admin/settings-export.php:197
 msgid "Error uploading file. Please try again"
-msgstr ""
+msgstr "Fel vid uppladdning av fil. Vänligen försök igen"
 
-#: admin/settings-export.php:239
+#: admin/settings-export.php:206
 msgid "Incorrect file type"
-msgstr ""
+msgstr "Felaktig filtyp"
 
-#: admin/settings-export.php:256
+#: admin/settings-export.php:223
 msgid "Import file empty"
-msgstr ""
+msgstr "Importfil är tom"
 
-#: admin/settings-export.php:356
+#: admin/settings-export.php:319
 #, php-format
 msgid "<b>Success</b>. Import tool added %s field groups: %s"
-msgstr ""
+msgstr "<b>Framgång</b>. Importverktyg tillagt %s fältgrupper: %s"
 
-#: admin/settings-export.php:365
+#: admin/settings-export.php:328
 #, php-format
 msgid ""
 "<b>Warning</b>. Import tool detected %s field groups already exist and have "
 "been ignored: %s"
 msgstr ""
+"<b>Varning</b>. Importverktyg upptäckta %s fältgrupper finns redan och har "
+"ignorerats: %s"
 
-#: admin/settings-export.php:394
-#, fuzzy
-msgid "No field groups selected"
-msgstr "Inga fältgrupper var valda"
-
-#: admin/settings-info.php:49
+#: admin/settings-info.php:50
 msgid "Info"
-msgstr ""
+msgstr "Information"
 
-#: admin/settings-info.php:74
-#, fuzzy
+#: admin/settings-info.php:75
 msgid "What's New"
-msgstr "Nyheter"
+msgstr "Vad är nytt"
 
 #: admin/update.php:131
 msgid "Upgrade"
@@ -473,58 +512,54 @@ msgid "Conditional Logic"
 msgstr "Visningsvillkor"
 
 #: admin/views/field-group-field-conditional-logic.php:65
-#, fuzzy
 msgid "Show this field if"
 msgstr "Visa detta fält när"
 
 #: admin/views/field-group-field-conditional-logic.php:111
-#: admin/views/field-group-locations.php:119
+#: admin/views/field-group-locations.php:88
 msgid "is equal to"
 msgstr "är lika med"
 
 #: admin/views/field-group-field-conditional-logic.php:112
-#: admin/views/field-group-locations.php:120
+#: admin/views/field-group-locations.php:89
 msgid "is not equal to"
 msgstr "inte är lika med"
 
 #: admin/views/field-group-field-conditional-logic.php:149
-#: admin/views/field-group-locations.php:149
+#: admin/views/field-group-locations.php:118
 msgid "and"
 msgstr "och"
 
 #: admin/views/field-group-field-conditional-logic.php:164
-#: admin/views/field-group-locations.php:164
+#: admin/views/field-group-locations.php:133
 msgid "Add rule group"
 msgstr "Lägg till regelgrupp"
 
 #: admin/views/field-group-field.php:51 admin/views/field-group-field.php:54
-#, fuzzy
 msgid "Edit field"
-msgstr "Redigera fil"
+msgstr "Redigera fält"
 
-#: admin/views/field-group-field.php:54
+#: admin/views/field-group-field.php:54 pro/fields/gallery.php:356
 msgid "Edit"
 msgstr "Redigera"
 
 #: admin/views/field-group-field.php:55
-#, fuzzy
 msgid "Duplicate field"
-msgstr "Duplicera detta fält"
+msgstr "Duplicera fält"
 
 #: admin/views/field-group-field.php:56
 msgid "Move field to another group"
-msgstr ""
+msgstr "Flytta fält till en annan grupp"
 
 #: admin/views/field-group-field.php:56
 msgid "Move"
-msgstr ""
+msgstr "Flytta"
 
 #: admin/views/field-group-field.php:57
-#, fuzzy
 msgid "Delete field"
-msgstr "Radera detta fält"
+msgstr "Radera fält"
 
-#: admin/views/field-group-field.php:57 pro/fields/flexible-content.php:496
+#: admin/views/field-group-field.php:57 pro/fields/flexible-content.php:519
 msgid "Delete"
 msgstr "Radera"
 
@@ -534,62 +569,75 @@ msgstr "Fel"
 
 #: admin/views/field-group-field.php:65
 msgid "Field type does not exist"
-msgstr "Fälttypen finns inte"
-
-#: admin/views/field-group-field.php:77
-msgid "Field Label"
-msgstr "Fältetikett"
+msgstr "Fälttyp existerar inte"
 
 #: admin/views/field-group-field.php:78
+msgid "Field Label"
+msgstr "Fält etikett"
+
+#: admin/views/field-group-field.php:79
 msgid "This is the name which will appear on the EDIT page"
 msgstr "Detta namn kommer att visas i redigeringsvyn"
 
-#: admin/views/field-group-field.php:89
+#: admin/views/field-group-field.php:90
 msgid "Field Name"
 msgstr "Fältnamn"
 
-#: admin/views/field-group-field.php:90
+#: admin/views/field-group-field.php:91
 msgid "Single word, no spaces. Underscores and dashes allowed"
 msgstr "Ett ord utan mellanslag. Understreck och bindestreck är tillåtna"
 
-#: admin/views/field-group-field.php:101 fields/taxonomy.php:605
+#: admin/views/field-group-field.php:102 fields/taxonomy.php:726
 msgid "Field Type"
 msgstr "Fälttyp"
 
-#: admin/views/field-group-field.php:114 fields/tab.php:99
+#: admin/views/field-group-field.php:115 fields/tab.php:109
 msgid "Instructions"
 msgstr "Instruktioner"
 
-#: admin/views/field-group-field.php:115
+#: admin/views/field-group-field.php:116
 msgid "Instructions for authors. Shown when submitting data"
 msgstr "Instruktioner till författare. Visas när data anges"
 
-#: admin/views/field-group-field.php:125
+#: admin/views/field-group-field.php:127
 msgid "Required?"
 msgstr "Obligatorisk?"
 
-#: admin/views/field-group-field.php:152
+#: admin/views/field-group-field.php:151
+msgid "Wrapper Attributes"
+msgstr "Wrapper attribut"
+
+#: admin/views/field-group-field.php:157
+msgid "width"
+msgstr "bredd"
+
+#: admin/views/field-group-field.php:171
+msgid "class"
+msgstr "class"
+
+#: admin/views/field-group-field.php:184
+msgid "id"
+msgstr "id"
+
+#: admin/views/field-group-field.php:196
 msgid "Close Field"
 msgstr "Stäng fält"
 
 #: admin/views/field-group-fields.php:29
-#, fuzzy
 msgid "Order"
-msgstr "Ordernr."
+msgstr "Ordning"
 
-#: admin/views/field-group-fields.php:30 pro/fields/flexible-content.php:524
-#, fuzzy
+#: admin/views/field-group-fields.php:30 pro/fields/flexible-content.php:545
 msgid "Label"
-msgstr "Fältetikett"
+msgstr "Etikett"
 
-#: admin/views/field-group-fields.php:31 pro/fields/flexible-content.php:539
+#: admin/views/field-group-fields.php:31 pro/fields/flexible-content.php:558
 msgid "Name"
 msgstr "Namn"
 
 #: admin/views/field-group-fields.php:32
-#, fuzzy
 msgid "Type"
-msgstr "Inläggstyp"
+msgstr "Typ"
 
 #: admin/views/field-group-fields.php:44
 msgid ""
@@ -607,251 +655,246 @@ msgstr "Dra och släpp för att ändra ordning"
 msgid "+ Add Field"
 msgstr "+ Lägg till fält"
 
-#: admin/views/field-group-locations.php:35
+#: admin/views/field-group-locations.php:5
 msgid "Rules"
 msgstr "Regler"
 
-#: admin/views/field-group-locations.php:36
+#: admin/views/field-group-locations.php:6
 msgid ""
 "Create a set of rules to determine which edit screens will use these "
 "advanced custom fields"
 msgstr "Skapa regler för när redigeringsvyn ska visa dessa fält"
 
-#: admin/views/field-group-locations.php:51
+#: admin/views/field-group-locations.php:21
 msgid "Show this field group if"
 msgstr "Visa detta fält när"
 
-#: admin/views/field-group-locations.php:71 core/field.php:130
-msgid "Basic"
-msgstr "Enkel"
-
-#: admin/views/field-group-locations.php:72 fields/relationship.php:747
-msgid "Post Type"
-msgstr "Inläggstyp"
-
-#: admin/views/field-group-locations.php:73
-msgid "Logged in User Type"
-msgstr "Inloggad användartyp"
-
-#: admin/views/field-group-locations.php:75
-#: admin/views/field-group-locations.php:76
+#: admin/views/field-group-locations.php:41
+#: admin/views/field-group-locations.php:47
 msgid "Post"
 msgstr "Inlägg"
 
-#: admin/views/field-group-locations.php:77
-msgid "Post Category"
-msgstr "Inläggskategori"
+#: admin/views/field-group-locations.php:42 fields/relationship.php:725
+msgid "Post Type"
+msgstr "Inläggstyp"
 
-#: admin/views/field-group-locations.php:78
+#: admin/views/field-group-locations.php:43
+msgid "Post Status"
+msgstr "Inläggsstatus"
+
+#: admin/views/field-group-locations.php:44
 msgid "Post Format"
 msgstr "Inläggsformat"
 
-#: admin/views/field-group-locations.php:79
-msgid "Post Status"
-msgstr "Status"
+#: admin/views/field-group-locations.php:45
+msgid "Post Category"
+msgstr "Inläggskategori"
 
-#: admin/views/field-group-locations.php:80
+#: admin/views/field-group-locations.php:46
 msgid "Post Taxonomy"
 msgstr "Inläggstaxonomi"
 
-#: admin/views/field-group-locations.php:82
-#: admin/views/field-group-locations.php:83
+#: admin/views/field-group-locations.php:49
+#: admin/views/field-group-locations.php:53
 msgid "Page"
 msgstr "Sida"
 
-#: admin/views/field-group-locations.php:84
-msgid "Page Type"
-msgstr "Sidtyp"
-
-#: admin/views/field-group-locations.php:85
-msgid "Page Parent"
-msgstr "Sidans förälder"
-
-#: admin/views/field-group-locations.php:86
+#: admin/views/field-group-locations.php:50
 msgid "Page Template"
 msgstr "Sidmall"
 
-#: admin/views/field-group-locations.php:88 fields/user.php:36
+#: admin/views/field-group-locations.php:51
+msgid "Page Type"
+msgstr "Sidtyp"
+
+#: admin/views/field-group-locations.php:52
+msgid "Page Parent"
+msgstr "Sidans förälder"
+
+#: admin/views/field-group-locations.php:55 fields/user.php:36
 msgid "User"
 msgstr "Användare"
 
-#: admin/views/field-group-locations.php:89
+#: admin/views/field-group-locations.php:56
 #, fuzzy
+msgid "Current User"
+msgstr "Nuvarande version"
+
+#: admin/views/field-group-locations.php:57
+#, fuzzy
+msgid "Current User Role"
+msgstr "Användarroll"
+
+#: admin/views/field-group-locations.php:58
 msgid "User Form"
-msgstr "Returvärde"
+msgstr "Användarformulär"
 
-#: admin/views/field-group-locations.php:90
-#, fuzzy
+#: admin/views/field-group-locations.php:59
 msgid "User Role"
-msgstr "Användarfält"
+msgstr "Användarroll"
 
-#: admin/views/field-group-locations.php:92 pro/admin/options-page.php:55
-#, fuzzy
+#: admin/views/field-group-locations.php:61 pro/admin/options-page.php:55
 msgid "Forms"
-msgstr "Format"
+msgstr "Formulär"
 
-#: admin/views/field-group-locations.php:93
+#: admin/views/field-group-locations.php:62
 msgid "Attachment"
 msgstr "Bilaga"
 
-#: admin/views/field-group-locations.php:94
-#, fuzzy
+#: admin/views/field-group-locations.php:63
 msgid "Taxonomy Term"
-msgstr "Taxonomi"
+msgstr "Taxonomi term"
 
-#: admin/views/field-group-locations.php:95
-#, fuzzy
+#: admin/views/field-group-locations.php:64
 msgid "Comment"
-msgstr "Kommentarer"
+msgstr "Kommentar"
 
-#: admin/views/field-group-locations.php:96
+#: admin/views/field-group-locations.php:65
 msgid "Widget"
-msgstr ""
+msgstr "Widget"
 
-#: admin/views/field-group-options.php:27
+#: admin/views/field-group-options.php:10
 msgid "Order No."
-msgstr "Ordernr."
+msgstr "Order Nr."
+
+#: admin/views/field-group-options.php:11
+#, fuzzy
+msgid "Field groups are created in order from lowest to highest"
+msgstr "Fältgrupper skapas i ordning <br />från lägsta till högsta"
+
+#: admin/views/field-group-options.php:21
+msgid "Position"
+msgstr "Position"
 
 #: admin/views/field-group-options.php:28
-msgid "Field groups are created in order <br />from lowest to highest"
-msgstr "Fältgrupper skapas i ordning, <br />från lägsta till högsta"
-
-#: admin/views/field-group-options.php:38
-msgid "Position"
-msgstr "Plats"
-
-#: admin/views/field-group-options.php:45
 msgid "High (after title)"
-msgstr "Hög (efter titeln)"
+msgstr "Hög (efter titel)"
 
-#: admin/views/field-group-options.php:46
+#: admin/views/field-group-options.php:29
 msgid "Normal (after content)"
-msgstr "Normal (efter innehållet)"
+msgstr "Normal (efter innehåll)"
 
-#: admin/views/field-group-options.php:47
+#: admin/views/field-group-options.php:30
 msgid "Side"
 msgstr "Sidopanel"
 
-#: admin/views/field-group-options.php:55
+#: admin/views/field-group-options.php:38
 msgid "Style"
 msgstr "Stil"
 
-#: admin/views/field-group-options.php:62
-#, fuzzy
+#: admin/views/field-group-options.php:45
 msgid "Standard (WP metabox)"
-msgstr "Vanlig metabox"
+msgstr "Standard (WP metabox)"
 
-#: admin/views/field-group-options.php:63
+#: admin/views/field-group-options.php:46
 msgid "Seamless (no metabox)"
-msgstr ""
+msgstr "Smidig (ingen metabox)"
 
-#: admin/views/field-group-options.php:70
+#: admin/views/field-group-options.php:53
 msgid "Label placement"
-msgstr ""
+msgstr "Etikett placering"
 
-#: admin/views/field-group-options.php:77
+#: admin/views/field-group-options.php:60 fields/tab.php:125
 msgid "Top aligned"
-msgstr ""
+msgstr "Topp justerad"
 
-#: admin/views/field-group-options.php:78
+#: admin/views/field-group-options.php:61 fields/tab.php:126
 msgid "Left Aligned"
-msgstr ""
+msgstr "Vänster justerad"
 
-#: admin/views/field-group-options.php:85
-#, fuzzy
+#: admin/views/field-group-options.php:68
 msgid "Instruction placement"
-msgstr "Instruktioner"
+msgstr "Placering av instruktion"
 
-#: admin/views/field-group-options.php:92
-#, fuzzy
+#: admin/views/field-group-options.php:75
 msgid "Below labels"
-msgstr "Fältetikett"
+msgstr "Under etiketter"
 
-#: admin/views/field-group-options.php:93
-#, fuzzy
+#: admin/views/field-group-options.php:76
 msgid "Below fields"
-msgstr "nytt_falt"
+msgstr "Under fält"
 
-#: admin/views/field-group-options.php:100
+#: admin/views/field-group-options.php:83
 msgid "Hide on screen"
-msgstr "Dölj på sida"
+msgstr "Dölj på skärmen"
 
-#: admin/views/field-group-options.php:101
-msgid "<b>Select</b> items to <b>hide</b> them from the edit screen"
+#: admin/views/field-group-options.php:84
+#, fuzzy
+msgid "<b>Select</b> items to <b>hide</b> them from the edit screen."
 msgstr "<b>Välj</b> objekt för att <b>dölja</b> dem från redigeringsvyn"
 
-#: admin/views/field-group-options.php:101
+#: admin/views/field-group-options.php:84
+#, fuzzy
 msgid ""
 "If multiple field groups appear on an edit screen, the first field group's "
-"options will be used. (the one with the lowest order number)"
+"options will be used (the one with the lowest order number)"
 msgstr ""
-"Om flera fältgrupper visas i redigeringsvyn kommer första gruppens "
+"Om flera fältgrupper visas i redigeringsvyn, kommer första gruppens "
 "inställningar att användas (den med lägst ordningsnummer)"
 
-#: admin/views/field-group-options.php:107
+#: admin/views/field-group-options.php:90
 msgid "Permalink"
-msgstr ""
+msgstr "Permalänk"
 
-#: admin/views/field-group-options.php:108
+#: admin/views/field-group-options.php:91
 msgid "Content Editor"
 msgstr "Innehållseditor"
 
-#: admin/views/field-group-options.php:109
+#: admin/views/field-group-options.php:92
 msgid "Excerpt"
 msgstr "Utdrag"
 
-#: admin/views/field-group-options.php:111
+#: admin/views/field-group-options.php:94
 msgid "Discussion"
 msgstr "Diskussion"
 
-#: admin/views/field-group-options.php:112
+#: admin/views/field-group-options.php:95
 msgid "Comments"
 msgstr "Kommentarer"
 
-#: admin/views/field-group-options.php:113
+#: admin/views/field-group-options.php:96
 msgid "Revisions"
-msgstr "Revisioner"
+msgstr "Versioner"
 
-#: admin/views/field-group-options.php:114
+#: admin/views/field-group-options.php:97
 msgid "Slug"
 msgstr "Permalänk"
 
-#: admin/views/field-group-options.php:115
+#: admin/views/field-group-options.php:98
 msgid "Author"
 msgstr "Författare"
 
-#: admin/views/field-group-options.php:116
+#: admin/views/field-group-options.php:99
 msgid "Format"
 msgstr "Format"
 
-#: admin/views/field-group-options.php:117
+#: admin/views/field-group-options.php:100
 msgid "Page Attributes"
-msgstr ""
+msgstr "Sidattribut"
 
-#: admin/views/field-group-options.php:118 fields/relationship.php:760
+#: admin/views/field-group-options.php:101 fields/relationship.php:738
 msgid "Featured Image"
 msgstr "Utvald bild"
 
-#: admin/views/field-group-options.php:119
+#: admin/views/field-group-options.php:102
 msgid "Categories"
 msgstr "Kategorier"
 
-#: admin/views/field-group-options.php:120
+#: admin/views/field-group-options.php:103
 msgid "Tags"
-msgstr "Etiketter"
+msgstr "Taggar"
 
-#: admin/views/field-group-options.php:121
+#: admin/views/field-group-options.php:104
 msgid "Send Trackbacks"
 msgstr "Skicka trackbacks"
 
 #: admin/views/settings-addons.php:23
-#, fuzzy
 msgid "Download & Install"
-msgstr "Ladda ner tillägg"
+msgstr "Ladda ner & installera"
 
 #: admin/views/settings-addons.php:42
 msgid "Installed"
-msgstr "Installerades"
+msgstr "Installerad"
 
 #: admin/views/settings-export-generate.php:13
 msgid "Export Field Groups to PHP"
@@ -865,6 +908,11 @@ msgid ""
 "the following code to your theme's functions.php file or include it within "
 "an external file."
 msgstr ""
+"Följande kod kan användas för att registrera en lokal version av valda "
+"fältgrupp(er). Ett lokal fältgrupp kan ge många fördelar som snabbare "
+"laddningstider, versionshantering & dynamiska fält/inställningar. Bara att "
+"kopiera och klistra in följande kod till ditt temas functions.php fil eller "
+"inkludera det genom en extern fil."
 
 #: admin/views/settings-export.php:7
 msgid "Export Field Groups"
@@ -877,62 +925,67 @@ msgid ""
 "import to another ACF installation. Use the generate button to export to PHP "
 "code which you can place in your theme."
 msgstr ""
+"Välj de fältgrupper som du vill exportera och sedan välj din exportmetod. "
+"Använd knappen för exportera till en .json fil som du sedan kan importera "
+"till en annan ACF installation. Använd den generade knappen för att "
+"exportera PHP kod som du kan lägga till i ditt tema."
 
 #: admin/views/settings-export.php:20
-#, fuzzy
 msgid "Select Field Groups"
-msgstr "Sök fältgrupp"
+msgstr "Välj fältgrupp"
 
 #: admin/views/settings-export.php:55
 msgid "Download export file"
-msgstr ""
+msgstr "Ladda ner exportfil"
 
 #: admin/views/settings-export.php:56
 msgid "Generate export code"
-msgstr ""
+msgstr "Generera exportkod"
 
 #: admin/views/settings-export.php:69
 msgid "Toggle All"
-msgstr ""
+msgstr "Markera alla"
 
 #: admin/views/settings-export.php:93
-#, fuzzy
 msgid "Import Field Groups"
-msgstr "Exportera fältgrupper"
+msgstr "Importera fältgrupper"
 
 #: admin/views/settings-export.php:96
 msgid ""
 "Select the Advanced Custom Fields JSON file you would like to import. When "
 "you click the import button below, ACF will import the field groups."
 msgstr ""
+"Välj den Advanced Custom Fields JSON-fil som du vill importera. När du "
+"klickar på import knappen nedanför,  kommer ACF importera fältgrupperna."
 
-#: admin/views/settings-export.php:106 fields/file.php:43
+#: admin/views/settings-export.php:106 fields/file.php:46
 msgid "Select File"
 msgstr "Välj fil"
 
 #: admin/views/settings-export.php:115
-#, fuzzy
 msgid "Import"
-msgstr "Viktigt"
+msgstr "Importera"
 
 #: admin/views/settings-info.php:9
 msgid "Welcome to Advanced Custom Fields"
 msgstr "Välkommen till Advanced Custom Fields"
 
 #: admin/views/settings-info.php:10
-#, fuzzy, php-format
+#, php-format
 msgid ""
 "Thank you for updating! ACF %s is bigger and better than ever before. We "
 "hope you like it."
-msgstr "är mer polerad och bättre än någonsin. Vi hoppas att du tycker om det."
+msgstr ""
+"Tack för att du uppdatera! ACF %s är större och bättre än någonsin tidigare. "
+"Vi hoppas att du uppskattar det."
 
 #: admin/views/settings-info.php:25
 msgid "A smoother custom field experience"
-msgstr ""
+msgstr "En smidigare fältupplevelse"
 
 #: admin/views/settings-info.php:30
 msgid "Improved Usability"
-msgstr ""
+msgstr "Förbättrad användarvänlighet"
 
 #: admin/views/settings-info.php:31
 msgid ""
@@ -940,10 +993,13 @@ msgid ""
 "across a number of field types including post object, page link, taxonomy "
 "and select."
 msgstr ""
+"Inkluderat det populära Select2 biblioteket som har förbättrat både "
+"användbarhet och hastighet över ett antal fälttyper inkluderande postobjekt, "
+"sidlänk, taxonomi och välj."
 
 #: admin/views/settings-info.php:35
 msgid "Improved Design"
-msgstr ""
+msgstr "Förbättrad design"
 
 #: admin/views/settings-info.php:36
 msgid ""
@@ -951,10 +1007,13 @@ msgid ""
 "ever! Noticeable changes are seen on the gallery, relationship and oEmbed "
 "(new) fields!"
 msgstr ""
+"Många fält har genomgått en visuell förbättring för att göra ACF se bättre "
+"ut än någonsin! Märkbara förändringar ses på galleriet, relation och oEmbed "
+"(nytt) fält!"
 
 #: admin/views/settings-info.php:40
 msgid "Improved Data"
-msgstr ""
+msgstr "Förbättrad data"
 
 #: admin/views/settings-info.php:41
 msgid ""
@@ -962,19 +1021,23 @@ msgid ""
 "independently from their parents. This allows you to drag and drop fields in "
 "and out of parent fields!"
 msgstr ""
+"Omforma dataarkitekturen har tillåtet underfält att leva självständigt från "
+"deras förälder. Detta gör att du kan dra och släppa fält in och ut från "
+"förälderfälten!"
 
 #: admin/views/settings-info.php:47
 msgid "Goodbye Add-ons. Hello PRO"
-msgstr ""
+msgstr "Adjö tillägg. Hej PRO"
 
 #: admin/views/settings-info.php:52
 msgid "Introducing ACF PRO"
-msgstr ""
+msgstr "Introducera ACF PRO"
 
 #: admin/views/settings-info.php:53
+#, fuzzy
 msgid ""
-"We're changing the way premium functionality is delivered in an exiting way!"
-msgstr ""
+"We're changing the way premium functionality is delivered in an exciting way!"
+msgstr "Vi ändrar hur premium funktionalitet levereras i ett spännande sätt!"
 
 #: admin/views/settings-info.php:54
 #, php-format
@@ -983,10 +1046,13 @@ msgid ""
 "version of ACF</a>. With both personal and developer licenses available, "
 "premium functionality is more affordable and accessible than ever before!"
 msgstr ""
+"Samtliga 4 premium tillägg har kombineras till ett ny <a href=\"%s\">Pro "
+"version av ACF</a>. Med både personlig och utvecklar licens tillgänglig, "
+"premium funktionalitet är mer prisvärt och tillgängligt än någonsin tidigare!"
 
 #: admin/views/settings-info.php:58
 msgid "Powerful Features"
-msgstr ""
+msgstr "Kraftfulla funktioner"
 
 #: admin/views/settings-info.php:59
 msgid ""
@@ -994,15 +1060,18 @@ msgid ""
 "layouts, a beautiful gallery field and the ability to create extra admin "
 "options pages!"
 msgstr ""
+"ACF PRO innehåller kraftfulla funktioner som upprepningsfält, flexibelt "
+"innehåll, ett vackert gallerifält och möjligheten att skapa extra "
+"administratörs alternativsidor!"
 
 #: admin/views/settings-info.php:60
 #, php-format
 msgid "Read more about <a href=\"%s\">ACF PRO features</a>."
-msgstr ""
+msgstr "Läs mer om <a href=\"%s\">ACF PRO funktioner</a>."
 
 #: admin/views/settings-info.php:64
 msgid "Easy Upgrading"
-msgstr ""
+msgstr "Enkelt att uppgradera"
 
 #: admin/views/settings-info.php:65
 #, php-format
@@ -1010,6 +1079,8 @@ msgid ""
 "To help make upgrading easy, <a href=\"%s\">login to your store account</a> "
 "and claim a free copy of ACF PRO!"
 msgstr ""
+"För att göra uppgraderingen enkel, <a href=\"%s\">logga in till ditt konto</"
+"a> och gör anspråk på en gratis kopia av ACF PRO!"
 
 #: admin/views/settings-info.php:66
 #, php-format
@@ -1018,119 +1089,128 @@ msgid ""
 "but if you do have one, please contact our support team via the <a href=\"%s"
 "\">help desk</a>"
 msgstr ""
+"Vi skrev även en <a href=\"%s\">uppgraderings guide</a>för svara på "
+"eventuella frågor, men om du har en, vänligen kontakta vårt support team via "
+"<a href=\"%s\">help desk</a>"
 
 #: admin/views/settings-info.php:74
 msgid "Under the Hood"
-msgstr ""
+msgstr "Under skalet"
 
 #: admin/views/settings-info.php:79
 msgid "Smarter field settings"
-msgstr ""
+msgstr "Smartare fältinställningar"
 
 #: admin/views/settings-info.php:80
 msgid "ACF now saves its field settings as individual post objects"
-msgstr ""
+msgstr "ACF sparar nu sina fältinställningar som individuella postobjekt"
 
 #: admin/views/settings-info.php:84
 msgid "More AJAX"
-msgstr ""
+msgstr "Mer AJAX"
 
 #: admin/views/settings-info.php:85
 msgid "More fields use AJAX powered search to speed up page loading"
 msgstr ""
+"Fler fält använder AJAX kraftfulla sök för snabbare inläsning av sidorna"
 
 #: admin/views/settings-info.php:89
 msgid "Local JSON"
-msgstr ""
+msgstr "Lokal JSON"
 
 #: admin/views/settings-info.php:90
 msgid "New auto export to JSON feature improves speed"
-msgstr ""
+msgstr "Ny automatisk export till JSON funktion för att förbättra snabbheten"
 
 #: admin/views/settings-info.php:94
 msgid "Better version control"
-msgstr ""
+msgstr "Bättre versionshantering"
 
 #: admin/views/settings-info.php:95
 msgid ""
 "New auto export to JSON feature allows field settings to be version "
 "controlled"
 msgstr ""
+"Ny automatiskt export till JSON funktion tillåter fältinställningar att vara "
+"version kontrollerade"
 
 #: admin/views/settings-info.php:99
 msgid "Swapped XML for JSON"
-msgstr ""
+msgstr "Bytte XML för JSON"
 
 #: admin/views/settings-info.php:100
 msgid "Import / Export now uses JSON in favour of XML"
-msgstr ""
+msgstr "Import / Export använder nu JSON till förmån för XML"
 
 #: admin/views/settings-info.php:104
 msgid "New Forms"
-msgstr ""
+msgstr "Nya formulär"
 
 #: admin/views/settings-info.php:105
 msgid "Fields can now be mapped to comments, widgets and all user forms!"
 msgstr ""
+"Fält kan nu kopplas till kommentarer, widgets och alla användarformulär."
 
 #: admin/views/settings-info.php:110
 msgid "A new field for embedding content has been added"
-msgstr ""
+msgstr "Ett nytt fält för inbäddning av innehåll har lagts till"
 
 #: admin/views/settings-info.php:114
 msgid "New Gallery"
-msgstr ""
+msgstr "Nytt galleri"
 
 #: admin/views/settings-info.php:115
 msgid "The gallery field has undergone a much needed facelift"
-msgstr ""
+msgstr "Gallerifältet har genomgått en välbehövlig uppfräschning"
 
 #: admin/views/settings-info.php:119
 msgid "New Settings"
-msgstr ""
+msgstr "Nya inställningar"
 
 #: admin/views/settings-info.php:120
 msgid ""
 "Field group settings have been added for label placement and instruction "
 "placement"
 msgstr ""
+"Fältgrupp inställningar har lagts till för etikett- och instruktionsplacering"
 
 #: admin/views/settings-info.php:124
 msgid "Better Front End Forms"
-msgstr ""
+msgstr "Bättre front-end formulär"
 
 #: admin/views/settings-info.php:125
 msgid "acf_form() can now create a new post on submission"
-msgstr ""
+msgstr "acf_form() kan nu skapa ett nytt inlägg på föreläggande"
 
 #: admin/views/settings-info.php:129
 msgid "Better Validation"
-msgstr ""
+msgstr "Bättre validering"
 
 #: admin/views/settings-info.php:130
 msgid "Form validation is now done via PHP + AJAX in favour of only JS"
 msgstr ""
+"Validering av formulär görs nu via PHP + AJAX till förmån för enbart JS"
 
 #: admin/views/settings-info.php:134
-#, fuzzy
 msgid "Relationship Field"
-msgstr "Relation"
+msgstr "Relationsfält"
 
 #: admin/views/settings-info.php:135
 msgid ""
 "New Relationship field setting for 'Filters' (Search, Post Type, Taxonomy)"
-msgstr ""
+msgstr "Ny relationsfält inställning för 'Filter' (Sök, Posttyp, Taxonomi)"
 
 #: admin/views/settings-info.php:139
-#, fuzzy
 msgid "Moving Fields"
-msgstr "Platsfält"
+msgstr "Flytta fält"
 
 #: admin/views/settings-info.php:140
 msgid ""
 "New field group functionality allows you to move a field between groups & "
 "parents"
 msgstr ""
+"Ny fältgrupp funktionalitet tillåter dig att flytta ett fält mellan grupper "
+"& föräldrer"
 
 #: admin/views/settings-info.php:144 fields/page_link.php:36
 msgid "Page Link"
@@ -1138,33 +1218,33 @@ msgstr "Sidlänk"
 
 #: admin/views/settings-info.php:145
 msgid "New archives group in page_link field selection"
-msgstr ""
+msgstr "Nya arkivgrupp i page_link fältval"
 
 #: admin/views/settings-info.php:149
-#, fuzzy
 msgid "Better Options Pages"
-msgstr "Alternativsida"
+msgstr "Bättre alternativsida"
 
 #: admin/views/settings-info.php:150
 msgid ""
 "New functions for options page allow creation of both parent and child menu "
 "pages"
 msgstr ""
+"Nya funktioner för alternativsida tillåter skapande av både förälder och "
+"undersidor"
 
 #: admin/views/settings-info.php:158
 #, php-format
 msgid "We think you'll love the changes in %s."
-msgstr ""
+msgstr "Vi tror att du kommer uppskatta förändringarna i %s."
 
 #: admin/views/update-notice.php:22
-#, fuzzy
 msgid "ACF PRO Required"
-msgstr "Obligatorisk?"
+msgstr "ACF PRO krävs"
 
 #: admin/views/update-notice.php:24 admin/views/update-notice.php:36
-#, fuzzy, php-format
+#, php-format
 msgid "Thank you for updating to %s v%s!"
-msgstr "Tack för att du har uppdaterat till den senaste versionen!"
+msgstr "Tack för du uppdaterade till %s v%s!"
 
 #: admin/views/update-notice.php:26
 #, php-format
@@ -1172,100 +1252,106 @@ msgid ""
 "We have detected an issue which requires your attention: This website makes "
 "use of premium add-ons (%s) which are no longer compatible with ACF."
 msgstr ""
+"Vi har upptäckt ett problem som kräver din uppmärksamhet: Denna webbplats "
+"använder premium-tillägg (%s) som inte längre är kompatibelt med ACF."
 
 #: admin/views/update-notice.php:28
 msgid ""
 "Don't panic, you can simply roll back the plugin and continue using ACF as "
 "you know it!"
 msgstr ""
+"Ingen panik, du kan enkelt återställa pluginet och fortsätta använda ACF som "
+"ni känner det!"
 
 #: admin/views/update-notice.php:30
 #, php-format
 msgid "Roll back to ACF v%s"
-msgstr ""
+msgstr "Rulla tillbaka till ACF v%s"
 
 #: admin/views/update-notice.php:30
 msgid "Learn why ACF PRO is required for my site"
-msgstr ""
+msgstr "Läs om varför ACF PRO krävs för min webbsida"
 
 #: admin/views/update-notice.php:34
 msgid "Database Upgrade Required"
-msgstr ""
+msgstr "Uppgradering av databasen krävs"
 
 #: admin/views/update-notice.php:36
 msgid ""
 "Before you start using the new awesome features, please update your database "
 "to the newest version."
 msgstr ""
+"Innan du börjar använda de nya fantastiska funktionerna, vänligen uppdatera "
+"din databas till den senaste versionen."
 
 #: admin/views/update-notice.php:38
-#, fuzzy
 msgid "Update Database"
-msgstr "Uppdatera bild"
+msgstr "Uppdatera databasen"
 
 #: admin/views/update-notice.php:45
 msgid ""
 "It is strongly recommended that you backup your database before proceeding. "
 "Are you sure you wish to run the updater now?"
 msgstr ""
+"Det rekommenderas starkt att du säkerhetskopierar din databas innan du "
+"fortsätter. Är du säker på att vill köra uppdateringen nu?"
 
 #: admin/views/update.php:9
-#, fuzzy
 msgid "Data Upgrade"
-msgstr "Uppgradera"
+msgstr "Uppgradera data"
 
 #: admin/views/update.php:13
 msgid "Reading upgrade tasks..."
-msgstr ""
+msgstr "Läser in uppgifter om uppgradering..."
 
 #: admin/views/update.php:19
 #, php-format
 msgid "Upgrading data to version %s"
-msgstr ""
+msgstr "Uppgradera data till version %s"
 
 #: admin/views/update.php:25
 msgid "Data upgraded successfully."
-msgstr ""
+msgstr "Data uppgraderad framgångsrikt."
 
 #: admin/views/update.php:27
-#, fuzzy
 msgid "See what's new"
 msgstr "Se vad som är nytt i"
 
 #: admin/views/update.php:31
-#, fuzzy
 msgid "Data is at the latest version."
-msgstr "Tack för att du har uppdaterat till den senaste versionen!"
+msgstr "Data är i den senaste versionen."
 
-#: api/api-helpers.php:1158
+#: api/api-helpers.php:816
 msgid "Thumbnail"
 msgstr "Tumnagel"
 
-#: api/api-helpers.php:1159
+#: api/api-helpers.php:817
 msgid "Medium"
 msgstr "Medium"
 
-#: api/api-helpers.php:1160
+#: api/api-helpers.php:818
 msgid "Large"
 msgstr "Stor"
 
-#: api/api-helpers.php:1161
-#, fuzzy
+#: api/api-helpers.php:866
 msgid "Full Size"
-msgstr "Full"
+msgstr "Full storlek"
 
-#: api/api-helpers.php:1747
-#, fuzzy
+#: api/api-helpers.php:1552
 msgid "(no title)"
-msgstr "Inläggstitel"
+msgstr "(ingen titel)"
 
-#: api/api-template.php:1187 pro/fields/gallery.php:488
+#: api/api-template.php:1268 pro/fields/gallery.php:567
 msgid "Update"
 msgstr "Uppdatera"
 
-#: api/api-template.php:1188
+#: api/api-template.php:1269
 msgid "Post updated"
-msgstr "Inlägget uppdaterades"
+msgstr "Inlägg uppdaterad"
+
+#: core/field.php:130
+msgid "Basic"
+msgstr "Enkel"
 
 #: core/field.php:131
 msgid "Content"
@@ -1283,70 +1369,113 @@ msgstr "Relation"
 msgid "jQuery"
 msgstr "jQuery"
 
-#: core/field.php:135 fields/checkbox.php:186 fields/radio.php:231
-#: pro/fields/flexible-content.php:493 pro/fields/repeater.php:394
+#: core/field.php:135 fields/checkbox.php:187 fields/radio.php:231
+#: pro/fields/flexible-content.php:516 pro/fields/repeater.php:392
 msgid "Layout"
 msgstr "Layout"
 
-#: core/input.php:120
+#: core/input.php:129
 msgid "Expand Details"
 msgstr "Visa detaljer"
 
-#: core/input.php:121
+#: core/input.php:130
 msgid "Collapse Details"
 msgstr "Dölj detaljer"
 
-#: core/input.php:153
+#: core/input.php:180
 msgid "Validation successful"
-msgstr ""
+msgstr "Validering lyckades"
 
-#: core/input.php:164
+#: core/input.php:192
 msgid "Validation failed"
+msgstr "Validering misslyckades"
+
+#: core/input.php:199
+#, php-format
+msgid "1 required field below is empty"
+msgid_plural "%s required fields below are empty"
+msgstr[0] "1 obligatoriskt fält nedanför är tomt"
+msgstr[1] "%s obligatoriska fält nedanför är tomma"
+
+#: core/input.php:535
+#, php-format
+msgid "%s value is required"
+msgstr "%s värde är obligatorisk"
+
+#: core/media.php:84
+#, php-format
+msgid "Image width must be at least %dpx."
 msgstr ""
 
-#: core/input.php:471
-#, fuzzy, php-format
-msgid "%s value is required"
-msgstr "Fältgruppen måste ha en titel"
+#: core/media.php:89
+#, php-format
+msgid "Image width must not exceed %dpx."
+msgstr ""
 
-#: fields/checkbox.php:36 fields/taxonomy.php:612
+#: core/media.php:104
+#, php-format
+msgid "Image height must be at least %dpx."
+msgstr ""
+
+#: core/media.php:109
+#, php-format
+msgid "Image height must not exceed %dpx."
+msgstr ""
+
+#: core/media.php:125
+#, php-format
+msgid "File size must be at least %s."
+msgstr ""
+
+#: core/media.php:130
+#, php-format
+msgid "File size must must not exceed %s."
+msgstr ""
+
+#: core/media.php:154
+#, fuzzy, php-format
+msgid "File type must be %s."
+msgstr "Fälttyp existerar inte"
+
+#: fields/checkbox.php:36 fields/taxonomy.php:733
 msgid "Checkbox"
 msgstr "Kryssruta"
 
-#: fields/checkbox.php:168 fields/radio.php:193 fields/select.php:371
+#: fields/checkbox.php:169 fields/radio.php:193 fields/select.php:374
 msgid "Choices"
 msgstr "Alternativ"
 
-#: fields/checkbox.php:169 fields/radio.php:194 fields/select.php:372
+#: fields/checkbox.php:170 fields/radio.php:194 fields/select.php:375
 msgid "Enter each choice on a new line."
-msgstr "Ange ett alternativ per rad"
+msgstr "Ange varje alternativ på en ny rad"
 
-#: fields/checkbox.php:169 fields/radio.php:194 fields/select.php:372
+#: fields/checkbox.php:170 fields/radio.php:194 fields/select.php:375
 msgid "For more control, you may specify both a value and label like this:"
-msgstr "För mer kontroll kan du specificera både värde och etikett enligt:"
+msgstr ""
+"För mer kontroll, kan du specificera både ett värde och etikett enligt:"
 
-#: fields/checkbox.php:169 fields/radio.php:194 fields/select.php:372
+#: fields/checkbox.php:170 fields/radio.php:194 fields/select.php:375
 msgid "red : Red"
 msgstr "röd : Röd"
 
-#: fields/checkbox.php:177 fields/color_picker.php:158 fields/email.php:124
-#: fields/number.php:150 fields/radio.php:222 fields/select.php:380
+#: fields/checkbox.php:178 fields/color_picker.php:158 fields/email.php:124
+#: fields/number.php:150 fields/radio.php:222 fields/select.php:383
 #: fields/text.php:148 fields/textarea.php:145 fields/true_false.php:115
 #: fields/url.php:117 fields/wysiwyg.php:345
 msgid "Default Value"
 msgstr "Standardvärde"
 
-#: fields/checkbox.php:178 fields/select.php:381
+#: fields/checkbox.php:179 fields/select.php:384
 msgid "Enter each default value on a new line"
-msgstr "Ange varje värde på en ny rad"
+msgstr "Ange varje standardvärde på en ny rad"
 
-#: fields/checkbox.php:192 fields/radio.php:237
+#: fields/checkbox.php:193 fields/radio.php:237
 msgid "Vertical"
-msgstr "Vertikalt"
+msgstr "Vertikal"
 
-#: fields/checkbox.php:193 fields/radio.php:238
+#: fields/checkbox.php:194 fields/radio.php:238
 msgid "Horizontal"
-msgstr "Horisontellt"
+msgstr "Horisontell"
 
 #: fields/color_picker.php:36
 msgid "Color Picker"
@@ -1354,17 +1483,15 @@ msgstr "Färgväljare"
 
 #: fields/color_picker.php:94
 msgid "Clear"
-msgstr ""
+msgstr "Rensa"
 
 #: fields/color_picker.php:95
-#, fuzzy
 msgid "Default"
-msgstr "Standardvärde"
+msgstr "Standard"
 
 #: fields/color_picker.php:96
-#, fuzzy
 msgid "Select Color"
-msgstr "Välj fil"
+msgstr "Välj färg"
 
 #: fields/date_picker.php:36
 msgid "Date Picker"
@@ -1372,7 +1499,7 @@ msgstr "Datumväljare"
 
 #: fields/date_picker.php:72
 msgid "Done"
-msgstr "Klar"
+msgstr "Färdigt"
 
 #: fields/date_picker.php:73
 msgid "Today"
@@ -1384,24 +1511,23 @@ msgstr "Visa en annan månad"
 
 #: fields/date_picker.php:149
 msgid "Display format"
-msgstr "Visningsformat"
+msgstr "Visa format"
 
 #: fields/date_picker.php:150
 msgid "The format displayed when editing a post"
-msgstr ""
+msgstr "Formatet som visas när du redigerar ett inlägg"
 
 #: fields/date_picker.php:164
-#, fuzzy
 msgid "Return format"
 msgstr "Returvärde"
 
 #: fields/date_picker.php:165
 msgid "The format returned via template functions"
-msgstr ""
+msgstr "Formatet som returneras via mallens funktioner"
 
 #: fields/date_picker.php:180
 msgid "Week Starts On"
-msgstr "Veckor börjar på"
+msgstr "Veckan börjar på"
 
 #: fields/email.php:36
 msgid "Email"
@@ -1447,68 +1573,94 @@ msgstr "Visas efter fältet"
 msgid "File"
 msgstr "Fil"
 
-#: fields/file.php:44
+#: fields/file.php:47
 msgid "Edit File"
 msgstr "Redigera fil"
 
-#: fields/file.php:45
+#: fields/file.php:48
 msgid "Update File"
 msgstr "Uppdatera fil"
 
-#: fields/file.php:46 fields/image.php:47 pro/fields/gallery.php:48
+#: fields/file.php:49 pro/fields/gallery.php:55
 msgid "uploaded to this post"
 msgstr "uppladdade till detta inlägg"
 
-#: fields/file.php:122
-#, fuzzy
+#: fields/file.php:141
 msgid "File Name"
-msgstr "Fältnamn"
+msgstr "Filnamn"
 
-#: fields/file.php:126
-#, fuzzy
+#: fields/file.php:145
 msgid "File Size"
-msgstr "Förhandsvisningens storlek"
+msgstr "Filstorlek"
 
-#: fields/file.php:138
-#, fuzzy
+#: fields/file.php:168
 msgid "No File selected"
 msgstr "Ingen fil vald"
 
-#: fields/file.php:138
+#: fields/file.php:168
 msgid "Add File"
 msgstr "Lägg till fil"
 
-#: fields/file.php:163 fields/image.php:143 fields/taxonomy.php:649
+#: fields/file.php:213 fields/image.php:192 fields/taxonomy.php:770
 msgid "Return Value"
 msgstr "Returvärde"
 
-#: fields/file.php:164 fields/image.php:144
+#: fields/file.php:214 fields/image.php:193
 msgid "Specify the returned value on front end"
-msgstr "Välj vilken typ av värde som ska returneras"
+msgstr "Välj vilken typ av värde som ska returneras på front-end"
 
-#: fields/file.php:169
+#: fields/file.php:219
 msgid "File Array"
-msgstr ""
+msgstr "Fil array"
 
-#: fields/file.php:170
+#: fields/file.php:220
 msgid "File URL"
 msgstr "Filadress"
 
-#: fields/file.php:171
+#: fields/file.php:221
 msgid "File ID"
 msgstr "Filens ID"
 
-#: fields/file.php:178 fields/image.php:169 pro/fields/gallery.php:556
+#: fields/file.php:228 fields/image.php:217 pro/fields/gallery.php:650
 msgid "Library"
 msgstr "Bibliotek"
 
-#: fields/file.php:179 fields/image.php:170 pro/fields/gallery.php:557
+#: fields/file.php:229 fields/image.php:218 pro/fields/gallery.php:651
 msgid "Limit the media library choice"
 msgstr "Begränsa urvalet i mediabiblioteket"
 
-#: fields/file.php:185 fields/image.php:176 pro/fields/gallery.php:563
+#: fields/file.php:235 fields/image.php:224 pro/fields/gallery.php:657
 msgid "Uploaded to post"
 msgstr "Uppladdade till detta inlägg"
+
+#: fields/file.php:242 fields/image.php:231 pro/fields/gallery.php:664
+#, fuzzy
+msgid "Minimum"
+msgstr "Minimum antal rader"
+
+#: fields/file.php:243 fields/file.php:254
+msgid "Restrict which files can be uploaded"
+msgstr ""
+
+#: fields/file.php:246 fields/file.php:257 fields/image.php:254
+#: fields/image.php:287 pro/fields/gallery.php:687 pro/fields/gallery.php:720
+#, fuzzy
+msgid "File size"
+msgstr "Filstorlek"
+
+#: fields/file.php:253 fields/image.php:264 pro/fields/gallery.php:697
+#, fuzzy
+msgid "Maximum"
+msgstr "Maximalt antal rader"
+
+#: fields/file.php:264 fields/image.php:297 pro/fields/gallery.php:730
+#, fuzzy
+msgid "Allowed file types"
+msgstr "Felaktig filtyp"
+
+#: fields/file.php:265 fields/image.php:298 pro/fields/gallery.php:731
+msgid "Comma separated list. Leave blank for all types"
+msgstr ""
 
 #: fields/google-map.php:36
 msgid "Google Map"
@@ -1523,41 +1675,39 @@ msgid "Sorry, this browser does not support geolocation"
 msgstr "Tyvärr saknar denna webbläsare stöd för platsinformation"
 
 #: fields/google-map.php:135
-#, fuzzy
 msgid "Clear location"
-msgstr "Plats"
+msgstr "Rensa plats"
 
 #: fields/google-map.php:142
 msgid "Find current location"
-msgstr ""
+msgstr "Hitta nuvarande plats"
 
 #: fields/google-map.php:145
-#, fuzzy
 msgid "Search for address..."
-msgstr "Sök..."
+msgstr "Sök för adress..."
 
 #: fields/google-map.php:177 fields/google-map.php:188
 msgid "Center"
-msgstr "Centrum"
+msgstr "Centrera"
 
 #: fields/google-map.php:178 fields/google-map.php:189
 msgid "Center the initial map"
 msgstr "Kartans initiala centrum"
 
-#: fields/google-map.php:199
+#: fields/google-map.php:202
 msgid "Zoom"
-msgstr ""
+msgstr "Zoom"
 
-#: fields/google-map.php:200
-#, fuzzy
+#: fields/google-map.php:203
 msgid "Set the initial zoom level"
-msgstr "Kartans initiala centrum"
+msgstr "Ange kartans initiala zoom nivå"
 
-#: fields/google-map.php:209
+#: fields/google-map.php:212 fields/image.php:243 fields/image.php:276
+#: fields/oembed.php:264 pro/fields/gallery.php:676 pro/fields/gallery.php:709
 msgid "Height"
 msgstr "Höjd"
 
-#: fields/google-map.php:210
+#: fields/google-map.php:213
 msgid "Customise the map height"
 msgstr "Skräddarsy kartans höjd"
 
@@ -1565,54 +1715,82 @@ msgstr "Skräddarsy kartans höjd"
 msgid "Image"
 msgstr "Bild"
 
-#: fields/image.php:44
+#: fields/image.php:51
 msgid "Select Image"
 msgstr "Välj bild"
 
-#: fields/image.php:45 pro/fields/gallery.php:46
+#: fields/image.php:52 pro/fields/gallery.php:53
 msgid "Edit Image"
 msgstr "Redigera bild"
 
-#: fields/image.php:46 pro/fields/gallery.php:47
+#: fields/image.php:53 pro/fields/gallery.php:54
 msgid "Update Image"
 msgstr "Uppdatera bild"
 
-#: fields/image.php:118
+#: fields/image.php:54
+#, fuzzy
+msgid "Uploaded to this post"
+msgstr "uppladdade till detta inlägg"
+
+#: fields/image.php:55
+#, fuzzy
+msgid "All images"
+msgstr "Lägg till bild"
+
+#: fields/image.php:144
 msgid "No image selected"
 msgstr "Ingen bild vald"
 
-#: fields/image.php:118
+#: fields/image.php:144
 msgid "Add Image"
 msgstr "Lägg till bild"
 
-#: fields/image.php:149
-#, fuzzy
+#: fields/image.php:198
 msgid "Image Array"
-msgstr "Bildens ID"
+msgstr "Bild Array"
 
-#: fields/image.php:150
+#: fields/image.php:199
 msgid "Image URL"
 msgstr "Bildadress"
 
-#: fields/image.php:151
+#: fields/image.php:200
 msgid "Image ID"
 msgstr "Bildens ID"
 
-#: fields/image.php:158 pro/fields/gallery.php:545
+#: fields/image.php:207 pro/fields/gallery.php:640
 msgid "Preview Size"
 msgstr "Förhandsvisningens storlek"
 
-#: fields/image.php:159 pro/fields/gallery.php:546
+#: fields/image.php:208 pro/fields/gallery.php:641
 msgid "Shown when entering data"
-msgstr "Visas vid inmatning"
+msgstr "Visas vid inmatning av data"
 
-#: fields/message.php:36 fields/message.php:84 fields/true_false.php:106
+#: fields/image.php:232 fields/image.php:265 pro/fields/gallery.php:665
+#: pro/fields/gallery.php:698
+msgid "Restrict which images can be uploaded"
+msgstr ""
+
+#: fields/image.php:235 fields/image.php:268 fields/oembed.php:253
+#: pro/fields/gallery.php:668 pro/fields/gallery.php:701
+#, fuzzy
+msgid "Width"
+msgstr "bredd"
+
+#: fields/message.php:36 fields/message.php:102 fields/true_false.php:106
 msgid "Message"
 msgstr "Meddelande"
 
-#: fields/message.php:85
+#: fields/message.php:103
 msgid "Please note that all text will first be passed through the wp function "
-msgstr "Notera att all text först kommer att passera genom funktionen"
+msgstr "Notera att all text först kommer att passera genom wp funktionen"
+
+#: fields/message.php:111
+msgid "Escape HTML"
+msgstr ""
+
+#: fields/message.php:112
+msgid "Allow HTML markup to display as visible text instead of rendering"
+msgstr ""
 
 #: fields/number.php:36
 msgid "Number"
@@ -1632,70 +1810,66 @@ msgstr "Stegvärde"
 
 #: fields/number.php:242
 msgid "Value must be a number"
-msgstr ""
+msgstr "Värdet måste vara ett nummer"
 
 #: fields/number.php:260
 #, php-format
 msgid "Value must be equal to or higher than %d"
-msgstr ""
+msgstr "Värdet måste vara lika eller högre än %d"
 
 #: fields/number.php:268
 #, php-format
 msgid "Value must be equal to or lower than %d"
-msgstr ""
+msgstr "Värdet måste vara lika eller längre än %d"
 
 #: fields/oembed.php:36
 msgid "oEmbed"
-msgstr ""
+msgstr "oEmbed"
 
 #: fields/oembed.php:199
 msgid "Enter URL"
-msgstr ""
+msgstr "Fyll i URL"
 
 #: fields/oembed.php:214
 msgid "No embed found for the given URL"
-msgstr ""
+msgstr "Ingen inbäddning för den angivna URL"
 
-#: fields/oembed.php:250 fields/oembed.php:260
-#, fuzzy
+#: fields/oembed.php:250 fields/oembed.php:261
 msgid "Embed Size"
-msgstr "Stegvärde"
+msgstr "Ombed storlek"
 
-#: fields/page_link.php:215
+#: fields/page_link.php:206
 msgid "Archives"
-msgstr ""
+msgstr "Arkiv"
 
-#: fields/page_link.php:489 fields/post_object.php:427
+#: fields/page_link.php:534 fields/post_object.php:403
+#: fields/relationship.php:691
+msgid "Filter by Post Type"
+msgstr "Filtrera efter inläggstyp"
+
+#: fields/page_link.php:542 fields/post_object.php:411
+#: fields/relationship.php:699
+msgid "All post types"
+msgstr "Samtliga posttyper"
+
+#: fields/page_link.php:548 fields/post_object.php:417
+#: fields/relationship.php:705
+msgid "Filter by Taxonomy"
+msgstr "Filtrera efter taxonomi"
+
+#: fields/page_link.php:556 fields/post_object.php:425
 #: fields/relationship.php:713
 #, fuzzy
-msgid "Filter by Post Type"
-msgstr "Filtrera inläggstyp"
+msgid "All taxonomies"
+msgstr "Inget taxonomi filter"
 
-#: fields/page_link.php:497 fields/post_object.php:435
-#: fields/relationship.php:721
-#, fuzzy
-msgid "All post types"
-msgstr "Filtrera inläggstyp"
-
-#: fields/page_link.php:503 fields/post_object.php:441
-#: fields/relationship.php:727
-#, fuzzy
-msgid "Filter by Taxonomy"
-msgstr "Filtera från taxonomi"
-
-#: fields/page_link.php:511 fields/post_object.php:449
-#: fields/relationship.php:735
-#, fuzzy
-msgid "No taxonomy filter"
-msgstr "Taxonomifält"
-
-#: fields/page_link.php:517 fields/post_object.php:455 fields/select.php:389
-#: fields/taxonomy.php:625 fields/user.php:340
+#: fields/page_link.php:562 fields/post_object.php:431 fields/select.php:392
+#: fields/taxonomy.php:746 fields/user.php:372
 msgid "Allow Null?"
 msgstr "Tillått nollvärde?"
 
-#: fields/page_link.php:531 fields/post_object.php:469 fields/select.php:403
-#: fields/user.php:354
+#: fields/page_link.php:576 fields/post_object.php:445 fields/select.php:406
+#: fields/user.php:386
 msgid "Select multiple values?"
 msgstr "Välj multipla värden?"
 
@@ -1703,17 +1877,16 @@ msgstr "Välj multipla värden?"
 msgid "Password"
 msgstr "Lösenord"
 
-#: fields/post_object.php:36 fields/post_object.php:488
-#: fields/relationship.php:788
+#: fields/post_object.php:36 fields/post_object.php:464
+#: fields/relationship.php:766
 msgid "Post Object"
 msgstr "Inläggsobjekt"
 
-#: fields/post_object.php:483 fields/relationship.php:783
+#: fields/post_object.php:459 fields/relationship.php:761
 msgid "Return Format"
 msgstr "Returvärde"
 
-#: fields/post_object.php:489 fields/relationship.php:789
-#, fuzzy
+#: fields/post_object.php:465 fields/relationship.php:767
 msgid "Post ID"
 msgstr "Inläggets ID"
 
@@ -1727,16 +1900,15 @@ msgstr "Annat"
 
 #: fields/radio.php:206
 msgid "Add 'other' choice to allow for custom values"
-msgstr "Lägg till värdet \"other\" för att tillåta egna värden"
+msgstr "Lägg till värdet 'other' för att tillåta egna värden"
 
 #: fields/radio.php:212
-#, fuzzy
 msgid "Save Other"
-msgstr "Annat"
+msgstr "Spara annat"
 
 #: fields/radio.php:216
 msgid "Save 'other' values to the field's choices"
-msgstr "Spara \"other\"-värden till fältets alternativ"
+msgstr "Spara 'annat'-värden till fältets alternativ"
 
 #: fields/relationship.php:36
 msgid "Relationship"
@@ -1744,134 +1916,136 @@ msgstr "Relation"
 
 #: fields/relationship.php:47
 msgid "Maximum values reached ( {max} values )"
-msgstr "Maximalt antal värden nåddes ( maximalt {max} värden )"
+msgstr "Maximalt antal värden uppnått ( {max} värden )"
 
 #: fields/relationship.php:48
 msgid "Loading"
-msgstr ""
+msgstr "Laddar"
 
 #: fields/relationship.php:49
 msgid "No matches found"
-msgstr ""
+msgstr "Inga träffar"
 
-#: fields/relationship.php:605
+#: fields/relationship.php:580
 msgid "Search..."
 msgstr "Sök..."
 
-#: fields/relationship.php:614
-#, fuzzy
+#: fields/relationship.php:589
 msgid "Select post type"
-msgstr "Filtrera inläggstyp"
+msgstr "Välj posttyp"
 
-#: fields/relationship.php:627
-#, fuzzy
+#: fields/relationship.php:602
 msgid "Select taxonomy"
-msgstr "Inläggstaxonomi"
+msgstr "Välj taxonomi"
 
-#: fields/relationship.php:746
+#: fields/relationship.php:724
 msgid "Search"
 msgstr "Sök"
 
-#: fields/relationship.php:748 fields/taxonomy.php:36 fields/taxonomy.php:596
+#: fields/relationship.php:726 fields/taxonomy.php:36 fields/taxonomy.php:717
 msgid "Taxonomy"
 msgstr "Taxonomi"
 
-#: fields/relationship.php:755
+#: fields/relationship.php:733
 msgid "Elements"
 msgstr "Element"
 
-#: fields/relationship.php:756
+#: fields/relationship.php:734
 msgid "Selected elements will be displayed in each result"
 msgstr "Valda element visas i varje resultat"
 
-#: fields/relationship.php:774
+#: fields/relationship.php:752
 msgid "Maximum posts"
 msgstr "Maximalt antal inlägg"
 
-#: fields/select.php:36 fields/select.php:160 fields/taxonomy.php:617
+#: fields/select.php:36 fields/select.php:160 fields/taxonomy.php:738
 msgid "Select"
 msgstr "Välj"
 
-#: fields/select.php:417
-#, fuzzy
+#: fields/select.php:420
 msgid "Stylised UI"
-msgstr "Stil"
+msgstr "Stylat UI"
 
-#: fields/select.php:431
+#: fields/select.php:434
 msgid "Use AJAX to lazy load choices?"
-msgstr ""
+msgstr "Använda AJAX för lady load alternativ?"
 
 #: fields/tab.php:36
 msgid "Tab"
 msgstr "Flik"
 
-#: fields/tab.php:83
+#: fields/tab.php:94
 msgid "Warning"
-msgstr ""
+msgstr "Varning"
 
-#: fields/tab.php:88
+#: fields/tab.php:99
 msgid ""
 "The tab field will display incorrectly when added to a Table style repeater "
 "field or flexible content field layout"
 msgstr ""
+"Flik fältet visas felaktigt när de läggs till en tabellstil upprepningsfält "
+"eller flexibelt innehålls fält layout"
 
-#: fields/tab.php:102
-#, fuzzy
+#: fields/tab.php:112
 msgid ""
 "Use \"Tab Fields\" to better organize your edit screen by grouping fields "
 "together."
 msgstr ""
-"Använd \"flikfält\" för att bättre organisera redigeringsvyn genom att "
-"gruppera dina fält under separata flikar."
+"Använd \"Flik fält\" för att bättre organisera din redigeringsvy när du "
+"grupperar fälten tillsammans."
 
-#: fields/tab.php:104
-#, fuzzy
+#: fields/tab.php:114
 msgid ""
 "All fields following this \"tab field\" (or until another \"tab field\" is "
 "defined) will be grouped together using this field's label as the tab "
 "heading."
 msgstr ""
 "Alla fält efter detta \"flikfält\" (eller fram till nästa \"flikfält\") "
-"kommer att grupperas tillsammans."
+"kommer att grupperas tillsammans genom fältets etikett som tabbrubrik."
 
-#: fields/taxonomy.php:565
+#: fields/tab.php:121
+#, fuzzy
+msgid "Placement"
+msgstr "Element"
+
+#: fields/taxonomy.php:686
 msgid "None"
 msgstr "Ingen"
 
-#: fields/taxonomy.php:611
+#: fields/taxonomy.php:732
 msgid "Multiple Values"
 msgstr "Multipla värden"
 
-#: fields/taxonomy.php:613
+#: fields/taxonomy.php:734
 msgid "Multi Select"
 msgstr "Flera värden"
 
-#: fields/taxonomy.php:615
+#: fields/taxonomy.php:736
 msgid "Single Value"
 msgstr "Ett värde"
 
-#: fields/taxonomy.php:616
+#: fields/taxonomy.php:737
 msgid "Radio Buttons"
 msgstr "Alternativknappar"
 
-#: fields/taxonomy.php:639
+#: fields/taxonomy.php:760
 msgid "Load & Save Terms to Post"
 msgstr "Ladda eller spara termer till inlägg"
 
-#: fields/taxonomy.php:643
+#: fields/taxonomy.php:764
 msgid ""
 "Load value based on the post's terms and update the post's terms on save"
 msgstr ""
 "Ladda värde baserat på inläggets termer och uppdatera dessa när inlägget "
 "sparas"
 
-#: fields/taxonomy.php:654
+#: fields/taxonomy.php:775
 msgid "Term Object"
-msgstr "Termobjekt"
+msgstr "Term objekt"
 
-#: fields/taxonomy.php:655
+#: fields/taxonomy.php:776
 msgid "Term ID"
-msgstr "Term-ID"
+msgstr "Term ID"
 
 #: fields/text.php:36
 msgid "Text"
@@ -1883,7 +2057,7 @@ msgstr "Maximalt antal tecken"
 
 #: fields/text.php:185 fields/textarea.php:164
 msgid "Leave blank for no limit"
-msgstr "Lämna tomt för att inte begränsa"
+msgstr "Lämna tomt för ingen begränsning"
 
 #: fields/textarea.php:36
 msgid "Text Area"
@@ -1891,33 +2065,29 @@ msgstr "Textfält"
 
 #: fields/textarea.php:172
 msgid "Rows"
-msgstr ""
+msgstr "Rader"
 
 #: fields/textarea.php:173
-#, fuzzy
 msgid "Sets the textarea height"
-msgstr "Skräddarsy kartans höjd"
+msgstr "Välj textfältets höjd"
 
 #: fields/textarea.php:182
-#, fuzzy
 msgid "New Lines"
-msgstr "Nytt fält"
+msgstr "Nya linjer"
 
 #: fields/textarea.php:183
 msgid "Controls how new lines are rendered"
-msgstr ""
+msgstr "Reglerar hur nya linjer renderas"
 
 #: fields/textarea.php:187
 msgid "Automatically add paragraphs"
-msgstr ""
+msgstr "Lägg till styckesindelning automatiskt."
 
 #: fields/textarea.php:188
-#, fuzzy
 msgid "Automatically add &lt;br&gt;"
-msgstr "automatiskt &lt;br /&gt;"
+msgstr "Lägg till automatiskt &lt;br&gt;"
 
 #: fields/textarea.php:189
-#, fuzzy
 msgid "No Formatting"
 msgstr "Ingen formatering"
 
@@ -1927,48 +2097,52 @@ msgstr "Sant / Falskt"
 
 #: fields/true_false.php:107
 msgid "eg. Show extra content"
-msgstr "exempel: Visa extra innehåll"
+msgstr "t.ex.: Visa extra innehåll"
 
 #: fields/url.php:36
 msgid "Url"
-msgstr ""
+msgstr "Url"
 
 #: fields/url.php:160
 msgid "Value must be a valid URL"
-msgstr ""
+msgstr "Värdet måste vara ett giltig URL"
 
-#: fields/user.php:325
+#: fields/user.php:357
 msgid "Filter by role"
 msgstr "Filtrera efter roll"
 
-#: fields/user.php:333
+#: fields/user.php:365
 msgid "All user roles"
-msgstr ""
+msgstr "Alla användarroller"
 
 #: fields/wysiwyg.php:37
 msgid "Wysiwyg Editor"
 msgstr "WYSIWYG-editor"
 
-#: fields/wysiwyg.php:298
+#: fields/wysiwyg.php:297
 msgid "Visual"
-msgstr ""
+msgstr "Visuellt"
+
+#: fields/wysiwyg.php:298
+msgctxt "Name for the Text editor tab (formerly HTML)"
+msgid "Text"
+msgstr "Text"
 
 #: fields/wysiwyg.php:354
 msgid "Tabs"
-msgstr ""
+msgstr "Flikar"
 
 #: fields/wysiwyg.php:359
 msgid "Visual & Text"
-msgstr ""
+msgstr "Visuellt & Text"
 
 #: fields/wysiwyg.php:360
 msgid "Visual Only"
-msgstr ""
+msgstr "Endast visuellt"
 
 #: fields/wysiwyg.php:361
-#, fuzzy
 msgid "Text Only"
-msgstr "Text"
+msgstr "Endast text"
 
 #: fields/wysiwyg.php:368
 msgid "Toolbar"
@@ -1976,21 +2150,20 @@ msgstr "Verktygsfält"
 
 #: fields/wysiwyg.php:378
 msgid "Show Media Upload Buttons?"
-msgstr "Visa knappar för mediauppladdning"
+msgstr "Visa knappar för mediauppladdning?"
+
+#: forms/post.php:341
+#, fuzzy
+msgid "Edit field group"
+msgstr "Redigera fältgrupp"
 
 #: pro/acf-pro.php:24
-#, fuzzy
 msgid "Advanced Custom Fields PRO"
-msgstr "Advanced Custom Fields"
+msgstr "Advanced Custom Fields PRO"
 
-#: pro/acf-pro.php:149
-#, fuzzy
+#: pro/acf-pro.php:174
 msgid "Flexible Content requires at least 1 layout"
-msgstr "Fält för flexibelt innehåll"
-
-#: pro/acf-pro.php:418
-msgid "Column Width"
-msgstr ""
+msgstr "Flexibelt innehåll kräver minst 1 layout"
 
 #: pro/admin/connect.php:167
 #, php-format
@@ -1999,6 +2172,9 @@ msgid ""
 "\">Updates</a> page. If you don't have a licence key, please see <a href=\"%s"
 "\">details & pricing</a>"
 msgstr ""
+"För att aktivera uppdatering, vänligen fyll i din licensnyckel på <a href="
+"\"%s\">uppdaterings</a>sida. Om du inte har en licensnyckel, vänligen besök "
+"<a href=\"%s\">detaljer & priser</a>"
 
 #: pro/admin/options-page.php:55
 msgid "Options Page"
@@ -2006,941 +2182,436 @@ msgstr "Alternativsida"
 
 #: pro/admin/options-page.php:90
 msgid "No options pages exist"
-msgstr ""
+msgstr "Ingen alternativsida existerar"
 
-#: pro/admin/options-page.php:290
-#, fuzzy
+#: pro/admin/options-page.php:296
 msgid "Options Updated"
-msgstr "Alternativsida"
+msgstr "Alternativsida uppdaterad"
 
-#: pro/admin/options-page.php:298
-#, fuzzy
+#: pro/admin/options-page.php:304
 msgid "No Custom Field Groups found for this options page"
-msgstr "Inga fältgrupper finns i papperskorgen"
+msgstr "Inga fältgrupper hittades för denna alternativsida"
 
-#: pro/admin/options-page.php:298
-#, fuzzy
+#: pro/admin/options-page.php:304
 msgid "Create a Custom Field Group"
-msgstr "Egna fälttyper"
+msgstr "Skapa en fältgrupp"
 
 #: pro/admin/settings-updates.php:115
 msgid "<b>Error</b>. Could not connect to update server"
-msgstr ""
+msgstr "<b>Fel</b>. Kunde inte ansluta till uppdateringsservern"
 
 #: pro/admin/settings-updates.php:245 pro/admin/settings-updates.php:312
 msgid "<b>Connection Error</b>. Sorry, please try again"
-msgstr ""
+msgstr "<b>Anslutningsfel</b>. Vänligen, försök igen"
 
 #: pro/admin/views/options-page.php:58
-#, fuzzy
 msgid "Save Options"
-msgstr "Alternativ"
+msgstr "Spara alternativ"
 
 #: pro/admin/views/settings-updates.php:11
 msgid "Deactivate License"
-msgstr ""
+msgstr "Inaktivera licens"
 
 #: pro/admin/views/settings-updates.php:11
-#, fuzzy
 msgid "Activate License"
-msgstr "Aktiveringskod"
+msgstr "Aktivera licens"
 
 #: pro/admin/views/settings-updates.php:21
 msgid "License"
-msgstr ""
+msgstr "Licens"
 
 #: pro/admin/views/settings-updates.php:24
 msgid ""
 "To unlock updates, please enter your license key below. If you don't have a "
 "licence key, please see"
 msgstr ""
+"För att låsa upp uppdateringar, vänligen ange din licensnyckel nedanför. Om "
+"du inte har en licensnyckel, vänligen se"
 
 #: pro/admin/views/settings-updates.php:24
 msgid "details & pricing"
-msgstr ""
+msgstr "detaljer & priser"
 
 #: pro/admin/views/settings-updates.php:33
-#, fuzzy
 msgid "License Key"
-msgstr "Fältnyckel"
+msgstr "Licensnyckel"
 
 #: pro/admin/views/settings-updates.php:65
-#, fuzzy
 msgid "Update Information"
-msgstr "Uppdatera bild"
+msgstr "Uppdatera information"
 
 #: pro/admin/views/settings-updates.php:72
 msgid "Current Version"
-msgstr ""
+msgstr "Nuvarande version"
 
 #: pro/admin/views/settings-updates.php:80
 msgid "Latest Version"
-msgstr ""
+msgstr "Senaste version"
 
 #: pro/admin/views/settings-updates.php:88
-#, fuzzy
 msgid "Update Available"
-msgstr "Uppdatera fil"
+msgstr "Uppdatering tillgänglig"
 
 #: pro/admin/views/settings-updates.php:96
-#, fuzzy
 msgid "Update Plugin"
-msgstr "Uppdatera fil"
+msgstr "Uppdatera tillägg"
 
 #: pro/admin/views/settings-updates.php:98
 msgid "Please enter your license key above to unlock updates"
 msgstr ""
+"Vänligen fyll i din licensnyckel ovanför för att låsa upp uppdateringar"
 
-#: pro/admin/views/settings-updates.php:102
+#: pro/admin/views/settings-updates.php:104
 msgid "Check Again"
-msgstr ""
+msgstr "Kontrollera igen"
 
-#: pro/admin/views/settings-updates.php:119
-#, fuzzy
+#: pro/admin/views/settings-updates.php:121
 msgid "Upgrade Notice"
-msgstr "Uppgradera"
+msgstr "Uppgraderings notering"
 
 #: pro/fields/flexible-content.php:36
 msgid "Flexible Content"
 msgstr "Flexibelt innehåll"
 
 #: pro/fields/flexible-content.php:42 pro/fields/repeater.php:43
-#, fuzzy
 msgid "Add Row"
-msgstr "Lägg till ny"
+msgstr "Lägg till rad"
 
 #: pro/fields/flexible-content.php:45
-#, fuzzy
 msgid "layout"
-msgstr "Layout"
+msgstr "layout"
 
 #: pro/fields/flexible-content.php:46
-#, fuzzy
 msgid "layouts"
-msgstr "Layout"
+msgstr "layouter"
 
 #: pro/fields/flexible-content.php:47
 msgid "remove {layout}?"
-msgstr ""
+msgstr "radera {layout}?"
 
 #: pro/fields/flexible-content.php:48
 msgid "This field requires at least {min} {identifier}"
-msgstr ""
+msgstr "Detta fält kräver minst {min} {identifierare}"
 
 #: pro/fields/flexible-content.php:49
 msgid "This field has a limit of {max} {identifier}"
-msgstr ""
+msgstr "Detta fält har en gräns på {max} {identifierare}"
 
 #: pro/fields/flexible-content.php:50
 msgid "This field requires at least {min} {label} {identifier}"
-msgstr ""
+msgstr "Detta fält kräver minst {min} {etikett} {identifierare}"
 
 #: pro/fields/flexible-content.php:51
-#, fuzzy
 msgid "Maximum {label} limit reached ({max} {identifier})"
-msgstr "Maximalt antal värden nåddes ( maximalt {max} värden )"
+msgstr "Maximal {etikett} gräns nåtts ({max} {identifierare})"
 
 #: pro/fields/flexible-content.php:52
 msgid "{available} {label} {identifier} available (max {max})"
-msgstr ""
+msgstr "{tillgänglig} {etikett} {identifierare} tillgänglig (max {max})"
 
 #: pro/fields/flexible-content.php:53
 msgid "{required} {label} {identifier} required (min {min})"
-msgstr ""
+msgstr "{krävs} {etikett} {identifierare} krävs (min {min})"
 
-#: pro/fields/flexible-content.php:213
+#: pro/fields/flexible-content.php:211
 #, php-format
 msgid "Click the \"%s\" button below to start creating your layout"
-msgstr ""
+msgstr "Klicka på \"%s\" knappen nedan för att börja skapa din layout"
 
-#: pro/fields/flexible-content.php:334
-#, fuzzy
+#: pro/fields/flexible-content.php:369
 msgid "Add layout"
-msgstr "Layout"
+msgstr "Lägg till layout"
 
-#: pro/fields/flexible-content.php:339
-#, fuzzy
+#: pro/fields/flexible-content.php:374
 msgid "Remove layout"
-msgstr "Radera"
+msgstr "Radera layout"
 
-#: pro/fields/flexible-content.php:495
-#, fuzzy
+#: pro/fields/flexible-content.php:518
 msgid "Reorder Layout"
-msgstr "Layout"
+msgstr "Ändra layoutens ordning"
 
-#: pro/fields/flexible-content.php:495
+#: pro/fields/flexible-content.php:518
 msgid "Reorder"
-msgstr ""
+msgstr "Ändra ordning"
 
-#: pro/fields/flexible-content.php:496
-#, fuzzy
+#: pro/fields/flexible-content.php:519
 msgid "Delete Layout"
-msgstr "Layout"
+msgstr "Radera layout"
 
-#: pro/fields/flexible-content.php:497
-#, fuzzy
+#: pro/fields/flexible-content.php:520
 msgid "Duplicate Layout"
-msgstr "Duplicera"
+msgstr "Kopiera layout"
 
-#: pro/fields/flexible-content.php:498
-#, fuzzy
+#: pro/fields/flexible-content.php:521
 msgid "Add New Layout"
-msgstr "Lägg till ny"
+msgstr "Lägg till ny layout"
 
-#: pro/fields/flexible-content.php:548
-#, fuzzy
+#: pro/fields/flexible-content.php:565
 msgid "Display"
-msgstr "Visningsformat"
+msgstr "Visa"
 
-#: pro/fields/flexible-content.php:559 pro/fields/repeater.php:402
-msgid "Block"
-msgstr ""
-
-#: pro/fields/flexible-content.php:560 pro/fields/repeater.php:401
+#: pro/fields/flexible-content.php:576 pro/fields/repeater.php:399
 msgid "Table"
-msgstr ""
+msgstr "Tabell"
 
-#: pro/fields/flexible-content.php:575
+#: pro/fields/flexible-content.php:577 pro/fields/repeater.php:400
+msgid "Block"
+msgstr "Grupp"
+
+#: pro/fields/flexible-content.php:578 pro/fields/repeater.php:401
+msgid "Row"
+msgstr "Rad"
+
+#: pro/fields/flexible-content.php:593
 msgid "Min"
 msgstr "Min"
 
-#: pro/fields/flexible-content.php:588
+#: pro/fields/flexible-content.php:606
 msgid "Max"
 msgstr "Max"
 
-#: pro/fields/flexible-content.php:619 pro/fields/repeater.php:409
+#: pro/fields/flexible-content.php:634 pro/fields/repeater.php:408
 msgid "Button Label"
-msgstr ""
+msgstr "Knapp etikett"
 
-#: pro/fields/flexible-content.php:628
-#, fuzzy
+#: pro/fields/flexible-content.php:643
 msgid "Minimum Layouts"
-msgstr "Minsta värde"
+msgstr "Minimum layouter"
 
-#: pro/fields/flexible-content.php:637
-#, fuzzy
+#: pro/fields/flexible-content.php:652
 msgid "Maximum Layouts"
-msgstr "Maximalt antal inlägg"
+msgstr "Maximala layouter"
 
 #: pro/fields/gallery.php:36
-#, fuzzy
 msgid "Gallery"
-msgstr "Gallerifält"
+msgstr "Galleri"
 
-#: pro/fields/gallery.php:45
-#, fuzzy
+#: pro/fields/gallery.php:52
 msgid "Add Image to Gallery"
-msgstr "Lägg till bild"
+msgstr "Lägg till en bild till galleri"
 
-#: pro/fields/gallery.php:49
+#: pro/fields/gallery.php:56
 msgid "Maximum selection reached"
+msgstr "Maximalt antal val uppnått"
+
+#: pro/fields/gallery.php:336
+msgid "Length"
 msgstr ""
 
-#: pro/fields/gallery.php:309
+#: pro/fields/gallery.php:356
 #, fuzzy
-msgid "Attachment Details"
-msgstr "Bilaga"
+msgid "Remove"
+msgstr "Radera rad"
 
-#: pro/fields/gallery.php:459
+#: pro/fields/gallery.php:538
 msgid "Add to gallery"
-msgstr ""
+msgstr "Lägg till galleri"
 
-#: pro/fields/gallery.php:463
-#, fuzzy
+#: pro/fields/gallery.php:542
 msgid "Bulk actions"
-msgstr "Funktioner"
+msgstr "Välj åtgärd"
 
-#: pro/fields/gallery.php:464
+#: pro/fields/gallery.php:543
 msgid "Sort by date uploaded"
-msgstr ""
+msgstr "Sortera efter uppladdningsdatum"
 
-#: pro/fields/gallery.php:465
+#: pro/fields/gallery.php:544
 msgid "Sort by date modified"
-msgstr ""
+msgstr "Sortera efter redigerat datum"
 
-#: pro/fields/gallery.php:466
-#, fuzzy
+#: pro/fields/gallery.php:545
 msgid "Sort by title"
-msgstr "Inläggstitel"
+msgstr "Sortera efter titel"
 
-#: pro/fields/gallery.php:467
+#: pro/fields/gallery.php:546
 msgid "Reverse current order"
-msgstr ""
+msgstr "Omvänd gällande ordning"
 
-#: pro/fields/gallery.php:485
-#, fuzzy
+#: pro/fields/gallery.php:564
 msgid "Close"
-msgstr "Stäng fält"
+msgstr "Stänga"
 
-#: pro/fields/gallery.php:525
-#, fuzzy
+#: pro/fields/gallery.php:622
 msgid "Minimum Selection"
-msgstr "Minsta värde"
+msgstr "Minsta urval"
 
-#: pro/fields/gallery.php:535
-#, fuzzy
+#: pro/fields/gallery.php:631
 msgid "Maximum Selection"
-msgstr "Högsta värde"
+msgstr "Högsta urval"
+
+#: pro/fields/gallery.php:812
+#, php-format
+msgid "%s requires at least %s selection"
+msgid_plural "%s requires at least %s selections"
+msgstr[0] "%s kräver minst %s val"
+msgstr[1] "%s kräver minst %s val"
 
 #: pro/fields/repeater.php:36
-#, fuzzy
 msgid "Repeater"
 msgstr "Upprepningsfält"
 
 #: pro/fields/repeater.php:46
-#, fuzzy
 msgid "Minimum rows reached ({min} rows)"
-msgstr "Maximalt antal värden nåddes ( maximalt {max} värden )"
+msgstr "Minimum antal rader uppnått ({min} rader)"
 
 #: pro/fields/repeater.php:47
-#, fuzzy
 msgid "Maximum rows reached ({max} rows)"
-msgstr "Maximalt antal värden nåddes ( maximalt {max} värden )"
+msgstr "Maximalt antal rader uppnått ({max} rader)"
 
-#: pro/fields/repeater.php:254
-#, fuzzy
+#: pro/fields/repeater.php:259
 msgid "Drag to reorder"
 msgstr "Dra och släpp för att ändra ordning"
 
-#: pro/fields/repeater.php:302
-#, fuzzy
+#: pro/fields/repeater.php:301
 msgid "Add row"
-msgstr "Lägg till ny"
+msgstr "Lägg till rad"
 
-#: pro/fields/repeater.php:303
-#, fuzzy
+#: pro/fields/repeater.php:302
 msgid "Remove row"
-msgstr "Radera"
+msgstr "Radera rad"
 
-#: pro/fields/repeater.php:352
-#, fuzzy
+#: pro/fields/repeater.php:350
 msgid "Sub Fields"
-msgstr "Fält"
+msgstr "Underfält"
 
-#: pro/fields/repeater.php:374
-#, fuzzy
+#: pro/fields/repeater.php:372
 msgid "Minimum Rows"
-msgstr "Minsta värde"
+msgstr "Minimum antal rader"
 
-#: pro/fields/repeater.php:384
-#, fuzzy
+#: pro/fields/repeater.php:382
 msgid "Maximum Rows"
-msgstr "Maximalt antal inlägg"
-
-#~ msgid "Validation Failed. One or more fields below are required."
-#~ msgstr ""
-#~ "Valideringen misslyckades. Ett eller flera fält nedan måste fyllas i."
-
-#~ msgid "Field group restored to revision from %s"
-#~ msgstr "Fältgruppen återställdes till revision %s"
-
-#~ msgid "No ACF groups selected"
-#~ msgstr "Inga ACF-grupper har valts"
-
-#~ msgid ""
-#~ "Create infinite rows of repeatable data with this versatile interface!"
-#~ msgstr ""
-#~ "Skapa obegränsat antal rader av upprepningsbar data med detta mångsidiga "
-#~ "verktyg!"
-
-#~ msgid "Create image galleries in a simple and intuitive interface!"
-#~ msgstr "Skapa bildgallerier i ett enkelt och intuitivt gränssnitt!"
-
-#~ msgid "Create global data to use throughout your website!"
-#~ msgstr "Skapa gobala data som du kan använda över hela din webbplats!"
-
-#~ msgid "Create unique designs with a flexible content layout manager!"
-#~ msgstr "Skapa unika layouter med verktyget för flexibelt innehåll!"
-
-#~ msgid "Gravity Forms Field"
-#~ msgstr "Gravity Forms-fält"
-
-#~ msgid "Creates a select field populated with Gravity Forms!"
-#~ msgstr "Skapa ett listfält innehållande Gravity Forms-formulär!"
-
-#~ msgid "Date & Time Picker"
-#~ msgstr "Datum- och tidväljare"
-
-#~ msgid "jQuery date & time picker"
-#~ msgstr "Datum- och tidväljare med jQuery"
-
-#~ msgid "Find addresses and coordinates of a desired location"
-#~ msgstr "Hitta adresser och koordinater för en önskad plats"
-
-#~ msgid "Contact Form 7 Field"
-#~ msgstr "Contact Form 7-fält"
-
-#~ msgid "Assign one or more contact form 7 forms to a post"
-#~ msgstr "Välj ett eller fler Contact Form 7-formulär i ett inlägg"
-
-#~ msgid "Advanced Custom Fields Add-Ons"
-#~ msgstr "Tillägg till Advanced Custom Fields"
-
-#~ msgid ""
-#~ "The following Add-ons are available to increase the functionality of the "
-#~ "Advanced Custom Fields plugin."
-#~ msgstr ""
-#~ "Följande tillägg finns för att öka funktionaliteten hos Advanced Custom "
-#~ "Fields."
-
-#~ msgid ""
-#~ "Each Add-on can be installed as a separate plugin (receives updates) or "
-#~ "included in your theme (does not receive updates)."
-#~ msgstr ""
-#~ "Varje tillägg kan installeras som en separat plugin (tar emot "
-#~ "uppdateringar) eller inkluderas i ditt tema (tar inte emot uppdateringar)."
-
-#~ msgid "Purchase & Install"
-#~ msgstr "Köp och installera"
-
-#~ msgid "Download"
-#~ msgstr "Ladda ner"
-
-#~ msgid "Export"
-#~ msgstr "Exportera"
-
-#~ msgid "Select the field groups to be exported"
-#~ msgstr "Välj fältgrupperna som ska exporteras"
-
-#~ msgid "Export to XML"
-#~ msgstr "Exportera till XML"
-
-#~ msgid "Export to PHP"
-#~ msgstr "Exportera till PHP"
-
-#~ msgid ""
-#~ "ACF will create a .xml export file which is compatible with the native WP "
-#~ "import plugin."
-#~ msgstr ""
-#~ "ACF kommer att skapa en .xml-fil som är kompatibel med WordPress egna "
-#~ "importtillägg."
-
-#~ msgid ""
-#~ "Imported field groups <b>will</b> appear in the list of editable field "
-#~ "groups. This is useful for migrating fields groups between Wp websites."
-#~ msgstr ""
-#~ "Importerade fältgrupper <b>kommer</b> att visas i listan över redigerbara "
-#~ "fältgrupper. Detta är användbart då fältgrupper flyttas mellan WordPress-"
-#~ "webbplatser."
-
-#~ msgid "Select field group(s) from the list and click \"Export XML\""
-#~ msgstr "Välj fältgrupp(er) från listan och klicka \"Exportera till XML\""
-
-#~ msgid "Save the .xml file when prompted"
-#~ msgstr "Spara .xml-filen på valfri plats"
-
-#~ msgid "Navigate to Tools &raquo; Import and select WordPress"
-#~ msgstr "Gå till Verktyg &raquo; Importera och välj WordPress"
-
-#~ msgid "Install WP import plugin if prompted"
-#~ msgstr "Installera WordPress importtillägg vid behov"
-
-#~ msgid "Upload and import your exported .xml file"
-#~ msgstr "Ladda upp och importera din exporterade .xml-fil"
-
-#~ msgid "Select your user and ignore Import Attachments"
-#~ msgstr "Välj din användare och ignorera bilagor"
-
-#~ msgid "That's it! Happy WordPressing"
-#~ msgstr "Klart! Mycket nöje!"
-
-#~ msgid "ACF will create the PHP code to include in your theme."
-#~ msgstr "ACF kommer skapa PHP-koden att inkludera i ditt tema."
-
-#~ msgid ""
-#~ "Registered field groups <b>will not</b> appear in the list of editable "
-#~ "field groups. This is useful for including fields in themes."
-#~ msgstr ""
-#~ "Registrerade fältgrupper <b>kommer inte</b> att visas i listan över "
-#~ "redigerbara fältgrupper. Detta är användbart när man inkluderar fält i "
-#~ "teman."
-
-#~ msgid ""
-#~ "Please note that if you export and register field groups within the same "
-#~ "WP, you will see duplicate fields on your edit screens. To fix this, "
-#~ "please move the original field group to the trash or remove the code from "
-#~ "your functions.php file."
-#~ msgstr ""
-#~ "Notera att om du exporterar och registrerar fältgrupper inom samma "
-#~ "WordPress-installation kommer du se dubbletter av fälten i din "
-#~ "redigeringsvy. För att åtgärda det flyttar du den ursprungliga "
-#~ "fältgruppen till papperskorgen eller tar bort koden från din functions."
-#~ "php-fil."
-
-#~ msgid "Select field group(s) from the list and click \"Create PHP\""
-#~ msgstr "Välj fältgrupp(er) från listan och klicka \"Exportera till PHP\""
-
-#~ msgid "Copy the PHP code generated"
-#~ msgstr "Kopiera den genererade PHP-koden"
-
-#~ msgid "Paste into your functions.php file"
-#~ msgstr "Klistra in koden i din functions.php-fil"
-
-#~ msgid ""
-#~ "To activate any Add-ons, edit and use the code in the first few lines."
-#~ msgstr "Redigera de första kodraderna för att aktivera eventuella tillägg. "
-
-#~ msgid "Notes"
-#~ msgstr "Anteckningar"
-
-#~ msgid "Include in theme"
-#~ msgstr "Inkludera i tema"
-
-#~ msgid ""
-#~ "The Advanced Custom Fields plugin can be included within a theme. To do "
-#~ "so, move the ACF plugin inside your theme and add the following code to "
-#~ "your functions.php file:"
-#~ msgstr ""
-#~ "Advanced Custom Fields-tilläggen kan inkluderas i ett tema. Detta görs "
-#~ "genom att flytta ACF till din temamapp och lägg till följande kod i din "
-#~ "functions.php-fil:"
-
-#~ msgid ""
-#~ "To remove all visual interfaces from the ACF plugin, you can use a "
-#~ "constant to enable lite mode. Add the following code to your functions."
-#~ "php file <b>before</b> the include_once code:"
-#~ msgstr ""
-#~ "Ta bort det visuella gränssnittet i ACF genom att aktivera \"Lite mode\". "
-#~ "Lägg till följande kod i din functions.php <b>innan</b> include_once-"
-#~ "anropet:"
-
-#~ msgid "Back to export"
-#~ msgstr "Tillbaka till export"
-
-#~ msgid "This row"
-#~ msgstr "Denna rad"
-
-#~ msgid "Vote"
-#~ msgstr "Rösta"
-
-#~ msgid "Follow"
-#~ msgstr "Följ"
-
-#~ msgid "What’s New"
-#~ msgstr "Nyheter"
-
-#~ msgid "Activation codes have grown into plugins!"
-#~ msgstr "Aktiveringskoderna har flyttat in i tilläggen!"
-
-#~ msgid ""
-#~ "Add-ons are now activated by downloading and installing individual "
-#~ "plugins. Although these plugins will not be hosted on the wordpress.org "
-#~ "repository, each Add-on will continue to receive updates in the usual way."
-#~ msgstr ""
-#~ "Nu aktiveras tillägg genom att de laddas ner och installeras separat. "
-#~ "Även om dessa tillägg inte lagras på wordpress.org fortsätter de att få "
-#~ "uppdateringar som vanligt."
-
-#~ msgid "All previous Add-ons have been successfully installed"
-#~ msgstr "Alla tidigare tillägg har installerats"
-
-#~ msgid "This website uses premium Add-ons which need to be downloaded"
-#~ msgstr "Denna webbplats använder premiumtillägg som behöver laddas ner"
-
-#~ msgid "Download your activated Add-ons"
-#~ msgstr "Ladda ner dina aktiverade tillägg"
-
-#~ msgid ""
-#~ "This website does not use premium Add-ons and will not be affected by "
-#~ "this change."
-#~ msgstr ""
-#~ "Denna webbplats använder inga premiumtillägg och påverkas inte av denna "
-#~ "förändring."
-
-#~ msgid "Easier Development"
-#~ msgstr "Enklare utveckling"
-
-#~ msgid "New Field Types"
-#~ msgstr "Nya fälttyper"
-
-#~ msgid "Email Field"
-#~ msgstr "E-postfät"
-
-#~ msgid "Password Field"
-#~ msgstr "Lösenordsfält"
-
-#~ msgid ""
-#~ "Creating your own field type has never been easier! Unfortunately, "
-#~ "version 3 field types are not compatible with version 4."
-#~ msgstr ""
-#~ "Att skapa egna fälttyper har aldrig varit enklare! Tyvärr är inte "
-#~ "fälttyper från version 3 inte kompatibla med version 4."
-
-#~ msgid "Migrating your field types is easy, please"
-#~ msgstr "Att migrera fälttyper är enkelt! Följ"
-
-#~ msgid "follow this tutorial"
-#~ msgstr "denna guide"
-
-#~ msgid "to learn more."
-#~ msgstr "för att få veta mer."
-
-#~ msgid "Actions &amp; Filters"
-#~ msgstr "Funktioner och filter"
-
-#~ msgid ""
-#~ "All actions & filters have received a major facelift to make customizing "
-#~ "ACF even easier! Please"
-#~ msgstr ""
-#~ "Alla funktioner och filter har fått en ordentlig ansiktslyftning för att "
-#~ "göra justeringar av ACF enklare! Läs"
-
-#~ msgid "read this guide"
-#~ msgstr "denna guide"
-
-#~ msgid "to find the updated naming convention."
-#~ msgstr "för en uppdatering av namnkonventionerna."
-
-#~ msgid "Preview draft is now working!"
-#~ msgstr "Förhandsvisning av utkast fungerar nu!"
-
-#~ msgid "This bug has been squashed along with many other little critters!"
-#~ msgstr ""
-#~ "Denna bugg har åtgärdats tillsammans med ett antal av dess kompisar."
-
-#~ msgid "See the full changelog"
-#~ msgstr "Läsa hela förändringsloggen"
-
-#~ msgid "Database Changes"
-#~ msgstr "Databasförändringar"
-
-#~ msgid ""
-#~ "Absolutely <strong>no</strong> changes have been made to the database "
-#~ "between versions 3 and 4. This means you can roll back to version 3 "
-#~ "without any issues."
-#~ msgstr ""
-#~ "<b>Inga</b> förändringar har i databasen har gjorts mellan version 3 och "
-#~ "4. Detta innebär att du kan gå tillbaka till version 3 utan problem."
-
-#~ msgid "Potential Issues"
-#~ msgstr "Potentiella problem"
-
-#~ msgid ""
-#~ "Do to the sizable changes surounding Add-ons, field types and action/"
-#~ "filters, your website may not operate correctly. It is important that you "
-#~ "read the full"
-#~ msgstr ""
-#~ "På grund av stora förändringar kring tillägg, fälttyper samt funktioner "
-#~ "och filter kanske din webbplats inte fungerar korrekt. Det är viktigt att "
-#~ "läsa guiden"
-
-#~ msgid "Migrating from v3 to v4"
-#~ msgstr "Migration från version 3 till 4"
-
-#~ msgid "guide to view the full list of changes."
-#~ msgstr "för listan över samtliga förändringar."
-
-#~ msgid "Really Important!"
-#~ msgstr "Verkligen viktigt!"
-
-#~ msgid ""
-#~ "If you updated the ACF plugin without prior knowledge of such changes, "
-#~ "please roll back to the latest"
-#~ msgstr ""
-#~ "Om du uppdaterat ACF utan att veta om dessa förändringar kan du gå "
-#~ "tillbaka till den senaste upplagan av"
-
-#~ msgid "version 3"
-#~ msgstr "version 3"
-
-#~ msgid "of this plugin."
-#~ msgstr "av tillägget."
-
-#~ msgid "Thank You"
-#~ msgstr "Tack"
-
-#~ msgid ""
-#~ "A <strong>BIG</strong> thank you to everyone who has helped test the "
-#~ "version 4 beta and for all the support I have received."
-#~ msgstr ""
-#~ "Ett <strong>STORT</strong> tack till alla som har hjälpt till att testa "
-#~ "betaversionen av version 4 och allt stöd jag fått."
-
-#~ msgid "Without you all, this release would not have been possible!"
-#~ msgstr "Utan er hade denna release aldrig varit möjlig!"
-
-#~ msgid "Changelog for"
-#~ msgstr "Förändringsloggen för"
-
-#~ msgid "Learn more"
-#~ msgstr "Läs mer"
-
-#~ msgid "Overview"
-#~ msgstr "Översikt"
-
-#~ msgid ""
-#~ "Previously, all Add-ons were unlocked via an activation code (purchased "
-#~ "from the ACF Add-ons store). New to v4, all Add-ons act as separate "
-#~ "plugins which need to be individually downloaded, installed and updated."
-#~ msgstr ""
-#~ "Tidigare har alla tillägg låsts upp via en aktiveringskod (som kunnat "
-#~ "köpas via ACFs webbshop). Från och med version 4 är alla tillägg separata "
-#~ "plugins som laddas ner, installeras och uppdateras individuellt."
-
-#~ msgid ""
-#~ "This page will assist you in downloading and installing each available "
-#~ "Add-on."
-#~ msgstr ""
-#~ "Denna sida kommer att hjälpa dig ladda ner och installera alla "
-#~ "tillgängliga tillägg."
-
-#~ msgid "Available Add-ons"
-#~ msgstr "Tillgängliga tillägg"
-
-#~ msgid ""
-#~ "The following Add-ons have been detected as activated on this website."
-#~ msgstr "Följande tillägg har upptäckts och aktiverats på denna webbplats."
-
-#~ msgid "Installation"
-#~ msgstr "Installation"
-
-#~ msgid "For each Add-on available, please perform the following:"
-#~ msgstr "Gör följande för varje tillgängligt tillägg:"
-
-#~ msgid "Download the Add-on plugin (.zip file) to your desktop"
-#~ msgstr "Ladda ner tillägget (.zip-fil) till ditt skrivbord"
-
-#~ msgid "Navigate to"
-#~ msgstr "Gå till"
-
-#~ msgid "Plugins > Add New > Upload"
-#~ msgstr "Tillägg > Lägg till > Ladda upp"
-
-#~ msgid ""
-#~ "Use the uploader to browse, select and install your Add-on (.zip file)"
-#~ msgstr ""
-#~ "Använd uppladdaren för att välja och installera tillägget (.zip-filen)"
-
-#~ msgid ""
-#~ "Once the plugin has been uploaded and installed, click the 'Activate "
-#~ "Plugin' link"
-#~ msgstr ""
-#~ "När tillägget har laddats upp och installerats klickar du på länken "
-#~ "\"Aktivera tillägg\""
-
-#~ msgid "The Add-on is now installed and activated!"
-#~ msgstr "Tillägget har nu installerats och aktiverats!"
-
-#~ msgid "Awesome. Let's get to work"
-#~ msgstr "Grymt! Dags att återgå till arbetet."
-
-#~ msgid "credits"
-#~ msgstr "Tack"
-
-#~ msgid "Modifying field group options 'show on page'"
-#~ msgstr "Ändrar fältgruppens inställning \"visa på sida\""
-
-#~ msgid "Modifying field option 'taxonomy'"
-#~ msgstr "Ändrar fältinställningen \"taxonomi\""
-
-#~ msgid "Moving user custom fields from wp_options to wp_usermeta'"
-#~ msgstr "Flyttar användarfält från wp_options till wp_usermeta"
-
-#~ msgid "blue : Blue"
-#~ msgstr "blå : Blå"
-
-#~ msgid "Dummy"
-#~ msgstr "Dummy"
-
-#~ msgid "File Object"
-#~ msgstr "Filobjekt"
-
-#~ msgid "Image Object"
-#~ msgstr "Bildobjekt"
-
-#~ msgid "Text &amp; HTML entered here will appear inline with the fields"
-#~ msgstr "Text och HTML som anges här visas tillsammans med fälten"
-
-#~ msgid "Enter your choices one per line"
-#~ msgstr "Ange ett värde per rad"
-
-#~ msgid "Red"
-#~ msgstr "Röd"
-
-#~ msgid "Blue"
-#~ msgstr "Blå"
-
-#~ msgid "Post Objects"
-#~ msgstr "Inläggsobjekt"
-
-#~ msgid "Post Type Select"
-#~ msgstr "Välj inläggstyp"
-
-#~ msgid "Use multiple tabs to divide your fields into sections."
-#~ msgstr "Använd flera flikar för att dela upp dina fält i sektioner."
-
-#~ msgid "Formatting"
-#~ msgstr "Formatering"
-
-#~ msgid "Effects value on front end"
-#~ msgstr "Påverkar hur värdet skrivs ut"
-
-#~ msgid "Convert HTML into tags"
-#~ msgstr "Konvertera HTML till taggar"
-
-#~ msgid "Convert new lines into &lt;br /&gt; tags"
-#~ msgstr "Konvertera radbrytnignar till &lt;br /&gt;-taggar"
-
-#~ msgid "Save format"
-#~ msgstr "Lagringsformat"
-
-#~ msgid ""
-#~ "This format will determin the value saved to the database and returned "
-#~ "via the API"
-#~ msgstr ""
-#~ "Detta format avgör hur värdet sparas i databasen och returneras via "
-#~ "tilläggets API"
-
-#~ msgid "\"yymmdd\" is the most versatile save format. Read more about"
-#~ msgstr "\"yymmdd\" är det mest flexibla formatet. Läs mer om"
-
-#~ msgid "jQuery date formats"
-#~ msgstr "jQuery datumformat"
-
-#~ msgid "This format will be seen by the user when entering a value"
-#~ msgstr "Detta format är det som visas när användaren anger ett värde"
-
-#~ msgid ""
-#~ "\"dd/mm/yy\" or \"mm/dd/yy\" are the most used display formats. Read more "
-#~ "about"
-#~ msgstr "\"yy-mm-dd\" är set vanligaste visningsformatet. Läs mer om"
-
-#~ msgid "Field Order"
-#~ msgstr "Ordning på fält"
-
-#~ msgid "Edit this Field"
-#~ msgstr "Redigera detta fält"
-
-#~ msgid "Docs"
-#~ msgstr "Dokumentation"
-
-#~ msgid "Field Instructions"
-#~ msgstr "Instruktioner för fält"
-
-#~ msgid "Show this field when"
-#~ msgstr "Visa detta fält när"
-
-#~ msgid "all"
-#~ msgstr "alla"
-
-#~ msgid "any"
-#~ msgstr "någon"
-
-#~ msgid "these rules are met"
-#~ msgstr "av dessa villkor uppfylls"
-
-#~ msgid "Term"
-#~ msgstr "Term"
-
-#~ msgid "No Metabox"
-#~ msgstr "Ingen metabox"
-
-#~ msgid ""
-#~ "/**\n"
-#~ " *  Install Add-ons\n"
-#~ " *  \n"
-#~ " *  The following code will include all 4 premium Add-Ons in your theme.\n"
-#~ " *  Please do not attempt to include a file which does not exist. This "
-#~ "will produce an error.\n"
-#~ " *  \n"
-#~ " *  The following code assumes you have a folder 'add-ons' inside your "
-#~ "theme.\n"
-#~ " *\n"
-#~ " *  IMPORTANT\n"
-#~ " *  Add-ons may be included in a premium theme/plugin as outlined in the "
-#~ "terms and conditions.\n"
-#~ " *  For more information, please read:\n"
-#~ " *  - http://www.advancedcustomfields.com/terms-conditions/\n"
-#~ " *  - http://www.advancedcustomfields.com/resources/getting-started/"
-#~ "including-lite-mode-in-a-plugin-theme/\n"
-#~ " */"
-#~ msgstr ""
-#~ "/**\n"
-#~ " *  Installera tillägg\n"
-#~ " *  \n"
-#~ " *  Följande kod kommer att inkludera samtliga fyra premiumtillägg i ditt "
-#~ "tema.\n"
-#~ " *  Vänligen inkludera inte filer som inte existerar. Detta kommer att "
-#~ "resultera i ett felmeddelande.\n"
-#~ " *  \n"
-#~ " *  Koden antar att du har mappen 'add-ons' i ditt tema.\n"
-#~ " *\n"
-#~ " *  VIKTIGT\n"
-#~ " *  Tillägg kan inkluderas i premiumteman och plugins enligt villkoren.\n"
-#~ " *  För mer information, läs följande:\n"
-#~ " *  Läs följande sida för mer information: http://www."
-#~ "advancedcustomfields.com/terms-conditions/\n"
-#~ " *  - http://www.advancedcustomfields.com/terms-conditions/\n"
-#~ " *  - http://www.advancedcustomfields.com/resources/getting-started/"
-#~ "including-lite-mode-in-a-plugin-theme/\n"
-#~ " */"
-
-#~ msgid ""
-#~ "/**\n"
-#~ " *  Register Field Groups\n"
-#~ " *\n"
-#~ " *  The register_field_group function accepts 1 array which holds the "
-#~ "relevant data to register a field group\n"
-#~ " *  You may edit the array as you see fit. However, this may result in "
-#~ "errors if the array is not compatible with ACF\n"
-#~ " */"
-#~ msgstr ""
-#~ "/**\n"
-#~ " *  Registrera fältgrupper\n"
-#~ " *\n"
-#~ " *  Funktionen register_field_group tar emot en array som innehåller "
-#~ "inställningarna för samtliga fältgrupper.\n"
-#~ " *  Du kan redigera denna array fritt. Detta kan dock leda till fel om "
-#~ "ändringarna inte är kompatibla med ACF.\n"
-#~ " */"
-
-#~ msgid "Normal"
-#~ msgstr "Normal"
-
-#~ msgid "Taxonomy Term (Add / Edit)"
-#~ msgstr "Taxonomiterm (Lägg till / Redigera)"
-
-#~ msgid "Media Attachment (Add / Edit)"
-#~ msgstr "Mediabilaga (Lägg till / Redigera)"
-
-#~ msgid "Specifies the minimum value allowed"
-#~ msgstr "Bestämmer det minsta tillåtna värdet"
-
-#~ msgid "Specifies the maximim value allowed"
-#~ msgstr "Bestämmer det högsta tillåtna värdet"
-
-#~ msgid "Specifies the legal number intervals"
-#~ msgstr "Bestämmer intervaller mellan tillåtna värden"
-
-#~ msgid "eg: #ffffff"
-#~ msgstr "exempel: #ffffff"
-
-#~ msgid "Define how to render html tags"
-#~ msgstr "Välj hur HTML-taggar renderas"
-
-#~ msgid "HTML"
-#~ msgstr "HTML"
-
-#~ msgid "Define how to render html tags / new lines"
-#~ msgstr "Välj hur HTML-taggar och radbrytningar renderas"
-
-#~ msgid "File Updated."
-#~ msgstr "Filen uppdaterad."
-
-#~ msgid "Media attachment updated."
-#~ msgstr "Mediabilagan uppdaterades."
-
-#~ msgid "Add Selected Files"
-#~ msgstr "Lägg till valda filer"
-
-#~ msgid "Image Updated."
-#~ msgstr "Bild uppdaterades."
-
-#~ msgid "No images selected"
-#~ msgstr "Inga bilder valda"
-
-#~ msgid "Add Selected Images"
-#~ msgstr "Lägg till valda bilder"
-
-#~ msgid "Unlock options add-on with an activation code"
-#~ msgstr "Lås upp inställnignstillägg med en aktiveringskod"
+msgstr "Maximalt antal rader"
+
+#: assets/_build/js/acf-file.js:55 assets/_build/js/acf-file.js:190
+#: assets/_build/js/acf-file.js:191 assets/js/acf-input.js:3291
+#: assets/js/acf-input.js:3426 assets/js/acf-input.js:3427
+#: assets/js/acf-input.min.js:1
+msgid "file"
+msgstr ""
+
+#: assets/_build/js/acf-image.js:55 assets/_build/js/acf-image.js:189
+#: assets/_build/js/acf-image.js:190 assets/_build/js/acf-media.js:183
+#: assets/_build/js/acf-media.js:259 assets/js/acf-input.js:4077
+#: assets/js/acf-input.js:4211 assets/js/acf-input.js:4212
+#: assets/js/acf-input.js:4437 assets/js/acf-input.js:4513
+#: assets/js/acf-input.min.js:1 pro/assets/_build/js/acf-gallery.js:515
+#: pro/assets/_build/js/acf-gallery.js:516 pro/assets/js/acf-pro-input.js:1514
+#: pro/assets/js/acf-pro-input.js:1515 pro/assets/js/acf-pro-input.min.js:1
+#, fuzzy
+msgid "image"
+msgstr "Bild"
+
+#: assets/_build/js/acf-media.js:530 assets/js/acf-input.js:4784
+#: assets/js/acf-input.min.js:2
+#, fuzzy
+msgid "expand_details"
+msgstr "Visa detaljer"
+
+#: assets/_build/js/acf-media.js:531 assets/js/acf-input.js:4785
+#: assets/js/acf-input.min.js:2
+#, fuzzy
+msgid "collapse_details"
+msgstr "Dölj detaljer"
+
+#: assets/_build/js/acf-relationship.js:175
+#: assets/_build/js/acf-relationship.js:222
+#: assets/_build/js/acf-relationship.js:378 assets/js/acf-input.js:5321
+#: assets/js/acf-input.js:5368 assets/js/acf-input.js:5524
+#: assets/js/acf-input.min.js:2
+#, fuzzy
+msgid "relationship"
+msgstr "Relation"
+
+#: assets/_build/js/acf.js:1873 assets/js/acf-input.js:2120
+#: assets/js/acf-input.min.js:1
+msgid "unload"
+msgstr ""
+
+#: assets/_build/js/field-group.js:476 assets/js/acf-field-group.js:476
+#: assets/js/acf-field-group.min.js:1
+#, fuzzy
+msgid "title_is_required"
+msgstr "Fältgruppen behöver en titel"
+
+#: assets/_build/js/field-group.js:552 assets/js/acf-field-group.js:552
+#: assets/js/acf-field-group.min.js:1
+msgid "move_to_trash"
+msgstr ""
+
+#: assets/_build/js/field-group.js:1003 assets/js/acf-field-group.js:1003
+#: assets/js/acf-field-group.min.js:1
+msgid "move_field_warning"
+msgstr ""
+
+#: assets/_build/js/field-group.js:1011 assets/js/acf-field-group.js:1011
+#: assets/js/acf-field-group.min.js:1
+#, fuzzy
+msgid "move_field"
+msgstr "Flytta fält"
+
+#: assets/_build/js/field-group.js:1543 assets/js/acf-field-group.js:1543
+#: assets/js/acf-field-group.min.js:1
+msgid "field_name_start"
+msgstr ""
+
+#: assets/_build/js/field-group.js:1910 assets/js/acf-field-group.js:1910
+#: assets/js/acf-field-group.min.js:1
+msgid "null"
+msgstr ""
+
+#: assets/_build/js/field-group.js:2374 assets/js/acf-field-group.js:2374
+#: assets/js/acf-field-group.min.js:1
+msgid "hide_show_all"
+msgstr ""
+
+#: pro/assets/_build/js/acf-flexible-content.js:165
+#: pro/assets/_build/js/acf-flexible-content.js:170
+#: pro/assets/_build/js/acf-flexible-content.js:193
+#: pro/assets/_build/js/acf-flexible-content.js:199
+#: pro/assets/_build/js/acf-flexible-content.js:223
+#: pro/assets/_build/js/acf-flexible-content.js:228
+#: pro/assets/_build/js/acf-flexible-content.js:229
+#: pro/assets/_build/js/acf-flexible-content.js:249
+#: pro/assets/_build/js/acf-flexible-content.js:255
+#: pro/assets/_build/js/acf-flexible-content.js:256
+#: pro/assets/_build/js/acf-flexible-content.js:295
+#: pro/assets/_build/js/acf-flexible-content.js:303
+#: pro/assets/_build/js/acf-flexible-content.js:324
+#: pro/assets/_build/js/acf-flexible-content.js:332
+#: pro/assets/_build/js/field-group.js:621
+#: pro/assets/js/acf-pro-field-group.js:621
+#: pro/assets/js/acf-pro-field-group.min.js:1
+#: pro/assets/js/acf-pro-input.js:604 pro/assets/js/acf-pro-input.js:609
+#: pro/assets/js/acf-pro-input.js:632 pro/assets/js/acf-pro-input.js:638
+#: pro/assets/js/acf-pro-input.js:662 pro/assets/js/acf-pro-input.js:667
+#: pro/assets/js/acf-pro-input.js:668 pro/assets/js/acf-pro-input.js:688
+#: pro/assets/js/acf-pro-input.js:694 pro/assets/js/acf-pro-input.js:695
+#: pro/assets/js/acf-pro-input.js:734 pro/assets/js/acf-pro-input.js:742
+#: pro/assets/js/acf-pro-input.js:763 pro/assets/js/acf-pro-input.js:771
+#: pro/assets/js/acf-pro-input.min.js:1
+#, fuzzy
+msgid "flexible_content"
+msgstr "Flexibelt innehåll"
+
+#: pro/assets/_build/js/acf-gallery.js:444
+#: pro/assets/_build/js/acf-gallery.js:620
+#: pro/assets/_build/js/acf-gallery.js:638 pro/assets/js/acf-pro-input.js:1443
+#: pro/assets/js/acf-pro-input.js:1619 pro/assets/js/acf-pro-input.js:1637
+#: pro/assets/js/acf-pro-input.min.js:1
+#, fuzzy
+msgid "gallery"
+msgstr "Galleri"
+
+#: pro/assets/_build/js/acf-repeater.js:184
+#: pro/assets/_build/js/acf-repeater.js:247 pro/assets/js/acf-pro-input.js:340
+#: pro/assets/js/acf-pro-input.js:403 pro/assets/js/acf-pro-input.min.js:1
+#, fuzzy
+msgid "repeater"
+msgstr "Upprepningsfält"
+
+#, fuzzy
+#~ msgid "Controls how HTML tags are rendered"
+#~ msgstr "Reglerar hur nya linjer renderas"
+
+#~ msgid "Attachment Details"
+#~ msgstr "Bilaga detaljer"

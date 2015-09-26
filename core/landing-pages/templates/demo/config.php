@@ -22,13 +22,12 @@ $path = (preg_match("/uploads/", dirname(__FILE__))) ? LANDINGPAGES_UPLOADS_URLP
 
 /* This is where we setup our template meta data */
 $lp_data[$key]['info'] = array(
-	'data_type' => "template", 											/* tell landing pages that this data represents a landing page template */
+	'data_type' => "acf4", 												/* tell landing pages that this data represents a landing page template powered by ACF */
 	'version' => "2.0.0", 												/* lets give our template a version number */
 	'label' => __( 'Demo','landing-pages'), 							/* Let's give our template a nice name */
 	'category' => 'Demo', 												/* you can categorize your landing pages by adding comma separated keywords */
 	'demo' => 'http://demo.inboundnow.com/go/demo-template-preview/', 	/* a link to a third party demo page if applicable */
-	'description'	=> __( 'The Demo theme is here to help developers and designs implement their own designs into the landing page plugin. Study this template to learn about Landing Page Plugin\'s templating system and to assist in building new templates.' , 'landing-pages' ), /* template description here! */
-	'acf' => true														/* tells landing pages that ACF powers this template */
+	'description'	=> __( 'The Demo theme is here to help developers and designs implement their own designs into the landing page plugin. Study this template to learn about Landing Page Plugin\'s templating system and to assist in building new templates.' , 'landing-pages' ) /* template description here! */
 );
 
 /* now setup ACF field definitions */

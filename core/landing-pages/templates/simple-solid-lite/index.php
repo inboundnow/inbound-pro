@@ -20,19 +20,19 @@ do_action('lp_init');
 if (have_posts()) : while (have_posts()) :
 the_post();
 
-$content = get_field( 'simple-solid-lite-main-content', $post->ID );
-$conversion_area = get_field( 'simple-solid-lite-conversion-area-content', $post->ID );
-$header = get_field( 'simple-solid-lite-header-display', $post->ID );
-$footer = get_field( 'simple-solid-lite-footer-display', $post->ID );
-$background_style = get_field( 'simple-solid-lite-background-style', $post->ID );
+$content = get_field( 'simple-solid-lite-main-content', $post->ID , false );
+$conversion_area = get_field( 'simple-solid-lite-conversion-area-content', $post->ID , false );
+$header = get_field( 'simple-solid-lite-header-display', $post->ID , false );
+$footer = get_field( 'simple-solid-lite-footer-display', $post->ID , false );
+$background_style = get_field( 'simple-solid-lite-background-style', $post->ID , false );
 $logo = get_field( 'simple-solid-lite-logo', $post->ID , false); /* needs to be false for acf lite users */
 $old_logo = lp_get_value($post, $key, 'logo');
 $logo = ($logo) ? $logo : $old_logo;
 $background_image = get_field( 'simple-solid-lite-background-image', $post->ID , false); /* needs to be false for acf lite users */
-$background_color = get_field( 'simple-solid-lite-background-color', $post->ID );
-$submit_color = get_field( 'simple-solid-lite-submit-color', $post->ID );
-$social_media_options = get_field( 'simple-solid-lite-social-media-options', $post->ID );
-$copyright_text = get_field( 'simple-solid-lite-copyright-text', $post->ID );
+$background_color = get_field( 'simple-solid-lite-background-color', $post->ID , false );
+$submit_color = get_field( 'simple-solid-lite-submit-color', $post->ID , false );
+$social_media_options = get_field( 'simple-solid-lite-social-media-options', $post->ID , false );
+$copyright_text = get_field( 'simple-solid-lite-copyright-text', $post->ID , false );
 
 if ($background_style === "fullscreen") {
     $bg_style = 'background: url(' . $background_image . ') no-repeat center center fixed;
