@@ -41,6 +41,9 @@ class Landing_Pages_Template_Switcher {
         add_shortcode('lp_conversion_area', array( __CLASS__ , 'process_conversion_area_shortcode') );
         add_shortcode('landing-page-conversion', array( __CLASS__ , 'process_conversion_shortcode') );
 
+        /* listen for postback URL conversions */
+        add_action( 'init' , array( __CLASS__ , 'process_postback_conversion' ));
+
         /* Add Custom Class to Landing Page Nav Menu to hide/remove */
         add_filter('wp_nav_menu_args', array( __CLASS__ , 'hide_nav_menu' ) );
 
@@ -230,6 +233,35 @@ class Landing_Pages_Template_Switcher {
         Landing_Pages_Variations::record_conversion($id , $vid);
 
         $_SESSION['landing_page_conversions'][] = $id;
+
+    }
+
+    /**
+     * Use postback URL to record conversion for landing pages
+     */
+    public static function process_postback_conversion($atts, $content = null) {
+
+        if ( !isset($_GET['postback']) ) {
+            return;
+        }
+
+        if ( !isset($_GET['event']) || $_GET['event'] != 'lp_conversion' ) {
+            return;
+        }
+
+        $id = $_GET['id'];
+        $vid = $_GET['vid'];
+
+        $salt = md5( $id . AUTH_KEY );
+
+        if ( $_GET['salt'] != $salt ) {
+            return;
+        }
+
+        Landing_Pages_Variations::record_conversion($id , $vid);
+
+        _e('success','landing-pages');
+        exit;
 
     }
 

@@ -412,6 +412,10 @@ if (!class_exists('Inbound_Forms')) {
                     } else if ($type === 'range')  {
                         $range = $matches[3][$i]['range'];
                         $options = explode( '|', $range );
+                        $options[0] = (isset($options[0])) ? $options[0] : 1;
+                        $options[1] = (isset($options[1])) ? $options[1] : 100;
+                        $options[2] = (isset($options[2])) ? $options[2] : 1;
+
                         $hidden_param = (isset($matches[3][$i]['dynamic'])) ? $matches[3][$i]['dynamic'] : '';
                         $fill_value = (isset($matches[3][$i]['default'])) ? $matches[3][$i]['default'] : '';
                         $dynamic_value = (isset($_GET[$hidden_param])) ? $_GET[$hidden_param] : '';
@@ -919,6 +923,7 @@ if (!class_exists('Inbound_Forms')) {
 
             $headers	= "From: " . $from_name . " <" . $from_email . ">\n";
             $headers .= 'Content-type: text/html';
+            $headers = apply_filters( 'inbound_email_response/headers' , $headers);
 
             wp_mail( $lead_email, $confirm_subject, $confirm_email_message, $headers );
 

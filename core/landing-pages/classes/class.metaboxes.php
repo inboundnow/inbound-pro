@@ -907,17 +907,26 @@ class Landing_Pages_Metaboxes {
         global $post;
 
         $variation_id = Landing_Pages_Variations::get_current_variation_id();
-
+        $salt = md5( $post->ID . AUTH_KEY );
        ?>
        <div>
             <table style='width:100%'>
                 <tr>
-                    <td>
+                    <td style='width:22%'>
                         <?php _e( 'Conversion Shortcode' , 'landing-pages' ); ?>
                     </td>
                     <td>
                         <input type='text' style='width:95%;display:inline;' readonly='readonly' value="[landing-page-conversion id='<?php echo $post->ID; ?>' vid='<?php echo $variation_id; ?>']">
                         <div class="lp_tooltip" title="<?php _e( 'Instead of depending on Inbound Forms or tracked clicks for conversion tracking, enter this shortcode into your final destination page to manually increment this variation\'s conversion count' , 'landing-page' ); ?>" ><i class="fa fa-question-circle"></i></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <?php _e( 'Conversion Callback URL' , 'landing-pages' ); ?>
+                    </td>
+                    <td>
+                        <input type='text' style='width:95%;display:inline;' readonly='readonly' value="<?php echo add_query_arg( array( 'postback'=>'true' , 'event' => 'lp_conversion' , 'id' => $post->ID , 'vid' => $variation_id , 'salt' => $salt ) , site_url())  ?>">
+                        <div class="lp_tooltip" title="<?php _e( 'If you would like to use a thrid party event to record a conversion you can use this cusomized callback URL.' , 'landing-page' ); ?>" ><i class="fa fa-question-circle"></i></div>
                     </td>
                 </tr>
             </table>
