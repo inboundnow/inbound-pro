@@ -41,6 +41,9 @@ a.downloadButton.active{
 #inbound-share-model {
   text-align: center;
 }
+#tweetLink {
+    cursor:pointer;
+}
 </style>
 
 <div id="wp-cta-content" style="width:{{width}};height:{{height}}; margin: auto;">
@@ -63,12 +66,12 @@ a.downloadButton.active{
                jQuery("#feedburnerform").removeClass('wpl-track-me');
                jQuery(".downloadButton").removeAttr('href');
                jQuery(".downloadButton").addClass('prevent-default');
-                }, 1000);
+            }, 1000);
 
       jQuery("body").on('click', '.prevent-default', function (event) {
           event.preventDefault();
           console.log('clicked');
-          });
+      });
       $('#tweetLink').tweetAction({
               text:       '{{$share_text}}',
               url:        '{{$share_url}}',
@@ -82,10 +85,12 @@ a.downloadButton.active{
           var link_target = jQuery("#the_link").hasClass('external-new-tab');
           if (link_target === true){
             $('a.downloadButton').addClass('external-new-tab');
+            $('a.downloadButton').addClass('do-not-track');
           }
           $('a.downloadButton')
                   .show()
                   .attr('href', the_link)
+                  .addClass('do-not-track')
                   .attr('title', 'Thanks! Click to Download');
 
       });
@@ -93,7 +98,7 @@ a.downloadButton.active{
   });
           </script>
           <script src="{{template-urlpath}}js/jquery.tweetAction.js"></script>
-          <a id="the_link" style="display:none;" href="{{download-url}}"></a>
+          <a id="the_link" style="display:none;" class="do-not-track" href="{{download-url}}"></a>
      </div>
 
 </body>

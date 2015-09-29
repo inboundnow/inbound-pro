@@ -60,7 +60,7 @@ a.downloadButton.active{
 
 			jQuery(".downloadButton").removeAttr('href');
 			jQuery(".downloadButton").addClass('prevent-default');
-			
+
 			setTimeout(function() {
 			   jQuery(".downloadButton").removeAttr('href');
 			   jQuery(".downloadButton").addClass('prevent-default');
@@ -70,7 +70,7 @@ a.downloadButton.active{
 				event.preventDefault();
 				console.log('Pre-Tweet Click!');
             });
-			
+
       // Using our tweetAction plugin. For a complete list with supported
       // parameters, refer to http://dev.twitter.com/pages/intents#tweet-intent
 
@@ -88,6 +88,7 @@ a.downloadButton.active{
                   jQuery('a.downloadButton')
                           .show()
                           .attr('href', the_link)
+                          .addClass('do-not-track')
                           .attr('title', 'Thanks! Click to Download');
 
       });
@@ -95,6 +96,6 @@ a.downloadButton.active{
   });
           </script>
 
-          <a id="the_link" style="display:none;" href="{{download-url}}"></a>
+          <a id="the_link" class="do-not-track" style="display:none;" href="{{download-url}}"></a>
      </div>
    </div>

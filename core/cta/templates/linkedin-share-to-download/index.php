@@ -45,7 +45,7 @@
 <div id="content" style="width:{{width}};height:{{height}}; margin: auto;">
   <div id="extra-text-area">{{header-text}}</div>
   <div id="inbound-share-model">
-            <p style="margin-bottom:10px; padding-bottom: 0px;"> <a href="#" id="tweetLink"><img src="{{template-urlpath}}img/linkedshare.png" title="Click and Share on Linkedin to activate the download" id="linkedshare" ></a></p>
+            <p style="margin-bottom:10px; padding-bottom: 0px;"> <a href="#" id="LILink" class="do-not-track"><img src="{{template-urlpath}}img/linkedshare.png" title="Click and Share on Linkedin to activate the download" id="linkedshare" ></a></p>
   <div id="arrow-down"></div>
 
   <span class="downloadButton" id="placeholder-span" title="click the above share button to activate the download">Download</span>
@@ -56,30 +56,31 @@
           <script>
           jQuery(document).ready(function($) {
 
-      // Using our tweetAction plugin. For a complete list with supported
-      // parameters, refer to http://dev.twitter.com/pages/intents#tweet-intent
+              // Using our tweetAction plugin. For a complete list with supported
+              // parameters, refer to http://dev.twitter.com/pages/intents#tweet-intent
+              jQuery('#LILink').tweetAction({
+                  url:        '{{share-url}}'
 
-      $('#tweetLink').tweetAction({
-          url:        '{{share-url}}'
+              },function(){
+                  jQuery("#placeholder-span").hide();
+                  // When the user closes the pop-up window:
+                  var the_link = jQuery("#LI_the_link").attr('href');
+                  var link_target = jQuery("#LI_the_link").hasClass('external-new-tab');
+                  if (link_target === true){
+                    jQuery('a.downloadButton').addClass('external-new-tab');
+                    jQuery('a.downloadButton').addClass('do-not-track');
+                  }
+                  jQuery('a.downloadButton')
+                          .show()
+                          .attr('href', the_link)
+                          .attr('class', 'do-not-track')
+                          .attr('title', 'Thanks! Click to Download');
 
-      },function(){
-          $("#placeholder-span").hide();
-          // When the user closes the pop-up window:
-          var the_link = jQuery("#the_link").attr('href');
-          var link_target = jQuery("#the_link").hasClass('external-new-tab');
-          if (link_target === true){
-            $('a.downloadButton').addClass('external-new-tab');
-          }
-          $('a.downloadButton')
-                  .show()
-                  .attr('href', the_link)
-                  .attr('title', 'Thanks! Click to Download');
+              });
 
-      });
-
-  });
+          });
           </script>
 
-          <a id="the_link" style="display:none;" href="{{download-url}}"></a>
+          <a id="LI_the_link" class="do-not-track" style="display:none;" href="{{download-url}}"></a>
      </div>
 </body>

@@ -1109,7 +1109,7 @@ class Landing_Pages_Metaboxes {
             return;
         }
 
-        if (  $screen->id != 'landing-page' ) {
+        if ( !isset($screen) || $screen->id != 'landing-page' ) {
             return;
         }
 

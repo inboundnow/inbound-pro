@@ -150,10 +150,15 @@ class Inbound_Mailer_Enqueues {
 		}
 
 
-		/* Enqueue scripts & styles for cta creation page alone */
+		/* Enqueue scripts & styles for creation page alone */
 		if ( $hook == 'post-new.php'){
 			wp_enqueue_script('inbound-mailer-js-create-new', INBOUND_EMAIL_URLPATH . 'assets/js/admin/admin.post-new.js', array('jquery'), '1.0', true );
 			wp_enqueue_style('inbound-mailer-css-post-new', INBOUND_EMAIL_URLPATH . 'assets/css/admin-post-new.css');
+		}
+
+		/* Enqueue scripts and styles for mailer listing page */
+		if ( $hook == 'edit.php' ){
+			wp_enqueue_script('inbound-mailer-list', INBOUND_EMAIL_URLPATH . 'assets/js/admin/admin.list.js', array('jquery'), '1.0', true );
 		}
 	}
 

@@ -2,7 +2,7 @@
 /**
 * Template Name: Hero
 * @package	Inbound Email
-* 
+*
 */
 
 $key = basename(dirname(__FILE__));
@@ -292,7 +292,7 @@ Dear [lead-field id="wpleads_first_name" default="Subscriber"],
 			'name' => 'twitter_handle',
 			'prefix' => '',
 			'type' => 'url',
-			'instructions' => 'Enter you Twitter handle here',
+			'instructions' => 'Enter you Twitter URL here',
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (

@@ -23,13 +23,13 @@ class Inbound_Email_Stats {
         global $Inbound_Mailer_Variations, $post;
 
         /* check if email id is set else use global post object */
-        if ( is_int($email_id) ) {
+        if ( $email_id ) {
             $post = get_post($email_id);
         }
 
         /* we do not collect stats for statuses not in this array */
         if ( !in_array( $post->post_status , array( 'sent' , 'sending', 'automated' )) ) {
-            return '{}';
+            return array();
         }
 
         /* get historical statistic blob from db */
@@ -332,13 +332,6 @@ class Inbound_Email_Stats {
      */
     public static function prepare_totals(	) {
 
-        /* skip processing if no data */
-        if (!self::$stats['variations']) {
-            self::$stats[ 'totals' ] = array();
-            return;
-        }
-
-
         self::$stats[ 'totals' ] = array(
             'sent' => 0,
             'opens' => 0,
@@ -354,7 +347,10 @@ class Inbound_Email_Stats {
             'opens' => 0,
             'unopened' => 0
         );
-
+        /* skip processing if no data */
+        if (!self::$stats['variations']) {
+            return;
+        }
 
         foreach (self::$stats['variations'] as $vid => $totals ) {
 

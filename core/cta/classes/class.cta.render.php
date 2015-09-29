@@ -75,7 +75,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
             add_action( 'wp_head', array( $this, 'load_custom_js_css'));
 
             /* Add CTA Render to Content */
-            add_filter( 'the_content', array( $this, 'add_cta_to_post_content'), apply_filters('cta_the_content_priority', 10) );
+            add_filter( 'the_content', array( $this, 'add_cta_to_post_content'), apply_filters('cta_the_content_priority', 5) );
 
             /* Add CTA Render to Dynamic Widget */
             add_filter( 'wp_cta_after_global_init', array( $this, 'add_cta_to_dynamic_widget'), 10);
@@ -88,6 +88,10 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
             /* Modify admin URL for previews */
             add_filter( 'admin_url', array( $this, 'modify_admin_url'));
+
+            /* wpautop only up to 3rd priority - Why have it any further? */
+            remove_filter('the_content','wpautop');
+            add_filter('the_content','wpautop' , 3 );
 
         }
 
@@ -275,14 +279,19 @@ if ( !class_exists( 'CTA_Render' ) ) {
             @$doc->loadHTML( $variation_html );
 
             foreach($doc->getElementsByTagName('a') as $anchor) {
-
                 /* skip links with do-not-track in class */
                 $class = $anchor->getAttribute('class');
+
                 if (strstr( $class, 'do-not-track' )) {
                     continue;
                 }
 
                 $href = $anchor->getAttribute('href');
+
+                /* if not a valid link move on */
+                if ( !strstr( $href , '.' ) ) {
+                    continue;
+                }
 
                 $link = Inbound_API::analytics_track_links( array(
                     'cta_id' => $selected_cta['id'],
@@ -294,7 +303,6 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
                 $variation_html = str_replace( $href, $link['url'], $variation_html);
             }
-
             return $variation_html;
         }
 

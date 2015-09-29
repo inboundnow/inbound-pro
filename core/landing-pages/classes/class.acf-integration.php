@@ -26,8 +26,8 @@ if (!class_exists('Landing_Pages_ACF')) {
 			/* Intercept load custom field value request and hijack it */
 			add_filter( 'acf/load_value' , array( __CLASS__ , 'load_value' ) , 11 , 3 );
 
-			/* extra field formatting */
-			add_filter( 'acf/format_value' , array( __CLASS__ , 'format_value' ) , 11 , 3 );
+			/* extra field formatting
+			add_filter( 'acf/format_value' , array( __CLASS__ , 'format_value' ) , 11 , 3 ); */
 
 			/* make sure fields are placed in the correct location */
 			add_action( 'admin_print_footer_scripts', array( __CLASS__ , 'reposition_acf_fields' ) );
@@ -88,8 +88,15 @@ if (!class_exists('Landing_Pages_ACF')) {
 			}
 		}
 
-		public static function format_value() {
-
+		/**
+		 * Although unused at the moment, this method can be used for filtering the return value with ACF5 fields
+		 * @param $value
+		 * @param $post_id
+		 * @param $field
+		 * @return mixed
+		 */
+		public static function format_value( $value, $post_id, $field ) {
+			return $value;
 		}
 
 		/**
