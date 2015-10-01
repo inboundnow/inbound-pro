@@ -422,6 +422,11 @@ if (!class_exists('Landing_Pages_ACF')) {
 				return wp_get_attachment_url( $value );
 			}
 
+			if ($field['type'] == 'wysiwyg') {
+				$vaue = wpautop($value);
+				$vaue = do_shortcode($value);
+			}
+
 			return $value;
 		}
 

@@ -125,15 +125,7 @@ $blue = (isset($RBG_array['b'])) ? $RBG_array['b'] : '0';
            }
         ?>
 
-        #inbound-form-wrapper input[type=text], #inbound-form-wrapper input[type=url], #inbound-form-wrapper input[type=email], #inbound-form-wrapper input[type=tel], #inbound-form-wrapper input[type=number], #inbound-form-wrapper input[type=password] {
-            width: 90%;
-            color: #000;
-        }
-
-        }
-
     </style>
-
     <?php wp_head(); // Load Regular WP Head
     do_action('lp_head'); // Load Custom Landing Page Specific Header Items ?>
     <script type="text/javascript" src="<?php echo $path; ?>assets/js/modernizr.js"></script>
@@ -150,6 +142,15 @@ $blue = (isset($RBG_array['b'])) ? $RBG_array['b'] : '0';
     <?php if ($sidebar === "right") {
         echo "<link rel='stylesheet' href='" . $path . "assets/css/flipped-layout.css' type='text/css' media='screen'>";
     } ?>
+    <style type="text/css">
+            #inbound-form-wrapper input[type=text], #inbound-form-wrapper input[type=url], #inbound-form-wrapper input[type=email], #inbound-form-wrapper input[type=tel], #inbound-form-wrapper input[type=number], #inbound-form-wrapper input[type=password], .inbound-field input[type=text], .inbound-field input[type=url], .inbound-field input[type=email], .inbound-field input[type=tel], .inbound-field input[type=number], .inbound-field input[type=password] {
+                width: 90%;
+                color: #000;
+            }
+
+        </style>
+
+    </style>
 </head>
 <body class="home blog">
 <header id="sidebar">
@@ -179,7 +180,9 @@ $blue = (isset($RBG_array['b'])) ? $RBG_array['b'] : '0';
         <h1 class="entry-title"><?php echo $main_headline; ?></h1>
 
         <div class="entry-content">
-            <?php echo $content; ?>
+            <?php
+                echo $content;
+            ?>
         </div>
     </article>
 </section>
