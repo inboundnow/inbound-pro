@@ -16,7 +16,17 @@ include_once(LANDINGPAGES_PATH . 'templates/' . $key . '/config.php');
 do_action('lp_init');
 
 function enqueue_landing_page_scripts() {
+	$key = basename(dirname(__FILE__));
+	$urlpath = LANDINGPAGES_URLPATH . 'templates/' . $key . '/';
+	
     wp_enqueue_script('jquery');
+	wp_enqueue_script( 'threecol-bootstrap-js', $urlpath . 'assets/js/bootstrap.min.js', '','', true );
+	wp_enqueue_script( 'threecol-modernizr-js', $urlpath . 'assets/js/modernizr-2.6.2.min.js', '','', true );
+	wp_enqueue_script( 'threecol-custom-js', $urlpath . 'assets/js/custom.js', '','', true );
+	
+	wp_enqueue_style( 'threecol-bootstrap-css', $urlpath . 'assets/css/bootstrap.css' );
+	wp_enqueue_style( 'threecol-style-css', $urlpath . 'assets/css/style.css' );
+	
 }
 add_action('wp_head','enqueue_landing_page_scripts');
 
@@ -25,19 +35,19 @@ if (have_posts()) : while (have_posts()) :
 the_post();
 
 /* Pre-load meta data into variables. These are defined in the templates config.php file */
-$conversion_area_placement = get_field('three-column-lander-conversion_area', $post->ID , false );
-$left_content_bg_color = get_field('three-column-lander-left-content-bg-color', $post->ID , false );
-$left_content_text_color = get_field('three-column-lander-left-content-text-color', $post->ID , false );
-$left_content_area = get_field('three-column-lander-left-content-area', $post->ID , false );
-$middle_content_bg_color = get_field('three-column-lander-middle-content-bg-color', $post->ID , false );
-$middle_content_text_color = get_field('three-column-lander-middle-content-text-color', $post->ID , false );
-$right_content_bg_color = get_field('three-column-lander-right-content-bg-color', $post->ID , false );
-$right_content_text_color = get_field('three-column-lander-right-content-text-color', $post->ID , false );
-$right_content_area = get_field('three-column-lander-right-content-area', $post->ID , false );
-$submit_button_color = get_field('three-column-lander-submit-button-color', $post->ID , false );
-$content = get_field('three-column-lander-main-content', $post->ID , false );
-$conversion_area = get_field('three-column-lander-conversion-area-content', $post->ID , false );
-$main_headline = get_field('lp-main-headline', $post->ID , false );
+$conversion_area_placement	= get_field('three-column-lander-conversions_area', $post->ID , false );
+$left_content_bg_color		= get_field('three-column-lander-left-content-bg-color', $post->ID , false );
+$left_content_text_color	= get_field('three-column-lander-left-content-text-color', $post->ID , false );
+$left_content_area			= get_field('three-column-lander-left-content-area', $post->ID , false );
+$middle_content_bg_color	= get_field('three-column-lander-middle-content-bg-color', $post->ID , false );
+$middle_content_text_color	= get_field('three-column-lander-middle-content-text-color', $post->ID , false );
+$right_content_bg_color		= get_field('three-column-lander-right-content-bg-color', $post->ID , false );
+$right_content_text_color	= get_field('three-column-lander-right-content-text-color', $post->ID , false );
+$right_content_area			= get_field('three-column-lander-right-content-area', $post->ID , false );
+$submit_button_color		= get_field('three-column-lander-submit-button-color', $post->ID , false );
+$content					= get_field('three-column-lander-main-content', $post->ID , false );
+$conversion_area			= get_field('three-column-lander-conversion-area', $post->ID , false );
+$main_headline				= get_field('lp-main-headline', $post->ID , false );
 
 ?>
 <!DOCTYPE html>
@@ -57,10 +67,12 @@ $main_headline = get_field('lp-main-headline', $post->ID , false );
     </title>
     <?php wp_head(); ?>
     <?php do_action('lp_head');   ?>
-    <link rel="stylesheet" href="<?php echo $path; ?>assets/css/normalize.css">
-    <link rel="stylesheet" href="<?php echo $path; ?>assets/css/style.css">
-    <script src="<?php echo $path; ?>assets/js/modernizr-2.6.2.min.js"></script>
-    <script src="<?php echo $path; ?>assets/js/custom.js"></script>
+	
+	<!-- commenting styles and scripts as they have been enqueued with the standard WP way
+    <link rel="stylesheet" href="<?php //echo $path; ?>assets/css/normalize.css">
+    <link rel="stylesheet" href="<?php //echo $path; ?>assets/css/style.css">
+    <script src="<?php //echo $path; ?>assets/js/modernizr-2.6.2.min.js"></script>
+    <script src="<?php //echo $path; ?>assets/js/custom.js"></script> -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.5, minimum-scale=0.5">
     <style type="text/css">
         body {
@@ -83,6 +95,7 @@ $main_headline = get_field('lp-main-headline', $post->ID , false );
         }
 
         <?php
+		/* this has been all moved inline
         if ($left_content_bg_color != "") {
             echo ".sidebar.left { background: $left_content_bg_color;} "; // change sidebar color
         }
@@ -104,6 +117,8 @@ $main_headline = get_field('lp-main-headline', $post->ID , false );
         if ($submit_button_color !=""){
             echo ".input[type=submit], button[type=submit] {background: $submit_button_color;}"; // change content background color
         }
+		 * 
+		 */
 
         ?>
         #inbound-form-wrapper input[type=text], #inbound-form-wrapper input[type=url], #inbound-form-wrapper input[type=email], #inbound-form-wrapper input[type=tel], #inbound-form-wrapper input[type=number], #inbound-form-wrapper input[type=password] {
@@ -114,6 +129,42 @@ $main_headline = get_field('lp-main-headline', $post->ID , false );
             width: 50%;
             margin: auto;
         }
+		
+		#inbound-form-wrapper button {
+			min-height: 60px;
+			border-radius: 40px;
+			line-height: 24px;
+			padding: 16px 30px 20px;
+			border: none;
+			//color: <?php echo $form_button_text_color; ?>;
+			background-color: <?php echo $submit_button_color; ?>;
+		}
+		
+		.left-area #inbound-form-wrapper label, 
+		.left-area #inbound-form-wrapper .radio-inbound-label-top,
+		.left-area #inbound-form-wrapper .label-inbound-label-top {
+			color: <?php echo $left_content_text_color; ?>;
+		}
+		
+		.center-area #inbound-form-wrapper label, 
+		.center-area #inbound-form-wrapper .radio-inbound-label-top,
+		.center-area #inbound-form-wrapper .label-inbound-label-top {
+			color: <?php echo $middle_content_text_color; ?>;
+		}
+		
+		.right-area #inbound-form-wrapper label, 
+		.right-area #inbound-form-wrapper .radio-inbound-label-top,
+		.right-area #inbound-form-wrapper .label-inbound-label-top {
+			color: <?php echo $right_content_text_color; ?>;
+		}
+		
+		#inbound-form-wrapper input, #inbound-form-wrapper textarea, #inbound-form-wrapper select {
+			//background-color: <?php //echo $form_fields_bg_color; ?>;
+		}
+		
+		#inbound-form-wrapper textarea:placeholder {
+			color: #a9a9a9 !important;
+		}
 
     </style>
 </head>
@@ -124,36 +175,72 @@ $main_headline = get_field('lp-main-headline', $post->ID , false );
     <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a>to improve your
     experience.</p>
 <![endif]-->
-<div class="wrapper">
-    <div class="main">
+<div class="wrapper container-fluid">
+	<div class="row" style="height:100%;">
+				
+		<div class="col-md-3 col-sm-3 hidden-xs sidebar-3col left-area" style="background-color:<?php echo $left_content_bg_color; ?>; color:<?php echo $left_content_text_color; ?>; height: 100%;">
+			<?php echo $left_content_area; ?>
+			<?php if ($conversion_area_placement === "left") {
+				echo $conversion_area;
+			} ?>
+		</div>
+		
+		<div class="col-md-6 col-sm-6 hidden-xs main-3col center-area" style="background-color:<?php echo $middle_content_bg_color; ?>; color:<?php echo $middle_content_text_color; ?>; height: 100%;">
+			
+			<!--
+			<a href="#" class="btn left"><span class="entypo-left-open"></span>More</a>
+			<a href="#" class="btn right"><span class="entypo-right-open"></span>More</a> -->
 
-        <a href="#" class="btn left"><span class="entypo-left-open"></span>More</a> </a>
-        <a href="#" class="btn right"><span class="entypo-right-open"></span>More</a> </a>
+			<h2><?php
 
-        <h2><?php
+				echo $main_headline;
 
-            echo $main_headline;
+				?></h2>
+			<?php echo $content; ?>
+			<?php if ($conversion_area_placement === "middle") {
+				echo $conversion_area;
+			} ?>
+		</div>
 
-            ?></h2>
-        <?php echo $content; ?>
-        <?php if ($conversion_area_placement === "middle") {
-            echo $conversion_area;
-        } ?>
-    </div>
+		<div class="col-md-3 col-sm-3 hidden-xs sidebar-3col right-area" style="background-color:<?php echo $right_content_bg_color; ?>; color:<?php echo $right_content_text_color; ?>; height: 100%;">
+			<?php echo $right_content_area; ?>
+			<?php if ($conversion_area_placement === "right") {
+				echo $conversion_area;
+			} ?>
+		</div>
+		
+		<!-- START OF MOBILE SECTION. These column are visible only on screens <768px -->
+		
+		<div class="col-xs-12 hidden-sm hidden-md hidden-lg main-3col center-area" style="background-color:<?php echo $middle_content_bg_color; ?>; color:<?php echo $middle_content_text_color; ?>;">
+		
+			<h2><?php
 
-    <div class="sidebar left">
-        <?php echo $left_content_area; ?>
-        <?php if ($conversion_area_placement === "left") {
-            echo $conversion_area;
-        } ?>
-    </div>
+				echo $main_headline;
 
-    <div class="sidebar right">
-        <?php echo $right_content_area; ?>
-        <?php if ($conversion_area_placement === "right") {
-            echo $conversion_area;
-        } ?>
-    </div>
+				?></h2>
+			<?php echo $content; ?>
+			<?php if ($conversion_area_placement === "middle") {
+				echo $conversion_area;
+			} ?>
+		</div>
+		
+		<div class="col-xs-12 hidden-sm hidden-md hidden-lg sidebar-3col left-area" style="background-color:<?php echo $left_content_bg_color; ?>; color:<?php echo $left_content_text_color; ?>;">
+			<?php echo $left_content_area; ?>
+			<?php if ($conversion_area_placement === "left") {
+				echo $conversion_area;
+			} ?>
+		</div>
+
+		<div class="col-xs-12 hidden-sm hidden-md hidden-lg sidebar-3col right-area" style="background-color:<?php echo $right_content_bg_color; ?>; color:<?php echo $right_content_text_color; ?>;">
+			<?php echo $right_content_area; ?>
+			<?php if ($conversion_area_placement === "right") {
+				echo $conversion_area;
+			} ?>
+		</div>
+		
+		<!-- END OF MOBILE SECTION -->
+		
+	</div>
 
 </div>
 <!-- end .wrapper -->

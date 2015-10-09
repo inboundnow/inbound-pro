@@ -53,19 +53,17 @@ tbody.hidden-form-settings {
 	color: #FFF !important;
 }
 .show-advanced-fields, .hide-advanced-options {
-	font-size: 12px;
-	color:#000;
+	padding: 3px;
+	font-size: 16px;
+	color: blue;
 	font-style: normal;
 	cursor: pointer;
 }
-.show-advanced-fields {
-	width: 100%;
-	display: inline-block;
-	font-size: 16px;
-}
+
 .hide-advanced-options {
-	color:#808080;
+	color:blue;
 }
+
 /* Form Wrap -------------------------- */
 #inbound-shortcodes-form-wrap{
 	width:65%;

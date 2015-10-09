@@ -236,7 +236,7 @@ if( function_exists('register_field_group') ):
             array (
                 'key' => 'field_55e4bedae8799',
                 'label' => __('Right Content Background Color','landing-pages'),
-                'name' => 'three-column-lander-right content-bg-color',
+                'name' => 'three-column-lander-right-content-bg-color',
                 'type' => 'color_picker',
                 'instructions' => __('Input the color of the right content column.','landing-pages'),
                 'required' => 0,
@@ -286,6 +286,7 @@ if( function_exists('register_field_group') ):
         'hide_on_screen' => '',
         'active' => 1,
         'description' => '',
+        'options' => array(),
     ));
 
 endif;

@@ -287,6 +287,7 @@ if( function_exists('register_field_group') ):
 		'hide_on_screen' => '',
 		'active' => 1,
 		'description' => '',
+		'options' => array(),
 	));
 
 endif;

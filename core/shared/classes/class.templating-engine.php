@@ -32,7 +32,7 @@ class Inbound_Templating_Engine {
 			'site-name' => get_option( 'blogname', '' ),
 			'site-tagline' => get_option( 'blogdescription', '' ),
 			'site-url' => get_option( 'siteurl', '' ) ,
-			'date-time' =>  date( 'Y-m-d H:i:s A', current_time( 'timestamp', 1 ) )
+			'date-time' =>  date( 'Y-m-d H:i:s A', current_time( 'timestamp' ) )
 		);
 
 		/* Plugin specific constants */

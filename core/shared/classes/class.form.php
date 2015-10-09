@@ -310,10 +310,14 @@ if (!class_exists('Inbound_Forms')) {
 
                             /*check for label-value separator (pipe) */
                             $pos = strrpos($value, "|");
-
+                            if($required){
+                                $reqTag = "required";
+                            } else {
+                                $reqTag = "";
+                            }
                             /*if not found, use standard replacement (lowercase and spaces become dashes) */
                             if ($pos === false) {
-                                $form .= '<span class="radio-'.$main_layout.' radio-'.$form_labels_class.' '.$field_input_class.'"><input type="radio" name="'. $field_name .'" value="'. $radio_val .'">'. $radio_val_trimmed .'</span>';
+                                $form .= '<span class="radio-'.$main_layout.' radio-'.$form_labels_class.' '.$field_input_class.'"><input type="radio" name="'. $field_name .'" value="'. $radio_val .'" '.$reqTag.'>'. $radio_val_trimmed .'</span>';
                             } else {
                                 /*otherwise left side of separator is label, right side is value */
                                 $option = explode("|", $value);
