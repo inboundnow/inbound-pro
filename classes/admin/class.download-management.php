@@ -167,13 +167,8 @@ class Inbound_Pro_Downloads {
 		/* get upload path from download data */
 		self::$download['extraction_path'] = self::get_upload_path( self::$download );
 
-		/* get zip URL from api server */
-		self::$download['download_location'] = Inbound_API_Wrapper::get_download_zip( array(
-			'filename' => $_REQUEST['filename'] ,
-			'type' =>  $_REQUEST['download_type']
-		));
-
-		self::install_download( self::$download );
+		/* delete download folder if there */
+		self::delete_download_folder( self::$download['extraction_path'] );
 
 		/* add notification */
 		add_action( 'admin_notices', function() {
@@ -663,7 +658,7 @@ class Inbound_Pro_Downloads {
 							if ( in_array( 'installed' , $download['status'] ) && $permitted ) {
 								?>
 								<div class="action-uninstall">
-									<a href="admin.php?page=<?php echo $_GET['page']; ?>&action=uninstall&download=<?php echo $download['post_name']; ?>" class="power-toggle power-is-on fa fa-power-off"  data-toggle="tooltip" id='<?php echo $download['post_name']; ?>' title='<?php _e( 'Turn Off' , INBOUNDNOW_TEXT_DOMAIN ); ?>'></a>
+									<a href="admin.php?page=<?php echo $_GET['page']; ?>&action=uninstall&download=<?php echo $download['post_name']; ?>&filename=<?php echo $download['zip_filename']; ?>" class="power-toggle power-is-on fa fa-power-off"  data-toggle="tooltip" id='<?php echo $download['post_name']; ?>' title='<?php _e( 'Turn Off' , INBOUNDNOW_TEXT_DOMAIN ); ?>'></a>
 								</div>
 
 								<?php
