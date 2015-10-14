@@ -63,9 +63,9 @@ var InboundRulesJs = ( function() {
 
                 /* if Actions tab clicked show all action blocks */
 				if (container_id == 'actions-container') {
-				    jQuery('.postbox:not(:first-child)').show();
+					jQuery("div[id^='inbound_automation_actions_']").show();
                 } else {
-                    jQuery('.postbox:not(:first-child)').hide();
+                    jQuery("div[id^='inbound_automation_actions_']").hide();
                     jQuery( '.'+container_id ).addClass('nav-reveal');
                 }
 			});
@@ -243,6 +243,9 @@ var InboundRulesJs = ( function() {
             /* Adds Action DB Lookup Filters to Action Conditions */
             jQuery('body').on( 'click' , '.add-action-filter' , function() {
 
+				/* remove well message if present */
+				jQuery('.action-contitions-well').remove();
+
                 var filter_id = jQuery(this).attr('data-value');
                 var block_id = jQuery(this).parent().parent().parent().attr('data-block-id');
                 var child_id = jQuery( "body" ).find( '.action-block-filters-container .table-filter:last' ).attr( 'data-child-id' );
@@ -254,7 +257,6 @@ var InboundRulesJs = ( function() {
                     child_id = parseInt(child_id) + 1;
                 }
 
-                alert(filter_id);
                 /* Get html of trigger action filter */
                 InboundRulesJs.run_ajax(  {
                     'action' : 'automation_build_db_lookup_filter',

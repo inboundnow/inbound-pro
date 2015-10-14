@@ -41,10 +41,11 @@ if ( ! class_exists( 'Inbound_Now_Store' ) ) {
                 return;
             }
 
-            add_submenu_page('edit.php?post_type=landing-page', __('Extensions' , 'landing-pages'),'<span style="color:#f18500">'.__('Extensions' , 'landing-pages').'</span>', 'manage_options', 'lp_store', array( __CLASS__ , 'store_display' ),100);
-
-            add_submenu_page('edit.php?post_type=landing-page', __('Download Templates' , 'landing-pages'),'<span style="color:#fff">'.__('Download Templates' , 'landing-pages').'</span>', 'manage_options', 'inbound-templates-redirect', array( __CLASS__ , 'inbound_store_template_redirect' ),100);
-
+            /* show store only if not a member */
+            if (!defined('INBOUND_PRO_PATH') && Inbound_Pro_Plugin::get_customer_status() > 0 ) {
+                add_submenu_page('edit.php?post_type=landing-page', __('Extensions', 'landing-pages'), '<span style="color:#f18500">' . __('Extensions', 'landing-pages') . '</span>', 'manage_options', 'lp_store', array(__CLASS__, 'store_display'), 100);
+                add_submenu_page('edit.php?post_type=landing-page', __('Download Templates', 'landing-pages'), '<span style="color:#fff">' . __('Download Templates', 'landing-pages') . '</span>', 'manage_options', 'inbound-templates-redirect', array(__CLASS__, 'inbound_store_template_redirect'), 100);
+            }
         }
 
         public static function show_store_ajax() {

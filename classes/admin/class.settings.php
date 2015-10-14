@@ -410,7 +410,7 @@ class Inbound_Pro_Settings {
 
 		$pages_array = array(
 			'inbound-pro-setup' => __( 'Core Settings' , INBOUNDNOW_TEXT_DOMAIN ),
-			'inbound-pro-settings' => __( 'Feature Settings' , INBOUNDNOW_TEXT_DOMAIN ),
+			'inbound-pro-settings' => __( 'Extension Settings' , INBOUNDNOW_TEXT_DOMAIN ),
 			'inbound-pro-welcome' => __( 'Quick Start' , INBOUNDNOW_TEXT_DOMAIN )
 		);
 

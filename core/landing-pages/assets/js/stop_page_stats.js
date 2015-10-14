@@ -1,5 +1,5 @@
 /* For Iframe previews to stop saving page views */
-console.log('loadeddddddd');
+
 var dont_save_page_view = _inbound.Utils.getParameterVal('dont_save', window.location.href);
 if (dont_save_page_view) {
     console.log('turn off page tracking');
