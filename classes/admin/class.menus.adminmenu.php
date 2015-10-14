@@ -37,6 +37,10 @@ class Inbound_Menus_Admin {
 		/* Manage Settings */
 		add_submenu_page('inbound-pro', __( 'Settings' , INBOUNDNOW_TEXT_DOMAIN ) , __( 'Settings' , INBOUNDNOW_TEXT_DOMAIN ) , 'manage_options', 'inbound-pro', array( 'Inbound_Pro_Settings' , 'display' ) );
 
+		/* Manage Templates
+		add_submenu_page('inbound-pro', __( 'Test' , INBOUNDNOW_TEXT_DOMAIN ) , __( 'Test' , INBOUNDNOW_TEXT_DOMAIN ) , 'manage_options', 'inbound-marketing', array( 'Inbound_Pro_Downloads' , 'test_ui' ) );
+		*/
+
 		/* Manage Templates */
 		add_submenu_page('inbound-pro', __( 'Templates' , INBOUNDNOW_TEXT_DOMAIN ) , __( 'Templates' , INBOUNDNOW_TEXT_DOMAIN ) , 'manage_options', 'inbound-manage-templates', array( 'Inbound_Pro_Downloads' , 'display_ui' ) );
 

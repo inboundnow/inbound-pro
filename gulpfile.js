@@ -49,9 +49,9 @@ gulp.task('sync-lp', function () {
         return gulp.src(['../landing-pages/**']).pipe(gulp.dest('./core/landing-pages/'));
 });
 gulp.task('sync-cta', function () {
-
         return gulp.src(['../cta/**']).pipe(gulp.dest('./core/cta/'));
 });
+
 gulp.task('sync-leads', function () {
 
         return gulp.src(['../leads/**'])
@@ -59,7 +59,21 @@ gulp.task('sync-leads', function () {
         .pipe(gulp.dest('./core/leads/'));
 });
 
-gulp.task('move-shared', function () {
+gulp.task('sync-mailer', function () {
+
+        return gulp.src(['../inbound-mailer/**'])
+        //.pipe(gulpIgnore.exclude(condition))
+        .pipe(gulp.dest('./core/inbound-mailer/'));
+});
+
+gulp.task('sync-automation', function () {
+
+        return gulp.src(['../inbound-automation/**'])
+        //.pipe(gulpIgnore.exclude(condition))
+        .pipe(gulp.dest('./core/inbound-automation/'));
+});
+
+gulp.task('move-shared', ['sync-cta'], function () {
         return gulp.src(['./core/cta/shared/**'])
         //.pipe(gulpIgnore.exclude(condition))
         .pipe(gulp.dest('./core/shared/'));
@@ -67,6 +81,7 @@ gulp.task('move-shared', function () {
 function getPath(path){
 
     var removeFiles = ['./core/'+path+'/node_modules/',
+                        './core/'+path+'/tests/',
                         './core/'+path+'/shared/',
                         './core/'+path+'/*.jpg',
                         './core/'+path+'/*.js',
@@ -93,15 +108,35 @@ gulp.task('clean-leads', ['sync-leads'], function () {
         .pipe(clean());
 });
 
+gulp.task('clean-mailer', ['sync-mailer'], function () {
+   var removeFiles = getPath('inbound-mailer');
+    return gulp.src(removeFiles, {read: false})
+        .pipe(clean());
+});
+
+gulp.task('clean-automation', ['sync-automation'], function () {
+   var removeFiles = getPath('inbound-automation');
+    return gulp.src(removeFiles, {read: false})
+        .pipe(clean());
+});
+
+/* Cleans and moves shared folder */
 gulp.task('clean-cta', ['sync-cta', 'move-shared'], function () {
    var removeFiles = getPath('cta');
     return gulp.src(removeFiles, {read: false})
         .pipe(clean());
 });
 
+gulp.task('clean-core', function () {
+   var removeFiles = getPath('cta');
+    return gulp.src("./node_modules/", {read: false})
+        .pipe(clean());
+});
 
 /* Sync all core plugins */
-gulp.task('sync', ['clean-lp', 'clean-leads', 'clean-cta']);
+gulp.task('sync', ['sync-lp', 'sync-leads', 'sync-mailer', 'sync-automation', 'move-shared']);
+/* production build that cleans out shared */
+gulp.task('build', ['clean-lp','clean-leads','clean-automation','clean-mailer','clean-cta']);
 
 gulp.task('default', [
     'lint',

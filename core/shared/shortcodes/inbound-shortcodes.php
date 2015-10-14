@@ -35,7 +35,6 @@ class Inbound_Shortcodes {
 
 		self::$add_script = true;
 		add_action('admin_enqueue_scripts', array( __CLASS__, 'loads' ));
-		add_action('init', array( __CLASS__, 'shortcodes_tinymce' ));
 		add_action('init', array( __CLASS__, 'shortcodes_include' ));
 
 		add_action( 'wp_enqueue_scripts',	array(__CLASS__, 'frontend_loads')); // load styles
@@ -48,7 +47,7 @@ class Inbound_Shortcodes {
 	}
 
 	public static function shortcodes_include() {
-		require_once( 'shortcodes-includes.php' );
+		require_once( INBOUNDNOW_SHARED_PATH . 'shortcodes/shortcodes-includes.php' );
 	}
 
 	/*	Loads
@@ -76,11 +75,11 @@ class Inbound_Shortcodes {
 			wp_enqueue_script('inbound-shortcodes-plugins', INBOUNDNOW_SHARED_URLPATH . 'shortcodes/js/shortcodes-plugins.js', array( 'jquery', 'jquery-cookie' ));
 
 			if (isset($post)&&post_type_supports($post->post_type,'editor')||isset($post)&&'wp-call-to-action' === $post->post_type) {
-				wp_enqueue_script('inbound-shortcodes', INBOUNDNOW_SHARED_URLPATH . 'shortcodes/js/shortcodes.js', array( 'jquery', 'jquery-cookie' ));
-				$form_id = (isset($_GET['post']) && is_int( $_GET['post'] )) ? $_GET['post'] : ''; 
+				wp_enqueue_script('inbound-shortcodes', INBOUNDNOW_SHARED_URLPATH . 'shortcodes/js/shortcodes.js', array( 'jquery', 'jquery-cookie' ), '1', true);
+				$form_id = (isset($_GET['post']) && is_int( $_GET['post'] )) ? $_GET['post'] : '';
 				wp_localize_script( 'inbound-shortcodes', 'inbound_shortcodes', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) , 'adminurl' => admin_url(), 'inbound_shortcode_nonce' => wp_create_nonce('inbound-shortcode-nonce') , 'form_id' => $form_id ) );
-				wp_enqueue_script('selectjs', INBOUNDNOW_SHARED_URLPATH . 'shortcodes/js/select2.min.js');
-				wp_enqueue_style('selectjs', INBOUNDNOW_SHARED_URLPATH . 'shortcodes/css/select2.css');
+				wp_enqueue_script('selectjs', INBOUNDNOW_SHARED_URLPATH . 'assets/js/admin/select2.min.js', array( 'jquery' ));
+				wp_enqueue_style('selectjs', INBOUNDNOW_SHARED_URLPATH . 'assets/css/admin/select2.css');
 			}
 
 			// Forms CPT only
@@ -108,7 +107,7 @@ class Inbound_Shortcodes {
 			wp_localize_script( 'inbound-shortcodes-plugins', 'inbound_load', array( 'image_dir' => INBOUNDNOW_SHARED_URLPATH . 'shortcodes/', 'inbound_plugins' => $plugins_loaded, 'pop_title' => 'Insert Shortcode' ));
 
 			if (isset($post)&&$post->post_type=='inbound-forms') {
-				require_once( 'shortcodes-fields.php' );
+				require_once( INBOUNDNOW_SHARED_PATH . 'shortcodes/shortcodes-fields.php' );
 				add_action( 'admin_footer',	array(__CLASS__, 'inbound_forms_header_area'));
 			}
 
@@ -134,31 +133,6 @@ class Inbound_Shortcodes {
 		/* ]]> */
 		</script>
 		<?php
-	}
-
-	/*	TinyMCE
-	*	--------------------------------------------------------- */
-	static function shortcodes_tinymce() {
-		if ( ! current_user_can('edit_posts') && ! current_user_can('edit_pages') )
-			return;
-
-		if ( get_user_option('rich_editing') == 'true' ) {
-			add_filter( 'mce_external_plugins', array( __CLASS__, 'add_rich_plugins' ) );
-			add_filter( 'mce_buttons', array( __CLASS__, 'register_rich_buttons' ) );
-		}
-	}
-
-	static function add_rich_plugins( $plugins ) {
-
-		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-		$plugins['Inbound_Shortcodes'] = INBOUNDNOW_SHARED_URLPATH . 'shortcodes/js/tinymce.js';
-		return $plugins;
-
-	}
-
-	static function register_rich_buttons( $buttons ) {
-		array_push( $buttons, "|", 'Inbound_ShortcodesButton' );
-		return $buttons;
 	}
 
 	static function inbound_shortcode_button( $atts, $content = null ) {
@@ -238,39 +212,6 @@ class Inbound_Shortcodes {
 
 		return $button;
 	}
- /*
-	static function inbound_shortcode_prompt($hook) {
-
-		global $pagenow, $current_user, $post;
-		$user_id = $current_user->ID;
-
-		if ( ! get_user_meta($user_id, 'inbound_shortcode_ignore') && ( $pagenow == 'post-new.php' || $pagenow == 'post.php' ) ) {
-			$url = $_SERVER['REQUEST_URI'];
-			echo '<div class="updated inbound-shortcode-trigger" style="position:relative;">
-			<a style="position: absolute; font-size: 13px; top: 0px; right: 30px; color:red;" href="'.$url.'&inbound_shortcode_ignore=0">
-			Sounds good! Dismiss this
-			</a>
-			Looks like you haven\'t clicked the <img style="vertical-align: bottom;" src="'.INBOUNDNOW_SHARED_URLPATH . 'assets/' ..'images/global/shortcodes-blue.png"> button <span style="background:yellow">(highlighted in yellow)</span> in the content editor below. There are some great shortcodes for you to use!
-			</div>';
-			echo "<style type='text/css'>.mce_Inbound_ShortcodesButton { background-color: yellow; }</style>";
-
-		}
-	}
-
-	static function inbound_shortcode_prompt_ignore() {
-		global $pagenow, $current_user, $post;
-			$user_id = $current_user->ID;
-			if (( $pagenow == 'post-new.php' || $pagenow == 'post.php' )) {
-			if ( isset($_GET['inbound_shortcode_ignore']) && '0' == $_GET['inbound_shortcode_ignore'] ) {
-				add_user_meta($user_id, 'inbound_shortcode_ignore', 'true', true);
-			}
-			}
-	}
-
-	static function inbound_shortcode_prompt_ajax() {
-		$user_id = (isset($_POST['user_id'])) ? $_POST['user_id'] : 1;
-		add_user_meta($user_id, 'inbound_shortcode_ignore', 'true', true);
-	} */
 
 	static function inbound_shortcode_social_links( $atts, $content = null ) {
 		$final_path = INBOUND_FORMS;
@@ -589,30 +530,33 @@ class Inbound_Shortcodes {
 
 		return '<div id="inbound-list" class="inbound-list class-'.$num.' fa-list-'.$icon.'">'. do_shortcode($content).'</div>' . '<style type="text/css">
 			#inbound-list.class-'.$num.' li {
-			'.$final_text_color.'
-			list-style: none;
-			font-weight: 500;
-			font-size: '.$font_size.'px;
-			vertical-align: top;
-			margin-bottom: '.$bottom_margin.'px;
+				'.$final_text_color.'
+				list-style: none;
+				font-weight: 500;
+				font-size: '.$font_size.'px;
+				vertical-align: top;
+				margin-bottom: '.$bottom_margin.'px;
 			}
 			#inbound-list.class-'.$num.' li:before {
-			background: transparent;
-			border-radius: 50% 50% 50% 50%;
-			'.$final_icon_color.'
-			display: inline-block;
-			font-family: \'FontAwesome\';
-			font-size: '.$icon_size.'px;
-			line-height: '.$line_size.'px;
-			margin-right: 0.5em;
-			margin-top: 0;
-			text-align: center;
+				background: transparent;
+				border-radius: 50% 50% 50% 50%;
+				'.$final_icon_color.'
+				display: inline-block;
+				font-family: \'FontAwesome\';
+				font-size: '.$icon_size.'px;
+				line-height: '.$line_size.'px;
+				margin-right: 0.5em;
+				margin-top: 0;
+				text-align: center;
 			}
 			'.$column_css.'
 			@media only screen and (max-width: 580px) {
-			#inbound-list.class-'.$num.' li {
-				width:100%;
+				#inbound-list.class-'.$num.' li {
+					width:100%;
+				}
 			}
+			p:empty {
+				display:none;
 			}
 			</style>';
 	}
@@ -664,7 +608,7 @@ class Inbound_Shortcodes {
             <h3><?php _e( 'Inbound Pro Users' , INBOUNDNOW_TEXT_DOMAIN ); ?></h3>
             <div class='' style='padding-left:20px;'>
 
-                <?php echo sprintf( __( ' Membership holders should ignore the setup area below and referrer to %s this document %s for instructions on setting up a followup email. We are leaveing this section in up for non members and for members that are leveraging it. We may remove it remove it entirely from the Inbound Pro plugin. ' , INBOUNDNOW_TEXT_DOMAIN ) , '<a href="http://docs.inboundnow.com/guide/creating-a-follow-up-email-using-inbound-now-as-an-autoresponder-marketing-automation/">', '</a>') ; ?>
+                <?php echo sprintf( __( 'To learn how to creat a follow email series please referrer to %s this document %s. ' , INBOUNDNOW_TEXT_DOMAIN ) , '<a href="http://docs.inboundnow.com/guide/creating-a-follow-up-email-using-inbound-now-as-an-autoresponder-marketing-automation/">', '</a>') ; ?>
             </div>
             <br>
             <?php
@@ -676,8 +620,6 @@ class Inbound_Shortcodes {
 			$values = get_post_custom( $post->ID );
 			$selected = isset( $values['inbound_email_send_notification'] ) ? esc_attr( $values['inbound_email_send_notification'][0] ) : "";
 			$email_subject = get_post_meta( $post->ID, 'inbound_confirmation_subject', TRUE );
-			$email_templates = self::get_email_templates();
-			$email_template =	get_post_meta( $post->ID, 'inbound_email_send_notification_template' , TRUE );
 
 			?>
 			<div style='display:block; overflow: auto;'>
@@ -692,53 +634,35 @@ class Inbound_Shortcodes {
 			</div>
 
 			<?php
+            do_action('inbound-forms/before-email-reponse-setup');
+            ?>
 
-			if ($email_templates) {
-
-				?>
-				<div	style='display:block; overflow: auto;'>
-					<div id=''>
-						<label for="inbound_email_send_notification_template"><?php _e( 'Select Response Email Template' , INBOUNDNOW_TEXT_DOMAIN ); ?></label>
-						<select name="inbound_email_send_notification_template" id="inbound_email_send_notification_template">
-							<option value='custom' <?php	selected( 'custom' , $email_template); ?>><?php _e( 'Do not use a premade email template' , INBOUNDNOW_TEXT_DOMAIN ); ?></option>
-							<?php
-
-							foreach ($email_templates as $id => $label) {
-								echo '<option value="'.$id.'" '. selected($id , $email_template , false ) .'>'.$label.'</option>';
-							}
-							?>
-						</select>
-					</div>
-				</div>
-				<table class='widefat tokens'>
-					<tr><td>
-					<h2>Available Dynamic Email Tokens</h2>
-					<ul id="email-token-list">
-						<li class='core_token' title='Email address of sender' style='cursor:pointer;'>{{admin-email-address}}</li>
-						<li class='core_token' title='Name of this website' style='cursor:pointer;'>{{site-name}}</li>
-						<li class='core_token' title='URL of this website' style='cursor:pointer;'>{{site-url}}</li>
-						<li class='core_token' title='Datetime of Sent Email.' style='cursor:pointer;'>{{date-time}}</li>
-						<li class='lead_token' title='First & Last name of recipient' style='cursor:pointer;'>{{lead-full-name}}</li>
-						<li class='lead_token' title='First name of recipient' style='cursor:pointer;'>{{lead-first-name}}</li>
-						<li class='lead_token' title='Last name of recipient' style='cursor:pointer;'>{{lead-last-name}}</li>
-
-						<li class='lead_token' title='Email address of recipient' style='cursor:pointer;'>{{lead-email-address}}</li>
-						<li class='lead_token' title='Company Name of recipient' style='cursor:pointer;'>{{lead-company-name}}</li>
-						<li class='lead_token' title='Address Line 1 of recipient' style='cursor:pointer;'>{{lead-address-line-1}}</li>
-						<li class='lead_token' title='Address Line 2 of recipient' style='cursor:pointer;'>{{lead-address-line-2}}</li>
-						<li class='lead_token' title='City of recipient' style='cursor:pointer;'>{{lead-city}}</li>
-						<li class='lead_token' title='Name of Inbound Now form user converted on' style='cursor:pointer;'>{{form-name}}</li>
-						<li class='lead_token' title='Page the visitor singed-up on.' style='cursor:pointer;'>{{source}}</li>
-					</ul>
-					</td>
-					</tr>
-				</table>
-				<?php
-			}
-
-			?>
 
 			<input type="text" name="inbound_confirmation_subject" placeholder="Email Subject Line" size="30" value="<?php echo $email_subject;?>" id="inbound_confirmation_subject" autocomplete="off">
+
+			<table class='widefat tokens'>
+			    <tr><td>
+			    <h2>Available Dynamic Email Tokens</h2>
+			    <ul id="email-token-list">
+			        <li class='core_token' title='Email address of sender' >{{admin-email-address}}</li>
+			        <li class='core_token' title='Name of this website' >{{site-name}}</li>
+			        <li class='core_token' title='URL of this website' >{{site-url}}</li>
+			        <li class='core_token' title='Datetime of Sent Email.' >{{date-time}}</li>
+			        <li class='lead_token' title='First & Last name of recipient' >{{lead-full-name}}</li>
+			        <li class='lead_token' title='First name of recipient' >{{lead-first-name}}</li>
+			        <li class='lead_token' title='Last name of recipient' >{{lead-last-name}}</li>
+
+			        <li class='lead_token' title='Email address of recipient' >{{lead-email-address}}</li>
+			        <li class='lead_token' title='Company Name of recipient' >{{lead-company-name}}</li>
+			        <li class='lead_token' title='Address Line 1 of recipient' >{{lead-address-line-1}}</li>
+			        <li class='lead_token' title='Address Line 2 of recipient' >{{lead-address-line-2}}</li>
+			        <li class='lead_token' title='City of recipient' >{{lead-city}}</li>
+			        <li class='lead_token' title='Name of Inbound Now form user converted on' >{{form-name}}</li>
+			        <li class='lead_token' title='Page the visitor singed-up on.' >{{source}}</li>
+			    </ul>
+			    </td>
+			    </tr>
+			</table>
 
 		</div>
 		<div id="inbound-shortcodes-popup">
@@ -792,58 +716,11 @@ class Inbound_Shortcodes {
 				</div>
 		</div>
 
-		<script type="text/javascript">
-
-			function inbound_forms_select_email_template() {
-				var selected = jQuery('#inbound_email_send_notification_template').val();
-
-				if ( selected != 'custom') {
-					jQuery('#postdivrich').hide();
-					jQuery('#inbound_confirmation_subject').hide();
-					jQuery('.tokens').hide();
-				} else {
-					jQuery('#postdivrich').show();
-					jQuery('#inbound_confirmation_subject').show();
-					jQuery('.tokens').show();
-				}
-			}
-
-			jQuery(document).ready(function($) {
-
-				jQuery('.child-clone-row').first().attr('id', 'row-1');
-				setTimeout(function() {
-						jQuery('#inbound-shortcodes-form input:visible').first().focus();
-				}, 500);
-
-				/* Hide Options Based on Selected Template */
-				jQuery('body').on('change' , '#inbound_email_send_notification_template' , function() {
-					inbound_forms_select_email_template();
-				});
-
-			});
-		</script>
 
 			<?php
 	}
 
-	public static function get_email_templates() {
 
-
-			$templates = get_posts(array(
-									'post_type' => 'email-template',
-									'posts_per_page' => -1
-								));
-
-
-			foreach ( $templates as $template ) {
-				$email_templates[$template->ID] = $template->post_title;
-			}
-
-			$email_templates = ( isset($email_templates) ) ? $email_templates : array();
-
-			return $email_templates;
-
-	}
 }
 }
 /*	Initialize InboundNow Shortcodes

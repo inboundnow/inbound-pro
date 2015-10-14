@@ -1,7 +1,0 @@
-[main]
-host = https://www.transifex.com
-
-[landing-pages.landing-pages]
-file_filter = <lang>.po
-source_lang = en_US
-

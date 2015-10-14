@@ -52,7 +52,7 @@ class Inbound_Pro_Settings {
 		}
 
 		wp_enqueue_script('jquery');
-		wp_enqueue_script('jquery-ui', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js', array('jquery'), '1.8.6');
+		wp_enqueue_script('jquery-ui-sortable');
 		wp_enqueue_script('modernizr');
 		wp_enqueue_script('underscore');
 		add_thickbox();
@@ -62,7 +62,7 @@ class Inbound_Pro_Settings {
 
 		/* load custom CSS & JS for inbound pro welcome */
 		wp_enqueue_style('inbound-settings', INBOUND_PRO_URLPATH . 'assets/css/admin/settings.css');
-		wp_enqueue_script('inbound-settings', INBOUND_PRO_URLPATH . 'assets/js/admin/settings.js' );
+		wp_enqueue_script('inbound-settings', INBOUND_PRO_URLPATH . 'assets/js/admin/settings.js', array('jquery', 'jquery-ui-sortable') );
 		wp_localize_script('inbound-settings', 'inboundSettingsLoacalVars' ,  array('apiURL' => Inbound_API_Wrapper::get_api_url() , 'siteURL' => site_url() ) );
 
 		/* load Ink */
@@ -181,6 +181,95 @@ class Inbound_Pro_Settings {
 							)
 						),
 					),
+				),
+				/* add core plugin exclusion options */
+				array(
+					'group_name' => 'inbound-core-loading',
+					'keywords' => __('core,cta,calls to action,lp,landing pages,leads,activate,deactivate' , 'inbound-pro'),
+					'fields' => array (
+						array (
+							'id'	=> 'load-core-comonents-header',
+							'type'	=> 'header',
+							'default'	=> __( 'Core Components' , INBOUNDNOW_TEXT_DOMAIN ),
+							'placeholder'	=> null,
+							'options' => false,
+							'hidden' => false,
+							'reveal' => array(
+								'selector' => null ,
+								'value' => null
+							)
+						),
+						array (
+							'id'	=> 'toggle-landing-pages',
+							'type'	=> 'radio',
+							'label'	=> __( 'Landing Pages' , INBOUNDNOW_TEXT_DOMAIN ),
+							'description'	=> __( 'Toggle this off to stop loading Landing Pages component.' , INBOUNDNOW_TEXT_DOMAIN ),
+							'default'	=> 'on',
+							'placeholder'	=> null,
+							'options' => array(
+								'on' => __( 'On' , INBOUNDNOW_TEXT_DOMAIN ),
+								'off' => __( 'Off' , INBOUNDNOW_TEXT_DOMAIN ),
+							),
+							'hidden' => false,
+							'reveal' => array(
+								'selector' => null ,
+								'value' => null
+							)
+						),
+						array (
+							'id'	=> 'toggle-calls-to-action',
+							'type'	=> 'radio',
+							'label'	=> __( 'Calls to Action' , INBOUNDNOW_TEXT_DOMAIN ),
+							'description'	=> __( 'Toggle this off to stop loading Calls to Action component.' , INBOUNDNOW_TEXT_DOMAIN ),
+							'default'	=> 'on',
+							'placeholder'	=> null,
+							'options' => array(
+								'on' => __( 'On' , INBOUNDNOW_TEXT_DOMAIN ),
+								'off' => __( 'Off' , INBOUNDNOW_TEXT_DOMAIN ),
+
+							),
+							'hidden' => false,
+							'reveal' => array(
+								'selector' => null ,
+								'value' => null
+							)
+						),
+						array (
+							'id'	=> 'toggle-leads',
+							'type'	=> 'radio',
+							'label'	=> __( 'Leads' , INBOUNDNOW_TEXT_DOMAIN ),
+							'description'	=> __( 'Toggle this off to stop loading Leads component.' , INBOUNDNOW_TEXT_DOMAIN ),
+							'default'	=> 'on',
+							'placeholder'	=> null,
+							'options' => array(
+								'on' => __( 'On' , INBOUNDNOW_TEXT_DOMAIN ),
+								'off' => __( 'Off' , INBOUNDNOW_TEXT_DOMAIN ),
+
+							),
+							'hidden' => false,
+							'reveal' => array(
+								'selector' => null ,
+								'value' => null
+							)
+						),
+						array (
+							'id'	=> 'toggle-email-automation',
+							'type'	=> 'radio',
+							'label'	=> __( 'Mailer & Automation' , INBOUNDNOW_TEXT_DOMAIN ),
+							'description'	=> __( 'Toggle this off to stop loading Mailer & Marketing Automation component. These components require an active pro membership.' , INBOUNDNOW_TEXT_DOMAIN ),
+							'default'	=> 'on',
+							'placeholder'	=> null,
+							'options' => array(
+								'on' => __( 'On' , INBOUNDNOW_TEXT_DOMAIN ),
+								'off' => __( 'Off' , INBOUNDNOW_TEXT_DOMAIN ),
+							),
+							'hidden' => (Inbound_Pro_Plugin::get_customer_status() > 4 ? false : true ),
+							'reveal' => array(
+								'selector' => null ,
+								'value' => null
+							)
+						)
+					),
 				)
 			)
 		);
@@ -282,37 +371,8 @@ class Inbound_Pro_Settings {
 
 		?>
 		<section class="xlarge-20 large-20 medium-30 small-100 tiny-100">
-
-				<ul class="unstyled">
-					<!--- Show blog posts --->
-					<?php
-					$i=0;
-					$limit = 20;
-					foreach ($blogs as $item) {
-						if ($i>5) {
-							break;
-						}
-
-						$excerpt = explode('The post' ,  $item['description']);
-						$excerpt = $excerpt[0];
-
-						?>
-						<div class="all-80 small-50 tiny-50">
-							<h6 class='sidebar-h6'><?php echo $item['title']; ?></h6>
-							<!--<img class="half-bottom-space" src="holder.js/1200x600/auto/ink" alt="">-->
-							<p><a href='<?php echo $item['guid']; ?>' target='_blank'><?php _e( 'Read more &#8594;' , 'inbound-pro'); ?></a></p>
-						</div>
-						<?php
-						$i++;
-					}
-					?>
-				</ul>
-				<hr>
-				<h2 style='font-size:12px;'>
-				</h2>
-				<iframe src='//www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Finboundnow&amp;width=234&amp;height=65&amp;colorscheme=light&amp;show_faces=false&amp;border_color&amp;stream=false&amp;header=false&amp;appId=364256913591848' scrolling='no' frameborder='0' style='border:none; overflow:hidden; width:234px; height:65px;' allowTransparency='true'>
-				</iframe>
-			</section>
+			Nav to Tools
+		</section>
 		</section>
 		<?php
 	}
@@ -327,47 +387,7 @@ class Inbound_Pro_Settings {
 		}
 		?>
 
-		<table>
-			<tr>
-				<td class='footer-left' style='vertical-align:top;'>
-					<section class="column-group gutters">
-						<!--- Show Twitter Timeline --->
-						<div class="xlarge-100 large-100 all-100">
-							<a class="twitter-timeline" href="https://twitter.com/InboundNow" data-widget-id="577529141597216768"><?php _e('Tweets by @InboundNow' , 'inbound-pro'); ?></a>
-							<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-						</div>
-					</section>
-				</td>
-				<td class='footer-right' style='vertical-align:top;'>
-					<h2 class='footer-right-h2'><?php _e('Latest Inbound Now Docs:' , INBOUNDNOW_TEXT_DOMAIN ); ?></h2>
-					<section class="column-group gutters">
-						<!--- Show docs --->
-						<?php
-						$i=0;
-						$limit = 8;
-						foreach ($docs as $item) {
-							if ($i>5) {
-								break;
-							}
 
-							$excerpt = explode('The post' ,  $item['description']);
-							$excerpt = $excerpt[0];
-							$excerpt = str_replace( '<a ' , '<a target="_blank" ' , $excerpt );
-
-							?>
-							<div class="all-50 large-30 small-50 tiny-50">
-								<h4><?php echo $item['title']; ?></h4>
-								<!--<img class="half-bottom-space" src="holder.js/1200x600/auto/ink" alt="">-->
-								<p><?php echo $excerpt; ?></p>
-							</div>
-							<?php
-							$i++;
-						}
-						?>
-					</section>
-				</td>
-			</tr>
-		</table>
 		<footer class="clearfix pro-footer">
             <div class="ink-grid">
                 <ul class="unstyled inline half-vertical-space">
@@ -389,7 +409,7 @@ class Inbound_Pro_Settings {
 	static function display_nav_menu() {
 
 		$pages_array = array(
-			'inbound-pro-setup' => __( 'Main Settings' , INBOUNDNOW_TEXT_DOMAIN ),
+			'inbound-pro-setup' => __( 'Core Settings' , INBOUNDNOW_TEXT_DOMAIN ),
 			'inbound-pro-settings' => __( 'Extension Settings' , INBOUNDNOW_TEXT_DOMAIN ),
 			'inbound-pro-welcome' => __( 'Quick Start' , INBOUNDNOW_TEXT_DOMAIN )
 		);
@@ -474,6 +494,14 @@ class Inbound_Pro_Settings {
 			$data = '';
 		}
 
+		/* prepare additional classes */
+		if ( isset($field['hidden']) && $field['hidden'] ) {
+			$field['class'] = $field['class'] . ' hidden';
+		}
+
+		/* run class variable through filter */
+		$field['class'] = apply_filters('inbound-settings/field/class', $field['class'] );
+
 		echo '<div class="inbound-setting '.$field['class'].' " '.$data.' data-field-id="'.$field['id'].'" id="field-'.$field['id'].'">';
 		switch($field['type']) {
 			// text
@@ -509,7 +537,7 @@ class Inbound_Pro_Settings {
 					$unauth_class = "hidden";
 				}
 				echo '<button class="ink-button orange unauth thickbox '.$unauth_class.'" id="'.$field['id'].'" data-field-type="'.$field['type'].'" data-field-group="'.$group['group_name'].'" '.$data.' >'.__( 'Un-Authorize' , INBOUNDNOW_TEXT_DOMAIN ).'</button>';
-					$class = 'hidden';
+				$class = 'hidden';
 
 				$params['action'] = 'request_access_token';
 				$params['group'] = $group['group_name'];

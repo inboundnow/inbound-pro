@@ -1,7 +1,9 @@
 #wpbody-content {
 	background-color:#fff;
 }
-
+#wpcontent {
+    padding-left: 0px;
+}
 #wpwrap, #wpcontent {
 	background-color:#fff;
 }

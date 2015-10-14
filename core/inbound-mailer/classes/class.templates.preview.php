@@ -29,7 +29,7 @@ class Inbound_Email_Preview {
 		if ( $post->post_type != "inbound-email" ) {
 			return;
 		}
-		
+
 		/* Load email templates */
 		Inbound_Mailer_Load_Templates();
 
@@ -40,11 +40,13 @@ class Inbound_Email_Preview {
 			return;
 		}
 
-		
+
 		if (file_exists(INBOUND_EMAIL_PATH.'templates/'.$template.'/index.php')) {
 			return INBOUND_EMAIL_PATH . 'templates/' . $template . '/index.php';
-		} else {
+		} else if (file_exists(INBOUND_EMAIL_UPLOADS_PATH .$template.'/index.php')) {
 			return INBOUND_EMAIL_UPLOADS_PATH . $template . '/index.php';
+		} else if (file_exists(INBOUND_EMAIL_THEME_TEMPLATES_PATH .$template.'/index.php')) {
+			return INBOUND_EMAIL_THEME_TEMPLATES_PATH . $template . '/index.php';
 		}
 
 

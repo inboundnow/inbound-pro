@@ -107,7 +107,8 @@ class acf_form_comment {
 		
 		
 		// actions
-		add_action( 'add_meta_boxes_comment', array($this, 'edit_comment'), 10, 1 );
+		add_action('admin_footer',				array($this, 'admin_footer'), 10, 1);
+		add_action('add_meta_boxes_comment', 	array($this, 'edit_comment'), 10, 1);
 
 	}
 	
@@ -255,6 +256,48 @@ class acf_form_comment {
 			
 		}
 				
+	}
+	
+	
+	/*
+	*  admin_footer
+	*
+	*  description
+	*
+	*  @type	function
+	*  @date	27/03/2015
+	*  @since	5.1.5
+	*
+	*  @param	$post_id (int)
+	*  @return	$post_id (int)
+	*/
+	
+	function admin_footer() {
+		
+?>
+<script type="text/javascript">
+(function($) {
+	
+	// vars
+	var $spinner = $('#publishing-action .spinner');
+	
+	
+	// create spinner if not exists (may exist in future WP versions)
+	if( !$spinner.exists() ) {
+		
+		// create spinner
+		$spinner = $('<span class="spinner"></span>');
+		
+		
+		// append
+		$('#publishing-action').prepend( $spinner );
+		
+	}
+	
+})(jQuery);	
+</script>
+<?php
+		
 	}
 			
 }

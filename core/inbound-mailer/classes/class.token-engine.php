@@ -50,7 +50,7 @@ class Inbound_Mailer_Tokens {
 	public static function token_button() {
 		global $post;
 
-		if ( $post->post_type!='inbound-email' ) {
+		if ( !isset($post) || $post->post_type!='inbound-email' ) {
 			return;
 		}
 
@@ -64,6 +64,11 @@ class Inbound_Mailer_Tokens {
 	*  Enqueue JS
 	*/
 	public static function enqueue_js() {
+		global $post;
+
+		if (!isset($post) || $post->post_type != 'inbound-email' ) {
+			return;
+		}
 
 		/* Enqueue popupModal */
 		wp_enqueue_script('popModal_js', INBOUND_EMAIL_URLPATH . 'assets/libraries/popModal/popModal.min.js', array('jquery') );
@@ -135,7 +140,7 @@ class Inbound_Mailer_Tokens {
 		jQuery( document ).ready( function() {
 
 			/* Add listener to throw popup on button click */
-			jQuery('.lead-fields-button').click( function(  ) {
+			jQuery('body').on( 'click' , '.lead-fields-button' , function( ) {
 				jQuery('#' + this.id ).popModal({
 					html: jQuery('#lead_fields_popup_container').html(),
 					placement : 'bottomLeft',

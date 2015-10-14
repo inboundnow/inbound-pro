@@ -132,16 +132,12 @@ class acf_field_google_map extends acf_field {
 	<div class="title acf-soh">
 		
 		<div class="has-value">
-			<a href="#" data-name="clear-location" class="acf-icon light acf-soh-target" title="<?php _e("Clear location", 'acf'); ?>">
-				<i class="acf-sprite-delete"></i>
-			</a>
+			<a href="#" data-name="clear-location" class="acf-icon acf-icon-cancel grey acf-soh-target" title="<?php _e("Clear location", 'acf'); ?>"></a>
 			<h4><?php echo $field['value']['address']; ?></h4>
 		</div>
 		
 		<div class="no-value">
-			<a href="#" data-name="find-location" class="acf-icon light acf-soh-target" title="<?php _e("Find current location", 'acf'); ?>">
-				<i class="acf-sprite-locate"></i>
-			</a>
+			<a href="#" data-name="find-location" class="acf-icon acf-icon-location grey acf-soh-target" title="<?php _e("Find current location", 'acf'); ?>"></a>
 			<input type="text" placeholder="<?php _e("Search for address...",'acf'); ?>" class="search" />
 		</div>
 		
@@ -190,7 +186,10 @@ class acf_field_google_map extends acf_field {
 			'type'			=> 'text',
 			'name'			=> 'center_lng',
 			'prepend'		=> 'lng',
-			'placeholder'	=> $this->default_values['center_lng']
+			'placeholder'	=> $this->default_values['center_lng'],
+			'wrapper'		=> array(
+				'data-append' => 'center_lat'
+			)
 		));
 		
 		

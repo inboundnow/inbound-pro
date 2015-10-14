@@ -9,10 +9,26 @@ if (!class_exists('Inbound_Asset_Loader')) {
 
 		static function load_inbound_assets() {
 		  self::$load_assets = true;
+		  add_action('admin_enqueue_scripts', array(__CLASS__, 'load_admin_scripts'), 101);
 		  add_action('wp_enqueue_scripts', array(__CLASS__, 'register_scripts_and_styles'), 101);
 		  add_action('admin_enqueue_scripts', array(__CLASS__, 'register_scripts_and_styles'), 101);
 		}
 
+		static function load_admin_scripts(){
+
+			wp_enqueue_style('inbound-global-styles', INBOUNDNOW_SHARED_URLPATH . 'assets/css/admin/global-inbound-admin.css');
+			wp_enqueue_style('inbound-global-css', INBOUNDNOW_SHARED_URLPATH . 'assets/css/global-admin.css');
+			wp_enqueue_style('inbound-metaboxes', INBOUNDNOW_SHARED_URLPATH . 'assets/css/admin/inbound-metaboxes.css');
+
+			$screen = get_current_screen();
+
+			if ( !isset($screen) || $screen->base != 'post') {
+			    return;
+			}
+
+			wp_enqueue_script('inbound-editor-js', INBOUNDNOW_SHARED_URLPATH . 'assets/js/admin/editor.js');
+			//wp_enqueue_script('inbound-forms-cpt-js', INBOUNDNOW_SHARED_URLPATH . 'assets/css/admin/inbound-metaboxes.css');
+		}
 		/**
 		 * Registers and enqueues stylesheets for the administration panel and the
 		 * public facing site.
@@ -27,29 +43,28 @@ if (!class_exists('Inbound_Asset_Loader')) {
 			/* Conditionals for admin or frontend */
 			if(is_admin()) {
 
-				//self::enqueue_shared_file('inbound-analytics', 'assets/js/frontend/analytics/inboundAnalytics.js', array( 'jquery' ), 'inbound_settings', self::localize_lead_data());
+				/*self::enqueue_shared_file('inbound-analytics', 'assets/js/frontend/analytics/inboundAnalytics.js', array( 'jquery' ), 'inbound_settings', self::localize_lead_data()); */
 
 				self::enqueue_shared_file('jquery-cookie', 'assets/js/global/jquery.cookie.js', array( 'jquery' ));
 				self::enqueue_shared_file('jquery-total-storage', 'assets/js/global/jquery.total-storage.min.js', array( 'jquery' ));
-				$inbound_now_screens = Inbound_Compatibility::return_inbound_now_screens(); // list of inbound now screens
+				$inbound_now_screens = Inbound_Compatibility::return_inbound_now_screens(); /* list of inbound now screens */
 				$screen = get_current_screen();
 
-				/* Target Specific screen with // echo $screen->id; */
+				/* Target Specific screen with echo $screen->id; */
 
 				if ( $screen->id == 'wp-call-to-action') {
 					self::enqueue_shared_file('image-picker-js', 'assets/js/admin/image-picker.js');
 					self::enqueue_shared_file('image-picker-css', 'assets/css/admin/image-picker.css');
 				}
-				/* Metabox CSS */
-				self::enqueue_shared_file('inbound-metaboxes', 'assets/css/admin/inbound-metaboxes.css');
-				self::enqueue_shared_file('inbound-global-styles', 'assets/css/admin/global-inbound-admin.css');
+
 
 			} else {
 
 				global $wp_scripts;
+				$store = false;
 
 				if ( !empty( $wp_scripts->queue ) ) {
-					  $store = $wp_scripts->queue; // store the scripts
+					  $store = $wp_scripts->queue; /* store the scripts */
 					  foreach ( $wp_scripts->queue as $handle ) {
 						  wp_dequeue_script( $handle );
 					  }
@@ -65,7 +80,7 @@ if (!class_exists('Inbound_Asset_Loader')) {
 				}
 
 			}
-		} // end register_scripts_and_styles
+		} /* end register_scripts_and_styles */
 
 		/**
 		 * Helper function for registering and enqueueing scripts and styles.
@@ -117,7 +132,7 @@ if (!class_exists('Inbound_Asset_Loader')) {
 			$lead_uid = (isset($_COOKIE['wp_lead_uid'])) ? $_COOKIE['wp_lead_uid'] : false;
 			$custom_map_values = array();
 			$custom_map_values = apply_filters( 'inboundnow_custom_map_values_filter' , $custom_map_values);
-			// Get correct post ID
+			/* Get correct post ID */
 
 			global $wp_query;
 			$current_page_id = $wp_query->get_queried_object_id();
@@ -137,7 +152,7 @@ if (!class_exists('Inbound_Asset_Loader')) {
 				$id_check = ($post_id != null) ? true : false;
 			}
 
-			// If page tracking on
+			/* If page tracking on */
 			$lead_page_view_tracking = get_option( 'wpl-main-page-view-tracking', 1);
 			$lead_search_tracking = get_option( 'wpl-main-search-tracking', 1);
 			$lead_comment_tracking = get_option( 'wpl-main-comment-tracking', 1);
@@ -151,12 +166,12 @@ if (!class_exists('Inbound_Asset_Loader')) {
 				$page_tracking = 'off';
 			}
 
-			// Localize lead data
+			/* Localize lead data */
 			$lead_data_array = array();
 			$lead_data_array['lead_id'] = ($lead_id) ? $lead_id : null;
 			$lead_data_array['lead_email'] = ($lead_email) ? $lead_email : null;
 			$lead_data_array['lead_uid'] = ($lead_uid) ? $lead_uid : null;
-			$time = current_time( 'timestamp', 0 ); // Current wordpress time from settings
+			$time = current_time( 'timestamp', 0 ); /* Current wordpress time from settings */
 			$wordpress_date_time = date("Y/m/d G:i:s", $time);
 			$inbound_track_include = get_option( 'wpl-main-tracking-ids');
 			$inbound_track_exclude = get_option( 'wpl-main-exclude-tracking-ids');
@@ -188,9 +203,9 @@ if (!class_exists('Inbound_Asset_Loader')) {
 			);
 
 			return apply_filters( 'inbound_analytics_localized_data' , $inbound_localized_data);
-		} // end localize lead data
+		} /* end localize lead data */
 
-	} // end class
+	} /* end class */
 }
 
 Inbound_Asset_Loader::load_inbound_assets();

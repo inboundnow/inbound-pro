@@ -250,23 +250,29 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                     $geodata = $array[$ip_address]['geodata'];
                 }
             } else {
-                $ip_address = $ip_addresses;
+				$array = array();
+                $ip_address = $ip_addresses;				
             }
-
-            if (!isset($geodata)) {
-                $geodata = wp_remote_get('http://www.geoplugin.net/php.gp?ip=' . $ip_address);
+			
+			 if ($ip_address === "127.0.0.1") {
+                echo "<h3>" . __('Last conversion detected from localhost', 'leads') . "</h3>";
+				return;
+            }
+			
+            if ( !isset($geodata[$ip_address]) && $ip_address  ) {
+                $geodata = wp_remote_get('http://www.geoplugin.net/php.gp?ip=' . $ip_address , array('timeout'=>'2'));
                 if (!is_wp_error($geodata)) {
                     $geodata = unserialize($geodata['body']);
+					$array[$ip_address]['geodata'] = $geodata;
+					update_post_meta($post->ID, 'wpleads_ip_address', json_encode($ip_addresses));
                 }
             }
 
-            if (!is_array($geodata) || is_wp_error($geodata)) {
+            if (!is_array($geodata) || is_wp_error($geodata) || !$ip_address ) {
                 echo "<h2>" . __('No Geo data collected', 'leads') . "</h2>";
                 return;
             }
-            if ($ip_address === "127.0.0.1") {
-                echo "<h3>" . __('Last conversion detected from localhost', 'leads') . "</h3>";
-            }
+          
             $latitude = (isset($geodata['geoplugin_latitude'])) ? $geodata['geoplugin_latitude'] : 'NA';
             $longitude = (isset($geodata['geoplugin_longitude'])) ? $geodata['geoplugin_longitude'] : 'NA';
 
@@ -377,23 +383,50 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
         /* Enqueue Admin Scripts */
         public static function enqueue_admin_scripts($hook) {
-            global $post;
+           global $post;
 
-            if (!isset($post) || $post->post_type != 'wp-lead') {
+            $post_type = isset($post) ? get_post_type( $post ) : null;
+
+            if ( $post_type != 'wp-lead' ) {
                 return;
             }
 
-            if ($hook == 'post-new.php') {
+            $screen = get_current_screen();
+
+            if ($screen->id == 'wp-lead') {
+
+                wp_enqueue_script('wpleads-edit', WPL_URLPATH.'assets/js/wpl.admin.edit.js', array('jquery'));
+                wp_enqueue_script('tinysort', WPL_URLPATH.'assets/js/jquery.tinysort.js', array('jquery'));
+                wp_enqueue_script('tag-cloud', WPL_URLPATH.'assets/js/jquery.tagcloud.js', array('jquery'));
+                wp_localize_script( 'wpleads-edit', 'wp_lead_map', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'wp_lead_map_nonce' => wp_create_nonce('wp-lead-map-nonce') ) );
+
+                if (isset($_GET['small_lead_preview'])) {
+                    wp_enqueue_style('wpleads-popup-css', WPL_URLPATH.'assets/css/wpl.popup.css');
+                    wp_enqueue_script('wpleads-popup-js', WPL_URLPATH.'assets/js/wpl.popup.js', array('jquery'));
+                }
+
+                wp_enqueue_style('wpleads-admin-edit-css', WPL_URLPATH.'assets/css/wpl.edit-lead.css');
+
+                //Tool tip js
+                wp_enqueue_script('jquery-qtip', WPL_URLPATH. 'assets/js/jquery-qtip/jquery.qtip.min.js');
+                wp_enqueue_script('wpl-load-qtip', WPL_URLPATH. 'assets/js/jquery-qtip/load.qtip.js');
+                wp_enqueue_style('qtip-css', WPL_URLPATH. 'assets/css/jquery.qtip.min.css'); //Tool tip css
+                wp_enqueue_style('wpleads-admin-css', WPL_URLPATH.'assets/css/wpl.admin.css');
+
 
             }
 
-            if ($hook == 'post.php') {
-
+            if ( $hook == 'post-new.php' ) {
+                wp_enqueue_script('wpleads-create-new-lead', WPL_URLPATH. 'assets/js/wpl.add-new.js');
             }
 
-            if ($hook == 'post-new.php' || $hook == 'post.php') {
-
+            if ( $hook == 'post.php' ) {
+                if (isset($_GET['small_lead_preview'])) {
+                    wp_enqueue_style('wpleads-popup-css', WPL_URLPATH.'assets/css/wpl.popup.css');
+                }
+                wp_enqueue_style('wpleads-admin-edit-css', WPL_URLPATH.'assets/css/wpl.edit-lead.css');
             }
+
         }
 
         /* Print Admin Scripts */
@@ -507,7 +540,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             $organizations = (isset($person_obj['organizations'])) ? $person_obj['organizations'] : "No Organizations Found";
             $demographics = (isset($person_obj['demographics'])) ? $person_obj['demographics'] : "N/A";
             $interested_in = (isset($person_obj['digitalFootprint']['topics'])) ? $person_obj['digitalFootprint']['topics'] : "N/A";
-            $image = (isset($person_obj['photos'][0]['url'])) ? $person_obj['photos'][0]['url'] : "/wp-content/plugins/leads/images/gravatar_default_150.jpg";
+            $image = (isset($person_obj['photos'][0]['url'])) ? $person_obj['photos'][0]['url'] : "/wp-content/plugins/leads/assets/images/gravatar_default_150.jpg";
 
             $klout_score = (isset($person_obj['digitalFootprint']['scores'][0]['value'])) ? $person_obj['digitalFootprint']['scores'][0]['value'] : "N/A";
 
@@ -579,7 +612,24 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
          */
         public static function setup_tabs() {
 
-            $tabs = array(array('id' => 'wpleads_lead_tab_main', 'label' => __('Profile', 'leads')), array('id' => 'wpleads_lead_tab_activity', 'label' => __('Activity', 'leads')), array('id' => 'wpleads_lead_tab_conversions', 'label' => __('Conversion Path', 'leads')), array('id' => 'wpleads_lead_tab_raw_form_data', 'label' => __('Logs', 'leads')));
+            $tabs = array(
+                array(
+                    'id' => 'wpleads_lead_tab_main',
+                    'label' => __('Profile', 'leads')
+                ),
+                array(
+                    'id' => 'wpleads_lead_tab_activity',
+                    'label' => __('Activity', 'leads')
+                ),
+                array(
+                    'id' => 'wpleads_lead_tab_conversions',
+                    'label' => __('Conversion Path', 'leads')
+                ),
+                array(
+                    'id' => 'wpleads_lead_tab_raw_form_data',
+                    'label' => __('Logs', 'leads')
+                )
+            );
 
             self::$tabs = apply_filters('wpl_lead_tabs', $tabs);
 
@@ -716,14 +766,14 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             $size = 150;
             $size_small = 36;
             $url = site_url();
-            $default = WPL_URLPATH . '/images/gravatar_default_150.jpg';
+            $default = WPL_URLPATH . '/assets/images/gravatar_default_150.jpg';
 
             $gravatar = "//www.gravatar.com/avatar/" . md5(strtolower(trim(self::$mapped_fields['wpleads_email_address']['value']))) . "?d=" . urlencode($default) . "&s=" . $size;
             $gravatar2 = "//www.gravatar.com/avatar/" . md5(strtolower(trim(self::$mapped_fields['wpleads_email_address']['value']))) . "?d=" . urlencode($default) . "&s=" . $size_small;
 
             if (in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1'))) {
                 $gravatar = $default;
-                $gravatar2 = WPL_URLPATH . '/images/gravatar_default_32-2x.png';
+                $gravatar2 = WPL_URLPATH . '/assets/images/gravatar_default_32-2x.png';
             }
             // If social picture exists use it
             if (preg_match("/gravatar_default_/", $gravatar) && $extra_image != "") {
@@ -832,12 +882,28 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             global $post;
 
 
-            $nav_items = array(array('id' => 'lead-conversions', 'label' => __('Conversions', 'leads'), 'count' => self::get_conversion_count()), array('id' => 'lead-page-views', 'label' => __('Page Views', 'leads'), 'count' => get_post_meta($post->ID, 'wpleads_page_view_count', true)), array('id' => 'lead-comments', 'label' => __('Comments', 'leads'), 'count' => self::get_comment_count()), /*array(
-					'id'=>'lead-searches',
-					'label'=> __( 'Searches' , 'leads' ),
-					'count' => self::get_search_count()
-				),*/
-                array('id' => 'lead-tracked-links', 'label' => __('Custom Events', 'leads'), 'count' => self::get_custom_events_count()));
+            $nav_items = array(
+                array(
+                    'id' => 'lead-conversions',
+                    'label' => __('Conversions', 'leads'),
+                    'count' => self::get_conversion_count()
+                ),
+                array(
+                    'id' => 'lead-page-views',
+                    'label' => __('Page Views', 'leads'),
+                    'count' => get_post_meta($post->ID, 'wpleads_page_view_count', true)
+                ),
+                array(
+                    'id' => 'lead-comments',
+                    'label' => __('Comments', 'leads'),
+                    'count' => self::get_comment_count()
+                ),
+                array(
+                    'id' => 'lead-tracked-links',
+                    'label' => __('Custom Events', 'leads'),
+                    'count' => self::get_custom_events_count()
+                )
+            );
 
             $nav_items = apply_filters('wpl_lead_activity_tabs', $nav_items); ?>
 
@@ -894,6 +960,10 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             $i = count(self::$conversions);
             foreach (self::$conversions as $key => $value) {
 
+                if (!isset($value['id']) || !isset($value['datetime'])) {
+                    continue;
+                }
+
                 $converted_page_id = $value['id'];
                 $converted_page_permalink = get_permalink($converted_page_id);
                 $converted_page_title = get_the_title($converted_page_id);
@@ -912,7 +982,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                 // Display Data
                 echo '	<div class="lead-timeline recent-conversion-item landing-page-conversion" data-date="' . $conversion_clean_date . '">
 							<a class="lead-timeline-img" href="#non">
-								<img src="/wp-content/plugins/leads/images/page-view.png" alt="" width="50" height="50" />
+								<img src="/wp-content/plugins/leads/assets/images/page-view.png" alt="" width="50" height="50" />
 							</a>
 
 							<div class="lead-timeline-body">
@@ -958,7 +1028,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                 // Display Data
                 echo '<div class="lead-timeline recent-conversion-item lead-comment-conversion" data-date="' . $comment_clean_date . '">
 						<a class="lead-timeline-img" href="#non">
-							<img src="/wp-content/plugins/leads/images/comment.png" alt="" width="50" height="50" />
+							<img src="/wp-content/plugins/leads/assets/images/comment.png" alt="" width="50" height="50" />
 						</a>
 
 						<div class="lead-timeline-body">
@@ -1141,7 +1211,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             global $post;
             ?>
             <div id="lead-tracked-links" class='lead-activity'>
-                <h2><?php _e('Custom Events', 'cta'); ?></h2>
+                <h2><?php _e('Custom Events', 'leads'); ?></h2>
                 <?php
 
 
@@ -1151,6 +1221,11 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
                     foreach (self::$custom_events as $key => $event) {
                         $id = $event['tracking_id'];
+
+                        /* skip events without dates */
+                        if (!self::$custom_events[$key]['datetime']) {
+                            continue;
+                        }
 
                         $date_raw = new DateTime(self::$custom_events[$key]['datetime']);
                         $date_of_conversion = $date_raw->format('F jS, Y	g:ia (l)');
@@ -1171,7 +1246,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
                     }
                 } else {
-                    printf(__('%1$s No custom events discovered! %2$s', 'cta'), '<span id=\'wpl-message-none\'>', '</span>');
+                    printf(__('%1$s No custom events discovered! %2$s', 'leads'), '<span id=\'wpl-message-none\'>', '</span>');
                 }
 
 
@@ -1211,6 +1286,11 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
                 $c_count = 0;
                 foreach (self::$conversions as $key => $value) {
+
+                    if (!isset($value['id']) || !isset($value['datetime'])) {
+                        continue;
+                    }
+
                     $c_array[$c_count]['page'] = $value['id'];
                     $c_array[$c_count]['date'] = $value['datetime'];
                     $c_array[$c_count]['conversion'] = 'yes';
@@ -1394,6 +1474,18 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
         }
 
         /**
+        * Display raw data logs
+        */
+        public static function display_raw_logs() {
+            global $post;
+            ?>
+            <div id="raw-data-display">
+
+            </div>
+            <?php
+        }
+
+        /**
          *    Displays main lead content containers
          */
         public static function display_main() {
@@ -1436,78 +1528,14 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
                     ?>
                 </div>
-            </div>
-
-            <div class="lead-profile-section" id="wpleads_lead_tab_raw_form_data">
-                <div id="raw-data-display">
-                    <div class="nav-container">
-                        <nav>
-                            <ul>
-                                <li class="active"><a href="index.html"><?php _e('All', 'leads'); ?></a></li>
-                                <li><a href="index.html"><?php _e('Form Data', 'leads'); ?></a></li>
-                                <li><a href="index.html"><?php _e('Page Data', 'leads'); ?></a></li>
-                                <li><a href="index.html"><?php _e('Event Data', 'leads'); ?></a></li>
-                            </ul>
-                        </nav>
-                    </div>
-
+                <div class="lead-profile-section" id="wpleads_lead_tab_raw_form_data">
                     <?php
+                    self::display_raw_logs();
 
-                    // Get Raw form Data
-                    $raw_data = get_post_meta($post->ID, 'wpleads_raw_post_data', true);
-                    if ($raw_data) {
-                        $raw_data = json_decode(stripslashes($raw_data), true);
-                        $raw_data = ($raw_data) ? $raw_data : array();
-                        echo "<h2>" . __('Form Inputs with Values', 'leads') . "</h2>";
-                        echo "<span id='click-to-map'></span>";
-                        echo "<div id='wpl-raw-form-data-table'>";
-                        foreach ($raw_data as $key => $value) {
-                            ?>
-                            <div class="wpl-raw-data-tr">
-							<span class="wpl-raw-data-td-label">
-								<?php echo __('Input name:', 'leads') . " <span class='lead-key-normal'>" . $key . "</span> &rarr; values:"; ?>
-							</span>
-							<span class="wpl-raw-data-td-value">
-								<?php
-                                if (is_array($value)) {
-                                    $value = array_filter($value);
-                                    $value = array_unique($value);
-                                    $num_loop = 1;
-                                    foreach ($value as $k => $v) {
-                                        echo "<span class='" . $key . "-" . $num_loop . " possible-map-value'>" . $v . "</span>";
-                                        $num_loop++;
-                                    }
-                                } else {
-                                    echo "<span class='" . $key . "-1 possible-map-value'>" . $value . "</span>";
-                                }
-                                ?>
-							</span>
-                                <span class="map-raw-field"><span
-                                        class="map-this-text">Map this field to lead</span><span style="display:none;"
-                                                                                                 class='lead_map_select'><select
-                                            name="NOA" class="field_map_select"></select></span><span
-                                        class="apply-map button button-primary"
-                                        style="display:none;">Apply</span></span>
-                            </div>
-                        <?php
-
-                        }
-                        echo "<div id='raw-array'>";
-                        echo "<h2>" . __('Raw Form Data Array', 'leads') . "</h2>";
-                        echo "<pre>";
-                        print_r($raw_data);
-                        echo "</pre>";
-                        echo "</div>";
-                        echo "</div>";
-                    } else {
-                        //echo "<span id='wpl-message-none'>". __( 'No raw data found!' ,'leads') ."</span>";
-                    }
-
-                    ?>
-
+                     ?>
                 </div>
-                <!-- end #raw-data-display -->
             </div>
+
 
             <?php
             do_action('wpl_print_lead_tab_sections');
@@ -1564,10 +1592,10 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                         $links = explode(';', $field['value']);
                         $links = array_filter($links);
 
-                        echo "<div style='position:relative;'><span class='add-new-link'>" . __('Add New Link') . " <img src='" . WPL_URLPATH . "/images/add.png' title='" . __('add link') . "' align='ABSMIDDLE' class='wpleads-add-link' 'id='{$id}-add-link'></span></div>";
+                        echo "<div style='position:relative;'><span class='add-new-link'>" . __('Add New Link') . " <span title='" . __('add link') . "' align='ABSMIDDLE' class='wpleads-add-link' 'id='{$id}-add-link'>+</span></div>";
                         echo "<div class='wpleads-links-container' id='{$id}-container'>";
 
-                        $remove_icon = WPL_URLPATH . '/images/remove.png';
+                        $remove_icon = WPL_URLPATH . '/assets/images/remove.png';
 
                         if (count($links) > 0) {
                             foreach ($links as $key => $link) {
@@ -1905,43 +1933,43 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
         public static function get_social_link_icon($link) {
             switch (true) {
                 case strstr($link, 'facebook.com'):
-                    $icon = WPL_URLPATH . '/images/icons/facebook.png';
+                    $icon = WPL_URLPATH . '/assets/images/icons/facebook.png';
                     break;
                 case strstr($link, 'linkedin.com'):
-                    $icon = WPL_URLPATH . '/images/icons/linkedin.png';
+                    $icon = WPL_URLPATH . '/assets/images/icons/linkedin.png';
                     break;
                 case strstr($link, 'twitter.com'):
-                    $icon = WPL_URLPATH . '/images/icons/twitter.png';
+                    $icon = WPL_URLPATH . '/assets/images/icons/twitter.png';
                     break;
                 case strstr($link, 'pinterest.com'):
-                    $icon = WPL_URLPATH . '/images/icons/pinterest.png';
+                    $icon = WPL_URLPATH . '/assets/images/icons/pinterest.png';
                     break;
                 case strstr($link, 'plus.google.'):
-                    $icon = WPL_URLPATH . '/images/icons/google.png';
+                    $icon = WPL_URLPATH . '/assets/images/icons/google.png';
                     break;
                 case strstr($link, 'youtube.com'):
-                    $icon = WPL_URLPATH . '/images/icons/youtube.png';
+                    $icon = WPL_URLPATH . '/assets/images/icons/youtube.png';
                     break;
                 case strstr($link, 'reddit.com'):
-                    $icon = WPL_URLPATH . '/images/icons/reddit.png';
+                    $icon = WPL_URLPATH . '/assets/images/icons/reddit.png';
                     break;
                 case strstr($link, 'badoo.com'):
-                    $icon = WPL_URLPATH . '/images/icons/badoo.png';
+                    $icon = WPL_URLPATH . '/assets/images/icons/badoo.png';
                     break;
                 case strstr($link, 'meetup.com'):
-                    $icon = WPL_URLPATH . '/images/icons/meetup.png';
+                    $icon = WPL_URLPATH . '/assets/images/icons/meetup.png';
                     break;
                 case strstr($link, 'livejournal.com'):
-                    $icon = WPL_URLPATH . '/images/icons/livejournal.png';
+                    $icon = WPL_URLPATH . '/assets/images/icons/livejournal.png';
                     break;
                 case strstr($link, 'myspace.com'):
-                    $icon = WPL_URLPATH . '/images/icons/myspace.png';
+                    $icon = WPL_URLPATH . '/assets/images/icons/myspace.png';
                     break;
                 case strstr($link, 'deviantart.com'):
-                    $icon = WPL_URLPATH . '/images/icons/deviantart.png';
+                    $icon = WPL_URLPATH . '/assets/images/icons/deviantart.png';
                     break;
                 default:
-                    $icon = WPL_URLPATH . '/images/icons/link.png';
+                    $icon = WPL_URLPATH . '/assets/images/icons/link.png';
                     break;
             }
 

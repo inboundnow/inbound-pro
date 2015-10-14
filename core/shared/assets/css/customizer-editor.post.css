@@ -1,0 +1,221 @@
+/* CSS for the Customizer Edit */
+:root:root:root .auto-fold #wpcontent {
+    padding-left: 0px !important;
+}
+:root:root:root .inbound-customizer {
+
+    #wpadminbar, #edit-slug-box, #post-status-info, #screen-options-link-wrap, #leads-table-container, .misc-pub-section, #minor-publishing, .misc-pub-section, .misc-pub-section.curtime, #delete-action, #convert-header, #wp-cta-tour, #view-post-btn, #launch-visual-editer, #adminmenuwrap, #lp_ab_display_stats_metabox, #wp-cta-thumbnail-sidebar-preview, #landing_page_categorydiv, #postimagediv, #leads-table-container-inside, .updated.below-h2 a, #cta_shortcode_form, .wp_cta_tooltip, #wp_cta_ab_display_stats_metabox, #wp_call_to_action_categorydiv, .new-save-wp-cta-frontend, #launch-feedback, .notice, .nav-tab-add-new-variation, #cta-launch-front, #wp-cta-change-template-button, #wp-cta-notes-area, #lp-notes-area, #wp-cta-change-template-button, #lp_template_change, #lp-tour, #inbound-shortcodes-preview-wrap  {
+        display: none !important;
+    }
+    .media-modal .media-sidebar {
+        padding-bottom: 40px;
+    }
+    #wpbody {
+        padding-top: 0px;
+        #inboundnow-media-button {
+            padding-left: 0px !important;
+            padding-top: 5px;
+        }
+
+    }
+    .wrap {
+        margin-right: 0px;
+    }
+    .postbox {
+        border: none;
+
+    }
+    .shortcode-popup-block {
+        max-height: 550px;
+    }
+    .mfp-auto-cursor .mfp-content {
+        top:-50px;
+    }
+    #marketing-popup-controls {
+        bottom:50px;
+    }
+    #inbound-shortcodes-form-wrap #inbound-shortcodes-form-head {
+        font-size: 10px;
+    }
+    .acf-field-google-map {
+        width: 90%;
+    }
+    .acf-table {
+        .acf-label, .acf-input {
+            width: 93%;
+            display: table;
+            margin-bottom: 0px;
+        }
+    }
+    #inbound-shortcodes-form-wrap {
+        width: 100%;
+        #inbound-shortcodes-form {
+            padding-left: 5px;
+        }
+        #inbound-shortcodes-form-table tbody tr.form-row td.label {
+            min-width: 100px;
+            max-width: 100px;
+            line-height: 21px;
+        }
+    }
+    .field_type-wysiwyg {
+        .inbound-marketing-button.open-marketing-button-popup {
+            #inboundnow-media-button {
+                display: inline-block;
+                width: 23px;
+                height: 15px;
+                vertical-align: text-top;
+                margin: 0 2px;
+                margin-left: -10px;
+                margin-right: 2px;
+            }
+
+        }
+    }
+    .acf-gallery-toolbar select {
+        height: 29px !important;
+    }
+    #post-body .nav-tab-special-active {
+        background: #fff !important;
+        font-size: 23px;
+        padding-bottom: 6px;
+        padding-top: 7px;
+        vertical-align: bottom;
+    }
+    #post-body-content .a_b_tabs {
+        margin-right: 0px;
+        margin-bottom: 0px;
+        margin-left: -12px;
+    }
+    .wrap h1:first-of-type, .ed_button.button.button-small[value="more"], .ed_button.button.button-small[value="/ins"] {
+        display: none;
+    }
+    .auto-fold {
+        #wpfooter, #wpcontent {
+            margin-left: 0px;
+
+            @media screen and (max-width: 782px) {
+                padding-left: 0px !important;
+            }
+        }
+    }
+    .mce-container-body.mce-flow-layout {
+        font-size: 0px;
+    }
+    .media-modal {
+        top: 20px;
+        max-height: 600px;
+    }
+    .wp-editor-container {
+        iframe, textarea {
+            height: 180px !important;
+        }
+    }
+    .acf-gallery {
+        height: 220px !important;
+    }
+    #submitdiv {
+        position: fixed !important;
+        bottom: 0px !important;
+        z-index: 999999 !important;
+        width: 100% !important;
+        padding-bottom: 10px !important;
+        margin-bottom: 0px !important;
+        .handlediv, .hndle {
+            display: none !important;
+        }
+        #publishing-action {
+            text-align: center !important;
+            float: none !important;
+            margin-bottom: 15px;
+            line-height: 32px;
+        }
+        input, .preview {
+            text-align: center !important;
+            width: 280px !important;
+            margin: auto !important;
+            height: 44px !important;
+            font-size: 17px !important;
+        }
+    }
+    .inbound-meta-box-label, label {
+        width: 100%;
+    }
+    input[type="text"], input[type="email"], input[type="url"], input[type="number"],  input[type="password"], textarea, .inbound-description-block-option {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+    .form-table {
+        input[type=checkbox], input[type=radio] {
+        height: 25px !important;
+        width: 25px !important;
+        }
+    }
+    .inbound-colorpicker-option input[type="text"] {
+        width: 80px;
+    }
+    input[type="text"].wp-color-picker {
+        width: 80px;
+    }
+    label {
+        font-weight: bold;
+        margin-bottom: 5px;
+        display: block;
+        font-size: 15px;
+    }
+    .inbound-radio-option {
+        margin-top: 5px;
+        label {
+               display: inline;
+           }
+    }
+    .jPicker.Container {
+        top: 50px !important;
+        left: 10px !important;
+        position: fixed !important;
+    }
+    /* to be removed when new colorpicker arrives */
+    table.jPicker {
+        width: 430px !important;
+        max-height: 300px !important;
+        td {
+            vertical-align: top;
+        }
+        .Grid {
+            display: none;
+        }
+        .Icon span.Color, .Icon span.Alpha  {
+            width: 97% !important;
+        }
+        .Title {
+            width: 254px;
+        }
+        .Move {
+            display: none;
+        }
+        .Button {
+           text-align: center;
+           padding: 0 4px;
+           width: 264px;
+           position: absolute;
+           border-bottom: none;
+           left: 0px;
+           bottom: -22px;
+           background-color: #efefef;
+           border-right: 1px solid #000;
+           border-left: 1px solid #000;
+           border-bottom: 1px solid #000;
+           width: 100% !important;
+           input {
+                   font-size: 18px !important;
+            }
+        }
+        .Green, .Red, .Blue, .Alpha, .Hex {
+            display: none !important;
+        }
+        hr {
+            display: none !important;
+        }
+    }
+
+}

@@ -2,7 +2,7 @@
 
 class acf_pro_options_page {
 	
-	var $view;
+	var $page;
 	
 	
 	/*
@@ -19,13 +19,6 @@ class acf_pro_options_page {
 	*/
 	
 	function __construct() {
-		
-		// defualts
-		$this->view = array(
-			'have_fields'	=> 1,
-			'slug'			=> ''
-		);
-		
 		
 		// actions
 		add_action('admin_menu', array($this,'admin_menu'), 99, 0);
@@ -195,7 +188,9 @@ class acf_pro_options_page {
 				// actions
 				add_action("load-{$slug}", array($this,'admin_load'));
 			}
+			
 		}
+		
 	}
 	
 	
@@ -213,10 +208,10 @@ class acf_pro_options_page {
 		global $plugin_page;
 		
 		
-		// set currrent
-		$this->view['slug'] = $plugin_page;
-		
-		
+		// vars
+		$this->page = acf_get_options_page($plugin_page);
+		    	
+		    	
 		// verify and remove nonce
 		if( acf_verify_nonce('options') ) {
 		
@@ -224,7 +219,11 @@ class acf_pro_options_page {
 		    if( acf_validate_save_post(true) ) {
 		    	
 		    	// get post_id (allow lang modification)
-		    	$post_id = acf_get_valid_post_id('options');
+		    	$post_id = acf_get_valid_post_id($this->page['post_id']);
+		    	
+		    	
+		    	// set autoload
+		    	acf_update_setting('autoload', $this->page['autoload']);
 		    	
 		    	
 		    	// save
@@ -234,11 +233,13 @@ class acf_pro_options_page {
 				// redirect
 				wp_redirect( admin_url("admin.php?page={$plugin_page}&message=1") );
 				exit;
+				
 			}
 			
 		}
 		
 		
+		// actions
 		add_action('admin_enqueue_scripts', 	array($this,'admin_enqueue_scripts'));
 	
 	}
@@ -266,6 +267,7 @@ class acf_pro_options_page {
 		
 		// actions
 		add_action( 'acf/input/admin_head',		array($this,'admin_head') );
+		
 	}
 	
 	
@@ -286,7 +288,7 @@ class acf_pro_options_page {
 		
 		// get field groups
 		$field_groups = acf_get_field_groups(array(
-			'options_page' => $this->view['slug']
+			'options_page' => $this->page['menu_slug']
 		));
 		
 		
@@ -299,8 +301,6 @@ class acf_pro_options_page {
 		
 		if( empty($field_groups) ) {
 		
-			$this->view['have_fields'] = 0;
-			
 			acf_add_admin_notice(__("No Custom Field Groups found for this options page",'acf') . '. <a href="' . admin_url() . 'post-new.php?post_type=acf-field-group">' . __("Create a Custom Field Group",'acf') . '</a>', 'error');
 		
 		} else {
@@ -365,9 +365,18 @@ class acf_pro_options_page {
 		
 		
 		// vars
-		$post_id = acf_get_valid_post_id('options');
-		$class = 'acf-postbox ' . $field_group['style'];
-		$toggle_class = 'acf-postbox-toggle';
+		$o = array(
+			'id'			=> $id,
+			'key'			=> $field_group['key'],
+			'style'			=> $field_group['style'],
+			'edit_url'		=> '',
+			'edit_title'	=> __('Edit field group', 'acf'),
+			'visibility'	=> true
+		);
+		
+		
+		// get post_id (allow lang modification)
+		$post_id = acf_get_valid_post_id($this->page['post_id']);
 		
 		
 		// load fields
@@ -392,20 +401,23 @@ class acf_pro_options_page {
 		}
 		
 		
-		// inline script
-		?>
-		<div class="acf-hidden">
-			<script type="text/javascript">
-			(function($) {
+		// edit_url
+		if( $field_group['ID'] && acf_current_user_can_admin() ) {
+			
+			$o['edit_url'] = admin_url('post.php?post=' . $field_group['ID'] . '&action=edit');
 				
-				$('#<?php echo $id; ?>').addClass('<?php echo $class; ?>').removeClass('hide-if-js');
-				$('#<?php echo $id; ?> > .inside').addClass('acf-fields acf-cf');
-				$('#adv-settings label[for="<?php echo $id; ?>-hide"]').addClass('<?php echo $toggle_class; ?>');
-				
-			})(jQuery);	
-			</script>
-		</div>
-		<?php
+		}
+		
+		
+?>
+<script type="text/javascript">
+if( typeof acf !== 'undefined' ) {
+		
+	acf.postbox.render(<?php echo json_encode($o); ?>);	
+
+}
+</script>
+<?php
 		
 	}
 	
@@ -420,8 +432,14 @@ class acf_pro_options_page {
 	
 	function html() {
 		
+		// vars
+		$view = array(
+			'page'	=> $this->page
+		);
+		
+		
 		// load view
-		acf_pro_get_view('options-page', $this->view);
+		acf_pro_get_view('options-page', $view);
 				
 	}
 	

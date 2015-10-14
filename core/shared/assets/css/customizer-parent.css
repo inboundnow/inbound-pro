@@ -1,0 +1,72 @@
+/**
+ * This CSS is compiled from the THIS_FILE_NAME.post.css version of this file
+ * Any edits you make in this file will not be saved
+ */
+
+
+
+:root:root:root body.customize-support.landing-page, :root:root:root body.landing-page {
+    background-color: transparent !important;
+    background-image: none !important;
+}
+:root:root:root body.customize-support.wp-call-to-action, :root:root:root body.wp-call-to-action  {
+    background-color: #eee !important;
+    background-image: -webkit-linear-gradient(bottom left, rgb(213, 213, 213) 25%, transparent 25%, transparent 75%, rgb(213, 213, 213) 75%, rgb(213, 213, 213)), -webkit-linear-gradient(bottom left, rgb(213, 213, 213) 25%, transparent 25%, transparent 75%, rgb(213, 213, 213) 75%, rgb(213, 213, 213)) !important;
+    background-image: linear-gradient(to top right, rgb(213, 213, 213) 25%, transparent 25%, transparent 75%, rgb(213, 213, 213) 75%, rgb(213, 213, 213)), linear-gradient(to top right, rgb(213, 213, 213) 25%, transparent 25%, transparent 75%, rgb(213, 213, 213) 75%, rgb(213, 213, 213)) !important;
+    background-size: 60px 60px !important;
+    background-position: 0 0, 30px 30px !important;
+}
+:root:root:root .inbound-loading {
+    position: relative;
+    height: 100%;
+    text-align: center;
+}
+:root:root:root .inbound-loading svg {
+    position: relative;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+}
+:root:root:root #wpadminbar {
+    z-index: 99999999999 !important;
+}
+:root:root:root #wp-admin-bar-customize, :root:root:root #wp-admin-bar-updates, :root:root:root #wp-admin-bar-comments {
+    display: none;
+}
+:root:root:root .inbound-customizer-preview {
+    max-width: 68%;
+    width:100%;
+    height:100%;
+    left: 32%;
+    position: fixed;
+    top: 32px;
+    z-index: 1;
+    border: none;
+    overflow:hidden;
+}
+:root:root:root .wp-call-to-action .inbound-customizer-preview {
+    top: 10%;
+}
+:root:root:root #inbound-customizer-overlay {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    position: fixed;
+    opacity: .8;
+    display: none;
+}
+:root:root:root .wp-cta-load-overlay {
+    position: absolute;
+    z-index: 9999999999 !important;
+    z-index: 999999;
+    background-color: #000;
+    opacity: 0;
+    background: -webkit-gradient(radial,center center,0px,center center,100%,color-stop(0%,rgba(0,0,0,0.4)),color-stop(100%,rgba(0,0,0,0.9)));
+    background: -webkit-radial-gradient(center,ellipse cover,rgba(0,0,0,0.4) 0,rgba(0,0,0,0.9) 100%);
+    background: -webkit-radial-gradient(center, ellipse cover, rgba(0,0,0,0.4) 0, rgba(0,0,0,0.9) 100%);
+    background: radial-gradient(center,ellipse cover,rgba(0,0,0,0.4) 0,rgba(0,0,0,0.9) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#66000000',endColorstr='#e6000000',GradientType=1);
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+    filter: alpha(opacity=50);
+}

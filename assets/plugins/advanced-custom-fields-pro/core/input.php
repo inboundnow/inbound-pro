@@ -18,7 +18,6 @@ class acf_input {
 	
 	function __construct() {
 		
-		add_action('acf/save_post', 							array($this, 'save_files'), 5, 1);
 		add_action('acf/save_post', 							array($this, 'save_post'), 10, 1);
 		add_action('acf/input/admin_enqueue_scripts', 			array($this, 'admin_enqueue_scripts'), 0, 0);
 		add_action('acf/input/admin_footer', 					array($this, 'admin_footer'), 0, 0);
@@ -27,35 +26,6 @@ class acf_input {
 		// ajax
 		add_action( 'wp_ajax_acf/validate_save_post',			array($this, 'ajax_validate_save_post') );
 		add_action( 'wp_ajax_nopriv_acf/validate_save_post',	array($this, 'ajax_validate_save_post') );
-	}
-	
-	
-	/*
-	*  save_files
-	*
-	*  This function will save the $_FILES data
-	*
-	*  @type	function
-	*  @date	24/10/2014
-	*  @since	5.0.9
-	*
-	*  @param	$post_id (int)
-	*  @return	$post_id (int)
-	*/
-	
-	function save_files( $post_id = 0 ) {
-		
-		// bail early if no $_FILES data
-		if( empty($_FILES['acf']['name']) ) {
-			
-			return;
-			
-		}
-		
-		
-		// upload files
-		acf_upload_files();
-	
 	}
 	
 	
@@ -149,28 +119,38 @@ class acf_input {
 			'ajaxurl'		=> admin_url( 'admin-ajax.php' ),
 			'ajax'			=> $args['ajax'],
 			'validation'	=> $args['validation'],
-			'wp_version'	=> $wp_version,
+			'wp_version'	=> $wp_version
 		);
 		
 		
 		// l10n
 		$l10n = apply_filters( 'acf/input/admin_l10n', array(
-			'unload'			=> __('The changes you made will be lost if you navigate away from this page','acf'),
-			'expand_details' 	=> __('Expand Details','acf'),
-			'collapse_details' 	=> __('Collapse Details','acf'),
+			'unload'				=> __('The changes you made will be lost if you navigate away from this page','acf'),
+			'expand_details' 		=> __('Expand Details','acf'),
+			'collapse_details' 		=> __('Collapse Details','acf'),
+			'validation_successful'	=> __('Validation successful', 'acf'),
+			'validation_failed'		=> __('Validation failed', 'acf'),
+			'validation_failed_1'	=> __('1 field requires attention', 'acf'),
+			'validation_failed_2'	=> __('%d fields require attention', 'acf'),
+			'restricted'			=> __('Restricted','acf')
 		));
 		
 		
-		?>
-		<script type="text/javascript">
-		(function($) {
-		
-			acf.o = <?php echo json_encode( $o ); ?>;
-			acf.l10n = <?php echo json_encode( $l10n ); ?>;
-		
-		})(jQuery);	
-		</script>
-		<?php
+?>
+<script type="text/javascript">
+/* <![CDATA[ */
+if( typeof acf !== 'undefined' ) {
+
+	acf.o = <?php echo json_encode($o); ?>;
+	acf.l10n = <?php echo json_encode($l10n); ?>;
+	<?php do_action('acf/input/admin_footer_js'); ?>
+	
+	acf.do_action('prepare');
+	
+}
+/* ]]> */
+</script>
+<?php
 		
 	}
 	
@@ -190,44 +170,36 @@ class acf_input {
 	
 	function ajax_validate_save_post() {
 		
-		// validate
+		// bail early if _acfnonce is missing
 		if( !isset($_POST['_acfnonce']) ) {
 			
-			// ignore validation, this form $_POST was not correctly configured
-			die();
+			wp_send_json_error();
 			
 		}
+		
+		
+		// vars
+		$json = array(
+			'valid'		=> 1,
+			'errors'	=> 0
+		);
 		
 		
 		// success
 		if( acf_validate_save_post() ) {
 			
-			$json = array(
-				'result'	=> 1,
-				'message'	=> __('Validation successful', 'acf'),
-				'errors'	=> 0
-			);
-			
-			die( json_encode($json) );
+			wp_send_json_success($json);
 			
 		}
 		
 		
-		// fail
-		$json = array(
-			'result'	=> 0,
-			'message'	=> __('Validation failed', 'acf'),
-			'errors'	=> acf_get_validation_errors()
-		);
-
-		
-		// update message
-		$i = count( $json['errors'] );
-		$json['message'] .= '. ' . sprintf( _n( '1 required field below is empty', '%s required fields below are empty', $i, 'acf' ), $i );
+		// update vars
+		$json['valid'] = 0;
+		$json['errors'] = acf_get_validation_errors();
 		
 		
 		// return
-		die( json_encode($json) );
+		wp_send_json_success($json);
 		
 	}
 	
@@ -362,7 +334,7 @@ function acf_enqueue_uploader() {
 	
 	
 	// bail early if acf has already loaded
-	if( acf_get_setting('enqueue_uploader', false) ) {
+	if( acf_get_setting('enqueue_uploader') ) {
 	
 		return;
 		
@@ -424,7 +396,6 @@ function acf_form_data( $args = array() ) {
 	if( $args['ajax'] ) {
 		
 		add_action('admin_footer', 'acf_enqueue_uploader', 1);
-		//acf_enqueue_uploader();
 		
 	}
 	

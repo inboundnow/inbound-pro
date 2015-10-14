@@ -22,7 +22,7 @@ class Inbound_Mailer_Ajax_Listeners {
 		add_action( 'wp_ajax_save_inbound_email', array( __CLASS__ , 'save_email' ) );
 
 		/* Adds listener for email variation send statistics */
-		add_action( 'wp_ajax_inbound_load_email_stats' , array( __CLASS__ , 'get_email_statistics' ) );
+		add_action( 'wp_ajax_inbound_load_email_row_stats' , array( __CLASS__ , 'get_email_row_statistics' ) );
 
 		/* Adds listener to send test email */
 		add_action( 'wp_ajax_inbound_send_test_email' , array( __CLASS__ , 'send_test_email' ) );
@@ -38,7 +38,7 @@ class Inbound_Mailer_Ajax_Listeners {
 			return;
 		}
 
-		//error_log( print_r( $_POST , true ) );
+		/* error_log( print_r( $_POST , true ) ); */
 
 		/* update post type */
 		wp_update_post( array(
@@ -55,6 +55,7 @@ class Inbound_Mailer_Ajax_Listeners {
 
 		/* save all post vars as meta */
 		foreach ($_POST as $key => $value) {
+
 			if ( substr( $key , 0 , 8 ) == 'inbound_' ){
 				$key = str_replace( 'inbound_' , '' , $key );
 				$email_settings[ $key ] = $value;
@@ -67,6 +68,13 @@ class Inbound_Mailer_Ajax_Listeners {
 
 		/* Update Settings */
 		Inbound_Email_Meta::update_settings( $_POST['post_ID'] , $email_settings );
+
+        /* Update Tags */
+        if ( isset( $_POST['tax_input'] ) ) {
+            foreach ( $_POST['tax_input']  as $tax => $terms ) {
+                wp_set_post_terms( $_POST['post_ID'], $terms, $tax, false );
+            }
+        }
 
 		header('HTTP/1.1 200 OK');
 		exit;
@@ -111,12 +119,25 @@ class Inbound_Mailer_Ajax_Listeners {
 		}
 
 	/**
-	*  Gets JSON object containing email send statistics for each variation
+	*  Gets JSON object containing email send statistics return cached data if cached
 	*/
-	public static function get_email_statistics() {
+	public static function get_email_row_statistics() {
+		$stats = get_transient( 'inbound-email-stats-cache');
 
-		$stats = Inbound_Email_Stats::get_email_stats( $_REQUEST['email_id'] );
-		echo $stats;
+		if (!is_array($stats)) {
+			$stats = array();
+		}
+
+		if (isset($stats[$_REQUEST['email_id']])) {
+			echo json_encode($stats[$_REQUEST['email_id']]);
+			header('HTTP/1.1 200 OK');
+			exit;
+		}
+
+		$stats[$_REQUEST['email_id']] = Inbound_Email_Stats::get_email_timeseries_stats( $_REQUEST['email_id'] );
+		set_transient('inbound-email-stats-cache' , $stats , 60* 5);
+
+		echo json_encode($stats[$_REQUEST['email_id']]);
 		header('HTTP/1.1 200 OK');
 		exit;
 	}

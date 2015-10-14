@@ -10,6 +10,31 @@ class Landing_Pages_Activation {
 	static $version_leads;
 	static $version_lpah;
 
+    /**
+     * Initiate class
+     */
+    public function __construct() {
+        self::load_hooks();
+    }
+
+    /**
+     * load supporting hooks and filters
+     */
+    public static function load_hooks() {
+        if (!is_admin()) {
+            return;
+        }
+
+        /* Add listener for unset permalinks  */
+        add_action('admin_notices', array( __CLASS__ , 'permastruct_check' ) );
+
+        /** add listener for permlaink flush command  */
+        add_action('admin_init', array( __CLASS__ , 'flush_permalinks' ) , 11 );
+
+        /* Add listener for uncompleted upgrade routines */
+        add_action( 'admin_init' , array( 'Landing_Pages_Activation' , 'run_upgrade_routine_checks' ) );
+    }
+
 	public static function activate() {
 		self::load_static_vars();
 		self::run_version_checks();
@@ -41,7 +66,7 @@ class Landing_Pages_Activation {
 
 		/* Activate shared components */
 		self::activate_shared();
-		
+
 		/* Run additional actions */
 		do_action( 'activate_landing_pages' );
 
@@ -230,14 +255,38 @@ class Landing_Pages_Activation {
 		}
 
 	}
+
+    /**
+     * flush permalinks
+     */
+    public static function flush_permalinks() {
+
+        if ( !get_option( 'lp_activate_rewrite_check' ) ) {
+            return;
+        }
+
+        flush_rewrite_rules( true );
+        delete_option( 'lp_activate_rewrite_check' );
+    }
+
+    /**
+     *  check for 'default' permalinks and warn
+     */
+    public static function permastruct_check() {
+        if ( '' == get_option( 'permalink_structure' ) ) {
+            ?>
+            <div class="error">
+                <p><?php _e( 'Landing Pages plugin requires you to use a non default permlaink structure. Please head into your pemalink settings and choose an option besides \'default\'.' , 'landing-pages'); ?></p>
+            </div>
+        <?php
+        }
+    }
 }
 
 /* Add Activation Hook */
 register_activation_hook( LANDINGPAGES_FILE , array( 'Landing_Pages_Activation' , 'activate' ) );
 register_deactivation_hook( LANDINGPAGES_FILE , array( 'Landing_Pages_Activation' , 'deactivate' ) );
 
-
-/* Add listener for uncompleted upgrade routines */
-add_action( 'admin_init' , array( 'Landing_Pages_Activation' , 'run_upgrade_routine_checks' ) );
+new Landing_Pages_Activation;
 
 }

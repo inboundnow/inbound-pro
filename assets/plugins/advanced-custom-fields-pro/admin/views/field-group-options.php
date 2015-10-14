@@ -5,31 +5,18 @@
 	<tbody>
 		<?php 
 		
-		// menu_order
+		// active
 		acf_render_field_wrap(array(
-			'label'			=> __('Order No.','acf'),
-			'instructions'	=> __('Field groups are created in order <br />from lowest to highest','acf'),
-			'type'			=> 'number',
-			'name'			=> 'menu_order',
-			'prefix'		=> 'acf_field_group',
-			'value'			=> $field_group['menu_order'],
-		), 'tr');
-		
-		
-		// position
-		acf_render_field_wrap(array(
-			'label'			=> __('Position','acf'),
+			'label'			=> __('Status','acf'),
 			'instructions'	=> '',
 			'type'			=> 'select',
-			'name'			=> 'position',
+			'name'			=> 'active',
 			'prefix'		=> 'acf_field_group',
-			'value'			=> $field_group['position'],
+			'value'			=> $field_group['active'],
 			'choices' 		=> array(
-				'acf_after_title'	=> __("High (after title)",'acf'),
-				'normal'			=> __("Normal (after content)",'acf'),
-				'side' 				=> __("Side",'acf'),
-			),
-			'default_value'	=> 'normal'
+				1				=>	__("Active",'acf'),
+				0				=>	__("Disabled",'acf'),
+			)
 		), 'tr');
 		
 		
@@ -48,6 +35,23 @@
 		), 'tr');
 		
 		
+		// position
+		acf_render_field_wrap(array(
+			'label'			=> __('Position','acf'),
+			'instructions'	=> '',
+			'type'			=> 'select',
+			'name'			=> 'position',
+			'prefix'		=> 'acf_field_group',
+			'value'			=> $field_group['position'],
+			'choices' 		=> array(
+				'acf_after_title'	=> __("High (after title)",'acf'),
+				'normal'			=> __("Normal (after content)",'acf'),
+				'side' 				=> __("Side",'acf'),
+			),
+			'default_value'	=> 'normal'
+		), 'tr');
+
+
 		// label_placement
 		acf_render_field_wrap(array(
 			'label'			=> __('Label placement','acf'),
@@ -78,14 +82,37 @@
 		), 'tr');
 		
 		
+		// menu_order
+		acf_render_field_wrap(array(
+			'label'			=> __('Order No.','acf'),
+			'instructions'	=> __('Field groups with a lower order will appear first','acf'),
+			'type'			=> 'number',
+			'name'			=> 'menu_order',
+			'prefix'		=> 'acf_field_group',
+			'value'			=> $field_group['menu_order'],
+		), 'tr');
+		
+		
+		// description
+		acf_render_field_wrap(array(
+			'label'			=> __('Description','acf'),
+			'instructions'	=> __('Shown in field group list','acf'),
+			'type'			=> 'text',
+			'name'			=> 'description',
+			'prefix'		=> 'acf_field_group',
+			'value'			=> $field_group['description'],
+		), 'tr');
+		
+		
 		// hide on screen
 		acf_render_field_wrap(array(
 			'label'			=> __('Hide on screen','acf'),
-			'instructions'	=> __('<b>Select</b> items to <b>hide</b> them from the edit screen','acf') . '</p><p>' . __("If multiple field groups appear on an edit screen, the first field group's options will be used. (the one with the lowest order number)",'acf'),
+			'instructions'	=> __('<b>Select</b> items to <b>hide</b> them from the edit screen.','acf') . '<br /><br />' . __("If multiple field groups appear on an edit screen, the first field group's options will be used (the one with the lowest order number)",'acf'),
 			'type'			=> 'checkbox',
 			'name'			=> 'hide_on_screen',
 			'prefix'		=> 'acf_field_group',
 			'value'			=> $field_group['hide_on_screen'],
+			'toggle'		=> true,
 			'choices' => array(
 				'permalink'			=>	__("Permalink", 'acf'),
 				'the_content'		=>	__("Content Editor",'acf'),
@@ -105,6 +132,10 @@
 			)
 		), 'tr');
 		
+		
+		// 3rd party settings
+		do_action('acf/render_field_group_settings', $field_group);
+				
 		?>
 	</tbody>
 </table>

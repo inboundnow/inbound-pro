@@ -21,7 +21,8 @@ class acf_settings_updates {
 	function __construct() {
 	
 		// actions
-		add_action( 'admin_menu', 				array( $this, 'admin_menu' ), 20 );
+		add_action('admin_menu', array($this, 'admin_menu'), 20 );
+		
 	}
 	
 	
@@ -40,15 +41,36 @@ class acf_settings_updates {
 	
 	function admin_menu() {
 		
+		// vars
+		$basename = acf_get_setting('basename');
+		
+		
 		// bail early if no show_admin
-		if( !acf_get_setting('show_admin') )
-		{
+		if( !acf_get_setting('show_admin') ) {
+			
 			return;
+			
 		}
 		
 		
+		// bail early if no show_updates
+		if( !acf_get_setting('show_updates') ) {
+			
+			return;
+			
+		}
+		
+		
+		// bail early if not a plugin (included in theme)
+		if( !is_plugin_active($basename) ) {
+			
+			return;
+			
+		}
+				
+		
 		// add page
-		$page = add_submenu_page('edit.php?post_type=acf-field-group', __('Updates','acf'), __('Updates','acf'), 'manage_options','acf-settings-updates', array($this,'html') );
+		$page = add_submenu_page('edit.php?post_type=acf-field-group', __('Updates','acf'), __('Updates','acf'), acf_get_setting('capability'),'acf-settings-updates', array($this,'html') );
 		
 		
 		// actions
@@ -240,10 +262,11 @@ class acf_settings_updates {
 		
 		
 		// validate
-		if( empty($response) )
-		{
+		if( empty($response) ) {
+			
 			acf_add_admin_notice( __('<b>Connection Error</b>. Sorry, please try again', 'acf'), 'error');
 			return;
+			
 		}
 		
 		
@@ -253,21 +276,24 @@ class acf_settings_updates {
 		
 		
 		// action
-		if( $response['status'] == 1 )
-		{
+		if( $response['status'] == 1 ) {
+			
 			acf_pro_update_license($response['license']);
-		}
-		else
-		{
+			
+		} else {
+			
 			$class = 'error';
+			
 		}
 		
 		
 		// show message
-		if( $response['message'] )
-		{
+		if( $response['message'] ) {
+			
 			acf_add_admin_notice($response['message'], $class);
+			
 		}
+		
 	}
 	
 	

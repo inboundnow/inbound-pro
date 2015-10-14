@@ -259,7 +259,7 @@ class acf_revisions {
 		
 		
 		// load field
-		$field = get_field_object($field_name, $post_id, false);
+		$field = acf_maybe_get_field( $field_name, $post_id );
 		
 		
 		// update value

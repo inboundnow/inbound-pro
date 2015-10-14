@@ -150,10 +150,15 @@ class Inbound_Mailer_Enqueues {
 		}
 
 
-		/* Enqueue scripts & styles for cta creation page alone */
+		/* Enqueue scripts & styles for creation page alone */
 		if ( $hook == 'post-new.php'){
 			wp_enqueue_script('inbound-mailer-js-create-new', INBOUND_EMAIL_URLPATH . 'assets/js/admin/admin.post-new.js', array('jquery'), '1.0', true );
 			wp_enqueue_style('inbound-mailer-css-post-new', INBOUND_EMAIL_URLPATH . 'assets/css/admin-post-new.css');
+		}
+
+		/* Enqueue scripts and styles for mailer listing page */
+		if ( $hook == 'edit.php' ){
+			wp_enqueue_script('inbound-mailer-list', INBOUND_EMAIL_URLPATH . 'assets/js/admin/admin.list.js', array('jquery'), '1.0', true );
 		}
 	}
 
@@ -181,7 +186,6 @@ class Inbound_Mailer_Enqueues {
 
 		wp_enqueue_script('inbound-mailer-post-edit-ui', INBOUND_EMAIL_URLPATH . 'assets/js/admin/admin.post-edit.js');
 		wp_localize_script( 'inbound-mailer-post-edit-ui', 'inbound_email_post_edit_ui', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'wp_call_to_action_meta_nonce' => wp_create_nonce('inbound-email-meta-nonce') ) );
-		wp_enqueue_script('inbound-mailer-frontend-editor-js', INBOUND_EMAIL_URLPATH . 'assets/js/customizer.save.js');
 
 		//jpicker - color picker
 		wp_enqueue_script('jpicker', INBOUND_EMAIL_URLPATH . 'assets/libraries/jpicker/jpicker-1.1.6.min.js');

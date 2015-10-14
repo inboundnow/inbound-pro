@@ -3,17 +3,28 @@ include( 'shortcodes-fields.php' );
 $popup = trim( $_GET['popup'] );
 
 $shortcode = new Inbound_Shortcodes_Fields( $popup );
+
+if( !$shortcode->no_preview ) {
+    $style = "";
+} else {
+    $style = "width:100%;";
+}
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head></head>
+<head>
+    <!--<link rel="stylesheet" type="text/css" href="../shortcodes/css/shortcodes.css" media="all" />-->
+
+</head>
 <body>
     <div id="inbound-shortcodes-popup">
 
         <div id="inbound-shortcodes-wrap">
-            <div id="inbound-shortcodes-form-wrap">
+
+            <div id="inbound-shortcodes-form-wrap" style="<?php echo $style;?>">
                 <div id="inbound-shortcodes-form-head">
+                <span class="marketing-back-button">⬅ Go Back </span>
                     <?php echo $shortcode->popup_title; ?>
                     <?php $shortcode_id = strtolower(str_replace(array(' ','-'),'_', $shortcode->popup_title));  ?>
                 </div>
@@ -31,39 +42,31 @@ $shortcode = new Inbound_Shortcodes_Fields( $popup );
                 </form>
             </div>
 
+
+            <?php if( !$shortcode->no_preview ) { ?>
             <div id="inbound-shortcodes-preview-wrap">
                 <div id="inbound-shortcodes-preview-head">
                     <?php _e('Shortcode Preview', 'leads'); ?>
                 </div>
-                <?php if( $shortcode->no_preview ) : ?>
-                    <div id="inbound-shortcodes-nopreview"><?php _e('Shortcode has no preview', 'leads'); ?></div>
-                <?php else : ?>
-                    <iframe src="<?php echo INBOUND_FORMS; ?>preview.php?sc=" width="285" scrollbar='true' frameborder="0" id="inbound-shortcodes-preview"></iframe>
-                <?php endif; ?>
+
+                <iframe src="<?php echo INBOUND_FORMS; ?>preview.php?sc=" width="285" scrollbar='true' frameborder="0" id="inbound-shortcodes-preview"></iframe>
+
             </div>
+            <?php } ?>
             <div class="clear"></div>
+
+            <div id="marketing-popup-controls" style="z-index: 999999;">
+                    <a href="#" id="marketing-insert-shortcode" class="button-primary">
+                        Insert Shortcode
+                    </a>
+                    <a href="#" id="cancel_marketing_button" class="button">
+                        Cancel
+                    </a>
+            </div>
+
         </div>
 
     </div>
-    <div id="popup-controls">
-        <a href="#" id="inbound_save_form" style="display:none;" class="button-primary">Save Form & Insert</a>
-        <a href="#" id="inbound_insert_shortcode_two" class="button-primary inbound-shortcodes-insert-two"><?php _e('Insert Shortcode', 'leads'); ?></a>
-        <a href="#" id="shortcode_cancel" class="button inbound-shortcodes-insert-cancel">Cancel</a>
 
-    </div>
-    <script type="text/javascript">
-    jQuery(document).ready(function($) {
-
-        jQuery('.child-clone-row').first().attr('id', 'row-1');
-        setTimeout(function() {
-                jQuery('#inbound-shortcodes-form input:visible').first().focus();
-        }, 500);
-
-    //jQuery("body").on('click', '.child-clone-row', function () {
-       // jQuery(".child-clone-row").toggle();
-       // jQuery(this).show();
-    //});
-    });
-</script>
 </body>
 </html>

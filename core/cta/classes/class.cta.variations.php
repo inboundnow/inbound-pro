@@ -11,23 +11,23 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		public static function load_hooks() {
 
 			/* Delete variation listener */
-			add_action( 'admin_init' , array( __CLASS__ , 'add_listeners' ) );
+			add_action( 'admin_init', array(__CLASS__, 'add_listeners'));
 
 			/* Builds variation object on CTA save */
-			add_action( 'save_post', array( __CLASS__ , 'save_variation_object_data' ) );
+			add_action( 'save_post', array(__CLASS__, 'save_variation_object_data'));
 
 			/* Filter to add variation id to end of meta key */
-			add_filter( 'wp_cta_prepare_input_id' , array( __CLASS__ , 'prepare_input_id' ) );
+			add_filter( 'wp_cta_prepare_input_id', array(__CLASS__, 'prepare_input_id'));
 
 			/* Appends variation id to given url */
-			add_filter( 'wp_cta_customizer_customizer_link', array( __CLASS__ , 'append_variation_id_to_url') );
-			add_filter( 'post_type_link', array( __CLASS__ , 'append_variation_id_to_url') );
+			add_filter( 'wp_cta_customizer_customizer_link', array(__CLASS__, 'append_variation_id_to_url'));
+			add_filter( 'post_type_link', array(__CLASS__, 'append_variation_id_to_url'));
 
 			/* Records impression for cta */
-			add_action( 'wp_cta_record_impression' , array( __CLASS__ , 'record_impression' ) , 10, 2);
+			add_action( 'wp_cta_record_impression', array(__CLASS__, 'record_impression'), 10, 2);
 
 			/* Records conversion for cta */
-			add_action( 'wp_cta_record_conversion' , array( __CLASS__ , 'record_conversion' ) , 10, 2);
+			add_action( 'wp_cta_record_conversion', array(__CLASS__, 'record_conversion'), 10, 2);
 		}
 
 		/* Listens for commands */
@@ -79,8 +79,8 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 			$current_variation_id = CTA_Variations::get_current_variation_id();
 
 			/* enqueue and localize scripts */
-			//wp_enqueue_style('wp-cta-ab-testing-admin-css', WP_CTA_URLPATH . 'css/admin-ab-testing.css');
-			//wp_enqueue_script('wp-cta-ab-testing-admin-js', WP_CTA_URLPATH . 'js/admin/admin.post-edit-ab-testing.js', array( 'jquery' ));
+			//wp_enqueue_style('wp-cta-ab-testing-admin-css', WP_CTA_URLPATH . 'assets/css/admin-ab-testing.css');
+			//wp_enqueue_script('wp-cta-ab-testing-admin-js', WP_CTA_URLPATH . 'assets/js/admin/admin.post-edit-ab-testing.js', array( 'jquery'));
 			//wp_localize_script( 'wp-cta-ab-testing-admin-js', 'variation', array( 'pid' => $_GET['post'], 'vid' => $current_variation_id	, 'new_variation' => $new_variation	, 'variations'=> $variations	));
 
 		}
@@ -99,14 +99,14 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 			unset($variations[$vid]);
 
 
-			self::update_variations( $cta_id , $variations );
+			self::update_variations( $cta_id, $variations );
 
 			/* Delete meta values associated with variation */
-			$variation_meta = self::get_variation_meta ( $cta_id , $vid );
+			$variation_meta = self::get_variation_meta ( $cta_id, $vid );
 
 
 			foreach ($variation_meta as $key => $value) {
-				delete_post_meta( $cta_id , $key );
+				delete_post_meta( $cta_id, $key );
 			}
 
 			/* Get first array variation and set it as open variation */
@@ -128,7 +128,7 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 			$variations = self::get_variations( $cta_id );
 			$variations[ $vid ]['status'] = 'paused';
 
-			self::update_variations( $cta_id , $variations );
+			self::update_variations( $cta_id, $variations );
 		}
 
 		/**
@@ -144,7 +144,7 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 			$variations = self::get_variations( $cta_id );
 			$variations[ $vid ]['status'] = 'active';
 
-			self::update_variations( $cta_id , $variations );
+			self::update_variations( $cta_id, $variations );
 		}
 
 		/**
@@ -155,13 +155,13 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		* @param STRING $status custom status
 		*
 		*/
-		public static function set_variation_status( $cta_id , $vid , $status = 'play' ) {
+		public static function set_variation_status( $cta_id, $vid, $status = 'play' ) {
 
 			/* Update variations meta object */
 			$variations = self::get_variations( $cta_id );
 			$variations[ $vid ]['status'] = $status ;
 
-			self::update_variations( $cta_id , $variations );
+			self::update_variations( $cta_id, $variations );
 		}
 
 		/* Updates variation object data on post save
@@ -190,10 +190,10 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 			$variations = self::get_variations( $cta_id );
 
 			/* Set current variation status */
-			$variations[ $current_variation ]['status'] = apply_filters( 'wp_cta_save_variation_status' ,  $_POST['wp-cta-variation-status'][ $current_variation ] );
+			$variations[ $current_variation ]['status'] = apply_filters( 'wp_cta_save_variation_status',  $_POST['wp-cta-variation-status'][ $current_variation ] );
 
 			/* Update variation meta object */
-			self::update_variations( $cta_id , $variations );
+			self::update_variations( $cta_id, $variations );
 
 		}
 
@@ -209,8 +209,8 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		*/
 		public static function get_variations( $cta_id	, $vid = null ) {
 
-			$variations = json_decode( get_post_meta( $cta_id ,'wp-cta-variations', true) , true );
-			$variations = ( is_array( $variations ) ) ? $variations : array( 0 => array( 'status' => 'active' ) );
+			$variations = json_decode( get_post_meta( $cta_id ,'wp-cta-variations', true), true );
+			$variations = ( is_array( $variations ) ) ? $variations : array( 0 => array( 'status' => 'active'));
 
 			/* unset unneeded	variation data if $vid is specified */
 			if ($vid !== null ) {
@@ -233,7 +233,7 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		*
 		* @returns STRING status
 		*/
-		public static function get_variation_status( $cta_id , $vid = null ) {
+		public static function get_variation_status( $cta_id, $vid = null ) {
 
 			if ( $vid === null ) {
 				$vid = CTA_Variations::get_current_variation_id();
@@ -253,7 +253,7 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		*
 		* @returns STRING permalink
 		*/
-		public static function get_variation_permalink( $cta_id , $vid = null ) {
+		public static function get_variation_permalink( $cta_id, $vid = null ) {
 
 			if ( $vid === null ) {
 				$vid = CTA_Variations::get_current_variation_id();
@@ -261,7 +261,7 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 
 			$permalink = get_permalink($cta_id);
 
-			return add_query_arg( array('wp-cta-variation-id'=> $vid ) , $permalink ) ;
+			return add_query_arg( array('wp-cta-variation-id'=> $vid ), $permalink ) ;
 		}
 
 		/**
@@ -271,9 +271,9 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		* @param variations ARRAY of variation data
 		*
 		*/
-		public static function update_variations ( $cta_id , $variations ) {
+		public static function update_variations ( $cta_id, $variations ) {
 
-			update_post_meta( $cta_id , 'wp-cta-variations' , json_encode( $variations , JSON_FORCE_OBJECT ) );
+			update_post_meta( $cta_id, 'wp-cta-variations', json_encode( $variations, JSON_FORCE_OBJECT ));
 
 		}
 
@@ -286,7 +286,7 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		*
 		* @return ARRAY $meta array of variation meta data
 		*/
-		public static function get_variation_meta ( $cta_id , $vid ) {
+		public static function get_variation_meta ( $cta_id, $vid ) {
 			$meta = array();
 
 			$cta_meta = get_post_meta( $cta_id );
@@ -313,13 +313,13 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		*
 		* @return STRING $notes variation notes.
 		*/
-		public static function get_variation_notes ( $cta_id , $vid = null) {
+		public static function get_variation_notes ( $cta_id, $vid = null) {
 
 			if ( $vid === null ) {
 				$vid = CTA_Variations::get_current_variation_id();
 			}
 
-			$notes = get_post_meta( $cta_id , 'wp-cta-variation-notes-' . $vid , true );
+			$notes = get_post_meta( $cta_id, 'wp-cta-variation-notes-' . $vid, true );
 
 			return $notes;
 
@@ -333,13 +333,13 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		*
 		* @return STRING $custom_css.
 		*/
-		public static function get_variation_custom_css ( $cta_id , $vid = null) {
+		public static function get_variation_custom_css ( $cta_id, $vid = null) {
 
 			if ( $vid === null ) {
 				$vid = CTA_Variations::get_current_variation_id();
 			}
 
-			$custom_css = get_post_meta( $cta_id , 'wp-cta-custom-css-' . $vid , true );
+			$custom_css = get_post_meta( $cta_id, 'wp-cta-custom-css-' . $vid, true );
 
 			return $custom_css;
 
@@ -353,13 +353,13 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		*
 		* @return STRING $custom_js.
 		*/
-		public static function get_variation_custom_js ( $cta_id , $vid = null) {
+		public static function get_variation_custom_js ( $cta_id, $vid = null) {
 
 			if ( $vid === null ) {
 				$vid = CTA_Variations::get_current_variation_id();
 			}
 
-			$custom_js = get_post_meta( $cta_id , 'wp-cta-custom-js-' . $vid , true );
+			$custom_js = get_post_meta( $cta_id, 'wp-cta-custom-js-' . $vid, true );
 
 			return $custom_js;
 
@@ -372,7 +372,7 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		*
 		* @returns STRING of meta key appended with variation id
 		*/
-		public static function prepare_input_id( $id , $vid = null ) {
+		public static function prepare_input_id( $id, $vid = null ) {
 
 			if ( $vid === null ) {
 				$vid =	CTA_Variations::get_current_variation_id();
@@ -428,19 +428,35 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		*
 		* @returns STRING id of selected template
 		*/
-		public static function get_current_template( $cta_id , $vid = null ) {
+		public static function get_current_template( $cta_id, $vid = null ) {
 
 			if ( $vid === null ) {
 				$vid =	CTA_Variations::get_current_variation_id();
 			}
 
-			$template = get_post_meta( $cta_id , 'wp-cta-selected-template-' . $vid , true);
+			$template = get_post_meta( $cta_id, 'wp-cta-selected-template-' . $vid, true);
 			if (!$template) {
 				return 'blank-template';
 			} else {
 				return $template;
 			}
 		}
+
+		/**
+		 * Returns templat thumbnail
+		 */
+		public static function get_template_thumbnail( $template ) {
+			if (file_exists(WP_CTA_PATH.'templates/'.$template."/thumbnail.png")) {
+				$thumbnail = WP_CTA_URLPATH.'templates/'.$template."/thumbnail.png";
+			} else if (file_exists(WP_CTA_UPLOADS_PATH.$template."/thumbnail.png")) {
+				$thumbnail = WP_CTA_UPLOADS_URLPATH.$template."/thumbnail.png";
+			} else if (file_exists(WP_CTA_THEME_TEMPLATES_PATH.$template."/thumbnail.png")) {
+				$thumbnail = WP_CTA_THEME_TEMPLATES_URLPATH.$template."/thumbnail.png";
+			}
+
+			return $thumbnail;
+		}
+
 
 		/**
 		* Get Screenshot URL for Call to Action preview. If local environment show template thumbnail.
@@ -450,13 +466,13 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		*
 		* @return STRING url of preview
 		*/
-		public static function get_screenshot_url( $cta_id , $vid = null) {
+		public static function get_screenshot_url( $cta_id, $vid = null) {
 
 			if ( $vid === null ) {
 				$vid =	CTA_Variations::get_current_variation_id();
 			}
 
-			$template = CTA_Variations::get_current_template( $cta_id , $vid);
+			$template = CTA_Variations::get_current_template( $cta_id, $vid);
 
 			if (in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1'))) {
 
@@ -492,7 +508,7 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 			$current_variation_id =	CTA_Variations::get_current_variation_id();
 
 
-			$link = add_query_arg( array('wp-cta-variation-id' => $current_variation_id ) , $link );
+			$link = add_query_arg( array('wp-cta-variation-id' => $current_variation_id ), $link );
 
 			return $link;
 		}
@@ -505,7 +521,7 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		*
 		* @return STRING alphebit letter.
 		*/
-		public static function vid_to_letter( $cta_id , $vid ) {
+		public static function vid_to_letter( $cta_id, $vid ) {
 			$variations = CTA_Variations::get_variations( $cta_id );
 
 			$i = 0;
@@ -517,32 +533,32 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 			}
 
 			$alphabet = array(
-				__( 'A' , 'cta' ),
-				__( 'B' , 'cta' ),
-				__( 'C' , 'cta' ),
-				__( 'D' , 'cta' ),
-				__( 'E' , 'cta' ),
-				__( 'F' , 'cta' ),
-				__( 'G' , 'cta' ),
-				__( 'H' , 'cta' ),
-				__( 'I' , 'cta' ),
-				__( 'J' , 'cta' ),
-				__( 'K' , 'cta' ),
-				__( 'L' , 'cta' ),
-				__( 'M' , 'cta' ),
-				__( 'N' , 'cta' ),
-				__( 'O' , 'cta' ),
-				__( 'P' , 'cta' ),
-				__( 'Q' , 'cta' ),
-				__( 'R' , 'cta' ),
-				__( 'S' , 'cta' ),
-				__( 'T' , 'cta' ),
-				__( 'U' , 'cta' ),
-				__( 'V' , 'cta' ),
-				__( 'W' , 'cta' ),
-				__( 'X' , 'cta' ),
-				__( 'Y' , 'cta' ),
-				__( 'Z' , 'cta' )
+				__( 'A', 'cta' ),
+				__( 'B', 'cta' ),
+				__( 'C', 'cta' ),
+				__( 'D', 'cta' ),
+				__( 'E', 'cta' ),
+				__( 'F', 'cta' ),
+				__( 'G', 'cta' ),
+				__( 'H', 'cta' ),
+				__( 'I', 'cta' ),
+				__( 'J', 'cta' ),
+				__( 'K', 'cta' ),
+				__( 'L', 'cta' ),
+				__( 'M', 'cta' ),
+				__( 'N', 'cta' ),
+				__( 'O', 'cta' ),
+				__( 'P', 'cta' ),
+				__( 'Q', 'cta' ),
+				__( 'R', 'cta' ),
+				__( 'S', 'cta' ),
+				__( 'T', 'cta' ),
+				__( 'U', 'cta' ),
+				__( 'V', 'cta' ),
+				__( 'W', 'cta' ),
+				__( 'X', 'cta' ),
+				__( 'Y', 'cta' ),
+				__( 'Z', 'cta' )
 			);
 
 			if (isset($alphabet[$i])){
@@ -558,9 +574,9 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		*
 		* @return INT impression count
 		*/
-		public static function get_impressions( $cta_id , $vid ) {
+		public static function get_impressions( $cta_id, $vid ) {
 
-			$impressions = get_post_meta( $cta_id ,'wp-cta-ab-variation-impressions-'.$vid , true);
+			$impressions = get_post_meta( $cta_id ,'wp-cta-ab-variation-impressions-'.$vid, true);
 
 			if (!is_numeric($impressions)) {
 				$impressions = 0;
@@ -576,7 +592,7 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		* @param INT $vid id of variation belonging to call to action
 		*
 		*/
-		public static function record_impression( $cta_id , $vid ) {
+		public static function record_impression( $cta_id, $vid ) {
 
 			$impressions = get_post_meta( $cta_id ,'wp-cta-ab-variation-impressions-'.$vid, true);
 
@@ -586,7 +602,7 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 				$impressions++;
 			}
 
-			update_post_meta( $cta_id , 'wp-cta-ab-variation-impressions-'.$vid , $impressions);
+			update_post_meta( $cta_id, 'wp-cta-ab-variation-impressions-'.$vid, $impressions);
 		}
 
 		/**
@@ -596,9 +612,9 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		* @param INT $vid id of variation belonging to call to action
 		*
 		*/
-		public static function set_impression_count( $cta_id , $vid , $count) {
+		public static function set_impression_count( $cta_id, $vid, $count) {
 
-			update_post_meta( $cta_id , 'wp-cta-ab-variation-impressions-'.$vid , $count);
+			update_post_meta( $cta_id, 'wp-cta-ab-variation-impressions-'.$vid, $count);
 		}
 
 		/**
@@ -609,7 +625,7 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		*
 		* @return INT impression count
 		*/
-		public static function get_conversions( $cta_id , $vid ) {
+		public static function get_conversions( $cta_id, $vid ) {
 
 			$conversions = get_post_meta( $cta_id ,'wp-cta-ab-variation-conversions-'.$vid, true);
 
@@ -628,10 +644,10 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		*
 		* @return INT conversion rate
 		*/
-		public static function get_conversion_rate( $cta_id , $vid ) {
+		public static function get_conversion_rate( $cta_id, $vid ) {
 
-			$impressions = CTA_Variations::get_impressions( $cta_id , $vid );
-			$conversions = CTA_Variations::get_conversions( $cta_id , $vid );
+			$impressions = CTA_Variations::get_impressions( $cta_id, $vid );
+			$conversions = CTA_Variations::get_conversions( $cta_id, $vid );
 
 			if ($impressions>0) {
 				$conversion_rate = $conversions / $impressions;
@@ -652,9 +668,9 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		* @param INT $vid id of variation belonging to call to action
 		*
 		*/
-		public static function record_conversion(	$cta_id , $vid ) {
+		public static function record_conversion(	$cta_id, $vid ) {
 
-			$conversions = get_post_meta( $cta_id , 'wp-cta-ab-variation-conversions-' . $vid , true);
+			$conversions = get_post_meta( $cta_id, 'wp-cta-ab-variation-conversions-' . $vid, true);
 
 			if (!is_numeric($conversions)) {
 				$conversions = 1;
@@ -662,7 +678,7 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 				$conversions++;
 			}
 
-			update_post_meta( $cta_id , 'wp-cta-ab-variation-conversions-'.$vid , $conversions);
+			update_post_meta( $cta_id, 'wp-cta-ab-variation-conversions-'.$vid, $conversions);
 		}
 
 		/**
@@ -672,9 +688,9 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		* @param INT $vid id of variation belonging to call to action
 		*
 		*/
-		public static function set_conversion_count(	$cta_id , $vid , $count) {
+		public static function set_conversion_count(	$cta_id, $vid, $count) {
 
-			update_post_meta( $cta_id , 'wp-cta-ab-variation-conversions-'.$vid , $count);
+			update_post_meta( $cta_id, 'wp-cta-ab-variation-conversions-'.$vid, $count);
 		}
 
 	}

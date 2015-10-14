@@ -1,12 +1,10 @@
 <?php
-/**
+/*
 Trigger Name: Form Submission Event
 Trigger Description: This trigger fires whenever a tracked Form is submitted.
 Trigger Author: Inbound Now
 Contributors: Hudson Atwell
 */
-
-
 
 class Inbound_Automation_Trigger_Form_Submission {
 
