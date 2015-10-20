@@ -1,0 +1,180 @@
+#titlediv #title, #wp-cta-notes-area input {
+background-color: #fff;
+border: none;
+}
+body.modal-open {
+overflow: auto !important;
+}
+#wpbody-content {
+overflow: visible !important;
+}
+#wp-cta-notes-area input {
+	width: 95%;
+	color: #AAAAAA;
+
+	border: 1px solid #ccc;
+}
+#post-body-content  {
+margin-bottom: 0px;
+}
+#wp-cta-notes-area input:focus{
+	color: #000;
+}
+#local-storage-notice {
+	display: none !important;
+}
+#wp_cta_clean-cta_custom_meta_box h3.hndle {
+	background-color: transparent !important;
+}
+.wp-cta-option-area.field-checkbox {
+	vertical-align: bottom;
+}
+#poststuff {
+	padding-top: 0px;
+}
+#titlediv #title {
+background-color: transparent;
+border: none;
+box-shadow: none;
+margin-bottom: 5px;
+}
+#titlediv #title:focus, #wp-cta-notes-area input:focus{
+  border: solid 1px #dfdfdf;
+  background: #fff;
+}
+
+#wp_cta_metabox_select_template .handlediv {
+	display: none;
+}
+.inbound-multi-select {
+	min-width: 60%;
+}
+#wp-cta-change-template-button {
+	margin-top: 0px;
+}
+#wp_cta_popup-ebook_custom_meta_box .hndle {
+	background-color: transparent !important;
+}
+.wp-cta-delete-var-stats, .wp-cta-clear-success {
+color: red;
+opacity: .7;
+font-size: 9px;
+float: right;
+font-weight: normal;
+}
+.wp-cta-clear-success{
+	color: green;
+}
+.wp-cta-option-row {
+	padding-bottom: 15px;
+}
+.wp_cta_label {
+	display: inline-block;
+width: 14%;
+vertical-align: top;
+padding-top: 8px;
+margin-left: 10px;
+}
+.wp-cta-option-area {
+	display: inline-block;
+	width: 60%;
+}
+#page-cat-tag, .calc.button-secondary {
+display: none !important;
+}
+.calc.button-secondary {
+	display: inline-block;
+width: 141px;
+text-align: center;
+margin-top: -1px;
+margin-bottom: 0px;
+margin-left: 8px;
+}
+tr.description th.description-label {
+	display: none;
+}
+#post-body-content .a_b_tabs {
+padding: 0px;
+margin-bottom: 9px;
+margin-left: -18px;
+padding-left: 22px;
+margin-top: 5px;
+margin-right: -20px;
+position: relative;
+}
+#wp-wp-call-to-action-myeditor-wrap #wp-call-to-action-myeditor_path_row {
+  display: none;
+}
+#wp-wp-call-to-action-myeditor-wrap #wp-wp-call-to-action-myeditor-editor-container {
+  min-height: 200px;
+}
+#adminmenu .wp-menu-arrow div {
+left: -2px;
+  }
+#add-wp-cta-notes {
+	display: none;
+vertical-align: middle;
+font-weight: 600;
+padding-right: 2px;
+}
+.add-new-h2, #wp-cta-current-view, #switch-wp-cta, #preview-action {
+  display: none;
+}
+#wp-cta-notes-area {
+	position: relative;
+	margin-bottom: 8px;
+}
+#post-body-content #main-title-area {
+margin-top: 5px;
+margin-bottom: 15px;
+position: relative;
+}
+#main-title-area .button-primary.new-save-wp-cta {
+position: absolute !important;
+top: 1px !important;
+font-size: 17px !important;
+padding-top: 3px !important;
+right: 0px !important;
+height: 31px !important;
+width: 70px !important;
+}
+#wp-cta-notes-area .button-primary.new-save-wp-cta {
+	position: absolute !important;
+	top: 0px !important;
+	font-size: 14px !important;
+	padding-top: 0px !important;
+	right: -2px !important;
+	height: 28px !important;
+	width: 71px !important;}
+#main-title-area .wp-cta-success-message, #wp-cta-notes-area .wp-cta-success-message {
+	position: absolute !important;
+	top: 1px !important;
+	font-size: 11px !important;
+	padding-top: 3px !important;
+	right: -3px !important;
+	height: 21px !important;
+	vertical-align: middle;
+	margin-top: 0px;
+	padding-bottom: 0px;
+}
+#main-title-area .button-primary.new-save-wp-cta {
+	padding-top: 6px !important; 
+}
+#main-title-area .wp-cta-success-message {
+	margin-top: 4px;
+}
+#post-body .new-save-wp-cta-frontend {
+	font-weight: 200;
+	top: 2px;
+	font-size: 14px;
+	margin-left: 21px;
+	line-height: 28px;
+	height: 30px;
+
+	float:right;
+	margin-right:19px;
+}
+.calc.button-primary {
+	display: none;
+}
+
