@@ -18,10 +18,10 @@ class CTA_Clone_Post {
 	public static function load_hooks() {
 
 		/* Adds quick actions to row */
-		add_filter('post_row_actions', array(__CLASS__, 'add_row_actions'),8,2);
+		add_filter('post_row_actions', array( __CLASS__ , 'add_row_actions' ) ,8,2);
 
 		/* Add listener for processing clone request */
-		add_action('admin_action_cta_clone_post', array(__CLASS__, 'clone_post'));
+		add_action('admin_action_cta_clone_post', array( __CLASS__ , 'clone_post' ) );
 	}
 
 	/**
@@ -33,9 +33,9 @@ class CTA_Clone_Post {
 			return $actions;
 		}
 
-		$actions['clone'] = '<a href="'. self::build_clone_link( $post->ID, 'display', true ).'" title="'
-		. esc_attr(__( 'Clone this item', 'cta' ))
-		. '">' .	__( 'Clone', 'cta' ) . '</a>';
+		$actions['clone'] = '<a href="'. self::build_clone_link( $post->ID , 'display', true ).'" title="'
+		. esc_attr(__( 'Clone this item' , 'cta' ))
+		. '">' .	__( 'Clone' , 'cta' ) . '</a>';
 
 		return $actions;
 	}
@@ -43,7 +43,8 @@ class CTA_Clone_Post {
 	/**
 	*	Buids quick action link to clone cta
 	*/
-	public static function build_clone_link( $id = 0, $context = 'display', $draft = true){
+	public static function build_clone_link( $id = 0, $context = 'display', $draft = true )
+	{
 
 		if ( !$post = get_post( $id ) ) {
 			return;
@@ -60,13 +61,14 @@ class CTA_Clone_Post {
 		if ( !$post_type_object )
 		return;
 
-		return apply_filters( 'wp_cta_build_clone_link', admin_url( "admin.php". $action ), $post->ID, $context );
+		return apply_filters( 'wp_cta_build_clone_link' , admin_url( "admin.php". $action ), $post->ID, $context );
 	}
 
 	/**
 	*	Clones CTA & redirects
 	*/
-	public static function clone_post($status = '') {
+	public static function clone_post($status = '')
+	{
 		// Get the original post
 		$id = (isset($_GET['post']) ? $_GET['post'] : $_POST['post']);
 		$post = get_post($id);
@@ -77,10 +79,10 @@ class CTA_Clone_Post {
 
 			if ($status == ''){
 				// Redirect to the post list screen
-				wp_redirect( admin_url( 'edit.php?post_type='.$post->post_type));
+				wp_redirect( admin_url( 'edit.php?post_type='.$post->post_type) );
 			} else {
 				// Redirect to the edit screen for the new draft post
-				wp_redirect( admin_url( 'post.php?action=edit&post=' . $new_id ));
+				wp_redirect( admin_url( 'post.php?action=edit&post=' . $new_id ) );
 			}
 			exit;
 
@@ -97,7 +99,8 @@ class CTA_Clone_Post {
 		$prefix = "";
 		$suffix = "";
 
-		if (!is_object($post)&&is_numeric($post)) {
+		if (!is_object($post)&&is_numeric($post))
+		{
 			$post = get_post($post);
 		}
 
@@ -115,7 +118,8 @@ class CTA_Clone_Post {
 
 		$new_post_author = wp_get_current_user();
 
-		if ($blank==false) {
+		if ($blank==false)
+		{
 			$new_post = array(
 				'menu_order' => $post->menu_order,
 				'comment_status' => $post->comment_status,
@@ -133,9 +137,9 @@ class CTA_Clone_Post {
 
 			$new_post['post_date'] = $new_post_date =	$post->post_date ;
 			$new_post['post_date_gmt'] = get_gmt_from_date($new_post_date);
-
-		} else {
-
+		}
+		else
+		{
 			$new_post = array(
 				'menu_order' => $post->menu_order,
 				'comment_status' => $post->comment_status,
@@ -154,7 +158,8 @@ class CTA_Clone_Post {
 		$new_post_id = wp_insert_post($new_post);
 
 		$meta_data = self::get_post_meta($post->ID);
-		foreach ($meta_data as $key=>$value) {
+		foreach ($meta_data as $key=>$value)
+		{
 			update_post_meta($new_post_id,$key,$value);
 		}
 
@@ -174,7 +179,8 @@ class CTA_Clone_Post {
 			WHERE `post_id` = $post_id
 		");
 
-		foreach($wpdb->last_result as $k => $v) {
+		foreach($wpdb->last_result as $k => $v)
+		{
 			$data[$v->meta_key] =	$v->meta_value;
 		}
 

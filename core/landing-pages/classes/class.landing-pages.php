@@ -138,6 +138,11 @@ class Landing_Pages_Template_Switcher {
             return $single;
         }
 
+        /* nextgen gallery support */
+        if (!defined('NGG_DISABLE_FILTER_THE_CONTENT')) {
+            define( 'NGG_DISABLE_FILTER_THE_CONTENT' , true );
+        } 
+
         $template = Landing_Pages_Variations::get_current_template( $post->ID );
 
         if (!isset($template) || $template === 'default' ) {
@@ -279,7 +284,7 @@ class Landing_Pages_Template_Switcher {
         }
 
 
-        $template_name = Landing_Pages_Variation::get_current_tempalte( $post->ID );
+        $template_name = Landing_Pages_Variations::get_current_template( $post->ID );
         if ($template_name != 'default') {
             return $args;
         }
