@@ -5,16 +5,16 @@ if (!class_exists('Inbound_Mailer_ACF')) {
 	class Inbound_Mailer_ACF {
 
 		/**
-		* Initialize Inbound_Mailer_ACF Class
-		*/
+		 * Initialize Inbound_Mailer_ACF Class
+		 */
 		public function __construct() {
 			self::load_hooks();
 		}
 
 
 		/**
-		* Load Hooks & Filters
-		*/
+		 * Load Hooks & Filters
+		 */
 		public static function load_hooks() {
 
 			/* Load ACF Fields On ACF powered Email Template */
@@ -26,14 +26,14 @@ if (!class_exists('Inbound_Mailer_ACF')) {
 		}
 
 		/**
-		* Finds the correct value given the variation
-		*
-		* @param MIXED $value contains the non-variation value
-		* @param INT $post_id ID of landing page being loaded
-		* @param ARRAY $field wide array of data belonging to custom field (not leveraged in this method)
-		*
-		* @returns MIXED $new_value value mapped to variation.
-		*/
+		 * Finds the correct value given the variation
+		 *
+		 * @param MIXED $value contains the non-variation value
+		 * @param INT $post_id ID of landing page being loaded
+		 * @param ARRAY $field wide array of data belonging to custom field (not leveraged in this method)
+		 *
+		 * @returns MIXED $new_value value mapped to variation.
+		 */
 		public static function load_value( $value, $post_id, $field ) {
 			global $post;
 
@@ -43,7 +43,9 @@ if (!class_exists('Inbound_Mailer_ACF')) {
 
 
 			$vid = Inbound_Mailer_Variations::get_current_variation_id();
+
 			$settings = get_post_meta( $post_id , 'inbound_settings' , true);
+
 			$variations = ( isset($settings['variations']) ) ? $settings['variations'] : null;
 
 			if (!$variations) {
@@ -51,22 +53,18 @@ if (!class_exists('Inbound_Mailer_ACF')) {
 			}
 
 			if ( isset( $variations[ $vid ][ 'acf' ] ) ) {
-				$new_value = self::get_variation_values( $variations[ $vid ][ 'acf' ] , $field );
+				$new_value = self::search_field_array( $variations[ $vid ][ 'acf' ] , $field );
 
 				/* sometimes value is an array count when new_value believes it should be an array in this case get new count */
 				if (!is_array($value) && is_array($new_value)) {
 					$value = count($new_value);
-				} else {
+				} else if( $new_value) {
 					$value = $new_value;
 				}
 
-			} else {
-				if ( !is_array($value) && strlen($value) && isset($field['default_value']) ) {
-					$value = $field['default_value'];
-				} else {
-					if ($field['type'] == 'color_picker' ) {
-						$value = $field['default_value'];
-					}
+
+				if ( !is_admin() && is_string($value) ) {
+					$value = do_shortcode($value);
 				}
 			}
 
@@ -80,56 +78,60 @@ if (!class_exists('Inbound_Mailer_ACF')) {
 
 
 		/**
-		* Searches ACF variation array and returns the correct field value given the field key
-		*
-		* @param ARRAY $array of custom field keys and values stored for variation
-		* @param STRING $field['key'] acf form field key
-		*
-		* @return $feild value
-		*/
-		public static function get_variation_values( $array , $field ) {
+		 * Searches ACF variation array and returns the correct field value given the field key
+		 *
+		 * @param ARRAY $array of custom field keys and values stored for variation
+		 * @param STRING $needle acf form field key
+		 *
+		 * @return $feild value
+		 */
+		public static function search_field_array( $array , $field ) {
 
-			/* first check for repeater values */
-			$value = self::get_repeater_values( $array , $field );
-
-			$value = ( $value ) ? $value : self::key_search( $array , $field  ) ;
-
-			/* color pickers seem to be special */
-			if ($field['type'] == 'color_picker' ) {
-				if (is_array($value)) {
-					$value = $value[1];
-				}
-			}
-
-			if (!is_array($value)) {
-
-				return $value;
-			}
+			$needle = $field['key'];
 
 			foreach ($array as $key => $value ){
 
-				/* Arrays could be repeaters or any custom field with sets of multiple values */
-				if ( !is_array($value) ) {
-					continue;
+				if ($key === $needle && !is_array($value) ) {
+					return $value;
 				}
 
-				/* Check if this array contains a repeater field layouts. If it does then return layouts, else this array is a non-repeater value set so return it */
-				if ( $key === $field['key'] ) {
-					$repeater_array = self::get_repeater_layouts( $value );
-					return $repeater_array;
+				/* Arrays could be repeaters or any custom field with sets of multiple values */
+				if ( is_array($value) ) {
+
+					/* Check if this array contains a repeater field layouts. If it does then return layouts, else this array is a non-repeater value set so return it */
+					if ( $key === $needle ) {
+
+						$repeater_array = self::get_repeater_layouts( $value );
+						if ($repeater_array) {
+							return $repeater_array;
+
+						} else	{
+							return $value;
+						}
+
+					}
+
+					/* Check if array is repeater fields and determine correct value given a parsed field name with field key */
+					$repeater_value = self::get_repeater_values( $value , $field );
+
+					/* If target key is not in these repeater fields, or this array is not determined to be a repeater field then move on. */
+					if ($repeater_value) {
+						return $repeater_value;
+					}
+
+
 				}
 
 			}
 
-
-			return '';
+			return false;
 		}
 
 		/**
-		*	Searches an array assumed to be a repeater field dataset and returns an array of repeater field layout definitions
-		*
-		*	@retuns ARRAY $fields this array will either be empty of contain repeater field layout definitions.
-		*/
+		 *	Searches an array assumed to be a repeater field dataset and returns an array of repeater field layout definitions
+		 *
+		 *	@retuns ARRAY $fields this array will either be empty of contain repeater field layout definitions.
+		 */
 		public static function get_repeater_layouts( $array ) {
 
 			$fields = array();
@@ -145,10 +147,10 @@ if (!class_exists('Inbound_Mailer_ACF')) {
 
 
 		/**
-		*	Searches an array assumed to be a repeater field dataset and returns an array of repeater field layout definitions
-		*
-		*	@retuns ARRAY $fields this array will either be empty of contain repeater field layout definitions.
-		*/
+		 *	Searches an array assumed to be a repeater field dataset and returns an array of repeater field layout definitions
+		 *
+		 *	@retuns ARRAY $fields this array will either be empty of contain repeater field layout definitions.
+		 */
 		public static function get_repeater_values( $array , $field ) {
 
 			/* Discover correct repeater pointer by parsing field name */
@@ -171,17 +173,17 @@ if (!class_exists('Inbound_Mailer_ACF')) {
 		}
 
 		/**
-		*	Check if current post is a landing page using an ACF powered template
-		*
-		*	@filter acf/location/rule_match/template_id
-		*
-		*	@returns BOOL declaring if current page is a landing page with an ACF template loaded or not
-		*/
+		 *	Check if current post is a landing page using an ACF powered template
+		 *
+		 *	@filter acf/location/rule_match/template_id
+		 *
+		 *	@returns BOOL declaring if current page is a landing page with an ACF template loaded or not
+		 */
 		public static function load_acf_on_template( $allow , $rule, $args ) {
 			global $post;
 
 			if (!isset($post) || $post->post_type != 'inbound-email' ) {
-				 return $allow;
+				return $allow;
 			}
 
 			$template =	Inbound_Mailer_Variations::get_current_template( $args['post_id'] );
@@ -194,10 +196,10 @@ if (!class_exists('Inbound_Mailer_ACF')) {
 		}
 
 		public static function load_javascript_on_admin_edit_post_page() {
-				global $parent_file;
+			global $parent_file;
 
-				// If we're on the edit post page.
-				if ( $parent_file == 'edit.php?post_type=inbound-email' ) {
+			// If we're on the edit post page.
+			if ( $parent_file == 'edit.php?post_type=inbound-email' ) {
 				echo "
 					<script>
 					jQuery('#publish').on('click', function() {
@@ -207,7 +209,7 @@ if (!class_exists('Inbound_Mailer_ACF')) {
 					});
 					</script>
 				";
-				}
+			}
 		}
 
 		/**
@@ -247,8 +249,8 @@ if (!class_exists('Inbound_Mailer_ACF')) {
 	}
 
 	/**
-	*	Initialize ACF Integrations
-	*/
+	 *	Initialize ACF Integrations
+	 */
 	if (!function_exists('inbound_mailer_acf_integration')) {
 		add_action( 'init' , 'inbound_mailer_acf_integration' );
 
