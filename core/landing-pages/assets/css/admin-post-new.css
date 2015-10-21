@@ -1,0 +1,110 @@
+#wpbody-content .wrap {
+    display: none;
+}
+
+#wpbody-content #screen-options-link-wrap, #post-body-content .a_b_tabs, #switch-lp, #lp-current-view {
+    display: none;
+}
+
+#lp-thumbnail-sidebar-preview, #main-title-area, #lp-notes-area {
+    display: none;
+}
+
+#wp-content-wrap, #postdivrich, #postbox-container-2, #misc-publishing-actions, #preview-action, #major-publishing-actions, #edit-slug-box, #submitdiv .handlediv {
+    display: none;
+}
+
+.quicktags-toolbar, .wp_themeSkin tr.mceFirst td.mceToolbar {
+    height: 38px;
+}
+
+.quicktags-toolbar {
+    height: auto;
+}
+
+.mceIframeContainer.mceFirst.mceLast iframe {
+    height: 335px !important;
+}
+
+#titlediv #title {
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    border-color: #dfdfdf !important;
+    border-width: 1px !important;
+    border-style: solid !important;
+}
+
+#descriptor {
+    padding-left: 5px;
+    display: block;
+    padding-top: 5px;
+    margin-bottom: 10px;
+}
+
+#lp-main-headline-wrap {
+    display: none !important;
+}
+
+#timage .template-thumbnail {
+    width: 242px;
+    border-radius: 0px !important;
+}
+
+#templates {
+    position: relative;
+
+}
+
+.new-lp-button {
+    margin-bottom: 10px !important;
+    margin-top: 3px !important;
+}
+
+#templates #lp_template_change {
+
+    position: absolute;
+    top: 55px;
+    left: 290px;
+}
+
+#template_current {
+    width: 340px;
+    padding-right: 10px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+#template_current h3 {
+    font-weight: bold;
+    padding: 7px 0px;
+}
+
+#lp_the_image {
+    display: inline-block;
+    width: 410px;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+#lp_the_image img {
+    padding: 8px;
+    margin-bottom: 15px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, .3);
+    -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, .3);
+    -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, .3);
+    -o-box-shadow: 0 1px 5px rgba(0, 0, 0, .3);
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -html-border-radius: 5px;
+    border: 0px;
+    display: block;
+    max-width: 240px;
+    margin-left: 15px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+

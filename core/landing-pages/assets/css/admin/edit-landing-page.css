@@ -1,0 +1,108 @@
+#main-title-area #lp-main-headline {
+width: 100%;
+font-size: 23px;
+outline: 0 none;
+padding: 0px 7px;
+}
+#post-body-content, .edit-form-section {
+	margin-bottom: 0px;
+}
+
+#main-title-header h3 {
+	display: inline-block;
+	padding-left: 0px;
+}
+#titlediv {
+	margin-bottom: 0px;
+}
+#TB_window {
+	z-index: 999999999999;
+}
+.currently_selected{
+	position: absolute;
+	top: 72px;
+	left: 16px;
+	font-size: 19px;
+	line-height: 21px;
+	padding-top: 15px;
+	text-align: center;
+	background: black;
+	width: 90%;
+	height: 36px;
+	color: white;
+	opacity: 0.5;
+	border-radius: 7px;
+}
+.lp-template-selector-container ul#template-filter li {
+display: inline-block;
+
+margin-right: 5px;
+text-align: center;
+margin-bottom: 10px;
+}
+.lp-template-selector-container ul#template-filter {
+	margin-bottom: 10px;
+}
+.lp-template-selector-container ul#template-filter {
+	line-height: 30px;
+	margin-top: 10px;
+	margin-bottom: 0px;
+}
+.lp-template-selector-container ul#template-filter a {
+margin-right: 0px;
+padding: 0px;
+font-weight: bold;
+text-decoration: none;
+}
+ul#template-filter .button-primary a {
+	color:#fff;
+}
+#more-templates-button {
+	display: inline-block;
+	vertical-align: middle;
+	float: none !important;
+	font-weight: normal;
+	font-size: 20px;
+}
+#more-templates-button a {
+	font-size: 15px;
+}
+#lp_2_form_content  {
+	margin-top:20px;
+}
+#lp_2_form_content .hndle em {
+	font-size: 13px;
+}
+.template-thumbnail
+{
+	width:100%;
+	height:190px;
+	-webkit-border-radius: 4px;
+-khtml-border-radius: 4px;
+-moz-border-radius: 4px;
+border-radius: 4px;
+background-color: #A9A9A9;
+-webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 0 0 1px,rgba(0, 0, 0, 0.3) 0 2px 5px;
+-moz-box-shadow: rgba(0,0,0,0.2) 0 0 0 1px,rgba(0,0,0,0.3) 0 2px 5px;
+box-shadow: rgba(0, 0, 0, 0.2) 0 0 0 1px,rgba(0, 0, 0, 0.3) 0 2px 5px;
+}
+
+ul#template-filter{ margin: 0px 0; padding: 0;  padding-left: 0px; line-height: 64px;  }
+ul#template-filter li{ display: inline; }
+ul#template-filter a{ margin-right: 0.5em; padding: 0em 1em;  font-weight: bold; text-decoration: none; }
+ul#template-filter .button-primary a:hover { color:#fff;}
+ul#template-filter a.current{ background-color: #DDD; }
+
+#template-item{ float: left; margin-right: 18px; overflow: hidden; margin: 0px 0 0 0; padding: 0; list-style: none; width: 300px; margin-bottom: 10px; }
+#template-item div{  display: block;  }
+/* #template-item div a{ display: block; width: 163px; height: 120px; overflow: hidden; border: 1px solid #CDCDCD; background: #eee; }*/
+#template-item li p{ font-size: 11px; line-height: 15px; color: #AAA; margin: 5px 0; }
+#template-box .lp_tooltip_templates{
+bottom: 6px;
+    position: absolute;
+    right: 8px;
+}
+
+.lp_tooltip {
+	display:inline;
+}

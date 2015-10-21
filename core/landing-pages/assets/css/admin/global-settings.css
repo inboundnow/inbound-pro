@@ -1,0 +1,231 @@
+
+.nav-tab-special-inactive {
+    border-color: #DFDFDF #DFDFDF #FFFFFF;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border-width: 1px 1px 0;
+    color: #AAAAAA;
+    display: inline-block;
+    font-size: 12px;
+    line-height: 16px;
+    margin: 0 6px -1px 0;
+    padding: 4px 14px 6px;
+    text-decoration: none;
+    text-shadow: 0 1px 0 #FFFFFF;
+    cursor: pointer;
+}
+
+.nav-tab-special-active {
+    border-color: #DFDFDF #DFDFDF transparent !important;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border-width: 1px 1px 1px;
+    color: #000;
+    display: inline-block;
+    font-size: 12px;
+    line-height: 16px;
+    margin: 0 6px -1px 0;
+    padding: 4px 14px 6px;
+    text-decoration: none;
+    text-shadow: 0 1px 0 #FFFFFF;
+    cursor: pointer;
+    background: rgba(241, 241, 241, 1) !important;
+
+}
+
+.lp-tab-display textarea {
+    width: 90%;
+}
+
+.lp-tab-display {
+    width: 70%;
+}
+
+.lp-settings-tab-sidebar {
+    float: right;
+    width: 26%;
+}
+
+.lp-sidebar-settings {
+    background: #fff;
+    border: 1px solid #EBEBEA;
+    -webkit-box-shadow: inset 1px 1px 1px #f9f9f9;
+    -moz-box-shadow: inset 1px 1px 1px #f9f9f9;
+    box-shadow: inset 1px 1px 1px #f9f9f9;
+    padding: 15px 15px 15px;
+    margin-bottom: 20px;
+    margin-right: 20px;
+}
+
+.lp-sidebar-settings .review-button {
+    background: #94BA65;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    -webkit-box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.15), inset 1px 1px 1px rgba(255, 255, 255, 0.2);
+    -moz-box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.15), inset 1px 1px 1px rgba(255, 255, 255, 0.2);
+    box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.15), inset 1px 1px 1px rgba(255, 255, 255, 0.2);
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    font-family: inherit;
+    font-size: 22px;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 8px 15px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.15);
+}
+
+.lp-sidebar-settings h2 {
+    font-size: 21px;
+    line-height: 24px;
+    margin: 0px 0px 5px;
+    text-shadow: 1px 1px 1px #fff;
+}
+
+.lp-sidebar-settings small {
+    display: block;
+    margin-top: 5px;
+}
+
+.lp-sidebar-settings input[type="image"] {
+    margin: auto;
+    margin-left: 90px;
+}
+
+#lp-additional-resources {
+    padding-top: 15px;
+    margin-left: 10px;
+}
+
+#lp-additional-resources hr {
+    margin-bottom: 15px;
+    margin-left: -29px;
+    color: rgb(233, 233, 233);
+    opacity: .7;
+    border: 1px solid;
+}
+
+#lp-wordpress-site-status {
+
+    color: #000;
+}
+
+#php-sql-lp-version h3 {
+    color: #000;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    padding-top: 0px;
+    font-size: 1.5em;
+}
+
+#sys-inbound-form {
+    display: none;
+}
+
+#sys-inbound-form h2 {
+    display: inline-block;
+}
+
+#inbound-download-sysinfo {
+    margin-left: 12px;
+}
+
+.lp-tab-display #php-sql-lp-version th {
+    padding: 10px;
+    padding-left: 0px;
+}
+
+#lp-main {
+    padding-top: 0px;
+}
+
+#copy-inbound-info {
+    min-height: 400px;
+}
+
+.nav-tab-wrapper {
+    margin-left: -20px;
+    padding-left: 33px !important;
+}
+
+#lp-main h4, h3.lp_global_settings_header {
+    margin-top: 0px;
+    padding-top: 0px;
+    padding-top: 0px;
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", sans-serif;
+    font-weight: 400;
+    line-height: 1.6em;
+    font-size: 20px;
+    padding-bottom: 0px;
+    margin-bottom: 5px;
+}
+
+#htaccess-contents {
+    margin-top: 20px;
+}
+
+#more-templates, #more-addons, #custom-templates {
+    width: 29%;
+    display: inline-block;
+    background: #FCFDFE;
+    padding: 5px;
+    margin-right: 10px;
+    border: 1px solid #E0E0E0;
+    -moz-border-radius: 7px;
+    border-radius: 7px;
+    overflow: hidden;
+    position: relative;
+}
+
+#more-templates img, #more-addons img, #custom-templates img {
+    margin: auto;
+}
+
+#php-sql-lp-version {
+    display: block;
+}
+
+.lp-tab-display {
+    padding: 13px;
+}
+
+.lp-tab-display td {
+    padding: 10px;
+}
+
+.lp-tab-display th {
+    padding: 10px;
+}
+
+.lp-tab-display th, .lp-tab-display .lp-gs-th {
+    width: 300px;
+    font-size: 14px;
+    font-weight: 300px;
+    text-align: left;
+}
+
+.lp_license_status_invalid {
+    display: inline;
+    padding-left: 10px;
+    color: red;
+    font-style: italic;
+}
+
+.lp_license_status_valid {
+    display: inline;
+    padding-left: 10px;
+    color: green;
+    font-style: italic;
+}
+
+#php-sql-lp-version {
+    display: none;
+}
+
+.tooltip {
+    cursor: help;
+}

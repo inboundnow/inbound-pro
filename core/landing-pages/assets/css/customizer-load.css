@@ -1,0 +1,76 @@
+.lp-customizer-overlay
+{
+	position: absolute;
+	z-index: 999999;
+	background-color: #000;
+	opacity: 0;
+	background: -moz-radial-gradient(center,ellipse cover,rgba(0,0,0,0.4) 0,rgba(0,0,0,0.9) 100%);
+	background: -webkit-gradient(radial,center center,0px,center center,100%,color-stop(0%,rgba(0,0,0,0.4)),color-stop(100%,rgba(0,0,0,0.9)));
+	background: -webkit-radial-gradient(center,ellipse cover,rgba(0,0,0,0.4) 0,rgba(0,0,0,0.9) 100%);
+	background: -o-radial-gradient(center,ellipse cover,rgba(0,0,0,0.4) 0,rgba(0,0,0,0.9) 100%);
+	background: -ms-radial-gradient(center,ellipse cover,rgba(0,0,0,0.4) 0,rgba(0,0,0,0.9) 100%);
+	background: radial-gradient(center,ellipse cover,rgba(0,0,0,0.4) 0,rgba(0,0,0,0.9) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#66000000',endColorstr='#e6000000',GradientType=1);
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+	filter: alpha(opacity=50);
+	-webkit-transition: all 0.3s ease-out;
+	-moz-transition: all 0.3s ease-out;
+	-ms-transition: all 0.3s ease-out;
+	-o-transition: all 0.3s ease-out;
+	transition: all 0.3s ease-out;
+}
+
+
+#template-display-options  .inbound-meta-box-label {
+	width:100%;
+}
+
+
+html {
+margin-top: 0px !important;
+}
+.live-preview-active
+{
+	background-color: gray;
+	background-image: repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,.5) 35px, rgba(255,255,255,.5) 70px);
+}
+	.live-preview-area-box {
+				display:inline-block;
+			}
+			.lp-see-this {
+				color:#000000 !important;
+			}
+			.live-preview-active {
+				background: rgba(253, 253, 252, 1);
+				border-radius: 0px;
+				padding: 0px;
+				outline: 2px dashed rgb(255, 0, 0);
+				-webkit-box-shadow: 0px 0px 35px rgba(50, 50, 50, 1);
+				-moz-box-shadow:   0px 0px 35px rgba(50, 50, 50, 1);
+				box-shadow:        0px 0px 35px rgba(50, 50, 50, 1);
+				z-index: 99999999;
+			}
+
+			.small-html {
+				height: 200%;
+				border: 0;
+				position: absolute;
+				top: 0;
+				left: 0;
+				background-color: #eee;
+
+				-webkit-transform: scale(.8);
+				-moz-transform: scale(0.8);
+				-ms-transform: scale(0.8);
+				-o-transform: scale(0.8);
+				transform: scale(0.8);
+				-webkit-transform-origin: top left;
+				-moz-transform-origin: top left;
+				-ms-transform-origin: top left;
+				-o-transform-origin: top left;
+				transform-origin: top left;
+				-webkit-transition: opacity 0.4s ease;
+				-moz-transition: opacity 0.4s ease;
+				-o-transition: opacity 0.4s ease;
+				transition: opacity 0.4s ease;
+			}

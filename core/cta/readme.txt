@@ -7,7 +7,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: Call to action, Calls to Action, CTA, inbound marketing, call outs, ad management, split testing, a b test, a b testing, a/b test, a/b testing, popups, email list, landing page, pop up, list building, inbound now, wp-call-to-actions, cpa, click tracking, ad placement, banner ads, slide in call outs, fly ins, like to download, social media share buttons
 Requires at least: 3.8
 Tested up to: 4.2
-Stable Tag: 2.4.2
+Stable Tag: 2.5.1
 
 Create Calls to Action for your WordPress site. Monitor and improve conversion rates, run A/B split tests, customize your own CTA templates and more.
 
@@ -68,6 +68,29 @@ The plugin is also fully extendable and has a number of actions, filters, and ho
 8. Global placements via your sites sidebar
 
 == Changelog ==
+
+= 2.5.1 =
+* security fix
+
+= 2.5.0 =
+* Updates to Metabox system for better usability
+* Refresh on visual editor for better UX
+* Update to shortcode setup in the system for better UX
+* Improved tracked link error handling for certain WordPress themes.
+* Updates to social gate call to actions (solving errors with tracked links)
+* Fixes issue with new lead notification email headers being broken.
+* Improved UI for form editor concerning 'Advanced Options' button.
+* Added default values to 'Range' field type when left empty
+* New filter to change priority of CTA placement's the_content hook. Lowered default priority to 5.
+* Removed remote dependency on fontawesome API call for shared ACF Bootsrapping in shared.
+* Use template thumbnails instead of screenshots when in local mode on cta listing page.
+* New 'Marketing' button setup.
+* Code refactoring. Moved many files into /assets/ folder.
+* Better support for WordPress 4.3
+
+= 2.4.3 =
+* Temporarily disabling geolocation services
+
 = 2.4.2 =
 * Security patch for Firefox
 
