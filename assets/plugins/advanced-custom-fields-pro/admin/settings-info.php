@@ -18,7 +18,8 @@ class acf_settings_info {
 	function __construct() {
 
 		// actions
-		add_action( 'admin_menu', 				array( $this, 'admin_menu' ) );
+		add_action('admin_menu',	array($this, 'admin_menu'));
+		
 	}
 
 
@@ -46,7 +47,7 @@ class acf_settings_info {
 
 
 		// add page
-		$page = add_submenu_page('edit.php?post_type=acf-field-group', __('Info','acf'), __('Info','acf'), 'manage_options','acf-settings-info', array($this,'html') );
+		add_submenu_page('edit.php?post_type=acf-field-group', __('Info','acf'), __('Info','acf'), acf_get_setting('capability'),'acf-settings-info', array($this,'html'));
 
 	}
 

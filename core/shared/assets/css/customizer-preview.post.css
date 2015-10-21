@@ -1,0 +1,7 @@
+/* CSS for the Preview */
+:root {
+    html, body, body:before {
+      margin: 0px !important;
+      padding: 0px !important;
+    }
+}

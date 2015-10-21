@@ -5,12 +5,11 @@ Plugin URI: http://www.inboundnow.com/
 Description: Pro Version of Inbound Now Plugins
 Author: Inbound Now
 Author: Inbound Now
-Version: 1.0.1
+Version: 1.0.3
 Author URI: http://www.inboundnow.com/
 Text Domain: inbound-pro
 Domain Path: /lang/
 */
-
 
 if ( !class_exists('Inbound_Pro_Plugin')	) {
 
@@ -94,7 +93,7 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 		*/
 		private static function define_constants() {
 
-			define('INBOUND_PRO_CURRENT_VERSION', '1.0.1' );
+			define('INBOUND_PRO_CURRENT_VERSION', '1.0.3' );
 			define('INBOUND_PRO_URLPATH', WP_PLUGIN_URL.'/'.plugin_basename( dirname(__FILE__) ).'/' );
 			define('INBOUND_PRO_PATH', WP_PLUGIN_DIR.'/'.plugin_basename( dirname(__FILE__) ).'/' );
 			define('INBOUND_PRO_SLUG', plugin_basename( dirname(__FILE__) ) );
@@ -105,21 +104,48 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 			define('INBOUND_PRO_UPLOADS_URLPATH', $uploads['baseurl'].'/inbound-pro/' );
 			define('INBOUND_PRO_STORE_URL', 'http://www.inboundnow.com/market/' );
 
+			if (strstr( 'inboundnow.dev' , site_url() )) {
+				define('INBOUND_COMPONENT_PATH', WP_PLUGIN_DIR);
+			} else {
+				define('INBOUND_COMPONENT_PATH', 'core');
+			}
 		}
 
 		/**
-		*  Include required plugin files
+		*  Conditionally load core components
 		*/
 		private static function load_core_components() {
+			/* settings */
+			$settings = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
 
-            include_once('core/cta/calls-to-action.php');
-            include_once('core/leads/leads.php');
-            include_once('core/landing-pages/landing-pages.php');
-            if (!self::get_customer_status()) {
+			/* load calls to action  */
+			if ( !isset($settings['inbound-core-loading']['toggle-calls-to-action']) || $settings['inbound-core-loading']['toggle-calls-to-action'] =='on' ) {
+
+            	include_once( INBOUND_COMPONENT_PATH . '/cta/calls-to-action.php');
+			}
+
+			/* load leads */
+			if ( !isset($settings['inbound-core-loading']['toggle-leads']) || $settings['inbound-core-loading']['toggle-leads'] =='on' ) {
+           		include_once( INBOUND_COMPONENT_PATH . '/leads/leads.php');
+			}
+
+			/* load landing pages */
+			if ( !isset($settings['inbound-core-loading']['toggle-landing-pages']) || $settings['inbound-core-loading']['toggle-landing-pages'] =='on' ) {
+            	include_once( INBOUND_COMPONENT_PATH . '/landing-pages/landing-pages.php');
+			}
+
+			/* ignore the rest if not a registered pro user */
+			$access_level = self::get_customer_status();
+
+            if ($access_level < 5) {
                 return;
             }
-			include_once('core/inbound-mailer/inbound-mailer.php');
-			include_once('core/inbound-automation/inbound-automation.php');
+
+            /* load inbound mailer & inbound automation */
+			if ( !isset($settings['inbound-core-loading']['toggle-email-automation']) || $settings['inbound-core-loading']['toggle-email-automation'] =='on' ) {
+				include_once( INBOUND_COMPONENT_PATH . '/inbound-mailer/inbound-mailer.php');
+				include_once( INBOUND_COMPONENT_PATH . '/inbound-automation/inbound-automation.php');
+			}
 
 		}
 
@@ -146,9 +172,6 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.ajax.listeners.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.oauth-engine.php');
 
-				/* load ACF Settings */
-				include_once( INBOUND_PRO_PATH . 'assets/settings/inbound-setup.php');
-
 			}
 
 
@@ -159,7 +182,7 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
          */
         public static function get_customer_status() {
             $customer = Inbound_Options_API::get_option( 'inbound-pro' , 'customer' , array() );
-            $status = ( isset($customer['active']) ) ? $customer['active'] : false;
+            $status = ( isset($customer['is_pro']) ) ? $customer['is_pro'] : 0;
             return $status;
         }
 
@@ -172,6 +195,10 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 		}
 
 		public static function load_text_domain() {
+
+			if (!defined('INBOUNDNOW_TEXT_DOMAIN')) {
+				define('INBOUNDNOW_TEXT_DOMAIN', 'inbound-pro' );
+			}
 			load_plugin_textdomain( 'inbound-pro' , false , INBOUND_PRO_SLUG . '/lang/' );
 		}
 
@@ -186,6 +213,5 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 		// Show Fail
 		Inbound_Pro_Plugin::fail_php_version();
 	}
-
 
 }

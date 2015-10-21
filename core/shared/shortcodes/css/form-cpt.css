@@ -1,9 +1,15 @@
-#side-sortables, #cpt-form-serialize, #inbound-shortcodes-form-wrap #inbound-shortcodes-form-head, #inbound_insert_shortcode_two, #shortcode_cancel, #entire-form-area, .inbound_tbody.parent-inbound_shortcode_helper-block-one, #postdivrich, #inbound-email-response, #postcustom, #cpt-form-serialize-default {
+#side-sortables, #cpt-form-serialize, #inbound-shortcodes-form-wrap #inbound-shortcodes-form-head, #inbound_insert_shortcode_two, #shortcode_cancel, #entire-form-area, .inbound_tbody.parent-inbound_shortcode_helper-block-one, #postdivrich, #inbound-email-response, #postcustom, #cpt-form-serialize-default, .add-new-h2 {
 	display: none;
 }
 #inbound-email-response h2{
 	margin-bottom: 0px;
 	margin-top: 5px;
+}
+#view-form-builder {
+	margin-left: 10px;
+}
+#inbound-shortcodes-preview {
+    height: 89% !important;
 }
 .inbound_tbody.parent-inbound_shortcode_helper-block-one, #local-storage-notice, #setting-error-tgmpa, #screen-options-link-wrap, #notice, .updated.inbound-shortcode-trigger {
 	display: none !important;
@@ -13,6 +19,8 @@
 }
 #short_shortcode_form {
 	margin-top:10px;
+	font-weight: bold;
+	font-size: 16px;
 }
 #view-email-response {
 	margin-left: 10px;
@@ -24,7 +32,7 @@
 	width: 100%;
 }
 #email-token-list li {
-	width: 50%;
+	width: 22%;
 	float: left;
 	display: inline;
 }
@@ -61,8 +69,8 @@ height: 25px;}
 	-moz-box-shadow: 0px 0px 15px rgba(0,0,0,0.1);
 	box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
 	z-index: 200;
-	width: 97%;
-	margin-left: 8px;
+	width: 63%;
+
 }
 #form-leads-list h2 {
 	font-size: 20px;

@@ -2,11 +2,7 @@
 
 // extract
 extract($args);
-
-
-// page
-$page = acf_get_options_page( $slug );
-			
+		
 ?>
 <div class="wrap acf-settings-wrap">
 	
@@ -82,35 +78,15 @@ $page = acf_get_options_page( $slug );
 <script type="text/javascript">
 (function($){
 	
-	var acf_options_page = {
+	acf.options_page = acf.model.extend({
 		
-		initialize : function(){
-			
-			// reference
-			var self = this;
-			
-			
-			// events
-			$(document).on('click', '.postbox .handlediv, .postbox .hndle', function(){
-				
-				self.toggle( $(this) );
-				
-			});
-			
-			$(document).on('submit', '#post', function(){
-				
-				self.submit();
-				
-			});
-			
-			
-			// return
-			return this;
+		events: {
+			'click .postbox .handlediv, .postbox .hndle':	'toggle',
 		},
-		
-		toggle : function( $el ){
+				
+		toggle : function( e ){
 			
-			var postbox = $el.closest('.postbox');
+			var postbox = e.$el.closest('.postbox');
 		
 			if( postbox.hasClass('closed') ) {
 			
@@ -133,17 +109,9 @@ $page = acf_get_options_page( $slug );
 				page: 'acf_options_page'
 			});
 			
-		},
-		
-		submit : function(){
-			
-			$('#publishing-action .spinner').css('display', 'inline-block');
-			$('#publishing-action #publish').addClass('button-primary-disabled');
-			
 		}
 		
-		
-	}.initialize();
+	});
 	
 	
 })(jQuery);

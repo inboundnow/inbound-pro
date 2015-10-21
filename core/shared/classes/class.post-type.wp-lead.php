@@ -17,18 +17,18 @@ if ( !class_exists('Inbound_Leads') ) {
 		*/
 		private function load_hooks() {
 			/* Register Leads Post Type */
-			add_action( 'init' , array( __CLASS__ , 'register_post_type' ));
-			add_action( 'init' , array( __CLASS__ , 'register_taxonomies' ));
+			add_action( 'init', array(__CLASS__, 'register_post_type' ));
+			add_action( 'init', array(__CLASS__, 'register_taxonomies' ));
 
 			/* Modify columns on lead list creation page */
-			add_filter( 'manage_edit-wplead_list_category_columns' , array( __CLASS__ , 'register_lead_list_columns' ));
-			add_filter( 'manage_wplead_list_category_custom_column' , array( __CLASS__ , 'support_lead_list_columns' ), 10, 3);
+			add_filter( 'manage_edit-wplead_list_category_columns', array(__CLASS__, 'register_lead_list_columns' ));
+			add_filter( 'manage_wplead_list_category_custom_column', array(__CLASS__, 'support_lead_list_columns' ), 10, 3);
 
 			if (is_admin()) {
-				add_action( 'edit_form_after_title', array( __CLASS__ , 'install_leads_prompt' ) );
+				add_action( 'edit_form_after_title', array(__CLASS__, 'install_leads_prompt' ) );
 
 				/* Remove lead tags menu item */
-				add_filter( 'admin_menu' , array( __CLASS__ , 'remove_menus' ) );
+				add_filter( 'admin_menu', array(__CLASS__, 'remove_menus' ) );
 			}
 		}
 		/**
@@ -67,7 +67,7 @@ if ( !class_exists('Inbound_Leads') ) {
 
 			$args['show_in_menu'] = ($lead_active) ? true : false;
 
-			register_post_type( 'wp-lead' , $args );
+			register_post_type( 'wp-lead', $args );
 
 		}
 
@@ -85,26 +85,26 @@ if ( !class_exists('Inbound_Leads') ) {
 			$list_labels = array(
 				'name'						=> __( 'Lead Lists', 'inbound-pro' ),
 				'singular_name'				=> __( 'Lead List', 'inbound-pro' ),
-				'search_items'				=> __( 'Search Lead Lists' , INBOUNDNOW_TEXT_DOMAIN ),
-				'popular_items'				=> __( 'Popular Lead Lists' , INBOUNDNOW_TEXT_DOMAIN ),
-				'all_items'					=> __( 'All Lead Lists' , INBOUNDNOW_TEXT_DOMAIN ),
+				'search_items'				=> __( 'Search Lead Lists', INBOUNDNOW_TEXT_DOMAIN ),
+				'popular_items'				=> __( 'Popular Lead Lists', INBOUNDNOW_TEXT_DOMAIN ),
+				'all_items'					=> __( 'All Lead Lists', INBOUNDNOW_TEXT_DOMAIN ),
 				'parent_item'				=> null,
 				'parent_item_colon'			=> null,
-				'edit_item'					=> __( 'Edit Lead List' , INBOUNDNOW_TEXT_DOMAIN ),
-				'update_item'				=> __( 'Update Lead List' , 'leads'	),
-				'add_new_item'				=> __( 'Add New Lead List' , 'leads'	),
-				'new_item_name'				=> __( 'New Lead List' , 'leads'	),
-				'separate_items_with_commas' => __( 'Separate Lead Lists with commas' , 'leads'	),
-				'add_or_remove_items'		=> __( 'Add or remove Lead Lists' , 'leads'	),
-				'choose_from_most_used'		=> __( 'Choose from the most used lead List' , INBOUNDNOW_TEXT_DOMAIN ),
-				'not_found'					=> __( 'No Lead Lists found.' , 'leads'	),
-				'menu_name'					=> __( 'Lead Lists' , 'leads'	),
+				'edit_item'					=> __( 'Edit Lead List', INBOUNDNOW_TEXT_DOMAIN ),
+				'update_item'				=> __( 'Update Lead List', 'leads'	),
+				'add_new_item'				=> __( 'Add New Lead List', 'leads'	),
+				'new_item_name'				=> __( 'New Lead List', 'leads'	),
+				'separate_items_with_commas' => __( 'Separate Lead Lists with commas', 'leads'	),
+				'add_or_remove_items'		=> __( 'Add or remove Lead Lists', 'leads'	),
+				'choose_from_most_used'		=> __( 'Choose from the most used lead List', INBOUNDNOW_TEXT_DOMAIN ),
+				'not_found'					=> __( 'No Lead Lists found.', 'leads'	),
+				'menu_name'					=> __( 'Lead Lists', 'leads'	),
 			);
 
 			$list_args = array(
 				'hierarchical'			=> true,
 				'labels'				=> $list_labels,
-				'singular_label'		=> __( 'List Management' , INBOUNDNOW_TEXT_DOMAIN ),
+				'singular_label'		=> __( 'List Management', INBOUNDNOW_TEXT_DOMAIN ),
 				'show_ui'				=> true,
 				'show_in_menu'			=> true,
 				'show_in_nav_menus'		=> false,
@@ -156,11 +156,11 @@ if ( !class_exists('Inbound_Leads') ) {
 		public static function register_lead_list_columns( $cols ) {
 			$new_columns = array(
 				'cb' => '<input type="checkbox" />',
-				'lead_id' => __('ID' , 'leads'),
-				'name' => __('Name' , 'leads'),
-				'description' => __('Description' , 'leads'),
-				'slug' => __('Slug' , 'leads'),
-				'posts' => __('Posts' , 'leads')
+				'lead_id' => __('ID', 'leads'),
+				'name' => __('Name', 'leads'),
+				'description' => __('Description', 'leads'),
+				'slug' => __('Slug', 'leads'),
+				'posts' => __('Posts', 'leads')
 				);
 			return $new_columns;
 		}
@@ -206,13 +206,13 @@ if ( !class_exists('Inbound_Leads') ) {
 		* @param list_id MIXED INT,ARRAY
 		*
 		*/
-		public static function add_lead_to_list( $lead_id , $list_id ) {
+		public static function add_lead_to_list( $lead_id, $list_id ) {
 
 			/* intval list ids */
 			$list_id = Inbound_Leads::intval_list_ids( $list_id );
 
-			wp_set_object_terms( $lead_id, $list_id , 'wplead_list_category', true );
-			do_action('add_lead_to_lead_list' , $lead_id , $list_id );
+			wp_set_object_terms( $lead_id, $list_id, 'wplead_list_category', true );
+			do_action('add_lead_to_lead_list', $lead_id, $list_id );
 		}
 
 
@@ -223,12 +223,12 @@ if ( !class_exists('Inbound_Leads') ) {
 		* @param list_id MIXED INT, ARRAY
 		*
 		*/
-		public static function remove_lead_from_list( $lead_id , $list_id ) {
+		public static function remove_lead_from_list( $lead_id, $list_id ) {
 			/* intval list ids */
 			$list_id = Inbound_Leads::intval_list_ids( $list_id );
 
-			wp_remove_object_terms( $lead_id, $list_id , 'wplead_list_category', true );
-			do_action('remove_lead_from_list' , $lead_id , $list_id );
+			wp_remove_object_terms( $lead_id, $list_id, 'wplead_list_category', true );
+			do_action('remove_lead_from_list', $lead_id, $list_id );
 		}
 
 		/**
@@ -244,7 +244,7 @@ if ( !class_exists('Inbound_Leads') ) {
 				'hide_empty' => false
 			);
 
-			$terms = get_the_terms( $lead_id , 'wplead_list_category' );
+			$terms = get_the_terms( $lead_id, 'wplead_list_category' );
 
 			if (!$terms) {
 				return array();
@@ -279,7 +279,7 @@ if ( !class_exists('Inbound_Leads') ) {
 				$params['parent'] = 0;
 			}
 
-			$term = term_exists(  $args['name'] , 'wplead_list_category' , $params['parent'] );
+			$term = term_exists(  $args['name'], 'wplead_list_category', $params['parent'] );
 
 			/* if term does not exist then create it */
 			if ( !$term ) {
@@ -319,10 +319,10 @@ if ( !class_exists('Inbound_Leads') ) {
 				$params['parent'] = $args['parent'];
 			}
 
-			$term = get_term_by( 'id' , $args['id'] , 'wplead_list_category' , ARRAY_A );
+			$term = get_term_by( 'id', $args['id'], 'wplead_list_category', ARRAY_A );
 
 			if ( $term ) {
-				$term = wp_update_term( $args['id'] , 'wplead_list_category', $params	);
+				$term = wp_update_term( $args['id'], 'wplead_list_category', $params	);
 			}
 
 			if ( is_array($term) && isset( $term['term_id'] ) ) {
@@ -341,12 +341,12 @@ if ( !class_exists('Inbound_Leads') ) {
 
 			/* id is required */
 			if (!isset($id)) {
-				return array( 'error' => __( 'must include an id parameter' , INBOUNDNOW_TEXT_DOMAIN ) );
+				return array( 'error' => __( 'must include an id parameter', INBOUNDNOW_TEXT_DOMAIN ) );
 			}
 
-			wp_delete_term( $id , 'wplead_list_category' );
+			wp_delete_term( $id, 'wplead_list_category' );
 
-			return array( 'message' => __( 'lead list deleted' , INBOUNDNOW_TEXT_DOMAIN ) );
+			return array( 'message' => __( 'lead list deleted', INBOUNDNOW_TEXT_DOMAIN ) );
 		}
 
 		/**
@@ -380,13 +380,13 @@ if ( !class_exists('Inbound_Leads') ) {
 		/**
 		*  Get lead list infomration
 		*
-		*  @param STRING $search accepts 'id' , 'slug' , 'name' or 'term_taxonomy_id'
+		*  @param STRING $search accepts 'id', 'slug', 'name' or 'term_taxonomy_id'
 		*  @param INT $list_id
 		*
 		*  @returns ARRAY
 		*/
-		public static function get_lead_list_by( $search , $list_id ) {
-			return  get_term_by( $search , $list_id , 'wplead_list_category', ARRAY_A);
+		public static function get_lead_list_by( $search, $list_id ) {
+			return  get_term_by( $search, $list_id, 'wplead_list_category', ARRAY_A);
 		}
 
 		/**
@@ -396,8 +396,8 @@ if ( !class_exists('Inbound_Leads') ) {
 		* @param tag_id MIXED INT, STRING, ARRAY
 		*
 		*/
-		public static function add_tag_to_lead( $lead_id , $tag ) {
-			wp_set_object_terms( $lead_id, $tag , 'lead-tags', true );
+		public static function add_tag_to_lead( $lead_id, $tag ) {
+			wp_set_object_terms( $lead_id, $tag, 'lead-tags', true );
 		}
 
 		/**
@@ -407,8 +407,8 @@ if ( !class_exists('Inbound_Leads') ) {
 		* @param tag_id MIXED INT,STRING,ARRAY
 		*
 		*/
-		public static function remove_tag_from_lead( $lead_id , $list_id ) {
-			wp_remove_object_terms( $lead_id, $list_id , 'lead-tags', true );
+		public static function remove_tag_from_lead( $lead_id, $list_id ) {
+			wp_remove_object_terms( $lead_id, $list_id, 'lead-tags', true );
 		}
 
 		/**
@@ -423,7 +423,7 @@ if ( !class_exists('Inbound_Leads') ) {
 			}
 
 			if (!wpleads_check_active()) {
-				_e( 'WordPress Leads is not currently installed/activated to view and manage leads please turn it on.' , INBOUNDNOW_TEXT_DOMAIN );
+				_e( 'WordPress Leads is not currently installed/activated to view and manage leads please turn it on.', INBOUNDNOW_TEXT_DOMAIN );
 			}
 		}
 
@@ -450,7 +450,7 @@ if ( !class_exists('Inbound_Leads') ) {
 
 			$count = $query->post_count;
 
-			return sprintf( __( '%d leads' , INBOUNDNOW_TEXT_DOMAIN ) , $count );
+			return sprintf( __( '%d leads', INBOUNDNOW_TEXT_DOMAIN ), $count );
 
 		}
 

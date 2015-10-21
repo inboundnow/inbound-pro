@@ -63,7 +63,7 @@ class Inbound_Mailer_Notifications {
 
 		/* Check if key exists */
 		$settings = Inbound_Mailer_Settings::get_settings();
-
+        //print_r($settings);exit;
 		if ( !isset($settings['api_key']) || !$settings['api_key'] ) {
 			$settings_url = Inbound_Mailer_Settings::get_settings_url();
 			?>

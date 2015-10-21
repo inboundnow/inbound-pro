@@ -53,19 +53,17 @@ tbody.hidden-form-settings {
 	color: #FFF !important;
 }
 .show-advanced-fields, .hide-advanced-options {
-	font-size: 12px;
-	color:#000;
+	padding: 3px;
+	font-size: 16px;
+	color: blue;
 	font-style: normal;
 	cursor: pointer;
 }
-.show-advanced-fields {
-	width: 100%;
-	display: inline-block;
-	font-size: 16px;
-}
+
 .hide-advanced-options {
-	color:#808080;
+	color:blue;
 }
+
 /* Form Wrap -------------------------- */
 #inbound-shortcodes-form-wrap{
 	width:65%;
@@ -96,15 +94,15 @@ overflow: hidden;
 	padding:15px;
 	padding-top: 5px;
 	padding-left: 5%;
-	padding-bottom: 50px;
+	padding-bottom: 150px;
 }
 #inbound-shortcodes-preview {
 height: 495px; }
 #inbound-shortcodes-preview {
-width: 30.7%;
+width: 28.7%;
 	max-height: 100%;
 position: fixed;
-height:81%;
+height:75%;
 border-left: solid 1px #D0D0D0;
 }
 #popup-controls {
@@ -192,7 +190,7 @@ float: left;
 /* Form Table
  * ---------------------------------------- */
 #inbound-shortcodes-form-table {
-	width:520px;
+	width:100%;
 	position: relative;
 }
 #form-extra-controls {
@@ -213,8 +211,8 @@ float: left;
 	border-bottom:none;
 }
 #inbound-shortcodes-form-table tbody tr.form-row td.label{
-	min-width: 160px;
-	/*max-width:120px;*/
+    min-width:120px;
+	max-width:120px;
 	text-align:left;
 	vertical-align:top;
 	line-height:35px;
@@ -238,6 +236,7 @@ float: left;
 #inbound-shortcodes-form-table textarea{=
 	padding:5px 6px;
 	margin:0 0 0px 0;
+    width: 100%;
 }
 #inbound-shortcodes-form-table textarea{
 	max-width: 100%;
@@ -375,13 +374,6 @@ line-height: 29px !important;
 }
 .parent-inbound_shortcode_form_name {
 	margin-top: 10px;
-}
-.inbound-power {
-background: url(../images/shortcodes-blue.png) 0px no-repeat;
-height: 18px;
-width: 20px;
-margin-bottom: -4px;
-display: inline-block;
 }
 .short-list-inbound ul, .short-list-inbound, .short-list-inbound ul li, .inbound-short-list {
 	position: relative;

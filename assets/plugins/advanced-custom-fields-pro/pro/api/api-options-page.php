@@ -44,7 +44,9 @@ function acf_get_valid_options_page( $page = '' ) {
 		'parent_slug'	=> '',
 		'position'		=> false,
 		'icon_url'		=> false,
-		'redirect'		=> true
+		'redirect'		=> true,
+		'post_id'		=> 'options',
+		'autoload'		=> false
 	));
 	
 	
@@ -365,7 +367,7 @@ function acf_add_options_sub_page( $page = '' ) {
 	
 	
 	// parent
-	if( empty($page['parent_slug']) ) {
+	if( !$page['parent_slug'] ) {
 		
 		// set parent slug
 		$page['parent_slug'] = 'acf-options';
@@ -373,23 +375,17 @@ function acf_add_options_sub_page( $page = '' ) {
 	}
 	
 	
-	/*
-// get parent
-	$parent = acf_get_options_page($page['parent_slug']);
-	
-	
-	// redirect parent to child
-	if( empty($parent['redirect']) ) {
+	// create default parent if not yet exists
+	if( $page['parent_slug'] === 'acf-options' ) {
 		
-		// update parent
-		$parent = acf_update_options_page(array(
-			'menu_slug'	=> $page['parent_slug'],
-			'redirect'	=> $page['menu_slug']
-		));
+		if( !acf_get_options_page('acf-options') ) {
 			
+			acf_add_options_page();
+			
+		}
+		
 	}
-*/
-	
+		
 	
 	// return
 	return acf_add_options_page( $page );

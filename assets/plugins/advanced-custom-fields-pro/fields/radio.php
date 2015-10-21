@@ -291,9 +291,23 @@ class acf_field_radio extends acf_field {
 		// save_other_choice
 		if( $field['save_other_choice'] ) {
 			
-			
 			// value isn't in choices yet
 			if( !isset($field['choices'][ $value ]) ) {
+				
+				// get ID if local
+				if( !$field['ID'] ) {
+					
+					$field = acf_get_field( $field['key'], true );
+					
+				}
+				
+				
+				// bail early if no ID
+				if( !$field['ID'] ) {
+					
+					return $value;
+					
+				}
 				
 				
 				// update $field
@@ -310,6 +324,38 @@ class acf_field_radio extends acf_field {
 		
 		// return
 		return $value;
+	}
+	
+	
+	/*
+	*  load_value()
+	*
+	*  This filter is appied to the $value after it is loaded from the db
+	*
+	*  @type	filter
+	*  @since	5.2.9
+	*  @date	23/01/13
+	*
+	*  @param	$value - the value found in the database
+	*  @param	$post_id - the $post_id from which the value was loaded from
+	*  @param	$field - the field array holding all the field options
+	*
+	*  @return	$value - the value to be saved in te database
+	*/
+	
+	function load_value( $value, $post_id, $field ) {
+		
+		// must be single value
+		if( is_array($value) ) {
+			
+			$value = array_pop($value);
+			
+		}
+		
+		
+		// return
+		return $value;
+		
 	}
 	
 }

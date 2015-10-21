@@ -17,6 +17,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
         static $sends;
         static $variation_stats;
         static $campaign_stats;
+        static $settings;
 
         function __construct() {
             self::load_hooks();
@@ -47,6 +48,9 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
             /* changes the post status 'published' to 'unsent' */
             add_filter('wp_insert_post_data', array(__CLASS__, 'check_post_stats'));
+
+            /* generate serialized settings for this email (used for creating example email) */
+            add_action( 'admin_notices' , array( __CLASS__ , 'generate_json' ) );
 
         }
 
@@ -82,7 +86,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
         }
 
         /**
-         *
+         * Get Send Aggregate Statistics
          */
         public static function load_statistics() {
             global $post;
@@ -153,7 +157,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                                 }
                             ];
 
-
+                            console.log(this.stats.variations);
                             for (id in this.stats.variations) {
                                 chart[0]['values'].push({
                                     "label": this.stats.variations[id].label,
@@ -834,6 +838,11 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                                 $settings['recipients'] = array();
                             }
 
+                            /* if is a sample email then return dummy stats */
+                            if ( !empty($settings['is_sample_email']) ) {
+                                echo "<a href='" . admin_url('edit.php?page=lead_management&post_type=wp-lead&wplead_list_category%5B%5D=9999&relation=AND&orderby=date&order=asc&s=&t=&submit=Search+Leads') . "' target='_blank' class='label label-default' style='text-decoration:none'>" . __( 'Example List' , 'inbound-mailer' ) . " ( 800 )</a>";
+                            }
+
                             foreach ($settings['recipients'] as $list_id) {
                                 $list = Inbound_Leads::get_lead_list_by('id', $list_id);
 
@@ -1063,7 +1072,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
         }
 
         /**
-         *    Adds template select box
+         *  Adds template select box
          */
         public static function add_selected_tamplate_info() {
             global $Inbound_Mailer_Variations, $post;
@@ -1103,7 +1112,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
         public static function get_email_type() {
             global $post;
 
-            $settings = Inbound_Email_Meta::get_settings($post->ID);
+            self::$settings = Inbound_Email_Meta::get_settings($post->ID);
             $vid = Inbound_Mailer_Variations::get_current_variation_id();
 
             if (isset($settings['email_type'])) {
@@ -1118,11 +1127,12 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
          */
         public static function get_template_thumbnail($template) {
 
-            // Get Thumbnail
-            if (file_exists(INBOUND_EMAIL_PATH . 'templates/' . $template . "/thumbnail.png")) {
-                $thumbnail = INBOUND_EMAIL_URLPATH . 'templates/' . $template . "/thumbnail.png";
-            } else {
-                $thumbnail = INBOUND_EMAIL_UPLOADS_URLPATH . $template . "/thumbnail.png";
+            if (file_exists(INBOUND_EMAIL_PATH . 'templates/' . $template . '/thumbnail.png')) {
+                $thumbnail = INBOUND_EMAIL_URLPATH . 'templates/' . $template . '/thumbnail.png';
+            } else if (file_exists(INBOUND_EMAIL_UPLOADS_PATH .  $template . '/thumbnail.png')) {
+                $thumbnail = INBOUND_EMAIL_UPLOADS_URLPATH . $template . '/thumbnail.png';
+            } else if (file_exists(INBOUND_EMAIL_THEME_TEMPLATES_PATH . $template . '/thumbnail.png')) {
+                $thumbnail = INBOUND_EMAIL_THEME_TEMPLATES_URLPATH . $template . '/thumbnail.png';
             }
 
             return $thumbnail;
@@ -1172,7 +1182,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
         }
 
         /**
-         * Display CTA Settings for templates AND extensions
+         * Display Mailer Settings for templates AND extensions
          */
         public static function render_settings($settings_key, $custom_fields, $post) {
 
@@ -1226,14 +1236,6 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                         echo '<div id="' . $field_id . '" class="description-block">' . $field['description'] . '</div>';
                         break;
                     // text
-                    case 'colorpicker':
-                        if (!$meta) {
-                            $meta = $field['default'];
-                        }
-                        $var_id = (isset($_GET['new_meta_key'])) ? "-" . $_GET['new_meta_key'] : '';
-                        echo '<input type="text" class="jpicker" style="background-color:#' . $meta . '" name="' . $field_id . '" id="' . $field_id . '" value="' . $meta . '" size="5" /><span class="button-primary new-save-wp-cta" data-field-type="text" id="' . $field_id . $var_id . '" style="margin-left:10px; display:none;">Update</span>
-										<i class="fa fa-question-circle inbound-tooltip"title="' . $field['description'] . '"></i>';
-                        break;
                     case 'datepicker':
                         $timezones = Inbound_Mailer_Scheduling::get_timezones();
 
@@ -1338,6 +1340,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                             echo '<option value="' . $value . '" ' . $selected . ' >' . $label . '</option>';
                         }
                         echo '</select><i class="fa fa-question-circle inbound-tooltip"title="' . $field['description'] . '"></i>';
+                        echo '<script type="text/javascript"> jQuery("#'.$field_id.'").select2({width: "300px"});</script>';
                         break;
 
 
@@ -1435,6 +1438,9 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             <script>
                 jQuery(document).ready(function () {
 
+                    /* disable post save navigation confrimation listener */
+                    jQuery(window).unbind('beforeunload');
+
                     /* Initialize CPT UI default changes */
                     Settings.init();
 
@@ -1483,6 +1489,16 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                         Settings.select_template(jQuery(this));
                     });
 
+                    /* Add listener for canceling template selection */
+                    jQuery('#inbound-mailer-cancel-selection').click(function () {
+                        Settings.cancel_template_selection();
+                    });
+
+                    /* Add listener for filtering available templates */
+                    jQuery('#template-filter a').click(function () {
+                        Settings.filter_templates( jQuery(this) );
+                    });
+
                     /* Add listener for saving email */
                     jQuery('.action-save').click(function () {
                         Settings.save_email();
@@ -1493,6 +1509,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
                     /* Fire: Load post status toggles */
                     Settings.toggle_post_status('<?php echo $post->post_status; ?>');
+
 
                 });
             </script>
@@ -1514,15 +1531,13 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 var Settings = (function () {
 
                     var ladda_button;
+                    var current_slug;
 
                     var Init = {
                         /**
                          *    Initialize immediate UI modifications
                          */
                         init: function () {
-
-                            /* Initiate Select2 */
-                            jQuery('.select2').select2({width: '300px'});
 
                             /* Move publsihing actions	*/
                             //var clone = jQuery('.major-publishing-actions');
@@ -1536,7 +1551,17 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                             jQuery('#postdivrich').hide();
 
                             /* Removes Permalink edit option */
-                            //jQuery('#edit-slug-box').hide();
+                            <?php
+
+                            if (!isset(self::$settings['customize-permalinks'])||self::$settings['customize-permalinks']!='yes' ) {
+
+                                ?>
+                                jQuery('#slugdiv').hide();
+                                <?php
+                            }
+                            ?>
+                            /* store current slug */
+                            Settings.current_slug = jQuery('#post_name').val();
 
                             /* Initiate tooltips */
                             jQuery('.btn-group a').tooltip();
@@ -1846,7 +1871,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                         send_test_email: function () {
 
                             /* make sure fields are filled out */
-                            if (!Settings.validate_fields()) {
+                            if (!Settings.validate_headers()) {
                                 return false;
                             }
 
@@ -1865,7 +1890,6 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                                 inputField: {
                                     placeholder: '<?php _e( 'Enter target e-mail address.' , 'inbound-email' ); ?>',
                                     padding: '20px',
-                                    width: '271px',
                                     width: '271px'
                                 }
                             }, function (email_address) {
@@ -2017,14 +2041,15 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                                 confirmButtonColor: "#449d44",
                                 confirmButtonText: "<?php _e( 'Yes' , 'inbound-email' ); ?>",
                                 closeOnConfirm: false,
-                                closeOnCancel: false
+                                closeOnCancel: true
                             }, function () {
 
                                 swal({
                                     title: "<?php _e('Please wait' , 'inbound-email' ); ?>",
                                     text: "<?php _e('We are setting up your email now.' , 'inbound-email' ); ?>",
-                                    imageUrl: '<?php echo INBOUND_EMAIL_URLPATH; ?>/assets/images/loading_colorful.gif'
-
+                                    imageUrl: '<?php echo INBOUND_EMAIL_URLPATH; ?>/assets/images/loading_colorful.gif',
+                                    closeOnConfirm: false,
+                                    showConfirmButton: false,
                                 }, function () {
 
                                 });
@@ -2033,6 +2058,27 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                                 jQuery('#post').submit();
 
                             });
+                        },
+                        /**
+                         * Cancel template selection
+                         */
+                        cancel_template_selection: function () {
+                            jQuery(".inbound-mailer-template-selector-container").fadeOut(500, function () {
+                                jQuery(".wrap").fadeIn(500, function () {
+                                });
+                            });
+                        },
+                        /**
+                         * Filter templates by category in template select mode
+                         */
+                        filter_templates: function ( element ) {
+                            var selector = element.attr('data-filter');
+                            jQuery(".template-item-boxes").fadeOut(500);
+                            setTimeout(function () {
+                                jQuery(selector).fadeIn(500);
+                            }, 500);
+                            return false;
+
                         },
                         /**
                          *    Loads template selection box
@@ -2066,6 +2112,16 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                                     Settings.ladda_button.toggle();
                                 }
                             });
+
+                            /* update post_name */
+                            var new_slug = jQuery('#post_name').val();
+                            if ( new_slug != Settings.current_slug ) {
+                                var preview_url = jQuery('#action-preview').attr('href');
+                                jQuery('#action-preview').attr('href' , preview_url.replace( Settings.current_slug , new_slug ) );
+                                var visual_editor_url = jQuery('#cta-launch-front').attr('href');
+                                jQuery('#cta-launch-front').attr('href' , visual_editor_url.replace( Settings.current_slug , new_slug ) );
+                                Settings.current_slug = new_slug;
+                            }
                         },
                         /**
                          *  Generate object of data from form inputs
@@ -2101,13 +2157,13 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
         }
 
         /**
-         * Updates call to action variation data on post save
+         * Updates email variation data on post save
          *
-         * @param INT $inbound_email_id of call to action id
+         * @param INT $inbound_email_id of email id
          *
          */
         public static function action_save_data($inbound_email_id) {
-            global $post;
+
             unset($_POST['post_content']);
 
             if (wp_is_post_revision($inbound_email_id)) {
@@ -2130,6 +2186,15 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
             /* Update Settings */
             Inbound_Email_Meta::update_settings($_POST['post_ID'], $email_settings);
+
+            /* update slug */
+            remove_action('save_post', array(__CLASS__, 'action_save_data'));
+            wp_update_post(
+                array (
+                    'ID'        => $inbound_email_id,
+                    'post_name' => $_POST['post_name']
+                )
+            );
 
             /* Perform scheduling */
             Inbound_Mailer_Metaboxes::action_processing();
@@ -2177,11 +2242,25 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             return $data;
         }
 
+        /**
+         * Print serialized email settings
+         */
+        public static function generate_json() {
+
+            global $post;
+
+            if ( !isset($_GET['inbound_generate_email_json'] ) ) {
+                return;
+            }
+
+
+            $settings = get_post_meta( $post->ID , 'inbound_settings' ,true );
+            $settings['is_sample_email'] = true;
+            unset($settings['recipients']);
+            echo json_encode($settings);exit;
+        }
     }
 
     $GLOBALS['Inbound_Mailer_Metaboxes'] = new Inbound_Mailer_Metaboxes;
 }
 
-//delete_post_meta( 97079 , 'inbound_settings' );
-//$settings = get_post_meta( 97079 , 'inbound_settings' ,true );
-//print_r($settings);exit;

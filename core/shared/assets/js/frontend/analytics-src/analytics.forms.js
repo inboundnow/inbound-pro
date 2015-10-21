@@ -276,7 +276,7 @@ var InboundForms = (function(_inbound) {
         attachFormSubmitEvent: function(form) {
             utils.addListener(form, 'submit', this.formListener);
             var email_input = document.querySelector('.inbound-email');
-            utils.addListener(email_input, 'blur', this.mailCheck);
+            /* utils.addListener(email_input, 'blur', this.mailCheck); */
         },
         /* Ignore CC data */
         ignoreFieldByLabel: function(label) {
@@ -796,7 +796,7 @@ var InboundForms = (function(_inbound) {
                             utils.removeElement(suggest);
                         }
                         var el = document.createElement("span");
-                        el.innerHTML = "<span class=\"email_suggestion\">Did you mean <b><i id='email_correction' style='cursor: pointer;' title=\"click to update\">" + suggestion.full + "</b></i>?</span>";
+                        el.innerHTML = "<span class=\"email_suggestion\">Did youu mean <b><i id='email_correction' style='cursor: pointer;' title=\"click to update\">" + suggestion.full + "</b></i>?</span>";
                         email_input.parentNode.insertBefore(el, email_input.nextSibling);
                         var update = document.getElementById('email_correction');
                         utils.addListener(update, 'click', function() {

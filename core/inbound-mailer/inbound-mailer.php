@@ -108,6 +108,8 @@ if ( !class_exists('Inbound_Mailer_Plugin')	) {
 			$uploads = wp_upload_dir();
 			define('INBOUND_EMAIL_UPLOADS_PATH', $uploads['basedir'].'/inbound-email/templates/' );
 			define('INBOUND_EMAIL_UPLOADS_URLPATH', $uploads['baseurl'].'/inbound-email/templates/' );
+			define('INBOUND_EMAIL_THEME_TEMPLATES_PATH' , get_template_directory(). '/emails/' );
+			define('INBOUND_EMAIL_THEME_TEMPLATES_URLPATH' , get_template_directory_uri(). '/emails/' );
 			define('INBOUND_EMAIL_STORE_URL', 'http://www.inboundnow.com/market/' );
 
 		}
@@ -118,10 +120,8 @@ if ( !class_exists('Inbound_Mailer_Plugin')	) {
 			switch (is_admin()) :
 				case true :
 					/* loads admin files */
-					include_once('classes/class.inboundnow.php');
 					include_once('classes/class.activation.php');
 					include_once('classes/class.activation.database-routines.php');
-					include_once('classes/class.inboundnow.php');
 					include_once('classes/class.options-api.php');
 					include_once('classes/class.postmeta.php');
 					include_once('classes/class.post-type.inbound-email.php');
@@ -129,6 +129,7 @@ if ( !class_exists('Inbound_Mailer_Plugin')	) {
 					include_once('classes/class.extension.wordpress-seo.php');
 					include_once('classes/class.metaboxes.inbound-email.php');
 					include_once('classes/class.token-engine.php');
+					include_once('classes/class.inbound-forms.php');
 					include_once('classes/class.menus.php');
 					include_once('classes/class.ajax.listeners.php');
 					include_once('classes/class.enqueues.php');
@@ -155,11 +156,11 @@ if ( !class_exists('Inbound_Mailer_Plugin')	) {
 
 				case false :
 					/* load front-end files */
-					include_once('classes/class.inboundnow.php');
 					include_once('classes/class.options-api.php');
 					include_once('classes/class.postmeta.php');;
 					include_once('classes/class.load.email-templates.php');
 					include_once('classes/class.post-type.inbound-email.php');
+                    include_once('classes/class.inbound-forms.php');
 					include_once('classes/class.extension.wp-lead.php');
 					include_once('classes/class.extension.wordpress-seo.php');
 					include_once('classes/class.enqueues.php');

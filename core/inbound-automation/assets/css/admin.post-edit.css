@@ -230,8 +230,8 @@
 }
 
 /* Action Block - Action Settings */
-.postbox:not(:first-child) {
-     display:none;
+div[id^='inbound_automation_actions_'] {
+	display:none;
 }
 
 #inbound_automation_actions .hndle{

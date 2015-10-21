@@ -65,6 +65,18 @@ class acf_admin_field_groups {
 			
 		}
 		
+
+		// customize post_status
+		global $wp_post_statuses;
+		
+		
+		// modify publish post status
+		$wp_post_statuses['publish']->label_count = _n_noop( 'Active <span class="count">(%s)</span>', 'Active <span class="count">(%s)</span>', 'acf' );
+		
+		
+		// reorder trash to end
+		$wp_post_statuses['trash'] = acf_extract_var( $wp_post_statuses, 'trash' );
+
 		
 		// check stuff
 		$this->check_duplicate();
@@ -72,12 +84,33 @@ class acf_admin_field_groups {
 		
 		
 		// actions
+		add_action('admin_enqueue_scripts',							array($this, 'admin_enqueue_scripts'));
 		add_action('admin_footer',									array($this, 'admin_footer'));
 		
 		
 		// columns
 		add_filter('manage_edit-acf-field-group_columns',			array($this, 'field_group_columns'), 10, 1);
 		add_action('manage_acf-field-group_posts_custom_column',	array($this, 'field_group_columns_html'), 10, 2);
+		
+	}
+	
+	
+	/*
+	*  admin_enqueue_scripts
+	*
+	*  This function will add the already registered css
+	*
+	*  @type	function
+	*  @date	28/09/13
+	*  @since	5.0.0
+	*
+	*  @param	n/a
+	*  @return	n/a
+	*/
+	
+	function admin_enqueue_scripts() {
+		
+		wp_enqueue_script('acf-input');
 		
 	}
 	
@@ -110,7 +143,7 @@ class acf_admin_field_groups {
 				
 			} else {
 				
-				acf_add_admin_notice( sprintf(_n( '%s field group duplicated.', '%s field groups duplicated.', $total ), $total) );
+				acf_add_admin_notice( sprintf(_n( '%s field group duplicated.', '%s field groups duplicated.', $total, 'acf' ), $total) );
 				
 			}
 			
@@ -196,7 +229,7 @@ class acf_admin_field_groups {
 				
 			} else {
 				
-				acf_add_admin_notice( sprintf(_n( '%s field group synchronised.', '%s field groups synchronised.', $total ), $total) );
+				acf_add_admin_notice( sprintf(_n( '%s field group synchronised.', '%s field groups synchronised.', $total, 'acf' ), $total) );
 				
 			}
 			
@@ -248,7 +281,7 @@ class acf_admin_field_groups {
 			return;
 			
 		}
-		
+	
 		
 		// import field group
 		if( $key = acf_maybe_get($_GET, 'acfsync') ) {
@@ -345,7 +378,7 @@ class acf_admin_field_groups {
 		if( acf_maybe_get($_GET, 'post_status') === 'sync' ) {
 			
 			// actions
-			add_action('admin_footer', array($this, 'sync_admin_footer'));
+			add_action('admin_footer', array($this, 'sync_admin_footer'), 5);
 			
 			
 			// set active class
@@ -374,9 +407,6 @@ class acf_admin_field_groups {
 		return $views;
 		
 	}
-	
-	
-	
 	
 	
 	/*
@@ -481,13 +511,15 @@ class acf_admin_field_groups {
 	
 	function field_group_columns( $columns ) {
 		
-		$columns = array(
-			'cb'	 	=> '<input type="checkbox" />',
-			'title' 	=> __('Title', 'acf'),
-			'fields' 	=> __('Fields', 'acf'),
+		return array(
+			'cb'	 				=> '<input type="checkbox" />',
+			'title' 				=> __('Title', 'acf'),
+			'acf-fg-description'	=> __('Description', 'acf'),
+			'acf-fg-status' 		=> '<i class="acf-icon acf-icon-dot-3 small acf-js-tooltip" title="' . __('Status', 'acf') . '"></i>',
+			'acf-fg-count' 			=> __('Fields', 'acf'),
+			
 		);
 		
-		return $columns;
 	}
 	
 	
@@ -508,12 +540,51 @@ class acf_admin_field_groups {
 	function field_group_columns_html( $column, $post_id ) {
 		
 		// vars
-		if( $column == 'fields' ) {
+		$field_group = acf_get_field_group( $post_id );
 		
-            echo acf_get_field_count( $post_id );
-            
-	    }
+		
+		// render
+		$this->render_column( $column, $field_group );
 	    
+	}
+	
+	function render_column( $column, $field_group ) {
+		
+		// description
+		if( $column == 'acf-fg-description' ) {
+			
+			if( $field_group['description'] ) {
+				
+				echo '<span class="acf-description">(' . $field_group['description'] . ')</span>';
+				
+			}
+        
+        // status
+	    } elseif( $column == 'acf-fg-status' ) {
+			
+			if( isset($this->sync[ $field_group['key'] ]) ) {
+				
+				echo '<i class="acf-icon acf-icon-sync grey small acf-js-tooltip" title="' . __('Sync available', 'acf') .'"></i> ';
+				
+			}
+			
+			if( $field_group['active'] ) {
+				
+				//echo '<i class="acf-icon acf-icon-check small acf-js-tooltip" title="' . __('Active', 'acf') .'"></i> ';
+				
+			} else {
+				
+				echo '<i class="acf-icon acf-icon-minus yellow small acf-js-tooltip" title="' . __('Disabled', 'acf') . '"></i> ';
+				
+			}
+	    
+        // fields
+	    } elseif( $column == 'acf-fg-count' ) {
+			
+			echo acf_get_field_count( $field_group );
+        
+        }
+		
 	}
 	
 	
@@ -532,11 +603,11 @@ class acf_admin_field_groups {
 	
 	function admin_footer() {
 		
-		// vras
+		// vars
 		$www = 'http://www.advancedcustomfields.com/resources/';
 		
-?><script type="text/html" id="tmpl-acf-col-side">
-<div id="acf-col-side">
+?><script type="text/html" id="tmpl-acf-column-2">
+<div class="acf-column-2">
 	<div class="acf-box">
 		<div class="inner">
 			<h2><?php echo acf_get_setting('name'); ?> <?php echo acf_get_setting('version'); ?></h2>
@@ -563,40 +634,55 @@ class acf_admin_field_groups {
 		</div>
 	</div>
 </div>
+<div class="acf-clear"></div>
 </script>
 <script type="text/javascript">
 (function($){
 	
 	// wrap
-	$('#wpbody .wrap').attr('id', 'acf-field-group-list');
+	$('#wpbody .wrap').attr('id', 'acf-field-group-wrap');
 	
 	
 	// wrap column main
-	$('#acf-field-group-list').wrapInner('<div id="acf-col-main" />');
+	$('#acf-field-group-wrap').wrapInner('<div class="acf-columns-2" />');
+	
+	
+	// add column main
+	$('#posts-filter').addClass('acf-column-1');
 	
 	
 	// add column side
-	$('#acf-field-group-list').prepend( $('#tmpl-acf-col-side').html() );
-	
-	
-	// wrap columns
-	$('#acf-field-group-list').wrapInner('<div id="acf-col-wrap" class="acf-clearfix" />');
-		
-	
-	// take out h2 + icon
-	$('#acf-col-main > .icon32').insertBefore('#acf-col-wrap');
-	$('#acf-col-main > h2').insertBefore('#acf-col-wrap');
+	$('#posts-filter').after( $('#tmpl-acf-column-2').html() );
 	
 	
 	// modify row actions
-	$('#acf-field-group-list .row-actions').each(function(){
+	$('#the-list tr').each(function(){
 		
 		// vars
-		var id		= $(this).closest('tr').attr('id').replace('post-', ''),
-			$span	= $('<span class="acf-duplicate-field-group"><a title="<?php _e('Duplicate this item', 'acf'); ?>" href="<?php echo admin_url($this->url . '&acfduplicate='); ?>' + id + '&_wpnonce=<?php echo wp_create_nonce('bulk-posts'); ?>"><?php _e('Duplicate', 'acf'); ?></a> | </span>');
+		var $tr = $(this),
+			id = $tr.attr('id'),
+			description = $tr.find('.column-acf-fg-description').html();
 		
-		$(this).find('.inline').replaceWith( $span );
-
+		
+		// replace Quick Edit with Duplicate (sync page has no id attribute)
+		if( id ) {
+			
+			// vars
+			var post_id	= id.replace('post-', '');
+			
+			
+			// create el
+			var $span = $('<span class="acf-duplicate-field-group"><a title="<?php _e('Duplicate this item', 'acf'); ?>" href="<?php echo admin_url($this->url . '&acfduplicate='); ?>' + post_id + '&_wpnonce=<?php echo wp_create_nonce('bulk-posts'); ?>"><?php _e('Duplicate', 'acf'); ?></a> | </span>');
+			
+			
+			// replace
+			$tr.find('.column-title .row-actions .inline').replaceWith( $span );
+			
+		}
+		
+		
+		// add description to title
+		$tr.find('.column-title .row-title').after( description );
 		
 	});
 	
@@ -604,8 +690,18 @@ class acf_admin_field_groups {
 	// modify bulk actions
 	$('#bulk-action-selector-bottom option[value="edit"]').attr('value','acfduplicate').text('<?php _e( 'Duplicate', 'acf' ); ?>');
 	
+	
+	// remove screen option
+	$('.metabox-prefs label[for="description-hide"]').remove();
+	
+	
+	// clean up table
+	$('.wp-list-table .column-acf-fg-description').remove();
+	$('#adv-settings label[for="acf-fg-description-hide"]').remove();
+	
 })(jQuery);
-</script><?php
+</script>
+<?php
 		
 	}
 	
@@ -627,21 +723,29 @@ class acf_admin_field_groups {
 		
 		// vars
 		$i = -1;
+		$columns = array(
+			'acf-fg-description',
+			'acf-fg-status',
+			'acf-fg-count'
+		);
+		
 ?>
 <script type="text/html" id="tmpl-acf-json-tbody">
-<?php foreach( $this->sync as $group ): $i++; ?>
+<?php foreach( $this->sync as $field_group ): $i++; ?>
 	<tr <?php if($i%2 == 0): ?>class="alternate"<?php endif; ?>>
 		<th class="check-column" scope="row">
-			<label for="cb-select-<?php echo $group['key']; ?>" class="screen-reader-text"><?php printf( __( 'Select %s' ), $group['title'] ); ?></label>
-			<input type="checkbox" value="<?php echo $group['key']; ?>" name="post[]" id="cb-select-<?php echo $group['key']; ?>">
+			<label for="cb-select-<?php echo $field_group['key']; ?>" class="screen-reader-text"><?php printf( __( 'Select %s', 'acf' ), $field_group['title'] ); ?></label>
+			<input type="checkbox" value="<?php echo $field_group['key']; ?>" name="post[]" id="cb-select-<?php echo $field_group['key']; ?>">
 		</th>
 		<td class="post-title page-title column-title">
-			<strong><?php echo $group['title']; ?></strong>
+			<strong><span class="row-title"><?php echo $field_group['title']; ?></span></strong>
 			<div class="row-actions">
-				<span class="import"><a title="<?php echo esc_attr( __('Synchronise field group', 'acf') ); ?>" href="<?php echo admin_url($this->url . '&post_status=sync&acfsync=' . $group['key'] . '&_wpnonce=' . wp_create_nonce('bulk-posts')); ?>"><?php _e( 'Sync', 'acf' ); ?></a></span>
+				<span class="import"><a title="<?php echo esc_attr( __('Synchronise field group', 'acf') ); ?>" href="<?php echo admin_url($this->url . '&post_status=sync&acfsync=' . $field_group['key'] . '&_wpnonce=' . wp_create_nonce('bulk-posts')); ?>"><?php _e( 'Sync', 'acf' ); ?></a></span>
 			</div>
 		</td>
-		<td class="fields column-fields"><?php echo acf_count_local_fields( $group['key'] ); ?></td>
+		<?php foreach( $columns as $column ): ?>
+			<td class="column-<?php echo $column; ?>"><?php $this->render_column( $column, $field_group ); ?></td>
+		<?php endforeach; ?>
 	</tr>
 <?php endforeach; ?>
 </script>
@@ -653,7 +757,7 @@ class acf_admin_field_groups {
 	
 	
 	// modify bulk actions
-	$('#bulk-action-selector-bottom option[value="acfduplicate"]').attr('value','acfsync').text('<?php _e( 'Sync', 'acf' ); ?>');
+	$('#bulk-action-selector-bottom option[value="edit"]').attr('value','acfsync').text('<?php _e('Sync', 'acf'); ?>');
 	$('#bulk-action-selector-bottom option[value="trash"]').remove();
 		
 })(jQuery);

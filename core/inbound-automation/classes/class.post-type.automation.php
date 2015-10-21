@@ -23,6 +23,9 @@ if ( !class_exists('Inbound_Automation_Post_Type') ) {
 
 				/* Define Sortable Columns */
 				//add_filter( 'manage_edit-automation_sortable_columns', array( __CLASS__ , 'define_sortable_columns' ) );
+
+				/* */
+				add_action( 'admin_enqueue_scripts' , array(__CLASS__ , 'enqueue_admin_scripts' ) );
 			}
 		}
 
@@ -48,7 +51,7 @@ if ( !class_exists('Inbound_Automation_Post_Type') ) {
 				'publicly_queryable' => false,
 				'show_ui' => true,
 				'query_var' => true,
-				'menu_icon' => INBOUND_AUTOMATION_URLPATH . 'assets/images/automation.png',
+				'menu_icon' => '',
 				'show_in_menu'	=> true,
 				'show_in_nav_menus'	=> false,
 				'capability_type' => 'post',
@@ -109,6 +112,13 @@ if ( !class_exists('Inbound_Automation_Post_Type') ) {
 			$columns = apply_filters('',$columns);
 
 			return $columns;
+		}
+
+		/**
+		 * load admin scripts and styles
+		 */
+		public static function enqueue_admin_scripts() {
+			wp_enqueue_style( 'automation-global-css' , INBOUND_AUTOMATION_URLPATH . 'assets/css/admin/style.css' );
 		}
 	}
 

@@ -1,7 +1,9 @@
 #wpbody-content {
 	background-color:#fff;
 }
-
+#wpcontent {
+    padding-left: 0px;
+}
 #wpwrap, #wpcontent {
 	background-color:#fff;
 }
@@ -47,6 +49,40 @@
 	color: #000;
 }
 
+.welcome-screen-content  {
+	padding-left:3em !important;
+}
+
+.welcome-screen-content p  {
+	font-size:20px;
+}
+
+.welcome-screen-content img {
+	padding-bottom:20px;
+}
+
+.welcome-screen-content h1 {
+	font-size:30px;
+	padding-top:10px;
+}
+.welcome-screen-content h2 {
+	padding-top:10px;
+	font-size:23px;
+}
+
+.welcome-screen-content h3 {
+	font-size:17px;
+}
+
+ul.features {
+	 list-style-type: circle;
+	margin-left:20px;
+}
+
+ul.uninstall {
+	 list-style-type: circle;
+	margin-left:20px;
+}
 
 /* Fonts */
 

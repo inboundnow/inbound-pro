@@ -199,9 +199,7 @@ class acf_field_oembed extends acf_field {
 			<input data-name="search-input" type="text" placeholder="<?php _e("Enter URL", 'acf'); ?>" autocomplete="off" />
 		</div>
 		
-		<a data-name="clear-button" href="#" class="acf-icon light acf-soh-target">
-			<i class="acf-sprite-delete"></i>
-		</a>
+		<a data-name="clear-button" href="#" class="acf-icon acf-icon-cancel grey acf-soh-target"></a>
 		
 	</div>
 	<div class="canvas">
@@ -220,7 +218,7 @@ class acf_field_oembed extends acf_field {
 			<?php endif; ?>
 		</div>
 		
-		<i class="acf-sprite-media hide-if-value"></i>
+		<i class="acf-icon acf-icon-picture hide-if-value"></i>
 		
 	</div>
 	
@@ -250,6 +248,7 @@ class acf_field_oembed extends acf_field {
 			'label'			=> __('Embed Size','acf'),
 			'type'			=> 'text',
 			'name'			=> 'width',
+			'prepend'		=> __('Width', 'acf'),
 			'append'		=> 'px',
 			'placeholder'	=> $this->default_values['width']
 		));
@@ -260,8 +259,12 @@ class acf_field_oembed extends acf_field {
 			'label'			=> __('Embed Size','acf'),
 			'type'			=> 'text',
 			'name'			=> 'height',
+			'prepend'		=> __('Height', 'acf'),
 			'append'		=> 'px',
-			'placeholder'	=> $this->default_values['height']
+			'placeholder'	=> $this->default_values['height'],
+			'wrapper'		=> array(
+				'data-append' => 'width'
+			)
 		));
 		
 	}

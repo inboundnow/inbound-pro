@@ -137,7 +137,7 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
                     array( __CLASS__ , 'print_actions'),
                     self::$post_type,
                     'advanced',
-                    'low',
+                    'high',
                     array(
                         'block_id' => $block_id,
                         'block' => $block
@@ -722,7 +722,7 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
 
             /* Action Filters */
             $html .= "		<div id='action-block-filters' class='action-block-conditions'>";
-            $html .= "            <h2>" . __('Additional Conditions', 'inbound-pro') . "</h2>";
+            $html .= "            <h2>" . __('Additional conditions', 'inbound-pro') . "</h2>";
 
             /* Add Action Filters */
             $html .= '            <div class="dropdown-add-filters" data-block-id="' . $action_block_id . '">';
@@ -756,7 +756,10 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
             /* Prepare Filters if Action Block Manually Evoked */
             if (isset($block['filters'])) {
 
-                //print_r($block);
+                if (count($block['filters'])<1) {
+                    $html .= '<div class="well well-sm action-contitions-well"><i>'.__( 'No conditions set' , 'inbound-pro' ) .'</i></div>';
+                }
+
                 foreach ($block['filters'] as $child_id => $filter) {
 
                     $args = array('action_filter_id' => $filter['action_filter_id'], 'action_block_id' => $action_block_id, 'child_id' => $child_id, 'defaults' => $filter);

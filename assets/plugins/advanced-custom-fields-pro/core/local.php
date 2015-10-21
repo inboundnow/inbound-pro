@@ -62,12 +62,17 @@ class acf_local {
 		
 		foreach( $groups as $group ) {
 			
-			if( !in_array($group['key'], $ignore) ) {
+			// is ignore
+			if( in_array($group['key'], $ignore) ) {
 				
-				$field_groups[] = $group;
-				$added = true;
-				
+				continue;
+					
 			}
+			
+			
+			// append
+			$field_groups[] = $group;
+			$added = true;
 			
 		}
 		
@@ -215,8 +220,8 @@ class acf_local {
 		
 		
 		// clear cache
-		wp_cache_delete( "load_field/key={$field['key']}", 'acf' );
-		wp_cache_delete( "fields/parent={$field['parent']}", 'acf' );
+		wp_cache_delete( "get_field/key={$field['key']}", 'acf' );
+		wp_cache_delete( "get_fields/parent={$field['parent']}", 'acf' );
 		
 	}
 	
@@ -392,7 +397,7 @@ function acf_enable_local() {
 function acf_is_local_enabled() {
 	
 	// validate
-	if( !acf_get_setting('local', false) ) {
+	if( !acf_get_setting('local') ) {
 		
 		return false;
 		
@@ -509,6 +514,14 @@ function acf_have_local_field_groups() {
 
 function acf_get_local_field_groups() {
 	
+	// bail early if no groups
+	if( !acf_have_local_field_groups() ) {
+		
+		return false;
+		
+	}
+	
+	
 	// vars
 	$groups = array();
 	
@@ -599,6 +612,15 @@ function acf_is_local_field_group( $key ) {
 
 function acf_get_local_field_group( $key ) {
 	
+	// bail early if no group
+	if( !acf_is_local_field_group($key) ) {
+		
+		return false;
+		
+	}
+	
+	
+	// return
 	return acf_local()->groups[ $key ];
 	
 }
@@ -696,6 +718,15 @@ function acf_is_local_field( $key ) {
 
 function acf_get_local_field( $key ) {
 	
+	// bail early if no field
+	if( !acf_is_local_field($key) ) {
+		
+		return false;
+		
+	}
+	
+	
+	// return
 	return acf_local()->fields[ $key ];
 	
 }
@@ -782,14 +813,27 @@ function acf_have_local_fields( $key ) {
 
 function acf_get_local_fields( $parent ) {
 	
+	// bail early if no parent
+	if( !acf_have_local_fields($parent) ) {
+		
+		return false;
+		
+	}
+	
+	
+	// vars
 	$fields = array();
 	
+	
+	// append
 	foreach( acf_local()->parents[ $parent ] as $key ) {
 		
 		$fields[] = acf_get_field( $key );
 		
 	}
 	
+	
+	// return
 	return $fields;
 	
 }

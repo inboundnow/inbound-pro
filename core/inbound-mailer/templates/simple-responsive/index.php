@@ -133,58 +133,55 @@ print_r($settings);exit;
 </style>
 <body bgcolor="#f6f6f6" style="font-family: Arial; background-color: #f6f6f6;">
 
-<table width="630" class="container" align="center" cellpadding="0" cellspacing="0">
+<table style="max-width:630px;" align="center" cellpadding="0" cellspacing="0">
 	<tr>
 		<td>
-			<table align="left">
+			<table style="width:100%;" class="container" align="center" cellpadding="0" cellspacing="0">
 				<tr>
 					<td width="188" class="Logo">
 						<?php if ($logo_url) { ?>
 						<img src="<?php  echo $logo_url; ?>" width='188'>
 						<?php } ?>
 					</td>
-				</tr>
-			</table>
-			<table align="right">
-				<tr>
-					<td height="70" class="viewWebsite">
+
+					<td height="70" class="viewWebsite" style="text-align:right;">
 						<p style="font-family: Arial, Helvetica, sans-serif; color: #555555; font-size: 10px; padding: 0; margin: 0;">Trouble viewing? Read this <a href="<?php echo get_permalink( $post_id ); ?>" style="color: #990000;" class='do-not-tracks'><?php _e('online' , 'inbound-email' ); ?></a>.</p>
 					</td>
 				</tr>
 			</table>
+
+			<table bgcolor="#fcfcfc" style="border: 1px solid #dddddd; line-height: 135%;" class="container" align="center" cellpadding="0" cellspacing="0">
+				<tr>
+					<td bgcolor="#fcfcfc" colspan="3" width="100%" height="10">&nbsp;</td>
+				</tr>
+				<tr>
+					<td width="30"></td>
+					<td></td>
+					<td width="30"></td>
+				</tr>
+				<tr>
+					<td colspan="3" height="15">&nbsp;</td>
+				</tr>
+				<tr>
+					<td style="width:3%;"></td>
+					<td width="600" class="bottomImages">
+						<?php echo $main_content; ?>
+					</td>
+					<td style="width:2%;"></td>
+				</tr>
+				<tr>
+					<td colspan="3" height="3">&nbsp;</td>
+				</tr>
+			</table>
+
+			<table bgcolor="" style="line-height: 135%;text-align:center;font-size:10px;padding:10px;" class="container" align="center" cellpadding="0" cellspacing="0">
+				<tr>
+					<td bgcolor="" colspan="3" width="100%" height="10"><a href="<?php echo do_shortcode('[unsubscribe-link]'); ?>"><?php _e('Unsubscribe from this list' , 'inbound-mailer' ); ?></a></td>
+				</tr>
+			</table>
 		</td>
 	</tr>
 </table>
-
-<table width="630" bgcolor="#fcfcfc" style="border: 1px solid #dddddd; line-height: 135%;" class="container" align="center" cellpadding="0" cellspacing="0">
-	<tr>
-		<td bgcolor="#fcfcfc" colspan="3" width="100%" height="10">&nbsp;</td>
-	</tr>
-	<tr>
-		<td width="30"></td>
-		<td width="30"></td>
-	</tr>
-	<tr>
-		<td colspan="3" height="15">&nbsp;</td>
-	</tr>
-	<tr>
-		<td></td>
-		<td width="600" class="bottomImages">
-			<?php echo $main_content; ?>
-		</td>
-		<td></td>
-	</tr>
-	<tr>
-		<td colspan="3" height="3">&nbsp;</td>
-	</tr>
-</table>
-
-<table width="630" bgcolor="" style="line-height: 135%;text-align:center;font-size:10px;padding:10px;" class="container" align="center" cellpadding="0" cellspacing="0">
-	<tr>
-		<td bgcolor="" colspan="3" width="100%" height="10"><a href="<?php echo do_shortcode('[unsubscribe-link]'); ?>"><?php _e('Unsubscribe from this list' , 'inbound-mailer' ); ?></a></td>
-	</tr>
-</table>
-
 
 </body>
 <?php

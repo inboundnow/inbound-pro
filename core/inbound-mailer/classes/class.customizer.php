@@ -124,7 +124,9 @@ class Inbound_Mailer_Customizer {
 
 			jQuery('#inbound_email_customizer_options').load(function(){
 				jQuery('#inbound_email_customizer_options').contents().find(".action-save").on('click', function(event) {
-					document.getElementById('inbound-mailer-live-preview').src = document.getElementById('inbound-mailer-live-preview').src;
+					setTimeout( function() {
+						document.getElementById('inbound-mailer-live-preview').src = document.getElementById('inbound-mailer-live-preview').src;
+					} , 1500 );
 				});
 			});
 		 });
@@ -158,7 +160,7 @@ class Inbound_Mailer_Customizer {
 		echo '		</td>';
 
 		echo '		<td>';
-		echo '			<iframe id="inbound-mailer-live-preview" scrolling="no" src="'.$preview_link.'" style="max-width: 68%; '.$correct_width.' height:1000px; left: 32%; position: fixed;  z-index: 1; border: none; overflow:hidden;
+		echo '			<iframe id="inbound-mailer-live-preview" scrolling="yes" src="'.$preview_link.'" style="margin-top:25px;max-width: 68%; '.$correct_width.' height:1000px; left: 32%; position: fixed;  z-index: 1; border: none; overflow:hidden;
 		//background-image: linear-gradient(45deg, rgb(194, 194, 194) 25%, transparent 25%, transparent 75%, rgb(194, 194, 194) 75%, rgb(194, 194, 194)), linear-gradient(-45deg, rgb(194, 194, 194) 25%, transparent 25%, transparent 75%, rgb(194, 194, 194) 75%, rgb(194, 194, 194));
 		 background-position: initial initial; background-repeat: initial initial;"></iframe>';
 		echo '		</td>';

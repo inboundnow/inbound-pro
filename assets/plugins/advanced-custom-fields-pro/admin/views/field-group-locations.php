@@ -38,32 +38,31 @@
 										<td class="param"><?php 
 											
 											$choices = array(
-												__("Basic",'acf') => array(
-													'post_type'		=>	__("Post Type",'acf'),
-													'user_type'		=>	__("Logged in User Type",'acf'),
-												),
 												__("Post",'acf') => array(
-													'post'			=>	__("Post",'acf'),
-													'post_category'	=>	__("Post Category",'acf'),
-													'post_format'	=>	__("Post Format",'acf'),
+													'post_type'		=>	__("Post Type",'acf'),
 													'post_status'	=>	__("Post Status",'acf'),
+													'post_format'	=>	__("Post Format",'acf'),
+													'post_category'	=>	__("Post Category",'acf'),
 													'post_taxonomy'	=>	__("Post Taxonomy",'acf'),
+													'post'			=>	__("Post",'acf')
 												),
 												__("Page",'acf') => array(
-													'page'			=>	__("Page",'acf'),
+													'page_template'	=>	__("Page Template",'acf'),
 													'page_type'		=>	__("Page Type",'acf'),
 													'page_parent'	=>	__("Page Parent",'acf'),
-													'page_template'	=>	__("Page Template",'acf'),
+													'page'			=>	__("Page",'acf')
 												),
 												__("User",'acf') => array(
-													'user_form'		=>	__("User Form",'acf'),
-													'user_role'		=>	__("User Role",'acf'),
+													'current_user'		=>	__("Current User",'acf'),
+													'current_user_role'	=>	__("Current User Role",'acf'),
+													'user_form'			=>	__("User Form",'acf'),
+													'user_role'			=>	__("User Role",'acf')
 												),
 												__("Forms",'acf') => array(
 													'attachment'	=>	__("Attachment",'acf'),
 													'taxonomy'		=>	__("Taxonomy Term",'acf'),
 													'comment'		=>	__("Comment",'acf'),
-													'widget'		=>	__("Widget",'acf'),
+													'widget'		=>	__("Widget",'acf')
 												)
 											);
 													
@@ -119,7 +118,7 @@
 											<a href="#" class="acf-button location-add-rule"><?php _e("and",'acf'); ?></a>
 										</td>
 										<td class="remove">
-											<a href="#" class="acf-icon location-remove-rule"><i class="acf-sprite-remove"></i></a>
+											<a href="#" class="acf-icon acf-icon-minus location-remove-rule"></a>
 										</td>
 										</tr>
 									<?php endforeach; ?>

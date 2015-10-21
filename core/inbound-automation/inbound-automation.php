@@ -3,14 +3,92 @@
 Plugin Name: Inbound Automation
 Plugin URI: http://www.inboundnow.com/
 Description: Automate emails, segmenting, scoring & more.
-
 */
-
 
 if (!class_exists('Inbound_Automation_Plugin')) {
 
 	final class Inbound_Automation_Plugin {
 
+		/**
+		* Main Inbound_Automation_Plugin Instance
+		*/
+		public function __construct() {
+			self::define_constants();
+			self::includes();
+			self::load_text_domain_init();
+		}
+
+		/**
+		* Setup plugin constants
+		*/
+		private static function define_constants() {
+
+			define( 'INBOUND_AUTOMATION_FILE',  __FILE__ );
+			define( 'INBOUND_AUTOMATION_URLPATH',  plugins_url( '/' , __FILE__ )  );
+			define( 'INBOUND_AUTOMATION_PATH', WP_PLUGIN_DIR.'/'.plugin_basename( dirname(__FILE__) ).'/' );
+			define(	'INBOUND_AUTOMATION_SLUG', plugin_basename( dirname(__FILE__) ) );
+		}
+
+		/**
+		*  Include required plugin files
+		*/
+		private static function includes() {
+
+			switch (is_admin()) :
+				case true :
+					/* loads admin files */
+					include_once('classes/class.activation.php');
+					include_once('classes/class.activation.upgrade-routines.php');
+					include_once('classes/class.adminbar.php');
+					include_once('classes/class.post-type.automation.php');
+					include_once('classes/class.logs.php');
+					include_once('classes/class.definitions.loader.php');
+					include_once('classes/class.metaboxes.automation.php');
+					include_once('classes/class.automation.php');
+
+					include_once('definitions/trigger.form_submission_event.php');
+					include_once('definitions/trigger.page_tracking_event.php');
+					include_once('definitions/action.wait.php');
+					include_once('definitions/action.send_email.php');
+					include_once('definitions/action.relay_data.php');
+					include_once('definitions/action.add-remove-list.php');
+					include_once('definitions/query.lead_data.php');
+
+					BREAK;
+
+				case false :
+					/* load front-end files */
+					include_once('classes/class.post-type.automation.php');
+					include_once('classes/class.automation.php');
+					include_once('classes/class.logs.php');
+					include_once('classes/class.definitions.loader.php');
+					include_once('classes/class.metaboxes.automation.php');
+					include_once('classes/class.automation.php');
+
+					include_once('definitions/trigger.form_submission_event.php');
+					include_once('definitions/trigger.page_tracking_event.php');
+					include_once('definitions/action.wait.php');
+					include_once('definitions/action.send_email.php');
+					include_once('definitions/action.relay_data.php');
+					include_once('definitions/action.add-remove-list.php');
+					include_once('definitions/query.lead_data.php');
+
+					BREAK;
+			endswitch;
+		}
+
+		/**
+		*  Loads the correct .mo file for this plugin
+		*/
+		private static function load_text_domain_init() {
+			add_action( 'init' , array( __CLASS__ , 'load_text_domain' ) );
+		}
+
+		public static function load_text_domain() {
+			load_plugin_textdomain( 'inbound-automation' , false , INBOUND_AUTOMATION_SLUG . '/lang/' );
+		}
+
+		/* START PHP VERSION CHECKS */
 		/**
 		 * Admin notices, collected and displayed on proper action
 		 *
@@ -76,87 +154,6 @@ if (!class_exists('Inbound_Automation_Plugin')) {
 
 		/* END PHP VERSION CHECKS */
 
-		/**
-		* Main Inbound_Automation_Plugin Instance
-		*/
-		public function __construct() {
-			self::define_constants();
-			self::includes();
-			self::load_text_domain_init();
-		}
-
-		/**
-		* Setup plugin constants
-		*
-		*/
-		private static function define_constants() {
-
-			define( 'INBOUND_AUTOMATION_FILE' ,  __FILE__ );
-			define( 'INBOUND_AUTOMATION_URLPATH' ,  plugins_url( '/' , __FILE__ )  );
-			define( 'INBOUND_AUTOMATION_PATH' , WP_PLUGIN_DIR.'/'.plugin_basename( dirname(__FILE__) ).'/' );
-			define(	'INBOUND_AUTOMATION_SLUG' , plugin_basename( dirname(__FILE__) ) );
-		}
-
-		/**
-		*  Include required plugin files
-		*/
-		private static function includes() {
-
-			switch (is_admin()) :
-				case true :
-					/* loads admin files */
-					include_once('classes/class.activation.php');
-					include_once('classes/class.activation.upgrade-routines.php');
-					include_once('classes/class.adminbar.php');
-					include_once('classes/class.post-type.automation.php');
-					include_once('classes/class.logs.php');
-					include_once('classes/class.definitions.loader.php');
-					include_once('classes/class.metaboxes.automation.php');
-					include_once('classes/class.automation.php');
-
-					include_once('definitions/trigger.form_submission_event.php');
-					include_once('definitions/trigger.page_tracking_event.php');
-					include_once('definitions/action.wait.php');
-					include_once('definitions/action.send_email.php');
-					include_once('definitions/action.relay_data.php');
-					include_once('definitions/action.add-remove-list.php');
-					include_once('definitions/query.lead_data.php');
-
-					BREAK;
-
-				case false :
-					/* load front-end files */
-					include_once('classes/class.post-type.automation.php');
-					include_once('classes/class.automation.php');
-					include_once('classes/class.logs.php');
-					include_once('classes/class.definitions.loader.php');
-					include_once('classes/class.metaboxes.automation.php');
-					include_once('classes/class.automation.php');
-
-					include_once('definitions/trigger.form_submission_event.php');
-					include_once('definitions/trigger.page_tracking_event.php');
-					include_once('definitions/action.wait.php');
-					include_once('definitions/action.send_email.php');
-					include_once('definitions/action.relay_data.php');
-					include_once('definitions/action.add-remove-list.php');
-					include_once('definitions/query.lead_data.php');
-
-					BREAK;
-			endswitch;
-		}
-
-		/**
-		*  Loads the correct .mo file for this plugin
-		*
-		*/
-		private static function load_text_domain_init() {
-			add_action( 'init' , array( __CLASS__ , 'load_text_domain' ) );
-		}
-
-		public static function load_text_domain() {
-			load_plugin_textdomain( 'inbound-automation' , false , INBOUND_AUTOMATION_SLUG . '/lang/' );
-		}
-
 
 	}
 
@@ -177,5 +174,3 @@ if (!class_exists('Inbound_Automation_Plugin')) {
 	}
 
 }
-
-

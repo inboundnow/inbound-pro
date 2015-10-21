@@ -10,11 +10,11 @@ if (!class_exists('Inbound_Load_Shared')) {
 		 *
 		 */
 		public static function init() {
+
 			/* Bail if shared files already loaded */
 			if (defined('INBOUNDNOW_SHARED')) {
 				return;
 			}
-
 			self::load_constants();
 			self::load_files();
 			self::load_activation_rules();
@@ -26,12 +26,13 @@ if (!class_exists('Inbound_Load_Shared')) {
 		 *
 		 */
 		public static function load_constants() {
-			define( 'INBOUNDNOW_SHARED' , 'loaded' );
-			define( 'INBOUNDNOW_SHARED_PATH' , self::get_shared_path() );
-			define( 'INBOUNDNOW_SHARED_URLPATH' , self::get_shared_urlpath() );
-			define( 'INBOUNDNOW_SHARED_FILE' , self::get_shared_file() );
-			define( 'INBOUNDNOW_TEXT_DOMAIN' , self::get_text_domain() );
-
+			define('INBOUNDNOW_SHARED', 'loaded' );
+			define('INBOUNDNOW_SHARED_PATH', self::get_shared_path() );
+			define('INBOUNDNOW_SHARED_URLPATH', self::get_shared_urlpath() );
+			define('INBOUNDNOW_SHARED_FILE', self::get_shared_file() );
+			if (!defined('INBOUNDNOW_TEXT_DOMAIN')) {
+				define('INBOUNDNOW_TEXT_DOMAIN', self::get_text_domain() );
+			}
 		}
 
 		/**
@@ -41,7 +42,6 @@ if (!class_exists('Inbound_Load_Shared')) {
 		public static function load_files() {
 
 			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.post-type.wp-lead.php');
-			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.post-type.email-template.php');
 			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.form.php');
 			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.menus.adminbar.php');
 			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.debug.php');
@@ -55,9 +55,12 @@ if (!class_exists('Inbound_Load_Shared')) {
 			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.lead-storage.php');
 			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.ajax.php');
 			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.inbound-api.php');
-			include_once( INBOUNDNOW_SHARED_PATH . 'shortcodes/inbound-shortcodes.php');
-			include_once( INBOUNDNOW_SHARED_PATH . 'legacy/functions.php');
+			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.inbound-customizer.php');
+			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.acf-bootstrap.php');
 			include_once( INBOUNDNOW_SHARED_PATH . 'assets/assets.loader.class.php');
+			include_once( INBOUNDNOW_SHARED_PATH . 'shortcodes/inbound-shortcodes.php');
+			include_once( INBOUNDNOW_SHARED_PATH . 'functions/legacy.php');
+			include_once( INBOUNDNOW_SHARED_PATH . 'functions/shared.php');
 
 			/* load admin only */
 			if (is_admin()) {
@@ -69,6 +72,10 @@ if (!class_exists('Inbound_Load_Shared')) {
 				include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.notifications.php');
 				require_once( INBOUNDNOW_SHARED_PATH . 'classes/class.inbound-api.api-key-generation.php');
 				require_once( INBOUNDNOW_SHARED_PATH . 'classes/class.inbound-api.api-keys-table.php');
+				require_once( INBOUNDNOW_SHARED_PATH . 'classes/class.marketing-button.php');
+				require_once( INBOUNDNOW_SHARED_PATH . 'classes/class.template-utils.php');
+				include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.acf-bootstrap.php');
+				require_once( INBOUNDNOW_SHARED_PATH . 'functions/shared.php');
 			}
 
 		}
@@ -147,7 +154,7 @@ if (!class_exists('Inbound_Load_Shared')) {
 		*  Hooks shared activation rules into admin_init
 		*/
 		public static function load_activation_rules() {
-			add_action('admin_init' , array( __CLASS__ , 'run_activation_rules') );
+			add_action('admin_init', array(__CLASS__, 'run_activation_rules') );
 		}
 
 		/**

@@ -20,10 +20,12 @@ function acf_pro_get_view( $view_name = '', $args = array() ) {
 	$path = acf_get_path("pro/admin/views/{$view_name}.php");
 	
 	
-	if( file_exists($path) )
-	{
+	if( file_exists($path) ) {
+		
 		include( $path );
+		
 	}
+	
 }
 
 
@@ -53,6 +55,7 @@ function acf_pro_get_remote_url( $action = '', $args = array() ) {
 	
 	// return
 	return $url;
+	
 }
 
 
@@ -90,7 +93,8 @@ function acf_pro_get_remote_response( $action = '', $post = array() ) {
     
     
     // return
-    return false;
+    return 0;
+    
 }
 
 
@@ -189,7 +193,7 @@ function acf_pro_get_remote_info() {
 		$info = json_decode($info, true);
 		
 		// fake info version
-        //$info['version'] = '5.0.1';
+        //$info['version'] = '6.0.0';
         
     } else {
 	    
@@ -197,9 +201,6 @@ function acf_pro_get_remote_info() {
 	    $timeout = 2 * HOUR_IN_SECONDS;
 	    
     }
-    
-    
-    
         
         
 	// update transient

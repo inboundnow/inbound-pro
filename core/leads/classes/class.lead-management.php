@@ -114,16 +114,16 @@ if (!class_exists('Leads_Manager')) {
 			wp_enqueue_script( array('jquery', 'jqueryui' , 'jquery-ui-selectable' , 'editor', 'thickbox', 'media-upload') );
 			wp_enqueue_script( 'selectjs', WPL_URLPATH . '/shared/assets/js/admin/select2.min.js');
 			wp_enqueue_style( 'selectjs', WPL_URLPATH . '/shared/assets/css/admin/select2.css');
-			wp_enqueue_script( 'tablesort', WPL_URLPATH . '/js/management/tablesort.min.js');
+			wp_enqueue_script( 'tablesort', WPL_URLPATH . '/assets/js/management/tablesort.min.js');
 
-			wp_enqueue_script( 'light-table-filter', WPL_URLPATH . '/js/management/light-table-filter.min.js');
-			wp_register_script( 'modernizr', WPL_URLPATH . '/js/management/modernizr.custom.js' );
+			wp_enqueue_script( 'light-table-filter', WPL_URLPATH . '/assets/js/management/light-table-filter.min.js');
+			wp_register_script( 'modernizr', WPL_URLPATH . '/assets/js/management/modernizr.custom.js' );
 			wp_enqueue_script( 'modernizr' );
-			wp_enqueue_script( 'tablesort', WPL_URLPATH . '/js/management/tablesort.min.js');
-			wp_enqueue_script( 'jquery-dropdown', WPL_URLPATH . '/js/management/jquery.dropdown.js');
-			wp_enqueue_script( 'bulk-manage-leads', WPL_URLPATH . '/js/management/admin.js');
+			wp_enqueue_script( 'tablesort', WPL_URLPATH . '/assets/js/management/tablesort.min.js');
+			wp_enqueue_script( 'jquery-dropdown', WPL_URLPATH . '/assets/js/management/jquery.dropdown.js');
+			wp_enqueue_script( 'bulk-manage-leads', WPL_URLPATH . '/assets/js/management/admin.js');
 			wp_localize_script( 'bulk-manage-leads' , 'bulk_manage_leads', array( 'admin_url' => admin_url( 'admin-ajax.php' ) , 'taxonomies' => self::$taxonomies ));
-			wp_enqueue_style( 'wpleads-list-css', WPL_URLPATH.'/css/admin-management.css');
+			wp_enqueue_style( 'wpleads-list-css', WPL_URLPATH.'/assets/css/admin-management.css');
 			wp_admin_css( 'thickbox' );
 			add_thickbox();
 		}
@@ -308,7 +308,7 @@ if (!class_exists('Leads_Manager')) {
 		public static function display_pagination() {
 
 			$pagination = '';
-			if ( $query->max_num_pages > 1 ) {
+			if ( isset($query) && $query->max_num_pages > 1 ) {
 				$current = preg_replace('/&?paged=[0-9]+/i', '', strip_tags($_SERVER['REQUEST_URI'])); // I'll happily take suggestions on a better way to do this, but it's 3am so
 
 				$pagination .= "<div class='tablenav-pages'>";
@@ -432,10 +432,10 @@ if (!class_exists('Leads_Manager')) {
 
 						/* show tags */
 						echo '<td class="tags-column-row">';
-							$_tags = wp_get_post_terms( $post->ID, 'lead-tags', 'id' );
+							$tags = wp_get_post_terms( $post->ID, 'lead-tags', 'id' );
 
 							if ($tags) {
-								foreach ( $_tags as $tag ) {
+								foreach ( $tags as $tag ) {
 									echo  "<a title='Click to Edit Lead Tag Name' target='_blank' href='".admin_url('edit-tags.php?action=edit&taxonomy=lead-tags&tag_ID='.$tag->term_id.'&post_type=wp-lead')."'>$tag->name</a>, ";
 								}
 							} else {
@@ -922,7 +922,7 @@ if (!class_exists('Leads_Manager')) {
 				echo '<td class="tags-column-row">';
 					$_tags = wp_get_post_terms( $post->ID, 'lead-tags', 'id' );
 
-					if ($tags) {
+					if ($_tags) {
 						foreach ( $_tags as $tag ) {
 							echo  "<a title='Click to Edit Lead Tag Name' target='_blank' href='".admin_url('edit-tags.php?action=edit&taxonomy=lead-tags&tag_ID='.$tag->term_id.'&post_type=wp-lead')."'>$tag->name</a>, ";
 						}

@@ -1,9 +1,17 @@
 /* Artfully masterminded by InboundNow  */
 
-/* -------------------------------------------------- 
+/* --------------------------------------------------
    Styles
 ----------------------------------------------------*/
 
 #content-wrapper {width: 980px; margin:auto; }
+#content-wrapper td { vertical-align:top; padding:10px;}
+table { width:980px;}
+table td { border: 1px; solid ; }
+
+.field-label {
+   font-size:10px;
+   font-weight:600;
+}
 
 
