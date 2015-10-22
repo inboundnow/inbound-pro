@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+SRC_DIR="`pwd`"
+cd "`dirname "$0"`"
+cd "../../vendor/lucatume/wp-browser"
+BIN_TARGET="`pwd`/wpcept"
+cd "$SRC_DIR"
+"$BIN_TARGET" "$@"
