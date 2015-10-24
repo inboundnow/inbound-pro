@@ -72,11 +72,22 @@ if (!class_exists('Inbound_Mailer_ACF')) {
 			var_dump($new);
 			echo "\r\n";echo "\r\n";echo "\r\n";
 			/**/
-			return $value;
+			return self::format_value( $value , $field );
 
 		}
 
-
+		/**
+		 * Solves issues with return values
+		 * @param $value
+		 * @param $field
+		 * @return mixed
+		 */
+		public static function format_value( $value , $field ){
+			if ($field['type']=='color_picker' && is_array($value)){
+				$value = $value[1];
+			}
+			return $value;
+		}
 		/**
 		 * Searches ACF variation array and returns the correct field value given the field key
 		 *
