@@ -104,15 +104,14 @@ class Landing_Pages_Admin_Notices {
 
         $screen = get_current_screen();
 
-
-        if ( !isset($post) || $screen->id == 'landing-pages' || $post->post_status !='publish' ) {
+        if ( !isset($post) || $screen->id == 'landing-pages' ||$screen->id == 'edit-landing-page' || $post->post_status !='publish' ) {
             return;
         }
 
         $extension_data = lp_get_extension_data();
         $current_template = Landing_Pages_Variations::get_current_template($post->ID);
 
-        if ( $extension_data[$current_template]['info']['data_type'] != 'acf4' ) {
+        if ( !isset($extension_data[$current_template]['info']['data_type']) || $extension_data[$current_template]['info']['data_type'] != 'acf4' ) {
             return;
         }
 
@@ -144,6 +143,36 @@ class Landing_Pages_Admin_Notices {
         <div class="error">
             <p>
                 <?php echo sprintf(__('This landing page requires a database update to continue. %s %sUpdate Now%s', 'landing-pages'), '<br><br>', '<button class="button button-primary" id="update_landing_page">', '</button>'); ?>
+            </p>
+        </div>
+        <?php
+
+    }
+
+    /**
+     * Notice to tell people that variation A needs to be save first
+     */
+    public static function acf5_required(){
+        global $post;
+
+        $screen = get_current_screen();
+
+        if ( !isset($post) || $screen->id == 'landing-pages' ||$screen->id == 'edit-landing-page' || $post->post_status !='publish' ) {
+            return;
+        }
+
+        $extension_data = lp_get_extension_data();
+        $current_template = Landing_Pages_Variations::get_current_template($post->ID);
+
+        if ( defined('ACF_PRO') || !isset($extension_data[$current_template]['info']['data_type']) || $extension_data[$current_template]['info']['data_type'] != 'acf5' ) {
+            return;
+        }
+
+        ?>
+
+        <div class="error">
+            <p>
+                <?php echo sprintf(__('This landing page template requires Inbound Pro Plugin (not available yet) or the %s Inbound Premium Template Support Extension%s to operate. Please download the best available option and activate it as a plugin to continue working with this template.', 'landing-pages'), '<a href="#linkhere">', '</a>'); ?>
             </p>
         </div>
         <?php
