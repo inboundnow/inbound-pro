@@ -9,27 +9,25 @@
 
 if (!class_exists('CTA_Dynamic_Widget')) {
 
-	class CTA_Static_Widget extends WP_Widget
-	{
+	class CTA_Static_Widget extends WP_Widget {
 		private $cta_templates;
 
 		function CTA_Static_Widget() {
 
 			/* Widget settings. */
-			$widget_ops = array( 'classname' => 'class_CTA_Static_Widget', 'description' => __('Use this widget to manually display Calls to Action in sidebars.', 'cta') );
+			$widget_ops = array( 'classname' => 'class_CTA_Static_Widget', 'description' => __('Use this widget to manually display Calls to Action in sidebars.', 'cta'));
 
 			/* Widget control settings. */
 			$control_ops = array( 'width' => 300, 'height' => 350, 'id_base' => 'id_wp_cta_static_widget' );
 
 			/* Create the widget. */
-			$this->WP_Widget( 'id_wp_cta_static_widget', __('Call to Action Static Widget', 'cta'), $widget_ops, $control_ops );
+			parent::__construct( 'id_wp_cta_static_widget', __('Call to Action Static Widget', 'cta'), $widget_ops, $control_ops );
 		}
 
 		/**
 		 * How to display the widget on the screen.
 		 */
-		function widget( $args, $instance )
-		{
+		function widget( $args, $instance ) {
 			global $wp_query; global $post;
 
 
@@ -57,7 +55,7 @@ if (!class_exists('CTA_Dynamic_Widget')) {
 			$cta_id = $selected_ctas[$rand_key];
 			$this->cta_id = $cta_id;
 
-			$selected_cta =  $CTA_Render->prepare_cta_dataset( array($cta_id) );
+			$selected_cta =  $CTA_Render->prepare_cta_dataset( array($cta_id));
 
 			if ( !isset($selected_cta['templates']) ) {
 				return;
@@ -65,30 +63,25 @@ if (!class_exists('CTA_Dynamic_Widget')) {
 
 			/* Import Correct CSS & JS from Assets folder and Enqueue */
 			$loaded = array();
-			foreach ($selected_cta['templates'] as $template)
-			{
-				if ( in_array( $template['slug'] , $loaded) ){
+			foreach ($selected_cta['templates'] as $template) {
+				if ( in_array( $template['slug'], $loaded) ){
 					continue;
 				}
 
 				$loaded[] = $template['slug'];
 				$assets = $CTA_Render->get_template_asset_files($template);
-				$localized_template_id = str_replace( '-' , '_' , $template['slug'] );
-				foreach ($assets as $type => $file)
-				{
-					switch ($type)
-					{
+				$localized_template_id = str_replace( '-', '_', $template['slug'] );
+				foreach ($assets as $type => $file) {
+					switch ($type) {
 						case 'js':
-							foreach ($file as $js)
-							{
-								wp_enqueue_script( md5($js) ,$js , array( 'jquery' ));
-								wp_localize_script( md5($js) , $localized_template_id , array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ,  'post_id' => $obj_id ) );
+							foreach ($file as $js) {
+								wp_enqueue_script( md5($js) ,$js, array( 'jquery'));
+								wp_localize_script( md5($js), $localized_template_id, array( 'ajaxurl' => admin_url( 'admin-ajax.php'),  'post_id' => $obj_id ));
 							}
 							break;
 						case 'css':
-							foreach ($file as $css)
-							{
-								wp_enqueue_style( md5($css) , $css );
+							foreach ($file as $css) {
+								wp_enqueue_style( md5($css), $css );
 							}
 							break;
 					}
@@ -100,17 +93,17 @@ if (!class_exists('CTA_Dynamic_Widget')) {
 				($vid<1) ? $suffix = '' : $suffix = '-'.$vid;
 
 				$template_slug = $selected_cta['meta'][$vid]['wp-cta-selected-template-'.$vid];
-				$custom_css = get_post_meta( $cta_id , 'wp-cta-custom-css'.$suffix , true);
+				$custom_css = get_post_meta( $cta_id, 'wp-cta-custom-css'.$suffix, true);
 				//echo $template_slug;
 				//print_r($this->cta_templates);exit;
 				$dynamic_css = $this->cta_templates[$template_slug]['css-template'];
 
-				$dynamic_css = $CTA_Render->replace_template_variables( $selected_cta , $dynamic_css , $vid );
+				$dynamic_css = $CTA_Render->replace_template_variables( $selected_cta, $dynamic_css, $vid );
 				$css_id_preface = "#wp_cta_" . $cta_id . "_variation_" . $vid;
 
-				$dynamic_css = $CTA_Render->parse_css_template($dynamic_css , $css_id_preface);
+				$dynamic_css = $CTA_Render->parse_css_template($dynamic_css, $css_id_preface);
 
-				$css_styleblock_class = apply_filters( 'wp_cta_styleblock_class' , '' , $cta_id , $vid );
+				$css_styleblock_class = apply_filters( 'wp_cta_styleblock_class', '', $cta_id, $vid );
 
 				if (!stristr($custom_css,'<style')){
 					$custom_css = strip_tags($custom_css);
@@ -119,7 +112,7 @@ if (!class_exists('CTA_Dynamic_Widget')) {
 				/* Print Cusom CSS */
 				echo '<style type="text/css" id="wp_cta_css_custom_'.$cta_id.'_'.$vid.'" class="wp_cta_css_'.$cta_id.' '.$css_styleblock_class.'">'.$custom_css.' '.$dynamic_css.'</style>';
 
-				$custom_js = get_post_meta( $cta_id , 'wp-cta-custom-js'.$suffix, true);
+				$custom_js = get_post_meta( $cta_id, 'wp-cta-custom-js'.$suffix, true);
 				if (!stristr($custom_css,'<script') && $custom_css)	{
 					echo '<script type="text/javascript">jQuery(document).ready(function($) {
 					'.$custom_js.' });</script>';
@@ -192,8 +185,8 @@ if (!class_exists('CTA_Dynamic_Widget')) {
 
 			?>
 
-				<div class='cta-widget-p'><strong><?php _e( 'Select Calls to Action(s):' , 'cta' ); ?></strong><br />
-					<small><?php _e('If multiple calls to action are checked, they will randomly rotate. Only 1 CTA is displayed per widget' , 'cta' ); ?></small>
+				<div class='cta-widget-p'><strong><?php _e( 'Select Calls to Action(s):', 'cta' ); ?></strong><br />
+					<small><?php _e('If multiple calls to action are checked, they will randomly rotate. Only 1 CTA is displayed per widget', 'cta' ); ?></small>
 				<div class='cta-widget-select-options'>
 				<?php
 				foreach ($cta_post_type as $cta) {
@@ -203,9 +196,9 @@ if (!class_exists('CTA_Dynamic_Widget')) {
 					$this_link = get_permalink( $this_id );
 					$this_link = preg_replace('/\?.*/', '', $this_link); ?>
 
-					<input class="checkbox" type="checkbox" <?php checked(in_array( $cta->ID , $instance['cta_ids']  ), true ); ?> value="<?php _e($cta->ID); ?>" name="<?php echo $this->get_field_name('cta_ids'); ?>[]" />
+					<input class="checkbox" type="checkbox" <?php checked(in_array( $cta->ID, $instance['cta_ids']  ), true ); ?> value="<?php _e($cta->ID); ?>" name="<?php echo $this->get_field_name('cta_ids'); ?>[]" />
 					<label for=""><?php _e($cta->post_title); ?>
-						<a class='thickbox cta-links-hidden cta-widget-preview-links' id="cta-<?php echo $this_id;?>" href='<?php echo $this_link;?>?wp-cta-variation-id=0&wp_cta_iframe_window=on&post_id=<?php echo $cta->ID; ?>&TB_iframe=true&width=640&height=703'>Preview</a>
+						<a class='thickbox cta-links-hidden cta-widget-preview-links' id="cta-<?php echo $this_id;?>" href='<?php echo $this_link;?>?wp-cta-variation-id=0&inbound_popup_preview=on&post_id=<?php echo $cta->ID; ?>&TB_iframe=true&width=640&height=703'>Preview</a>
 					</label>
 					<br />
 					<?php
@@ -215,7 +208,7 @@ if (!class_exists('CTA_Dynamic_Widget')) {
 			</div>
 
 			<hr>
-			<h4 class='cta-advanced-section'><?php _e( 'Advanced Options' , 'cta' ); ?></h4>
+			<h4 class='cta-advanced-section'><?php _e( 'Advanced Options', 'cta' ); ?></h4>
 			<div class="advanced-cta-widget-options">
 				<div class='cta-widget'><label for="<?php echo $this->get_field_id('cta_margin_top'); ?>">Margin Top</label>
 				<input class="cta-text" type="text" value="<?php echo $margin_top; ?>" id="<?php echo $this->get_field_id('cta_margin_top'); ?>" name="<?php echo $this->get_field_name('cta_margin_top'); ?>" />px</div>
@@ -229,14 +222,13 @@ if (!class_exists('CTA_Dynamic_Widget')) {
 		/**
 		*  Run load variation javascript
 		*/
-		function load_variation()
-		{
+		function load_variation() {
 			$disable_ajax = get_option('wp-cta-main-disable-ajax-variation-discovery');
 
 			?>
 			<script>
 			jQuery(document).ready(function($) {
-				wp_cta_load_variation('<?php echo $this->cta_id; ?>' , null , '<?php echo $disable_ajax; ?>' );
+				wp_cta_load_variation('<?php echo $this->cta_id; ?>', null, '<?php echo $disable_ajax; ?>' );
 			});
 			</script>
 			<?php
@@ -250,7 +242,5 @@ if (!class_exists('CTA_Dynamic_Widget')) {
 		register_widget( 'CTA_Static_Widget' );
 	}
 	add_action( 'widgets_init', 'cta_load_static_widget' );
-
-
 
 }

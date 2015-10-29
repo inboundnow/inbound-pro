@@ -60,6 +60,13 @@ if (!class_exists('CTA_Load_Extensions')) {
                 include_once(WP_CTA_UPLOADS_PATH . "$name/config.php");
             }
 
+            /* load included templates from activated theme */
+            $included_templtes = self::$instance->get_theme_included_templates();
+
+            foreach ($included_templtes as $name) {
+                include_once(WP_CTA_THEME_TEMPLATES_PATH . "$name/config.php");
+            }
+
             /* parse template markup */
             foreach ($wp_cta_data as $key => $data) {
                 if (isset($data['markup'])) {
@@ -135,6 +142,32 @@ if (!class_exists('CTA_Load_Extensions')) {
             }
 
             return $uploaded_templates;
+        }
+
+
+        /**
+         * @return array
+         */
+        function get_theme_included_templates() {
+            //scan through templates directory and pull in name paths
+            $included_templates = array();
+
+            if (!is_dir(WP_CTA_THEME_TEMPLATES_PATH)) {
+                return $included_templates;
+            }
+
+            $templates = scandir(WP_CTA_THEME_TEMPLATES_PATH);
+
+            //scan through templates directory and pull in name paths
+            foreach ($templates as $name) {
+                if ($name === '.' or $name === '..' or $name === '__MACOSX') continue;
+
+                if (is_dir(WP_CTA_THEME_TEMPLATES_PATH . '/' . $name)) {
+                    $included_templates[] = $name;
+                }
+            }
+
+            return $included_templates;
         }
 
         /**

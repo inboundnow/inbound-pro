@@ -24,10 +24,10 @@ if (!class_exists('CTA_Metaboxes_Global')) {
 		*/
 		public static function load_hooks() {
 			/* Add metaboxes */
-			add_action('add_meta_boxes', array( __CLASS__ , 'load_metaboxes' ) );
+			add_action('add_meta_boxes', array(__CLASS__, 'load_metaboxes'));
 
 			/* Saves all all incoming POST data as meta pairs */
-			add_action( 'save_post' , array( __CLASS__ , 'save_data' ) );
+			add_action( 'save_post', array(__CLASS__, 'save_data'));
 
 		}
 
@@ -53,7 +53,7 @@ if (!class_exists('CTA_Metaboxes_Global')) {
 			$exclude[] = 'edd-license';
 			$exclude[] = 'acf-field-group';
 
-			$exclude = apply_filters( 'cta_excluded_post_types' , $exclude);
+			$exclude = apply_filters( 'cta_excluded_post_types', $exclude);
 
 			return $exclude;
 		}
@@ -73,8 +73,8 @@ if (!class_exists('CTA_Metaboxes_Global')) {
 				if (!in_array($value,$exclude)) {
 					add_meta_box(
 						'wp-cta-inert-to-post',
-						__( 'Insert Call to Action Template into Content' , 'cta' ) ,
-						array( __CLASS__ , 'display_cta_placement_metabox' ) ,
+						__( 'Insert Call to Action Template into Content', 'cta'),
+						array(__CLASS__, 'display_cta_placement_metabox'),
 						$value,
 						'normal',
 						$priority
@@ -109,7 +109,7 @@ if (!class_exists('CTA_Metaboxes_Global')) {
 					return state.text + "<a class='thickbox cta-select-preview-link' href='" + href + "'>(view)</a>";
 				}
 				jQuery("#cta_template_selection").select2({
-					placeholder: " <?php _e( 'Select one or more calls to action to rotate through' , 'cta' ); ?>",
+					placeholder: " <?php _e( 'Select one or more calls to action to rotate through', 'cta' ); ?>",
 					allowClear: true,
 					formatResult: format,
 					formatSelection: format,
@@ -174,7 +174,7 @@ if (!class_exists('CTA_Metaboxes_Global')) {
 					<div class="wp-cta-option-row">
 						<div class='cta-options-label'>
 							<label for=keyword>
-							<?php _e( 'Call to Action Template' , 'cta' ); ?>
+							<?php _e( 'Call to Action Template', 'cta' ); ?>
 							</label>
 						</div>
 						<div class='cta-options-row'>
@@ -184,7 +184,7 @@ if (!class_exists('CTA_Metaboxes_Global')) {
 							$this_link = get_permalink( $this_id );
 							$this_link = preg_replace('/\?.*/', '', $this_link); ?>
 
-							<a class='thickbox cta-links-hidden' id="cta-<?php echo $this_id;?>" href='<?php echo $this_link;?>?wp-cta-variation-id=0&wp_cta_iframe_window=on&post_id=<?php echo $cta->ID; ?>&TB_iframe=true&width=640&height=703'>Preview</a>
+							<a class='thickbox cta-links-hidden' id="cta-<?php echo $this_id;?>" href='<?php echo $this_link;?>?wp-cta-variation-id=0&inbound_popup_preview=on&post_id=<?php echo $cta->ID; ?>&TB_iframe=true&width=640&height=703'>Preview</a>
 
 						<?php } ?>
 						<select multiple name='cta_display_list[]' id="cta_template_selection" style='display:none;'>
@@ -198,7 +198,7 @@ if (!class_exists('CTA_Metaboxes_Global')) {
 							echo '<option', $selected, ' value="'.$this_id.'" rel="work?" >'.$title.'</option>';
 
 						} ?>
-						</select><br /><span class="description"><?php _e( 'Click the above select box to select call to action templates to insert' , 'cta' ); ?></span>
+						</select><br /><span class="description"><?php _e( 'Click the above select box to select call to action templates to insert', 'cta' ); ?></span>
 						</div>
 					</div>
 				</div>
@@ -239,7 +239,7 @@ if (!class_exists('CTA_Metaboxes_Global')) {
 				$field['default'] = '';
 			}
 
-			$final['value'] = ( !empty($meta) || is_numeric( $meta ) ) ? $meta : $field['default'];
+			$final['value'] = (!empty($meta) || is_numeric($meta)) ? $meta : $field['default'];
 
 			$meta_class = (isset($field['class'])) ? " " . $field['class'] : '';
 			$dynamic_hide = (isset($field['reveal_on'])) ? ' inbound-hidden-row' : '';
@@ -289,7 +289,7 @@ if (!class_exists('CTA_Metaboxes_Global')) {
 						break;
 					// checkbox
 					case 'checkbox':
-						echo '<input type="checkbox" name="'.$field['id'].'" id="'.$field['id'].'" ' , $final['value'] ? ' checked="checked"' : '','/>
+						echo '<input type="checkbox" name="'.$field['id'].'" id="'.$field['id'].'" ', $final['value'] ? ' checked="checked"' : '','/>
 								<label for="'.$field['id'].'">'.$field['description'].'</label>';
 						break;
 					// radio
@@ -341,13 +341,11 @@ if (!class_exists('CTA_Metaboxes_Global')) {
 							"wpl-lead-conversion-count" => "Number of Conversions"
 						);
 
-						foreach ($meta_keys as $meta_key)
-						{
+						foreach ($meta_keys as $meta_key) {
 							if (array_key_exists($meta_key, $nice_names)) {
 								$label = $nice_names[$meta_key];
 
-
-								(in_array($meta_key, $list)) ? $selected = " selected='selected'" : $selected ="";
+								$selected = (in_array($meta_key, $list)) ? " selected='selected'" : "";
 
 								echo '<option', $selected, ' value="'.$meta_key.'" rel="" >'.$label.'</option>';
 
@@ -363,12 +361,11 @@ if (!class_exists('CTA_Metaboxes_Global')) {
 						echo '<select multiple name="'.$field['id'].'[]" class="inbound-multi-select" id="'.$field['id'].'">';
 
 
-						foreach ( $field['options'] as $id => $value )
-						{
-							(in_array($id, $selected_lists)) ? $selected = " selected='selected'" : $selected ="";
+						foreach ($field['options'] as $id => $value) {
+							$selected = (in_array($id, $selected_lists)) ? " selected='selected'" : "";
 							echo '<option', $selected, ' value="'.$id.'" rel="" >'.$value.'</option>';
-
 						}
+
 						echo "</select><br><span class='description'>'".$field['description']."'</span>";
 						break;
 
@@ -392,7 +389,7 @@ if (!class_exists('CTA_Metaboxes_Global')) {
 
 			$exclude = self::get_excluded_post_types();
 
-			if (in_array($post->post_type , $exclude)) {
+			if (in_array($post->post_type, $exclude)) {
 				return;
 			}
 
@@ -400,8 +397,7 @@ if (!class_exists('CTA_Metaboxes_Global')) {
 			$CTAExtensions = CTA_Load_Extensions();
 			$extension_data = $CTAExtensions->definitions;
 
-			foreach ($extension_data['wp-cta-controller']['settings'] as $key=>$field)
-			{
+			foreach ($extension_data['wp-cta-controller']['settings'] as $key=>$field) {
 				( isset($field['global']) && $field['global'] ) ? $field['id'] : $field['id'] = $field['id'];
 
 				if($field['type'] == 'tax_select'){
@@ -409,7 +405,7 @@ if (!class_exists('CTA_Metaboxes_Global')) {
 				}
 
 				$old = get_post_meta($post_id, $field['id'], true);
-				(isset($_POST[$field['id']])) ? $new = $_POST[$field['id']] : $new = null;
+				$new = (isset($_POST[$field['id']])) ? $_POST[$field['id']] : null;
 
 				/*
 				echo $field['id'].' old:'.$old.'<br>';
@@ -440,4 +436,3 @@ if (!class_exists('CTA_Metaboxes_Global')) {
 
 	$GLOBALS['CTA_Metaboxes_Global'] = new CTA_Metaboxes_Global;
 }
-

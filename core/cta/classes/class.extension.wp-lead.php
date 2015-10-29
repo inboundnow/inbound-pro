@@ -8,10 +8,10 @@ if ( !class_exists('CTA_WordPress_Leads') ) {
 			self::load_hooks();
 		}
 
-		private function load_hooks() {
+		public static function load_hooks() {
 
-			add_filter('wpl_lead_activity_tabs', array( __CLASS__ , 'create_nav_tabs' ) , 10, 1);
-			add_action('wpleads_after_activity_log' , array( __CLASS__ , 'show_cta_click_content' ) );
+			add_filter('wpl_lead_activity_tabs', array(__CLASS__, 'create_nav_tabs'), 10, 1);
+			add_action('wpleads_after_activity_log', array(__CLASS__, 'show_cta_click_content'));
 
 		}
 
@@ -19,7 +19,7 @@ if ( !class_exists('CTA_WordPress_Leads') ) {
 		public static function create_nav_tabs( $nav_items ) {
 			$nav_items[] = array(
 				'id'=>'wpleads_lead_cta_click_tab',
-				'label'=> __( 'CTA Clicks' , 'cta' ),
+				'label'=> __( 'CTA Clicks', 'cta' ),
 				'count' => self::get_click_count()
 			);
 			return $nav_items;
@@ -30,7 +30,7 @@ if ( !class_exists('CTA_WordPress_Leads') ) {
 			global $post;
 			?>
 			<div id="wpleads_lead_cta_click_tab" class='lead-activity'>
-				<h2><?php _e( 'CTA\'s Clicked' , 'cta' ); ?></h2>
+				<h2><?php _e( 'CTA\'s Clicked', 'cta' ); ?></h2>
 				<?php
 
 				$events = get_post_meta($post->ID,'call_to_action_clicks', true);
@@ -45,7 +45,7 @@ if ( !class_exists('CTA_WordPress_Leads') ) {
 
 					foreach($the_array as $key=>$val) {
 						$id = $the_array[$count]['id'];
-						$title = get_the_title($id);
+						$title = get_the_title($id) . ' ( '. __('variation:', 'cta') . ( isset($the_array[$count]['variation']) ? $the_array[$count]['variation'] : '0' ) . ' )';
 
 						$date_raw = new DateTime($the_array[$count]['datetime']);
 
@@ -59,7 +59,7 @@ if ( !class_exists('CTA_WordPress_Leads') ) {
 
 									<div class="lead-timeline-body">
 										<div class="lead-event-text">
-											<p><span class="lead-item-num">'.$count.'. </span><span class="lead-helper-text">Call to Action Click: </span><a href="#">'.$title.'</a><span class="conversion-date">'.$date_of_conversion.'</span></p>
+											<p><span class="lead-item-num">'.$count.'. </span><span class="lead-helper-text">' . __( 'Call to Action Click:', 'cta') .' </span><a href="#">'.$title.'</a><span class="conversion-date">'.$date_of_conversion.'</span></p>
 										</div>
 									</div>
 								</div>';
@@ -69,7 +69,7 @@ if ( !class_exists('CTA_WordPress_Leads') ) {
 				}
 				else
 				{
-					_e( '<span id=\'wpl-message-none\'>No Call to Action Clicks found!</span>"' , 'cta' );
+					_e( '<span id=\'wpl-message-none\'>No Call to Action Clicks found!</span>"', 'cta' );
 				}
 
 
@@ -85,8 +85,8 @@ if ( !class_exists('CTA_WordPress_Leads') ) {
 		public static function get_click_count() {
 			global $post;
 
-			$clicks = get_post_meta( $post->ID , 'call_to_action_clicks' , true);
-			$clicks = json_decode( $clicks , true);
+			$clicks = get_post_meta( $post->ID, 'call_to_action_clicks', true);
+			$clicks = json_decode( $clicks, true);
 
 			if ( isset($clicks) && is_array($clicks) ) {
 				return count($clicks);

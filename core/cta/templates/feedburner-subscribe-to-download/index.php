@@ -75,7 +75,7 @@ a.downloadButton.active{
 			<input type="hidden" name="feedburner" value="{{share-url}}">
 
 			<div style="padding-bottom:5px;">
-				<input name="email" id="newsletter-text" type="text" maxlength="100" style="width:220px !important; padding: 10px !important;" placeholder="Email Your Email" value="" class="">
+				<input name="email" id="newsletter-text" type="email" maxlength="100" style="width:220px !important; padding: 10px !important;" placeholder="Email Your Email" value="" class="" required='required'>
 			</div>
 			<div>
 				<button type="submit" id="SubLink" class="btn primary large bold">Subscribe via Email</button>

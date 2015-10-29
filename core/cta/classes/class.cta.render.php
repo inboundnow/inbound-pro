@@ -89,9 +89,10 @@ if ( !class_exists( 'CTA_Render' ) ) {
             /* Modify admin URL for previews */
             add_filter( 'admin_url', array( $this, 'modify_admin_url'));
 
-            /* wpautop only up to 3rd priority - Why have it any further? */
+            /* wpautop only up to 3th priority & reenable autoembed */
             remove_filter('the_content','wpautop');
             add_filter('the_content','wpautop' , 3 );
+            add_filter( 'the_content', array( $GLOBALS['wp_embed'], 'autoembed' ), 2 );
 
         }
 
