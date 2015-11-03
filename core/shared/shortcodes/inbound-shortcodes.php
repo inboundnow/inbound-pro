@@ -34,7 +34,7 @@ class Inbound_Shortcodes {
 	static function init() {
 
 		self::$add_script = true;
-		add_action('admin_enqueue_scripts', array( __CLASS__, 'loads' ));
+		add_action('admin_enqueue_scripts', array( __CLASS__, 'loads' ) , 11);
 		add_action('init', array( __CLASS__, 'shortcodes_include' ));
 
 		add_action( 'wp_enqueue_scripts',	array(__CLASS__, 'frontend_loads')); // load styles
@@ -42,7 +42,7 @@ class Inbound_Shortcodes {
 		add_shortcode('button', array(__CLASS__, 'inbound_shortcode_button'));
 		add_shortcode('social_share',	array(__CLASS__, 'inbound_shortcode_social_links'));
 		//add_action('admin_notices', array(__CLASS__, 'inbound_shortcode_prompt'));
-			//add_action('admin_init', array(__CLASS__, 'inbound_shortcode_prompt_ignore'));
+		//add_action('admin_init', array(__CLASS__, 'inbound_shortcode_prompt_ignore'));
 		//add_action( 'wp_ajax_inbound_shortcode_prompt_ajax',	array(__CLASS__, 'inbound_shortcode_prompt_ajax'));
 	}
 
@@ -78,6 +78,10 @@ class Inbound_Shortcodes {
 				wp_enqueue_script('inbound-shortcodes', INBOUNDNOW_SHARED_URLPATH . 'shortcodes/js/shortcodes.js', array( 'jquery', 'jquery-cookie' ), '1', true);
 				$form_id = (isset($_GET['post']) && is_int( $_GET['post'] )) ? $_GET['post'] : '';
 				wp_localize_script( 'inbound-shortcodes', 'inbound_shortcodes', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) , 'adminurl' => admin_url(), 'inbound_shortcode_nonce' => wp_create_nonce('inbound-shortcode-nonce') , 'form_id' => $form_id ) );
+				wp_dequeue_script('selectjs');
+				wp_dequeue_script('select2');
+				wp_dequeue_script('jquery-select2');
+				if ($post->post_type == 'download')
 				wp_enqueue_script('selectjs', INBOUNDNOW_SHARED_URLPATH . 'assets/js/admin/select2.min.js', array( 'jquery' ));
 				wp_enqueue_style('selectjs', INBOUNDNOW_SHARED_URLPATH . 'assets/css/admin/select2.css');
 			}

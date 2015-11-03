@@ -63,6 +63,7 @@ if (!class_exists('LeadStorage')) {
 			$lead['wordpress_date_time'] = date("Y-m-d G:i:s T", $time);
 
 			$lead['email'] = str_replace("%40", "@", self::check_val('email', $args));
+			$lead['email'] = str_replace("%2B", "+", $lead['email']);
 			$lead['name'] = str_replace("%20", " ", self::check_val('full_name', $args));
 			$lead['first_name'] = str_replace("%20", "", self::check_val('first_name', $args));
 			$lead['last_name'] = str_replace("%20", "", self::check_val('last_name', $args));

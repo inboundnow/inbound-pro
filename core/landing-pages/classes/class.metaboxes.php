@@ -1112,15 +1112,12 @@ class Landing_Pages_Metaboxes {
     public static function save_landing_page( $landing_page_id ) {
         global $post;
 
-        $screen = get_current_screen();
 
-        if ( wp_is_post_revision( $landing_page_id ) ) {
+
+        if ( !isset($post) || $post->post_type !='landing-page' || wp_is_post_revision( $landing_page_id ) ) {
             return;
         }
 
-        if ( !isset($screen) || $screen->id != 'landing-page' ) {
-            return;
-        }
 
         if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE || $screen->action == 'add' ) {
             return;

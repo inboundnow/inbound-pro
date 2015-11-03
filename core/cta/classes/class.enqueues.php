@@ -76,13 +76,14 @@ class CTA_Enqueues {
 	public static function backend_enqueues( $hook ) {
 		global $post;
 
+		if (!isset($post) || $post->post_type != 'wp-call-to-action') {
+			return;
+		}
+
 		self::dequeue_3rd_party_scripts();
 
 		/* Enqueues general & unorganized admin stylings */
 		wp_enqueue_style('wp-cta-admin-css', WP_CTA_URLPATH . 'assets/css/admin-style.css');
-
-		/* Enqueue select2 support */
-		wp_enqueue_script('selectjs', INBOUNDNOW_SHARED_URLPATH . 'assets/js/admin/select2.min.js', array( 'jquery' ));
 
 		/* Load enqueues directly related to wp-call-to-action post type */
 		self::backend_cta_enqueues( $hook );
