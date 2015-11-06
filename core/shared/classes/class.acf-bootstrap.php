@@ -45,6 +45,10 @@ class Inbound_Shared_ACF_BootStrap {
         if (!function_exists('register_fields_font_awesome')) {
             include_once( INBOUNDNOW_SHARED_PATH . 'assets/plugins/advanced-custom-fields-font-awesome/acf-font-awesome.php');
         }
+
+        if (defined('ACF_LITE')) {
+            //include_once( INBOUNDNOW_SHARED_PATH . 'assets/plugins/acf-wordpress-wysiwyg-field/acf-wp_wysiwyg-v4.php');
+        }
     }
 
     /**
