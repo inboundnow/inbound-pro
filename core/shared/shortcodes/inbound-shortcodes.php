@@ -81,7 +81,6 @@ class Inbound_Shortcodes {
 				wp_dequeue_script('selectjs');
 				wp_dequeue_script('select2');
 				wp_dequeue_script('jquery-select2');
-				if ($post->post_type == 'download')
 				wp_enqueue_script('selectjs', INBOUNDNOW_SHARED_URLPATH . 'assets/js/admin/select2.min.js', array( 'jquery' ));
 				wp_enqueue_style('selectjs', INBOUNDNOW_SHARED_URLPATH . 'assets/css/admin/select2.css');
 			}
