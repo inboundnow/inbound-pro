@@ -62,7 +62,7 @@ class Inbound_API_Wrapper {
 		}
 
 		/* This call home gets a list of available downloads - We have minimum security because no sensitive information is revealed */
-		$response = wp_remote_post( 'http://www.inboundnow.com' , array(  'body' => array ( 'get_downloads' => true , 'key' => 'hudson11' ) ) );
+		$response = wp_remote_post( self::$inbound_api_uri , array(  'body' => array ( 'get_downloads' => true , 'key' => 'hudson11' ) ) );
 
 		/* unserialize response */
 		self::$data = unserialize( $response['body'] );
@@ -213,8 +213,7 @@ class Inbound_API_Wrapper {
 			'blocking' => true,
 			'headers' => array(),
 			'body' => array(
-				'filename' => $download['filename'],
-				'type' => $download['type'],
+				'download' => $download,
 				'site' => $domain,
 				'api-key' => $license_key
 			)

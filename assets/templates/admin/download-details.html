@@ -37,7 +37,7 @@
 			<div class="theme-actions">
 				 <% if ( status == "uninstalled" ){ %>
 				<div class="">
-					<span class="button button-secondary overlay-install" data-download='<%= post_name %>' data-filename='<%= zip_filename %>'   data-download-type='<%= download_type %>'>Install</span>
+					<span class="button button-secondary overlay-install" data-download='<%= post_name %>' data-filename='<%= filename %>'   data-download-type='<%= download_type %>'>Install</span>
 				</div>
 				<% } %>
 
@@ -49,7 +49,7 @@
 
 				<% if ( current_version < server_version && status == "installed" ) { %>
 				<div class="">
-					<span class="button button-secondary overlay-update"  data-download='<%= post_name %>' data-filename='<%= zip_filename %>'  data-download-type='<%= download_type %>' >Update</span>
+					<span class="button button-secondary overlay-update"  data-download='<%= post_name %>' data-filename='<%= filename %>'  data-download-type='<%= download_type %>' >Update</span>
 				</div>
 				<% } %>
 

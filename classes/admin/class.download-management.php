@@ -4,7 +4,7 @@
  *
  *	Manage Inbound Extras
  *
-*/
+ */
 
 
 class Inbound_Pro_Downloads {
@@ -17,15 +17,15 @@ class Inbound_Pro_Downloads {
 	static $customer; /* sets customer status */
 
 	/**
-	*	Initializes class
-	*/
+	 *	Initializes class
+	 */
 	public function __construct() {
 		self::add_hooks();
 	}
 
 	/**
-	*	Loads hooks and filters
-	*/
+	 *	Loads hooks and filters
+	 */
 	public static function add_hooks() {
 		/* Listen for management REQUEST calls  */
 		add_action( 'admin_init' , array( __CLASS__ , 'run_management_actions' ) );
@@ -40,8 +40,8 @@ class Inbound_Pro_Downloads {
 
 
 	/**
-	*	Load CSS & JS
-	*/
+	 *	Load CSS & JS
+	 */
 	public static function enqueue_scripts() {
 		$screen = get_current_screen();
 
@@ -76,8 +76,8 @@ class Inbound_Pro_Downloads {
 
 
 	/**
-	*  Listens for POSTED actions
-	*/
+	 *  Listens for POSTED actions
+	 */
 	public static function run_management_actions() {
 
 		if (!isset($_REQUEST['action']) || !current_user_can('activate_plugins') ) {
@@ -100,9 +100,10 @@ class Inbound_Pro_Downloads {
 
 
 	/**
-	*  Runs upload commands
-	*/
+	 *  Runs upload commands
+	 */
 	public static function run_installation() {
+		global $download_name;
 
 		if ( ! current_user_can('delete_plugins') ) {
 			wp_die( __('You do not have sufficient permissions to delete plugins for this site.') );
@@ -119,22 +120,22 @@ class Inbound_Pro_Downloads {
 		self::$download = self::$downloads[ $_REQUEST['download'] ];
 
 		/* get zip URL from api server */
-		self::$download['download_location'] = Inbound_API_Wrapper::get_download_zip( array(
-			'filename' => $_REQUEST['filename'] ,
-			'type' =>  $_REQUEST['download_type']
-		));
+		self::$download['download_location'] = Inbound_API_Wrapper::get_download_zip( self::$download );
 
 		/* get upload path from download data */
 		self::$download['extraction_path'] = self::get_upload_path( self::$download );
 
 		self::install_download( self::$download );
 
+		/* create global for download name */
+		$download_name = self::$download[ 'post_title' ];
 		/* add notification */
-		add_action( 'admin_notices', function() {
+		add_action( 'admin_notices', function( ) {
+			global $download_name;
 			?>
 			<br>
 			<div class="updated">
-				<p><?php _e( self::$download[ 'post_title' ] . ' has been installed!', 'inbound-pro' ); ?></p>
+				<p><?php _e( $download_name . ' has been installed!', 'inbound-pro' ); ?></p>
 			</div>
 			<?php
 		} );
@@ -150,9 +151,10 @@ class Inbound_Pro_Downloads {
 	}
 
 	/**
-	*  Runs upload commands
-	*/
+	 *  Runs upload commands
+	 */
 	public static function run_uninstallation() {
+		global $download_name;
 
 		if ( ! current_user_can('delete_plugins') ) {
 			wp_die( __('You do not have sufficient permissions to delete plugins for this site.') );
@@ -170,12 +172,16 @@ class Inbound_Pro_Downloads {
 		/* delete download folder if there */
 		self::delete_download_folder( self::$download['extraction_path'] );
 
+		/* create global for download name */
+		$download_name = self::$download[ 'post_title' ];
+
 		/* add notification */
 		add_action( 'admin_notices', function() {
+			global $download_name;
 			?>
 			<br>
 			<div class="updated">
-				<p><?php _e( self::$download[ 'post_title' ] . ' has been uninstalled!', 'inbound-pro' ); ?></p>
+				<p><?php _e( $download_name . ' has been uninstalled!', 'inbound-pro' ); ?></p>
 			</div>
 			<?php
 		} );
@@ -230,7 +236,7 @@ class Inbound_Pro_Downloads {
 
 		/* extract temp file to plugins direction */
 		$archive = new PclZip($temp_file);
-		$result = $archive->extract( PCLZIP_OPT_REMOVE_PATH, $download['zip_filename'] , PCLZIP_OPT_PATH, $download['extraction_path'] , PCLZIP_OPT_REPLACE_NEWER );
+		$result = $archive->extract( PCLZIP_OPT_REMOVE_PATH, $download['filename'] , PCLZIP_OPT_PATH, $download['extraction_path'] , PCLZIP_OPT_REPLACE_NEWER );
 		if ($result == 0) {
 			die("Error : ".$archive->errorInfo(true));
 		}
@@ -241,41 +247,41 @@ class Inbound_Pro_Downloads {
 	}
 
 	/**
-	* deletes download folder from uploads location
-	* @param STRING $dirPath
-	*/
+	 * deletes download folder from uploads location
+	 * @param STRING $dirPath
+	 */
 	public static function delete_download_folder( $dirPath ) {
 
 		if ( !$dirPath || !is_dir($dirPath)) {
-		    return;
-        }
+			return;
+		}
 
-        /* get all objects in folder */
-        $objects = scandir($dirPath);
+		/* get all objects in folder */
+		$objects = scandir($dirPath);
 
-        /* if there is a .git directory assume local development and bail */
-        if ( in_array( '.git' , $objects ) ) {
-            return;
-        }
+		/* if there is a .git directory assume local development and bail */
+		if ( in_array( '.git' , $objects ) ) {
+			return;
+		}
 
-        foreach ($objects as $object) {
-            if ($object != "." && $object !="..") {
-                if (filetype($dirPath . DIRECTORY_SEPARATOR . $object) == "dir") {
-                    self::delete_download_folder($dirPath . DIRECTORY_SEPARATOR . $object);
-                } else {
-                    unlink($dirPath . DIRECTORY_SEPARATOR . $object);
-                }
-            }
-        }
-        reset($objects);
-        rmdir($dirPath);
+		foreach ($objects as $object) {
+			if ($object != "." && $object !="..") {
+				if (filetype($dirPath . DIRECTORY_SEPARATOR . $object) == "dir") {
+					self::delete_download_folder($dirPath . DIRECTORY_SEPARATOR . $object);
+				} else {
+					unlink($dirPath . DIRECTORY_SEPARATOR . $object);
+				}
+			}
+		}
+		reset($objects);
+		rmdir($dirPath);
 
 	}
 
 
 	/**
-	*  Build a stronger dataset from dataset imported from api
-	*/
+	 *  Build a stronger dataset from dataset imported from api
+	 */
 	public static function build_main_dataset() {
 
 		/* load management static vars based on page being loaded */
@@ -313,9 +319,9 @@ class Inbound_Pro_Downloads {
 	}
 
 	/**
-	*  Update downloads configuration file with new status & version
-	*  @param STRING $status
-	*/
+	 *  Update downloads configuration file with new status & version
+	 *  @param STRING $status
+	 */
 	public static function update_configuration_memory( $status ) {
 
 		/* get install configuaration dataset */
@@ -328,7 +334,7 @@ class Inbound_Pro_Downloads {
 			$configuration[ self::$download['post_name'] ]['download_type'] = self::$download['download_type'];
 			$configuration[ self::$download['post_name'] ]['current_version'] = self::$download['server_version'];
 			$configuration[ self::$download['post_name'] ]['upload_path'] = self::get_upload_path( self::$download );
-			$configuration[ self::$download['post_name'] ]['zip_filename'] = self::$download['zip_filename'];
+			$configuration[ self::$download['post_name'] ]['filename'] = self::$download['filename'];
 
 		}
 
@@ -338,8 +344,8 @@ class Inbound_Pro_Downloads {
 	}
 
 	/**
-	*  Loads all UI elements
-	*/
+	 *  Loads all UI elements
+	 */
 	public static function test_ui() {
 
 		/* get download data */
@@ -385,43 +391,43 @@ class Inbound_Pro_Downloads {
 
 		?>
 		<link rel='stylesheet' id='edd-styles-css'  href='/wp-content/plugins/_inbound-pro/assets/css/store.css' type='text/css' media='all' />
-			<!--START -->
-			<div id="tabs" class="tabs">
-				<nav>
-					<ul>
-						<li class="<?php echo $AllTabClass; ?>"><a href="#section-1" ><span>All</span></a></li>
-						<li class="<?php echo $lpTabClass; ?>"><a href="#section-2" class="icon-article"><span>Landing Pages</span></a></li>
-						<li class="<?php echo $leadsTabClass; ?>"><a href="#section-3" class="icon-user"><span>Leads</span></a></li>
-						<li class="<?php echo $ctaTabClass; ?>"><a href="#section-4" class="icon-eye"><span>Calls to Action</span></a></li>
-						<li class="<?php echo $emailTabClass;?>"><a href="#section-5" class="fa fa-envelope-o"><span>Email</span></a></li>
+		<!--START -->
+		<div id="tabs" class="tabs">
+			<nav>
+				<ul>
+					<li class="<?php echo $AllTabClass; ?>"><a href="#section-1" ><span>All</span></a></li>
+					<li class="<?php echo $lpTabClass; ?>"><a href="#section-2" class="icon-article"><span>Landing Pages</span></a></li>
+					<li class="<?php echo $leadsTabClass; ?>"><a href="#section-3" class="icon-user"><span>Leads</span></a></li>
+					<li class="<?php echo $ctaTabClass; ?>"><a href="#section-4" class="icon-eye"><span>Calls to Action</span></a></li>
+					<li class="<?php echo $emailTabClass;?>"><a href="#section-5" class="fa fa-envelope-o"><span>Email</span></a></li>
 
-					</ul>
+				</ul>
 
 
-				</nav>
-					<div class="content" id="market-content">
-						<section id="section-1" class="<?php echo $allClass;?>">
+			</nav>
+			<div class="content" id="market-content">
+				<section id="section-1" class="<?php echo $allClass;?>">
 
-								<div class="store-container">
-								<div class="main">
-									<span class="center-text area-desc">From email marketing to CRMs these add-ons will make your life easier</span>
-									<div id="cbp-vm" class="cbp-vm-switcher cbp-vm-view-grid">
+					<div class="store-container">
+						<div class="main">
+							<span class="center-text area-desc">From email marketing to CRMs these add-ons will make your life easier</span>
+							<div id="cbp-vm" class="cbp-vm-switcher cbp-vm-view-grid">
 
-										<div class="cbp-vm-options">
-											<span>Change View</span>
-											<a href="#" class="cbp-vm-icon cbp-vm-grid cbp-vm-selected" data-view="cbp-vm-view-grid">Grid View</a>
-											<a href="#" class="cbp-vm-icon cbp-vm-list" data-view="cbp-vm-view-list">List View</a>
-										</div>
+								<div class="cbp-vm-options">
+									<span>Change View</span>
+									<a href="#" class="cbp-vm-icon cbp-vm-grid cbp-vm-selected" data-view="cbp-vm-view-grid">Grid View</a>
+									<a href="#" class="cbp-vm-icon cbp-vm-list" data-view="cbp-vm-view-list">List View</a>
+								</div>
 
-										<?php self::store_listings();?>
-									</div>
-								</div><!-- /main -->
-							</div><!-- /store container -->
-						</section>
+								<?php self::store_listings();?>
+							</div>
+						</div><!-- /main -->
+					</div><!-- /store container -->
+				</section>
 
-					</div><!-- /content -->
-				</div>
-				<!-- END -->
+			</div><!-- /content -->
+		</div>
+		<!-- END -->
 
 	<?php }
 	/* Prepping for new layout */
@@ -431,54 +437,51 @@ class Inbound_Pro_Downloads {
 
 		<ul>
 			<?php $count = 0;
-				foreach (self::$downloads as $download) {
-					//print_r($download);
-					//print_r($stored_transient->posts[$count]);
-					$id = $download['ID'];
-					//$title = get_the_title($id); // post_title
-					$title = $download['post_title'];
-					$title_class = (strlen($title) > 30 ) ? "long-title" : 'short-title';
-					$exerpt = $download['post_excerpt'];
-					$link = $download['permalink'];
-					$terms = get_the_terms( $id, 'download_category' ); ?>
+			foreach (self::$downloads as $download) {
+				$id = $download['ID'];
+				$title = $download['post_title'];
+				$title_class = (strlen($title) > 30 ) ? "long-title" : 'short-title';
+				$exerpt = $download['post_excerpt'];
+				$link = $download['permalink'];
+				$terms = get_the_terms( $id, 'download_category' ); ?>
 
 				<li class="">
-				<?php $img = $download['featured_image'];
-						if(!$img){
-							$img = '<img src="http://inboundnew.dev/wp-content/uploads/2014/08/medium_wype-1.jpg">';
-						}
-				?>
+					<?php $img = $download['featured_image'];
+					if(!$img){
+						$img = '<img src="http://inboundnew.dev/wp-content/uploads/2014/08/medium_wype-1.jpg">';
+					}
+					?>
 					<a class="cbp-vm-image" href="<?php echo $link;?>"><img src="<?php echo $img;?>"/></a>
 
 					<!--<div class="cbp-vm-price">$19.90</div>-->
 					<div class="cbp-vm-details">
-					<h3 class="cbp-vm-title <?php echo $title_class;?>"><a href="<?php echo $link;?>"><?php echo $title;?></a></h3>
+						<h3 class="cbp-vm-title <?php echo $title_class;?>"><a href="<?php echo $link;?>"><?php echo $title;?></a></h3>
 						<span class='details-text'>
 						<?php
-		                if( $exerpt != "" ) :
-		                   echo $exerpt;
-		                else :
-		                   echo "short description This is the headline text. This is the headline text. more text here. Testing testing";
-		                endif;
-		                ?>
+						if( $exerpt != "" ) :
+							echo $exerpt;
+						else :
+							echo "short description This is the headline text. This is the headline text. more text here. Testing testing";
+						endif;
+						?>
 		                </span>
 					</div>
 					<a class="cbp-vm-icon cbp-vm-add" href="<?php echo $link; ?>">Add to cart</a>
 				</li>
 				<?php $count++; ?>
 
-				<?php }
+			<?php }
 
 			?>
 
-				<!--<div id="load_more">Load More</div> -->
+			<!--<div id="load_more">Load More</div> -->
 		</ul>
 
 	<?php }
 
 	/**
-	*  Loads all UI elements
-	*/
+	 *  Loads all UI elements
+	 */
 	public static function display_ui() {
 
 		/* get download data */
@@ -492,31 +495,31 @@ class Inbound_Pro_Downloads {
 	}
 
 	/**
-	*  Prints filters
-	*/
+	 *  Prints filters
+	 */
 	public static function display_filters() {
 		?>
 		<div class="filter-options row">
 
 			<div class="col-xs-12 col-md-12">
-			  <div class="templates-filter-group left-group">
-				<h5 class="filter-label"><?php echo self::$headline; ?></h5>
-				<button class="btn btn-go" data-filter-value="all"><span class="visuallyhidden"><?php _e( 'All' , INBOUNDNOW_TEXT_DOMAIN ); ?></span></button>
-				<button class="btn btn-primary" data-filter-value="landing-pages"><span class="visuallyhidden"><?php _e( 'Landing Pages' , INBOUNDNOW_TEXT_DOMAIN ); ?></span></button>
-				<button class="btn btn-warning" data-filter-value="calls-to-action"><span class="visuallyhidden"><?php _e( 'Calls to Action' , INBOUNDNOW_TEXT_DOMAIN ); ?></span></button>
-				<?php
-				/* if extension management page then show more core components */
-				if ( self::$management_mode == 'extensions' ) {
-					?>
-					<button class="btn btn-success" data-filter-value="leads"><span class="visuallyhidden"><?php _e( 'Leads' , INBOUNDNOW_TEXT_DOMAIN ); ?></span></button>
-					<button class="btn btn-danger" data-filter-value="automation"><span class="visuallyhidden"><?php _e( 'Automation' , INBOUNDNOW_TEXT_DOMAIN ); ?></span></button>
-
+				<div class="templates-filter-group left-group">
+					<h5 class="filter-label"><?php echo self::$headline; ?></h5>
+					<button class="btn btn-go" data-filter-value="all"><span class="visuallyhidden"><?php _e( 'All' , INBOUNDNOW_TEXT_DOMAIN ); ?></span></button>
+					<button class="btn btn-primary" data-filter-value="landing-pages"><span class="visuallyhidden"><?php _e( 'Landing Pages' , INBOUNDNOW_TEXT_DOMAIN ); ?></span></button>
+					<button class="btn btn-warning" data-filter-value="calls-to-action"><span class="visuallyhidden"><?php _e( 'Calls to Action' , INBOUNDNOW_TEXT_DOMAIN ); ?></span></button>
 					<?php
-				}
-				?>
-				<button class="btn btn-info" data-filter-value="email"><span class="visuallyhidden"><?php _e( 'Email' , INBOUNDNOW_TEXT_DOMAIN ); ?></span></button>
+					/* if extension management page then show more core components */
+					if ( self::$management_mode == 'extensions' ) {
+						?>
+						<button class="btn btn-success" data-filter-value="leads"><span class="visuallyhidden"><?php _e( 'Leads' , INBOUNDNOW_TEXT_DOMAIN ); ?></span></button>
+						<button class="btn btn-danger" data-filter-value="automation"><span class="visuallyhidden"><?php _e( 'Automation' , INBOUNDNOW_TEXT_DOMAIN ); ?></span></button>
 
-			  </div>
+						<?php
+					}
+					?>
+					<button class="btn btn-info" data-filter-value="email"><span class="visuallyhidden"><?php _e( 'Email' , INBOUNDNOW_TEXT_DOMAIN ); ?></span></button>
+
+				</div>
 			</div>
 
 
@@ -542,20 +545,20 @@ class Inbound_Pro_Downloads {
 	}
 
 	/**
-	*  Loop through downloads datset and display grid items
-	*/
+	 *  Loop through downloads datset and display grid items
+	 */
 	public static function display_grid_items() {
-       self::$customer = Inbound_Pro_Plugin::get_customer_status();
+		self::$customer = Inbound_Pro_Plugin::get_customer_status();
 
 		?>
 
 		<div class="wrap">
-		<?php
+			<?php
 			/*
 			echo "<pre>";
 			print_r(self::$downloads);exit;
 			/**/
-		?>
+			?>
 			<div id="grid" class="container-fluid">
 				<?php $count = 1;
 
@@ -582,12 +585,12 @@ class Inbound_Pro_Downloads {
 					if ($count % 3 == 0) {
 						echo "<div></div>";
 					}
-                    $count++;
+					$count++;
 
-                    /* Determine if needs update */
-                    if ( version_compare( $download['current_version'] ,  $download['server_version']) == -1  && !in_array('uninstalled', $download['status']) )  {
-                        $download['status'][] = 'needs-update';
-                    }
+					/* Determine if needs update */
+					if ( version_compare( $download['current_version'] ,  $download['server_version']) == -1  && !in_array('uninstalled', $download['status']) )  {
+						$download['status'][] = 'needs-update';
+					}
 
 
 
@@ -650,7 +653,7 @@ class Inbound_Pro_Downloads {
 							if ( in_array( 'uninstalled' , $download['status'] )&& $permitted ) {
 								?>
 								<div class="action-install">
-									<a  href="admin.php?page=<?php echo $_GET['page']; ?>&action=install&download=<?php echo $download['post_name']; ?>&download_type=<?php echo $download['download_type']; ?>&filename=<?php echo $download['zip_filename']; ?>" class="power-toggle power-is-off fa fa-power-off"  data-toggle="tooltip" id='<?php echo $download['post_name']; ?>' title='<?php _e( 'Turn On' , INBOUNDNOW_TEXT_DOMAIN ); ?>'></a>
+									<a  href="admin.php?page=<?php echo $_GET['page']; ?>&action=install&download=<?php echo $download['post_name']; ?>&download_type=<?php echo $download['download_type']; ?>&filename=<?php echo $download['filename']; ?>" class="power-toggle power-is-off fa fa-power-off"  data-toggle="tooltip" id='<?php echo $download['post_name']; ?>' title='<?php _e( 'Turn On' , INBOUNDNOW_TEXT_DOMAIN ); ?>'></a>
 								</div>
 								<?php
 							}
@@ -658,22 +661,22 @@ class Inbound_Pro_Downloads {
 							if ( in_array( 'installed' , $download['status'] ) && $permitted ) {
 								?>
 								<div class="action-uninstall">
-									<a href="admin.php?page=<?php echo $_GET['page']; ?>&action=uninstall&download=<?php echo $download['post_name']; ?>&filename=<?php echo $download['zip_filename']; ?>" class="power-toggle power-is-on fa fa-power-off"  data-toggle="tooltip" id='<?php echo $download['post_name']; ?>' title='<?php _e( 'Turn Off' , INBOUNDNOW_TEXT_DOMAIN ); ?>'></a>
+									<a href="admin.php?page=<?php echo $_GET['page']; ?>&action=uninstall&download=<?php echo $download['post_name']; ?>&filename=<?php echo $download['filename']; ?>" class="power-toggle power-is-on fa fa-power-off"  data-toggle="tooltip" id='<?php echo $download['post_name']; ?>' title='<?php _e( 'Turn Off' , INBOUNDNOW_TEXT_DOMAIN ); ?>'></a>
 								</div>
 
 								<?php
-                                if ( in_array( 'needs-update' , $download['status'] ) ) {
-                                    ?>
-                                    <div class="action-update">
-                                        <a href="admin.php?page=<?php echo $_GET['page']; ?>&action=install&download=<?php echo $download['post_name']; ?>&download_type=<?php echo $download['download_type']; ?>&filename=<?php echo $download['zip_filename']; ?>" class="fa fa-floppy-o"  data-toggle="tooltip" id='<?php echo $download['post_name']; ?>' title='<?php _e( 'Update' , INBOUNDNOW_TEXT_DOMAIN ); ?>'></a>
-                                    </div>
-                                    <?php
-                                }
+								if ( in_array( 'needs-update' , $download['status'] ) ) {
+									?>
+									<div class="action-update">
+										<a href="admin.php?page=<?php echo $_GET['page']; ?>&action=install&download=<?php echo $download['post_name']; ?>&download_type=<?php echo $download['download_type']; ?>&filename=<?php echo $download['filename']; ?>" class="fa fa-floppy-o"  data-toggle="tooltip" id='<?php echo $download['post_name']; ?>' title='<?php _e( 'Update' , INBOUNDNOW_TEXT_DOMAIN ); ?>'></a>
+									</div>
+									<?php
+								}
 
 								if ($download['download_type'] == 'extension' ) {
 									$settings_url = apply_filters(
 										'inbound-pro/download-setting-url' ,
-										add_query_arg( array( 'page'=>'inbound-pro' , 'tab' =>  'inbound-pro-settings' , 'setting' => $download['zip_filename'] ) , admin_url( 'admin.php' ) )
+										add_query_arg( array( 'page'=>'inbound-pro' , 'tab' =>  'inbound-pro-settings' , 'setting' => $download['filename'] ) , admin_url( 'admin.php' ) )
 										, $download );
 									?>
 									<div class="action-settings">
@@ -684,12 +687,12 @@ class Inbound_Pro_Downloads {
 							}
 
 							if (!$permitted) {
-                                ?>
-                                <div class="action-locked">
-                                  <i class="fa fa-lock"  data-toggle="tooltip" id='' title='<?php _e( 'Active license with correct permissions required to install.' , INBOUNDNOW_TEXT_DOMAIN ); ?>'></i>
-                                </div>
-                                 <?php
-                            }
+								?>
+								<div class="action-locked">
+									<i class="fa fa-lock"  data-toggle="tooltip" id='' title='<?php _e( 'Active license with correct permissions required to install.' , INBOUNDNOW_TEXT_DOMAIN ); ?>'></i>
+								</div>
+								<?php
+							}
 							?>
 						</div>
 					</div>
@@ -704,8 +707,8 @@ class Inbound_Pro_Downloads {
 
 
 	/**
-	*  Discover weather download is installed or uninstalled and weather it needs an upgrade or not
-	*/
+	 *  Discover weather download is installed or uninstalled and weather it needs an upgrade or not
+	 */
 	public static function get_download_status() {
 
 
@@ -713,12 +716,12 @@ class Inbound_Pro_Downloads {
 
 
 	/**
-	*  Determines uploads location
-	*/
+	 *  Determines uploads location
+	 */
 	public static function get_upload_path( $download ) {
 
 		/* get zip file name */
-		$folder_name =  ( isset($download['zip_filename']) ) ? $download['zip_filename'] :  $download['post_name'];
+		$folder_name =  ( isset($download['filename']) ) ? $download['filename'] :  $download['post_name'];
 
 		if ( $download['download_type'] == 'extension' ) {
 			return 	INBOUND_PRO_UPLOADS_PATH . 'extensions/'. $folder_name;
@@ -739,8 +742,8 @@ class Inbound_Pro_Downloads {
 	}
 
 	/**
-	*  Display management page
-	*/
+	 *  Display management page
+	 */
 	public static function load_management_vars( ) {
 
 		$page = (isset($_REQUEST['page'])) ? $_REQUEST['page'] : 'inbound-manage-extensions';
@@ -790,8 +793,8 @@ class Inbound_Pro_Downloads {
 
 
 	/**
-	*  Loads inline JS & CSS
-	*/
+	 *  Loads inline JS & CSS
+	 */
 	public static function load_inline_js_css() {
 		$screen = get_current_screen();
 
@@ -805,9 +808,9 @@ class Inbound_Pro_Downloads {
 
 		?>
 		<script>
-		jQuery(document).ready(function() {
+			jQuery(document).ready(function() {
 
-		});
+			});
 		</script>
 		<?php
 	}
@@ -817,12 +820,9 @@ class Inbound_Pro_Downloads {
 
 
 /**
-*	Loads Inbound_Pro_Downloads on admin_init
-*/
+ *	Loads Inbound_Pro_Downloads on admin_init
+ */
 function load_Inbound_Pro_Downloads() {
 	$Inbound_Pro_Downloads = new Inbound_Pro_Downloads;
 }
 add_action( 'init' , 'load_Inbound_Pro_Downloads' );
-
-
-

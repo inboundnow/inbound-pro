@@ -40,8 +40,8 @@ class Inbound_Extension_Loads {
 				continue;
 			}
 
-			if ( file_exists( $extension['upload_path'] . '/' . $extension['zip_filename'] . '.php' ) ) {
-				include_once( $extension['upload_path'] . '/' . $extension['zip_filename'] . '.php' );
+			if ( file_exists( $extension['upload_path'] . '/' . $extension['filename'] . '.php' ) ) {
+				include_once( $extension['upload_path'] . '/' . $extension['filename'] . '.php' );
 			}
 		}
 

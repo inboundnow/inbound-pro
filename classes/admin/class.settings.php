@@ -336,7 +336,7 @@ class Inbound_Pro_Settings {
 		
 		<p>Head into your 'my account' area to retrieve your customer API Key. API Keys are setup in the <a href='admin.php?tab=inbound-pro-setup&page=inbound-pro&setting=core' target='_blank' >core settings</a> area and will unlock downloads available to your account. With an <a href='http://inboundsite.wpengine.com/pricing/' target='_blank'>active membership</a> you will have one-click installation access to templates and extensions.</p>
 
-		<h1>What's new in Inbound Pro?</h1>
+		<h1>What's new?</h1>
 		
 		<ul class="features">
 			<li><a href='#email'> Email Component</a></li>

@@ -141,10 +141,7 @@ class Inbound_Pro_Activation {
 			$download = $downloads[ $id ];
 
 			/* get zip URL from api server */
-			$download['download_location'] = Inbound_API_Wrapper::get_download_zip( array(
-				'filename' => $download['zip_filename'] ,
-				'type' =>  $download['download_type']
-			));
+			$download['download_location'] = Inbound_API_Wrapper::get_download_zip( $download );
 
 			/* bail if fail */
 			if (!strstr($download['download_location'] , 'http' )) {

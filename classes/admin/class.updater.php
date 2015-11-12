@@ -449,15 +449,3 @@ class Inbound_Pro_Automatic_Updates {
 }
 
 new Inbound_Pro_Automatic_Updates;
-
-/*
-$response =  wp_remote_get(
-  'http://localhost:3001/api/pro/zip?api=rT2zXTabyiZMSITDoPfIZgy80KfLv7f0&site=http://inboundnow.dev',
-    array(
-        'timeout'     => 120,
-        'redirection'     => 5,
-        'decompress'  => false
-    )
-);
-//var_dump($response);exit;
-*/
