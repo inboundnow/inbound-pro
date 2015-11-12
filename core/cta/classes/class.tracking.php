@@ -100,8 +100,11 @@ class CTA_Conversion_Tracking {
 			'datetime' => $wordpress_date_time
 		);
 
+		/* legacy lead tracking */
 		self::store_legacy_cta_click( $args );
-		Inbound_Events::store_cta_click( $args);
+
+		/* for events table tracking and other hooks */
+		do_action('inbound_tracked_cta_click' , $args);
 
 
 	}
