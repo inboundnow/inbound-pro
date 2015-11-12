@@ -85,7 +85,7 @@ $blue = (isset($RBG_array['b'])) ? $RBG_array['b'] : '0';
 
     <style type="text/css">
         <?php if ($mobile_form==="on") {
-            echo "@media (max-width: 630px) { #lp_container {display:none;}}"; // css rule for mobile devices
+            echo "@media (max-width: 630px) { #form-area {display:none;}}"; // css rule for mobile devices
         }
         ?>
         <?php if ($sidebar_color !="") {
@@ -200,7 +200,7 @@ $blue = (isset($RBG_array['b'])) ? $RBG_array['b'] : '0';
         // move form to bottom of content on mobile
         jQuery(document).ready(function ($) {
             if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {
-                jQuery("#lp_container").addClass("form-move").appendTo("article").show();
+                jQuery("#form-area").addClass("form-move").appendTo("article").show();
             }
             var delay = (function () {
                 var timer = 0;
@@ -216,10 +216,10 @@ $blue = (isset($RBG_array['b'])) ? $RBG_array['b'] : '0';
                         var width = jQuery(window).width();
                         // If on desktop and window is less than 630px show the form at bottom
                         if (width < 630) {
-                            jQuery("#lp_container").addClass("form-move").appendTo("article").show();
+                            jQuery("#form-area").addClass("form-move").appendTo("article").show();
                         } else {
                             // Put the form back up top
-                            jQuery("#lp_container").removeClass("form-move").appendTo("#form-area").show();
+                            jQuery("#form-area").removeClass("form-move").appendTo("#form-area").show();
                         }
                     }, pause);
                 });

@@ -1119,7 +1119,7 @@ class Landing_Pages_Metaboxes {
         }
 
 
-        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE || $screen->action == 'add' ) {
+        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE  ) {
             return;
         }
 
