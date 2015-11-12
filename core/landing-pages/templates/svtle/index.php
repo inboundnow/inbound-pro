@@ -143,59 +143,59 @@ $blue = (isset($RBG_array['b'])) ? $RBG_array['b'] : '0';
         echo "<link rel='stylesheet' href='" . $path . "assets/css/flipped-layout.css' type='text/css' media='screen'>";
     } ?>
     <style type="text/css">
-            #inbound-form-wrapper input[type=text], #inbound-form-wrapper input[type=url], #inbound-form-wrapper input[type=email], #inbound-form-wrapper input[type=tel], #inbound-form-wrapper input[type=number], #inbound-form-wrapper input[type=password], .inbound-field input[type=text], .inbound-field input[type=url], .inbound-field input[type=email], .inbound-field input[type=tel], .inbound-field input[type=number], .inbound-field input[type=password] {
-                width: 90%;
-                color: #000;
-            }
-
-        </style>
+        #inbound-form-wrapper input[type=text], #inbound-form-wrapper input[type=url], #inbound-form-wrapper input[type=email], #inbound-form-wrapper input[type=tel], #inbound-form-wrapper input[type=number], #inbound-form-wrapper input[type=password], .inbound-field input[type=text], .inbound-field input[type=url], .inbound-field input[type=email], .inbound-field input[type=tel], .inbound-field input[type=number], .inbound-field input[type=password] {
+            width: 90%;
+            color: #000;
+        }
 
     </style>
-</head>
-<body class="home blog">
-<header id="sidebar">
+
+    </style>
+    </head>
+    <body class="home blog">
+    <header id="sidebar">
     <aside id="logo" class="clearfix">
-        <figure data-media="<?php echo $logo; ?>" data-media440="<?php echo $logo; ?>"
-                data-media600="<?php echo $logo; ?>" title="<?php echo $main_headline; ?>">
-            <img src="<?php echo $logo; ?>" alt="<?php echo $main_headline; ?>">
-        </figure>
+    <figure data-media="<?php echo $logo; ?>" data-media440="<?php echo $logo; ?>"
+    data-media600="<?php echo $logo; ?>" title="<?php echo $main_headline; ?>">
+    <img src="<?php echo $logo; ?>" alt="<?php echo $main_headline; ?>">
+    </figure>
+      </aside>
+        <aside id="form-area">
+    <?php echo $conversion_area; ?>
     </aside>
-    <aside id="form-area">
-        <?php echo $conversion_area; ?>
-    </aside>
-</header>
-<section id="river" role="main">
+      </header>
+        <section id="river" role="main">
     <?php if ($social_display === "1") { // Show Social Media Icons?>
-        <header id="begin">
-            <?php lp_social_media(); // print out social media buttons?>
-        </header>
-    <?php } else { ?>
-        <style type="text/css">
-            article.post {
-                padding-top: 0px;
-            }
-        </style>
+    <header id="begin">
+    <?php lp_social_media(); // print out social media buttons?>
+    </header>
+      <?php } else { ?>
+      <style type="text/css">
+    article.post {
+        padding-top: 0px;
+    }
+    </style>
     <?php } ?>
     <article id="main-landing-content" class="post">
         <h1 class="entry-title"><?php echo $main_headline; ?></h1>
 
         <div class="entry-content">
             <?php
-                echo $content;
+            echo $content;
             ?>
         </div>
     </article>
-</section>
-<div>
-    <!--[if IE]>
-    <style type="text/css">
-        .widget {
-            background-color: black
-        }
-    </style>
-    <![endif]-->
-</div>
-<?php if ($mobile_form === "on") { // Show form below content on mobile view ?>
+    </section>
+    <div>
+        <!--[if IE]>
+        <style type="text/css">
+            .widget {
+                background-color: black
+            }
+        </style>
+        <![endif]-->
+    </div>
+    <?php if ($mobile_form === "on") { // Show form below content on mobile view ?>
     <script type="text/javascript">
         // move form to bottom of content on mobile
         jQuery(document).ready(function ($) {
@@ -227,12 +227,12 @@ $blue = (isset($RBG_array['b'])) ? $RBG_array['b'] : '0';
             });
         });
     </script>
-<?php } // end mobile form conditional
-break;
-endwhile;
-endif;
-do_action('lp_footer'); // load landing pages footer hook
-wp_footer(); // load normal wordpress footer ?>
-</body>
+    <?php } // end mobile form conditional
+    break;
+    endwhile;
+    endif;
+    do_action('lp_footer'); // load landing pages footer hook
+    wp_footer(); // load normal wordpress footer ?>
+    </body>
 
 </html>

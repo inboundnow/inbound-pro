@@ -1,9 +1,9 @@
 <?php
 /**
-* Template Name:  Svtle Template
-* @package  WordPress Landing Pages
-* @author 	Inbound Now
-*/
+ * Template Name:  Svtle Template
+ * @package  WordPress Landing Pages
+ * @author 	Inbound Now
+ */
 
 /* gets template directory name to use as identifier - do not edit - include in all template files */
 $key = basename(dirname(__FILE__));
@@ -11,12 +11,12 @@ $key = basename(dirname(__FILE__));
 $path = (preg_match("/uploads/", dirname(__FILE__))) ? LANDINGPAGES_UPLOADS_URLPATH . $key .'/' : LANDINGPAGES_URLPATH.'templates/'.$key.'/';
 
 $lp_data[$key]['info'] = array(
-	'data_type' => 'acf4',
-	'version' => "1.0.1",
-	'label' => "Svbtle",
-	'category' => '2 column',
-	'demo' => 'http://demo.inboundnow.com/go/sbvtle-lander-preview/',
-	'description'  => __('Clean and minimalistic design for a straight forward conversion page.','landing-pages')
+    'data_type' => 'acf4',
+    'version' => "1.0.1",
+    'label' => "Svbtle",
+    'category' => '2 column',
+    'demo' => 'http://demo.inboundnow.com/go/sbvtle-lander-preview/',
+    'description'  => __('Clean and minimalistic design for a straight forward conversion page.','landing-pages')
 );
 
 /* define ACF fields here */
@@ -180,7 +180,7 @@ if( function_exists('register_field_group') ):
                 'return_format' => 'url',
                 'preview_size' => 'thumbnail',
                 'library' => 'all',
-				'default_value' => $path .'assets/images/inbound-logo.png',
+                'default_value' => $path .'assets/images/inbound-logo.png',
                 'min_width' => '',
                 'min_height' => '',
                 'min_size' => '',
@@ -267,7 +267,7 @@ if( function_exists('register_field_group') ):
             array (
                 'key' => 'field_55e4b1ba18115',
                 'label' => __('Display Form Below Content On Mobile?','landing-pages'),
-                'name' => 'display_form_below_content_on_mobile',
+                'name' => 'svtle-mobile-form',
                 'type' => 'radio',
                 'instructions' => __('Toggle this on to render the form below the content in the mobile view','landing-pages'),
                 'required' => 0,
@@ -287,7 +287,7 @@ if( function_exists('register_field_group') ):
                 'layout' => 'vertical',
             ),
         ),
-         'location' => array (
+        'location' => array (
             array (
                 array (
                     'param' => 'post_type',
