@@ -145,7 +145,7 @@ class Leads_Settings {
 
 
         /* Setup License Keys Tab */
-        if ( !defined('INBOUND_PRO_PATH') && $_SERVER['REMOTE_ADDR']!='127.0.0.1') {
+        if ( !defined('INBOUND_PRO_PATH') )  {
             $tab_slug = 'wpleads-license-keys';
             $wpleads_global_settings[$tab_slug]['label'] = __('License Keys' , 'leads' );
         }
@@ -183,7 +183,7 @@ class Leads_Settings {
         $wpleads_global_settings = self::get_settings();
 
         /* if running pro do not load license keys tab */
-        if (defined('INBOUND_PRO_PATH') || $_SERVER['REMOTE_ADDR']=='127.0.0.1') {
+        if (defined('INBOUND_PRO_PATH') ) {
             unset($wpleads_global_settings['wpleads-license-keys']);
         }
 
@@ -249,68 +249,44 @@ class Leads_Settings {
 
             /* loop through fields and save the data */
             foreach ($wpleads_global_settings[$key]['settings'] as $field) {
-                //echo $field['id'].":".$_POST['main-landing-page-auto-format-forms']."<br>";
+                error_log(print_r($field,true));
                 $field['id'] = $key.'-'.$field['id'];
 
                 if (array_key_exists('option_name',$field) && $field['option_name'] ) {
                     $field['id'] = $field['option_name'];
                 }
 
-                if ( !isset($_POST[$field['id']]) ) {
-                    continue;
-                }
+                if ($field['type']=='inboundnow-license-key') {
+                    /* error_log(print_r($field, true)); */
 
-                $field['old_value'] = get_option($field['id']);
-                $field['new_value'] = $_POST[$field['id']];
+                    $api_params = array(
+                        'edd_action' => 'activate_license',
+                        'license' =>   $_POST['inboundnow_master_license_key'],
+                        'item_name' => $field['remote_download_slug']
+                    );
+                    /* error_log(print_r($api_params, true)); */
 
-                if ((isset($field['new_value']) && $field['new_value'] !== $field['old_value'] )|| !isset($field['old_value']) ) {
-                    //echo $field['id'];exit;
-                    $bool = update_option($field['id'],$field['new_value']);
+                    /* Call the edd API */
+                    $response = wp_remote_get(add_query_arg($api_params, WPL_STORE_URL), array('timeout' => 30, 'sslverify' => false));
+                    /* error_log(print_r($response, true)); */
 
-                    if ($field['type']=='license-key') {
-
-                        // data to send in our API request
-                        $api_params = array(
-                            'edd_action'=> 'activate_license',
-                            'license' 	=> $field['new_value'],
-                            'item_name' =>  $field['slug'] // the name of our product in EDD
-                        );
-                        //print_r($api_params);
-
-                        // Call the custom API.
-                        $response = wp_remote_get( add_query_arg( $api_params, WPWPL_STORE_URL ), array( 'timeout' => 30, 'sslverify' => false ) );
-                        //echo $response['body'];exit;
-
-                        // make sure the response came back okay
-                        if ( is_wp_error( $response ) ) {
-                            break;
-                        }
-
-                        // decode the license data
-                        $license_data = json_decode( wp_remote_retrieve_body( $response ) );
-
-
-                        // $license_data->license will be either "active" or "inactive"
-                        $license_status = update_option('wpleads_license_status-'.$field['slug'], $license_data->license);
-
-                        //echo 'lp_license_status-'.$field['slug']." :".$license_data->license;exit;
+                    /* make sure the response came back okay */
+                    if (is_wp_error($response)) {
+                        break;
                     }
-                } elseif ('' == $field['new_value'] && $field['old_value']) {
 
-                    if ($field['type']=='license-key') {
+                    /* decode the license data */
+                    $license_data = json_decode(wp_remote_retrieve_body($response));
+                    /* error_log(print_r($license_data, true)); */
 
-                        $master_key = get_option('inboundnow_master_license_key' , '');
-
-                        if ($master_key) {
-                            $bool = update_option($field['id'], $master_key );
-                        } else {
-                            update_option($field['id'], '' );
-                        }
-
-                    } else {
-                        $bool = update_option($field['id'],$field['default']);
+                    /* $license_data->license will be either "active" or "inactive" */
+                    update_option('wpleads_license_status-' . $field['slug'], $license_data->license);
+                } else {
+                    if (isset($_POST[$field['id']])) {
+                        update_option($field['id'], $_POST[$field['id']]);
                     }
                 }
+
 
                 do_action('wpleads_save_global_settings',$field);
 

@@ -25,8 +25,8 @@ class Inbound_Menus_Admin {
 	public static function add_menu_items() {
 
 		add_menu_page(
-			__( 'Inbound Pro' , INBOUNDNOW_TEXT_DOMAIN ) ,  /* page title */
-			__( 'Inbound Pro' , INBOUNDNOW_TEXT_DOMAIN ) , /* menu title */
+			__( 'Inbound Now' , INBOUNDNOW_TEXT_DOMAIN ) ,  /* page title */
+			__( 'Inbound Now' , INBOUNDNOW_TEXT_DOMAIN ) , /* menu title */
 			'manage_options', /* capability */
 			'inbound-pro', /* menu slug */
 			array( 'Inbound_Pro_Settings' , 'display' ), /* page function */

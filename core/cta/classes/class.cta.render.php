@@ -89,9 +89,10 @@ if ( !class_exists( 'CTA_Render' ) ) {
             /* Modify admin URL for previews */
             add_filter( 'admin_url', array( $this, 'modify_admin_url'));
 
-            /* wpautop only up to 3rd priority - Why have it any further? */
+            /* wpautop only up to 3th priority & reenable autoembed */
             remove_filter('the_content','wpautop');
             add_filter('the_content','wpautop' , 3 );
+            add_filter( 'the_content', array( $GLOBALS['wp_embed'], 'autoembed' ), 2 );
 
         }
 
@@ -365,7 +366,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
             /* Setup determine variation global function */
             if ( isset( $_GET['wp-cta-variation-id'] ) ) {
-                self::$instance->selected_cta['id'] =  $_GET['wp-cta-variation-id'];
+                self::$instance->selected_cta['id'] =  intval($_GET['wp-cta-variation-id']);
             }
 
             /* determine ajax url */
@@ -1230,7 +1231,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
             $cta_template = self::$instance->build_cta_content($selected_cta);
 
             /* account for preview mode  */
-            $vid = (isset($_GET['wp-cta-variation-id'])) ? $_GET['wp-cta-variation-id'] : $vid;
+            $vid = (isset($_GET['wp-cta-variation-id'])) ? intval($_GET['wp-cta-variation-id']) : $vid;
 
             $script = self::$instance->load_shortcode_variation_js( $id, $vid, true );
 
@@ -1303,7 +1304,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
             echo '<body style="backgorund-image:none;background-color:#fff;width:100%;">';
             echo '<div id="cta-preview-container" style="margin:auto;">';
             if ( isset($_GET['post_id'] ) || isset($_GET['wp-cta-variation-id']) ) {
-                echo do_shortcode('[cta id="'.$cta_id.'" vid="'.$_GET['wp-cta-variation-id'].'"]');
+                echo do_shortcode('[cta id="'.$cta_id.'" vid="'.intval($_GET['wp-cta-variation-id']).'"]');
             } else {
                 echo do_shortcode('[cta id="'.$cta_id.'"]');
             }
@@ -1329,7 +1330,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
             <?php } ?>
             <script type="text/javascript">
                 jQuery(document).ready(function($) {
-                    jQuery('.wp_cta_<?php echo $cta_id; ?>_variation_<?php echo $_GET['wp-cta-variation-id']; ?>').show();
+                    jQuery('.wp_cta_<?php echo $cta_id; ?>_variation_<?php echo intval($_GET['wp-cta-variation-id']); ?>').show();
                 });
             </script>
             <?php

@@ -148,3 +148,4 @@ core/leads/.idea/
 
 /inbound-pro.sublime-project
 /inbound-pro.sublime-workspace
+*.dist

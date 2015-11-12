@@ -117,7 +117,7 @@ class CTA_Global_Settings {
 
 		self::$active_tab = 'wp-cta-main';
 		if (isset($_REQUEST['open-tab'])) {
-			self::$active_tab = $_REQUEST['open-tab'];
+			self::$active_tab = sanitize_title($_REQUEST['open-tab']);
 		}
 
 		echo '<h2 class="nav-tab-wrapper">';

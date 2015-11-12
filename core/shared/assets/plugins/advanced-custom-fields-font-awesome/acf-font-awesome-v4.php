@@ -306,7 +306,7 @@ class acf_field_font_awesome extends acf_field
 	function input_admin_enqueue_scripts()
 	{
 		// register acf scripts
-		wp_enqueue_script('acf-input-font-awesome-select2', $this->settings['dir'] . 'js/select2/select2.min.js', array(), $this->settings['version']);
+		/* wp_enqueue_script('acf-input-font-awesome-select2', $this->settings['dir'] . 'js/select2/select2.min.js', array(), $this->settings['version']); */
 		wp_enqueue_script('acf-input-font-awesome-edit-input', $this->settings['dir'] . 'js/edit_input.js', array(), $this->settings['version']);
 		wp_enqueue_style('acf-input-font-awesome-input', $this->settings['dir'] . 'css/input.css', array(), $this->settings['version']);
 		wp_enqueue_style('acf-input-font-awesome-fa', $this->stylesheet, array(), $this->version);

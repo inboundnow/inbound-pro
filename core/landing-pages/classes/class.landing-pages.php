@@ -138,6 +138,11 @@ class Landing_Pages_Template_Switcher {
             return $single;
         }
 
+        /* nextgen gallery support */
+        if (!defined('NGG_DISABLE_FILTER_THE_CONTENT')) {
+            define( 'NGG_DISABLE_FILTER_THE_CONTENT' , true );
+        } 
+
         $template = Landing_Pages_Variations::get_current_template( $post->ID );
 
         if (!isset($template) || $template === 'default' ) {
@@ -279,7 +284,7 @@ class Landing_Pages_Template_Switcher {
         }
 
 
-        $template_name = Landing_Pages_Variation::get_current_tempalte( $post->ID );
+        $template_name = Landing_Pages_Variations::get_current_template( $post->ID );
         if ($template_name != 'default') {
             return $args;
         }
@@ -589,7 +594,7 @@ function lp_add_option($key, $type, $id, $default = null, $label = null, $descri
             return array('label' => $label, 'description' => $description, 'id' => $id, 'type' => 'text', 'default' => $default);
             break;
         case "license-key":
-            return array('label' => $label, 'description' => $description, 'id' => $id, 'type' => 'license-key', 'default' => $default, 'slug' => $id);
+            return array('label' => $label, 'description' => $description, 'id' => $id, 'type' => 'inbound-license-key', 'default' => $default, 'slug' => $id);
             break;
         case "textarea":
             return array('label' => $label, 'description' => $description, 'id' => $id, 'type' => 'textarea', 'default' => $default);

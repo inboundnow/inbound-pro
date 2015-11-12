@@ -165,6 +165,8 @@ class Inbound_Customizer {
             $vid = '0';
         }
 
+        $vid = intval($vid);
+
         $preview_link = add_query_arg(
                 array(  'cache_bust' => $randomString,
                         $syntax => $vid,

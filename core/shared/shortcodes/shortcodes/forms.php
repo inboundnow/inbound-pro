@@ -44,7 +44,7 @@ $shortcodes_config['forms'] = array(
         ),*/
         'redirect' => array(
             'name' => __('Redirect URL<span class="small-required-text">*</span>', INBOUNDNOW_TEXT_DOMAIN ),
-            'desc' => __('Where do you want to send people after they fill out the form?', INBOUNDNOW_TEXT_DOMAIN ),
+            'desc' => __('Where do you want to send people after they fill out the form? Please note: http:// is required.', INBOUNDNOW_TEXT_DOMAIN ),
             'type' => 'text',
             'placeholder' => "http://www.yoursite.com/thank-you",
             'std' => '',

@@ -220,7 +220,7 @@ if( function_exists('register_field_group') ):
             array (
                 'key' => 'field_55df8f6d2aa2d',
                 'label' => __( 'Sidebar Text Color','landing-pages'),
-                'name' => 'simple-two-column-sidebar-color',
+                'name' => 'simple-two-column-sidebar-text-color',
                 'type' => 'color_picker',
                 'instructions' => __( 'Use this setting to change the sidebar text color','landing-pages'),
                 'required' => 0,

@@ -43,7 +43,7 @@ if ($background_style === "fullscreen") {
   filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="' . $background_image . '", sizingMethod="scale");
   -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src="' . $background_image . '", sizingMethod="scale")";';
 } else if ($background_style === "color") {
-    $bg_style = 'background: #' . $background_color . ';';
+    $bg_style = 'background: ' . $background_color . ';';
 } else if ($background_style === "tile") {
     $bg_style = 'background: url(' . $background_image . ') repeat; ';
 } else if ($background_style === "repeat-x") {

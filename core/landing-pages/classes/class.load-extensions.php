@@ -112,7 +112,7 @@ class Landing_Pages_Load_Extensions {
             }
 
             $template_name = $lp_data[$key]['info']['label'];
-            $global_settings['lp-license-keys']['settings'][$key] = array('id' => $key, 'label' => $template_name, 'slug' => $key, 'description' => __("Head to http://www.inboundnow.com/ to retrieve your license key for this template.", 'landing-pages'), 'type' => 'license-key');
+            $global_settings['lp-license-keys']['settings'][$key] = array('id' => $key, 'label' => $template_name, 'slug' => $key, 'description' => __("Head to http://www.inboundnow.com/ to retrieve your license key for this template.", 'landing-pages'), 'type' => 'inboundnow-license-key');
         }
 
         return $global_settings;
