@@ -80,18 +80,16 @@ $home_page_url	  = get_field("home_page_url", $post_id);
 
 			<div style="font-size:0pt; line-height:0pt; height:1px; background:#3d3e3e; "><img src="<?php echo $urlpath . 'assets/images/empty.gif'; ?>" width="1" height="1" style="height:1px" alt="" /></div>
 
-			<!-- END END 
-			<div style="font-size:0pt; line-height:0pt; height:30px"><img src="<?php //echo $urlpath . 'assets/images/empty.gif'; ?>" width="1" height="30" style="height:30px" alt="" /></div> -->
 
-
+<?php error_log($header_bg_image);exit;?>
 			<!-- Header -->
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
 					<td align="center">
-						<table width="620" border="0" cellspacing="0" cellpadding="0" style="padding:30px 10px; background-image: url(<?php echo $header_bg_image; ?>); background-size: cover; background-color:<?php echo $header_bg_color; ?>; ">
+						<table width="620" border="0" cellspacing="0" cellpadding="0" style="padding:30px 10px; background-image: url(<?php echo $header_bg_image; ?>); background-size: cover; background-color:; ">
 							<tr>
-								<td class="img" style="max-width:274px; font-size:0pt; line-height:0pt; text-align:left"><a href="<?php echo $home_page_url; ?>" target="_blank"><img src="<?php echo $logo_image; ?>" alt="" border="0" /></a></td>
-								<td class="date" style="color:<?php echo $issue_date_color; ?>; font-family:'Trebuchet MS'; font-size:17px; line-height:21px; text-align:right"><?php echo $issue_date; ?></td>
+								<td class="img" style="max-width:274px; font-size:0pt; line-height:0pt; text-align:left"><a href="" target="_blank"><img src="" alt="" border="0" /></a></td>
+								<td class="date" style="color:; font-family:'Trebuchet MS'; font-size:17px; line-height:21px; text-align:right"></td>
 							</tr>
 						</table>
 					</td>
@@ -99,7 +97,7 @@ $home_page_url	  = get_field("home_page_url", $post_id);
 			</table>
 			<!-- END Header -->
 			<div style="font-size:0pt; line-height:0pt; height:20px"></div>
-
+			<?php echo 1; exit; ?>
 <?php
 			/* Start featured_area Flexible Content Area Output */
 				if(function_exists('have_rows')) :
@@ -587,5 +585,5 @@ $home_page_url	  = get_field("home_page_url", $post_id);
 </html>
 
 <?php
-
+exit;
 endwhile; endif;

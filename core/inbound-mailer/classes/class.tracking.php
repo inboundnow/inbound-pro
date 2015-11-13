@@ -6,7 +6,7 @@ class Inbound_Mailer_Tracking {
      *  Initializes Class
      */
     public function __construct() {
-
+        error_log('why');
         self::load_hooks();
 
     }
@@ -14,8 +14,7 @@ class Inbound_Mailer_Tracking {
     public static function load_hooks() {
 
         /* Stores custom click event */
-        add_action( 'init' , array( __CLASS__ ,  'add_click_event_listener' ) , 11); // Click Tracking init
-
+        add_action( 'template_redirect' , array( __CLASS__ ,  'add_click_event_listener' ) , 11); // Click Tracking init
     }
 
     /**
@@ -30,7 +29,6 @@ class Inbound_Mailer_Tracking {
         if ( !isset($_GET['lead_id']) || !isset($_GET['email_id']) ) {
             return;
         }
-
 
         /* setup args */
         $timezone_format = 'Y-m-d G:i:s T';
@@ -57,6 +55,8 @@ class Inbound_Mailer_Tracking {
         $events[] = $args;
 
         Inbound_Mailer_Tracking::update_events_meta(  $_GET['lead_id'] , $events );
+
+        do_action( 'inbound_email_click_event' , $args );
     }
 
 

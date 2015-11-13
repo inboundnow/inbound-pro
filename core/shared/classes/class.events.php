@@ -28,6 +28,9 @@ class Inbound_Events {
         /* listen for Inbound Form submissions and record event to events table */
         add_action('inbound_store_lead_post' , array( __CLASS__ , 'store_form_submission'), 10 , 1);
 
+        /* listen for Inbound Form submissions and record event to events table */
+        //add_action('inbound_email_click_event' , array( __CLASS__ , 'store_email_click'), 10 , 1);
+
     }
 
     /**
@@ -68,6 +71,10 @@ class Inbound_Events {
         dbDelta( $sql );
     }
 
+    /**
+     * Stores a form submission event into events table
+     * @param $lead
+     */
     public static function store_form_submission( $lead ){
 
         parse_str($lead['raw_params'] , $raw_params );
@@ -87,13 +94,35 @@ class Inbound_Events {
         self::store_event($args);
     }
 
+    /**
+     * Stores cta click event into events table
+     * @param $args
+     */
     public static function store_cta_click( $args ) {
         $args['event_name'] = 'inbound_cta_click';
         self::store_event($args);
     }
 
+    /**
+     * Stores inbound email click event into events table
+     * @param $args
+     */
     public static function store_email_click( $args ){
-        $args['event_name'] = 'inbound_email_click';
+        global $wp_query;
+
+        $current_page_id = $wp_query->get_queried_object_id();
+        error_log($current_page_id);
+        $args = array(
+            'event_name' => 'inbound_email_click',
+            'page_id' => $current_page_id,
+            'email_id' => $args['id'],
+            'variation_id' => $args['urlparams']['inbvid'],
+            'lead_id' => $args['urlparams']['lead_id'],
+            'lead_uid' => ( isset($_COOKIE['wp_lead_uid']) ? $_COOKIE['wp_lead_uid'] : null ),
+            'event_details' => json_encode($args['urlparams']),
+            'datetime' => $args['datetime']
+        );
+
         self::store_event($args);
     }
 
@@ -123,7 +152,7 @@ class Inbound_Events {
         );
 
         $args = array_merge( $defaults , $args );
-
+        error_log(print_r($args,true));
         $wpdb->insert(
             $table_name,
             $args
