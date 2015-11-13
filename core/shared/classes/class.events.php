@@ -29,7 +29,7 @@ class Inbound_Events {
         add_action('inbound_store_lead_post' , array( __CLASS__ , 'store_form_submission'), 10 , 1);
 
         /* listen for Inbound Form submissions and record event to events table */
-        //add_action('inbound_email_click_event' , array( __CLASS__ , 'store_email_click'), 10 , 1);
+        add_action('inbound_email_click_event' , array( __CLASS__ , 'store_email_click'), 10 , 1);
 
     }
 
@@ -53,12 +53,12 @@ class Inbound_Events {
         $sql = "CREATE TABLE IF NOT EXISTS $table_name (
 			  `id` mediumint(9) NOT NULL AUTO_INCREMENT,
 			  `event_name` varchar(255) NOT NULL,
-			  `page_id` smallint(20) NOT NULL,
-			  `variation_id` smallint(9) NOT NULL,
-			  `form_id` smallint(20) NOT NULL,
-			  `cta_id` smallint(20) NOT NULL,
-			  `email_id` smallint(20) NOT NULL,
-			  `lead_id` smallint(20) NOT NULL,
+			  `page_id` mediumint(20) NOT NULL,
+			  `variation_id` mediumint(9) NOT NULL,
+			  `form_id` mediumint(20) NOT NULL,
+			  `cta_id` mediumint(20) NOT NULL,
+			  `email_id` mediumint(20) NOT NULL,
+			  `lead_id` mediumint(20) NOT NULL,
 			  `lead_uid` varchar(255) NOT NULL,
 			  `session_id` varchar(255) NOT NULL,
 			  `event_details` text NOT NULL,

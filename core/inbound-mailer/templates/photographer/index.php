@@ -40,7 +40,7 @@ $home_page_url	  = get_field("home_page_url", $post_id);
 <head>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 	<meta content="telephone=no" name="format-detection" />
-	<title>Photograhper Template</title>
+	<title>Photographer Template</title>
 
 	<style type="text/css" media="screen">
 		/* Linked Styles */
@@ -50,9 +50,9 @@ $home_page_url	  = get_field("home_page_url", $post_id);
 		.footer a { color:#999999; text-decoration:underline }
 
 		/* Campaign Monitor wraps the text in editor in paragraphs. In order to preserve design spacing we remove the padding/margin */
-		p { padding:0 !important; margin:0 !important } 
+		p { padding:0 !important; margin:0 !important }
 	</style>
-	
+
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"></link>
 </head>
 <body class="body" style="padding:0 !important; margin:0 !important; display:block !important; -webkit-text-size-adjust:none; background-image:url(<?php echo $urlpath . 'assets/images/bg.jpg'; ?>); background-position:0 0; background-repeat:no-repeat repeat-y">
@@ -80,16 +80,18 @@ $home_page_url	  = get_field("home_page_url", $post_id);
 
 			<div style="font-size:0pt; line-height:0pt; height:1px; background:#3d3e3e; "><img src="<?php echo $urlpath . 'assets/images/empty.gif'; ?>" width="1" height="1" style="height:1px" alt="" /></div>
 
+			<!-- END END
+			<div style="font-size:0pt; line-height:0pt; height:30px"><img src="<?php //echo $urlpath . 'assets/images/empty.gif'; ?>" width="1" height="30" style="height:30px" alt="" /></div> -->
 
-<?php error_log($header_bg_image);exit;?>
+
 			<!-- Header -->
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
 					<td align="center">
-						<table width="620" border="0" cellspacing="0" cellpadding="0" style="padding:30px 10px; background-image: url(<?php echo $header_bg_image; ?>); background-size: cover; background-color:; ">
+						<table width="620" border="0" cellspacing="0" cellpadding="0" style="padding:30px 10px; <?php ! $header_bg_image ? '' :'background-image: url(' . $header_bg_image . '); background-size: cover;'; ?> background-color:<?php echo $header_bg_color; ?>; ">
 							<tr>
-								<td class="img" style="max-width:274px; font-size:0pt; line-height:0pt; text-align:left"><a href="" target="_blank"><img src="" alt="" border="0" /></a></td>
-								<td class="date" style="color:; font-family:'Trebuchet MS'; font-size:17px; line-height:21px; text-align:right"></td>
+								<td class="img" style="max-width:274px; font-size:0pt; line-height:0pt; text-align:left"><a href="<?php echo $home_page_url; ?>" target="_blank"><img src="<?php echo $logo_image; ?>" alt="" border="0" /></a></td>
+								<td class="date" style="color:<?php echo $issue_date_color; ?>; font-family:'Trebuchet MS'; font-size:17px; line-height:21px; text-align:right"><?php echo $issue_date; ?></td>
 							</tr>
 						</table>
 					</td>
@@ -97,7 +99,7 @@ $home_page_url	  = get_field("home_page_url", $post_id);
 			</table>
 			<!-- END Header -->
 			<div style="font-size:0pt; line-height:0pt; height:20px"></div>
-			<?php echo 1; exit; ?>
+
 <?php
 			/* Start featured_area Flexible Content Area Output */
 				if(function_exists('have_rows')) :
@@ -105,7 +107,7 @@ $home_page_url	  = get_field("home_page_url", $post_id);
 						while(have_rows('featured_area')) : the_row();
 							switch(get_sub_field('acf_fc_layout')) :
 							/* start layout featured_content */
-							case 'featured_content' : 
+							case 'featured_content' :
 								$featured_image			= get_sub_field("featured_image");
 								$cta_side				= get_sub_field("cta_side");
 								$cta_bg_color			= get_sub_field("cta_bg_color");
@@ -134,14 +136,14 @@ $home_page_url	  = get_field("home_page_url", $post_id);
 													<?php
 													if ( 'Left' == $cta_side ) {
 														?>
-														<td style="border: 2px solid <?php echo $cta_border_color; ?>; width:240px; background-color:<?php echo $cta_bg_color; ?>; color:<?php echo $cta_text_color; ?>; text-align:left; padding:20px;">
+														<td style="border: 2px solid <?php echo $cta_border_color; ?>; width:240px; background-color:<?php echo $cta_bg_color; ?>; color:<?php echo $cta_text_color; ?>; text-align:left; padding:20px;" >
 															<div>
 															<h2 style="color:<?php echo $cta_text_color; ?>;"><?php echo $cta_title; ?></h2>
 															<p style="font-size: 14px;"><?php echo $cta_text; ?></p></br>
 															<a style="padding:8px 20px; border:none; text-decoration: none; color:<?php echo $cta_button_text_color; ?>; background-color:<?php echo $cta_button_color; ?>" href="<?php echo $cta_button_url; ?>" target="_blank"><?php echo $cta_button_text; ?></a>
 															</div>
 														</td>
-													<?php } ?>			
+													<?php } ?>
 													<td></td>
 													<?php
 													if ( 'Right' == $cta_side ) {
@@ -153,7 +155,7 @@ $home_page_url	  = get_field("home_page_url", $post_id);
 															<a style="padding:8px 20px; border:none; text-decoration: none; color:<?php echo $cta_button_text_color; ?>; background-color:<?php echo $cta_button_color; ?>" href="<?php echo $cta_button_url; ?>" target="_blank"><?php echo $cta_button_text; ?></a>
 															</div>
 														</td>
-													<?php } ?>	
+													<?php } ?>
 												</tr>
 											</table>
 										</td>
@@ -162,13 +164,13 @@ $home_page_url	  = get_field("home_page_url", $post_id);
 								<!-- END Featured Content -->
 
 						<?php break;
-							endswitch; /* end switch statement */ 
+							endswitch; /* end switch statement */
 						endwhile; /* end while statement */
 					 endif; /* end have_rows */
 				endif;  /* end function_exists */
 			/* End featured_area Flexible Content Area Output */
 				?>
-			
+
 			<div style="font-size:0pt; line-height:0pt; height:20px"></div>
 
 
@@ -585,5 +587,5 @@ $home_page_url	  = get_field("home_page_url", $post_id);
 </html>
 
 <?php
-exit;
+
 endwhile; endif;

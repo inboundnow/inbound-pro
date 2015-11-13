@@ -6,7 +6,7 @@ class Inbound_Mailer_Tracking {
      *  Initializes Class
      */
     public function __construct() {
-        error_log('why');
+
         self::load_hooks();
 
     }

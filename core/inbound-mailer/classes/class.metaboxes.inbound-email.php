@@ -1399,8 +1399,10 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             wp_enqueue_script('snap');
 
             /* Load FontAwesome */
-            wp_register_style('font-awesome', INBOUND_EMAIL_URLPATH . 'assets/libraries/FontAwesome/css/font-awesome.min.css');
-            wp_enqueue_style('font-awesome');
+            if ( !class_exists('Inbound_Pro_Plugin')	) {
+                wp_register_style('font-awesome', INBOUND_EMAIL_URLPATH . 'assets/libraries/FontAwesome/css/font-awesome.min.css');
+                wp_enqueue_style('font-awesome');
+            }
 
             /* spin.min.js */
             wp_register_script('ladda-spin', INBOUND_EMAIL_URLPATH . 'assets/libraries/ladda/spin.min.js');
