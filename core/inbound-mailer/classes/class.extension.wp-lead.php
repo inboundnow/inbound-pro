@@ -23,7 +23,11 @@ class Inbound_Mailer_WordPress_Leads {
 		add_filter('wpl_lead_activity_tabs', array( __CLASS__ , 'create_nav_tabs' ) , 10, 1);
 		add_action('wpleads_after_activity_log' , array( __CLASS__ , 'show_inbound_email_click_content' ) );
 		add_action('wpleads_after_activity_log' , array( __CLASS__ , 'show_inbound_email_unsubscribe_content' ) );
-		
+
+		/* add quick stat  */
+		add_action('wpleads_dsiplay_quick_stat', array(__CLASS__, 'display_quick_stat_email_clicks') , 15 );
+		add_action('wpleads_dsiplay_quick_stat', array(__CLASS__, 'display_quick_stat_email_unsubscribes') , 15 );
+
 	}
 	
 	/**
@@ -179,6 +183,47 @@ class Inbound_Mailer_WordPress_Leads {
 			?>
 		</div>
 		<?php
+	}
+
+	/**
+	 * Adds a quick stat form email clicks to the Quick Stats box
+	 */
+	public static function display_quick_stat_email_clicks() {
+		global $post;
+
+		self::$click_events = Inbound_Events::get_email_clicks( $post->ID );
+
+		/* skip stat if none available */
+		if (!self::$click_events) {
+			return;
+		}
+
+		?>
+		<div  class="quick-stat-label"><?php _e('Email Clicks', 'inbound-mailer'); ?>
+			<span class="quick-stat-total"><?php echo count(self::$click_events); ?></span>
+		</div>
+		<?php
+
+	}
+	/**
+	 * Adds a quick stat form email clicks to the Quick Stats box
+	 */
+	public static function display_quick_stat_email_unsubscribes() {
+		global $post;
+
+		self::$unsubscribe_events = Inbound_Events::get_unsubscribes( $post->ID );
+
+		/* skip stat if none available */
+		if (!self::$unsubscribe_events) {
+			return;
+		}
+
+		?>
+		<div  class="quick-stat-label"><?php _e('Unsubscribes', 'inbound-mailer'); ?>
+			<span class="quick-stat-total"><?php echo count(self::$unsubscribe_events); ?></span>
+		</div>
+		<?php
+
 	}
 
 }

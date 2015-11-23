@@ -250,7 +250,7 @@ class Inbound_Events {
     }
 
     /**
-     * Get all all custo event data
+     * Get all all custom event data
      */
     public static function get_custom_event_data( $lead_id ){
         global $wpdb;
@@ -261,6 +261,65 @@ class Inbound_Events {
         $results = $wpdb->get_results( $query , ARRAY_A );
 
         return $results;
+    }
+
+
+    /**
+     * Get date of latest activity
+     * @param $lead_id
+     * @param string $activity
+     * @return datetime or null
+     */
+    public static function get_last_activity($lead_id , $activity = 'any' ){
+        global $wpdb;
+
+        $table_name = $wpdb->prefix . "inbound_events";
+
+        switch ($activity) {
+            case 'any':
+                $query = 'SELECT `datetime` FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'" ORDER BY `datetime` DESC LIMIT 1';
+                $results = $wpdb->get_results( $query , ARRAY_A );
+                break;
+            default:
+                $query = 'SELECT `datetime` FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'" AND `event_name` = "'.$activity.'" ORDER BY `datetime` DESC LIMIT 1';
+                $results = $wpdb->get_results( $query , ARRAY_A );
+                break;
+        }
+
+        /* return latest activity if recorded */
+        if (isset($results[0]['datetime'])) {
+            return $results[0]['datetime'];
+        }
+
+        /* return null if nothing there */
+        return null;
+    }
+
+    /**
+     * Get date of latest activity
+     * @param $lead_id
+     * @param string $activity
+     * @return datetime or null
+     */
+    public static function get_total_activity($lead_id , $activity = 'any' ){
+        global $wpdb;
+
+        $table_name = $wpdb->prefix . "inbound_events";
+
+        switch ($activity) {
+            case 'any':
+                $query = 'SELECT count(*) FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'" ORDER BY `datetime`';
+                break;
+            default:
+                $query = 'SELECT count(*) FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'" AND `event_name` = "'.$activity.'" ORDER BY `datetime` ';
+                break;
+        }
+
+        /* return latest activity if recorded */
+        $count = $wpdb->get_var( $query , ARRAY_A );
+
+        /* return null if nothing there */
+        return $count;
     }
 }
 

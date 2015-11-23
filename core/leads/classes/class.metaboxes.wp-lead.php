@@ -34,6 +34,12 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             /* Add Metaboxes */
             add_action('add_meta_boxes', array(__CLASS__, 'define_metaboxes'));
 
+            /* Add Quick Stats */
+            add_action('wpleads_dsiplay_quick_stat', array(__CLASS__, 'display_quick_stat_page_views'));
+            add_action('wpleads_dsiplay_quick_stat', array(__CLASS__, 'display_quick_stat_form_submissions'));
+            add_action('wpleads_dsiplay_quick_stat', array(__CLASS__, 'display_quick_stat_custom_events'));
+            add_action('wpleads_dsiplay_quick_stat', array(__CLASS__, 'display_quick_stat_last_activity') , 15 );
+
             /* Add header metabox	*/
             add_action('edit_form_after_title', array(__CLASS__, 'add_header'));
 
@@ -70,6 +76,9 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             if ($post->post_type != 'wp-lead') {
                 return;
             }
+
+            self::$form_submissions = Inbound_Events::get_form_submissions( $post->ID );
+            self::$custom_events = Inbound_Events::get_custom_event_data( $post->ID );
 
             /* Show quick stats */
             $first_name = get_post_meta($post->ID, 'wpleads_first_name', true);
@@ -144,189 +153,6 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 			<?php
         }
 
-        /**
-         *    Display Quick Stats Metabox
-         */
-        public static function display_quick_stats() {
-            global $post;
-            global $wpdb;
-
-            $conversions = get_post_meta($post->ID, 'wpleads_conversion_data', true);
-            self::$conversions = json_decode($conversions, true);
-
-
-            (is_array(self::$conversions)) ? $count_conversions = count(self::$conversions) : $count_conversions = get_post_meta($post->ID, 'wpleads_conversion_count', true);
-
-            $the_date = self::$conversions[$count_conversions]['datetime']; // actual
-
-            $page_views = get_post_meta($post->ID, 'page_views', true);
-            self::$page_views = json_decode($page_views, true);
-
-            $main_count = 0;
-            $page_view_count = 0;
-
-            if (is_array(self::$page_views)) {
-                foreach (self::$page_views as $key => $val) {
-                    $page_view_count += count(self::$page_views[$key]);
-                }
-                update_post_meta($post->ID, 'wpleads_page_view_count', $page_view_count);
-            } else {
-                $page_view_count = get_post_meta($post->ID, 'wpleads_page_view_count', true);
-            }
-
-            ?>
-            <div>
-                <div class="inside" style='margin-left:-8px;text-align:center;'>
-                    <div id="quick-stats-box">
-
-                        <?php do_action('wpleads_before_quickstats', $post); ?>
-                        <div id="page_view_total"><?php _e('Total Page Views ', 'leads'); ?><span
-                                id="p-view-total"><?php echo $page_view_count; ?></span>
-                        </div>
-
-                        <?php
-                        if ($count_conversions) {
-                            ?>
-                            <div id="conversion_count_total"><?php _e('# of Conversions ', 'leads'); ?><span
-                                    id="conversion-total"><?php echo $count_conversions; ?></span>
-                            </div>
-                        <?php
-                        }
-
-                        if (!empty($the_date)) {
-                            $time = current_time('timestamp', 0); // Current wordpress time from settings
-                            $wordpress_date_time = date("Y-m-d G:i:s", $time);
-
-                            $today = new DateTime($wordpress_date_time);
-                            $today = $today->format('Y-m-d G:i:s');
-                            $date_obj = self::get_time_diff($the_date, $today);
-                            $wordpress_timezone = get_option('gmt_offset');
-                            $years = $date_obj['years'];
-                            $months = $date_obj['months'];
-                            $days = $date_obj['days'];
-                            $hours = $date_obj['hours'];
-                            $minutes = $date_obj['minutes'];
-                            $year_text = $date_obj['y-text'];
-                            $month_text = $date_obj['m-text'];
-                            $day_text = $date_obj['d-text'];
-                            $hours_text = $date_obj['h-text'];
-                            $minute_text = $date_obj['mm-text'];
-
-                            ?>
-                            <div id="last_touch_point"><?php _e('Time Since Last Conversion', 'leads'); ?>
-
-                                <span id="touch-point">
-
-									<?php
-
-                                    echo "<span class='touchpoint-year'><span class='touchpoint-value'>" . $years . "</span> " . $year_text . " </span><span class='touchpoint-month'><span class='touchpoint-value'>" . $months . "</span> " . $month_text . " </span><span class='touchpoint-day'><span class='touchpoint-value'>" . $days . "</span> " . $day_text . " </span><span class='touchpoint-hour'><span class='touchpoint-value'>" . $hours . "</span> " . $hours_text . " </span><span class='touchpoint-minute'><span class='touchpoint-value'>" . $minutes . "</span> " . $minute_text . "</span>";
-                                    ?>
-								</span>
-                            </div>
-                        <?php
-                        }
-                        ?>
-
-                        <div id="time-since-last-visit"></div>
-                        <div id="lead-score"></div>
-                        <!-- Custom Before Quick stats and After Hook here for custom fields shown -->
-                    </div>
-                    <?php do_action('wpleads_after_quickstats'); // Custom Action for additional data after quick stats ?>
-                </div>
-            </div>
-        <?php
-        }
-
-        /**
-         *        Display information about last visit given ip address
-         */
-        public static function display_geolocation() {
-            global $post;
-
-            $ip_addresses = get_post_meta($post->ID, 'wpleads_ip_address', true);
-
-            $array = json_decode(stripslashes($ip_addresses), true);
-
-            if (is_array($array)) {
-                $ip_address = key($array);
-                if (isset($array[$ip_address]['geodata'])) {
-                    $geodata = $array[$ip_address]['geodata'];
-                }
-            } else {
-				$array = array();
-                $ip_address = $ip_addresses;				
-            }
-			
-			 if ($ip_address === "127.0.0.1") {
-                echo "<h3>" . __('Last conversion detected from localhost', 'leads') . "</h3>";
-				return;
-            }
-			
-            if ( !isset($geodata[$ip_address]) && $ip_address  ) {
-                $geodata = wp_remote_get('http://www.geoplugin.net/php.gp?ip=' . $ip_address , array('timeout'=>'2'));
-                if (!is_wp_error($geodata)) {
-                    $geodata = unserialize($geodata['body']);
-					$array[$ip_address]['geodata'] = $geodata;
-					update_post_meta($post->ID, 'wpleads_ip_address', json_encode($ip_addresses));
-                }
-            }
-
-            if (!is_array($geodata) || is_wp_error($geodata) || !$ip_address ) {
-                echo "<h2>" . __('No Geo data collected', 'leads') . "</h2>";
-                return;
-            }
-          
-            $latitude = (isset($geodata['geoplugin_latitude'])) ? $geodata['geoplugin_latitude'] : 'NA';
-            $longitude = (isset($geodata['geoplugin_longitude'])) ? $geodata['geoplugin_longitude'] : 'NA';
-
-            ?>
-            <div>
-                <div class="inside" style='margin-left:-8px;text-align:left;'>
-                    <div id='last-conversion-box'>
-                        <div id='lead-geo-data-area'>
-
-                            <?php
-                            if (is_array($geodata)) {
-                                unset($geodata['geoplugin_status']);
-                                unset($geodata['geoplugin_credit']);
-                                unset($geodata['geoplugin_request']);
-                                unset($geodata['geoplugin_currencyConverter']);
-                                unset($geodata['geoplugin_currencySymbol_UTF8']);
-                                unset($geodata['geoplugin_currencySymbol']);
-                                unset($geodata['geoplugin_dmaCode']);
-
-                                if (isset($geodata['geoplugin_city']) && $geodata['geoplugin_city'] != "") {
-                                    echo "<div class='lead-geo-field'><span class='geo-label'>" . __('City:', 'leads') . "</span>" . $geodata['geoplugin_city'] . "</div>";
-                                }
-                                if (isset($geodata['geoplugin_regionName']) && $geodata['geoplugin_regionName'] != "") {
-                                    echo "<div class='lead-geo-field'><span class='geo-label'>" . __('State:', 'leads') . "</span>" . $geodata['geoplugin_regionName'] . "</div>";
-                                }
-                                if (isset($geodata['geoplugin_areaCode']) && $geodata['geoplugin_areaCode'] != "") {
-                                    echo "<div class='lead-geo-field'><span class='geo-label'>" . __('Area Code:', 'leads') . "</span>" . $geodata['geoplugin_areaCode'] . "</div>";
-                                }
-                                if (isset($geodata['geoplugin_countryName']) && $geodata['geoplugin_countryName'] != "") {
-                                    echo "<div class='lead-geo-field'><span class='geo-label'>" . __('Country:', 'leads') . "</span>" . $geodata['geoplugin_countryName'] . "</div>";
-                                }
-                                if (isset($geodata['geoplugin_regionName']) && $geodata['geoplugin_regionName'] != "") {
-                                    echo "<div class='lead-geo-field'><span class='geo-label'>" . __('IP Address:', 'leads') . "</span>" . $ip_address . "</div>";
-                                }
-
-                                if (($geodata['geoplugin_latitude'] != 0) && ($geodata['geoplugin_longitude'] != 0)) {
-                                    echo '<a class="maps-link" href="https://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q=' . $latitude . ',' . $longitude . '&z=12" target="_blank">' . __('View Map:', 'leads') . '</a>';
-                                    echo '<div id="lead-google-map">
-										<iframe width="278" height="276" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;q=' . $latitude . ',' . $longitude . '&amp;aq=&amp;output=embed&amp;z=11"></iframe>
-										</div>';
-                                }
-                            } else {
-                                echo "<h2>" . __('No Geo data collected', 'leads') . "</h2>";
-                            }
-                            ?>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        <?php
-        }
 
         /**
          *    Save meta data
@@ -651,22 +477,6 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             self::navigation_js($tabs);
         }
 
-        public static function display_tabs() {
-            ?>
-            <h2 id="lead-tabs" class="nav-tab-wrapper">
-                <?php
-                foreach (self::$tabs as $key => $array) {
-                    ?>
-                    <a id='tabs-<?php echo $array['id']; ?>'
-                       class="wpl-nav-tab nav-tab nav-tab-special<?php echo self::$active_tab == $array['id'] ? '-active' : '-inactive'; ?>"><?php echo $array['label']; ?></a>
-                <?php
-                }
-                ?>
-            </h2>
-
-        <?php
-
-        }
 
         /**
          *    Generates JS for Tab Switching
@@ -734,6 +544,250 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             }
 
             self::$mapped_fields = $fields;
+        }
+
+        /**
+          * Display Nav Tabs
+          */
+        public static function display_tabs() {
+            ?>
+            <h2 id="lead-tabs" class="nav-tab-wrapper">
+                <?php
+                foreach (self::$tabs as $key => $array) {
+                    ?>
+                    <a id='tabs-<?php echo $array['id']; ?>'
+                       class="wpl-nav-tab nav-tab nav-tab-special<?php echo self::$active_tab == $array['id'] ? '-active' : '-inactive'; ?>"><?php echo $array['label']; ?></a>
+                <?php
+                }
+                ?>
+            </h2>
+
+        <?php
+
+        }
+
+         /**
+         *    Display Quick Stats Metabox
+         */
+        public static function display_quick_stats() {
+            global $post;
+
+            ?>
+            <div>
+                <div class="inside" style='margin-left:-8px;text-align:center;'>
+                    <div id="quick-stats-box">
+
+                        <?php do_action('wpleads_before_quickstats', $post); ?>
+                        <?php do_action('wpleads_dsiplay_quick_stat', $post); ?>
+
+                        <div id="time-since-last-visit"></div>
+                        <div id="lead-score"></div>
+                        <!-- Custom Before Quick stats and After Hook here for custom fields shown -->
+                    </div>
+                    <?php do_action('wpleads_after_quickstats'); // Custom Action for additional data after quick stats ?>
+                </div>
+            </div>
+        <?php
+        }
+
+        /**
+         * Adds Page Views to Quick Stat Box
+         */
+        public static function display_quick_stat_page_views( $post ) {
+
+            $page_views = get_post_meta($post->ID, 'page_views', true);
+            self::$page_views = json_decode($page_views, true);
+
+            $main_count = 0;
+            $page_view_count = 0;
+
+            if (is_array(self::$page_views)) {
+                foreach (self::$page_views as $key => $val) {
+                    $page_view_count += count(self::$page_views[$key]);
+                }
+                update_post_meta($post->ID, 'wpleads_page_view_count', $page_view_count);
+            } else {
+                $page_view_count = get_post_meta($post->ID, 'wpleads_page_view_count', true);
+            }
+
+            ?>
+            <div class="quick-stat-label"><?php _e('Page Views ', 'leads'); ?>
+                <span class="quick-stat-total"><?php echo $page_view_count; ?></span>
+            </div>
+            <?php
+        }
+
+
+        /**
+         * Adds Form Submissions to Quick Stat Box
+         */
+        public static function display_quick_stat_form_submissions( $post ) {
+
+            ?>
+                <div  class="quick-stat-label"><?php _e('Form Submissions ', 'leads'); ?>
+                    <span class="quick-stat-total"><?php echo count(self::$form_submissions); ?></span>
+                </div>
+            <?php
+
+        }
+
+        /**
+         * Adds Custom Events to Quick Stat Box
+         */
+        public static function display_quick_stat_custom_events( $post ) {
+
+            /* skip stat if none available */
+            if (!self::$custom_events) {
+                return;
+            }
+
+            ?>
+                <div  class="quick-stat-label"><?php _e('Custom Events', 'leads'); ?>
+                    <span class="quick-stat-total"><?php echo count(self::$custom_events); ?></span>
+                </div>
+            <?php
+
+        }
+
+
+        /**
+         * Adds Latest Activity to Quick Stat Box
+         */
+        public static function display_quick_stat_last_activity( $post ) {
+
+            /* skip stat if none available */
+            if (!self::$custom_events) {
+                return;
+            }
+
+            /* get time of last activity */
+            $datetime = Inbound_Events::get_last_activity( $post->ID , 'any');
+
+            /* skip if no recorded activity */
+            if (!$datetime) {
+                return;
+            }
+
+            $time = current_time('timestamp', 0); // Current wordpress time from settings
+            $wordpress_date_time = date("Y-m-d G:i:s T", $time);
+            $today = new DateTime($wordpress_date_time);
+            $today = $today->format('Y-m-d G:i:s T');
+            $date_obj = self::get_time_diff($datetime, $today);
+            $wordpress_timezone = get_option('gmt_offset');
+            $years = $date_obj['years'];
+            $months = $date_obj['months'];
+            $days = $date_obj['days'];
+            $hours = $date_obj['hours'];
+            $minutes = $date_obj['minutes'];
+            $year_text = $date_obj['y-text'];
+            $month_text = $date_obj['m-text'];
+            $day_text = $date_obj['d-text'];
+            $hours_text = $date_obj['h-text'];
+            $minute_text = $date_obj['mm-text'];
+
+            ?>
+            <div id="last_touch_point"><?php _e('Time Since Last Activity', 'leads'); ?>
+
+                <span id="touch-point">
+
+                    <?php
+
+                    echo "<span class='touchpoint-year'><span class='touchpoint-value'>" . $years . "</span> " . $year_text . " </span><span class='touchpoint-month'><span class='touchpoint-value'>" . $months . "</span> " . $month_text . " </span><span class='touchpoint-day'><span class='touchpoint-value'>" . $days . "</span> " . $day_text . " </span><span class='touchpoint-hour'><span class='touchpoint-value'>" . $hours . "</span> " . $hours_text . " </span><span class='touchpoint-minute'><span class='touchpoint-value'>" . $minutes . "</span> " . $minute_text . "</span>";
+                    ?>
+                </span>
+            </div>
+            <?php
+        }
+
+        /**
+         *        Display information about last visit given ip address
+         */
+        public static function display_geolocation() {
+            global $post;
+
+            $ip_addresses = get_post_meta($post->ID, 'wpleads_ip_address', true);
+
+            $array = json_decode(stripslashes($ip_addresses), true);
+
+            if (is_array($array)) {
+                $ip_address = key($array);
+                if (isset($array[$ip_address]['geodata'])) {
+                    $geodata = $array[$ip_address]['geodata'];
+                }
+            } else {
+				$array = array();
+                $ip_address = $ip_addresses;
+            }
+
+			 if ($ip_address === "127.0.0.1") {
+                echo "<h3>" . __('Last conversion detected from localhost', 'leads') . "</h3>";
+				return;
+            }
+
+            if ( !isset($geodata[$ip_address]) && $ip_address  ) {
+                $geodata = wp_remote_get('http://www.geoplugin.net/php.gp?ip=' . $ip_address , array('timeout'=>'2'));
+                if (!is_wp_error($geodata)) {
+                    $geodata = unserialize($geodata['body']);
+					$array[$ip_address]['geodata'] = $geodata;
+					update_post_meta($post->ID, 'wpleads_ip_address', json_encode($ip_addresses));
+                }
+            }
+
+            if (!is_array($geodata) || is_wp_error($geodata) || !$ip_address ) {
+                echo "<h2>" . __('No Geo data collected', 'leads') . "</h2>";
+                return;
+            }
+
+            $latitude = (isset($geodata['geoplugin_latitude'])) ? $geodata['geoplugin_latitude'] : 'NA';
+            $longitude = (isset($geodata['geoplugin_longitude'])) ? $geodata['geoplugin_longitude'] : 'NA';
+
+            ?>
+            <div>
+                <div class="inside" style='margin-left:-8px;text-align:left;'>
+                    <div id='last-conversion-box'>
+                        <div id='lead-geo-data-area'>
+
+                            <?php
+                            if (is_array($geodata)) {
+                                unset($geodata['geoplugin_status']);
+                                unset($geodata['geoplugin_credit']);
+                                unset($geodata['geoplugin_request']);
+                                unset($geodata['geoplugin_currencyConverter']);
+                                unset($geodata['geoplugin_currencySymbol_UTF8']);
+                                unset($geodata['geoplugin_currencySymbol']);
+                                unset($geodata['geoplugin_dmaCode']);
+
+                                if (isset($geodata['geoplugin_city']) && $geodata['geoplugin_city'] != "") {
+                                    echo "<div class='lead-geo-field'><span class='geo-label'>" . __('City:', 'leads') . "</span>" . $geodata['geoplugin_city'] . "</div>";
+                                }
+                                if (isset($geodata['geoplugin_regionName']) && $geodata['geoplugin_regionName'] != "") {
+                                    echo "<div class='lead-geo-field'><span class='geo-label'>" . __('State:', 'leads') . "</span>" . $geodata['geoplugin_regionName'] . "</div>";
+                                }
+                                if (isset($geodata['geoplugin_areaCode']) && $geodata['geoplugin_areaCode'] != "") {
+                                    echo "<div class='lead-geo-field'><span class='geo-label'>" . __('Area Code:', 'leads') . "</span>" . $geodata['geoplugin_areaCode'] . "</div>";
+                                }
+                                if (isset($geodata['geoplugin_countryName']) && $geodata['geoplugin_countryName'] != "") {
+                                    echo "<div class='lead-geo-field'><span class='geo-label'>" . __('Country:', 'leads') . "</span>" . $geodata['geoplugin_countryName'] . "</div>";
+                                }
+                                if (isset($geodata['geoplugin_regionName']) && $geodata['geoplugin_regionName'] != "") {
+                                    echo "<div class='lead-geo-field'><span class='geo-label'>" . __('IP Address:', 'leads') . "</span>" . $ip_address . "</div>";
+                                }
+
+                                if (($geodata['geoplugin_latitude'] != 0) && ($geodata['geoplugin_longitude'] != 0)) {
+                                    echo '<a class="maps-link" href="https://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q=' . $latitude . ',' . $longitude . '&z=12" target="_blank">' . __('View Map:', 'leads') . '</a>';
+                                    echo '<div id="lead-google-map">
+										<iframe width="278" height="276" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;q=' . $latitude . ',' . $longitude . '&amp;aq=&amp;output=embed&amp;z=11"></iframe>
+										</div>';
+                                }
+                            } else {
+                                echo "<h2>" . __('No Geo data collected', 'leads') . "</h2>";
+                            }
+                            ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php
         }
 
         public static function display_lead_profile() {
@@ -894,8 +948,6 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
         public static function activity_navigation() {
             global $post;
 
-            self::$form_submissions = Inbound_Events::get_form_submissions( $post->ID );
-            self::$custom_events = Inbound_Events::get_custom_event_data( $post->ID );
 
             $nav_items = array(
                 array(

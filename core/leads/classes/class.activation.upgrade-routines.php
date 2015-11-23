@@ -75,7 +75,7 @@ if ( !class_exists('Leads_Activation_Update_Routines') ) {
 				'leads_batch_processing', 		/* db option name - lets batch processor know it's needed */
 				array(
 					'method' => 'import_events_table_112015', 	/* tells batch processor which method to run */
-					'posts_per_page' => 50, 					/* leads per query */
+					'posts_per_page' => 150, 					/* leads per query */
 					'offset' => 0 								/* initial page offset */
 				),
 				0 , 							/* depreciated leave as 0 */

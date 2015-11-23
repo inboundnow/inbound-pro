@@ -15,6 +15,10 @@ if ( !class_exists('CTA_WordPress_Leads') ) {
 			add_filter('wpl_lead_activity_tabs', array(__CLASS__, 'create_nav_tabs'), 10, 1);
 			add_action('wpleads_after_activity_log', array(__CLASS__, 'show_cta_click_content'));
 
+			/* add quick stat  */
+			add_action('wpleads_dsiplay_quick_stat', array(__CLASS__, 'display_quick_stat_cta_clicks') , 15 );
+
+
 		}
 
 		/* Create New Nav Tabs in WordPress Leads - Lead UI */
@@ -92,6 +96,27 @@ if ( !class_exists('CTA_WordPress_Leads') ) {
 				?>
 			</div>
 			<?php
+		}
+
+		/**
+		 * Adds a quick stat form CTA clicks to the Quick Stats box
+		 */
+		public static function display_quick_stat_cta_clicks() {
+			global $post;
+
+			self::$cta_clicks = Inbound_Events::get_cta_clicks( $post->ID );
+
+			/* skip stat if none available */
+			if (!self::$cta_clicks) {
+				return;
+			}
+
+			?>
+			<div  class="quick-stat-label"><?php _e('CTA Clicks', 'cta'); ?>
+				<span class="quick-stat-total"><?php echo count(self::$cta_clicks); ?></span>
+			</div>
+			<?php
+
 		}
 
 

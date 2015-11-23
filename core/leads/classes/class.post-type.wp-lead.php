@@ -83,8 +83,8 @@ class Leads_Post_Type {
             "last-name" => __( 'Last Name' , 'leads' ),
             "title" => __( 'Email' , 'leads' ),
             "status" => __( 'Status' , 'leads' ),
-            'conversion-count' => __( 'Conversion Count' , 'leads' ),
-            "page-views" => __( 'Total Page Views' , 'leads' ),
+            'action-count' => __( 'Actions' , 'leads' ),
+            "page-views" => __( 'Page Views' , 'leads' ),
             "date" => __( 'Created' , 'leads' )
         );
 
@@ -160,9 +160,9 @@ class Leads_Post_Type {
                 $lead_status = get_post_meta($post_id, 'wp_lead_status', true);
                 echo $lead_status;
                 break;
-            case "conversion-count":
-                $count_conversions = get_post_meta($post_id, 'wpleads_conversion_count', true);
-                echo ( $count_conversions ? $count_conversions : 0 );
+            case "action-count":
+                $actions = Inbound_Events::get_total_activity($post_id);
+                echo $actions;
                 break;
             case "custom":
                 if (isset($_GET['wp_leads_filter_field'])) {
@@ -221,42 +221,6 @@ class Leads_Post_Type {
             wp_dropdown_categories(array('show_option_all' => __($tax_obj->label), 'taxonomy' => $tax_slug, 'name' => $tax_obj->name, 'orderby' => 'name', 'selected' => $current, 'hierarchical' => $tax_obj->hierarchical, 'show_count' => true, 'hide_empty' => false));
         }
 
-        /* preapre custom field filters */
-        $query = "SELECT DISTINCT($wpdb->postmeta.meta_key)
-                FROM $wpdb->posts
-                LEFT JOIN $wpdb->postmeta
-                ON $wpdb->posts.ID = $wpdb->postmeta.post_id
-                WHERE $wpdb->posts.post_type = '%s'
-                AND $wpdb->postmeta.meta_key != ''
-                AND $wpdb->postmeta.meta_key NOT RegExp '(^[_0-9].+$)'
-                AND $wpdb->postmeta.meta_key NOT RegExp '(^[0-9]+$)'";
-
-        $fields = $wpdb->get_col($wpdb->prepare($query, 'wp-lead'));
-        ?>
-        <select name="wp_leads_filter_field" id="lead-meta-filter">
-            <option value="" class='lead-meta-empty'>
-                <?php _e('Filter By Custom Fields', 'baapf'); ?>
-            </option>
-            <?php
-            $current = isset($_GET['wp_leads_filter_field']) ? $_GET['wp_leads_filter_field'] : '';
-            $current_v = isset($_GET['wp_leads_filter_field_val']) ? $_GET['wp_leads_filter_field_val'] : '';
-
-            $nice_names = self::prepare_nice_names();
-            foreach ($fields as $field) {
-
-                if (array_key_exists($field, $nice_names)) {
-                    $label = $nice_names[$field];
-                    echo "<option value='$field' " . selected($current, $field) . ">$label</option>";
-                }
-
-            }
-            ?>
-        </select>
-        <span class='lead_meta_val'>
-            <?php _e('Value:', 'leads'); ?>
-        </span>
-        <input type="TEXT"  name="wp_leads_filter_field_val" class="lead_meta_val" placeholder="<?php _e('Leave Blank to Search All'  ,'leads' ); ?>" value="<?php echo $current_v; ?>"/>
-        <?php
     }
 
     /**
@@ -480,7 +444,7 @@ class Leads_Post_Type {
      * @return array
      */
     public static function prepare_nice_names() {
-        $nice_names = array("wpleads_company_name" => "Company Name", "wpleads_city" => "City", "wpleads_areaCode" => "Area Code", "wpleads_country_name" => "Country Name", "wpleads_region_code" => "State Abbreviation", "wpleads_region_name" => "State Name", "wp_lead_status" => "Lead Status", "events_triggered" => "Number of Events Triggered", "lp_page_views_count" => "Page View Count", "wpleads_conversion_count" => "Number of Conversions");
+        $nice_names = array("wpleads_company_name" => "Company Name", "wpleads_city" => "City", "wpleads_areaCode" => "Area Code", "wpleads_country_name" => "Country Name", "wpleads_region_code" => "State Abbreviation", "wpleads_region_name" => "State Name", "wp_lead_status" => "Lead Status", "events_triggered" => "Number of Events Triggered", "lp_page_views_count" => "Page View Count");
 
         $nice_names = apply_filters('wpleads_sort_by_custom_field_nice_names', $nice_names);
         return $nice_names;

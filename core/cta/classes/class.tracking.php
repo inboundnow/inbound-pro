@@ -29,11 +29,11 @@ class CTA_Conversion_Tracking {
 			return;
 		}
 
+		/* might want to study and sunset this */
 		self::store_click_data( $args['cta_id'], $args['vid'] );
 
 		/* store click event in inbound_events table and legacy lead metadata */
 		self::store_as_cta_click($args);
-		self::store_as_conversion($args);
 
 	}
 
@@ -100,55 +100,11 @@ class CTA_Conversion_Tracking {
 			'datetime' => $wordpress_date_time
 		);
 
-		/* legacy lead tracking */
-		self::store_legacy_cta_click( $args );
-
 		/* for events table tracking and other hooks */
 		do_action('inbound_tracked_cta_click' , $args);
 
-
 	}
 
-	/**
-	 * Stores cta click in Lead Profile. We are phasing this out.
-	 * @param $args
-	 */
-	public static function store_legacy_cta_click( $args ){
-
-		/* do not store if there is no lead id */
-		if ( !isset($args['lead_id']) || !$args['lead_id'] ) {
-			return;
-		}
-
-		$event_data = get_post_meta( $args['lead_id'], 'call_to_action_clicks', TRUE );
-		$event_count = get_post_meta(  $args['lead_id'], 'wp_cta_trigger_count', TRUE );
-		$event_count++;
-
-		$individual_event_count = get_post_meta( $args['lead_id'], 'lt_event_tracked_'. $args['cta_id'], TRUE);
-		$individual_event_count = ($individual_event_count != "") ? $individual_event_count : 0;
-		$individual_event_count++;
-
-		if ($event_data) {
-			$event_data = json_decode($event_data,true);
-			$event_data[$event_count]['id'] =  $args['cta_id'];
-			$event_data[$event_count]['datetime'] = $args['datetime'];
-			$event_data[$event_count]['type'] = 'clicked-link';
-			$event_data[$event_count]['variation'] = $args['variation_id'];
-			$event_data = json_encode($event_data);
-			update_post_meta(  $args['lead_id'], 'call_to_action_clicks', $event_data );
-			update_post_meta(  $args['lead_id'], 'wp_cta_trigger_count', $event_count );
-			//	update_post_meta(  $args['lead_id'], 'lt_event_tracked_'. $args['cta_id'], $individual_event_count );
-		} else {
-			$event_data[1]['id'] =  $args['cta_id'];
-			$event_data[1]['datetime'] = $args['datetime'];
-			$event_data[1]['type'] = 'clicked-link';
-			$event_data[$event_count]['variation'] = $args['variation_id'];
-			$event_data = json_encode($event_data);
-			update_post_meta(  $args['lead_id'], 'call_to_action_clicks', $event_data );
-			update_post_meta(  $args['lead_id'], 'wp_cta_trigger_count', 1 );
-			//	update_post_meta(  $args['lead_id'], 'lt_event_tracked_'. $args['cta_id'], $individual_event_count );
-		}
-	}
 
 	/**
 	 * Stores lead as conversion
