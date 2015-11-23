@@ -1029,10 +1029,6 @@ a.lead-timeline-img {
 	display: none;
 }
 
-#wpleads_lead_events_tab .lead-timeline .lead-event-text, #lead-conversions .lead-timeline .lead-event-text, #lead-page-views .lead-timeline .lead-event-text	{
-	border: none;
-	padding: 0px;
-}
 #wpleads_lead_events_tab .lead-timeline .lead-event-text, #lead-conversions .lead-timeline .lead-event-text, #lead-page-views .lead-timeline .lead-event-text, .lead-event-text.lead-comment-div {
 
 padding-top: 6px;
@@ -1040,9 +1036,7 @@ padding-top: 6px;
 #wpleads_lead_events_tab .lead-timeline, #lead-conversions .lead-timeline, #lead-page-views .lead-timeline, #lead-comments .lead-timeline	{
 	margin-left: 11px !important;
 }
-#wpleads_lead_events_tab .lead-helper-text, #lead-conversions .lead-helper-text, #lead-page-views .lead-helper-text {
-	display: none;
-}
+
 #all-lead-history:before {
 	width: 3px;
 	left: 105px;

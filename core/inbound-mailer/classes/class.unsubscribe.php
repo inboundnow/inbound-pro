@@ -30,15 +30,15 @@ class Inbound_Mailer_Unsubscribe {
 	public static function display_unsubscribe_page( $atts ) {
 
 
-		if ( !isset( $_GET['token'] ) ) {
-			return __( 'Invalid token' , 'inbound-email' );
-		}
 
 		if ( isset( $_GET['unsubscribed'] ) ) {
 			$unsubscribed_confirmation_message = apply_filters( 'inbound_mailer_unsubscribe_message' , __('Thank you!' , 'inbound-email' ) );
 			return "<span class='unsubscribed-message'>". $unsubscribed_confirmation_message ."</span>";
 		}
 
+		if ( !isset( $_GET['token'] ) ) {
+			return __( 'Invalid token' , 'inbound-email' );
+		}
 
 		/* get all lead lists */
 		$lead_lists = Inbound_Leads::get_lead_lists_as_array();
@@ -80,11 +80,16 @@ class Inbound_Mailer_Unsubscribe {
 	*/
 	public static function generate_unsubscribe_link( $params ) {
 
-		if (!is_array($params['list_ids'])) {
+		if (isset($_GET['lead_lists']) && !is_array($_GET['lead_lists'])){
+			$params['list_ids'] = explode( ',' , $_GET['lead_lists']);
+		} else if (isset($params['list_ids']) && !is_array($params['list_ids'])) {
 			$params['list_ids'] = explode( ',' , $params['list_ids']);
 		}
 
-		$token = Inbound_Mailer_Unsubscribe::encode_unsubscribe_token( $params );
+
+		$args = array_merge( $params , $_GET );
+
+		$token = Inbound_Mailer_Unsubscribe::encode_unsubscribe_token( $args );
 		$settings = Inbound_Mailer_Settings::get_settings();
 
         if ( empty($settings['unsubscribe_page']) )  {
@@ -190,15 +195,17 @@ class Inbound_Mailer_Unsubscribe {
 		$params = self::decode_unsubscribe_token( $_POST['token'] );
 
 		/* add comments */
-		$params['comments'] = ( isset( $_POST['comments'] ) ) ? $_POST['comments'] : '';
+		$params['event_details']['comments'] = ( isset( $_POST['comments'] ) ) ? $_POST['comments'] : '';
+		$params['event_details']['list_ids'] = $params['list_ids'];
+		$params['event_details'] = json_encode( $params['event_details'] );
 
-		/* Debug */
-		//$params['lead_id'] = '97131';
+		/* Debug
+		$params['lead_id'] = '97131'; */
 
 		/* check if unsubscribe all is selected */
 		if (isset($_POST['unsubscribe_all'])) {
 			self::unsubscribe_from_all_lists( $params['lead_id'] );
-			Inbound_Mailer_Unsubscribe::add_unsubscribe_event( $params['lead_id'] , __( 'all' , 'inbound-email') );
+			Inbound_Events::store_unsubscribe_event( $params );
 		}
 
 		/* determine if anything is selected */
@@ -210,7 +217,7 @@ class Inbound_Mailer_Unsubscribe {
 		foreach( $_POST['list_id'] as $list_id ) {
 			Inbound_Leads::remove_lead_from_list( $params['lead_id'] , $list_id );
 			Inbound_Mailer_Unsubscribe::add_stop_sort( $params['lead_id'] , $list_id );
-			Inbound_Mailer_Unsubscribe::add_unsubscribe_event( $params['lead_id'] , $list_id , $params );
+			Inbound_Events::store_unsubscribe_event( $params );
 		}
 	}
 
@@ -243,49 +250,6 @@ class Inbound_Mailer_Unsubscribe {
 		return $stop_rules;
 	}
 
-	/**
-	*  Adds unsubscribe event to lead profile
-	*  @param INT $lead_id
-	*  @param INT $list_id
-	*  @param ARRAY $params dataset included in unsubscribe token
-	*/
-	public static function add_unsubscribe_event( $lead_id , $list_id , $params ) {
-		$timezone_format = 'Y-m-d G:i:s T';
-		$wordpress_date_time =  date_i18n($timezone_format);
-
-		$events = Inbound_Mailer_Unsubscribe::get_unsubscribe_events( $lead_id  );
-
-		$params['list_id'] = Inbound_Leads::get_lead_list_by( 'id' , $list_id );
-		$params['datetime'] = $wordpress_date_time;
-		$events[] = $params;
-
-		Inbound_Mailer_Unsubscribe::update_events_meta(  $lead_id , $events );
-	}
-
-	/**
-	*  Get array of email unsubscribe events
-	*  @param INT $lead_id
-	*  @return ARRAY $events
-	*/
-	public static function get_unsubscribe_events( $lead_id ) {
-
-		$events = get_post_meta( $lead_id ,'wpleads_unsubscribe_events', true);
-
-		if (!$events) {
-			$events = array();
-		}
-
-		return $events;
-	}
-
-	/**
-	*  Updates email events meta pair
-	*  @param INT $lead_id
-	*  @param ARRAY $events new events array
-	*/
-	public static function update_events_meta( $lead_id , $events ) {
-		update_post_meta( $lead_id , 'wpleads_unsubscribe_events' , $events);
-	}
 }
 
 $Inbound_Mailer_Unsubscribe = new Inbound_Mailer_Unsubscribe();
