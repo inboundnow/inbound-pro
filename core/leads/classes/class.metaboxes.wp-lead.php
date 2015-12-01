@@ -187,10 +187,8 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                     $new = $_POST[$field['key']];
 
                     if (is_array($new)) {
-                        //echo $field['name'];exit;
-                        array_filter($new);
-                        $new = implode(';', $new);
-                        update_post_meta($post_id, $field['key'], $new);
+                        $new = implode(',', $new);
+                        update_post_meta($post_id, $field['key'], array($new));
 
                     } else if (isset($new) && $new != $old) {
 
@@ -315,7 +313,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             $social_data = get_post_meta($post->ID, 'social_data', true);
             $person_obj = $social_data;
 
-            // check for social data
+            /* check for social data */
             if (!$social_data) {
 
                 $args = array('sslverify' => false);
@@ -324,12 +322,12 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
                 $response = wp_remote_get($api_call, $args);
 
-                // error. bail.
+                /* error. bail. */
                 if (is_wp_error($response)) {
                     return;
                 }
 
-                $status_code = $response['response']['code']; // Check for API limit
+                $status_code = $response['response']['code']; /* Check for API limit */
 
                 if ($status_code === 200) {
                     // if api still good. parse return values
@@ -1671,6 +1669,11 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                 switch (true) {
                     case strstr($field['type'], 'textarea'):
                         $parts = explode('-', $field['type']);
+
+                        if (is_array($field['value'])) {
+                            $field['value'] = implode( "\r\n" , $field['value'] );
+                        }
+
                         (isset($parts[1])) ? $rows = $parts[1] : $rows = '10';
                         echo '<textarea name="' . $id . '" id="' . $id . '" rows=' . $rows . '" style="" >' . $field['value'] . '</textarea>';
                         break;
@@ -1710,7 +1713,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                         wp_editor($field['value'], $id, $settings = array());
                         echo '<p class="description">' . $field['desc'] . '</p>';
                         break;
-                    // media
+                    /* media */
                     case strstr($field['type'], 'media'):
                         //echo 1; exit;
                         echo '<label for="upload_image">';
@@ -1718,39 +1721,37 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                         echo '<input class="upload_image_button" id="uploader_' . $id . '" type="button" value="Upload Image" />';
                         echo '<p class="description">' . $field['desc'] . '</p>';
                         break;
-                    // checkbox
+                    /* checkbox */
                     case strstr($field['type'], 'checkbox'):
-                        $i = 1;
-                        echo "<table class='wpl_check_box_table'>";
+
                         if (!isset($field['value'])) {
                             $field['value'] = array();
-                        } elseif (!is_array($field['value'])) {
-                            $field['value'] = array($field['value']);
+                        } else if (is_array($field['value'])) {
+                            $field['value'] = explode( ',' , $field['value'][0] );
                         }
-                        foreach ($field['options'] as $value => $field['label']) {
-                            if ($i == 5 || $i == 1) {
-                                echo "<tr>";
-                                $i = 1;
-                            }
-                            echo '<td><input type="checkbox" name="' . $id . '[]" id="' . $id . '" value="' . $value . '" ', in_array($value, $field['value']) ? ' checked="checked"' : '', '/>';
-                            echo '<label for="' . $value . '">&nbsp;&nbsp;' . $field['label'] . '</label></td>';
-                            if ($i == 4) {
-                                echo "</tr>";
-                            }
-                            $i++;
+
+                        foreach( $field['options'] as $value => $label) {
+                            echo '<input type="checkbox" name="' . $id . '[]" id="' . $id . '" value="' . $value . '" ', in_array($value, $field['value']) ? ' checked="checked"' : '',  in_array( strtolower($label), $field['value']) ? ' checked="checked"' : '', '/>';
+                            echo ' ' . $label;
+                            echo '<br>';
                         }
-                        echo "</table>";
-                        echo '<div class="wpl_tooltip tool_checkbox" title="' . $field['desc'] . '"></div>';
+
+                        if (isset($field['desc'])) {
+                            echo '<div class="wpl_tooltip tool_checkbox" title="' . $field['desc'] . '"></div>';
+                        }
+
                         break;
-                    // radio
+                    /* radio */
                     case strstr($field['type'], 'radio'):
-                        foreach ($field['options'] as $value => $field['label']) {
-                            //echo $field['value'].":".$id;
-                            //echo "<br>";
+
+                        foreach ($field['options'] as $value => $label) {
                             echo '<input type="radio" name="' . $id . '" id="' . $id . '" value="' . $value . '" ', $field['value'] == $value ? ' checked="checked"' : '', '/>';
-                            echo '<label for="' . $value . '">&nbsp;&nbsp;' . $field['label'] . '</label> &nbsp;&nbsp;&nbsp;&nbsp;';
+                            echo '<label for="' . $value . '">&nbsp;&nbsp;' . $label . '</label> &nbsp;&nbsp;&nbsp;&nbsp;';
                         }
-                        echo '<div class="wpl_tooltip" title="' . $field['desc'] . '"></div>';
+
+                        if (isset($field['desc'])) {
+                            echo '<div class="wpl_tooltip" title="' . $field['desc'] . '"></div>';
+                        }
                         break;
                     // select
                     case $field['type'] == 'dropdown':

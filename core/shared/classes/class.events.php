@@ -308,15 +308,15 @@ class Inbound_Events {
 
         switch ($activity) {
             case 'any':
-                $query = 'SELECT count(*) FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'" ORDER BY `datetime`';
+                $query = 'SELECT count(*) FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'" ';
                 break;
             default:
-                $query = 'SELECT count(*) FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'" AND `event_name` = "'.$activity.'" ORDER BY `datetime` ';
+                $query = 'SELECT count(*) FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'" AND `event_name` = "'.$activity.'"';
                 break;
         }
 
         /* return latest activity if recorded */
-        $count = $wpdb->get_var( $query , ARRAY_A );
+        $count = $wpdb->get_var( $query , 0, 0 );
 
         /* return null if nothing there */
         return $count;
