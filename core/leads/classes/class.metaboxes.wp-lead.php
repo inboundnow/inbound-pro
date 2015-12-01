@@ -1684,9 +1684,15 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                         echo '<input type="text" name="' . $id . '" id="' . $id . '" value="' . $field['value'] . '" size="' . $size . '" />';
                         break;
                     case strstr($field['type'], 'links'):
+
+                        if (!$field['value']) {
+                            continue;
+                        }
+
                         $parts = explode('-', $field['type']);
                         (isset($parts[1])) ? $channel = $parts[1] : $channel = 'related';
                         $links = explode(';', $field['value']);
+
                         $links = array_filter($links);
 
                         echo "<div style='position:relative;'><span class='add-new-link'>" . __('Add New Link') . " <span title='" . __('add link') . "' align='ABSMIDDLE' class='wpleads-add-link' 'id='{$id}-add-link'>+</span></div>";
