@@ -38,7 +38,8 @@ class Inbound_Customizer {
         if (isset($_GET['inbound-customizer']) && $_GET['inbound-customizer']=='on') {
             add_filter('wp_head', array(__CLASS__, 'launch_customizer'));
             add_action('wp_enqueue_scripts', array(__CLASS__, 'customizer_parent_scripts'));
-
+        } else {
+            add_action('wp_enqueue_scripts', array(__CLASS__, 'customizer_off_parent_scripts'));
         }
 
         /* Load customizer editor */
@@ -135,11 +136,36 @@ class Inbound_Customizer {
         /* Way to toggle between Variations */
     }
 
+    /**
+    * JS scripts to load when customizer is on
+    */
     public static function customizer_parent_scripts() {
         wp_enqueue_style('inbound-customizer-parent-css', INBOUNDNOW_SHARED_URLPATH . 'assets/css/customizer-parent.css');
         wp_enqueue_script('inbound-customizer-parent-js', INBOUNDNOW_SHARED_URLPATH . 'assets/js/admin/customizer-parent.js');
         /* todo enqueue script */
     }
+
+    /**
+     * Load scripts to modify the 'customize' link
+     */
+    public static function customizer_off_parent_scripts() {
+        global $post;
+
+        if (!isset($post) || !in_array( $post->post_type , array('inbound-email','landing-page','wp-call-to-action'))) {
+            return;
+        }
+
+        wp_enqueue_script('inbound-customizer-parent-js', INBOUNDNOW_SHARED_URLPATH . 'assets/js/admin/customizer-off-parent.js');
+        wp_localize_script(
+            'inbound-customizer-parent-js' ,
+            'customizer_off',
+            array(
+                'launch_visual_editor' =>__('Launch Visual Editor' , INBOUNDNOW_TEXT_DOMAIN) ,
+                'url' => add_query_arg( array('inbound-customizer'=> 'on' ) , get_permalink($post->ID))
+            )
+        );
+    }
+
     /* cta specific */
     public static function launch_customizer() {
         global $post;
