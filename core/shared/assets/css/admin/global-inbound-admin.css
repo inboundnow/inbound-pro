@@ -22,7 +22,6 @@ display: none;
     display: block;
 }
 
-
 body #calls-to-action .toggle .switch-versions, body #landing-pages .toggle .switch-versions, body #leads .toggle .switch-versions {
     display: none;
 }
@@ -34,6 +33,11 @@ body #calls-to-action .toggle .switch-versions, body #landing-pages .toggle .swi
 .inbound-form-shortcode input {
     overflow:hidden;
 }
+
 .inbound-form-shortcode  {
     overflow:hidden;
+}
+
+.acf-postbox pre {
+    overflow-x: scroll !important;
 }

@@ -37,7 +37,7 @@ $shortcode = str_replace('\"', '"', $shortcode);
 $shortcode = str_replace('&lt;', '<', $shortcode);
 $shortcode = str_replace('&gt;', '>', $shortcode);
 $shortcode = str_replace('{{child}}', '', $shortcode);
-$shortcode = str_replace('label=""', 'label="Default"', $shortcode);
+	//$shortcode = str_replace('label=""', 'label="Default"', $shortcode);
 	//$field_name_fallback = ($field_name === "") ? 'fallback_name' : '0';
 ?>
 <!DOCTYPE HTML>
