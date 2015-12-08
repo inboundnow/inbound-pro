@@ -5,7 +5,7 @@ namespace Sabberworm\CSS\CSSList;
 use Sabberworm\CSS\Property\AtRule;
 
 /**
- * A RuleSet constructed by an unknown @-rule. @font-face rules are rendered into AtRule objects.
+ * A BlockList constructed by an unknown @-rule. @media rules are rendered into AtRuleBlockList objects.
  */
 class AtRuleBlockList extends CSSBlockList implements AtRule {
 
@@ -27,10 +27,22 @@ class AtRuleBlockList extends CSSBlockList implements AtRule {
 	}
 
 	public function __toString() {
-		$sResult = "@{$this->sType} {$this->sArgs}{";
-		$sResult .= parent::__toString();
+		return $this->render(new \Sabberworm\CSS\OutputFormat());
+	}
+
+	public function render(\Sabberworm\CSS\OutputFormat $oOutputFormat) {
+		$sArgs = $this->sArgs;
+		if($sArgs) {
+			$sArgs = ' ' . $sArgs;
+		}
+		$sResult = "@{$this->sType}$sArgs{$oOutputFormat->spaceBeforeOpeningBrace()}{";
+		$sResult .= parent::render($oOutputFormat);
 		$sResult .= '}';
 		return $sResult;
+	}
+
+	public function isRootList() {
+		return false;
 	}
 
 }

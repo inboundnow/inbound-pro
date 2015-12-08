@@ -5,7 +5,7 @@ namespace Sabberworm\CSS\Value;
 class Size extends PrimitiveValue {
 
 	const ABSOLUTE_SIZE_UNITS = 'px/cm/mm/mozmm/in/pt/pc/vh/vw/vm/vmin/vmax/rem'; //vh/vw/vm(ax)/vmin/rem are absolute insofar as they don’t scale to the immediate parent (only the viewport)
-	const RELATIVE_SIZE_UNITS = '%/em/ex/ch';
+	const RELATIVE_SIZE_UNITS = '%/em/ex/ch/fr';
 	const NON_SIZE_UNITS = 'deg/grad/rad/s/ms/turns/Hz/kHz';
 
 	private $fSize;
@@ -60,6 +60,10 @@ class Size extends PrimitiveValue {
 	}
 
 	public function __toString() {
+		return $this->render(new \Sabberworm\CSS\OutputFormat());
+	}
+
+	public function render(\Sabberworm\CSS\OutputFormat $oOutputFormat) {
 		$l = localeconv();
 		$sPoint = preg_quote($l['decimal_point'], '/');
 		return preg_replace(array("/$sPoint/", "/^(-?)0\./"), array('.', '$1.'), $this->fSize) . ($this->sUnit === null ? '' : $this->sUnit);
