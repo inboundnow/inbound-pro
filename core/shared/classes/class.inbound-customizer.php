@@ -30,14 +30,11 @@ class Inbound_Customizer {
         if (isset($_GET['inbound_popup_preview']))  {
             /* Enqueue Scripts  */
             add_action( 'admin_enqueue_scripts', array(__CLASS__,'popup_preview_scripts'));
-            /* Loads Preview Iframe in wp_head */
-            /* add_action('wp_head', array(__CLASS__, 'toggle_between_variations')); */
         }
 
         /* Load customizer Parent Window. 'inbound-editor' & 'inbound-preview' live inside */
         if (isset($_GET['inbound-customizer']) && $_GET['inbound-customizer']=='on') {
             add_filter('wp_head', array(__CLASS__, 'launch_customizer'));
-            add_action('wp_enqueue_scripts', array(__CLASS__, 'customizer_parent_scripts'));
         } else {
             add_action('wp_enqueue_scripts', array(__CLASS__, 'customizer_off_parent_scripts'));
         }
@@ -53,8 +50,6 @@ class Inbound_Customizer {
         /* Load customizer preview */
         if (isset($_GET['inbound-preview'])) {
             add_action('wp_enqueue_scripts', array(__CLASS__, 'customizer_preview_scripts'));
-             // prep for better customizer visualizations
-            //add_filter( 'acf/load_field',  array(__CLASS__,'filter_acf_load_field'), 10, 2 );
             add_filter('acf/load_value', array(__CLASS__, 'filter_acf_load_field'), 12, 3 );
         }
 
@@ -137,15 +132,6 @@ class Inbound_Customizer {
     }
 
     /**
-    * JS scripts to load when customizer is on
-    */
-    public static function customizer_parent_scripts() {
-        wp_enqueue_style('inbound-customizer-parent-css', INBOUNDNOW_SHARED_URLPATH . 'assets/css/customizer-parent.css');
-        wp_enqueue_script('inbound-customizer-parent-js', INBOUNDNOW_SHARED_URLPATH . 'assets/js/admin/customizer-parent.js');
-        /* todo enqueue script */
-    }
-
-    /**
      * Load scripts to modify the 'customize' link
      */
     public static function customizer_off_parent_scripts() {
@@ -207,7 +193,11 @@ class Inbound_Customizer {
                       'inbound-editor' => 'true' ),
                       admin_url() .'post.php?post='.$post_id );
 
+
         ?>
+
+        <script type='text/javascript' src='<?php echo INBOUNDNOW_SHARED_URLPATH . 'assets/js/admin/customizer-parent.js';?>'></script>
+        <link rel='stylesheet'  href='<?php echo INBOUNDNOW_SHARED_URLPATH . 'assets/css/customizer-parent.css';?>' type='text/css' media='all' />
         </head>
         <!-- http://stackoverflow.com/questions/7816372/make-iframes-resizable-dynamically -->
         <body class="<?php echo $post_type; ?>">
