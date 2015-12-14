@@ -4,7 +4,8 @@
   "description": "Inbound Pro plugin",
   "main": "gulpfile.js",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "sync": "sh scripts/sync.sh"
   },
   "repository": {
     "type": "git",
