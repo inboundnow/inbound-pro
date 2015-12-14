@@ -31,11 +31,15 @@ class Inbound_API_Wrapper {
 	 * Get API URL base
 	 */
 	public static function get_api_url() {
+		/*
 		if ( strstr( site_url() , 'inboundsoon.dev') || strstr( site_url() , 'inboundnow.dev')) {
 			self::$inbound_api_uri = 'http://inboundnow.dev/pro-api/';
 		} else {
 			self::$inbound_api_uri = 'http://inboundsite.wpengine.com/pro-api/';
 		}
+		*/
+		
+		self::$inbound_api_uri = 'http://inboundsite.wpengine.com/pro-api/';
 
 		return self::$inbound_api_uri;
 	}
