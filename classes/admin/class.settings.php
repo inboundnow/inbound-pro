@@ -295,7 +295,7 @@ class Inbound_Pro_Settings {
 
 			switch ( self::$tab ) {
 				case 'inbound-pro-welcome':
-					self::display_welcome();					
+					self::display_welcome();
 					self::display_blog_posts();
 					BREAK;
 				case 'inbound-pro-settings':
@@ -327,17 +327,17 @@ class Inbound_Pro_Settings {
 		<h1>Getting Started</h1>
 
 		<p>Welcome to the new Inbound Professional Marketing Suite for WordPress!</p>
-		
+
 		<h2>Disabling Legacy Plugins</h2>
-		
+
 		<p>This plugin comes with Inbound Now's core plugins pre-installed. Be sure to disable them from your <a href='plugins.php' target='_blank' title='core plugins include Landing Pages, Calls to Action, and Leads' >plugins area</a>. If you want to control which core components to load at startup you can do so in the <a href='admin.php?tab=inbound-pro-setup&page=inbound-pro&setting=core' target='_blank' >core settings</a> area.</p>
-		
+
 		<h2>Retreiving your API Key</h2>
-		
+
 		<p>Head into your 'my account' area to retrieve your customer API Key. API Keys are setup in the <a href='admin.php?tab=inbound-pro-setup&page=inbound-pro&setting=core' target='_blank' >core settings</a> area and will unlock downloads available to your account. With an <a href='http://inboundsite.wpengine.com/pricing/' target='_blank'>active membership</a> you will have one-click installation access to templates and extensions.</p>
 
 		<h1>What's new?</h1>
-		
+
 		<ul class="features">
 			<li><a href='#email'> Email Component</a></li>
 			<li><a href='#automation'> Marketing Automation Component</a></li>
@@ -363,12 +363,12 @@ class Inbound_Pro_Settings {
 		<p>Mandrill does not mind providing 2000 free emails a month to their users, but if a user wants to leverage Mandrill's email scheduling systems (which we do) then they want you to have a positive balance. After signing up for Mandrill go ahead and throw 5.00 into your account balance and if you serve less than 2000 emails a day then you should not have to worry about having a positive balance again.</p>
 		<a name='automation'></a>
 		<p>Here's  look at their <a href="http://mandrill.com/pricing/" target="_blank">pricing page</a>.</p>
-		
+
 		<h2>The new marketing automation component</h2>
 
 		<p>Our marketing automation component is brand new and still under development. We plan to study how our users leverage it and improve it over the 2016 year. Currently it can only be used to schedule time driven email series. In essence it is a trigger/action rule engine powered by WordPress hooks. Right now there are only a few triggers and actions. We'd like to see this list grow. One day this tool might be used to create a lead rating/badging system.  We are curious about how this component will be leveraged over time.</p>
 		<img class="size-full wp-image-138160" src="http://www.inboundnow.com/wp-content/uploads/2012/05/2015-10-14_1507.png" alt="Setting up the trigger"/>
-		
+
 		<img class="size-full wp-image-138161" src="http://www.inboundnow.com/wp-content/uploads/2012/05/2015-10-14_1508.png" alt="Setting up the action!"  />
 		<a name='installation'></a>
 		<h2>One click extension/theme installations</h2>
@@ -451,41 +451,14 @@ class Inbound_Pro_Settings {
 		$blogs = Inbound_API_Wrapper::get_blog_posts();
 		?>
 		<section class="xlarge-20 large-20 medium-30 small-100 tiny-100">
-					
-				<ul class="unstyled">
-					<!--- Show blog posts --->
-					<?php
-					$i=0;
-					$limit = 20;
-					foreach ($blogs as $item) {
-						if ($i>5) {
-							break;
-						}
-						
-						$excerpt = explode('The post' ,  $item['description']);
-						$excerpt = $excerpt[0];
-						
-						?>
-						<div class="all-80 small-50 tiny-50">
-							<h6 class='sidebar-h6'><?php echo $item['title']; ?></h6>
-							<!--<img class="half-bottom-space" src="holder.js/1200x600/auto/ink" alt="">-->
-							<p><a href='<?php echo $item['guid']; ?>' target='_blank'><?php _e( 'Read more &#8594;' , 'inbound-pro'); ?></a></p>
-						</div>
-						<?php
-						$i++;
-					}
-					?>
-				</ul>
-				<hr>
-				<h2 style='font-size:12px;'>
-				</h2>
+
 				<iframe src='//www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Finboundnow&amp;width=234&amp;height=65&amp;colorscheme=light&amp;show_faces=false&amp;border_color&amp;stream=false&amp;header=false&amp;appId=364256913591848' scrolling='no' frameborder='0' style='border:none; overflow:hidden; width:234px; height:65px;' allowTransparency='true'>
 				</iframe>
 			</section>
 		</section>
 		<?php
 	}
-	
+
 	/**
 	*	Display Footer
 	*/
