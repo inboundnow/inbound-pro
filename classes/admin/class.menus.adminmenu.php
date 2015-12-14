@@ -30,7 +30,7 @@ class Inbound_Menus_Admin {
 			'manage_options', /* capability */
 			'inbound-pro', /* menu slug */
 			array( 'Inbound_Pro_Settings' , 'display' ), /* page function */
-			INBOUND_PRO_URLPATH . '/assets/images/shortcodes-blue.png', /* icon url */
+			INBOUND_PRO_URLPATH . 'core/shared/assets/images/global/inbound-icon.png', /* icon url */
 			30  /* position */
 		);
 
