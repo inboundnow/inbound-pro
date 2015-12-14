@@ -12,6 +12,7 @@ class Inbound_Pro_Activation {
 
 	public static function load_hooks() {
 		add_action('admin_init' , array( __CLASS__ , 'run_pro_components_activation_check' ) );
+		add_action('update_option_active_plugins', array( __CLASS__ , 'deactivate_standalone_plugins') );
 	}
 
 
@@ -117,6 +118,29 @@ class Inbound_Pro_Activation {
 		update_option( 'Inbound_Activate', true );
 	}
 
+	/**
+	 * Deactivate stand alone Inbound Now plugins
+	 */
+	public static function deactivate_standalone_plugins() {
+		if ( !is_admin() || !get_option( 'Inbound_Activate' ) ) {
+			return;
+		}
+
+		/* deactivate landing pages if active */
+		if( is_plugin_active('landing-pages/landing-pages.php') ) {
+			deactivate_plugins('landing-pages/landing-pages.php');
+		}
+
+		/* deactivate calls to action if active */
+		if( is_plugin_active('cta/calls-to-action.php') ) {
+			deactivate_plugins('cta/calls-to-action.php');
+		}
+
+		/* deactivate leads if active */
+		if( is_plugin_active('leads/leads.php') ) {
+			deactivate_plugins('leads/leads.php');
+		}
+	}
 
 	/**
 	 * Automatically install certain extensions on pro activation

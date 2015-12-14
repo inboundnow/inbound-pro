@@ -4,6 +4,7 @@ var InboundCustomizerEditor = (function () {
   var EditorCode = {
     init:  function () {
         this.handleEditorSave();
+        this.acfStyling();
         this.rewriteTabLinks();
 
         // Scroll handler to save scroll position
@@ -32,7 +33,11 @@ var InboundCustomizerEditor = (function () {
 
         });
     },
+    acfStyling: function(){
+        jQuery('.acf-tab-group a').addClass('button inbound-acf-tab');
+    },
     rewriteTabLinks: function() {
+
         jQuery('.nav-tab-wrapper.a_b_tabs a').each(function(){
             var $this = jQuery(this);
             var permalink = $this.attr('data-permalink');

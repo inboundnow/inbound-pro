@@ -265,7 +265,7 @@ class Landing_Pages_Metaboxes {
             wp_enqueue_style('lp-acf-template', LANDINGPAGES_URLPATH . 'assets/css/admin/acf-hide-wp-elements.css');
         }
 
-        wp_enqueue_style('inbound-metaboxes', LANDINGPAGES_URLPATH . 'shared/assets/css/admin/inbound-metaboxes.css');
+        wp_enqueue_style('inbound-metaboxes', INBOUNDNOW_SHARED_URLPATH . 'assets/css/admin/inbound-metaboxes.css');
         wp_enqueue_script( 'lp-admin-clear-stats-ajax-request', LANDINGPAGES_URLPATH . 'assets/js/ajax.clearstats.js', array( 'jquery' ) );
         wp_localize_script( 'lp-admin-clear-stats-ajax-request', 'ajaxadmin', array( 'ajaxurl' => admin_url('admin-ajax.php'), 'lp_clear_nonce' => wp_create_nonce('lp-clear-nonce') ) );
 

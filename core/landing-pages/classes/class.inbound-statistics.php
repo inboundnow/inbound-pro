@@ -43,9 +43,26 @@ if (!class_exists('Inbound_Content_Statistics')) {
 
                 /* Prepare Column Data */
                 add_action( "manage_posts_custom_column", array( __CLASS__ , 'prepare_column_data' ) , 10, 2 );
+
+				/* enqueue admin scripts */
+				add_action('admin_enqueue_scripts' , array( __CLASS__ , 'enqueue_scripts'));
             }
 
 		}
+
+		/**
+		 * Enqueue admin scripts
+		 */
+		public static function enqueue_scripts() {
+
+			if (!isset($_GET['post'])){
+				return;
+			}
+
+			wp_enqueue_style('lp-content-stats', LANDINGPAGES_URLPATH . 'assets/css/admin/content-stats.css');
+
+		}
+
 
 		/**
 		*  Add mtatistic metabox to non blacklisted post types
@@ -196,7 +213,7 @@ if (!class_exists('Inbound_Content_Statistics')) {
             else {
                 $impressions = Inbound_Content_Statistics::get_impressions_count( $post_id );
                 $impressions++;
-                Inbound_Content_Statistics::set_impressions_count( $post_id, 0, $impressions );
+                Inbound_Content_Statistics::set_impressions_count( $post_id, $impressions );
             }
         }
 

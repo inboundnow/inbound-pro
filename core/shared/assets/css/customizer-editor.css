@@ -46,6 +46,15 @@
     display: table;
     margin-bottom: 0px;
 }
+:root:root:root .inbound-customizer .acf-tab-group li.active a:before {
+    font-family: FontAwesome;
+    content: "\f069";
+    padding-right:5px;
+}
+:root:root:root .inbound-customizer .inbound-acf-tab {
+    background: #FFFFFF !important;
+    font-size: 12px !important;
+}
 :root:root:root .inbound-customizer #inbound-shortcodes-form-wrap {
     width: 100%;
 }

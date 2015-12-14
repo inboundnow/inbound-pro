@@ -30,15 +30,13 @@ class Inbound_Customizer {
         if (isset($_GET['inbound_popup_preview']))  {
             /* Enqueue Scripts  */
             add_action( 'admin_enqueue_scripts', array(__CLASS__,'popup_preview_scripts'));
-            /* Loads Preview Iframe in wp_head */
-            /* add_action('wp_head', array(__CLASS__, 'toggle_between_variations')); */
         }
 
         /* Load customizer Parent Window. 'inbound-editor' & 'inbound-preview' live inside */
         if (isset($_GET['inbound-customizer']) && $_GET['inbound-customizer']=='on') {
             add_filter('wp_head', array(__CLASS__, 'launch_customizer'));
-            add_action('wp_enqueue_scripts', array(__CLASS__, 'customizer_parent_scripts'));
-
+        } else {
+            add_action('wp_enqueue_scripts', array(__CLASS__, 'customizer_off_parent_scripts'));
         }
 
         /* Load customizer editor */
@@ -52,8 +50,6 @@ class Inbound_Customizer {
         /* Load customizer preview */
         if (isset($_GET['inbound-preview'])) {
             add_action('wp_enqueue_scripts', array(__CLASS__, 'customizer_preview_scripts'));
-             // prep for better customizer visualizations
-            //add_filter( 'acf/load_field',  array(__CLASS__,'filter_acf_load_field'), 10, 2 );
             add_filter('acf/load_value', array(__CLASS__, 'filter_acf_load_field'), 12, 3 );
         }
 
@@ -135,11 +131,27 @@ class Inbound_Customizer {
         /* Way to toggle between Variations */
     }
 
-    public static function customizer_parent_scripts() {
-        wp_enqueue_style('inbound-customizer-parent-css', INBOUNDNOW_SHARED_URLPATH . 'assets/css/customizer-parent.css');
-        wp_enqueue_script('inbound-customizer-parent-js', INBOUNDNOW_SHARED_URLPATH . 'assets/js/admin/customizer-parent.js');
-        /* todo enqueue script */
+    /**
+     * Load scripts to modify the 'customize' link
+     */
+    public static function customizer_off_parent_scripts() {
+        global $post;
+
+        if (!isset($post) || !in_array( $post->post_type , array('inbound-email','landing-page','wp-call-to-action'))) {
+            return;
+        }
+
+        wp_enqueue_script('inbound-customizer-parent-js', INBOUNDNOW_SHARED_URLPATH . 'assets/js/admin/customizer-off-parent.js');
+        wp_localize_script(
+            'inbound-customizer-parent-js' ,
+            'customizer_off',
+            array(
+                'launch_visual_editor' =>__('Launch Visual Editor' , INBOUNDNOW_TEXT_DOMAIN) ,
+                'url' => add_query_arg( array('inbound-customizer'=> 'on' ) , get_permalink($post->ID))
+            )
+        );
     }
+
     /* cta specific */
     public static function launch_customizer() {
         global $post;
@@ -181,7 +193,11 @@ class Inbound_Customizer {
                       'inbound-editor' => 'true' ),
                       admin_url() .'post.php?post='.$post_id );
 
+
         ?>
+
+        <script type='text/javascript' src='<?php echo INBOUNDNOW_SHARED_URLPATH . 'assets/js/admin/customizer-parent.js';?>'></script>
+        <link rel='stylesheet'  href='<?php echo INBOUNDNOW_SHARED_URLPATH . 'assets/css/customizer-parent.css';?>' type='text/css' media='all' />
         </head>
         <!-- http://stackoverflow.com/questions/7816372/make-iframes-resizable-dynamically -->
         <body class="<?php echo $post_type; ?>">

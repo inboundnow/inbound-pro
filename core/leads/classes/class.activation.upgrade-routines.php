@@ -59,6 +59,31 @@ if ( !class_exists('Leads_Activation_Update_Routines') ) {
 
 		}
 
+		/**
+		 * @introduced: 2.0.1
+		 * @migration-type: batch lead processing / data migration into inbound_events table
+		 * @details: Moving form submissions, cta clicks, custom events into events table.
+		 * @details: 112015 represents date added in
+		 */
+		public static function batch_import_event_data_112015() {
+
+			/* lets make sure the inbound_events table is created */
+			Inbound_Events::create_events_table();
+
+			/* create flag for batch uploader */
+			add_option(
+				'leads_batch_processing', 		/* db option name - lets batch processor know it's needed */
+				array(
+					'method' => 'import_events_table_112015', 	/* tells batch processor which method to run */
+					'posts_per_page' => 100, 					/* leads per query */
+					'offset' => 0 								/* initial page offset */
+				),
+				0 , 							/* depreciated leave as 0 */
+				true 							/* autoload true */
+			);
+
+		}
+
 
 	}
 
