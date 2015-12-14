@@ -47,7 +47,7 @@ class Inbound_Pro_Downloads {
 
 		/* Load assets for upload page */
 		if ( ( isset($screen) && ( $screen->base != 'inbound-now_page_inbound-manage-templates' && $screen->base != 'inbound-now_page_inbound-manage-extensions' ) ) ){
-			//return;
+			return;
 		}
 
 		wp_enqueue_script('jquery');

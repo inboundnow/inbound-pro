@@ -38,7 +38,7 @@ class Inbound_API_Wrapper {
 			self::$inbound_api_uri = 'http://inboundsite.wpengine.com/pro-api/';
 		}
 		*/
-		
+
 		self::$inbound_api_uri = 'http://inboundsite.wpengine.com/pro-api/';
 
 		return self::$inbound_api_uri;
