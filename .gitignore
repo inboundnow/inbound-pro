@@ -149,3 +149,5 @@ core/leads/.idea/
 /inbound-pro.sublime-project
 /inbound-pro.sublime-workspace
 *.dist
+
+/core/inbound-mailer/.gitignore

@@ -20,7 +20,16 @@
         padding-left: 25px;
         background-size: 20px;
     }
-
+    #toplevel_page_inbound-pro {
+        .wp-menu-image.dashicons-before img {
+            width: 21px;
+            padding-top: 6px;
+            opacity: .8;
+            &:hover {
+                opacity:1;
+            }
+        }
+    }
     #adminmenu {
         .menu-icon-landing-page div.wp-menu-image:before {
                 font-family: "FontAwesome" !important;

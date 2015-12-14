@@ -148,7 +148,7 @@ class Landing_Pages_Load_Extensions {
 				'label' => $template_name,
 				'slug' => $key,
 				'description' => __( "Head to http://www.inboundnow.com/ to retrieve your license key for this template." , 'landing-pages') ,
-				'type'  => 'inbound-license-key'
+				'type'  => 'license-key'
 			);
 		}
 
