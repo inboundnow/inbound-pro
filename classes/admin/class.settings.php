@@ -438,7 +438,7 @@ class Inbound_Pro_Settings {
 
 		?>
 		<section class="xlarge-20 large-20 medium-30 small-100 tiny-100">
-			Nav to Tools
+			<!-- 	Nav to Tools -->
 		</section>
 		</section>
 		<?php
