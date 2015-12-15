@@ -83,6 +83,7 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 		public function __construct() {
 			self::define_constants();
 			self::load_pro_classes();
+			self::load_shared_components();
 			self::load_core_components();
 			self::load_text_domain_init();
 		}
@@ -146,6 +147,16 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 				include_once( INBOUND_COMPONENT_PATH . '/inbound-mailer/inbound-mailer.php');
 				include_once( INBOUND_COMPONENT_PATH . '/inbound-automation/inbound-automation.php');
 			}
+
+		}
+
+		/**
+		*  Load shared components
+		*/
+		private static function load_shared_components() {
+
+			include_once( INBOUND_PRO_PATH . 'core/shared/classes/class.load-shared.php' );
+			add_action( 'plugins_loaded', array( 'Inbound_Load_Shared' , 'init') , 1 );
 
 		}
 

@@ -110,7 +110,7 @@ if (!class_exists('Inbound_Landing_Pages_Plugin')) {
          * Load Shared Files at priority 2
          */
 		private static function load_shared_files() {
-			if (!defined('INBOUND_PRO_PATH')) {
+			if (!defined('INBOUND_PRO_PATH')) { 
 				require_once('shared/classes/class.load-shared.php');
 				add_action( 'plugins_loaded', array( 'Inbound_Load_Shared' , 'init') , 3 );
 			}
