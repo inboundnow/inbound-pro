@@ -76,12 +76,10 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 		*  Load Shared Files
 		*/
 		private static function load_shared_files() {
-            if (defined('INBOUND_PRO_PATH')) {
-                include_once( INBOUND_PRO_PATH . 'core/shared/classes/class.load-shared.php' );
-            } else {
+            if (!defined('INBOUND_PRO_PATH')) {
+				add_action( 'plugins_loaded', array( 'Inbound_Load_Shared' , 'init') , 1 );
                 include_once( WPL_PATH . 'shared/classes/class.load-shared.php');
             }
-            add_action( 'plugins_loaded', array( 'Inbound_Load_Shared' , 'init') , 1 );
 		}
 
 
