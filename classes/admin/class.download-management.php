@@ -46,7 +46,7 @@ class Inbound_Pro_Downloads {
 		$screen = get_current_screen();
 
 		/* Load assets for upload page */
-		if ( ( isset($screen) && ( $screen->base != 'inbound-pro_page_inbound-manage-templates' && $screen->base != 'inbound-pro_page_inbound-manage-extensions' ) ) ){
+		if ( ( isset($screen) && ( $screen->base != 'inbound-now_page_inbound-manage-templates' && $screen->base != 'inbound-now_page_inbound-manage-extensions' ) ) ){
 			return;
 		}
 
@@ -798,7 +798,7 @@ class Inbound_Pro_Downloads {
 	public static function load_inline_js_css() {
 		$screen = get_current_screen();
 
-		if ( $screen->base != 'inbound-pro_page_inbound-manage-templates' ) {
+		if ( $screen->base != 'inbound-now_page_inbound-manage-templates' ) {
 			return;
 		}
 
