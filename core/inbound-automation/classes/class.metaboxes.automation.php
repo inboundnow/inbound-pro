@@ -272,7 +272,7 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
                     </tr>
                 </table>
             </div>
-        <?php
+            <?php
         }
 
         /**
@@ -299,7 +299,7 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
                 <br>
 
             </div>
-        <?php
+            <?php
 
         }
 
@@ -421,7 +421,7 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
                     ?>
                 </table>
             </div>
-        <?php
+            <?php
         }
 
 
@@ -639,11 +639,11 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
                 wp_enqueue_style('inbound-automation-admin-jquery-ui-css', INBOUND_AUTOMATION_URLPATH . 'assets/css/jquery-ui.css');
 
                 /* load BootStrap */
-                wp_register_script('bootstrap-js', INBOUND_AUTOMATION_URLPATH . 'assets/libraries/BootStrap/js/bootstrap.min.js');
+                wp_register_script('bootstrap-js', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/BootStrap/js/bootstrap.min.js');
                 wp_enqueue_script('bootstrap-js');
 
                 /* BootStrap CSS */
-                wp_register_style('bootstrap-css', INBOUND_AUTOMATION_URLPATH . 'assets/libraries/BootStrap/css/bootstrap.css');
+                wp_register_style('bootstrap-css', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/BootStrap/css/bootstrap.css');
                 wp_enqueue_style('bootstrap-css');
 
                 /* Spin.min.js - For button loading effect */
@@ -659,15 +659,15 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
                 wp_enqueue_style('ladda-css');
 
                 /* Load FontAwesome */
-                wp_register_style('font-awesome', INBOUND_AUTOMATION_URLPATH . 'assets/libraries/FontAwesome/css/font-awesome.min.css');
-                wp_enqueue_style('font-awesome');
+                wp_register_style('fontawesome', INBOUNDNOW_SHARED_URLPATH . 'assets/fonts/fontawesome/css/font-awesome.min.css');
+                wp_enqueue_style('fontawesome');
 
                 /* Load Main JS File */
                 wp_register_script('inbound-rules-js', INBOUND_AUTOMATION_URLPATH . 'assets/js/admin.rule-setup.js');
                 wp_enqueue_script('inbound-rules-js');
 
                 /* Enqueue Select2 */
-                wp_register_script('select2', INBOUND_AUTOMATION_URLPATH . 'assets/libraries/Select2/selecct2.min.js');
+                wp_register_script('select2', INBOUND_AUTOMATION_URLPATH . 'assets/libraries/Select2/select2.min.js');
                 wp_enqueue_script('select2');
 
                 /* load Sweet Alert */
@@ -692,7 +692,7 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
 
 
             </script>
-        <?php
+            <?php
 
         }
 

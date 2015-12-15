@@ -275,8 +275,8 @@ class Landing_Pages_Metaboxes {
         wp_enqueue_style('admin-post-edit-css', LANDINGPAGES_URLPATH . 'assets/css/admin-post-edit.css');
 
         /* Load FontAwesome */
-        wp_register_style('font-awesome', INBOUNDNOW_SHARED_URLPATH.'assets/css/fontawesome.min.css');
-        wp_enqueue_style('font-awesome');
+        wp_register_style('fontawesome', INBOUNDNOW_SHARED_URLPATH.'assets/fonts/fontawesome/css/fontawesome.min.css');
+        wp_enqueue_style('fontawesome');
 
         /* Load Sweet Alert */
         wp_enqueue_script('sweet-alert', INBOUNDNOW_SHARED_URLPATH.'assets/includes/SweetAlert/sweetalert.min.js');

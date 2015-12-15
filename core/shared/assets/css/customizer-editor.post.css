@@ -47,6 +47,19 @@
             margin-bottom: 0px;
         }
     }
+
+    .acf-tab-group li.active a:before {
+        /* text-decoration:underline !important; */
+        font-family: FontAwesome;
+        content: "\f069";
+        padding-right:5px;
+    }
+
+    .inbound-acf-tab {
+        background: #FFFFFF !important;
+        font-size: 11px !important;
+    }
+
     #inbound-shortcodes-form-wrap {
         width: 100%;
         #inbound-shortcodes-form {

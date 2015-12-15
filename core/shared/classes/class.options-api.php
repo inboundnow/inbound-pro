@@ -23,7 +23,7 @@ if ( ! class_exists( 'Inbound_Options_API' ) ) {
 		*/
 		public static function update_option( $namespace, $key, $value ) {
 
-			$options = json_decode( stripslashes( get_option( $namespace ) ), true ) ;
+			$options = json_decode( stripslashes( get_option( $namespace , '' ) ), true ) ;
 
 			if (!$options) {
 				add_option( $namespace, '', '', 'no' );
