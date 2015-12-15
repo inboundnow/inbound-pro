@@ -60,6 +60,10 @@ outline: none;
 }
 #last_touch_point {
 	padding-top: 15px;
+	margin-top: 2px;
+	display:inline-block;
+	border-top: solid 1px #00a0d2;
+	width:72%;
 }
 #wpfooter {
 	display: none;
@@ -818,15 +822,18 @@ color: #858585;}
 	padding-top: 10px;
 	padding-bottom: 10px;
 	background: transparent;
+	display:inline-block;
 }
 
-#page_view_total, #conversion_count_total {
+.quick-stat-label {
 	width: 43%;
-	display: inline-block;
+	display: inline;
 	vertical-align: top;
+	float:left;
+	margin-bottom:21px;
 }
 
-#conversion-total, #p-view-total {
+.quick-stat-total {
 	font-weight: bold;
 	display: block;
 	font-size: 25px;
@@ -859,9 +866,6 @@ color: #858585;}
 	font-size: 18px;
 }
 
-#last-touch-point{
-	margin-top: 10px;
-}
 
 #submitdiv .misc-pub-section {
 	display: none;
@@ -1030,10 +1034,6 @@ a.lead-timeline-img {
 	display: none;
 }
 
-#wpleads_lead_events_tab .lead-timeline .lead-event-text, #lead-conversions .lead-timeline .lead-event-text, #lead-page-views .lead-timeline .lead-event-text	{
-	border: none;
-	padding: 0px;
-}
 #wpleads_lead_events_tab .lead-timeline .lead-event-text, #lead-conversions .lead-timeline .lead-event-text, #lead-page-views .lead-timeline .lead-event-text, .lead-event-text.lead-comment-div {
 
 padding-top: 6px;
@@ -1041,9 +1041,7 @@ padding-top: 6px;
 #wpleads_lead_events_tab .lead-timeline, #lead-conversions .lead-timeline, #lead-page-views .lead-timeline, #lead-comments .lead-timeline	{
 	margin-left: 11px !important;
 }
-#wpleads_lead_events_tab .lead-helper-text, #lead-conversions .lead-helper-text, #lead-page-views .lead-helper-text {
-	display: none;
-}
+
 #all-lead-history:before {
 	width: 3px;
 	left: 105px;
