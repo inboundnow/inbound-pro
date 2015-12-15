@@ -113,13 +113,9 @@ if (!class_exists('Leads_Manager')) {
 
 			wp_enqueue_script( array('jquery', 'jqueryui' , 'jquery-ui-selectable' , 'editor', 'thickbox', 'media-upload') );
 
-			if (defined('INBOUND_PRO_URLPATH')) {
-			    wp_enqueue_script( 'selectjs', INBOUND_PRO_URLPATH . 'core/shared/assets/js/admin/select2.min.js');
-			    wp_enqueue_style( 'selectjs', INBOUND_PRO_URLPATH . 'core/shared/assets/css/admin/select2.css');
-			} else {
-					wp_enqueue_script( 'selectjs', WPL_URLPATH . '/shared/assets/js/admin/select2.min.js');
-					wp_enqueue_style( 'selectjs', WPL_URLPATH . '/shared/assets/css/admin/select2.css');
-			}
+			/* Enqueue select2 support */
+			wp_enqueue_script('select2', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/Select2/select2.min.js', array( 'jquery' ));
+			wp_enqueue_style( 'select2', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/Select2/select2.css');
 
 			wp_enqueue_script( 'tablesort', WPL_URLPATH . '/assets/js/management/tablesort.min.js');
 

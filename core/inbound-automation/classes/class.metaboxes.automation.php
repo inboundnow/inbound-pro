@@ -667,7 +667,7 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
                 wp_enqueue_script('inbound-rules-js');
 
                 /* Enqueue Select2 */
-                wp_register_script('select2', INBOUND_AUTOMATION_URLPATH . 'assets/libraries/Select2/select2.min.js');
+                wp_register_script('select2', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/Select2/select2.min.js');
                 wp_enqueue_script('select2');
 
                 /* load Sweet Alert */
