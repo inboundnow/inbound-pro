@@ -8,13 +8,13 @@
 				<button class="close dashicons dashicons-no overlay-close" data-download='<%= post_name %>' ><span class="screen-reader-text">Close</span></button>
 			</div>
 			<div class="theme-about">
-				<div class="theme-screenshots">
+				<div class="theme-screenshots" style="width:35%; float:right;">
 
-					<div class="screenshot"><img src="<%= image %>" alt=""></div>
+					<div class="screenshot" style="box-shadow:none;"><img src="<%= image %>" alt=""></div>
 
 				</div>
 
-				<div class="theme-info">
+				<div class="theme-info" style="width: 58%; float:left;">
 					<h3 class="theme-name"><%= post_title %></h3>
 
 					<span class="current-label" style='margin-top:10px'><%= status %> <%= current_version %></span>
@@ -34,22 +34,22 @@
 				</div>
 			</div>
 
-			<div class="theme-actions">
+			<div class="theme-actions" style="padding:38px 25px 38px;">
 				 <% if ( status == "uninstalled" ){ %>
 				<div class="">
-					<span class="button button-secondary overlay-install" data-download='<%= post_name %>' data-filename='<%= filename %>'   data-download-type='<%= download_type %>'>Install</span>
+					<span  style="font-size:20px;padding: 0 40px 1px;" class="button button-primary overlay-install" data-download='<%= post_name %>' data-filename='<%= filename %>'   data-download-type='<%= download_type %>'>Install</span>
 				</div>
 				<% } %>
 
 				<% if ( status == "installed" ) { %>
 				<div class="">
-					<span class="button button-secondary overlay-uninstall"  data-download='<%= post_name %>' >Uninstall</span>
+					<span style="font-size:20px;padding: 0 40px 1px;" class="button button-secondary overlay-uninstall"  data-download='<%= post_name %>' >Uninstall</span>
 				</div>
 				<% } %>
 
 				<% if ( current_version < server_version && status == "installed" ) { %>
 				<div class="">
-					<span class="button button-secondary overlay-update"  data-download='<%= post_name %>' data-filename='<%= filename %>'  data-download-type='<%= download_type %>' >Update</span>
+					<span style="font-size:20px;padding: 0 40px 1px;" class="button button-secondary overlay-update"  data-download='<%= post_name %>' data-filename='<%= filename %>'  data-download-type='<%= download_type %>'>Update</span>
 				</div>
 				<% } %>
 
