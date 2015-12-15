@@ -26,7 +26,7 @@
     padding-top: 6px;
     opacity: .8;
 }
-:root:root:root #toplevel_page_inbound-pro .wp-menu-image.dashicons-before img:hover, :root:root:root #toplevel_page_inbound-pro .wp-menu-image.dashicons-before img:focus {
+:root:root:root #toplevel_page_inbound-pro:hover .wp-menu-image.dashicons-before img, :root:root:root #toplevel_page_inbound-pro.wp-menu-open .wp-menu-image.dashicons-before img, :root:root:root #toplevel_page_inbound-pro:focus .wp-menu-image.dashicons-before img{
     opacity:1;
 }
 :root:root:root #adminmenu .menu-icon-landing-page div.wp-menu-image:before {

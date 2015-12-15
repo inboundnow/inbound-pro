@@ -25,7 +25,10 @@
             width: 21px;
             padding-top: 6px;
             opacity: .8;
-            &:hover {
+
+        }
+        &:hover, &.wp-menu-open {
+            .wp-menu-image.dashicons-before img{
                 opacity:1;
             }
         }
