@@ -295,9 +295,6 @@ class Inbound_Mailer_Tokens {
 			$params['lead_id'] = $_COOKIE['wp_lead_id'];
 		}
 
-		/* Add variation id to unsubscribe link */
-		$params['variation_id'] = ( isset($_REQUEST['inbvid']) )  ? $_REQUEST['inbvid'] : 0;
-
 		/* generate unsubscribe link */
 		$unsubscribe_link =  Inbound_Mailer_Unsubscribe::generate_unsubscribe_link( $params );
 

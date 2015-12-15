@@ -22,6 +22,6 @@ overflow: hidden !important;
 	font-size: 20px;
 	text-decoration: none;
 }
-.update-nag {
+.update-nag, #lead-header {
   display: none !important;
 }

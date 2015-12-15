@@ -17,7 +17,7 @@ use Sabberworm\CSS\Value\RuleValueList;
 use Sabberworm\CSS\Value\Size;
 use Sabberworm\CSS\Value\Color;
 use Sabberworm\CSS\Value\URL;
-use Sabberworm\CSS\Value\CSSString;
+use Sabberworm\CSS\Value\String;
 use Sabberworm\CSS\Rule\Rule;
 use Sabberworm\CSS\Parsing\UnexpectedTokenException;
 
@@ -139,13 +139,13 @@ class Parser {
 			if ($sPrefix !== null && !is_string($sPrefix)) {
 				throw new \Exception('Wrong namespace prefix '.$sPrefix);
 			}
-			if (!($mUrl instanceof CSSString || $mUrl instanceof URL)) {
+			if (!($mUrl instanceof String || $mUrl instanceof URL)) {
 				throw new \Exception('Wrong namespace url of invalid type '.$mUrl);
 			}
 			return new CSSNamespace($mUrl, $sPrefix);
 		} else {
 			//Unknown other at rule (font-face or such)
-			$sArgs = trim($this->consumeUntil('{', false, true));
+			$sArgs = $this->consumeUntil('{', false, true);
 			$this->consumeWhiteSpace();
 			$bUseRuleSet = true;
 			foreach($this->blockRules as $sBlockRuleName) {
@@ -214,7 +214,7 @@ class Parser {
 			}
 			$this->consume($sQuote);
 		}
-		return new CSSString($sResult);
+		return new String($sResult);
 	}
 
 	private function parseCharacter($bIsForIdentifier) {
@@ -371,7 +371,11 @@ class Parser {
 				array_splice($aStack, $iStartPosition - 1, $iLength * 2 - 1, array($oList));
 			}
 		}
-		return $aStack[0];
+		if (isset($aStack[0])) {
+			return $aStack[0];
+		} else {
+			return '';
+		}
 	}
 
 	private static function listDelimiterForRule($sRule) {

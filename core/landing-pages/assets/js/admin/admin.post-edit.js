@@ -73,7 +73,7 @@ jQuery(document).ready(function ($) {
     }
 
     /* Tour Start JS */
-    var tourbutton = '<a class="" id="lp-tour" style="font-size:13px;">Need help? Take the tour</a>';
+    var tourbutton = '<a class="" id="lp-tour" style="font-size:13px;position: absolute;bottom: 5px;">Need help? Take the tour</a>';
     jQuery(tourbutton).appendTo("h2:eq(0)");
     jQuery("body").on('click', '#lp-tour', function () {
         jQuery(this).hide();

@@ -3,13 +3,12 @@
 namespace Sabberworm\CSS\RuleSet;
 
 use Sabberworm\CSS\Rule\Rule;
-use Sabberworm\CSS\Renderable;
 
 /**
  * RuleSet is a generic superclass denoting rules. The typical example for rule sets are declaration block.
  * However, unknown At-Rules (like @font-face) are also rule sets.
  */
-abstract class RuleSet implements Renderable {
+abstract class RuleSet {
 
 	private $aRules;
 
@@ -84,36 +83,13 @@ abstract class RuleSet implements Renderable {
 	}
 
 	public function __toString() {
-		return $this->render(new \Sabberworm\CSS\OutputFormat());
-	}
-
-	public function render(\Sabberworm\CSS\OutputFormat $oOutputFormat) {
 		$sResult = '';
-		$bIsFirst = true;
 		foreach ($this->aRules as $aRules) {
 			foreach($aRules as $oRule) {
-				$sRendered = $oOutputFormat->safely(function() use ($oRule, $oOutputFormat) {
-					return $oRule->render($oOutputFormat->nextLevel());
-				});
-				if($sRendered === null) {
-					continue;
-				}
-				if($bIsFirst) {
-					$bIsFirst = false;
-					$sResult .= $oOutputFormat->nextLevel()->spaceBeforeRules();
-				} else {
-					$sResult .= $oOutputFormat->nextLevel()->spaceBetweenRules();
-				}
-				$sResult .= $sRendered;
+				$sResult .= $oRule->__toString();
 			}
 		}
-		
-		if(!$bIsFirst) {
-			// Had some output
-			$sResult .= $oOutputFormat->spaceAfterRules();
-		}
-
-		return $oOutputFormat->removeLastSemicolon($sResult);
+		return $sResult;
 	}
 
 }

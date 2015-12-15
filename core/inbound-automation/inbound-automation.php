@@ -5,7 +5,7 @@ Plugin URI: http://www.inboundnow.com/
 Description: Automate emails, segmenting, scoring & more.
 */
 
-if (!class_exists('Inbound_Automation_Plugin')) {
+if (!class_exists('Inbound_Automation_Plugin') && class_exists('Inbound_Leads_Plugin')) {
 
 	final class Inbound_Automation_Plugin {
 

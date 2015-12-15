@@ -32,18 +32,10 @@ class KeyFrame extends CSSList implements AtRule {
 	}
 
 	public function __toString() {
-		return $this->render(new \Sabberworm\CSS\OutputFormat());
-	}
-
-	public function render(\Sabberworm\CSS\OutputFormat $oOutputFormat) {
-		$sResult = "@{$this->vendorKeyFrame} {$this->animationName}{$oOutputFormat->spaceBeforeOpeningBrace()}{";
-		$sResult .= parent::render($oOutputFormat);
+		$sResult = "@{$this->vendorKeyFrame} {$this->animationName} {";
+		$sResult .= parent::__toString();
 		$sResult .= '}';
 		return $sResult;
-	}
-
-	public function isRootList() {
-		return false;
 	}
 
 	public function atRuleName() {

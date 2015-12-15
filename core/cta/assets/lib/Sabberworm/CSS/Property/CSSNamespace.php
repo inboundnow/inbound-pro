@@ -15,11 +15,7 @@ class CSSNamespace implements AtRule {
 	}
 	
 	public function __toString() {
-		return $this->render(new \Sabberworm\CSS\OutputFormat());
-	}
-
-	public function render(\Sabberworm\CSS\OutputFormat $oOutputFormat) {
-		return '@namespace '.($this->sPrefix === null ? '' : $this->sPrefix.' ').$this->mUrl->render($oOutputFormat).';';
+		return '@namespace '.($this->sPrefix === null ? '' : $this->sPrefix.' ').$this->mUrl->__toString().';';
 	}
 	
 	public function getUrl() {

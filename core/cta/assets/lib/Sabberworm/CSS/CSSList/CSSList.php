@@ -33,16 +33,9 @@ abstract class CSSList {
 		$iKey = array_search($oItemToRemove, $this->aContents, true);
 		if ($iKey !== false) {
 			unset($this->aContents[$iKey]);
-			return true;
 		}
-		return false;
 	}
 
-	/**
-	 * Removes a declaration block from the CSS list if it matches all given selectors.
-	 * @param array|string $mSelector The selectors to match.
-	 * @param boolean $bRemoveAll Whether to stop at the first declaration block found or remove all blocks
-	 */
 	public function removeDeclarationBlockBySelector($mSelector, $bRemoveAll = false) {
 		if ($mSelector instanceof DeclarationBlock) {
 			$mSelector = $mSelector->getSelectors();
@@ -69,44 +62,12 @@ abstract class CSSList {
 	}
 
 	public function __toString() {
-		return $this->render(new \Sabberworm\CSS\OutputFormat());
-	}
-
-	public function render(\Sabberworm\CSS\OutputFormat $oOutputFormat) {
 		$sResult = '';
-		$bIsFirst = true;
-		$oNextLevel = $oOutputFormat;
-		if(!$this->isRootList()) {
-			$oNextLevel = $oOutputFormat->nextLevel();
-		}
 		foreach ($this->aContents as $oContent) {
-			$sRendered = $oOutputFormat->safely(function() use ($oNextLevel, $oContent) {
-				return $oContent->render($oNextLevel);
-			});
-			if($sRendered === null) {
-				continue;
-			}
-			if($bIsFirst) {
-				$bIsFirst = false;
-				$sResult .= $oNextLevel->spaceBeforeBlocks();
-			} else {
-				$sResult .= $oNextLevel->spaceBetweenBlocks();
-			}
-			$sResult .= $sRendered;
+			$sResult .= $oContent->__toString();
 		}
-
-		if(!$bIsFirst) {
-			// Had some output
-			$sResult .= $oOutputFormat->spaceAfterBlocks();
-		}
-
 		return $sResult;
 	}
-	
-	/**
-	* Return true if the list can not be further outdented. Only important when rendering.
-	*/
-	public abstract function isRootList();
 
 	public function getContents() {
 		return $this->aContents;

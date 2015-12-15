@@ -7,11 +7,11 @@ class URL extends PrimitiveValue {
 
 	private $oURL;
 
-	public function __construct(CSSString $oURL) {
+	public function __construct(String $oURL) {
 		$this->oURL = $oURL;
 	}
 
-	public function setURL(CSSString $oURL) {
+	public function setURL(String $oURL) {
 		$this->oURL = $oURL;
 	}
 
@@ -20,11 +20,7 @@ class URL extends PrimitiveValue {
 	}
 
 	public function __toString() {
-		return $this->render(new \Sabberworm\CSS\OutputFormat());
-	}
-
-	public function render(\Sabberworm\CSS\OutputFormat $oOutputFormat) {
-		return "url({$this->oURL->render($oOutputFormat)})";
+		return "url({$this->oURL->__toString()})";
 	}
 
 }
