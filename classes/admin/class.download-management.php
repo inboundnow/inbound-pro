@@ -528,11 +528,12 @@ class Inbound_Pro_Downloads {
 					<input class="filter-search" type="search" placeholder="<?php _e(' Search... ' , INBOUNDNOW_TEXT_DOMAIN ); ?>">
 					<div class='radio-filters'>
 						<span class="ib">
-							<label class='filter-label' for="installed"><input type="radio" name="meta" value="installed" class='radio-filter'> <?php _e( 'Installed' , INBOUNDNOW_TEXT_DOMAIN ); ?></label>
-						</span>
-						<span class="ib">
 							<label  class='filter-label' for="uninstalled"><input type="radio" name="meta" value="uninstalled"  class='radio-filter'> <?php _e( 'Uninstalled' , INBOUNDNOW_TEXT_DOMAIN ); ?></label>
 						</span>
+						<span class="ib">
+							<label class='filter-label' for="installed"><input type="radio" name="meta" value="installed" class='radio-filter'> <?php _e( 'Installed' , INBOUNDNOW_TEXT_DOMAIN ); ?></label>
+						</span>
+
 						<span class="ib">
 							<label class='filter-label' for="needs-update"><input type="radio" name="meta" value="needs-update" class='radio-filter'> <?php _e( 'Needs Update' , INBOUNDNOW_TEXT_DOMAIN ); ?></label>
 						</span>
