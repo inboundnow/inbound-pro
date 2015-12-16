@@ -2,11 +2,30 @@
 
 // vars
 $field_groups = acf_extract_var( $args, 'field_groups');
+$domain = acf_get_setting('export_textdomain');
+$keys = acf_get_setting('export_translate');
+
+
+// replace
+$replace = array(
+	'/([\t\r\n]+?)array/'	=> 'array',
+	'/[0-9]+ => array/'		=> 'array'
+);
+
+if( $keys && $domain ) {
+	
+	foreach( $keys as $k ) {
+		
+		$replace["/'{$k}' => '(.+)',/"] = "'{$k}' => __('$1', '$domain'),";
+		
+	}
+	
+}
 
 ?>
 <div class="wrap acf-settings-wrap">
 	
-	<h2><?php _e('Tools', 'acf'); ?></h2>
+	<h1><?php _e('Tools', 'acf'); ?></h1>
 	
 	<div class="acf-box">
 		<div class="title">
@@ -28,23 +47,6 @@ $field_groups = acf_extract_var( $args, 'field_groups');
 				
 				// change double spaces to tabs
 				$code = str_replace("  ", "\t", $code);
-				
-				
-				// replace
-				$replace = array(
-					'/([\t\r\n]+?)array/'			=> 'array',
-					'/[0-9]+ => array/'				=> 'array'
-				);
-				
-				
-				// textdomain
-				if( $domain = acf_get_setting('export_textdomain') ) {
-					
-					$replace["/'title' => (.+),/"] = "'title' => __($1, '$domain'),";
-					$replace["/'label' => (.+),/"] = "'label' => __($1, '$domain'),";
-					$replace["/'instructions' => (.+),/"] = "'instructions' => __($1, '$domain'),";
-					
-				}
 				
 				
 				// correctly formats "=> array("

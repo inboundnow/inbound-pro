@@ -3,7 +3,7 @@
 Plugin Name: Advanced Custom Fields Pro
 Plugin URI: http://www.advancedcustomfields.com/
 Description: Customise WordPress with powerful, professional and intuitive fields
-Version: 5.3.0
+Version: 5.3.2.2
 Author: elliot condon
 Author URI: http://www.elliotcondon.com/
 Copyright: Elliot Condon
@@ -61,7 +61,7 @@ class acf {
 			
 			// basic
 			'name'				=> __('Advanced Custom Fields', 'acf'),
-			'version'			=> '5.3.0',
+			'version'			=> '5.3.2.2',
 						
 			// urls
 			'basename'			=> plugin_basename( __FILE__ ),
@@ -80,16 +80,14 @@ class acf {
 			'current_language'	=> '',
 			'capability'		=> 'manage_options',
 			'uploader'			=> 'wp',
-			'autoload'			=> false
+			'autoload'			=> false,
+			'export_textdomain'	=> '',
+			'export_translate'	=> array('title', 'label', 'instructions')
 		);
 		
 		
 		// include helpers
 		include_once('api/api-helpers.php');
-		
-		
-		// set text domain
-		load_textdomain( 'acf', acf_get_path( 'lang/acf-' . get_locale() . '.mo' ) );
 		
 		
 		// api
@@ -134,7 +132,73 @@ class acf {
 		}
 		
 		
-		// fields
+		// pro
+		acf_include('pro/acf-pro.php');
+		
+		
+		// actions
+		add_action('init',	array($this, 'init'), 5);
+		add_action('init',	array($this, 'register_post_types'), 5);
+		add_action('init',	array($this, 'register_post_status'), 5);
+		add_action('init',	array($this, 'register_assets'), 5);
+		
+		
+		// filters
+		add_filter('posts_where',		array($this, 'posts_where'), 10, 2 );
+		//add_filter('posts_request',	array($this, 'posts_request'), 10, 1 );
+		
+	}
+	
+	
+	/*
+	*  init
+	*
+	*  This function will run after all plugins and theme functions have been included
+	*
+	*  @type	action (init)
+	*  @date	28/09/13
+	*  @since	5.0.0
+	*
+	*  @param	N/A
+	*  @return	N/A
+	*/
+	
+	function init() {
+		
+		// bail early if a plugin called get_field early
+		if( !did_action('plugins_loaded') ) return;
+		
+		
+		// bail early if already init
+		if( acf_get_setting('init') ) return;
+		
+		
+		// only run once
+		acf_update_setting('init', true);
+		
+		
+		// vars
+		$major = intval( acf_get_setting('version') );
+		
+		
+		// redeclare dir
+		// - allow another plugin to modify dir (maybe force SSL)
+		acf_update_setting('dir', plugin_dir_url( __FILE__ ));
+		
+		
+		// set text domain
+		load_textdomain( 'acf', acf_get_path( 'lang/acf-' . get_locale() . '.mo' ) );
+		
+		
+		// include wpml support
+		if( defined('ICL_SITEPRESS_VERSION') ) {
+		
+			acf_include('core/wpml.php');
+			
+		}
+		
+		
+		// field types
 		acf_include('fields/text.php');
 		acf_include('fields/textarea.php');
 		acf_include('fields/number.php');
@@ -161,42 +225,37 @@ class acf {
 		acf_include('fields/tab.php');
 		
 		
-		// pro
-		acf_include('pro/acf-pro.php');
+		// 3rd party field types
+		do_action('acf/include_field_types', $major);
 		
+		
+		// local fields
+		do_action('acf/include_fields', $major);
+		
+		
+		// action for 3rd party
+		do_action('acf/init');
 			
-		// actions
-		add_action('init',			array($this, 'wp_init'), 5);
-		add_filter('posts_where',	array($this, 'wp_posts_where'), 10, 2 );
-		//add_filter('posts_orderby',	array($this, 'wp_posts_orderby'), 10, 2 );
-		//add_filter('posts_groupby',	array($this, 'wp_posts_groupby'), 10, 2 );
-		//add_filter('posts_request',	array($this, 'posts_request'), 10, 1 );
-		
 	}
 	
 	
 	/*
-	*  wp_init
+	*  register_post_types
 	*
-	*  This function will run on the WP init action and setup many things
+	*  This function will register post types and statuses
 	*
-	*  @type	action (init)
-	*  @date	28/09/13
-	*  @since	5.0.0
+	*  @type	function
+	*  @date	22/10/2015
+	*  @since	5.3.2
 	*
-	*  @param	N/A
-	*  @return	N/A
+	*  @param	n/a
+	*  @return	n/a
 	*/
 	
-	function wp_init() {
+	function register_post_types() {
 		
 		// vars
 		$cap = acf_get_setting('capability');
-		$version = acf_get_setting('version');
-		$lang = get_locale();
-		$scripts = array();
-		$styles = array();
-		$min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
 		
 		
 		// register post type 'acf-field-group'
@@ -262,8 +321,25 @@ class acf {
 			'show_in_menu'		=> false,
 		));
 		
+	}
+	
+	
+	/*
+	*  register_post_status
+	*
+	*  This function will register custom post statuses
+	*
+	*  @type	function
+	*  @date	22/10/2015
+	*  @since	5.3.2
+	*
+	*  @param	$post_id (int)
+	*  @return	$post_id (int)
+	*/
+	
+	function register_post_status() {
 		
-		// register post status
+		// acf-disabled
 		register_post_status('acf-disabled', array(
 			'label'                     => __( 'Disabled', 'acf' ),
 			'public'                    => true,
@@ -272,6 +348,31 @@ class acf {
 			'show_in_admin_status_list' => true,
 			'label_count'               => _n_noop( 'Disabled <span class="count">(%s)</span>', 'Disabled <span class="count">(%s)</span>', 'acf' ),
 		));
+		
+	}
+	
+	
+	/*
+	*  register_assets
+	*
+	*  This function will register scripts and styles
+	*
+	*  @type	function
+	*  @date	22/10/2015
+	*  @since	5.3.2
+	*
+	*  @param	n/a
+	*  @return	n/a
+	*/
+	
+	function register_assets() {
+		
+		// vars
+		$version = acf_get_setting('version');
+		$lang = get_locale();
+		$min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
+		$scripts = array();
+		$styles = array();
 		
 		
 		// append scripts
@@ -380,73 +481,11 @@ class acf {
 			
 		}
 		
-		
-		// complete loading of ACF files
-		$this->complete();
-		
 	}
 	
 	
 	/*
-	*  complete
-	*
-	*  This function will ensure all files are included
-	*
-	*  @type	function
-	*  @date	10/03/2014
-	*  @since	5.0.0
-	*
-	*  @param	n/a
-	*  @return	n/a
-	*/
-	
-	function complete() {
-		
-		// bail early if actions have not passed 'plugins_loaded'
-		// this allows all plugins / theme to hook in
-		if( !did_action('plugins_loaded') ) {
-			
-			return;
-			
-		}
-		
-		
-		// once run once
-		if( acf_get_setting('complete') ) {
-		
-			return;
-			
-		}
-		
-		
-		// update setting
-		acf_update_setting('complete', true);
-		
-		
-		// wpml
-		if( defined('ICL_SITEPRESS_VERSION') ) {
-		
-			acf_include('core/wpml.php');
-			
-		}
-		
-		
-		// include field types
-		do_action('acf/include_field_types', 5);
-		
-		
-		// include local fields
-		do_action('acf/include_fields', 5);
-		
-		
-		// final action
-		do_action('acf/init');
-		
-	}
-	
-	
-	/*
-	*  wp_posts_where
+	*  posts_where
 	*
 	*  This function will add in some new parameters to the WP_Query args allowing fields to be found via key / name
 	*
@@ -459,7 +498,7 @@ class acf {
 	*  @return	$where (string)
 	*/
 	
-	function wp_posts_where( $where, $wp_query ) {
+	function posts_where( $where, $wp_query ) {
 		
 		// global
 		global $wpdb;
@@ -534,6 +573,7 @@ function acf() {
 	}
 	
 	return $acf;
+	
 }
 
 

@@ -350,7 +350,8 @@ class acf_location {
 		
 		
 		// get terms
-		if( !$options['ajax'] ) {
+		// - allow an empty array (sent via JS) to avoid loading the real post's terms
+		if( !is_array($terms) ) {
 		
 			$terms = wp_get_post_terms( $options['post_id'], $term->taxonomy, array('fields' => 'ids') );
 			
@@ -1225,9 +1226,8 @@ function acf_get_field_group_visibility( $field_group, $args = array() ) {
 		'page_template'	=> 0,
 		'page_parent'	=> 0,
 		'page_type'		=> 0,
-		'post_category'	=> array(),
 		'post_format'	=> 0,
-		'post_taxonomy'	=> array(),
+		'post_taxonomy'	=> null,
 		'taxonomy'		=> 0,
 		'user_id'		=> 0,
 		'user_role'		=> 0,

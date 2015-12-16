@@ -3,6 +3,15 @@ jQuery(document).ready( function($) {
     jQuery( jQuery('.td-col-sends').get() ).each( function( $ ) {
 
         var email_id = jQuery(this).attr('data-email-id');
+        var email_status = jQuery(this).attr('data-email-status');
+
+        /* set unsent emails to zero */
+        if (email_status=='unsent' ) {
+            jQuery( '.td-col-sends[data-email-id="' + email_id + '"]').text('0');
+            jQuery( '.td-col-opens[data-email-id="' + email_id + '"]').text('0');
+            jQuery( '.td-col-clicks[data-email-id="' + email_id + '"]').text('0');
+            return;
+        }
 
         jQuery.ajax({
             type: "POST",

@@ -75,7 +75,6 @@ class acf_field_post_object extends acf_field {
    		$options = acf_parse_args($options, array(
 			'post_id'		=> 0,
 			's'				=> '',
-			'lang'			=> false,
 			'field_key'		=> '',
 			'paged'			=> 1
 		));

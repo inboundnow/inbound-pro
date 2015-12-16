@@ -124,7 +124,7 @@ class acf_admin {
 			}
 				
 			?>
-			<div class="<?php echo $notice['class']; ?>"><?php echo $open . $notice['text'] . $close; ?></div>
+			<div class="notice is-dismissible <?php echo $notice['class']; ?>"><?php echo $open . $notice['text'] . $close; ?></div>
 			<?php
 				
 		}

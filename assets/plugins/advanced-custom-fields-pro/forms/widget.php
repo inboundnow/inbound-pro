@@ -78,7 +78,7 @@ class acf_form_widget {
 		
 		
 		// actions
-		add_action('acf/input/admin_footer', array($this, 'admin_footer'));
+		add_action('acf/input/admin_footer', array($this, 'admin_footer'), 1);
 
 	}
 	
@@ -253,8 +253,17 @@ class acf_form_widget {
 	
 	 acf.add_filter('get_fields', function( $fields ){
 	 	
-	 	return $fields.not('#available-widgets .acf-field');
-
+	 	// widgets
+	 	$fields = $fields.not('#available-widgets .acf-field');
+	 	
+	 	
+	 	// customizer
+	 	$fields = $fields.not('.widget-tpl .acf-field');
+	 	
+	 	
+	 	// return
+	 	return $fields;
+	 	
     });
 	
 	

@@ -396,92 +396,6 @@ class acf_field_relationship extends acf_field {
 		$field['taxonomy'] = acf_get_array( $field['taxonomy'] );
 		
 		
-		// post_types
-		$post_types = array();
-		
-		if( !empty($field['post_type']) ) {
-		
-			$post_types = $field['post_type'];
-
-
-		} else {
-			
-			$post_types = acf_get_post_types();
-			
-		}
-		
-		$post_types = acf_get_pretty_post_types($post_types);
-		
-		
-		// taxonomies
-		$taxonomies = array();
-		
-		if( !empty($field['taxonomy']) ) {
-			
-			// get the field's terms
-			$term_groups = acf_get_array( $field['taxonomy'] );
-			$term_groups = acf_decode_taxonomy_terms( $term_groups );
-			
-			
-			// update taxonomies
-			$taxonomies = array_keys($term_groups);
-		
-		} elseif( !empty($field['post_type']) ) {
-			
-			// loop over post types and find connected taxonomies
-			foreach( $field['post_type'] as $post_type ) {
-				
-				$post_taxonomies = get_object_taxonomies( $post_type );
-				
-				// bail early if no taxonomies
-				if( empty($post_taxonomies) ) {
-					
-					continue;
-					
-				}
-					
-				foreach( $post_taxonomies as $post_taxonomy ) {
-					
-					if( !in_array($post_taxonomy, $taxonomies) ) {
-						
-						$taxonomies[] = $post_taxonomy;
-						
-					}
-					
-				}
-							
-			}
-			
-		} else {
-			
-			$taxonomies = acf_get_taxonomies();
-			
-		}
-		
-		
-		// terms
-		$term_groups = acf_get_taxonomy_terms( $taxonomies );
-		
-		
-		// update $term_groups with specific terms
-		if( !empty($field['taxonomy']) ) {
-			
-			foreach( array_keys($term_groups) as $taxonomy ) {
-				
-				foreach( array_keys($term_groups[ $taxonomy ]) as $term ) {
-					
-					if( ! in_array($term, $field['taxonomy']) ) {
-						
-						unset($term_groups[ $taxonomy ][ $term ]);
-						
-					}
-					
-				}
-				
-			}
-			
-		}
-		
 		// width for select filters
 		$width = array(
 			'search'	=> 0,
@@ -539,6 +453,104 @@ class acf_field_relationship extends acf_field {
 				
 			}
 		}
+		
+		
+		// post type filter
+		$post_types = array();
+		
+		if( $width['post_type'] ) {
+			
+			if( !empty($field['post_type']) ) {
+			
+				$post_types = $field['post_type'];
+	
+	
+			} else {
+				
+				$post_types = acf_get_post_types();
+				
+			}
+			
+			$post_types = acf_get_pretty_post_types($post_types);
+			
+		}
+		
+		
+		// taxonomy filter
+		$taxonomies = array();
+		$term_groups = array();
+		
+		if( $width['taxonomy'] ) {
+			
+			// taxonomies
+			if( !empty($field['taxonomy']) ) {
+				
+				// get the field's terms
+				$term_groups = acf_get_array( $field['taxonomy'] );
+				$term_groups = acf_decode_taxonomy_terms( $term_groups );
+				
+				
+				// update taxonomies
+				$taxonomies = array_keys($term_groups);
+			
+			} elseif( !empty($field['post_type']) ) {
+				
+				// loop over post types and find connected taxonomies
+				foreach( $field['post_type'] as $post_type ) {
+					
+					$post_taxonomies = get_object_taxonomies( $post_type );
+					
+					// bail early if no taxonomies
+					if( empty($post_taxonomies) ) {
+						
+						continue;
+						
+					}
+						
+					foreach( $post_taxonomies as $post_taxonomy ) {
+						
+						if( !in_array($post_taxonomy, $taxonomies) ) {
+							
+							$taxonomies[] = $post_taxonomy;
+							
+						}
+						
+					}
+								
+				}
+				
+			} else {
+				
+				$taxonomies = acf_get_taxonomies();
+				
+			}
+			
+			
+			// terms
+			$term_groups = acf_get_taxonomy_terms( $taxonomies );
+			
+			
+			// update $term_groups with specific terms
+			if( !empty($field['taxonomy']) ) {
+				
+				foreach( array_keys($term_groups) as $taxonomy ) {
+					
+					foreach( array_keys($term_groups[ $taxonomy ]) as $term ) {
+						
+						if( ! in_array($term, $field['taxonomy']) ) {
+							
+							unset($term_groups[ $taxonomy ][ $term ]);
+							
+						}
+						
+					}
+					
+				}
+				
+			}
+			
+		}
+		// end taxonomy filter
 			
 		?>
 <div <?php acf_esc_attr_e($atts); ?>>
@@ -547,12 +559,12 @@ class acf_field_relationship extends acf_field {
 		<input type="hidden" name="<?php echo $field['name']; ?>" value="" />
 	</div>
 	
-	<?php if( $width['search'] > 0 || $width['post_type'] > 0 || $width['taxonomy'] > 0 ): ?>
+	<?php if( $width['search'] || $width['post_type'] || $width['taxonomy'] ): ?>
 	<div class="filters">
 		
 		<ul class="acf-hl">
 		
-			<?php if( $width['search'] > 0 ): ?>
+			<?php if( $width['search'] ): ?>
 			<li style="width:<?php echo $width['search']; ?>%;">
 				<div class="inner">
 				<input class="filter" data-filter="s" placeholder="<?php _e("Search...",'acf'); ?>" type="text" />
@@ -560,7 +572,7 @@ class acf_field_relationship extends acf_field {
 			</li>
 			<?php endif; ?>
 			
-			<?php if( $width['post_type'] > 0 ): ?>
+			<?php if( $width['post_type'] ): ?>
 			<li style="width:<?php echo $width['post_type']; ?>%;">
 				<div class="inner">
 				<select class="filter" data-filter="post_type">
@@ -573,7 +585,7 @@ class acf_field_relationship extends acf_field {
 			</li>
 			<?php endif; ?>
 			
-			<?php if( $width['taxonomy'] > 0 ): ?>
+			<?php if( $width['taxonomy'] ): ?>
 			<li style="width:<?php echo $width['taxonomy']; ?>%;">
 				<div class="inner">
 				<select class="filter" data-filter="taxonomy">
@@ -628,7 +640,7 @@ class acf_field_relationship extends acf_field {
 								<input type="hidden" name="<?php echo $field['name']; ?>[]" value="<?php echo $post->ID; ?>" />
 								<span data-id="<?php echo $post->ID; ?>" class="acf-rel-item">
 									<?php echo $this->get_post_title( $post, $field ); ?>
-									<a href="#" class="acf-icon acf-icon-minus small dark" data-name="remove_item"></a>
+									<a href="#" class="acf-icon -minus small dark" data-name="remove_item"></a>
 								</span>
 							</li><?php
 							
@@ -811,6 +823,44 @@ class acf_field_relationship extends acf_field {
 		
 		// return
 		return $value;
+		
+	}
+	
+	
+	/*
+	*  validate_value
+	*
+	*  description
+	*
+	*  @type	function
+	*  @date	11/02/2014
+	*  @since	5.0.0
+	*
+	*  @param	$post_id (int)
+	*  @return	$post_id (int)
+	*/
+	
+	function validate_value( $valid, $value, $field, $input ){
+		
+		// default
+		if( empty($value) || !is_array($value) ) {
+		
+			$value = array();
+			
+		}
+		
+		
+		// min
+		if( count($value) < $field['min'] ) {
+		
+			$valid = _n( '%s requires at least %s selection', '%s requires at least %s selections', $field['min'], 'acf' );
+			$valid = sprintf( $valid, $field['label'], $field['min'] );
+			
+		}
+		
+		
+		// return		
+		return $valid;
 		
 	}
 		

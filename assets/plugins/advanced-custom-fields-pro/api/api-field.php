@@ -263,26 +263,30 @@ function acf_get_valid_field( $field = false ) {
 
 function acf_prepare_field( $field ) {
 	
+	// bail early if already prepared
+	if( $field['_input'] ) {
+		
+		return $field;
+			
+	}
+	
+	
 	// _input
-	if( !$field['_input'] ) {
+	$field['_input'] = $field['name'];
+	
+
+	// _input: key overrides name
+	if( $field['key'] ) {
 		
-		$field['_input'] = $field['name'];
-	
-	
-		// _input: key overrides name
-		if( $field['key'] ) {
-			
-			$field['_input'] = $field['key'];
-			
-		}
-	
+		$field['_input'] = $field['key'];
 		
-		// _input: prefix prepends name
-		if( $field['prefix'] ) {
-			
-			$field['_input'] = "{$field['prefix']}[{$field['_input']}]";
-			
-		}
+	}
+
+	
+	// _input: prefix prepends name
+	if( $field['prefix'] ) {
+		
+		$field['_input'] = "{$field['prefix']}[{$field['_input']}]";
 		
 	}
 	
@@ -304,6 +308,7 @@ function acf_prepare_field( $field ) {
 	
 	// return
 	return $field;
+	
 }
 
 
@@ -550,7 +555,21 @@ function acf_render_field_wrap( $field, $el = 'div', $instruction = 'label' ) {
 	// replace
 	$wrapper['class'] = str_replace('_', '-', $wrapper['class']);
 	$wrapper['class'] = str_replace('field-field-', 'field-', $wrapper['class']);
+	
+	
+	// wrap classes have changed (5.2.7)
+	if( acf_get_compatibility('field_wrapper_class') ) {
 		
+		$wrapper['class'] .= " field_type-{$field['type']}";
+		
+		if( $field['key'] ) {
+			
+			$wrapper['class'] .= " field_key-{$field['key']}";
+			
+		}
+		
+	}
+	
 	
 	// merge in atts
 	$wrapper = acf_merge_atts( $wrapper, $field['wrapper'] );
@@ -1077,9 +1096,9 @@ function _acf_get_field_by_name( $name = '', $db_only = false ) {
 
 function acf_maybe_get_field( $selector, $post_id = false, $strict = true ) {
 	
-	// complete loading
+	// complete init
 	// this function may be used in a theme file before the init action has been run
-	acf()->complete();
+	acf()->init();
 	
 	
 	// vars

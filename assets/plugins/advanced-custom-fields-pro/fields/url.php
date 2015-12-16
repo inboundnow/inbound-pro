@@ -87,7 +87,7 @@ class acf_field_url extends acf_field {
 		
 		// render
 		$e .= '<div class="acf-input-wrap acf-url">';
-		$e .= '<i class="acf-icon acf-icon-globe small"></i><input ' . acf_esc_attr( $atts ) . ' />';
+		$e .= '<i class="acf-icon -globe small"></i><input ' . acf_esc_attr( $atts ) . ' />';
 		$e .= '</div>';
 		
 		
@@ -155,11 +155,20 @@ class acf_field_url extends acf_field {
 		}
 		
 		
-		if( substr($value, 0, 4) !== 'http' ) {
+		if( strpos($value, '://') !== false ) {
+			
+			// url
+			
+		} elseif( strpos($value, '//') === 0 ) {
+			
+			// protocol relative url
+			
+		} else {
 			
 			$valid = __('Value must be a valid URL', 'acf');
 			
 		}
+		
 		
 		// return		
 		return $valid;

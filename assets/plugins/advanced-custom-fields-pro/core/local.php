@@ -203,25 +203,27 @@ class acf_local {
 	
 	function add_field( $field ) {
 		
-		// validate
-		$field = acf_get_valid_field( $field );
+		// vars
+		// - allow for the very unexpected case where no key or parent exist
+		$key = acf_maybe_get($field, 'key', '');
+		$parent = acf_maybe_get($field, 'parent', '');
 		
 		
 		// add parent reference
-		$this->add_parent_reference( $field['parent'], $field['key'] );
+		$this->add_parent_reference( $parent, $key );
 		
 		
 		// add in menu order
-		$field['menu_order'] = count( $this->parents[ $field['parent'] ] ) - 1;
+		$field['menu_order'] = count( $this->parents[ $parent ] ) - 1;
 		
 		
 		// add field
-		$this->fields[ $field['key'] ] = $field;
+		$this->fields[ $key ] = $field;
 		
 		
 		// clear cache
-		wp_cache_delete( "get_field/key={$field['key']}", 'acf' );
-		wp_cache_delete( "get_fields/parent={$field['parent']}", 'acf' );
+		wp_cache_delete( "get_field/key={$key}", 'acf' );
+		wp_cache_delete( "get_fields/parent={$parent}", 'acf' );
 		
 	}
 	

@@ -21,6 +21,9 @@
 <glyph glyph-name="check" unicode="&#xe80c;" d="m249 0q-34 0-56 28l-180 236q-16 24-12 52t26 46 51 14 47-28l118-154 296 474q16 24 43 30t53-8q24-16 30-43t-8-53l-350-560q-20-32-56-32z" horiz-adv-x="667" />
 <glyph glyph-name="dot-3" unicode="&#xe80d;" d="m110 460q46 0 78-32t32-78q0-44-32-77t-78-33-78 33-32 77q0 46 32 78t78 32z m350 0q46 0 78-32t32-78q0-44-33-77t-77-33-77 33-33 77q0 46 32 78t78 32z m350 0q46 0 78-32t32-78q0-44-32-77t-78-33-78 33-32 77q0 46 32 78t78 32z" horiz-adv-x="920" />
 <glyph glyph-name="arrow-combo" unicode="&#xe80e;" d="m230 850l230-364-460 0z m0-1000l-230 366 460 0z" horiz-adv-x="460" />
+<glyph glyph-name="arrow-down" unicode="&#xe80f;" d="m540 587l-269-473-271 473 540 0z" horiz-adv-x="540" />
+<glyph glyph-name="arrow-up" unicode="&#xe810;" d="m0 114l269 473 271-473-540 0z" horiz-adv-x="540" />
+<glyph glyph-name="search" unicode="&#xe811;" d="m772 78q30-34 6-62l-46-46q-36-32-68 0l-190 190q-74-42-156-42-128 0-223 95t-95 223 90 219 218 91 224-95 96-223q0-88-46-162z m-678 358q0-88 68-156t156-68 151 63 63 153q0 88-68 155t-156 67-151-63-63-151z" horiz-adv-x="789" />
 </font>
 </defs>
 </svg>

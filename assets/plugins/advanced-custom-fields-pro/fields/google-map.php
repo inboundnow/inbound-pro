@@ -103,20 +103,18 @@ class acf_field_google_map extends acf_field {
 		// vars
 		$atts = array(
 			'id'			=> $field['id'],
-			'class'			=> $field['class'],
+			'class'			=> "acf-google-map {$field['class']}",
 			'data-id'		=> $field['id'] . '-' . uniqid(), 
 			'data-lat'		=> $field['center_lat'],
 			'data-lng'		=> $field['center_lng'],
-			'data-zoom'		=> $field['zoom']
+			'data-zoom'		=> $field['zoom'],
 		);
 		
 		
-		// modify atts
-		$atts['class'] .= ' acf-google-map';
-		
+		// has value
 		if( $field['value']['address'] ) {
 		
-			$atts['class'] .= ' active';
+			$atts['class'] .= ' -value';
 			
 		}
 		
@@ -131,21 +129,18 @@ class acf_field_google_map extends acf_field {
 	
 	<div class="title acf-soh">
 		
-		<div class="has-value">
-			<a href="#" data-name="clear-location" class="acf-icon acf-icon-cancel grey acf-soh-target" title="<?php _e("Clear location", 'acf'); ?>"></a>
-			<h4><?php echo $field['value']['address']; ?></h4>
+		<div class="actions acf-soh-target">
+			<a href="#" data-name="search" class="acf-icon -search grey" title="<?php _e("Search", 'acf'); ?>"></a>
+			<a href="#" data-name="clear" class="acf-icon -cancel grey" title="<?php _e("Clear location", 'acf'); ?>"></a>
+			<a href="#" data-name="locate" class="acf-icon -location grey" title="<?php _e("Find current location", 'acf'); ?>"></a>
 		</div>
 		
-		<div class="no-value">
-			<a href="#" data-name="find-location" class="acf-icon acf-icon-location grey acf-soh-target" title="<?php _e("Find current location", 'acf'); ?>"></a>
-			<input type="text" placeholder="<?php _e("Search for address...",'acf'); ?>" class="search" />
-		</div>
-		
+		<input class="search" type="text" placeholder="<?php _e("Search for address...",'acf'); ?>" value="<?php echo $field['value']['address']; ?>" />
+		<i class="acf-loading"></i>
+				
 	</div>
 	
-	<div class="canvas" style="height: <?php echo $field['height']; ?>px">
-		
-	</div>
+	<div class="canvas" style="height: <?php echo $field['height']; ?>px"></div>
 	
 </div>
 <?php
