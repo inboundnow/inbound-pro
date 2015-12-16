@@ -69,11 +69,11 @@ class Inbound_Pro_Settings {
 		wp_enqueue_style('Ink', INBOUND_PRO_URLPATH . 'assets/libraries/Ink/css/ink-flex.min.css');
 
 		/* Load selective bootstrap */
-		wp_enqueue_style('bootstrap-tooltip', INBOUND_PRO_URLPATH . 'assets/libraries/BootStrap/css/tooltip.min.css');
-		wp_enqueue_script('bootstrap-tooltip', INBOUND_PRO_URLPATH . 'assets/libraries/BootStrap/js/tooltip.min.js');
+		wp_enqueue_style('bootstrap-tooltip', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/BootStrap/css/tooltip.min.css');
+		wp_enqueue_script('bootstrap-tooltip', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/BootStrap/js/tooltip.min.js');
 
 		/* load fontawesome */
-		wp_enqueue_style('fontawesome', INBOUND_PRO_URLPATH . 'assets/libraries/FontAwesome/css/font-awesome.min.css');
+		wp_enqueue_style('fontawesome', INBOUNDNOW_SHARED_URLPATH . 'assets/fonts/fontawesome/css/font-awesome.min.css');
 	}
 
 	/**
