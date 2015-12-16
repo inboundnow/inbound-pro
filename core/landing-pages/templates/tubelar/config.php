@@ -102,7 +102,7 @@ if( function_exists('register_field_group') ):
 				'key' => 'field_55e4dd44e0fc4',
 				'label' => __('YouTube Background Video URL','landing-page'),
 				'name' => 'tubelar-yt-video',
-				'type' => 'url',
+				'type' => 'text',
 				'instructions' => __('Paste in the URL of the YouTube Video here.','landing-page'),
 				'required' => 0,
 				'conditional_logic' => 0,

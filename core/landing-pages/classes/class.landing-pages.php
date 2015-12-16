@@ -594,7 +594,7 @@ function lp_add_option($key, $type, $id, $default = null, $label = null, $descri
             return array('label' => $label, 'description' => $description, 'id' => $id, 'type' => 'text', 'default' => $default);
             break;
         case "license-key":
-            return array('label' => $label, 'description' => $description, 'id' => $id, 'type' => 'license-key', 'default' => $default, 'slug' => $id);
+            return array('label' => $label, 'description' => $description, 'id' => $id, 'type' => 'inbound-license-key', 'default' => $default, 'slug' => $id);
             break;
         case "textarea":
             return array('label' => $label, 'description' => $description, 'id' => $id, 'type' => 'textarea', 'default' => $default);

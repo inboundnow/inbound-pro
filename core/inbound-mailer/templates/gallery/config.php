@@ -145,7 +145,7 @@ Please notice that png files are not read correctly by Outlook, if you want maxi
 			'label' => 'Email Title',
 			'name' => 'email_title',
 			'type' => 'text',
-			'instructions' => 'Latest products from our shop',
+			'instructions' => '',
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -153,7 +153,7 @@ Please notice that png files are not read correctly by Outlook, if you want maxi
 				'class' => '',
 				'id' => '',
 			),
-			'default_value' => '',
+			'default_value' => 'Latest products from our shop',
 			'placeholder' => '',
 			'prepend' => '',
 			'append' => '',
