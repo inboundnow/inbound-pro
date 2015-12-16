@@ -265,7 +265,7 @@ class Landing_Pages_Metaboxes {
             wp_enqueue_style('lp-acf-template', LANDINGPAGES_URLPATH . 'assets/css/admin/acf-hide-wp-elements.css');
         }
 
-        wp_enqueue_style('inbound-metaboxes', LANDINGPAGES_URLPATH . 'shared/assets/css/admin/inbound-metaboxes.css');
+        wp_enqueue_style('inbound-metaboxes', INBOUNDNOW_SHARED_URLPATH . 'assets/css/admin/inbound-metaboxes.css');
         wp_enqueue_script( 'lp-admin-clear-stats-ajax-request', LANDINGPAGES_URLPATH . 'assets/js/ajax.clearstats.js', array( 'jquery' ) );
         wp_localize_script( 'lp-admin-clear-stats-ajax-request', 'ajaxadmin', array( 'ajaxurl' => admin_url('admin-ajax.php'), 'lp_clear_nonce' => wp_create_nonce('lp-clear-nonce') ) );
 
@@ -275,8 +275,8 @@ class Landing_Pages_Metaboxes {
         wp_enqueue_style('admin-post-edit-css', LANDINGPAGES_URLPATH . 'assets/css/admin-post-edit.css');
 
         /* Load FontAwesome */
-        wp_register_style('fontawesome', INBOUNDNOW_SHARED_URLPATH.'assets/fonts/fontawesome/css/fontawesome.min.css');
-        wp_enqueue_style('fontawesome');
+        wp_register_style('font-awesome', INBOUNDNOW_SHARED_URLPATH.'assets/css/fontawesome.min.css');
+        wp_enqueue_style('font-awesome');
 
         /* Load Sweet Alert */
         wp_enqueue_script('sweet-alert', INBOUNDNOW_SHARED_URLPATH.'assets/includes/SweetAlert/sweetalert.min.js');
@@ -1112,17 +1112,13 @@ class Landing_Pages_Metaboxes {
     public static function save_landing_page( $landing_page_id ) {
         global $post;
 
-        $screen = get_current_screen();
 
-        if ( wp_is_post_revision( $landing_page_id ) ) {
+        if ( !isset($post) || $post->post_type !='landing-page' || wp_is_post_revision( $landing_page_id ) ) {
             return;
         }
 
-        if ( !isset($screen) || $screen->id != 'landing-page' ) {
-            return;
-        }
 
-        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE || $screen->action == 'add' ) {
+        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE  ) {
             return;
         }
 
