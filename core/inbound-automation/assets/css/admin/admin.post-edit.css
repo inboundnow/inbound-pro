@@ -85,6 +85,20 @@
 	display:inline;
 }
 
+.trigger-filter-evaluate .btn-group-evaluate {
+	position: relative;
+	float: right;
+	top: -33px;
+	right: 0px;
+}
+
+.trigger-filter-evaluate .add-filter {
+	position: relative;
+	float: right;
+	top: 5px;
+	right: -286px;
+}
+
 .add-filter {
 	display:inline;
 	float:right;
@@ -137,12 +151,20 @@
     margin-right: -46px !important;
 }
 
-.fa-plus-circle {
+.add-action-filters .fa-plus-circle {
     color:limegreen;
     cursor:pointer;
     font-size:23px;
-    margin-right:18px;
+    margin-right:24px;
     margin-top:5px;
+}
+
+.action-block-actions .fa-plus-circle, .action-block-actions .fa-plus-circle {
+    color:limegreen;
+    cursor:pointer;
+    font-size:23px;
+    margin-right:24px;
+    margin-top:19px;
 }
 
 .add-action-filter {
@@ -218,10 +240,10 @@
 .actions-container .action-sub-wrapper .action-container {
 	margin-top:0px;
 	padding-top:10px;
-	margin-bottom:5px;
+	margin-bottom:20px;
 	margin-left:auto;
 	padding-right:0px;
-	padding-left:11px;
+	padding-left:30px;
 	width:auto;
 }
 
@@ -229,17 +251,11 @@
 	cursor: pointer;
 }
 
-/* Action Block - Action Settings */
-div[id^='inbound_automation_actions_'] {
-	display:none;
-}
-
-#inbound_automation_actions .hndle{
-    display:none;
+.postbox .hndle {
+	font-size: 24px !important;
 }
 
 .table-action {
-	width:100%;
 	width:100%;
 }
 
@@ -345,4 +361,52 @@ div[id^='inbound_automation_actions_'] {
  */
 .clear-logs-container {
     text-align:right;
+}
+
+
+.trigger-section-header {
+	font-size: 20px;
+	position: relative;
+	color: #fff;
+	background: #428bca;
+	-webkit-border-top-right-radius: 5px;
+	-moz-border-radius-topright: 5px;
+	border-top-right-radius: 5px;
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+	-moz-box-shadow:    0 1px 2px rgba(0, 0, 0, 0.25);
+	box-shadow:         0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+.tr-trigger-select td, tr-filter-select td {
+	padding-bottom:50px;
+	padding-top:10px;
+}
+
+.action-block-section-header {
+	font-size: 20px;
+	position: relative;
+	padding: 10px 10px 10px 30px;
+	margin: 10px 0;
+	color: #fff;
+	background: #428bca;
+	-webkit-border-top-right-radius: 5px;
+	-moz-border-radius-topright: 5px;
+	border-top-right-radius: 5px;
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+	-moz-box-shadow:    0 1px 2px rgba(0, 0, 0, 0.25);
+	box-shadow:         0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+.action-block-then-actions-container {
+	padding-left:20px;
+	padding-bottom:20px;
+}
+
+.action-block-filter-evaluate .btn-group {
+	margin-top:1px;
+}
+
+.inside .dropdown-menu {
+	right: 17px !important;
+	left:auto !important;
 }
