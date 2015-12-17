@@ -371,7 +371,7 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
                         echo '	<td class="td-log log-datetime">' . $log['log_datetime'] . '</td>';
                         echo '	<td class="td-log log-datetime">' . $log['job_id'] . '</td>';
                         echo '	<td class="td-log log-datetime">' . $log['log_type'] . '</td>';
-                        echo '	<td class="td-log log-datetime"><a href="#" class="toggle-log-content" data-id="' . $key . '">+/-</a></td>';
+                        echo '	<td class="td-log log-datetime"><a href="javascript:void(0);" class="toggle-log-content" data-id="' . $key . '">+/-</a></td>';
                         echo '</tr>';
                         echo '<tr class="tr-log-entry-content" id="log-content-' . $key . '" data-id="' . $key . '">';
                         echo '	<td colspan=6 class="td-log-entry-content"data-id="' . $key . '" >';

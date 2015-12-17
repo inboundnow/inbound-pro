@@ -1119,11 +1119,6 @@ $privacy_page_url  = get_field('privacy_page_url', $post_id);
     font-weight: bold;
 }
 
-.callout-cell
-{
-    background-color: <?php echo $callout_bg_color; ?>;
-}
-
 .gallery.right
 {
     padding-bottom: 0;
@@ -1140,16 +1135,61 @@ $privacy_page_url  = get_field('privacy_page_url', $post_id);
     text-align: center;
 }
 
-.callout-button-cell
-{
-    text-align: center;
-    height: 49px;
-    font-family: 'helvetica neue',helvetica,arial,sans-serif;
-    font-size: 20px;
-    background-color: <?php echo $callout_button_color; ?>;
-    vertical-align: middle;
-    text-decoration: none;
+<?php
+if ( function_exists('have_rows') ) {
+	if (have_rows('gallery')) {
+		while ( have_rows('gallery')) {
+			the_row();
+			switch( get_row_layout() ) {
+				case 'callout':
+					$callout_message			= get_sub_field('callout_message');
+					$callout_font_size			= get_sub_field('callout_font_size');
+					$callout_font_color			= get_sub_field('callout_font_color');
+					$callout_bg_color			= get_sub_field('callout_bg_color');
+					$callout_button_message		= get_sub_field('callout_button_message');
+					$callout_button_link		= get_sub_field('callout_button_link');
+					$callout_button_color		= get_sub_field('callout_button_color');
+					$callout_button_font_color	= get_sub_field('callout_button_font_color');
+					?>
+
+					.callout-cell
+					{
+						background-color: <?php echo $callout_bg_color; ?>;
+					}
+
+					.callout-button-cell
+					{
+						text-align: center;
+						height: 49px;
+						font-family: 'helvetica neue',helvetica,arial,sans-serif;
+						font-size: 20px;
+						background-color: <?php echo $callout_button_color; ?>;
+						vertical-align: middle;
+						text-decoration: none;
+					}
+
+					.callout-button-cell a
+					{
+						color: <?php echo $callout_button_font_color; ?>;
+						padding: 10px 20px;
+					}
+
+					.callout-text
+					{
+						font-family: 'helvetica neue',helvetica,arial,sans-serif;
+						font-size: <?php echo $callout_font_size; ?>;
+						color: <?php echo $callout_font_color; ?>;
+					}
+					
+					<?php
+					break;
+				default:
+					$go_on = true;
+			}
+		}
+	}
 }
+?>
 
 .callout-button-container
 {
@@ -1157,22 +1197,9 @@ $privacy_page_url  = get_field('privacy_page_url', $post_id);
     border: 0;
 }
 
-.callout-button-cell a
-{
-    color: <?php echo $callout_button_font_color; ?>;
-    padding: 10px 20px;
-}
-
 .callout .callout-button-cell
 {
     padding-bottom: 0;
-}
-
-.callout-text
-{
-    font-family: 'helvetica neue',helvetica,arial,sans-serif;
-    font-size: <?php echo $callout_font_size; ?>;
-    color: <?php echo $callout_font_color; ?>;
 }
 
 .footer-cell

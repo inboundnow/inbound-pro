@@ -324,13 +324,13 @@ class Inbound_Pro_Settings {
 		?>
 		<div class="xlarge-70 large-70 medium-60 small-100 tiny-100 welcome-screen-content">
 
-		<h1>Getting Started</h1>
+		<h1><?php _e('Getting Started','inbound-pro'); ?></h1>
 
-		<p>Welcome to the new Inbound Professional Marketing Suite for WordPress!</p>
+		<p><?php _e('Welcome to the new Inbound Professional Marketing Suite for WordPress!','inbound-pro'); ?></p>
 
-		<h2>Disabling Legacy Plugins</h2>
+		<h2><?php _e('Disabling Legacy Plugins','inbound-pro'); ?></h2>
 
-		<p>This plugin comes with Inbound Now's core plugins pre-installed. Be sure to disable them from your <a href='plugins.php' target='_blank' title='core plugins include Landing Pages, Calls to Action, and Leads' >plugins area</a>. If you want to control which core components to load at startup you can do so in the <a href='admin.php?tab=inbound-pro-setup&page=inbound-pro&setting=core' target='_blank' >core settings</a> area.</p>
+		<p><?php echo sprintf( __('This plugin comes with Inbound Now\'s core plugins pre-installed. If you want to control which core components to load at startup you can do so in the %score settings%s area.','inbound-pro') , '<a href="admin.php?tab=inbound-pro-setup&page=inbound-pro&setting=core" target="_blank" >' ,'</a>'); ?></p>
 
 		<h2>Retreiving your API Key</h2>
 

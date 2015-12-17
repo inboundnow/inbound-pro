@@ -361,7 +361,7 @@ class Landing_Pages_Metaboxes {
         ?>
         <div id='lp-notes-area'>
             <span id='add-lp-notes'><?php _e('Notes' , 'landing-pages'); ?></span>
-            <input placeholder='<?php _e('Add Notes to your variation. Example: This version is testing a green submit button ' , 'landing-pages'); ?>' type='text' class='lp-notes' name='<?php echo Landing_Pages_Variations::prepare_input_id( 'lp-variation-notes'); ?>' id='lp-variation-notes' value='<?php echo addslashes($variation_notes); ?>' size='30'>
+            <input placeholder='<?php _e('Add Notes to your variation. Example: This version is testing a green submit button ' , 'landing-pages'); ?>' type='text' class='lp-notes' name='<?php echo Landing_Pages_Variations::prepare_input_id( 'lp-variation-notes' , false , true); ?>' id='lp-variation-notes' value='<?php echo addslashes($variation_notes); ?>' size='30'>
         </div>
         <div id="main-title-area">
             <input type="text" name="<?php echo Landing_Pages_Variations::prepare_input_id( 'lp-main-headline'); ?>" placeholder="<?php  _e('Primary Headline Goes here. This will be visible on the page' , 'landing-pages'); ?>" id="lp-main-headline" value="<?php echo $main_headline; ?>" title="'. __('This headline will appear in the landing page template.' , 'landing-pages') .'">
@@ -504,11 +504,9 @@ class Landing_Pages_Metaboxes {
                     }
 
                     $howmany = count($variations);
+
                     foreach ($variations as $key => $vid) {
 
-                        if (!is_numeric($vid) && $key == 0) {
-                            $vid = 0;
-                        }
 
                         $variation_status = Landing_Pages_Variations::get_variation_status($post->ID, $vid);
                         $variation_status_class = ($variation_status == 1) ? "variation-on" : 'variation-off';

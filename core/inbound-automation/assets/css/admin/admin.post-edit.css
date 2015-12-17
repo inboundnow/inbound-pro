@@ -19,8 +19,6 @@
 /* Triggers */
 .table-trigger-container {
 	width:100%;
-	padding-right:20px;
-	/* padding-left:20px; */
 }
 
 .table-trigger-container .td-trigger-select{
@@ -397,7 +395,7 @@
 	box-shadow:         0 1px 2px rgba(0, 0, 0, 0.25);
 }
 
-.action-block-then-actions-container {
+.action-block-then-actions-container , .action-block-else-actions-container {
 	padding-left:20px;
 	padding-bottom:20px;
 }
@@ -409,4 +407,11 @@
 .inside .dropdown-menu {
 	right: 17px !important;
 	left:auto !important;
+}
+
+.td-log-entry-content h2 {
+	font-weight:600 !important;
+}
+.td-log-entry-content p,.td-log-entry-content pre {
+	margin-left:12px !important;
 }
