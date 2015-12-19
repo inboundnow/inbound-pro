@@ -7,7 +7,6 @@
                 "key": "field_55cd9b09ede91",
                 "label": "Header",
                 "name": "header",
-                "prefix": "",
                 "type": "tab",
                 "instructions": "",
                 "required": 0,
@@ -17,13 +16,13 @@
                     "class": "",
                     "id": ""
                 },
-                "placement": "top"
+                "placement": "top",
+                "endpoint": 0
             },
             {
                 "key": "field_55cd9b09ee279",
-                "label": "Logo URL",
+                "label": "Logo Image",
                 "name": "logo_url",
-                "prefix": "",
                 "type": "image",
                 "instructions": "Enter or upload your logo here",
                 "required": 0,
@@ -35,13 +34,19 @@
                 },
                 "return_format": "url",
                 "preview_size": "thumbnail",
-                "library": "all"
+                "library": "all",
+                "min_width": "",
+                "min_height": "",
+                "min_size": "",
+                "max_width": "",
+                "max_height": "",
+                "max_size": "",
+                "mime_types": ""
             },
             {
                 "key": "field_55cd9b09ee661",
                 "label": "Header Background Color",
                 "name": "header_bg_color",
-                "prefix": "",
                 "type": "color_picker",
                 "instructions": "Choose the background color of your header",
                 "required": 0,
@@ -51,13 +56,12 @@
                     "class": "",
                     "id": ""
                 },
-                "default_value": ""
+                "default_value": "#ffffff"
             },
             {
                 "key": "field_55cd9b09eea49",
                 "label": "Email Body",
                 "name": "email_body",
-                "prefix": "",
                 "type": "tab",
                 "instructions": "",
                 "required": 0,
@@ -67,13 +71,13 @@
                     "class": "",
                     "id": ""
                 },
-                "placement": "top"
+                "placement": "top",
+                "endpoint": 0
             },
             {
                 "key": "field_55cd9b09efdd1",
                 "label": "Main Email Content",
                 "name": "main_email_content",
-                "prefix": "",
                 "type": "wysiwyg",
                 "instructions": "The content of your email should go here.",
                 "required": 0,
@@ -92,7 +96,6 @@
                 "key": "field_55cd9b09ef9e9",
                 "label": "Callout Background Color",
                 "name": "callout_bg_color",
-                "prefix": "",
                 "type": "color_picker",
                 "instructions": "Choose the callout background color",
                 "required": 0,
@@ -102,13 +105,12 @@
                     "class": "",
                     "id": ""
                 },
-                "default_value": ""
+                "default_value": "#efefef"
             },
             {
                 "key": "field_55cd9b09ef601",
                 "label": "Callout",
                 "name": "callout",
-                "prefix": "",
                 "type": "wysiwyg",
                 "instructions": "Add here the callout content",
                 "required": 0,
@@ -127,7 +129,6 @@
                 "key": "field_55cd9b09f098a",
                 "label": "Social Box",
                 "name": "social_box",
-                "prefix": "",
                 "type": "tab",
                 "instructions": "",
                 "required": 0,
@@ -137,13 +138,13 @@
                     "class": "",
                     "id": ""
                 },
-                "placement": "top"
+                "placement": "top",
+                "endpoint": 0
             },
             {
                 "key": "field_55cd9b09f0d72",
                 "label": "Social Box Background Color",
                 "name": "social_bg_color",
-                "prefix": "",
                 "type": "color_picker",
                 "instructions": "Choose the background color of the social box",
                 "required": 0,
@@ -153,14 +154,13 @@
                     "class": "",
                     "id": ""
                 },
-                "default_value": ""
+                "default_value": "#efefef"
             },
             {
                 "key": "field_55cd9b09f115a",
                 "label": "Facebook Page",
                 "name": "facebook_page",
-                "prefix": "",
-                "type": "url",
+                "type": "text",
                 "instructions": "Enter the URL of your Facebook page if you have one",
                 "required": 0,
                 "conditional_logic": 0,
@@ -169,15 +169,19 @@
                     "class": "",
                     "id": ""
                 },
-                "default_value": "",
-                "placeholder": "Enter the complete URL"
+                "default_value": "#",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "maxlength": "",
+                "readonly": 0,
+                "disabled": 0
             },
             {
                 "key": "field_55cd9b09f1542",
                 "label": "Twitter Handle",
                 "name": "twitter_handle",
-                "prefix": "",
-                "type": "url",
+                "type": "text",
                 "instructions": "Enter you Twitter handle here",
                 "required": 0,
                 "conditional_logic": 0,
@@ -186,15 +190,19 @@
                     "class": "",
                     "id": ""
                 },
-                "default_value": "",
-                "placeholder": "Add the complete URL here"
+                "default_value": "#",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "maxlength": "",
+                "readonly": 0,
+                "disabled": 0
             },
             {
                 "key": "field_55cd9b09f192a",
                 "label": "Google Plus",
                 "name": "google_plus",
-                "prefix": "",
-                "type": "url",
+                "type": "text",
                 "instructions": "Enter your Google Plus URL",
                 "required": 0,
                 "conditional_logic": 0,
@@ -203,14 +211,18 @@
                     "class": "",
                     "id": ""
                 },
-                "default_value": "",
-                "placeholder": "Add the complete URL"
+                "default_value": "#",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "maxlength": "",
+                "readonly": 0,
+                "disabled": 0
             },
             {
                 "key": "field_55cd9b09f1d12",
                 "label": "Phone Number",
                 "name": "phone_number",
-                "prefix": "",
                 "type": "text",
                 "instructions": "Enter your phone number here",
                 "required": 0,
@@ -220,7 +232,7 @@
                     "class": "",
                     "id": ""
                 },
-                "default_value": "",
+                "default_value": "555 5555",
                 "placeholder": "",
                 "prepend": "",
                 "append": "",
@@ -232,7 +244,6 @@
                 "key": "field_55cd9b09f20fa",
                 "label": "Email",
                 "name": "email",
-                "prefix": "",
                 "type": "email",
                 "instructions": "Enter your email here",
                 "required": 0,
@@ -242,7 +253,7 @@
                     "class": "",
                     "id": ""
                 },
-                "default_value": "",
+                "default_value": "user@example.com",
                 "placeholder": "",
                 "prepend": "",
                 "append": ""
@@ -251,7 +262,6 @@
                 "key": "field_55cd9b09f24e2",
                 "label": "Footer",
                 "name": "footer",
-                "prefix": "",
                 "type": "tab",
                 "instructions": "",
                 "required": 0,
@@ -261,14 +271,14 @@
                     "class": "",
                     "id": ""
                 },
-                "placement": "top"
+                "placement": "top",
+                "endpoint": 0
             },
             {
                 "key": "field_55cd9b09f28ca",
                 "label": "Terms Page URL",
                 "name": "terms_page_url",
-                "prefix": "",
-                "type": "url",
+                "type": "text",
                 "instructions": "Enter the URL of your terms page here",
                 "required": 0,
                 "conditional_logic": 0,
@@ -277,15 +287,19 @@
                     "class": "",
                     "id": ""
                 },
-                "default_value": "",
-                "placeholder": ""
+                "default_value": "#",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "maxlength": "",
+                "readonly": 0,
+                "disabled": 0
             },
             {
                 "key": "field_55cd9b09f2cb2",
                 "label": "Privacy Page URL",
                 "name": "privacy_page_url",
-                "prefix": "",
-                "type": "url",
+                "type": "text",
                 "instructions": "Enter the URL of your privacy page here",
                 "required": 0,
                 "conditional_logic": 0,
@@ -294,8 +308,13 @@
                     "class": "",
                     "id": ""
                 },
-                "default_value": "",
-                "placeholder": ""
+                "default_value": "#",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "maxlength": "",
+                "readonly": 0,
+                "disabled": 0
             }
         ],
         "location": [
@@ -312,6 +331,8 @@
         "style": "default",
         "label_placement": "top",
         "instruction_placement": "label",
-        "hide_on_screen": ""
+        "hide_on_screen": "",
+        "active": 1,
+        "description": ""
     }
 ]

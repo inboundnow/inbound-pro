@@ -84,16 +84,6 @@ $privacy_page_url = get_field('privacy_page_url', $post_id);
 		display: inline-block;
 	}
 
-	div.callout {
-		padding:15px;
-		background-color:<?php echo (!empty($hero_callout_background_color) ? $hero_callout_background_color : '#ffffff');  ?>;
-		margin-bottom: 15px;
-	}
-	.callout a {
-		font-weight:bold;
-		color: #2BA6CB;
-	}
-
 	table.social {
 	/* 	padding:15px; */
 		background-color: <?php  echo $social_bg_color; ?>;
@@ -331,16 +321,17 @@ $privacy_page_url = get_field('privacy_page_url', $post_id);
 											$button_link = get_sub_field('button_link');
 											$button_text = get_sub_field('button_text');
 											$style = 'color: ';
-											if ( $button_text_color = get_sub_field('button_text_color') ) {
-												$style .= $button_text_color . ';';
-											} else { $style .= '#fff;'; }
+											$button_text_color = get_sub_field('button_text_color');
+											$style .= $button_text_color . ';';
+											
 											$style .= 'background-color: ';
-											if ( $button_bg_color = get_sub_field('button_bg_color') ) {
-												$style .= $button_bg_color . ';';
-											} else { $style .= '#666;'; }
+											$button_bg_color = get_sub_field('button_bg_color');
+											$style .= $button_bg_color . ';';
 											?>
-											<a href="<?php echo $button_link; ?>" style="<?php echo $style; ?>
-												 margin: 0;padding: 10px 16px;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;text-decoration: none;font-weight: bold;margin-right: 10px;text-align: center;cursor: pointer;display: inline-block;" class="btn"><?php echo $button_text; ?></a>
+											<a href="<?php echo $button_link; ?>" style="<?php echo $style ?>
+												 margin: 0;padding: 10px 16px;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;text-decoration: none;font-weight: bold;margin-right: 10px;text-align: center;cursor: pointer;display: inline-block;" class="btn">
+													 <?php echo $button_text; ?>
+											</a>
 											<?php
 											break;
 									}

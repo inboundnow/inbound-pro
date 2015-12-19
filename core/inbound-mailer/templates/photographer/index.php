@@ -128,7 +128,7 @@ $home_page_url	  = get_field("home_page_url", $post_id);
 											<?php
 											if ( ! $featured_image ) {
 												?>
-												<table border="0" cellspacing="20" cellpadding="0" style="font-family: 'Trebuchet MS'; line-height:21px; width:620px; height:300px; background-image: url(<?php echo $urlpath . 'assets/images/featured.jpg'; ?>); background-size: cover;">
+												<table border="0" cellspacing="20" cellpadding="0" style="font-family: 'Trebuchet MS'; line-height:21px; width:620px; height:300px; background-image: url('http://lorempixel.com/620/300'); background-size: cover;">
 											<?php } else { ?>
 												<table border="0" cellspacing="20" cellpadding="0" style="font-family: 'Trebuchet MS'; line-height:21px; width:620px; height:300px; background-image: url(<?php echo $featured_image; ?>); background-size: cover;">
 											<?php } ?>
@@ -222,7 +222,7 @@ $home_page_url	  = get_field("home_page_url", $post_id);
 																	<?php
 																	if ( ! $main_photo ) {
 																		?>
-																		<img src="<?php echo $urlpath . 'assets/images/img1.jpg'; ?>" alt="" border="0" width="366" height="209" />
+																		<img src="http://lorempixel.com/366/209/nature/5" alt="" border="0" width="366" height="209" />
 																	<?php } else { ?>
 																		<img src="<?php echo $main_photo; ?>" alt="" border="0" width="366" height="209" />
 																	<?php } ?>
@@ -246,7 +246,7 @@ $home_page_url	  = get_field("home_page_url", $post_id);
 																							<?php
 																							if ( ! $thumbnail_1 ) {
 																								?>
-																								<img src="<?php echo $urlpath . 'assets/images/thumb1.jpg'; ?>" alt="" border="0" width="80" height="50" />
+																								<img src="http://lorempixel.com/80/50/animals" alt="" border="0" width="80" height="50" />
 																							<?php } else { ?>
 																								<img src="<?php echo $thumbnail_1; ?>" alt="" border="0" width="80" height="50" />
 																							<?php } ?>
@@ -264,7 +264,7 @@ $home_page_url	  = get_field("home_page_url", $post_id);
 																							<?php
 																							if ( ! $thumbnail_2 ) {
 																								?>
-																								<img src="<?php echo $urlpath . 'assets/images/thumb2.jpg'; ?>" alt="" border="0" width="80" height="50" />
+																								<img src="http://lorempixel.com/80/50/sports" alt="" border="0" width="80" height="50" />
 																							<?php } else { ?>
 																								<img src="<?php echo $thumbnail_2; ?>" alt="" border="0" width="80" height="50" />
 																							<?php } ?>
@@ -282,7 +282,7 @@ $home_page_url	  = get_field("home_page_url", $post_id);
 																							<?php
 																							if ( ! $thumbnail_3 ) {
 																								?>
-																								<img src="<?php echo $urlpath . 'assets/images/thumb3.jpg'; ?>" alt="" border="0" width="80" height="50" />
+																								<img src="http://lorempixel.com/80/50/food" alt="" border="0" width="80" height="50" />
 																							<?php } else { ?>
 																								<img src="<?php echo $thumbnail_3; ?>" alt="" border="0" width="80" height="50" />
 																							<?php } ?>
@@ -300,7 +300,7 @@ $home_page_url	  = get_field("home_page_url", $post_id);
 																							<?php
 																							if ( ! $thumbnail_4 ) {
 																								?>
-																								<img src="<?php echo $urlpath . 'assets/images/thumb4.jpg'; ?>" alt="" border="0" width="80" height="50" />
+																								<img src="http://lorempixel.com/80/50/city" alt="" border="0" width="80" height="50" />
 																							<?php } else { ?>
 																								<img src="<?php echo $thumbnail_4; ?>" alt="" border="0" width="80" height="50" />
 																							<?php } ?>
@@ -432,7 +432,7 @@ $home_page_url	  = get_field("home_page_url", $post_id);
 																	<?php
 																	if ( ! $extra_photo ) {
 																		?>
-																		<img src="<?php echo $urlpath . 'assets/images/sidebar_img1.jpg'; ?>" alt="" border="0" width="157" height="100" />
+																		<img src="http://lorempixel.com/157/100" alt="" border="0" width="157" height="100" />
 																	<?php } else { ?>
 																		<img src="<?php echo $extra_photo; ?>" alt="" border="0" width="157" height="100" />
 																	<?php } ?>
@@ -477,7 +477,7 @@ $home_page_url	  = get_field("home_page_url", $post_id);
 												<?php
 												if ( ! $advertising_banner ) {
 													?>
-													<img src="<?php echo $urlpath . 'assets/images/sidebar_banner.jpg'; ?>" alt="" border="0" width="121" height="452" />
+													<img src="http://lorempixel.com/121/452/business" alt="" border="0" width="121" height="452" />
 												<?php } else { ?>
 													<img src="<?php echo $advertising_banner; ?>" style="max-width: 157px;" alt="" border="0" />
 												<?php } ?>
