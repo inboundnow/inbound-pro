@@ -39,11 +39,12 @@ if ( !class_exists('Inbound_Shortcodes_Fields') ) {
 		function show() {
 
 			global $shortcodes_config;
-			//print_r($shortcodes_config);exit;
+
 			$fields = apply_filters('inboundnow_forms_settings', $shortcodes_config);
 
-			if( isset( $fields[$this->popup]['child'] ) )
+			if( isset( $fields[$this->popup]['child'] ) ) {
 				$this->has_child = true;
+			}
 
 			if( isset( $fields ) && is_array( $fields ) ) {
 
@@ -72,6 +73,7 @@ if ( !class_exists('Inbound_Shortcodes_Fields') ) {
 					$std = ( isset($option['std']) ) ? $option['std'] : '';
 					$global = ( isset($option['global']) ) ? $option['global'] : '';
 
+					//error_log(print_r($option,true));
 
 					if ($global) {
 						$uniquekey = $key;
