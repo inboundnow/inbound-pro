@@ -222,9 +222,10 @@ class Inbound_Events {
 				$query = 'SELECT * FROM '.$table_name.' WHERE datetime >= "'.$params['start_date'].'" AND  datetime <= "'.$params['end_date'].'" AND `lead_id` = "'.$params['lead_id'].'" AND `event_name` = "inbound_form_submission" ORDER BY `datetime` DESC';
 				break;
 			case 'page_id':
-				$query = 'SELECT * FROM '.$table_name.' WHERE datetime >= "'.$params['start_date'].'" AND  datetime <= "'.$params['end_date'].'" AND `lead_id` = "'.$params['page_id'].'" AND `event_name` = "inbound_form_submission" ORDER BY `datetime` DESC';
+				$query = 'SELECT * FROM '.$table_name.' WHERE datetime >= "'.$params['start_date'].'" AND  datetime <= "'.$params['end_date'].'" AND `page_id` = "'.$params['page_id'].'" AND `event_name` = "inbound_form_submission" ORDER BY `datetime` DESC';
 				break;
 		}
+		
 		
         $results = $wpdb->get_results( $query , ARRAY_A );
 
@@ -259,7 +260,7 @@ class Inbound_Events {
 				$query = 'SELECT * FROM '.$table_name.' WHERE datetime >= "'.$params['start_date'].'" AND  datetime <= "'.$params['end_date'].'" AND `lead_id` = "'.$params['lead_id'].'" AND `event_name` = "inbound_cta_click" ORDER BY `datetime` DESC';
 				break;
 			case 'page_id':
-				$query = 'SELECT * FROM '.$table_name.' WHERE datetime >= "'.$params['start_date'].'" AND  datetime <= "'.$params['end_date'].'" AND `lead_id` = "'.$params['page_id'].'" AND `event_name` = "inbound_cta_click" ORDER BY `datetime` DESC';
+				$query = 'SELECT * FROM '.$table_name.' WHERE datetime >= "'.$params['start_date'].'" AND  datetime <= "'.$params['end_date'].'" AND `page_id` = "'.$params['page_id'].'" AND `event_name` = "inbound_cta_click" ORDER BY `datetime` DESC';
 				break;
 		}
 		
