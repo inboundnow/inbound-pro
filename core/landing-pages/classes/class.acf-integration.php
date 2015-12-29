@@ -127,6 +127,7 @@ if (!class_exists('Landing_Pages_ACF')) {
 				return self::load_legacy_value(  $value, $post_id, $field  );
 			}
 
+
 			if ( isset( $variations[ $vid ][ 'acf' ] ) ) {
 				$new_value = self::search_field_array( $variations[ $vid ][ 'acf' ] , $field );
 
@@ -145,6 +146,7 @@ if (!class_exists('Landing_Pages_ACF')) {
 				if ( !is_admin() && is_string($value) ) {
 					$value = do_shortcode($value);
 				}
+
 
 				/* handle non acf5 template return formatting */
 				if (defined('ACF_PRO')) {
@@ -224,6 +226,7 @@ if (!class_exists('Landing_Pages_ACF')) {
 
 			foreach ($array as $key => $value ){
 
+
 				if ($key === $needle && !is_array($value) ) {
 					return $value;
 				}
@@ -237,7 +240,6 @@ if (!class_exists('Landing_Pages_ACF')) {
 						$repeater_array = self::get_repeater_layouts( $value );
 						if ($repeater_array) {
 							return $repeater_array;
-
 						} else	{
 							return $value;
 						}
@@ -245,7 +247,7 @@ if (!class_exists('Landing_Pages_ACF')) {
 					}
 
 					/* Check if array is repeater fields and determine correct value given a parsed field name with field key */
-					$repeater_value = self::get_repeater_values( $value , $field );
+					$repeater_value = self::get_repeater_values( $value , $field , $needle );
 
 					/* If target key is not in these repeater fields, or this array is not determined to be a repeater field then move on. */
 					if ($repeater_value) {
@@ -284,7 +286,7 @@ if (!class_exists('Landing_Pages_ACF')) {
 		 *
 		 *	@retuns ARRAY $fields this array will either be empty of contain repeater field layout definitions.
 		 */
-		public static function get_repeater_values( $array , $field ) {
+		public static function get_repeater_values( $array , $field , $needle ) {
 
 			/* Discover correct repeater pointer by parsing field name */
 			preg_match('/(_\d_)/', $field['name'], $matches, 0);
@@ -297,9 +299,18 @@ if (!class_exists('Landing_Pages_ACF')) {
 			$pointer = str_replace('_' , '' , $matches[0]);
 			$repeater_key = self::key_search($array, $field , true ); /* returns parent flexible content field key using sub field key */
 
-			if (isset($array[$repeater_key][$pointer][$field['key']])){
+
+			/*  */
+			if ( $repeater_key && $repeater_key !== '0' && isset($array[$repeater_key][$pointer][$field['key']])){
 				return $array[$repeater_key][$pointer][$field['key']];
 			}
+
+			/* repeater field comes after the pointer????  */
+			if (isset($array[$pointer][$needle])){
+				return $array[$pointer][$needle];
+			}
+
+
 
 			return '';
 
@@ -344,14 +355,14 @@ if (!class_exists('Landing_Pages_ACF')) {
 
 			$file  = basename( $url );
 			$query = array(
-				'post_type'  => 'attachment',
-				'fields'     => 'ids',
-				'meta_query' => array(
-					array(
-						'value'   => $file,
-						'compare' => 'LIKE',
-					),
-				)
+					'post_type'  => 'attachment',
+					'fields'     => 'ids',
+					'meta_query' => array(
+							array(
+									'value'   => $file,
+									'compare' => 'LIKE',
+							),
+					)
 			);
 
 			$query['meta_query'][0]['key'] = '_wp_attached_file';
