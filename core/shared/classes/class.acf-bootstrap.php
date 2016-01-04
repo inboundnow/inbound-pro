@@ -8,8 +8,9 @@ class Inbound_Shared_ACF_BootStrap {
     }
 
     public static function load_acf() {
+
         /* load ACF if not already loaded */
-        if( !class_exists('acf') ) {
+        if( !class_exists('acf') || defined('ACF_PRELOADED') ) {
 
             define( 'ACF_LITE', true );
             define( 'ACF_FREE', true );
