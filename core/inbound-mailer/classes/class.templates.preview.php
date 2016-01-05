@@ -1,33 +1,33 @@
 <?php
 
 /**
-*	Shows Preview of Inbound Email
-*/
+ *	Shows Preview of Inbound Email
+ */
 class Inbound_Email_Preview {
 
 	/**
-	*	Initializes class
-	*/
+	 *	Initializes class
+	 */
 	function __construct() {
 		self::load_hooks();
 	}
 
 	/**
-	*	Loads hooks and filters
-	*/
+	 *	Loads hooks and filters
+	 */
 	public function load_hooks() {
 		add_filter( 'single_template' , array( __CLASS__ , 'load_email' ) , 11 );
 	}
 
 	/**
-	*	Detects request to view inbound-email post type and loads correct email template
-	*/
-	public static function load_email() {
+	 *	Detects request to view inbound-email post type and loads correct email template
+	 */
+	public static function load_email( $template ) {
 
 		global $wp_query, $post, $query_string, $Inbound_Mailer_Variations;
 
 		if ( $post->post_type != "inbound-email" ) {
-			return;
+			return $template;
 		}
 
 		/* Load email templates */

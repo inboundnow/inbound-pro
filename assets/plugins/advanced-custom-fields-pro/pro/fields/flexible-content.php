@@ -241,10 +241,10 @@ class acf_field_flexible_content extends acf_field {
 			<?php endforeach; ?>
 		<?php endif; ?>
 	</div>
-
-	<ul class="acf-hl acf-clearfix">
+	
+	<ul class="acf-hl">
 		<li class="acf-fr">
-			<a href="#" class="acf-button blue acf-fc-add"><?php echo $field['button_label']; ?></a>
+			<a href="#" class="acf-button blue" data-event="add-layout"><?php echo $field['button_label']; ?></a>
 		</li>
 	</ul>
 	
@@ -265,7 +265,6 @@ class acf_field_flexible_content extends acf_field {
 					</li>
 				<?php endforeach; ?>
 			</ul>
-			<div class="bit"></div>
 			<a href="#" class="focus"></a>
 		</div>
 	</script>
@@ -293,31 +292,39 @@ class acf_field_flexible_content extends acf_field {
 		
 		// vars
 		$order = 0;
-		
-		
-		// atts
-		$layout_atts = array(
+		$el = 'div';
+		$div = array(
 			'class'			=> 'layout',
-			'data-layout'	=> $layout['name'],
-			'data-toggle'	=> 'open',
-		);
-		$table_atts = array(
-			'class'			=> "acf-table acf-input-table {$layout['display']}-layout",	
+			'data-id'		=> $i,
+			'data-layout'	=> $layout['name']
 		);
 		
 	
 		// collapsed
-		if( !empty($_COOKIE[ "acf_collapsed_{$field['key']}" ]) ) {
+		$collapsed = acf_get_user_setting('collapsed_' . $field['key'], '');
+		
+		
+		// cookie fallback ( version < 5.3.2 )
+		if( $collapsed === '' ) {
 			
-			$collapsed = $_COOKIE[ "acf_collapsed_{$field['key']}" ];
-			$collapsed = explode('|', $collapsed);
+			$collapsed = acf_extract_var($_COOKIE, "acf_collapsed_{$field['key']}", '');
+			$collapsed = str_replace('|', ',', $collapsed);
 			
-			if( in_array($i, $collapsed) ) {
+			acf_update_user_setting( 'collapsed_' . $field['key'], $collapsed );
 				
-				$layout_atts['data-toggle'] = 'closed';
-				$table_atts['style'] = 'display:none;';
-				
-			}
+		}
+		
+		
+		// explode
+		$collapsed = explode(',', $collapsed);
+		$collapsed = array_filter($collapsed, 'is_numeric');
+			
+		
+		// collapsed class
+		if( in_array($i, $collapsed) ) {
+			
+			$div['class'] .= ' -collapsed';
+			
 		}
 		
 		
@@ -328,35 +335,15 @@ class acf_field_flexible_content extends acf_field {
 			
 		} else {
 			
-			$layout_atts['class'] .= ' acf-clone';
+			$div['class'] .= ' acf-clone';
 			
 		}
 		
-		
-		// field wrap
-		$el = 'td';
-		$before_fields = '';
-		$after_fields = '';
-		
-		if( $layout['display'] == 'row' ) {
-		
-			$el = 'tr';
-			$before_fields = '<td class="acf-table-wrap"><table class="acf-table">';
-			$after_fields = '</table></td>';
-			
-		} elseif( $layout['display'] == 'block' ) {
-		
-			$el = 'div';
-			
-			$before_fields = '<td class="acf-fields">';
-			$after_fields = '</td>';
-			
-		}
 		
 ?>
-<div <?php acf_esc_attr_e($layout_atts); ?>>
+<div <?php acf_esc_attr_e($div); ?>>
 			
-	<div style="display:none">
+	<div class="acf-hidden">
 		<?php acf_hidden_input(array( 'name' => "{$field['name']}[{$i}][acf_fc_layout]", 'value' => $layout['name'] )); ?>
 	</div>
 	
@@ -364,105 +351,106 @@ class acf_field_flexible_content extends acf_field {
 		<span class="fc-layout-order"><?php echo $order; ?></span> <?php echo $layout['label']; ?>
 	</div>
 	
-	<ul class="acf-fc-layout-controlls acf-hl acf-clearfix">
-		<li>
-			<a class="acf-icon acf-icon-plus small acf-fc-add" href="#" data-before="1" title="<?php _e('Add layout','acf'); ?>"></a>
+	<ul class="acf-fc-layout-controlls acf-hl">
+		<li class="acf-fc-show-on-hover">
+			<a class="acf-icon -plus small" href="#" data-event="add-layout" title="<?php _e('Add layout','acf'); ?>"></a>
+		</li>
+		<li class="acf-fc-show-on-hover">
+			<a class="acf-icon -minus small" href="#" data-event="remove-layout" title="<?php _e('Remove layout','acf'); ?>"></a>
 		</li>
 		<li>
-			<a class="acf-icon acf-icon-minus small acf-fc-remove" href="#" title="<?php _e('Remove layout','acf'); ?>"></a>
+			<a class="acf-icon -collapse small" href="#" data-event="collapse-layout" title="<?php _e('Click to toggle','acf'); ?>"></a>
 		</li>
 	</ul>
 	
 <?php if( !empty($layout['sub_fields']) ): ?>
+	
+	<?php if( $layout['display'] == 'table' ): 
 		
-	<table <?php acf_esc_attr_e($table_atts); ?>>
+		// update vars
+		$el = 'td';
 		
-		<?php if( $layout['display'] == 'table' ): ?>
+		?>
+	<table class="acf-table">
 		
-			<thead>
-				<tr>
-				
-					<?php foreach( $layout['sub_fields'] as $sub_field ): 
+		<thead>
+			<tr>
+				<?php foreach( $layout['sub_fields'] as $sub_field ): 
+					
+					$atts = array(
+						'class'		=> "acf-th acf-th-{$sub_field['name']}",
+						'data-key'	=> $sub_field['key'],
+					);
+					
+					
+					// Add custom width
+					if( $sub_field['wrapper']['width'] ) {
+					
+						$atts['data-width'] = $sub_field['wrapper']['width'];
 						
-						$atts = array(
-							'class'		=> "acf-th acf-th-{$sub_field['name']}",
-							'data-key'	=> $sub_field['key'],
-						);
+					}
 						
-						
-						// Add custom width
-						if( $sub_field['wrapper']['width'] ) {
-						
-							$atts['data-width'] = $sub_field['wrapper']['width'];
-							
-						}
-							
-						?>
-						
-						<th <?php acf_esc_attr_e( $atts ); ?>>
-							<?php acf_the_field_label( $sub_field ); ?>
-							<?php if( $sub_field['instructions'] ): ?>
-								<p class="description"><?php echo $sub_field['instructions']; ?></p>
-							<?php endif; ?>
-						</th>
-						
-					<?php endforeach; ?> 
-
-				</tr>
-			</thead>
-			
-		<?php endif; ?>
+					?>
+					<th <?php acf_esc_attr_e( $atts ); ?>>
+						<?php acf_the_field_label( $sub_field ); ?>
+						<?php if( $sub_field['instructions'] ): ?>
+							<p class="description"><?php echo $sub_field['instructions']; ?></p>
+						<?php endif; ?>
+					</th>
+					
+				<?php endforeach; ?> 
+			</tr>
+		</thead>
 		
 		<tbody>
-			<tr>
-			<?php
-
-			echo $before_fields;
+	<?php else: ?>
+	<div class="acf-fields <?php if($layout['display'] == 'row'): ?>-left<?php endif; ?>">
+	<?php endif; ?>
+	
+		<?php
 			
-
-			// loop though sub fields
-			foreach( $layout['sub_fields'] as $sub_field ) {
-				
-				// prevent repeater field from creating multiple conditional logic items for each row
-				if( $i !== 'acfcloneindex' ) {
-					
-					$sub_field['conditional_logic'] = 0;
-					
-				}
-				
-				
-				// add value
-				if( isset($value[ $sub_field['key'] ]) ) {
-					
-					// this is a normal value
-					$sub_field['value'] = $value[ $sub_field['key'] ];
-					
-				} elseif( isset($sub_field['default_value']) ) {
-					
-					// no value, but this sub field has a default value
-					$sub_field['value'] = $sub_field['default_value'];
-					
-				}
-				
-				
-				// update prefix to allow for nested values
-				$sub_field['prefix'] = "{$field['name']}[{$i}]";
-				
-				
-				// render input
-				acf_render_field_wrap( $sub_field, $el );
+		// loop though sub fields
+		foreach( $layout['sub_fields'] as $sub_field ) {
 			
+			// prevent repeater field from creating multiple conditional logic items for each row
+			if( $i !== 'acfcloneindex' ) {
+				
+				$sub_field['conditional_logic'] = 0;
+				
 			}
 			
-
-			// layout: Row
-			echo $after_fields; 
 			
-			?>							
-			</tr>
-		</tbody>
+			// add value
+			if( isset($value[ $sub_field['key'] ]) ) {
+				
+				// this is a normal value
+				$sub_field['value'] = $value[ $sub_field['key'] ];
+				
+			} elseif( isset($sub_field['default_value']) ) {
+				
+				// no value, but this sub field has a default value
+				$sub_field['value'] = $sub_field['default_value'];
+				
+			}
+			
+			
+			// update prefix to allow for nested values
+			$sub_field['prefix'] = "{$field['name']}[{$i}]";
+			
+			
+			// render input
+			acf_render_field_wrap( $sub_field, $el );
 		
+		}
+		
+		?>
+			
+	<?php if( $layout['display'] == 'table' ): ?>
+		</tbody>
 	</table>
+	<?php else: ?>
+	</div>
+	<?php endif; ?>
 
 <?php endif; ?>
 
@@ -507,7 +495,7 @@ class acf_field_flexible_content extends acf_field {
 			$layout_prefix = "{$field['prefix']}[layouts][{$layout['key']}]";
 			
 			
-?><tr class="acf-field" data-name="fc_layout" data-setting="flexible_content" data-key="<?php echo $layout['key']; ?>">
+?><tr class="acf-field" data-name="fc_layout" data-setting="flexible_content" data-id="<?php echo $layout['key']; ?>">
 	<td class="acf-label">
 		<label><?php _e("Layout",'acf'); ?></label>
 		<p class="description acf-fl-actions">
@@ -518,19 +506,20 @@ class acf_field_flexible_content extends acf_field {
 		</p>
 	</td>
 	<td class="acf-input">
-		<div class="acf-hidden">
-			<?php 
-			
-			acf_hidden_input(array(
-				'name'		=> "{$layout_prefix}[key]",
-				'data-name'	=> 'layout-key',
-				'value'		=> $layout['key']
-			));
-			
-			?>
-		</div>
-		<ul class="acf-hl acf-fc-meta">
-			<li class="acf-fc-meta-label" style="float: none;">
+		
+		<ul class="acf-fc-meta acf-bl">
+			<li class="acf-fc-meta-key">
+				<?php 
+				
+				acf_hidden_input(array(
+					'name'		=> "{$layout_prefix}[key]",
+					'data-name'	=> 'layout-key',
+					'value'		=> $layout['key']
+				));
+				
+				?>
+			</li>
+			<li class="acf-fc-meta-label">
 				<?php 
 				
 				acf_render_field(array(
@@ -543,7 +532,7 @@ class acf_field_flexible_content extends acf_field {
 				
 				?>
 			</li>
-			<li class="acf-fc-meta-name" style="float: none;">
+			<li class="acf-fc-meta-name">
 				<?php 
 						
 				acf_render_field(array(
@@ -556,10 +545,8 @@ class acf_field_flexible_content extends acf_field {
 				
 				?>
 			</li>
-			<li class="acf-fc-meta-display" style="width:33%; padding-right:15px;">
-				<div class="acf-input-prepend">
-					<?php _e('Display','acf'); ?>
-				</div>
+			<li class="acf-fc-meta-display">
+				<div class="acf-input-prepend"><?php _e('Layout','acf'); ?></div>
 				<div class="acf-input-wrap select">
 					<?php 
 					
@@ -578,7 +565,7 @@ class acf_field_flexible_content extends acf_field {
 					?>
 				</div>
 			</li>
-			<li class="acf-fc-meta-min" style="width:33%; padding-right:15px;">
+			<li class="acf-fc-meta-min">
 				<?php
 						
 				acf_render_field(array(
@@ -591,7 +578,7 @@ class acf_field_flexible_content extends acf_field {
 				
 				?>
 			</li>
-			<li class="acf-fc-meta-max" style="float: none;">
+			<li class="acf-fc-meta-max">
 				<?php 
 				
 				acf_render_field(array(
@@ -775,7 +762,7 @@ class acf_field_flexible_content extends acf_field {
 		// bail early if no value
 		if( empty($value) || empty($field['layouts']) ) {
 			
-			return $value;
+			return false;
 			
 		}
 		
@@ -1043,7 +1030,7 @@ class acf_field_flexible_content extends acf_field {
 		
 		
 		// remove old data
-		$old_order = acf_get_value( $post_id, $field, true );
+		$old_order = acf_get_metadata( $post_id, $field['name'] );
 		$old_count = empty($old_order) ? 0 : count($old_order);
 		$new_count = empty($order) ? 0 : count($order);
 		

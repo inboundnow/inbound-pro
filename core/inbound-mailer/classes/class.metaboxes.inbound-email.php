@@ -1377,12 +1377,12 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             wp_enqueue_script('jquery-ui-core');
 
             /* load BootStrap */
-            wp_register_script('bootstrap-js', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/BootStrap/js/bootstrap.min.js');
-            wp_enqueue_script('bootstrap-js');
+            wp_register_script('bootstrap', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/BootStrap/js/bootstrap.min.js');
+            wp_enqueue_script('bootstrap');
 
             /* BootStrap CSS */
-            wp_register_style('bootstrap-css', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/BootStrap/css/bootstrap.css');
-            wp_enqueue_style('bootstrap-css');
+            wp_register_style('bootstrap', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/BootStrap/css/bootstrap.css');
+            wp_enqueue_style('bootstrap');
 
             /* D3 charting suport */
             wp_register_script('d3', INBOUND_EMAIL_URLPATH . 'assets/libraries/d3/d3.v3.min.js');
@@ -1399,8 +1399,9 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             wp_enqueue_script('snap');
 
             /* Load FontAwesome */
-            wp_register_style('fontawesome', INBOUNDNOW_SHARED_URLPATH . 'assets/fonts/fontawesome/css/font-awesome.min.css');
+            wp_register_style('fontawesome', INBOUNDNOW_SHARED_URLPATH . 'assets/fonts/fontawesome/css/fontawesome.min.css');
             wp_enqueue_style('fontawesome');
+
 
             /* spin.min.js */
             wp_register_script('ladda-spin', INBOUND_EMAIL_URLPATH . 'assets/libraries/ladda/spin.min.js');

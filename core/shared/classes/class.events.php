@@ -89,11 +89,11 @@ class Inbound_Events {
             'form_id' => $raw_params['inbound_form_id'],
             'lead_id' => $lead['id'],
             'lead_uid' => ( isset($_COOKIE['wp_lead_uid']) ? $_COOKIE['wp_lead_uid'] : null ),
-            'session_id' => null,
+            'session_id' => '',
             'event_details' => json_encode($details),
             'datetime' => $lead['wordpress_date_time']
         );
-
+	
         self::store_event($args);
     }
 
@@ -168,8 +168,8 @@ class Inbound_Events {
             'form_id' => '',
             'cta_id' => '',
             'email_id' => '',
-            'lead_id' => ( isset($_COOKIE['wp_lead_id']) ? $_COOKIE['wp_lead_id'] : null ),
-            'lead_uid' => ( isset($_COOKIE['wp_lead_uid']) ? $_COOKIE['wp_lead_uid'] : null ),
+            'lead_id' => ( isset($_COOKIE['wp_lead_id']) ? $_COOKIE['wp_lead_id'] : '' ),
+            'lead_uid' => ( isset($_COOKIE['wp_lead_uid']) ? $_COOKIE['wp_lead_uid'] : '' ),
             'session_id' => '',
             'event_name' => $args['event_name'],
             'event_details' => '',
@@ -191,6 +191,7 @@ class Inbound_Events {
             $table_name,
             $args
         );
+
     }
 
     /**
@@ -206,6 +207,30 @@ class Inbound_Events {
 
         return $results;
     }
+	
+	 /**
+     * Get form submission events given conditions
+	 *
+     */
+    public static function get_form_submissions_by( $nature = 'lead_id' ,  $params ){
+        global $wpdb;
+
+        $table_name = $wpdb->prefix . "inbound_events";
+		
+		switch ($nature) {
+			case 'lead_id':
+				$query = 'SELECT * FROM '.$table_name.' WHERE datetime >= "'.$params['start_date'].'" AND  datetime <= "'.$params['end_date'].'" AND `lead_id` = "'.$params['lead_id'].'" AND `event_name` = "inbound_form_submission" ORDER BY `datetime` DESC';
+				break;
+			case 'page_id':
+				$query = 'SELECT * FROM '.$table_name.' WHERE datetime >= "'.$params['start_date'].'" AND  datetime <= "'.$params['end_date'].'" AND `page_id` = "'.$params['page_id'].'" AND `event_name` = "inbound_form_submission" ORDER BY `datetime` DESC';
+				break;
+		}
+		
+		
+        $results = $wpdb->get_results( $query , ARRAY_A );
+
+        return $results;
+    }
 
     /**
      * Get all cta click events related to lead ID
@@ -216,6 +241,29 @@ class Inbound_Events {
         $table_name = $wpdb->prefix . "inbound_events";
 
         $query = 'SELECT * FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'" AND `event_name` = "inbound_cta_click" ORDER BY `datetime` DESC';
+        $results = $wpdb->get_results( $query , ARRAY_A );
+
+        return $results;
+    }
+
+    /**
+     * Get cta click events given conditions
+	 *
+     */
+    public static function get_cta_clicks_by( $nature = 'lead_id' ,  $params ){
+        global $wpdb;
+
+        $table_name = $wpdb->prefix . "inbound_events";
+		
+		switch ($nature) {
+			case 'lead_id':
+				$query = 'SELECT * FROM '.$table_name.' WHERE datetime >= "'.$params['start_date'].'" AND  datetime <= "'.$params['end_date'].'" AND `lead_id` = "'.$params['lead_id'].'" AND `event_name` = "inbound_cta_click" ORDER BY `datetime` DESC';
+				break;
+			case 'page_id':
+				$query = 'SELECT * FROM '.$table_name.' WHERE datetime >= "'.$params['start_date'].'" AND  datetime <= "'.$params['end_date'].'" AND `page_id` = "'.$params['page_id'].'" AND `event_name` = "inbound_cta_click" ORDER BY `datetime` DESC';
+				break;
+		}
+		
         $results = $wpdb->get_results( $query , ARRAY_A );
 
         return $results;
@@ -250,7 +298,7 @@ class Inbound_Events {
     }
 
     /**
-     * Get all all custom event data
+     * Get custom event data by lead id
      */
     public static function get_custom_event_data( $lead_id ){
         global $wpdb;
@@ -258,6 +306,28 @@ class Inbound_Events {
         $table_name = $wpdb->prefix . "inbound_events";
 
         $query = 'SELECT * FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'" AND `event_name` NOT LIKE "inbound_%" ORDER BY `datetime` DESC';
+        $results = $wpdb->get_results( $query , ARRAY_A );
+
+        return $results;
+    }
+	
+    /**
+     * Get all all custom event data by a certain indicator
+     */
+    public static function get_custom_event_data_by( $nature = 'lead_id' , $params ){
+        global $wpdb;
+
+        $table_name = $wpdb->prefix . "inbound_events";
+
+		switch ($nature) {
+			case 'lead_id':
+				$query = 'SELECT * FROM '.$table_name.' WHERE `lead_id` = "'.$params['lead_id'].'" AND `event_name` NOT LIKE "inbound_%" ORDER BY `datetime` DESC';
+				break;
+			case 'page_id':
+				$query = 'SELECT * FROM '.$table_name.' WHERE `page_id` = "'.$params['page_id'].'" AND `event_name` NOT LIKE "inbound_%" ORDER BY `datetime` DESC';
+				break;
+		}
+		
         $results = $wpdb->get_results( $query , ARRAY_A );
 
         return $results;
@@ -296,7 +366,7 @@ class Inbound_Events {
     }
 
     /**
-     * Get date of latest activity
+     * Get count of event activity given a lead id
      * @param $lead_id
      * @param string $activity
      * @return datetime or null
@@ -320,6 +390,34 @@ class Inbound_Events {
 
         /* return null if nothing there */
         return $count;
+    }
+
+	/**
+	 * @param int $page_id
+     * @param string $activity [any or custom event type]
+     * @param datetime $start_date
+     * @param datetime $end_date
+	 */
+    public static function get_page_actions($page_id , $activity = 'any' , $start_date, $end_date ){
+        global $wpdb;
+
+        $table_name = $wpdb->prefix . "inbound_events";
+
+        switch ($activity) {
+            case 'any':
+                $query = 'SELECT count(*) FROM '.$table_name.' WHERE datetime >= "'.$start_date.'" AND  datetime <= "'.$end_date.'" AND `page_id` = "'.$page_id.'"';
+                break;
+            default:
+                $query = 'SELECT count(*) FROM '.$table_name.' WHERE datetime >= "'.$start_date.'" AND  datetime <="'.$end_date.'" AND  `page_id` = "'.$page_id.'" AND `event_name` = "'.$activity.'"';
+                break;
+        }
+
+		
+        /* return latest activity if recorded */
+        $count = $wpdb->get_var( $query , 0, 0 );
+
+        /* return null if nothing there */
+        return ($count) ? $count : 0;
     }
 }
 

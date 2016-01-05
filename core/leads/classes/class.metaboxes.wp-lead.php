@@ -78,7 +78,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             }
 
             self::$form_submissions = Inbound_Events::get_form_submissions( $post->ID );
-            self::$custom_events = Inbound_Events::get_custom_event_data( $post->ID );
+            self::$custom_events = Inbound_Events::get_custom_event_data_by( 'lead_id' ,  array( 'lead_id' => $post->ID ) );
 
             /* Show quick stats */
             $first_name = get_post_meta($post->ID, 'wpleads_first_name', true);

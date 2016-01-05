@@ -192,6 +192,13 @@ if (!class_exists('Inbound_Forms')) {
                         $div_chk_req =' checkbox-required ';
                     }
 
+                    /* prepare dynamic values if exists */
+                    $hidden_param = (isset($matches[3][$i]['dynamic'])) ? $matches[3][$i]['dynamic'] : '';
+                    $fill_value = (isset($matches[3][$i]['default'])) ? $matches[3][$i]['default'] : '';
+                    $dynamic_value = (isset($_GET[$hidden_param])) ? $_GET[$hidden_param] : '';
+                    $dynamic_value = (!$dynamic_value && isset($_COOKIE[$hidden_param])) ? $_COOKIE[$hidden_param] : $dynamic_value;
+
+
                     $form .= '<div class="inbound-field '.$div_chk_req.$main_layout.' label-'.$form_labels_class.' '.$form_labels_class.' '.$field_container_class.'">';
 
                     if ($show_labels && $form_labels != "bottom" || $type === "radio") {
@@ -279,9 +286,6 @@ if (!class_exists('Inbound_Forms')) {
 
                     } else if ($type === 'date') {
 
-                        $hidden_param = (isset($matches[3][$i]['dynamic'])) ? $matches[3][$i]['dynamic'] : '';
-                        $fill_value = (isset($matches[3][$i]['default'])) ? $matches[3][$i]['default'] : '';
-                        $dynamic_value = (isset($_GET[$hidden_param])) ? $_GET[$hidden_param] : '';
                         if ($type === 'hidden' && $dynamic_value != "") {
                             $fill_value = $dynamic_value;
                         }
@@ -289,9 +293,6 @@ if (!class_exists('Inbound_Forms')) {
 
                     } else if ($type === 'time') {
 
-                        $hidden_param = (isset($matches[3][$i]['dynamic'])) ? $matches[3][$i]['dynamic'] : '';
-                        $fill_value = (isset($matches[3][$i]['default'])) ? $matches[3][$i]['default'] : '';
-                        $dynamic_value = (isset($_GET[$hidden_param])) ? $_GET[$hidden_param] : '';
                         if ($type === 'hidden' && $dynamic_value != "") {
                             $fill_value = $dynamic_value;
                         }
@@ -372,9 +373,6 @@ if (!class_exists('Inbound_Forms')) {
 
                     } else if ($type === 'datetime-local')  {
 
-                        $hidden_param = (isset($matches[3][$i]['dynamic'])) ? $matches[3][$i]['dynamic'] : '';
-                        $fill_value = (isset($matches[3][$i]['default'])) ? $matches[3][$i]['default'] : '';
-                        $dynamic_value = (isset($_GET[$hidden_param])) ? $_GET[$hidden_param] : '';
                         if ($type === 'hidden' && $dynamic_value != "") {
                             $fill_value = $dynamic_value;
                         }
@@ -383,9 +381,6 @@ if (!class_exists('Inbound_Forms')) {
 
                     } else if ($type === 'url')  {
 
-                        $hidden_param = (isset($matches[3][$i]['dynamic'])) ? $matches[3][$i]['dynamic'] : '';
-                        $fill_value = (isset($matches[3][$i]['default'])) ? $matches[3][$i]['default'] : '';
-                        $dynamic_value = (isset($_GET[$hidden_param])) ? $_GET[$hidden_param] : '';
                         if ($type === 'hidden' && $dynamic_value != "") {
                             $fill_value = $dynamic_value;
                         }
@@ -394,9 +389,6 @@ if (!class_exists('Inbound_Forms')) {
 
                     } else if ($type === 'tel')  {
 
-                        $hidden_param = (isset($matches[3][$i]['dynamic'])) ? $matches[3][$i]['dynamic'] : '';
-                        $fill_value = (isset($matches[3][$i]['default'])) ? $matches[3][$i]['default'] : '';
-                        $dynamic_value = (isset($_GET[$hidden_param])) ? $_GET[$hidden_param] : '';
                         if ($type === 'hidden' && $dynamic_value != "") {
                             $fill_value = $dynamic_value;
                         }
@@ -405,9 +397,6 @@ if (!class_exists('Inbound_Forms')) {
 
                     } else if ($type === 'email')  {
 
-                        $hidden_param = (isset($matches[3][$i]['dynamic'])) ? $matches[3][$i]['dynamic'] : '';
-                        $fill_value = (isset($matches[3][$i]['default'])) ? $matches[3][$i]['default'] : '';
-                        $dynamic_value = (isset($_GET[$hidden_param])) ? $_GET[$hidden_param] : '';
                         if ($type === 'hidden' && $dynamic_value != "") {
                             $fill_value = $dynamic_value;
                         }
@@ -427,19 +416,15 @@ if (!class_exists('Inbound_Forms')) {
                         $form .=	'<input type="range" min="'.$options[0].'" max="'.$options[1].'" step="'.$options[2].'" class="inbound-input inbound-input-range '.$formatted_label . $input_classes.' '.$field_input_class.'" name="'.$field_name.'" '.$form_placeholder.' id="'.$field_name.'" value="'.$fill_value.'" '.$data_mapping_attr.$et_output.' '.$req.'/>';
 
                     } else if ($type === 'text')  {
-
-                        $hidden_param = (isset($matches[3][$i]['dynamic'])) ? $matches[3][$i]['dynamic'] : '';
-                        $fill_value = (isset($matches[3][$i]['default'])) ? $matches[3][$i]['default'] : '';
-                        $dynamic_value = (isset($_GET[$hidden_param])) ? $_GET[$hidden_param] : '';
+                        if ( $dynamic_value ) {
+                            $fill_value = $dynamic_value;
+                        }
 
                         $input_type = ( $email_input ) ? 'email' : 'text';
-                        $form .=	'<input type="'.$input_type .'" class="inbound-input inbound-input-text '.$formatted_label . $input_classes.' '.$field_input_class.'" name="'.$field_name.'" '.$form_placeholder.' id="'.$field_name.'" value="'.$fill_value.'" '.$data_mapping_attr.$et_output.' '.$req.'/>';
+                        $form .= '<input type="'.$input_type .'" class="inbound-input inbound-input-text '.$formatted_label . $input_classes.' '.$field_input_class.'" name="'.$field_name.'" '.$form_placeholder.' id="'.$field_name.'" value="'.$fill_value.'" '.$data_mapping_attr.$et_output.' '.$req.'/>';
 
                     } else if ($type === 'hidden')  {
 
-                        $hidden_param = (isset($matches[3][$i]['dynamic'])) ? $matches[3][$i]['dynamic'] : '';
-                        $fill_value = (isset($matches[3][$i]['default'])) ? $matches[3][$i]['default'] : '';
-                        $dynamic_value = (isset($_GET[$hidden_param])) ? $_GET[$hidden_param] : '';
                         if ( $dynamic_value ) {
                             $fill_value = $dynamic_value;
                         }

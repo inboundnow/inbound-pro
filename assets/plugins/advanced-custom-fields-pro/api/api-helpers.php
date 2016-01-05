@@ -490,7 +490,7 @@ function acf_hidden_input( $atts ) {
 *  @return	(mixed)
 */
 
-function acf_extract_var( &$array, $key ) {
+function acf_extract_var( &$array, $key, $default = null ) {
 	
 	// check if exists
 	if( is_array($array) && array_key_exists($key, $array) ) {
@@ -510,7 +510,7 @@ function acf_extract_var( &$array, $key ) {
 	
 	
 	// return
-	return null;
+	return $default;
 }
 
 
@@ -2060,7 +2060,7 @@ function acf_decode_choices( $string = '' ) {
 	// force array on single numeric values
 	} elseif( is_numeric($string) ) {
 		
-		return array( $string );
+		// allow
 	
 	// bail early if not a a string
 	} elseif( !is_string($string) ) {
@@ -2268,8 +2268,17 @@ function acf_update_user_setting( $name, $value ) {
 	}
 	
 	
-	// append setting
-	$settings[ $name ] = $value;
+	// delete setting (allow 0 to save)
+	if( !$value && !is_numeric($value) ) {
+		
+		unset($settings[ $name ]);
+	
+	// append setting	
+	} else {
+		
+		$settings[ $name ] = $value;
+		
+	}
 	
 	
 	// update user data
@@ -2303,7 +2312,7 @@ function acf_get_user_setting( $name = '', $default = false ) {
 	
 	
 	// bail arly if no settings
-	if( empty($settings[0][$name]) ) {
+	if( !isset($settings[0][$name]) ) {
 		
 		return $default;
 		

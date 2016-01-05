@@ -1,6 +1,288 @@
 <?php
 
 /*
+*  acf_get_metadata
+*
+*  This function will get a value from the DB
+*
+*  @type	function
+*  @date	16/10/2015
+*  @since	5.2.3
+*
+*  @param	$post_id (mixed)
+*  @param	$name (string)
+*  @param	$hidden (boolean)
+*  @return	$return (mixed)
+*/
+
+function acf_get_metadata( $post_id = 0, $name = '', $hidden = false ) {
+	
+	// vars
+	$value = null;
+	
+	
+	// add prefix for hidden meta
+	if( $hidden ) {
+		
+		$name = '_' . $name;
+		
+	}
+	
+	
+	// post
+	if( is_numeric($post_id) ) {
+		
+		$meta = get_metadata( 'post', $post_id, $name, false );
+		
+		if( isset($meta[0]) ) {
+		
+		 	$value = $meta[0];
+		 	
+	 	}
+	
+	// user
+	} elseif( substr($post_id, 0, 5) == 'user_' ) {
+		
+		$user_id = (int) substr($post_id, 5);
+		
+		$meta = get_metadata( 'user', $user_id, $name, false );
+		
+		if( isset($meta[0]) ) {
+		
+		 	$value = $meta[0];
+		 	
+	 	}
+	
+	// comment
+	} elseif( substr($post_id, 0, 8) == 'comment_' ) {
+		
+		$comment_id = (int) substr($post_id, 8);
+		
+		$meta = get_metadata( 'comment', $comment_id, $name, false );
+		
+		if( isset($meta[0]) ) {
+		
+		 	$value = $meta[0];
+		 	
+	 	}
+	 	
+	} else {
+		
+		// modify prefix for hidden meta
+		if( $hidden ) {
+			
+			$post_id = '_' . $post_id;
+			$name = substr($name, 1);
+			
+		}
+		
+		$value = get_option( $post_id . '_' . $name, null );
+		
+	}
+		
+	
+	// return
+	return $value;
+	
+}
+
+
+/*
+*  acf_update_metadata
+*
+*  This function will update a value from the DB
+*
+*  @type	function
+*  @date	16/10/2015
+*  @since	5.2.3
+*
+*  @param	$post_id (mixed)
+*  @param	$name (string)
+*  @param	$value (mixed)
+*  @param	$hidden (boolean)
+*  @return	$return (boolean)
+*/
+
+function acf_update_metadata( $post_id = 0, $name = '', $value = '', $hidden = false ) {
+	
+	// vars
+	$return = false;
+	
+	
+	// add prefix for hidden meta
+	if( $hidden ) {
+		
+		$name = '_' . $name;
+		
+	}
+	
+	
+	// postmeta
+	if( is_numeric($post_id) ) {
+		
+		$return = update_metadata('post', $post_id, $name, $value );
+	
+	// usermeta
+	} elseif( substr($post_id, 0, 5) == 'user_' ) {
+		
+		$user_id = (int) substr($post_id, 5);
+		
+		$return = update_metadata('user', $user_id, $name, $value);
+		
+	// commentmeta
+	} elseif( substr($post_id, 0, 8) == 'comment_' ) {
+		
+		$comment_id = (int) substr($post_id, 8);
+		
+		$return = update_metadata('comment', $comment_id, $name, $value);
+	
+	// options	
+	} else {
+		
+		// modify prefix for hidden meta
+		if( $hidden ) {
+			
+			$post_id = '_' . $post_id;
+			$name = substr($name, 1);
+			
+		}
+		
+		$return = acf_update_option( $post_id . '_' . $name, $value );
+		
+	}
+	
+	
+	// return
+	return $return;
+	
+}
+
+
+/*
+*  acf_delete_metadata
+*
+*  This function will delete a value from the DB
+*
+*  @type	function
+*  @date	16/10/2015
+*  @since	5.2.3
+*
+*  @param	$post_id (mixed)
+*  @param	$name (string)
+*  @param	$hidden (boolean)
+*  @return	$return (boolean)
+*/
+
+function acf_delete_metadata( $post_id = 0, $name = '', $hidden = false ) {
+	
+	// vars
+	$return = false;
+	
+	
+	// add prefix for hidden meta
+	if( $hidden ) {
+		
+		$name = '_' . $name;
+		
+	}
+	
+	
+	// postmeta
+	if( is_numeric($post_id) ) {
+		
+		$return = delete_metadata('post', $post_id, $name );
+	
+	// usermeta
+	} elseif( substr($post_id, 0, 5) == 'user_' ) {
+		
+		$user_id = (int) substr($post_id, 5);
+		
+		$return = delete_metadata('user', $user_id, $name);
+		
+	// commentmeta
+	} elseif( substr($post_id, 0, 8) == 'comment_' ) {
+		
+		$comment_id = (int) substr($post_id, 8);
+		
+		$return = delete_metadata('comment', $comment_id, $name);
+	
+	// options	
+	} else {
+		
+		// modify prefix for hidden meta
+		if( $hidden ) {
+			
+			$post_id = '_' . $post_id;
+			$name = substr($name, 1);
+			
+		}
+		
+		$return = delete_option( $post_id . '_' . $name );
+		
+	}
+	
+	
+	// return
+	return $return;
+	
+}
+
+
+/*
+*  acf_update_option
+*
+*  This function is a wrapper for the WP update_option but provides logic for a 'no' autoload
+*
+*  @type	function
+*  @date	4/01/2014
+*  @since	5.0.0
+*
+*  @param	$option (string)
+*  @param	$value (mixed)
+*  @param	autoload (mixed)
+*  @return	(boolean)
+*/
+
+function acf_update_option( $option = '', $value = '', $autoload = null ) {
+	
+	// vars
+	$deprecated = '';
+	$return = false;
+	
+	
+	// autoload
+	if( $autoload === null ){
+		
+		$autoload = acf_get_setting('autoload') ? 'yes' : 'no';
+		
+	}
+	
+	
+	// for some reason, update_option does not use stripslashes_deep.
+	// update_metadata -> http://core.trac.wordpress.org/browser/tags/3.4.2/wp-includes/meta.php#L82: line 101 (does use stripslashes_deep)
+	// update_option -> http://core.trac.wordpress.org/browser/tags/3.5.1/wp-includes/option.php#L0: line 215 (does not use stripslashes_deep)
+	$value = stripslashes_deep($value);
+		
+		
+	// add or update
+	if( get_option($option) !== false ) {
+	
+	    $return = update_option( $option, $value );
+	    
+	} else {
+		
+		$return = add_option( $option, $value, $deprecated, $autoload );
+		
+	}
+	
+	
+	// return
+	return $return;
+	
+}
+
+
+/*
 *  acf_get_value
 *
 *  This function will load in a field's value
@@ -9,19 +291,12 @@
 *  @date	28/09/13
 *  @since	5.0.0
 *
-*  @param	$value (mixed)
 *  @param	$post_id (int)
 *  @param	$field (array)
-*  @param	$format (boolean)
-*  @param	$format_template (boolean)
 *  @return	(mixed)
 */
 
-function acf_get_value( $post_id, $field, $db_only = false ) {
-	
-	// vars
-	$value = null;
-	
+function acf_get_value( $post_id, $field ) {
 	
 	// try cache
 	$found = false;
@@ -31,63 +306,15 @@ function acf_get_value( $post_id, $field, $db_only = false ) {
 	
 		return $cache;
 		
-	}	
-	
-	
-	// load value depending on the $type
-	if( empty($post_id) ) {
-		
-		// do nothing
-	
-	} elseif( is_numeric($post_id) ) {
-		
-		$v = get_post_meta( $post_id, $field['name'], false );
-		
-		// value is an array
-		if( isset($v[0]) ) {
-		
-		 	$value = $v[0];
-		 	
-	 	}
-
-	} elseif( strpos($post_id, 'user_') !== false ) {
-		
-		$user_id = str_replace('user_', '', $post_id);
-		$user_id = intval( $user_id );
-		
-		$v = get_user_meta( $user_id, $field['name'], false );
-		
-		// value is an array
-		if( isset($v[0]) ) {
-		
-		 	$value = $v[0];
-		 	
-	 	}
-	 	
-	} elseif( strpos($post_id, 'comment_') !== false ) {
-		
-		$comment_id = str_replace('comment_', '', $post_id);
-		$comment_id = intval( $comment_id );
-		
-		$v = get_comment_meta( $comment_id, $field['name'], false );
-		
-		// value is an array
-		if( isset($v[0]) ) {
-		
-		 	$value = $v[0];
-		 	
-	 	}
-	 	
-	} else {
-		
-		$v = get_option( "{$post_id}_{$field['name']}", null );
-	
-		if( ! is_null($v) ) {
-		
-			$value = $v;
-			
-	 	}
 	}
+	
+	
+	// load value
+	$value = acf_get_metadata( $post_id, $field['name'] );
+	
+	
+	// if value was duplicated, it may now be a serialized string!
+	$value = maybe_unserialize( $value );
 	
 	
 	// no value? try default_value
@@ -98,27 +325,14 @@ function acf_get_value( $post_id, $field, $db_only = false ) {
 	}
 	
 	
-	// if value was duplicated, it may now be a serialized string!
-	$value = maybe_unserialize( $value );
-	
-	
-	// bail early if db only value (no need to update cache)
-	if( $db_only ) {
-		
-		return $value;
-		
-	}
-	
-	
 	// filter for 3rd party customization
 	$value = apply_filters( "acf/load_value", $value, $post_id, $field );
 	$value = apply_filters( "acf/load_value/type={$field['type']}", $value, $post_id, $field );
 	$value = apply_filters( "acf/load_value/name={$field['name']}", $value, $post_id, $field );
 	$value = apply_filters( "acf/load_value/key={$field['key']}", $value, $post_id, $field );
-		
 	
 	
-	//update cache
+	// update cache
 	wp_cache_set( "load_value/post_id={$post_id}/name={$field['name']}", $value, 'acf' );
 
 	
@@ -166,18 +380,13 @@ function acf_format_value( $value, $post_id, $field ) {
 *  @type	action
 *  @date	23/01/13
 *
-*  @param	{mixed}		$value		the value to be saved
-*  @param	{int}		$post_id 	the post ID to save the value to
-*  @param	{array}		$field		the field array
-*  @param	{boolean}	$exact		allows the update_value filter to be skipped
-*  @return	N/A
+*  @param	$value (mixed)
+*  @param	$post_id (mixed)
+*  @param	$field (array)
+*  @return	(boolean)
 */
 
 function acf_update_value( $value = null, $post_id = 0, $field ) {
-	
-	// vars
-	$return = false;
-	
 	
 	// strip slashes
 	if( acf_get_setting('stripslashes') ) {
@@ -194,87 +403,17 @@ function acf_update_value( $value = null, $post_id = 0, $field ) {
 	$value = apply_filters( "acf/update_value/key={$field['key']}", $value, $post_id, $field );
 	
 
-	// note:
-	// attempted to save values as individual rows for better WP_Query compatibility. Issues are clear that order would not work.
-	if( is_numeric($post_id) )
-	{
-		// allow ACF to save to revision!
-		$return = update_metadata('post', $post_id, $field['name'], $value );
-				  update_metadata('post', $post_id, '_' . $field['name'], $field['key']);
-	}
-	elseif( strpos($post_id, 'user_') !== false )
-	{
-		$user_id = str_replace('user_', '', $post_id);
-		$return = update_metadata('user', $user_id, $field['name'], $value);
-				  update_metadata('user', $user_id, '_' . $field['name'], $field['key']);
-	}
-	elseif( strpos($post_id, 'comment_') !== false )
-	{
-		$comment_id = str_replace('comment_', '', $post_id);
-		$return = update_metadata('comment', $comment_id, $field['name'], $value);
-				  update_metadata('comment', $comment_id, '_' . $field['name'], $field['key']);
-	}
-	else
-	{
-		// for some reason, update_option does not use stripslashes_deep.
-		// update_metadata -> http://core.trac.wordpress.org/browser/tags/3.4.2/wp-includes/meta.php#L82: line 101 (does use stripslashes_deep)
-		// update_option -> http://core.trac.wordpress.org/browser/tags/3.5.1/wp-includes/option.php#L0: line 215 (does not use stripslashes_deep)
-		$value = stripslashes_deep($value);
-		
-		$return = acf_update_option( $post_id . '_' . $field['name'], $value );
-				  acf_update_option( '_' . $post_id . '_' . $field['name'], $field['key'] );
-	}
+	// update value
+	$return = acf_update_metadata( $post_id, $field['name'], $value );
+	
+	
+	// update reference
+	acf_update_metadata( $post_id, $field['name'], $field['key'], true );
 	
 	
 	// clear cache
 	wp_cache_delete( "load_value/post_id={$post_id}/name={$field['name']}", 'acf' );
 
-	
-	// return
-	return $return;
-}
-
-
-/*
-*  acf_update_option
-*
-*  This function is a wrapper for the WP update_option but provides logic for a 'no' autoload
-*
-*  @type	function
-*  @date	4/01/2014
-*  @since	5.0.0
-*
-*  @param	$option (string)
-*  @param	$value (mixed)
-*  @return	(boolean)
-*/
-
-function acf_update_option( $option = '', $value = false, $autoload = null ) {
-	
-	// vars
-	$deprecated = '';
-	$return = false;
-	
-	
-	// autoload
-	if( $autoload === null ){
-		
-		$autoload = acf_get_setting('autoload') ? 'yes' : 'no';
-		
-	}
-	
-	
-	// add or update
-	if( get_option($option) !== false ) {
-	
-	    $return = update_option( $option, $value );
-	    
-	} else {
-		
-		$return = add_option( $option, $value, $deprecated, $autoload );
-		
-	}
-	
 	
 	// return
 	return $return;
@@ -292,91 +431,34 @@ function acf_update_option( $option = '', $value = false, $autoload = null ) {
 *  @since	5.0.0
 *
 *  @param	$post_id (mixed)
-*  @param	$key (string|array) the meta_name or $field
+*  @param	$field (array)
 *  @return	(boolean)
 */
 
-function acf_delete_value( $post_id = 0, $key = '' ) {
-	
-	// vars
-	$field = false;
-	$return = false;
-	
-	
-	// string
-	if( is_string($key) ) {
-		
-		// find selector
-		$field = acf_get_field_reference( $key, $post_id );
-		
-		
-		// get field key
-		$field = acf_get_field( $field );
-	
-	
-	// field
-	} elseif( is_array($key) ) {
-		
-		// set vars
-		$field = $key;
-		$key = $field['name'];
-	
-	
-	// bail early if not valid key
-	} else {
-		
-		return false;
-		
-	}
-	
+function acf_delete_value( $post_id = 0, $field ) {
 	
 	// action for 3rd party customization
-	do_action("acf/delete_value", $post_id, $key, $field);
-	
-	if( $field ) {
-		
-		do_action("acf/delete_value/type={$field['type']}", $post_id, $key, $field);
-		do_action("acf/delete_value/name={$field['_name']}", $post_id, $key, $field);
-		do_action("acf/delete_value/key={$field['key']}", $post_id, $key, $field);
-		
-	}
+	do_action("acf/delete_value", $post_id, $field['name'], $field);
+	do_action("acf/delete_value/type={$field['type']}", $post_id, $field['name'], $field);
+	do_action("acf/delete_value/name={$field['_name']}", $post_id, $field['name'], $field);
+	do_action("acf/delete_value/key={$field['key']}", $post_id, $field['name'], $field);
 	
 	
-	// post
-	if( is_numeric($post_id) ) {
-		
-		$return = delete_metadata('post', $post_id, $key );
-				  delete_metadata('post', $post_id, '_' . $key );
+	// delete value
+	$return = acf_delete_metadata( $post_id, $field['name'] );
 	
-	// user		  
-	} elseif( strpos($post_id, 'user_') !== false ) {
-		
-		$user_id = str_replace('user_', '', $post_id);
-		$return = delete_metadata('user', $user_id, $key);
-				  delete_metadata('user', $user_id, '_' . $key);
 	
-	// comment
-	} elseif( strpos($post_id, 'comment_') !== false ) {
-		
-		$comment_id = str_replace('comment_', '', $post_id);
-		$return = delete_metadata('comment', $comment_id, $key);
-				  delete_metadata('comment', $comment_id, '_' . $key);
-	
-	// option
-	} else {
-		
-		$return = delete_option( $post_id . '_' . $key );
-				  delete_option( '_' . $post_id . '_' . $key );
-				  
-	}
+	// delete reference
+	acf_delete_metadata( $post_id, $field['name'], true );
 	
 	
 	// clear cache
-	wp_cache_delete( "load_value/post_id={$post_id}/name={$key}", 'acf' );
+	wp_cache_delete( "load_value/post_id={$post_id}/name={$field['name']}", 'acf' );
 	
 	
 	// return
 	return $return;
+	
 }
 
 ?>

@@ -135,8 +135,8 @@ class Leads_Batch_Processor {
                     /* assume the rest are form submissions */
                     Inbound_Events::store_event(array(
                         'event_name' => 'inbound_form_submission',
-                        'page_id' => (isset($entry['id']) ? $entry['id'] : null),
-                        'variation_id' => (isset($entry['variation']) ? $entry['variation'] : null),
+                        'page_id' => (isset($entry['id']) ? $entry['id'] : ''),
+                        'variation_id' => (isset($entry['variation']) ? $entry['variation'] : ''),
                         'lead_id' => $lead->ID,
                         'datetime' => (isset($entry['datetime']) ? $entry['datetime'] : null)
                     ));
@@ -152,8 +152,8 @@ class Leads_Batch_Processor {
                 foreach ($cta_clicks as $entry) {
                     Inbound_Events::store_event(array(
                         'event_name' => 'inbound_cta_click',
-                        'cta_id' => (isset($entry['id']) ? $entry['id'] : null),
-                        'variation_id' => (isset($entry['variation']) ? $entry['variation'] : null),
+                        'cta_id' => (isset($entry['id']) ? $entry['id'] : ''),
+                        'variation_id' => (isset($entry['variation']) ? $entry['variation'] : ''),
                         'lead_id' => $lead->ID,
                         'datetime' => (isset($entry['datetime']) ? $entry['datetime'] : null)
                     ));
@@ -174,10 +174,10 @@ class Leads_Batch_Processor {
 
                     Inbound_Events::store_event(array(
                         'event_name' => $entry['event_type'],
-                        'cta_id' => (isset($entry['id']) ? $entry['id'] : null),
-                        'variation_id' => (isset($entry['variation']) ? $entry['variation'] : null),
+                        'cta_id' => (isset($entry['id']) ? $entry['id'] : ''),
+                        'variation_id' => (isset($entry['variation']) ? $entry['variation'] : ''),
                         'lead_id' => $lead->ID,
-                        'session_id' => (isset($entry['tracking_id']) ? $entry['tracking_id'] : null),
+                        'session_id' => (isset($entry['tracking_id']) ? $entry['tracking_id'] : ''),
                         'datetime' => $clean_date
                     ));
                 }

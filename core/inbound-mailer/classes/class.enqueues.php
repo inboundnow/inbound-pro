@@ -113,9 +113,9 @@ class Inbound_Mailer_Enqueues {
 		wp_enqueue_style('jquery-datepicker-base.css', INBOUND_EMAIL_URLPATH . 'assets/libraries/jquery-datepicker/lib/base.css');
 
 		/* Enqueue select2 support */
-		wp_enqueue_script('select2', INBOUND_EMAIL_URLPATH . 'assets/libraries/Select2/select2.min.js');
-		wp_enqueue_style('select2-css', INBOUND_EMAIL_URLPATH . 'assets/libraries/Select2/select2.css');
-		wp_enqueue_style('select2-bootstrap-css', INBOUND_EMAIL_URLPATH . 'assets/libraries/Select2/select2.css');
+		wp_enqueue_script('select2', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/Select2/select2.min.js');
+		wp_enqueue_style('select2', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/Select2/select2.css');
+		wp_enqueue_style('select2-bootstrap', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/Select2/select2.css');
 
 		/* Enqueue Sweet Alert support  */
 		wp_enqueue_script('sweet-alert-js', INBOUND_EMAIL_URLPATH . 'assets/libraries/SweetAlert/sweet-alert.js');

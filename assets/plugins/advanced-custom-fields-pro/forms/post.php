@@ -293,41 +293,11 @@ class acf_form_post {
 			'id'			=> $id,
 			'key'			=> $field_group['key'],
 			'style'			=> $field_group['style'],
+			'label'			=> $field_group['label_placement'],
 			'edit_url'		=> '',
 			'edit_title'	=> __('Edit field group', 'acf'),
 			'visibility'	=> $visibility
 		);
-		
-		
-		// render fields, or render a replace-me div
-		if( $visibility ) {
-			
-			// load fields
-			$fields = acf_get_fields( $field_group );
-			
-			
-			// render
-			if( $field_group['label_placement'] == 'left' ) {
-				
-				?>
-				<table class="acf-table">
-					<tbody>
-						<?php acf_render_fields( $this->post_id, $fields, 'tr', $field_group['instruction_placement'] ); ?>
-					</tbody>
-				</table>
-				<?php
-				
-			} else {
-				
-				acf_render_fields( $this->post_id, $fields, 'div', $field_group['instruction_placement'] );
-				
-			}
-			
-		} else {
-			
-			echo '<div class="acf-replace-with-fields"><div class="acf-loading"></div></div>';
-			
-		}
 		
 		
 		// edit_url
@@ -337,8 +307,25 @@ class acf_form_post {
 				
 		}
 		
+			
+		// load and render fields	
+		if( $visibility ) {
+			
+			// load fields
+			$fields = acf_get_fields( $field_group );
+			
+			
+			// render
+			acf_render_fields( $this->post_id, $fields, 'div', $field_group['instruction_placement'] );
 		
-?>
+		// render replace-me div
+		} else {
+			
+			echo '<div class="acf-replace-with-fields"><div class="acf-loading"></div></div>';
+		
+		}
+	
+	?>
 <script type="text/javascript">
 if( typeof acf !== 'undefined' ) {
 		
@@ -396,12 +383,13 @@ if( typeof acf !== 'undefined' ) {
 		
 		
 		// vars
-		$r = array();
+		$json = array();
 		$nonce = acf_extract_var( $options, 'nonce' );
+		$exists = acf_extract_var( $options, 'exists' );
 		
 		
 		// verify nonce
-		if( ! wp_verify_nonce($nonce, 'acf_nonce') ) {
+		if( !wp_verify_nonce($nonce, 'acf_nonce') ) {
 		
 			die;
 			
@@ -412,63 +400,64 @@ if( typeof acf !== 'undefined' ) {
 		$field_groups = acf_get_field_groups( $options );
 		
 		
-		// loop through field groups and build $r
-		if( !empty($field_groups) ) {
+		// bail early if no field groups
+		if( empty($field_groups) ) {
 			
-			foreach( $field_groups as $field_group ) {
+			wp_send_json_success( $json );
+			
+		}
+		
+		
+		// loop through field groups
+		foreach( $field_groups as $i => $field_group ) {
+			
+			// vars
+			$item = array(
+				//'ID'	=> $field_group['ID'], - JSON does not have ID (not used by JS anyway)
+				'key'	=> $field_group['key'],
+				'title'	=> $field_group['title'],
+				'html'	=> '',
+				'style' => ''
+			);
+			
+			
+			// style
+			if( $i == 0 ) {
 				
-				// vars
-				$class = 'acf-postbox ' . $field_group['style'];
+				$item['style'] = acf_get_field_group_style( $field_group );
 				
+			}
+			
+			
+			// html
+			if( !in_array($field_group['key'], $exists) ) {
 				
 				// load fields
 				$fields = acf_get_fields( $field_group );
 
-
+	
 				// get field HTML
 				ob_start();
 				
 				
 				// render
-				if( $field_group['label_placement'] == 'left' ) {
-					
-					?>
-					<table class="acf-table">
-						<tbody>
-							<?php acf_render_fields( $options['post_id'], $fields, 'tr', $field_group['instruction_placement'] ); ?>
-						</tbody>
-					</table>
-					<?php
-					
-				} else {
-					
-					acf_render_fields( $options['post_id'], $fields, 'div', $field_group['instruction_placement'] );
-				
-				}
+				acf_render_fields( $options['post_id'], $fields, 'div', $field_group['instruction_placement'] );
 				
 				
-				$html = ob_get_clean();
+				$item['html'] = ob_get_clean();
 				
 				
-				// get style
-				$style = acf_get_field_group_style( $field_group );
-				
-				
-				// append to $r
-				$r[] = array(
-					//'ID'	=> $field_group['ID'], - JSON does not have ID (not used by JS anyway)
-					'key'	=> $field_group['key'],
-					'title'	=> $field_group['title'],
-					'html'	=> $html,
-					'style' => $style,
-					'class'	=> $class
-				);
 			}
+			
+			
+			// append
+			$json[] = $item;
+			
 		}
 		
 		
 		// return
-		wp_send_json_success( $r );
+		wp_send_json_success( $json );
 		
 	}
 	

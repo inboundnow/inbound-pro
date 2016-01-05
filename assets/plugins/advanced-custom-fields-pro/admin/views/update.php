@@ -5,7 +5,7 @@ extract($args);
 ?>
 <div id="acf-upgrade-wrap" class="wrap">
 	
-	<h2><?php _e("Advanced Custom Fields Database Upgrade",'acf'); ?></h2>
+	<h1><?php _e("Advanced Custom Fields Database Upgrade",'acf'); ?></h1>
 	
 <?php if( !empty($updates) ): ?>
 	

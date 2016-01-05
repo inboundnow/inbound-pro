@@ -213,6 +213,34 @@ if ( !class_exists('Landing_Pages_Activation_Update_Routines') ) {
 			}
 		}
 
+		/*
+		* @introduced: 2.0.4
+		* @migration-type: Meta pair migragtion
+		* @migration: mirgrates lp_ab_variation_status  to lp_ab_variation_status-0
+		* @migration: mirgrates lp-variation-notes  to lp-variation-notes-0
+
+		*/
+		public static function migrate_variation_status_metapair() {
+
+			/* for all landing pages load variations */
+			$landing_pages = get_posts( array (
+					'post_type' => 'landing-page',
+					'posts_per_page' => -1
+			));
+
+			foreach ($landing_pages as $post) {
+
+				/* mirgrates lp_ab_variation_status  to lp_ab_variation_status-0 */
+				$status = get_post_meta( $post->ID , 'lp_ab_variation_status'  , true );
+				update_post_meta( $post->ID , 'lp_ab_variation_status-0' , $status );
+
+				/* mirgrates lp_ab_variation_status  to lp_ab_variation_status-0 */
+				$status = get_post_meta( $post->ID , 'lp-variation-notes'  , true );
+				update_post_meta( $post->ID , 'lp-variation-notes-0' , $status );
+
+			}
+		}
+
 	}
 
 }

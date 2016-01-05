@@ -144,24 +144,26 @@ class acf_field_gallery extends acf_field {
 	
 	function ajax_update_attachment() {
 		
-		// validate
-		if( ! wp_verify_nonce($_REQUEST['nonce'], 'acf_nonce') ) {
+		// validate nonce
+		if( !wp_verify_nonce($_POST['nonce'], 'acf_nonce') ) {
 		
 			wp_send_json_error();
 			
 		}
 		
 		
-		if( empty($_REQUEST['attachments']) ) {
+		// bail early if no attachments
+		if( empty($_POST['attachments']) ) {
 		
 			wp_send_json_error();
 			
 		}
 		
 		
-		foreach( $_REQUEST['attachments'] as $id => $changes ) {
+		// loop over attachments
+		foreach( $_POST['attachments'] as $id => $changes ) {
 			
-			if ( ! current_user_can( 'edit_post', $id ) )
+			if ( !current_user_can( 'edit_post', $id ) )
 				wp_send_json_error();
 				
 			$post = get_post( $id, ARRAY_A );
@@ -186,12 +188,16 @@ class acf_field_gallery extends acf_field {
 				}
 			}
 			
-			/** This filter is documented in wp-admin/includes/media.php */
-			$post = apply_filters( 'attachment_fields_to_save', $post, $changes );
-			
 			
 			// save post
 			wp_update_post( $post );
+			
+			
+			/** This filter is documented in wp-admin/includes/media.php */
+			// - seems off to run this filter AFTER the update_post function, but there is a reason
+			// - when placed BEFORE, an empty post_title will be populated by WP
+			// - this filter will still allow 3rd party to save extra image data!
+			$post = apply_filters( 'attachment_fields_to_save', $post, $changes );
 			
 			
 			// save meta
@@ -199,6 +205,8 @@ class acf_field_gallery extends acf_field {
 						
 		}
 		
+		
+		// return
 		wp_send_json_success();
 			
 	}
@@ -517,7 +525,7 @@ class acf_field_gallery extends acf_field {
 							<?php endif; ?>
 						</div>
 						<div class="actions acf-soh-target">
-							<a class="acf-icon acf-icon-cancel dark remove-attachment" data-id="<?php echo $post->ID; ?>" href="#"></a>
+							<a class="acf-icon -cancel dark remove-attachment" data-id="<?php echo $post->ID; ?>" href="#"></a>
 						</div>
 					</div>
 					

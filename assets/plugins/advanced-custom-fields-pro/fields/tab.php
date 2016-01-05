@@ -123,30 +123,19 @@ class acf_field_tab extends acf_field {
 	
 	function render_field_settings( $field ) {
 		
-		?><tr class="acf-field" data-setting="tab" data-name="warning">
-			<td class="acf-label">
-				<label><?php _e("Warning",'acf'); ?></label>
-			</td>
-			<td class="acf-input">
-				<p style="margin:0;">
-					<span class="acf-error-message" style="margin:0; padding:8px !important;">
-					<?php _e("The tab field will display incorrectly when added to a Table style repeater field or flexible content field layout",'acf'); ?>
-					</span>
-				</p>
-			</td>
-		</tr>
-		<?php
-		
+		// message
+		$message = '';
+		$message .= '<span class="acf-error-message"><p>' . __("The tab field will display incorrectly when added to a Table style repeater field or flexible content field layout", 'acf') . '</p></span>';
+		$message .= '<p>' . __( 'Use "Tab Fields" to better organize your edit screen by grouping fields together.', 'acf') . '</p>';
+		$message .= '<p>' . __( 'All fields following this "tab field" (or until another "tab field" is defined) will be grouped together using this field\'s label as the tab heading.','acf') . '</p>';
 		
 		// default_value
 		acf_render_field_setting( $field, array(
 			'label'			=> __('Instructions','acf'),
 			'instructions'	=> '',
 			'type'			=> 'message',
-			'message'		=>  __( 'Use "Tab Fields" to better organize your edit screen by grouping fields together.','acf') . 
-							'<br /><br />' .
-							   __( 'All fields following this "tab field" (or until another "tab field" is defined) will be grouped together using this field\'s label as the tab heading.','acf')
-							   
+			'message'		=> $message,
+			'new_lines'		=> ''
 		));
 		
 		

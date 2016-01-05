@@ -80,14 +80,14 @@ $shortcodes_config['forms'] = array(
             'desc' => __('Add the converting lead to 1 or more lead lists', INBOUNDNOW_TEXT_DOMAIN ),
             'type' => 'leadlists',
             'options' => $lead_list_names,
-            'class' => 'main-form-settings',
+            'class' => 'main-form-settings exclude-from-refresh',
         ),
 
         'lists_hidden' => array(
             'name' => __('Hidden List Values', INBOUNDNOW_TEXT_DOMAIN ),
             'desc' => __('Hidden list values', INBOUNDNOW_TEXT_DOMAIN ),
             'type' => 'hidden',
-            'class' => 'main-form-settings',
+            'class' => 'main-form-settings exclude-from-refresh',
         ),
 
         'helper-block-one' => array(
@@ -550,17 +550,16 @@ if (!function_exists('inbound_form_delete_transient')) {
 if (!function_exists('inbound_form_save')) {
     /* 	Shortcode moved to shared form class */
     add_action('wp_ajax_inbound_form_save', 'inbound_form_save');
-    //add_action('wp_ajax_nopriv_inbound_form_save', 'inbound_form_save');
 
     function inbound_form_save() {
 
         global $user_ID, $wpdb;
         $check_nonce = wp_verify_nonce( $_POST['nonce'], 'inbound-shortcode-nonce' );
         if( !$check_nonce ) {
-            //echo json_encode("Found");
             exit;
         }
-        // Post Values
+
+        /* Post Values */
         $form_name = (isset( $_POST['name'] )) ? $_POST['name'] : "";
         $shortcode = (isset( $_POST['shortcode'] )) ? $_POST['shortcode'] : "";
         $form_settings =  (isset( $_POST['form_settings'] )) ? $_POST['form_settings'] : "";
@@ -696,7 +695,6 @@ if (!function_exists('inbound_forms_default_content')) {
 /* 	Shortcode moved to shared form class */
 if (!function_exists('inbound_form_get_data')) {
     add_action('wp_ajax_inbound_form_get_data', 'inbound_form_get_data');
-    //add_action('wp_ajax_nopriv_inbound_form_get_data', 'inbound_form_get_data');
 
     function inbound_form_get_data()
     {
@@ -715,6 +713,7 @@ if (!function_exists('inbound_form_get_data')) {
             $field_count = get_post_meta( $post_ID, 'inbound_form_field_count', TRUE );
             $shortcode = get_post_meta( $post_ID, 'inbound_shortcode', TRUE );
             $inbound_form_values = get_post_meta( $post_ID, 'inbound_form_values', TRUE );
+
             /*   update_post_meta( $post_ID, 'inbound_form_created_on', $page_id );
                 update_post_meta( $post_ID, 'inbound_shortcode', $shortcode );
                 update_post_meta( $post_ID, 'inbound_form_values', $form_values );

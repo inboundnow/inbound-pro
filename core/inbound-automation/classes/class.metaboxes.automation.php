@@ -65,6 +65,9 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
             /* Setup Ajax Listeners - Clear logs */
             add_action('wp_ajax_automation_clear_logs', array(__CLASS__, 'ajax_clear_logs'));
 
+            /* set default screen column to 1 */
+            add_filter( 'get_user_option_screen_layout_automation', array (__CLASS__, 'screen_layout_columns' ) );
+
         }
 
         /**
@@ -115,7 +118,7 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
             /* Rule Settings */
             add_meta_box(
                 'inbound_automation_settings', // $id
-                __('Rule Settings', 'inbound-pro'),
+                __('Trigger', 'inbound-pro'),
                 array(__CLASS__, 'display_container'), // $callback
                 self::$post_type,
                 'normal',
@@ -133,10 +136,10 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
                 /* Rule Settings */
                 add_meta_box(
                     'inbound_automation_actions_' . $block_id,
-                    __('Action Block', 'inbound-pro'),
+                    __('Actions', 'inbound-pro'),
                     array( __CLASS__ , 'print_actions'),
                     self::$post_type,
-                    'advanced',
+                    'normal',
                     'high',
                     array(
                         'block_id' => $block_id,
@@ -144,6 +147,16 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
                     )
                 );
             }
+
+            /* Logs */
+            add_meta_box(
+                'inbound_automation_logs', // $id
+                __('Logs', 'inbound-pro'),
+                array(__CLASS__, 'print_logs_container'), // $callback
+                self::$post_type,
+                'normal',
+                'low'
+            );
         }
 
         /**
@@ -153,33 +166,12 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
             global $post;
 
             self::load_definitions();
-            self::print_nav();
             self::print_trigger_container();
-            self::print_actions_container();
-            self::print_logs_container();
+            //self::print_actions_container();
+            //self::print_logs_container();
 
         }
 
-
-        /**
-         *
-         */
-        public static function print_nav() {
-
-            $nav_elements = array(array('id' => 'trigger-container', 'label' => 'Trigger', 'class' => 'nav_trigger', 'default' => true), array('id' => 'actions-container', 'label' => 'Actions', 'class' => 'nav_actions',), array('id' => 'logs-container', 'label' => 'Logs', 'class' => 'nav_logs',));
-
-            $nav_elements = apply_filters('inbound_automation_nav_elements', $nav_elements);
-
-            echo '<ul class="nav nav-pills">';
-
-            foreach ($nav_elements as $nav) {
-                echo '<li class="' . (isset($nav['default']) && $nav['default'] ? 'active' : '') . ' ' . (isset($nav['class']) ? $nav['class'] : '') . '" >';
-                echo '<a href="#" class="navlink" id="' . $nav['id'] . '">' . $nav['label'] . '</a>';
-                echo '</li>';
-            }
-
-            echo '</ul>';
-        }
 
         public static function print_trigger_container() {
 
@@ -188,7 +180,7 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
                 <table class='table-trigger-container'>
                     <tr class='tr-trigger-select'>
                         <td>
-                            <h2>Define Trigger</h2>
+                            <h2 class='trigger-section-header'><?php _e('Define Trigger','inbound-mailer'); ?></h2>
                             <select class='trigger-dropdown form-control' id='trigger-dropdown' name='trigger'>
                                 <?php
                                 echo '<option value="-1" class="">Select Trigger</option>';
@@ -206,13 +198,13 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
                     </tr>
                     <tr class="tr-filter-select">
                         <td class='td-filter-add-dropdown' id='argument-filters-container'>
-                            <h2>Define Conditions</h2>
+                            <h2 class='trigger-section-header' ><?php _e('Define Conditions' , 'inbound-mailer' ); ?></h2>
 
                             <div
                                 class='trigger-filter-evaluate <?php if (!isset(self::$rule_trigger_filters) || count(self::$rule_trigger_filters) < 1) {
                                     echo 'nav-hide';
                                 } ?>'>
-                                <div class="btn-group" data-toggle="buttons">
+                                <div class="btn-group btn-group-evaluate" data-toggle="buttons">
                                     <label
                                         class="btn btn-default	<?php if (!self::$rule_trigger_evaluate || self::$rule_trigger_evaluate == 'match-all') {
                                             echo 'active';
@@ -247,7 +239,7 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
                                             id='add-trigger-filter-button'>
                                         <?php _e('Add Filter', 'inbound-mailer'); ?><span class="caret"></span>
                                     </button>
-                                    <ul class="dropdown-menu trigger-filters" role="menu">
+                                    <ul class="dropdown-menu dropdown-menu-left trigger-filters" role="menu">
                                         <li><a><?php _e(' Select a filter...', 'inbound-mailer'); ?></a></li>
                                     </ul>
                                 </div>
@@ -272,35 +264,7 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
                     </tr>
                 </table>
             </div>
-            <?php
-        }
-
-        /**
-         *
-         */
-        public static function print_actions_container() {
-
-            ?>
-            <div class='nav-container nav-hide actions-container' id='actions-container'>
-                <!-- Split button -->
-                <div class="btn-group btn-group-justified add-actions">
-                    <div class="btn-group open">
-                        <a type="button" class="btn btn-default ladda-button" data-style="expand-down"
-                           data-spinner-color="#000000" data-toggle="dropdown" id='add-action-block-button'>
-                            Add Actions <span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a id="if-then-else"
-                                   class="add-action-block"><?php _e('Create Action Set', 'inbound-pro'); ?></a></li>
-                        </ul>
-                    </div>
-                </div>
-                <br>
-                <br>
-
-            </div>
-            <?php
-
+        <?php
         }
 
         /**
@@ -379,7 +343,7 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
                     border-top: 0;
                 }
             </style>
-            <div class='nav-container nav-hide logs-container' id='logs-container'>
+            <div class='nav-container logs-container' id='logs-container'>
                 <div class='clear-logs-container'>
                     <span class='button button-secondary' id='clear-logs' data-rule-id='<?php echo $post->ID; ?>'>
                         <?php _e( 'Clear logs' , 'inbound-pro' ); ?>
@@ -407,7 +371,7 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
                         echo '	<td class="td-log log-datetime">' . $log['log_datetime'] . '</td>';
                         echo '	<td class="td-log log-datetime">' . $log['job_id'] . '</td>';
                         echo '	<td class="td-log log-datetime">' . $log['log_type'] . '</td>';
-                        echo '	<td class="td-log log-datetime"><a href="#" class="toggle-log-content" data-id="' . $key . '">+/-</a></td>';
+                        echo '	<td class="td-log log-datetime"><a href="javascript:void(0);" class="toggle-log-content" data-id="' . $key . '">+/-</a></td>';
                         echo '</tr>';
                         echo '<tr class="tr-log-entry-content" id="log-content-' . $key . '" data-id="' . $key . '">';
                         echo '	<td colspan=6 class="td-log-entry-content"data-id="' . $key . '" >';
@@ -421,7 +385,7 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
                     ?>
                 </table>
             </div>
-            <?php
+        <?php
         }
 
 
@@ -635,16 +599,16 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
                 wp_enqueue_script('jquery-effects-core');
                 wp_enqueue_script('jquery-effects-highlight');
 
-                wp_enqueue_style('inbound_automation_admin_css', INBOUND_AUTOMATION_URLPATH . 'assets/css/admin.post-edit.css');
+                wp_enqueue_style('inbound_automation_admin_css', INBOUND_AUTOMATION_URLPATH . 'assets/css/admin/admin.post-edit.css');
                 wp_enqueue_style('inbound-automation-admin-jquery-ui-css', INBOUND_AUTOMATION_URLPATH . 'assets/css/jquery-ui.css');
 
                 /* load BootStrap */
-                wp_register_script('bootstrap-js', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/BootStrap/js/bootstrap.min.js');
-                wp_enqueue_script('bootstrap-js');
+                wp_register_script('bootstrap', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/BootStrap/js/bootstrap.min.js');
+                wp_enqueue_script('bootstrap');
 
                 /* BootStrap CSS */
-                wp_register_style('bootstrap-css', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/BootStrap/css/bootstrap.css');
-                wp_enqueue_style('bootstrap-css');
+                wp_register_style('bootstrap', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/BootStrap/css/bootstrap.css');
+                wp_enqueue_style('bootstrap');
 
                 /* Spin.min.js - For button loading effect */
                 wp_register_script('spin-js', INBOUND_AUTOMATION_URLPATH . 'assets/libraries/Ladda/spin.min.js');
@@ -667,7 +631,7 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
                 wp_enqueue_script('inbound-rules-js');
 
                 /* Enqueue Select2 */
-                wp_register_script('select2', INBOUND_AUTOMATION_URLPATH . 'assets/libraries/Select2/select2.min.js');
+                wp_register_script('select2', INBOUND_AUTOMATION_URLPATH . 'assets/libraries/Select2/selecct2.min.js');
                 wp_enqueue_script('select2');
 
                 /* load Sweet Alert */
@@ -692,7 +656,7 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
 
 
             </script>
-            <?php
+        <?php
 
         }
 
@@ -722,14 +686,14 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
 
             /* Action Filters */
             $html .= "		<div id='action-block-filters' class='action-block-conditions'>";
-            $html .= "            <h2>" . __('Additional conditions', 'inbound-pro') . "</h2>";
+            $html .= "            <h2 class='action-block-section-header'>" . __('Additional conditions', 'inbound-pro') . "</h2>";
 
             /* Add Action Filters */
             $html .= '            <div class="dropdown-add-filters" data-block-id="' . $action_block_id . '">';
             $html .= '                <span class="dropdown-toggle add-action-filters" data-block-id="' . $action_block_id . '" data-action-type="then" type="button"  data-toggle="dropdown">';
             $html .= '                   <i class="fa fa-plus-circle"></i>';
             $html .= '                </span>';
-            $html .= '                <ul class="dropdown-menu action-filter-options" role="menu" aria-labelledby="menu1" >';
+            $html .= '                <ul class="dropdown-menu dropdown-menu-left action-filter-options" role="menu" aria-labelledby="menu1" >';
             $html .= '               </ul>';
             $html .= '            </div>';
 
@@ -774,14 +738,14 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
 
             /* Start Then Actions */
             $html .= "		<div class='action-block-actions'>";
-            $html .= "			<h2>" . __('Actions to perform if conditions are met', 'inbound-pro') . "</h2>";
+            $html .= "			<h2  class='action-block-section-header'>" . __('Actions to perform if conditions are met', 'inbound-pro') . "</h2>";
 
             /* Add Then Action Buttons */
             $html .= '            <div class="dropdown-add-actions" data-block-id="' . $action_block_id . '"  data-action-type="then" >';
             $html .= '                <span class="dropdown-toggle add-actions" data-block-id="' . $action_block_id . '"  data-action-type="then"  type="button"  data-toggle="dropdown">';
             $html .= '                   <i class="fa fa-plus-circle"></i>';
             $html .= '                </span>';
-            $html .= '                <ul class="dropdown-menu action-options" role="menu" aria-labelledby="menu1" >';
+            $html .= '                <ul class="dropdown-menu dropdown-menu-left action-options" role="menu" aria-labelledby="menu1" >';
             $html .= '               </ul>';
             $html .= '            </div>';
 
@@ -806,14 +770,14 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
 
             /* Start Else Actions  */
             $html .= "		<div class='action-block-actions'>";
-            $html .= "			<h2>" . __('Actions to perform if conditions are not met', 'inbound-pro') . "</h2>";
+            $html .= "			<h2  class='action-block-section-header'>" . __('Actions to perform if conditions are not met', 'inbound-pro') . "</h2>";
 
             /* Add Else Action Buttons */
             $html .= '            <div class="dropdown-add-actions" data-block-id="' . $action_block_id . '"  data-action-type="else" >';
             $html .= '                <span class="dropdown-toggle add-actions" data-block-id="' . $action_block_id . '"  data-action-type="then"  type="button"  data-toggle="dropdown">';
             $html .= '                   <i class="fa fa-plus-circle"></i>';
             $html .= '                </span>';
-            $html .= '                <ul class="dropdown-menu action-options" role="menu" aria-labelledby="menu1" >';
+            $html .= '                <ul class="dropdown-menu dropdown-menu-left action-options" role="menu" aria-labelledby="menu1" >';
             $html .= '               </ul>';
             $html .= '            </div>';
 
@@ -1249,6 +1213,11 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
             }
 
             return $html;
+        }
+
+        /* Sets screen columns to 1 */
+        public static function screen_layout_columns( $columns ) {
+            return true;
         }
     }
 

@@ -129,7 +129,7 @@
                                 "key": "field_55cc4334a9cfb",
                                 "label": "Button Link",
                                 "name": "button_link",
-                                "type": "url",
+                                "type": "text",
                                 "instructions": "Add the link to a landing page",
                                 "required": 0,
                                 "conditional_logic": 0,
@@ -138,8 +138,13 @@
                                     "class": "",
                                     "id": ""
                                 },
-                                "default_value": "",
-                                "placeholder": ""
+                                "default_value": "#",
+                                "placeholder": "",
+                                "prepend": "",
+                                "append": "",
+                                "maxlength": "",
+                                "readonly": 0,
+                                "disabled": 0
                             },
                             {
                                 "key": "field_55cc4334aa0e4",
@@ -154,7 +159,7 @@
                                     "class": "",
                                     "id": ""
                                 },
-                                "default_value": "",
+                                "default_value": "Click Here",
                                 "placeholder": "",
                                 "prepend": "",
                                 "append": "",
@@ -276,7 +281,7 @@
                 "key": "field_55cc4334aa4cc",
                 "label": "Facebook Page",
                 "name": "facebook_page",
-                "type": "url",
+                "type": "text",
                 "instructions": "Enter the URL of your Facebook page if you have one",
                 "required": 0,
                 "conditional_logic": 0,
@@ -285,14 +290,19 @@
                     "class": "",
                     "id": ""
                 },
-                "default_value": "",
-                "placeholder": "Enter the complete URL"
+                "default_value": "#",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "maxlength": "",
+                "readonly": 0,
+                "disabled": 0
             },
             {
                 "key": "field_55cc4334aa8b4",
                 "label": "Twitter Handle",
                 "name": "twitter_handle",
-                "type": "url",
+                "type": "text",
                 "instructions": "Enter you Twitter handle here",
                 "required": 0,
                 "conditional_logic": 0,
@@ -301,14 +311,19 @@
                     "class": "",
                     "id": ""
                 },
-                "default_value": "",
-                "placeholder": "Add the complete URL here"
+                "default_value": "#",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "maxlength": "",
+                "readonly": 0,
+                "disabled": 0
             },
             {
                 "key": "field_55cc4334aac9c",
                 "label": "Google Plus",
                 "name": "google_plus",
-                "type": "url",
+                "type": "text",
                 "instructions": "Enter your Google Plus URL",
                 "required": 0,
                 "conditional_logic": 0,
@@ -317,8 +332,13 @@
                     "class": "",
                     "id": ""
                 },
-                "default_value": "",
-                "placeholder": "Add the complete URL"
+                "default_value": "#",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "maxlength": "",
+                "readonly": 0,
+                "disabled": 0
             },
             {
                 "key": "field_55cc4334ab46c",
@@ -333,7 +353,7 @@
                     "class": "",
                     "id": ""
                 },
-                "default_value": "",
+                "default_value": "555 5555",
                 "placeholder": "",
                 "prepend": "",
                 "append": "",
@@ -354,7 +374,7 @@
                     "class": "",
                     "id": ""
                 },
-                "default_value": "",
+                "default_value": "user@example.com",
                 "placeholder": "",
                 "prepend": "",
                 "append": ""
@@ -440,7 +460,7 @@
                     "class": "",
                     "id": ""
                 },
-                "default_value": "",
+                "default_value": "Subheader",
                 "placeholder": "Add Here the sidebar Subheader",
                 "prepend": "",
                 "append": "",
@@ -452,7 +472,7 @@
                 "key": "field_55d4ab3d88fe5",
                 "label": "Sidebar Header URL",
                 "name": "sidebar_header_url",
-                "type": "url",
+                "type": "text",
                 "instructions": "The URL link of the sidebar header. Leave the default value if you don't want a link",
                 "required": 0,
                 "conditional_logic": 0,
@@ -462,7 +482,12 @@
                     "id": ""
                 },
                 "default_value": "#",
-                "placeholder": ""
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "maxlength": "",
+                "readonly": 0,
+                "disabled": 0
             },
             {
                 "key": "field_55d005a26a3a9",
@@ -495,7 +520,7 @@
                             "class": "",
                             "id": ""
                         },
-                        "default_value": "",
+                        "default_value": "Go Here",
                         "placeholder": "",
                         "prepend": "",
                         "append": "",
@@ -507,7 +532,7 @@
                         "key": "field_55d00632b9d71",
                         "label": "Section Link URL",
                         "name": "section_link_url",
-                        "type": "url",
+                        "type": "text",
                         "instructions": "Here you should add the URL of the link",
                         "required": 0,
                         "conditional_logic": 0,
@@ -516,8 +541,13 @@
                             "class": "",
                             "id": ""
                         },
-                        "default_value": "",
-                        "placeholder": "Add the complete URL"
+                        "default_value": "#",
+                        "placeholder": "",
+                        "prepend": "",
+                        "append": "",
+                        "maxlength": "",
+                        "readonly": 0,
+                        "disabled": 0
                     }
                 ]
             },
@@ -541,8 +571,8 @@
                 "key": "field_55cc4334abc3c",
                 "label": "Terms Page URL",
                 "name": "terms_page_url",
-                "type": "url",
-                "instructions": "Enter the URL of your terms page here",
+                "type": "text",
+                "instructions": "Enter the URL of your terms page here. Leave blank if you don't have one",
                 "required": 0,
                 "conditional_logic": 0,
                 "wrapper": {
@@ -550,15 +580,20 @@
                     "class": "",
                     "id": ""
                 },
-                "default_value": "",
-                "placeholder": ""
+                "default_value": "#",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "maxlength": "",
+                "readonly": 0,
+                "disabled": 0
             },
             {
                 "key": "field_55cc4334ac024",
                 "label": "Privacy Page URL",
                 "name": "privacy_page_url",
-                "type": "url",
-                "instructions": "Enter the URL of your privacy page here",
+                "type": "text",
+                "instructions": "Enter the URL of your privacy page here. Leave blank if you don't have one",
                 "required": 0,
                 "conditional_logic": 0,
                 "wrapper": {
@@ -566,8 +601,13 @@
                     "class": "",
                     "id": ""
                 },
-                "default_value": "",
-                "placeholder": ""
+                "default_value": "#",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "maxlength": "",
+                "readonly": 0,
+                "disabled": 0
             }
         ],
         "location": [

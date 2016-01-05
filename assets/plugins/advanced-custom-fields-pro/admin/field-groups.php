@@ -286,6 +286,11 @@ class acf_admin_field_groups {
 		// import field group
 		if( $key = acf_maybe_get($_GET, 'acfsync') ) {
 			
+			// disable JSON
+			// - this prevents a new JSON file being created and causing a 'change' to theme files - solves git anoyance
+			acf_update_setting('json', false);
+			
+			
 			// validate
 			check_admin_referer('bulk-posts');
 			
@@ -307,7 +312,7 @@ class acf_admin_field_groups {
 			exit;
 			
 		} elseif( acf_maybe_get($_GET, 'action2') === 'acfsync' ) {
-		
+			
 			// validate
 			check_admin_referer('bulk-posts');
 				
@@ -316,6 +321,10 @@ class acf_admin_field_groups {
 			$keys = acf_maybe_get($_GET, 'post');
 			
 			if( !empty($keys) ) {
+				
+				// disable JSON
+				// - this prevents a new JSON file being created and causing a 'change' to theme files - solves git anoyance
+				acf_update_setting('json', false);
 				
 				// vars
 				$new_ids = array();
@@ -515,7 +524,7 @@ class acf_admin_field_groups {
 			'cb'	 				=> '<input type="checkbox" />',
 			'title' 				=> __('Title', 'acf'),
 			'acf-fg-description'	=> __('Description', 'acf'),
-			'acf-fg-status' 		=> '<i class="acf-icon acf-icon-dot-3 small acf-js-tooltip" title="' . __('Status', 'acf') . '"></i>',
+			'acf-fg-status' 		=> '<i class="acf-icon -dot-3 small acf-js-tooltip" title="' . __('Status', 'acf') . '"></i>',
 			'acf-fg-count' 			=> __('Fields', 'acf'),
 			
 		);
@@ -555,7 +564,7 @@ class acf_admin_field_groups {
 			
 			if( $field_group['description'] ) {
 				
-				echo '<span class="acf-description">(' . $field_group['description'] . ')</span>';
+				echo '<span class="acf-description">' . $field_group['description'] . '</span>';
 				
 			}
         
@@ -564,17 +573,17 @@ class acf_admin_field_groups {
 			
 			if( isset($this->sync[ $field_group['key'] ]) ) {
 				
-				echo '<i class="acf-icon acf-icon-sync grey small acf-js-tooltip" title="' . __('Sync available', 'acf') .'"></i> ';
+				echo '<i class="acf-icon -sync grey small acf-js-tooltip" title="' . __('Sync available', 'acf') .'"></i> ';
 				
 			}
 			
 			if( $field_group['active'] ) {
 				
-				//echo '<i class="acf-icon acf-icon-check small acf-js-tooltip" title="' . __('Active', 'acf') .'"></i> ';
+				//echo '<i class="acf-icon -check small acf-js-tooltip" title="' . __('Active', 'acf') .'"></i> ';
 				
 			} else {
 				
-				echo '<i class="acf-icon acf-icon-minus yellow small acf-js-tooltip" title="' . __('Disabled', 'acf') . '"></i> ';
+				echo '<i class="acf-icon -minus yellow small acf-js-tooltip" title="' . __('Disabled', 'acf') . '"></i> ';
 				
 			}
 	    
@@ -643,8 +652,8 @@ class acf_admin_field_groups {
 	$('#wpbody .wrap').attr('id', 'acf-field-group-wrap');
 	
 	
-	// wrap column main
-	$('#acf-field-group-wrap').wrapInner('<div class="acf-columns-2" />');
+	// wrap form
+	$('#posts-filter').wrap('<div class="acf-columns-2" />');
 	
 	
 	// add column main
@@ -691,13 +700,13 @@ class acf_admin_field_groups {
 	$('#bulk-action-selector-bottom option[value="edit"]').attr('value','acfduplicate').text('<?php _e( 'Duplicate', 'acf' ); ?>');
 	
 	
-	// remove screen option
-	$('.metabox-prefs label[for="description-hide"]').remove();
-	
-	
 	// clean up table
-	$('.wp-list-table .column-acf-fg-description').remove();
 	$('#adv-settings label[for="acf-fg-description-hide"]').remove();
+	
+	
+	// mobile compatibility
+	var status = $('.acf-icon.-dot-3').first().attr('title');
+	$('td.column-acf-fg-status').attr('data-colname', status);
 	
 })(jQuery);
 </script>
@@ -738,7 +747,9 @@ class acf_admin_field_groups {
 			<input type="checkbox" value="<?php echo $field_group['key']; ?>" name="post[]" id="cb-select-<?php echo $field_group['key']; ?>">
 		</th>
 		<td class="post-title page-title column-title">
-			<strong><span class="row-title"><?php echo $field_group['title']; ?></span></strong>
+			<strong>
+				<span class="row-title"><?php echo $field_group['title']; ?></span><span class="acf-description"><?php echo $field_group['key']; ?>.json</span>
+			</strong>
 			<div class="row-actions">
 				<span class="import"><a title="<?php echo esc_attr( __('Synchronise field group', 'acf') ); ?>" href="<?php echo admin_url($this->url . '&post_status=sync&acfsync=' . $field_group['key'] . '&_wpnonce=' . wp_create_nonce('bulk-posts')); ?>"><?php _e( 'Sync', 'acf' ); ?></a></span>
 			</div>

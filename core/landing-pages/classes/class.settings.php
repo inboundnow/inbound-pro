@@ -86,7 +86,7 @@ class Landing_Pages_Settings {
         );
 
 
-        if (!defined('INBOUND_PRO_PATH') && $_SERVER['REMOTE_ADDR']!='127.0.0.1') {
+        if (!defined('INBOUND_PRO_PATH')) {
             /* Setup License Keys Tab */
             $lp_global_settings['lp-license-keys']['label'] = __( 'License Keys' , 'landing-pages');
             $lp_global_settings['lp-license-keys']['settings'][] = 	array(
@@ -546,59 +546,52 @@ class Landing_Pages_Settings {
 
         foreach ($lp_global_settings as $key => $data) {
             $tab_settings = $lp_global_settings[$key]['settings'];
+
             /* loop through fields and save the data */
             foreach ($tab_settings as $field) {
+
                 $field['id'] = $key . "-" . $field['id'];
 
                 if (array_key_exists('option_name', $field) && $field['option_name']) {
                     $field['id'] = $field['option_name'];
                 }
 
-                $field['old_value'] = get_option($field['id']);
-                (isset($_POST[$field['id']])) ? $field['new_value'] = $_POST[$field['id']] : $field['new_value'] = null;
+                if ($field['id'] == 'main-landing-page-permalink-prefix') {
+                    /*echo "here"; */
+                    global $wp_rewrite;
+                    $wp_rewrite->flush_rules();
+                }
+                if ($field['type']=='inboundnow-license-key') {
+                    /* error_log(print_r($field, true)); */
+                    $slug = (isset($field['remote_download_slug'])) ? $field['remote_download_slug'] : $field['slug'];
+                    $api_params = array(
+                        'edd_action' => 'activate_license',
+                        'license' =>   $_POST['inboundnow_master_license_key'],
+                        'item_name' => $slug
+                    );
+                    /* error_log(print_r($api_params, true)); */
 
-                if (($field['new_value'] !== null) && ($field['new_value'] !== $field['old_value'])) {
-                    update_option($field['id'], $field['new_value']);
-                    if ($field['id'] == 'main-landing-page-permalink-prefix') {
-                        /*echo "here"; */
-                        global $wp_rewrite;
-                        $wp_rewrite->flush_rules();
+                    /* Call the edd API */
+                    $response = wp_remote_get(add_query_arg($api_params, WPL_STORE_URL), array('timeout' => 30, 'sslverify' => false));
+                    /* error_log(print_r($response, true)); */
+
+                    /* make sure the response came back okay */
+                    if (is_wp_error($response)) {
+                        break;
                     }
-                    if ($field['type'] == 'license-key') {
-                        $master_key = get_option('inboundnow_master_license_key');
 
-                        if ($master_key) {
-                            $field['new_value'] = $master_key;
-                        }
+                    /* decode the license data */
+                    $license_data = json_decode(wp_remote_retrieve_body($response));
+                    /* error_log(print_r($license_data, true)); */
 
-                        $api_params = array('edd_action' => 'activate_license', 'license' => $field['new_value'], 'item_name' => $field['slug'], 'cache_bust' => substr(md5(rand()), 0, 7));
-
-                        $response = wp_remote_get(add_query_arg($api_params, LANDINGPAGES_STORE_URL), array('timeout' => 30, 'sslverify' => false));
-
-
-                        if (is_wp_error($response)) {
-                            break;
-                        }
-
-
-                        $license_data = json_decode(wp_remote_retrieve_body($response));
-
-                        $license_status = update_option('lp_license_status-' . $field['slug'], $license_data->license);
-
-                    }
-                } else if ($field['new_value'] == null) {
-                    if ($field['type'] == 'license-key') {
-                        $master_key = get_option('inboundnow_master_license_key');
-
-                        if ($master_key) {
-                            $bool = update_option($field['id'], $master_key);
-                            $license_status = update_option('lp_license_status-' . $field['slug'], '');
-                        } else {
-                            update_option($field['id'], '');
-                            $license_status = update_option('lp_license_status-' . $field['slug'], '');
-                        }
+                    /* $license_data->license will be either "active" or "inactive" */
+                    update_option('lp_license_status-' . $field['slug'], $license_data->license);
+                } else {
+                    if (isset($_POST[$field['id']])) {
+                        update_option($field['id'], $_POST[$field['id']]);
                     }
                 }
+
 
                 do_action('lp_save_global_settings', $field);
             }
@@ -668,9 +661,9 @@ class Landing_Pages_Settings {
                 case 'datepicker':
                     echo '<input id="datepicker-example2" class="Zebra_DatePicker_Icon" type="text" name="' . $field['id'] . '" id="' . $field['id'] . '" value="' . $field['value'] . '" size="8" />';
                     continue 2;
-                case 'license-key':
+                case 'inboundnow-license-key':
 
-                    if (!defined('INBOUND_PRO_PATH') || $_SERVER['REMOTE_ADDR']=='127.0.0.1') {
+                    if (defined('INBOUND_PRO_PATH')) {
                         continue;
                     }
 
@@ -775,36 +768,12 @@ class Landing_Pages_Settings {
      */
     public static function check_license_status($field) {
 
-        $date = date("Y-m-d");
-        $cache_date = get_option($field['id'] . "-expire");
         $license_status = get_option('lp_license_status-' . $field['slug']);
 
-        if (isset($cache_date) && ($date < $cache_date) && $license_status == 'valid') {
+        if ( $license_status == 'valid') {
             return "valid";
-        }
-
-        if ($field['value']) {
-            $api_params = array('edd_action' => 'check_license', 'license' => $field['value'], 'key' => $field['value'], 'item_name' => urlencode($field['slug']), 'cache_bust' => substr(md5(rand()), 0, 7));
-
-            /* Call the custom API. */
-            $response = wp_remote_get(add_query_arg($api_params, LANDINGPAGES_STORE_URL), array('timeout' => 15, 'sslverify' => false));
-
-            if (is_wp_error($response)) {
-                return false;
-            }
-
-            $license_data = json_decode(wp_remote_retrieve_body($response));
-
-            if ($license_data->license == 'valid') {
-                $newDate = date('Y-m-d', strtotime($license_data->expires));
-                update_option($field['id'] . "-expire", $newDate);
-                return 'valid';
-                /* this license is still valid */
-            } else {
-                return 'invalid';
-            }
         } else {
-            return 'invalid';
+            return "invalid";
         }
     }
 }

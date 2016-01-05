@@ -19,8 +19,8 @@ class acf_input {
 	function __construct() {
 		
 		add_action('acf/save_post', 							array($this, 'save_post'), 10, 1);
-		add_action('acf/input/admin_enqueue_scripts', 			array($this, 'admin_enqueue_scripts'), 0, 0);
-		add_action('acf/input/admin_footer', 					array($this, 'admin_footer'), 0, 0);
+		add_action('acf/input/admin_enqueue_scripts', 			array($this, 'admin_enqueue_scripts'), 10, 0);
+		add_action('acf/input/admin_footer', 					array($this, 'admin_footer'), 10, 0);
 		
 		
 		// ajax
@@ -240,7 +240,7 @@ class acf_input_listener {
 		global $pagenow;
 		
 		
-		// determin action hooks
+		// determine action hooks
 		if( $pagenow == 'customize.php' ) {
 			
 			$admin_head = 'customize_controls_print_scripts';

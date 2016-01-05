@@ -1206,7 +1206,7 @@ var acf;
 			var tmpl = [
 				'<div id="acf-popup">',
 					'<div class="acf-popup-box acf-box">',
-						'<div class="title"><h3></h3><a href="#" class="acf-icon acf-icon-cancel grey acf-close-popup"></a></div>',
+						'<div class="title"><h3></h3><a href="#" class="acf-icon -cancel grey acf-close-popup"></a></div>',
 						'<div class="inner"></div>',
 						'<div class="loading"><i class="acf-loading"></i></div>',
 					'</div>',
@@ -1664,6 +1664,7 @@ var acf;
 				'ä': 'a',
 				'č': 'c',
 				'ď': 'd',
+				'è': 'e',
 				'é': 'e',
 				'ě': 'e',
 				'ë': 'e',
@@ -1700,7 +1701,9 @@ var acf;
 				']': '',
 				'|': '',
 				'{': '',
-				'}': ''
+				'}': '',
+				'(': '',
+				')': ''
 			};
 			
 			
@@ -1732,6 +1735,177 @@ var acf;
 			// return
 			return string2;
 				
+		},
+		
+		
+		/*
+		*  render_select
+		*
+		*  This function will update a select field with new choices
+		*
+		*  @type	function
+		*  @date	8/04/2014
+		*  @since	5.0.0
+		*
+		*  @param	$select
+		*  @param	choices
+		*  @return	n/a
+		*/
+		
+		render_select: function( $select, choices ){
+			
+			// vars
+			var value = $select.val();
+			
+			
+			// clear choices
+			$select.html('');
+			
+			
+			// bail early if no choices
+			if( !choices ) {
+				
+				return;
+				
+			}
+			
+			
+			// populate choices
+			$.each(choices, function( i, item ){
+				
+				// vars
+				var $optgroup = $select;
+				
+				
+				// add group
+				if( item.group ) {
+					
+					$optgroup = $select.find('optgroup[label="' + item.group + '"]');
+					
+					if( !$optgroup.exists() ) {
+						
+						$optgroup = $('<optgroup label="' + item.group + '"></optgroup>');
+						
+						$select.append( $optgroup );
+						
+					}
+					
+				}
+				
+				
+				// append select
+				$optgroup.append( '<option value="' + item.value + '">' + item.label + '</option>' );
+				
+				
+				// selectedIndex
+				if( value == item.value ) {
+					
+					 $select.prop('selectedIndex', i);
+					 
+				}
+				
+			});
+			
+		},
+		
+		
+		/*
+		*  duplicate
+		*
+		*  This function will duplicate and return an element
+		*
+		*  @type	function
+		*  @date	22/08/2015
+		*  @since	5.2.3
+		*
+		*  @param	$el (jQuery) object to be duplicated
+		*  @param	attr (string) attrbute name where $el id can be found
+		*  @return	$el2 (jQuery)
+		*/
+		
+		duplicate: function( $el, attr ){
+			
+			//console.time('duplicate');
+			
+			
+			// defaults
+			attr = attr || 'data-id';
+			
+			
+			// vars
+			find = $el.attr(attr);
+			replace = acf.get_uniqid();
+			
+			
+			// allow acf to modify DOM
+			// fixes bug where select field option is not selected
+			acf.do_action('before_duplicate', $el);
+			
+			
+			// clone
+			var	$el2 = $el.clone();
+			
+			
+			// remove acf-clone (may be a clone)
+			$el2.removeClass('acf-clone');
+			
+			
+			// remove JS functionality
+			acf.do_action('remove', $el2);
+			
+			
+			// find / replace
+			if( typeof find !== 'undefined' ) {
+				
+				// replcae data attribute
+				$el2.attr(attr, replace);
+				
+				
+				// replace ids
+				$el2.find('[id*="' + find + '"]').each(function(){	
+				
+					$(this).attr('id', $(this).attr('id').replace(find, replace) );
+					
+				});
+				
+				
+				// replace names
+				$el2.find('[name*="' + find + '"]').each(function(){	
+				
+					$(this).attr('name', $(this).attr('name').replace(find, replace) );
+					
+				});
+				
+			}
+			
+			
+			// remove ui-sortable
+			$el2.find('.ui-sortable').removeClass('ui-sortable');
+			
+			
+			// allow acf to modify DOM
+			acf.do_action('after_duplicate', $el, $el2 );
+			
+			
+			// append
+			$el.after( $el2 );
+			
+			
+			// add JS functionality
+			// - allow element to be moved into a visible position before fire action
+			setTimeout(function(){
+				
+				acf.do_action('append', $el2);
+				
+			}, 1);
+			
+			
+			//console.timeEnd('duplicate');
+			
+			
+			// return
+			return $el2;
+			
 		}
 		
 	};
@@ -1757,7 +1931,6 @@ var acf;
 		filters:	{},
 		events:		{},
 		
-		
 		extend: function( args ){
 			
 			// extend
@@ -1767,17 +1940,7 @@ var acf;
 			// setup actions
 			$.each(model.actions, function( name, callback ){
 				
-				// split
-				var data = name.split(' ');
-				
-				
-				// add missing priority
-				var name = data[0] || '',
-					priority = data[1] || 10;
-				
-				
-				// add action
-				acf.add_action(name, model[ callback ], priority, model);
+				model._add_action( name, callback );
 			
 			});
 			
@@ -1785,47 +1948,85 @@ var acf;
 			// setup filters
 			$.each(model.filters, function( name, callback ){
 				
-				// split
-				var data = name.split(' ');
-				
-				
-				// add missing priority
-				var name = data[0] || '',
-					priority = data[1] || 10;
-				
-				
-				// add action
-				acf.add_filter(name, model[ callback ], priority, model);
+				model._add_filter( name, callback );
 			
 			});
 			
 			
 			// setup events
-			$.each(model.events, function( k, callback ){
+			$.each(model.events, function( name, callback ){
 				
-				// vars
-				var event = k.substr(0,k.indexOf(' ')),
-					selector = k.substr(k.indexOf(' ')+1);
-				
-				
-				// add event
-				$(document).on(event, selector, function( e ){
-					
-					//console.log( 'event: %o %o %o %o', event, selector, $(this), model );
-					// appen $el to event object
-					e.$el = $(this);
-					
-					
-					// callback
-					model[ callback ].apply(model, [e]);
-					
-				});
+				model._add_event( name, callback );
 				
 			});
 			
 			
 			// return
 			return model;
+			
+		},
+		
+		_add_action: function( name, callback ) {
+			
+			// split
+			var model = this,
+				data = name.split(' ');
+			
+			
+			// add missing priority
+			var name = data[0] || '',
+				priority = data[1] || 10;
+			
+			
+			// add action
+			acf.add_action(name, model[ callback ], priority, model);
+			
+		},
+		
+		_add_filter: function( name, callback ) {
+			
+			// split
+			var model = this,
+				data = name.split(' ');
+			
+			
+			// add missing priority
+			var name = data[0] || '',
+				priority = data[1] || 10;
+			
+			
+			// add action
+			acf.add_filter(name, model[ callback ], priority, model);
+			
+		},
+		
+		_add_event: function( name, callback ) {
+			
+			// vars
+			var model = this,
+				event = name.substr(0,name.indexOf(' ')),
+				selector = name.substr(name.indexOf(' ')+1);
+			
+			
+			// add event
+			$(document).on(event, selector, function( e ){
+				
+				// append $el to event object
+				e.$el = $(this);
+				
+				
+				// event
+				if( typeof model.event === 'function' ) {
+					
+					e = model.event( e );
+					
+				}
+				
+				
+				// callback
+				model[ callback ].apply(model, [e]);
+				
+			});
 			
 		}
 		
@@ -2473,6 +2674,7 @@ var acf;
 				id: 		'',
 				key:		'',
 				style: 		'default',
+				label: 		'top',
 				edit_url:	'',
 				edit_title:	'',
 				visibility:	true
@@ -2497,7 +2699,15 @@ var acf;
 			
 			
 			// field group style
-			$postbox.addClass( args.style );
+			if( args.style !== 'default' ) {
+				
+				$postbox.addClass( args.style );
+				
+			}
+			
+			
+			// .inside class
+			$postbox.children('.inside').addClass('acf-fields').addClass('-' + args.label);
 			
 				
 			// visibility
@@ -2511,10 +2721,6 @@ var acf;
 				$label.addClass('acf-hidden');
 				
 			}
-			
-			
-			// inside
-			$postbox.children('.inside').addClass('acf-fields acf-cf');
 			
 			
 			// edit_url
@@ -2532,7 +2738,7 @@ var acf;
 	/*
 	*  Sortable
 	*
-	*  These functions will hook into the start and stop of a jQuery sortable event and modify the item and placeholder to look seamless
+	*  These functions will hook into the start and stop of a jQuery sortable event and modify the item and placeholder
 	*
 	*  @type	function
 	*  @date	12/11/2013
@@ -2621,18 +2827,18 @@ var acf;
 	
 	
 	/*
-console.time("acf_test_ready");
-	console.time("acf_test_load");
+	//console.time("acf_test_ready");
+	//console.time("acf_test_load");
 	
 	acf.add_action('ready', function(){
 		
-		console.timeEnd("acf_test_ready");
+		//console.timeEnd("acf_test_ready");
 		
 	}, 999);
 	
 	acf.add_action('load', function(){
 		
-		console.timeEnd("acf_test_load");
+		//console.timeEnd("acf_test_load");
 		
 	}, 999);
 */
@@ -2645,82 +2851,120 @@ console.time("acf_test_ready");
 	acf.ajax = acf.model.extend({
 		
 		actions: {
-			'ready': 'onReady'
+			'ready': 'ready'
+		},
+		
+		events: {
+			'change #page_template':								'_change_template',
+			'change #parent_id':									'_change_parent',
+			'change #post-formats-select input':					'_change_format',
+			'change .categorychecklist input':						'_change_term',
+			'change .acf-taxonomy-field[data-save="1"] input':		'_change_term',
+			'change .acf-taxonomy-field[data-save="1"] select':		'_change_term'
 		},
 		
 		o: {
-			action 			: 'acf/post/get_field_groups',
-			post_id			: 0,
-			page_template	: 0,
-			page_parent		: 0,
-			page_type		: 0,
-			post_format		: 0,
-			post_taxonomy	: 0,
-			lang			: 0,
+			//'post_id':		0,
+			//'page_template':	0,
+			//'page_parent':	0,
+			//'page_type':		0,
+			//'post_format':	0,
+			//'post_taxonomy':	0,
 		},
+		xhr: null,
+		//timeout: null,
 		
-		update : function( k, v ){
+		update: function( k, v ){
 			
 			this.o[ k ] = v;
+			
 			return this;
 			
 		},
 		
-		get : function( k ){
+		get: function( k ){
 			
 			return this.o[ k ] || null;
 			
 		},
 		
-		onReady : function(){
+		ready: function(){
 			
-			// bail early if ajax is disabled
-			if( !acf.get('ajax') ) {
+			// update post_id
+			this.update('post_id', acf.get('post_id'));
 			
-				return false;
+		},
+		
+/*
+		maybe_fetch: function(){
+			
+			// reference
+			var self = this;
+			
+			
+			// abort timeout
+			if( this.timeout ) {
+				
+				clearTimeout( this.timeout );
+				
+			}
+			
+			
+		    // fetch
+		    this.timeout = setTimeout(function(){
+			    
+			    self.fetch();
+			    
+		    }, 100);
+		    
+		},
+*/
+		
+		fetch: function(){
+			
+			// bail early if no ajax
+			if( !acf.get('ajax') ) return;
+			
+			
+			// abort XHR if is already loading AJAX data
+			if( this.xhr ) {
+			
+				this.xhr.abort();
 				
 			}
 			
 			
 			// vars
-			this.update('post_id', acf.get('post_id'));
+			var self = this,
+				data = this.o;
 			
 			
-			// MPML
-			if( $('#icl-als-first').length > 0 ) {
+			// add action url
+			data.action = 'acf/post/get_field_groups';
 			
-				var href = $('#icl-als-first').children('a').attr('href'),
-					regex = new RegExp( "lang=([^&#]*)" ),
-					results = regex.exec( href );
+			
+			// add ignore
+			data.exists = [];
+			
+			$('.acf-postbox').not('.acf-hidden').each(function(){
 				
-				// lang
-				this.update('lang', results[1]);
+				data.exists.push( $(this).attr('id').substr(4) );
 				
-			}
-			
-			
-			// add triggers
-			this.add_events();
-			
-		},
-		
-		fetch : function(){
-			
-			// reference
-			var _this = this;
+			});
 			
 			
 			// ajax
-			$.ajax({
-				url			: acf.get('ajaxurl'),
-				data		: acf.prepare_for_ajax( this.o ),
-				type		: 'post',
-				dataType	: 'json',
-				success		: function( json ){
+			this.xhr = $.ajax({
+				url:		acf.get('ajaxurl'),
+				data:		acf.prepare_for_ajax( data ),
+				type:		'post',
+				dataType:	'json',
+				
+				success: function( json ){
 					
 					if( acf.is_ajax_success( json ) ) {
 						
-						_this.render( json.data );
+						self.render( json.data );
 						
 					}
 					
@@ -2729,7 +2973,7 @@ console.time("acf_test_ready");
 			
 		},
 		
-		render : function( json ){
+		render: function( json ){
 			
 			// hide
 			$('.acf-postbox').addClass('acf-hidden');
@@ -2787,12 +3031,13 @@ console.time("acf_test_ready");
 			
 		},
 		
-		sync_taxonomy_terms : function(){
+		sync_taxonomy_terms: function(){
 			
 			// vars
-			var values = [];
+			var values = [''];
 			
 			
+			// loop over term lists
 			$('.categorychecklist, .acf-taxonomy-field').each(function(){
 				
 				// vars
@@ -2848,8 +3093,8 @@ console.time("acf_test_ready");
 					
 					$hidden.each(function(){
 						
-						// ignor blank values or those which contain a comma (select2 multi-select)
-						if( ! $(this).val() || $(this).val().indexOf(',') > -1 ) {
+						// ignor blank values
+						if( ! $(this).val() ) {
 							
 							return;
 							
@@ -2873,103 +3118,95 @@ console.time("acf_test_ready");
 			
 		},
 		
-		add_events : function(){
+		
+		/*
+		*  events
+		*
+		*  description
+		*
+		*  @type	function
+		*  @date	29/09/2015
+		*  @since	5.2.3
+		*
+		*  @param	$post_id (int)
+		*  @return	$post_id (int)
+		*/
+		
+		_change_template: function( e ){
+			
+			// vars
+			var page_template = e.$el.val();
+			
+			
+			// update & fetch
+			this.update('page_template', page_template).fetch();
+			
+		},
+		
+		_change_parent: function( e ){
+			
+			// vars
+			var page_type = 'parent',
+				page_parent = 0;
+			
+			
+			// if is child
+			if( e.$el.val() != "" ) {
+			
+				page_type = 'child';
+				page_parent = e.$el.val();
+				
+			}
+			
+			// update & fetch
+			this.update('page_type', page_type).update('page_parent', page_parent).fetch();
+			
+		},
+		
+		_change_format: function( e ){
+			
+			// vars			
+			var post_format = e.$el.val();
+			
+			
+			// default
+			if( post_format == '0' ) {
+				
+				post_format = 'standard';
+				
+			}
+			
+			
+			// update & fetch
+			this.update('post_format', post_format).fetch();
+			
+		},
+		
+		_change_term: function( e ){
 			
 			// reference
-			var _this = this;
+			var self = this;
 			
 			
-			// page template
-			$(document).on('change', '#page_template', function(){
+			// bail early if within media popup
+			if( e.$el.closest('.media-frame').exists() ) {
 				
-				var page_template = $(this).val();
-				
-				_this.update( 'page_template', page_template ).fetch();
-			    
-			});
+				return;
+			
+			}
 			
 			
-			// page parent
-			$(document).on('change', '#parent_id', function(){
+			// set timeout to fix issue with chrome which does not register the change has yet happened
+			setTimeout(function(){
 				
-				var page_type = 'parent',
-					page_parent = 0;
-				
-				
-				if( $(this).val() != "" ) {
-				
-					page_type = 'child';
-					page_parent = $(this).val();
-					
-				}
-				
-				_this.update( 'page_type', page_type ).update( 'page_parent', page_parent ).fetch();
-			    
-			});
+				self.sync_taxonomy_terms();
 			
+			}, 1);
 			
-			// post format
-			$(document).on('change', '#post-formats-select input[type="radio"]', function(){
-				
-				var post_format = $(this).val();
-				
-				if( post_format == '0' )
-				{
-					post_format = 'standard';
-				}
-				
-				_this.update( 'post_format', post_format ).fetch();
-				
-			});
-			
-			
-			// post taxonomy
-			$(document).on('change', '.categorychecklist input, .acf-taxonomy-field input, .acf-taxonomy-field select', function(){
-				
-				// a taxonomy field may trigger this change event, however, the value selected is not
-				// actually a term relationship, it is meta data
-				var $el = $(this).closest('.acf-taxonomy-field');
-				
-				if( $el.exists() && $el.attr('data-save') != '1' ) {
-					
-					return;
-					
-				}
-				
-				
-				// this may be triggered from editing an image in a popup. Popup does not support correct metaboxes so ignore this
-				if( $(this).closest('.media-frame').exists() ) {
-					
-					return;
-				
-				}
-				
-				
-				// set timeout to fix issue with chrome which does not register the change has yet happened
-				setTimeout(function(){
-					
-					_this.sync_taxonomy_terms();
-				
-				}, 1);
-				
-				
-			});
-			
-			
-			
-			// user role
-			/*
-			$(document).on('change', 'select[id="role"][name="role"]', function(){
-				
-				_this.update( 'user_role', $(this).val() ).fetch();
-				
-			});
-			*/
 			
 		}
 		
 	});
-
 
 	
 })(jQuery);
@@ -3591,22 +3828,34 @@ console.time("acf_test_ready");
 					data = acf.get_data( $select ),
 					val = [];
 				
-				
 				if( data.multiple && data.ui ) {
 					
-					$trigger.find('.acf-select2-multi-choice').each(function(){
+					// default to select val
+					val = $select.val();
+					
+					
+					// look for select2
+					var $select2 = $select.siblings('.select2-container');
+					
+					if( $select2.exists() ) {
 						
-						val.push( $(this).val() );
+						val = [];
 						
-					});
+						$select2.find('.acf-select2-multi-choice').each(function(){
+							
+							val.push( $(this).val() );
+							
+						});
+						
+					}
 					
 				} else if( data.multiple ) {
 					
-					val = $select.val();
-					
+					val = $select.val();				
+				
 				} else if( data.ui ) {
 					
-					val.push( $trigger.find('input').first().val() );
+					val.push( $select.siblings('input').val() );
 					
 				} else {
 					
@@ -3978,8 +4227,9 @@ console.time("acf_test_ready");
 		
 		type: 'google_map',
 		$el: null,
-		$input : null,
+		$search: null,
 		
+		timeout: null,
 		status : '', // '', 'loading', 'ready'
 		geocoder : false,
 		map : false,
@@ -3993,18 +4243,22 @@ console.time("acf_test_ready");
 		},
 		
 		events: {
-			'click a[data-name="clear-location"]': 	'clear',
-			'click a[data-name="find-location"]': 	'locate',
-			'click .title h4': 						'edit',
-			'keydown .search': 						'keydown',
-			'blur .search': 						'blur',
+			'click a[data-name="clear"]': 		'_clear',
+			'click a[data-name="locate"]': 		'_locate',
+			'click a[data-name="search"]': 		'_search',
+			'keydown .search': 					'_keydown',
+			'keyup .search': 					'_keyup',
+			'focus .search': 					'_focus',
+			'blur .search': 					'_blur',
+			'paste .search': 					'_paste',
+			'mousedown .acf-google-map':		'_mousedown',
 		},
 		
 		focus: function(){
 			
 			// get elements
 			this.$el = this.$field.find('.acf-google-map');
-			this.$input = this.$el.find('.value');
+			this.$search = this.$el.find('.search');
 			
 			
 			// get options
@@ -4019,6 +4273,7 @@ console.time("acf_test_ready");
 			}
 			
 		},
+		
 		
 		/*
 		*  is_ready
@@ -4056,7 +4311,7 @@ console.time("acf_test_ready");
 			
 			
 			// no google
-			if( typeof google === 'undefined' ) {
+			if( !acf.isset(window, 'google', 'load') ) {
 				
 				// set status
 				self.status = 'loading';
@@ -4085,18 +4340,10 @@ console.time("acf_test_ready");
 			
 			
 			// no maps or places
-			if( !google.maps || !google.maps.places ) {
+			if( !acf.isset(window, 'google', 'maps', 'places') ) {
 				
 				// set status
 				self.status = 'loading';
-				
-				
-				// bail early if no load function (avoid modified google library conflict)
-				if( !google.load ) {
-					
-					return;
-					
-				}
 				
 				
 				// load maps
@@ -4129,9 +4376,6 @@ console.time("acf_test_ready");
 		
 		initialize_pending: function(){
 			
-			// debug
-			//console.log('initialize_pending', this.status);
-			
 			// reference
 			var self = this;
 			
@@ -4146,6 +4390,20 @@ console.time("acf_test_ready");
 			this.pending = $();
 			
 		},
+		
+		
+		/*
+		*  actions
+		*
+		*  these functions are fired for this fields actions
+		*
+		*  @type	function
+		*  @date	17/09/2015
+		*  @since	5.2.3
+		*
+		*  @param	(mixed)
+		*  @return	n/a
+		*/
 		
 		initialize: function(){
 			
@@ -4170,7 +4428,12 @@ console.time("acf_test_ready");
 			// reference
 			var self = this,
 				$field = this.$field,
-				$el = this.$el;
+				$el = this.$el,
+				$search = this.$search;
+			
+			
+			// input value may be cached by browser, so update the search input to match
+			$search.val( this.$el.find('.input-address').val() );
 			
 			
 			// map
@@ -4188,9 +4451,9 @@ console.time("acf_test_ready");
 	        
 	        
 	        // add search
-			var autocomplete = new google.maps.places.Autocomplete( this.$el.find('.search')[0] );
-			autocomplete.map = this.map;
+			var autocomplete = new google.maps.places.Autocomplete( this.$search[0] );
 			autocomplete.bindTo('bounds', this.map);
+			this.map.autocomplete = autocomplete;
 			
 			
 			// marker
@@ -4208,13 +4471,13 @@ console.time("acf_test_ready");
 		    
 		    
 		    // add references
-		    this.map.$el = this.$el;
-		    this.map.$field = this.$field;
+		    this.map.$el = $el;
+		    this.map.$field = $field;
 		    
 		    
 		    // value exists?
-		    var lat = this.$el.find('.input-lat').val(),
-		    	lng = this.$el.find('.input-lng').val();
+		    var lat = $el.find('.input-lat').val(),
+		    	lng = $el.find('.input-lng').val();
 		    
 		    if( lat && lng ) {
 			    
@@ -4226,120 +4489,36 @@ console.time("acf_test_ready");
 			// events
 			google.maps.event.addListener(autocomplete, 'place_changed', function( e ) {
 			    
-			    // reference
-			    var $el = this.map.$el,
-			    	$field = this.map.$field;
-					
-					
-			    // manually update address
-			    var address = $el.find('.search').val();
-			    $el.find('.input-address').val( address );
-			    $el.find('.title h4').text( address );
-			    
-			    
-			    // is lat lng?
-			    var latLng = address.split(',');
-			    
-			    if( latLng.length == 2 ) {
-				    
-				    var lat = latLng[0],
-						lng = latLng[1];
-				    
-				   
-				    if( $.isNumeric(lat) && $.isNumeric(lng) ) {
-					    
-					    // parse
-					    lat = parseFloat(lat);
-					    lng = parseFloat(lng);
-					    
-					    self.doFocus( $field ).update( lat, lng ).center();
-					    
-					    return;
-					    
-				    }
-				    
-			    }
-			    
-			    
 			    // vars
 			    var place = this.getPlace();
 			    
 			    
-			    // if place exists
-			    if( place.geometry ) {
-				    
-			    	var lat = place.geometry.location.lat(),
-						lng = place.geometry.location.lng();
-						
-					
-					// update
-					self.doFocus( $field ).update( lat, lng ).center();
-				    
-				    
-				    // bail early
-				    return;
-			    }
-			    
-			    
-			    // client hit enter, manually get the place
-			    self.geocoder.geocode({ 'address' : address }, function( results, status ){
-			    	
-			    	// validate
-					if( status != google.maps.GeocoderStatus.OK ) {
-						
-						console.log('Geocoder failed due to: ' + status);
-						return;
-						
-					} else if( !results[0] ) {
-						
-						console.log('No results found');
-						return;
-						
-					}
-					
-					
-					// get place
-					place = results[0];
-					
-					var lat = place.geometry.location.lat(),
-						lng = place.geometry.location.lng();
-						
-					
-					self.doFocus( $field ).update( lat, lng ).center();
-				    
-				});
+			    // search
+				self.search( place );
 			    
 			});
 		    
 		    
 		    google.maps.event.addListener( this.map.marker, 'dragend', function(){
 		    	
-		    	// reference
-			    var $field = this.map.$field;
-			    
-			    
 		    	// vars
 				var position = this.map.marker.getPosition(),
 					lat = position.lat(),
 			    	lng = position.lng();
 			    	
-				self.doFocus( $field ).update( lat, lng ).sync();
+				self.update( lat, lng ).sync();
 			    
 			});
 			
 			
 			google.maps.event.addListener( this.map, 'click', function( e ) {
 				
-				// reference
-			    var $field = this.$field;
-			    
-			    
 				// vars
 				var lat = e.latLng.lat(),
 					lng = e.latLng.lng();
 				
 				
-				self.doFocus( $field ).update( lat, lng ).sync();
+				self.update( lat, lng ).sync();
 			
 			});
 			
@@ -4349,7 +4528,106 @@ console.time("acf_test_ready");
 	        
 		},
 		
-		update : function( lat, lng ){
+		search: function( place ){
+			
+			// reference
+			var self = this;
+			
+			
+			// vars
+		    var address = this.$search.val();
+		    
+		    
+		    // bail ealry if no address
+		    if( !address ) {
+			    
+			    return false;
+			    
+		    }
+		    
+		    
+		    // update input
+			this.$el.find('.input-address').val( address );
+		    
+		    
+		    // is lat lng?
+		    var latLng = address.split(',');
+		    
+		    if( latLng.length == 2 ) {
+			    
+			    var lat = latLng[0],
+					lng = latLng[1];
+			    
+			   
+			    if( $.isNumeric(lat) && $.isNumeric(lng) ) {
+				    
+				    // parse
+				    lat = parseFloat(lat);
+				    lng = parseFloat(lng);
+				    
+				    self.update( lat, lng ).center();
+				    
+				    return;
+				    
+			    }
+			    
+		    }
+		    
+		    
+		    // if place exists
+		    if( place && place.geometry ) {
+			    
+		    	var lat = place.geometry.location.lat(),
+					lng = place.geometry.location.lng();
+					
+				
+				// update
+				self.update( lat, lng ).center();
+			    
+			    
+			    // bail early
+			    return;
+			    
+		    }
+		    
+		    
+		    // add class
+		    this.$el.addClass('-loading');
+		    
+		    self.geocoder.geocode({ 'address' : address }, function( results, status ){
+		    	
+		    	// remove class
+		    	self.$el.removeClass('-loading');
+		    	
+		    	
+		    	// validate
+				if( status != google.maps.GeocoderStatus.OK ) {
+					
+					console.log('Geocoder failed due to: ' + status);
+					return;
+					
+				} else if( !results[0] ) {
+					
+					console.log('No results found');
+					return;
+					
+				}
+				
+				
+				// get place
+				place = results[0];
+				
+				var lat = place.geometry.location.lat(),
+					lng = place.geometry.location.lng();
+					
+				
+				self.update( lat, lng ).center();
+			    
+			});
+				
+		},
+		
+		update: function( lat, lng ){
 			
 			// vars
 			var latlng = new google.maps.LatLng( lat, lng );
@@ -4368,10 +4646,10 @@ console.time("acf_test_ready");
 			this.map.marker.setVisible( true );
 		    
 		    
-	        // update class
-	        this.$el.addClass('active');
-	        
-	        
+		    // update class
+		    this.$el.addClass('-value');
+		    
+		    
 	        // validation
 			this.$field.removeClass('error');
 			
@@ -4380,12 +4658,16 @@ console.time("acf_test_ready");
 			acf.do_action('google_map_change', latlng, this.map, this.$field);
 			
 			
+			// blur input
+			this.$search.blur();
+			
+			
 	        // return for chaining
 	        return this;
 	        
 		},
 		
-		center : function(){
+		center: function(){
 			
 			// vars
 			var position = this.map.marker.getPosition(),
@@ -4410,10 +4692,10 @@ console.time("acf_test_ready");
 	        
 		},
 		
-		sync : function(){
+		sync: function(){
 			
 			// reference
-			var $el	= this.$el;
+			var self = this;
 				
 			
 			// vars
@@ -4421,8 +4703,17 @@ console.time("acf_test_ready");
 				latlng = new google.maps.LatLng( position.lat(), position.lng() );
 			
 			
+			// add class
+		    this.$el.addClass('-loading');
+		    
+		    
+		    // load
 			this.geocoder.geocode({ 'latLng' : latlng }, function( results, status ){
 				
+				// remove class
+				self.$el.removeClass('-loading');
+			    	
+			    	
 				// validate
 				if( status != google.maps.GeocoderStatus.OK ) {
 					
@@ -4441,13 +4732,13 @@ console.time("acf_test_ready");
 				var location = results[0];
 				
 				
-				// update h4
-				$el.find('.title h4').text( location.formatted_address );
+				// update title
+				self.$search.val( location.formatted_address );
 
 				
 				// update input
-				acf.val( $el.find('.input-address'), location.formatted_address );
-				
+				acf.val( self.$el.find('.input-address'), location.formatted_address );
+		    
 			});
 			
 			
@@ -4456,48 +4747,54 @@ console.time("acf_test_ready");
 	        
 		},
 		
-		locate : function(){
+		refresh: function(){
 			
-			// reference
-			var self = this,
-				$field = this.$field;
-			
-			
-			// Try HTML5 geolocation
-			if( ! navigator.geolocation ) {
+			// bail early if not ready
+			if( !this.is_ready() ) {
 				
-				alert( acf.l10n.google_map.browser_support );
-				return this;
-				
+				return false;
+			
 			}
 			
 			
-			// show loading text
-			this.$el.find('.title h4').text(acf.l10n.google_map.locating + '...');
-			this.$el.addClass('active');
+			// trigger resize on div
+			google.maps.event.trigger(this.map, 'resize');
 			
-		    navigator.geolocation.getCurrentPosition(function(position){
-		    	
-		    	// vars
-				var lat = position.coords.latitude,
-			    	lng = position.coords.longitude;
-			    	
-				self.doFocus( $field ).update( lat, lng ).sync().center();
-				
-			});
-
-				
+			
+			// center map
+			this.center();
+			
+		},
+		
+		show: function(){
+			
+			// center map when it is shown (by a tab)
+			this.refresh();
+			
 		},
 		
 		
-		clear : function(){
+		/*
+		*  events
+		*
+		*  these functions are fired for this fields events
+		*
+		*  @type	function
+		*  @date	17/09/2015
+		*  @since	5.2.3
+		*
+		*  @param	e
+		*  @return	n/a
+		*/
+		
+		_clear: function( e ){ // console.log('_clear');
 			
-			// update class
-	        this.$el.removeClass('active');
-			
+			// remove Class
+			this.$el.removeClass('-value -loading -search');
+		    
 			
 			// clear search
-			this.$el.find('.search').val('');
+			this.$search.val('');
 			
 			
 			// clear inputs
@@ -4508,33 +4805,113 @@ console.time("acf_test_ready");
 			
 			// hide marker
 			this.map.marker.setVisible( false );
-		},
-		
-		edit : function(){
-			
-			// update class
-	        this.$el.removeClass('active');
-			
-			
-			// clear search
-			var val = this.$el.find('.title h4').text();
-			
-			
-			this.$el.find('.search').val( val ).focus();
 			
 		},
 		
-		refresh : function(){
+		_locate: function( e ){ // console.log('_locate');
 			
-			// trigger resize on div
-			google.maps.event.trigger(this.map, 'resize');
+			// reference
+			var self = this;
 			
-			// center map
-			this.center();
+			
+			// Try HTML5 geolocation
+			if( !navigator.geolocation ) {
+				
+				alert( acf._e('google_map', 'browser_support') );
+				return this;
+				
+			}
+			
+			
+			// add class
+		    this.$el.addClass('-loading');
+		    
+		    
+		    // load
+		    navigator.geolocation.getCurrentPosition(function(position){
+		    	
+		    	// remove class
+				self.$el.removeClass('-loading');
+		    
+		    
+		    	// vars
+				var lat = position.coords.latitude,
+			    	lng = position.coords.longitude;
+			    	
+				self.update( lat, lng ).sync().center();
+				
+			});
 			
 		},
 		
-		keydown: function( e ){
+		_search: function( e ){ // console.log('_search');
+			
+			this.search();
+			
+		},
+		
+		_focus: function( e ){ // console.log('_focus');
+			
+			// remove class
+			this.$el.removeClass('-value');
+			
+			
+			// toggle -search class
+			this._keyup();
+			
+		},
+		
+		_blur: function( e ){ // console.log('_blur');
+			
+			// reference
+			var self = this;
+			
+			
+			// vars
+			var val = this.$el.find('.input-address').val();
+			
+			
+			// bail early if no val
+			if( !val ) {
+				
+				return;
+				
+			}
+			
+			
+			// revert search to hidden input value
+			this.timeout = setTimeout(function(){
+				
+				self.$el.addClass('-value');
+				self.$search.val( val );
+				
+			}, 100);
+			
+		},
+		
+		_paste: function( e ){ // console.log('_paste');
+			
+			// reference
+			var $search = this.$search;
+			
+			
+			// blur search
+			$search.blur();
+			
+			
+			// clear timeout
+			this._mousedown(e);
+			
+			
+			// focus on input
+			setTimeout(function(){
+				
+				$search.focus();
+				
+			}, 1);
+		},
+		
+		_keydown: function( e ){ // console.log('_keydown');
 			
 			// prevent form from submitting
 			if( e.which == 13 ) {
@@ -4545,24 +4922,38 @@ console.time("acf_test_ready");
 			
 		},
 		
-		blur: function(){
+		_keyup: function( e ){ // console.log('_keyup');
 			
-			// has a value?
-			if( this.$el.find('.input-lat').val() ) {
+			// vars
+			var val = this.$search.val();
+			
+			
+			// toggle class
+			if( val ) {
 				
-				this.$el.addClass('active');
+				this.$el.addClass('-search');
+				
+			} else {
+				
+				this.$el.removeClass('-search');
 				
 			}
 			
 		},
 		
-		show: function(){
+		_mousedown: function( e ){ // console.log('_mousedown');
 			
-			if( this.is_ready() ) {
+			// reference
+			var self = this;
+			
+			
+			// clear timeout in 1ms (_mousedown will run before _blur)
+			setTimeout(function(){
 				
-				this.refresh();
+				clearTimeout( self.timeout );
 				
-			}
+			}, 1);
+			
 			
 		}
 		
@@ -4807,13 +5198,33 @@ console.time("acf_test_ready");
 	
 	acf.media = acf.model.extend({
 		
+		frames: [],
 		mime_types: {},
 		
 		actions: {
 			'ready': 'ready'
 		},
 		
-		popup : function( args ) {
+		frame: function(){
+			
+			// vars
+			var i = this.frames.length - 1;
+			
+			
+			// bail early if no index
+			if( i < 0 ) {
+				
+				return false;
+				
+			}
+			
+			
+			// return
+			return this.frames[ i ];
+				
+		},
+		
+		popup: function( args ) {
 			
 			// reference
 			var self = this;
@@ -4962,7 +5373,7 @@ console.time("acf_test_ready");
 /*
 			frame.on('all', function( e ) {
 				
-				console.log( 'frame all: %o', e );
+				// console.log( 'frame all: %o', e );
 			
 			});
 */
@@ -5154,8 +5565,9 @@ console.time("acf_test_ready");
 					frame.dispose();
 					
 					
-					// reset var
+					// remove frame
 					frame = null;
+					self.frames.pop();
 					
 				}, 500);
 				
@@ -5232,6 +5644,14 @@ console.time("acf_test_ready");
 			}, 1);
 			
 			
+			// add args reference
+			frame.acf = args;
+			
+			
+			// append
+			this.frames.push( frame );
+			
+			
 			// return
 			return frame;
 			
@@ -5293,7 +5713,7 @@ console.time("acf_test_ready");
 				
 				initialize: function( models, options ){
 					
-					console.log('My Attachments initialize: %o %o %o', this, models, options);
+					// console.log('My Attachments initialize: %o %o %o', this, models, options);
 					
 					// return
 					return Attachments.prototype.initialize.apply( this, arguments );
@@ -5302,7 +5722,7 @@ console.time("acf_test_ready");
 				
 				sync: function( method, model, options ) {
 					
-					console.log('My Attachments sync: %o %o %o %o', this, method, model, options);
+					// console.log('My Attachments sync: %o %o %o %o', this, method, model, options);
 					
 					
 					// return
@@ -5316,7 +5736,7 @@ console.time("acf_test_ready");
 		
 		customize_Query: function(){
 			
-			console.log('customize Query!');
+			// console.log('customize Query!');
 			
 			// vars
 			var Query = wp.media.model.Query;
@@ -5339,11 +5759,13 @@ console.time("acf_test_ready");
 				render: function() {
 					
 					// vars
-					var errors = acf.maybe_get(this, 'model.attributes.acf_errors');
+					var frame = acf.media.frame(),
+						errors = acf.maybe_get(this, 'model.attributes.acf_errors');
 					
 					
 					// add class
-					if( errors ) {
+					// also make sure frame exists to prevent this logic running on a WP popup (such as feature image)
+					if( frame && errors ) {
 						
 						this.$el.addClass('acf-disabled');
 						
@@ -5358,7 +5780,8 @@ console.time("acf_test_ready");
 				toggleSelection: function( options ) {
 					
 					// vars
-					var errors = acf.maybe_get(this, 'model.attributes.acf_errors'),
+					var frame = acf.media.frame(),
+						errors = acf.maybe_get(this, 'model.attributes.acf_errors'),
 						$sidebar = this.controller.$el.find('.media-frame-content .media-sidebar');
 					
 					
@@ -5371,7 +5794,7 @@ console.time("acf_test_ready");
 					
 					
 					// add message
-					if( errors ) {
+					if( frame && errors ) {
 						
 						// vars
 						var filename = acf.maybe_get(this, 'model.attributes.filename', '');
@@ -5391,7 +5814,8 @@ console.time("acf_test_ready");
 							'</div>'
 						].join(''));
 						
-					}					
+					}
+									
 					
 					// return					
 					AttachmentLibrary.prototype.toggleSelection.apply( this, arguments );
@@ -5401,13 +5825,14 @@ console.time("acf_test_ready");
 				select: function( model, collection ) {
 					
 					// vars
-					var state = this.controller.state(),
+					var frame = acf.media.frame(),
+						state = this.controller.state(),
 						selection = state.get('selection'),
 						errors = acf.maybe_get(this, 'model.attributes.acf_errors');
 					
 					
 					// prevent selection
-					if( errors ) {
+					if( frame && errors ) {
 						
 						return selection.remove( model );
 						
@@ -5497,8 +5922,8 @@ console.time("acf_test_ready");
 					// create button
 					var $a = $([
 						'<a href="#" class="acf-expand-details">',
-							'<span class="is-closed"><span class="acf-icon acf-icon-left small grey"></span>' + acf._e('expand_details') +  '</span>',
-							'<span class="is-open"><span class="acf-icon acf-icon-right small grey"></span>' + acf._e('collapse_details') +  '</span>',
+							'<span class="is-closed"><span class="acf-icon -left small grey"></span>' + acf._e('expand_details') +  '</span>',
+							'<span class="is-open"><span class="acf-icon -right small grey"></span>' + acf._e('collapse_details') +  '</span>',
 						'</a>'
 					].join('')); 
 					
@@ -6317,7 +6742,7 @@ console.time("acf_test_ready");
 				'<li>',
 					'<input type="hidden" name="' + this.$input.attr('name') + '[]" value="' + e.$el.data('id') + '" />',
 					'<span data-id="' + e.$el.data('id') + '" class="acf-rel-item">' + e.$el.html(),
-						'<a href="#" class="acf-icon acf-icon-minus small dark" data-name="remove_item"></a>',
+						'<a href="#" class="acf-icon -minus small dark" data-name="remove_item"></a>',
 					'</span>',
 				'</li>'].join('');
 						
@@ -6336,20 +6761,6 @@ console.time("acf_test_ready");
 		},
 		
 		remove_item : function( e ){
-			
-			// max posts
-			if( this.o.min > 0 ) {
-			
-				if( this.$values.find('.acf-rel-item').length <= this.o.min ) {
-				
-					alert( acf._e('relationship', 'min').replace('{min}', this.o.min) );
-					
-					return;
-					
-				}
-				
-			}
-			
 			
 			// vars
 			var $span = e.$el.parent(),
@@ -6401,6 +6812,11 @@ console.time("acf_test_ready");
 		}
 		
 		
+		// vars
+		var value = $input.val(),
+			sep = '||';
+		
+		
 		// select2 args
 		var select2_args = {
 			width:				'100%',
@@ -6408,14 +6824,16 @@ console.time("acf_test_ready");
 			allowClear:			args.allow_null,
 			placeholder:		args.placeholder,
 			multiple:			args.multiple,
+			separator:			sep,
 			data:				[],
 			escapeMarkup:		function( m ){ return m; }
 		};
 		
 		
-		// add hidden input to each multiple selection
+		// multiple
 		if( args.multiple ) {
 			
+			// add hidden input to each multiple selection
 			select2_args.formatSelection = function( object, $div ){
 				
 				$div.parent().append('<input type="hidden" class="acf-select2-multi-choice" name="' + $select.attr('name') + '" value="' + object.id + '" />');
@@ -6490,26 +6908,23 @@ console.time("acf_test_ready");
 		});
 		
 		
-		// vars
-		var val = $input.val();
-		
-		
 		// initial selection
-		if( val !== '' ) {
+		if( value !== '' ) {
 			
 			// vars
-			var selection = val.split(','),
-				initial_selection = [];
-			
+			var selected = [],
+				values = value.split( sep );
 			
 			// re-order options
-			$.each( selection, function( k, value ){
+			$.each( values, function( i, value ){
 				
 				$.each( options, function( i, option ){
 					
 					if( value === option.id ) {
 					
-						initial_selection.push( option );
+						selected.push( option );
+						
+						return false;
 						
 					}
 					
@@ -6518,23 +6933,24 @@ console.time("acf_test_ready");
 			});
 			
 			
+			
 			// single select requires 1 val, not an array
 			if( !args.multiple ) {
 			
-				initial_selection = acf.maybe_get(initial_selection, 0, '');
+				selected = acf.maybe_get(selected, 0, '');
 				
 			}
 			
 			
 			// add function
 			select2_args.initSelection = function( element, callback ) {
-				        
-		        callback( initial_selection );
+				
+		        callback( selected );
 		        
 		    };
-			
+		    
 		}
-		
+	
 		
 		// ajax
 		if( args.ajax ) {
@@ -6667,7 +7083,7 @@ console.time("acf_test_ready");
 		
 		// add select2
 		$input.select2( select2_args );
-
+		
 		
 		// reorder DOM
 		$input.select2('container').before( $input );
@@ -6675,10 +7091,6 @@ console.time("acf_test_ready");
 		
 		// multiple
 		if( args.multiple ) {
-			
-			// clear input value (allow nothing to be saved) - only for multiple
-			//$input.val('');
-			
 			
 			// sortable
 			$input.select2('container').find('ul.select2-choices').sortable({
@@ -6690,18 +7102,23 @@ console.time("acf_test_ready");
 				 	$input.select2("onSortEnd");
 				 }
 			});
+			
 		}
 		
 		
 		// make sure select is disabled (repeater / flex may enable it!)
 		$select.attr('disabled', 'disabled').addClass('acf-disabled');
 
-
 	}
 	
 	acf.remove_select2 = function( $select ) {
 		
+		// remove select2 container
 		$select.siblings('.select2-container').remove();
+		
+		
+		// show input so that select2 can correctly render visible select2 container
+		$select.siblings('input').show();
 		
 	}
 	
@@ -6769,6 +7186,7 @@ console.time("acf_test_ready");
 			}
 			
 			
+			// remove select2
 			acf.remove_select2( this.$select );
 			
 		}
@@ -6826,6 +7244,13 @@ console.time("acf_test_ready");
 		},
 		
 		initialize: function(){
+			
+			// bail early if is td
+			if( this.$field.is('td') ) {
+				
+				return;
+				
+			}
 			
 			// add tab group if no group exists
 			if( !this.$field.siblings('.acf-tab-wrap').exists() ) {
@@ -6898,21 +7323,19 @@ console.time("acf_test_ready");
 			
 			
 			// set min-height
-			if( $group.hasClass('side') ) {
+			if( $group.hasClass('-left') ) {
 				
 				// vars
 				var $wrap = $group.parent(),
 					attribute = $wrap.is('td') ? 'height' : 'min-height';
 				
 				
-				// use 39 for height as some tabs may be hidden, and this would result in a 0 height
-				var height = $group.position().top + ($group.find('li').length * 39);
+				// find height (minus 1 for border-bottom)
+				var height = $group.position().top + $group.children('ul').outerHeight(true) - 1;
 				
 				
 				// add css
 				$wrap.css(attribute, height);
-				
-				//console.log('h = %o (%o %o %o)', height, $group.position().top, $group.find('li').length * 40, $li);
 				
 			}
 			
@@ -6926,10 +7349,15 @@ console.time("acf_test_ready");
 				html = '';
 			
 			
-			// minor tweak
-			if( placement == 'left' ) {
+			// add sidebar to wrap
+			if( $wrap.hasClass('acf-fields') && placement == 'left' ) {
 				
-				placement = 'side';
+				$wrap.addClass('-sidebar');
+			
+			// can't have side tab without sidebar	
+			} else {
+				
+				placement = 'top';
 				
 			}
 			
@@ -6941,16 +7369,10 @@ console.time("acf_test_ready");
 			
 			} else {
 			
-				html = '<div class="acf-tab-wrap ' + placement + '"><ul class="acf-hl acf-tab-group"></ul></div>';
-
+				html = '<div class="acf-tab-wrap -' + placement + '"><ul class="acf-hl acf-tab-group"></ul></div>';
 				
-				// tab placement
-				if( placement == 'side' && $wrap.hasClass('acf-fields') ) {
-					
-					$wrap.addClass('has-sidebar');
-					
-				}
-
+				
+				
 			}
 			
 			
@@ -7267,7 +7689,7 @@ console.time("acf_test_ready");
 			
 			
 			// customize args
-			args.pagination = false;
+			args.pagination = true;
 			args.key = this.o.key;	
 			args.action = 'acf/fields/taxonomy/query';
 			
@@ -7621,10 +8043,11 @@ console.time("acf_test_ready");
 		actions: {
 			'ready':	'render',
 			'append':	'render'
+			
 		},
 		
 		events: {
-			'keyup input[type="url"]': 'render',
+			'keyup input[type="url"]': 'render'
 		},
 		
 		focus: function(){
@@ -7633,15 +8056,46 @@ console.time("acf_test_ready");
 			
 		},
 		
-		render: function(){
+		is_valid: function(){
 			
-			this.$input.parent().removeClass('valid');
+			// vars
+			var val = this.$input.val();
 			
-			if( this.$input.val().substr(0, 4) === 'http' ) {
+			
+			if( val.indexOf('://') !== -1 ) {
 				
-				this.$input.parent().addClass('valid');
+				// url
+				
+			} else if( val.indexOf('//') === 0 ) {
+				
+				// protocol relative url
+				
+			} else {
+				
+				return false;
 				
 			}
+			
+			
+			// return
+			return true;
+			
+		},
+		
+		render: function(){
+			
+			// add class
+			if( this.is_valid() ) {
+				
+				this.$input.parent().addClass('valid');
+			
+			// remove class	
+			} else {
+				
+				this.$input.parent().removeClass('valid');
+				
+			}
+			
 			
 		}
 		
@@ -8251,7 +8705,7 @@ console.time("acf_test_ready");
 			
 			if( !$message.exists() ) {
 				
-				$message = $('<div class="acf-error-message"><p></p><a href="#" class="acf-icon acf-icon-cancel small"></a></div>');
+				$message = $('<div class="acf-error-message"><p></p><a href="#" class="acf-icon -cancel small"></a></div>');
 				
 				$form.prepend( $message );
 				
@@ -8723,7 +9177,7 @@ console.time("acf_test_ready");
 					
 					/*
 ed.on('ResizeEditor', function(e) {
-					    console.log(e);
+					    // console.log(e);
 					});
 */
 					

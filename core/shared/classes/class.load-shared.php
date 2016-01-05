@@ -16,10 +16,20 @@ if (!class_exists('Inbound_Load_Shared')) {
 				return;
 			}
 			self::load_constants();
+			self::load_hooks();
 			self::load_files();
+			self::load_files_after_theme_setup();
 			self::load_activation_rules();
 
 		}
+
+		/**
+		 * Loads hooks and filters
+		 */
+		public static function load_hooks() {
+			add_action('after_theme_setup' , array( __CLASS__ , 'load_files_after_theme_setup') );
+		}
+
 
 		/**
 		 *  Define constants used by shared files here
@@ -57,7 +67,6 @@ if (!class_exists('Inbound_Load_Shared')) {
 			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.ajax.php');
 			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.inbound-api.php');
 			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.inbound-customizer.php');
-			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.acf-bootstrap.php');
 			include_once( INBOUNDNOW_SHARED_PATH . 'assets/assets.loader.class.php');
 			include_once( INBOUNDNOW_SHARED_PATH . 'shortcodes/inbound-shortcodes.php');
 			include_once( INBOUNDNOW_SHARED_PATH . 'functions/legacy.php');
@@ -81,6 +90,12 @@ if (!class_exists('Inbound_Load_Shared')) {
 
 		}
 
+		/**
+		 * load files after functions.php has loaded
+		 */
+		public static function load_files_after_theme_setup() {
+			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.acf-bootstrap.php');
+		}
 
 		/**
 		 *  Returns the correct absolute path to the Inbound Now shared directory

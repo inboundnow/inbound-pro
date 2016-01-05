@@ -21,7 +21,7 @@ if (have_posts()) : while (have_posts()) : the_post();
 /* Pre-load meta data into variables */
 $content = get_field( 'dropcap-main-content',$post->ID , false );
 $main_headline = get_field( 'lp-main-headline' ,$post->ID , false );
-$conversion_area = get_field( 'dropcap-conversion-content-area',$post->ID , false );
+$conversion_area = get_field( 'dropcap-conversion-area-content',$post->ID , false );
 $text_color = get_field( 'dropcap-text-color',$post->ID , false );
 $content_background = get_field( 'dropcap-content-background',$post->ID , false );
 $form_text_color = get_field( 'dropcap-form-text-color',$post->ID , false );

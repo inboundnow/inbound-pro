@@ -265,7 +265,7 @@ class Landing_Pages_Metaboxes {
             wp_enqueue_style('lp-acf-template', LANDINGPAGES_URLPATH . 'assets/css/admin/acf-hide-wp-elements.css');
         }
 
-        wp_enqueue_style('inbound-metaboxes', LANDINGPAGES_URLPATH . 'shared/assets/css/admin/inbound-metaboxes.css');
+        wp_enqueue_style('inbound-metaboxes', INBOUNDNOW_SHARED_URLPATH . 'assets/css/admin/inbound-metaboxes.css');
         wp_enqueue_script( 'lp-admin-clear-stats-ajax-request', LANDINGPAGES_URLPATH . 'assets/js/ajax.clearstats.js', array( 'jquery' ) );
         wp_localize_script( 'lp-admin-clear-stats-ajax-request', 'ajaxadmin', array( 'ajaxurl' => admin_url('admin-ajax.php'), 'lp_clear_nonce' => wp_create_nonce('lp-clear-nonce') ) );
 
@@ -275,8 +275,8 @@ class Landing_Pages_Metaboxes {
         wp_enqueue_style('admin-post-edit-css', LANDINGPAGES_URLPATH . 'assets/css/admin-post-edit.css');
 
         /* Load FontAwesome */
-        wp_register_style('fontawesome', INBOUNDNOW_SHARED_URLPATH.'assets/fonts/fontawesome/css/fontawesome.min.css');
-        wp_enqueue_style('fontawesome');
+        wp_register_style('font-awesome', INBOUNDNOW_SHARED_URLPATH.'assets/css/fontawesome.min.css');
+        wp_enqueue_style('font-awesome');
 
         /* Load Sweet Alert */
         wp_enqueue_script('sweet-alert', INBOUNDNOW_SHARED_URLPATH.'assets/includes/SweetAlert/sweetalert.min.js');
@@ -361,7 +361,7 @@ class Landing_Pages_Metaboxes {
         ?>
         <div id='lp-notes-area'>
             <span id='add-lp-notes'><?php _e('Notes' , 'landing-pages'); ?></span>
-            <input placeholder='<?php _e('Add Notes to your variation. Example: This version is testing a green submit button ' , 'landing-pages'); ?>' type='text' class='lp-notes' name='<?php echo Landing_Pages_Variations::prepare_input_id( 'lp-variation-notes'); ?>' id='lp-variation-notes' value='<?php echo addslashes($variation_notes); ?>' size='30'>
+            <input placeholder='<?php _e('Add Notes to your variation. Example: This version is testing a green submit button ' , 'landing-pages'); ?>' type='text' class='lp-notes' name='<?php echo Landing_Pages_Variations::prepare_input_id( 'lp-variation-notes' , false , true); ?>' id='lp-variation-notes' value='<?php echo addslashes($variation_notes); ?>' size='30'>
         </div>
         <div id="main-title-area">
             <input type="text" name="<?php echo Landing_Pages_Variations::prepare_input_id( 'lp-main-headline'); ?>" placeholder="<?php  _e('Primary Headline Goes here. This will be visible on the page' , 'landing-pages'); ?>" id="lp-main-headline" value="<?php echo $main_headline; ?>" title="'. __('This headline will appear in the landing page template.' , 'landing-pages') .'">
@@ -504,11 +504,9 @@ class Landing_Pages_Metaboxes {
                     }
 
                     $howmany = count($variations);
+
                     foreach ($variations as $key => $vid) {
 
-                        if (!is_numeric($vid) && $key == 0) {
-                            $vid = 0;
-                        }
 
                         $variation_status = Landing_Pages_Variations::get_variation_status($post->ID, $vid);
                         $variation_status_class = ($variation_status == 1) ? "variation-on" : 'variation-off';
@@ -1112,17 +1110,13 @@ class Landing_Pages_Metaboxes {
     public static function save_landing_page( $landing_page_id ) {
         global $post;
 
-        $screen = get_current_screen();
 
-        if ( wp_is_post_revision( $landing_page_id ) ) {
+        if ( !isset($post) || $post->post_type !='landing-page' || wp_is_post_revision( $landing_page_id ) ) {
             return;
         }
 
-        if ( !isset($screen) || $screen->id != 'landing-page' ) {
-            return;
-        }
 
-        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE || $screen->action == 'add' ) {
+        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE  ) {
             return;
         }
 

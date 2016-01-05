@@ -43,8 +43,8 @@ if (!class_exists('Landing_Pages_Variations')) {
             Landing_Pages_Variations::update_variations($landing_page_id, $variations);
 
 
-            if (isset($_GET['lp-variation-id']) && $_GET['lp-variation-id'] > 0) {
-                $suffix = '-' . $_GET['lp-variation-id'];
+            if ( $variation_id > 0) {
+                $suffix = '-' . $variation_id;
                 $len = strlen($suffix);
             } else {
                 $suffix = '';
@@ -82,11 +82,7 @@ if (!class_exists('Landing_Pages_Variations')) {
          *
          */
         public static function pause_variation($landing_page_id, $variation_id) {
-            if ($variation_id === 0) {
-                update_post_meta( $landing_page_id , 'lp_ab_variation_status', '0');
-            } else {
-                update_post_meta( $landing_page_id , 'lp_ab_variation_status-' . $variation_id, '0');
-            }
+            update_post_meta( $landing_page_id , 'lp_ab_variation_status-' . $variation_id, '0');
         }
 
         /**
@@ -97,11 +93,7 @@ if (!class_exists('Landing_Pages_Variations')) {
          *
          */
         public static function play_variation($landing_page_id, $variation_id) {
-            if ($variation_id === 0) {
-                update_post_meta( $landing_page_id , 'lp_ab_variation_status', 1 );
-            } else {
-                update_post_meta( $landing_page_id , 'lp_ab_variation_status-' . $variation_id, 1 );
-            }
+            update_post_meta( $landing_page_id , 'lp_ab_variation_status-' . $variation_id, 1 );
         }
 
 
@@ -171,13 +163,13 @@ if (!class_exists('Landing_Pages_Variations')) {
          *
          * @returns STRING of meta key appended with variation id
          */
-        public static function prepare_input_id( $id , $variation_id = null) {
+        public static function prepare_input_id( $id , $variation_id = null , $legacy = true) {
 
             if ($variation_id === null) {
                 $variation_id = Landing_Pages_Variations::get_current_variation_id();
             }
 
-            if ( $variation_id >0 ) {
+            if ( $variation_id >0 || !$legacy ) {
                  return $id . '-' . $variation_id;
             } else {
                 return $id;
@@ -193,8 +185,9 @@ if (!class_exists('Landing_Pages_Variations')) {
          * @param STRING $status custom status
          *
          */
-        public static function set_variation_status($landing_page_id, $variation_id, $status = 'play') {
+        public static function set_variation_status($landing_page_id, $variation_id, $status = '1') {
 
+            update_post_meta( $landing_page_id , 'lp_ab_variation_status-' . $variation_id, $status );
 
         }
 
@@ -217,11 +210,9 @@ if (!class_exists('Landing_Pages_Variations')) {
          * @param INT $count
          *
          */
-        public static function set_impressions_count($landing_page_id, $variation_id, $count) {
+        public static function set_impressions_count($landing_page_id, $variation_id = 0 , $count) {
             update_post_meta($landing_page_id, 'lp-ab-variation-impressions-' . $variation_id, $count);
         }
-
-
 
         /**
          * Manually sets conversion count for given cta id and variation id
@@ -273,7 +264,7 @@ if (!class_exists('Landing_Pages_Variations')) {
                 $variation_id = Landing_Pages_Variations::get_current_variation_id();
             }
 
-            $variation_status =  Landing_Pages_Variations::get_setting_value( 'lp_ab_variation_status' , $landing_page_id, $variation_id , '' );
+            $variation_status =   get_post_meta( $landing_page_id , 'lp_ab_variation_status-' . $variation_id, true);
 
             if (!is_numeric($variation_status)) {
                 return 1;
@@ -323,12 +314,13 @@ if (!class_exists('Landing_Pages_Variations')) {
          * @return STRING $notes variation notes.
          */
         public static function get_variation_notes($landing_page_id, $variation_id = null) {
-
-            if ( !is_numeric( $variation_id ) ) {
+            if ($variation_id === null) {
                 $variation_id = Landing_Pages_Variations::get_current_variation_id();
             }
 
-            return Landing_Pages_Variations::get_setting_value( 'lp-variation-notes' , $landing_page_id, $variation_id , '' );
+            $variation_notes =   get_post_meta( $landing_page_id , 'lp-variation-notes-' . $variation_id, true);
+
+            return $variation_notes;
         }
 
         /**

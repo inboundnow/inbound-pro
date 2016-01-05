@@ -28,7 +28,7 @@ if( $field_groups ) {
 ?>
 <div class="wrap acf-settings-wrap">
 	
-	<h2><?php _e('Tools', 'acf'); ?></h2>
+	<h1><?php _e('Tools', 'acf'); ?></h1>
 	
 	<div class="acf-box" id="acf-export-field-groups">
 		<div class="title">

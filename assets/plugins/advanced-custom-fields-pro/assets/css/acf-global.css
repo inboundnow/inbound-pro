@@ -3,6 +3,14 @@
 *	General
 *
 *--------------------------------------------------------------------------------------------*/
+/* box-sizing */
+/*
+[class^="acf-"] {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+*/
 /* Horizontal List */
 .acf-hl {
   padding: 0;
@@ -249,8 +257,8 @@ img.acf-fw {
 *--------------------------------------------------------------------------------------------*/
 @font-face {
   font-family: 'acf';
-  src: url('../font/acf.eot?37192481');
-  src: url('../font/acf.eot?37192481#iefix') format('embedded-opentype'), url('../font/acf.woff?37192481') format('woff'), url('../font/acf.ttf?37192481') format('truetype'), url('../font/acf.svg?37192481#acf') format('svg');
+  src: url('../font/acf.eot?50902143');
+  src: url('../font/acf.eot?50902143#iefix') format('embedded-opentype'), url('../font/acf.woff?50902143') format('woff'), url('../font/acf.ttf?50902143') format('truetype'), url('../font/acf.svg?50902143#acf') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -269,76 +277,102 @@ img.acf-fw {
   text-transform: none;
   /* fix buttons height, for twitter bootstrap */
   line-height: 1em;
-  /* Animation center compensation - margins should be symmetric */
-  /* remove if not needed */
-  /* you can be more comfortable with increased icons size */
-  /* font-size: 120%; */
   /* Font smoothing. That was taken from TWBS */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* Uncomment for 3D effect */
-  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+  /* more consistent vertical align */
+  position: relative;
 }
-.acf-icon-plus:before {
+.acf-icon.-plus:before {
   content: '\e800';
 }
 /* '' */
-.acf-icon-minus:before {
+.acf-icon.-minus:before {
   content: '\e801';
 }
 /* '' */
-.acf-icon-cancel:before {
+.acf-icon.-cancel:before {
   content: '\e802';
 }
 /* '' */
-.acf-icon-pencil:before {
+.acf-icon.-pencil:before {
   content: '\e803';
+  top: -1px;
 }
 /* '' */
-.acf-icon-location:before {
+.acf-icon.-location:before {
   content: '\e804';
 }
 /* '' */
-.acf-icon-down:before {
+.acf-icon.-down:before {
   content: '\e805';
+  top: 1px;
 }
 /* '' */
-.acf-icon-left:before {
+.acf-icon.-left:before {
   content: '\e806';
+  left: -1px;
 }
 /* '' */
-.acf-icon-right:before {
+.acf-icon.-right:before {
   content: '\e807';
+  left: 1px;
 }
 /* '' */
-.acf-icon-up:before {
+.acf-icon.-up:before {
   content: '\e808';
+  top: -1px;
 }
 /* '' */
-.acf-icon-sync:before {
+.acf-icon.-sync:before {
   content: '\e809';
 }
 /* '' */
-.acf-icon-globe:before {
+.acf-icon.-globe:before {
   content: '\e80a';
 }
 /* '' */
-.acf-icon-picture:before {
+.acf-icon.-picture:before {
   content: '\e80b';
 }
 /* '' */
-.acf-icon-check:before {
+.acf-icon.-check:before {
   content: '\e80c';
 }
 /* '' */
-.acf-icon-dot-3:before {
+.acf-icon.-dot-3:before {
   content: '\e80d';
 }
 /* '' */
-.acf-icon-arrow-combo:before {
+.acf-icon.-arrow-combo:before {
   content: '\e80e';
 }
 /* '' */
+.acf-icon.-arrow-up:before {
+  content: '\e810';
+  top: -1px;
+}
+/* '' */
+.acf-icon.-arrow-down:before {
+  content: '\e80f';
+  top: 1px;
+}
+/* '' */
+.acf-icon.-search:before {
+  content: '\e811';
+}
+/* '' */
+/* collapse */
+.acf-icon.-collapse:before {
+  content: '\e810';
+  top: -1px;
+}
+/* arrow-up */
+.-collapsed .acf-icon.-collapse:before {
+  content: '\e80f';
+  top: 1px;
+}
+/* arrow-down */
 /* default */
 .acf-icon {
   display: inline-block;
@@ -347,7 +381,7 @@ img.acf-fw {
   border: transparent solid 1px;
   border-radius: 100%;
   font-size: 16px;
-  line-height: 24px;
+  line-height: 26px;
   text-align: center;
   text-decoration: none;
   vertical-align: top;
@@ -368,21 +402,11 @@ a.acf-icon {
   transition: none;
 }
 /* minor tweaks */
-.acf-icon-pencil {
-  font-size: 14px;
+.acf-icon.-pencil {
+  font-size: 15px;
 }
-.acf-icon-pencil.small {
-  font-size: 12px;
-}
-.acf-icon-location {
+.acf-icon.-location {
   font-size: 18px;
-}
-.acf-icon-left:before {
-  left: -1px;
-  position: relative;
-}
-.acf-icon-sync.small {
-  font-size: 14px;
 }
 /* states */
 a.acf-icon:hover {
@@ -393,16 +417,18 @@ a.acf-icon:hover {
 a.acf-icon:active,
 a.acf-icon:focus {
   outline: none;
+  box-shadow: none;
 }
-a.acf-icon-minus:hover,
-a.acf-icon-cancel:hover {
+a.acf-icon.-minus:hover,
+a.acf-icon.-cancel:hover {
   background-color: #F55E4F;
 }
 /* sizes */
 .acf-icon.small {
   width: 18px;
   height: 18px;
-  line-height: 17px;
+  line-height: 18px;
+  font-size: 14px;
 }
 /* styles */
 .acf-icon.light {
@@ -424,8 +450,8 @@ a.acf-icon.dark:hover {
   background: #191E23;
   color: #00b9eb;
 }
-a.acf-icon-minus.dark:hover,
-a.acf-icon-cancel.dark:hover {
+a.acf-icon.-minus.dark:hover,
+a.acf-icon.-cancel.dark:hover {
   color: #D54E21;
 }
 /* grey */
@@ -439,8 +465,8 @@ a.acf-icon.grey:hover {
   background: #00A0D2;
   color: #fff;
 }
-a.acf-icon-minus.grey:hover,
-a.acf-icon-cancel.grey:hover {
+a.acf-icon.-minus.grey:hover,
+a.acf-icon.-cancel.grey:hover {
   background: #32373C;
 }
 /* red */
@@ -560,8 +586,8 @@ a.acf-icon-cancel.grey:hover {
 }
 .acf-error-message p {
   font-size: 13px !important;
-  line-height: 1;
-  margin: 10px 0 !important;
+  line-height: 1.4;
+  margin: 8px 0;
   padding: 0;
   text-shadow: none;
   color: #fff;
@@ -577,6 +603,7 @@ a.acf-icon-cancel.grey:hover {
 }
 .acf-error-message .acf-icon:hover {
   background-color: #F1F1F1;
+  color: #F55E4F;
 }
 /*--------------------------------------------------------------------------------------------
 *
@@ -584,8 +611,8 @@ a.acf-icon-cancel.grey:hover {
 *
 *--------------------------------------------------------------------------------------------*/
 .acf-table {
+  border: #DFDFDF solid 1px;
   background: #fff;
-  border: 0 none;
   border-spacing: 0;
   border-radius: 0;
   table-layout: auto;
@@ -594,16 +621,35 @@ a.acf-icon-cancel.grey:hover {
   width: 100%;
   clear: both;
 }
-.acf-table > thead > tr > th,
-.acf-table > tbody > tr > th {
-  vertical-align: top;
+.acf-table > tbody > tr {
+  z-index: 1;
 }
+.acf-table > thead > tr > th,
 .acf-table > tbody > tr > td {
+  padding: 8px;
   vertical-align: top;
-  padding: 13px 15px;
+  background: #fff;
+  text-align: left;
+  font-size: 14px;
+  line-height: 1.4em;
   border-style: solid;
-  border-color: #F5F5F5;
+  border-color: #EDEDED;
   border-width: 1px 0 0 1px;
+}
+/* th */
+.acf-table > thead > tr > th {
+  position: relative;
+  color: #333333;
+  font-weight: normal;
+  border-color: #E1E1E1;
+  border-width: 0 0 1px 1px;
+}
+.acf-table > thead > tr > th:first-child {
+  border-left-width: 0;
+}
+/* td */
+.acf-table > tbody > tr > td {
+  font-size: 13px;
 }
 .acf-table > tbody > tr:first-child > td {
   border-top-width: 0;
@@ -611,19 +657,43 @@ a.acf-icon-cancel.grey:hover {
 .acf-table > tbody > tr > td:first-child {
   border-left-width: 0;
 }
-.acf-table td.acf-label {
-  background: #F9F9F9;
-  border-top-color: #F0F0F0;
-  width: 24%;
-}
-.acf-table td.acf-input {
-  border-left-color: #E1E1E1;
-}
 /* clear table */
-.acf-clear-table > tbody > tr > td,
-.acf-clear-table > thead > tr > th {
-  border: 0 none !important;
+.acf-table.-clear {
+  border: 0 none;
+}
+.acf-table.-clear > tbody > tr > td,
+.acf-table.-clear > thead > tr > th {
+  border: 0 none;
   padding: 4px;
+}
+/* remove tr */
+.acf-remove-element {
+  -webkit-transition: all 0.25s ease-out;
+  -moz-transition: all 0.25s ease-out;
+  -o-transition: all 0.25s ease-out;
+  transition: all 0.25s ease-out;
+  transform: translate(50px, 0);
+  opacity: 0;
+}
+/*---------------------------------------------------------------------------------------------
+*
+*  Input Table
+*
+*---------------------------------------------------------------------------------------------*/
+/*
+.compat-item .acf-table {
+	border: #DFDFDF solid 1px;
+}
+*/
+/* media fix */
+.media-modal .acf-field * {
+  box-sizing: border-box;
+}
+.media-modal .acf-table {
+  table-layout: auto;
+}
+.media-item .describe .acf-table > thead > tr > th {
+  width: auto;
 }
 /*--------------------------------------------------------------------------------------------
 *
@@ -731,84 +801,6 @@ a.acf-icon-cancel.grey:hover {
   text-shadow: #21B351 0 1px 0;
   box-shadow: inset #4DDF7D 0 1px 0 0;
 }
-/*--------------------------------------------------------------------------------------------
-*
-*	acf-postbox
-*
-*--------------------------------------------------------------------------------------------*/
-.acf-postbox {
-  position: relative;
-}
-.acf-fields {
-  margin: 0 !important;
-  /* override WP style - do not delete - you have tried this before */
-  padding: 0 !important;
-  /* override WP style - do not delete - you have tried this before */
-  position: relative;
-}
-.acf-fields > .acf-field {
-  margin: 0;
-  padding: 15px 12px;
-  border-top: #EEEEEE solid 1px;
-}
-.acf-fields > .acf-field:first-child {
-  border-top-width: 0;
-}
-/* position high */
-#acf_after_title-sortables .acf-postbox {
-  margin: 20px 0 0;
-}
-/* seamless */
-.acf-postbox.seamless {
-  border: 0 none;
-  background: transparent;
-  box-shadow: none;
-}
-.acf-postbox.seamless > .hndle,
-.acf-postbox.seamless > .handlediv {
-  display: none;
-}
-.acf-postbox.seamless > .acf-fields > .acf-field {
-  padding: 0;
-  margin: 20px 0 0;
-  border: 0 none;
-}
-.acf-postbox.seamless > .acf-fields > .acf-field:first-child {
-  margin-top: 0;
-}
-.acf-postbox.seamless > .acf-fields > .acf-table,
-.acf-postbox.seamless > .acf-fields > .acf-table > tbody > tr > td {
-  background: none;
-  border: 0 none;
-}
-.acf-postbox.seamless.closed .inside {
-  display: block;
-}
-/* override WP CSS */
-.metabox-prefs label.acf-hidden {
-  display: none;
-}
-/* edit field group */
-.acf-postbox .hndle .acf-hndle-cog {
-  color: #AAAAAA;
-  font-size: 16px;
-  line-height: 20px;
-  padding: 0 2px;
-  float: right;
-  position: relative;
-  display: none;
-}
-.acf-postbox .hndle:hover .acf-hndle-cog,
-.acf-postbox .hndle.hover .acf-hndle-cog {
-  display: block;
-}
-.acf-postbox .hndle .acf-hndle-cog:hover {
-  color: #777777;
-}
-.acf-replace-with-fields {
-  padding: 15px;
-  text-align: center;
-}
 /*---------------------------------------------------------------------------------------------
 *
 *  wp-admin
@@ -831,8 +823,10 @@ a.acf-icon-cancel.grey:hover {
 #acf-field-group-wrap p.search-box {
   display: none;
 }
-#acf-field-group-wrap .wp-list-table .column-acf-fg-description {
-  display: none;
+#acf-field-group-wrap .wp-list-table .column-acf-fg-description,
+#acf-field-group-wrap .wp-list-table .column-acf-fg-description:before {
+  display: none !important;
+  /* important needed to override mobile */
 }
 #acf-field-group-wrap .wp-list-table .column-acf-fg-count {
   width: 10%;
@@ -851,6 +845,7 @@ a.acf-icon-cancel.grey:hover {
   font-size: 13px;
   color: #999;
   margin-left: 7px;
+  font-style: italic;
 }
 /* WPML fix */
 #acf-field-group-wrap .subsubsub {
@@ -878,6 +873,18 @@ a.acf-icon-cancel.grey:hover {
 .acf-clear {
   clear: both;
 }
+/* mobile compatibilty */
+@media screen and (max-width: 782px) {
+  #acf-field-group-wrap #the-list .acf-icon:after {
+    content: attr(title);
+    position: absolute;
+    margin-left: 5px;
+    font-size: 13px;
+    line-height: 18px;
+    font-style: normal;
+    color: #444;
+  }
+}
 /*---------------------------------------------------------------------------------------------
 *
 *  Fake table
@@ -898,7 +905,7 @@ a.acf-icon-cancel.grey:hover {
   box-sizing: border-box;
   padding: 8px 15px;
   font-size: 12px;
-  line-height: 13px;
+  line-height: 14px;
 }
 .acf-thead {
   background: #FFFFFF;
@@ -923,127 +930,6 @@ a.acf-icon-cancel.grey:hover {
 .acf-tfoot > li.comic-sans {
   font-family: Comic Sans MS, sans-serif;
   font-size: 11px;
-}
-/*---------------------------------------------------------------------------------------------
-*
-*  Input Table
-*
-*---------------------------------------------------------------------------------------------*/
-.acf-input-table {
-  border: #DFDFDF solid 1px;
-  background: #F9F9F9;
-}
-.compat-item .acf-input-table {
-  border: #DFDFDF solid 1px;
-}
-.acf-input-table > thead th {
-  background: #fff;
-  border-color: #E1E1E1;
-  border-style: solid;
-  border-width: 0 0 1px 1px;
-  padding: 8px;
-  position: relative;
-  vertical-align: top;
-  text-align: left;
-  color: #333333;
-  font-size: 14px;
-  line-height: 1.4em;
-  font-weight: normal;
-}
-.acf-input-table > tbody > tr {
-  z-index: 1;
-}
-.acf-input-table > tbody > tr > td {
-  padding: 8px;
-  text-align: left;
-  border-color: #EDEDED;
-  background: #fff;
-}
-/* nested tables */
-.acf-input-table > tbody > tr > td.acf-table-wrap {
-  padding: 0;
-}
-/* order */
-.acf-input-table > thead > tr > th.order,
-.acf-input-table > tbody > tr > td.order {
-  width: 16px;
-  text-align: center;
-  vertical-align: middle;
-}
-.acf-input-table > tbody > tr > td.order {
-  border-right-color: #E1E1E1;
-  background: #f4f4f4;
-  cursor: move;
-  color: #aaa;
-  text-shadow: #fff 0 1px 0;
-}
-.acf-input-table > tbody > tr > td.order:hover {
-  color: #666;
-}
-.acf-input-table > tbody > tr > td.order + td {
-  border-left-color: #DFDFDF;
-}
-.acf-input-table .order-spacer,
-.acf-input-table .remove-spacer {
-  width: 16px;
-  display: block;
-  height: 1px;
-}
-/* row block layout */
-.acf-table.row-layout > tbody > tr > td,
-.acf-table.block-layout > tbody > tr > td {
-  border-top-color: #E1E1E1;
-}
-/* remove */
-.acf-input-table > thead > tr > th.remove,
-.acf-input-table > tbody > tr > td.remove {
-  width: 16px;
-  vertical-align: middle;
-}
-.acf-input-table > tbody > tr > td.remove {
-  background: #F9F9F9;
-  border-left-color: #DFDFDF;
-}
-/* border limits */
-.acf-input-table > thead > tr > th:first-child,
-.acf-input-table > tbody > tr > td:first-child {
-  border-left-width: 0;
-}
-/* remove buttons */
-.acf-input-table > tbody > tr > td.remove > .acf-icon {
-  -webkit-transition: opacity 0.25s 0s ease-in-out, visibility 0s linear 0.25s;
-  -moz-transition: opacity 0.25s 0s ease-in-out, visibility 0s linear 0.25s;
-  -o-transition: opacity 0.25s 0s ease-in-out, visibility 0s linear 0.25s;
-  transition: opacity 0.25s 0s ease-in-out, visibility 0s linear 0.25s;
-  visibility: hidden;
-  opacity: 0;
-}
-.acf-input-table > tbody > tr:hover > td.remove > .acf-icon {
-  -webkit-transition-delay: 0s;
-  -moz-transition-delay: 0s;
-  -o-transition-delay: 0s;
-  transition-delay: 0s;
-  visibility: visible;
-  opacity: 1;
-}
-/* media fix */
-.media-modal .acf-field * {
-  box-sizing: border-box;
-}
-.media-modal .acf-table {
-  table-layout: auto;
-}
-.media-item .describe .acf-input-table > thead > tr > th {
-  width: auto;
-}
-/* remove tr */
-.acf-remove-element {
-  -webkit-transition: all 0.25s ease-out;
-  -moz-transition: all 0.25s ease-out;
-  -o-transition: all 0.25s ease-out;
-  transition: all 0.25s ease-out;
-  transform: translate(50px, 0);
-  opacity: 0;
 }
 /*--------------------------------------------------------------------------------------------
 *
@@ -1090,7 +976,7 @@ a.acf-icon-cancel.grey:hover {
 *--------------------------------------------------------------------------------------------*/
 #acf-popup {
   position: fixed;
-  z-index: 9999;
+  z-index: 999999;
   top: 0;
   left: 0;
   right: 0;
@@ -1284,7 +1170,7 @@ html[dir="rtl"] .acf-icon.logo {
   left: 0;
   right: auto;
 }
-html[dir="rtl"] .acf-input-table thead th {
+html[dir="rtl"] .acf-table thead th {
   text-align: right;
   border-right-width: 1px;
   border-left-width: 0px;
@@ -1294,11 +1180,11 @@ html[dir="rtl"] .acf-table > tbody > tr > td {
   border-right-width: 1px;
   border-left-width: 0px;
 }
-html[dir="rtl"] .acf-input-table > thead > tr > th:first-child,
-html[dir="rtl"] .acf-input-table > tbody > tr > td:first-child {
+html[dir="rtl"] .acf-table > thead > tr > th:first-child,
+html[dir="rtl"] .acf-table > tbody > tr > td:first-child {
   border-right-width: 0;
 }
-html[dir="rtl"] .acf-input-table > tbody > tr > td.order + td {
+html[dir="rtl"] .acf-table > tbody > tr > td.order + td {
   border-right-color: #e1e1e1;
 }
 /*---------------------------------------------------------------------------------------------
@@ -1331,5 +1217,6 @@ html[dir="rtl"] .acf-input-table > tbody > tr > td.order + td {
   .acf-columns-2 .acf-column-2 {
     float: none;
     width: auto;
+    margin: 0;
   }
 }

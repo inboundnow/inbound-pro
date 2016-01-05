@@ -86,7 +86,7 @@
                 "key": "field_55e460be3b234",
                 "label": "Home Page URL",
                 "name": "home_page_url",
-                "type": "url",
+                "type": "text",
                 "instructions": "Add the URL of the page you want to send people to when they click on the logo",
                 "required": 0,
                 "conditional_logic": 0,
@@ -96,7 +96,12 @@
                     "id": ""
                 },
                 "default_value": "#",
-                "placeholder": ""
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "maxlength": "",
+                "readonly": 0,
+                "disabled": 0
             },
             {
                 "key": "field_55e4634d3036e",
@@ -119,7 +124,7 @@
                 "label": "Email Title",
                 "name": "email_title",
                 "type": "text",
-                "instructions": "Latest products from our shop",
+                "instructions": "",
                 "required": 0,
                 "conditional_logic": 0,
                 "wrapper": {
@@ -127,7 +132,7 @@
                     "class": "",
                     "id": ""
                 },
-                "default_value": "",
+                "default_value": "Latest products from our shop",
                 "placeholder": "",
                 "prepend": "",
                 "append": "",
@@ -201,7 +206,7 @@
                                 "key": "field_55e46c0344bea",
                                 "label": "Left Image URL",
                                 "name": "left_image_url",
-                                "type": "url",
+                                "type": "text",
                                 "instructions": "Add the URL of the landing page\/product page to send users that clik on the image",
                                 "required": 0,
                                 "conditional_logic": 0,
@@ -211,7 +216,12 @@
                                     "id": ""
                                 },
                                 "default_value": "#",
-                                "placeholder": ""
+                                "placeholder": "",
+                                "prepend": "",
+                                "append": "",
+                                "maxlength": "",
+                                "readonly": 0,
+                                "disabled": 0
                             },
                             {
                                 "key": "field_55e46b5a44be8",
@@ -238,7 +248,7 @@
                                 "key": "field_55e46bb044be9",
                                 "label": "Left Image Title URL",
                                 "name": "left_image_title_url",
-                                "type": "url",
+                                "type": "text",
                                 "instructions": "You can send the user that clicks to the title to a special URL, or use the same that you use for the image",
                                 "required": 0,
                                 "conditional_logic": 0,
@@ -248,7 +258,12 @@
                                     "id": ""
                                 },
                                 "default_value": "#",
-                                "placeholder": ""
+                                "placeholder": "",
+                                "prepend": "",
+                                "append": "",
+                                "maxlength": "",
+                                "readonly": 0,
+                                "disabled": 0
                             },
                             {
                                 "key": "field_55e46cb12f266",
@@ -299,7 +314,7 @@
                                 "key": "field_55e470ff60945",
                                 "label": "Right Image URL",
                                 "name": "right_image_url",
-                                "type": "url",
+                                "type": "text",
                                 "instructions": "Add the URL of the landing page\/product page to send users that clik on the image",
                                 "required": 0,
                                 "conditional_logic": 0,
@@ -309,7 +324,12 @@
                                     "id": ""
                                 },
                                 "default_value": "#",
-                                "placeholder": ""
+                                "placeholder": "",
+                                "prepend": "",
+                                "append": "",
+                                "maxlength": "",
+                                "readonly": 0,
+                                "disabled": 0
                             },
                             {
                                 "key": "field_55e4711a60946",
@@ -336,7 +356,7 @@
                                 "key": "field_55e4714360947",
                                 "label": "Right Image Title URL",
                                 "name": "right_image_title_url",
-                                "type": "url",
+                                "type": "text",
                                 "instructions": "You can send the user that clicks to the title to a special URL, or use the same that you use for the image",
                                 "required": 0,
                                 "conditional_logic": 0,
@@ -346,7 +366,12 @@
                                     "id": ""
                                 },
                                 "default_value": "#",
-                                "placeholder": ""
+                                "placeholder": "",
+                                "prepend": "",
+                                "append": "",
+                                "maxlength": "",
+                                "readonly": 0,
+                                "disabled": 0
                             },
                             {
                                 "key": "field_55e4715e60948",
@@ -478,7 +503,7 @@
                                 "key": "field_55e50fd7f22cd",
                                 "label": "Callout Button Link",
                                 "name": "callout_button_link",
-                                "type": "url",
+                                "type": "text",
                                 "instructions": "Here you should add the link of your callout button",
                                 "required": 0,
                                 "conditional_logic": 0,
@@ -488,7 +513,12 @@
                                     "id": ""
                                 },
                                 "default_value": "#",
-                                "placeholder": ""
+                                "placeholder": "",
+                                "prepend": "",
+                                "append": "",
+                                "maxlength": "",
+                                "readonly": 0,
+                                "disabled": 0
                             },
                             {
                                 "key": "field_55e5106ff22ce",
@@ -546,7 +576,7 @@
                 "key": "field_55e512a863551",
                 "label": "Terms Page URL",
                 "name": "terms_page_url",
-                "type": "url",
+                "type": "text",
                 "instructions": "Add the URL of your terms page. Leave empty if you don't have a terms page",
                 "required": 0,
                 "conditional_logic": 0,
@@ -555,14 +585,19 @@
                     "class": "",
                     "id": ""
                 },
-                "default_value": "",
-                "placeholder": ""
+                "default_value": "#",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "maxlength": "",
+                "readonly": 0,
+                "disabled": 0
             },
             {
                 "key": "field_55e512ea6ddb1",
                 "label": "Privacy Page URL",
                 "name": "privacy_page_url",
-                "type": "url",
+                "type": "text",
                 "instructions": "Add the URL of your privacy page. Leave empty if you don't have a privacy page",
                 "required": 0,
                 "conditional_logic": 0,
@@ -571,8 +606,13 @@
                     "class": "",
                     "id": ""
                 },
-                "default_value": "",
-                "placeholder": ""
+                "default_value": "#",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "maxlength": "",
+                "readonly": 0,
+                "disabled": 0
             }
         ],
         "location": [

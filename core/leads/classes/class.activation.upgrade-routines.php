@@ -68,6 +68,10 @@ if ( !class_exists('Leads_Activation_Update_Routines') ) {
 		public static function batch_import_event_data_112015() {
 
 			/* lets make sure the inbound_events table is created */
+			if ( !class_exists('Inbound_Events')) {
+				Inbound_Load_Shared::load_constants();
+				include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.events.php');
+			}
 			Inbound_Events::create_events_table();
 
 			/* create flag for batch uploader */
