@@ -275,6 +275,8 @@ if ( !class_exists( 'CTA_Render' ) ) {
          *  @param INT $vid id of variation being processed
          */
         public static function prepare_tracked_links( $variation_html, $selected_cta, $vid ) {
+            global $post;
+
 			$variation_html = do_shortcode($variation_html);
             $doc = new DOMDocument();
             @$doc->loadHTML( $variation_html );
@@ -297,13 +299,20 @@ if ( !class_exists( 'CTA_Render' ) ) {
                 $link = Inbound_API::analytics_track_links( array(
                     'cta_id' => $selected_cta['id'],
                     'id' => ( isset($_COOKIE['wp_lead_id']) ? $_COOKIE['wp_lead_id'] : null ) ,
+                    'page_id' => ( isset($post) && $post->ID  ? $post->ID : null ) ,
                     'vid' => $vid ,
                     'url' => $href ,
                     'tracking_id' => __( sprintf( 'Call to Action Click (cta_id:%s) (vid:%s)', $selected_cta['id'], $vid ), 'cta' ) /* required but not being used atm */
                 ));
 
+                /* standardize & symbol */
+                $link['url'] = str_replace('&', '&amp;' , $link['url'] );
+                $href = str_replace('&', '&amp;' , $href );
+
                 $variation_html = str_replace( $href, $link['url'], $variation_html);
+
             }
+
             return $variation_html;
         }
 

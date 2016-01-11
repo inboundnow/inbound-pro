@@ -9,6 +9,7 @@ use Sabberworm\CSS\Value\Value;
 use Sabberworm\CSS\Value\Size;
 use Sabberworm\CSS\Value\Color;
 use Sabberworm\CSS\Value\URL;
+use Sabberworm\CSS\Parsing\OutputException;
 
 /**
  * Declaration blocks are the parts of a css file which denote the rules belonging to a selector.
@@ -34,6 +35,20 @@ class DeclarationBlock extends RuleSet {
 				$this->aSelectors[$iKey] = new Selector($mSelector);
 			}
 		}
+	}
+
+	// remove one of the selector of the block
+	public function removeSelector($mSelector) {
+		if($mSelector instanceof Selector) {
+			$mSelector = $mSelector->getSelector();
+		}
+		foreach($this->aSelectors as $iKey => $oSelector) {
+			if($oSelector->getSelector() === $mSelector) {
+				unset($this->aSelectors[$iKey]);
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -248,7 +263,7 @@ class DeclarationBlock extends RuleSet {
 		$this->removeRule('font');
 	}
 
-	/**
+	/*
 	 * Convert shorthand background declarations
 	 * (e.g. <tt>background: url("chess.png") gray 50% repeat fixed;</tt>)
 	 * into their constituent parts.
@@ -429,7 +444,7 @@ class DeclarationBlock extends RuleSet {
 		$this->createShorthandProperties($aProperties, 'border');
 	}
 
-	/**
+	/*
 	 * Looks for long format CSS dimensional properties
 	 * (margin, padding, border-color, border-style and border-width) 
 	 * and converts them into shorthand CSS properties.
@@ -576,9 +591,17 @@ class DeclarationBlock extends RuleSet {
 	}
 
 	public function __toString() {
-		$sResult = implode(', ', $this->aSelectors) . ' {';
-		$sResult .= parent::__toString();
-		$sResult .= '}' . "\n";
+		return $this->render(new \Sabberworm\CSS\OutputFormat());
+	}
+
+	public function render(\Sabberworm\CSS\OutputFormat $oOutputFormat) {
+		if(count($this->aSelectors) === 0) {
+			// If all the selectors have been removed, this declaration block becomes invalid
+			throw new OutputException("Attempt to print declaration block with missing selector");
+		}
+		$sResult = $oOutputFormat->implode($oOutputFormat->spaceBeforeSelectorSeparator() . ',' . $oOutputFormat->spaceAfterSelectorSeparator(), $this->aSelectors) . $oOutputFormat->spaceBeforeOpeningBrace() . '{';
+		$sResult .= parent::render($oOutputFormat);
+		$sResult .= '}';
 		return $sResult;
 	}
 

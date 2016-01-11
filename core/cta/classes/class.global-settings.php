@@ -124,7 +124,7 @@ class CTA_Global_Settings {
 
 		foreach (self::$core_settings	as $key => $data) 	{
 			?>
-			<a	id='tabs-<?php echo $key; ?>' class="wp-cta-nav-tab nav-tab nav-tab-special<?php echo $active_tab == $key ? '-active' : '-inactive'; ?>"><?php echo $data['label']; ?></a>
+			<a	id='tabs-<?php echo $key; ?>' class="wp-cta-nav-tab nav-tab nav-tab-special<?php echo self::$active_tab == $key ? '-active' : '-inactive'; ?>"><?php echo $data['label']; ?></a>
 			<?php
 		}
 		echo "</h2>";

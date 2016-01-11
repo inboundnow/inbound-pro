@@ -126,9 +126,13 @@ class Rule {
 	}
 
 	public function __toString() {
-		$sResult = "{$this->sRule}: ";
+		return $this->render(new \Sabberworm\CSS\OutputFormat());
+	}
+
+	public function render(\Sabberworm\CSS\OutputFormat $oOutputFormat) {
+		$sResult = "{$this->sRule}:{$oOutputFormat->spaceAfterRuleName()}";
 		if ($this->mValue instanceof Value) { //Can also be a ValueList
-			$sResult .= $this->mValue->__toString();
+			$sResult .= $this->mValue->render($oOutputFormat);
 		} else {
 			$sResult .= $this->mValue;
 		}
