@@ -1343,7 +1343,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
                 });
             </script>
             <?php
-            //do_action('wp_footer');
+            do_action('wp_footer');
             echo '</body>';
             echo '</html>';
             exit;

@@ -101,7 +101,7 @@ class Leads_Batch_Processor {
 
 
         /* if all leads are processed echo complete and delete batch job */
-        if (!self::$leads) {
+        if (!self::$leads || $args['offset'] > $pages ) {
             self::delete_flag();
             echo '<br>';
             _e( 'All done!' , 'leads');

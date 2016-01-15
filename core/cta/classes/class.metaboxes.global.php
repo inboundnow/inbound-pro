@@ -187,7 +187,7 @@ if (!class_exists('CTA_Metaboxes_Global')) {
 							<a class='thickbox cta-links-hidden' id="cta-<?php echo $this_id;?>" href='<?php echo $this_link;?>?wp-cta-variation-id=0&inbound_popup_preview=on&post_id=<?php echo $cta->ID; ?>&TB_iframe=true&width=640&height=703'>Preview</a>
 
 						<?php } ?>
-						<select multiple name='cta_display_list[]' id="cta_template_selection" style='display:none;'>
+						<select multiple name='cta_display_list[]' id="cta_template_selection" style=''>
 						<?php
 						foreach ( $cta_list as $cta  ) {
 							$this_id = $cta->ID;
