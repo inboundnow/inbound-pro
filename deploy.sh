@@ -20,7 +20,7 @@ GITPATH="$CURRENTDIR" # this file should be in the base of your git repository
 
 
 # Tell git who we are
-git remote add deployorigin https://github.com/inboundnow/inbound-pro.git
+#git remote add origin https://github.com/inboundnow/inbound-pro.git
 
 # tell it to cache passwords:
 git config --global credential.helper wincred
@@ -29,13 +29,13 @@ git config --global credential.helper wincred
 # Merge Develop Into Master
 git checkout master
 echo "Checkout master"
-git pull deployorigin master
+git pull origin master
 echo "pull master"
 git merge develop
 echo "merge develop"
-git push deployorigin master
+git push origin master
 echo "push master"
-sleep 10
+sleep 5
 
 
 CURRENTVERSION=`grep "^Version:" $GITPATH/$MAINFILE | awk -F' ' '{print $NF}'`
@@ -57,8 +57,8 @@ fi
 
 
 # Push to Origin
-if git remote | grep deployorigin > /dev/null; then
-	echo "Pushing latest commit to origin 'deployorigin', with tags"
+if git remote | grep origin > /dev/null; then
+	echo "Pushing latest commit to origin 'origin', with tags"
 	git push origin master --tags
 fi
 

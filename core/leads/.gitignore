@@ -38,3 +38,5 @@ shared/languages/leads/_get-translations.bat
 node_modules
 Desktop.ini
 .idea/
+/tmp
+/svn
