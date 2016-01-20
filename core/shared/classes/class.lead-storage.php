@@ -120,7 +120,12 @@ if (!class_exists('LeadStorage')) {
 				if(!empty($lead['lead_lists']) && is_array($lead['lead_lists'])){
 					global $Inbound_Leads;
 					$Inbound_Leads->add_lead_to_list($lead['id'], $lead['lead_lists'], 'wplead_list_category');
+
+					/* store lead list cookie */
+					Leads_Tracking::cookie_lead_lists($lead['id']);
 				}
+
+
 
 				/* Store page views for people with ajax tracking off */
 				$ajax_tracking_off = false; /* get_option */
