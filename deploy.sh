@@ -26,12 +26,13 @@ git config --global credential.helper wincred
 
 
 # Merge Develop Into Master
-git checkout master
 echo "Checkout master"
-git pull deployorigin master
+git checkout master
 echo "pull master"
-git merge develop
+git pull deployorigin master
+
 echo "merge develop"
+git merge develop
 git push deployorigin master
 sleep 5
 
