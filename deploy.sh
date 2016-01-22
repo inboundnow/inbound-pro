@@ -11,7 +11,6 @@
 #3. Enter github password twice and magic happens
  
 # main config
-PLUGINSLUG="leads"
 CURRENTDIR=`pwd`
 MAINFILE="inbound-pro.php" # this should be the name of your main php file in the wordpress plugin
  
@@ -20,7 +19,7 @@ GITPATH="$CURRENTDIR" # this file should be in the base of your git repository
 
 
 # Tell git who we are
-#git remote add origin https://github.com/inboundnow/inbound-pro.git
+git remote add deployorigin https://github.com/inboundnow/inbound-pro.git
 
 # tell it to cache passwords:
 git config --global credential.helper wincred
@@ -29,11 +28,11 @@ git config --global credential.helper wincred
 # Merge Develop Into Master
 git checkout master
 echo "Checkout master"
-git pull origin master
+git pull deployorigin master
 echo "pull master"
 git merge develop
 echo "merge develop"
-git push origin master
+git push deployorigin master
 echo "push master"
 sleep 5
 
@@ -57,8 +56,11 @@ fi
 
 
 # Push to Origin
-if git remote | grep origin > /dev/null; then
-	echo "Pushing latest commit to origin 'origin', with tags"
-	git push origin master --tags
+if git remote | grep deployorigin > /dev/null; then
+	echo "Pushing latest commit to deployorigin 'deployorigin', with tags"
+	git push deployorigin master --tags
 fi
+
+# Switch back to develop
+git checkout master
 
