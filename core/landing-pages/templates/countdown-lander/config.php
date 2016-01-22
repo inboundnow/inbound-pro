@@ -104,7 +104,7 @@ if( function_exists('register_field_group') ):
 				'key' => 'field_55d38c97835ae',
 				'label' => __( 'Countdown Date','landing-pages' ),
 				'name' => 'countdown-lander-date-picker',
-				'type' => 'date_picker',
+				'type' => 'date_time_picker',
 				'instructions' => __( 'What date are we counting down to?','landing-pages' ),
 				'required' => 1,
 				'conditional_logic' => 0,
