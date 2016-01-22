@@ -62,5 +62,5 @@ if git remote | grep deployorigin > /dev/null; then
 fi
 
 # Switch back to develop
-git checkout master
+git checkout develop
 
