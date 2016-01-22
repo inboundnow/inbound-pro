@@ -29,11 +29,11 @@ git config --global credential.helper wincred
 git checkout master
 echo "Checkout master"
 git pull deployorigin master
-echo "pull master"
+echo "pull develop"
 git merge develop
 echo "merge develop"
 git push deployorigin master
-echo "push master"
+
 sleep 5
 
 
