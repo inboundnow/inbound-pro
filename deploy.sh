@@ -33,7 +33,6 @@ echo "pull master"
 git merge develop
 echo "merge develop"
 git push deployorigin master
-echo "push master"
 sleep 5
 
 
