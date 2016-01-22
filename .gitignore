@@ -6,6 +6,7 @@
 *.bat
 *.ini
 *.bat
+*.sh
 
 
 
@@ -18,11 +19,11 @@ Gruntfile.js
 
 #core
 core/landing-pages/shared
-core/landing-pages/tests
+core/landing-pages/assets/tests
 core/cta/shared
-core/cta/tests
+core/cta/assets/tests
 core/leads/shared
-core/leads/tests
+core/leads/assets/tests
 core/inbound-mailer/shared
 core/inbound-mailer/tests
 core/inbound-automation/shared
