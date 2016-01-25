@@ -28,13 +28,14 @@ git config --global credential.helper wincred
 # Switch back to develop
 git checkout develop
 git commit -a -m "Committing uncommitted changes"
-
+git push deployorigin develop
+sleep 5
 # Merge Develop Into Master
 echo "Checkout master"
 git checkout master
 echo "pull master"
 git pull deployorigin master
-
+sleep 5
 echo "merge develop"
 git merge develop
 git push deployorigin master
