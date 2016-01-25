@@ -1,13 +1,3 @@
-<div class="plugins">
-	<div class="plugin single"><strong>[file text="$#price#" data='true']</strong>
-
-		<p>Single-year License</p>[file text="#button#"]
-	</div>
-	<div class="plugin developers"><strong>[file text="$#price#" id="1437" data='true']</strong>
-
-		<p>Permanent License</p>[file text="#button#" id="1437"]
-	</div>
-</div>
 <?php
 
 if (!class_exists('Inbound_Mailer_ACF')) {

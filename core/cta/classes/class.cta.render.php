@@ -291,6 +291,10 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
                 $href = $anchor->getAttribute('href');
 
+                if (strstr( $href, 'do-not-track' )) {
+                    continue;
+                }
+
                 /* if not a valid link move on */
                 if ( !strstr( $href , '.' ) ) {
                     continue;
