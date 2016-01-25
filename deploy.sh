@@ -25,6 +25,10 @@ git remote add deployorigin https://github.com/inboundnow/inbound-pro.git
 git config --global credential.helper wincred
 
 
+# Switch back to develop
+git checkout develop
+git commit -a -m "Committing uncommitted changes"
+
 # Merge Develop Into Master
 echo "Checkout master"
 git checkout master
@@ -35,6 +39,8 @@ echo "merge develop"
 git merge develop
 git push deployorigin master
 sleep 5
+
+
 
 
 CURRENTVERSION=`grep "^Version:" $GITPATH/$MAINFILE | awk -F' ' '{print $NF}'`
@@ -60,6 +66,14 @@ if git remote | grep deployorigin > /dev/null; then
 	echo "Pushing latest commit to deployorigin 'deployorigin', with tags"
 	git push deployorigin master --tags
 fi
+
+# Switch back to develop
+git checkout develop
+
+# Create a release 
+git checkout -b release-"$CURRENTVERSION" develop
+git commit -a -m "Bumped version number to $CURRENTVERSION"
+
 
 # Switch back to develop
 git checkout develop
