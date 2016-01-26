@@ -731,7 +731,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                 }
             }
 
-            if (!is_array($geodata) || is_wp_error($geodata) || !$ip_address ) {
+            if ( !isset($geodata) || !is_array($geodata) || is_wp_error($geodata) || !$ip_address ) {
                 echo "<h2>" . __('No Geo data collected', 'leads') . "</h2>";
                 return;
             }

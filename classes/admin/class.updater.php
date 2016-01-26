@@ -119,6 +119,7 @@ class Inbound_Updater {
 
         self::$info  = json_decode( self::$response['body'] );
 
+
         if (!is_object(self::$info)) {
             self::$info = false;
             return false;
@@ -372,7 +373,7 @@ class Inbound_Updater {
         $archive = new PclZip($temp_file);
 
         if ( $_REQUEST['slug'] == 'inbound-pro' ) {
-            $result = $archive->extract( PCLZIP_OPT_REMOVE_PATH, 'inboundnow-inbound-pro-' .self::$info->commit_reference , PCLZIP_OPT_PATH, self::$path , PCLZIP_OPT_REPLACE_NEWER );
+            $result = $archive->extract( PCLZIP_OPT_REMOVE_PATH, '_inbound-now' , PCLZIP_OPT_PATH, self::$path , PCLZIP_OPT_REPLACE_NEWER );
         } else {
             $result = $archive->extract( PCLZIP_OPT_PATH, self::$path , PCLZIP_OPT_REPLACE_NEWER );
         }
