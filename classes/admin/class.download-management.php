@@ -642,7 +642,7 @@ class Inbound_Pro_Downloads {
 						}
 						?>
 
-						<div class="download-image" style='background-image:url(<?php echo INBOUND_PRO_URLPATH. 'assets/images/downloads/'.$download['post_name'].'.jpg'; ?>);' >
+						<div class="download-image" style='background-image:url(<?php echo $download['featured_image']; ?>);' >
 						</div>
 
 						<div class="col-template-content more-details" data-download='<?php echo $download['post_name']; ?>'  data-toggle="tooltip" data-placement="top" data-original-title='<?php _e( 'View Details' , INBOUNDNOW_TEXT_DOMAIN ); ?>'>
