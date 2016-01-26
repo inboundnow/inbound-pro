@@ -58,7 +58,7 @@ class Inbound_Pro_Downloads {
 		wp_enqueue_script('bootstrap', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/BootStrap/js/bootstrap.min.js');
 		wp_enqueue_style('bootstrap', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/BootStrap/css/bootstrap.min.css');
 		wp_enqueue_style('manage-downloads', INBOUND_PRO_URLPATH . 'assets/css/admin/manage-downloads.css');
-		wp_enqueue_style('fontawesome', INBOUNDNOW_SHARED_URLPATH . 'assets/fonts/FontAwesome/css/font-awesome.min.css');
+		wp_enqueue_style('fontawesome', INBOUNDNOW_SHARED_URLPATH . 'assets/fonts/fontawesome/css/font-awesome.min.css');
 
 		/* load cusotm js */
 		wp_enqueue_script('manage-downloads', INBOUND_PRO_URLPATH . 'assets/js/admin/manage-downloads.js' );
