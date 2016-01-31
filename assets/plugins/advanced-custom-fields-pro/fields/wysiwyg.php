@@ -55,10 +55,16 @@ class acf_field_wysiwyg extends acf_field {
 		add_filter( 'acf_the_content', 'capital_P_dangit', 11 );
 		add_filter( 'acf_the_content', 'wptexturize' );
 		add_filter( 'acf_the_content', 'convert_smilies' );
-		add_filter( 'acf_the_content', 'convert_chars' );
+		add_filter( 'acf_the_content', 'convert_chars' ); // not found in WP 4.4
 		add_filter( 'acf_the_content', 'wpautop' );
 		add_filter( 'acf_the_content', 'shortcode_unautop' );
-		//add_filter( 'acf_the_content', 'prepend_attachment' ); *should only be for the_content (causes double image on attachment page)
+		//add_filter( 'acf_the_content', 'prepend_attachment' ); should only be for the_content (causes double image on attachment page)
+		if( function_exists('wp_make_content_images_responsive') ) {
+			
+			add_filter( 'acf_the_content', 'wp_make_content_images_responsive' ); // added in WP 4.4
+			
+		}
+		
 		add_filter( 'acf_the_content', 'do_shortcode', 11);
 		
 

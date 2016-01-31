@@ -85,6 +85,7 @@ if (!class_exists('Inbound_Content_Statistics')) {
 			$exclude[] = 'inbound-log';
 			$exclude[] = 'landing-page';
 			$exclude[] = 'acf-field-group';
+			$exclude[] = 'download';
 
 			if ( $pagenow === 'post.php' && !in_array($post_type,$exclude) ) {
 				add_meta_box( 'inbound-content-statistics', __( 'Inbound Statistics' , 'landing-pages' ) , array( __CLASS__ , 'display_statistics' ) , $post_type, 'side', 'high');

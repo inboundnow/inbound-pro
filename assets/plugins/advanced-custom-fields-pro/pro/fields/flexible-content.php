@@ -392,7 +392,7 @@ class acf_field_flexible_content extends acf_field {
 						
 					?>
 					<th <?php acf_esc_attr_e( $atts ); ?>>
-						<?php acf_the_field_label( $sub_field ); ?>
+						<?php echo acf_get_field_label( $sub_field ); ?>
 						<?php if( $sub_field['instructions'] ): ?>
 							<p class="description"><?php echo $sub_field['instructions']; ?></p>
 						<?php endif; ?>

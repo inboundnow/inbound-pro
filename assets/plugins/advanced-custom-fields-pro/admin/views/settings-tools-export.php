@@ -2,25 +2,20 @@
 
 // vars
 $field_groups = acf_extract_var( $args, 'field_groups');
-$domain = acf_get_setting('export_textdomain');
-$keys = acf_get_setting('export_translate');
 
 
 // replace
-$replace = array(
+$str_replace = array(
+	"  "			=> "\t",
+	"!!\'"		=>	"'",
+	"'!!"		=>	"",
+	"!!'"		=>	""
+);
+
+$preg_replace = array(
 	'/([\t\r\n]+?)array/'	=> 'array',
 	'/[0-9]+ => array/'		=> 'array'
 );
-
-if( $keys && $domain ) {
-	
-	foreach( $keys as $k ) {
-		
-		$replace["/'{$k}' => '(.+)',/"] = "'{$k}' => __('$1', '$domain'),";
-		
-	}
-	
-}
 
 ?>
 <div class="wrap acf-settings-wrap">
@@ -40,17 +35,21 @@ if( $keys && $domain ) {
 			echo "if( function_exists('acf_add_local_field_group') ):" . "\r\n" . "\r\n";
 			
 			foreach( $field_groups as $field_group ) {
-								
+						
 				// code
 				$code = var_export($field_group, true);
 				
 				
 				// change double spaces to tabs
-				$code = str_replace("  ", "\t", $code);
+				$code = str_replace( array_keys($str_replace), array_values($str_replace), $code );
 				
 				
 				// correctly formats "=> array("
-				$code = preg_replace( array_keys($replace), array_values($replace), $code);
+				$code = preg_replace( array_keys($preg_replace), array_values($preg_replace), $code );
+				
+				
+				// esc_textarea
+				$code = esc_textarea( $code );
 				
 				
 				// echo

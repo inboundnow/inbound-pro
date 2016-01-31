@@ -84,6 +84,31 @@ class acf_field_date_picker extends acf_field {
 	
 	
 	/*
+	*  input_admin_enqueue_scripts
+	*
+	*  description
+	*
+	*  @type	function
+	*  @date	16/12/2015
+	*  @since	5.3.2
+	*
+	*  @param	$post_id (int)
+	*  @return	$post_id (int)
+	*/
+	
+	function input_admin_enqueue_scripts() {
+		
+		// script
+		wp_enqueue_script('jquery-ui-datepicker');
+		
+		
+		// style
+		wp_enqueue_style('acf-datepicker', acf_get_dir('assets/inc/datepicker/jquery-ui-1.10.4.custom.min.css'), '', '1.10.4' );
+		
+	}
+	
+	
+	/*
 	*  render_field()
 	*
 	*  Create the HTML interface for your field

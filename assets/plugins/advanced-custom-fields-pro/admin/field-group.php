@@ -111,8 +111,9 @@ class acf_admin_field_group {
 		
 		
 		// actions
-		add_action('admin_enqueue_scripts',		array($this,'admin_enqueue_scripts'));
-		add_action('admin_head', 				array($this,'admin_head'));
+		add_action('admin_enqueue_scripts',		array($this,'admin_enqueue_scripts'), 20);
+		add_action('admin_head', 				array($this,'admin_head'), 20);
+		add_action('admin_footer', 				array($this,'admin_footer'), 20);
 		
 	}
 	
@@ -167,8 +168,48 @@ class acf_admin_field_group {
 		global $post, $field_group;
 		
 		
-		// vars
+		// set global var
 		$field_group = acf_get_field_group( $post );
+		
+		
+		// metaboxes
+		add_meta_box('acf-field-group-fields', __("Fields",'acf'), array($this, 'mb_fields'), 'acf-field-group', 'normal', 'high');
+		add_meta_box('acf-field-group-locations', __("Location",'acf'), array($this, 'mb_locations'), 'acf-field-group', 'normal', 'high');
+		add_meta_box('acf-field-group-options', __("Settings",'acf'), array($this, 'mb_options'), 'acf-field-group', 'normal', 'high');
+		
+		
+		// actions
+		add_action('post_submitbox_misc_actions',	array($this, 'post_submitbox_misc_actions'), 10, 0);
+		add_action('edit_form_after_title',			array($this, 'edit_form_after_title'), 10, 0);
+		
+		
+		// filters
+		add_filter('screen_settings',				array($this, 'screen_settings'), 10, 1);
+		
+		
+		// action for 3rd party customisation
+		do_action('acf/field_group/admin_head');
+		
+	}
+	
+	
+	/*
+	*  admin_footer
+	*
+	*  description
+	*
+	*  @type	function
+	*  @date	11/01/2016
+	*  @since	5.3.2
+	*
+	*  @param	$post_id (int)
+	*  @return	$post_id (int)
+	*/
+	
+	function admin_footer() {
+		
+		// global
+		global $post;
 		
 		
 		// vars
@@ -197,34 +238,26 @@ class acf_admin_field_group {
 			'validation'			=> 0,
 		);
 		
-		?>
-		<script type="text/javascript">
-		(function($) {
-			
-			acf.o = <?php echo json_encode( $o ); ?>;
-			acf.l10n = <?php echo json_encode( $l10n ); ?>;
-			
-		})(jQuery);	
-		</script>
-		<?php
 		
-		
-		// metaboxes
-		add_meta_box('acf-field-group-fields', __("Fields",'acf'), array($this, 'mb_fields'), 'acf-field-group', 'normal', 'high');
-		add_meta_box('acf-field-group-locations', __("Location",'acf'), array($this, 'mb_locations'), 'acf-field-group', 'normal', 'high');
-		add_meta_box('acf-field-group-options', __("Settings",'acf'), array($this, 'mb_options'), 'acf-field-group', 'normal', 'high');
-		
-		
-		// actions
-		add_action('post_submitbox_misc_actions',	array($this, 'post_submitbox_misc_actions'), 10, 0);
-		add_action('edit_form_after_title',			array($this, 'edit_form_after_title'), 10, 0);
-		
-		// filters
-		add_filter('screen_settings',				array($this, 'screen_settings'), 10, 1);
+?>
+<script type="text/javascript">
+/* <![CDATA[ */
+if( typeof acf !== 'undefined' ) {
+
+	acf.o = <?php echo json_encode($o); ?>;
+	acf.l10n = <?php echo json_encode($l10n); ?>;
+	<?php do_action('acf/field_group/admin_footer_js'); ?>
+	
+	acf.do_action('prepare');
+	
+}
+/* ]]> */
+</script>
+<?php
 		
 		
 		// action for 3rd party customisation
-		do_action('acf/field_group/admin_head');
+		do_action('acf/field_group/admin_footer');
 		
 	}
 	

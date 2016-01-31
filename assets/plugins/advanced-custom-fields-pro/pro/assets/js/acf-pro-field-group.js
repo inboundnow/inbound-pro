@@ -561,27 +561,12 @@
 			$el2 = acf.duplicate( $el );
 			
 			
-			// vars
-			var $fields = $el2.find('.acf-field-object').not('[data-id="acfcloneindex"]');
-				
-			$fields.each(function(){
-				
-				// wipe
-				acf.field_group.wipe_field( $(this) );
-				
-				
-				// save
-				acf.field_group.save_field( $(this) );
-				
-			});
-			
-			
-			// fix conditional logic rules
-			acf.field_group_pro.fix_conditional_logic( $fields );
-			
-			
 			// add new tr
 			$el.after( $el2 );
+			
+			
+			// fire action 'duplicate_field' and allow acf.pro logic to clean sub fields
+			acf.do_action('duplicate_field', $el2);
 			
 			
 			// render layout

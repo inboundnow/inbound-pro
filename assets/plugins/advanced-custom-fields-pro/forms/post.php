@@ -130,11 +130,7 @@ class acf_form_post {
 	function admin_enqueue_scripts() {
 		
 		// validate page
-		if( ! $this->validate_page() ) {
-			
-			return;
-			
-		}
+		if( !$this->validate_page() ) return;
 
 		
 		// load acf scripts
@@ -379,6 +375,7 @@ if( typeof acf !== 'undefined' ) {
 			'nonce'		=> '',
 			'post_id'	=> 0,
 			'ajax'		=> 1,
+			'exists'	=> array()
 		));
 		
 		

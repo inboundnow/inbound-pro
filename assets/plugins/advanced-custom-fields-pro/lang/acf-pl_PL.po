@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Advanced Custom Fields Pro v5.2.9\n"
 "Report-Msgid-Bugs-To: http://support.advancedcustomfields.com\n"
 "POT-Creation-Date: 2015-08-11 23:35+0200\n"
-"PO-Revision-Date: 2015-11-05 16:52+0100\n"
+"PO-Revision-Date: 2015-12-01 13:20+0100\n"
 "Last-Translator: Ralf Koller <r.koller@gmail.com>\n"
 "Language-Team: Digital Factory <info@digitalfactory.pl>\n"
 "Language: pl_PL\n"
@@ -1583,7 +1583,7 @@ msgstr "Pojawia się w inpucie"
 #: fields/email.php:142 fields/number.php:168 fields/password.php:146
 #: fields/text.php:166
 msgid "Prepend"
-msgstr "Dołączenie"
+msgstr "Przed polem (poprzedź)"
 
 #: fields/email.php:143 fields/number.php:169 fields/password.php:147
 #: fields/text.php:167
@@ -1593,7 +1593,7 @@ msgstr "Pojawia się przed inputem"
 #: fields/email.php:151 fields/number.php:177 fields/password.php:155
 #: fields/text.php:175
 msgid "Append"
-msgstr "Dołącz"
+msgstr "Za polem (dołącz)"
 
 #: fields/email.php:152 fields/number.php:178 fields/password.php:156
 #: fields/text.php:176

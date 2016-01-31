@@ -35,8 +35,8 @@ if (!function_exists('inboundnow_add_master_license'))
 		$global_settings[$key]['settings']['master-key'] = 	array(
 				'id'  => 'inboundnow_master_license_key',
 				'option_name'  => 'inboundnow_master_license_key',
-				'label' => __('InboundNow Master License Key', $text_domain ),
-				'description' => __( "Head to http://www.inboundnow.com/ to retrieve your extension-ready license key.", $text_domain ),
+				'label' => __('Inbound Now API Key', $text_domain ),
+				'description' => __( "Head to http://www.inboundnow.com/account to retrieve your extension-ready license key.", $text_domain ),
 				'type'  => 'text',
 				'default' => ''
 		);

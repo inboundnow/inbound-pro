@@ -164,34 +164,23 @@ if ( ! class_exists( 'Inbound_License' ) )
 		{
 
 			$date = date("Y-m-d");
-			$cache_date = get_option($field['id']."-expire");
+			$cache_date = get_transient($field['id']."-expire");
 			$license_status = get_option('inboundnow_license_status_'.$this->plugin_slug);
 
-			/*
-			echo "date: $date <br>";
-			echo "cache date: $cache_date <br>";
-			echo "license status: $license_status <br>";
-			echo "license key: ".$field['value'];
-			echo "<br>";
-			*/
 
-			if (isset($cache_date)&&($date<$cache_date)&&$license_status=='valid') {
+			if (isset($cache_date)&&$license_status=='active') {
 				return "valid";
 			}
 
 			$api_params = array(
-				'edd_action' => 'check_license',
+				'edd_action' => 'inbound_check_license',
 				'license' => $field['value'],
 				'item_name' => urlencode( $this->remote_download_slug ) ,
 				'cache_bust'=> substr(md5(rand()),0,7)
 			);
 
-			/*print_r($api_params); */
-			/*echo '<br>'; */
-
 			/* Call the custom API. */
-			$response = wp_remote_get( add_query_arg( $api_params, $this->remote_api_url ), array( 'timeout' => 15, 'sslverify' => false ) );
-			/*print_r($response['body']);exit; */
+			$response = wp_remote_get( add_query_arg( $api_params, $this->remote_api_url ), array( 'timeout' => 30, 'sslverify' => false ) );
 
 			if ( is_wp_error( $response ) )
 				return false;
@@ -199,13 +188,13 @@ if ( ! class_exists( 'Inbound_License' ) )
 			$license_data = json_decode( wp_remote_retrieve_body( $response ) );
 			/*print_r($license_data);exit; */
 
-			if( $license_data->license == 'valid' ) {
+			if( $license_data->license == 'active' ) {
 				$newDate = date('Y-m-d', strtotime($license_data->expires));
-				update_option($field['id']."-expire", $newDate);
-				return 'valid';
+				set_transient($field['id']."-expire", true, YEAR_IN_SECONDS / 2 );
+				return 'active';
 				/* this license is still valid */
 			} else {
-				return 'invalid';
+				return 'inactive';
 			}
 		}
 
@@ -246,7 +235,7 @@ if ( ! class_exists( 'Inbound_License' ) )
 
 				/* data to send in our API request */
 				$api_params = array(
-					'edd_action'=> 'activate_license',
+					'edd_action'=> 'inbound_check_license',
 					'license' 	=> $master_license_key,
 					'item_name' =>  $this->remote_download_slug ,
 					'cache_bust'=> substr(md5(rand()),0,7)
@@ -256,8 +245,6 @@ if ( ! class_exists( 'Inbound_License' ) )
 
 				/* Call the custom API. */
 				$response = wp_remote_get( add_query_arg( $api_params, $this->remote_api_url ), array( 'timeout' => 30, 'sslverify' => false ) );
-				/*echo $response['body']; */
-				/*echo "<hr>"; */
 
 				/* decode the license data */
 				$license_data = json_decode( wp_remote_retrieve_body( $response ) );
@@ -323,7 +310,7 @@ if ( ! class_exists( 'Inbound_License' ) )
 		public function api_request() {
 
 			$api_params = array(
-				'edd_action' 	=> 'get_version',
+				'edd_action' 	=> 'inbound_get_version',
 				'license' 		=> $this->master_license_key,
 				'name' 			=> $this->remote_download_slug,
 				'slug' 			=> $this->plugin_slug

@@ -153,7 +153,7 @@ function acf_update_metadata( $post_id = 0, $name = '', $value = '', $hidden = f
 	
 	
 	// return
-	return $return;
+	return (boolean) $return;
 	
 }
 
@@ -296,7 +296,11 @@ function acf_update_option( $option = '', $value = '', $autoload = null ) {
 *  @return	(mixed)
 */
 
-function acf_get_value( $post_id, $field ) {
+function acf_get_value( $post_id = 0, $field ) {
+	
+	// bail early if no $post_id (acf_form - new_post)
+	if( !$post_id ) return null;
+	
 	
 	// try cache
 	$found = false;

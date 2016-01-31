@@ -1,7 +1,18 @@
 <?php 
 
+/*
+*  ACF Input Class
+*
+*  All the logic run on input pages (edit post)
+*
+*  @class 		acf_input
+*  @package		ACF
+*  @subpackage	Core
+*/
+
+if( ! class_exists('acf_input') ) :
+
 class acf_input {
-	
 	
 	/*
 	*  __construct
@@ -18,6 +29,13 @@ class acf_input {
 	
 	function __construct() {
 		
+		// vars
+		$this->admin_enqueue_scripts = 'admin_enqueue_scripts';
+		$this->admin_head = 'admin_head';
+		$this->admin_footer = 'admin_footer';
+		
+		
+		// actions
 		add_action('acf/save_post', 							array($this, 'save_post'), 10, 1);
 		add_action('acf/input/admin_enqueue_scripts', 			array($this, 'admin_enqueue_scripts'), 10, 0);
 		add_action('acf/input/admin_footer', 					array($this, 'admin_footer'), 10, 0);
@@ -26,6 +44,73 @@ class acf_input {
 		// ajax
 		add_action( 'wp_ajax_acf/validate_save_post',			array($this, 'ajax_validate_save_post') );
 		add_action( 'wp_ajax_nopriv_acf/validate_save_post',	array($this, 'ajax_validate_save_post') );
+		
+	}
+	
+	
+	/*
+	*  init
+	*
+	*  This function will determin the actions to use for different pages
+	*
+	*  @type	function
+	*  @date	13/01/2016
+	*  @since	5.3.2
+	*
+	*  @param	n/a
+	*  @return	n/a
+	*/
+	
+	function init() {
+		
+		// global
+		global $pagenow;
+		
+		
+		// determine action hooks
+		if( $pagenow == 'customize.php' ) {
+			
+			$this->admin_head = 'customize_controls_print_scripts';
+			$this->admin_footer = 'customize_controls_print_footer_scripts';
+			
+		} elseif( $pagenow == 'wp-login.php' ) { 
+			
+			$this->admin_enqueue_scripts = 'login_enqueue_scripts';
+			$this->admin_head = 'login_head';
+			$this->admin_footer = 'login_footer';
+			
+		} elseif( !is_admin() ) {
+			
+			$this->admin_enqueue_scripts = 'wp_enqueue_scripts';
+			$this->admin_head = 'wp_head';
+			$this->admin_footer = 'wp_footer';
+			
+		}
+		
+		
+		// actions
+		acf_maybe_add_action($this->admin_enqueue_scripts, 	array($this, 'do_admin_enqueue_scripts'), 20 );
+		acf_maybe_add_action($this->admin_head, 			array($this, 'do_admin_head'), 20 );
+		acf_maybe_add_action($this->admin_footer, 			array($this, 'do_admin_footer'), 20 );
+				
+	}
+	
+	function do_admin_enqueue_scripts() {
+		
+		do_action('acf/input/admin_enqueue_scripts');
+		
+	}
+		
+	function do_admin_head() {
+		
+		do_action('acf/input/admin_head');
+		
+	}
+	
+	function do_admin_footer() {
+		
+		do_action('acf/input/admin_footer');
+		
 	}
 	
 	
@@ -44,6 +129,10 @@ class acf_input {
 	
 	function save_post( $post_id = 0 ) {
 		
+		// bai learly if empty
+		if( empty($_POST['acf']) ) return;
+		
+		
 		// save $_POST data
 		foreach( $_POST['acf'] as $k => $v ) {
 			
@@ -51,12 +140,12 @@ class acf_input {
 			$field = acf_get_field( $k );
 			
 			
-			// update field
-			if( $field ) {
-				
-				acf_update_value( $v, $post_id, $field );
-				
-			}
+			// continue if no field
+			if( !$field ) continue;
+			
+			
+			// update
+			acf_update_value( $v, $post_id, $field );
 			
 		}
 	
@@ -136,21 +225,21 @@ class acf_input {
 		));
 		
 		
-?>
-<script type="text/javascript">
-/* <![CDATA[ */
-if( typeof acf !== 'undefined' ) {
-
-	acf.o = <?php echo json_encode($o); ?>;
-	acf.l10n = <?php echo json_encode($l10n); ?>;
-	<?php do_action('acf/input/admin_footer_js'); ?>
-	
-	acf.do_action('prepare');
-	
-}
-/* ]]> */
-</script>
-<?php
+		?>
+		<script type="text/javascript">
+		/* <![CDATA[ */
+		if( typeof acf !== 'undefined' ) {
+		
+			acf.o = <?php echo json_encode($o); ?>;
+			acf.l10n = <?php echo json_encode($l10n); ?>;
+			<?php do_action('acf/input/admin_footer_js'); ?>
+			
+			acf.do_action('prepare');
+			
+		}
+		/* ]]> */
+		</script>
+		<?php
 		
 	}
 	
@@ -206,80 +295,20 @@ if( typeof acf !== 'undefined' ) {
 }
 
 
+// global
+global $acf_input;
+
+
 // initialize
-new acf_input();
+$acf_input = new acf_input();
+
+
+// class_exists check
+endif; 
 
 
 /*
-*  listener
-*
-*  This class will call all the neccessary actions during the page load for acf input to function
-*
-*  @type	class
-*  @date	7/10/13
-*  @since	5.0.0
-*
-*  @param	n/a
-*  @return	n/a
-*/
-
-class acf_input_listener {
-	
-	function __construct() {
-		
-		// enqueue scripts
-		do_action('acf/input/admin_enqueue_scripts');
-		
-		
-		// vars
-		$admin_head = 'admin_head';
-		$admin_footer = 'admin_footer';
-		
-		
-		// global
-		global $pagenow;
-		
-		
-		// determine action hooks
-		if( $pagenow == 'customize.php' ) {
-			
-			$admin_head = 'customize_controls_print_scripts';
-			$admin_footer = 'customize_controls_print_footer_scripts';
-			
-		} elseif( $pagenow == 'wp-login.php' ) { 
-		
-			$admin_head = 'login_head';
-			$admin_footer = 'login_footer';
-			
-		} elseif( !is_admin() ) {
-			
-			$admin_head = 'wp_head';
-			$admin_footer = 'wp_footer';
-			
-		}
-		
-		
-		// add actions
-		add_action($admin_head, 	array( $this, 'admin_head'), 20 );
-		add_action($admin_footer, 	array( $this, 'admin_footer'), 20 );
-		
-	}
-	
-	function admin_head() {
-		
-		do_action('acf/input/admin_head');
-	}
-	
-	function admin_footer() {
-		
-		do_action('acf/input/admin_footer');
-	}
-	
-}
-
-
-/*
-*  acf_admin_init
+*  acf_enqueue_scripts
 *
 *  This function is used to setup all actions / functionality for an admin page which will contain ACF inputs
 *
@@ -293,20 +322,13 @@ class acf_input_listener {
 
 function acf_enqueue_scripts() {
 	
-	// bail early if acf has already loaded
-	if( acf_get_setting('enqueue_scripts') ) {
-	
-		return;
-		
-	}
+	// globals
+	global $acf_input;
 	
 	
-	// update setting
-	acf_update_setting('enqueue_scripts', 1);
+	// init
+	$acf_input->init();
 	
-	
-	// add actions
-	new acf_input_listener();
 }
 
 
@@ -326,27 +348,15 @@ function acf_enqueue_scripts() {
 function acf_enqueue_uploader() {
 	
 	// bail early if doing ajax
-	if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-		
-		return;
-		
-	}
+	if( defined('DOING_AJAX') && DOING_AJAX ) return;
 	
 	
-	// bail early if acf has already loaded
-	if( acf_get_setting('enqueue_uploader') ) {
-	
-		return;
-		
-	}
-	
-	
-	// update setting
-	acf_update_setting('enqueue_uploader', 1);
+	// bail ealry if already run
+	if( acf_has_done('enqueue_uploader') ) return;
 	
 	
 	// enqueue media if user can upload
-	if( current_user_can( 'upload_files' ) ) {
+	if( current_user_can('upload_files') ) {
 		
 		wp_enqueue_media();
 		
@@ -406,6 +416,7 @@ function acf_form_data( $args = array() ) {
 		<?php do_action('acf/input/form_data', $args); ?>
 	</div>
 	<?php
+	
 }
 
 
@@ -425,11 +436,7 @@ function acf_form_data( $args = array() ) {
 function acf_save_post( $post_id = 0 ) {
 	
 	// bail early if no acf values
-	if( empty($_POST['acf']) ) {
-		
-		return false;
-		
-	}
+	if( empty($_POST['acf']) ) return false;
 	
 	
 	// hook for 3rd party customization
@@ -508,6 +515,7 @@ function acf_validate_save_post( $show_errors = false ) {
 	
 	// return
 	return true;
+	
 }
 
 
@@ -624,12 +632,11 @@ function acf_add_validation_error( $input, $message = '' ) {
 
 function acf_get_validation_errors() {
 	
-	if( empty($GLOBALS['acf_validation_errors']) ) {
-		
-		return false;
-		
-	}
+	// bail early if no errors
+	if( empty($GLOBALS['acf_validation_errors']) ) return false;
 	
+	
+	// return
 	return $GLOBALS['acf_validation_errors'];
 	
 }

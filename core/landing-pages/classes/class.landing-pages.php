@@ -32,7 +32,7 @@ class Landing_Pages_Template_Switcher {
         add_filter('get_the_content', array( __CLASS__ , 'display_conversion_area' ), 20);
 
         /* Switch to correct landing page template */
-        add_filter('single_template', array( __CLASS__ , 'switch_template' ), 13);
+        add_filter('template_include', array( __CLASS__ , 'switch_template' ), 13);
 
         /* Load custom CSS and load custom JS */
         add_action('wp_head', array( __CLASS__ , 'load_custom_js_css' ) );
@@ -131,44 +131,44 @@ class Landing_Pages_Template_Switcher {
     /**
      * Detects if landing page & issues the correct template
      */
-    public static function switch_template( $single ) {
+    public static function switch_template( $template ) {
         global $wp_query, $post, $query_string;
 
         if ($post->post_type != "landing-page") {
-            return $single;
+            return $template;
         }
 
         /* nextgen gallery support */
         if (!defined('NGG_DISABLE_FILTER_THE_CONTENT')) {
             define( 'NGG_DISABLE_FILTER_THE_CONTENT' , true );
-        } 
+        }
 
-        $template = Landing_Pages_Variations::get_current_template( $post->ID );
+        $selected_template = Landing_Pages_Variations::get_current_template( $post->ID );
 
-        if (!isset($template) || $template === 'default' ) {
-            return $single;
+        if (!isset($selected_template) || $selected_template === 'default' ) {
+            return $template;
         }
 
         /* check if inactive theme */
-        $my_theme = wp_get_theme( $template );
+        $my_theme = wp_get_theme( $selected_template );
         if ($my_theme->exists()) {
-            return $single;
+            return $template;
         }
 
         /* check if core template first */
-        if (file_exists(LANDINGPAGES_PATH . 'templates/' . $template . '/index.php')) {
-            return LANDINGPAGES_PATH . 'templates/' . $template . '/index.php';
+        if (file_exists(LANDINGPAGES_PATH . 'templates/' . $selected_template . '/index.php')) {
+            return LANDINGPAGES_PATH . 'templates/' . $selected_template . '/index.php';
         }
         /* next check if it is an uploaded template */
-        else if (file_exists(LANDINGPAGES_UPLOADS_PATH . $template . '/index.php')) {
-            return LANDINGPAGES_UPLOADS_PATH . $template . '/index.php';
+        else if (file_exists(LANDINGPAGES_UPLOADS_PATH . $selected_template . '/index.php')) {
+            return LANDINGPAGES_UPLOADS_PATH . $selected_template . '/index.php';
         }
         /* next check if it is included with a WordPress theme */
-        else if (file_exists(LANDINGPAGES_THEME_TEMPLATES_PATH . $template . '/index.php')) {
-            return LANDINGPAGES_THEME_TEMPLATES_PATH . $template . '/index.php';
+        else if (file_exists(LANDINGPAGES_THEME_TEMPLATES_PATH . $selected_template . '/index.php')) {
+            return LANDINGPAGES_THEME_TEMPLATES_PATH . $selected_template . '/index.php';
         }
 
-        return $single;
+        return $template;
     }
 
     /**

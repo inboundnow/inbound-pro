@@ -565,14 +565,14 @@ class Landing_Pages_Settings {
                     /* error_log(print_r($field, true)); */
                     $slug = (isset($field['remote_download_slug'])) ? $field['remote_download_slug'] : $field['slug'];
                     $api_params = array(
-                        'edd_action' => 'activate_license',
+                        'edd_action' => 'inbound_check_license',
                         'license' =>   $_POST['inboundnow_master_license_key'],
                         'item_name' => $slug
                     );
                     /* error_log(print_r($api_params, true)); */
 
                     /* Call the edd API */
-                    $response = wp_remote_get(add_query_arg($api_params, WPL_STORE_URL), array('timeout' => 30, 'sslverify' => false));
+                    $response = wp_remote_get(add_query_arg($api_params, INBOUNDNOW_STORE_URL ), array('timeout' => 30, 'sslverify' => false));
                     /* error_log(print_r($response, true)); */
 
                     /* make sure the response came back okay */

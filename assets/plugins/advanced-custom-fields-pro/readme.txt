@@ -2,7 +2,7 @@
 Contributors: elliotcondon
 Tags: acf, advanced, custom, field, fields, custom field, custom fields, simple fields, magic fields, more fields, repeater, edit
 Requires at least: 3.6.0
-Tested up to: 4.3
+Tested up to: 4.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -105,6 +105,28 @@ http://support.advancedcustomfields.com/
 
 
 == Changelog ==
+
+= 5.3.3 =
+* Google Maps field: Fixed bug where pasting value did not trigger auto complete
+* Select field: Improved Select2 search matching for special characters
+* Select field: Improved asset loading to allow other Select2 libraries to load first
+* Select field: Added compatibility for both Select2 v3 and v4
+* WYSIWYG field: Added new responsive images filter to the 'acf_the_content' filter
+* oEmbed field: Added compatibility for custom oEmbed handlers
+* Flexible Content field: Fixed bug causing sub fields to move when duplicating layouts
+* Core: Added new translation settings 'l10n', 'l10n_textdomain', 'l10n_field' and 'l10n_field_group'
+* core: Improved Export to PHP feature which now uses the above translation settings
+* Core: Fixed PHP error preventing new field groups from loading when editing a post
+* Core: Added hierarchy to taxonomy terms shown in drop down elements
+* Core: Improved update logic to ignore plugin when included within a theme / plugin
+* API: Improved `acf_form()` loading efficiency when using 'new_post' setting
+* API: Improved `add_row()` function to work when no value exists
+* API: Added new function `get_row_index()` to use within the `have_rows()` loop
+* Language: Updated Polish translation - thanks to Michal Lepiarz
+* Language: Updated Persian translation - thanks to Kamel
+* Language: Updated Spanish translation - thanks to Federico Schäfer
+* Language: Updated Norwegian translation - thanks to Havard Grimelid
+* Language: Updated Swedish translation - thanks to Björn Göransson
 
 = 5.3.2.2 =
 * Core: Fixed PHP error when registering a local field missing one of more settings

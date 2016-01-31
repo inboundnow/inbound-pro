@@ -1141,7 +1141,7 @@ var acf;
 		maybe_get: function( obj, key, value ){
 			
 			// default
-			value = value || null;
+			if( typeof value == 'undefined' ) value = null;
 						
 			
 			// convert type to string and split
@@ -1906,6 +1906,12 @@ var acf;
 			// return
 			return $el2;
 			
+		},
+		
+		decode: function( string ){
+			
+			return $('<div/>').html( string ).text();
+			
 		}
 		
 	};
@@ -2028,9 +2034,400 @@ var acf;
 				
 			});
 			
+		},
+		
+		get: function( name, value ){
+			
+			// defaults
+			value = value || null;
+			
+			
+			// get
+			if( typeof this[ name ] !== 'undefined' ) {
+				
+				value = this[ name ];
+					
+			}
+			
+			
+			// return
+			return value;
+			
+		},
+		
+		
+		set: function( name, value ){
+			
+			// set
+			this[ name ] = value;
+			
+			
+			// function for 3rd party
+			if( typeof this[ '_set_' + name ] === 'function' ) {
+				
+				this[ '_set_' + name ].apply(this);
+				
+			}
+			
+			
+			// return for chaining
+			return this;
+			
 		}
 		
 	};
+	
+	
+	/*
+	*  field
+	*
+	*  This model sets up many of the field's interactions
+	*
+	*  @type	function
+	*  @date	21/02/2014
+	*  @since	3.5.1
+	*
+	*  @param	n/a
+	*  @return	n/a
+	*/
+	
+	acf.field = acf.model.extend({
+		
+		// vars
+		type:		'',
+		o:			{},
+		$field:		null,
+		
+		_add_action: function( name, callback ) {
+			
+			// vars
+			var model = this;
+			
+			
+			// update name
+			name = name + '_field/type=' + model.type;
+			
+			
+			// add action
+			acf.add_action(name, function( $field ){
+				
+				// focus
+				model.set('$field', $field);
+				
+				
+				// callback
+				model[ callback ].apply(model, arguments);
+				
+			});
+			
+		},
+		
+		_add_filter: function( name, callback ) {
+			
+			// vars
+			var model = this;
+			
+			
+			// update name
+			name = name + '_field/type=' + model.type;
+			
+			
+			// add action
+			acf.add_filter(name, function( $field ){
+				
+				// focus
+				model.set('$field', $field);
+				
+				
+				// callback
+				model[ callback ].apply(model, arguments);
+				
+			});
+			
+		},
+		
+		_add_event: function( name, callback ) {
+			
+			// vars
+			var model = this,
+				event = name.substr(0,name.indexOf(' ')),
+				selector = name.substr(name.indexOf(' ')+1),
+				context = acf.get_selector(model.type);
+			
+			
+			// add event
+			$(document).on(event, context + ' ' + selector, function( e ){
+				
+				// append $el to event object
+				e.$el = $(this);
+				e.$field = acf.get_closest_field(e.$el, model.type);
+				
+				
+				// focus
+				model.set('$field', e.$field);
+				
+				
+				// callback
+				model[ callback ].apply(model, [e]);
+				
+			});
+			
+		},
+		
+		_set_$field: function(){
+			
+			// callback
+			if( typeof this.focus === 'function' ) {
+				
+				this.focus();
+				
+			}
+			
+		},
+		
+		// depreciated
+		doFocus: function( $field ){
+			
+			return this.set('$field', $field);
+			
+		}
+		
+	});
+	
+	
+	/*
+	*  field
+	*
+	*  This model fires actions and filters for registered fields
+	*
+	*  @type	function
+	*  @date	21/02/2014
+	*  @since	3.5.1
+	*
+	*  @param	n/a
+	*  @return	n/a
+	*/
+	
+	acf.fields = acf.model.extend({
+		
+		actions: {
+			'prepare'			: '_prepare',
+			'prepare_field'		: '_prepare_field',
+			'ready'				: '_ready',
+			'ready_field'		: '_ready_field',
+			'append'			: '_append',
+			'append_field'		: '_append_field',
+			'load'				: '_load',
+			'load_field'		: '_load_field',
+			'remove'			: '_remove',
+			'remove_field'		: '_remove_field',
+			'sortstart'			: '_sortstart',
+			'sortstart_field'	: '_sortstart_field',
+			'sortstop'			: '_sortstop',
+			'sortstop_field'	: '_sortstop_field',
+			'show'				: '_show',
+			'show_field'		: '_show_field',
+			'hide'				: '_hide',
+			'hide_field'		: '_hide_field',
+		},
+		
+		// prepare
+		_prepare: function( $el ){
+		
+			acf.get_fields('', $el).each(function(){
+				
+				acf.do_action('prepare_field', $(this));
+				
+			});
+			
+		},
+		
+		_prepare_field: function( $el ){
+		
+			acf.do_action('prepare_field/type=' + acf.get_field_type($el), $el);
+			
+		},
+		
+		// ready
+		_ready: function( $el ){
+		
+			acf.get_fields('', $el).each(function(){
+				
+				acf.do_action('ready_field', $(this));
+				
+			});
+			
+		},
+		
+		_ready_field: function( $el ){
+		
+			acf.do_action('ready_field/type=' + acf.get_field_type($el), $el);
+			
+		},
+		
+		// append
+		_append: function( $el ){
+		
+			acf.get_fields('', $el).each(function(){
+				
+				acf.do_action('append_field', $(this));
+				
+			});
+			
+		},
+		
+		_append_field: function( $el ){
+		
+			acf.do_action('append_field/type=' + acf.get_field_type($el), $el);
+			
+		},
+		
+		// load
+		_load: function( $el ){
+		
+			acf.get_fields('', $el).each(function(){
+				
+				acf.do_action('load_field', $(this));
+				
+			});
+			
+		},
+		
+		_load_field: function( $el ){
+		
+			acf.do_action('load_field/type=' + acf.get_field_type($el), $el);
+			
+		},
+		
+		// remove
+		_remove: function( $el ){
+		
+			acf.get_fields('', $el).each(function(){
+				
+				acf.do_action('remove_field', $(this));
+				
+			});
+			
+		},
+		
+		_remove_field: function( $el ){
+		
+			acf.do_action('remove_field/type=' + acf.get_field_type($el), $el);
+			
+		},
+		
+		// sortstart
+		_sortstart: function( $el ){
+		
+			acf.get_fields('', $el).each(function(){
+				
+				acf.do_action('sortstart_field', $(this));
+				
+			});
+			
+		},
+		
+		_sortstart_field: function( $el ){
+		
+			acf.do_action('sortstart_field/type=' + acf.get_field_type($el), $el);
+			
+		},
+		
+		// sortstop
+		_sortstop: function( $el ){
+		
+			acf.get_fields('', $el).each(function(){
+				
+				acf.do_action('sortstop_field', $(this));
+				
+			});
+			
+		},
+		
+		_sortstop_field: function( $el ){
+		
+			acf.do_action('sortstop_field/type=' + acf.get_field_type($el), $el);
+			
+		},
+		
+		
+		// hide
+		_hide: function( $el ){
+		
+			acf.get_fields('', $el).each(function(){
+				
+				acf.do_action('hide_field', $(this));
+				
+			});
+			
+		},
+		
+		_hide_field: function( $el ){
+		
+			acf.do_action('hide_field/type=' + acf.get_field_type($el), $el);
+			
+		},
+		
+		// show
+		_show: function( $el ){
+		
+			acf.get_fields('', $el).each(function(){
+				
+				acf.do_action('show_field', $(this));
+				
+			});
+			
+		},
+		
+		_show_field: function( $el ){
+		
+			acf.do_action('show_field/type=' + acf.get_field_type($el), $el);
+			
+		}
+		
+	});
+	
+	
+	/*
+	*  ready
+	*
+	*  description
+	*
+	*  @type	function
+	*  @date	19/02/2014
+	*  @since	5.0.0
+	*
+	*  @param	$post_id (int)
+	*  @return	$post_id (int)
+	*/
+	
+	$(document).ready(function(){
+		
+		// action for 3rd party customization
+		acf.do_action('ready', $('body'));
+		
+	});
+	
+	
+	/*
+	*  load
+	*
+	*  description
+	*
+	*  @type	function
+	*  @date	19/02/2014
+	*  @since	5.0.0
+	*
+	*  @param	$post_id (int)
+	*  @return	$post_id (int)
+	*/
+	
+	$(window).load(function(){
+		
+		// action for 3rd party customization
+		acf.do_action('load', $('body'));
+		
+	});
 	
 	
 	/*
@@ -2157,248 +2554,6 @@ var acf;
 		}
 		
 	});
-	
-	
-	/*
-	*  field
-	*
-	*  This model sets up many of the field's interactions
-	*
-	*  @type	function
-	*  @date	21/02/2014
-	*  @since	3.5.1
-	*
-	*  @param	n/a
-	*  @return	n/a
-	*/
-	
-	acf.fields = {};
-	acf.field = {
-		
-		// vars
-		type:		'',
-		o:			{},
-		
-		actions:	{},
-		events:		{},
-		
-		$field:		null,
-		
-		extend: function( args ){
-			
-			// extend
-			var model = $.extend( {}, this, args );
-			
-			
-			// vars
-			var selector = acf.get_selector(model.type);
-			
-			
-			// setup actions
-			$.each(model.actions, function( k, callback ){
-				
-				// vars
-				var action = k + '_field/type=' + model.type;
-				
-				acf.add_action(action, function( $el ){
-					
-					// focus
-					model.doFocus( $el );
-					
-					
-					// callback
-					model[ callback ].apply(model, arguments);
-					
-				});
-				
-			});
-
-			
-			
-			// setup events
-			$.each(model.events, function( k, callback ){
-				
-				// vars
-				var event = k.substr(0,k.indexOf(' ')),
-					trigger = k.substr(k.indexOf(' ')+1);					
-				
-				
-				$(document).on(event, selector + ' ' + trigger, function( e ){
-					
-					// append $(this)
-					e.$el = $(this);
-					
-					
-					// focus
-					model.doFocus( acf.get_closest_field( $(this), model.type ) );
-					
-					
-					// callback
-					model[ callback ].apply(model, [ e ]);
-					
-				});
-				
-			});
-			
-			
-			// return
-			return model;
-			
-		},
-		
-		doFocus: function( $field ){
-			
-			// focus on $field
-			this.$field = $field;
-			
-			
-			// callback
-			if( typeof this.focus === 'function' ) {
-				
-				this.focus();
-				
-			}
-			
-			
-			// return for chaining
-			return this;
-			
-		}
-		
-	};
-	
-	acf.add_action('prepare', function( $el ){
-		
-		acf.get_fields('', $el).each(function(){
-			
-			acf.do_action('prepare_field', $(this));
-			acf.do_action('prepare_field/type=' + acf.get_field_type($(this)), $(this));
-			
-		});
-		
-	});
-	
-	acf.add_action('ready', function( $el ){
-		
-		acf.get_fields('', $el).each(function(){
-			
-			acf.do_action('ready_field', $(this));
-			acf.do_action('ready_field/type=' + acf.get_field_type($(this)), $(this));
-			
-		});
-		
-	});
-	
-	acf.add_action('append', function( $el ){
-				
-		acf.get_fields('', $el).each(function(){
-			
-			acf.do_action('append_field', $(this));
-			acf.do_action('append_field/type=' + acf.get_field_type($(this)), $(this));
-			
-		});
-		
-	});
-	
-	acf.add_action('load', function( $el ){
-				
-		acf.get_fields('', $el).each(function(){
-			
-			acf.do_action('load_field', $(this));
-			acf.do_action('load_field/type=' + acf.get_field_type($(this)), $(this));
-			
-		});
-		
-	});
-	
-	
-	acf.add_action('remove', function( $el ){
-				
-		acf.get_fields('', $el).each(function(){
-			
-			acf.do_action('remove_field', $(this));
-			acf.do_action('remove_field/type=' + acf.get_field_type($(this)), $(this));
-			
-		});
-		
-	});
-	
-	acf.add_action('sortstart', function( $item, $placeholder ){
-				
-		acf.get_fields('', $item).each(function(){
-			
-			acf.do_action('sortstart_field', $(this));
-			acf.do_action('sortstart_field/type=' + acf.get_field_type($(this)), $(this));
-			
-		});
-		
-	});
-	
-	acf.add_action('sortstop', function( $item, $placeholder ){
-				
-		acf.get_fields('', $item).each(function(){
-			
-			acf.do_action('sortstop_field', $(this));
-			acf.do_action('sortstop_field/type=' + acf.get_field_type($(this)), $(this));
-			
-		});
-		
-	});
-	
-	acf.add_action('hide_field', function( $el, context ){
-				
-		acf.do_action('hide_field/type=' + acf.get_field_type($el), $el, context);
-		
-	});
-	
-	acf.add_action('show_field', function( $el, context ){
-				
-		acf.do_action('show_field/type=' + acf.get_field_type($el), $el, context);
-		
-	});
-	
-	
-	/*
-	*  ready
-	*
-	*  description
-	*
-	*  @type	function
-	*  @date	19/02/2014
-	*  @since	5.0.0
-	*
-	*  @param	$post_id (int)
-	*  @return	$post_id (int)
-	*/
-	
-	$(document).ready(function(){
-		
-		// action for 3rd party customization
-		acf.do_action('ready', $('body'));
-		
-	});
-	
-	
-	/*
-	*  load
-	*
-	*  description
-	*
-	*  @type	function
-	*  @date	19/02/2014
-	*  @since	5.0.0
-	*
-	*  @param	$post_id (int)
-	*  @return	$post_id (int)
-	*/
-	
-	$(window).load(function(){
-		
-		// action for 3rd party customization
-		acf.do_action('load', $('body'));
-		
-	});
-	
 	
 	
 	/*
@@ -3661,7 +3816,7 @@ var acf;
 			// remove "disabled"
 			// ignore inputs which have a class of 'acf-disabled'. These inputs are disabled for life
 			// ignore inputs which are hidden by conditiona logic of a sub field
-			$field.find('.acf-clhi').not('.hidden-by-conditional-logic .acf-clhi').removeAttr('disabled');
+			$field.find('.acf-clhi').not('.hidden-by-conditional-logic .acf-clhi').removeClass('acf-clhi').prop('disabled', false);
 			
 			
 			// action for 3rd party customization
@@ -3704,7 +3859,7 @@ var acf;
 			
 			
 			// add "disabled"
-			$field.find('input, textarea, select').not('.acf-disabled').addClass('acf-clhi').attr('disabled', 'disabled');
+			$field.find('input, textarea, select').not('.acf-disabled').addClass('acf-clhi').prop('disabled', true);
 						
 			
 			// action for 3rd party customization
@@ -3841,7 +3996,7 @@ var acf;
 						
 						val = [];
 						
-						$select2.find('.acf-select2-multi-choice').each(function(){
+						$select2.find('.select2-search-choice-hidden').each(function(){
 							
 							val.push( $(this).val() );
 							
@@ -4250,7 +4405,7 @@ var acf;
 			'keyup .search': 					'_keyup',
 			'focus .search': 					'_focus',
 			'blur .search': 					'_blur',
-			'paste .search': 					'_paste',
+			//'paste .search': 					'_paste',
 			'mousedown .acf-google-map':		'_mousedown',
 		},
 		
@@ -4889,7 +5044,8 @@ var acf;
 			
 		},
 		
-		_paste: function( e ){ // console.log('_paste');
+/*
+		_paste: function( e ){ console.log('_paste');
 			
 			// reference
 			var $search = this.$search;
@@ -4910,6 +5066,7 @@ var acf;
 				
 			}, 1);
 		},
+*/
 		
 		_keydown: function( e ){ // console.log('_keydown');
 			
@@ -6787,340 +6944,771 @@ var acf;
 
 (function($){
 	
-	acf.add_select2 = function( $select, args ) {
+	/*
+	*  acf.select2
+	*
+	*  description
+	*
+	*  @type	function
+	*  @date	16/12/2015
+	*  @since	5.3.2
+	*
+	*  @param	$post_id (int)
+	*  @return	$post_id (int)
+	*/
+	
+	acf.select2 = acf.model.extend({
 		
-		// defaults
-		args = $.extend({
-			allow_null:		false,
-			placeholder:	'',
-			multiple:		false,
-			ajax:			false,
-			action:			'',
-			pagination:		false
-		}, args);
-		
-				
-		// vars
-		var $input = $select.siblings('input');
-		
-		
-		// bail early if no input
-		if( !$input.exists() ) {
-			
-			return;
-			
-		}
-		
-		
-		// vars
-		var value = $input.val(),
-			sep = '||';
-		
-		
-		// select2 args
-		var select2_args = {
-			width:				'100%',
-			containerCssClass:	'acf-select2-container',
-			allowClear:			args.allow_null,
-			placeholder:		args.placeholder,
-			multiple:			args.multiple,
-			separator:			sep,
-			data:				[],
-			escapeMarkup:		function( m ){ return m; }
-		};
-		
-		
-		// multiple
-		if( args.multiple ) {
-			
-			// add hidden input to each multiple selection
-			select2_args.formatSelection = function( object, $div ){
-				
-				$div.parent().append('<input type="hidden" class="acf-select2-multi-choice" name="' + $select.attr('name') + '" value="' + object.id + '" />');
-				
-				return object.text;
-				
-			}
-			
-		}
-		
-		
-		// remove the blank option as we have a clear all button!
-		if( args.allow_null ) {
-			
-			$select.find('option[value=""]').remove();
-			
-		}
-		
-		
-		// populate select2_args.data
-		var options = {},
-			optgroups = {};
-		
-		$select.find('option').each(function( i ){
-			
-			// create option
-			var option = {
-				'id':	$(this).attr('value'),
-				'text':	$(this).text()
-			};
-			
-			
-			// append
-			options[ option.id ] = option;
-			
-			
-			// find parent
-			var $parent = $(this).parent(),
-				label = $parent.is('optgroup') ? $parent.attr('label') : '_root';
-						
-			
-			// append to optgroups
-			if( !optgroups[ label ] ) {
-			
-				optgroups[ label ] = [];
-				
-			}
-			
-			optgroups[ label ].push( option );
-			
-		});
-		
-		$.each( optgroups, function( label, children ){
-			
-			if( label == '_root' ) {
-				
-				$.each( children, function( i, child ){
-					
-					select2_args.data.push( child );
-					
-				});
-				
-			} else {
-			
-				select2_args.data.push({
-					'text':		label,
-					'children':	children
-				});
-				
-			}
-						
-		});
-		
-		
-		// initial selection
-		if( value !== '' ) {
+		init: function( $select, args ){
 			
 			// vars
-			var selected = [],
-				values = value.split( sep );
+			var version = this.version();
 			
-			// re-order options
-			$.each( values, function( i, value ){
+			
+			// bail early if no version found
+			if( !version ) return;
+			
+			
+			// defaults
+			args = $.extend({
+				allow_null:		false,
+				placeholder:	'',
+				multiple:		false,
+				ajax:			false,
+				action:			'',
+				pagination:		false
+			}, args);
+			
+			
+			// v3
+			if( version == 3 ) {
 				
-				$.each( options, function( i, option ){
-					
-					if( value === option.id ) {
-					
-						selected.push( option );
+				return this.init_v3( $select, args );
+				
+			}
+			
+			
+			// v4
+			return this.init_v4( $select, args );
 						
-						return false;
-						
-					}
+		},
+		
+		
+		/*
+		*  version
+		*
+		*  This function will return the Select2 version number
+		*
+		*  @type	function
+		*  @date	24/12/2015
+		*  @since	5.3.2
+		*
+		*  @param	n/a
+		*  @return	(int)
+		*/
+		
+		version: function(){
+			
+			// v3
+			if( acf.maybe_get(window, 'Select2') ) return 3;
+			
+			
+			// v4
+			if( acf.maybe_get(window, 'jQuery.fn.select2.amd') ) return 4;
+			
+			
+			// return
+			return 0;
+			
+		},
+		
+		
+		/*
+		*  get_data
+		*
+		*  This function will look at a $select element and return an object choices 
+		*
+		*  @type	function
+		*  @date	24/12/2015
+		*  @since	5.3.2
+		*
+		*  @param	$select (jQuery)
+		*  @return	(array)
+		*/
+		
+		get_data: function( $select, data ){
+			
+			// reference
+			var self = this;
+			
+			
+			// defaults
+			data = data || [];
+			
+			
+			// loop over children
+			$select.children().each(function(){
+				
+				// vars
+				var $el = $(this);
+				
+				
+				// optgroup
+				if( $el.is('optgroup') ) {
 					
-				});
-							
+					data.push({
+						'text':		$el.attr('label'),
+						'children':	self.get_data( $el )
+					});
+				
+				// option
+				} else {
+					
+					data.push({
+						'id':	$el.attr('value'),
+						'text':	$el.text()
+					});
+					
+				}
+				
 			});
 			
 			
+			// return
+			return data;
 			
-			// single select requires 1 val, not an array
-			if( !args.multiple ) {
+		},
+		
+		
+		/*
+		*  decode_data
+		*
+		*  This function will take an array of choices and decode the text
+		*  Changes '&amp;' to '&' which fixes a bug (in Select2 v3 )when searching for '&'
+		*
+		*  @type	function
+		*  @date	24/12/2015
+		*  @since	5.3.2
+		*
+		*  @param	$select (jQuery)
+		*  @return	(array)
+		*/
+		
+		decode_data: function( data ) {
 			
-				selected = acf.maybe_get(selected, 0, '');
+			// bail ealry if no data
+			if( !data ) return [];
+			
+			
+			//loop
+			$.each(data, function(k, v){
+				
+				// text
+				data[ k ].text = acf.decode( v.text );
+				
+				
+				// children
+				if( typeof v.children !== 'undefined' ) {
+					
+					data[ k ].children = acf.select2.decode_data(v.children);
+					
+				}
+				
+			});
+			
+			
+			// return
+			return data;
+			
+		},
+		
+		
+		/*
+		*  count_data
+		*
+		*  This function will take an array of choices and return the count
+		*
+		*  @type	function
+		*  @date	24/12/2015
+		*  @since	5.3.2
+		*
+		*  @param	data (array)
+		*  @return	(int)
+		*/
+		
+		count_data: function( data ) {
+			
+			// vars
+			var i = 0;
+			
+			
+			// bail ealry if no data
+			if( !data ) return i;
+			
+			
+			//loop
+			$.each(data, function(k, v){
+				
+				// increase
+				i++;
+				
+				
+				// children
+				if( typeof v.children !== 'undefined' ) {
+					
+					i += v.children.length;
+					
+				}
+				
+			});
+			
+			
+			// return
+			return i;
+			
+		},
+		
+		
+		/*
+		*  get_value
+		*
+		*  This function will return the selected options in a Select2 format
+		*
+		*  @type	function
+		*  @date	5/01/2016
+		*  @since	5.3.2
+		*
+		*  @param	$post_id (int)
+		*  @return	$post_id (int)
+		*/
+		
+		get_value: function( $select ){
+		
+			// vars
+			var val = [],
+				$selected = $select.find('option:selected');
+			
+			
+			// bail early if no selected
+			if( !$selected.exists() ) return val;
+			
+			
+			// sort
+			$selected = $selected.sort(function(a, b) {
+				
+			    return +a.getAttribute('data-i') - +b.getAttribute('data-i');
+			    
+			});
+			
+			
+			// loop
+			$selected.each(function(){
+				
+				// vars
+				var $el = $(this);
+				
+				
+				// append
+				val.push({
+					'id':	$el.attr('value'),
+					'text':	$el.text()
+				});
+				
+			});
+			
+			
+			// return
+			return val;
+			
+		},
+		
+		
+		/*
+		*  init_v3
+		*
+		*  This function will create a new Select2 for v3
+		*
+		*  @type	function
+		*  @date	24/12/2015
+		*  @since	5.3.2
+		*
+		*  @param	$select (jQuery)
+		*  @return	args (object)
+		*/
+		
+		init_v3: function( $select, args ){
+					
+			// vars
+			var $input = $select.siblings('input');
+			
+			
+			// bail early if no input
+			if( !$input.exists() ) return;
+			
+			
+			// select2 args
+			var select2_args = {
+				width:				'100%',
+				containerCssClass:	'-acf',
+				allowClear:			args.allow_null,
+				placeholder:		args.placeholder,
+				multiple:			args.multiple,
+				separator:			'||',
+				data:				[],
+				escapeMarkup:		function( m ){ return m; }
+			};
+			
+			
+			// value
+			var value = this.get_value( $select );
+			
+			
+			// multiple
+			if( args.multiple ) {
+				
+				// vars
+				var name = $select.attr('name');
+				
+				
+				// add hidden input to each multiple selection
+				select2_args.formatSelection = function( object, $div ){
+					
+					// append input
+					$div.parent().append('<input type="hidden" class="select2-search-choice-hidden" name="' + name + '" value="' + object.id + '" />');
+					
+					
+					// return
+					return object.text;
+					
+				}
+				
+			} else {
+				
+				// change array to single object
+				value = acf.maybe_get(value, 0, '');
 				
 			}
 			
 			
-			// add function
-			select2_args.initSelection = function( element, callback ) {
+			// remove the blank option as we have a clear all button!
+			if( args.allow_null ) {
 				
-		        callback( selected );
+				$select.find('option[value=""]').remove();
+				
+			}
+			
+			
+			// get data
+			select2_args.data = this.get_data( $select );
+			
+		    
+		    // initial selection
+		    select2_args.initSelection = function( element, callback ) {
+				
+				callback( value );
 		        
 		    };
 		    
-		}
-	
-		
-		// ajax
-		if( args.ajax ) {
-			
-			select2_args.ajax = {
-				url:		acf.get('ajaxurl'),
-				dataType: 	'json',
-				type: 		'post',
-				cache: 		false,
-				data: function (term, page) {
-					
-					// vars
-					var data = acf.prepare_for_ajax({
-						action: 	args.action,
-						field_key: 	args.key,
-						post_id: 	acf.get('post_id'),
-						s: 			term,
-						paged: 		page
-					});
-
-					
-					// return
-					return data;
-					
-				},
-				results: function(data, page){
-					
-					// allow null return
-					if( !data ) {
+		    
+			// ajax
+			if( args.ajax ) {
+				
+				select2_args.ajax = {
+					url:		acf.get('ajaxurl'),
+					dataType: 	'json',
+					type: 		'post',
+					cache: 		false,
+					data: function (term, page) {
 						
-						data = [];
+						// vars
+						var data = acf.prepare_for_ajax({
+							action: 	args.action,
+							field_key: 	args.key,
+							post_id: 	acf.get('post_id'),
+							s: 			term,
+							paged: 		page
+						});
+	
+						
+						// return
+						return data;
+						
+					},
+					results: function(data, page){
+						
+						return {
+							results: acf.select2.decode_data(data)
+						};
 						
 					}
+				};
+				
+				if( args.pagination ) {
 					
-					
-					// return
-					return {
-						results: data
+					select2_args.ajax.results = function( data, page ) {
+						
+						return {
+							results:	acf.select2.decode_data(data),
+							more:		(acf.select2.count_data(data) >= 20)
+						};
+						
 					};
 					
-				}
-			};
-			
-			if( args.pagination ) {
-				
-				select2_args.ajax.results = function( data, page ) {
 					
-					var i = 0;
-					
-					// allow null return
-					if( !data ) {
+					$input.on("select2-loaded", function(e) { 
 						
-						data = [];
-						
-					} else {
-						
-						$.each(data, function(k, v){
+						// merge together groups
+						var label = '',
+							$list = null;
 							
-							l = 1;
+						$('#select2-drop .select2-result-with-children').each(function(){
 							
-							if( typeof v.children !== 'undefined' ) {
+							// vars
+							var $label = $(this).children('.select2-result-label'),
+								$ul = $(this).children('.select2-result-sub');
+							
+							
+							// append group to previous
+							if( $label.text() == label ) {
 								
-								l = v.children.length;
+								$list.append( $ul.children() );
+								
+								$(this).remove();
+								
+								return;
 								
 							}
 							
-							i += l;
+							
+							// update vars
+							label = $label.text();
+							$list = $ul;
 							
 						});
 						
-					}
+					});
 					
+				}
+				
+			}
+			
+			
+			// attachment z-index fix
+			select2_args.dropdownCss = {
+				'z-index' : '999999999'
+			};
+			
+			
+			// filter for 3rd party customization
+			select2_args = acf.apply_filters( 'select2_args', select2_args, $select, args );
+			
+			
+			// add select2
+			$input.select2( select2_args );
+			
+			
+			// vars
+			var $container = $input.select2('container');
+			
+			
+			// reorder DOM
+			// - this order is very important so don't change it
+			// - $select goes first so the input can override it. Fixes issue where conditional logic will enable the select
+			// - $input goes second to reset the input data
+			// - container goes last to allow multiple hidden inputs to override $input
+			$container.before( $select );
+			$container.before( $input );
+			
+			
+			// multiple
+			if( args.multiple ) {
+				
+				// sortable
+				$container.find('ul.select2-choices').sortable({
+					 start: function() {
+					 	$input.select2("onSortStart");
+					 },
+					 stop: function() {
+					 	$input.select2("onSortEnd");
+					 }
+				});
+				
+			}
+			
+			
+			// disbale select
+			$select.attr('disabled', 'disabled').addClass('acf-disabled acf-hidden');
+			
+		},
+		
+		init_v4: function( $select, args ){
 					
-					// return
-					return {
-						results	: data,
-						more	: (i >= 20)
-					};
-					
-				};
+			// vars
+			var $input = $select.siblings('input');
+			
+			
+			// bail early if no input
+			if( !$input.exists() ) return;
+			
+			
+			// select2 args
+			var select2_args = {
+				width:				'100%',
+				containerCssClass:	'-acf',
+				allowClear:			args.allow_null,
+				placeholder:		args.placeholder,
+				multiple:			args.multiple,
+				separator:			'||',
+				data:				[],
+				escapeMarkup:		function( m ){ return m; },
+/*
+				sorter: function (data) { console.log('sorter %o', data);
+			        return data;
+			      },
+*/
+			};
+			
+			
+			// value
+			var value = this.get_value( $select );
+			
+			
+			// multiple
+			if( args.multiple ) {
+				
+/*
+				// vars
+				var name = $select.attr('name');
 				
 				
-				$input.on("select2-loaded", function(e) { 
+				// add hidden input to each multiple selection
+				select2_args.templateSelection = function( selection ){
 					
-					// merge together groups
-					var label = '',
-						$list = null;
+					return selection.text + '<input type="hidden" class="select2-search-choice-hidden" name="' + name + '" value="' + selection.id + '" />';
+										
+				}
+*/
+				
+			} else {
+				
+				// change array to single object
+				value = acf.maybe_get(value, 0, '');
+				
+			}
+			
+			
+			// remove the blank option as we have a clear all button!
+			if( args.allow_null ) {
+				
+				$select.find('option[value=""]').remove();
+				
+			}
+			
+			
+			// get data
+			select2_args.data = this.get_data( $select );
+			
+		    
+		    // initial selection
+		    select2_args.initSelection = function( element, callback ) {
+				
+				callback( value );
+		        
+		    };
+		    
+		    
+		    // remove conflicting atts
+			if( !args.ajax ) {
+				
+				$select.removeData('ajax');
+				$select.removeAttr('data-ajax');
+				
+			} else {
+				
+				select2_args.ajax = {
+					url:		acf.get('ajaxurl'),
+					delay: 		250,
+					dataType: 	'json',
+					type: 		'post',
+					cache: 		false,
+					data: function( params ) {
 						
-					$('#select2-drop .select2-result-with-children').each(function(){
+						//console.log('ajax data %o', params);
 						
 						// vars
-						var $label = $(this).children('.select2-result-label'),
-							$ul = $(this).children('.select2-result-sub');
+						var data = acf.prepare_for_ajax({
+							action: 	args.action,
+							field_key: 	args.key,
+							post_id: 	acf.get('post_id'),
+							s: 			params.term,
+							paged: 		params.page
+						});
+	
 						
+						// return
+						return data;
 						
-						// append group to previous
-						if( $label.text() == label ) {
+					},
+					processResults: function(data, params){ //console.log('processResults %o', data);
+						
+						return {
+							results: acf.select2.decode_data(data)
+						};
+						
+					}
+				};
+				
+				if( args.pagination ) {
+					
+					select2_args.ajax.processResults = function(data, params){ //console.log('processResults %o %o', data, params);
+						
+						setTimeout(function(){
 							
-							$list.append( $ul.children() );
+							// merge together groups
+							var $prev_options = null,
+								$prev_group = null;
+								
+							$('.select2-results__option[role="group"]').each(function(){
+								
+								// vars
+								var $options = $(this).children('ul'),
+									$group = $(this).children('strong');
+								
+								
+								// compare to previous
+								if( $prev_group !== null && $group.text() == $prev_group.text() ) {
+									
+									$prev_options.append( $options.children() );
+									
+									$(this).remove();
+									
+									return;
+									
+								}
+								
+								
+								// update vars
+								$prev_options = $options;
+								$prev_group = $group;
+								
+							});
 							
-							$(this).remove();
+						}, 1);
+						
+						return {
+							results:	acf.select2.decode_data(data),
+							pagination: {
+								more: (acf.select2.count_data(data) >= 20)
+							}
 							
-							return;
-							
-						}
+						};
 						
-						
-						// update vars
-						label = $label.text();
-						$list = $ul;
-						
-					});
+					};
+					
+					
+				}
+				
+			}
+		    
+		
+			
+			// multiple
+/*
+			if( args.multiple ) {
+				
+
+				
+				$select.on('select2:select', function( e ){
+					
+					console.log( 'select2:select %o &o', $(this), e );
+					
+					// vars
+					var $option = $(e.params.data.element);
+					
+					
+					// move option to begining of select
+					//$(this).prepend( $option );
 					
 				});
 				
 			}
 			
+*/
+			
+
+			// attachment z-index fix
+			select2_args.dropdownCss = {
+				'z-index' : '999999999'
+			};
+			
+			
+			// reorder DOM
+			// - no need to reorder, the select field is needed to $_POST values
+
+			
+			// filter for 3rd party customization
+			select2_args = acf.apply_filters( 'select2_args', select2_args, $select, args );
+			
+			
+			// add select2
+			//console.log( '%o %o ', $select, select2_args );
+			var container = $select.select2( select2_args );
+			
+		},
+		
+		
+		/*
+		*  destroy
+		*
+		*  This function will destroy a Select2
+		*
+		*  @type	function
+		*  @date	24/12/2015
+		*  @since	5.3.2
+		*
+		*  @param	$post_id (int)
+		*  @return	$post_id (int)
+		*/
+		
+		destroy: function( $select ){
+			
+			// remove select2 container
+			$select.siblings('.select2-container').remove();
+			
+			
+			// show input so that select2 can correctly render visible select2 container
+			$select.siblings('input').show();
+			
 		}
 		
+	});
+	
+	
+	/*
+	*  depreciated
+	*
+	*  These functions have moved since v5.3.3 
+	*
+	*  @type	function
+	*  @date	11/12/2015
+	*  @since	5.3.2
+	*
+	*  @param	n/a
+	*  @return	n/a
+	*/
+	
+	acf.add_select2 = function( $select, args ) {
 		
-		// attachment z-index fix
-		select2_args.dropdownCss = {
-			'z-index' : '999999999'
-		};
-		
-		
-		// filter for 3rd party customization
-		select2_args = acf.apply_filters( 'select2_args', select2_args, $select, args );
-		
-		
-		// add select2
-		$input.select2( select2_args );
-		
-		
-		// reorder DOM
-		$input.select2('container').before( $input );
-		
-		
-		// multiple
-		if( args.multiple ) {
-			
-			// sortable
-			$input.select2('container').find('ul.select2-choices').sortable({
-				 //containment: 'parent',
-				 start: function() {
-				 	$input.select2("onSortStart");
-				 },
-				 stop: function() {
-				 	$input.select2("onSortEnd");
-				 }
-			});
-			
-		}
-		
-		
-		// make sure select is disabled (repeater / flex may enable it!)
-		$select.attr('disabled', 'disabled').addClass('acf-disabled');
+		acf.select2.init( $select, args );
 
 	}
 	
 	acf.remove_select2 = function( $select ) {
 		
-		// remove select2 container
-		$select.siblings('.select2-container').remove();
-		
-		
-		// show input so that select2 can correctly render visible select2 container
-		$select.siblings('input').show();
+		acf.select2.destroy( $select );
 		
 	}
+	
 	
 	
 	// select
@@ -7172,7 +7760,7 @@ var acf;
 			}
 			
 			
-			acf.add_select2( this.$select, this.o );
+			acf.select2.init( this.$select, this.o );
 			
 		},
 		
@@ -7187,10 +7775,10 @@ var acf;
 			
 			
 			// remove select2
-			acf.remove_select2( this.$select );
+			acf.select2.destroy( this.$select );
 			
 		}
-		
+		 
 	});
 	
 		
@@ -7228,6 +7816,7 @@ var acf;
 		
 		type: 'tab',
 		$el: null,
+		$wrap: null,
 		
 		actions: {
 			'prepare':	'initialize',
@@ -7241,123 +7830,209 @@ var acf;
 			// get elements
 			this.$el = this.$field.find('.acf-tab');
 			
+			
+			// get options
+			this.o = this.$el.data();
+			this.o.key = this.$field.data('key');
+			this.o.text = this.$el.text();
+			
 		},
 		
 		initialize: function(){
 			
 			// bail early if is td
-			if( this.$field.is('td') ) {
-				
-				return;
-				
-			}
-			
-			// add tab group if no group exists
-			if( !this.$field.siblings('.acf-tab-wrap').exists() ) {
-			
-				this.add_group();
-			
-			// add tab group if is endpoint	
-			} else if( this.$el.data('endpoint') ) {
-				
-				this.add_group();
-				
-			}
+			if( this.$field.is('td') ) return;
 			
 			
 			// add tab
-			this.add_tab();
+			tab_manager.add_tab( this.$field, this.o );
 			
 		},
 		
-		add_tab: function(){
+		hide: function( $field, context ){
+			
+			// bail early if not conditional logic
+			if( context != 'conditional_logic' ) return;
+			
 			
 			// vars
-			var $group = this.$field.siblings('.acf-tab-wrap').last();
+			var key = $field.data('key'),
+				$group = $field.prevAll('.acf-tab-wrap'),
+				$a = $group.find('a[data-key="' + key + '"]'),
+				$li = $a.parent();
 			
 			
-			// vars
-			var $li = $([
-				'<li>',
-					'<a class="acf-tab-button" href="#" data-key="' + this.$field.data('key') + '">' + this.$el.text() + '</a>',
-				'</li>'
-			].join(''));
+			// bail early if $group does not exist (clone field)
+			if( !$group.exists() ) return;
 			
 			
 			// hide li
-			if( this.$el.text() === '' ) {
+			$li.addClass('hidden-by-conditional-logic');
+			
+			
+			// set timout to allow proceeding fields to hide first
+			// without this, the tab field will hide all fields, regarless of if that field has it's own conditional logic rules
+			setTimeout(function(){
 				
-				$li.hide();
+			// if this tab field was hidden by conditional_logic, disable it's children to prevent validation
+			$field.nextUntil('.acf-field-tab', '.acf-field').each(function(){
+				
+				// bail ealry if already hidden
+				if( $(this).hasClass('hidden-by-conditional-logic') ) return;
+				
+				
+				// hide field
+				acf.conditional_logic.hide_field( $(this) );
+				
+				
+				// add parent reference
+				$(this).addClass('-hbcl-' + key);
+				
+			});
+			
+			
+			// select other tab if active
+			if( $li.hasClass('active') ) {
+				
+				$group.find('a:visible:first').trigger('click');
 				
 			}
 			
-			
-			// add tab
-			$group.find('ul').append( $li );
-			
-			
-			// conditional logic
-			if( this.$field.hasClass('hidden-by-conditional-logic') ) {
-				
-				$li.addClass('hidden-by-conditional-logic');
-				
-				this.hide_tab_fields( this.$field );
-				
-				return;
-				
-			}
-			
-			
-			// show first tab, hide others
-			if( $group.find('li.active').length == 0 ) {
-				
-				$li.addClass('active');
-				
-				this.show_tab_fields( this.$field );
-				
-			} else {
-				
-				this.hide_tab_fields( this.$field );
-				
-			}
-			
-			
-			// set min-height
-			if( $group.hasClass('-left') ) {
-				
-				// vars
-				var $wrap = $group.parent(),
-					attribute = $wrap.is('td') ? 'height' : 'min-height';
-				
-				
-				// find height (minus 1 for border-bottom)
-				var height = $group.position().top + $group.children('ul').outerHeight(true) - 1;
-				
-				
-				// add css
-				$wrap.css(attribute, height);
-				
-			}
+			}, 0);
 			
 		},
 		
-		add_group : function(){
+		show: function( $field, context ){
+			
+			// bail early if not conditional logic
+			if( context != 'conditional_logic' ) return;
 			
 			// vars
-			var $wrap = this.$field.parent(),
-				placement = this.$el.data('placement'),
+			var key = $field.data('key'),
+				$group = $field.prevAll('.acf-tab-wrap'),
+				$a = $group.find('a[data-key="' + key + '"]'),
+				$li = $a.parent();
+			
+			
+			// bail early if $group does not exist (clone field)
+			if( !$group.exists() ) return;
+			
+			
+			// show li
+			$li.removeClass('hidden-by-conditional-logic');
+			
+			
+			// set timout to allow proceeding fields to hide first
+			// without this, the tab field will hide all fields, regarless of if that field has it's own conditional logic rules
+			setTimeout(function(){
+				
+			// if this tab field was shown by conditional_logic, enable it's children to allow validation
+			$field.siblings('.acf-field.-hbcl-' + key).each(function(){
+				
+				// show field
+				acf.conditional_logic.show_field( $(this) );
+				
+				
+				// remove parent reference
+				$(this).removeClass('-hbcl-' + key);
+				
+			});
+			
+			
+			// select tab if no other active
+			var $active = $li.siblings('.active');
+			if( !$active.exists() || $active.hasClass('hidden-by-conditional-logic') ) {
+				
+				$a.trigger('click');
+				
+			}
+			
+			}, 0);
+			
+		}
+		
+	});
+	
+	
+	/*
+	*  tab_manager
+	*
+	*  This model will handle adding tabs and groups
+	*
+	*  @type	function
+	*  @date	25/11/2015
+	*  @since	5.3.2
+	*
+	*  @param	$post_id (int)
+	*  @return	$post_id (int)
+	*/
+	
+	var tab_manager = acf.model.extend({
+		
+		actions: {
+			'prepare 15':	'render',
+			'append 15':	'render',
+			'refresh 15': 	'render'
+		},
+		
+		events: {
+			'click .acf-tab-button': '_click'
+		},
+		
+		
+		render: function( $el ){
+			
+			// find visible tab wraps
+			$('.acf-tab-wrap', $el).each(function(){
+				
+				// vars
+				var $group = $(this),
+					$wrap = $group.parent();
+				
+				
+				// trigger click
+				if( !$group.find('li.active').exists() ) {
+					
+					$group.find('a:visible:first').trigger('click');
+					
+				}
+				
+				
+				if( $wrap.hasClass('-sidebar') ) {
+					
+					// vars
+					var attribute = $wrap.is('td') ? 'height' : 'min-height';
+					
+					
+					// find height (minus 1 for border-bottom)
+					var height = $group.position().top + $group.children('ul').outerHeight(true) - 1;
+					
+					
+					// add css
+					$wrap.css(attribute, height);
+					
+				}
+						
+			});
+			
+		},
+		
+		add_group: function( $field, settings ){
+			
+			// vars
+			var $wrap = $field.parent(),
 				html = '';
 			
 			
 			// add sidebar to wrap
-			if( $wrap.hasClass('acf-fields') && placement == 'left' ) {
+			if( $wrap.hasClass('acf-fields') && settings.placement == 'left' ) {
 				
 				$wrap.addClass('-sidebar');
 			
 			// can't have side tab without sidebar	
 			} else {
 				
-				placement = 'top';
+				settings.placement = 'top';
 				
 			}
 			
@@ -7369,62 +8044,130 @@ var acf;
 			
 			} else {
 			
-				html = '<div class="acf-tab-wrap -' + placement + '"><ul class="acf-hl acf-tab-group"></ul></div>';
-				
-				
+				html = '<div class="acf-tab-wrap -' + settings.placement + '"><ul class="acf-hl acf-tab-group"></ul></div>';
 				
 			}
 			
 			
-			// append html
-			this.$field.before( html );
+			// save
+			$group = $(html);
+			
+			
+			// append
+			$field.before( $group );
+			
+			
+			// return
+			return $group;
+		},
+		
+		add_tab: function( $field, settings ){ //console.log('add_tab(%o, %o)', $field, settings);
+			
+			// vars
+			var $group = $field.siblings('.acf-tab-wrap').last();
+			
+			
+			// add tab group if no group exists
+			if( !$group.exists() ) {
+			
+				$group = this.add_group( $field, settings );
+			
+			// add tab group if is endpoint	
+			} else if( settings.endpoint ) {
+				
+				$group = this.add_group( $field, settings );
+				
+			}
+			
+			
+			// vars
+			var $li = $('<li><a class="acf-tab-button" href="#" data-key="' + settings.key + '">' + settings.text + '</a></li>');
+			
+			
+			// hide li
+			if( settings.text === '' ) $li.hide();
+			
+			
+			// add tab
+			$group.find('ul').append( $li );
+			
+			
+			// conditional logic
+			if( $field.hasClass('hidden-by-conditional-logic') ) {
+				
+				$li.addClass('hidden-by-conditional-logic');
+				
+			}
 			
 		},
 		
-		toggle : function( $a ){
+		_click: function( e ){
+			
+			// prevent default
+			e.preventDefault();
+			
 			
 			// reference
 			var self = this;
 			
 			
 			// vars
-			var $wrap = $a.closest('.acf-tab-wrap');
-				
-				
+			var $a = e.$el,
+				$group = $a.closest('.acf-tab-wrap'),
+				show = $a.data('key'),
+				current = '';
+			
+			
 			// add and remove classes
 			$a.parent().addClass('active').siblings().removeClass('active');
 			
 			
-			// loop over tab fields (.acf-field-tab) until you hit another group (.acf-tab-wrap)
-			$wrap.nextUntil('.acf-tab-wrap', '.acf-field-tab').each(function(){
+			// loop over all fields until you hit another group
+			$group.nextUntil('.acf-tab-wrap', '.acf-field').each(function(){
 				
 				// vars
 				var $field = $(this);
 				
 				
-				// ignore endpoint
-				if( $field.hasClass('endpoint') ) {
+				// set current
+				if( $field.data('type') == 'tab' ) {
 					
-					// stop loop - current tab group is complete
-					return false;
+					current = $field.data('key');
 					
-				}
-				
-				
-				// show fields
-				if( $field.attr('data-key') === $a.attr('data-key') ) {
-					
-					self.show_tab_fields( $field );
-					return;
+					// bail early if endpoint is found
+					if( $field.hasClass('endpoint') ) {
+						
+						// stop loop - current tab group is complete
+						return false;
+						
+					}
 					
 				}
 				
 				
-				// hide fields
-				if( !$field.hasClass('hidden-by-tab') ) {
+				// show
+				if( current === show ) {
 					
-					self.hide_tab_fields( $field );
-					return;
+					// only show if hidden
+					if( $field.hasClass('hidden-by-tab') ) {
+						
+						$field.removeClass('hidden-by-tab');
+						
+						acf.do_action('show_field', $(this), 'tab');
+						
+					}
+				
+				// hide
+				} else {
+					
+					// only hide if not hidden
+					if( !$field.hasClass('hidden-by-tab') ) {
+						
+						$field.addClass('hidden-by-tab');
+						
+						acf.do_action('hide_field', $(this), 'tab');
+						
+					}
 					
 				}
 				
@@ -7432,155 +8175,29 @@ var acf;
 			
 			
 			// action for 3rd party customization
-			acf.do_action('refresh');
-
-		},
-		
-		show_tab_fields : function( $field ) {
-			
-			// debug
-			//console.log('show tab fields %o', $field);
+			acf.do_action('refresh', $group.parent() );
 			
 			
-			// remove class
-			$field.removeClass('hidden-by-tab');
-			
-			
-			// loop over all fields (.acf-field) until you hit another tab field (.acf-field-tab)
-			$field.nextUntil('.acf-field-tab', '.acf-field').each(function(){
-				
-				// remove class
-				$(this).removeClass('hidden-by-tab');
-				
-				
-				// do action
-				acf.do_action('show_field', $(this), 'tab');
-				
-			});
-			
-		},
-		
-		hide_tab_fields : function( $field ) {
-			
-			// debug
-			//console.log('hide tab fields %o', $field);
-			
-			
-			// add class
-			$field.addClass('hidden-by-tab');
-			
-			
-			// loop over all fields (.acf-field) until you hit another tab field (.acf-field-tab)
-			$field.nextUntil('.acf-field-tab', '.acf-field').each(function(){
-				
-				// add class
-				$(this).addClass('hidden-by-tab');
-				
-				
-				// do action
-				acf.do_action('hide_field', $(this), 'tab');
-				
-			});
-			
-		},
-		
-		hide: function( $field, context ){
-			
-			// bail early if not conditional logic
-			if( context != 'conditional_logic' ) {
-				
-				return;
-				
-			}
-			
-			
-			// vars
-			var $a = $field.siblings('.acf-tab-wrap').find('a[data-key="' + $field.data('key') + '"]'),
-				$li = $a.parent();
-				
-			
-			// if this tab field was hidden by conditional_logic, disable it's children to prevent validation
-			$field.nextUntil('.acf-field-tab', '.acf-field').each(function(){
-				
-				acf.conditional_logic.hide_field( $(this) );
-				
-			});
-			
-			
-			// hide li
-			$li.addClass('hidden-by-conditional-logic');
-			
-			
-			// select other tab if active
-			if( $li.hasClass('active') ) {
-				
-				$li.siblings().not('.hidden-by-conditional-logic').first().children('a').trigger('click');
-				
-			}
-			
-		},
-		
-		show: function( $field, context ){
-			
-			// bail early if not conditional logic
-			if( context != 'conditional_logic' ) {
-				
-				return;
-				
-			}
-			
-			
-			// vars
-			var $a = $field.siblings('.acf-tab-wrap').find('a[data-key="' + $field.data('key') + '"]'),
-				$li = $a.parent();
-				
-			
-			// if this tab field was shown by conditional_logic, enable it's children to allow validation
-			$field.nextUntil('.acf-field-tab', '.acf-field').each(function(){
-				
-				acf.conditional_logic.show_field( $(this) );
-				
-			});
-			
-			
-			// show li
-			$li.removeClass('hidden-by-conditional-logic');
-			
-			
-			// select tab if no other active
-			var $active = $li.siblings('.active');
-			if( !$active.exists() || $active.hasClass('hidden-by-conditional-logic') ) {
-				
-				$a.trigger('click');
-				
-			}
+			// blur
+			$a.trigger('blur');
 			
 		}
-		
+	
 	});
 	
 	
 	/*
-	*  Events
+	*  tab_validation
 	*
-	*  jQuery events for this field
+	*  This model will handle validation of fields within a tab group
 	*
 	*  @type	function
-	*  @date	1/03/2011
+	*  @date	25/11/2015
+	*  @since	5.3.2
 	*
-	*  @param	N/A
-	*  @return	N/A
+	*  @param	$post_id (int)
+	*  @return	$post_id (int)
 	*/
-	
-	$(document).on('click', '.acf-tab-button', function( e ){
-		
-		e.preventDefault();
-		
-		acf.fields.tab.toggle( $(this) );
-		
-		$(this).trigger('blur');
-			
-	});
 	
 	var tab_validation = acf.model.extend({
 		
@@ -7695,7 +8312,7 @@ var acf;
 			
 			
 			// add select2
-			acf.add_select2( $select, args );
+			acf.select2.init( $select, args );
 			
 		},
 		
@@ -7714,7 +8331,7 @@ var acf;
 			
 			
 			// remove select2
-			acf.remove_select2( $select );
+			acf.select2.destroy( $select );
 			
 		},
 		

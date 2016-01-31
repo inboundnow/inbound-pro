@@ -460,53 +460,64 @@ html[dir="rtl"] input.acf-is-prepended.acf-is-appended {
 }
 /*---------------------------------------------------------------------------------------------
 *
-*  Select2
+*  Select2 (v3)
 *
 *---------------------------------------------------------------------------------------------*/
-.acf-select2-container .select2-choices {
+.select2-container.-acf .select2-choices {
   background: #fff;
-  border: 1px solid #ddd;
+  border-color: #ddd;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07) inset;
   min-height: 31px;
 }
-.acf-select2-container .select2-choices .select2-search-choice {
+.select2-container.-acf .select2-choices .select2-search-choice {
   margin: 5px 0 5px 5px;
   padding: 3px 5px 3px 18px;
   border-color: #bbb;
   background: #f9f9f9;
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.25) inset;
 }
-.acf-select2-container .select2-choices .select2-search-choice-focus {
+.select2-container.-acf .select2-choices .select2-search-choice-focus {
   border-color: #999;
 }
-.acf-select2-container .select2-choices .select2-search-field input {
+.select2-container.-acf .select2-choices .select2-search-field input {
   height: 31px;
   line-height: 22px;
   margin: 0;
   padding: 5px 5px 5px 7px;
 }
-.acf-select2-container .select2-search-choice-close {
+.select2-container.-acf .select2-search-choice-close {
   top: 3px;
 }
 /* open */
-.acf-select2-container.select2-container-active .select2-choices,
-.acf-select2-container.select2-dropdown-open .select2-choices {
+.select2-container.-acf.select2-container-active .select2-choices,
+.select2-container.-acf.select2-dropdown-open .select2-choices {
   border-color: #5B9DD9;
   border-radius: 3px 3px 0 0;
 }
 /* single */
-.acf-select2-container .select2-choice {
+.select2-container.-acf .select2-choice {
   border-color: #BBBBBB;
 }
-.acf-select2-container .select2-choice .select2-arrow {
+.select2-container.-acf .select2-choice .select2-arrow {
   background: transparent;
   border-left-color: #DFDFDF;
   padding-left: 1px;
 }
 /* single open */
-.acf-select2-container.select2-dropdown-open .select2-choice {
+.select2-container.-acf.select2-dropdown-open .select2-choice {
   background: #fff;
   border-color: #5B9DD9;
+}
+/*---------------------------------------------------------------------------------------------
+*
+*  Select2 (v4)
+*
+*---------------------------------------------------------------------------------------------*/
+.select2-selection.-acf li {
+  margin-bottom: 0;
+}
+.select2-selection.-acf input {
+  box-shadow: none;
 }
 /*---------------------------------------------------------------------------------------------
 *

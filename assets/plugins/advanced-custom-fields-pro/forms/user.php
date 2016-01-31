@@ -112,7 +112,7 @@ class acf_form_user {
 		
 		
 		// actions
-		add_action('acf/input/admin_footer',					array($this, 'admin_footer'), 10, 1);
+		add_action('acf/input/admin_footer', array($this, 'admin_footer'), 10, 1);
 		
 	}
 	

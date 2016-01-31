@@ -155,23 +155,33 @@ class acf_field_select extends acf_field {
 	*/
 	
 	function render_field( $field ) {
-
-		// convert value to array
+	
+		// convert
 		$field['value'] = acf_get_array($field['value'], false);
-		
-		
-		// add empty value (allows '' to be selected)
-		if( empty($field['value']) ){
-			
-			$field['value'][''] = '';
-			
-		}
+		$field['choices'] = acf_get_array($field['choices']);
 		
 		
 		// placeholder
 		if( empty($field['placeholder']) ) {
 		
 			$field['placeholder'] = __("Select",'acf');
+			
+		}
+		
+		
+		// add empty value (allows '' to be selected)
+		if( !count($field['value']) ) {
+			
+			$field['value'][''] = '';
+			
+		}
+		
+		
+		// null
+		if( $field['allow_null'] && !$field['multiple'] ) {
+			
+			$prepend = array(''	=> '- ' . $field['placeholder'] . ' -');
+			$field['choices'] = $prepend + $field['choices'];
 			
 		}
 		
@@ -189,15 +199,6 @@ class acf_field_select extends acf_field {
 		);
 		
 		
-		// ui
-		if( $field['ui'] ) {
-		
-			$atts['disabled'] = 'disabled';
-			$atts['class'] .= ' acf-hidden';
-			
-		}
-		
-		
 		// multiple
 		if( $field['multiple'] ) {
 		
@@ -211,50 +212,7 @@ class acf_field_select extends acf_field {
 		// special atts
 		foreach( array( 'readonly', 'disabled' ) as $k ) {
 		
-			if( !empty($field[ $k ]) ) {
-			
-				$atts[ $k ] = $k;
-			}
-			
-		}
-		
-		
-		// vars
-		$els = array();
-		$choices = array();
-		
-			
-		// loop through values and add them as options
-		if( !empty($field['choices']) ) {
-			
-			foreach( $field['choices'] as $k => $v ) {
-				
-				if( is_array($v) ){
-					
-					// optgroup
-					$els[] = array( 'type' => 'optgroup', 'label' => $k );
-					
-					if( !empty($v) ) {
-						
-						foreach( $v as $k2 => $v2 ) {
-							
-							$els[] = array( 'type' => 'option', 'value' => $k2, 'label' => $v2, 'selected' => in_array($k2, $field['value']) );
-							$choices[] = $k2;
-							
-						}
-						
-					}
-					
-					$els[] = array( 'type' => '/optgroup' );
-				
-				} else {
-					
-					$els[] = array( 'type' => 'option', 'value' => $k, 'label' => $v, 'selected' => in_array($k, $field['value']) );
-					$choices[] = $k;
-					
-				}
-				
-			}
+			if( !empty($field[ $k ]) ) $atts[ $k ] = $k;
 			
 		}
 		
@@ -262,8 +220,7 @@ class acf_field_select extends acf_field {
 		// hidden input
 		if( $field['ui'] ) {
 			
-			// restirct value
-			$v = array_intersect($field['value'], $choices);
+			$v = $field['value'];
 			
 			if( $field['multiple'] ) {
 				
@@ -276,7 +233,6 @@ class acf_field_select extends acf_field {
 			}
 			
 			acf_hidden_input(array(
-				'type'	=> 'hidden',
 				'id'	=> $field['id'] . '-input',
 				'name'	=> $field['name'],
 				'value'	=> $v
@@ -285,7 +241,6 @@ class acf_field_select extends acf_field {
 		} elseif( $field['multiple'] ) {
 			
 			acf_hidden_input(array(
-				'type'	=> 'hidden',
 				'id'	=> $field['id'] . '-input',
 				'name'	=> $field['name']
 			));
@@ -293,58 +248,84 @@ class acf_field_select extends acf_field {
 		}
 		
 		
-		// null
-		if( $field['allow_null'] ) {
+		
+		// open
+		echo '<select ' . acf_esc_attr($atts) . '>';	
+		
+		
+		// walk
+		$this->walk( $field['choices'], $field['value'] );
+		
+		
+		// close
+		echo '</select>';
+		
+	}
+	
+	
+	/*
+	*  walk
+	*
+	*  description
+	*
+	*  @type	function
+	*  @date	22/12/2015
+	*  @since	5.3.2
+	*
+	*  @param	$post_id (int)
+	*  @return	$post_id (int)
+	*/
+	
+	function walk( $choices, $values ) {
+		
+		// bail ealry if no choices
+		if( empty($choices) ) return;
+		
+		
+		// loop
+		foreach( $choices as $k => $v ) {
 			
-			array_unshift( $els, array( 'type' => 'option', 'value' => '', 'label' => '- ' . $field['placeholder'] . ' -' ) );
-			
-		}		
-		
-		
-		// html
-		echo '<select ' . acf_esc_attr( $atts ) . '>';	
-		
-		
-		// construct html
-		if( !empty($els) ) {
-			
-			foreach( $els as $el ) {
+			// optgroup
+			if( is_array($v) ){
 				
-				// extract type
-				$type = acf_extract_var($el, 'type');
+				// optgroup
+				echo '<optgroup label="' . esc_attr($k) . '">';
 				
 				
-				if( $type == 'option' ) {
-					
-					// get label
-					$label = acf_extract_var($el, 'label');
-					
-					
-					// validate selected
-					if( acf_extract_var($el, 'selected') ) {
-						
-						$el['selected'] = 'selected';
-						
-					}
-					
-					
-					// echo
-					echo '<option ' . acf_esc_attr( $el ) . '>' . $label . '</option>';
-					
-				} else {
-					
-					// echo
-					echo '<' . $type . ' ' . acf_esc_attr( $el ) . '>';
-					
-				}
+				// walk
+				$this->walk( $v, $values );
 				
+				
+				// close optgroup
+				echo '</optgroup>';
+				
+				
+				// break
+				continue;
 				
 			}
 			
+			
+			// vars
+			$search = html_entity_decode($k);
+			$pos = array_search($search, $values);
+			$atts = array( 'value' => $k );
+			
+			
+			// validate selected
+			if( $pos !== false ) {
+				
+				$atts['selected'] = 'selected';
+				$atts['data-i'] = $pos;
+				
+			}
+			
+			
+			// option
+			echo '<option ' . acf_esc_attr($atts) . '>' . $v . '</option>';
+			
 		}
 		
-
-		echo '</select>';
 	}
 	
 	
@@ -462,11 +443,7 @@ class acf_field_select extends acf_field {
 	function load_value( $value, $post_id, $field ) {
 		
 		// ACF4 null
-		if( $value === 'null' ) {
-		
-			return false;
-			
-		}
+		if( $value === 'null' ) return false;
 		
 		
 		// return
@@ -538,6 +515,88 @@ class acf_field_select extends acf_field {
 		
 		// return
 		return $value;
+	}
+	
+	
+	/*
+	*  enqueue_assets
+	*
+	*  This function will enqueue the Select2 JS library
+	*  moved to the footer in an attempt to allow 3rd party to register Select2 paths
+	*
+	*  @type	function
+	*  @date	16/12/2015
+	*  @since	5.3.3
+	*
+	*  @param	n/a
+	*  @return	n/a
+	*/
+	
+	function input_admin_enqueue_scripts() {
+		
+		$this->enqueue_assets();
+		
+	}
+	
+	
+	function field_group_admin_enqueue_scripts() {
+		
+		$this->enqueue_assets();
+		
+	}
+	
+	function enqueue_assets() {
+		
+		// vars
+		$version = '3.5.2';
+		$lang = get_locale();
+		$min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
+		
+		
+		// v4
+/*
+		wp_enqueue_script('select2', acf_get_dir("assets/inc/select2/dist/js/select2.full.js"), array('jquery'), '4.0', true );
+		wp_enqueue_style('select2', acf_get_dir("assets/inc/select2/dist/css/select2{$min}.css"), '', '4.0' );
+		return;
+*/
+		
+		// scripts
+		wp_enqueue_script('select2', acf_get_dir("assets/inc/select2/select2{$min}.js"), array('jquery'), $version, true );
+		
+		
+		// styles
+		wp_enqueue_style('select2', acf_get_dir('assets/inc/select2/select2.css'), '', $version );
+		
+		
+		// bail early if no language
+		if( !$lang ) return;
+		
+		
+		// vars
+		$lang = str_replace('_', '-', $lang);
+		$lang_code = substr($lang, 0, 2);
+		$src = '';
+		
+		
+		// attempt 1
+		if( file_exists(acf_get_path("assets/inc/select2/select2_locale_{$lang_code}.js")) ) {
+			
+			$src = acf_get_dir("assets/inc/select2/select2_locale_{$lang_code}.js");
+			
+		} elseif( file_exists(acf_get_path("assets/inc/select2/select2_locale_{$lang}.js")) ) {
+			
+			$src = acf_get_dir("assets/inc/select2/select2_locale_{$lang}.js");
+			
+		}
+		
+		
+		// bail early if no language
+		if( !$src ) return;
+		
+		
+		// scripts
+		wp_enqueue_script('select2-l10n', $src, '', $version, true );
+		
 	}
 	
 }
