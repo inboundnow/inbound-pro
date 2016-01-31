@@ -15,62 +15,24 @@
 
 function acf_is_field_group_key( $key = '' ) {
 	
+	// bail early if not string
+	if( !is_string($key) ) return false;
+	
+	
+	// bail early if is numeric (could be numeric string '123')
+	if( is_numeric($key) ) return false;
+	
+	
 	// look for 'field_' prefix
-	if( is_string($key) && substr($key, 0, 6) === 'group_' ) {
-		
-		return true;
-		
-	}
+	if( substr($key, 0, 6) === 'group_' ) return true;
 	
 	
 	// allow local field group key to not start with prefix
-	if( acf_is_local_field_group($key) ) {
-		
-		return true;
-		
-	}
+	if( acf_is_local_field_group($key) ) return true;
 	
 	
 	// return
 	return false;
-	
-}
-
-
-/*
-*  acf_get_valid_field_group_key
-*
-*  This function will return a valid field group key starting with 'group_'
-*
-*  @type	function
-*  @date	2/02/2015
-*  @since	5.1.5
-*
-*  @param	$key (string)
-*  @return	$key
-*/
-
-function acf_get_valid_field_group_key( $key = '' ) {
-	
-	// test if valid
-	if( !acf_is_field_group_key($key) ) {
-		
-		// empty
-		if( !$key ) {
-			
-			$key = uniqid();
-			
-		} 
-		
-		
-		// add prefix
-		$key = "group_{$key}";
-		
-	}
-	
-	
-	// return
-	return $key;
 	
 }
 
@@ -107,6 +69,10 @@ function acf_get_valid_field_group( $field_group = false ) {
 		'description'			=> '' // Added in 5.2.9
 	));
 	
+	
+	// translate
+	acf_translate_keys( $field_group, acf_get_setting('l10n_field_group') );
+		
 	
 	// filter
 	$field_group = apply_filters('acf/get_valid_field_group', $field_group);
@@ -265,22 +231,23 @@ function acf_get_field_group( $selector = false ) {
 	
 	
 	// $post_id or $key
-	if( is_numeric($selector) )
-	{
+	if( is_numeric($selector) ) {
+		
 		$v = $selector;
-	}
-	elseif( is_string($selector) )
-	{
+		
+	} elseif( is_string($selector) ) {
+		
 		$k = 'key';
 		$v = $selector;
-	}
-	elseif( is_object($selector) )
-	{
+		
+	} elseif( is_object($selector) ) {
+		
 		$v = $selector->ID;
-	}
-	else
-	{
+		
+	} else {
+		
 		return false;
+		
 	}
 	
 	
@@ -292,20 +259,18 @@ function acf_get_field_group( $selector = false ) {
 	$found = false;
 	$cache = wp_cache_get( $cache_key, 'acf', false, $found );
 	
-	if( $found )
-	{
-		return $cache;
-	}
+	if( $found ) return $cache;
 	
 	
 	// get field group from ID or key
-	if( $k == 'ID' )
-	{
+	if( $k == 'ID' ) {
+		
 		$field_group = _acf_get_field_group_by_id( $v );
-	}
-	else
-	{
+		
+	} else {
+		
 		$field_group = _acf_get_field_group_by_key( $v );
+		
 	}
 	
 	
@@ -486,9 +451,10 @@ function acf_update_field_group( $field_group = array() ) {
 	// locations may contain 'uniquid' array keys
 	$field_group['location'] = array_values( $field_group['location'] );
 	
-	foreach( $field_group['location'] as $k => $v )
-	{
+	foreach( $field_group['location'] as $k => $v ) {
+		
 		$field_group['location'][ $k ] = array_values( $v );
+		
 	}
 	
 	
@@ -717,11 +683,7 @@ function acf_delete_field_group( $selector = 0 ) {
 	
 	
 	// bail early if field group did not load correctly
-	if( empty($field_group) ) {
-	
-		return false;
-	
-	}
+	if( empty($field_group) ) return false;
 	
 	
 	// get fields
@@ -776,11 +738,7 @@ function acf_trash_field_group( $selector = 0 ) {
 	
 	
 	// bail early if field group did not load correctly
-	if( empty($field_group) ) {
-	
-		return false;
-	
-	}
+	if( empty($field_group) ) return false;
 	
 	
 	// get fields
@@ -835,11 +793,7 @@ function acf_untrash_field_group( $selector = 0 ) {
 	
 	
 	// bail early if field group did not load correctly
-	if( empty($field_group) ) {
-	
-		return false;
-		
-	}
+	if( empty($field_group) ) return false;
 	
 	
 	// get fields
@@ -1109,6 +1063,38 @@ function acf_import_field_group( $field_group ) {
 	// return new field group
 	return $field_group;
 	
+}
+
+
+/*
+*  acf_prepare_field_group_for_export
+*
+*  description
+*
+*  @type	function
+*  @date	4/12/2015
+*  @since	5.3.2
+*
+*  @param	$post_id (int)
+*  @return	$post_id (int)
+*/
+
+function acf_prepare_field_group_for_export( $field_group ) {
+	
+	// extract field group ID
+	$id = acf_extract_var( $field_group, 'ID' );
+	
+	
+	// prepare fields
+	$field_group['fields'] = acf_prepare_fields_for_export( $field_group['fields'] );
+	
+	
+	// filter for 3rd party customization
+	$field_group = apply_filters('acf/prepare_field_group_for_export', $field_group);
+	
+	
+	// return
+	return $field_group;
 }
 
 

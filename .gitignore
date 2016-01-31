@@ -152,3 +152,5 @@ core/leads/.idea/
 *.dist
 
 /core/inbound-mailer/.gitignore
+/core/landing-pages/templates/custom-simple-solid
+/core/landing-pages/templates/custom-simple-solid2

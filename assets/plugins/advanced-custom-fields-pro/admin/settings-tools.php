@@ -355,6 +355,20 @@ class acf_settings_tools {
 	
 	function generate() {
 		
+		// translate
+		if( acf_get_setting('l10n_textdomain') ) {
+			
+			// prevent default translation
+			acf_update_setting('l10n_var_export', true);
+						
+			
+			// filters
+			add_filter('acf/prepare_field_group_for_export', 	array($this, '_translate_field_group'));
+			add_filter('acf/prepare_field_for_export', 			array($this, '_translate_field'));
+		
+		}
+		
+		
 		// vars
 		$json = $this->get_json();
 		
@@ -371,6 +385,18 @@ class acf_settings_tools {
 		// update view
 		$this->view = 'settings-tools-export';
 		$this->data['field_groups'] = $json;
+		
+	}
+	
+	function _translate_field( $field ) {
+		
+		return acf_translate_keys($field, acf_get_setting('l10n_field'));
+		
+	}
+	
+	function _translate_field_group( $field_group ) {
+		
+		return acf_translate_keys($field_group, acf_get_setting('l10n_field_group'));
 		
 	}
 	
@@ -410,23 +436,15 @@ class acf_settings_tools {
 			
 			
 			// validate field group
-			if( empty($field_group) ) {
-				
-				continue;
-			
-			}
+			if( empty($field_group) ) continue;
 			
 			
 			// load fields
 			$field_group['fields'] = acf_get_fields( $field_group );
 	
 	
-			// prepare fields
-			$field_group['fields'] = acf_prepare_fields_for_export( $field_group['fields'] );
-			
-			
-			// extract field group ID
-			$id = acf_extract_var( $field_group, 'ID' );
+			// prepare for export
+			$field_group = acf_prepare_field_group_for_export( $field_group );
 			
 			
 			// add to json array

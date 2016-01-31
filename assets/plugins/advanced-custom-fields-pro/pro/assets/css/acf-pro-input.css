@@ -38,7 +38,7 @@ th.acf-row-handle span {
 .acf-row-handle .acf-icon.-minus {
   top: 50%;
 }
-.acf-row:hover .acf-row-handle .acf-icon {
+.acf-row:hover > .acf-row-handle .acf-icon {
   -webkit-transition-delay: 0s;
   -moz-transition-delay: 0s;
   -o-transition-delay: 0s;

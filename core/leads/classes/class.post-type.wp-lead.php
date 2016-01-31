@@ -646,6 +646,7 @@ class Leads_Post_Type {
      */
     public static function setup_admin_menu() {
         if ( !current_user_can('manage_options') ) {
+            remove_menu_page( 'edit.php?post_type=wp-lead' );
             return;
         }
 

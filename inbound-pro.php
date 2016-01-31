@@ -5,7 +5,7 @@ Plugin URI: http://www.inboundnow.com/
 Description: Inbound Marketing Suite for WordPress
 Author: Inbound Now
 Author: Inbound Now
-Version: 1.0.9.9
+Version: 1.1.1
 Author URI: http://www.inboundnow.com/
 Text Domain: inbound-pro
 Domain Path: /lang/
@@ -22,6 +22,7 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 		 * @var array
 		 */
 		public static $notices = array();
+		static $access_level = array();
 
 		/**
 		 * Whether the current PHP version meets the minimum requirements
@@ -94,7 +95,7 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 		*/
 		private static function define_constants() {
 
-			define('INBOUND_PRO_CURRENT_VERSION', '1.0.9.9' );
+			define('INBOUND_PRO_CURRENT_VERSION', '1.1.1' );
 			define('INBOUND_PRO_URLPATH', WP_PLUGIN_URL.'/'.plugin_basename( dirname(__FILE__) ).'/' );
 			define('INBOUND_PRO_PATH', WP_PLUGIN_DIR.'/'.plugin_basename( dirname(__FILE__) ).'/' );
 			define('INBOUND_PRO_SLUG', plugin_basename( dirname(__FILE__) ) );
@@ -110,43 +111,43 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 			} else {
 				define('INBOUND_COMPONENT_PATH', 'core');
 			}
+
 		}
 
+
+
 		/**
-		*  Conditionally load core components
-		*/
-		private static function load_core_components() {
-			/* settings */
-			$settings = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
+		 *  Load inbound pro classes
+		 */
+		private static function load_pro_classes() {
 
-			/* load calls to action  */
-			if ( !isset($settings['inbound-core-loading']['toggle-calls-to-action']) || $settings['inbound-core-loading']['toggle-calls-to-action'] =='on' ) {
+			/* Frontend & Admin */
+			include_once( INBOUND_PRO_PATH . 'classes/class.options-api.php');
+			include_once( INBOUND_PRO_PATH . 'classes/class.extension-loader.php');
+			include_once( INBOUND_PRO_PATH . 'classes/class.analytics.php');
 
-            	include_once( INBOUND_COMPONENT_PATH . '/cta/calls-to-action.php');
+			/* determine customer access level */
+			self::$access_level = self::get_customer_status();
+
+			if (self::$access_level > 0) {
+				define( 'ACF_LITE', true );
+				include_once( INBOUND_PRO_PATH . 'assets/plugins/advanced-custom-fields-pro/acf.php');
 			}
 
-			/* load leads */
-			if ( !isset($settings['inbound-core-loading']['toggle-leads']) || $settings['inbound-core-loading']['toggle-leads'] =='on' ) {
-           		include_once( INBOUND_COMPONENT_PATH . '/leads/leads.php');
+			/* Admin Only */
+			if (is_admin()) {
+				include_once( INBOUND_PRO_PATH . 'classes/admin/class.updater.php');
+				include_once( INBOUND_PRO_PATH . 'classes/admin/class.activate.php');
+				include_once( INBOUND_PRO_PATH . 'classes/admin/class.menus.adminmenu.php');
+				include_once( INBOUND_PRO_PATH . 'classes/admin/class.lead-field-mapping.php');
+				include_once( INBOUND_PRO_PATH . 'classes/admin/class.settings.php');
+				include_once( INBOUND_PRO_PATH . 'classes/admin/class.download-management.php');
+				include_once( INBOUND_PRO_PATH . 'classes/admin/class.inbound-api-wrapper.php');
+				include_once( INBOUND_PRO_PATH . 'classes/admin/class.ajax.listeners.php');
+				include_once( INBOUND_PRO_PATH . 'classes/admin/class.oauth-engine.php');
+
 			}
 
-			/* load landing pages */
-			if ( !isset($settings['inbound-core-loading']['toggle-landing-pages']) || $settings['inbound-core-loading']['toggle-landing-pages'] =='on' ) {
-            	include_once( INBOUND_COMPONENT_PATH . '/landing-pages/landing-pages.php');
-			}
-
-			/* ignore the rest if not a registered pro user */
-			$access_level = self::get_customer_status();
-
-            if ($access_level < 5) {
-                return;
-            }
-
-            /* load inbound mailer & inbound automation */
-			if ( !isset($settings['inbound-core-loading']['toggle-email-automation']) || $settings['inbound-core-loading']['toggle-email-automation'] =='on' ) {
-				include_once( INBOUND_COMPONENT_PATH . '/inbound-mailer/inbound-mailer.php');
-				include_once( INBOUND_COMPONENT_PATH . '/inbound-automation/inbound-automation.php');
-			}
 
 		}
 
@@ -161,30 +162,38 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 		}
 
 		/**
-		*  Load inbound pro classes
-		*/
-		private static function load_pro_classes() {
+		 *  Conditionally load core components
+		 */
+		private static function load_core_components() {
+			/* settings */
+			$settings = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
 
-			/* Frontend & Admin */
-			include_once( INBOUND_PRO_PATH . 'classes/class.options-api.php');
-			include_once( INBOUND_PRO_PATH . 'classes/class.extension-loader.php');
-			include_once( INBOUND_PRO_PATH . 'classes/class.analytics.php');
-			include_once( INBOUND_PRO_PATH . 'assets/plugins/advanced-custom-fields-pro/acf.php');
+			/* load calls to action  */
+			if ( !isset($settings['inbound-core-loading']['toggle-calls-to-action']) || $settings['inbound-core-loading']['toggle-calls-to-action'] =='on' ) {
 
-			/* Admin Only */
-			if (is_admin()) {
-                include_once( INBOUND_PRO_PATH . 'classes/admin/class.updater.php');
-				include_once( INBOUND_PRO_PATH . 'classes/admin/class.activate.php');
-				include_once( INBOUND_PRO_PATH . 'classes/admin/class.menus.adminmenu.php');
-				include_once( INBOUND_PRO_PATH . 'classes/admin/class.lead-field-mapping.php');
-				include_once( INBOUND_PRO_PATH . 'classes/admin/class.settings.php');
-				include_once( INBOUND_PRO_PATH . 'classes/admin/class.download-management.php');
-				include_once( INBOUND_PRO_PATH . 'classes/admin/class.inbound-api-wrapper.php');
-				include_once( INBOUND_PRO_PATH . 'classes/admin/class.ajax.listeners.php');
-				include_once( INBOUND_PRO_PATH . 'classes/admin/class.oauth-engine.php');
-
+				include_once( INBOUND_COMPONENT_PATH . '/cta/calls-to-action.php');
 			}
 
+			/* load leads */
+			if ( !isset($settings['inbound-core-loading']['toggle-leads']) || $settings['inbound-core-loading']['toggle-leads'] =='on' ) {
+				include_once( INBOUND_COMPONENT_PATH . '/leads/leads.php');
+			}
+
+			/* load landing pages */
+			if ( !isset($settings['inbound-core-loading']['toggle-landing-pages']) || $settings['inbound-core-loading']['toggle-landing-pages'] =='on' ) {
+				include_once( INBOUND_COMPONENT_PATH . '/landing-pages/landing-pages.php');
+			}
+
+
+			if (self::$access_level < 5) {
+				return;
+			}
+
+			/* load inbound mailer & inbound automation */
+			if ( !isset($settings['inbound-core-loading']['toggle-email-automation']) || $settings['inbound-core-loading']['toggle-email-automation'] =='on' ) {
+				include_once( INBOUND_COMPONENT_PATH . '/inbound-mailer/inbound-mailer.php');
+				include_once( INBOUND_COMPONENT_PATH . '/inbound-automation/inbound-automation.php');
+			}
 
 		}
 

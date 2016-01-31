@@ -93,9 +93,8 @@ if (!class_exists('CTA_Dynamic_Widget')) {
 				($vid<1) ? $suffix = '' : $suffix = '-'.$vid;
 
 				$template_slug = $selected_cta['meta'][$vid]['wp-cta-selected-template-'.$vid];
-				$custom_css = get_post_meta( $cta_id, 'wp-cta-custom-css'.$suffix, true);
-				//echo $template_slug;
-				//print_r($this->cta_templates);exit;
+				$custom_css = CTA_Variations::get_variation_custom_css ( $cta_id, $vid );
+
 				$dynamic_css = $this->cta_templates[$template_slug]['css-template'];
 
 				$dynamic_css = $CTA_Render->replace_template_variables( $selected_cta, $dynamic_css, $vid );

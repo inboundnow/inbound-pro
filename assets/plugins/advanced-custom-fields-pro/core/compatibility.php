@@ -35,12 +35,16 @@ class acf_compatibility {
 		
 		
 		// settings
-		add_action('acf/init',								array($this, 'init'), 20);
+		add_filter('acf/settings/show_admin',				array($this, 'settings_acf_lite'), 5, 1);
+		add_filter('acf/settings/l10n_textdomain',			array($this, 'settings_export_textdomain'), 5, 1);
+		add_filter('acf/settings/l10n_field',				array($this, 'settings_export_translate'), 5, 1);
+		add_filter('acf/settings/l10n_field_group',			array($this, 'settings_export_translate'), 5, 1);
+		
 	}
 	
 	
 	/*
-	*  init
+	*  settings
 	*
 	*  description
 	*
@@ -52,14 +56,32 @@ class acf_compatibility {
 	*  @return	$post_id (int)
 	*/
 	
-	function init() {
+	function settings_acf_lite( $setting ) {
 		
-		// ACF_LITE
+		// 5.0.0 - removed ACF_LITE
 		if( defined('ACF_LITE') && ACF_LITE ) {
 			
-			acf_update_setting('show_admin', false);
+			$setting = false;
 			
 		}
+		
+		
+		// return
+		return $setting;
+		
+	}
+	
+	function settings_export_textdomain( $setting ) {
+		
+		// 5.3.3 - changed filter name
+		return acf_get_setting( 'export_textdomain', $setting );
+		
+	}
+	
+	function settings_export_translate( $setting ) {
+		
+		// 5.3.3 - changed filter name
+		return acf_get_setting( 'export_translate', $setting );
 		
 	}
 	

@@ -26,6 +26,7 @@ class Landing_Pages_Admin_Menus {
 	public static function add_sub_menus() {
 
         if (!current_user_can('manage_options')) {
+            remove_menu_page( 'edit.php?post_type=landing-page' );
             return;
         }
 

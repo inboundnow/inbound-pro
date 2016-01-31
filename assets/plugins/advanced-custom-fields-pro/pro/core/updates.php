@@ -105,10 +105,22 @@ class acf_pro_updates {
 	
 	function inject_update( $transient ) {
 		
+		// vars
+		$basename = acf_get_setting('basename');
+		
+		
 		// bail early if no show_updates
 		if( !acf_get_setting('show_updates') ) {
 			
 			return $transient;
+			
+		}
+		
+		
+		// bail early if not a plugin (included in theme)
+		if( !is_plugin_active($basename) ) {
+			
+			return;
 			
 		}
 		

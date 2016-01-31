@@ -239,35 +239,13 @@ class acf_pro_options_page {
 		}
 		
 		
-		// actions
-		add_action('admin_enqueue_scripts', 	array($this,'admin_enqueue_scripts'));
-	
-	}
-	
-	
-	/*
-	*  admin_enqueue_scripts
-	*
-	*  This action is run after post query but before any admin script / head actions. 
-	*  It is a good place to register all actions.
-	*
-	*  @type	action (admin_enqueue_scripts)
-	*  @date	26/01/13
-	*  @since	3.6.0
-	*
-	*  @param	N/A
-	*  @return	N/A
-	*/
-	
-	function admin_enqueue_scripts() {
-		
 		// load acf scripts
 		acf_enqueue_scripts();
 		
 		
 		// actions
 		add_action( 'acf/input/admin_head',		array($this,'admin_head') );
-		
+	
 	}
 	
 	

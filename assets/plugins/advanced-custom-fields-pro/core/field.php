@@ -58,7 +58,7 @@ class acf_field {
 		// field group actions
 		$this->add_action("acf/field_group/admin_enqueue_scripts", 		array($this, 'field_group_admin_enqueue_scripts'), 10, 0);
 		$this->add_action("acf/field_group/admin_head",					array($this, 'field_group_admin_head'), 10, 0);
-		
+		$this->add_action("acf/field_group/admin_footer",				array($this, 'field_group_admin_footer'), 10, 0);
 	}
 	
 	

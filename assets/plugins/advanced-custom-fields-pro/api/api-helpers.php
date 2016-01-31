@@ -104,6 +104,39 @@ function acf_append_setting( $name, $value ) {
 
 
 /*
+*  acf_has_done
+*
+*  This function will return true if this action has already been done
+*
+*  @type	function
+*  @date	16/12/2015
+*  @since	5.3.2
+*
+*  @param	$name (string)
+*  @return	(boolean)
+*/
+
+function acf_has_done( $name ) {
+	
+	// vars
+	$setting = 'has_done_' . $name;
+	
+	
+	// return true if already done
+	if( acf_get_setting($setting) ) return true;
+	
+	
+	// update setting
+	acf_update_setting($setting, true);
+	
+	
+	// return
+	return false;
+	
+}
+
+
+/*
 *  acf_get_path
 *
 *  This function will return the path to a file within the ACF plugin folder
@@ -1068,18 +1101,30 @@ function acf_get_taxonomy_terms( $taxonomies = array() ) {
 		// vars
 		$label = $taxonomies[ $taxonomy ];
 		$terms = get_terms( $taxonomy, array( 'hide_empty' => false ) );
+		$is_hierarchical = is_taxonomy_hierarchical( $taxonomy );
 		
 		
-		if( !empty($terms) ) {
+		// bail early i no terms
+		if( empty($terms) ) continue;
+		
+		
+		// sort into hierachial order!
+		if( $is_hierarchical ) {
 			
-			$r[ $label ] = array();
+			$terms = _get_term_children( 0, $terms, $taxonomy );
 			
-			foreach( $terms as $term ) {
-			
-				$k = "{$taxonomy}:{$term->slug}"; 
-				$r[ $label ][ $k ] = $term->name;
-				
-			}
+		}
+		
+		
+		// add placeholder		
+		$r[ $label ] = array();
+		
+		
+		// add choices
+		foreach( $terms as $term ) {
+		
+			$k = "{$taxonomy}:{$term->slug}"; 
+			$r[ $label ][ $k ] = acf_get_term_title( $term );
 			
 		}
 		
@@ -1088,6 +1133,36 @@ function acf_get_taxonomy_terms( $taxonomies = array() ) {
 	
 	// return
 	return $r;
+	
+}
+
+
+function acf_get_term_title( $term ) {
+	
+	// title
+	$title = $term->name;
+	
+	
+	// empty
+	if( $title === '' ) {
+		
+		$title = __('(no title)', 'acf');
+		
+	}
+	
+	
+	// ancestors
+	if( is_taxonomy_hierarchical($term->taxonomy) ) {
+		
+		$ancestors = get_ancestors( $term->term_id, $term->taxonomy );
+		
+		$title = str_repeat('- ', count($ancestors)) . $title;
+		
+	}
+	
+	
+	// return
+	return $title;
 	
 }
 
@@ -3376,6 +3451,127 @@ function _acf_settings_uploader( $uploader ) {
 	return $uploader;
 }
 
+
+/*
+*  acf_translate_keys
+*
+*  description
+*
+*  @type	function
+*  @date	7/12/2015
+*  @since	5.3.2
+*
+*  @param	$post_id (int)
+*  @return	$post_id (int)
+*/
+
+function acf_translate_keys( $array, $keys ) {
+	
+	// bail early if no keys
+	if( empty($keys) ) return $array;
+	
+	
+	// translate
+	foreach( $keys as $k ) {
+		
+		// bail ealry if not exists
+		if( !isset($array[ $k ]) ) continue;
+		
+		
+		// translate
+		$array[ $k ] = acf_translate( $array[ $k ] );
+		
+	}
+	
+	
+	// return
+	return $array;
+	
+}
+
+
+/*
+*  acf_translate
+*
+*  This function will translate a string using the new 'l10n_textdomain' setting
+*  Also works for arrays which is great for fields - select -> choices
+*
+*  @type	function
+*  @date	4/12/2015
+*  @since	5.3.2
+*
+*  @param	$string (mixed) string or array containins strings to be translated
+*  @return	$string
+*/
+
+function acf_translate( $string ) {
+	
+	// bail early if not enabled
+	if( !acf_get_setting('l10n') ) return $string;
+	
+	
+	// bail early if no textdomain
+	if( !acf_get_setting('l10n_textdomain') ) return $string;
+	
+	
+	// is array
+	if( is_array($string) ) {
+		
+		return array_map('acf_translate', $string);
+		
+	}
+	
+	
+	// bail early if not string
+	if( !is_string($string) ) return $string;
+	
+	
+	// bail early if empty
+	if( $string === '' ) return $string;
+	
+	
+	// allow for var_export export
+	if( acf_get_setting('l10n_var_export') ){
+		
+		return "!!__(!!'" .  $string . "!!', !!'" . acf_get_setting('l10n_textdomain') . "!!')!!";
+			
+	}
+	
+	
+	// vars
+	return __( $string, acf_get_setting('l10n_textdomain') );
+	
+}
+
+
+/*
+*  acf_maybe_add_action
+*
+*  This function will determine if the action has already run before adding / calling the function
+*
+*  @type	function
+*  @date	13/01/2016
+*  @since	5.3.2
+*
+*  @param	$post_id (int)
+*  @return	$post_id (int)
+*/
+
+function acf_maybe_add_action( $tag, $function_to_add, $priority = 10, $accepted_args = 1 ) {
+	
+	// if action has already run, execute it
+	if( did_action($tag) ) {
+			
+		call_user_func( $function_to_add );
+	
+	// if action has not yet run, add it
+	} else {
+		
+		add_action( $tag, $function_to_add, $priority, $accepted_args );
+		
+	}
+	
+}
 
 
 /*

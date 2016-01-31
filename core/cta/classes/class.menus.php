@@ -26,6 +26,7 @@ class CTA_Menus {
 	*/
 	public static function add_sub_menus() {
 		if ( !current_user_can('manage_options')) {
+			remove_menu_page( 'edit.php?post_type=wp-call-to-action' );
 			return;
 		}
 

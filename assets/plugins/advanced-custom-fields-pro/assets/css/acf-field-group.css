@@ -87,10 +87,10 @@
 }
 .acf-field-object.ui-sortable-helper {
   border-top-color: #fff;
-  box-shadow: 0 0 0 1px #dfdfdf, 0 1px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 0 1px #DFDFDF, 0 1px 4px rgba(0, 0, 0, 0.1);
 }
 .acf-field-object.ui-sortable-placeholder {
-  box-shadow: 0 -1px 0 0 #dfdfdf;
+  box-shadow: 0 -1px 0 0 #DFDFDF;
   visibility: visible !important;
   background: #F9F9F9;
   border-top-color: transparent;
@@ -132,7 +132,7 @@
   line-height: 14px;
   min-height: 14px;
 }
-.acf-field-object.open .handle .acf-required {
+.acf-field-object.open > .handle .acf-required {
   color: #fff;
 }
 .acf-field-object .handle .row-options {
@@ -150,15 +150,15 @@
 /* field object handle (open) */
 .acf-field-object.open > .handle {
   background: #3595BC;
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#46afdb), to(#3199c5));
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#46AFDB), to(#3199C5));
   /* Safari 4+, Chrome */
-  background-image: -webkit-linear-gradient(top, #46afdb, #3199c5);
+  background-image: -webkit-linear-gradient(top, #46AFDB, #3199C5);
   /* Chrome 10+, Safari 5.1+, iOS 5+ */
-  background-image: -moz-linear-gradient(top, #46afdb, #3199c5);
+  background-image: -moz-linear-gradient(top, #46AFDB, #3199C5);
   /* Firefox 3.6-15 */
-  background-image: -o-linear-gradient(top, #46afdb, #3199c5);
+  background-image: -o-linear-gradient(top, #46AFDB, #3199C5);
   /* Opera 11.10+ */
-  background-image: linear-gradient(to bottom, #46afdb, #3199c5);
+  background-image: linear-gradient(to bottom, #46AFDB, #3199C5);
   /* Firefox 16+ */
   border: #268FBB solid 1px;
   text-shadow: #268FBB 0 1px 0;
