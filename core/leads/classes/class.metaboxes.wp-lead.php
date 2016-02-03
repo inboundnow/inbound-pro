@@ -593,24 +593,9 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
          */
         public static function display_quick_stat_page_views( $post ) {
 
-            $page_views = get_post_meta($post->ID, 'page_views', true);
-            self::$page_views = json_decode($page_views, true);
-
-            $main_count = 0;
-            $page_view_count = 0;
-
-            if (is_array(self::$page_views)) {
-                foreach (self::$page_views as $key => $val) {
-                    $page_view_count += count(self::$page_views[$key]);
-                }
-                update_post_meta($post->ID, 'wpleads_page_view_count', $page_view_count);
-            } else {
-                $page_view_count = get_post_meta($post->ID, 'wpleads_page_view_count', true);
-            }
-
             ?>
             <div class="quick-stat-label"><?php _e('Page Views ', 'leads'); ?>
-                <span class="quick-stat-total"><?php echo $page_view_count; ?></span>
+                <span class="quick-stat-total"><?php echo self::get_page_view_count(); ?></span>
             </div>
             <?php
         }
@@ -878,6 +863,29 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             $conversion_count = count(self::$conversions);
 
             return $conversion_count;
+        }
+        /**
+         * Gets number of pageviews
+         */
+        public static function get_page_view_count() {
+            global $post;
+
+            $page_views = get_post_meta($post->ID, 'page_views', true);
+            self::$page_views = json_decode($page_views, true);
+
+            $main_count = 0;
+            $page_view_count = 0;
+
+            if (is_array(self::$page_views)) {
+                foreach (self::$page_views as $key => $val) {
+                    $page_view_count += count(self::$page_views[$key]);
+                }
+                update_post_meta($post->ID, 'wpleads_page_view_count', $page_view_count);
+            } else {
+                $page_view_count = get_post_meta($post->ID, 'wpleads_page_view_count', true);
+            }
+
+            return ( $page_view_count ) ? $page_view_count : 0 ;
         }
 
         /**

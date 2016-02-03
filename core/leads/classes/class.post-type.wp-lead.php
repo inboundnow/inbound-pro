@@ -22,6 +22,7 @@ class Leads_Post_Type {
 
         /* setup column sorting */
         add_filter("manage_edit-wp-lead_sortable_columns", array( __CLASS__ , 'define_sortable_columns' ));
+        add_action( 'posts_clauses', array( __CLASS__ , 'process_column_sorting' ) , 1 , 2 );
 
         /* modify row actions */
         add_filter('post_row_actions', array( __CLASS__ , 'filter_row_actions' ), 10, 2);
@@ -85,7 +86,7 @@ class Leads_Post_Type {
             "status" => __( 'Status' , 'leads' ),
             'action-count' => __( 'Actions' , 'leads' ),
             "page-views" => __( 'Page Views' , 'leads' ),
-            "date" => __( 'Created' , 'leads' )
+            "modified" => __( 'Updated' , 'leads' )
         );
 
         /* not sure about this, needs documentation - H */
@@ -123,15 +124,7 @@ class Leads_Post_Type {
 
                 $gravatar = "//www.gravatar.com/avatar/" . md5(strtolower(trim($email))) . "?d=" . urlencode($default) . "&s=" . $size;
                 $extra_image = get_post_meta($post_id, 'lead_main_image', true);
-                /*
-                Super expensive call. Need more elegant solution
-                 $response = get_headers($gravatar);
-                if ($response[0] === "HTTP/1.0 302 Found"){
-                    $gravatar = $url . '/wp-content/plugins/leads/assets/images/gravatar_default_50.jpg';
-                } else {
-                    $gravatar = "http://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size;
-                }
-                */
+
                 // Fix for localhost view
                 if (in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1'))) {
                     $gravatar = $default;
@@ -158,7 +151,10 @@ class Leads_Post_Type {
                 break;
             case "status":
                 $lead_status = get_post_meta($post_id, 'wp_lead_status', true);
+                $lead_status = ( $lead_status ) ? $lead_status : __('New Lead' , 'leads');
+                echo '<label class="lead-status-pill lead-status-'.str_replace(' ' , '-' , $lead_status ).'">';
                 echo $lead_status;
+                echo '</label>';
                 break;
             case "action-count":
                 $actions = Inbound_Events::get_total_activity($post_id);
@@ -182,6 +178,15 @@ class Leads_Post_Type {
                 $company = get_post_meta($post_id, 'wpleads_company_name', true);
                 echo $company;
                 break;
+            case 'modified':
+                $m_orig		= get_post_field( 'post_modified', $post_id, 'raw' );
+                $m_stamp	= strtotime( $m_orig );
+                $modified	= date('n/j/y g:i a', $m_stamp );
+
+                echo '<p class="mod-date">';
+                echo '<em>'.$modified.'</em><br />';
+                echo '</p>';
+                break;
         }
     }
 
@@ -196,10 +201,15 @@ class Leads_Post_Type {
         $columns['last-name'] = 'last-name';
         $columns['status'] = 'status';
         $columns['company'] = 'company';
+        $columns['modified']	= 'modified';
+        $columns['action-count']	= 'action-count';
+        $columns['page-views']	= 'page-views';
         if (isset($_GET['wp_leads_filter_field'])) {
             $the_val = $_GET['wp_leads_filter_field'];
             $columns['custom'] = $the_val;
         }
+
+
         return $columns;
     }
 
@@ -238,6 +248,74 @@ class Leads_Post_Type {
         unset($actions['inline hide-if-no-js']);
 
         return $actions;
+    }
+
+    public static function process_column_sorting(  $pieces, $query ) {
+
+        global $wpdb, $table_prefix;
+
+        if (!isset($_GET['post_type']) || $_GET['post_type'] != 'wp-lead') {
+            return $pieces;
+        }
+
+        if ( $query->is_main_query() && ( $orderby = $query->get( 'orderby' ) ) ) {
+            $order = strtoupper( $query->get( 'order' ) );
+
+            if ( ! in_array( $order, array( 'ASC', 'DESC' ) ) ) {
+                $order = 'ASC';
+            }
+
+            switch( $orderby ) {
+
+                case 'first-name':
+
+                    $pieces[ 'join' ] .= " LEFT JOIN $wpdb->postmeta wp_rd ON wp_rd.post_id = {$wpdb->posts}.ID AND wp_rd.meta_key = 'wpleads_first_name'";
+
+                    $pieces[ 'orderby' ] = " wp_rd.meta_value $order , " . $pieces[ 'orderby' ];
+
+                    break;
+
+                case 'last-name':
+
+                    $pieces[ 'join' ] .= " LEFT JOIN $wpdb->postmeta wp_rd ON wp_rd.post_id = {$wpdb->posts}.ID AND wp_rd.meta_key = 'wpleads_last_name'";
+
+                    $pieces[ 'orderby' ] = " wp_rd.meta_value $order , " . $pieces[ 'orderby' ];
+
+                    break;
+
+                case 'status':
+
+                    $pieces[ 'join' ] .= " LEFT JOIN $wpdb->postmeta wp_rd ON wp_rd.post_id = {$wpdb->posts}.ID AND wp_rd.meta_key = 'wp_lead_status'";
+
+                    $pieces[ 'orderby' ] = " wp_rd.meta_value $order , " . $pieces[ 'orderby' ];
+
+                    break;
+
+                case 'page-views':
+
+                    $pieces[ 'join' ] .= " LEFT JOIN $wpdb->postmeta wp_rd ON wp_rd.post_id = {$wpdb->posts}.ID AND wp_rd.meta_key = 'wpleads_page_view_count'";
+
+                    $pieces[ 'orderby' ] = " wp_rd.meta_value $order , " . $pieces[ 'orderby' ];
+
+                    break;
+
+
+                case 'action-count':
+
+                    $pieces[ 'join' ] .= " LEFT JOIN {$table_prefix}inbound_events ee ON ee.lead_id = {$wpdb->posts}.ID ";
+
+                    $pieces[ 'groupby' ] = " {$wpdb->posts}.ID ";
+
+                    $pieces[ 'orderby' ] = "COUNT(ee.lead_id) $order ";
+
+                    break;
+            }
+        } else {
+            $pieces[ 'orderby' ] = " post_modified  DESC , " . $pieces[ 'orderby' ];
+        }
+
+
+        return $pieces;
     }
 
     /**

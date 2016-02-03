@@ -85,7 +85,7 @@ class Leads_Tracking {
      * @param  string $lead_id - lead CPT id
      * @return sets cookie of lists lead belongs to
      */
-    function cookie_lead_lists($lead_id) {
+    public static function cookie_lead_lists($lead_id) {
 
         $terms = get_the_terms( $lead_id , 'wplead_list_category' );
         if ( $terms && ! is_wp_error( $terms ) ) {

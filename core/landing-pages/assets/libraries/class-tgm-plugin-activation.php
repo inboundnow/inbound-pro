@@ -1865,21 +1865,21 @@ if ( ! class_exists( 'INBOUND_Plugin_Activation' ) ) {
 
             return self::$instance;
         }
-    }
 
-    if ( ! function_exists( 'load_tgm_plugin_activation' ) ) {
         /**
          * Ensure only one instance of the class is ever invoked.
          */
-        function load_tgm_plugin_activation() {
-            $GLOBALS['tgmpa'] = INBOUND_Plugin_Activation::get_instance();
+        public static function load_tgm_plugin_activation() {
+            if (!isset($GLOBALS['tgmpa'] )) {
+                $GLOBALS['tgmpa'] = INBOUND_Plugin_Activation::get_instance();
+            }
         }
     }
 
-    if ( did_action( 'plugins_loaded' ) ) {
-        load_tgm_plugin_activation();
+    if ( did_action( 'after_setup_theme' ) ) {
+        INBOUND_Plugin_Activation::load_tgm_plugin_activation();
     } else {
-        add_action( 'plugins_loaded', 'load_tgm_plugin_activation' );
+        add_action( 'after_setup_theme', array( 'INBOUND_Plugin_Activation', 'load_tgm_plugin_activation' ) );
     }
 }
 
