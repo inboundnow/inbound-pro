@@ -269,6 +269,42 @@ class Inbound_Pro_Settings {
 								'value' => null
 							)
 						)
+				    )
+				),
+				/* add core plugin exclusion options */
+				array(
+					'group_name' => 'inbound-acf',
+					'keywords' => __('advanced custom fields,acf' , 'inbound-pro'),
+					'fields' => array (
+						array (
+							'id'	=> 'acf-header',
+							'type'	=> 'header',
+							'default'	=> __( 'ACF Options' , INBOUNDNOW_TEXT_DOMAIN ),
+							'placeholder'	=> null,
+							'options' => false,
+							'hidden' => (Inbound_Pro_Plugin::get_customer_status() > 1 ? false : true ),
+							'reveal' => array(
+								'selector' => null ,
+								'value' => null
+							)
+						),
+						array (
+							'id'	=> 'toggle-acf-lite',
+							'type'	=> 'radio',
+							'label'	=> __( 'ACF Lite Mode' , INBOUNDNOW_TEXT_DOMAIN ),
+							'description'	=> __( 'Toggle this off to stop loading Landing Pages component.' , INBOUNDNOW_TEXT_DOMAIN ),
+							'default'	=> 'on',
+							'placeholder'	=> null,
+							'options' => array(
+								'on' => __( 'On' , INBOUNDNOW_TEXT_DOMAIN ),
+								'off' => __( 'Off' , INBOUNDNOW_TEXT_DOMAIN ),
+							),
+							'hidden' => (Inbound_Pro_Plugin::get_customer_status() > 1 ? false : true ),
+							'reveal' => array(
+								'selector' => null ,
+								'value' => null
+							)
+						)
 					),
 				)
 			)
