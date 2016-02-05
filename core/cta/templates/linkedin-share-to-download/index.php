@@ -15,7 +15,10 @@
     background-position:left bottom;
     cursor:pointer;
   }
-
+  a.do-not-track {
+      display:inline-block;
+      text-align:center;
+  }
   #arrow-down {
 
     width:32px;
@@ -83,4 +86,5 @@
 
           <a id="LI_the_link" class="do-not-track" style="display:none;" href="{{download-url}}"></a>
      </div>
+</div>
 </body>

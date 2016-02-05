@@ -1,8 +1,8 @@
 <?php
 
 /**
-*  Scripts and stylesheet that have not been segmented into classes or have no other home are enqueued here.
-*/
+ *  Scripts and stylesheet that have not been segmented into classes or have no other home are enqueued here.
+ */
 class CTA_Enqueues {
 
 	static $scripts_queue; /* Holds 3rd party scripts queue
@@ -15,8 +15,8 @@ class CTA_Enqueues {
 	}
 
 	/**
-	*  Loads hooks and filters
-	*/
+	 *  Loads hooks and filters
+	 */
 	public static function load_hooks() {
 		add_action('wp_enqueue_scripts', array(__CLASS__, 'frontend_enqueues'));
 		add_action('admin_enqueue_scripts', array(__CLASS__, 'backend_enqueues'));
@@ -98,12 +98,15 @@ class CTA_Enqueues {
 	public static function backend_cta_enqueues( $hook ) {
 		global $post;
 
-		$CTAExtensions = CTA_Load_Extensions();
+
 		$screen = get_current_screen();
 
 		if ((isset($screen) && $screen->post_type != 'wp-call-to-action')){
 			return;
 		}
+
+		global $CTA_Variations;
+		$CTAExtensions = CTA_Load_Extensions();
 
 		/* Enqueue dependancies */
 		wp_enqueue_script(array('jquery', 'jqueryui', 'editor', 'thickbox', 'media-upload'));
@@ -147,7 +150,7 @@ class CTA_Enqueues {
 
 			/* Enqueue UI assisting js */
 			wp_enqueue_script('wp-cta-post-edit-ui', WP_CTA_URLPATH . 'assets/js/admin/admin.post-edit.js');
-			wp_localize_script( 'wp-cta-post-edit-ui', 'wp_cta_post_edit_ui', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'post_id' => $post->ID, 'wp_call_to_action_meta_nonce' => wp_create_nonce('wp-call-to-action-meta-nonce'), 'wp_call_to_action_template_nonce' => wp_create_nonce('wp-cta-nonce') ));
+			wp_localize_script( 'wp-cta-post-edit-ui', 'wp_cta_post_edit_ui', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'post_id' => $post->ID, 'variation_id' => $CTA_Variations->get_current_variation_id(), 'wp_call_to_action_meta_nonce' => wp_create_nonce('wp-call-to-action-meta-nonce'), 'wp_call_to_action_template_nonce' => wp_create_nonce('wp-cta-nonce') ));
 
 			/* Enqueue supportive js for template switching */
 			wp_enqueue_script('wp-cta-js-metaboxes', WP_CTA_URLPATH . 'assets/js/admin/admin.metaboxes.js');
@@ -218,10 +221,10 @@ class CTA_Enqueues {
 		global $wp_scripts;
 
 		if ( !empty( $wp_scripts->queue ) ) {
-		    self::$scripts_queue = $wp_scripts->queue; // store the scripts
-		    foreach ( $wp_scripts->queue as $handle ) {
-		          wp_dequeue_script( $handle );
-		    }
+			self::$scripts_queue = $wp_scripts->queue; // store the scripts
+			foreach ( $wp_scripts->queue as $handle ) {
+				wp_dequeue_script( $handle );
+			}
 		}
 	}
 
@@ -232,7 +235,7 @@ class CTA_Enqueues {
 
 		if(isset(self::$scripts_queue)) {
 			foreach ( self::$scripts_queue as $handle ) {
-			    wp_enqueue_script( $handle );
+				wp_enqueue_script( $handle );
 			}
 		}
 	}
@@ -240,6 +243,6 @@ class CTA_Enqueues {
 }
 
 /**
-*  Loads Class Pre-Init
-*/
+ *  Loads Class Pre-Init
+ */
 $CTA_Enqueues = new CTA_Enqueues();

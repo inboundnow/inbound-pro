@@ -152,22 +152,6 @@ ul.uninstall {
     margin-left:20px;
 }
 
-.api-key:after{
-  content: "";
-  box-shadow: inset 8px -8px 0 rgba(255, 255, 255, 1), -3px 4px 0 rgba(0, 0, 0, 0.26);
-  position:absolute;
- top:0px;
-  right: 0px;
-  height: 28px;
-  transition-duration: 0.1s;
-  transition-property: transform;
-  transform: rotate(-45deg) scale(0.6);
-  width: 60px;
-  float:right;
-  display:block;
-
-}
-
 .api-key .valid {
 	border-style: solid;
     border-width: 2px;

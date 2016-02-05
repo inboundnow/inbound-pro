@@ -25,9 +25,9 @@ jQuery(document).ready(function($) {
 
 	jQuery("body").on('click', '#content-html, .wp-switch-editor.switch-html', function () {
 		if(cookies) {
-		jQuery.cookie("cta-edit-view-choice", "html", { path: '/', expires: 7 });
+			jQuery.cookie("cta-edit-view-choice", "html", { path: '/', expires: 7 });
 		} else {
-		cookie_notice();
+			cookie_notice();
 		}
 	});
 
@@ -42,9 +42,9 @@ jQuery(document).ready(function($) {
 	if(which_editor === 'editor'){
 		setTimeout(function() {
 
-            jQuery('.switch-tmce').each(function(){
-                jQuery(this).click();
-            });
+			jQuery('.switch-tmce').each(function(){
+				jQuery(this).click();
+			});
 
 		}, 1000);
 	}
@@ -53,9 +53,9 @@ jQuery(document).ready(function($) {
 	jQuery('#template-filter a').click(function(){
 		var selector = jQuery(this).attr('data-filter');
 		$(".template-item-boxes").fadeOut(500);
-			setTimeout(function() {
+		setTimeout(function() {
 			$(selector).fadeIn(500);
-			}, 500);
+		}, 500);
 		return false;
 	});
 
@@ -94,8 +94,8 @@ jQuery(document).ready(function($) {
 		jQuery('#TB_iframeContent, #TB_window').hide();
 		setTimeout(function() {
 
-		jQuery('#TB_iframeContent, #TB_window').width( 640 ).height( 800 ).css("margin-left", "0px").css("left", "35%");
-		jQuery('#TB_iframeContent, #TB_window').show();
+			jQuery('#TB_iframeContent, #TB_window').width( 640 ).height( 800 ).css("margin-left", "0px").css("left", "35%");
+			jQuery('#TB_iframeContent, #TB_window').show();
 		}, 600);
 	});
 
@@ -138,49 +138,51 @@ jQuery(document).ready(function($) {
 		jQuery(selected_template_id).parent().addClass("default_template_highlight").prepend(currentlabel);
 		jQuery(".wp-cta-template-selector-container").fadeOut(500,function(){
 
-			jQuery('#template-display-options').fadeOut(500, function(){
-			});
+			//jQuery('#template-display-options').fadeOut(500, function(){
+			//});
 
 			var ajax_data = {
 				action: 'wp_cta_get_template_meta',
 				selected_template: template,
 				post_id: wp_cta_post_edit_ui.post_id,
+				variation_id: wp_cta_post_edit_ui.variation_id,
 				post: wp_cta_post_edit_ui.post_id,
 			};
 
 			jQuery.ajax({
-					type: "POST",
-					url: wp_cta_post_edit_ui.ajaxurl,
-					data: ajax_data,
-					dataType: 'html',
-					timeout: 7000,
-					success: function (response) {
+				type: "POST",
+				url: wp_cta_post_edit_ui.ajaxurl,
+				data: ajax_data,
+				dataType: 'html',
+				timeout: 7000,
+				success: function (response) {
 
-						jQuery('#wp_cta_template_select_meta_box .input').remove();
-						jQuery('#wp_cta_template_select_meta_box .inside').remove();
+					jQuery('#wp_cta_template_select_meta_box .input').remove();
+					jQuery('#wp_cta_template_select_meta_box .inside').remove();
 
-						jQuery('#wp_cta_template_select_meta_box h3').remove();
+					jQuery('#wp_cta_template_select_meta_box h3').remove();
+					jQuery('#wp_cta_select_template h3').remove();
 
-						var html = '<div class="inside">'
-								+ '<input id="wp_cta_select_template" type="hidden" value="'+template+'" name="wp-cta-selected-template'+variation_tag+'">'
-								+ '<input type="hidden" value="'+wp_cta_post_edit_ui.wp_call_to_action_template_nonce+'" name="wp_cta_wp-cta_custom_fields_nonce">'
-								+ '<h3 class="hndle" style="cursor: default;">'
-								+ '<span>'
-								+ '<small>'+ template +' Options:</small>'
-								+	'</span>'
-								+	'</h3>'
+					var html = '<div class="inside">'
+							+ '<input id="wp_cta_select_template" type="hidden" value="'+template+'" name="wp-cta-selected-template'+variation_tag+'">'
+							+ '<input type="hidden" value="'+wp_cta_post_edit_ui.wp_call_to_action_template_nonce+'" name="wp_cta_wp-cta_custom_fields_nonce">'
+							+ '<h3 class="hndle" style="cursor: default;">'
+							+ '<span>'
+							+ '<small>'+ template +' Options:</small>'
+							+	'</span>'
+							+	'</h3>'
 
-								+ response
-								+ '</div>';
+							+ response
+							+ '</div>';
 
-						jQuery('#wp_cta_template_select_meta_box').append(html);
+					jQuery('#wp_cta_template_select_meta_box').append(html);
 
-					},
-					error: function(request, status, err) {
-						alert(status);
-					}
-				});
-				jQuery(".wrap").fadeIn(500, function(){
+				},
+				error: function(request, status, err) {
+					alert(status);
+				}
+			});
+			jQuery(".wrap").fadeIn(500, function(){
 			});
 		});
 
@@ -210,12 +212,12 @@ jQuery(document).ready(function($) {
 	jQuery("body").on('click', '.calc', function () {
 		image_exists = jQuery("#content_ifr").contents().find('img').length;
 		if (image_exists > 0){
-		width = jQuery("#content_ifr").contents().find('img').width() + 15;
-		height = jQuery("#content_ifr").contents().find('img').height() + 15;
-		round_height = Math.ceil(height);
-		round_width = Math.ceil(width);
-		jQuery(".cta-width").val(round_width);
-		jQuery(".cta-height").val(round_height);
+			width = jQuery("#content_ifr").contents().find('img').width() + 15;
+			height = jQuery("#content_ifr").contents().find('img').height() + 15;
+			round_height = Math.ceil(height);
+			round_width = Math.ceil(width);
+			jQuery(".cta-width").val(round_width);
+			jQuery(".cta-height").val(round_height);
 		} else {
 			alert('No image found. For more complex templates you need to enter height and width manually. You can use free browser plugins like "measureit" to measure screen pixels');
 		}
@@ -227,41 +229,41 @@ jQuery(document).ready(function($) {
 			var default_content = jQuery(".default-content").text();
 			jQuery("#content_ifr").contents().find("body").html(default_content);
 		} else {
-	// Do nothing!
-	}
+			// Do nothing!
+		}
 	});
 
 	// Colorpicker fix
 	jQuery('.jpicker').one('mouseenter', function () {
 		jQuery(this).jPicker({
-			window: // used to define the position of the popup window only useful in binded mode
-			{
-				title: null, // any title for the jPicker window itself - displays "Drag Markers To Pick A Color" if left null
-				position: {
-					x: 'screenCenter', // acceptable values "left", "center", "right", "screenCenter", or relative px value
-					y: 'center', // acceptable values "top", "bottom", "center", or relative px value
+					window: // used to define the position of the popup window only useful in binded mode
+					{
+						title: null, // any title for the jPicker window itself - displays "Drag Markers To Pick A Color" if left null
+						position: {
+							x: 'screenCenter', // acceptable values "left", "center", "right", "screenCenter", or relative px value
+							y: 'center', // acceptable values "top", "bottom", "center", or relative px value
+						},
+						expandable: false, // default to large static picker - set to true to make an expandable picker (small icon with popup) - set
+						// automatically when binded to input element
+						liveUpdate: true, // set false if you want the user to click "OK" before the binded input box updates values (always "true"
+						// for expandable picker)
+						alphaSupport: false, // set to true to enable alpha picking
+						alphaPrecision: 0, // set decimal precision for alpha percentage display - hex codes do not map directly to percentage
+						// integers - range 0-2
+						updateInputColor: true // set to false to prevent binded input colors from changing
+					}
 				},
-				expandable: false, // default to large static picker - set to true to make an expandable picker (small icon with popup) - set
-				// automatically when binded to input element
-				liveUpdate: true, // set false if you want the user to click "OK" before the binded input box updates values (always "true"
-				// for expandable picker)
-				alphaSupport: false, // set to true to enable alpha picking
-				alphaPrecision: 0, // set decimal precision for alpha percentage display - hex codes do not map directly to percentage
-				// integers - range 0-2
-				updateInputColor: true // set to false to prevent binded input colors from changing
-			}
-		},
-		function(color, context)
-		{
-			var all = color.val('all');
-		// alert('Color chosen - hex: ' + (all && '#' + all.hex || 'none') + ' - alpha: ' + (all && all.a + '%' || 'none'));
-			//jQuery(this).attr('rel', all.hex);
-			//jQuery(this).parent().find(".wp-cta-success-message").remove();
-			//jQuery(this).parent().find(".new-save-wp-cta").show();
-			//jQuery(this).parent().find(".new-save-wp-cta-frontend").show();
+				function(color, context)
+				{
+					var all = color.val('all');
+					// alert('Color chosen - hex: ' + (all && '#' + all.hex || 'none') + ' - alpha: ' + (all && all.a + '%' || 'none'));
+					//jQuery(this).attr('rel', all.hex);
+					//jQuery(this).parent().find(".wp-cta-success-message").remove();
+					//jQuery(this).parent().find(".new-save-wp-cta").show();
+					//jQuery(this).parent().find(".new-save-wp-cta-frontend").show();
 
-			//jQuery(this).attr('value', all.hex);
-		});
+					//jQuery(this).attr('value', all.hex);
+				});
 	});
 
 	if (jQuery(".wp-cta-template-selector-container").css("display") == "none"){
@@ -290,9 +292,9 @@ jQuery(document).ready(function($) {
 	});
 
 	/* Move Slug Box
-	var slugs = jQuery("#edit-slug-box");
-	jQuery('#main-title-area').after(slugs.show());
-	*/
+	 var slugs = jQuery("#edit-slug-box");
+	 jQuery('#main-title-area').after(slugs.show());
+	 */
 	// Background Options
 	jQuery('.current_lander .background-style').live('change', function () {
 		var input = jQuery(".current_lander .background-style option:selected").val();
@@ -364,11 +366,11 @@ jQuery(document).ready(function($) {
 
 	}
 
-function getURLParameter(name) {
-	return decodeURI(
-		(RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1]
-	);
-}
+	function getURLParameter(name) {
+		return decodeURI(
+				(RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1]
+		);
+	}
 
 
 
@@ -414,31 +416,31 @@ function getURLParameter(name) {
 		var post_id = jQuery("#post_ID").val();
 
 		function do_reload_preview() {
-		var cache_bust =	generate_random_cache_bust(35);
-		var reload_url = parent.window.location.href;
-		reload_url = reload_url.replace('inbound-customizer=on','');
-		//alert(reload_url);
-		var current_variation_id = jQuery("#wp-cta-current-view").text();
+			var cache_bust =	generate_random_cache_bust(35);
+			var reload_url = parent.window.location.href;
+			reload_url = reload_url.replace('inbound-customizer=on','');
+			//alert(reload_url);
+			var current_variation_id = jQuery("#wp-cta-current-view").text();
 
-		// var reload = jQuery(parent.document).find("#lp-live-preview").attr("src");
-		var new_reload = reload_url + "&inbound-preview=" + cache_bust + "&wp-cta-variation-id=" + current_variation_id;
-		//alert(new_reload);
-		jQuery(parent.document).find("#wp-cta-live-preview").attr("src", new_reload);
+			// var reload = jQuery(parent.document).find("#lp-live-preview").attr("src");
+			var new_reload = reload_url + "&inbound-preview=" + cache_bust + "&wp-cta-variation-id=" + current_variation_id;
+			//alert(new_reload);
+			jQuery(parent.document).find("#wp-cta-live-preview").attr("src", new_reload);
 
-		var iframe_w = jQuery('.cta-width').val();
-		var iframe_h = jQuery('.cta-height').val();
-		if (typeof (iframe_w) != "undefined" && iframe_w != null && iframe_w != "") {
-		var iframe_h = jQuery('.cta-height').val() || "100%";
-		jQuery(parent.document).find("#wp-cta-live-preview").css('width', iframe_w).css('height', iframe_h);
+			var iframe_w = jQuery('.cta-width').val();
+			var iframe_h = jQuery('.cta-height').val();
+			if (typeof (iframe_w) != "undefined" && iframe_w != null && iframe_w != "") {
+				var iframe_h = jQuery('.cta-height').val() || "100%";
+				jQuery(parent.document).find("#wp-cta-live-preview").css('width', iframe_w).css('height', iframe_h);
+			}
+
+
+			// console.log(new_reload);
 		}
-
-
-		// console.log(new_reload);
-	}
 		var frontend_status = jQuery("#frontend-on").val();
 		setTimeout(function() {
-		do_reload_preview();
-				}, 1000);
+			do_reload_preview();
+		}, 1000);
 
 		jQuery.ajax({
 			type: 'POST',
@@ -465,10 +467,10 @@ function getURLParameter(name) {
 				jQuery("#switch-wp-cta").text("0");
 				// RUN RELOAD
 				if (typeof (frontend_status) != "undefined" && frontend_status !== null) {
-				console.log('reload frame');
-				do_reload_preview();
+					console.log('reload frame');
+					do_reload_preview();
 				} else {
-				console.log('No reload frame');
+					console.log('No reload frame');
 				}
 				//alert("Changes Saved!");
 			},

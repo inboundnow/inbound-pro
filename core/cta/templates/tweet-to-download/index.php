@@ -100,5 +100,5 @@ a.downloadButton.active{
           <script src="{{template-urlpath}}js/jquery.tweetAction.js"></script>
           <a id="the_link" style="display:none;" class="do-not-track" href="{{download-url}}"></a>
      </div>
-
+</div>
 </body>
