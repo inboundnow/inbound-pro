@@ -39,6 +39,7 @@ class CTA_Ajax_Listeners {
 
 		/* Adds listener to serve next cta variation in line & update markers */
 		add_action( 'wp_ajax_nopriv_cta_get_variation', array(__CLASS__, 'serve_varition'));
+		add_action( 'wp_ajax_cta_get_variation', array(__CLASS__, 'serve_varition'));
 	}
 
 	/**
@@ -185,8 +186,7 @@ class CTA_Ajax_Listeners {
 			$cta_id = $_GET['cta_id'];
 		}
 
-		$variations = get_post_meta( $_GET['cta_id'], 'wp-cta-variations', true);
-		$variations_array = json_decode( $variations, true );
+		$variations = CTA_Variations::get_variations($_GET['cta_id']);
 		$variation_marker = get_post_meta( $_GET['cta_id'], '_cta_ab_variation_marker', true );
 
 		if (!is_numeric($variation_marker)) {
@@ -194,8 +194,8 @@ class CTA_Ajax_Listeners {
 		}
 
 		/* get array of live variations */
-		if ($variations_array) 	{
-			foreach ($variations_array as $vid => $variation ) 	{
+		if ($variations) 	{
+			foreach ($variations as $vid => $variation ) 	{
 				if (!isset($variation['status']) || $variation['status'] == 'active'  ){
 					$live_variations[] = $vid;
 				}

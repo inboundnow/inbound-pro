@@ -240,11 +240,11 @@ if (!class_exists('Landing_Pages_Variations')) {
                 $variations = explode( ',' , $variations);
             }
 
-            if (!is_array($variations)) {
+            if (!is_array($variations) || !$variations ) {
                 $variations = array( 0 => 0 );
             }
 
-            $variations = array_filter($variations, 'is_numeric');
+            //$variations = array_filter($variations, 'is_numeric');
 
             return $variations;
         }
@@ -364,10 +364,15 @@ if (!class_exists('Landing_Pages_Variations')) {
         * @returns INT of variation id
         */
         public static function get_current_variation_id() {
-            global $post;
+            global $post, $current_variation_id;
 
-            if (isset($_GET['ab-action']) && is_admin()) {
+            if (isset($_SESSION['lp_ab_test_open_variation']) && isset($_GET['ab-action']) && is_admin()) {
                 return $_SESSION['lp_ab_test_open_variation'];
+            }
+
+            /* check to see if this has already been set during the instance */
+            if (is_numeric($current_variation_id)) {
+                return $current_variation_id;
             }
 
             if (isset($_REQUEST['lp-variation-id'])) {
@@ -389,8 +394,15 @@ if (!class_exists('Landing_Pages_Variations')) {
             }
 
             if (!isset($current_variation_id)) {
-                $current_variation_id = 0;
+                if (!isset($post) && isset($_GET['post'])) {
+                    $post = get_post($_GET['post']);
+                }
+                $variations = self::get_variations($post->ID);
+                $id = array_values($variations);
+                $current_variation_id = array_shift($id);
             }
+
+            $GLOBALS['current_variation_id'] = $current_variation_id;
 
             return $current_variation_id;
         }

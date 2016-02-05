@@ -25,7 +25,6 @@ if (!class_exists('CTA_Metaboxes')) {
 			add_action('admin_notices', array(__CLASS__, 'load_template_select_container'));
 
 			/* Add ajax listeners for switching templates */
-			add_action( 'wp_ajax_nopriv_wp_cta_get_template_meta', array(__CLASS__, 'switch_templates'));
 			add_action( 'wp_ajax_wp_cta_get_template_meta', array(__CLASS__, 'switch_templates'));
 
 			/* Add shortcode information */
@@ -67,6 +66,11 @@ if (!class_exists('CTA_Metaboxes')) {
 				return;
 			}
 
+			/**
+			$meta = get_post_meta($post->ID);
+			print_r($meta);
+			/**/
+
 			/* Loads Template Options */
 			$template_id = $CTA_Variations->get_current_template( $post->ID );
 
@@ -86,7 +90,7 @@ if (!class_exists('CTA_Metaboxes')) {
 					'wp-call-to-action', // post-type
 					'normal', // $context
 					'high',// $priority
-					array('template_id'=>$template_id)
+					array('template_id'=>$template_id , 'variation_id' => CTA_Variations::get_current_variation_id())
 				); //callback args
 			}
 
@@ -176,8 +180,7 @@ if (!class_exists('CTA_Metaboxes')) {
 
 			$template_id = ($template_id) ? $template_id : 'blank-template';
 
-			$template_input_name = apply_filters('wp_cta_prepare_input_id','wp-cta-selected-template');
-
+			$template_input_name = 'wp-cta-selected-template-' . $metabox_args['args']['variation_id'];
 
 			// Use nonce for verification
 			echo "<input type='hidden' name='wp_cta_wp-cta_custom_fields_nonce' value='".wp_create_nonce('wp-cta-nonce')."' />";
@@ -600,9 +603,11 @@ if (!class_exists('CTA_Metaboxes')) {
 
 			$current_template = $_POST['selected_template'];
 			$post_id = $_POST['post_id'];
+			$vid = $_POST['variation_id'];
 			$post = get_post($post_id);
 
 			$key['args']['template_id'] = $current_template;
+			$key['args']['variation_id'] = $vid;
 
 			CTA_Metaboxes::show_template_settings($post,$key);
 			die();
@@ -778,6 +783,7 @@ if (!class_exists('CTA_Metaboxes')) {
 
 			/* Set the call to action variation into a session variable */
 			$_SESSION[ $post->ID . '-variation-id'] = (isset($_POST[ 'wp-cta-variation-id'])) ? $_POST[ 'wp-cta-variation-id'] : '0';
+
 
 			foreach ($_POST as $key => $value) {
 

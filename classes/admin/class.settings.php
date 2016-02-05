@@ -331,19 +331,31 @@ class Inbound_Pro_Settings {
 
 			switch ( self::$tab ) {
 				case 'inbound-pro-welcome':
+                    echo '<section class="xlarge-70 large-70 medium-60 small-100 tiny-100 welcome-screen-content">';
 					self::display_welcome();
+                    echo '</section>';
+                    echo '<section class="xlarge-30 large-30 medium-30 small-100 tiny-100">';
 					self::display_blog_posts();
+					self::display_social_ctas();
+                    echo '</section>';
 					BREAK;
 				case 'inbound-pro-settings':
-					self::display_settings();
-					self::display_sidebar();
+                    echo '<section class="xlarge-70 large-70 medium-60 small-100 tiny-100 welcome-screen-content">';
+                    self::display_settings();
+                    echo '</section>';
+                    echo '<section class="xlarge-30 large-30 medium-30 small-100 tiny-100">';
+                    self::display_blog_posts();
+                    self::display_social_ctas();
+                    echo '</section>';
 					BREAK;
 				case 'inbound-pro-setup':
 					self::display_setup();
-					self::display_sidebar();
+					BREAK;
+				case 'inbound-my-account':
+					self::display_setup();
 					BREAK;
 			}
-
+            echo '</section>';
 			self::display_footer();
 			?>
 		</div>
@@ -358,7 +370,7 @@ class Inbound_Pro_Settings {
 		self::$settings_values = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
 
 		?>
-		<div class="xlarge-70 large-70 medium-60 small-100 tiny-100 welcome-screen-content">
+
 
 		<h1><?php _e('Getting Started','inbound-pro'); ?></h1>
 
@@ -430,7 +442,6 @@ class Inbound_Pro_Settings {
 		<?php
 			//self::render_fields( 'inbound-pro-welcome' );
 		?>
-		</div>
 		<?php
 	}
 
@@ -442,7 +453,7 @@ class Inbound_Pro_Settings {
 		self::$settings_values = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
 
 		?>
-		<div class="xlarge-80 large-80 medium-80 small-100 tiny-100">
+		<div class="xlarge-100 large-100 medium-100 small-100 tiny-100">
 		<?php
 			self::render_fields( 'inbound-pro-setup' );
 		?>
@@ -456,13 +467,8 @@ class Inbound_Pro_Settings {
 	public static function display_settings() {
 		self::extend_settings();
 		self::$settings_values = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
-		?>
-		<div class="xlarge-80 large-80 medium-70 small-100 tiny-100">
-		<?php
-			self::render_fields( 'inbound-pro-settings' );
-		?>
-		</div>
-		<?php
+
+		self::render_fields( 'inbound-pro-settings' );
 	}
 
 
@@ -473,10 +479,13 @@ class Inbound_Pro_Settings {
 
 
 		?>
-		<section class="xlarge-20 large-20 medium-30 small-100 tiny-100">
+
 			<!-- 	Nav to Tools -->
-		</section>
-		</section>
+			<?php
+            self::display_social_ctas();
+
+            ?>
+
 		<?php
 	}
 
@@ -486,13 +495,42 @@ class Inbound_Pro_Settings {
 	public static function display_blog_posts() {
 		$blogs = Inbound_API_Wrapper::get_blog_posts();
 		?>
-		<section class="xlarge-20 large-20 medium-30 small-100 tiny-100">
+        <ul class="unstyled">
+            <!--- Show blog posts --->
+            <?php
+            $i=0;
+            $limit = 20;
+            foreach ($blogs as $item) {
+                if ($i>5) {
+                    break;
+                }
 
-				<iframe src='//www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Finboundnow&amp;width=234&amp;height=65&amp;colorscheme=light&amp;show_faces=false&amp;border_color&amp;stream=false&amp;header=false&amp;appId=364256913591848' scrolling='no' frameborder='0' style='border:none; overflow:hidden; width:234px; height:116px;' allowTransparency='true'>
-				</iframe>
-			</section>
-		</section>
+                $excerpt = explode('The post' ,  $item['description']);
+                $excerpt = $excerpt[0];
+
+                ?>
+                <div class="all-80 small-50 tiny-50">
+                    <h6 class='sidebar-h6'><?php echo $item['title']; ?></h6>
+                    <!--<img class="half-bottom-space" src="holder.js/1200x600/auto/ink" alt="">-->
+                    <p><a href='<?php echo $item['guid']; ?>' target='_blank'><?php _e( 'Read more &#8594;' , 'inbound-pro'); ?></a></p>
+                </div>
+                <?php
+                $i++;
+            }
+            ?>
+        </ul>
 		<?php
+	}
+
+
+	public static function display_social_ctas() {
+	       ?>
+
+	        <a href="https://twitter.com/inboundnow" class="twitter-follow-button" data-show-count="false">Follow @inboundnow</a>
+                <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+            <iframe src='//www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Finboundnow&amp;width=234&amp;height=65&amp;colorscheme=light&amp;show_faces=false&amp;border_color&amp;stream=false&amp;header=false&amp;appId=364256913591848' scrolling='no' frameborder='0' style='border:none; overflow:hidden; width:234px; height:116px;' allowTransparency='true'>
+            </iframe>
+	       <?php
 	}
 
 	/**
@@ -529,7 +567,8 @@ class Inbound_Pro_Settings {
 		$pages_array = array(
 			'inbound-pro-setup' => __( 'Core Settings' , INBOUNDNOW_TEXT_DOMAIN ),
 			'inbound-pro-settings' => __( 'Extension Settings' , INBOUNDNOW_TEXT_DOMAIN ),
-			'inbound-pro-welcome' => __( 'Quick Start' , INBOUNDNOW_TEXT_DOMAIN )
+			'inbound-pro-welcome' => __( 'Quick Start' , INBOUNDNOW_TEXT_DOMAIN ),
+			'inbound-my-account' => __( 'My Account' , INBOUNDNOW_TEXT_DOMAIN )
 		);
 
 		$pages_array = apply_filters( 'inbound_pro_nav' , $pages_array );
@@ -540,10 +579,17 @@ class Inbound_Pro_Settings {
 		echo ' 		<ul class="menu horizontal black">';
 
 		foreach ($pages_array as $key => $value) {
+
+			if ($key=='inbound-my-account') {
+				echo '<li class=""><a target="_blank" href="https://www.inboundnow.com/account">'.$value.'</a></li>';
+				continue;
+			}
+
 			$active = ( self::$tab === $key) ? 'active' : '';
 			echo '<li class="'.$active.'"><a href="'.esc_url(admin_url(add_query_arg( array( 'tab' => $key , 'page' => 'inbound-pro' ), 'admin.php' ) ) ).'">';
 			echo $value;
 			echo '</a>';
+			echo '</li>';
 		}
 
 		echo '		</ul>';

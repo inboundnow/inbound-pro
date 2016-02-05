@@ -356,7 +356,7 @@ if (!class_exists('CTA_Metaboxes_Global')) {
 
 					case 'multiselect':
 
-						$selected_lists = $final['value'];
+						$selected_lists = (is_array($final['value'])) ? $final['value'] : array();
 
 						echo '<select multiple name="'.$field['id'].'[]" class="inbound-multi-select" id="'.$field['id'].'">';
 
