@@ -14,7 +14,7 @@ function wp_cta_record_impressions(ctas) {
 			ctas: ctas
 		},
 		success: function(user_id){
-				_inbound.deBugger( 'cta', 'CTA Impressions Recorded');
+			_inbound.deBugger( 'cta', 'CTA Impressions Recorded');
 		},
 		error: function(MLHttpRequest, textStatus, errorThrown){
 
@@ -29,6 +29,7 @@ function wp_cta_record_impressions(ctas) {
  * @param OBJECT ctas : object containing {'cta','vid'}
  */
 function wp_cta_add_tracking_classes(ctas) {
+
 	jQuery.each( ctas,  function(cta_id,vid) {
 		var vid = ctas[cta_id];
 
@@ -75,6 +76,7 @@ function wp_cta_load_variation( cta_id, vid, disable_ajax ) {
 
 	/* if variation is pre-defined then immediately load variation*/
 	if ( typeof vid != 'undefined' && vid != null && vid != '' ) {
+
 		/* reveal variation */
 		_inbound.debug('CTA '+cta_id+' loads variation:' + vid);
 		jQuery('.wp_cta_'+cta_id+'_variation_'+vid).show();
@@ -101,15 +103,15 @@ function wp_cta_load_variation( cta_id, vid, disable_ajax ) {
 	else {
 
 		jQuery.ajax({
-			 type: "GET",
-			 url: cta_variation.ajax_url,
-			 dataType: "script",
-			 async: false,
-			 data : {
+			type: "GET",
+			url: cta_variation.ajax_url,
+			dataType: "script",
+			async: true,
+			data : {
 				'action' : 'cta_get_variation',
 				'cta_id' : cta_id
-			 },
-			 success: function(vid) {
+			},
+			success: function(vid) {
 				/* update local storage variable */
 				loaded_ctas[cta_id] = vid.trim();
 
@@ -129,6 +131,12 @@ if (typeof(_inbound) !== "undefined") {
 
 
 jQuery(document).ready(function($) {
+	var timeout = 100;
+
+	if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+		timeout = 500;
+	}
+
 
 	setTimeout( function() {
 
@@ -146,6 +154,6 @@ jQuery(document).ready(function($) {
 		/* Record Impressions */
 		wp_cta_record_impressions(ctas);
 
-	} , 1 );
+	} , timeout );
 
 });

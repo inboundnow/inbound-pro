@@ -1,138 +1,193 @@
 
 body, div, h1, h2, h3, h4, h5, h6, p, ul, ol, li, dl, dt, dd, img, form, fieldset, input, textarea, blockquote {
-	margin: 0; padding: 0; border: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
 }
+
 h1, h2, h3, h4, h5, h6, p {
-	display: block;
+    display: block;
 }
-h3 {font-size: 2em;}
+
+h3 {
+    font-size: 2em;
+}
+
 body {
 
-	font-family: "Chunk", Sans-Serif; color: #fff;
-	font-family: 'Open Sans', sans-serif;
-	/*background: #566074 url(bg1.png); */
+    font-family: "Chunk", Sans-Serif;
+    color: #fff;
+    font-family: 'Open Sans', sans-serif;
+    /*background: #566074 url(bg1.png); */
 }
+
 #wrapper {
-	padding-top: 150px;
+    padding-top: 150px;
 }
 
 #textspot {
-	width: 780px; margin: 0px auto 0px;
+    width: 95%;
+    margin: 0px auto 0px;
 }
 
 #textspot p {
-	font-size: 50px; line-height: 80px;
+    font-size: 50px;
+    line-height: 80px;
 
-	text-shadow: 10px 10px 0 rgba(255,255,255,0.07);
+    text-shadow: 10px 10px 0 rgba(255, 255, 255, 0.07);
 }
+
 #textspot p:first-child:first-letter {
-		font-size: 160px; float: left; margin: 20px 20px 0 0;  line-height: 0.8;
-		text-shadow: 4px 4px 0 #566074, 7px 7px 0 #fff;
-	}
-
-#content {margin: auto; width:800px; padding:20px;}
-#main-content-area {padding-left: 0px;}
-form {font-family: Sans-Serif;}
-.btn.large {
-font-size: 16px;
-line-height: normal;
-padding: 9px 14px 9px;
--webkit-border-radius: 6px;
--moz-border-radius: 6px;
-border-radius: 6px;
+    font-size: 160px;
+    float: left;
+    margin: 20px 20px 0 0;
+    line-height: 0.8;
+    text-shadow: 4px 4px 0 #566074, 7px 7px 0 #fff;
 }
+
+#content {
+    margin: auto;
+    max-width: 800px;
+    padding: 20px;
+}
+
+#main-content-area {
+    padding-left: 0px;
+}
+
+form {
+    font-family: Sans-Serif;
+}
+
+.btn.large {
+    font-size: 16px;
+    line-height: normal;
+    padding: 9px 14px 9px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+}
+
 .lp-form {
-width: 485px;
-margin: auto;
-text-align: center;
+    width: 485px;
+    margin: auto;
+    text-align: center;
 }
 
 .lp-form-submit {
-cursor: pointer;
-display: inline-block;
-background-color: #E6E6E6;
-background-repeat: no-repeat;
-background-image: -webkit-gradient(linear, 0 0, 0 100%, from(white), color-stop(0.25, white), to(#E6E6E6));
-background-image: -webkit-linear-gradient(white, white 0.25, #E6E6E6);
-background-image: -moz-linear-gradient(white, white 0.25, #E6E6E6);
-background-image: -ms-linear-gradient(white, white 0.25, #E6E6E6);
-background-image: -o-linear-gradient(white, white 0.25, #E6E6E6);
-background-image: linear-gradient(white, white 0.25, #E6E6E6);
-padding: 5px 14px 6px;
-text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
-color: #333;
-font-size: 13px;
-line-height: normal;
-border: 1px solid #CCC;
-border-bottom-color: #BBB;
--webkit-border-radius: 4px;
--moz-border-radius: 4px;
-border-radius: 4px;
--webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
--moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
--webkit-transition: 0.1s linear all;
--moz-transition: 0.1s linear all;
-transition: 0.1s linear all;
+    cursor: pointer;
+    display: inline-block;
+    background-color: #E6E6E6;
+    background-repeat: no-repeat;
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(white), color-stop(0.25, white), to(#E6E6E6));
+    background-image: -webkit-linear-gradient(white, white 0.25, #E6E6E6);
+    background-image: -moz-linear-gradient(white, white 0.25, #E6E6E6);
+    background-image: -ms-linear-gradient(white, white 0.25, #E6E6E6);
+    background-image: -o-linear-gradient(white, white 0.25, #E6E6E6);
+    background-image: linear-gradient(white, white 0.25, #E6E6E6);
+    padding: 5px 14px 6px;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+    color: #333;
+    font-size: 13px;
+    line-height: normal;
+    border: 1px solid #CCC;
+    border-bottom-color: #BBB;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+    -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+    -webkit-transition: 0.1s linear all;
+    -moz-transition: 0.1s linear all;
+    transition: 0.1s linear all;
 }
-button {
-clear: left;
-display: block;
-float: left;
-margin: 15px auto 22px;
-width: 100%;
-}
-/* Form Styles */
-.lp_form_field {width: 70%;
-margin: auto;}
-.lp-select-heading {display: block;}
-#lp-input-container {margin-top: 5px;}
-.lp-form-label {margin-bottom: 5px;}
-#lp-field .lp-radio-area { display: inline;}
-#lp-input-container .lp-form-radio input { display: inline;}
-.lp-form-radio {display: inline-block;}
-input[type="text"], input[type="email"], textarea, #inbound-form-wrapper input[type=text], #inbound-form-wrapper input[type=url], #inbound-form-wrapper input[type=email], #inbound-form-wrapper input[type=tel], #inbound-form-wrapper input[type=number], #inbound-form-wrapper input[type=password] {
-font-family: 'Lato', Calibri, Arial, sans-serif;
-font-size: 13px;
-font-weight: 400;
-display: block;
-width: 100%;
-padding: 5px;
-margin-bottom: 8px;
-border: 3px solid #EBE6E2;
-border-radius: 5px;
--webkit-transition: all 0.3s ease-out;
--moz-transition: all 0.3s ease-out;
--ms-transition: all 0.3s ease-out;
--o-transition: all 0.3s ease-out;
-transition: all 0.3s ease-out;
-}
-.lp-input-submit, input[type="submit"], button[type="submit"] {
-	background: url("../../assets/images/button-green.png") repeat scroll 0 0 #83A736;
-border: 1px solid #202020;
-font-family: Arial, Helvetica, sans-serif;
-cursor: pointer;
-margin: auto;
 
-outline: medium none;
-padding: 6px;
-width: 60%;
-letter-spacing: -1px;
-text-align: center;
-text-decoration: none;
-text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
-color: white;
-font-size: 19px;
+button {
+    clear: left;
+    display: block;
+    float: left;
+    margin: 15px auto 22px;
+    width: 100%;
 }
+
+/* Form Styles */
+.lp_form_field {
+    width: 70%;
+    margin: auto;
+}
+
+.lp-select-heading {
+    display: block;
+}
+
+#lp-input-container {
+    margin-top: 5px;
+}
+
+.lp-form-label {
+    margin-bottom: 5px;
+}
+
+#lp-field .lp-radio-area {
+    display: inline;
+}
+
+#lp-input-container .lp-form-radio input {
+    display: inline;
+}
+
+.lp-form-radio {
+    display: inline-block;
+}
+
+input[type="text"], input[type="email"], textarea, #inbound-form-wrapper input[type=text], #inbound-form-wrapper input[type=url], #inbound-form-wrapper input[type=email], #inbound-form-wrapper input[type=tel], #inbound-form-wrapper input[type=number], #inbound-form-wrapper input[type=password] {
+    font-family: 'Lato', Calibri, Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    display: block;
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 8px;
+    border: 3px solid #EBE6E2;
+    border-radius: 5px;
+    -webkit-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
+    -ms-transition: all 0.3s ease-out;
+    -o-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
+}
+
+.lp-input-submit, input[type="submit"], button[type="submit"] {
+    background: url("../../assets/images/button-green.png") repeat scroll 0 0 #83A736;
+    border: 1px solid #202020;
+    font-family: Arial, Helvetica, sans-serif;
+    cursor: pointer;
+    margin: auto;
+
+    outline: medium none;
+    padding: 6px;
+    width: 60%;
+    letter-spacing: -1px;
+    text-align: center;
+    text-decoration: none;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+    color: white;
+    font-size: 19px;
+}
+
 .lp-input-label {
-text-align: left;
-margin-bottom: 5px;
-display: block;
-font-size: 18px;
+    text-align: left;
+    margin-bottom: 5px;
+    display: block;
+    font-size: 18px;
 }
+
 #content {
-	margin-bottom: 80px;
-	padding-bottom: 40px;
+    margin-bottom: 80px;
+    padding-bottom: 40px;
 }
-.lp-input-label:nth-of-type(1)
-{ margin-top: 5px;}
+
+.lp-input-label:nth-of-type(1) {
+    margin-top: 5px;
+}

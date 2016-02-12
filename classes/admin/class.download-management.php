@@ -117,7 +117,7 @@ class Inbound_Pro_Downloads {
 		self::build_main_dataset();
 
 		/* get download array from */
-		self::$download = self::$downloads[ $_REQUEST['download'] ];
+		self::$download = self::$downloads[ $_REQUEST['download_name'] ];
 
 		/* get zip URL from api server */
 		self::$download['download_location'] = Inbound_API_Wrapper::get_download_zip( self::$download );
@@ -164,7 +164,7 @@ class Inbound_Pro_Downloads {
 		self::build_main_dataset();
 
 		/* get download array from */
-		self::$download = self::$downloads[ $_REQUEST['download'] ];
+		self::$download = self::$downloads[ $_REQUEST['download_name'] ];
 
 		/* get upload path from download data */
 		self::$download['extraction_path'] = self::get_upload_path( self::$download );
@@ -654,7 +654,7 @@ class Inbound_Pro_Downloads {
 							if ( in_array( 'uninstalled' , $download['status'] )&& $permitted ) {
 								?>
 								<div class="action-install">
-									<a  href="admin.php?page=<?php echo $_GET['page']; ?>&action=install&download=<?php echo $download['post_name']; ?>&download_type=<?php echo $download['download_type']; ?>&filename=<?php echo $download['filename']; ?>" class="power-toggle power-is-off fa fa-power-off"  data-toggle="tooltip" id='<?php echo $download['post_name']; ?>' title='<?php _e( 'Turn On' , INBOUNDNOW_TEXT_DOMAIN ); ?>'></a>
+									<a  href="admin.php?page=<?php echo $_GET['page']; ?>&action=install&download_name=<?php echo $download['post_name']; ?>&download_type=<?php echo $download['download_type']; ?>&filename=<?php echo $download['filename']; ?>" class="power-toggle power-is-off fa fa-power-off"  data-toggle="tooltip" id='<?php echo $download['post_name']; ?>' title='<?php _e( 'Turn On' , INBOUNDNOW_TEXT_DOMAIN ); ?>'></a>
 								</div>
 								<?php
 							}
@@ -662,23 +662,23 @@ class Inbound_Pro_Downloads {
 							if ( in_array( 'installed' , $download['status'] ) && $permitted ) {
 								?>
 								<div class="action-uninstall">
-									<a href="admin.php?page=<?php echo $_GET['page']; ?>&action=uninstall&download=<?php echo $download['post_name']; ?>&filename=<?php echo $download['filename']; ?>" class="power-toggle power-is-on fa fa-power-off"  data-toggle="tooltip" id='<?php echo $download['post_name']; ?>' title='<?php _e( 'Turn Off' , INBOUNDNOW_TEXT_DOMAIN ); ?>'></a>
+									<a href="admin.php?page=<?php echo $_GET['page']; ?>&action=uninstall&download_name=<?php echo $download['post_name']; ?>&filename=<?php echo $download['filename']; ?>" class="power-toggle power-is-on fa fa-power-off"  data-toggle="tooltip" id='<?php echo $download['post_name']; ?>' title='<?php _e( 'Turn Off' , INBOUNDNOW_TEXT_DOMAIN ); ?>'></a>
 								</div>
 
 								<?php
 								if ( in_array( 'needs-update' , $download['status'] ) ) {
 									?>
 									<div class="action-update">
-										<a href="admin.php?page=<?php echo $_GET['page']; ?>&action=install&download=<?php echo $download['post_name']; ?>&download_type=<?php echo $download['download_type']; ?>&filename=<?php echo $download['filename']; ?>" class="fa fa-floppy-o"  data-toggle="tooltip" id='<?php echo $download['post_name']; ?>' title='<?php _e( 'Update' , INBOUNDNOW_TEXT_DOMAIN ); ?>'></a>
+										<a href="admin.php?page=<?php echo $_GET['page']; ?>&action=install&download_name=<?php echo $download['post_name']; ?>&download_type=<?php echo $download['download_type']; ?>&filename=<?php echo $download['filename']; ?>" class="fa fa-floppy-o"  data-toggle="tooltip" id='<?php echo $download['post_name']; ?>' title='<?php _e( 'Update' , INBOUNDNOW_TEXT_DOMAIN ); ?>'></a>
 									</div>
 									<?php
 								}
 
 								if ($download['download_type'] == 'extension' ) {
 									$settings_url = apply_filters(
-										'inbound-pro/download-setting-url' ,
-										add_query_arg( array( 'page'=>'inbound-pro' , 'tab' =>  'inbound-pro-settings' , 'setting' => $download['filename'] ) , admin_url( 'admin.php' ) )
-										, $download );
+											'inbound-pro/download-setting-url' ,
+											add_query_arg( array( 'page'=>'inbound-pro' , 'tab' =>  'inbound-pro-settings' , 'setting' => $download['filename'] ) , admin_url( 'admin.php' ) )
+											, $download );
 									?>
 									<div class="action-settings">
 										<a target="_blank" href="<?php echo $settings_url; ?>" class="fa fa-cog"  data-toggle="tooltip" id='<?php echo $download['post_name']; ?>' title='<?php _e( 'View Settings' , INBOUNDNOW_TEXT_DOMAIN ); ?>'></a>

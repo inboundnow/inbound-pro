@@ -1272,7 +1272,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
                 self::$instance->disable_ajax = get_option('wp-cta-main-disable-ajax-variation-discovery', 0 );
             }
 
-            $script =	"<script>";
+            $script =	"<script type='text/javascript'>";
             $script .= "	wp_cta_load_variation( '" .$cta_id ."', '" .$variation_id ."', '".self::$instance->disable_ajax ."' )";
             $script .= "</script>";
 
