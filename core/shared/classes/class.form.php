@@ -722,6 +722,7 @@ if (!class_exists('Inbound_Forms')) {
 
                 /* redirect now */
                 if ($redirect != "") {
+                    $redirect = str_replace('%3F', '/', html_entity_decode($redirect));
                     wp_redirect( $redirect );
                     exit();
                 }

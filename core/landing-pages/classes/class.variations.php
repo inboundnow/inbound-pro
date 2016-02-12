@@ -395,9 +395,11 @@ if (!class_exists('Landing_Pages_Variations')) {
 
             if (!isset($current_variation_id)) {
                 if (!isset($post) && isset($_GET['post'])) {
-                    $post = get_post($_GET['post']);
+                    $post_id = $_GET['post'];
+                } else if (isset($post)) {
+                   $post_id = $post->ID;
                 }
-                $variations = self::get_variations($post->ID);
+                $variations = self::get_variations($post_id);
                 $id = array_values($variations);
                 $current_variation_id = array_shift($id);
             }

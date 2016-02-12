@@ -23,6 +23,43 @@ if (!class_exists('Inbound_Mailer_ACF')) {
 			/* Intercept load custom field value request and hijack it */
 			add_filter( 'acf/load_value' , array( __CLASS__ , 'load_value' ) , 10 , 3 );
 
+			/* add new location rule to ACF Field UI */
+			add_filter('acf/location/rule_types', array( __CLASS__ , 'define_location_rule_types' ) );
+
+			/* add new location rule values to ACF Field UI */
+			add_filter('acf/location/rule_values/template_id', array( __CLASS__ , 'define_location_rule_values' ) );
+
+
+		}
+
+		/**
+		 * @param $choices
+		 * @return mixed
+		 */
+		public static function define_location_rule_types( $choices ) {
+
+			if (!isset($choices['Basic']['template_id'])) {
+				$choices['Basic']['template_id'] = __('Template ID', 'landing-page');
+			}
+
+			return $choices;
+		}
+
+		public static function define_location_rule_values( $choices ) {
+			$uploaded_templates = Inbound_Mailer_Load_Templates::get_uploaded_templates();
+			$core_templates = Inbound_Mailer_Load_Templates::get_core_templates();
+			$template_ids = $uploaded_templates + $core_templates;
+
+			if( $template_ids )	{
+				foreach( $template_ids as $template_id )	{
+
+					/* template ID by template name here */
+					$choices[ $template_id ] = $template_id;
+
+				}
+			}
+
+			return $choices;
 		}
 
 		/**

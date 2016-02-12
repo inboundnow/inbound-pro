@@ -18,10 +18,14 @@ class Landing_Pages_Install {
         /* load styles and scripts */
         add_action('admin_enqueue_scripts', array( __CLASS__ , 'enqueue_scripts' ) );
 
+        /* Disable TGM Cross Promotion
         if(!defined('INBOUND_PRO_PATH')) {
-            require_once(LANDINGPAGES_PATH."/assets/libraries/class-tgm-plugin-activation.php");
-            add_action( 'tgmpa_register', array( __CLASS__ , 'install_recommended_plugins' ) );
+
+                   require_once(LANDINGPAGES_PATH."/assets/libraries/class-tgm-plugin-activation.php");
+                   add_action( 'tgmpa_register', array( __CLASS__ , 'install_recommended_plugins' ) );
+
         }
+        */
     }
 
     /**

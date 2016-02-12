@@ -26,7 +26,7 @@ class Inbound_Mailer_Load_Templates {
     /**
      *  Loads email template config files
      */
-    function load_template_config_files() {
+    public static function load_template_config_files() {
         /* load templates from wp-content/plugins/inbound-email/templates/ */
 
         $core_templates = self::$instance->get_core_templates();
@@ -57,7 +57,7 @@ class Inbound_Mailer_Load_Templates {
     /**
      *  Gets array of core email templates
      */
-    function get_core_templates() {
+    public static function get_core_templates() {
         $core_templates = array();
         $template_path = INBOUND_EMAIL_PATH . "templates/";
         $results = scandir($template_path);
@@ -77,7 +77,7 @@ class Inbound_Mailer_Load_Templates {
     /**
      *  Gets an array of 3rd party email templates
      */
-    function get_uploaded_templates() {
+    public static function get_uploaded_templates() {
         //scan through templates directory and pull in name paths
         $uploaded_templates = array();
 
@@ -103,7 +103,7 @@ class Inbound_Mailer_Load_Templates {
     /**
      *  Gets an array of 3rd party email templates included in active WordPress theme
      */
-    function get_theme_included_templates() {
+    public static function get_theme_included_templates() {
         //scan through templates directory and pull in name paths
         $included_templates = array();
 
@@ -129,7 +129,7 @@ class Inbound_Mailer_Load_Templates {
     /**
      *  Builds a list of template categories
      */
-    function read_template_categories() {
+    public static function read_template_categories() {
 
         $template_cats = array();
 
@@ -175,7 +175,7 @@ class Inbound_Mailer_Load_Templates {
     /**
      *  Makes template definitions filterable
      */
-    function load_definitions() {
+    public static function load_definitions() {
         $inbound_email_data = self::$instance->template_definitions;
         self::$instance->definitions = apply_filters('inbound_email_template_data', $inbound_email_data);
     }

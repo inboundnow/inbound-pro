@@ -60,6 +60,7 @@ if (!class_exists('Leads_Admin_Notices')) {
 				self::throw_notice(   $message , 'updated' );
 			}
 
+			/*
 			if ( ! get_user_meta($user_id, 'leads_user_message_ignore') ) {
 				echo '<div class="updated">';
 				echo "<a style='float:right;color:red; margin-top:10px;' href='?leads_user_message_ignore=0'>Dismiss This</a>";
@@ -68,6 +69,7 @@ if (!class_exists('Leads_Admin_Notices')) {
 				echo "<a style='margin-bottom:10px;' class='button button-primary button-large' href='?leads_user_message_ignore=0'>Got it. Dismiss this</a>";
 				echo "</div>";
 			}
+			*/
 
 
 		}

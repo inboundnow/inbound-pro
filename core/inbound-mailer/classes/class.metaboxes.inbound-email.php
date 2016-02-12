@@ -1412,7 +1412,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             wp_enqueue_script('ladda');
 
 
-            wp_register_style('ladda', INBOUND_EMAIL_URLPATH . 'assets/libraries/BootStrap/css/ladda-themeless.min.css');
+            wp_register_style('ladda', INBOUND_EMAIL_URLPATH . 'assets/libraries/ladda/ladda-themeless.min.css');
             wp_enqueue_style('ladda');
 
             /* Load jquery tablesorter */

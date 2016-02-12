@@ -45,13 +45,20 @@ if (!class_exists('Landing_Pages_ACF')) {
 		 * @return mixed
 		 */
 		public static function define_location_rule_types( $choices ) {
-			$choices['Basic']['template_id'] = __( 'Template ID' , 'landing-page' );
+
+			if (!isset($choices['Basic']['template_id'])) {
+				$choices['Basic']['template_id'] = __('Template ID', 'landing-page');
+			}
 
 			return $choices;
 		}
 
 		public static function define_location_rule_values( $choices ) {
 			$template_ids = Landing_Pages_Load_Extensions::get_uploaded_template_ids();
+
+			if (!isset($choices['default'])) {
+				$choices[ 'default' ] = 'default';
+			}
 
 			if( $template_ids )	{
 				foreach( $template_ids as $template_id )	{
