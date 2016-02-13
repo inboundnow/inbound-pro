@@ -1356,7 +1356,6 @@ if (!class_exists('Inbound_API')) {
 			$profile = $profiles[0];
 			$args = unserialize($profile->args);
 
-
 			/* Add lead to lists */
 			if (isset($args['add_lists']) && self::validate_parameter( $args['add_lists'], 'add_lists', 'array' ) ) {
 				foreach ( $args['add_lists'] as $list_id ) {

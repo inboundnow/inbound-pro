@@ -12,9 +12,34 @@ class Inbound_Mailer_Tracking {
     }
 
     public static function load_hooks() {
+        /* track masked cta links */
+        add_action( 'inbound_track_link', array(__CLASS__, 'track_link'));
 
         /* Stores custom click event */
-        add_action( 'init' , array( __CLASS__ ,  'add_click_event_listener' ) , 11); // Click Tracking init
+        add_action( 'template_redirect' , array( __CLASS__ ,  'add_click_event_listener' ) , 11); // Click Tracking init
+    }
+
+    /**
+     *  Listens for tracked masked link processing
+     */
+    public static function track_link( $args ) {
+
+
+        $do_not_track = apply_filters('inbound_analytics_stop_track', false );
+
+        if ( $do_not_track || !isset($args['email_id']) || !$args['email_id'] ) {
+            return;
+        }
+
+        /* setup args */
+        $args['page_id'] = (isset($post) && $post->ID ) ? $post->ID : 0;
+        $args['email_id'] = $args['email_id'];
+        $args['lead_id'] = $args['lead_id'];
+        $args['variation_id'] = (isset($args['vid'])) ? $args['vid'] : 0;
+        $args['event_details'] = json_encode($_GET);
+
+        /* record click event */
+        do_action( 'inbound_email_click_event' , $args );
 
     }
 
@@ -31,59 +56,24 @@ class Inbound_Mailer_Tracking {
             return;
         }
 
+        global $post;
 
         /* setup args */
-        $timezone_format = 'Y-m-d G:i:s T';
-        $wordpress_date_time =  date_i18n($timezone_format);
-        $args['id'] = $_GET['email_id'];
-        $args['datetime'] = $wordpress_date_time;
-        $args['type'] = 'clicked-link';
-        $args['urlparams'] = $_GET;
-
+        $args['page_id'] = (isset($post) && $post->ID ) ? $post->ID : 0;
+        $args['email_id'] = $_GET['email_id'];
+        $args['lead_id'] = $_GET['lead_id'];
+        $args['variation_id'] = (isset($_GET['inbvid'])) ? $_GET['inbvid'] : 0;
+        $args['event_details'] = json_encode($_GET);
+        error_log(print_r($args,true));
         /* record click event */
-        Inbound_Mailer_Tracking::add_click_event( $args );
+        do_action( 'inbound_email_click_event' , $args );
 
 
     }
 
 
-    /**
-     *  Add email click event to lead profile
-     */
-    public static function add_click_event( $args ) {
-
-        $events = Inbound_Mailer_Tracking::get_click_events( $_GET['lead_id'] );
-
-        $events[] = $args;
-
-        Inbound_Mailer_Tracking::update_events_meta(  $_GET['lead_id'] , $events );
-    }
 
 
-    /**
-     *  Get array of email click events
-     *  @param INT $lead_id
-     *  @return ARRAY $events
-     */
-    public static function get_click_events( $lead_id ) {
-
-        $events = get_post_meta( $lead_id ,'wpleads_email_events', true);
-
-        if (!$events) {
-            $events = array();
-        }
-
-        return $events;
-    }
-
-    /**
-     *  Updates email events meta pair
-     *  @param INT $lead_id
-     *  @param ARRAY $events new events array
-     */
-    public static function update_events_meta( $lead_id , $events ) {
-        update_post_meta( $lead_id , 'wpleads_email_events' , $events);
-    }
 }
 
 $Inbound_Mailer_Tracking = new Inbound_Mailer_Tracking();

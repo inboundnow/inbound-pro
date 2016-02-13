@@ -1,0 +1,24 @@
+/* TEAM */
+
+Name: Daniel Pataki
+Title: Founding Developer
+Twitter: danielpataki
+
+/* THANKS */
+
+Name: WordPress
+Website: http://wordpress.org
+For: Making WordPress
+
+Name: Elliot Condon
+Website: http://www.elliotcondon.com/
+For: Making Advanced Custom Fields
+
+Name: Iconjam
+Website: https://www.iconfinder.com/Icojam
+For: The plugin icon
+
+/* META */
+Updated: 2015/04/22
+Software: WordPress
+See: http://humanstxt.org/

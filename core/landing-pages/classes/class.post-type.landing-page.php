@@ -92,7 +92,7 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
                 'capability_type' => 'post',
                 'hierarchical' => false,
                 'menu_position' => 32,
-                'supports' => array('title','custom-fields','editor','thumbnail', 'excerpt')
+                'supports' => array('title','custom-fields','editor', 'excerpt')
             );
 
             register_post_type( 'landing-page' , $args );

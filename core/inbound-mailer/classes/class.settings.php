@@ -57,7 +57,7 @@ if ( !class_exists('Inbound_Mailer_Settings') ) {
 					array(
 						'id'  => 'customize-permalinks',
 						'label'  => __('Permalink Name Editing', 'inbound-email' ),
-						'description'  => __( 'Enabling this option will allow you to change the permalink slug of creted emails.' , 'inbound-email' ),
+						'description'  => __( 'Enabling this option will allow you to change the permalink slug of created emails.' , 'inbound-email' ),
 						'type'  => 'dropdown',
 						'default'  => 'no',
 						'options' => array(

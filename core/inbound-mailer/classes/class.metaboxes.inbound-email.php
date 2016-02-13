@@ -114,7 +114,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
         public static function load_graphs_JS() {
             global $post;
 
-            $stats_json = json_encode((object)self::$statistics);
+            $stats_json = str_replace("'","\'" , json_encode((object)self::$statistics));
 
             ?>
             <script type='text/javascript'>
@@ -378,7 +378,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 var json = '<?php echo $stats_json; ?>';
                 Email_Graphs.init(json);
             </script>
-        <?php
+            <?php
         }
 
 
@@ -468,7 +468,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 							<a class='thickbox <?php echo $cat_slug;?>' href='<?php echo $data['info']['demo'];?>' id='inbound_email_preview_this_template'>Preview</a> -->
                     </div>
                 </div>
-            <?php
+                <?php
             }
             echo '</div>';
             echo "<div class='clear'></div>";
@@ -525,7 +525,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 self::render_settings('inbound-email', $email_settings, $post);
                 ?>
             </div>
-        <?php
+            <?php
         }
 
         /**
@@ -539,7 +539,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 <div class='scheduled-information-countdown'>
                 </div>
             </div>
-        <?php
+            <?php
         }
 
         /**
@@ -610,7 +610,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                         <td><?php echo $send['opens']; ?></td>
                         <td><?php echo $send['clicks']; ?></td>
                     </tr>
-                <?php
+                    <?php
                 }
                 ?>
                 </tbody>
@@ -653,7 +653,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                     <svg></svg>
                 </object>
             </div>
-        <?php
+            <?php
         }
 
         /**
@@ -723,7 +723,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                     </div>
                 </div>
             </div>
-        <?php
+            <?php
         }
 
         /**
@@ -794,7 +794,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                     </div>
                 </div>
             </div>
-        <?php
+            <?php
         }
 
         /**
@@ -870,7 +870,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                     </tr>
                 </table>
             </div>
-        <?php
+            <?php
         }
 
         /**
@@ -952,7 +952,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
                 <iframe src="<?php echo $url; ?>" id='iframe-email-preview' onload="iframeLoaded()"></iframe>
             </div>
-        <?php
+            <?php
         }
 
 
@@ -985,7 +985,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 self::render_settings('inbound-email', $settings, $post);
                 ?>
             </div>
-        <?php
+            <?php
         }
 
 
@@ -996,7 +996,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             ?>
             <div class="send-settings automated-send-settings-container">
             </div>
-        <?php
+            <?php
         }
 
         /**
@@ -1015,7 +1015,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                     Automation
                 </option>
             </select>
-        <?php
+            <?php
         }
 
         /**
@@ -1068,7 +1068,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
                 </div>
             </div>
-        <?php
+            <?php
         }
 
         /**
@@ -1095,14 +1095,14 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                     <br>
                     <a rel='<?php echo $post_link; ?>' id='cta-launch-front' class='button-primary '
                        href='<?php echo $post_link; ?>&email-customizer=on'><?php _e('Launch Visual Editor', 'inbound-email'); ?></a>
-                <?php
+                    <?php
                 }
                 ?>
 
 
             </div>
 
-        <?php
+            <?php
         }
 
         /**
@@ -1515,7 +1515,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 });
             </script>
 
-        <?php
+            <?php
         }
 
         /**
@@ -1557,10 +1557,10 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                             if (!isset(self::$settings['customize-permalinks'])||self::$settings['customize-permalinks']!='yes' ) {
 
                                 ?>
-                                jQuery('#slugdiv').hide();
-                                <?php
-                            }
-                            ?>
+                            jQuery('#slugdiv').hide();
+                            <?php
+                        }
+                        ?>
                             /* store current slug */
                             Settings.current_slug = jQuery('#post_name').val();
 
@@ -2153,7 +2153,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
                 })();
             </script>
-        <?php
+            <?php
 
         }
 
