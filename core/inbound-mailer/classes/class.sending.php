@@ -117,25 +117,27 @@ class Inbound_Mail_Daemon {
 		/* Iterate over the extracted links and display their URLs */
 		foreach ($links[1] as $link){
 
-			/* Do not modify unsubscribe links */
-			if ( strstr( $link , '?token=') ) {
+			/* Do not modify unsubscribe links or non links */
+			if ( strstr( $link , '?token=') || !strstr($link,'://') ) {
 				continue;
 			}
 
-			/* build utm params */
-			$params = array(
-				'utm_source' => self::$email['email_title'],
-				'utm_medium' => 'email',
-				'utm_campaign' => '',
-				'lead_id' => self::$row->lead_id,
-				'lead_lists' => implode( ',' , self::$email_settings['recipients'] ),
-				'email_id' =>self::$row->email_id
-			);
+			$safe_link = Inbound_API::analytics_track_links( array(
+					'email_id' => self::$row->email_id,
+					'lead_lists' => implode( ',' , self::$email_settings['recipients'] ),
+					'id' => self::$row->lead_id ,
+					'lead_id' => self::$row->lead_id ,
+					'page_id' => 0,
+					'vid' => self::$row->variation_id ,
+					'url' => $link,
+					'utm_source' => urlencode(self::$email['email_title']),
+					'utm_medium' => 'email',
+					'utm_campaign' => '',
+					'tracking_id' => urlencode(self::$email['email_title'])
+			));
 
-			$new_link = add_query_arg( $params , $link );
-
-
-			$html = str_replace( $link	, $new_link , $html );
+			$html = str_replace( "'".$link."'" , "'".$safe_link['url']."'" , $html );
+			$html = str_replace( '"'.$link.'"' , '"'.$safe_link['url'].'"' , $html );
 
 		}
 
@@ -415,6 +417,8 @@ class Inbound_Mail_Daemon {
 
 		/* error_log( print_r( $message , true ) ); */
 		self::$response = $mandrill->messages->send($message, $async, $ip_pool, $send_at );
+
+		do_action( 'inbound_mandrill_send_event' , $message , $send_at );
 	}
 
 	/**
@@ -521,8 +525,10 @@ class Inbound_Mail_Daemon {
 		/* add lead id to all shortcodes before processing */
 		$html = str_replace('[lead-field ' , '[lead-field lead_id="'. self::$row->lead_id .'" ' , $html );
 
+		$unsubscribe = do_shortcode('[unsubscribe-link lead_id="'. self::$row->lead_id .'" list_ids="'.implode( ',' , self::$email_settings['recipients'] ) .'" email_id="'.self::$row->email_id.'"]');
+
 		/* add lead id & list ids to unsubscribe shortcode */
-		$html = str_replace('[unsubscribe-link]' , '[unsubscribe-link lead_id="'. self::$row->lead_id .'" list_ids="'.implode( ',' , self::$email_settings['recipients'] ) .'" email_id="'.self::$row->email_id.'"]' , $html );
+		$html = str_replace('[unsubscribe-link]' , $unsubscribe , $html );
 
 		/* clean mal formatted quotations */
 		$html = str_replace('&#8221;', '"' , $html);
@@ -532,7 +538,7 @@ class Inbound_Mail_Daemon {
 
 		/* add tracking params to links */
 		$html = self::rebuild_links( $html );
-
+		error_log($html);
 		return $html;
 
 	}

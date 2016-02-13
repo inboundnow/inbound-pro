@@ -25,6 +25,7 @@ if (have_posts()) : while (have_posts()) : the_post();
     $logo_positioning = get_field("logo_positioning", $post_id);
     $logo_url = get_field("logo_url", $post_id);
     $headline = get_field("headline", $post_id);
+    $font = get_field("email_font", $post_id);
     $headline_size = get_field("headline_size", $post_id);
     $sub_headline = get_field("sub_headline", $post_id);
     $sub_headline_size = get_field("sub_headline_size", $post_id);
@@ -134,7 +135,7 @@ if (have_posts()) : while (have_posts()) : the_post();
                                                 <td align="right" style="font-size:11px;color:#9c9c9c;"></td>
                                             </tr>
                                             <tr>
-                                                <td align="<?php echo $align_message_content; ?>" style=" color:<?php echo $content_color; ?>;line-height:30px;padding:0 40px 0 0;font-family:'Lucida Sans Unicode', 'Lucida Grande', sans-serif">
+                                                <td align="<?php echo $align_message_content; ?>" style=" color:<?php echo $content_color; ?>;line-height:30px;padding:0 40px 0 0;font-family:serif">
                                                 <?php
                                                 echo $message_content
                                                 ?>
@@ -147,7 +148,7 @@ if (have_posts()) : while (have_posts()) : the_post();
                                 </tr>
                                 <tr>
                                     <td align="left"
-                                        style=" color:<?php echo $content_color; ?>;line-height:17px;padding:20px 40px 40px 40px;font-family:'Lucida Sans Unicode', 'Lucida Grande', sans-serif;">
+                                        style=" color:<?php echo $content_color; ?>;line-height:17px;padding:20px 40px 40px 40px;font-family:<?php echo $font; ?>">
                                         <table width="100%" border="0" cellspacing="0" cellpadding="0">
                                             <tbody>
                                             <tr>
@@ -162,7 +163,7 @@ if (have_posts()) : while (have_posts()) : the_post();
                     </tr>
                     <tr>
                         <td>
-                            <p style="font-size:11px;color:#999999;margin:0;padding:20px 20px 30px 20px; font-family:'Lucida Sans Unicode', 'Lucida Grande', sans-serif;">
+                            <p style="font-size:11px;color:#999999;margin:0;padding:20px 20px 30px 20px; font-family:<?php echo $font; ?>">
 
                                 We respect your privacy. If you believe this has been sent to you in error, please safely <a href="<?php echo do_shortcode('[unsubscribe-link]'); ?>" style="color:#2b95dd;text-decoration:none;"><strong>unsubscribe here</strong></a><br><br>
                                 <span style="text-align:center; display:inline-block; font-size:10px;">

@@ -5,7 +5,7 @@ Plugin URI: http://www.inboundnow.com/
 Description: Inbound Marketing Suite for WordPress
 Author: Inbound Now
 Author: Inbound Now
-Version: 1.1.4
+Version: 1.1.5
 Author URI: http://www.inboundnow.com/
 Text Domain: inbound-pro
 Domain Path: /lang/
@@ -96,7 +96,7 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 		*/
 		private static function define_constants() {
 
-			define('INBOUND_PRO_CURRENT_VERSION', '1.1.4' );
+			define('INBOUND_PRO_CURRENT_VERSION', '1.1.5' );
 			define('INBOUND_PRO_URLPATH', WP_PLUGIN_URL.'/'.plugin_basename( dirname(__FILE__) ).'/' );
 			define('INBOUND_PRO_PATH', WP_PLUGIN_DIR.'/'.plugin_basename( dirname(__FILE__) ).'/' );
 			define('INBOUND_PRO_SLUG', plugin_basename( dirname(__FILE__) ) );
@@ -133,7 +133,7 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 			/* get inbound now settings */
 			self::$settings = Inbound_Options_API::get_option('inbound-pro', 'settings', array());
 
-			if (self::$access_level > 0) {
+			if (self::$access_level > 0 && !isset($_GET['acf_off'])) {
 
 				/* if lite mode enabled then set the constant */
 				if ( !isset(self::$settings['inbound-acf']['toggle-acf-lite']) || self::$settings['inbound-acf']['toggle-acf-lite'] == 'on') {
@@ -234,8 +234,11 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 
 	/* Initiate Plugin */
 	if ( Inbound_Pro_Plugin::is_valid_php_version() ) {
-		// Get Inbound Now Running
-		$Inbound_Pro_Plugin = new Inbound_Pro_Plugin;
+
+		if (!isset($_GET['inbound_off'] )  ) {
+			$Inbound_Pro_Plugin = new Inbound_Pro_Plugin;
+		}
+
 	} else {
 		// Show Fail
 		Inbound_Pro_Plugin::fail_php_version();

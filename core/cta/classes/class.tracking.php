@@ -25,7 +25,7 @@ class CTA_Conversion_Tracking {
 
 		$do_not_track = apply_filters('inbound_analytics_stop_track', false );
 
-		if ( $do_not_track ) {
+		if ( $do_not_track || !isset($args['cta_id']) || !$args['cta_id'] ) {
 			return;
 		}
 
