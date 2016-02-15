@@ -1475,7 +1475,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             wp_enqueue_script('snap');
 
             /* Load FontAwesome */
-            wp_register_style('fontawesome', INBOUNDNOW_SHARED_URLPATH . 'assets/fonts/fontawesome/css/fontawesome.min.css');
+            wp_register_style('fontawesome', INBOUNDNOW_SHARED_URLPATH . 'assets/fonts/fontawesome/css/font-awesome.min.css');
             wp_enqueue_style('fontawesome');
 
 
@@ -2247,7 +2247,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 return;
             }
 
-            if (!isset($_POST['post_type']) || $_POST['post_type'] != 'inbound-email') {
+            if (!isset($_POST['post_type']) || $_POST['post_type'] != 'inbound-email' || !isset($_POST['inbvid']) ) {
                 return;
             }
 
