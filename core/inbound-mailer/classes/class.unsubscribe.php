@@ -4,16 +4,16 @@
 class Inbound_Mailer_Unsubscribe {
 
 	/**
-	*  Initialize class
-	*/
+	 *  Initialize class
+	 */
 	public function __construct() {
 
 		self::load_hooks();
 	}
 
 	/**
-	*  Loads hooks and filters
-	*/
+	 *  Loads hooks and filters
+	 */
 	public function load_hooks() {
 
 		/* Add processing listeners  */
@@ -25,8 +25,8 @@ class Inbound_Mailer_Unsubscribe {
 	}
 
 	/**
-	* Display unsubscribe options
-	*/
+	 * Display unsubscribe options
+	 */
 	public static function display_unsubscribe_page( $atts ) {
 
 
@@ -40,11 +40,17 @@ class Inbound_Mailer_Unsubscribe {
 			return __( 'Invalid token' , 'inbound-email' );
 		}
 
+
+
 		/* get all lead lists */
 		$lead_lists = Inbound_Leads::get_lead_lists_as_array();
 
 		/* decode token */
 		$params = self::decode_unsubscribe_token( $_GET['token'] );
+
+		if ( !isset( $params['lead_id'] ) ) {
+			return __( 'Oops. Something is wrong with the unsubscribe link. Are you logged in?' , 'inbound-email' );
+		}
 
 		/* Begin unsubscribe html inputs */
 		$html = "<form action='?unsubscribed=true' name='unsubscribe' method='post'>";
@@ -74,10 +80,10 @@ class Inbound_Mailer_Unsubscribe {
 	}
 
 	/**
-	*  Generates unsubscribe link given lead id and lists
-	*  @param ARRAY $params contains: lead_id (INT ), list_ids (MIXED), email_id (INT)
-	*  @return STRING $unsubscribe_link
-	*/
+	 *  Generates unsubscribe link given lead id and lists
+	 *  @param ARRAY $params contains: lead_id (INT ), list_ids (MIXED), email_id (INT)
+	 *  @return STRING $unsubscribe_link
+	 */
 	public static function generate_unsubscribe_link( $params ) {
 
 		if (isset($_GET['lead_lists']) && !is_array($_GET['lead_lists'])){
@@ -92,10 +98,10 @@ class Inbound_Mailer_Unsubscribe {
 		$token = Inbound_Mailer_Unsubscribe::encode_unsubscribe_token( $args );
 		$settings = Inbound_Mailer_Settings::get_settings();
 
-        if ( empty($settings['unsubscribe_page']) )  {
-            $post = get_page_by_title( __( 'Unsubscribe' , 'inbound-email' ) );
-            $settings['unsubscribe_page'] =  $post->ID;
-        }
+		if ( empty($settings['unsubscribe_page']) )  {
+			$post = get_page_by_title( __( 'Unsubscribe' , 'inbound-email' ) );
+			$settings['unsubscribe_page'] =  $post->ID;
+		}
 
 		$base_url = get_permalink( $settings['unsubscribe_page']  );
 
@@ -104,52 +110,52 @@ class Inbound_Mailer_Unsubscribe {
 	}
 
 	/**
-	*  Encodes data into an unsubscribe token
-	*  @param ARRAY $params contains: lead_id (INT ), list_ids (MIXED), email_id (INT)
-	*  @return INT $token
-	*/
+	 *  Encodes data into an unsubscribe token
+	 *  @param ARRAY $params contains: lead_id (INT ), list_ids (MIXED), email_id (INT)
+	 *  @return INT $token
+	 */
 	public static function encode_unsubscribe_token( $params ) {
-;
+		;
 		$json = json_encode($params);
 
 
 		$iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB);
 		$iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
 		$encrypted_string =
-		base64_encode(
-			trim(
-				mcrypt_encrypt(
-					MCRYPT_RIJNDAEL_256, substr( SECURE_AUTH_KEY , 0 , 24 )  , $json, MCRYPT_MODE_ECB, $iv
-				)
-			)
-		);
+				base64_encode(
+						trim(
+								mcrypt_encrypt(
+										MCRYPT_RIJNDAEL_256, substr( SECURE_AUTH_KEY , 0 , 24 )  , $json, MCRYPT_MODE_ECB, $iv
+								)
+						)
+				);
 
 		return  str_replace(array('+', '/'), array('-', '_'), $encrypted_string);
 	}
 
 	/**
-	*  Decodes unsubscribe encoded reader id into a lead id
-	*  @param STRING $reader_id Encoded lead id.
-	*  @return ARRAY $unsubscribe array of unsubscribe data
-	*/
+	 *  Decodes unsubscribe encoded reader id into a lead id
+	 *  @param STRING $reader_id Encoded lead id.
+	 *  @return ARRAY $unsubscribe array of unsubscribe data
+	 */
 	public static function decode_unsubscribe_token( $token ) {
 
 		$iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB);
 		$iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
 		$decrypted_string =
-		trim(
-			mcrypt_decrypt(
-					MCRYPT_RIJNDAEL_256 ,  substr( SECURE_AUTH_KEY , 0 , 24 )   ,  base64_decode( str_replace(array('-', '_'), array('+', '/'), $token ) ) , MCRYPT_MODE_ECB, $iv
-			)
-		);
+				trim(
+						mcrypt_decrypt(
+								MCRYPT_RIJNDAEL_256 ,  substr( SECURE_AUTH_KEY , 0 , 24 )   ,  base64_decode( str_replace(array('-', '_'), array('+', '/'), $token ) ) , MCRYPT_MODE_ECB, $iv
+						)
+				);
 
 		return json_decode($decrypted_string , true);
 
 	}
 
 	/**
-	*  Unsubscribe lead from all lists
-	*/
+	 *  Unsubscribe lead from all lists
+	 */
 	public static function unsubscribe_from_all_lists( $lead_id = null ) {
 		/* get all lead lists */
 		$lead_lists = Inbound_Leads::get_lead_lists_as_array();
@@ -162,10 +168,10 @@ class Inbound_Mailer_Unsubscribe {
 	}
 
 	/**
-	*  Removes a list id to a leads unsubscribed list
-	*  @param INT $lead_id
-	*  @param INT $list_id
-	*/
+	 *  Removes a list id to a leads unsubscribed list
+	 *  @param INT $lead_id
+	 *  @param INT $list_id
+	 */
 	public static function remove_stop_sort( $lead_id , $list_id ) {
 		$stop_rules = get_post_meta( $lead_id , 'inbound_unsubscribed' , true );
 
@@ -183,8 +189,8 @@ class Inbound_Mailer_Unsubscribe {
 	}
 
 	/**
-	*  Listener & unsubscribe actions
-	*/
+	 *  Listener & unsubscribe actions
+	 */
 	public static function process_unsubscribe() {
 
 		if (!isset($_POST['unsubscribe'])) {
@@ -223,10 +229,10 @@ class Inbound_Mailer_Unsubscribe {
 
 
 	/**
-	*  Adds a list id to a leads unsubscribed list
-	*  @param INT $lead_id
-	*  @param INT $list_id
-	*/
+	 *  Adds a list id to a leads unsubscribed list
+	 *  @param INT $lead_id
+	 *  @param INT $list_id
+	 */
 	public static function add_stop_sort( $lead_id , $list_id ) {
 		$stop_rules = self::get_stop_sort( $lead_id );
 
@@ -236,10 +242,10 @@ class Inbound_Mailer_Unsubscribe {
 	}
 
 	/**
-	*  Adds a list id to a leads unsubscribed list
-	*  @param INT $lead_id
-	*  @param INT $list_id
-	*/
+	 *  Adds a list id to a leads unsubscribed list
+	 *  @param INT $lead_id
+	 *  @param INT $list_id
+	 */
 	public static function get_stop_sort( $lead_id ) {
 		$stop_rules = get_post_meta( $lead_id , 'inbound_unsubscribed' , true );
 

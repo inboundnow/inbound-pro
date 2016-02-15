@@ -41,6 +41,9 @@ class Inbound_Email_Stats {
         /* if is a sample email then return dummy stats */
         if ( !empty(self::$settings['is_sample_email']) ) {
 
+            /* unsubscribes are tracked on our side */
+            Inbound_Email_Stats::prepare_unsubscribes();
+
             /* prepare totals from variations */
             Inbound_Email_Stats::prepare_dummy_stats( $post->ID);
 
@@ -288,6 +291,8 @@ class Inbound_Email_Stats {
             /* add subject line */
             self::$stats[ 'variations' ][ $vid ][ 'subject' ] = self::$settings['variations'][ $vid ][ 'subject' ];
 
+            /* prepare unsubscribes */
+            self::$stats[ 'variations' ][ $vid ][ 'unsubs' ] = self::prepare_unsubscribes( $vid );
         }
 
 
@@ -434,5 +439,17 @@ class Inbound_Email_Stats {
 
     }
 
+    /**
+     *	Returns an array of zeros for email statistics
+     */
+    public static function prepare_unsubscribes( $vid ) {
+
+        global $post;
+
+
+        return Inbound_Events::get_unsubscribes_count_by_email_id( $post->ID , $vid );
+
+
+    }
 
 }

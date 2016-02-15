@@ -54,6 +54,7 @@ if ( !class_exists('Inbound_Mailer_Settings') ) {
 						'default'  => '',
 						'options' => Inbound_Mailer_Settings::get_pages_array()
 					),
+					/*
 					array(
 						'id'  => 'customize-permalinks',
 						'label'  => __('Permalink Name Editing', 'inbound-email' ),
@@ -65,6 +66,7 @@ if ( !class_exists('Inbound_Mailer_Settings') ) {
 							'yes' => __( 'Yes' , 'inbound-email' )
 						)
 					),
+					*/
 					array(
 						'id'  => 'mandrill-key',
 						'label'  => __('Mandrill API Key', 'inbound-email' ),
