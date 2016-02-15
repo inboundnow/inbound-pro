@@ -436,7 +436,7 @@ class Inbound_Pro_Settings {
 		<img class="size-full wp-image-138045" src="http://www.inboundnow.com/wp-content/uploads/2012/05/2015-10-13_1748.png" alt="Add and edit mappable lead fields"  />
 		<a name='settings'></a>
 		<h2>Improved extension setting management</h2>
-		<p>It's not easier to work with extension settings. Quickly view installed extensions and jump right to their settings area at the click of a button. Uninstallation is easy too.</p>
+		<p>It's now easier to work with extension settings. Quickly view installed extensions and jump right to their settings area at the click of a button. Uninstallation is easy too.</p>
 
 		<img class="aligncenter size-full wp-image-138164" src="http://www.inboundnow.com/wp-content/uploads/2012/05/extension-settings.gif" alt="extension settings"  />
 		<?php
