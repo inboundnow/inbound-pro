@@ -117,22 +117,7 @@ class Leads_Post_Type {
 
         switch ($column) {
             case "lead-picture":
-                $email = get_post_meta($post_id, 'wpleads_email_address', true);
-                $size = 50;
-                $url = site_url();
-                $default = WPL_URLPATH . '/assets/images/gravatar_default_50.jpg'; // doesn't work for some sites
-
-                $gravatar = "//www.gravatar.com/avatar/" . md5(strtolower(trim($email))) . "?d=" . urlencode($default) . "&s=" . $size;
-                $extra_image = get_post_meta($post_id, 'lead_main_image', true);
-
-                // Fix for localhost view
-                if (in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1'))) {
-                    $gravatar = $default;
-                }
-                if (preg_match("/gravatar_default_/", $gravatar) && $extra_image != "") {
-                    $gravatar = $extra_image;
-                    $gravatar2 = $extra_image;
-                }
+                $gravatar = self::get_gravatar( $post->ID );
                 echo '<img class="lead-grav-img" width="50" height="50" src="' . $gravatar . '">';
                 break;
             case "first-name":
@@ -763,6 +748,30 @@ class Leads_Post_Type {
     }
 
     /**
+     *
+     */
+    public static function get_gravatar($lead_id , $size = 50 ) {
+        $email = get_post_meta($lead_id, 'wpleads_email_address', true);
+
+        $size = ($size) ? $size : 50;
+
+        $default = WPL_URLPATH . '/assets/images/gravatar_default_50.jpg'; // doesn't work for some sites
+
+        $gravatar = "//www.gravatar.com/avatar/" . md5(strtolower(trim($email))) . "?d=" . urlencode($default) . "&s=" . $size;
+        $extra_image = get_post_meta($lead_id, 'lead_main_image', true);
+
+        // Fix for localhost view
+        if (in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1'))) {
+            $gravatar = $default;
+        }
+
+        if (preg_match("/gravatar_default_/", $gravatar) && $extra_image != "") {
+            $gravatar = $extra_image;
+        }
+
+        return $gravatar;
+    }
+    /**
      * Enqueue scripts and styles for admin
      */
     public static function enqueue_admin_scripts( $hook ) {
@@ -827,30 +836,30 @@ class Leads_Post_Type {
     /**
      * Ajax listener to mark lead as unread
      */
-     public static function ajax_mark_lead_as_unread() {
-         global $wpdb;
+    public static function ajax_mark_lead_as_unread() {
+        global $wpdb;
 
-         $newrules = "New Lead";
+        $newrules = "New Lead";
 
-         $post_id = mysql_real_escape_string($_POST['page_id']);
+        $post_id = mysql_real_escape_string($_POST['page_id']);
 
-         add_post_meta($post_id, 'wp_lead_status', 'New Lead', true) or update_post_meta($post_id, 'wp_lead_status', $newrules);
-         header('HTTP/1.1 200 OK');
-         exit;
-     }
+        add_post_meta($post_id, 'wp_lead_status', 'New Lead', true) or update_post_meta($post_id, 'wp_lead_status', $newrules);
+        header('HTTP/1.1 200 OK');
+        exit;
+    }
 
-     /**
-      * Ajax listener to automatically mark a lead as read when the lead is opened for the first time
-      */
-     public static function ajax_auto_mark_as_read() {
-         global $wpdb;
+    /**
+     * Ajax listener to automatically mark a lead as read when the lead is opened for the first time
+     */
+    public static function ajax_auto_mark_as_read() {
+        global $wpdb;
 
-         $newrules = "Read";
-         $post_id = mysql_real_escape_string($_POST['page_id']);
+        $newrules = "Read";
+        $post_id = mysql_real_escape_string($_POST['page_id']);
 
-         add_post_meta($post_id, 'wp_lead_status', 'Read', true) or update_post_meta($post_id, 'wp_lead_status', $newrules);
-         header('HTTP/1.1 200 OK');
-     }
+        add_post_meta($post_id, 'wp_lead_status', 'Read', true) or update_post_meta($post_id, 'wp_lead_status', $newrules);
+        header('HTTP/1.1 200 OK');
+    }
 }
 
 new Leads_Post_Type;

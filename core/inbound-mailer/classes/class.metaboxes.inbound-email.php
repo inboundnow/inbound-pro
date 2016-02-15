@@ -18,6 +18,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
         static $variation_stats;
         static $campaign_stats;
         static $settings;
+        static $email_type;
 
         function __construct() {
             self::load_hooks();
@@ -83,6 +84,10 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             /* Show Selected Template */
             add_meta_box('email-selected-template', __('Selected Template', 'inbound-email'), array(__CLASS__, 'add_selected_tamplate_info'), 'inbound-email', 'side', 'high');
 
+            /* Show Selected Template */
+            if (isset($post) && ( $post->post_status == 'sent' || $post->post_status =='automated') ) {
+                add_meta_box('email-unsubscribes', __('Unsubscribed', 'inbound-email'), array(__CLASS__, 'add_unsubscribe_list'), 'inbound-email', 'side', 'high');
+            }
         }
 
         /**
@@ -454,7 +459,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 ?>
                 <div id='template-item' class="<?php echo $cat_slug; ?> template-item-boxes">
                     <div id="template-box">
-                        <div class="tooltip" title="<?php echo $data['info']['description']; ?>"></div>
+                        <div class="inbound-tooltip" title="<?php echo $data['info']['description']; ?>"></div>
                         <a class='template_select' href='#' label='<?php echo $data['info']['label']; ?>'
                            id='<?php echo $this_template; ?>'>
                             <img src="<?php echo $thumbnail; ?>" class='template-thumbnail'
@@ -486,7 +491,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 return;
             }
 
-            echo '<div class="btn-toolbar " role="toolbar">';
+            echo '<div class="mail-container" role="toolbar">';
 
             self::add_countdown();
             self::add_statistics();
@@ -758,7 +763,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                         <label class="stat-label clicks-label"><?php _e('Clicks', 'inbound-email'); ?></label>
 
                         <div class="stat-number clicks-number">0</div>
-                        <h1 class="stat-percentage">0%</h1>
+                        <h1 class="stat-percentage clicks-percentage">0%</h1>
                     </div>
                 </div>
                 <div class="statistic-container">
@@ -807,6 +812,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             <style>
                 .email-send-details {
                     margin-top: 30px;
+                    font-size:10px;
                 }
 
                 .email-details-td-label {
@@ -826,6 +832,25 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             </style>
             <div class='email-send-details'>
                 <table>
+                    <?php
+
+
+                    if ($settings['email_type'] == 'batch') {
+
+                        ?>
+                        <tr class='email-details-tr'>
+                            <td class='email-details-td-label'>
+                                <?php _e('Send Date', 'inbound-email'); ?>:
+                            </td>
+                            <td class='email-details-td-info'>
+                                <?php
+                                echo $settings['send_datetime'] . ' ' . $settings['timezone'];
+                                ?>
+                            </td>
+                        </tr>
+                        <?php
+                    }
+                    ?>
                     <tr class='email-details-tr'>
                         <td class='email-details-td-label'>
                             <?php _e('Target Audiences', 'inbound-email'); ?>:
@@ -1004,14 +1029,12 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
          */
         public static function add_email_type_select_toggle() {
 
-            $email_type = self::get_email_type();
-
             ?>
             <select class='form-control' name='inbound_email_type' id='email_type'>
-                <option value='batch' <?php ($email_type == 'batch') ? print 'selected="true"' : print ''; ?>>Batch
+                <option value='batch' <?php (self::$email_type == 'batch') ? print 'selected="true"' : print ''; ?>>Batch
                     Email
                 </option>
-                <option value='automated' <?php ($email_type == 'automated') ? print 'selected="true"' : print ''; ?>>
+                <option value='automated' <?php (self::$email_type == 'automated') ? print 'selected="true"' : print ''; ?>>
                     Automation
                 </option>
             </select>
@@ -1025,7 +1048,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
             global $post;
 
-            $email_type = self::get_email_type();
+            self::get_email_type();
 
             if ($post->post_status == 'draft' || $post->post_status == 'publish') {
                 $post->post_status = 'unsent';
@@ -1106,20 +1129,73 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
         }
 
         /**
+         *  Adds list of unsubscribers
+         */
+        public static function add_unsubscribe_list() {
+            global $post;
+
+            $unsubscribes = Inbound_Events::get_unsubscribes_by_email_id($post->ID);
+
+            ?>
+            <div class='inbound-unsubscribes-container'>
+
+                <?php
+
+
+                foreach ($unsubscribes as $key => $event) {
+                    $email = get_post_meta($event['lead_id'] , 'wpleads_email_address' , true);
+                    $first_name = get_post_meta($event['lead_id'] , 'wpleads_first_name' , true);
+                    $last_name = get_post_meta($event['lead_id'] , 'wpleads_last_name' , true);
+                    $name = $first_name . ' ' . $last_name;
+
+                    if (!trim($name)) {
+                        $name = $email;
+                    }
+
+                    $gravatar = Leads_Post_Type::get_gravatar($event['lead_id'] , 25 );
+
+                    $details = json_decode($event['event_details'] , true);
+                    ?>
+                    <table class="lead-unsubscribed">
+                        <tr>
+                            <td>
+                                <img class="lead-grav-img" width='25' height='25' src="<?php echo $gravatar; ?>">
+                            </td>
+                            <td>
+                                <a class="inbound-tooltip" href="<?php echo admin_url('post.php?post='.$event['lead_id'].'&action=edit&tab=tabs-wpleads_lead_tab_activity'); ?>" target="_blank" title='<?php echo addslashes($details['comments']); ?>'><?php echo $name; ?></a>
+                            </td>
+                        </tr>
+                    </table>
+                    <?php
+                }
+
+                ?>
+            </div>
+
+            <?php
+        }
+
+        /**
          * Discovers the email type by checking the inbound_email_type taxonomy
          * @return 'batch' as default otherwise return email type.
          */
-        public static function get_email_type() {
-            global $post;
+        public static function get_email_type( $post_id = null) {
 
-            self::$settings = Inbound_Email_Meta::get_settings($post->ID);
-            $vid = Inbound_Mailer_Variations::get_current_variation_id();
+
+            if (!$post_id) {
+                global $post;
+                $post_id = $post->ID;
+            }
+
+            $settings = Inbound_Email_Meta::get_settings($post_id);
 
             if (isset($settings['email_type'])) {
-                return $settings['email_type'];
+                self::$email_type = $settings['email_type'];
             } else {
-                return 'batch';
+                self::$email_type = 'batch';
             }
+
+            return self::$email_type;
         }
 
         /**
@@ -1557,7 +1633,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                             if (!isset(self::$settings['customize-permalinks'])||self::$settings['customize-permalinks']!='yes' ) {
 
                                 ?>
-                            jQuery('#slugdiv').hide();
+                            //jQuery('#slugdiv').hide();
                             <?php
                         }
                         ?>
@@ -2264,4 +2340,3 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
     $GLOBALS['Inbound_Mailer_Metaboxes'] = new Inbound_Mailer_Metaboxes;
 }
-

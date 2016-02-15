@@ -1279,7 +1279,7 @@ if (!class_exists('Inbound_API')) {
 			$params = array_merge( $params, $_REQUEST );
 
 			/* lead email or lead id required */
-			if ( !isset( $params['id'] ) && !isset( $params['email']) && !isset( $params['cta_id']) ) {
+			if ( !isset( $params['id'] ) && !isset( $params['email_id']) && !isset( $params['cta_id']) ) {
 				$error['error'] = __( 'This endpoint requires either the \'id\' or the \'email\' or the \'cta_id\' parameter be set.', INBOUNDNOW_TEXT_DOMAIN ) ;
 				self::$data = $error;
 				self::output( 401 );
@@ -1315,6 +1315,11 @@ if (!class_exists('Inbound_API')) {
 			/* Set datetime */
 			if (!isset($args['cta_id'])) {
 				$args['datetime'] = current_time('mysql');
+			}
+
+			/* if lead_id is not set then set */
+			if (!isset($args['lead_id'])) {
+				$args['lead_id'] = $args['id'];
 			}
 
 			/* get tracked link */
@@ -1355,6 +1360,7 @@ if (!class_exists('Inbound_API')) {
 			/* Get first result & prepare args */
 			$profile = $profiles[0];
 			$args = unserialize($profile->args);
+
 
 			/* Add lead to lists */
 			if (isset($args['add_lists']) && self::validate_parameter( $args['add_lists'], 'add_lists', 'array' ) ) {
