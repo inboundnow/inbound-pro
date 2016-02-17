@@ -236,15 +236,13 @@ if (!class_exists('Landing_Pages_Variations')) {
 
             $variations = get_post_meta($landing_page_id, 'lp-ab-variations', true);
 
-            if (!is_array($variations) ) {
+            if (!is_array($variations) && $variations ) {
                 $variations = explode( ',' , $variations);
             }
 
             if (!is_array($variations) || !$variations ) {
-                $variations = array( 0 => 0 );
+                $variations = array( 0 => "0" );
             }
-
-            //$variations = array_filter($variations, 'is_numeric');
 
             return $variations;
         }

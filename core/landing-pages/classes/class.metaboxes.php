@@ -275,7 +275,7 @@ class Landing_Pages_Metaboxes {
         wp_enqueue_style('admin-post-edit-css', LANDINGPAGES_URLPATH . 'assets/css/admin-post-edit.css');
 
         /* Load FontAwesome */
-        wp_register_style('font-awesome', INBOUNDNOW_SHARED_URLPATH.'assets/css/font-awesome.min.css');
+        wp_register_style('font-awesome', INBOUNDNOW_SHARED_URLPATH.'assets/fonts/fontawesome/css/font-awesome.min.css');
         wp_enqueue_style('font-awesome');
 
         /* Load Sweet Alert */
@@ -464,14 +464,14 @@ class Landing_Pages_Metaboxes {
         global $post;
         $variations = Landing_Pages_Variations::get_variations($post->ID);
 
-        $variations = array_filter($variations,'is_numeric');
-
         ?>
         <div>
+
             <style type="text/css">
 
             </style>
             <div class="inside" id="a-b-testing">
+
                 <div id="bab-stat-box">
                     <?php
 
