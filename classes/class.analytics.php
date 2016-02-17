@@ -35,7 +35,7 @@ class Inbound_Analytics {
 		
 		$settings = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
 		
-		$ignore_admin = ( isset( $settings['inbound-analytics-rules']['exclude-admin'] ) && $settings['inbound-analytics-rules']['exclude-admin'] == 'on' ) ? true : false;
+		$ignore_admin = ( isset( $settings['inbound-analytics-rules']['admin-tracking'] ) && $settings['inbound-analytics-rules']['admin-tracking'] == 'off' ) ? true : false;
 		
 		/* determine if user is admin and admin filtering is on */
 		if ( current_user_can( 'manage_options' ) && $ignore_admin ) {
@@ -68,7 +68,7 @@ class Inbound_Analytics {
 	public static function filter_conversions( $do_not_track ) {
 		$settings = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
 		
-		$ignore_admin = ( isset( $settings['inbound-analytics-rules']['exclude-admin'] ) && $settings['inbound-analytics-rules']['exclude-admin'] == 'on' ) ? true : false;
+		$ignore_admin = ( isset( $settings['inbound-analytics-rules']['admin-tracking'] ) && $settings['inbound-analytics-rules']['admin-tracking'] == 'off' ) ? true : false;
 		
 		/* determine if user is admin and admin filtering is on */
 		if ( current_user_can( 'manage_options' ) && $ignore_admin ) {

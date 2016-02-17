@@ -1,6 +1,6 @@
 === WordPress Calls to Action ===
 
-Contributors: David Wells, Hudson Atwell
+Contributors: Hudson Atwell, David Wells, Giulio Dapreala
 Donate link: mailto:marketplace@inboundnow.com
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html

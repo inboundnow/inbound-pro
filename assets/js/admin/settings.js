@@ -481,14 +481,14 @@ var InboundSettings = (function () {
                         console.log('Hey David, we can use response.customer.is_pro to determine if user is a pro user or not on this page');
                         console.log('is_pro=' + response.customer.is_pro);
                     } else {
-                        InboundSettings.markKeyInvalid();
+                        InboundSettings.markKeyInvalid( response.message );
                     }
                 },
                 error: function (request, status, err) {
                     console.log(request.responseText);
                     console.log(status);
                     console.log(err);
-                    InboundSettings.markKeyInvalid();
+                    InboundSettings.markKeyInvalid( 'There was an error connecting to Inbound Now');
                 }
             });
         },
@@ -509,7 +509,7 @@ var InboundSettings = (function () {
         /**
          * Mark key invalid
          */
-        markKeyInvalid: function () {
+        markKeyInvalid: function ( message) {
             InboundSettings.input.removeClass('valid');
             InboundSettings.input.addClass('invalid');
             jQuery('.valid-icon').remove();
@@ -517,8 +517,15 @@ var InboundSettings = (function () {
             jQuery('.processing-icon').remove();
             jQuery('<i>', {
                 class: "fa fa-times-circle invalid-icon inbound-tooltip",
-                title: "API Key Is Invalid"
-            }).appendTo('.api-key');
+                title: message
+            }).appendTo('.api-key').tooltip({
+                animated: 'fade',
+                placement: 'right',
+                container: 'body',
+                show: true
+            }).tooltip("show");
+
+
         },
         /**
          * mark key valid
@@ -529,9 +536,10 @@ var InboundSettings = (function () {
             jQuery('.invalid-icon').remove();
             jQuery('.valid-icon').remove();
             jQuery('.processing-icon').remove();
+            jQuery('.tooltip').hide();
             jQuery('<i>', {
                 class: "fa fa-check valid-icon inbound-tooltip",
-                title: "API Key Is Invalid"
+                title: "API Key Is Valid"
             }).appendTo('.api-key');
         },
         /**

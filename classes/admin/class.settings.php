@@ -140,7 +140,7 @@ class Inbound_Pro_Settings {
 					'keywords' => __('analytics,tracking,ipaddress,ip address,admin tracking' , 'inbound-pro'),
 					'fields' => array (
 						array (
-							'id'	=> 'exclude-admin',
+							'id'	=> 'analytics-header',
 							'type'	=> 'header',
 							'default'	=> __( 'Analytics' , INBOUNDNOW_TEXT_DOMAIN ),
 							'placeholder'	=> null,
@@ -152,11 +152,11 @@ class Inbound_Pro_Settings {
 							)
 						),
 						array (
-							'id'	=> 'exclude-admin',
+							'id'	=> 'admin-tracking',
 							'type'	=> 'radio',
-							'label'	=> __( 'Disable Admin Tracking' , INBOUNDNOW_TEXT_DOMAIN ),
+							'label'	=> __( 'Admin Tracking' , INBOUNDNOW_TEXT_DOMAIN ),
 							'description'	=> __( 'Toggle this to on to prevent impression/conversion tracking for logged in administrators.' , INBOUNDNOW_TEXT_DOMAIN ),
-							'default'	=> 'off',
+							'default'	=> 'on',
 							'placeholder'	=> null,
 							'options' => array(
 								'off' => __( 'Off' , INBOUNDNOW_TEXT_DOMAIN ),
@@ -376,7 +376,7 @@ class Inbound_Pro_Settings {
 
 		<p><?php _e('Welcome to the new Inbound Professional Marketing Suite for WordPress!','inbound-pro'); ?></p>
 
-		<h2><?php _e('Disabling Legacy Plugins','inbound-pro'); ?></h2>
+		<h2><?php _e('What about the old plugins?','inbound-pro'); ?></h2>
 
 		<p><?php echo sprintf( __('This plugin comes with Inbound Now\'s core plugins pre-installed. If you want to control which core components to load at startup you can do so in the %score settings%s area.','inbound-pro') , '<a href="admin.php?tab=inbound-pro-setup&page=inbound-pro&setting=core" target="_blank" >' ,'</a>'); ?></p>
 
