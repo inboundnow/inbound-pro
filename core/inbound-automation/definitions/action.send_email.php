@@ -25,8 +25,8 @@ if ( !class_exists( 'Inbound_Automation_Action_Send_Email' ) ) {
 			if ( class_exists('Inbound_Mailer_Post_Type') ) {
 				$emails = Inbound_Mailer_Post_Type::get_automation_emails_as( 'ARRAY' );
 				if (!$emails) {
-                    $emails[] = __( 'No Automation emails detected. Please create an automated email first.' , 'inbound-pro' );
-                }
+					$emails[] = __( 'No Automation emails detected. Please create an automated email first.' , 'inbound-pro' );
+				}
 			} else {
 				$emails = array('email component not installed.');
 			}
@@ -34,49 +34,49 @@ if ( !class_exists( 'Inbound_Automation_Action_Send_Email' ) ) {
 
 			/* Build Action */
 			$actions['send_email'] = array (
-				'class_name' => get_class(),
-				'id' => 'send_email',
-				'label' => 'Send Email',
-				'description' => 'Send an email using available filter data.',
-				'settings' => array (
-					array (
-						'id' => 'send_to',
-						'label' => __( 'Send Email To' , 'inbound-pro' ),
-						'type' => 'dropdown',
-						'options' => array(
-							'lead' => __( 'Lead' , 'inbound-pro' ),
-							'custom' => __( 'Custom Email Address' , 'inbound-pro' ),
-							'lead_list' => __( 'Lead List' , 'inbound-pro' ),
-						)
-					),
-					array (
-						'id' => 'custom_email',
-						'label' => __( 'Enter Email Address' , 'inbound-pro' ),
-						'type' => 'text',
-						'hidden' => true,
-						'reveal' => array(
-							'selector' => 'send_to',
-							'value' => 'custom'
-						)
-					),
-					array (
-						'id' => 'lead_lists',
-						'label' => __( 'Select Lead List' , 'inbound-pro' ),
-						'type' => 'select2',
-						'hidden' => true,
-						'reveal' => array(
-							'selector' => 'send_to',
-							'value' => 'lead_list'
-						),
-						'options' => $lead_lists
-					),
-					array (
-						'id' => 'email_id',
-						'label' => __( 'Select Email' , 'inbound-pro' ),
-						'type' => 'dropdown',
-						'options' => $emails
+					'class_name' => get_class(),
+					'id' => 'send_email',
+					'label' => 'Send Email',
+					'description' => 'Send an email using available filter data.',
+					'settings' => array (
+							array (
+									'id' => 'send_to',
+									'label' => __( 'Send Email To' , 'inbound-pro' ),
+									'type' => 'dropdown',
+									'options' => array(
+											'lead' => __( 'Lead' , 'inbound-pro' ),
+											'custom' => __( 'Custom Email Address' , 'inbound-pro' ),
+											'lead_list' => __( 'Lead List' , 'inbound-pro' ),
+									)
+							),
+							array (
+									'id' => 'custom_email',
+									'label' => __( 'Enter Email Address' , 'inbound-pro' ),
+									'type' => 'text',
+									'hidden' => true,
+									'reveal' => array(
+											'selector' => 'send_to',
+											'value' => 'custom'
+									)
+							),
+							array (
+									'id' => 'lead_lists',
+									'label' => __( 'Select Lead List' , 'inbound-pro' ),
+									'type' => 'select2',
+									'hidden' => true,
+									'reveal' => array(
+											'selector' => 'send_to',
+											'value' => 'lead_list'
+									),
+									'options' => $lead_lists
+							),
+							array (
+									'id' => 'email_id',
+									'label' => __( 'Select Email' , 'inbound-pro' ),
+									'type' => 'dropdown',
+									'options' => $emails
+							)
 					)
-				)
 			);
 
 			return $actions;
@@ -84,11 +84,11 @@ if ( !class_exists( 'Inbound_Automation_Action_Send_Email' ) ) {
 
 
 		/**
-		* Runs the send email processing action
-		* @param ARRAY $action saved action settings
-		* @param ARRAY $trigger_data action filters
-		* @param ARRAY $rule_id rule id
-		*/
+		 * Runs the send email processing action
+		 * @param ARRAY $action saved action settings
+		 * @param ARRAY $trigger_data action filters
+		 * @param ARRAY $rule_id rule id
+		 */
 		public static function run_action( $action , $trigger_data ) {
 
 			//error_log( print_r( $action , true ) );
@@ -112,18 +112,32 @@ if ( !class_exists( 'Inbound_Automation_Action_Send_Email' ) ) {
 					if ( isset($trigger_data['user_id']) ) {
 						$user = new WP_User( $trigger_data['user_id'] );
 						$trigger_data[0]['email'] = $user->data->user_email;
-						$trigger_data[0]['id'] = 0;
+
+						/* look for lead */
+						$trigger_data[0]['id'] = LeadStorage::lookup_lead_by_email($trigger_data[0]['email']);
+
+						/* create lead if does not exist */
+						if (!$trigger_data[0]['id']) {
+							$args = array(
+									'user_ID' => $trigger_data['user_id'],
+									'wpleads_email_address' => $trigger_data[0]['email'],
+									'wpleads_first_name' => $user->data->display_name
+							);
+
+							$trigger_data[0]['id'] = inbound_store_lead( $args );
+						}
+
 					}
 
 
 					/* send email */
 					$response = $Inbound_Mail_Daemon->send_solo_email( array(
-						'email_address' => $trigger_data[0]['email'],
-						'lead_id' => $trigger_data[0]['id'],
-						'email_id' => $action['email_id'],
-						'tags' => array( 'automated' ),
-						'vid' => $vid,
-						'lead_lists' => $lead_lists
+							'email_address' => $trigger_data[0]['email'],
+							'lead_id' => $trigger_data[0]['id'],
+							'email_id' => $action['email_id'],
+							'tags' => array( 'automated' ),
+							'vid' => $vid,
+							'lead_lists' => $lead_lists
 					));
 
 					BREAK;
@@ -136,10 +150,10 @@ if ( !class_exists( 'Inbound_Automation_Action_Send_Email' ) ) {
 
 					/* send email */
 					$response = $Inbound_Mail_Daemon->send_solo_email( array(
-						'email_address' => $action['custom_email'],
-						'email_id' => $action['email_id'],
-						'vid' => $vid,
-						'tags' => array('automated')
+							'email_address' => $action['custom_email'],
+							'email_id' => $action['email_id'],
+							'vid' => $vid,
+							'tags' => array('automated')
 					));
 
 					BREAK;
@@ -154,12 +168,12 @@ if ( !class_exists( 'Inbound_Automation_Action_Send_Email' ) ) {
 			}
 
 			inbound_record_log(
-				__( 'Send Email' , 'inbound-pro') ,
-				'<h2>'.__('Mandrill Response', 'inbound-pro') .'</h2><pre>'.print_r($response,true).'</pre>' .
-				'<h2>'.__('Action Settings' , 'inbound-pro') .'</h2><pre>'. print_r($action,true).print_r($trigger_data,true) .'</pre>',
-				$action['rule_id'] ,
-				$action['job_id'] ,
-				'action_event'
+					__( 'Send Email' , 'inbound-pro') ,
+					'<h2>'.__('Mandrill Response', 'inbound-pro') .'</h2><pre>'.print_r($response,true).'</pre>' .
+					'<h2>'.__('Action Settings' , 'inbound-pro') .'</h2><pre>'. print_r($action,true).print_r($trigger_data,true) .'</pre>',
+					$action['rule_id'] ,
+					$action['job_id'] ,
+					'action_event'
 			);
 		}
 

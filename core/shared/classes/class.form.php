@@ -631,6 +631,14 @@ if (!class_exists('Inbound_Forms')) {
                 $content = str_replace( '{{'.trim($token_key).'}}', $value, $content );
             }
 
+            foreach ($_POST as $key => $value) {
+                $token_key = str_replace('_','-', $key);
+                $token_key = str_replace('inbound-','', $token_key);
+
+                $content = str_replace( '{{'.trim($token_key).'}}', $value, $content );
+            }
+
+
             return $content;
         }
 
