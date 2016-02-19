@@ -15,6 +15,7 @@ class Inbound_Pro_Downloads {
 	static $download; /* focus dataset being processed */
 	static $headline; /* UI headline */
 	static $customer; /* sets customer status */
+	static $access_level; /* sets customer status */
 
 	/**
 	 *	Initializes class
@@ -565,16 +566,16 @@ class Inbound_Pro_Downloads {
 
 				/* determine permissions from customer access level*/
 				$permitted = false;
-				$access_level = Inbound_Pro_Plugin::get_customer_status();
+				self::$access_level = Inbound_Pro_Plugin::get_customer_status();
 
 				switch (self::$management_mode) {
 					case 'templates':
-						if ($access_level > 0 ) {
+						if (self::$access_level > 0 ) {
 							$permitted = true;
 						}
 						break;
 					case 'extensions':
-						if ($access_level > 2 ) {
+						if (self::$access_level > 2 ) {
 							$permitted = true;
 						}
 						break;
@@ -799,7 +800,7 @@ class Inbound_Pro_Downloads {
 	public static function load_inline_js_css() {
 		$screen = get_current_screen();
 
-		if ( $screen->base != 'inbound-now_page_inbound-manage-templates' ) {
+		if ( $screen->base != 'inbound-now_page_inbound-manage-templates' &&  $screen->base != 'inbound-now_page_inbound-manage-extensions' ) {
 			return;
 		}
 
@@ -814,6 +815,32 @@ class Inbound_Pro_Downloads {
 			});
 		</script>
 		<?php
+
+		if ( intval(self::$access_level) < 3) {
+			?>
+			<style type="text/css">
+			body .details-install {
+				display:none !important;
+			}
+			body .details-update {
+				display:none !important;
+			}
+
+			<?php
+			if ($screen->base == 'inbound-now_page_inbound-manage-extensions') {
+			?>
+
+				body .details-preview {
+					display: none !important;
+				}
+
+			<?php
+			}
+			?>
+			</style>
+			<?php
+		}
+
 	}
 
 }

@@ -156,6 +156,8 @@ if ( !class_exists('CTA_Template_Manager_List') ) {
 
 
 			$this->items = $this->found_data;
+			$this->_screen = get_current_screen();
+			$this->screen = get_current_screen();
 		}
 
 		function column_default( $item, $column_name ) {

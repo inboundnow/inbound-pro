@@ -7,7 +7,6 @@
  * @subpackage	Templates
 */
 
-
 if ( !class_exists('Inbound_Mailer_Template_Manager_List') ) {
 
 	if( ! class_exists( 'WP_List_Table' ) ) {
@@ -153,7 +152,8 @@ if ( !class_exists('Inbound_Mailer_Template_Manager_List') ) {
 				'per_page'    => $per_page                     //WE have to determine how many items to show on a page
 			) );
 
-
+			$this->_screen = get_current_screen();
+			$this->screen = get_current_screen();
 			$this->items = $this->found_data;
 		}
 

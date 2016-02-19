@@ -48,11 +48,13 @@ if (!class_exists('Inbound_Automation_Plugin') && class_exists('Inbound_Leads_Pl
 
 					include_once('definitions/trigger.form_submission_event.php');
 					include_once('definitions/trigger.page_tracking_event.php');
+					include_once('definitions/trigger.user_register.php');
 					include_once('definitions/action.wait.php');
 					include_once('definitions/action.send_email.php');
 					include_once('definitions/action.relay_data.php');
 					include_once('definitions/action.add-remove-list.php');
 					include_once('definitions/query.lead_data.php');
+					include_once('definitions/query.user_data.php');
 
 					BREAK;
 
@@ -67,11 +69,13 @@ if (!class_exists('Inbound_Automation_Plugin') && class_exists('Inbound_Leads_Pl
 
 					include_once('definitions/trigger.form_submission_event.php');
 					include_once('definitions/trigger.page_tracking_event.php');
+					include_once('definitions/trigger.user_register.php');
 					include_once('definitions/action.wait.php');
 					include_once('definitions/action.send_email.php');
 					include_once('definitions/action.relay_data.php');
 					include_once('definitions/action.add-remove-list.php');
 					include_once('definitions/query.lead_data.php');
+					include_once('definitions/query.user_data.php');
 
 					BREAK;
 			endswitch;

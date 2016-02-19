@@ -77,7 +77,7 @@ if (!class_exists('Inbound_Load_Shared')) {
 				include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.licensing.php');
 				include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.master-license.php');
 				include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.branching.php');
-				include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.welcome.php');
+				include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.promote.php');
 				/* include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.feedback.php'); */
 				include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.notifications.php');
 				require_once( INBOUNDNOW_SHARED_PATH . 'classes/class.inbound-api.api-key-generation.php');

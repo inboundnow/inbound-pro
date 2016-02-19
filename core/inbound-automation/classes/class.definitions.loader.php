@@ -132,7 +132,7 @@ if ( !class_exists( 'Inbound_Automation_Loader' ) ) {
 						$keys = array( '-1' => __( 'No Options Detected' , 'inbound-pro' ) );
 					} else {
 						/* Load Historic Arugment Keys Associated With Trigger Hook */
-						$args = self::$instance->inbound_arguments[ $hook ] [ $argument['id'] ];
+						$args = ( is_array(self::$instance->inbound_arguments[ $hook ] [ $argument['id'] ]) ) ? self::$instance->inbound_arguments[ $hook ] [ $argument['id'] ] : array();
 
 						foreach ($args as $k => $value ) {
 						    if ( is_array($value) ) {

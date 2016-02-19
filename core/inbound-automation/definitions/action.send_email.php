@@ -18,7 +18,6 @@ if ( !class_exists( 'Inbound_Automation_Action_Send_Email' ) ) {
 		/* Build Action Definitions */
 		public static function define_action( $actions ) {
 
-
 			/* Get Lead Lists */
 			$lead_lists = Inbound_Leads::get_lead_lists_as_array();
 
@@ -103,19 +102,19 @@ if ( !class_exists( 'Inbound_Automation_Action_Send_Email' ) ) {
 					/* Load sender class */
 					$Inbound_Mail_Daemon = new Inbound_Mail_Daemon();
 
-					/* get lead id */
-					$params = array(
-						'email' => $trigger_data[0]['email'],
-						'return' => 'ID',
-						'results_per_page' => -1,
-						'fields' => 'ids'
-					);
-
 					/* get variant marker */
 					$vid = Inbound_Mailer_Variations::get_next_variant_marker( $action['email_id'] );
 
 					/* check for lead lists */
 					$lead_lists = (isset($trigget_data[0]['lead_lists'])) ? $trigget_data[0]['lead_lists'] : array();
+
+					/* support for user_register hook */
+					if ( isset($trigger_data['user_id']) ) {
+						$user = new WP_User( $trigger_data['user_id'] );
+						$trigger_data[0]['email'] = $user->data->user_email;
+						$trigger_data[0]['id'] = 0;
+					}
+
 
 					/* send email */
 					$response = $Inbound_Mail_Daemon->send_solo_email( array(
