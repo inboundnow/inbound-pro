@@ -30,11 +30,11 @@ class CTA_Menus {
 			return;
 		}
 
-		add_submenu_page('edit.php?post_type=wp-call-to-action', __( 'Forms', 'cta' ), __( 'Manage Forms', 'cta'), 'manage_options', 'inbound-forms-redirect',100);
+		add_submenu_page('edit.php?post_type=wp-call-to-action', __( 'Forms', 'cta' ), __( 'Forms', 'cta'), 'manage_options', 'inbound-forms-redirect',100);
 
-		add_submenu_page('edit.php?post_type=wp-call-to-action', __( 'Templates', 'cta'), __( 'Manage Templates', 'cta'), 'manage_options', 'wp_cta_manage_templates', array( 'CTA_Template_Manager', 'display_management_page'));
+		add_submenu_page('edit.php?post_type=wp-call-to-action', __( 'Upload', 'cta'), __( 'Upload', 'cta'), 'manage_options', 'wp_cta_manage_templates', array( 'CTA_Template_Manager', 'display_management_page'));
 
-		add_submenu_page('edit.php?post_type=wp-call-to-action', __( 'Settings', 'cta'), __( 'Global Settings', 'cta'), 'manage_options', 'wp_cta_global_settings', array( 'CTA_Global_Settings', 'display_global_settings'));
+		add_submenu_page('edit.php?post_type=wp-call-to-action', __( 'Settings', 'cta'), __( 'Settings', 'cta'), 'manage_options', 'wp_cta_global_settings', array( 'CTA_Global_Settings', 'display_global_settings'));
 
 	}
 

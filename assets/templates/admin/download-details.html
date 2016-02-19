@@ -36,25 +36,25 @@
 
 			<div class="theme-actions" style="padding:38px 25px 38px;">
 				 <% if ( status == "uninstalled" ){ %>
-				<div class="">
+				<div class="details-install">
 					<span  style="font-size:20px;padding: 0 40px 1px;" class="button button-primary overlay-install" data-download='<%= post_name %>' data-filename='<%= filename %>'   data-download-type='<%= download_type %>'>Install</span>
 				</div>
 				<% } %>
 
 				<% if ( status == "installed" ) { %>
-				<div class="">
+				<div class="details-uninstall">
 					<span style="font-size:20px;padding: 0 40px 1px;" class="button button-secondary overlay-uninstall"  data-download='<%= post_name %>' >Uninstall</span>
 				</div>
 				<% } %>
 
 				<% if ( current_version < server_version && status == "installed" ) { %>
-				<div class="">
+				<div class="details-update">
 					<span style="font-size:20px;padding: 0 40px 1px;" class="button button-secondary overlay-update"  data-download='<%= post_name %>' data-filename='<%= filename %>'  data-download-type='<%= download_type %>'>Update</span>
 				</div>
 				<% } %>
 
 				<% if ( preview ) { %>
-				<div class="">
+				<div class="details-preview">
 					<a href="<%=  preview  %>" target="_blank" class="button button-secondary overlay-preview" >Preview</a>
 				</div>
 				<% } %>

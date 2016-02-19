@@ -136,6 +136,8 @@ class Landing_Pages_Templates_List_Table extends WP_List_Table {
 
 
         $this->items = $this->found_data;
+        $this->_screen = get_current_screen();
+        $this->screen = get_current_screen();
     }
 
     function column_default($item, $column_name) {

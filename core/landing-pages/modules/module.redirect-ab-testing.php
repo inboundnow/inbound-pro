@@ -56,7 +56,24 @@ class LP_Variation_Rotation {
 		self::$last_loaded_variation = ( isset( $_COOKIE['lp-loaded-variation-'.self::$permalink_name] ) ) ? $_COOKIE['lp-loaded-variation-'.self::$permalink_name] : null;
 
 		if ( self::$sticky_variations && self::$last_loaded_variation ) {
+
 			self::$destination_url = self::$last_loaded_variation;
+
+			if (!isset($_GET)) {
+				return;
+			}
+
+			$begin = (strstr(self::$destination_url, '?')) ? '' : '?';
+
+			/* Keep GET Params */
+			foreach ($_GET as $key=>$value) {
+				if ($key != "permalink_name"){
+					$old_params .= "&$key=" . $value;
+				}
+			}
+
+			self::$destination_url = self::$destination_url.$begin.$old_params;
+
 		} else {
 			self::$variations = self::load_variations();
 			self::$marker = self::load_marker();

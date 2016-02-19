@@ -28,16 +28,16 @@ class Inbound_Mailer_Menus {
 		if ( !current_user_can('manage_options')) {
 			return;
 		}
-	
-		add_submenu_page('edit.php?post_type=inbound-email', __( 'Templates' , 'inbound-email' ) , __( 'Templates' , 'inbound-email' ) , 'manage_options', 'inbound_email_manage_templates', array( 'Inbound_Mailer_Template_Manager' , 'display_management_page' ) );
-		
+
+		add_submenu_page('edit.php?post_type=inbound-email', __( 'Upload' , 'inbound-email' ) , __( 'Upload' , 'inbound-email' ) , 'manage_options', 'inbound_email_manage_templates', array( 'Inbound_Mailer_Template_Manager' , 'display_management_page' ) );
+
 		/* Include Settings only if Inbound Pro not installed */
 		if (!defined('INBOUND_PRO_CURRENT_VERSION')) {
 			add_submenu_page( 'edit.php?post_type=inbound-email' , __( 'Settings' , 'inbound-email' ) , __( 'Settings' , 'inbound-email') , 'manage_options', 'inbound_email_global_settings', array( 'Inbound_Mailer_Settings' , 'display_global_settings' ) );
 		} else {
-			//add_submenu_page( 'inbound-email' , __( 'Settings' , 'inbound-email' ) , __( 'Settings' , 'inbound-email') , 'manage_options', 'inbound_email_global_settings', array( 'Inbound_Pro_Settings' , 'display' ) );
+
 		}
-		
+
 	}
 	
 }
