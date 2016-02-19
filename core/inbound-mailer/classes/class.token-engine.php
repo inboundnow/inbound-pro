@@ -116,7 +116,7 @@ class Inbound_Mailer_Tokens {
 				</tr>
 				<tr>
 					<td class='lf-submit' colspan='2'>
-						<button class='button-primary lf-submit-button' id="lf-insert-shortcode" href='#'><?php _e( 'Insert Shortcode' , 'inbound-email' ); ?></button>
+						<span class='button-primary lf-submit-button' id="lf-insert-shortcode" href='#'><?php _e( 'Insert Shortcode' , 'inbound-email' ); ?></span>
 					</td>
 				</tr>
 			</table>

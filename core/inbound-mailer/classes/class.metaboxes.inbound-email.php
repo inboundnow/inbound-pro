@@ -1134,7 +1134,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
         public static function add_unsubscribe_list() {
             global $post;
 
-            $unsubscribes = Inbound_Events::get_unsubscribes_by_email_id($post->ID);
+            $unsubscribes = Inbound_Events::get_unsubscribes_by_email($post->ID);
 
             ?>
             <div class='inbound-unsubscribes-container'>

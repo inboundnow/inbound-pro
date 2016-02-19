@@ -538,7 +538,7 @@ class Inbound_Mail_Daemon {
 
 		/* add tracking params to links */
 		$html = self::rebuild_links( $html );
-		error_log($html);
+
 		return $html;
 
 	}
@@ -559,8 +559,9 @@ class Inbound_Mail_Daemon {
 	*	Gets the subject line from variation settings
 	*/
 	public static function get_variation_subject() {
-
-		return self::$email_settings[ 'variations' ] [ self::$row->variation_id ] [ 'subject' ];
+		/* add lead id to all shortcodes before processing */
+		$subject = str_replace('[lead-field ' , '[lead-field lead_id="'. self::$row->lead_id .'" ' , self::$email_settings[ 'variations' ] [ self::$row->variation_id ] [ 'subject' ] );
+		return do_shortcode( $subject );
 	}
 
 	/**
