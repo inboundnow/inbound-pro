@@ -403,14 +403,11 @@ class Inbound_Pro_Settings {
 
 		<img class="size-full wp-image-138047" src="http://www.inboundnow.com/wp-content/uploads/2012/05/2015-10-13_1831.png" alt="Messing around with test email sends" />
 
-		<h3>We are serving emails through Mandrill</h3>
 
-		<p>Inbound Now's email component is 100% powered by <a href="http://mandrill.com/" target="_blank">Mandrill</a>. Mandrill provides users with 2000 free email sends a month and can serve more through a <a href="http://mandrill.com/pricing/" target="_blank">low cost </a>transaction system. For most people 2,000 emails should cover requirements, and for customers with higher requirements it's easy to buy more and still save money compared to using an autoresponder service.</p>
+		<h3>Powered By Mandrill</h3>
+		Inbound Now's email component is 100% powered by <a href="http://mandrill.com/" target="_blank">Mandrill</a>. Mandrill is a transactional email service powered by the people who run MailChimp. Mandrill provides users with <strong>2000</strong> free email sends and then provides 25,000 email sends a month for a <a href="http://mandrill.com/pricing/" target="_blank">low cost</a>.
 
-		<h3>Having a positive account balance and what does it mean</h3>
-		<p>Mandrill does not mind providing 2000 free emails a month to their users, but if a user wants to leverage Mandrill's email scheduling systems (which we do) then they want you to have a positive balance. After signing up for Mandrill go ahead and throw 5.00 into your account balance and if you serve less than 2000 emails a day then you should not have to worry about having a positive balance again.</p>
-		<a name='automation'></a>
-		<p>Here's  look at their <a href="http://mandrill.com/pricing/" target="_blank">pricing page</a>.</p>
+		We are investigating adding additional services such as SendGrid, though it's not available yet.
 
 		<h2>The new marketing automation component</h2>
 
