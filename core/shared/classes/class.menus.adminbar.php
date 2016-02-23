@@ -129,6 +129,17 @@ if (!class_exists('Inbound_Menus_Adminbar')) {
 				$wp_admin_bar->add_node( $menu_item );
 			}
 
+			/* add lead search */
+			if (class_exists('Inbound_Pro_Plugin')) {
+				$args = array(
+						'id' => 'lead_search',
+						'title' => '<i class="fa fa-search"></i>',
+						'href' => '#lead-search',
+						'meta' => array('class' => 'adminbar-leads-search')
+				);
+				$wp_admin_bar->add_node($args);
+			}
+
 		}
 
 		/**
