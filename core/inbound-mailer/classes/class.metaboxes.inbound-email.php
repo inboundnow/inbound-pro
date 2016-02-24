@@ -243,7 +243,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                             jQuery('.opens-percentage').text(this.get_percentage(this.stats.totals.opens, this.stats.totals.sent) + '%');
                             jQuery('.clicks-percentage').text(this.get_percentage(this.stats.totals.clicks, this.stats.totals.sent) + '%')
                             jQuery('.unopened-percentage').text(this.get_percentage(this.stats.totals.unopened, this.stats.totals.sent) + '%')
-                            jQuery('.bounces-percentage').text(this.get_percentage(this.stats.totals.bounces, this.stats.totals.sent) + '%')
+                            jQuery('.bounces-percentage').text(this.get_percentage(this.stats.totals.soft_bounces, this.stats.totals.sent) + '%')
                             jQuery('.rejects-percentage').text(this.get_percentage(this.stats.totals.rejects, this.stats.totals.sent) + '%')
                             jQuery('.unsubs-percentage').text(this.get_percentage(this.stats.totals.unsubs, this.stats.totals.sent) + '%')
 
@@ -252,7 +252,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                             jQuery('.opens-number').text(this.stats.totals.opens);
                             jQuery('.clicks-number').text(this.stats.totals.clicks);
                             jQuery('.unopened-number').text(this.stats.totals.unopened);
-                            jQuery('.bounces-number').text(this.stats.totals.bouces);
+                            jQuery('.bounces-number').text(this.stats.totals.soft_bounces);
                             jQuery('.rejects-number').text(this.stats.totals.rejects);
                             jQuery('.unsubs-number').text(this.stats.totals.unsubs);
 
@@ -778,7 +778,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                     <div class="stat-number-container">
                         <label class="stat-label bounces-label"><?php _e('Bounces', 'inbound-email'); ?></label>
 
-                        <div class="stat-number rejects-number">0</div>
+                        <div class="stat-number bounces-number">0</div>
                         <h1 class="stat-percentage bounces-percentage">0%</h1>
                     </div>
                 </div>

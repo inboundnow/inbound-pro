@@ -622,7 +622,12 @@ if (!class_exists('Inbound_Forms')) {
 
             /* replace core tokens */
             $content = str_replace('{{site-name}}', get_bloginfo( 'name' ), $content);
-            /*$content = str_replace('{{form-name}}', $form_data['inbound_form_n']		, $content); */
+            $content = str_replace('{{form-name}}', $form_data['inbound_form_n'], $content);
+
+            /* clean possible encoding issues */
+            $von = array("ä","ö","ü","ß","Ä","Ö","Ü","é");  //to correct double whitepaces as well
+            $zu  = array("&auml;","&ouml;","&uuml;","&szlig;","&Auml;","&Ouml;","&Uuml;","&#233;");
+            $content = str_replace($von, $zu, $content);
 
             foreach ($form_data as $key => $value) {
                 $token_key = str_replace('_','-', $key);

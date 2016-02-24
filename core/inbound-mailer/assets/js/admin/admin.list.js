@@ -10,6 +10,7 @@ jQuery(document).ready( function($) {
             jQuery( '.td-col-sends[data-email-id="' + email_id + '"]').text('0');
             jQuery( '.td-col-opens[data-email-id="' + email_id + '"]').text('0');
             jQuery( '.td-col-clicks[data-email-id="' + email_id + '"]').text('0');
+            jQuery( '.td-col-unsubs[data-email-id="' + email_id + '"]').text('0');
             return;
         }
 
@@ -29,11 +30,13 @@ jQuery(document).ready( function($) {
                     response['totals']['sent'] = 0;
                     response['totals']['opens'] = 0;
                     response['totals']['clicks'] = 0;
+                    response['totals']['unsubs'] = 0;
                 }
 
                 jQuery( '.td-col-sends[data-email-id="' + email_id + '"]').text(response['totals']['sent']);
                 jQuery( '.td-col-opens[data-email-id="' + email_id + '"]').text(response['totals']['opens']);
                 jQuery( '.td-col-clicks[data-email-id="' + email_id + '"]').text(response['totals']['clicks']);
+                jQuery( '.td-col-unsubs[data-email-id="' + email_id + '"]').text(response['totals']['unsubs']);
 
             },
             error: function (request, status, err) {

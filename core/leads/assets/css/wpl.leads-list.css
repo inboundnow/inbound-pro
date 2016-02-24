@@ -106,33 +106,22 @@ td.last-name {
     margin-left: 8px;
 }
 
-.edit a, .clone a, .mark-viewed, .mark-viewed-undo, .mark-viewed, .mark-viewed-undo {
+.edit a, .clone a, .mark-viewed, .mark-viewed,  {
 
     margin-right: 5px !important;
 }
 
-.new-lead-row .mark-viewed-undo {
-    display: none;
-}
-
-.clone a:hover, .mark-viewed:hover, .mark-viewed-undo:hover {
-
-}
 
 .clone a:hover {
     color: #000;
 }
 
-.mark-viewed, .mark-viewed-undo {
+.mark-viewed {
     background-color: #4A4845;
     font-size: 14px;
     padding: 4px 5px;
 }
 
-.mark-viewed-undo {
-    display: none;
-    margin-left: 8px;
-}
 
 .row-actions .trash a {
     background: #2ea2cc;

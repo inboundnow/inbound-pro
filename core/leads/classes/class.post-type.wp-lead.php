@@ -855,7 +855,7 @@ class Leads_Post_Type {
         global $wpdb;
 
         $newrules = "Read";
-        $post_id = mysql_real_escape_string($_POST['page_id']);
+        $post_id = intval($_POST['page_id']);
 
         add_post_meta($post_id, 'wp_lead_status', 'Read', true) or update_post_meta($post_id, 'wp_lead_status', $newrules);
         header('HTTP/1.1 200 OK');
