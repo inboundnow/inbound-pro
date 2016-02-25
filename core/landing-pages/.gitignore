@@ -33,6 +33,7 @@ nbproject
 *.sublime-workspace
 *.exe
 *.bat
+*.sh
 
 # Grunt
 node_modules
@@ -55,3 +56,4 @@ bin
 /shared/assets/plugins/advanced-custom-fields/lang/**.pot
 /shared/assets/plugins/advanced-custom-fields/lang/**.po
 /shared/assets/plugins/advanced-custom-fields/lang/**.mo
+/svn

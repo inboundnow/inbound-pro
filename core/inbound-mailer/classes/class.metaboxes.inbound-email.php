@@ -2032,7 +2032,10 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
                                 jQuery('#email_action').val('schedule');
                                 jQuery('#post_status').val('sending');
-                                jQuery('#post').submit();
+                                Settings.save_email();
+                                setTimeout(function() {
+                                    window.location.reload();
+                                }, 2000 );
                             });
 
                         },
