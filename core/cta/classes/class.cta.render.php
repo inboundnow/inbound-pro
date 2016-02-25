@@ -1182,6 +1182,11 @@ if ( !class_exists( 'CTA_Render' ) ) {
                 foreach (self::$instance->cta_height as $key => $value) {
                     $content .= "<span class='data-vid-h-".$key."' data-height='" . $value ."'></span>";
                 }
+
+                if (isset($_SESSION['inbound_popup']) && isset($post) && $_SESSION['inbound_popup'] == $post->ID) {
+                    return '';
+                }
+
                 /* fix for popup size */
                 $content .=	"<script>";
                 $content .= "	jQuery(document).ready(function($) {";
@@ -1195,6 +1200,8 @@ if ( !class_exists( 'CTA_Render' ) ) {
                 $content .= "	 }, 500);";
                 $content .= "	});";
                 $content .= "</script>";
+
+                $_SESSION['inbound_popup'] = $post->ID;
 
             }
 

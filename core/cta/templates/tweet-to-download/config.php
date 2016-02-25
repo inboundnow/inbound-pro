@@ -157,7 +157,7 @@ function cta_tweettodownload_print_admin_scripts() {
 
 	$screen = get_current_screen();
 
-	if ( !isset( $screen ) || $screen->id != 'wp-call-to-action' && $screen->parent_base != 'edit' ) {
+	if ( !isset( $screen ) || $screen->id != 'wp-call-to-action' || $screen->parent_base != 'edit' ) {
 		return;
 	}
 

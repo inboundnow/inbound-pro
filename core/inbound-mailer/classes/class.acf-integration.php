@@ -122,6 +122,11 @@ if (!class_exists('Inbound_Mailer_ACF')) {
 		public static function format_value( $value , $field ){
 			if ($field['type']=='color_picker' && is_array($value)){
 				$value = $value[1];
+
+				if (!strstr($value,'#')) {
+					$value = $field['default_value'];
+				}
+
 			}
 			return $value;
 		}

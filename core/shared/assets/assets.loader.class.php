@@ -162,7 +162,7 @@ if (!class_exists('Inbound_Asset_Loader')) {
 			if (!$lead_comment_tracking) {
 				$comment_tracking = 'off';
 			}
-			if (!$lead_page_view_tracking) {
+			if (!$lead_page_view_tracking || isset($_GET['inbound-do-not-track']) ) {
 				$page_tracking = 'off';
 			}
 

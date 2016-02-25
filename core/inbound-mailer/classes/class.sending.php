@@ -246,6 +246,12 @@ class Inbound_Mail_Daemon {
 
 			self::get_email();
 
+			/* send email */
+			if (!self::$email['send_address']) {
+				self::delete_from_queue();
+				continue;
+			}
+
 			self::send_mandrill_email();
 
 			/* check response for errors  */
@@ -253,7 +259,6 @@ class Inbound_Mail_Daemon {
 
 			/* if error in batch then bail on processing job */
 			if (self::$error_mode) {
-				error_log('error');
 				return;
 			}
 
@@ -305,7 +310,7 @@ class Inbound_Mail_Daemon {
 		self::$email['reply_email'] = self::get_variation_reply_email();
 		self::$email['body'] = self::get_email_body();
 
-		/* send email */
+
 		self::send_mandrill_email( true );
 
 		/* return mandrill response */

@@ -281,22 +281,22 @@ class Inbound_Mailer_Tokens {
 	public static function process_unsubscribe_link( $params ) {
 
 		$params = shortcode_atts( array(
-			'lead_id' => null,
+			'lead_id' => '',
 			'list_ids' => '-1',
 			'email_id' => '-1'
 		), $params );
 
 		/* check to see if lead id is set as a REQUEST */
 		if ( isset($params['lead_id']) ) {
-			$params['lead_id'] = $params['lead_id'];
+			$params['lead_id'] = intval($params['lead_id']);
 		} else if ( isset($_REQUEST['lead_id']) ) {
-			$params['lead_id'] = $_REQUEST['lead_id'];
+			$params['lead_id'] = intval($_REQUEST['lead_id']);
 		} else if ( isset($_COOKIE['wp_lead_id']) ) {
-			$params['lead_id'] = $_COOKIE['wp_lead_id'];
+			$params['lead_id'] = intval($_COOKIE['wp_lead_id']);
 		}
 
 		/* Add variation id to unsubscribe link */
-		$params['variation_id'] = ( isset($_REQUEST['inbvid']) )  ? $_REQUEST['inbvid'] : 0;
+		$params['variation_id'] = ( isset($_REQUEST['inbvid']) )  ? intval($_REQUEST['inbvid']) : intval(0);
 
 		/* generate unsubscribe link */
 		$unsubscribe_link =  Inbound_Mailer_Unsubscribe::generate_unsubscribe_link( $params );

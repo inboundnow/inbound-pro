@@ -622,7 +622,12 @@ if (!class_exists('Inbound_Forms')) {
 
             /* replace core tokens */
             $content = str_replace('{{site-name}}', get_bloginfo( 'name' ), $content);
-            /*$content = str_replace('{{form-name}}', $form_data['inbound_form_n']		, $content); */
+            $content = str_replace('{{form-name}}', $form_data['inbound_form_n'], $content);
+
+            /* clean possible encoding issues */
+            $von = array("ä","ö","ü","ß","Ä","Ö","Ü","é");  //to correct double whitepaces as well
+            $zu  = array("&auml;","&ouml;","&uuml;","&szlig;","&Auml;","&Ouml;","&Uuml;","&#233;");
+            $content = str_replace($von, $zu, $content);
 
             foreach ($form_data as $key => $value) {
                 $token_key = str_replace('_','-', $key);
@@ -831,7 +836,7 @@ if (!class_exists('Inbound_Forms')) {
 
                 $headers = 'From: '. $from_name .' <'. $from_email .'>' . "\r\n";
                 $headers .= "Reply-To: ".$reply_to_email . "\r\n";
-                $headers = apply_filters( 'inbound_lead_notification_email_headers', $headers );
+                $headers = apply_filters( 'inbound_email_response/headers', $headers );
 
                 foreach ($to_address as $key => $recipient) {
                     $result = wp_mail( $recipient, $subject, $body, $headers, apply_filters('inbound_lead_notification_attachments', false)  );
@@ -921,7 +926,7 @@ if (!class_exists('Inbound_Forms')) {
 
             $headers	= "From: " . $from_name . " <" . $from_email . ">\n";
             $headers .= 'Content-type: text/html';
-            $headers = apply_filters( 'inbound_email_response/headers' , $headers);
+            $headers = apply_filters( 'inbound_lead_conversion/headers' , $headers);
 
             wp_mail( $lead_email, $confirm_subject, $confirm_email_message, $headers );
 

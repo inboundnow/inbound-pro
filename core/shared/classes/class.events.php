@@ -86,7 +86,7 @@ class Inbound_Events {
             'event_name' => 'inbound_form_submission',
             'page_id' => $lead['page_id'],
             'variation_id' =>  $lead['variation'],
-            'form_id' => $raw_params['inbound_form_id'],
+            'form_id' => (isset($raw_params['inbound_form_id'])) ? $raw_params['inbound_form_id'] : '',
             'lead_id' => $lead['id'],
             'lead_uid' => ( isset($_COOKIE['wp_lead_uid']) ? $_COOKIE['wp_lead_uid'] : null ),
             'session_id' => '',
@@ -119,7 +119,8 @@ class Inbound_Events {
             'lead_id' => $args['urlparams']['lead_id'],
             'lead_uid' => ( isset($_COOKIE['wp_lead_uid']) ? $_COOKIE['wp_lead_uid'] : null ),
             'event_details' => json_encode($args['urlparams']),
-            'datetime' => $args['datetime']
+            'datetime' => $args['datetime'],
+            'form_id' => ''
         );
 
         self::store_event($args);

@@ -58,11 +58,11 @@ jQuery(document).ready(function ($) {
             });
         }
 
-        var mark_as_read = '<span class="mark-viewed button" title="Mark lead as viewed">Mark as read</span><span class="mark-viewed-undo button">Undo</span>';
+        var mark_as_read = '<span class="mark-viewed button" title="Mark lead as viewed">Mark as read</span>';
         //jQuery(mark_as_read).appendTo(".row-actions");
         jQuery(mark_as_read).appendTo(".edit");
 
-        jQuery('.mark-viewed, .mark-viewed-undo').each(function () {
+        jQuery('.mark-viewed').each(function () {
             var this_lead = jQuery(this).parent().parent().parent().parent().attr("id");
             var lead_id = this_lead.replace("post-", "");
             jQuery(this).attr("id", lead_id);
@@ -96,7 +96,6 @@ jQuery(document).ready(function ($) {
             var current_status = jQuery(this).find(".status").text();
             if (current_status === "Read") {
                 jQuery(this).find(".mark-viewed").hide();
-                jQuery(this).find(".mark-viewed-undo").text("Mark as new").css('display', 'inline-block');
             }
         });
         //var move_box = jQuery(".alignleft.actions").first();
@@ -139,7 +138,6 @@ jQuery(document).ready(function ($) {
                     //alert(data);
                     // jQuery('.lp-form').unbind('submit').submit();
                     jQuery(self).hide();
-                    jQuery(self).parent().find(".mark-viewed-undo").css('display', 'inline-block');
                     jQuery(self).parent().parent().parent().parent().css("background-color", "#f2f2f2");
                     jQuery(self).parent().parent().parent().parent().find(".status").text("Read");
                     //alert("Changes Saved! Refresh the page to see your changes");
@@ -154,40 +152,5 @@ jQuery(document).ready(function ($) {
 
         });
 
-        jQuery('.mark-viewed-undo').on('click', function () {
-
-            // define the bulk edit row
-            var post_id = jQuery(this).attr("id");
-            var status = "Read";
-
-            jQuery.ajax({
-                type: 'POST',
-                url: ajaxurl,
-                context: this,
-                data: {
-                    action: 'wp_leads_mark_as_read_undo',
-                    j_rules: status,
-                    page_id: post_id
-                },
-
-                success: function (data) {
-                    var self = this;
-                    //alert(data);
-                    // jQuery('.lp-form').unbind('submit').submit();
-                    jQuery(self).hide();
-                    jQuery(self).parent().find(".mark-viewed").show();
-                    jQuery(self).parent().parent().parent().parent().css("background-color", "#e2ffc9");
-                    jQuery(self).parent().parent().parent().parent().find(".status").text("New Lead");
-                    //alert("Changes Saved! Refresh the page to see your changes");
-                },
-
-                error: function (MLHttpRequest, textStatus, errorThrown) {
-                    alert("Ajax not enabled");
-                }
-            });
-
-            return false;
-
-        });
     }
 });
