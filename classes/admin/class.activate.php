@@ -65,7 +65,7 @@ class Inbound_Pro_Activation {
 	public static function activate_pro_components() {
 
 		/* automatically install certain extensions */
-		self::install_extensions();
+		//self::install_extensions();
 
 		if (class_exists('Inbound_Automation_Activation')) {
 			Inbound_Automation_Activation::activate();
@@ -147,10 +147,14 @@ class Inbound_Pro_Activation {
 	 */
 	public static function install_extensions() {
 
+		$extension = array();
 
+		/*
 		$extensions = array(
 			'use-landing-page-as-homepage'
 		);
+		*/
+
 
 		/* get pro templates dataset */
 		$downloads = Inbound_Pro_Downloads::build_main_dataset();
