@@ -62,7 +62,7 @@ class Inbound_Promote {
 		if ( in_array( $file , $plugins ) ) {
 			return array_merge(
 					$links,
-					array( '<a href="http://inboundsite.wpengine.com/upgrade">'.__( 'UPGRADE TO PRO (FREE)' , INBOUNDNOW_TEXT_DOMAIN ) .'</a>' )
+					array( '<a href="http://www.inboundnow.com/upgrade">'.__( 'UPGRADE TO PRO (FREE)' , INBOUNDNOW_TEXT_DOMAIN ) .'</a>' )
 			);
 		}
 		return $links;
@@ -134,7 +134,7 @@ class Inbound_Promote {
 					 ' . __('It\'s free, and we invite you to try it.' , INBOUNDNOW_TEXT_DOMAIN ) .'
                     </p>
 					<br>
-	                 <a class="button button-primary button-large" href="http://inboundsite.wpengine.com/upgrade/" target="_blank">' . __('Upgrade', INBOUNDNOW_TEXT_DOMAIN) . '</a>
+	                 <a class="button button-primary button-large" href="http://www.inboundnow.com/upgrade/" target="_blank">' . __('Upgrade', INBOUNDNOW_TEXT_DOMAIN) . '</a>
                      <a class="button button-default button-large inbound_dismiss" href="#" id="'.$message_id.'" data-notification-id="'.$message_id.'" >' . __('Dismiss this message', INBOUNDNOW_TEXT_DOMAIN) . '</a>
                      <br>
                      <br>

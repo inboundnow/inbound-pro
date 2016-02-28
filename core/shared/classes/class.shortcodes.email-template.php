@@ -56,6 +56,15 @@ class Inbound_Email_Template_Shortcodes {
 			/*print_r($post_params); exit; */
 		}
 
+		/* unset google recaptcha */
+		unset($post_params['g_recaptcha_response']);
+
+		/* unset others */
+		unset($post_params['page_id']);
+
+		/* filter params */
+		$post_params = apply_filters('inbound_email_response/post_params' , $post_params);
+		
 		foreach ($post_params as $key => $value ) {
 
 			$name = str_replace(array('-','_'),' ', $key);
@@ -76,6 +85,7 @@ class Inbound_Email_Template_Shortcodes {
 			/* Rewrite UTM params */
 			if (preg_match( '/utm_/i', $key)) {
 				$name = ucfirst(str_replace("utm_", "", $key));
+				$name = str_replace('Wpleads ' , '' , $name);
 			}
 
 			if ($key == "inbound_form_id" ) {

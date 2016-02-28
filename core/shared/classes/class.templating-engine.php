@@ -75,6 +75,7 @@ class Inbound_Templating_Engine {
 
 				/* prepare/re-map keys */
 				$key = str_replace( 'inbound_current_page_url', 'source', $key );
+				$key = str_replace( 'inbound_form_n', 'form_name', $key );
 				$key = str_replace( 'inbound_', '', $key );
 				$key = str_replace( 'wpleads_', 'lead_', $key );
 				$key = str_replace( '_', '-', $key );

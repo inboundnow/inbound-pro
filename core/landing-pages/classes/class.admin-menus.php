@@ -37,7 +37,12 @@ class Landing_Pages_Admin_Menus {
        //}
 
         add_submenu_page('edit.php?post_type=landing-page', __('Settings', 'landing-pages'), __('Settings', 'landing-pages'), 'manage_options', 'lp_global_settings', array('Landing_Pages_Settings' , 'display_settings'));
-        add_submenu_page('edit.php?post_type=landing-page', __('Upload', 'landing-pages'), __('Upload', 'landing-pages'), 'manage_options', 'lp_manage_templates', 'lp_manage_templates', 100);
+
+        if ( !class_exists('Inbound_Pro_Plugin') ) {
+            add_submenu_page('edit.php?post_type=landing-page', __('Upgrade to Pro' , 'landing-pages'),__('Upgrade to Pro' , 'landing-pages'), 'manage_options', 'lp_store', array( 'Inbound_Now_Store' , 'store_display' ),100);
+        }
+
+        add_submenu_page('edit.php?post_type=landing-page', __('Upload Templates', 'landing-pages'), __('Upload Templates', 'landing-pages'), 'manage_options', 'lp_manage_templates', 'lp_manage_templates', 100);
 
     }
 }
