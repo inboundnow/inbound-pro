@@ -134,6 +134,8 @@ $wp_cta_data[$key]['markup'] = file_get_contents($this_path . 'index.php');
 function cta_tweettodownload_enqueue_scripts() {
 	global $post;
 
+	$screen = get_current_screen();
+
 	if ( !isset( $screen ) || $screen->id != 'wp-call-to-action' & $screen->parent_base != 'edit' ) {
 		return;
 	}
