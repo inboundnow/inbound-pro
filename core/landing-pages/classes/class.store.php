@@ -7,17 +7,18 @@ if ( ! class_exists( 'Inbound_Now_Store' ) ) {
     class Inbound_Now_Store {
 
         static function init() {
-            self::load_hooks();
+            if ( !class_exists('Inbound_Pro_Plugin')  ) {
+                self::load_hooks();
+            }
         }
 
         /**
          * Loads hooks and filters
          */
         public static function load_hooks() {
-            add_action('admin_menu', array( __CLASS__ , 'add_sub_menus' ) );
-            add_action('admin_init', array( __CLASS__ , 'inbound_store_template_redirect'));
             add_action( 'wp_ajax_show_store_ajax' , array( __CLASS__ , 'show_store_ajax' ) );
             add_action( 'admin_enqueue_scripts' , array( __CLASS__ , 'enqueue_scripts' ) );
+            add_action( 'admin_print_footer_scripts' , array( __CLASS__ , 'print_scripts' ) );
         }
 
         /**
@@ -26,25 +27,21 @@ if ( ! class_exists( 'Inbound_Now_Store' ) ) {
         public static function enqueue_scripts() {
             global $plugin_page;
 
-            if ( !in_array( $plugin_page, array( 'lp_store', 'lp_addons' ) ) ) {
-                return;
-            }
-
-            wp_dequeue_script('easyXDM');
-            wp_enqueue_script('easyXDM', LANDINGPAGES_URLPATH . 'assets/libraries/easyXDM.debug.js');
-            wp_enqueue_script('lp-js-store', LANDINGPAGES_URLPATH . 'assets/js/admin/admin.store.js');
+            wp_enqueue_script('jquery');
 
         }
 
-        public static function add_sub_menus() {
-            if ( !current_user_can('manage_options')) {
-                return;
-            }
-
-            if ( !class_exists('Inbound_Pro_Plugin') || Inbound_Pro_Plugin::get_customer_status() < 2 ) {
-                add_submenu_page('edit.php?post_type=landing-page', __('Extensions' , 'landing-pages'),'<span style="color:#f18500">'.__('Extensions' , 'landing-pages').'</span>', 'manage_options', 'lp_store', array( __CLASS__ , 'store_display' ),100);
-                add_submenu_page('edit.php?post_type=landing-page', __('Download Templates' , 'landing-pages'),'<span style="color:#fff">'.__('Download Templates' , 'landing-pages').'</span>', 'manage_options', 'inbound-templates-redirect', array( __CLASS__ , 'inbound_store_template_redirect' ),100);
-            }
+        public static function print_scripts() {
+            ?>
+            <script type="text/javascript">
+                jQuery(document).ready(function($) {
+                    jQuery('#menu-posts-landing-page a[href*="lp_store"]').each(function() {
+                        jQuery(this).attr('target','_blank');
+                        jQuery(this).attr('href','http://www.inboundnow.com/upgrade');
+                    });
+                });
+            </script>
+            <?php
         }
 
         public static function show_store_ajax() {
@@ -58,7 +55,10 @@ if ( ! class_exists( 'Inbound_Now_Store' ) ) {
             }
 
         }
-        /* main display function */
+
+        /**
+         *
+         */
         public static function store_display(){
             global $current_user;
 
@@ -70,7 +70,7 @@ if ( ! class_exists( 'Inbound_Now_Store' ) ) {
                 self::inbound_store_notice();
             } else {
                 /* normal display here */
-                self::display_store();
+                self::store_redirect();
             }
 
         }
@@ -83,9 +83,8 @@ if ( ! class_exists( 'Inbound_Now_Store' ) ) {
 				<h3>To ensure complaince with <a href="https://wordpress.org/plugins/about/guidelines/">WordPress.orgs Plugin Guidelines</a>, we need your express permission to load our <a target="_blank" href="http://www.inboundnow.com/market">marketplace</a>.
 
 				<div class="details">
-					<h4 style="margin-bottom:0px;"><u>What is happening?</u></h4>
-					<p>To streamline your experience, We are loading in our marketplace from <a target="_blank" href="http://www.inboundnow.com/market">http://www.inboundnow.com/market</a> into this page.</p>
-					<p>Don\'t worry. We do not access <u>ANY</u> of your private/personal information contained within your site</p>
+				    <br>
+				    <br>
 					<a href="#" id="accept-agreement" class="button button-primary">I accept this agreement, show me the goods!</a>
 				</div>
 
@@ -120,14 +119,19 @@ if ( ! class_exists( 'Inbound_Now_Store' ) ) {
             </script>
 
         <?php }
-        /* loads when user_meta opt in is found */
-        public static function display_store() { ?>
+
+        /**
+         *
+         */
+        public static function store_redirect() { ?>
             <script>
-                jQuery(document).ready(function($) {
-                    showInboundStore();
-                });
+
+                window.location = "http://www.inboundnow.com/market";
+
             </script>
-        <?php }
+        <?php
+        }
+
         /* Always loads on store pages */
         public static function dom_output(){
 
@@ -171,16 +175,6 @@ if ( ! class_exists( 'Inbound_Now_Store' ) ) {
 
             <div id="inbound-store-container"></div>
         <?php }
-        /* redirect for additional menu item */
-        public static function inbound_store_template_redirect($value){
-            global $pagenow;
-            $page = (isset($_REQUEST['page']) ? $_REQUEST['page'] : false);
-            if($pagenow=='edit.php' && $page=='inbound-templates-redirect'){
-                $link = admin_url( 'edit.php?post_type=landing-page&page=lp_store&inbound-store=templates');
-                wp_redirect($link);
-                exit;
-            }
-        }
 
     }
 

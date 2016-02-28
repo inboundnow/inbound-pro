@@ -15,7 +15,7 @@ class Landing_Pages_Sidebars {
      * load hooks and filters
      */
     public static function add_hooks() {
-        add_action('init', array( __CLASS__ , 'register_sidebars' ) );
+        add_action('init', array( __CLASS__ , 'register_sidebars' ) , 100 );
         add_action('wp_head', array( __CLASS__ , 'replace_sidebars' ) );
     }
 

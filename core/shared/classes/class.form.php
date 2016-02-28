@@ -908,8 +908,8 @@ if (!class_exists('Inbound_Forms')) {
 
 
 
-            $confirm_subject  = apply_filters( 'inbound_email_response/subject', $confirm_subject, $form_meta_data, $form_post_data );
-            $confirm_email_message  = apply_filters( 'inbound_email_response/body', $confirm_email_message, $form_meta_data, $form_post_data );
+            $confirm_subject  = apply_filters( 'inbound_lead_conversion/subject', $confirm_subject, $form_meta_data, $form_post_data );
+            $confirm_email_message  = apply_filters( 'inbound_lead_conversion/body', $confirm_email_message, $form_meta_data, $form_post_data );
 
             $confirm_subject = $Inbound_Templating_Engine->replace_tokens( $confirm_subject, array($form_post_data, $form_meta_data ));
 

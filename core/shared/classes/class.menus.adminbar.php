@@ -130,7 +130,7 @@ if (!class_exists('Inbound_Menus_Adminbar')) {
 			}
 
 			/* add lead search */
-			if (class_exists('Inbound_Pro_Plugin')) {
+			if (class_exists('Inbound_Pro_Plugin') && is_admin() ) {
 				$args = array(
 						'id' => 'lead_search',
 						'title' => '<i class="fa fa-search"></i>',
