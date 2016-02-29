@@ -106,7 +106,7 @@ if (!class_exists('CTA_Metaboxes_Global')) {
 				function format(state) {
 					if (!state.id) return state.text; // optgroup
 					var href = jQuery("#cta-" + state.id).attr("href");
-					return state.text + "<a class='thickbox cta-select-preview-link' href='" + href + "'>(view)</a>";
+					return state.text;
 				}
 				jQuery("#cta_template_selection").select2({
 					placeholder: " <?php _e( 'Select one or more calls to action to rotate through', 'cta' ); ?>",

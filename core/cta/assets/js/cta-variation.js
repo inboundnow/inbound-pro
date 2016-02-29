@@ -101,7 +101,6 @@ function wp_cta_load_variation( cta_id, vid, disable_ajax ) {
 	}
 	/* Poll the ajax server for the correct variation to display */
 	else {
-
 		jQuery.ajax({
 			type: "GET",
 			url: cta_variation.ajax_url,
@@ -131,18 +130,17 @@ if (typeof(_inbound) !== "undefined") {
 
 
 jQuery(document).ready(function($) {
-	var timeout = 100;
+	var timeout = 500;
 
 	if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
 		timeout = 500;
 	}
 
+	if (cta_variation.cta_id) {
+		wp_cta_load_variation( cta_variation.cta_id , null , cta_variation.disable_ajax );
+	}
 
 	setTimeout( function() {
-
-		if (cta_variation.cta_id) {
-			wp_cta_load_variation( cta_variation.cta_id , null , cta_variation.disable_ajax );
-		}
 
 		var ctas = _inbound.totalStorage('wp_cta_loaded');
 
