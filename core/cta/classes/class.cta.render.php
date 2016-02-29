@@ -1183,7 +1183,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
                     $content .= "<span class='data-vid-h-".$key."' data-height='" . $value ."'></span>";
                 }
 
-                if (isset($_SESSION['inbound_popup']) && isset($post) && $_SESSION['inbound_popup'] == $post->ID) {
+                if (isset($_SESSION['inbound_popup']) && isset($post) && $_SESSION['inbound_popup'] == $post->ID && !current_user_can('manage_options')) {
                     return '';
                 }
 

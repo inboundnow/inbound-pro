@@ -153,7 +153,8 @@ if (!class_exists('CTA_Dynamic_Widget')) {
 		 * when creating your form elements. This handles the confusing stuff.
 		 */
 		function form($instance) {
-
+			wp_enqueue_style('thickbox');
+			wp_enqueue_script('thickbox');
 			$args = array('post_type' => 'wp-call-to-action', 'numberposts' => -1);
 			$cta_post_type = get_posts($args);
 
