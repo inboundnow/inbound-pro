@@ -257,7 +257,6 @@
 	width:100%;
 }
 
-
 .action-sub-wrapper{
 	position: relative;
 }
@@ -361,6 +360,19 @@
     text-align:right;
 }
 
+.tr-trigger-select #trigger-dropdown {
+	line-height:50px !important;
+	height:60px !important;
+	font-size:20px !important;
+	padding-left:20px;
+	padding-right:20px;
+	cursor:pointer;
+}
+
+.tr-trigger-select #trigger-dropdown .lt {
+	margin-bottom:5px;
+	text-align:center;
+}
 
 .trigger-section-header {
 	font-size: 20px;
