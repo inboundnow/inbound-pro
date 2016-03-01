@@ -84,7 +84,8 @@ if ( !class_exists( 'Inbound_Automation_Loader' ) ) {
 		*/
 		public static function load_arguments() {
 			$inbound_arguments = Inbound_Options_API::get_option( 'inbound_automation' , 'arguments' );
-            self::$instance->inbound_arguments = ( $inbound_arguments  ) ?  $inbound_arguments : array();
+
+			self::$instance->inbound_arguments = ( $inbound_arguments  ) ?  $inbound_arguments : array();
 		}
 
 		/**
@@ -121,6 +122,8 @@ if ( !class_exists( 'Inbound_Automation_Loader' ) ) {
 		public static function define_arguments() {
 
             self::$instance->argument_filters = array();
+			//print_r(self::$instance->triggers);
+			//print_r(self::$instance->inbound_arguments);
 
 			/* Loop Through Trigger Arguments & Build Trigger Filter Setting Array */
 			foreach ( self::$instance->triggers as $hook =>$trigger) {
@@ -128,13 +131,25 @@ if ( !class_exists( 'Inbound_Automation_Loader' ) ) {
 				foreach ($trigger['arguments'] as $key => $argument ) {
 
                     $keys = array();
+
+					/*
+					echo 'hook:'.$hook."\r\n";
+					echo 'argument id:'.$argument['id']."\r\n";
+					error_log('argument id:'.$argument['id']."\r\n");
+					print_r( self::$instance->inbound_arguments[ $hook ][$argument['id']] );
+					echo "\r\n";
+					echo "\r\n";
+					*/
+
 					if ( !isset( self::$instance->inbound_arguments[ $hook ] [ $argument['id'] ] ) ) {
 						$keys = array( '-1' => __( 'No Options Detected' , 'inbound-pro' ) );
 					} else {
 						/* Load Historic Arugment Keys Associated With Trigger Hook */
-						$args = ( is_array(self::$instance->inbound_arguments[ $hook ] [ $argument['id'] ]) ) ? self::$instance->inbound_arguments[ $hook ] [ $argument['id'] ] : array();
+						$args = ( is_array(self::$instance->inbound_arguments[ $hook ] [ $argument['id'] ]) ) ? self::$instance->inbound_arguments[ $hook ] [ $argument['id'] ] : array( $argument['label'] =>'' );
 
 						foreach ($args as $k => $value ) {
+							$k = (!$k) ? $argument['label'] : $k;
+
 						    if ( is_array($value) ) {
 						        foreach ($value as $k1 => $v1 ) {
 						            if (is_array($v1)){
@@ -160,7 +175,7 @@ if ( !class_exists( 'Inbound_Automation_Loader' ) ) {
 					);
 				}
 			}
-
+			//exit;
 			self::$instance->argument_filters = apply_filters( 'inbound_automation_arguments' , self::$instance->argument_filters );
 		}
 
@@ -252,7 +267,6 @@ if ( !class_exists( 'Inbound_Automation_Loader' ) ) {
 				if ( !isset( self::$rule['trigger']) ) {
 					continue;
 				}
-
 
 				if ( self::$rule['trigger'] == $trigger ) {
 
@@ -451,8 +465,15 @@ if ( !class_exists( 'Inbound_Automation_Loader' ) ) {
 			$argument_definitions = self::$instance->triggers[$hook]['arguments'];
 			foreach ($args as $key => $argument) {
 
-                /* Get argument identification id */
+                /* Get first argument definition in the definition array */
                 $definition = array_shift($argument_definitions);
+
+				/* if there is a call back run it */
+				if (isset($definition['callback'])) {
+					if (is_array($definition['callback']) ) {
+						$argument = $definition['callback'][0]::{$definition['callback'][1]}( $argument );
+					}
+				}
 
                 /* Place argument data into memory */
                 self::$instance->inbound_arguments[$hook][ $definition['id'] ] = self::prepare_mixed_data($argument);

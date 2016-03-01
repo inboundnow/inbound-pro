@@ -134,7 +134,7 @@ class Landing_Pages_Template_Switcher {
     public static function switch_template( $template ) {
         global $wp_query, $post, $query_string;
 
-        if ($post->post_type != "landing-page") {
+        if (!isset($post) || $post->post_type != "landing-page") {
             return $template;
         }
 
