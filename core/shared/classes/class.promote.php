@@ -1,14 +1,5 @@
 <?php
-/**
- * Inbound Now Weclome Page Class
- *
- * @package     Landing Pages
- * @subpackage  Admin/Welcome
- * @copyright   Copyright (c) 2014, David Wells
- * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
- * @since       1.4
- * Forked from pippin's https://easydigitaldownloads.com/
- */
+
 /**
  * Inbound_Promote Class
  *
@@ -36,6 +27,9 @@ class Inbound_Promote {
 
 			/* help us translate the plugin */
 			add_action('admin_notices', array(__CLASS__, 'help_us_translate'));
+
+			/* help us translate the plugin */
+			add_action('admin_notices', array(__CLASS__, 'download_leads'));
 
 			/* help us translate the plugin */
 			add_action('admin_notices', array( __CLASS__, 'upgrade_to_pro' ));
@@ -135,6 +129,44 @@ class Inbound_Promote {
                     </p>
 					<br>
 	                 <a class="button button-primary button-large" href="http://www.inboundnow.com/upgrade/" target="_blank">' . __('Upgrade', INBOUNDNOW_TEXT_DOMAIN) . '</a>
+                     <a class="button button-default button-large inbound_dismiss" href="#" id="'.$message_id.'" data-notification-id="'.$message_id.'" >' . __('Dismiss this message', INBOUNDNOW_TEXT_DOMAIN) . '</a>
+                     <br>
+                     <br>
+                  </div>';
+
+		/* echo javascript used to listen for notice closing */
+		self::javascript_dismiss_notice();
+	}
+
+	/**
+	 * call to action to upgrade to pro
+	 */
+	public static function download_leads() {
+		$screen = get_current_screen();
+
+		if (!isset($screen) || $screen->id !='edit-inbound-forms' || class_exists('Inbound_Leads_Plugin') ) {
+			return;
+		}
+
+		$message_id = 'download_leads';
+
+		/* check if user viewed message already */
+		if (self::check_if_viewed($message_id)) {
+			return;
+		}
+
+		echo '<div class="updated" id="inbound_notice_'.$message_id.'">
+                    <h1>'.__('Want to view collected data?' , INBOUNDNOW_TEXT_DOMAIN ) .'</h1>
+
+					<p style="width:80%;">
+					 ' . __('You are collecting data, why not review it? Our Leads plugin helps you mange the data you collect with these forms. Leads plugin is available via the WordPress plugin\'s directory as well as included in our free Inbound Pro plugin. We recommend Inbound Pro because it provides better settings management and additional free features. ' , INBOUNDNOW_TEXT_DOMAIN ) .'
+                    </p>
+					<p style="width:80%;">
+					 ' . __('Both are free, and we invite you to try them!' , INBOUNDNOW_TEXT_DOMAIN ) .'
+                    </p>
+					<br>
+	                 <a class="button button-primary button-large" href="http://wordpress.org/plugins/leads" target="_blank">' . __('Download Leads Plugin', INBOUNDNOW_TEXT_DOMAIN) . '</a>
+	                 <a class="button button-primary button-large" href="http://www.inboundnow.com/upgrade/" target="_blank">' . __('Download Inbound Pro (recommended)', INBOUNDNOW_TEXT_DOMAIN) . '</a>
                      <a class="button button-default button-large inbound_dismiss" href="#" id="'.$message_id.'" data-notification-id="'.$message_id.'" >' . __('Dismiss this message', INBOUNDNOW_TEXT_DOMAIN) . '</a>
                      <br>
                      <br>
