@@ -91,15 +91,16 @@ if ( !class_exists('CTA_Activation_Update_Routines') ) {
 			$current_user = wp_get_current_user();
 
 			$default_lander = wp_insert_post(
-					array(
-						'post_title'     => __( 'A/B Testing Call To Action Example', 'cta' ),
-						'post_content'   => '',
-						'post_status'    => 'publish',
-						'post_author'    => $current_user->ID,
-						'post_type'      => 'wp-call-to-action',
-						'comment_status' => 'closed'
-					)
-				);
+				array(
+					'post_title'     => __( 'A/B Testing Call To Action Example', 'cta' ),
+					'post_content'   => '',
+					'post_status'    => 'publish',
+					'post_author'    => $current_user->ID,
+					'post_type'      => 'wp-call-to-action',
+					'comment_status' => 'closed'
+				)
+			);
+
 			/* Variation A */
 			add_post_meta($default_lander, 'wp-cta-selected-template-0', 'flat-cta');
 			add_post_meta($default_lander, 'wp_cta_width-0', '310');
