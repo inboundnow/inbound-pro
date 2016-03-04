@@ -29,9 +29,10 @@ class Inbound_Extension_Loads {
 	*/
 	public static function load_extensions() {
 
-	    if (!Inbound_Pro_Plugin::get_customer_status() < 3) {
+	    if ( Inbound_Pro_Plugin::get_customer_status() < 3) {
 	        return;
         }
+
 
 		$configuration = Inbound_Options_API::get_option( 'inbound-pro' , 'configuration' , array() );
 		foreach( $configuration as $key => $extension){
