@@ -75,7 +75,6 @@ class Inbound_Pro_Downloads {
 	}
 
 
-
 	/**
 	 *  Listens for POSTED actions
 	 */
