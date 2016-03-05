@@ -16,7 +16,7 @@ if ( !class_exists( 'Inbound_Automation_Trigger_User_Register' ) ) {
 		function __construct() {
             self::$trigger = 'user_register';
 			add_filter( 'inbound_automation_triggers' , array( __CLASS__ , 'define_trigger' ) , 1 , 1);
-            add_action( 'activate/inbound-automation' , array( __CLASS__ , 'create_dummy_event' ) );
+            //add_action( 'activate/inbound-automation' , array( __CLASS__ , 'create_dummy_event' ) );
 		}
 
 		/* Build Trigger Definitions */

@@ -379,6 +379,7 @@ class Leads_Settings {
             if ( isset($field['type']) && $field['type'] == 'api-keys-table') {
                 echo '</form><tr><td>';
                 $api_keys_table = new Inbound_API_Keys_Table();
+                $api_keys_table->display_controls();
                 $api_keys_table->prepare_items();
                 $api_keys_table->display();
                 echo '</td></tr>';

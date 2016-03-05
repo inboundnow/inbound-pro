@@ -193,9 +193,11 @@ class Landing_Pages_Template_Switcher {
             echo $custom_css;
         }
 
-        if (!stristr($custom_js, '<script')) {
+        if (!stristr($custom_js, '<script') && ( stristr($custom_js, '$.') || stristr($custom_js, 'jQuery') ) ) {
             echo '<script type="text/javascript" id="lp_js_custom">jQuery(document).ready(function($) {
         ' . $custom_js . ' });</script>';
+        } else if (!stristr($custom_js, '<script')) {
+            echo '<script type="text/javascript" id="lp_js_custom">' . $custom_js . '</script>';
         } else {
             echo $custom_js;
         }
