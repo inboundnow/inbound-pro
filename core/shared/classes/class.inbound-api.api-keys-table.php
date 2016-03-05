@@ -61,25 +61,25 @@ if (!class_exists('Inbound_API_Keys_Table')) {
 		public static function inline_js() {
 			?>
 			<script type="text/javascript">
-			var Inbound_API_Actions = {
+				var Inbound_API_Actions = {
 
-				init : function() {
-					this.revoke_api_key();
-					this.regenerate_api_key();
-				},
+					init : function() {
+						this.revoke_api_key();
+						this.regenerate_api_key();
+					},
 
-				revoke_api_key : function() {
-					jQuery( 'body' ).on( 'click', '.inbound-revoke-api-keys', function( e ) {
-						return confirm( '<?php _e('Are you sure you want to revoke permissions for this API Key?', INBOUNDNOW_TEXT_DOMAIN ); ?> ');
-					} );
-				},
-				regenerate_api_key : function() {
-					jQuery( 'body' ).on( 'click', '.inbound-regenerate-api-keys', function( e ) {
-						return confirm( '<?php _e('Are you sure you want to regenerate API Keys for this user?', INBOUNDNOW_TEXT_DOMAIN ); ?>  ');
-					} );
-				},
-			};
-			Inbound_API_Actions.init();
+					revoke_api_key : function() {
+						jQuery( 'body' ).on( 'click', '.inbound-revoke-api-keys', function( e ) {
+							return confirm( '<?php _e('Are you sure you want to revoke permissions for this API Key?', INBOUNDNOW_TEXT_DOMAIN ); ?> ');
+						} );
+					},
+					regenerate_api_key : function() {
+						jQuery( 'body' ).on( 'click', '.inbound-regenerate-api-keys', function( e ) {
+							return confirm( '<?php _e('Are you sure you want to regenerate API Keys for this user?', INBOUNDNOW_TEXT_DOMAIN ); ?>  ');
+						} );
+					},
+				};
+				Inbound_API_Actions.init();
 			</script>
 			<?php
 		}
@@ -159,6 +159,18 @@ if (!class_exists('Inbound_API_Keys_Table')) {
 		 * @return void
 		 */
 		public function bulk_actions( $which = '' ) {
+
+
+		}
+
+		/**
+		 * Display the key generation form
+		 *
+		 * @access public
+		 * @return void
+		 */
+		public function display_controls( $which = '' ) {
+
 			/* These aren't really bulk actions but this outputs the markup in the right place */
 			static $inbound_api_is_bottom;
 
@@ -166,7 +178,7 @@ if (!class_exists('Inbound_API_Keys_Table')) {
 				return;
 			}
 
-            $user = wp_get_current_user();
+			$user = wp_get_current_user();
 
 			?>
 			<form method="post" action="<?php echo admin_url( 'edit.php?post_type=wp-lead&page=wpleads_global_settings&tab=tabs-wpleads-apikeys' ); ?>">

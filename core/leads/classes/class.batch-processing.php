@@ -79,6 +79,7 @@ class Leads_Batch_Processor {
         /* run the method */
         self::$args['method']($args);
 
+
         echo '</div>';
 
     }
