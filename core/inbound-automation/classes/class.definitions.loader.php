@@ -1,9 +1,9 @@
 <?php
 
 /**
-*  This class loads supporting automation definitions and listeners
-*  Contributors: Hudson Atwell
-*/
+ *  This class loads supporting automation definitions and listeners
+ *  Contributors: Hudson Atwell
+ */
 
 if ( !class_exists( 'Inbound_Automation_Loader' ) ) {
 
@@ -21,8 +21,8 @@ if ( !class_exists( 'Inbound_Automation_Loader' ) ) {
 		public static $inbound_arguments; /* dataset that holds information on registered hooks */
 
 		/**
-		*  Initialize singleton class
-		*/
+		 *  Initialize singleton class
+		 */
 		public static function init() {
 
 			/* return class instance if alredy defined */
@@ -54,8 +54,8 @@ if ( !class_exists( 'Inbound_Automation_Loader' ) ) {
 		}
 
 		/**
-		*  Load Rules from CPT and set them into static variatiable
-		*/
+		 *  Load Rules from CPT and set them into static variatiable
+		 */
 		public static function load_rules() {
 
 			$rules = get_posts( array (
@@ -71,17 +71,17 @@ if ( !class_exists( 'Inbound_Automation_Loader' ) ) {
 		}
 
 		/**
-		*  Loads rule settings
-		* @param INT $rule_id
-		*/
+		 *  Loads rule settings
+		 * @param INT $rule_id
+		 */
 		public static function load_rule( $rule_id ) {
 			self::$rule = get_post_meta( $rule_id , 'inbound_rule' , true );
 			self::$rule['ID'] = $rule_id;
 		}
 
 		/**
-		*  Loads hook argument data from wp_options
-		*/
+		 *  Loads hook argument data from wp_options
+		 */
 		public static function load_arguments() {
 			$inbound_arguments = Inbound_Options_API::get_option( 'inbound_automation' , 'arguments' );
 
@@ -89,8 +89,8 @@ if ( !class_exists( 'Inbound_Automation_Loader' ) ) {
 		}
 
 		/**
-		*  Loads possible compare options for filtering
-		*/
+		 *  Loads possible compare options for filtering
+		 */
 		public static function load_compare_options() {
 
 			/* Build Compare Options */
@@ -110,18 +110,18 @@ if ( !class_exists( 'Inbound_Automation_Loader' ) ) {
 
 
 		/**
-		*  Load Triggers into Static Variable
-		*/
+		 *  Load Triggers into Static Variable
+		 */
 		public static function define_triggers() {
 			self::$instance->triggers = apply_filters( 'inbound_automation_triggers' , array() );
 		}
 
 		/**
-		*  	Define Argument Filters
-		*/
+		 *  	Define Argument Filters
+		 */
 		public static function define_arguments() {
 
-            self::$instance->argument_filters = array();
+			self::$instance->argument_filters = array();
 			//error_log(print_r(self::$instance->triggers));
 			//error_log(print_r(self::$instance->inbound_arguments , true));
 			//exit;
@@ -167,7 +167,7 @@ if ( !class_exists( 'Inbound_Automation_Loader' ) ) {
 
 
 					/* Build Trigger Filter Data */
-                    self::$instance->argument_filters[ $hook ][$argument['id']] = array(
+					self::$instance->argument_filters[ $hook ][$argument['id']] = array(
 						'id' => $argument['id'],
 						'label' => $argument['label'],
 						'key_input_type' => 'dropdown',
@@ -239,8 +239,8 @@ if ( !class_exists( 'Inbound_Automation_Loader' ) ) {
 		}
 
 		/**
-		*  Source actions from hook
-		*/
+		 *  Source actions from hook
+		 */
 		public static function define_actions() {
 			self::$instance->actions = apply_filters( 'inbound_automation_actions' , array() );
 		}
@@ -255,12 +255,12 @@ if ( !class_exists( 'Inbound_Automation_Loader' ) ) {
 		}
 
 		/**
-		*  Checks a fired trigger for a match and schedules job
-		*/
+		 *  Checks a fired trigger for a match and schedules job
+		 */
 		public static function process_trigger() {
 
 			$trigger = current_filter();
-            $args = func_get_args();
+			$args = func_get_args();
 
 			foreach (self::$instance->rules  as $rule) {
 
@@ -379,47 +379,47 @@ if ( !class_exists( 'Inbound_Automation_Loader' ) ) {
 				$target_argument = Inbound_Automation_Loader::flatten_array( $target_argument );
 			}
 
-            $compare_value = ( isset($target_argument[ $filter['trigger_filter_key'] ]) ) ? $target_argument[ $filter['trigger_filter_key'] ] : __('notset','inbound-pro');
+			$compare_value = ( isset($target_argument[ $filter['trigger_filter_key'] ]) ) ? $target_argument[ $filter['trigger_filter_key'] ] : __('notset','inbound-pro');
 			$eval = false;
 
-            if (isset($target_argument[ $filter['trigger_filter_key'] ])) {
-                switch ($filter['trigger_filter_compare']) {
+			if (isset($target_argument[ $filter['trigger_filter_key'] ])) {
+				switch ($filter['trigger_filter_compare']) {
 
-                    case 'greater-than' :
-                        if ( $filter['trigger_filter_value'] < $compare_value ) {
-                            $eval = true;
-                        }
-                        BREAK;
-                    case 'greater-than-equal-to' :
-                        if ( $filter['trigger_filter_value'] <= $compare_value ) {
-                            $eval = true;
-                        }
-                        BREAK;
-                    case 'less-than' :
-                        if ( $filter['trigger_filter_value'] > $compare_value ) {
-                            $eval = true;
-                        }
-                        BREAK;
-                    case 'less-than-equal-to' :
-                        if ( $filter['trigger_filter_value'] >= $compare_value ) {
-                            $eval = true;
-                        }
-                        BREAK;
+					case 'greater-than' :
+						if ( $filter['trigger_filter_value'] < $compare_value ) {
+							$eval = true;
+						}
+						BREAK;
+					case 'greater-than-equal-to' :
+						if ( $filter['trigger_filter_value'] <= $compare_value ) {
+							$eval = true;
+						}
+						BREAK;
+					case 'less-than' :
+						if ( $filter['trigger_filter_value'] > $compare_value ) {
+							$eval = true;
+						}
+						BREAK;
+					case 'less-than-equal-to' :
+						if ( $filter['trigger_filter_value'] >= $compare_value ) {
+							$eval = true;
+						}
+						BREAK;
 
-                    case 'contains' :
-                        if ( stristr( $compare_value , $filter['trigger_filter_value'] ) ) {
-                            $eval = true;
-                        }
-                        BREAK;
+					case 'contains' :
+						if ( stristr( $compare_value , $filter['trigger_filter_value'] ) ) {
+							$eval = true;
+						}
+						BREAK;
 
-                    case 'equals' :
+					case 'equals' :
 
-                        if (  $filter['trigger_filter_value'] == $compare_value ) {
-                            $eval = true;
-                        }
-                        BREAK;
-                }
-            }
+						if (  $filter['trigger_filter_value'] == $compare_value ) {
+							$eval = true;
+						}
+						BREAK;
+				}
+			}
 
 			return array(
 				'filter_key' => $filter['trigger_filter_key'] ,
@@ -466,9 +466,9 @@ if ( !class_exists( 'Inbound_Automation_Loader' ) ) {
 		}
 
 		/**
-		* This method creates a key->value data map of data being passed from a action hook
-		* This data is used to assist in designing filters for triggers
-		*/
+		 * This method creates a key->value data map of data being passed from a action hook
+		 * This data is used to assist in designing filters for triggers
+		 */
 		public static function generate_arguments( $hook, $args) {
 
 
@@ -476,18 +476,18 @@ if ( !class_exists( 'Inbound_Automation_Loader' ) ) {
 			$argument_definitions = self::$instance->triggers[$hook]['arguments'];
 			foreach ($args as $key => $argument) {
 
-                /* Get first argument definition in the definition array */
-                $definition = array_shift($argument_definitions);
+				/* Get first argument definition in the definition array */
+				$definition = array_shift($argument_definitions);
 
 				/* if there is a call back run it */
 				if (isset($definition['callback'])) {
 					if (is_array($definition['callback']) ) {
-						$argument = $definition['callback'][0]::{$definition['callback'][1]}( $argument );
+						$argument = $definition['callback'][0]::$definition['callback'][1]( $argument );
 					}
 				}
 
-                /* Place argument data into memory */
-                self::$instance->inbound_arguments[$hook][ $definition['id'] ] = self::prepare_mixed_data($argument);
+				/* Place argument data into memory */
+				self::$instance->inbound_arguments[$hook][ $definition['id'] ] = self::prepare_mixed_data($argument);
 
 			}
 
@@ -499,82 +499,82 @@ if ( !class_exists( 'Inbound_Automation_Loader' ) ) {
 
 		}
 
-        /**
-         * Takes a multidimensional argument array and flattens it
-         */
-        public static function flatten_array( $array ) {
-            $flatten = array();
+		/**
+		 * Takes a multidimensional argument array and flattens it
+		 */
+		public static function flatten_array( $array ) {
+			$flatten = array();
 
-            foreach ($array as $k => $value ) {
-                if ( is_array($value) ) {
-                    foreach ($value as $k1 => $v1 ) {
-                        if (is_array($v1)){
-                            continue;
-                        }
-                        $flatten[ $k.':'.$k1 ] =  $v1;
-                    }
-                } else {
-                    $flatten[ $k ] = $value;
-                }
-            }
+			foreach ($array as $k => $value ) {
+				if ( is_array($value) ) {
+					foreach ($value as $k1 => $v1 ) {
+						if (is_array($v1)){
+							continue;
+						}
+						$flatten[ $k.':'.$k1 ] =  $v1;
+					}
+				} else {
+					$flatten[ $k ] = $value;
+				}
+			}
 
-            return $flatten;
-        }
+			return $flatten;
+		}
 
 		/**
-		*  Updates the dataset that contains information on our tracked hooks
-		*/
+		 *  Updates the dataset that contains information on our tracked hooks
+		 */
 		public static function update_arguments() {
 			if (self::$instance->inbound_arguments) {
-                Inbound_Options_API::update_option( 'inbound_automation' , 'arguments' , self::$instance->inbound_arguments );
+				Inbound_Options_API::update_option( 'inbound_automation' , 'arguments' , self::$instance->inbound_arguments );
 			}
 		}
 
 		/**
-         * checks if json
-         */
-        public static function prepare_mixed_data( $mixed ) {
+		 * checks if json
+		 */
+		public static function prepare_mixed_data( $mixed ) {
 
-            if (is_array($mixed)) {
-                foreach ($mixed as $key=>$value) {
-                    $mixed[$key] = self::prepare_mixed_data( $value );
-                }
-                return $mixed;
-            }
+			if (is_array($mixed)) {
+				foreach ($mixed as $key=>$value) {
+					$mixed[$key] = self::prepare_mixed_data( $value );
+				}
+				return $mixed;
+			}
 
-            /* check if json */
-            json_decode( stripslashes($mixed) );
-            if ( json_last_error() == JSON_ERROR_NONE ) {
-                return json_decode( $mixed , true );
-            }
+			/* check if json */
+			json_decode( stripslashes($mixed) );
+			if ( json_last_error() == JSON_ERROR_NONE ) {
+				return json_decode( $mixed , true );
+			}
 
-            /* check if parse string */
-            if ( strstr( $mixed , '=' ) && !strstr( trim($mixed) , ' ') ) {
-                parse_str( $mixed , $matches );
-                if ( count ($matches) > 1 ) {
-                    return $matches;
-                }
-            }
+			/* check if parse string */
+			if ( strstr( $mixed , '=' ) && !strstr( trim($mixed) , ' ') ) {
+				parse_str( $mixed , $matches );
+				if ( count ($matches) > 1 ) {
+					return $matches;
+				}
+			}
 
-            /* return normal string */
-            return $mixed;
+			/* return normal string */
+			return $mixed;
 
-        }
+		}
 
 
 	}
 
 	/**
-	*  Loads inbound automation defintitions into init at priority 20
-	*/
+	 *  Loads inbound automation defintitions into init at priority 20
+	 */
 	function inbound_automation_load_definitions() {
 		$GLOBALS['Inbound_Automation_Loader'] = Inbound_Automation_Loader::init();
 		return $GLOBALS['Inbound_Automation_Loader'];
 	}
 
 	/**
-	*  load loader in init when not running ajax
-	*/
+	 *  load loader in init when not running ajax
+	 */
 	add_action( 'init' , 'inbound_automation_load_definitions' , 1 );
 
 	/* for debugging */
