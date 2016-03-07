@@ -93,10 +93,10 @@ class CTA_Conversion_Tracking {
 
 
 		$args = array(
-			'cta_id' => $args['cta_id'],
-			'page_id' => $args['page_id'],
-			'variation_id' => $args['vid'],
-			'lead_id' => $args['id'],
+			'cta_id' => (isset($args['cta_id'])) ? $args['cta_id'] : '',
+			'page_id' => (isset($args['page_id'])) ? $args['page_id'] : '',
+			'variation_id' => (isset($args['vid'])) ? $args['vid'] : '',
+			'lead_id' => (isset($args['id'])) ? $args['id'] : '',
 			'datetime' => $wordpress_date_time
 		);
 
