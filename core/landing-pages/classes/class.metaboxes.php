@@ -4,6 +4,7 @@
 class Landing_Pages_Metaboxes {
 
     static $current_vid;
+    static $current_template;
     static $variations;
     static $is_new;
     static $is_clone;
@@ -138,6 +139,18 @@ class Landing_Pages_Metaboxes {
             'side',
             'high'
         );
+
+        /* Add showcase submission */
+        if (class_exists('Inbound_Pro_Plugin')) {
+            add_meta_box(
+                'lp_showcase_submission',
+                __('Share your Work', 'landing-pages'),
+                array(__CLASS__, 'display_showcase_submission'),
+                'landing-page',
+                'side',
+                'low'
+            );
+        }
 
         /* discover extended metaboxes and render them */
         foreach ($extension_data as $key => $data) {
@@ -671,6 +684,24 @@ class Landing_Pages_Metaboxes {
     /**
      * Display custom CSS metabox
      */
+    public static function display_showcase_submission() {
+        global $post, $current_user;
+        get_currentuserinfo();
+        $landing_page_url =  get_permalink($post->ID);
+        $admin_email = $current_user->user_email;
+        $name = $current_user->display_name;
+        $template = self::$current_template;
+        ?>
+        <a class="button3"
+           href="<?php echo add_query_arg( array( 'admin_email' => $admin_email , 'template' => $template , 'lander' => urlencode($landing_page_url) , 'submitter_name' => $name  ) , 'https://www.inboundnow.com/showcase/' ); ?>" target="_blank">
+            <?php _e('Like your work? Showcase it!' , 'landing-pages'); ?>
+        </a>
+        <?php
+    }
+
+    /**
+     * Display custom CSS metabox
+     */
     public static function display_custom_css_metabox() {
         global $post;
 
@@ -721,7 +752,7 @@ class Landing_Pages_Metaboxes {
         $uploads_path = $uploads['basedir'];
         $extended_path = $uploads_path . '/landing-pages/templates/';
 
-        $template = Landing_Pages_Variations::get_current_template($post->ID);
+        self::$current_template = Landing_Pages_Variations::get_current_template($post->ID);
 
         echo "<div class='lp-template-selector-container' style='{$toggle}'>";
         echo "<div class='lp-selection-heading'>";
