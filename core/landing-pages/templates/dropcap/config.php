@@ -15,7 +15,7 @@ array(
 	'label' => "Dropcap",
 	'category' => '1 column layout',
 	'demo' => 'http://demo.inboundnow.com/go/dropcap-lander-preview/',
-	'description'  => __( 'Create a great looking quote styled landing page' , 'landing-pages' )
+	'description'  => __( 'Create a great looking quote styled landing page' , 'inbound-pro' )
 );
 
 /* Load ACF definitions for Dropcap */
@@ -48,10 +48,10 @@ if( function_exists('register_field_group') ):
             ),
             array (
                 'key' => 'field_55dcf15e758b0',
-                'label' => __( 'Main Content', 'landing-pages' ),
+                'label' => __( 'Main Content', 'inbound-pro' ),
                 'name' => 'dropcap-main-content',
                 'type' => 'wysiwyg',
-                'instructions' => __( 'This is the default content from template.', 'landing-pages' ),
+                'instructions' => __( 'This is the default content from template.', 'inbound-pro' ),
                 'required' => 0,
                 'conditional_logic' => 0,
                 'wrapper' => array (
@@ -80,10 +80,10 @@ if( function_exists('register_field_group') ):
             ),
             array (
                 'key' => 'field_55dcf19d758b1',
-                'label' => __( 'Conversion Area', 'landing-pages' ),
+                'label' => __( 'Conversion Area', 'inbound-pro' ),
                 'name' => 'dropcap-conversion-area-content',
                 'type' => 'wysiwyg',
-                'instructions' => __( 'Place your call to action here.', 'landing-pages' ),
+                'instructions' => __( 'Place your call to action here.', 'inbound-pro' ),
                 'required' => 0,
                 'conditional_logic' => 0,
                 'wrapper' => array (
@@ -98,10 +98,10 @@ if( function_exists('register_field_group') ):
             ),
             array (
                 'key' => 'field_55dcf1d4f7702',
-                'label' => __( 'Text Color', 'landing-pages' ),
+                'label' => __( 'Text Color', 'inbound-pro' ),
                 'name' => 'dropcap-text-color',
                 'type' => 'color_picker',
-                'instructions' => __( 'Use this setting to change the Text Color', 'landing-pages' ),
+                'instructions' => __( 'Use this setting to change the Text Color', 'inbound-pro' ),
                 'required' => 0,
                 'conditional_logic' => 0,
                 'wrapper' => array (
@@ -113,10 +113,10 @@ if( function_exists('register_field_group') ):
             ),
             array (
                 'key' => 'field_55dcf213a7269',
-                'label' => __( 'Content Background Color', 'landing-pages' ),
+                'label' => __( 'Content Background Color', 'inbound-pro' ),
                 'name' => 'dropcap-content-background',
                 'type' => 'color_picker',
-                'instructions' => __( 'Use this setting to change the Content Area Background Color', 'landing-pages' ),
+                'instructions' => __( 'Use this setting to change the Content Area Background Color', 'inbound-pro' ),
                 'required' => 0,
                 'conditional_logic' => 0,
                 'wrapper' => array (
@@ -128,10 +128,10 @@ if( function_exists('register_field_group') ):
             ),
             array (
                 'key' => 'field_55dcf24aa726a',
-                'label' => __( 'Conversion Area Text Color', 'landing-pages' ),
+                'label' => __( 'Conversion Area Text Color', 'inbound-pro' ),
                 'name' => 'dropcap-form-text-color',
                 'type' => 'color_picker',
-                'instructions' => __( 'Use this setting to change the Conversion Area text Color', 'landing-pages' ),
+                'instructions' => __( 'Use this setting to change the Conversion Area text Color', 'inbound-pro' ),
                 'required' => 0,
                 'conditional_logic' => 0,
                 'wrapper' => array (
@@ -143,10 +143,10 @@ if( function_exists('register_field_group') ):
             ),
             array (
                 'key' => 'field_55dcf276a726b',
-                'label' => __( 'Background Settings', 'landing-pages' ),
+                'label' => __( 'Background Settings', 'inbound-pro' ),
                 'name' => 'dropcap-background-style',
                 'type' => 'select',
-                'instructions' => __( 'Set the template\'s background', 'landing-pages' ),
+                'instructions' => __( 'Set the template\'s background', 'inbound-pro' ),
                 'required' => 0,
                 'conditional_logic' => 0,
                 'wrapper' => array (
@@ -173,10 +173,10 @@ if( function_exists('register_field_group') ):
             ),
             array (
                 'key' => 'field_55dcf31b70c76',
-                'label' => __( 'Background Image', 'landing-pages' ),
+                'label' => __( 'Background Image', 'inbound-pro' ),
                 'name' => 'dropcap-background-image',
                 'type' => 'image',
-                'instructions' => __( 'Upload or select a background image from the media library.', 'landing-pages' ),
+                'instructions' => __( 'Upload or select a background image from the media library.', 'inbound-pro' ),
                 'required' => 0,
                 'conditional_logic' => 0,
                 'wrapper' => array (
@@ -198,10 +198,10 @@ if( function_exists('register_field_group') ):
             ),
             array (
                 'key' => 'field_55dcf36870c77',
-                'label' => __( 'Background Color', 'landing-pages' ),
+                'label' => __( 'Background Color', 'inbound-pro' ),
                 'name' => 'dropcap-background-color',
                 'type' => 'color_picker',
-                'instructions' => __( 'Use this setting to change the templates background color', 'landing-pages' ),
+                'instructions' => __( 'Use this setting to change the templates background color', 'inbound-pro' ),
                 'required' => 0,
                 'conditional_logic' => 0,
                 'wrapper' => array (

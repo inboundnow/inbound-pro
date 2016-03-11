@@ -942,7 +942,7 @@ class Landing_Pages_Metaboxes {
             <table style='width:100%'>
                 <tr>
                     <td style='width:22%'>
-                        <?php _e( 'Conversion Shortcode' , 'landing-pages' ); ?>
+                        <?php _e( 'Conversion Shortcode' , 'inbound-pro' ); ?>
                     </td>
                     <td>
                         <input type='text' style='width:95%;display:inline;' readonly='readonly' value="[landing-page-conversion id='<?php echo $post->ID; ?>' vid='<?php echo $variation_id; ?>']">
@@ -951,7 +951,7 @@ class Landing_Pages_Metaboxes {
                 </tr>
                 <tr>
                     <td>
-                        <?php _e( 'Conversion Callback URL' , 'landing-pages' ); ?>
+                        <?php _e( 'Conversion Callback URL' , 'inbound-pro' ); ?>
                     </td>
                     <td>
                         <input type='text' style='width:95%;display:inline;' readonly='readonly' value="<?php echo add_query_arg( array( 'postback'=>'true' , 'event' => 'lp_conversion' , 'id' => $post->ID , 'vid' => $variation_id , 'salt' => $salt ) , site_url())  ?>">

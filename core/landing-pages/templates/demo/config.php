@@ -27,7 +27,7 @@ $lp_data[$key]['info'] = array(
 	'label' => __( 'Demo','landing-pages'), 							/* Let's give our template a nice name */
 	'category' => 'Demo', 												/* you can categorize your landing pages by adding comma separated keywords */
 	'demo' => 'http://demo.inboundnow.com/go/demo-template-preview/', 	/* a link to a third party demo page if applicable */
-	'description'	=> __( 'The Demo theme is here to help developers and designs implement their own designs into the landing page plugin. Study this template to learn about Landing Page Plugin\'s templating system and to assist in building new templates.' , 'landing-pages' ) /* template description here! */
+	'description'	=> __( 'The Demo theme is here to help developers and designs implement their own designs into the landing page plugin. Study this template to learn about Landing Page Plugin\'s templating system and to assist in building new templates.' , 'inbound-pro' ) /* template description here! */
 );
 
 /* now setup ACF field definitions */

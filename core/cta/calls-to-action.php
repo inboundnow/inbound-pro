@@ -20,8 +20,8 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 		public function __construct() {
 			self::define_constants();
 			self::includes();
-			self::load_shared_files();
 			self::load_text_domain_init();
+			self::load_shared_files();
 		}
 
 		/*
@@ -140,7 +140,7 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 		static function fail_php_version() {
 			//add_action( 'plugins_loaded', array( __CLASS__, 'load_text_domain_init' ) );
 			$plugin_url = admin_url( 'plugins.php' );
-			self::notice( __( 'Calls to Action requires PHP version 5.3+ to run. Your version '.PHP_VERSION.' is not high enough.<br><u>Please contact your hosting provider</u> to upgrade your PHP Version.<br>The plugin is NOT Running. You can disable this warning message by <a href="'.$plugin_url.'">deactivating the plugin</a>', 'cta' ) );
+			self::notice( __( 'Calls to Action requires PHP version 5.3+ to run. Your version '.PHP_VERSION.' is not high enough.<br><u>Please contact your hosting provider</u> to upgrade your PHP Version.<br>The plugin is NOT Running. You can disable this warning message by <a href="'.$plugin_url.'">deactivating the plugin</a>', 'inbound-pro' ) );
 		}
 
 		/**

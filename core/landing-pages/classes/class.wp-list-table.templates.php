@@ -211,8 +211,8 @@ class Landing_Pages_Templates_List_Table extends WP_List_Table {
         if (false !== $api_response) {
             if (version_compare($version, $api_response['new_version'], '<')) {
                 $template_page = LANDINGPAGES_STORE_URL . "/downloads/" . $item['ID'] . "/";
-                $html = '<div class="update-message">' . $item['version'] . ' &nbsp;&nbsp; <font class="update-available">Version ' . $api_response['new_version'] . __( 'available' , 'landing-pages' ). '</font><br> <a title="' . $item['name'] . '" class="thickbox" href="' . $template_page . '" target="_blank">'. __( 'View template details' , 'landing-pages' ) .'</a> ';
-                $html .= 'or <a href="?post_type=landing-page&page=lp_manage_templates&action=upgrade&template%5B%5D=' . $item['ID'] . '">'. __( 'update now' , 'landing-pages' ) .'</a>.</div>';
+                $html = '<div class="update-message">' . $item['version'] . ' &nbsp;&nbsp; <font class="update-available">Version ' . $api_response['new_version'] . __( 'available' , 'inbound-pro' ). '</font><br> <a title="' . $item['name'] . '" class="thickbox" href="' . $template_page . '" target="_blank">'. __( 'View template details' , 'inbound-pro' ) .'</a> ';
+                $html .= 'or <a href="?post_type=landing-page&page=lp_manage_templates&action=upgrade&template%5B%5D=' . $item['ID'] . '">'. __( 'update now' , 'inbound-pro' ) .'</a>.</div>';
                 return $html;
             } else {
                 return $item['version'];

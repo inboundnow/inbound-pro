@@ -59,22 +59,22 @@ class CTA_Global_Settings {
 			array(
 				'id'	=> 'cta-global-settings-main-header',
 				'type'	=> 'header',
-				'default'	=> __( '<h4>CTA Core Settings</h4>', 'cta' ),
-				'description' => "<a id='clear-cta-cookies' class='button'>".__( 'Clear & Reset all Call to Action Cookies', 'cta' ) ."</a><div class='wp_cta_tooltip tool_radio' title='". __( 'This will reset all CTA cookies to make popups work again etc. For testing purposes.', 'cta' ) ."'></div>",
+				'default'	=> __( '<h4>CTA Core Settings</h4>', 'inbound-pro' ),
+				'description' => "<a id='clear-cta-cookies' class='button'>".__( 'Clear & Reset all Call to Action Cookies', 'inbound-pro' ) ."</a><div class='wp_cta_tooltip tool_radio' title='". __( 'This will reset all CTA cookies to make popups work again etc. For testing purposes.', 'inbound-pro' ) ."'></div>",
 				'options' => null
 			),
 			array(
 				'id'	=> 'use-lite-ajax-mode',
-				'label' => __( 'Enable fast ajax.', 'cta' ),
-				'description' => __( 'Enabling this setting may improve server performance. Currently not compatible with Multi-site.', 'cta' ),
+				'label' => __( 'Enable fast ajax.', 'inbound-pro' ),
+				'description' => __( 'Enabling this setting may improve server performance. Currently not compatible with Multi-site.', 'inbound-pro' ),
 				'type'	=> 'radio',
 				'default'	=> '1',
 				'options' => array( 0 => 'Off', 1 => 'On' )
 			),
 			array(
 				'id'	=> 'disable-ajax-variation-discovery',
-				'label' => __( 'Disable Split Testing.', 'cta' ),
-				'description' => __( 'Enabling this setting may improve server performance at the loss of split testing. Only version A will be displayed for every CTA.', 'cta' ),
+				'label' => __( 'Disable Split Testing.', 'inbound-pro' ),
+				'description' => __( 'Enabling this setting may improve server performance at the loss of split testing. Only version A will be displayed for every CTA.', 'inbound-pro' ),
 				'type'	=> 'radio',
 				'default'	=> '0',
 				'options' => array( 0 => 'Off', 1 => 'On' )
@@ -83,12 +83,12 @@ class CTA_Global_Settings {
 
 		/* Setup License Keys Tab */
 		$tab_slug = 'wp-cta-license-keys';
-		$wp_cta_global_settings[$tab_slug]['label'] = __( 'License Keys', 'cta' );
+		$wp_cta_global_settings[$tab_slug]['label'] = __( 'License Keys', 'inbound-pro' );
 
 
 		/* Setup Extensions Tab */
 		$tab_slug = 'wp-cta-extensions';
-		$wp_cta_global_settings[$tab_slug]['label'] = __( 'Extensions', 'cta' );
+		$wp_cta_global_settings[$tab_slug]['label'] = __( 'Extensions', 'inbound-pro' );
 
 		$wp_cta_global_settings = apply_filters('wp_cta_define_global_settings',$wp_cta_global_settings);
 
@@ -145,20 +145,20 @@ class CTA_Global_Settings {
 		<div class='wp-cta-settings-tab-sidebar'>
 			<div class='wp-cta-sidebar-settings'>
 				<h2 style='font-size:17px;'>
-				<?php _e( 'Like the Plugin? Leave us a review', 'cta' ); ?>
+				<?php _e( 'Like the Plugin? Leave us a review', 'inbound-pro' ); ?>
 				</h2>
 				<center>
 					<a class='review-button' href='http://wordpress.org/support/view/plugin-reviews/cta?rate=5#postform' target='_blank'>
-						<?php _e( 'Leave a Review', 'cta' ); ?>
+						<?php _e( 'Leave a Review', 'inbound-pro' ); ?>
 					</a>
 				</center>
 				<small>
-					<?php _e( 'Reviews help constantly improve the plugin & keep us motivated! <strong>Thank you for your support!</strong>', 'cta' ); ?>
+					<?php _e( 'Reviews help constantly improve the plugin & keep us motivated! <strong>Thank you for your support!</strong>', 'inbound-pro' ); ?>
 				</small>
 			</div>
 			<div class='wp-cta-sidebar-settings'>
 				<h2>
-					<?php _e( 'Help keep the plugin up to date, awesome & free!', 'cta' ); ?>
+					<?php _e( 'Help keep the plugin up to date, awesome & free!', 'inbound-pro' ); ?>
 				</h2>
 				<form action='https://www.paypal.com/cgi-bin/webscr' method='post' target='_top'>
 					<input type='hidden' name='cmd' value='_s-xclick'>
@@ -167,12 +167,12 @@ class CTA_Global_Settings {
 					<img alt='' border='0' src='https://www.paypalobjects.com/en_US/i/scr/pixel.gif' width='1' height='1'>
 				</form>
 					<small>
-					<?php _e( 'Spare some change? Buy us a coffee/beer.<strong> We appreciate your continued support.</strong>', 'cta' ); ?>
+					<?php _e( 'Spare some change? Buy us a coffee/beer.<strong> We appreciate your continued support.</strong>', 'inbound-pro' ); ?>
 					</small>
 			</div>
 			<div class='wp-cta-sidebar-settings'>
 				<h2 style='font-size:18px;'>
-					<?php _e( 'Follow Updates on Facebook', 'cta' ); ?>
+					<?php _e( 'Follow Updates on Facebook', 'inbound-pro' ); ?>
 				</h2>
 				<iframe src='//www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Finboundnow&amp;width=234&amp;height=65&amp;colorscheme=light&amp;show_faces=false&amp;border_color&amp;stream=false&amp;header=false&amp;appId=364256913591848' scrolling='no' frameborder='0' style='border:none; overflow:hidden; width:234px; height:65px;' allowTransparency='true'>
 				</iframe>
@@ -209,11 +209,11 @@ class CTA_Global_Settings {
 		?>
 
 		<div class="clear" id="php-sql-wp-cta-version">
-		<h3><?php _e( 'Installation Status', 'cta' ); ?></h3>
+		<h3><?php _e( 'Installation Status', 'inbound-pro' ); ?></h3>
 				<table class="form-table" id="wp-cta-wordpress-site-status">
 
 				<tr valign="top">
-					<th scope="row"><label><?php _e( 'PHP Version', 'cta' ); ?></label></th>
+					<th scope="row"><label><?php _e( 'PHP Version', 'inbound-pro' ); ?></label></th>
 					<td class="installation_item_cell">
 						<strong><?php echo phpversion(); ?></strong>
 					</td>
@@ -269,14 +269,14 @@ class CTA_Global_Settings {
 							else{
 								?>
 								&times;
-								<span class="installation_item_message"><?php _e( 'landing pages requires version X or higher', 'cta' ) ?></span>
+								<span class="installation_item_message"><?php _e( 'landing pages requires version X or higher', 'inbound-pro' ) ?></span>
 								<?php
 							}
 						?>
 					</td>
 				</tr>
 				<tr valign="top">
-					<th scope="row"><label><?php _e( 'WordPress CTA Version', 'cta' ); ?></label></th>
+					<th scope="row"><label><?php _e( 'WordPress CTA Version', 'inbound-pro' ); ?></label></th>
 					<td class="installation_item_cell">
 						<strong>Version <?php echo WP_CTA_CURRENT_VERSION;?></strong>
 					</td>

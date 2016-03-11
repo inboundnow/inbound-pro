@@ -32,7 +32,7 @@ class Landing_Pages_Settings {
 
         /* Setup Main Navigation Tab and Settings */
         $tab_slug = 'lp-main';
-        $lp_global_settings[$tab_slug]['label'] = __( 'Global Settings' , 'landing-pages' );
+        $lp_global_settings[$tab_slug]['label'] = __( 'Global Settings' , 'inbound-pro' );
 
 
         $lp_global_settings[$tab_slug]['settings'] = array(

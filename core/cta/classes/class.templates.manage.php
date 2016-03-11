@@ -56,7 +56,7 @@ if ( !class_exists('CTA_Template_Manager') ) {
 
 		        <h3 style='font-weight:normal; margin-bottom:0px;padding-bottom:0px;'>
 		            <strong>
-		            <?php _e( 'Attention Calls to Action Users:' , 'cta' ); ?>
+		            <?php _e( 'Attention Calls to Action Users:' , 'inbound-pro' ); ?>
 		            </strong>
 		        </h3>
 		        <p style='font-weight:normal;margin-top:0px; margin-bottom:0px;padding-bottom:10px;'><?php _e( sprintf( 'If you are trying to install a <strong>call to action template</strong> from Inbound Now, %s Please Follow these instructions%s' , '<a href=\'http://docs.inboundnow.com/guide/installing-new-templates/\' target=\'_blank\'>' , '</a>' ) , 'lcta' ); ?><br>
@@ -329,24 +329,24 @@ if ( !class_exists('CTA_Template_Manager') ) {
 		*/
 		public static function display_upload_form() { ?>
 			<div class="wrap templates_upload">
-				<div class="icon32" id="icon-plugins"><br></div><h2><?php _e( 'Install Templates', 'cta' ); ?></h2>
+				<div class="icon32" id="icon-plugins"><br></div><h2><?php _e( 'Install Templates', 'inbound-pro' ); ?></h2>
 
 				<ul class="subsubsub">
-					<li class="plugin-install-dashboard"><a href="#search" id='menu_search'><?php _e( 'Search', 'cta' ) ; ?></a> |</li>
-					<li class="plugin-install-upload"><a class="current" href="#upload" id='menu_upload'><?php _e( 'Upload', 'cta' ) ; ?></a> </li>
+					<li class="plugin-install-dashboard"><a href="#search" id='menu_search'><?php _e( 'Search', 'inbound-pro' ) ; ?></a> |</li>
+					<li class="plugin-install-upload"><a class="current" href="#upload" id='menu_upload'><?php _e( 'Upload', 'inbound-pro' ) ; ?></a> </li>
 				</ul>
 
 				<br class="clear">
-					<h4><?php _e( 'Install Calls to Action template by uploading them here in .zip format', 'cta' ) ; ?></h4>
+					<h4><?php _e( 'Install Calls to Action template by uploading them here in .zip format', 'inbound-pro' ) ; ?></h4>
 
-					 <p class="install-help"><?php _e( 'Warning: Do not upload landing page extensions here or you will break the plugin! <br>Extensions are uploaded in the WordPress plugins section.', 'cta' ) ; ?>
+					 <p class="install-help"><?php _e( 'Warning: Do not upload landing page extensions here or you will break the plugin! <br>Extensions are uploaded in the WordPress plugins section.', 'inbound-pro' ) ; ?>
 					</p>
 					<form action="" class="wp-upload-form" enctype="multipart/form-data" method="post">
 						<input type="hidden" value="<?php echo wp_create_nonce('wp-cta-nonce'); ?>" name="wp_cta_wpnonce" id="_wpnonce">
 						<input type="hidden" value="/wp-admin/plugin-install.php?tab=upload" name="_wp_http_referer">
-						<label for="pluginzip" class="screen-reader-text"><?php _e('Template zip file', 'cta' ) ; ?></label>
+						<label for="pluginzip" class="screen-reader-text"><?php _e('Template zip file', 'inbound-pro' ) ; ?></label>
 						<input type="file" name="templatezip" id="templatezip">
-						<input type="submit" value="<?php _e('Install Now', 'cta' ) ; ?>" class="button" id="install-template-submit" name="install-template-submit" disabled="">
+						<input type="submit" value="<?php _e('Install Now', 'inbound-pro' ) ; ?>" class="button" id="install-template-submit" name="install-template-submit" disabled="">
 					</form>
 			</div>
 		<?php
@@ -405,7 +405,7 @@ if ( !class_exists('CTA_Template_Manager') ) {
 				die(__( 'There was a problem. Please try again!', 'cta'));
 			} else 	{
 				unlink( $_FILES['templatezip']["tmp_name"]);
-				echo '<div class="updated"><p>'. __( 'Template uploaded successfully!', 'cta' ) .'</div>';
+				echo '<div class="updated"><p>'. __( 'Template uploaded successfully!', 'inbound-pro' ) .'</div>';
 			}
 		}
 
@@ -415,18 +415,18 @@ if ( !class_exists('CTA_Template_Manager') ) {
 		public static function search_templates() { ?>
 
 			<div class="wrap templates_search" style='display:none'>
-				<div class="icon32" id="icon-plugins"><br></div><h2><?php _e('Search Templates', 'cta' ) ; ?></h2>
+				<div class="icon32" id="icon-plugins"><br></div><h2><?php _e('Search Templates', 'inbound-pro' ) ; ?></h2>
 
 				<ul class="subsubsub">
-						<li class="plugin-install-dashboard"><a href="#search" id='menu_search'><?php _e('Search', 'cta' ) ; ?></a> |</li>
-						<li class="plugin-install-upload"><a class="current" href="#upload" id='menu_upload'><?php _e('Upload', 'cta' ) ; ?></a> </li>
+						<li class="plugin-install-dashboard"><a href="#search" id='menu_search'><?php _e('Search', 'inbound-pro' ) ; ?></a> |</li>
+						<li class="plugin-install-upload"><a class="current" href="#upload" id='menu_upload'><?php _e('Upload', 'inbound-pro' ) ; ?></a> </li>
 				</ul>
 
 				<br class="clear">
-					<p class="install-help"><?php _e('Search the Inboundnow marketplace for free and premium templates.', 'cta' ) ; ?></p>
+					<p class="install-help"><?php _e('Search the Inboundnow marketplace for free and premium templates.', 'inbound-pro' ) ; ?></p>
 					<form action="edit.php?post_type=wp-call-to-action&page=wp_cta_store" method="POST" id="">
 						<input type="search" autofocus="autofocus" value="" name="search">
-						<label for="plugin-search-input" class="screen-reader-text"><?php _e('Search Templates', 'cta' ) ; ?></label>
+						<label for="plugin-search-input" class="screen-reader-text"><?php _e('Search Templates', 'inbound-pro' ) ; ?></label>
 						<input type="submit" value="Search Templates" class="button" id="plugin-search-input" name="plugin-search-input">
 					</form>
 			</div>

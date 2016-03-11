@@ -20,7 +20,7 @@ array(
 	'label' => "Blank Template", // Nice Name
 	'category' => 'Blank, Box', // Template Category
 	'demo' => 'http://demo.inboundnow.com/go/demo-template-preview/', // Demo Link
-	'description'  => __( 'This template is completely blank, you can use any shortcodes or HTML you want in here' , 'cta' ), // template description
+	'description'  => __( 'This template is completely blank, you can use any shortcodes or HTML you want in here' , 'inbound-pro' ), // template description
 	'path' => $this_path, //path to template folder
 	'urlpath' => $url_path //urlpath to template folder
 );
@@ -34,7 +34,7 @@ array(
         'description' => "<div class='cta-description-box'><span class='calc button-secondary'>Calculate height/width</span></div><p>Insert your call to action graphic into the content area below. Don't forget to hyperlink it to your final destination</p>", // what field does
         'id' => 'description', // metakey. $key Prefix is appended from parent in array loop
         'type'  => 'description-block', // metafield type
-        'default'  => __( '<p><b>Insert your call to action graphic into the content area below</b>. Don\'t forget to hyperlink it to your final destination</p>' , 'cta' ) , // default content
+        'default'  => __( '<p><b>Insert your call to action graphic into the content area below</b>. Don\'t forget to hyperlink it to your final destination</p>' , 'inbound-pro' ) , // default content
         'context'  => 'normal' // Context in screen (advanced layouts in future)
         ),
     array(
@@ -42,7 +42,7 @@ array(
         'description' => "Message Text",
         'id'  => 'content-text',
         'type'  => 'wysiwyg',
-        'default'  => __( 'Insert your call to action content here.' , 'cta' ),
+        'default'  => __( 'Insert your call to action content here.' , 'inbound-pro' ),
         'context'  => 'normal'
         )
     );

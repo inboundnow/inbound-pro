@@ -185,8 +185,8 @@ if (!class_exists('CTA_Dynamic_Widget')) {
 
 			?>
 
-				<div class='cta-widget-p'><strong><?php _e( 'Select Calls to Action(s):', 'cta' ); ?></strong><br />
-					<small><?php _e('If multiple calls to action are checked, they will randomly rotate. Only 1 CTA is displayed per widget', 'cta' ); ?></small>
+				<div class='cta-widget-p'><strong><?php _e( 'Select Calls to Action(s):', 'inbound-pro' ); ?></strong><br />
+					<small><?php _e('If multiple calls to action are checked, they will randomly rotate. Only 1 CTA is displayed per widget', 'inbound-pro' ); ?></small>
 				<div class='cta-widget-select-options'>
 				<?php
 				foreach ($cta_post_type as $cta) {
@@ -208,7 +208,7 @@ if (!class_exists('CTA_Dynamic_Widget')) {
 			</div>
 
 			<hr>
-			<h4 class='cta-advanced-section'><?php _e( 'Advanced Options', 'cta' ); ?></h4>
+			<h4 class='cta-advanced-section'><?php _e( 'Advanced Options', 'inbound-pro' ); ?></h4>
 			<div class="advanced-cta-widget-options">
 				<div class='cta-widget'><label for="<?php echo $this->get_field_id('cta_margin_top'); ?>">Margin Top</label>
 				<input class="cta-text" type="text" value="<?php echo $margin_top; ?>" id="<?php echo $this->get_field_id('cta_margin_top'); ?>" name="<?php echo $this->get_field_name('cta_margin_top'); ?>" />px</div>

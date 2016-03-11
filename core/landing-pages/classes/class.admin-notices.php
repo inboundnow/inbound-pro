@@ -41,10 +41,10 @@ class Landing_Pages_Admin_Notices {
             <div class="error" style="margin-bottom:10px;">
                 <h3 style='font-weight:normal; margin-bottom:0px;padding-bottom:0px;'>
                     <strong>
-                        <?php _e( 'Attention Landing Page Users:' , 'landing-pages' ); ?>
+                        <?php _e( 'Attention Landing Page Users:' , 'inbound-pro' ); ?>
                     </strong>
                 </h3>
-                <p style='font-weight:normal; margin-top:0px;margin-bottom:0px;'><?php _e( sprintf( 'If you are trying to install a <strong>landing page template</strong> from Inbound Now, %s Please Follow these instructions%s' , '<a href=\'http://docs.inboundnow.com/guide/installing-new-templates/\' target=\'_blank\'>' , '</a>' ) , 'landing-pages' ); ?>
+                <p style='font-weight:normal; margin-top:0px;margin-bottom:0px;'><?php _e( sprintf( 'If you are trying to install a <strong>landing page template</strong> from Inbound Now, %s Please Follow these instructions%s' , '<a href=\'http://docs.inboundnow.com/guide/installing-new-templates/\' target=\'_blank\'>' , '</a>' ) , 'inbound-pro' ); ?>
                     <br>
                     <?php echo "Landing page templates need to be installed <a href='".$link."'>here</a> in the <strong><a href='".$link."'>Landing pages</a> > <a href='".$link."'>Manage templates area</a></strong>"; ?>
                 </p>
@@ -63,7 +63,7 @@ class Landing_Pages_Admin_Notices {
         if ((($pagenow == 'edit.php') && ($page_string == "lp_manage_templates")) || (($pagenow == "post-new.php") && (isset($_GET['post_type']) && $_GET['post_type'] == "landing-page"))) {
             ?>
             <div id="more-templates-button" style="display:none;">
-                <a target="_blank" href="/wp-admin/edit.php?post_type=landing-page&page=lp_store&inbound-store=templates" class="button new-lp-button button-primary button-large"><?php _e( 'Download Additional Landing Page Templates' , 'landing-pages' ); ?></a>
+                <a target="_blank" href="https://www.inboundnow.com/market/?show=landing-pages" class="button new-lp-button button-primary button-large"><?php _e( 'Download Additional Landing Page Templates' , 'inbound-pro' ); ?></a>
             </div>
             <script type="text/javascript">
                 jQuery(document).ready(function($) {
@@ -89,7 +89,7 @@ class Landing_Pages_Admin_Notices {
             ?>
             <div class="error">
                 <p>
-                    <?php _e( 'We\'ve noticed that your permalink settings are set to the default setting. Landing Page varation roation is not possible on this setting. To enable roation please go into Settings->Permalinks and update them to a different format.' , 'landing-pages' ); ?>
+                    <?php _e( 'We\'ve noticed that your permalink settings are set to the default setting. Landing Page varation roation is not possible on this setting. To enable roation please go into Settings->Permalinks and update them to a different format.' , 'inbound-pro' ); ?>
                 </p>
             </div>
             <?php

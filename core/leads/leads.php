@@ -18,8 +18,8 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 		public function __construct() {
 			self::define_constants();
 			self::includes();
-			self::load_shared_files();
 			self::load_text_domain_init();
+			self::load_shared_files();
 		}
 
 		/**

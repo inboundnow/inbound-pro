@@ -109,7 +109,7 @@ if (!class_exists('CTA_Metaboxes_Global')) {
 					return state.text;
 				}
 				jQuery("#cta_template_selection").select2({
-					placeholder: " <?php _e( 'Select one or more calls to action to rotate through', 'cta' ); ?>",
+					placeholder: " <?php _e( 'Select one or more calls to action to rotate through', 'inbound-pro' ); ?>",
 					allowClear: true,
 					formatResult: format,
 					formatSelection: format,
@@ -174,7 +174,7 @@ if (!class_exists('CTA_Metaboxes_Global')) {
 					<div class="wp-cta-option-row">
 						<div class='cta-options-label'>
 							<label for=keyword>
-							<?php _e( 'Call to Action Template', 'cta' ); ?>
+							<?php _e( 'Call to Action Template', 'inbound-pro' ); ?>
 							</label>
 						</div>
 						<div class='cta-options-row'>
@@ -198,7 +198,7 @@ if (!class_exists('CTA_Metaboxes_Global')) {
 							echo '<option', $selected, ' value="'.$this_id.'" rel="work?" >'.$title.'</option>';
 
 						} ?>
-						</select><br /><span class="description"><?php _e( 'Click the above select box to select call to action templates to insert', 'cta' ); ?></span>
+						</select><br /><span class="description"><?php _e( 'Click the above select box to select call to action templates to insert', 'inbound-pro' ); ?></span>
 						</div>
 					</div>
 				</div>

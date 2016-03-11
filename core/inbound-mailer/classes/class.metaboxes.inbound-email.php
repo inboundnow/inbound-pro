@@ -2032,12 +2032,27 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
                                 jQuery('#email_action').val('schedule');
                                 jQuery('#post_status').val('sending');
-                                Settings.save_email();
-                                setTimeout(function() {
-                                    window.location.reload();
-                                }, 2000 );
+
+                                /* save the email and schedule it */
+                                Settings.save_email( true );
+
                             });
 
+                        },
+                        schedule_email: function() {
+
+                            jQuery.ajax({
+                                type: 'post',
+                                url: ajaxurl,
+                                data: {
+                                    action: 'inbound_schedule_email',
+                                    email_id: '<?php echo $post->ID; ?>'
+                                },
+                                success: function (result) {
+                                    console.log('')
+                                    window.location.reload();
+                                }
+                            });
                         },
                         /**
                          *    Validates and Schedules Email Immediately
@@ -2177,7 +2192,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                         /**
                          *  Save Email
                          */
-                        save_email: function () {
+                        save_email: function ( schedule_email ) {
                             Settings.ladda_button = Ladda.create(document.querySelector('#action-save'));
                             Settings.ladda_button.toggle();
 
@@ -2190,6 +2205,9 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                                 data: data,
                                 success: function (result) {
                                     Settings.ladda_button.toggle();
+                                    if (typeof schedule_email != 'undefined' && schedule_email) {
+                                        Settings.schedule_email();
+                                    }
                                 }
                             });
 
@@ -2202,6 +2220,9 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                                 jQuery('#cta-launch-front').attr('href' , visual_editor_url.replace( Settings.current_slug , new_slug ) );
                                 Settings.current_slug = new_slug;
                             }
+
+
+
                         },
                         /**
                          *  Generate object of data from form inputs
