@@ -68,16 +68,16 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
 
             $slug = get_option( 'lp-main-landing-page-permalink-prefix', 'go' );
             $labels = array(
-                'name' => _x('Landing Pages', 'post type general name' , 'landing-pages' ),
-                'singular_name' => _x('Landing Page', 'post type singular name' , 'landing-pages' ),
-                'add_new' => _x('Add New', 'Landing Page' , 'landing-pages' ),
-                'add_new_item' => __('Add New Landing Page' , 'landing-pages' ),
-                'edit_item' => __('Edit Landing Page' , 'landing-pages' ),
-                'new_item' => __('New Landing Page' , 'landing-pages' ),
-                'view_item' => __('View Landing Page' , 'landing-pages' ),
-                'search_items' => __('Search Landing Page' , 'landing-pages' ),
-                'not_found' =>  __('Nothing found' , 'landing-pages' ),
-                'not_found_in_trash' => __('Nothing found in Trash' , 'landing-pages' ),
+                'name' => __('Landing Pages', 'inbound-pro' ),
+                'singular_name' => __('Landing Page', 'inbound-pro' ),
+                'add_new' => __('Add New',  'inbound-pro' ),
+                'add_new_item' => __('Add New Landing Page' , 'inbound-pro' ),
+                'edit_item' => __('Edit Landing Page' , 'inbound-pro' ),
+                'new_item' => __('New Landing Page' , 'inbound-pro' ),
+                'view_item' => __('View Landing Page' , 'inbound-pro' ),
+                'search_items' => __('Search Landing Page' , 'inbound-pro' ),
+                'not_found' =>  __('Nothing found' , 'inbound-pro' ),
+                'not_found_in_trash' => __('Nothing found in Trash' , 'inbound-pro' ),
                 'parent_item_colon' => ''
             );
 
@@ -105,7 +105,7 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
 
             $args = array(
                 'hierarchical' => true,
-                'label' => __("Categories", 'landing-pages'),
+                'label' => __("Categories", 'inbound-pro'),
                 'singular_label' => __("Landing Page Category",
                     'landing-pages'),
                 'show_ui' => true,
@@ -127,12 +127,12 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
         public static function register_columns($columns) {
             $columns = array(
                 "cb" => "<input type=\"checkbox\" />",
-                "thumbnail-lander" => __("Preview", 'landing-pages'),
-                "title" => __("Landing Page Title", 'landing-pages'),
-                "stats" => __("Variation Testing Stats", 'landing-pages'),
-                "impressions" => __("Total<br>Visits", 'landing-pages'),
-                "actions" => __("Total<br>Conversions", 'landing-pages'),
-                "cr" => __("Total<br>Conversion Rate", 'landing-pages')
+                "thumbnail-lander" => __("Preview", 'inbound-pro'),
+                "title" => __("Landing Page Title", 'inbound-pro'),
+                "stats" => __("Variation Testing Stats", 'inbound-pro'),
+                "impressions" => __("Total<br>Visits", 'inbound-pro'),
+                "actions" => __("Total<br>Conversions", 'inbound-pro'),
+                "cr" => __("Total<br>Conversion Rate", 'inbound-pro')
             );
             return $columns;
         }
@@ -225,7 +225,7 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
                         $thumbnail = 'http://s.wordpress.com/mshots/v1/' . urlencode(esc_url($permalink)) . '?w=140';
                     }
 
-                    echo "<a title='" . __('Click to Preview this variation', 'landing-pages') . "' class='thickbox' href='" . $permalink . "?lp-variation-id=0&iframe_window=on&post_id=" . $post->ID . "&TB_iframe=true&width=640&height=703' target='_blank'><img src='" . $thumbnail . "' style='width:155px;height:110px;' title='Click to Preview'></a>";
+                    echo "<a title='" . __('Click to Preview this variation', 'inbound-pro') . "' class='thickbox' href='" . $permalink . "?lp-variation-id=0&iframe_window=on&post_id=" . $post->ID . "&TB_iframe=true&width=640&height=703' target='_blank'><img src='" . $thumbnail . "' style='width:155px;height:110px;' title='Click to Preview'></a>";
                     BREAK;
                 case "stats":
                     self::show_stats();
@@ -394,7 +394,7 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
             $permalink = get_permalink($post->ID);
             $variations = Landing_Pages_Variations::get_variations($post->ID);
 
-            echo "<span class='show-stats button'> " . __('Show Variation Stats', 'landing-pages') . "</span>";
+            echo "<span class='show-stats button'> " . __('Show Variation Stats', 'inbound-pro') . "</span>";
             echo "<ul class='lp-varation-stat-ul'>";
             $cr_array = array();
             $i = 0;
@@ -422,7 +422,7 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
                 $conversion_rate = round($conversion_rate, 2) * 100;
                 $cr_array[] = $conversion_rate;
                 if ($v_status === "0") {
-                    $final_status = __("(Paused)", 'landing-pages');
+                    $final_status = __("(Paused)", 'inbound-pro');
                 } else {
                     $final_status = "";
                 }
@@ -430,9 +430,9 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
                 $largest = $cr_array[$i];
                  }
                 (($largest === $conversion_rate)) ? $winner_class = 'lp-current-winner' : $winner_class = ""; */
-                (($final_conversion === "1")) ? $c_text = __('conversion', 'landing-pages') : $c_text = __("conversions", 'landing-pages');
-                (($each_impression === "1")) ? $i_text = __('visit', 'landing-pages') : $i_text = __("visits", 'landing-pages');
-                (($each_notes === "")) ? $each_notes = __('No notes', 'landing-pages') : $each_notes = $each_notes;
+                (($final_conversion === "1")) ? $c_text = __('conversion', 'inbound-pro') : $c_text = __("conversions", 'inbound-pro');
+                (($each_impression === "1")) ? $i_text = __('visit', 'inbound-pro') : $i_text = __("visits", 'inbound-pro');
+                (($each_notes === "")) ? $each_notes = __('No notes', 'inbound-pro') : $each_notes = $each_notes;
                 $data_letter = "data-letter=\"" . $letter . "\"";
                 $edit_link = admin_url('post.php?post=' . $post->ID . '&lp-variation-id=' . $vid . '&action=edit');
                 $popup = "data-notes=\"<span class='lp-pop-description'>" . $each_notes . "</span><span class='lp-pop-controls'><span class='lp-pop-edit button-primary'><a href='" . $edit_link . "'>Edit This variation</a></span><span class='lp-pop-preview button'><a title='Click to Preview this variation' class='thickbox' href='" . $permalink . "?lp-variation-id=" . $vid . "&iframe_window=on&post_id=" . $post->ID . "&TB_iframe=true&width=640&height=703' target='_blank'>Preview This variation</a></span><span class='lp-bottom-controls'><span class='lp-delete-var-stats' data-letter='" . $letter . "' data-vid='" . $vid . "' rel='" . $post->ID . "'>Clear These Stats</span></span></span>\"";
@@ -512,7 +512,7 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
                 return $actions;
             }
 
-            $actions['clear'] = '<a href="#clear-stats" id="lp_clear_' . $post->ID . '" class="clear_stats" title="' . esc_attr(__("Clear impression and conversion records", 'landing-pages')) . '" >' . __('Clear All Stats', 'landing-pages') . '</a><span class="hover-description">' . __('Hover over the letters to the right for more options', 'landing-pages') . '</span>';
+            $actions['clear'] = '<a href="#clear-stats" id="lp_clear_' . $post->ID . '" class="clear_stats" title="' . esc_attr(__("Clear impression and conversion records", 'inbound-pro')) . '" >' . __('Clear All Stats', 'inbound-pro') . '</a><span class="hover-description">' . __('Hover over the letters to the right for more options', 'inbound-pro') . '</span>';
 
             return $actions;
         }

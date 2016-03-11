@@ -13,10 +13,10 @@ $key = basename(dirname(__FILE__));
 $lp_data[$key]['info'] = array(
 	'data_type' => 'acf4',
 	'version' => "2.0.1",
-	'label' => __( 'Tublar' , 'landing-pages' ),
+	'label' => __( 'Tublar' , 'inbound-pro' ),
 	'category' => 'Video',
 	'demo' => 'http://demo.inboundnow.com/tubelar-lander-lander-preview/',
-	'description'  => __( 'Tublar template is a simple video background template.' , 'landing-pages' )
+	'description'  => __( 'Tublar template is a simple video background template.' , 'inbound-pro' )
 );
 
 

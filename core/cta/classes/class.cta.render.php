@@ -306,7 +306,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
                     'page_id' => ( isset($post) && $post->ID  ? $post->ID : null ) ,
                     'vid' => $vid ,
                     'url' => $href ,
-                    'tracking_id' => __( sprintf( 'Call to Action Click (cta_id:%s) (vid:%s)', $selected_cta['id'], $vid ), 'cta' ) /* required but not being used atm */
+                    'tracking_id' => __( sprintf( 'Call to Action Click (cta_id:%s) (vid:%s)', $selected_cta['id'], $vid ), 'inbound-pro' ) /* required but not being used atm */
                 ));
 
                 /* standardize & symbol */

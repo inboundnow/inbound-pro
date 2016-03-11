@@ -34,8 +34,8 @@ class CTA_Clone_Post {
 		}
 
 		$actions['clone'] = '<a href="'. self::build_clone_link( $post->ID, 'display', true ).'" title="'
-		. esc_attr(__( 'Clone this item', 'cta' ))
-		. '">' .	__( 'Clone', 'cta' ) . '</a>';
+		. esc_attr(__( 'Clone this item', 'inbound-pro' ))
+		. '">' .	__( 'Clone', 'inbound-pro' ) . '</a>';
 
 		return $actions;
 	}
@@ -86,7 +86,7 @@ class CTA_Clone_Post {
 
 		} else {
 			$post_type_obj = get_post_type_object( $post->post_type );
-			wp_die(esc_attr(__( 'Copy creation failed, could not find original:', 'cta' )) . ' ' . $id);
+			wp_die(esc_attr(__( 'Copy creation failed, could not find original:', 'inbound-pro' )) . ' ' . $id);
 		}
 	}
 

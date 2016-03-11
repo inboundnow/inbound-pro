@@ -29,7 +29,7 @@ if ( !class_exists('CTA_WordPress_Leads') ) {
 
 			$nav_items[] = array(
 				'id'=>'wpleads_lead_cta_click_tab',
-				'label'=> __( 'CTA Clicks', 'cta' ),
+				'label'=> __( 'CTA Clicks', 'inbound-pro' ),
 				'count' => self::get_click_count()
 			);
 			return $nav_items;
@@ -40,7 +40,7 @@ if ( !class_exists('CTA_WordPress_Leads') ) {
 			global $post;
 			?>
 			<div id="wpleads_lead_cta_click_tab" class='lead-activity'>
-				<h2><?php _e( 'CTA\'s Clicked', 'cta' ); ?></h2>
+				<h2><?php _e( 'CTA\'s Clicked', 'inbound-pro' ); ?></h2>
 				<?php
 
 				if (self::$cta_clicks) {
@@ -90,7 +90,7 @@ if ( !class_exists('CTA_WordPress_Leads') ) {
 				}
 				else
 				{
-					_e( '<span id=\'wpl-message-none\'>No Call to Action Clicks found!</span>"', 'cta' );
+					_e( '<span id=\'wpl-message-none\'>No Call to Action Clicks found!</span>"', 'inbound-pro' );
 				}
 
 

@@ -56,7 +56,7 @@ if (!class_exists('CTA_Dynamic_Widget')) {
 
 			<!-- Widget Title: Text Input -->
 			<p>
-				<?php _e('This call to action area is dynamic. It will be completely empty unless you have toggled on a call to action on the individual pages settings and selected the "sidebar" option.', 'cta' ); ?>
+				<?php _e('This call to action area is dynamic. It will be completely empty unless you have toggled on a call to action on the individual pages settings and selected the "sidebar" option.', 'inbound-pro' ); ?>
 			</p>
 
 		<?php

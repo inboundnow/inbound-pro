@@ -22,11 +22,13 @@ if (!class_exists('Inbound_Content_Statistics')) {
 		*  load hooks and filters
 		*/
 		public static function load_hooks() {
+
 			/* add statistics metabox to non landing-page post types */
-			add_action( 'add_meta_boxes' , array( __CLASS__ , 'add_statistics_metabox' ) , 10 );
+			add_action('add_meta_boxes', array(__CLASS__, 'add_statistics_metabox'), 10);
 
 			/*  Adds Ajax for Clear Stats button */
-			add_action( 'wp_ajax_inbound_content_clear_stats', array( __CLASS__ , 'ajax_clear_stats' ) );
+			add_action('wp_ajax_inbound_content_clear_stats', array(__CLASS__, 'ajax_clear_stats'));
+
 
             /* records page impression */
             add_action( 'lp_record_impression' , array( __CLASS__ , 'record_impression' ) , 10, 3);
@@ -35,7 +37,7 @@ if (!class_exists('Inbound_Content_Statistics')) {
             add_action( 'inboundnow_store_lead_pre_filter_data' , array( __CLASS__ , 'record_conversion' ) ,10,1);
 
             /* load impressions/conversions collumns on non lp post types */
-            if (is_admin()) {
+            if (is_admin() ) {
 
                 /* Register Columns */
                 add_filter( 'manage_post_posts_columns' , array( __CLASS__ , 'register_columns') , 20 );
@@ -88,7 +90,7 @@ if (!class_exists('Inbound_Content_Statistics')) {
 			$exclude[] = 'download';
 
 			if ( $pagenow === 'post.php' && !in_array($post_type,$exclude) ) {
-				add_meta_box( 'inbound-content-statistics', __( 'Inbound Statistics' , 'landing-pages' ) , array( __CLASS__ , 'display_statistics' ) , $post_type, 'side', 'high');
+				add_meta_box( 'inbound-content-statistics', __( 'Inbound Statistics' , 'inbound-pro' ) , array( __CLASS__ , 'display_statistics' ) , $post_type, 'side', 'high');
 			}
 
 		}
@@ -156,20 +158,20 @@ if (!class_exists('Inbound_Content_Statistics')) {
 								<div class='bab-stat-stats' colspan='2'>
 									<div class='bab-stat-container-impressions bab-number-box'>
 										<span class='bab-stat-span-impressions'><?php echo $impressions; ?></span>
-										<span class="bab-stat-id"><?php _e( 'Views' , 'landing-pages' ); ?></span>
+										<span class="bab-stat-id"><?php _e( 'Views' , 'inbound-pro' ); ?></span>
 									</div>
 									<div class='bab-stat-container-conversions bab-number-box'>
 										<span class='bab-stat-span-conversions'><?php echo $conversions; ?></span>
-										<span class="bab-stat-id"><?php _e( 'Conversions' , 'landing-pages' ); ?></span></span>
+										<span class="bab-stat-id"><?php _e( 'Conversions' , 'inbound-pro' ); ?></span></span>
 									</div>
 									<div class='bab-stat-container-conversion_rate bab-number-box'>
 										<span class='bab-stat-span-conversion_rate'><?php echo $conversion_rate; ?></span>
-										<span class="bab-stat-id bab-rate"><?php _e( 'Conversion Rate' , 'landing-pages' ); ?></span>
+										<span class="bab-stat-id bab-rate"><?php _e( 'Conversion Rate' , 'inbound-pro' ); ?></span>
 									</div>
 								</div>
 							</div>
 							<div class='bab-stat-control-container'>
-								<span class="lp-delete-var-stats" rel='<?php echo $post->ID;?>' title="<?php _e( 'Delete this variations stats' , 'landing-pages' ); ?>"><?php _e( 'Clear Stats' , 'landing-pages' ); ?></span>
+								<span class="lp-delete-var-stats" rel='<?php echo $post->ID;?>' title="<?php _e( 'Delete this variations stats' , 'inbound-pro' ); ?>"><?php _e( 'Clear Stats' , 'inbound-pro' ); ?></span>
 							</div>
 						</div>
 					</div>
@@ -367,5 +369,8 @@ if (!class_exists('Inbound_Content_Statistics')) {
 
     }
 
-	new Inbound_Content_Statistics;
+	add_action('init' , 'inbound_load_legacy_statistics' , 10 );
+	function inbound_load_legacy_statistics() {
+		new Inbound_Content_Statistics;
+	}
 }

@@ -80,7 +80,7 @@ if ( !class_exists('CTA_Activation_Update_Routines') ) {
 		public static function default_content() {
 
 			$results = new WP_Query( array(
-				's' => __( 'A/B Testing Call To Action Example', 'cta' )
+				's' => __( 'A/B Testing Call To Action Example', 'inbound-pro' )
 			));
 
 			/* Make sure post does not exist before continuing */
@@ -92,7 +92,7 @@ if ( !class_exists('CTA_Activation_Update_Routines') ) {
 
 			$default_lander = wp_insert_post(
 				array(
-					'post_title'     => __( 'A/B Testing Call To Action Example', 'cta' ),
+					'post_title'     => __( 'A/B Testing Call To Action Example', 'inbound-pro' ),
 					'post_content'   => '',
 					'post_status'    => 'publish',
 					'post_author'    => $current_user->ID,

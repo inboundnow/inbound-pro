@@ -26,6 +26,9 @@ class Inbound_Mailer_Ajax_Listeners {
 
 		/* Adds listener to send test email */
 		add_action( 'wp_ajax_inbound_send_test_email' , array( __CLASS__ , 'send_test_email' ) );
+
+		/* Adds listener to schedule email */
+		add_action( 'wp_ajax_inbound_schedule_email' , array( __CLASS__ , 'schedule_email' ) );
 	}
 
 	/**
@@ -161,6 +164,16 @@ class Inbound_Mailer_Ajax_Listeners {
 
 		print_r($response);
 
+		exit;
+	}
+
+
+	/**
+	*  Schedule email
+	*/
+	public static function schedule_email() {
+		$response = Inbound_Mailer_Scheduling::schedule_email(intval($_POST['email_id']));
+		echo $response;
 		exit;
 	}
 }

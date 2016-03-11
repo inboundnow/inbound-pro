@@ -85,7 +85,7 @@ if (!class_exists('CTA_Metaboxes')) {
 				$template_name = ucwords(str_replace('-',' ',$template_id));
 				add_meta_box(
 					"wp_cta_template_select_meta_box", // $id
-					"<small>$template_name ".__('Options:', 'cta' ). "</small>",
+					"<small>$template_name ".__('Options:', 'inbound-pro' ). "</small>",
 					array(__CLASS__, 'show_template_settings' ), // $callback
 					'wp-call-to-action', // post-type
 					'normal', // $context
@@ -125,7 +125,7 @@ if (!class_exists('CTA_Metaboxes')) {
 			/* Advanced Call to Action Options */
 			add_meta_box(
 				'wp_cta_tracking_metabox', // $id
-				__( 'Advanced Call to Action Options', 'cta' ), // $title
+				__( 'Advanced Call to Action Options', 'inbound-pro' ), // $title
 				array(__CLASS__, 'show_advanced_settings' ), // $callback
 				'wp-call-to-action', // $page
 				'normal', // $context
@@ -136,7 +136,7 @@ if (!class_exists('CTA_Metaboxes')) {
 			/* Custom CSS */
 			add_meta_box(
 				'wp_cta_3_custom_css',
-				__( 'Custom CSS', 'cta' ),
+				__( 'Custom CSS', 'inbound-pro' ),
 				array(__CLASS__, 'show_custom_css' ),
 				'wp-call-to-action',
 				'normal',
@@ -146,7 +146,7 @@ if (!class_exists('CTA_Metaboxes')) {
 			/* Custom JS */
 			add_meta_box(
 				'wp_cta_3_custom_js',
-				__( 'Custom JS', 'cta' ),
+				__( 'Custom JS', 'inbound-pro' ),
 				array(__CLASS__, 'show_custom_js' ),
 				'wp-call-to-action',
 				'normal',
@@ -156,7 +156,7 @@ if (!class_exists('CTA_Metaboxes')) {
 			/* AB Testing Statistics Box */
 			add_meta_box(
 				'wp_cta_ab_display_stats_metabox',
-				__( 'A/B Testing', 'cta' ),
+				__( 'A/B Testing', 'inbound-pro' ),
 				array(__CLASS__, 'show_stats_metabox'),
 				'wp-call-to-action' ,
 				'side',
@@ -194,7 +194,7 @@ if (!class_exists('CTA_Metaboxes')) {
 				echo "&nbsp;&nbsp;";
 			}
 
-			echo '<a class="button-primary" id="wp-cta-change-template-button">'. __( 'Choose Another Template', 'cta' ) .'</a>';
+			echo '<a class="button-primary" id="wp-cta-change-template-button">'. __( 'Choose Another Template', 'inbound-pro' ) .'</a>';
 			echo '<input type="hidden" id="" name="' . $template_input_name .'" class="selected-template" value="' .$template_id .'">';
 
 			self::render_settings( $template_id, $wp_cta_custom_fields, $post);
@@ -299,23 +299,23 @@ if (!class_exists('CTA_Metaboxes')) {
 						<div class='bab-stat-stats' colspan='2'>
 							<div class='bab-stat-container-impressions bab-number-box'>
 								<span class='bab-stat-span-impressions'><?php echo $impressions; ?></span>
-								<span class="bab-stat-id"><?php _e('Views', 'cta' ); ?></span>
+								<span class="bab-stat-id"><?php _e('Views', 'inbound-pro' ); ?></span>
 							</div>
 							<div class='bab-stat-container-conversions bab-number-box'>
 								<span class='bab-stat-span-conversions'><?php echo $conversions; ?></span>
-								<span class="bab-stat-id"><?php _e('Conversions', 'cta' ); ?></span></span>
+								<span class="bab-stat-id"><?php _e('Conversions', 'inbound-pro' ); ?></span></span>
 							</div>
 							<div class='bab-stat-container-conversion_rate bab-number-box'>
 								<span class='bab-stat-span-conversion_rate'><?php echo $conversion_rate; ?></span>
-								<span class="bab-stat-id bab-rate"><?php _e('Conversion Rate', 'cta' ); ?></span>
+								<span class="bab-stat-id bab-rate"><?php _e('Conversion Rate', 'inbound-pro' ); ?></span>
 							</div>
 							<div class='bab-stat-control-container'>
-								<span class='bab-stat-control-pause'><a title="Pause this variation" href='?post=<?php echo $post->ID; ?>&action=edit&vid=<?php echo $vid; ?>&ab-action=pause-variation'><?php _e('Pause', 'cta' ); ?></a></span> <span class='bab-stat-seperator pause-sep'>|</span>
-								<span class='bab-stat-control-play'><a title="Turn this variation on" href='?post=<?php echo $post->ID; ?>&action=edit&vid=<?php echo $vid; ?>&ab-action=play-variation'><?php _e('Play', 'cta' ); ?></a></span> <span class='bab-stat-seperator play-sep'>|</span>
-								<span class='bab-stat-menu-edit'><a title="Edit this variation" href='?post=<?php echo $post->ID; ?>&action=edit&vid=<?php echo $vid; ?>'><?php _e('Edit', 'cta' ); ?></a></span> <span class='bab-stat-seperator'>|</span>
-								<span class='bab-stat-menu-clone'><a title="Clone this variation" href='?post=<?php echo $post->ID; ?>&action=edit&new-variation=1&clone=<?php echo $vid; ?>&ab-action=clone&wp-cta-variation-id=<?php echo $next_available_variation_id; ?>'><?php _e('Clone', 'cta' ); ?></a></span> <span class='bab-stat-seperator'>|</span>
-								<span class='bab-stat-menu-preview'><a title="Preview this variation" class='thickbox' href='<?php echo $permalink; ?>&inbound_popup_preview=on&post_id=<?php echo $post->ID;?>&TB_iframe=true&width=1503&height=467' target='_blank'><?php _e('Preview', 'cta' ); ?></a></span> <span class='bab-stat-seperator'>|</span>
-								<span class='bab-stat-control-delete'><a title="Delete this variation" href='?post=<?php echo $post->ID; ?>&action=edit&vid=<?php echo $vid; ?>&ab-action=delete-variation'><?php _e('Delete', 'cta' ); ?></a></span>
+								<span class='bab-stat-control-pause'><a title="Pause this variation" href='?post=<?php echo $post->ID; ?>&action=edit&vid=<?php echo $vid; ?>&ab-action=pause-variation'><?php _e('Pause', 'inbound-pro' ); ?></a></span> <span class='bab-stat-seperator pause-sep'>|</span>
+								<span class='bab-stat-control-play'><a title="Turn this variation on" href='?post=<?php echo $post->ID; ?>&action=edit&vid=<?php echo $vid; ?>&ab-action=play-variation'><?php _e('Play', 'inbound-pro' ); ?></a></span> <span class='bab-stat-seperator play-sep'>|</span>
+								<span class='bab-stat-menu-edit'><a title="Edit this variation" href='?post=<?php echo $post->ID; ?>&action=edit&vid=<?php echo $vid; ?>'><?php _e('Edit', 'inbound-pro' ); ?></a></span> <span class='bab-stat-seperator'>|</span>
+								<span class='bab-stat-menu-clone'><a title="Clone this variation" href='?post=<?php echo $post->ID; ?>&action=edit&new-variation=1&clone=<?php echo $vid; ?>&ab-action=clone&wp-cta-variation-id=<?php echo $next_available_variation_id; ?>'><?php _e('Clone', 'inbound-pro' ); ?></a></span> <span class='bab-stat-seperator'>|</span>
+								<span class='bab-stat-menu-preview'><a title="Preview this variation" class='thickbox' href='<?php echo $permalink; ?>&inbound_popup_preview=on&post_id=<?php echo $post->ID;?>&TB_iframe=true&width=1503&height=467' target='_blank'><?php _e('Preview', 'inbound-pro' ); ?></a></span> <span class='bab-stat-seperator'>|</span>
+								<span class='bab-stat-control-delete'><a title="Delete this variation" href='?post=<?php echo $post->ID; ?>&action=edit&vid=<?php echo $vid; ?>&ab-action=delete-variation'><?php _e('Delete', 'inbound-pro' ); ?></a></span>
 							</div>
 						</div>
 					</div>
@@ -535,7 +535,7 @@ if (!class_exists('CTA_Metaboxes')) {
 
 			echo "<div class='wp-cta-template-selector-container' style='{$toggle}'>";
 			echo "<div class='wp-cta-selection-heading'>";
-			echo "<h1>". __( 'Select Your Call to Action Template!', 'cta' ) ."</h1>";
+			echo "<h1>". __( 'Select Your Call to Action Template!', 'inbound-pro' ) ."</h1>";
 			echo '<a class="button-secondary" style="display:none;" id="wp-cta-cancel-selection">Cancel Template Change</a>';
 			echo "</div>";
 				echo '<ul id="template-filter" >';
@@ -682,8 +682,8 @@ if (!class_exists('CTA_Metaboxes')) {
 			$vid = CTA_Variations::get_current_variation_id();
 
 			echo '<span id="cta_shortcode_form" style="display:none; font-size: 13px;margin-left: 15px;">
-				'. __('Variation Shortcode', 'cta' ) .': <input type="text" style="width: 200px;" class="regular-text code short-shortcode-input" readonly="readonly" id="shortcode" name="shortcode" value=\'[cta id="'.$post->ID.'" vid="'.$vid.'"]\'>
-				<div class="wp_cta_tooltip" style="margin-left: 0px;" title="'. __( 'You can copy and paste this shortcode into any page or post to render this call to action. You can also insert CTAs from the WordPress editor on any given page. To enable variation rotation remove the vid= attribute.', 'cta' ) .'"></div></span>';
+				'. __('Variation Shortcode', 'inbound-pro' ) .': <input type="text" style="width: 200px;" class="regular-text code short-shortcode-input" readonly="readonly" id="shortcode" name="shortcode" value=\'[cta id="'.$post->ID.'" vid="'.$vid.'"]\'>
+				<div class="wp_cta_tooltip" style="margin-left: 0px;" title="'. __( 'You can copy and paste this shortcode into any page or post to render this call to action. You can also insert CTAs from the WordPress editor on any given page. To enable variation rotation remove the vid= attribute.', 'inbound-pro' ) .'"></div></span>';
 
 		}
 
@@ -724,7 +724,7 @@ if (!class_exists('CTA_Metaboxes')) {
 			if ($post->post_type!='wp-call-to-action') {
 				return $text;
 			}
-			return __( 'Enter Call to Action Description', 'cta' );
+			return __( 'Enter Call to Action Description', 'inbound-pro' );
 		}
 
 		/**
@@ -741,7 +741,7 @@ if (!class_exists('CTA_Metaboxes')) {
 
 			echo "<div id='wp-cta-notes-area' data-field-type='text'>";
 			$id = apply_filters( 'wp_cta_prepare_input_id', 'wp-cta-variation-notes' );
-			echo "<span id='add-wp-cta-notes'>". __( 'Notes:', 'cta' ) ."</span><input placeholder='". __( 'Add Notes to your variation. Example: This version is testing a green submit button', 'cta' ) ."' type='text' class='wp-cta-notes' name='{$id}' id='{$id}' value='{$variation_notes}' size='30'>";
+			echo "<span id='add-wp-cta-notes'>". __( 'Notes:', 'inbound-pro' ) ."</span><input placeholder='". __( 'Add Notes to your variation. Example: This version is testing a green submit button', 'inbound-pro' ) ."' type='text' class='wp-cta-notes' name='{$id}' id='{$id}' value='{$variation_notes}' size='30'>";
 			echo '</div>';
 
 		}
@@ -808,7 +808,7 @@ if (!class_exists('CTA_Metaboxes')) {
 			wp_nonce_field('save-custom-wp-cta-boxes','custom_wp_cta_metaboxes_nonce');
 			// Begin the field table and loop
 			echo '<div class="form-table">';
-			echo '<div class="cta-description-box"><span class="calc button-secondary">'. __( 'Calculate height/width', 'cta' ) .'</span></div>';
+			echo '<div class="cta-description-box"><span class="calc button-secondary">'. __( 'Calculate height/width', 'inbound-pro' ) .'</span></div>';
 
 
 			foreach ($extension_data['wp-cta']['settings'] as $key=>$field) {

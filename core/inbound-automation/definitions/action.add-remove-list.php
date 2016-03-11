@@ -49,7 +49,7 @@ if ( !class_exists( 'Inbound_Automation_Action_Add_Remove_List' ) ) {
                     ),
                     array (
                         'id' => 'message',
-                        'label' => __( '' , 'inbound-pro' ),
+                        'label' => '',
                         'type' => 'html',
                         'hidden' => false,
                         'default' => '<i>' . __( 'If a user has unsubscribed from a list then automation will not resubscribe them. They will have to fill out an inbound form adding them to the list or be re-added manually by an administrator.' , 'inbound-pro' ) . '</i>'

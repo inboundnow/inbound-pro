@@ -17,10 +17,10 @@ $next_month = date('Y-m-d H:i', $next_month_timestamp);
 $lp_data[$key]['info'] = array(
 	'data_type' => 'acf4',
 	'version' => "1.0.5",
-	'label' => __( 'Countdown Lander' , 'landing-pages' ),
+	'label' => __( 'Countdown Lander' , 'inbound-pro' ),
 	'category' => 'Countdown,1 column',
 	'demo' => 'http://demo.inboundnow.com/go/countdown-lander/',
-	'description'  => __( 'Coundown Lander provides a simple sharp looking countdown page.' , 'landing-pages' )
+	'description'  => __( 'Coundown Lander provides a simple sharp looking countdown page.' , 'inbound-pro' )
 );
 
 /* register ACF fields */
@@ -55,7 +55,7 @@ if( function_exists('register_field_group') ):
 				'label' => __( 'Conversion Area','landing-pages' ),
 				'name' => 'countdown-lander-conversion-area-content',
 				'type' => 'wysiwyg',
-				'instructions' => __( '','landing-pages' ),
+				'instructions' =>'',
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array (
@@ -73,7 +73,7 @@ if( function_exists('register_field_group') ):
 				'label' => __( 'Main Content','landing-pages' ),
 				'name' => 'countdown-lander-main-content',
 				'type' => 'wysiwyg',
-				'instructions' => __( '','landing-pages' ),
+				'instructions' => '',
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array (

@@ -31,7 +31,7 @@ class CTA_Menus {
 			return;
 		}
 
-		add_submenu_page('edit.php?post_type=wp-call-to-action', __( 'Forms', 'cta' ), __( 'Forms', 'cta'), 'manage_options', 'inbound-forms-redirect',100);
+		add_submenu_page('edit.php?post_type=wp-call-to-action', __( 'Forms', 'inbound-pro' ), __( 'Forms', 'cta'), 'manage_options', 'inbound-forms-redirect',100);
 
 		add_submenu_page('edit.php?post_type=wp-call-to-action', __( 'Settings', 'cta'), __( 'Settings', 'cta'), 'manage_options', 'wp_cta_global_settings', array( 'CTA_Global_Settings', 'display_global_settings'));
 

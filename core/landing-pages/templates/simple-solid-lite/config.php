@@ -17,7 +17,7 @@ $lp_data[$key]['info'] = array(
 	'label' => 'Simple Solid Lite',
 	'category' => '1 Column',
 	'demo' => 'http://demo.inboundnow.com/go/simple/',
-	'description' => __( 'This is a free template provided by Inbound Now' , 'landing-pages' )
+	'description' => __( 'This is a free template provided by Inbound Now' , 'inbound-pro' )
 );
 
 /* Configures template ACF fields here */
