@@ -268,6 +268,23 @@ class Inbound_Pro_Settings {
 								'selector' => null ,
 								'value' => null
 							)
+						),
+						array (
+							'id'	=> 'toggle-google-analytics',
+							'type'	=> 'radio',
+							'label'	=> __( 'Google Analytics' , INBOUNDNOW_TEXT_DOMAIN ),
+							'description'	=> __( 'Toggle this on to load the Google Analytics component. These components require an active pro membership.' , INBOUNDNOW_TEXT_DOMAIN ),
+							'default'	=> 'off',
+							'placeholder'	=> null,
+							'options' => array(
+								'on' => __( 'On' , INBOUNDNOW_TEXT_DOMAIN ),
+								'off' => __( 'Off' , INBOUNDNOW_TEXT_DOMAIN ),
+							),
+							'hidden' => (Inbound_Pro_Plugin::get_customer_status() > 3 ? false : true ),
+							'reveal' => array(
+								'selector' => null ,
+								'value' => null
+							)
 						)
 				    )
 				),
