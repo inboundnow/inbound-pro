@@ -1,6 +1,6 @@
 <?php
 
-if ( !class_exists('Mandrill') ) {
+if ( !class_exists('Inbound_Mandrill') ) {
 
 	require_once 'Mandrill/Templates.php';
 	require_once 'Mandrill/Exports.php';
@@ -19,7 +19,7 @@ if ( !class_exists('Mandrill') ) {
 	require_once 'Mandrill/Metadata.php';
 	require_once 'Mandrill/Exceptions.php';
 
-	class Mandrill {
+	class Inbound_Mandrill {
 
 		public $apikey;
 		public $ch;

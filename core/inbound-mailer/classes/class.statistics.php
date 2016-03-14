@@ -185,7 +185,7 @@ class Inbound_Email_Stats {
         $start = microtime(true);
         /* load mandrill time	*/
         $settings = Inbound_Mailer_Settings::get_settings();
-        $mandrill = new Mandrill(  $settings['api_key'] );
+        $mandrill = new Inbound_Mandrill(  $settings['api_key'] );
 
         $tags = array();
         $senders = array();
@@ -209,7 +209,7 @@ class Inbound_Email_Stats {
 
         /* load mandrill time	*/
         $settings = Inbound_Mailer_Settings::get_settings();
-        $mandrill = new Mandrill(  $settings['api_key'] );
+        $mandrill = new Inbound_Mandrill(  $settings['api_key'] );
 
         $tags = array();
         $senders = array();

@@ -324,7 +324,7 @@ class Inbound_Mail_Daemon {
 	public static function send_mandrill_email( $send_now = false) {
 		$settings = Inbound_Mailer_Settings::get_settings();
 
-		$mandrill = new Mandrill(  $settings['api_key'] );
+		$mandrill = new Inbound_Mandrill(  $settings['api_key'] );
 
 		$message = array(
 			'html' => self::$email['body'],
@@ -649,7 +649,7 @@ class Inbound_Mail_Daemon {
 		if (!$api_key) {
 			return;
 		}
-		$mandrill = new Mandrill(  $api_key );
+		$mandrill = new Inbound_Mandrill(  $api_key );
 		self::$response = $mandrill->metadata->add( 'email_id' , '{{value}}');
 		self::$response = $mandrill->metadata->add( 'lead_id' , '{{value}}');
 		self::$response = $mandrill->metadata->add( 'variation_id' , '{{value}}');

@@ -33,7 +33,7 @@ class Inbound_Email_Template_Shortcodes {
 		$html = '';
 
 		$post_params = apply_filters( 'inbound-email-post-params', $_POST);
-		$blacklist = array('inbound_submitted', 'inbound_notify', 'inbound_params', 'inbound_furl', 'stop_dirty_subs');
+		$blacklist = array('g-recaptcha-response','inbound_submitted', 'inbound_notify', 'inbound_params', 'inbound_furl', 'stop_dirty_subs', 'page_id');
 
 		/* Parse out UTM Params */
 		if(isset($_POST['inbound_params']) && $_POST['inbound_params'] != "") {
@@ -56,11 +56,6 @@ class Inbound_Email_Template_Shortcodes {
 			/*print_r($post_params); exit; */
 		}
 
-		/* unset google recaptcha */
-		unset($post_params['g_recaptcha_response']);
-
-		/* unset others */
-		unset($post_params['page_id']);
 
 		/* filter params */
 		$post_params = apply_filters('inbound_email_response/post_params' , $post_params);

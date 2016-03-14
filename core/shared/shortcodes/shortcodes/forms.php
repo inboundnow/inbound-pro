@@ -229,7 +229,7 @@ $shortcodes_config['forms'] = array(
                 'desc' => __('Enter Your Dropdown Options. Separate by commas. You may also use label|value to have a different value than the label stored.',  INBOUNDNOW_TEXT_DOMAIN ),
                 'type' => 'text',
                 'std' => '',
-                'placeholder' => __('Choice 1|a, Choice 2, Choice 3' , 'cta' ),
+                'placeholder' => __('Choice 1|a, Choice 2, Choice 3' , 'inbound-pro' ),
                 'reveal_on' => 'dropdown' // on select choice show this
             ),
             'radio_options' => array(
@@ -245,7 +245,7 @@ $shortcodes_config['forms'] = array(
                 'desc' => __('Enter Your Checkbox Options. Separate by commas. You may also use label|value to have a different value than the label stored.',  INBOUNDNOW_TEXT_DOMAIN ),
                 'type' => 'text',
                 'std' => '',
-                'placeholder' => __( 'Choice 1|a, Choice 2, Choice 3', 'cta' ),
+                'placeholder' => __( 'Choice 1|a, Choice 2, Choice 3', 'inbound-pro' ),
                 'reveal_on' => 'checkbox' // on select choice show this
             ),
             'html_block_options' => array(
