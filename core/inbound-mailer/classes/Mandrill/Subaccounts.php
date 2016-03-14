@@ -1,7 +1,7 @@
 <?php
 
 class Mandrill_Subaccounts {
-    public function __construct(Mandrill $master) {
+    public function __construct(Inbound_Mandrill $master) {
         $this->master = $master;
     }
 

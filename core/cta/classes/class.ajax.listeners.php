@@ -60,7 +60,7 @@ class CTA_Ajax_Listeners {
 	public static function clear_stats() {
 		global $wpdb, $CTA_Call_To_Action_Post_Type;
 
-		$post_id = mysql_real_escape_string($_POST['page_id']);
+		$post_id = intval($_POST['page_id']);
 
 		$CTA_Call_To_Action_Post_Type->clear_cta_stats( $post_id );
 
@@ -74,7 +74,7 @@ class CTA_Ajax_Listeners {
 	public static function clear_variation_stats() {
 		global $wpdb, $CTA_Call_To_Action_Post_Type;
 
-		$post_id = mysql_real_escape_string($_POST['page_id']);
+		$post_id = intval($_POST['page_id']);
 		$vid = $_POST['variation'];
 
 		$CTA_Call_To_Action_Post_Type->clear_cta_variation_stats( $post_id, $vid );
@@ -145,7 +145,7 @@ class CTA_Ajax_Listeners {
 
 		$new_meta_val = $_POST['new_meta_val'];
 		$meta_id = $_POST['meta_id'];
-		$post_id = mysql_real_escape_string($_POST['page_id']);
+		$post_id = intval($_POST['page_id']);
 
 		if ($meta_id === "main_title") {
 			$my_post = array();

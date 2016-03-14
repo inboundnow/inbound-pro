@@ -47,7 +47,7 @@ class Analytics_Template_Content_Quick_View {
 
 		$templates[ get_class() ] = array (
 			'class_name' => get_class(),
-			'label' => __('Content Analytics Summary' , INBOUNDNOW_TEXT_DOMAIN ),
+			'label' => __('Content Analytics Summary' , 'inbound-pro' ),
 			'report_type' => 'content_quick_view'
 		);
 
@@ -330,38 +330,38 @@ class Analytics_Template_Content_Quick_View {
 			<tr>
 				<td class='ia-td-th'>
 					<label title='<?php _e( 'Type fo statistic.' , 'inbound-pro'); ?>'>
-					<?php _e( 'Statistic' , INBOUNDNOW_TEXT_DOMAIN ); ?>
+					<?php _e( 'Statistic' , 'inbound-pro' ); ?>
 					</label>
 				</td>
 				<td class='ia-td-th'>
 					<label title='<?php _e( 'Statistic value for given time period' , 'inbound-pro'); ?>'>
-					<?php _e( 'Value' , INBOUNDNOW_TEXT_DOMAIN ); ?>
+					<?php _e( 'Value' , 'inbound-pro' ); ?>
 					</label>
 				</td>
 				<td class='ia-td-th'  title='<?php _e( 'Change in growth compared to corresponding previous timeperiod.' , 'inbound-pro'); ?>'>
 					<label>
-					<?php _e( 'Change' , INBOUNDNOW_TEXT_DOMAIN ); ?>
+					<?php _e( 'Change' , 'inbound-pro' ); ?>
 					</label>
 				</td>
 			</tr>
 			<tr>
 				<td class='ia-td-label' >
-					<label title='<?php _e( 'Total number of visits to this page' , INBOUNDNOW_TEXT_DOMAIN ); ?>'>
-					<?php _e( 'Impressions:' , INBOUNDNOW_TEXT_DOMAIN ); ?>
+					<label title='<?php _e( 'Total number of visits to this page' , 'inbound-pro' ); ?>'>
+					<?php _e( 'Impressions:' , 'inbound-pro' ); ?>
 					</label>
 				</td>
 				<td>
-					<a href='#' class='count' data-toggle="modal" data-target="#ia-modal-container" report-class-name="Analytics_Template_Content_Impressions_Expanded" modal-width='60%'><?php echo self::$statistics['impressions']['current'][self::$range]; ?></a>
+					<a href='#' class='count' data-toggle="modal-disabled" data-target="#ia-modal-container" report-class-name="Analytics_Template_Content_Impressions_Expanded" modal-width='60%'><?php echo self::$statistics['impressions']['current'][self::$range]; ?></a>
 				</td>
 
 				<td>
-					<span class='stat label <?php echo ( self::$statistics['impressions']['difference'][self::$range] > 0  ) ? 'label-success' : 'label-warning'; ?>' title="<?php echo sprintf( __('%s impressions in the last %s days versus %s impressions in the prior %s day period)' , INBOUNDNOW_TEXT_DOMAIN ) , self::$statistics['impressions']['current'][self::$range] , self::$range, self::$statistics['impressions']['past'][self::$range] , self::$range ) ; ?>"  data-toggle="tooltip" data-placement="left" ><?php echo self::prepare_rate_format( self::$statistics['impressions']['difference'][self::$range] ); ?></a>
+					<span class='stat label <?php echo ( self::$statistics['impressions']['difference'][self::$range] > 0  ) ? 'label-success' : 'label-warning'; ?>' title="<?php echo sprintf( __('%s impressions in the last %s days versus %s impressions in the prior %s day period)' , 'inbound-pro' ) , self::$statistics['impressions']['current'][self::$range] , self::$range, self::$statistics['impressions']['past'][self::$range] , self::$range ) ; ?>"  data-toggle="tooltip" data-placement="left" ><?php echo self::prepare_rate_format( self::$statistics['impressions']['difference'][self::$range] ); ?></a>
 				</td>
 			</tr>
 			<tr>
 				<td class='ia-td-label' >
-					<label title='<?php _e( 'Total number of visitors' , INBOUNDNOW_TEXT_DOMAIN ); ?>'>
-					<?php _e( 'Visitors:' , INBOUNDNOW_TEXT_DOMAIN ); ?>
+					<label title='<?php _e( 'Total number of visitors' , 'inbound-pro' ); ?>'>
+					<?php _e( 'Visitors:' , 'inbound-pro' ); ?>
 					</label>
 				</td>
 				<td>
@@ -369,34 +369,34 @@ class Analytics_Template_Content_Quick_View {
 				</td>
 
 				<td>
-					<span class='stat label  <?php echo ( self::$statistics['visitors']['difference'][self::$range] > 0  ) ? 'label-success' : 'label-warning'; ?>' title="<?php echo sprintf( __('%s visitors in the last %s days versus %s visitors in the prior %s day period)' , INBOUNDNOW_TEXT_DOMAIN ) , self::$statistics['visitors']['current'][self::$range] , self::$range, self::$statistics['visitors']['past'][self::$range] , self::$range ) ; ?>"><?php echo self::prepare_rate_format( self::$statistics['visitors']['difference'][self::$range] ); ?></span>
+					<span class='stat label  <?php echo ( self::$statistics['visitors']['difference'][self::$range] > 0  ) ? 'label-success' : 'label-warning'; ?>' title="<?php echo sprintf( __('%s visitors in the last %s days versus %s visitors in the prior %s day period)' , 'inbound-pro' ) , self::$statistics['visitors']['current'][self::$range] , self::$range, self::$statistics['visitors']['past'][self::$range] , self::$range ) ; ?>"><?php echo self::prepare_rate_format( self::$statistics['visitors']['difference'][self::$range] ); ?></span>
 				</td>
 			</tr>
 			<tr>
 				<td class='ia-td-label'>
-					<label title='<?php _e( 'Total number of event actions originating from this page.' , INBOUNDNOW_TEXT_DOMAIN ); ?>'>
-					<?php _e( 'Actions:' , INBOUNDNOW_TEXT_DOMAIN ); ?>
+					<label title='<?php _e( 'Total number of event actions originating from this page.' , 'inbound-pro' ); ?>'>
+					<?php _e( 'Actions:' , 'inbound-pro' ); ?>
 					</label>
 				</td>
 				<td class='ia-td-value'>
 					<a href='#' class='count'><?php echo self::$statistics['actions']['current'][self::$range]; ?></a>
 				</td>
 				<td class='ia-td-value'>
-					<span class='stat label  <?php echo ( self::$statistics['actions']['difference'][self::$range] > 0  ) ? 'label-success' : 'label-warning'; ?>' title="<?php echo sprintf( __('%s actions in the last %s days versus %s actions in the prior %s day period)' , INBOUNDNOW_TEXT_DOMAIN ) , self::$statistics['actions']['current'][self::$range] , self::$range, self::$statistics['actions']['past'][self::$range] , self::$range ) ; ?>"  data-toggle="tooltip" data-placement="left" ><?php echo self::prepare_rate_format( self::$statistics['actions']['difference'][self::$range] ); ?></a>
+					<span class='stat label  <?php echo ( self::$statistics['actions']['difference'][self::$range] > 0  ) ? 'label-success' : 'label-warning'; ?>' title="<?php echo sprintf( __('%s actions in the last %s days versus %s actions in the prior %s day period)' , 'inbound-pro' ) , self::$statistics['actions']['current'][self::$range] , self::$range, self::$statistics['actions']['past'][self::$range] , self::$range ) ; ?>"  data-toggle="tooltip" data-placement="left" ><?php echo self::prepare_rate_format( self::$statistics['actions']['difference'][self::$range] ); ?></a>
 				
 				</td>
 			</tr>
 			<tr>
 				<td class='ia-td-label'>
-					<label title='<?php _e( 'Total percentage of actions to impressions.' , INBOUNDNOW_TEXT_DOMAIN ); ?>'>
-					<?php _e( 'Action Rate:' , INBOUNDNOW_TEXT_DOMAIN ); ?>
+					<label title='<?php _e( 'Total percentage of actions to impressions.' , 'inbound-pro' ); ?>'>
+					<?php _e( 'Action Rate:' , 'inbound-pro' ); ?>
 					</label>
 				</td>
 				<td class='ia-td-value'>
 					<span class="label label-info"><?php echo self::prepare_rate_format(self::$statistics['actions']['rate']['current'][self::$range] , false); ?></span>
 				</td>
 				<td class='ia-td-value'>
-					<span class='stat label  <?php echo ( self::$statistics['actions']['rate']['difference'][self::$range] > 0  ) ? 'label-success' : 'label-warning'; ?>' title="<?php echo sprintf( __('%s action rate in the last %s days versus an %s action rate in the prior %s day period)' , INBOUNDNOW_TEXT_DOMAIN ) , self::prepare_rate_format(self::$statistics['actions']['rate']['current'][self::$range]) , self::$range, self::prepare_rate_format(self::$statistics['actions']['rate']['past'][self::$range]) , self::$range ) ; ?>"><?php echo self::prepare_rate_format(self::$statistics['actions']['rate']['difference'][self::$range]); ?></span> 
+					<span class='stat label  <?php echo ( self::$statistics['actions']['rate']['difference'][self::$range] > 0  ) ? 'label-success' : 'label-warning'; ?>' title="<?php echo sprintf( __('%s action rate in the last %s days versus an %s action rate in the prior %s day period)' , 'inbound-pro' ) , self::prepare_rate_format(self::$statistics['actions']['rate']['current'][self::$range]) , self::$range, self::prepare_rate_format(self::$statistics['actions']['rate']['past'][self::$range]) , self::$range ) ; ?>"><?php echo self::prepare_rate_format(self::$statistics['actions']['rate']['difference'][self::$range]); ?></span> 
 				</td>
 			</tr>
 		</table>
@@ -409,46 +409,46 @@ class Analytics_Template_Content_Quick_View {
 		<table class='ia-table-summary'>
 			<tr>
 				<td class='ia-td-th'>
-					<?php _e( 'Action Breakdown' , INBOUNDNOW_TEXT_DOMAIN ); ?>
+					<?php _e( 'Action Breakdown' , 'inbound-pro' ); ?>
 				</td>
 				<td class='ia-td-th'>
-					<?php _e( 'Count' , INBOUNDNOW_TEXT_DOMAIN ); ?>
+					<?php _e( 'Count' , 'inbound-pro' ); ?>
 				</td>
 				<td class='ia-td-th'>
-					<?php _e( 'Rate' , INBOUNDNOW_TEXT_DOMAIN ); ?>
+					<?php _e( 'Rate' , 'inbound-pro' ); ?>
 				</td>
 				<td class='ia-td-th'>
-					<?php _e( 'Change' , INBOUNDNOW_TEXT_DOMAIN ); ?>
+					<?php _e( 'Change' , 'inbound-pro' ); ?>
 				</td>
 			</tr>
 			<tr>
 				<td class='ia-td-label'>
-					<label title='<?php _e( 'Total number of Inbound Form submissions originating from this page' , INBOUNDNOW_TEXT_DOMAIN ); ?>'><?php _e( 'Form Submissions' , 'inbound-pro');?>:</label>
+					<label title='<?php _e( 'Total number of Inbound Form submissions originating from this page' , 'inbound-pro' ); ?>'><?php _e( 'Form Submissions' , 'inbound-pro');?>:</label>
 				</td>
 				<td class='ia-td-value'>
-					<a href='#' class='count'  title='<?php _e( 'Total number of form submissions performed within the given time period for this content.' , INBOUNDNOW_TEXT_DOMAIN ); ?>'><?php echo self::$statistics['submissions']['current'][self::$range]; ?></a>
+					<a href='#' class='count'  title='<?php _e( 'Total number of form submissions performed within the given time period for this content.' , 'inbound-pro' ); ?>'><?php echo self::$statistics['submissions']['current'][self::$range]; ?></a>
 				</td>
 				<td class='ia-td-value'>
-					<span class="label label-info" title='<?php _e( 'Rate of action events compared to impressions.' , INBOUNDNOW_TEXT_DOMAIN ); ?>'><?php echo self::prepare_rate_format(self::$statistics['submissions']['rate']['current'][self::$range] , false ); ?></span>
+					<span class="label label-info" title='<?php _e( 'Rate of action events compared to impressions.' , 'inbound-pro' ); ?>'><?php echo self::prepare_rate_format(self::$statistics['submissions']['rate']['current'][self::$range] , false ); ?></span>
 				</td>
 				<td class='ia-td-value'>
-					<span class='stat label <?php echo ( self::$statistics['submissions']['difference'][self::$range] > 0  ) ? 'label-success' : 'label-warning'; ?>' title="<?php echo sprintf( __('%s action rate in the last %s days versus an %s action rate in the prior %s day period)' , INBOUNDNOW_TEXT_DOMAIN ) , self::prepare_rate_format(self::$statistics['submissions']['rate']['current'][self::$range]) , self::$range, self::prepare_rate_format(self::$statistics['submissions']['rate']['past'][self::$range]) , self::$range ) ; ?>"><?php echo self::prepare_rate_format(self::$statistics['actions']['rate']['difference'][self::$range]); ?></span>
+					<span class='stat label <?php echo ( self::$statistics['submissions']['difference'][self::$range] > 0  ) ? 'label-success' : 'label-warning'; ?>' title="<?php echo sprintf( __('%s action rate in the last %s days versus an %s action rate in the prior %s day period)' , 'inbound-pro' ) , self::prepare_rate_format(self::$statistics['submissions']['rate']['current'][self::$range]) , self::$range, self::prepare_rate_format(self::$statistics['submissions']['rate']['past'][self::$range]) , self::$range ) ; ?>"><?php echo self::prepare_rate_format(self::$statistics['actions']['rate']['difference'][self::$range]); ?></span>
 				</td>
 			</tr>
 			<tr>
 				<td class='ia-td-label'>
-					<label title='<?php _e( 'Total number of clicked tracked links related to this page.' , INBOUNDNOW_TEXT_DOMAIN ); ?>'>
-						<?php _e( 'Tracked Click Events' , INBOUNDNOW_TEXT_DOMAIN ); ?>
+					<label title='<?php _e( 'Total number of clicked tracked links related to this page.' , 'inbound-pro' ); ?>'>
+						<?php _e( 'Tracked Click Events' , 'inbound-pro' ); ?>
 					</label>
 				</td>
 				<td class='ia-td-value'>
-					<a href='#' class='count' title='<?php _e( 'Total number of actions performed within the given time period for this content.' , INBOUNDNOW_TEXT_DOMAIN ); ?>'><?php echo self::$statistics['clicks']['current'][self::$range]; ?></a>
+					<a href='#' class='count' title='<?php _e( 'Total number of actions performed within the given time period for this content.' , 'inbound-pro' ); ?>'><?php echo self::$statistics['clicks']['current'][self::$range]; ?></a>
 				</td>
 				<td class='ia-td-value'>
-					<span class="label label-info" title='<?php _e( 'Rate of action events compared to impressions.' , INBOUNDNOW_TEXT_DOMAIN ); ?>'  title="<?php echo sprintf( __('%s action rate in the last %s days versus an %s action rate in the prior %s day period)' , INBOUNDNOW_TEXT_DOMAIN ) , self::prepare_rate_format(self::$statistics['clicks']['rate']['current'][self::$range]) , self::$range, self::prepare_rate_format(self::$statistics['clicks']['rate']['past'][self::$range]) , self::$range ) ; ?>"><?php echo self::prepare_rate_format(self::$statistics['clicks']['rate']['current'][self::$range] , false ); ?></span>
+					<span class="label label-info" title='<?php _e( 'Rate of action events compared to impressions.' , 'inbound-pro' ); ?>'  title="<?php echo sprintf( __('%s action rate in the last %s days versus an %s action rate in the prior %s day period)' , 'inbound-pro' ) , self::prepare_rate_format(self::$statistics['clicks']['rate']['current'][self::$range]) , self::$range, self::prepare_rate_format(self::$statistics['clicks']['rate']['past'][self::$range]) , self::$range ) ; ?>"><?php echo self::prepare_rate_format(self::$statistics['clicks']['rate']['current'][self::$range] , false ); ?></span>
 				</td>
 				<td class='ia-td-value'>
-					<span class="stat label  <?php echo ( self::$statistics['clicks']['rate']['difference'][self::$range] > 0  ) ? 'label-success' : 'label-warning'; ?>"  title="<?php echo sprintf( __('%s action rate in the last %s days versus an %s action rate in the prior %s day period)' , INBOUNDNOW_TEXT_DOMAIN ) , self::prepare_rate_format(self::$statistics['clicks']['rate']['current'][self::$range]) , self::$range, self::prepare_rate_format(self::$statistics['clicks']['rate']['past'][self::$range]) , self::$range ) ; ?>"><?php echo self::prepare_rate_format(self::$statistics['clicks']['rate']['difference'][self::$range]); ?></span>
+					<span class="stat label  <?php echo ( self::$statistics['clicks']['rate']['difference'][self::$range] > 0  ) ? 'label-success' : 'label-warning'; ?>"  title="<?php echo sprintf( __('%s action rate in the last %s days versus an %s action rate in the prior %s day period)' , 'inbound-pro' ) , self::prepare_rate_format(self::$statistics['clicks']['rate']['current'][self::$range]) , self::$range, self::prepare_rate_format(self::$statistics['clicks']['rate']['past'][self::$range]) , self::$range ) ; ?>"><?php echo self::prepare_rate_format(self::$statistics['clicks']['rate']['difference'][self::$range]); ?></span>
 				</td>
 			</tr>
 		</table>
@@ -462,107 +462,109 @@ class Analytics_Template_Content_Quick_View {
 			<tr>
 				<td class='ia-td-th' >
 					<label title='<?php _e( 'The statistics below reveal where traffic has arrived on this content page from.' , 'inbound-pro'); ?>'>
-					<?php _e( 'Traffic Breakdown' , INBOUNDNOW_TEXT_DOMAIN ); ?>
+					<?php _e( 'Traffic Breakdown' , 'inbound-pro' ); ?>
 					</label>
 				</td>
 				<td class='ia-td-th' >
 					<label title='<?php _e( 'Number of visits within set timeperiod.' , 'inbound-pro'); ?>'>
-					<?php _e( 'Count' , INBOUNDNOW_TEXT_DOMAIN ); ?>
+					<?php _e( 'Count' , 'inbound-pro' ); ?>
 					</label>
 				</td>
 				<td class='ia-td-th'>
 					<label title='<?php _e( 'Percent of these visits compared to all referred traffic.' , 'inbound-pro'); ?>'>
-						<?php _e( 'Rate' , INBOUNDNOW_TEXT_DOMAIN ); ?>
+						<?php _e( 'Rate' , 'inbound-pro' ); ?>
 					</label>
 				</td>
 				<td class='ia-td-th'>
 					<label title='<?php _e( 'Change in growth compared to corresponding previous timeperiod.' , 'inbound-pro'); ?>'>
-					<?php _e( 'Change' , INBOUNDNOW_TEXT_DOMAIN ); ?>
+					<?php _e( 'Change' , 'inbound-pro' ); ?>
 					</label>
 				</td>
 			</tr>
 			<tr>
 				<td class='ia-td-label'>
-					<label title='<?php _e( 'Total number of visits to this page by directly accessing the URL.' , INBOUNDNOW_TEXT_DOMAIN ); ?>'>
-					<?php _e( 'Direct Access' , INBOUNDNOW_TEXT_DOMAIN ); ?>
+					<label title='<?php _e( 'Total number of visits to this page by directly accessing the URL.' , 'inbound-pro' ); ?>'>
+					<?php _e( 'Direct Access' , 'inbound-pro' ); ?>
 					</label>
 				</td>
 				<td class='ia-td-value'>
-					<a href='#' class='count'  title='<?php _e( 'Total number of visits without a referral.' , INBOUNDNOW_TEXT_DOMAIN ); ?>'>
+					<a href='#' class='count'  title='<?php _e( 'Total number of visits without a referral.' , 'inbound-pro' ); ?>'>
 						<?php echo self::$statistics['traffic_sources']['current'][self::$range]['direct']; ?>
 					</a>
 				</td>
 				<td class='ia-td-value'>
-					<span class="label label-info"  title='<?php _e( 'Rate of direct access visits versus other types of referrals.' , INBOUNDNOW_TEXT_DOMAIN ); ?>'>
+					<span class="label label-info"  title='<?php _e( 'Rate of direct access visits versus other types of referrals.' , 'inbound-pro' ); ?>'>
 						<?php echo self::prepare_rate_format(self::$statistics['traffic_sources']['rate']['current'][self::$range]['direct'] , false ); ?>
 					</span>
 				</td>
 				<td class='ia-td-value'>
-					<span class='stat label  <?php echo ( self::$statistics['traffic_sources']['rate']['difference'][self::$range]['direct'] > 0  ) ? 'label-success' : 'label-warning'; ?>'  title="<?php echo sprintf( __('%s referrer volume rate of in the last %s days versus an %s action rate in the prior %s day period)' , INBOUNDNOW_TEXT_DOMAIN ) , self::prepare_rate_format(self::$statistics['traffic_sources']['rate']['current'][self::$range]['direct']) , self::$range, self::prepare_rate_format(self::$statistics['traffic_sources']['rate']['past'][self::$range]['direct']) , self::$range ) ; ?>">
+					<span class='stat label  <?php echo ( self::$statistics['traffic_sources']['rate']['difference'][self::$range]['direct'] > 0  ) ? 'label-success' : 'label-warning'; ?>'  title="<?php echo sprintf( __('%s referrer volume rate of in the last %s days versus an %s action rate in the prior %s day period)' , 'inbound-pro' ) , self::prepare_rate_format(self::$statistics['traffic_sources']['rate']['current'][self::$range]['direct']) , self::$range, self::prepare_rate_format(self::$statistics['traffic_sources']['rate']['past'][self::$range]['direct']) , self::$range ) ; ?>">
 						<?php echo self::prepare_rate_format(self::$statistics['traffic_sources']['rate']['difference'][self::$range]['direct']); ?>
 					</span>
 				</td>
 			</tr>
 			<tr>
 				<td class='ia-td-label'>
-					<label title='<?php _e( 'Total number of visits referred by an external site. This statistic excludes major search engines and social sites as those are listed in a separate statistic below.' , INBOUNDNOW_TEXT_DOMAIN ); ?>'>
-					<?php _e( '3rd Party' , INBOUNDNOW_TEXT_DOMAIN ); ?>
+					<label title='<?php _e( 'Total number of visits referred by an external site. This statistic excludes major search engines and social sites as those are listed in a separate statistic below.' , 'inbound-pro' ); ?>'>
+					<?php _e( '3rd Party' , 'inbound-pro' ); ?>
 					</label>
 				</td>
 				<td class='ia-td-value'>
-					<a href='#' class='count'  title='<?php _e( 'Total number of visits referred by an external site.' , INBOUNDNOW_TEXT_DOMAIN ); ?>'>
+					<a href='#' class='count'  title='<?php _e( 'Total number of visits referred by an external site.' , 'inbound-pro' ); ?>'>
 						<?php echo self::$statistics['traffic_sources']['current'][self::$range]['3rdparty']; ?>
 					</a>
 				</td>
 				<td class='ia-td-value'>
-					<span class="label label-info" title='<?php _e( 'Rate of 3rd party referrals versus other types of referrals.' , INBOUNDNOW_TEXT_DOMAIN ); ?>'>
+					<span class="label label-info" title='<?php _e( 'Rate of 3rd party referrals versus other types of referrals.' , 'inbound-pro' ); ?>'>
 						<?php echo self::prepare_rate_format(self::$statistics['traffic_sources']['rate']['current'][self::$range]['3rdparty'] , false ); ?>
 					</span>
 				</td>
 				<td class='ia-td-value'>
-					<span class='stat label  <?php echo ( self::$statistics['traffic_sources']['rate']['difference'][self::$range]['3rdparty'] > 0  ) ? 'label-success' : 'label-warning'; ?>'  title="<?php echo sprintf( __('%s referrer volume rate of in the last %s days versus an %s action rate in the prior %s day period)' , INBOUNDNOW_TEXT_DOMAIN ) , self::prepare_rate_format(self::$statistics['traffic_sources']['rate']['current'][self::$range]['3rdparty']) , self::$range, self::prepare_rate_format(self::$statistics['traffic_sources']['rate']['past'][self::$range]['3rdparty']) , self::$range ) ; ?>">
+					<span class='stat label  <?php echo ( self::$statistics['traffic_sources']['rate']['difference'][self::$range]['3rdparty'] > 0  ) ? 'label-success' : 'label-warning'; ?>'  title="<?php echo sprintf( __('%s referrer volume rate of in the last %s days versus an %s action rate in the prior %s day period)' , 'inbound-pro' ) , self::prepare_rate_format(self::$statistics['traffic_sources']['rate']['current'][self::$range]['3rdparty']) , self::$range, self::prepare_rate_format(self::$statistics['traffic_sources']['rate']['past'][self::$range]['3rdparty']) , self::$range ) ; ?>">
 						<?php echo self::prepare_rate_format(self::$statistics['traffic_sources']['rate']['difference'][self::$range]['3rdparty']); ?>
 					</span>
 				</td>
 			</tr>
 			<tr>
 				<td class='ia-td-label'>
-					<label title='<?php _e( 'Total number of visits referred by a search engine. Search engine must be major search engine to be included in this statistic.' , INBOUNDNOW_TEXT_DOMAIN ); ?>'>
-						<?php _e( 'Search Engine' , INBOUNDNOW_TEXT_DOMAIN ); ?>
+					<label title='<?php _e( 'Total number of visits referred by a search engine. Search engine must be major search engine to be included in this statistic.' , 'inbound-pro' ); ?>'>
+						<?php _e( 'Search Engine' , 'inbound-pro' ); ?>
 					</label>
 				</td>
 				<td class='ia-td-value'>
+					<a href='#' class='count'  title='<?php _e( 'Total number of visits referred by a search engine.' , 'inbound-pro' ); ?>'>
 					<?php echo self::$statistics['traffic_sources']['current'][self::$range]['search']; ?>
+					</a>
 				</td>
 				<td class='ia-td-value'>
-					<span class="label label-info" title='<?php _e( 'Rate of search engine referrals versus other types of referrals.' , INBOUNDNOW_TEXT_DOMAIN ); ?>'>
+					<span class="label label-info" title='<?php _e( 'Rate of search engine referrals versus other types of referrals.' , 'inbound-pro' ); ?>'>
 						<?php echo self::prepare_rate_format(self::$statistics['traffic_sources']['rate']['current'][self::$range]['search'] , false ); ?>
 					</span>
 				</td>
 				<td class='ia-td-value'>
-					<span class='stat label  <?php echo ( self::$statistics['traffic_sources']['rate']['difference'][self::$range]['search'] > 0  ) ? 'label-success' : 'label-warning'; ?>'  title="<?php echo sprintf( __('%s referrer volume rate of in the last %s days versus an %s action rate in the prior %s day period)' , INBOUNDNOW_TEXT_DOMAIN ) , self::prepare_rate_format(self::$statistics['traffic_sources']['rate']['current'][self::$range]['search']) , self::$range, self::prepare_rate_format(self::$statistics['traffic_sources']['rate']['past'][self::$range]['search']) , self::$range ) ; ?>">
+					<span class='stat label  <?php echo ( self::$statistics['traffic_sources']['rate']['difference'][self::$range]['search'] > 0  ) ? 'label-success' : 'label-warning'; ?>'  title="<?php echo sprintf( __('%s referrer volume rate of in the last %s days versus an %s action rate in the prior %s day period)' , 'inbound-pro' ) , self::prepare_rate_format(self::$statistics['traffic_sources']['rate']['current'][self::$range]['search']) , self::$range, self::prepare_rate_format(self::$statistics['traffic_sources']['rate']['past'][self::$range]['search']) , self::$range ) ; ?>">
 						<?php echo self::prepare_rate_format(self::$statistics['traffic_sources']['rate']['difference'][self::$range]['search']); ?>
 					</span>
 				</td>
 			</tr>
 			<tr>
 				<td class='ia-td-label'>
-					<label title='<?php _e( 'Total number of visits referred by a major social media site.' , INBOUNDNOW_TEXT_DOMAIN ); ?>'>
-					<?php _e( 'Social Media' , INBOUNDNOW_TEXT_DOMAIN ); ?>
+					<label title='<?php _e( 'Total number of visits referred by a major social media site.' , 'inbound-pro' ); ?>'>
+					<?php _e( 'Social Media' , 'inbound-pro' ); ?>
 					</label>
 				</td>
 				<td class='ia-td-value'>
-					<a href='#' class='count'  title='<?php _e( 'Total number of visits referred by a search engine.' , INBOUNDNOW_TEXT_DOMAIN ); ?>'>
+					<a href='#' class='count'  title='<?php _e( 'Total number of visits referred by a search engine.' , 'inbound-pro' ); ?>'>
 						<?php echo self::$statistics['traffic_sources']['current'][self::$range]['social']; ?>
 					</a>
 				</td>
 				<td class='ia-td-value'>
-					<span class="label label-info"  title='<?php _e( 'Rate of search engine referrals versus other types of referrals.' , INBOUNDNOW_TEXT_DOMAIN ); ?>'>
+					<span class="label label-info"  title='<?php _e( 'Rate of search engine referrals versus other types of referrals.' , 'inbound-pro' ); ?>'>
 						<?php echo self::prepare_rate_format(self::$statistics['traffic_sources']['rate']['current'][self::$range]['social'] , false ); ?>
 					</span>
 				</td>
 				<td class='ia-td-value'>
-					<span class='stat label  <?php echo ( self::$statistics['traffic_sources']['rate']['difference'][self::$range]['social'] > 0  ) ? 'label-success' : 'label-warning'; ?>'  title="<?php echo sprintf( __('%s referrer volume rate of in the last %s days versus an %s action rate in the prior %s day period)' , INBOUNDNOW_TEXT_DOMAIN ) , self::prepare_rate_format(self::$statistics['traffic_sources']['rate']['current'][self::$range]['social']) , self::$range, self::prepare_rate_format(self::$statistics['traffic_sources']['rate']['past'][self::$range]['social']) , self::$range ) ; ?>">
+					<span class='stat label  <?php echo ( self::$statistics['traffic_sources']['rate']['difference'][self::$range]['social'] > 0  ) ? 'label-success' : 'label-warning'; ?>'  title="<?php echo sprintf( __('%s referrer volume rate of in the last %s days versus an %s action rate in the prior %s day period)' , 'inbound-pro' ) , self::prepare_rate_format(self::$statistics['traffic_sources']['rate']['current'][self::$range]['social']) , self::$range, self::prepare_rate_format(self::$statistics['traffic_sources']['rate']['past'][self::$range]['social']) , self::$range ) ; ?>">
 						<?php echo self::prepare_rate_format(self::$statistics['traffic_sources']['rate']['difference'][self::$range]['social']); ?>
 					</span>
 				</td>

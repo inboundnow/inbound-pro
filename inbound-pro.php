@@ -203,7 +203,7 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 			}
 
 			/* load inbound mailer & inbound automation */
-			if ( !isset(self::$settings['inbound-core-loading']['toggle-google-analytics']) || self::$settings['inbound-core-loading']['toggle-google-analytics'] =='on' ) {
+			if ( isset(self::$settings['inbound-core-loading']['toggle-google-analytics']) && self::$settings['inbound-core-loading']['toggle-google-analytics'] =='on' ) {
 				include_once( INBOUND_COMPONENT_PATH . '/inbound-google-analytics/inbound-google-analytics.php');
 			}
 

@@ -94,8 +94,10 @@ class Inbound_Analytics_UI_Containers {
 		wp_register_script( 'bootstrap-js' , INBOUND_GA_URLPATH.'assets/libraries/BootStrap/bootstrap.min.js');
 		wp_enqueue_script( 'bootstrap-js' );
 
+		/* disables modal links
 		wp_register_script( 'ia-content-loader' , INBOUND_GA_URLPATH.'assets/js/content.loader.js');
 		wp_enqueue_script( 'ia-content-loader' );
+		*/
 
 		wp_register_style( 'bootstrap-css' , INBOUND_GA_URLPATH. 'assets/libraries/BootStrap/bootstrap.css');
 		wp_enqueue_style( 'bootstrap-css' );
@@ -109,6 +111,11 @@ class Inbound_Analytics_UI_Containers {
 	*	Adds sidebar metabox to all post types
 	*/
 	public static function load_metaboxes() {
+		$screen = get_current_screen();
+
+		if (!isset($screen) || $screen->action == 'new') {
+			return;
+		}
 
 		/* Get post types to add metabox to */
 		$post_types= get_post_types('','names');
@@ -136,7 +143,7 @@ class Inbound_Analytics_UI_Containers {
 
 			if (!in_array($post_type,$exclude))
 			{
-				add_meta_box( 'inbound-analytics', __( 'Inbound Analytics' , INBOUNDNOW_TEXT_DOMAIN ) , array( __CLASS__ , 'display_quick_view' ) , $post_type, 'side', 'high');
+				add_meta_box( 'inbound-analytics', __( 'Inbound Analytics' , 'inbound-pro' ) , array( __CLASS__ , 'display_quick_view' ) , $post_type, 'side', 'high');
 			}
 		}
 	}

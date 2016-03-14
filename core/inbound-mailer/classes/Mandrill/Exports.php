@@ -1,7 +1,7 @@
 <?php
 
 class Mandrill_Exports {
-    public function __construct(Mandrill $master) {
+    public function __construct(Inbound_Mandrill $master) {
         $this->master = $master;
     }
 
