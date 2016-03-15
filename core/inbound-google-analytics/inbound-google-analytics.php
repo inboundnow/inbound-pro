@@ -80,7 +80,7 @@ if ( !class_exists( 'Inbound_Google_Analytics' )) {
 				/* load reporting files */
 				include_once INBOUND_GA_PATH . 'classes/class.google-connector.php';	/* Load Inbound Analytics Connector Class */
 				include_once INBOUND_GA_PATH . 'classes/class.build-ui-containers.php'; /* Load administration files */
-				include_once INBOUND_GA_PATH . 'classes/class.post-types.php';
+				//include_once INBOUND_GA_PATH . 'classes/class.post-types.php';
 
 				/* Load template files */
 				include_once INBOUND_GA_PATH . 'templates/content.quick-view.php';
