@@ -5,8 +5,12 @@ if ( !class_exists('Inbound_GA_Post_Types') ) {
     class Inbound_GA_Post_Types {
 
         static $stats;
+        static $range;
+        static $statistics;
 
         function __construct() {
+            self::$range = 90;
+            self::$statistics = get_transient( 'inbound_ga_post_list_cache' );
             self::load_hooks();
         }
 
@@ -25,8 +29,10 @@ if ( !class_exists('Inbound_GA_Post_Types') ) {
             add_filter("manage_edit-post_sortable_columns", array( __CLASS__ , 'define_sortable_columns' ));
 
             /* Cache statistics data */
-            add_filter( 'admin_footer' , array( __CLASS__ , 'cache_data' ) );
+            add_filter( 'admin_footer' , array( __CLASS__ , 'load_footer_js_css' ) );
 
+            /* Adds listener for loading impression data */
+            add_action( 'wp_ajax_inbound_load_ga_stats' , array( __CLASS__ , 'get_post_statics' ) );
 
         }
 
@@ -58,32 +64,40 @@ if ( !class_exists('Inbound_GA_Post_Types') ) {
 
             switch ($column) {
                 case "inbound_ga_stats_impressions":
-                    ?>
-                    <div class="td-col-sends" data-post-id="<?php echo $post->ID; ?>" ><img src="<?php echo INBOUND_GA_URLPATH; ?>assets/img/ajax_progress.gif" class="col-ajax-spinner" style="margin-top:3px;"></div>
-                    <?php
+                    if (isset(self::$statistics[$post->ID])) {
+
+                    }
+                    else {
+                        ?>
+                        <div class="td-col-impressions" data-post-id="<?php echo $post->ID; ?>">
+                            <img src="<?php echo INBOUND_GA_URLPATH; ?>assets/img/ajax_progress.gif" class="col-ajax-spinner" style="margin-top:3px;">
+
+                        </div>
+                        <?php
+                    }
                     break;
                 case "inbound_ga_stats_visitors":
                     ?>
-                    <div class="td-col-sends" data-post-id="<?php echo $post->ID; ?>" ><img src="<?php echo INBOUND_GA_URLPATH; ?>assets/img/ajax_progress.gif" class="col-ajax-spinner" style="margin-top:3px;"></div>
+                    <div class="td-col-visitors" data-post-id="<?php echo $post->ID; ?>" ><img src="<?php echo INBOUND_GA_URLPATH; ?>assets/img/ajax_progress.gif" class="col-ajax-spinner" style="margin-top:3px;"></div>
                     <?php
                     break;
                 case "inbound_ga_stats_actions":
                     ?>
-                    <div class="td-col-sends" data-post-id="<?php echo $post->ID; ?>" ><img src="<?php echo INBOUND_GA_URLPATH; ?>assets/img/ajax_progress.gif" class="col-ajax-spinner" style="margin-top:3px;"></div>
+                    <div class="td-col-actions" data-post-id="<?php echo $post->ID; ?>" ><img src="<?php echo INBOUND_GA_URLPATH; ?>assets/img/ajax_progress.gif" class="col-ajax-spinner" style="margin-top:3px;"></div>
                     <?php
                     break;
 
             }
         }
 
-        public static function load_email_stats( $email_id ) {
+        public static function load_email_stats( $post_id ) {
 
-            if ( isset(self::$stats[$email_id]) ) {
-                return self::$stats[$email_id];
+            if ( isset(self::$stats[$post_id]) ) {
+                return self::$stats[$post_id];
             }
 
-            self::$stats[$email_id] = Inbound_Email_Stats::get_email_timeseries_stats();
-            return self::$stats[$email_id];
+            self::$stats[$post_id] = Inbound_Email_Stats::get_email_timeseries_stats();
+            return self::$stats[$post_id];
         }
 
         /**
@@ -93,17 +107,148 @@ if ( !class_exists('Inbound_GA_Post_Types') ) {
          */
         public static function define_sortable_columns($columns) {
 
-            $columns['inbound_ga_stats_impressions'] = 'inbound_ga_stats_impressions';
-            $columns['inbound_ga_stats_visitors'] = 'inbound_ga_stats_visitors';
+            //$columns['inbound_ga_stats_impressions'] = 'inbound_ga_stats_impressions';
+            //$columns['inbound_ga_stats_visitors'] = 'inbound_ga_stats_visitors';
             $columns['inbound_ga_stats_actions'] = 'inbound_ga_stats_visitors';
 
             return $columns;
         }
 
-        public static function cache_data() {
-            if (!get_transient('inbound-email-stats-cache')) {
+        public static function load_footer_js_css() {
+            $screen = get_current_screen();
 
+            $whitelist = array('post','page');
+
+            if(!isset($screen) || !in_array($screen->post_type , $whitelist )) {
+                return;
             }
+
+            $transient = get_transient( 'inbound_ga_post_list_cache' );
+            $js_array = json_encode($transient);
+
+            ?>
+            <script type="text/javascript">
+                jQuery(document).ready( function($) {
+                    <?php
+                    echo "var cache = JSON.parse('". $js_array . "');\n";
+                    ?>
+                    /* Let's use ajax to discover and set the sends/opens/conversions */
+                    jQuery( jQuery('.td-col-impressions').get() ).each( function( $ ) {
+                        var post_id = jQuery(this).attr('data-post-id');
+
+                        if (typeof cache[post_id] != 'undefined') {
+                            jQuery( '.td-col-impressions[data-post-id="' + post_id + '"]').text( cache[post_id].impressions.current['<?php echo self::$range; ?>'] );
+                            jQuery( '.td-col-visitors[data-post-id="' + post_id + '"]').text(cache[post_id].visitors.current['<?php echo self::$range; ?>']);
+                            jQuery( '.td-col-actions[data-post-id="' + post_id + '"]').text(cache[post_id].actions.current['<?php echo self::$range; ?>']);
+                        } else {
+
+                            jQuery.ajax({
+                                type: "POST",
+                                url: ajaxurl,
+                                data: {
+                                    action: 'inbound_load_ga_stats',
+                                    post_id: post_id
+                                },
+                                dataType: 'json',
+                                async: true,
+                                timeout: 5000,
+                                success: function (response) {
+
+                                    if (!Object.keys(response).length) {
+                                        response['totals'] = [];
+                                        response['totals']['impressions'] = 0;
+                                        response['totals']['visitors'] = 0;
+                                        response['totals']['actions'] = 0;
+                                    }
+
+                                    jQuery( '.td-col-impressions[data-post-id="' + post_id + '"]').text(response['impressions']['current']['90']);
+                                    jQuery( '.td-col-visitors[data-post-id="' + post_id + '"]').text(response['visitors']['current']['90']);
+                                    jQuery( '.td-col-actions[data-post-id="' + post_id + '"]').text(response['actions']['current']['90']);
+
+                                },
+                                error: function (request, status, err) {
+                                    //alert(status);
+                                }
+                            });
+                        }
+
+                });
+            });
+            </script>
+            <?php
+        }
+
+        /**
+         *  Gets JSON object containing email send statistics return cached data if cached
+         */
+        public static function get_post_statics() {
+            global $post;
+            $ts = gmdate("D, d M Y H:i:s", time() + $seconds_to_cache) . " GMT";
+            $transient = get_transient( 'inbound_ga_post_list_cache' );
+
+            if (isset($transient[$_REQUEST['post_id']])) {
+                return $transient[$_REQUEST['post_id']];
+            }
+
+            $post = get_post($_REQUEST['post_id']);
+            $transient[$_REQUEST['post_id']] = Analytics_Template_Content_Quick_View::load_data();
+
+            echo json_encode($transient[$_REQUEST['post_id']]);
+
+            set_transient( 'inbound_ga_post_list_cache' , $transient , 60 * 30 );
+
+            header('HTTP/1.1 200 OK');
+            exit;
+        }
+
+        public static function load_stats() {
+            //error_log(self::$range);
+            self::$statistics['impressions']['current'][self::$range] = Analytics_Template_Content_Quick_View::get_impressions( array(
+                'per_days' => self::$range,
+                'skip' => 0
+            ));
+
+            self::$statistics['impressions']['past'][self::$range] = Analytics_Template_Content_Quick_View::get_impressions( array(
+                'per_days' => self::$range,
+                'skip' => 1
+            ));
+
+            /* determine rate */
+            self::$statistics['impressions']['difference'][self::$range] = Analytics_Template_Content_Quick_View::get_percentage_change( self::$statistics['impressions']['current'][self::$range] , self::$statistics['impressions']['past'][self::$range] );
+
+            /* get visitor count in current time period */
+            self::$statistics['visitors']['current'][self::$range] = Analytics_Template_Content_Quick_View::get_visitors( array(
+                'per_days' => self::$range,
+                'skip' => 0
+            ));
+
+            /* get visitor count in past time period */
+            self::$statistics['visitors']['past'][self::$range] = Analytics_Template_Content_Quick_View::get_visitors( array(
+                'per_days' => self::$range,
+                'skip' => 1
+            ));
+
+            /* determine rate */
+            self::$statistics['visitors']['difference'][self::$range] = Analytics_Template_Content_Quick_View::get_percentage_change( self::$statistics['visitors']['current'][self::$range] , self::$statistics['visitors']['past'][self::$range] );
+
+            /* get action count in current time period */
+            self::$statistics['actions']['current'][self::$range] = Analytics_Template_Content_Quick_View::get_actions( array(
+                'per_days' => self::$range,
+                'skip' => 0
+            ));
+
+            /* get action count in past time period */
+            self::$statistics['actions']['past'][self::$range] = Analytics_Template_Content_Quick_View::get_actions( array(
+                'per_days' => self::$range,
+                'skip' => 1
+            ));
+
+
+            /* determine difference rate */
+            self::$statistics['actions']['difference'][self::$range] = self::get_percentage_change( self::$statistics['actions']['current'][self::$range] , self::$statistics['actions']['past'][self::$range] );
+
+
+            return self::$statistics;
         }
     }
 

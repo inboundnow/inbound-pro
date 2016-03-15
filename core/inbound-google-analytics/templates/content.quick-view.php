@@ -60,6 +60,7 @@ class Analytics_Template_Content_Quick_View {
 		self::load_actions();
 		self::load_traffic_sources();
 
+		return self::$statistics;
 	}
 	
 	public static function load_impressions() {
@@ -77,7 +78,7 @@ class Analytics_Template_Content_Quick_View {
 		/* determine rate */
 		self::$statistics['impressions']['difference'][self::$range] = self::get_percentage_change( self::$statistics['impressions']['current'][self::$range] , self::$statistics['impressions']['past'][self::$range] );
 
-	
+		return self::$statistics;
 	}
 	
 	public static function load_visitors() {
