@@ -201,13 +201,13 @@ Downloads.Modules.Templates = (function($, undefined) {
             var download = jQuery( this ).data('download');
             var filename = jQuery( this ).data('filename');
             var download_type = jQuery( this ).data('download-type');
-            window.location.href = "admin.php?page=" + downloads.current_page + "&action=install&download=" + download + '&filename=' + filename + '&download_type=' + download_type;
+            window.location.href = "admin.php?page=" + downloads.current_page + "&action=install&download_name=" + download + '&filename=' + filename + '&download_type=' + download_type;
 		});
 
 		/* on uninstall */
 		jQuery('body').on( 'click' , '.overlay-uninstall' , function() {
 			var download = jQuery( this ).data('download');
-			window.location.href = "admin.php?page=" + downloads.current_page + "&action=uninstall&download=" + download ;
+			window.location.href = "admin.php?page=" + downloads.current_page + "&action=uninstall&download_name=" + download ;
 		});
 
 		/* on update */
@@ -215,7 +215,7 @@ Downloads.Modules.Templates = (function($, undefined) {
             var download = jQuery( this ).data('download');
             var filename = jQuery( this ).data('filename');
             var download_type = jQuery( this ).data('download-type');
-            window.location.href = "admin.php?page=" + downloads.current_page + "&action=install&download=" + download + '&filename=' + filename + '&download_type=' + download_type;
+            window.location.href = "admin.php?page=" + downloads.current_page + "&action=install&download_name=" + download + '&filename=' + filename + '&download_type=' + download_type;
 		});
 
 	},
