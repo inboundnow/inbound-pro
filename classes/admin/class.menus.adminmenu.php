@@ -17,6 +17,7 @@ class Inbound_Menus_Admin {
 	*/
 	public static function load_hooks() {
 		add_action('admin_menu', array( __CLASS__ , 'add_menu_items' ) , 1 );
+		add_filter( 'inbound_menu_debug' , array (__CLASS__ , 'load_debug_links') , 10 , 2);
 	}
 
 	/**
@@ -47,6 +48,31 @@ class Inbound_Menus_Admin {
 		/* Manage Extensions */
 		add_submenu_page('inbound-pro', __( 'Extensions' , INBOUNDNOW_TEXT_DOMAIN ) , __( 'Extensions' , INBOUNDNOW_TEXT_DOMAIN ) , 'manage_options', 'inbound-manage-extensions', array( 'Inbound_Pro_Downloads' , 'display_ui' ) );
 
+	}
+
+	/**
+	 *  Loads debug menu item section
+	 */
+	public static function load_debug_links( $secondary_menu_items , $debug_key ) {
+		$actual_link = "//$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+		$reset_templates_link = add_query_arg( array('inbound_reset_downloads_data' => true ) , admin_url('admin.php?page=inbound-manage-templates'));
+		$reset_extensions_link = add_query_arg( array('inbound_reset_downloads_data' => true ) , admin_url('admin.php?page=inbound-manage-extensions'));
+
+		$secondary_menu_items['inbound-pro-reset-templates'] = array(
+			'parent' => $debug_key,
+			'title'  => __( 'Templates::Refresh Available Templates', 'inbound-pro' ),
+			'href'   => $reset_templates_link,
+			'meta'   => array( 'title' =>  __( 'Refresh availavle template data from Inbound Now.', 'inbound-pro' ) )
+		);
+
+		$secondary_menu_items['inbound-pro-reset-extensiond'] = array(
+			'parent' => $debug_key,
+			'title'  => __( 'Extensions::Refresh Available Etensions', 'inbound-pro' ),
+			'href'   => $reset_extensions_link,
+			'meta'   => array( 'title' =>  __( 'Refresh availavle template data from Inbound Now.', 'inbound-pro' ) )
+		);
+
+		return $secondary_menu_items;
 	}
 
 }

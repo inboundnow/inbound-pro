@@ -10,6 +10,9 @@ if ( !class_exists('Inbound_GA_Post_Types') ) {
 
         function __construct() {
             self::$range = 90;
+            if (isset($_GET['inbound_ga_reset_page_stats'])) {
+                delete_transient( 'inbound_ga_post_list_cache' );
+            }
             self::$statistics = get_transient( 'inbound_ga_post_list_cache' );
             self::load_hooks();
         }
@@ -65,9 +68,8 @@ if ( !class_exists('Inbound_GA_Post_Types') ) {
             switch ($column) {
                 case "inbound_ga_stats_impressions":
                     if (isset(self::$statistics[$post->ID])) {
-
-                    }
-                    else {
+                        echo self::$statistics[$post->ID]['impressions']['current'][self::$range];
+                    } else {
                         ?>
                         <div class="td-col-impressions" data-post-id="<?php echo $post->ID; ?>">
                             <img src="<?php echo INBOUND_GA_URLPATH; ?>assets/img/ajax_progress.gif" class="col-ajax-spinner" style="margin-top:3px;">
@@ -77,14 +79,27 @@ if ( !class_exists('Inbound_GA_Post_Types') ) {
                     }
                     break;
                 case "inbound_ga_stats_visitors":
-                    ?>
-                    <div class="td-col-visitors" data-post-id="<?php echo $post->ID; ?>" ><img src="<?php echo INBOUND_GA_URLPATH; ?>assets/img/ajax_progress.gif" class="col-ajax-spinner" style="margin-top:3px;"></div>
-                    <?php
+                    if (isset(self::$statistics[$post->ID])) {
+                        echo self::$statistics[$post->ID]['visitors']['current'][self::$range];
+                    } else {
+                        ?>
+                        <div class="td-col-visitors" data-post-id="<?php echo $post->ID; ?>">
+                            <img src="<?php echo INBOUND_GA_URLPATH; ?>assets/img/ajax_progress.gif" class="col-ajax-spinner" style="margin-top:3px;">
+                        </div>
+                        <?php
+                    }
                     break;
                 case "inbound_ga_stats_actions":
-                    ?>
-                    <div class="td-col-actions" data-post-id="<?php echo $post->ID; ?>" ><img src="<?php echo INBOUND_GA_URLPATH; ?>assets/img/ajax_progress.gif" class="col-ajax-spinner" style="margin-top:3px;"></div>
-                    <?php
+                    if (isset(self::$statistics[$post->ID])) {
+                        echo self::$statistics[$post->ID]['actions']['current'][self::$range];
+                    }
+                    else {
+                        ?>
+                        <div class="td-col-actions" data-post-id="<?php echo $post->ID; ?>">
+                            <img src="<?php echo INBOUND_GA_URLPATH; ?>assets/img/ajax_progress.gif" class="col-ajax-spinner" style="margin-top:3px;">
+                        </div>
+                        <?php
+                    }
                     break;
 
             }
@@ -128,20 +143,20 @@ if ( !class_exists('Inbound_GA_Post_Types') ) {
 
             ?>
             <script type="text/javascript">
+                function
                 jQuery(document).ready( function($) {
                     <?php
                     echo "var cache = JSON.parse('". $js_array . "');\n";
                     ?>
+
                     /* Let's use ajax to discover and set the sends/opens/conversions */
                     jQuery( jQuery('.td-col-impressions').get() ).each( function( $ ) {
                         var post_id = jQuery(this).attr('data-post-id');
-
                         if (typeof cache[post_id] != 'undefined') {
                             jQuery( '.td-col-impressions[data-post-id="' + post_id + '"]').text( cache[post_id].impressions.current['<?php echo self::$range; ?>'] );
                             jQuery( '.td-col-visitors[data-post-id="' + post_id + '"]').text(cache[post_id].visitors.current['<?php echo self::$range; ?>']);
                             jQuery( '.td-col-actions[data-post-id="' + post_id + '"]').text(cache[post_id].actions.current['<?php echo self::$range; ?>']);
                         } else {
-
                             jQuery.ajax({
                                 type: "POST",
                                 url: ajaxurl,
@@ -151,7 +166,7 @@ if ( !class_exists('Inbound_GA_Post_Types') ) {
                                 },
                                 dataType: 'json',
                                 async: true,
-                                timeout: 5000,
+                                timeout: 10000,
                                 success: function (response) {
 
                                     if (!Object.keys(response).length) {
@@ -172,7 +187,7 @@ if ( !class_exists('Inbound_GA_Post_Types') ) {
                             });
                         }
 
-                });
+                    });
             });
             </script>
             <?php

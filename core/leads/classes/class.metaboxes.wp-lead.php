@@ -831,7 +831,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                         if (preg_match("/gravatar_default_/", $gravatar) && $extra_image != "") {
                             $gravatar = $extra_image;
                         }
-                        echo '<img src="' . $gravatar . '" width="150" id="lead-main-image" title="' . self::$mapped_fields['wpleads_first_name']['value'] . ' ' . self::$mapped_fields['wpleads_last_name']['value'] . '"></a>';
+                        echo '<img src="' . $gravatar . '" id="lead-main-image" title="' . self::$mapped_fields['wpleads_first_name']['value'] . ' ' . self::$mapped_fields['wpleads_last_name']['value'] . '"></a>';
                         self::display_full_contact_details(self::$full_contact, 'work'); // Display extra data work history
                         self::display_full_contact_details(self::$full_contact, 'social'); // Display extra social
                         ?>

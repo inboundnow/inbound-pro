@@ -73,6 +73,7 @@ if ( !class_exists( 'Inbound_Google_Analytics' )) {
 			if ( is_admin() ) {
 				/* settings page files */
 				include_once INBOUND_GA_PATH . 'classes/class.admin.php';
+				include_once INBOUND_GA_PATH . 'classes/class.adminbar.php';
 				include_once INBOUND_GA_PATH . 'assets/libraries/oauth/apisettings.class.php';
 				include_once INBOUND_GA_PATH . 'assets/libraries/oauth/gadata.class.php';
 				include_once INBOUND_GA_PATH . 'assets/libraries/oauth/googleoauth2.class.php';

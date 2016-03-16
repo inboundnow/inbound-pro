@@ -150,9 +150,12 @@ $videoid = youtubeid($yt_video);
 endwhile;
 endif;
 
-do_action('lp_footer');
-wp_footer();
 ?>
-
+<footer>
+    <?php
+    do_action('lp_footer');
+    do_action('wp_footer');
+    ?>
+</footer>
 </body>
 </html>

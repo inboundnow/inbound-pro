@@ -6,7 +6,7 @@
 	display: none;
 }
 #lead-main-image {
-
+	max-width:150px;
 }
 #postbox-container-1 {
 	margin-bottom: 50px;
