@@ -141,8 +141,6 @@ if ($background_style === "fullscreen") {
 endwhile;
 endif; // end wordpress loop
 
-do_action('lp_footer'); // Load Landing Page Footer Hook
-wp_footer();
 ?>
 <link href="<?php echo $path; ?>assets/css/form.css" rel="stylesheet">
 <script type="text/javascript">
@@ -151,5 +149,11 @@ wp_footer();
     });
 
 </script>
+<footer>
+    <?php
+    do_action('lp_footer');
+    do_action('wp_footer');
+    ?>
+</footer>
 </body>
 </html>

@@ -715,7 +715,7 @@ content: "";
 }
 
 #lead_image {
-	width:160px;
+	max-width:160px;
 	display: inline-block;
 	margin-right: 10px;
 	background: #FCFDFE;

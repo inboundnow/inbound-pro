@@ -235,9 +235,16 @@ $blue =  (isset($RBG_array['b'])) ? $RBG_array['b'] : '0';
     break; endwhile; endif;
 
     do_action('lp_footer');
-    wp_footer();
+    do_action('wp_footer');
+
     ?>
 </div>
+<footer>
+    <?php
+    do_action('lp_footer');
+    do_action('wp_footer');
+    ?>
+</footer>
 
 
 </body>

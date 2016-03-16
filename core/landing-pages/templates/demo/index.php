@@ -229,10 +229,12 @@ $colorpicker = get_field( 'colorpicker',$post->ID , false );
 <?php
 break;
 endwhile; endif;
-/* Load custom landing footer hook for 3rd party extensions */
-do_action('lp_footer');
-/*  Load normal wordpress footer */
-wp_footer();
 ?>
+<footer>
+	<?php
+	do_action('lp_footer');
+	do_action('wp_footer');
+	?>
+</footer>
 </body>
 </html>

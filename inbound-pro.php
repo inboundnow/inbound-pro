@@ -5,7 +5,7 @@ Plugin URI: http://www.inboundnow.com/
 Description: Inbound Marketing Suite for WordPress
 Author: Inbound Now
 Author: Inbound Now
-Version: 1.4.1
+Version: 1.4.2
 Author URI: http://www.inboundnow.com/
 Text Domain: inbound-pro
 Domain Path: /lang/
@@ -96,7 +96,7 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 		*/
 		private static function define_constants() {
 
-			define('INBOUND_PRO_CURRENT_VERSION', '1.4.1' );
+			define('INBOUND_PRO_CURRENT_VERSION', '1.4.2' );
 			define('INBOUND_PRO_URLPATH', WP_PLUGIN_URL.'/'.plugin_basename( dirname(__FILE__) ).'/' );
 			define('INBOUND_PRO_PATH', WP_PLUGIN_DIR.'/'.plugin_basename( dirname(__FILE__) ).'/' );
 			define('INBOUND_PRO_SLUG', plugin_basename( dirname(__FILE__) ) );
@@ -190,7 +190,6 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 			if ( !isset(self::$settings['inbound-core-loading']['toggle-landing-pages']) || self::$settings['inbound-core-loading']['toggle-landing-pages'] =='on' ) {
 				include_once( INBOUND_COMPONENT_PATH . '/landing-pages/landing-pages.php');
 			}
-
 
 			if (self::$access_level < 3 ) {
 				return;

@@ -234,6 +234,11 @@ class Inbound_Pro_Downloads {
 		fwrite($handle, $file);
 		fclose($handle);
 
+		/* make sure we get a filename */
+		if(!isset($download['filename']) || !$download['filename']) {
+			$download['filename'] = $download['post_name'];
+		}
+
 		/* extract temp file to plugins direction */
 		$archive = new PclZip($temp_file);
 		$result = $archive->extract( PCLZIP_OPT_REMOVE_PATH, $download['filename'] , PCLZIP_OPT_PATH, $download['extraction_path'] , PCLZIP_OPT_REPLACE_NEWER );

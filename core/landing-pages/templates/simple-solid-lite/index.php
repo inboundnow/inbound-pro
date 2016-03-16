@@ -213,7 +213,12 @@ $test = inbound_color_scheme($background_color, 'hex');
 <?php break;
 endwhile;
 endif;
-do_action('lp_footer');
-wp_footer(); ?>
+?>
+<footer>
+    <?php
+    do_action('lp_footer');
+    do_action('wp_footer');
+    ?>
+</footer>
 </body>
 </html>
