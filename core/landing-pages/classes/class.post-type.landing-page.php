@@ -324,9 +324,15 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
          * Adds rewrite rules
          */
         public static function add_rewrite_rules() {
-            $this_path = LANDINGPAGES_PATH;
-            $this_path = explode('wp-content', $this_path);
-            $this_path = "wp-content" . $this_path[1];
+            if ( !class_exists('Inbound_Pro_Plugin')){
+                $this_path = LANDINGPAGES_PATH;
+                $this_path = explode('wp-content', $this_path);
+                $this_path = "wp-content" . $this_path[1];
+            } else {
+                $this_path = INBOUND_PRO_PATH;
+                $this_path = explode('wp-content', $this_path);
+                $this_path = "wp-content" . $this_path[1] . "core/landing-pages/";
+            }
 
             $slug = get_option('lp-main-landing-page-permalink-prefix', 'go');
             /*echo $slug;exit; */
@@ -358,9 +364,7 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
 
             /* print_r($rules_array);exit; */
 
-            $this_path = LANDINGPAGES_PATH;
-            $this_path = explode('wp-content', $this_path);
-            $this_path = "wp-content" . $this_path[1];
+
             $slug = get_option('lp-main-landing-page-permalink-prefix', 'go');
 
             $i = 0;
