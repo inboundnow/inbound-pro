@@ -28,8 +28,8 @@ if (!class_exists('Inbound_Landing_Pages_Plugin')) {
 
 			/* Run Loaders */
 			self::load_constants();
-			self::load_files();
 			self::load_text_domain_init();
+			self::load_files();
 			self::load_shared_files();
 
 		}
@@ -129,6 +129,7 @@ if (!class_exists('Inbound_Landing_Pages_Plugin')) {
 		*  Loads the correct .mo file for this plugin
 		*/
 		public static function load_text_domain() {
+
 			if (!class_exists('Inbound_Pro_Plugin')) {
 				load_plugin_textdomain('inbound-pro', false, LANDINGPAGES_PLUGIN_SLUG . '/assets/lang/');
 			}
