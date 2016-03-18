@@ -203,8 +203,6 @@ vertical-align: top;} */
 	font-weight:300;
 	padding: 13px;
 	vertical-align:top;
-	width:140px;
-	min-width: 140px;
 
 }
 .wpleads-td textarea {
@@ -489,22 +487,18 @@ h2 .nav-tab {
 }
 
 #wpleads_main_container, #lead-websites, #lead-demographics, #lead-topics {
-
-display: inline-block;
-vertical-align: top;
-float: left;
-padding-left: 28px;
+	display: inline-block;
+	box-sizing: border-box;
+	vertical-align: top;
+	float: left;
+	padding-left: 28px;
 }
 
 #lead-websites, #lead-demographics, #lead-topics {
 	width: 100%;
 }
 
-#leads-right-col {
-	float: left;
-	width: 75%;
-	position: relative;
-}
+
 
 #lead-websites, #lead-demographics, #lead-topics {
 	padding: 5px;
@@ -705,14 +699,9 @@ content: "";
 #toggle-lead-fields  a{
 	font-size:12px;
 	width:150px;
-	float: right;
-	margin-right: -20px;
 }
 
-#left-sidebar {
-	float: left;
-	width:25%;
-}
+
 
 #lead_image {
 	max-width:160px;
@@ -1279,6 +1268,122 @@ padding-top: 6px;
 	}
 }
 */
+
+@media (max-width: 767px) {
+	
+	#left-sidebar {
+		float: left;
+		width:100%;
+	}
+	
+	#leads-right-col {
+		float: left;
+		width: 100%;
+		position: relative;
+	}
+	
+	#wpleads_main_container th {
+		max-width: 25%;
+	}
+
+	#wpleads_main_container td {
+		max-width: 75%;
+	}
+	
+	#toggle-lead-fields  a{
+		float: none;
+		margin-right: auto;
+		margin-left: auto;
+	}
+	
+	input[type=text], input[type=password], input[type=email], input[type=number], input[type=search] {
+		width: 100%;
+	}
+	
+	#wplead_metabox_main .lead-profile-section nav li {
+		float: none;
+	}
+	
+	.lead-profile-section .nav-container {
+		display: inline-block;
+	}
+
+	
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+	
+	#left-sidebar {
+		float: left;
+		width:100%;
+	}
+	
+	#leads-right-col {
+		float: left;
+		width: 100%;
+		position: relative;
+	}
+	
+	.wpleads-th {
+		width:140px;
+		min-width: 140px;
+	}
+	
+	#toggle-lead-fields  a{
+		float: right;
+		margin-right: -20px;
+	}
+	
+	.lead-profile-section .nav-container {
+		display: inline-block;
+	}
+
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+	
+	#left-sidebar {
+		float: left;
+		width:100%;
+	}
+	
+	#leads-right-col {
+		float: left;
+		width: 100%;
+		position: relative;
+	}
+	
+	.wpleads-th {
+		width:140px;
+		min-width: 140px;
+	}
+	
+	#toggle-lead-fields  a{
+		float: right;
+		margin-right: -20px;
+	}
+
+}
+
+@media (min-width: 1200px) {
+	
+	#left-sidebar {
+		float: left;
+		width:25%;
+	}
+	
+	#leads-right-col {
+		float: left;
+		width: 75%;
+		position: relative;
+	}
+	
+	#toggle-lead-fields  a{
+		float: right;
+		margin-right: -20px;
+	}
+	
+}
 
  [class^="lead-icon-"]:before, [class*=" lead-icon-"]:before {
 	font-family: "fontello";

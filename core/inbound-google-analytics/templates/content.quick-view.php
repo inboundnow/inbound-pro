@@ -240,13 +240,13 @@ class Analytics_Template_Content_Quick_View {
 		self::$statistics['clicks']['difference'][self::$range] = self::get_percentage_change( self::$statistics['clicks']['current'][self::$range] , self::$statistics['clicks']['past'][self::$range] );
 		
 		/* determine action to impression rate for current time period */
-		self::$statistics['clicks']['rate']['current'][self::$range] =  (self::$statistics['clicks']['current'][self::$range]) ? self::$statistics['actions']['current'][self::$range] / self::$statistics['impressions']['current'][self::$range] : 0;
+		self::$statistics['clicks']['rate']['current'][self::$range] =  (self::$statistics['impressions']['current'][self::$range]) ? self::$statistics['clicks']['current'][self::$range] / self::$statistics['impressions']['current'][self::$range] : 0;
 		
 		/* determine action to impression rate for past time period */
-		self::$statistics['clicks']['rate']['past'][self::$range] =  (self::$statistics['clicks']['past'][self::$range]) ? self::$statistics['actions']['past'][self::$range] / self::$statistics['impressions']['past'][self::$range] : 0;
+		self::$statistics['clicks']['rate']['past'][self::$range] =  (self::$statistics['impressions']['past'][self::$range]) ? self::$statistics['clicks']['past'][self::$range] / self::$statistics['impressions']['past'][self::$range] : 0;
 			
 		/* determine action to impression rate for past time period */
-		self::$statistics['clicks']['rate']['difference'][self::$range] =  self::get_percentage_change( self::$statistics['actions']['rate']['current'][self::$range] , self::$statistics['actions']['rate']['past'][self::$range] );
+		self::$statistics['clicks']['rate']['difference'][self::$range] =  self::get_percentage_change( self::$statistics['clicks']['rate']['current'][self::$range] , self::$statistics['clicks']['rate']['past'][self::$range] );
 		
 	}
 	

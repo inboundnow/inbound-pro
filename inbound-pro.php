@@ -5,7 +5,7 @@ Plugin URI: http://www.inboundnow.com/
 Description: Inbound Marketing Suite for WordPress
 Author: Inbound Now
 Author: Inbound Now
-Version: 1.4.3
+Version: 1.4.4
 Author URI: http://www.inboundnow.com/
 Text Domain: inbound-pro
 Domain Path: /lang/
@@ -84,10 +84,10 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 		*/
 		public function __construct() {
 			self::define_constants();
+			self::load_text_domain_init();
 			self::load_pro_classes();
 			self::load_shared_components();
 			self::load_core_components();
-			self::load_text_domain_init();
 		}
 
 		/*
@@ -96,7 +96,7 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 		*/
 		private static function define_constants() {
 
-			define('INBOUND_PRO_CURRENT_VERSION', '1.4.3' );
+			define('INBOUND_PRO_CURRENT_VERSION', '1.4.4' );
 			define('INBOUND_PRO_URLPATH', WP_PLUGIN_URL.'/'.plugin_basename( dirname(__FILE__) ).'/' );
 			define('INBOUND_PRO_PATH', WP_PLUGIN_DIR.'/'.plugin_basename( dirname(__FILE__) ).'/' );
 			define('INBOUND_PRO_SLUG', plugin_basename( dirname(__FILE__) ) );
@@ -223,16 +223,14 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 		*/
 		private static function load_text_domain_init() {
 			$local = get_locale();
-			load_textdomain( 'inbound-pro' , INBOUND_PRO_PATH . 'assets/lang/'.$local.'.mo'  );
-		}
-
-		public static function load_text_domain() {
 
 			if (!defined('INBOUNDNOW_TEXT_DOMAIN')) {
 				define('INBOUNDNOW_TEXT_DOMAIN', 'inbound-pro' );
 			}
-			load_plugin_textdomain( 'inbound-pro' , false , INBOUND_PRO_SLUG . '/lang/' );
+
+			load_textdomain( 'inbound-pro' , INBOUND_PRO_PATH . 'assets/lang/'.$local.'.mo'  );
 		}
+
 
 
 	}

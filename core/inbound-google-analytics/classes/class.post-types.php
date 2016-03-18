@@ -141,53 +141,76 @@ if ( !class_exists('Inbound_GA_Post_Types') ) {
             $transient = get_transient( 'inbound_ga_post_list_cache' );
             $js_array = json_encode($transient);
 
+
             ?>
             <script type="text/javascript">
-                function
-                jQuery(document).ready( function($) {
-                    <?php
-                    echo "var cache = JSON.parse('". $js_array . "');\n";
-                    ?>
+                <?php
+                echo "var cache = JSON.parse('". $js_array . "');\n";
+                ?>
 
+                function inbound_ga_listings_lookup( cache, post_ids, i , callback , response ) {
+
+                    if (!post_ids[i]){
+                        return true;
+                    }
+
+                    if (typeof response == 'object' && response  ) {
+                        jQuery('.td-col-impressions[data-post-id="' + post_id + '"]').text(response['impressions']['current']['90']);
+                        jQuery('.td-col-visitors[data-post-id="' + post_id + '"]').text(response['visitors']['current']['90']);
+                        jQuery('.td-col-actions[data-post-id="' + post_id + '"]').text(response['actions']['current']['90']);
+                    }
+
+                    if (i == 0) {
+                        post_id = post_ids[0];
+                        i++;
+
+                    } else {
+                        post_id = post_ids[i];
+                        i++;
+                    }
+
+                    if (typeof cache[post_id] != 'undefined') {
+                        jQuery( '.td-col-impressions[data-post-id="' + post_id + '"]').text( cache[post_id].impressions.current['<?php echo self::$range; ?>'] );
+                        jQuery( '.td-col-visitors[data-post-id="' + post_id + '"]').text(cache[post_id].visitors.current['<?php echo self::$range; ?>']);
+                        jQuery( '.td-col-actions[data-post-id="' + post_id + '"]').text(cache[post_id].actions.current['<?php echo self::$range; ?>']);
+                    } else {
+                        jQuery.ajax({
+                            type: "POST",
+                            url: ajaxurl,
+                            data: {
+                                action: 'inbound_load_ga_stats',
+                                post_id: post_id
+                            },
+                            dataType: 'json',
+                            async: true,
+                            timeout: 10000,
+                            success: function (response) {
+
+                                callback(cache, post_ids, i, callback , response);
+                            },
+                            error: function (request, status, err) {
+                                response['totals'] = [];
+                                response['totals']['impressions'] = 0;
+                                response['totals']['visitors'] = 0;
+                                response['totals']['actions'] = 0;
+                                callback(cache, post_ids, i, callback , response);
+                            }
+                        });
+                    }
+                }
+
+                jQuery(document).ready( function($) {
                     /* Let's use ajax to discover and set the sends/opens/conversions */
+
+                    var post_ids = [];
+                    var i = 0
                     jQuery( jQuery('.td-col-impressions').get() ).each( function( $ ) {
                         var post_id = jQuery(this).attr('data-post-id');
-                        if (typeof cache[post_id] != 'undefined') {
-                            jQuery( '.td-col-impressions[data-post-id="' + post_id + '"]').text( cache[post_id].impressions.current['<?php echo self::$range; ?>'] );
-                            jQuery( '.td-col-visitors[data-post-id="' + post_id + '"]').text(cache[post_id].visitors.current['<?php echo self::$range; ?>']);
-                            jQuery( '.td-col-actions[data-post-id="' + post_id + '"]').text(cache[post_id].actions.current['<?php echo self::$range; ?>']);
-                        } else {
-                            jQuery.ajax({
-                                type: "POST",
-                                url: ajaxurl,
-                                data: {
-                                    action: 'inbound_load_ga_stats',
-                                    post_id: post_id
-                                },
-                                dataType: 'json',
-                                async: true,
-                                timeout: 10000,
-                                success: function (response) {
-
-                                    if (!Object.keys(response).length) {
-                                        response['totals'] = [];
-                                        response['totals']['impressions'] = 0;
-                                        response['totals']['visitors'] = 0;
-                                        response['totals']['actions'] = 0;
-                                    }
-
-                                    jQuery( '.td-col-impressions[data-post-id="' + post_id + '"]').text(response['impressions']['current']['90']);
-                                    jQuery( '.td-col-visitors[data-post-id="' + post_id + '"]').text(response['visitors']['current']['90']);
-                                    jQuery( '.td-col-actions[data-post-id="' + post_id + '"]').text(response['actions']['current']['90']);
-
-                                },
-                                error: function (request, status, err) {
-                                    //alert(status);
-                                }
-                            });
-                        }
-
+                        post_ids[i] = post_id;
+                        i++;
                     });
+
+                    inbound_ga_listings_lookup( cache, post_ids, 0 , inbound_ga_listings_lookup , null );
             });
             </script>
             <?php
@@ -198,7 +221,7 @@ if ( !class_exists('Inbound_GA_Post_Types') ) {
          */
         public static function get_post_statics() {
             global $post;
-            $ts = gmdate("D, d M Y H:i:s", time() + $seconds_to_cache) . " GMT";
+
             $transient = get_transient( 'inbound_ga_post_list_cache' );
 
             if (isset($transient[$_REQUEST['post_id']])) {

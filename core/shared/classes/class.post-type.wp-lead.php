@@ -55,7 +55,7 @@ if ( !class_exists('Inbound_Leads') ) {
 			$args = array(
 				'labels' => $labels,
 				'public' => false,
-				'publicly_queryable' => true,
+				'publicly_queryable' => false,
 				'show_ui' => true,
 				'query_var' => true,
 				'menu_icon' => INBOUNDNOW_SHARED_URLPATH . 'assets/images/global/leads.png',
