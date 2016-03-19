@@ -113,7 +113,7 @@ class Inbound_Analytics_UI_Containers {
 	public static function load_metaboxes() {
 		$screen = get_current_screen();
 
-		if (!isset($screen) || $screen->action == 'new') {
+		if (!isset($screen) || $screen->action == 'new' || $screen->action == 'add') {
 			return;
 		}
 

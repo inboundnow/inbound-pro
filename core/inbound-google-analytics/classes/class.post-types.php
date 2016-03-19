@@ -170,6 +170,7 @@ if ( !class_exists('Inbound_GA_Post_Types') ) {
                     }
 
                     if (typeof cache[post_id] != 'undefined') {
+                        console.log('here2');
                         jQuery( '.td-col-impressions[data-post-id="' + post_id + '"]').text( cache[post_id].impressions.current['<?php echo self::$range; ?>'] );
                         jQuery( '.td-col-visitors[data-post-id="' + post_id + '"]').text(cache[post_id].visitors.current['<?php echo self::$range; ?>']);
                         jQuery( '.td-col-actions[data-post-id="' + post_id + '"]').text(cache[post_id].actions.current['<?php echo self::$range; ?>']);
@@ -179,16 +180,18 @@ if ( !class_exists('Inbound_GA_Post_Types') ) {
                             url: ajaxurl,
                             data: {
                                 action: 'inbound_load_ga_stats',
-                                post_id: post_id
+                                post_id: post_id,
+                                fast_ajax: true,
+                                load_plugins: ["_inbound-now/inbound-pro.php", "inbound-google-analytics/inbound-google-analytics.php"]
                             },
                             dataType: 'json',
                             async: true,
                             timeout: 10000,
                             success: function (response) {
-
                                 callback(cache, post_ids, i, callback , response);
                             },
                             error: function (request, status, err) {
+                                var response = {};
                                 response['totals'] = [];
                                 response['totals']['impressions'] = 0;
                                 response['totals']['visitors'] = 0;

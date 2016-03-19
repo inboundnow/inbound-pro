@@ -237,3 +237,16 @@ td.last-name {
     background: #f0ad4e !important;
     margin-right: 1em;
 }
+
+@media (min-width: 783px ) and (max-width: 1280px ) {
+	
+	.type-wp-lead {
+		height: 140px;
+	}
+	
+	.type-wp-lead .first-name .row-actions {
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-end;
+	}
+}
