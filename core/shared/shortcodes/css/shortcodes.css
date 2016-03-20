@@ -37,7 +37,7 @@ input.short-shortcode-input {
 .reveal-html-block textarea {
 min-height: 150px !important;
 }
-#inbound-shortcodes-form-table .has-child .child-clone-rows .child-clone-row .child-clone-row-form .child-clone-row-form-row.inbound-tab-class-advanced, {
+#inbound-shortcodes-form-table .has-child .child-clone-rows .child-clone-row .child-clone-row-form .child-clone-row-form-row.inbound-tab-class-advanced {
 	display: none;
 }
 .parent-inbound_shortcode_helper-block-one .label {
@@ -200,7 +200,7 @@ float: left;
 	display:block;
 	padding:7px 0;
 	border-bottom:solid 1px #eaeaea;
-	max-width::520px;
+	max-width:520px;
 }
 #inbound-shortcodes-form-table tbody tr.form-row.has-child{
 	display:block;
@@ -233,7 +233,7 @@ float: left;
 #inbound-shortcodes-form-table input[type="url"],
 #inbound-shortcodes-form-table input[type="number"],
 #inbound-shortcodes-form-table input[type="password"],
-#inbound-shortcodes-form-table textarea{=
+#inbound-shortcodes-form-table input[type="textarea"]{
 	padding:5px 6px;
 	margin:0 0 0px 0;
     width: 100%;

@@ -1090,17 +1090,6 @@ input[type=submit].inbound-button, button.inbound-button {
     font-style: normal;
 }
 
-format
-(
-'svg'
-)
-;
-font-weight:normal
-
-;
-font-style:normal
-
-}
 .fa {
     display: inline-block;
     font-family: FontAwesome;

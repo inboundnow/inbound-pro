@@ -155,6 +155,7 @@ if ( !class_exists('Inbound_GA_Post_Types') ) {
                     }
 
                     if (typeof response == 'object' && response  ) {
+                        console.log('here1');
                         jQuery('.td-col-impressions[data-post-id="' + post_id + '"]').text(response['impressions']['current']['90']);
                         jQuery('.td-col-visitors[data-post-id="' + post_id + '"]').text(response['visitors']['current']['90']);
                         jQuery('.td-col-actions[data-post-id="' + post_id + '"]').text(response['actions']['current']['90']);
@@ -179,16 +180,18 @@ if ( !class_exists('Inbound_GA_Post_Types') ) {
                             url: ajaxurl,
                             data: {
                                 action: 'inbound_load_ga_stats',
-                                post_id: post_id
+                                post_id: post_id,
+                                fast_ajax: true,
+                                load_plugins: ["_inbound-now/inbound-pro.php", "inbound-google-analytics/inbound-google-analytics.php"]
                             },
                             dataType: 'json',
                             async: true,
                             timeout: 10000,
                             success: function (response) {
-
                                 callback(cache, post_ids, i, callback , response);
                             },
                             error: function (request, status, err) {
+                                var response = {};
                                 response['totals'] = [];
                                 response['totals']['impressions'] = 0;
                                 response['totals']['visitors'] = 0;
@@ -240,7 +243,7 @@ if ( !class_exists('Inbound_GA_Post_Types') ) {
         }
 
         public static function load_stats() {
-            //error_log(self::$range);
+
             self::$statistics['impressions']['current'][self::$range] = Analytics_Template_Content_Quick_View::get_impressions( array(
                 'per_days' => self::$range,
                 'skip' => 0

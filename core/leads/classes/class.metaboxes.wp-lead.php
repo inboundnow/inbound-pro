@@ -1463,8 +1463,15 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                     echo $close_div . '<a class="session-anchor" id="view-session-' . $total_session_count . '""></a><div id="conversion-tracking" class="wpleads-conversion-tracking-table" summary="Conversion Tracking">
 
 					<div class="conversion-tracking-header">
-							<h2><span class="toggle-conversion-list">-</span><strong>Visit <span class="visit-number"></span></strong> on <span class="shown_date">' . date_format($date, 'F jS, Y \a\t g:ia (l)') . '</span><span class="time-on-page-label">Time spent on page</span></h2> <span class="hidden_date date_' . $total_session_count . '">' . date_format($date, 'F jS, Y \a\t g:ia:s') . '</span>
-					</div><div class="session-item-holder">';
+						<div class="path-left">
+							<h2><span class="toggle-conversion-list">-</span><strong>Visit <span class="visit-number"></span></strong> on <span class="shown_date">' . date_format($date, 'F jS, Y \a\t g:ia (l)') . '</span></h2>
+						</div>
+						<div class="path-right">
+							<h2 class="time-on-page-label">Time spent on page</h2> <span class="hidden_date date_' . $total_session_count . '">' . date_format($date, 'F jS, Y \a\t g:ia:s') . '</span>
+						</div>
+					</div>
+					
+					<div class="session-item-holder">';
 
                     $total_session_count++;
                     //echo "</div>";
@@ -1518,9 +1525,13 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
                     $page_output = strlen($page_name) > 65 ? substr($page_name, 0, 65) . "..." : $page_name;
                     echo "<div class='lp-page-view-item " . $conversion . "'>
-					<span class='marker'></span> <a href='" . $page_permalink . "' title='View " . $page_name . "' target='_blank'>" . $page_output . "</a> on <span>" . date_format($date_print, 'F jS, Y \a\t g:i:s a') . "</span>
-					" . $conversion_text . "
-					<span class='time-on-page'>" . $minute . $minute_text . $second . $second_text . "</span>
+						<div class='path-left'>
+							<span class='marker'></span> <a href='" . $page_permalink . "' title='View " . $page_name . "' target='_blank'>" . $page_output . "</a> on <span>" . date_format($date_print, 'F jS, Y \a\t g:i:s a') . "</span>
+						" . $conversion_text . "
+						</div>
+						<div class='path-right'>
+							<span class='time-on-page'>" . $minute . $minute_text . $second . $second_text . "</span>
+						</div>
 					</div>";
                 }
 

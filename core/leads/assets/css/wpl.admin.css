@@ -273,6 +273,8 @@ vertical-align: top;} */
 	background-color: #e0e0e0;
 	border-color: #CECDCA;
 	padding: 5px 0px;
+	display: inline-block;
+    width: 100%;
 }
 
 #conversion-tracking .conversion-tracking-header h2 {
@@ -551,11 +553,13 @@ h2 .nav-tab {
 	text-align: center;
 }
 .time-on-page-label {
-	position: absolute;
-	right: 19px;
+/*	position: absolute;*/
+/*	right: 19px;*/
 	font-size: 17px;
 	top: 2px;
 	font-weight: bold;
+	text-align: right;
+    padding-right: 5px !important;
 }
 .session-item-holder .lp-page-view-item .marker:before {
 	content: "\f062";
@@ -592,6 +596,7 @@ content: "";
 }
 .session-item-holder .lp-page-view-item {
 	padding-left: 10px;
+	box-sizing: border-box;
 }
 .time-on-page {
 	float: right;
@@ -1245,6 +1250,23 @@ padding-top: 6px;
 	background-image: -moz-linear-gradient(top, #fc9f8a, #fa623f);
 	background-image: -o-linear-gradient(top, #fc9f8a, #fa623f);
 	background-image: linear-gradient(to bottom, #fc9f8a, #fa623f);
+}
+
+.conversion-tracking-header .path-left, .lp-page-view-item .path-left {
+	display:inline;
+	float:left;
+	width:75%;
+}
+
+.conversion-tracking-header .path-right, .lp-page-view-item .path-right {
+	display:inline;
+	float:right;
+	width:25%;
+}
+
+.session-item-holder, .lp-page-view-item {
+	display: inline-block;
+	width:100%;
 }
 
 @font-face {
