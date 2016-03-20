@@ -141,7 +141,7 @@ var MarketingButton = (function () {
                 jQuery('.inbound-short-list').show();
         });
     },
-    insertTextAreaContent(text, selector) {
+    insertTextAreaContent: function(text, selector) {
           var cursorPos = selector.prop('selectionStart');
           var v = selector.val();
           var textBefore = v.substring(0,  cursorPos );

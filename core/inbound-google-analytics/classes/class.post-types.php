@@ -155,6 +155,7 @@ if ( !class_exists('Inbound_GA_Post_Types') ) {
                     }
 
                     if (typeof response == 'object' && response  ) {
+                        console.log('here1');
                         jQuery('.td-col-impressions[data-post-id="' + post_id + '"]').text(response['impressions']['current']['90']);
                         jQuery('.td-col-visitors[data-post-id="' + post_id + '"]').text(response['visitors']['current']['90']);
                         jQuery('.td-col-actions[data-post-id="' + post_id + '"]').text(response['actions']['current']['90']);
@@ -170,7 +171,6 @@ if ( !class_exists('Inbound_GA_Post_Types') ) {
                     }
 
                     if (typeof cache[post_id] != 'undefined') {
-                        console.log('here2');
                         jQuery( '.td-col-impressions[data-post-id="' + post_id + '"]').text( cache[post_id].impressions.current['<?php echo self::$range; ?>'] );
                         jQuery( '.td-col-visitors[data-post-id="' + post_id + '"]').text(cache[post_id].visitors.current['<?php echo self::$range; ?>']);
                         jQuery( '.td-col-actions[data-post-id="' + post_id + '"]').text(cache[post_id].actions.current['<?php echo self::$range; ?>']);
@@ -243,7 +243,7 @@ if ( !class_exists('Inbound_GA_Post_Types') ) {
         }
 
         public static function load_stats() {
-            //error_log(self::$range);
+
             self::$statistics['impressions']['current'][self::$range] = Analytics_Template_Content_Quick_View::get_impressions( array(
                 'per_days' => self::$range,
                 'skip' => 0
