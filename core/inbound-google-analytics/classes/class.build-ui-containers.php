@@ -91,16 +91,24 @@ class Inbound_Analytics_UI_Containers {
 		wp_register_script( 'spin-jquery' , INBOUND_GA_URLPATH.'assets/libraries/spinjs/jquery.spin.js');
 		wp_enqueue_script( 'spin-jquery' );
 
-		wp_register_script( 'bootstrap-js' , INBOUND_GA_URLPATH.'assets/libraries/BootStrap/bootstrap.min.js');
-		wp_enqueue_script( 'bootstrap-js' );
+
+		$screen = get_current_screen();
+
+		if (!isset($screen) || $screen->action == 'new' || $screen->action == 'add' || $screen->base =='edit') {
+			return;
+		}
+
+		wp_register_script('bootstrap', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/BootStrap/js/bootstrap.min.js');
+		wp_enqueue_script('bootstrap');
+
+		/* BootStrap CSS */
+		wp_register_style('bootstrap', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/BootStrap/css/bootstrap.css');
+		wp_enqueue_style('bootstrap');
 
 		/* disables modal links
 		wp_register_script( 'ia-content-loader' , INBOUND_GA_URLPATH.'assets/js/content.loader.js');
 		wp_enqueue_script( 'ia-content-loader' );
 		*/
-
-		wp_register_style( 'bootstrap-css' , INBOUND_GA_URLPATH. 'assets/libraries/BootStrap/bootstrap.css');
-		wp_enqueue_style( 'bootstrap-css' );
 
 		wp_register_style( 'inbound-analytics-css' , INBOUND_GA_URLPATH. 'assets/css/style.css');
 		wp_enqueue_style( 'inbound-analytics-css' );
