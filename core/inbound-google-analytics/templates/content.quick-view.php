@@ -64,7 +64,7 @@ class Analytics_Template_Content_Quick_View {
 	}
 	
 	public static function load_impressions() {
-		//error_log(self::$range);
+
 		self::$statistics['impressions']['current'][self::$range] = self::get_impressions( array(
 			'per_days' => self::$range,
 			'skip' => 0
@@ -148,8 +148,6 @@ class Analytics_Template_Content_Quick_View {
 		self::$statistics['traffic_sources']['rate']['difference'][self::$range]['social'] =  self::get_percentage_change( self::$statistics['traffic_sources']['rate']['current'][self::$range]['social'] , self::$statistics['traffic_sources']['rate']['past'][self::$range]['social'] );
 		self::$statistics['traffic_sources']['rate']['difference'][self::$range]['3rdparty'] =    self::get_percentage_change( self::$statistics['traffic_sources']['rate']['current'][self::$range]['3rdparty'] , self::$statistics['traffic_sources']['rate']['past'][self::$range]['3rdparty'] );
 		self::$statistics['traffic_sources']['rate']['difference'][self::$range]['search'] =  self::get_percentage_change( self::$statistics['traffic_sources']['rate']['current'][self::$range]['search'] , self::$statistics['traffic_sources']['rate']['past'][self::$range]['search'] );
-
-		error_log(print_r(self::$statistics,true));
 
 	}
 
@@ -708,7 +706,7 @@ class Analytics_Template_Content_Quick_View {
 		return round($rate * 100 , 2);	
 		
 	}
-	
+
 	public static function prepare_rate_format( $rate , $plusminus = true ) {
 		$plus = ($plusminus) ? '+' : '';
 		$minus = ($plusminus) ? '-' : '';
@@ -716,7 +714,7 @@ class Analytics_Template_Content_Quick_View {
 		if ($rate == 1 ) {
 			return '100%';
 		} else if ($rate > 0 ) {
-			return $plus . round($rate , 2).'%';
+			return $plus . round($rate , 2) * 100 .'%';
 		} else if ($rate==0) {
 			return '0%';
 		} else {
