@@ -5692,11 +5692,10 @@ button.close {
 	border: 0;
 }
 
-:not(#wpbody).hidden {
+div:not(#wpbody-content .hidden) .hidden {
 	display: none! important;
 	visibility: hidden! important;
 }
-
 
 .affix {
 	position: fixed;
