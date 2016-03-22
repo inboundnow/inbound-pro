@@ -800,6 +800,11 @@ class Leads_Post_Type {
      * Ajax listener to return json object of all lead meta data
      */
     public static function ajax_get_all_lead_data() {
+
+        if (!current_user_can('activate_plugins') ) {
+            return;
+        }
+
         $wp_lead_id = $_POST['wp_lead_id'];
         if (isset($wp_lead_id) && is_numeric($wp_lead_id)) {
             global $wpdb;
