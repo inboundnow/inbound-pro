@@ -5,7 +5,7 @@ Plugin URI: http://www.inboundnow.com/
 Description: Inbound Marketing Suite for WordPress
 Author: Inbound Now
 Author: Inbound Now
-Version: 1.5.0
+Version: 1.5.1
 Author URI: http://www.inboundnow.com/
 Text Domain: inbound-pro
 Domain Path: /lang/
@@ -96,7 +96,7 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 		*/
 		private static function define_constants() {
 
-			define('INBOUND_PRO_CURRENT_VERSION', '1.5.0' );
+			define('INBOUND_PRO_CURRENT_VERSION', '1.5.1' );
 			define('INBOUND_PRO_URLPATH', WP_PLUGIN_URL.'/'.plugin_basename( dirname(__FILE__) ).'/' );
 			define('INBOUND_PRO_PATH', WP_PLUGIN_DIR.'/'.plugin_basename( dirname(__FILE__) ).'/' );
 			define('INBOUND_PRO_SLUG', plugin_basename( dirname(__FILE__) ) );
@@ -191,6 +191,15 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 				include_once( INBOUND_COMPONENT_PATH . '/landing-pages/landing-pages.php');
 			}
 
+			if (self::$access_level < 1 ) {
+				return;
+			}
+
+			/* load inbound google analytics */
+			if ( isset(self::$settings['inbound-core-loading']['toggle-google-analytics']) && self::$settings['inbound-core-loading']['toggle-google-analytics'] =='on' ) {
+				include_once( INBOUND_COMPONENT_PATH . '/inbound-google-analytics/inbound-google-analytics.php');
+			}
+
 			if (self::$access_level < 3 ) {
 				return;
 			}
@@ -199,11 +208,6 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 			if ( !isset(self::$settings['inbound-core-loading']['toggle-email-automation']) || self::$settings['inbound-core-loading']['toggle-email-automation'] =='on' ) {
 				include_once( INBOUND_COMPONENT_PATH . '/inbound-mailer/inbound-mailer.php');
 				include_once( INBOUND_COMPONENT_PATH . '/inbound-automation/inbound-automation.php');
-			}
-
-			/* load inbound mailer & inbound automation */
-			if ( isset(self::$settings['inbound-core-loading']['toggle-google-analytics']) && self::$settings['inbound-core-loading']['toggle-google-analytics'] =='on' ) {
-				include_once( INBOUND_COMPONENT_PATH . '/inbound-google-analytics/inbound-google-analytics.php');
 			}
 
 		}
