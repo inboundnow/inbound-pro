@@ -478,7 +478,6 @@ var InboundSettings = (function () {
                 success: function (response) {
                     if (typeof response.customer != 'undefined') {
                         InboundSettings.markKeyValid();
-                        console.log('Hey David, we can use response.customer.is_pro to determine if user is a pro user or not on this page');
                         console.log('is_pro=' + response.customer.is_pro);
                     } else {
                         InboundSettings.markKeyInvalid( response.message );

@@ -30,6 +30,7 @@ if ( !class_exists('Inbound_GA_Post_Types') ) {
 
             /* setup column sorting */
             add_filter("manage_edit-post_sortable_columns", array( __CLASS__ , 'define_sortable_columns' ));
+            add_action( 'posts_clauses', array( __CLASS__ , 'process_column_sorting' ) , 1 , 2 );
 
             /* Cache statistics data */
             add_filter( 'admin_footer' , array( __CLASS__ , 'load_footer_js_css' ) );
@@ -105,6 +106,55 @@ if ( !class_exists('Inbound_GA_Post_Types') ) {
             }
         }
 
+
+
+        public static function process_column_sorting(  $pieces, $query ) {
+
+            global $wpdb, $table_prefix;
+
+            $screen = get_current_screen();
+
+            $whitelist = array('post','page');
+
+            if(!isset($screen) || !in_array($screen->post_type , $whitelist )) {
+                return $pieces;
+            }
+
+            if ( $query->is_main_query() && ( $orderby = $query->get( 'orderby' ) ) ) {
+
+
+                $wordpress_date_time =  date_i18n('Y-m-d G:i:s');
+
+
+                $start_date = date( 'Y-m-d G:i:s' , strtotime("-".self::$range." days" , strtotime($wordpress_date_time )));
+                $end_date = $wordpress_date_time;
+
+
+                $order = strtoupper( $query->get( 'order' ) );
+
+                if ( ! in_array( $order, array( 'ASC', 'DESC' ) ) ) {
+                    $order = 'ASC';
+                }
+
+                switch( $orderby ) {
+
+                    case 'inbound_ga_stats_actions':
+
+                        $pieces[ 'join' ] .= " RIGHT JOIN {$table_prefix}inbound_events ee ON ee.page_id = {$wpdb->posts}.ID  AND ee.datetime >= '".$start_date."' AND  ee.datetime <= '".$end_date."'";
+
+                        $pieces[ 'groupby' ] = " {$wpdb->posts}.ID";
+
+                        $pieces[ 'orderby' ] = "COUNT(ee.page_id) $order ";
+
+                        break;
+                }
+            } else {
+                $pieces[ 'orderby' ] = " post_modified  DESC , " . $pieces[ 'orderby' ];
+            }
+
+            return $pieces;
+        }
+
         public static function load_email_stats( $post_id ) {
 
             if ( isset(self::$stats[$post_id]) ) {
@@ -124,7 +174,7 @@ if ( !class_exists('Inbound_GA_Post_Types') ) {
 
             //$columns['inbound_ga_stats_impressions'] = 'inbound_ga_stats_impressions';
             //$columns['inbound_ga_stats_visitors'] = 'inbound_ga_stats_visitors';
-            $columns['inbound_ga_stats_actions'] = 'inbound_ga_stats_visitors';
+            $columns['inbound_ga_stats_actions'] = 'inbound_ga_stats_actions';
 
             return $columns;
         }
@@ -149,25 +199,30 @@ if ( !class_exists('Inbound_GA_Post_Types') ) {
                 ?>
 
                 function inbound_ga_listings_lookup( cache, post_ids, i , callback , response ) {
+                    var end = false;
+                    var old_post_id = post_ids[i - 1];
+                    var post_id = post_ids[i];
 
-                    if (!post_ids[i]){
+                    if (!post_ids[i] && i != -1){
+                       end = true;
+                    }
+
+
+                    if (typeof response == 'object' && response && typeof response['impressions'] != 'undefined'  ) {
+                        jQuery('.td-col-impressions[data-post-id="' + old_post_id + '"]').text(response['impressions']['current']['90']);
+                        jQuery('.td-col-visitors[data-post-id="' + old_post_id + '"]').text(response['visitors']['current']['90']);
+                        jQuery('.td-col-actions[data-post-id="' + old_post_id + '"]').text(response['actions']['current']['90']);
+                    } else if (typeof response == 'object' && old_post_id != -1 ) {
+                        jQuery('.td-col-impressions[data-post-id="' + old_post_id + '"]').text('-');
+                        jQuery('.td-col-visitors[data-post-id="' + old_post_id + '"]').text('-');
+                        jQuery('.td-col-actions[data-post-id="' + old_post_id + '"]').text('-');
+
+                    }
+
+                    i++;
+
+                    if (end){
                         return true;
-                    }
-
-                    if (typeof response == 'object' && response  ) {
-                        console.log('here1');
-                        jQuery('.td-col-impressions[data-post-id="' + post_id + '"]').text(response['impressions']['current']['90']);
-                        jQuery('.td-col-visitors[data-post-id="' + post_id + '"]').text(response['visitors']['current']['90']);
-                        jQuery('.td-col-actions[data-post-id="' + post_id + '"]').text(response['actions']['current']['90']);
-                    }
-
-                    if (i == 0) {
-                        post_id = post_ids[0];
-                        i++;
-
-                    } else {
-                        post_id = post_ids[i];
-                        i++;
                     }
 
                     if (typeof cache[post_id] != 'undefined') {
@@ -186,16 +241,12 @@ if ( !class_exists('Inbound_GA_Post_Types') ) {
                             },
                             dataType: 'json',
                             async: true,
-                            timeout: 10000,
+                            timeout: 15000,
                             success: function (response) {
                                 callback(cache, post_ids, i, callback , response);
                             },
                             error: function (request, status, err) {
                                 var response = {};
-                                response['totals'] = [];
-                                response['totals']['impressions'] = 0;
-                                response['totals']['visitors'] = 0;
-                                response['totals']['actions'] = 0;
                                 callback(cache, post_ids, i, callback , response);
                             }
                         });
@@ -227,8 +278,10 @@ if ( !class_exists('Inbound_GA_Post_Types') ) {
 
             $transient = get_transient( 'inbound_ga_post_list_cache' );
 
-            if (isset($transient[$_REQUEST['post_id']])) {
-                return $transient[$_REQUEST['post_id']];
+            if (isset($transient[$_REQUEST['post_id']]) && $transient[$_REQUEST['post_id']] ) {
+                echo json_encode($transient[$_REQUEST['post_id']]);
+                header('HTTP/1.1 200 OK');
+                exit;
             }
 
             $post = get_post($_REQUEST['post_id']);

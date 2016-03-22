@@ -37,6 +37,8 @@ class Inbound_Pro_Settings {
 		/* add ajax listener for IP Addresses setting saves */
 		add_action( 'wp_ajax_inbound_pro_update_ip_addresses' , array( __CLASS__ , 'ajax_update_ip_addresses' ) );
 
+		/* listen for fast ajax installation */
+		add_action( 'inbound-settings/after-field-value-update' , array( __CLASS__ , 'ajax_toggle_fast_ajax' ) , 10 , 1 );
 	}
 
 	/**
@@ -323,6 +325,42 @@ class Inbound_Pro_Settings {
 							)
 						)
 					),
+				),
+				/* add core plugin exclusion options */
+				array(
+					'group_name' => 'inbound-fast-ajax',
+					'keywords' => __('ajax,speed,optimization' , 'inbound-pro'),
+					'fields' => array (
+						array (
+							'id'	=> 'fast-ajax-header',
+							'type'	=> 'header',
+							'default'	=> __( 'Fast(er) Ajax' , INBOUNDNOW_TEXT_DOMAIN ),
+							'placeholder'	=> null,
+							'options' => false,
+							'hidden' => false,
+							'reveal' => array(
+								'selector' => null ,
+								'value' => null
+							)
+						),
+						array (
+							'id'	=> 'toggle-fast-ajax',
+							'type'	=> 'radio',
+							'label'	=> __( 'Enable Fast Ajax' , INBOUNDNOW_TEXT_DOMAIN ),
+							'description'	=> __( 'Turning this feature will install a mu-plugin that Inbound Now will use to improve ajax response times. We recommend turning this on.' , INBOUNDNOW_TEXT_DOMAIN ),
+							'default'	=> 'off',
+							'placeholder'	=> null,
+							'options' => array(
+								'on' => __( 'On' , INBOUNDNOW_TEXT_DOMAIN ),
+								'off' => __( 'Off' , INBOUNDNOW_TEXT_DOMAIN ),
+							),
+							'hidden' => false,
+							'reveal' => array(
+								'selector' => null ,
+								'value' => null
+							)
+						)
+					),
 				)
 			)
 		);
@@ -385,6 +423,8 @@ class Inbound_Pro_Settings {
 	public static function display_welcome() {
 		self::extend_settings();
 		self::$settings_values = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
+
+		exit;
 
 		?>
 
@@ -1031,6 +1071,8 @@ class Inbound_Pro_Settings {
 		$settings = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
 		$settings[ $data['fieldGroup'] ][ $data['name'] ] = $data['value'];
 		Inbound_Options_API::update_option( 'inbound-pro' , 'settings' , $settings );
+
+		do_action('inbound-settings/after-field-value-update' , $data );
 	}
 
 	/**
@@ -1062,6 +1104,79 @@ class Inbound_Pro_Settings {
 		$settings['inbound-analytics-rules'][ 'ip-addresses' ] = $ip_addresses;
 
 		Inbound_Options_API::update_option( 'inbound-pro' , 'settings' , $settings );
+	}
+
+	/**
+	 * listen for request to install / uninstall fast ajax
+	 */
+	public static function ajax_toggle_fast_ajax( $data ) {
+
+		if ( !isset($data['toggle-fast-ajax']) ) {
+			return;
+		}
+
+		switch ( $data['toggle-fast-ajax'] ) {
+			case "on":
+				self::install_mu_plugin_fast_ajax();
+				break;
+			case "off":
+				self::install_mu_plugin_fast_ajax( true );
+				break;
+		}
+	}
+
+	/**
+	 * Installs fast-ajax.php mu plugin
+	 */
+	public static function install_mu_plugin_fast_ajax( $delete = false ) {
+
+		$mu_dir = ( defined( 'WPMU_PLUGIN_DIR' ) && defined( 'WPMU_PLUGIN_URL' ) ) ? WPMU_PLUGIN_DIR : trailingslashit( WP_CONTENT_DIR ) . 'mu-plugins';
+		$mu_dir = untrailingslashit( $mu_dir );
+
+		$source = INBOUND_PRO_PATH . 'assets/mu-plugins/fast-ajax.php';
+		$dest = $mu_dir . '/fast-ajax.php';
+
+		$result = array( 'status' => 'OK', 'error' => '' );
+
+		if ( file_exists( $dest ) && !unlink( $dest ) ) {
+			$result['error'] = sprintf(
+				__( '<strong>Error!</strong> Could not remove the Nelio\'s performance MU-Plugin from <code>%s</code>.', 'nelioab' ),
+				$dest );
+			$result['status'] = 'ERROR';
+		} else {
+
+			/* delete only */
+			if ($delete) {
+				return;
+			}
+
+			// INSTALL
+			if ( !wp_mkdir_p( $mu_dir ) ) {
+				$result['error'] = sprintf(
+					__( '<strong>Error!</strong> The following directory could not be created: <code>%s</code>.', 'nelioab' ),
+					$mu_dir );
+				$result['status'] = 'ERROR';
+			}
+			if ( $result['status'] !== 'ERROR' && !copy( $source, $dest ) ) {
+				$result['error'] = sprintf(
+					__( '<strong>Error!</strong> Could not copy Nelio\'s performance MU-Plugin from <code>%1$s</code> to <code>%2$s</code>.', 'nelioab' ),
+					$source, $dest );
+				$result['status'] = 'ERROR';
+			}
+
+			/* if there was an error installing set to off */
+			if ($result['status'] == 'ERROR') {
+				/* Update Setting */
+				$settings = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
+				$settings[ $data['fieldGroup'] ][ $data['name'] ] = 'Off';
+				Inbound_Options_API::update_option( 'inbound-pro' , 'settings' , $settings );
+			}
+		}
+
+
+		header( 'Content-Type: application/json' );
+		echo json_encode( $result );
+		die();
 	}
 }
 
