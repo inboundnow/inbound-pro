@@ -37,7 +37,7 @@ if ( !class_exists('Inbound_Mailer_Settings') ) {
 		*/
 		public static function define_pro_settings( $settings ) {
 			$settings['inbound-pro-setup'][] = array(
-				'group_name' => INBOUND_EMAIL_SLUG ,
+				'group_name' => 'inbound-mandrill' ,
 				'keywords' => __('email,mailer,marketing automation' , 'inbound-pro'),
 				'fields' => array (
 					array(
