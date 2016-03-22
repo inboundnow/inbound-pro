@@ -247,7 +247,6 @@ if ( !class_exists('Inbound_GA_Post_Types') ) {
                             },
                             error: function (request, status, err) {
                                 var response = {};
-                                alert(status);
                                 callback(cache, post_ids, i, callback , response);
                             }
                         });
