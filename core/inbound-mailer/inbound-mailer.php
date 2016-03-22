@@ -102,7 +102,7 @@ if ( !class_exists('Inbound_Mailer_Plugin')	) {
 			define('INBOUND_EMAIL_CURRENT_VERSION', '2.2.1' );
 			define('INBOUND_EMAIL_URLPATH', WP_PLUGIN_URL.'/'.plugin_basename( dirname(__FILE__) ).'/' );
 			define('INBOUND_EMAIL_PATH', WP_PLUGIN_DIR.'/'.plugin_basename( dirname(__FILE__) ).'/' );
-			define('INBOUND_EMAIL_SLUG', plugin_basename( dirname(__FILE__) ) );
+			define('INBOUND_EMAIL_SLUG', 'inbound-mailer');
 			define('INBOUND_EMAIL_FILE', __FILE__ );
 
 			$uploads = wp_upload_dir();
