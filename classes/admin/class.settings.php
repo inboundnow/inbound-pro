@@ -282,7 +282,7 @@ class Inbound_Pro_Settings {
 								'on' => __( 'On' , INBOUNDNOW_TEXT_DOMAIN ),
 								'off' => __( 'Off' , INBOUNDNOW_TEXT_DOMAIN ),
 							),
-							'hidden' => (Inbound_Pro_Plugin::get_customer_status() > 3 ? false : true ),
+							'hidden' => (Inbound_Pro_Plugin::get_customer_status() > 0 ? false : true ),
 							'reveal' => array(
 								'selector' => null ,
 								'value' => null
