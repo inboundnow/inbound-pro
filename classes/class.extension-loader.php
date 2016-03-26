@@ -29,7 +29,7 @@ class Inbound_Extension_Loads {
 	*/
 	public static function load_extensions() {
 
-	    if ( Inbound_Pro_Plugin::get_customer_status() < 3) {
+	    if ( Inbound_Pro_Plugin::get_customer_status() < 1) {
 	        return;
         }
 
@@ -45,8 +45,8 @@ class Inbound_Extension_Loads {
 				include_once( $extension['upload_path'] . '/' . $extension['filename'] . '.php' );
 			}
 		}
-
 	}
+
 
 	/**
 	*  check to see if plugins_url() is being called from an uploads folder
