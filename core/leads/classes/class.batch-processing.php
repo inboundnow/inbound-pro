@@ -28,6 +28,7 @@ class Leads_Batch_Processor {
         if ( !get_option('leads_batch_processing' , false )) {
             return;
         }
+
         /* Temporarily create admin page for visualizing batch processing */
         add_submenu_page(
             'edit.php?post_type=wp-lead',
@@ -39,7 +40,7 @@ class Leads_Batch_Processor {
         );
 
         /* Do not let user escape until all leads have been processed */
-        if (!isset($_GET['page']) || $_GET['page'] != 'leads-batch-processing' ) {
+        if (!isset($_GET['page']) || $_GET['page'] != 'leads-batch-processing' && phpversion() < 7 ) {
             header('Location: ' . admin_url('edit.php?post_type=wp-lead&page=leads-batch-processing'));
             exit;
         }
@@ -76,9 +77,9 @@ class Leads_Batch_Processor {
         echo '<h1>' . __( 'Processing Batches!' , 'leads' ) .'</h1>';
         echo '<div class="wrap">';
 
+        echo '<h3>' . __( 'Is this' , 'leads' ) .'</h1>';
         /* run the method */
-        self::$args['method']($args);
-
+        self::{$args['method']}($args);
 
         echo '</div>';
 
@@ -194,7 +195,7 @@ class Leads_Batch_Processor {
         ?>
         <script type="text/javascript">
             document.location.href = "edit.php?post_type=wp-lead&page=leads-batch-processing";
-		</script>
+        </script>
         <?php
     }
 
