@@ -579,7 +579,7 @@ class Inbound_Pro_Downloads {
 						}
 						break;
 					case 'extensions':
-						if (self::$access_level > 2 ) {
+						if (self::$access_level > 0 ) {
 							$permitted = true;
 						}
 						break;
