@@ -111,7 +111,7 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 		 * @return bool
 		 */
 		public static function is_valid_php_version() {
-			return version_compare( PHP_VERSION, '5.3', '>=' );
+			return version_compare( PHP_VERSION, '5.4', '>=' );
 		}
 
 		/**
