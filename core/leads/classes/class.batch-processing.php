@@ -78,8 +78,9 @@ class Leads_Batch_Processor {
         echo '<div class="wrap">';
 
         echo '<h3>' . __( 'Is this' , 'leads' ) .'</h1>';
+
         /* run the method */
-        self::{$args['method']}($args);
+        self::$args['method']($args);
 
         echo '</div>';
 
