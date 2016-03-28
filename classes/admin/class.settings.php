@@ -424,8 +424,6 @@ class Inbound_Pro_Settings {
 		self::extend_settings();
 		self::$settings_values = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
 
-		exit;
-
 		?>
 
 

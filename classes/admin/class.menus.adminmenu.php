@@ -67,7 +67,7 @@ class Inbound_Menus_Admin {
 
 		$secondary_menu_items['inbound-pro-reset-extensiond'] = array(
 			'parent' => $debug_key,
-			'title'  => __( 'Extensions::Refresh Available Etensions', 'inbound-pro' ),
+			'title'  => __( 'Extensions::Refresh Available Extensions', 'inbound-pro' ),
 			'href'   => $reset_extensions_link,
 			'meta'   => array( 'title' =>  __( 'Refresh availavle template data from Inbound Now.', 'inbound-pro' ) )
 		);
