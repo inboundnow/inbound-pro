@@ -743,7 +743,7 @@ if (!class_exists('Landing_Pages_Variations')) {
         public static function ajax_clear_stats() {
             global $wpdb;
 
-            $landing_page_id = mysql_real_escape_string($_POST['page_id']);
+            $landing_page_id = intval($_POST['page_id']);
 
             $variations = self::get_variations( $landing_page_id );
 
@@ -763,7 +763,7 @@ if (!class_exists('Landing_Pages_Variations')) {
         public static function ajax_clear_stats_single() {
             global $wpdb;
 
-            $landing_page_id = mysql_real_escape_string($_POST['page_id']);
+            $landing_page_id = intval($_POST['page_id']);
             $vid = $_POST['variation'];
 
             self::set_impressions_count( $landing_page_id , $vid , 0 );

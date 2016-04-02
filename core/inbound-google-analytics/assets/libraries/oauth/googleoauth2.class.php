@@ -23,11 +23,11 @@ class Inbound_GA_GoogleOauth2 extends Inbound_GA_API_Settings {
 			$clienttoken_post["grant_type"] = "refresh_token";
 		}else{
 			$clienttoken_post["code"] = $code;	
-			$clienttoken_post["redirect_uri"] = $this->redirecturi;
+			$clienttoken_post["redirect_uri"] = $this->redirecturi ;
 			$clienttoken_post["grant_type"] = "authorization_code";
 		}
 		
-		
+
 		$curl = curl_init($oauth2token_url);
 	
 		curl_setopt($curl, CURLOPT_POST, true);
@@ -35,7 +35,7 @@ class Inbound_GA_GoogleOauth2 extends Inbound_GA_API_Settings {
 		curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
 		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-	
+
 		$json_response = curl_exec($curl);
 		curl_close($curl);
 	

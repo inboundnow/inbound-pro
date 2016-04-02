@@ -189,7 +189,7 @@ if (!class_exists('Inbound_Content_Statistics')) {
 			global $wpdb;
 
 			$newrules = "0";
-			$post_id = mysql_real_escape_string($_POST['post_id']);
+			$post_id = inval($_POST['post_id']);
 			$vid = $_POST['variation'];
 
 			update_post_meta( $post_id, '_inbound_impressions_count', '0' );

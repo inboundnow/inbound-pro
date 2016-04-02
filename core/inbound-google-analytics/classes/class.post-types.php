@@ -14,11 +14,17 @@ if ( !class_exists('Inbound_GA_Post_Types') ) {
                 delete_transient( 'inbound_ga_post_list_cache' );
             }
             self::$statistics = get_transient( 'inbound_ga_post_list_cache' );
+
             self::load_hooks();
         }
 
         private function load_hooks() {
+            /* load settings */
+            $ga_settings = get_option('inbound_ga' , false );
 
+            if (!isset($ga_settings['linked_profile']) ||  !$ga_settings['linked_profile']) {
+                return;
+            }
 
             /* Register Columns */
             add_filter( 'manage_posts_columns' , array( __CLASS__ , 'register_columns') );
