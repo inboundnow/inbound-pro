@@ -283,10 +283,13 @@ echo '<!DOCTYPE html>
     <!-- <script src="<?php echo $urlpath; ?>js/js_file_name.js"></script> -->
 
     <!-- Load Normal WordPress wp_head() function -->
-    <?php wp_head(); ?>
+    <footer>
+    <?php do_action("wp_footer"); ?>
 
     <!-- Load Landing Pages\'s custom pre-load hook for 3rd party plugin integration -->
     <?php do_action("lp_head"); ?>
+
+    </footer>
 </head>'. "\r\n\r\n".
 '<body>'. "\r\n\r\n";
  //print_r($field_groups); exit;
