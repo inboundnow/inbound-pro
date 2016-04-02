@@ -25,20 +25,29 @@ class Landing_Pages_Admin_Notices {
             $screen->id === 'theme-install' ||
             $screen->id === 'update' && isset($_GET['action']) && $_GET['action'] === "upload-theme"
         ) {
+            $message_id = 'landing-page-installation';
 
             if (is_plugin_active('landing-pages/landing-pages.php')) {
                 $lp = true;
+                $message_id = 'landing-page-installation';
             }
 
             if (is_plugin_active('cta/calls-to-action.php')) {
                 $cta = true;
+                $message_id = 'cta-installation';
+            }
+
+            /* check if user viewed message already */
+            if (self::check_if_viewed($message_id)) {
+                return;
             }
 
             $doc = 'http://docs.inboundnow.com/guide/installing-new-templates/';
             $link = admin_url( 'edit.php?post_type=landing-page&page=lp_templates_upload' );
 
+
             ?>
-            <div class="error" style="margin-bottom:10px;">
+            <div class="error" style="margin-bottom:10px;"  id="inbound_notice_<?php echo $message_id; ?>">
                 <h3 style='font-weight:normal; margin-bottom:0px;padding-bottom:0px;'>
                     <strong>
                         <?php _e( 'Attention Landing Page Users:' , 'inbound-pro' ); ?>
@@ -48,8 +57,13 @@ class Landing_Pages_Admin_Notices {
                     <br>
                     <?php echo "Landing page templates need to be installed <a href='".$link."'>here</a> in the <strong><a href='".$link."'>Landing pages</a> > <a href='".$link."'>Manage templates area</a></strong>"; ?>
                 </p>
+                <a class="button button-large inbound_dismiss" href="#" id="<?php echo $message_id; ?>"  data-notification-id="<?php echo $message_id; ?>" ><?php _e('Dismiss','inbound-pro'); ?></a>
+                <br><br>
             </div>
             <?php
+
+            /* echo javascript used to listen for notice closing */
+            self::javascript_dismiss_notice();
         }
     }
 
@@ -177,6 +191,58 @@ class Landing_Pages_Admin_Notices {
         </div>
         <?php
 
+    }
+
+
+    /**
+     * check if user has viewed and dismissed cta
+     * @param $notificaiton_id
+     */
+    public static function check_if_viewed( $notificaiton_id ) {
+        global $current_user;
+
+        $user_id = $current_user->ID;
+
+        return get_user_meta($user_id, 'inbound_notification_' . $notificaiton_id ) ;
+    }
+
+
+    public static function javascript_dismiss_notice() {
+        global $current_user;
+
+        $user_id = $current_user->ID;
+        ?>
+        <script type="text/javascript">
+            jQuery( document ).ready(function() {
+
+                jQuery('body').on('click' , '.inbound_dismiss' , function() {
+
+                    var notification_id = jQuery( this ).data('notification-id');
+
+                    jQuery('#inbound_notice_' + notification_id).hide();
+
+                    jQuery.ajax({
+                        type: 'POST',
+                        url: ajaxurl,
+                        context: this,
+                        data: {
+                            action: 'inbound_dismiss_ajax',
+                            notification_id: notification_id,
+                            user_id: '<?php echo $user_id; ?>'
+                        },
+
+                        success: function (data) {
+                        },
+
+                        error: function (MLHttpRequest, textStatus, errorThrown) {
+                            alert("Ajax not enabled");
+                        }
+                    });
+                })
+
+            });
+        </script>
+        <?php
     }
 
 
