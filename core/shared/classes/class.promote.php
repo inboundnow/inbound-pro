@@ -34,10 +34,10 @@ class Inbound_Promote {
 			/* help us translate the plugin */
 			add_action('admin_notices', array( __CLASS__, 'upgrade_to_pro' ));
 
-			/* Add ajax listeners for switching templates */
-			add_action( 'wp_ajax_inbound_dismiss_ajax', array(__CLASS__, 'dismiss_notice'));
-
 		}
+
+		/* Add ajax listeners for switching templates */
+		add_action( 'wp_ajax_inbound_dismiss_ajax', array(__CLASS__, 'dismiss_notice'));
 
 	}
 
