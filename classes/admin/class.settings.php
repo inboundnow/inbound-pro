@@ -96,6 +96,8 @@ class Inbound_Pro_Settings {
 	*/
 	public static function extend_settings() {
 
+		$price_id = Inbound_Pro_Plugin::get_customer_status();
+
 		self::$settings_fields = array(
 			'inbound-pro-setup' => array(
 				/* add api key group to setup page */
@@ -265,7 +267,7 @@ class Inbound_Pro_Settings {
 								'on' => __( 'On' , INBOUNDNOW_TEXT_DOMAIN ),
 								'off' => __( 'Off' , INBOUNDNOW_TEXT_DOMAIN ),
 							),
-							'hidden' => (Inbound_Pro_Plugin::get_customer_status() > 4 ? false : true ),
+							'hidden' => ($price_id > 4 ? false : true ),
 							'reveal' => array(
 								'selector' => null ,
 								'value' => null
@@ -282,7 +284,7 @@ class Inbound_Pro_Settings {
 								'on' => __( 'On' , INBOUNDNOW_TEXT_DOMAIN ),
 								'off' => __( 'Off' , INBOUNDNOW_TEXT_DOMAIN ),
 							),
-							'hidden' => (Inbound_Pro_Plugin::get_customer_status() > 0 ? false : true ),
+							'hidden' => ( $price_id > 0 ? false : true ),
 							'reveal' => array(
 								'selector' => null ,
 								'value' => null
@@ -301,7 +303,7 @@ class Inbound_Pro_Settings {
 							'default'	=> __( 'ACF Options' , INBOUNDNOW_TEXT_DOMAIN ),
 							'placeholder'	=> null,
 							'options' => false,
-							'hidden' => (Inbound_Pro_Plugin::get_customer_status() > 1 ? false : true ),
+							'hidden' => ( $price_id > 1 ? false : true ),
 							'reveal' => array(
 								'selector' => null ,
 								'value' => null
@@ -318,7 +320,7 @@ class Inbound_Pro_Settings {
 								'on' => __( 'On' , INBOUNDNOW_TEXT_DOMAIN ),
 								'off' => __( 'Off' , INBOUNDNOW_TEXT_DOMAIN ),
 							),
-							'hidden' => (Inbound_Pro_Plugin::get_customer_status() > 1 ? false : true ),
+							'hidden' => ( $price_id > 1 ? false : true ),
 							'reveal' => array(
 								'selector' => null ,
 								'value' => null
