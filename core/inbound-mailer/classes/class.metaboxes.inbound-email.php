@@ -524,6 +524,18 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
             ?>
             <div class="mail-headers-container bs-callout bs-callout-clear">
+                <?php
+                    if (isset($_GET['inbvid'])) {
+                        ?>
+                        <span id="delete-variation-button-container">
+                        <button type="button" class="btn btn-danger btn-medium" id="action-trash-variation"  title="<?php _e('Trash this variation','inbound-pro'); ?>." >
+                            <i class="fa fa-trash-o"></i>
+                        </button>
+                        </span>
+                        <?php
+
+                    }
+                ?>
                 <h4><?php _e(sprintf('Variation %s Headers', $letter), 'inbound-email'); ?></h4>
 
                 <?php
@@ -917,7 +929,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             $variations = $Inbound_Mailer_Variations->get_variations($post->ID);
 
 
-            //echo '<span class="label-vairations">'. __( 'Variations' , 'inbound-email' ) .': </span>';
+            //echo '<span class="label-vairations">'. __( 'Variations' , 'inbound-pro' ) .': </span>';
             $var_id_marker = 1;
             echo '<div class="variations-menu">';
             echo ' <div class="btn-group variation-group">';
@@ -941,6 +953,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             } else {
                 $letter = $Inbound_Mailer_Variations->vid_to_letter($post->ID, $next_available_variation_id);
                 echo '<a class="btn btn-primary selected-variation"	href="?post=' . $post->ID . '&inbvid=' . $next_available_variation_id . '&action=edit" id="tabs-add-variation">' . $letter . '</a>';
+                echo '<a  style="display:none;" class="btn btn-default "	href="?post=' . $post->ID . '&action=edit&new-variation=1"	id="tabs-add-variation-hidden" title="' . __('Add New Variation', 'inbound-email') . '"> <i data-code="f132" style="vertical-align:bottom;" class="dashicons dashicons-plus"></i></a>';
             }
 
 
@@ -1532,6 +1545,11 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                     });
 
                     /* Add listener to prompt trash */
+                    jQuery('#action-trash-variation').on('click', function (e) {
+                        Settings.trash_variation();
+                    });
+
+                    /* Add listener to prompt variation trash */
                     jQuery('#action-trash').on('click', function (e) {
                         Settings.trash_email();
                     });
@@ -1848,7 +1866,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                                 minutes = parseInt(seconds_left / 60);
                                 seconds = parseInt(seconds_left % 60);
 
-                                message = "<span class='send-countdown-label'><?php _e('Time until send:' , 'inbound-email'); ?></span>";
+                                message = "<span class='send-countdown-label'><?php _e('Time until send:' , 'inbound-pro'); ?></span>";
                                 // format countdown string + set tag value
                                 jQuery('.scheduled-information-countdown').html(message + days + "d " + hours + "h " + minutes + "m " + seconds + "s ");
 
@@ -1886,15 +1904,15 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                         },
                         validate_headers: function () {
                             if (!jQuery('#subject').val()) {
-                                swal("<?php _e('Email requires subject to send.' , 'inbound-email'); ?>");
+                                swal("<?php _e('Email requires subject to send.' , 'inbound-pro'); ?>");
                                 return false;
                             }
                             if (!jQuery('#from_name').val()) {
-                                swal("<?php _e('Email requires from name to send.' , 'inbound-email'); ?>");
+                                swal("<?php _e('Email requires from name to send.' , 'inbound-pro'); ?>");
                                 return false;
                             }
                             if (!jQuery('#from_email').val()) {
-                                swal("<?php _e('Email requires from email address to send.' , 'inbound-email'); ?>");
+                                swal("<?php _e('Email requires from email address to send.' , 'inbound-pro'); ?>");
                                 return false;
                             }
 
@@ -1909,7 +1927,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                             if (selectedRecipients) {
                                 return true;
                             } else {
-                                swal("<?php _e('Please set email recipients.' , 'inbound-email'); ?>");
+                                swal("<?php _e('Please set email recipients.' , 'inbound-pro'); ?>");
                                 return false;
                             }
                         },
@@ -1920,19 +1938,19 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
                             /* Throw confirmation for scheduling */
                             swal({
-                                title: "<?php _e( 'Are you sure?' , 'inbound-email' ); ?>",
-                                text: "<?php _e( 'Are you sure you want to clone this email?' , 'inbound-email' ); ?>",
+                                title: "<?php _e( 'Are you sure?' , 'inbound-pro' ); ?>",
+                                text: "<?php _e( 'Are you sure you want to clone this email?' , 'inbound-pro' ); ?>",
                                 type: "info",
                                 showCancelButton: true,
                                 confirmButtonColor: "#2ea2cc",
-                                confirmButtonText: "<?php _e( 'Yes, clone it!' , 'inbound-email' ); ?>",
+                                confirmButtonText: "<?php _e( 'Yes, clone it!' , 'inbound-pro' ); ?>",
                                 closeOnConfirm: false
                             }, function () {
 
 
                                 swal({
-                                    title: "<?php _e('Please wait' , 'inbound-email' ); ?>",
-                                    text: "<?php _e('We are cloning your email now.' , 'inbound-email' ); ?>",
+                                    title: "<?php _e('Please wait' , 'inbound-pro' ); ?>",
+                                    text: "<?php _e('We are cloning your email now.' , 'inbound-pro' ); ?>",
                                     imageUrl: '<?php echo INBOUND_EMAIL_URLPATH; ?>/assets/images/loading_colorful.gif'
                                 });
 
@@ -1957,15 +1975,15 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
                             /* Throw confirmation for scheduling */
                             swal({
-                                title: "<?php _e( 'Send Test Email' , 'inbound-email' ); ?>",
+                                title: "<?php _e( 'Send Test Email' , 'inbound-pro' ); ?>",
                                 text: "",
                                 type: "info",
                                 showCancelButton: true,
                                 confirmButtonColor: "#2ea2cc",
-                                confirmButtonText: "<?php _e( 'Send test email!' , 'inbound-email' ); ?>",
+                                confirmButtonText: "<?php _e( 'Send test email!' , 'inbound-pro' ); ?>",
                                 closeOnConfirm: false,
                                 inputField: {
-                                    placeholder: '<?php _e( 'Enter target e-mail address.' , 'inbound-email' ); ?>',
+                                    placeholder: '<?php _e( 'Enter target e-mail address.' , 'inbound-pro' ); ?>',
                                     padding: '20px',
                                     width: '271px'
                                 }
@@ -1976,8 +1994,8 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                                 }
 
                                 swal({
-                                    title: "<?php _e('Please wait' , 'inbound-email' ); ?>",
-                                    text: "<?php _e('We are sending a test email now.' , 'inbound-email' ); ?>",
+                                    title: "<?php _e('Please wait' , 'inbound-pro' ); ?>",
+                                    text: "<?php _e('We are sending a test email now.' , 'inbound-pro' ); ?>",
                                     imageUrl: '<?php echo INBOUND_EMAIL_URLPATH; ?>/assets/images/loading_colorful.gif'
                                 });
 
@@ -1991,7 +2009,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                                         variation_id: jQuery('#open_variation').val()
                                     },
                                     dataType: 'html',
-                                    timeout: 10000,
+                                    timeout: 20000,
                                     success: function (response) {
                                         alert(response);
                                         jQuery('.confirm').click();
@@ -2014,19 +2032,19 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
                             /* Throw confirmation for scheduling */
                             swal({
-                                title: "<?php _e( 'Are you sure?' , 'inbound-email' ); ?>",
-                                text: "<?php _e( 'Are you sure you want to begin sending this email?' , 'inbound-email' ); ?>",
+                                title: "<?php _e( 'Are you sure?' , 'inbound-pro' ); ?>",
+                                text: "<?php _e( 'Are you sure you want to begin sending this email?' , 'inbound-pro' ); ?>",
                                 type: "info",
                                 showCancelButton: true,
                                 confirmButtonColor: "#449d44",
-                                confirmButtonText: "<?php _e( 'Yes, send it!' , 'inbound-email' ); ?>",
+                                confirmButtonText: "<?php _e( 'Yes, send it!' , 'inbound-pro' ); ?>",
                                 closeOnConfirm: false
                             }, function () {
 
 
                                 swal({
-                                    title: "<?php _e('Please wait' , 'inbound-email' ); ?>",
-                                    text: "<?php _e('We are scheduling your email now.' , 'inbound-email' ); ?>",
+                                    title: "<?php _e('Please wait' , 'inbound-pro' ); ?>",
+                                    text: "<?php _e('We are scheduling your email now.' , 'inbound-pro' ); ?>",
                                     imageUrl: '<?php echo INBOUND_EMAIL_URLPATH; ?>/assets/images/loading_colorful.gif'
                                 });
 
@@ -2049,7 +2067,6 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                                     email_id: '<?php echo $post->ID; ?>'
                                 },
                                 success: function (result) {
-                                    console.log('')
                                     window.location.reload();
                                 }
                             });
@@ -2064,25 +2081,30 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
                             /* Throw confirmation for scheduling */
                             swal({
-                                title: "<?php _e( 'Are you sure?' , 'inbound-email' ); ?>",
-                                text: "<?php _e( 'Cancelling this email will remove all unsent emails from our send queue. Cancel now to stop sending.' , 'inbound-email' ); ?>",
+                                title: "<?php _e( 'Are you sure?' , 'inbound-pro' ); ?>",
+                                text: "<?php _e( 'Cancelling this email will remove all unsent emails from our send queue. Cancel now to stop sending.' , 'inbound-pro' ); ?>",
                                 type: "warning",
                                 showCancelButton: true,
                                 confirmButtonColor: "#d9534f",
-                                confirmButtonText: "<?php _e( 'Yes, cancel it now!' , 'inbound-email' ); ?>",
+                                confirmButtonText: "<?php _e( 'Yes, cancel it now!' , 'inbound-pro' ); ?>",
                                 closeOnConfirm: false
                             }, function () {
 
 
                                 swal({
-                                    title: "<?php _e('Please wait' , 'inbound-email' ); ?>",
-                                    text: "<?php _e('We are cancelling your email now.' , 'inbound-email' ); ?>",
+                                    title: "<?php _e('Please wait' , 'inbound-pro' ); ?>",
+                                    text: "<?php _e('We are cancelling your email now.' , 'inbound-pro' ); ?>",
                                     imageUrl: '<?php echo INBOUND_EMAIL_URLPATH; ?>/assets/images/loading_colorful.gif'
                                 });
 
                                 jQuery('#email_action').val('unschedule');
                                 jQuery('#post_status').val('cancelled');
-                                jQuery('#post').submit();
+
+
+                                /* save the email and reload */
+                                Settings.save_email( false , true );
+
+
                             });
 
                         },
@@ -2093,19 +2115,19 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
                             /* Throw confirmation for trashing */
                             swal({
-                                title: "<?php _e( 'Are you sure?' , 'inbound-email' ); ?>",
-                                text: "<?php _e( 'Trashing this email will remove all unsent emails from our send queue. And set it\'s status to \'trash\'.' , 'inbound-email' ); ?>",
+                                title: "<?php _e( 'Are you sure?' , 'inbound-pro' ); ?>",
+                                text: "<?php _e( 'Trashing this email will remove all unsent emails from our send queue. And set it\'s status to \'trash\'.' , 'inbound-pro' ); ?>",
                                 type: "warning",
                                 showCancelButton: true,
                                 confirmButtonColor: "#d9534f",
-                                confirmButtonText: "<?php _e( 'Yes, trash it now!' , 'inbound-email' ); ?>",
+                                confirmButtonText: "<?php _e( 'Yes, trash it now!' , 'inbound-pro' ); ?>",
                                 closeOnConfirm: false
                             }, function () {
 
 
                                 swal({
-                                    title: "<?php _e('Please wait' , 'inbound-email' ); ?>",
-                                    text: "<?php _e('We are trashing your email now.' , 'inbound-email' ); ?>",
+                                    title: "<?php _e('Please wait' , 'inbound-pro' ); ?>",
+                                    text: "<?php _e('We are trashing your email now.' , 'inbound-pro' ); ?>",
                                     imageUrl: '<?php echo INBOUND_EMAIL_URLPATH; ?>/assets/images/loading_colorful.gif'
                                 });
 
@@ -2115,6 +2137,34 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                                     text: 'Trash'
                                 }));
                                 jQuery('#post_status').val('trash');
+                                jQuery('#post').submit();
+                            });
+
+                        },
+                        /**
+                         *    Trashes Email Variation
+                         */
+                        trash_variation: function () {
+
+                            /* Throw confirmation for trashing */
+                            swal({
+                                title: "<?php _e( 'Are you sure?' , 'inbound-pro' ); ?>",
+                                text: "<?php _e( 'Trashing this variation will delete all it\'s content.' , 'inbound-pro' ); ?>",
+                                type: "warning",
+                                showCancelButton: true,
+                                confirmButtonColor: "#d9534f",
+                                confirmButtonText: "<?php _e( 'Yes, trash it now!' , 'inbound-pro' ); ?>",
+                                closeOnConfirm: false
+                            }, function () {
+
+
+                                swal({
+                                    title: "<?php _e('Please wait' , 'inbound-pro' ); ?>",
+                                    text: "<?php _e('We are trashing your variation now.' , 'inbound-pro' ); ?>",
+                                    imageUrl: '<?php echo INBOUND_EMAIL_URLPATH; ?>/assets/images/loading_colorful.gif'
+                                });
+
+                                jQuery('#email_action').val('trash-variation');
                                 jQuery('#post').submit();
                             });
 
@@ -2130,18 +2180,18 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                             /* Throw confirmation for switching templates */
                             swal({
                                 title: "Are you sure?",
-                                text: "<?php _e( 'Are you sure you want to select this template?' , 'inbound-email' ); ?>",
+                                text: "<?php _e( 'Are you sure you want to select this template?' , 'inbound-pro' ); ?>",
                                 type: "info",
                                 showCancelButton: true,
                                 confirmButtonColor: "#449d44",
-                                confirmButtonText: "<?php _e( 'Yes' , 'inbound-email' ); ?>",
+                                confirmButtonText: "<?php _e( 'Yes' , 'inbound-pro' ); ?>",
                                 closeOnConfirm: false,
                                 closeOnCancel: true
                             }, function () {
 
                                 swal({
-                                    title: "<?php _e('Please wait' , 'inbound-email' ); ?>",
-                                    text: "<?php _e('We are setting up your email now.' , 'inbound-email' ); ?>",
+                                    title: "<?php _e('Please wait' , 'inbound-pro' ); ?>",
+                                    text: "<?php _e('We are setting up your email now.' , 'inbound-pro' ); ?>",
                                     imageUrl: '<?php echo INBOUND_EMAIL_URLPATH; ?>/assets/images/loading_colorful.gif',
                                     closeOnConfirm: false,
                                     showConfirmButton: false,
@@ -2192,7 +2242,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                         /**
                          *  Save Email
                          */
-                        save_email: function ( schedule_email ) {
+                        save_email: function ( schedule_email , reload ) {
                             Settings.ladda_button = Ladda.create(document.querySelector('#action-save'));
                             Settings.ladda_button.toggle();
 
@@ -2205,9 +2255,16 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                                 data: data,
                                 success: function (result) {
                                     Settings.ladda_button.toggle();
+                                    jQuery('#tabs-add-variation-hidden').show();
                                     if (typeof schedule_email != 'undefined' && schedule_email) {
                                         Settings.schedule_email();
                                     }
+
+                                    if (typeof reload != 'undefined' && reload) {
+                                        window.location.reload();
+                                    }
+
+
                                 }
                             });
 
@@ -2308,6 +2365,9 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
             global $post;
 
+            if (!isset($post)) {
+                $post = get_post($_POST['post_ID']);
+            }
 
             switch ($_POST['email_action']) {
 
@@ -2319,8 +2379,11 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                     header('Location:' . admin_url('edit.php?post_type=inbound-email'));
                     exit;
                     break;
+                case 'trash-variation':
+                    Inbound_Mailer_Variations::delete_variation($post->ID , $_POST['inbvid']);
+                    break;
                 case 'schedule':
-                    Inbound_Mailer_Scheduling::schedule_email($post->ID);
+                    //Inbound_Mailer_Scheduling::schedule_email($post->ID);
                     break;
 
 
