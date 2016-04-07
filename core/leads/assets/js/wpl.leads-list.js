@@ -25,28 +25,6 @@ jQuery(document).ready(function ($) {
 
         });
 
-        jQuery('.column-status').each(
-            function () {
-                // hide empty fields
-                if (jQuery(this).text() == "") {
-                    jQuery(this).parent().css("background-color", "#e2ffc9").addClass('new-lead-row');
-                }
-                if (jQuery(this).text() == "New Lead") {
-                    jQuery(this).parent().css("background-color", "#e2ffc9");
-                }
-                if (jQuery(this).text() == "Lost") {
-                    jQuery(this).parent().css("background-color", "#ffe2e2");
-                }
-                if (jQuery(this).text() == "Read") {
-                    jQuery(this).parent().css("background-color", "#f2f2f2");
-                }
-                if (jQuery(this).text() == "Contacted") {
-                    jQuery(this).parent().css("background-color", "#fcf7d1");
-                }
-
-            }
-        );
-
         if (jQuery("li.publish").length > 0) {
             jQuery(".submitdelete").text("Delete");
             var textchange = jQuery("li.publish").html().replace("Published", "Live");

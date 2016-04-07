@@ -233,6 +233,20 @@ class Inbound_API_Wrapper {
 		$json = $response['body'];
 		$array = json_decode($json, true);
 
+		/* look for right url if multiple files present */
+		if (
+			(!isset($array['url']) || !$array['url'] )
+		&&
+			 isset($array['files'])
+		) {
+			foreach ( $array['files'] as $key=> $file_meta ) {
+				if (!$array['url'] && $file_meta['name'] != 'inbound-premium-template-support.zip' ) {
+					$array['url'] = $file_meta['file'];
+				} else {
+					continue;
+				}
+			}
+		}
 		/* if error show error message and die */
 		if(isset($array['error']) || !isset( $array['url'] )) {
 			if (isset($GLOBALS['is_activating'])) {

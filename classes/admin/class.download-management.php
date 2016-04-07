@@ -237,6 +237,8 @@ class Inbound_Pro_Downloads {
 		/* make sure we get a filename */
 		if(!isset($download['filename']) || !$download['filename']) {
 			$download['filename'] = $download['post_name'];
+		} else {
+			$download['filename'] = str_replace('.zip' , '' , $download['filename']);
 		}
 
 		/* extract temp file to plugins direction */
@@ -248,7 +250,6 @@ class Inbound_Pro_Downloads {
 
 		/* delete templ file */
 		unlink($temp_file);
-
 	}
 
 	/**

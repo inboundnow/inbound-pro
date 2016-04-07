@@ -533,3 +533,10 @@ ul#template-filter a.current{
 	text-decoration: none;
 	color: darkgrey;
 }
+
+#delete-variation-button-container {
+	display: -webkit-flex; /* Safari */
+	display: flex;
+	-webkit-flex-direction: row-reverse; /* Safari */
+	flex-direction:         row-reverse;
+}

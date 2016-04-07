@@ -62,7 +62,7 @@ if ($background_style === "fullscreen") {
     <link href="<?php echo $path; ?>assets/css/style.css" rel="stylesheet">
 
 
-    <?php wp_head(); // Load Regular WP Head ?>
+    <?php do_action('wp_head'); // Load Regular WP Head ?>
 
 
     <style type="text/css">

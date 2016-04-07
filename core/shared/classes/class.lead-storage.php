@@ -109,6 +109,7 @@ if (!class_exists('LeadStorage')) {
 				} else {
 				/* Create new lead if one doesnt exist */
 					$lead['id'] = self::store_new_lead($lead);
+					update_post_meta( $lead['id'] , 'wp_lead_status' , 'new');
 				}
 
 				/* do everything else for lead storage */

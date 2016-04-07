@@ -49,8 +49,6 @@ jQuery(document).ready(function($) {
 	rawData.show();
 	jQuery("#raw-data-display").append(rawData);
 
-	jQuery('#wplead_list_category-add-toggle').hide();
-
 	jQuery('.row-actions').each(function() {
 		var jQuerylist = jQuery(this);
 		var jQueryfirstChecked = jQuerylist.parent().parent().find('.column-first-name');
@@ -321,35 +319,38 @@ jQuery(document).ready(function($) {
 	jQuery(this).toggleClass("toggle-val");
 	});
 
-	var null_lead_status = jQuery("#current-lead-status").text();
+	var lead_status = jQuery('select[name=wp_lead_status]').val();
 
-	if (null_lead_status === "") {
-	var post_id = jQuery("#post_ID").val();
-	jQuery.ajax({
+	if (lead_status === "new") {
+		var post_id = jQuery("#post_ID").val();
+		jQuery.ajax({
 				type: 'POST',
 				url: wp_lead_map.ajaxurl,
 				context: this,
 				data: {
 					action: 'wp_leads_auto_mark_as_read',
-					page_id: post_id,
-					//nonce: nonce_val
+					page_id: post_id
 				},
 
-				success: function(data){
+				success: function(data) {
 					var self = this;
-							//alert(data);
-							// jQuery('.lp-form').unbind('submit').submit();
-							var worked = '<span class="success-message-map" style="display: inline-block;margin-top: -1px;margin-left: 20px;padding:4px 25px 4px 20px;position: absolute;">This Lead has been marked as read/viewed.</span>';
-							var s_message = jQuery("#lead-top-area");
-							jQuery(worked).appendTo(s_message);
-							// alert("This lead is marked as read.");
-						   },
-
+				},
 				error: function(MLHttpRequest, textStatus, errorThrown){
 					alert("Error thrown not sure why");
-					}
-			});
+				}
+		});
 
 	}
+
+
+	jQuery('.lead_status_dropdown option').click(function() {
+		jQuery('.lead_status_dropdown option').each(function() {
+			if (jQuery(this).hasClass('selected')) {
+				jQuery(this).removeClass('selected');
+			}
+		});
+		jQuery(this).addClass('selected');
+		jQuery('.dropdown h1').html($(this).html()).removeClass().addClass('selected-' + (jQuery(this).index() + 1));
+	});
 
 });

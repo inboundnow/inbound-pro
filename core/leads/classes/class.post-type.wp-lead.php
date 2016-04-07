@@ -15,59 +15,59 @@ class Leads_Post_Type {
     public static function load_hooks() {
 
         /* add custom columns to wp-lead post type */
-        add_filter( "manage_wp-lead_posts_columns", array( __CLASS__ , 'register_columns' ) );
+        add_filter("manage_wp-lead_posts_columns", array(__CLASS__, 'register_columns'));
 
         /* process custom columns */
-        add_action( "manage_posts_custom_column", array( __CLASS__ , 'render_columns' ), 10, 2 );
+        add_action("manage_posts_custom_column", array(__CLASS__, 'render_columns'), 10, 2);
 
         /* setup column sorting */
-        add_filter("manage_edit-wp-lead_sortable_columns", array( __CLASS__ , 'define_sortable_columns' ));
-        add_action( 'posts_clauses', array( __CLASS__ , 'process_column_sorting' ) , 1 , 2 );
+        add_filter("manage_edit-wp-lead_sortable_columns", array(__CLASS__, 'define_sortable_columns'));
+        add_action('posts_clauses', array(__CLASS__, 'process_column_sorting'), 1, 2);
 
         /* modify row actions */
-        add_filter('post_row_actions', array( __CLASS__ , 'filter_row_actions' ), 10, 2);
+        add_filter('post_row_actions', array(__CLASS__, 'filter_row_actions'), 10, 2);
 
         /* adds ability to filter leads by custom taxonomy */
-        add_action( 'restrict_manage_posts', array( __CLASS__ , 'define_filters' ) );
-        add_filter( 'parse_query' , array( __CLASS__ , 'process_filters' ) , 10 , 1);
+        add_action('restrict_manage_posts', array(__CLASS__, 'define_filters'));
+        add_filter('parse_query', array(__CLASS__, 'process_filters'), 10, 1);
 
         /* record last time a piece of meta data was updated */
-        add_action( 'added_post_meta', array( __CLASS__  , 'record_meta_update' ), 10, 4 );
-        add_action( 'updated_post_meta', array( __CLASS__  , 'record_meta_update' ), 10, 4 );
+        add_action('added_post_meta', array(__CLASS__, 'record_meta_update'), 10, 4);
+        add_action('updated_post_meta', array(__CLASS__, 'record_meta_update'), 10, 4);
 
         /* redirect lead notification email links to lead profile */
-        add_action('admin_init', array( __CLASS__ , 'redirect_email_profile_links' ) );
+        add_action('admin_init', array(__CLASS__, 'redirect_email_profile_links'));
 
         /* gets json object of all lead meta data */
-        add_action('wp_ajax_inbound_get_all_lead_data', array( __CLASS__ , 'ajax_get_all_lead_data' ) );
+        add_action('wp_ajax_inbound_get_all_lead_data', array(__CLASS__, 'ajax_get_all_lead_data'));
 
         /* mark lead status as read */
-        add_action('wp_ajax_wp_leads_mark_as_read_save', array( __CLASS__ , 'ajax_mark_lead_as_read' ) );
+        add_action('wp_ajax_wp_leads_mark_as_read_save', array(__CLASS__, 'ajax_mark_lead_as_read'));
         /* mark lead status as unread */
-        add_action('wp_ajax_wp_leads_mark_as_read_undo', array( __CLASS__ , 'ajax_mark_lead_as_unread' ) );
+        add_action('wp_ajax_wp_leads_mark_as_read_undo', array(__CLASS__, 'ajax_mark_lead_as_unread'));
         /* mark lead status as read on first open */
-        add_action('wp_ajax_wp_leads_auto_mark_as_read', array( __CLASS__ , 'ajax_auto_mark_as_read' ));
+        add_action('wp_ajax_wp_leads_auto_mark_as_read', array(__CLASS__, 'ajax_auto_mark_as_read'));
 
         /* setup bulk edit options */
-        add_action('admin_footer-edit.php', array( __CLASS__ , 'register_bulk_edit_fields' ));
+        add_action('admin_footer-edit.php', array(__CLASS__, 'register_bulk_edit_fields'));
 
         /* process bulk actions  */
-        add_action('load-edit.php',  array( __CLASS__ , 'process_bulk_actions' ));
+        add_action('load-edit.php', array(__CLASS__, 'process_bulk_actions'));
 
         /* prepare admin notifications for bulk actions */
-        add_action( 'admin_notices', array( __CLASS__ , 'display_admin_notices' ) );
+        add_action('admin_notices', array(__CLASS__, 'display_admin_notices'));
 
         /* add extra menu items */
-        add_action('admin_menu', array( __CLASS__ , 'setup_admin_menu' ) );
+        add_action('admin_menu', array(__CLASS__, 'setup_admin_menu'));
 
         /* Add quick action link to settings page for Leads */
-        add_filter( 'plugin_action_links_leads/leads.php', array( __CLASS__ , 'display_plugin_quick_links' ) );
+        add_filter('plugin_action_links_leads/leads.php', array(__CLASS__, 'display_plugin_quick_links'));
 
         /* Add plugin page 'upgrade to pro' call to action */
-        add_filter( 'plugin_row_meta', array( __CLASS__ , 'display_plugin_meta_link' ), 10, 2 );
+        add_filter('plugin_row_meta', array(__CLASS__, 'display_plugin_meta_link'), 10, 2);
 
         /* enqueue scripts and styles in admin  */
-        add_action('admin_enqueue_scripts', array( __CLASS__ , 'enqueue_admin_scripts' ) );
+        add_action('admin_enqueue_scripts', array(__CLASS__, 'enqueue_admin_scripts'));
     }
 
     /**
@@ -75,28 +75,28 @@ class Leads_Post_Type {
      * @param $cols
      * @return array
      */
-    public static function register_columns( $cols ) {
+    public static function register_columns($cols) {
 
         $cols = array(
             "cb" => "<input type=\"checkbox\" />",
-            "lead-picture" => __( 'Lead' , 'leads' ),
-            "first-name" => __( 'First Name' , 'leads' ),
-            "last-name" => __( 'Last Name' , 'leads' ),
-            "title" => __( 'Email' , 'leads' ),
-            "status" => __( 'Status' , 'leads' ),
-            'action-count' => __( 'Actions' , 'leads' ),
-            "page-views" => __( 'Page Views' , 'leads' ),
-            "modified" => __( 'Updated' , 'leads' )
+            "lead-picture" => __('Lead', 'leads'),
+            "first-name" => __('First Name', 'leads'),
+            "last-name" => __('Last Name', 'leads'),
+            "title" => __('Email', 'leads'),
+            "status" => __('Status', 'leads'),
+            'action-count' => __('Actions', 'leads'),
+            "page-views" => __('Page Views', 'leads'),
+            "modified" => __('Updated', 'leads')
         );
 
         /* not sure about this, needs documentation - H */
         if (isset($_GET['wp_leads_filter_field']) && $_GET['wp_leads_filter_field'] != "") {
             $the_val = $_GET['wp_leads_filter_field'];
             $nice_names = wpl_nice_field_names();
-            if(array_key_exists($the_val, $nice_names)){
+            if (array_key_exists($the_val, $nice_names)) {
                 $the_val = $nice_names[$the_val];
             }
-            $cols['custom'] =  $the_val;
+            $cols['custom'] = $the_val;
         }
 
         return $cols;
@@ -117,7 +117,7 @@ class Leads_Post_Type {
 
         switch ($column) {
             case "lead-picture":
-                $gravatar = self::get_gravatar( $post->ID );
+                $gravatar = self::get_gravatar($post->ID);
                 echo '<img class="lead-grav-img" width="50" height="50" src="' . $gravatar . '">';
                 break;
             case "first-name":
@@ -136,10 +136,7 @@ class Leads_Post_Type {
                 break;
             case "status":
                 $lead_status = get_post_meta($post_id, 'wp_lead_status', true);
-                $lead_status = ( $lead_status ) ? $lead_status : __('New Lead' , 'leads');
-                echo '<label class="lead-status-pill lead-status-'.str_replace(' ' , '-' , $lead_status ).'">';
-                echo $lead_status;
-                echo '</label>';
+                Inbound_Lead_Statuses::print_status_pill($lead_status);
                 break;
             case "action-count":
                 $actions = Inbound_Events::get_total_activity($post_id);
@@ -157,19 +154,19 @@ class Leads_Post_Type {
                 break;
             case "page-views":
                 $page_view_count = get_post_meta($post_id, 'wpleads_page_view_count', true);
-                echo ( $page_view_count ? $page_view_count : 0 );
+                echo($page_view_count ? $page_view_count : 0);
                 break;
             case "company":
                 $company = get_post_meta($post_id, 'wpleads_company_name', true);
                 echo $company;
                 break;
             case 'modified':
-                $m_orig		= get_post_field( 'post_modified', $post_id, 'raw' );
-                $m_stamp	= strtotime( $m_orig );
-                $modified	= date('n/j/y g:i a', $m_stamp );
+                $m_orig = get_post_field('post_modified', $post_id, 'raw');
+                $m_stamp = strtotime($m_orig);
+                $modified = date('n/j/y g:i a', $m_stamp);
 
                 echo '<p class="mod-date">';
-                echo '<em>'.$modified.'</em><br />';
+                echo '<em>' . $modified . '</em><br />';
                 echo '</p>';
                 break;
         }
@@ -186,9 +183,9 @@ class Leads_Post_Type {
         $columns['last-name'] = 'last-name';
         $columns['status'] = 'status';
         $columns['company'] = 'company';
-        $columns['modified']	= 'modified';
-        $columns['action-count']	= 'action-count';
-        $columns['page-views']	= 'page-views';
+        $columns['modified'] = 'modified';
+        $columns['action-count'] = 'action-count';
+        $columns['page-views'] = 'page-views';
         if (isset($_GET['wp_leads_filter_field'])) {
             $the_val = $_GET['wp_leads_filter_field'];
             $columns['custom'] = $the_val;
@@ -207,6 +204,20 @@ class Leads_Post_Type {
         if ($typenow != "wp-lead") {
             return;
         }
+
+        /* add lead status filter */
+        $statuses = Inbound_Leads::get_lead_statuses();
+        echo '<select name="wp_lead_status">';
+        echo '<option value="0">'.__('Lead Status','inbound-pro').'</option>';
+        foreach( $statuses as $status)  {
+            if (isset($_GET['wp_lead_status'])) {
+                $selected = $status['key'] == $_GET['wp_lead_status'] ? ' selected ' : '';
+            } else {
+                $selected = '';
+            }
+            echo '<option value="'.$status['key'].'" data-color="'.$status['color'].'" ' .  $selected . '>' . $status['label'] .  '</option>';
+        }
+        echo "</select>";
 
         /* prepare taxonomy filters */
         $filters = get_object_taxonomies($typenow);
@@ -229,13 +240,13 @@ class Leads_Post_Type {
             return $actions;
         }
 
-        $actions['edit'] = str_replace('Edit', __('View', 'leads') , $actions['edit']);
+        $actions['edit'] = str_replace('Edit', __('View', 'leads'), $actions['edit']);
         unset($actions['inline hide-if-no-js']);
 
         return $actions;
     }
 
-    public static function process_column_sorting(  $pieces, $query ) {
+    public static function process_column_sorting($pieces, $query) {
 
         global $wpdb, $table_prefix;
 
@@ -243,60 +254,60 @@ class Leads_Post_Type {
             return $pieces;
         }
 
-        if ( $query->is_main_query() && ( $orderby = $query->get( 'orderby' ) ) ) {
-            $order = strtoupper( $query->get( 'order' ) );
+        if ($query->is_main_query() && ($orderby = $query->get('orderby'))) {
+            $order = strtoupper($query->get('order'));
 
-            if ( ! in_array( $order, array( 'ASC', 'DESC' ) ) ) {
+            if (!in_array($order, array('ASC', 'DESC'))) {
                 $order = 'ASC';
             }
 
-            switch( $orderby ) {
+            switch ($orderby) {
 
                 case 'first-name':
 
-                    $pieces[ 'join' ] .= " LEFT JOIN $wpdb->postmeta wp_rd ON wp_rd.post_id = {$wpdb->posts}.ID AND wp_rd.meta_key = 'wpleads_first_name'";
+                    $pieces['join'] .= " LEFT JOIN $wpdb->postmeta wp_rd ON wp_rd.post_id = {$wpdb->posts}.ID AND wp_rd.meta_key = 'wpleads_first_name'";
 
-                    $pieces[ 'orderby' ] = " wp_rd.meta_value $order , " . $pieces[ 'orderby' ];
+                    $pieces['orderby'] = " wp_rd.meta_value $order , " . $pieces['orderby'];
 
                     break;
 
                 case 'last-name':
 
-                    $pieces[ 'join' ] .= " LEFT JOIN $wpdb->postmeta wp_rd ON wp_rd.post_id = {$wpdb->posts}.ID AND wp_rd.meta_key = 'wpleads_last_name'";
+                    $pieces['join'] .= " LEFT JOIN $wpdb->postmeta wp_rd ON wp_rd.post_id = {$wpdb->posts}.ID AND wp_rd.meta_key = 'wpleads_last_name'";
 
-                    $pieces[ 'orderby' ] = " wp_rd.meta_value $order , " . $pieces[ 'orderby' ];
+                    $pieces['orderby'] = " wp_rd.meta_value $order , " . $pieces['orderby'];
 
                     break;
 
                 case 'status':
 
-                    $pieces[ 'join' ] .= " LEFT JOIN $wpdb->postmeta wp_rd ON wp_rd.post_id = {$wpdb->posts}.ID AND wp_rd.meta_key = 'wp_lead_status'";
+                    $pieces['join'] .= " LEFT JOIN $wpdb->postmeta wp_rd ON wp_rd.post_id = {$wpdb->posts}.ID AND wp_rd.meta_key = 'wp_lead_status'";
 
-                    $pieces[ 'orderby' ] = " wp_rd.meta_value $order , " . $pieces[ 'orderby' ];
+                    $pieces['orderby'] = " wp_rd.meta_value $order , " . $pieces['orderby'];
 
                     break;
 
                 case 'page-views':
 
-                    $pieces[ 'join' ] .= " LEFT JOIN $wpdb->postmeta wp_rd ON wp_rd.post_id = {$wpdb->posts}.ID AND wp_rd.meta_key = 'wpleads_page_view_count'";
+                    $pieces['join'] .= " LEFT JOIN $wpdb->postmeta wp_rd ON wp_rd.post_id = {$wpdb->posts}.ID AND wp_rd.meta_key = 'wpleads_page_view_count'";
 
-                    $pieces[ 'orderby' ] = " wp_rd.meta_value $order , " . $pieces[ 'orderby' ];
+                    $pieces['orderby'] = " wp_rd.meta_value $order , " . $pieces['orderby'];
 
                     break;
 
 
                 case 'action-count':
 
-                    $pieces[ 'join' ] .= " LEFT JOIN {$table_prefix}inbound_events ee ON ee.lead_id = {$wpdb->posts}.ID ";
+                    $pieces['join'] .= " LEFT JOIN {$table_prefix}inbound_events ee ON ee.lead_id = {$wpdb->posts}.ID ";
 
-                    $pieces[ 'groupby' ] = " {$wpdb->posts}.ID ";
+                    $pieces['groupby'] = " {$wpdb->posts}.ID ";
 
-                    $pieces[ 'orderby' ] = "COUNT(ee.lead_id) $order ";
+                    $pieces['orderby'] = "COUNT(ee.lead_id) $order ";
 
                     break;
             }
         } else {
-            $pieces[ 'orderby' ] = " post_modified  DESC , " . $pieces[ 'orderby' ];
+            $pieces['orderby'] = " post_modified  DESC , " . $pieces['orderby'];
         }
 
 
@@ -307,44 +318,44 @@ class Leads_Post_Type {
      * Handles modification to the filter query
      * @param $query
      */
-    public static function process_filters( $query ) {
+    public static function process_filters($query) {
         global $pagenow, $post;
 
-        if ( !isset($_REQUEST['post_type']) || $_REQUEST['post_type'] != 'wp-lead' ) {
+        if (!isset($_REQUEST['post_type']) || $_REQUEST['post_type'] != 'wp-lead') {
             return;
         }
 
-        $filters = get_object_taxonomies( 'wp-lead' );
+        $filters = get_object_taxonomies('wp-lead');
         $qv = &$query->query_vars;
 
-        foreach ( $filters as $tax_slug ) {
+        foreach ($filters as $tax_slug) {
 
-            if( $pagenow=='edit.php' && isset($qv[$tax_slug]) && is_numeric($qv[$tax_slug]) ) {
-                if($qv[$tax_slug] != 0){
-                    $term = get_term_by('id',$qv[$tax_slug],$tax_slug);
+            if ($pagenow == 'edit.php' && isset($qv[$tax_slug]) && is_numeric($qv[$tax_slug])) {
+                if ($qv[$tax_slug] != 0) {
+                    $term = get_term_by('id', $qv[$tax_slug], $tax_slug);
                     $qv[$tax_slug] = $term->slug;
                 }
             }
         }
 
         /* prepare query by date */
-        if( isset($_GET['current_date']) ) {
+        if (isset($_GET['current_date'])) {
             $timezone_day = _x('d', 'timezone date format');
-            $wordpress_date_day =  date_i18n($timezone_day);
-            set_query_var('day', $wordpress_date_day ); // Show only leads from today
+            $wordpress_date_day = date_i18n($timezone_day);
+            set_query_var('day', $wordpress_date_day); // Show only leads from today
             return;
         }
 
         /* prepare query by month */
-        if( isset($_GET['current_month']) ) {
+        if (isset($_GET['current_month'])) {
             $timezone_month = _x('m', 'timezone date format');
-            $wordpress_date_month =  date_i18n($timezone_month);
-            set_query_var('monthnum', $wordpress_date_month ); // Show only leads from today
+            $wordpress_date_month = date_i18n($timezone_month);
+            set_query_var('monthnum', $wordpress_date_month); // Show only leads from today
             return;
         }
 
         /* prepare query by custom meta field */
-        if ( isset($_GET['wp_leads_filter_field']) && $_GET['wp_leads_filter_field'] != '') {
+        if (isset($_GET['wp_leads_filter_field']) && $_GET['wp_leads_filter_field'] != '') {
             $query->query_vars['meta_key'] = $_GET['wp_leads_filter_field'];
             if (isset($_GET['wp_leads_filter_field_val']) && $_GET['wp_leads_filter_field_val'] != '') {
                 $query->query_vars['meta_value'] = $_GET['wp_leads_filter_field_val'];
@@ -352,11 +363,16 @@ class Leads_Post_Type {
         }
 
         /* preapre query by email search */
-        if ( isset($_GET['lead-email']) && $_GET['lead-email'] != '') {
+        if (isset($_GET['lead-email']) && $_GET['lead-email'] != '') {
             $query->query_vars['meta_key'] = 'wpleads_email_address';
-            if (isset($_GET['lead-email']) && $_GET['lead-email'] != '') {
-                $query->query_vars['meta_value'] = $_GET['lead-email'];
-            }
+            $query->query_vars['meta_value'] = $_GET['lead-email'];
+
+        }
+
+        /* preapre query by status */
+        if (isset($_GET['wp_lead_status']) && $_GET['wp_lead_status'] != '0') {
+            $query->query_vars['meta_key'] = 'wp_lead_status';
+            $query->query_vars['meta_value'] = $_GET['wp_lead_status'];
         }
     }
 
@@ -520,21 +536,21 @@ class Leads_Post_Type {
      * @param $meta_key
      * @param $meta_value
      */
-    public static function record_meta_update( $meta_id, $post_id, $meta_key, $meta_value ) {
-        $ignore = array ('_edit_lock', '_edit_last');
+    public static function record_meta_update($meta_id, $post_id, $meta_key, $meta_value) {
+        $ignore = array('_edit_lock', '_edit_last');
         $post_type = get_post_type($post_id);
-        if ( $post_type != 'wp-lead' || in_array( $meta_key , $ignore ) ) {
+        if ($post_type != 'wp-lead' || in_array($meta_key, $ignore)) {
             return;
         }
 
-        remove_action( 'updated_post_meta' , 'wpleads_after_post_meta_change' , 10 );
-        remove_action( 'added_post_meta' , 'wpleads_after_post_meta_change' , 10 );
+        remove_action('updated_post_meta', 'wpleads_after_post_meta_change', 10);
+        remove_action('added_post_meta', 'wpleads_after_post_meta_change', 10);
 
         $timezone_format = _x('Y-m-d G:i:s', 'timezone date format');
-        $wordpress_date_time =  date_i18n($timezone_format);
+        $wordpress_date_time = date_i18n($timezone_format);
 
-        update_post_meta( $post_id , 'wpleads_last_updated' , $wordpress_date_time );
-        do_action( 'wpleads_after_post_meta_change' , $post_id );
+        update_post_meta($post_id, 'wpleads_last_updated', $wordpress_date_time);
+        do_action('wpleads_after_post_meta_change', $post_id);
     }
 
     /**
@@ -543,7 +559,7 @@ class Leads_Post_Type {
     public static function redirect_email_profile_links() {
         global $wpdb;
 
-        if ( !isset($_GET['lead-email-redirect']) || $_GET['lead-email-redirect'] != '') {
+        if (!isset($_GET['lead-email-redirect']) || $_GET['lead-email-redirect'] != '') {
             return;
         }
 
@@ -587,8 +603,8 @@ class Leads_Post_Type {
         <script type="text/javascript">
             jQuery(document).ready(function () {
 
-                jQuery('<option>').val('add-to-list').text('<?php _e('Add to Contact List','lp') ?>').appendTo("select[name='action']");
-                jQuery('<option>').val('add-to-list').text('<?php _e('Add to Contact List' , 'lp') ?>').appendTo("select[name='action2']");
+                jQuery('<option>').val('add-to-list').text('<?php _e('Add to Contact List', 'lp') ?>').appendTo("select[name='action']");
+                jQuery('<option>').val('add-to-list').text('<?php _e('Add to Contact List', 'lp') ?>').appendTo("select[name='action2']");
 
                 jQuery('<option>').val('export-csv').text('<?php _e('Export CSV')?>').appendTo("select[name='action']");
                 jQuery('<option>').val('export-csv').text('<?php _e('Export CSV')?>').appendTo("select[name='action2']");
@@ -630,11 +646,11 @@ class Leads_Post_Type {
     /**
      * Add action links in Plugins table
      */
-    public static function display_plugin_quick_links( $links ) {
+    public static function display_plugin_quick_links($links) {
 
         return array_merge(
             array(
-                'settings' => '<a href="' . admin_url( 'edit.php?post_type=wp-lead&page=wpleads_global_settings' ) . '">' . __( 'Settings', 'ts-fab' ) . '</a>'
+                'settings' => '<a href="' . admin_url('edit.php?post_type=wp-lead&page=wpleads_global_settings') . '">' . __('Settings', 'ts-fab') . '</a>'
             ),
             $links
         );
@@ -645,7 +661,7 @@ class Leads_Post_Type {
     /**
      * Add meta links in Plugins table
      */
-    public static function display_plugin_meta_link( $links, $file ) {
+    public static function display_plugin_meta_link($links, $file) {
 
         if (defined('INBOUND_PRO_PATH')) {
             return $links;
@@ -654,10 +670,10 @@ class Leads_Post_Type {
         $plugin = 'leads/leads.php';
 
         // create link
-        if ( $file == $plugin ) {
+        if ($file == $plugin) {
             return array_merge(
                 $links,
-                array( '<a href="http://www.inboundnow.com/membership-packages/">' . __( 'Upgrade to Pro' , 'inbound-pro' ) .'</a>' )
+                array('<a href="http://www.inboundnow.com/membership-packages/">' . __('Upgrade to Pro', 'inbound-pro') . '</a>')
             );
         }
         return $links;
@@ -708,26 +724,26 @@ class Leads_Post_Type {
      * Adds menu items to wp-lead's post type
      */
     public static function setup_admin_menu() {
-        if ( !current_user_can('manage_options') ) {
-            remove_menu_page( 'edit.php?post_type=wp-lead' );
+        if (!current_user_can('manage_options')) {
+            remove_menu_page('edit.php?post_type=wp-lead');
             return;
         }
 
         /* Lead Management */
         add_submenu_page(
             'edit.php?post_type=wp-lead',
-            __( 'Lead Management' , 'leads' ),
-            __( 'Lead Management' , 'leads' ),
+            __('Lead Management', 'leads'),
+            __('Lead Management', 'leads'),
             'manage_options',
             'lead_management',
-            array( 'Leads_Manager' , 'display_ui' )
+            array('Leads_Manager', 'display_ui')
         );
 
         /* Manage Forms */
         add_submenu_page(
             'edit.php?post_type=wp-lead',
-            __( 'Forms' , 'leads' ),
-            __( 'Manage Forms' , 'leads' ) ,
+            __('Forms', 'leads'),
+            __('Manage Forms', 'leads'),
             'manage_options',
             'inbound-forms-redirect',
             100
@@ -736,13 +752,12 @@ class Leads_Post_Type {
         /* Settings */
         add_submenu_page(
             'edit.php?post_type=wp-lead',
-            __( 'Settings' , 'leads' ),
-            __( 'Settings' , 'leads' ),
+            __('Settings', 'leads'),
+            __('Settings', 'leads'),
             'manage_options',
             'wpleads_global_settings',
-            array( 'Leads_Settings' , 'display_settings')
+            array('Leads_Settings', 'display_settings')
         );
-
 
 
     }
@@ -750,7 +765,7 @@ class Leads_Post_Type {
     /**
      *
      */
-    public static function get_gravatar($lead_id , $size = 50 ) {
+    public static function get_gravatar($lead_id, $size = 50) {
         $email = get_post_meta($lead_id, 'wpleads_email_address', true);
 
         $size = ($size) ? $size : 50;
@@ -771,27 +786,29 @@ class Leads_Post_Type {
 
         return $gravatar;
     }
+
+
     /**
      * Enqueue scripts and styles for admin
      */
-    public static function enqueue_admin_scripts( $hook ) {
+    public static function enqueue_admin_scripts($hook) {
         global $post;
 
-        $post_type = isset($post) ? get_post_type( $post ) : null;
+        $post_type = isset($post) ? get_post_type($post) : null;
 
         $screen = get_current_screen();
 
         /*  list setup page */
-        if ( $screen->id === 'edit-wplead_list_category') {
-            wp_enqueue_script('wpleads-list-page', WPL_URLPATH.'assets/js/wpl.list-page.js', array('jquery'));
-            wp_enqueue_style('wpleads-list-page-css', WPL_URLPATH.'assets/css/wpl.list-page.css');
+        if ($screen->id === 'edit-wplead_list_category') {
+            wp_enqueue_script('wpleads-list-page', WPL_URLPATH . 'assets/js/wpl.list-page.js', array('jquery'));
+            wp_enqueue_style('wpleads-list-page-css', WPL_URLPATH . 'assets/css/wpl.list-page.css');
             return;
         }
 
         /*  list page */
-        if ( $screen->id === 'edit-wp-lead') {
-            wp_enqueue_script('wpleads-list', WPL_URLPATH. 'assets/js/wpl.leads-list.js');
-            wp_enqueue_style('wpleads-list-css', WPL_URLPATH.'assets/css/wpl.leads-list.css');
+        if ($screen->id === 'edit-wp-lead') {
+            wp_enqueue_script('wpleads-list', WPL_URLPATH . 'assets/js/wpl.leads-list.js');
+            wp_enqueue_style('wpleads-list-css', WPL_URLPATH . 'assets/css/wpl.leads-list.css');
             return;
         }
     }
@@ -801,25 +818,25 @@ class Leads_Post_Type {
      */
     public static function ajax_get_all_lead_data() {
 
-        if (!current_user_can('activate_plugins') ) {
+        if (!current_user_can('activate_plugins')) {
             return;
         }
 
         $wp_lead_id = $_POST['wp_lead_id'];
         if (isset($wp_lead_id) && is_numeric($wp_lead_id)) {
             global $wpdb;
-            $data   =   array();
+            $data = array();
             $wpdb->query($wpdb->prepare("
 		  SELECT `meta_key`, `meta_value`
 			FROM $wpdb->postmeta
 			WHERE `post_id` = %d", $wp_lead_id
             ));
 
-            foreach($wpdb->last_result as $k => $v) {
-                $data[$v->meta_key] =   $v->meta_value;
+            foreach ($wpdb->last_result as $k => $v) {
+                $data[$v->meta_key] = $v->meta_value;
             };
 
-            echo json_encode($data,JSON_FORCE_OBJECT);
+            echo json_encode($data, JSON_FORCE_OBJECT);
             wp_die();
         }
     }
@@ -827,13 +844,12 @@ class Leads_Post_Type {
     /**
      * Ajax listener to mark lead as read
      */
-    public static function  ajax_mark_lead_as_read() {
+    public static function ajax_mark_lead_as_read() {
         global $wpdb;
-        $newrules = $_POST['j_rules'];
 
         $post_id = mysql_real_escape_string($_POST['page_id']);
 
-        add_post_meta($post_id, 'wp_lead_status', 'Read', true) or update_post_meta($post_id, 'wp_lead_status', $newrules);
+        add_post_meta($post_id, 'wp_lead_status', 'read', true) or update_post_meta($post_id, 'wp_lead_status', 'read');
         header('HTTP/1.1 200 OK');
         exit;
     }
@@ -844,11 +860,9 @@ class Leads_Post_Type {
     public static function ajax_mark_lead_as_unread() {
         global $wpdb;
 
-        $newrules = "New Lead";
-
         $post_id = mysql_real_escape_string($_POST['page_id']);
 
-        add_post_meta($post_id, 'wp_lead_status', 'New Lead', true) or update_post_meta($post_id, 'wp_lead_status', $newrules);
+        add_post_meta($post_id, 'wp_lead_status', 'new', true) or update_post_meta($post_id, 'wp_lead_status', 'new');
         header('HTTP/1.1 200 OK');
         exit;
     }
@@ -859,10 +873,9 @@ class Leads_Post_Type {
     public static function ajax_auto_mark_as_read() {
         global $wpdb;
 
-        $newrules = "Read";
         $post_id = intval($_POST['page_id']);
 
-        add_post_meta($post_id, 'wp_lead_status', 'Read', true) or update_post_meta($post_id, 'wp_lead_status', $newrules);
+        add_post_meta($post_id, 'wp_lead_status', 'read', true) or update_post_meta($post_id, 'wp_lead_status', 'read');
         header('HTTP/1.1 200 OK');
     }
 }

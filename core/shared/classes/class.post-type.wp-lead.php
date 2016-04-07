@@ -144,7 +144,7 @@ if ( !class_exists('Inbound_Leads') ) {
 				'show_in_nav_menus'		=> false,
 				'update_count_callback' => '_update_post_term_count',
 				'query_var'				=> true,
-				'rewrite'				=> array( 'slug' => 'lead-tag' ),
+				'rewrite'				=> false
 			);
 
 			register_taxonomy( 'lead-tags', 'wp-lead', $args );
@@ -387,6 +387,75 @@ if ( !class_exists('Inbound_Leads') ) {
 		*/
 		public static function get_lead_list_by( $search, $list_id ) {
 			return  get_term_by( $search, $list_id, 'wplead_list_category', ARRAY_A);
+		}
+
+		/**
+		 * Get lead status given lead id
+		 * @dev
+		 */
+		public static function get_lead_status( $lead_id ) {
+			$status = get_post_meta( $lead_id , 'wp_lead_status' , true );
+			return ($status) ? $status : 'new';
+		}
+
+		/**
+		 * Get lead status given lead id
+		 * @dev
+		 */
+		public static function get_lead_statuses( ) {
+			$default = array(
+				array(
+					'priority' => 1,
+					'key' => 'new',
+					'label' => __('New Lead' , 'inbound-pro'),
+					'color' => '#f0ad4e',
+					'nature' => 'core'
+				),
+				array(
+					'priority' => 2,
+					'key' => 'read',
+					'label' => __('Read' , 'inbound-pro'),
+					'color' => '#27ae60',
+					'nature' => 'core'
+				),
+				array(
+					'priority' => 3,
+					'key' => 'needs-attention',
+					'label' => __('Needs Attention' , 'inbound-pro'),
+					'color' => '#ffcc33',
+					'nature' => 'core'
+				),
+				array(
+					'priority' => 4,
+					'key' => 'lost',
+					'label' => __('Lost' , 'inbound-pro'),
+					'color' => '#05022E',
+					'nature' => 'core'
+				),
+				array(
+					'priority' => 5,
+					'key' => 'active',
+					'label' => __('Active' , 'inbound-pro'),
+					'color' => '#FE984E',
+					'nature' => 'core'
+				),
+				array(
+					'priority' => 6,
+					'key' => 'customer',
+					'label' => __('Customer' , 'inbound-pro'),
+					'color' => '#48F7A1',
+					'nature' => 'core'
+				),
+				array(
+					'priority' => 7,
+					'key' => 'archive',
+					'label' => __('Archive' , 'inbound-pro'),
+					'color' => '#7A3068',
+					'nature' => 'core'
+				),
+			);
+
+			return apply_filters('leads/statuses' , $default );
 		}
 
 		/**

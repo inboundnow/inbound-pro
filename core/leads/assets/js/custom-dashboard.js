@@ -1,44 +1,6 @@
-jQuery(document).ready(function($) {
-    var list_count = jQuery(".dashboard-lead-lists").length;
-    if( list_count < 1) {
-        $("#wp-lead-dashboard-list").hide();
-    }
-   var before_dash = jQuery("#lead-before-dashboard");
-   var dashboard_view = $.cookie("dashboard-view-choice");
-	jQuery(".wrap h2").after(before_dash);
-	jQuery("#lead-before-dashboard").fadeIn(800);
 
-	jQuery("body").on('hover', '.widget-block', function () {
-		jQuery('.db-active').removeClass('db-active');
-		jQuery(this).addClass('db-active');
-    });
-    jQuery("body").on('mouseleave', '.widget-block', function () {
-		jQuery('.db-active').removeClass('db-active');
-    });
-
-    jQuery(".marketing-widget-header").on("click", function(event){
-
-		var link = jQuery(this).find(".toggle-lead-list");
-		var conversion_log = jQuery(this).parent().find("#lead-ul").toggle();
-
-		      if (jQuery(conversion_log).is(":visible")) {
-		                 link.text('-');
-		                 $.cookie("dashboard-view-choice", "show_leads", { path: '/', expires: 7 });
-		            } else {
-		                 link.text('+');
-		                 $.cookie("dashboard-view-choice", "hide_leads", { path: '/', expires: 7 });
-		            }
-		});
-    if(dashboard_view === "hide_leads") {
-    	jQuery("#lead-ul").hide();
-    	jQuery(".toggle-lead-list").html('<span>(Click to View)</span> +');
-    }
-    jQuery( '#cd-dropdown' ).dropdown();
-
- });
 
 jQuery(document).ready(function ($) {
-
 
     if (typeof (window.data1) === "undefined" || window.data1 === null || window.data1 === "") {
          data1 = [];

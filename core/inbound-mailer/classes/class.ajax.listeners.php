@@ -151,7 +151,6 @@ class Inbound_Mailer_Ajax_Listeners {
 	public static function send_test_email() {
 		$mailer = new Inbound_Mail_Daemon();
 
-
 		$response = $mailer->send_solo_email( array(
 			'email_address' => $_REQUEST['email_address'] ,
 			'email_id' => $_REQUEST['email_id'] ,

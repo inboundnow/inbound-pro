@@ -76,7 +76,7 @@ $colorpicker = get_field( 'colorpicker',$post->ID , false );
 	<?php
 
 	/* Load Normal WordPress wp_head() function */
-	wp_head();
+	do_action('wp_head')
 
 	/* Load Landing Pages's custom pre-load hook for 3rd party plugin integration */
 	do_action('lp_head');

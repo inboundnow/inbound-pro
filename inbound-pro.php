@@ -5,7 +5,7 @@ Plugin URI: http://www.inboundnow.com/
 Description: Inbound Marketing Suite for WordPress
 Author: Inbound Now
 Author: Inbound Now
-Version: 1.5.7
+Version: 1.5.9
 Author URI: http://www.inboundnow.com/
 Text Domain: inbound-pro
 Domain Path: /lang/
@@ -96,7 +96,7 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 		*/
 		private static function define_constants() {
 
-			define('INBOUND_PRO_CURRENT_VERSION', '1.5.7' );
+			define('INBOUND_PRO_CURRENT_VERSION', '1.5.9' );
 			define('INBOUND_PRO_URLPATH', WP_PLUGIN_URL.'/'.plugin_basename( dirname(__FILE__) ).'/' );
 			define('INBOUND_PRO_PATH', WP_PLUGIN_DIR.'/'.plugin_basename( dirname(__FILE__) ).'/' );
 			define('INBOUND_PRO_SLUG', plugin_basename( dirname(__FILE__) ) );
@@ -149,6 +149,7 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.activate.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.menus.adminmenu.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.lead-field-mapping.php');
+				include_once( INBOUND_PRO_PATH . 'classes/admin/class.lead-status-mapping.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.settings.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.download-management.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.inbound-api-wrapper.php');
