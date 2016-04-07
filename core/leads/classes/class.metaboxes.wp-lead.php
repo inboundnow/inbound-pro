@@ -114,39 +114,30 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
             $first_name = get_post_meta($post->ID, 'wpleads_first_name', true);
             $last_name = get_post_meta($post->ID, 'wpleads_last_name', true);
-            $lead_status = 'wp_lead_status';
+            $statuses = Inbound_Leads::get_lead_statuses();
+            $lead_status = Inbound_Leads::get_lead_status( $post->ID );
 
             if (empty ($post) || 'wp-lead' !== get_post_type($GLOBALS['post'])) {
                 return;
             }
 
-            if (!$content = get_post_meta($post->ID, 'wpleads_first_name', true)) {
-                $content = '';
-            }
-
-            if (!$status_content = get_post_meta($post->ID, $lead_status, TRUE)) {
-                $status_content = '';
-            }
 
             echo "<div id='lead-top-area'>";
             echo "<div id='lead-header'><h1>" . $first_name . ' ' . $last_name . "</h1></div>";
 
-            $values = get_post_custom($post->ID);
-            $selected = isset($values['wp_lead_status']) ? esc_attr($values['wp_lead_status'][0]) : "";
             ?>
 				<!-- REWRITE FOR FILTERS -->
 				<div id='lead-status'>
 					<label for="wp_lead_status"><?php _e('Lead Status:', 'leads'); ?></label>
-					<select name="wp_lead_status" id="wp_lead_status">
-						<option value="Read" <?php selected($selected, 'Read'); ?>><?php _e('Read/Viewed', 'leads'); ?></option>
-						<option value="New Lead" <?php selected($selected, 'New Lead'); ?>><?php _e('New Lead', 'leads'); ?></option>
-						<option value="Contacted" <?php selected($selected, 'Contacted'); ?>><?php _e('Contacted', 'leads'); ?></option>
-						<option value="Active" <?php selected($selected, 'Active'); ?>><?php _e('Active', 'leads'); ?></option>
-						<option value="Lost" <?php selected($selected, 'Lost'); ?>><?php _e('Disqualified/Lost', 'leads'); ?></option>
-						<option value="Customer" <?php selected($selected, 'Customer'); ?>><?php _e('Customer', 'leads'); ?></option>
-						<option value="Archive" <?php selected($selected, 'Archive'); ?>><?php _e('Archive', 'leads'); ?></option>
-						<!-- Action hook here for custom lead status addon -->
-					</select>
+                    <?php
+
+                    echo '<select name="wp_lead_status" id="wp_lead_status" class="lead_status_dropdown">';
+                    foreach( $statuses as $status)  {
+                        $selected = $status['key'] == ($lead_status) ? ' selected ' : '';
+                        echo '<option value="'.$status['key'].'" data-color="'.$status['color'].'" ' .  $selected . '> ' . $status['label'] .  '</option>';
+                    }
+                    echo "</select>";
+                    ?>
 				</div>
 				<span id="current-lead-status" style="display:none;"><?php echo get_post_meta($post->ID, $lead_status, TRUE); ?></span>
 			</div>

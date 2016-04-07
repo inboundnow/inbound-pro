@@ -51,7 +51,7 @@ $videoid = youtubeid($yt_video);
 <head>
     <title><?php wp_title(); ?></title>
     <?php /* Load all functions hooked to lp_head including global js and global css */
-    wp_head(); // Load Regular WP Head
+    do_action('wp_head'); // Load Regular WP Head
     do_action('lp_head'); // Load Custom Landing Page Specific Header Items
     ?>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>

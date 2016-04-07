@@ -15,6 +15,7 @@ class Inbound_Mailer_Scheduling {
      * @param INT $email_id
      */
     public static function create_batches($email_id) {
+
         $params = array();
 
         /* get settings */
@@ -45,25 +46,31 @@ class Inbound_Mailer_Scheduling {
 
         $chunk_size = round(count($leads) / $variation_count);
 
-        $batches = array_chunk($leads, $chunk_size);
+        /* sometimes we may have less leads than variations */
+        if ($chunk_size>1) {
+            $batches = array_chunk($leads, $chunk_size);
 
-        /* if the batch variation id is not already correct then change keys */
-        $i = 0;
-        foreach ($variations as $vid => $settings) {
-            $batch_array[$vid] = $batches[$i];
-            $i++;
+            /* if the batch variation id is not already correct then change keys */
+            $i = 0;
+            foreach ($variations as $vid => $settings) {
+                $batch_array[$vid] = $batches[$i];
+                $i++;
+            }
+        } else {
+            $batch_array[0] = $leads;
         }
 
 
-        self::$batches = $batch_array;
 
+
+        self::$batches = $batch_array;
+        //error_log(print_r(self::$batches,true));
     }
 
     /**
      *    Schedules email
      */
     public static function schedule_email($email_id) {
-
         global $wpdb;
 
         /* load email settings into static variable */

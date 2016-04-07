@@ -74,7 +74,7 @@ $blue =  (isset($RBG_array['b'])) ? $RBG_array['b'] : '0';
     <meta charset="utf-8" />
     <title><?php wp_title(); ?></title>
     <?php /* Load all functions hooked to lp_head including global js and global css */
-    wp_head(); // Load Regular WP Head
+    do_action('wp_head'); // Load Regular WP Head
     do_action('lp_head'); // Load Custom Landing Page Specific Header Items
     ?>
 

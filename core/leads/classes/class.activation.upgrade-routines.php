@@ -60,6 +60,29 @@ if ( !class_exists('Leads_Activation_Update_Routines') ) {
 		}
 
 		/**
+		* @introduced: 2.1.8
+		* @migration-type: meta value update
+		* @mirgration: standardizes meta value from old naming conversion to new naming convention
+		* @valuechange: 'New Lead' to 'new'
+		* @valuechange: 'Read Lead' to 'read'
+		* @valuechange: 'Contacted' to 'contacted'
+		* @valuechange: 'Active' to 'active'
+		* @key: wp_lead_status
+		*/
+		public static function migrate_wp_lead_status_values() {
+			global $wpdb;
+
+			$wpdb->query("update {$wpdb->prefix}postmeta set meta_value = 'new' where meta_key = 'wp_lead_status' AND meta_value='New Lead' ");
+			$wpdb->query("update {$wpdb->prefix}postmeta set meta_value = 'read' where meta_key = 'wp_lead_status' AND meta_value='Read' ");
+			$wpdb->query("update {$wpdb->prefix}postmeta set meta_value = 'contacted' where meta_key = 'wp_lead_status' AND meta_value='Contacted' ");
+			$wpdb->query("update {$wpdb->prefix}postmeta set meta_value = 'active' where meta_key = 'wp_lead_status' AND meta_value='Active' ");
+			$wpdb->query("update {$wpdb->prefix}postmeta set meta_value = 'lost' where meta_key = 'wp_lead_status' AND meta_value='Lost' ");
+			$wpdb->query("update {$wpdb->prefix}postmeta set meta_value = 'customer' where meta_key = 'wp_lead_status' AND meta_value='Customer' ");
+			$wpdb->query("update {$wpdb->prefix}postmeta set meta_value = 'archive' where meta_key = 'wp_lead_status' AND meta_value='Archive' ");
+
+		}
+
+		/**
 		 * @introduced: 2.0.1
 		 * @migration-type: batch lead processing / data migration into inbound_events table
 		 * @details: Moving form submissions, cta clicks, custom events into events table.

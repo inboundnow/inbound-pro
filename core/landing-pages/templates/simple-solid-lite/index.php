@@ -80,7 +80,7 @@ $test = inbound_color_scheme($background_color, 'hex');
     <script src="<?php echo $path; ?>js/selectivizr-min.js"></script><![endif]-->
 
 
-    <?php wp_head();
+    <?php do_action('wp_head')
     do_action('lp_head'); ?>
     <style id="inbound-style-overrides" type="text/css">
 

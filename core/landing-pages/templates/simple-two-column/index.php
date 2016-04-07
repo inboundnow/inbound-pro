@@ -128,7 +128,7 @@ if ($submit_button_color != "") {
 
 </style>
 <?php /* Load all functions hooked to lp_head including global js and global css */
-			wp_head(); // Load Regular WP Head
+			do_action('wp_head'); // Load Regular WP Head
 			do_action('lp_head'); // Load Custom Landing Page Specific Header Items
 		?>
 <script type="text/javascript">
