@@ -1212,7 +1212,6 @@ class Inbound_Pro_Settings {
 		//exit;
 
 		$settings[ 'lead-statuses' ] =  $data;
-		error_log(print_r($data,true));
 		Inbound_Options_API::update_option( 'inbound-pro' , 'settings' , $settings );
 	}
 
