@@ -7,6 +7,7 @@ var InboundSettings = (function () {
     var datatype;
     var value;
     var timer;
+    var running; /* keep track of running ajax */
 
     var construct = {
         /**
@@ -17,7 +18,8 @@ var InboundSettings = (function () {
             this.setVars();
             this.setupSearching();
             this.initShuffleJs();
-            this.initShuffleCustomFields();
+            this.initColorPicker();
+            this.initShuffle();
             this.initBootStrapToolTips();
             setTimeout(function () {
                 InboundSettings.validateAPIKey();
@@ -56,12 +58,25 @@ var InboundSettings = (function () {
         /**
          *  Shuffle if there is a 'setting' param
          */
-        initShuffleCustomFields: function () {
+        initColorPicker: function () {
+            jQuery('.status-colorpicker').minicolors();
+        },
+        /**
+         *  Shuffle if there is a 'setting' param
+         */
+        initShuffle: function () {
 
             jQuery(".field-map").sortable({
                 stop: function () {
                     InboundSettings.updateCustomFieldPriority();
                     InboundSettings.updateCustomFields();
+                }
+            });
+
+            jQuery(".lead-statuses").sortable({
+                stop: function () {
+                    InboundSettings.updateLeadStatusesPriority();
+                    InboundSettings.updateLeadStatuses();
                 }
             });
 
@@ -73,6 +88,7 @@ var InboundSettings = (function () {
 
             InboundSettings.addInputListeners();
             InboundSettings.addCustomLeadFieldListeners();
+            InboundSettings.addLeadStatusListeners();
             InboundSettings.addIPAddressListeners();
             InboundSettings.addAPIKeyListeners();
             InboundSettings.addOauthListeners();
@@ -154,13 +170,59 @@ var InboundSettings = (function () {
                 InboundSettings.removeCustomField();
             });
 
-
-            /* Add listeners for oauth unauthorize buttons */
+            /* Add listeners for add custom field save buttons */
             jQuery(document).on('submit', '#add-new-custom-field-form', function (e) {
                 /* prevent the form from doing a submit */
                 e.preventDefault();
 
                 InboundSettings.addCustomLeadField();
+                return false;
+            });
+        },
+        /**
+         *  Add listeners that support custom lead fields
+         */
+        addLeadStatusListeners: function () {
+
+            /* add listeners for custom field changes */
+            jQuery(document).on('change unfocus propertychange keyup', 'input[data-field-type="lead-status-field"]', function () {
+                /* format field key */
+                if (jQuery(this).hasClass('status-key')) {
+                    jQuery(this).val(jQuery(this).val().replace(/ /g, '_').toLowerCase());
+                }
+
+                if (InboundSettings.timer == true && event.type != 'propertychange') {
+                    return;
+                }
+
+                InboundSettings.timer = true;
+
+                setTimeout(function () {
+                    InboundSettings.updateLeadStatuses();
+                    InboundSettings.timer = false;
+                }, 500);
+
+            });
+
+            /* Add listener to delete lead status */
+            jQuery('body').on('click', '.delete-lead-status', function () {
+                /* set static var */
+                InboundSettings.input = jQuery(this);
+                InboundSettings.removeLeadStatusConfirm();
+            });
+
+            /* Add listener to delete lead-status */
+            jQuery('body').on('click', '.delete-lead-status-confirm', function () {
+                /* set static var */
+                InboundSettings.input = jQuery(this);
+                InboundSettings.removeLeadStatus();
+            });
+
+            /* Add listeners for add custom field save buttons */
+            jQuery(document).on('submit', '#add-new-lead-status-form', function (e) {
+                /* prevent the form from doing a submit */
+                e.preventDefault();
+                InboundSettings.addLeadStatus();
                 return false;
             });
 
@@ -226,7 +288,9 @@ var InboundSettings = (function () {
                 }
 
                 /* Validate api Key */
-                InboundSettings.validateAPIKey();
+                if (!this.target) {
+                    InboundSettings.validateAPIKey();
+                }
 
             });
         },
@@ -268,7 +332,11 @@ var InboundSettings = (function () {
             /* serialize input data */
             var serialized = this.prepareSettingData();
 
-            jQuery.ajax({
+            if ( typeof updateSettingAjax != 'object') {
+                updateSettingAjax.abort();
+            }
+
+            InboundSettings.running = jQuery.ajax({
                 type: "POST",
                 url: ajaxurl,
                 context: InboundSettings.input,
@@ -286,10 +354,11 @@ var InboundSettings = (function () {
                         jQuery('.update-text').fadeOut(2000, function () {
                             jQuery('.update-text').remove();
                         });
-                    }, 1000);
+                    }, 500);
+                    InboundSettings.running = '';
                 },
                 error: function (request, status, err) {
-                    alert(status);
+                    console.log(status);
                 }
             });
         },
@@ -310,7 +379,11 @@ var InboundSettings = (function () {
                 });
 
 
-                jQuery.ajax({
+                if ( typeof InboundSettings.running == 'object') {
+                    InboundSettings.running.abort();
+                }
+
+                InboundSettings.running = jQuery.ajax({
                     type: "POST",
                     url: ajaxurl,
                     data: {
@@ -320,10 +393,43 @@ var InboundSettings = (function () {
                     dataType: 'html',
                     timeout: 10000,
                     success: function (response) {
-
+                        InboundSettings.running = '';
                     },
                     error: function (request, status, err) {
-                        alert(status);
+                        console.log(status);
+                    }
+                });
+            }, 500);
+        },
+        /**
+         *  Save Custom Fields
+         */
+        updateLeadStatuses: function () {
+            setTimeout(function () {
+                var form = jQuery('#lead-statuses-form').clone();
+
+                if ( typeof InboundSettings.running == 'object') {
+                    InboundSettings.running.abort();
+                } else {
+                    jQuery('#add-lead-status').prepend('<img id="lead-status-processing" src="'+inboundSettingsLocalVars.inboundProURL+'assets/images/processing.gif" /> ');
+                }
+
+
+                InboundSettings.running = jQuery.ajax({
+                    type: "POST",
+                    url: ajaxurl,
+                    data: {
+                        action: 'inbound_pro_update_lead_statuses',
+                        input: form.serialize()
+                    },
+                    dataType: 'html',
+                    timeout: 10000,
+                    success: function (response) {
+                        jQuery('#lead-status-processing').remove();
+                        InboundSettings.running = '';
+                    },
+                    error: function (request, status, err) {
+                        console.log(status);
                     }
                 });
             }, 500);
@@ -335,7 +441,11 @@ var InboundSettings = (function () {
             setTimeout(function () {
                 var form = jQuery('#ip-addresses-form').clone();
 
-                jQuery.ajax({
+                if ( typeof updateIPAddressesAjax != 'undefined') {
+                    updateIPAddressesAjax.abort();
+                }
+
+                InboundSettings.running = jQuery.ajax({
                     type: "POST",
                     url: ajaxurl,
                     data: {
@@ -345,10 +455,10 @@ var InboundSettings = (function () {
                     dataType: 'html',
                     timeout: 10000,
                     success: function (response) {
-
+                        InboundSettings.running = '';
                     },
                     error: function (request, status, err) {
-                        alert(status);
+                        console.log(status);
                     }
                 });
             }, 500);
@@ -362,6 +472,19 @@ var InboundSettings = (function () {
                 jQuery.each(jQuery('.map-row'), function () {
                     jQuery(this).attr('data-priority', i);
                     jQuery(this).find('.field-priority').val(i);
+                    i++;
+                });
+            }, 200);
+        },
+        /**
+         *  Rebuilds priority for lead statuses
+         */
+        updateLeadStatusesPriority: function () {
+            var i = 0;
+            setTimeout(function () {
+                jQuery.each(jQuery('.status-row'), function () {
+                    jQuery(this).attr('status-priority', i);
+                    jQuery(this).find('.status-priority').val(i);
                     i++;
                 });
             }, 200);
@@ -389,7 +512,7 @@ var InboundSettings = (function () {
                     InboundSettings.input.addClass('hidden');
                 },
                 error: function (request, status, err) {
-                    alert(status);
+                    console.log(status);
                 }
             });
         },
@@ -459,19 +582,25 @@ var InboundSettings = (function () {
                 return;
             }
 
-            if (typeof InboundSettings.input == 'undefined') {
+            if (typeof jQuery('.api') != 'undefined') {
                 InboundSettings.input = jQuery('.api');
+            } else {
+                alert('notifiy developer of this message');
             }
 
             InboundSettings.markKeyProcessing();
 
-            jQuery.ajax({
+            if ( typeof InboundSettings.running == 'object' ) {
+                InboundSettings.running = InboundSettings.running.abort();
+            }
+
+            InboundSettings.running = jQuery.ajax({
                 type: 'POST',
                 url: ajaxurl,
                 data: {
                     action: 'inbound_validate_api_key',
                     api_key: InboundSettings.input.val(),
-                    site: inboundSettingsLoacalVars.siteURL
+                    site: inboundSettingsLocalVars.siteURL
                 },
                 dataType: "json",
                 timeout: 10000,
@@ -482,6 +611,7 @@ var InboundSettings = (function () {
                     } else {
                         InboundSettings.markKeyInvalid( response.message );
                     }
+                    InboundSettings.running = 'off';
                 },
                 error: function (request, status, err) {
                     console.log(request.responseText);
@@ -490,6 +620,8 @@ var InboundSettings = (function () {
                     InboundSettings.markKeyInvalid( 'There was an error connecting to Inbound Now');
                 }
             });
+            console.log(InboundSettings.running);
+            console.log(InboundSettings.running.data);
         },
         /**
          * mark key as being processed
@@ -559,7 +691,7 @@ var InboundSettings = (function () {
          */
         addCustomLeadField: function () {
             /* create a new li and append to list */
-            var clone = jQuery(".map-row:last").clone();
+            var clone = jQuery(".custom-fields-row:last").clone();
 
             /* discover last priority and next priority in line */
             var priority = clone.data('priority');
@@ -595,6 +727,53 @@ var InboundSettings = (function () {
 
             /* run update */
             InboundSettings.updateCustomFields();
+
+        },
+        /**
+         *  Adds custom lead fields to field map
+         */
+        addLeadStatus: function () {
+            /* create a new li and append to list */
+            var clone = jQuery(".status-row:last").clone();
+
+            /* discover last priority and next priority in line */
+            var priority = clone.data('priority');
+            var next_priority = parseInt(priority) + 1;
+
+            var label = clone.find('input.status-label').val();
+            var key = jQuery('#new-status-label').val().replace(/ /g, '-').toLowerCase();
+            var old_key = clone.find('input.status-key').val();
+
+            /* update cloned object's priority */
+            clone.attr('data-priority', next_priority);
+            clone.find('.status-priority').val(next_priority);
+
+            /* change values to custom values */
+            clone.find('input.status-key').val(key);
+            clone.find('input.status-label').val(jQuery('#add-new-lead-status-form #new-status-label').val());
+            clone.find('input.status-colorpicker').val(jQuery('#add-new-lead-status-form #new-status-color').val());
+            clone.find('.minicolors-swatch-color').css('background-color' , jQuery('#add-new-lead-status-form #new-status-color').val());
+
+            /* update name spaces to show priority placement */
+            clone.find('input').each(function () {
+                this.name = this.name.replace( old_key , key);
+            });
+
+            /* unhide delete button */
+            clone.find('.delete-lead-status').removeClass('hidden');
+
+            /* removed disabled attribute from mapped key */
+            clone.find('input.status-key').removeAttr('disabled');
+
+            /* empty add new container */
+            jQuery('.map-row-addnew #new-key').val('');
+            jQuery('.map-row-addnew #new-label').val('');
+
+            clone.appendTo(".lead-statuses");
+
+            /* run update */
+            InboundSettings.updateLeadStatuses();
+            InboundSettings.initColorPicker();
 
         },
         /**
@@ -638,6 +817,23 @@ var InboundSettings = (function () {
             InboundSettings.input.remove();
             /* run update */
             InboundSettings.updateCustomFields();
+        },
+        /**
+         *  Prompt remove custom field confirmation
+         */
+        removeLeadStatusConfirm: function () {
+            InboundSettings.input.addClass('hidden');
+            InboundSettings.input = InboundSettings.input.closest('.status-row');
+            InboundSettings.input.find('.delete-lead-status-confirm').removeClass('hidden');
+        },
+        /**
+         *  Remove custom field
+         */
+        removeLeadStatus: function () {
+            InboundSettings.input = InboundSettings.input.closest('.status-row');
+            InboundSettings.input.remove();
+            /* run update */
+            InboundSettings.updateLeadStatuses();
         },
         /**
          *  Prompt remove custom field confirmation

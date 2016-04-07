@@ -55,7 +55,7 @@ class Inbound_Leads_Custom_fields {
 				$mappable_fields[] = $field;
 			}
 		}
-		
+
 		return  $mappable_fields;
 	}
 	

@@ -34,6 +34,9 @@ class Inbound_Pro_Settings {
 		/* add ajax listener for custom fields setting saves */
 		add_action( 'wp_ajax_inbound_pro_update_custom_fields' , array( __CLASS__ , 'ajax_update_custom_fields' ) );
 
+		/* add ajax listener for custom fields setting saves */
+		add_action( 'wp_ajax_inbound_pro_update_lead_statuses' , array( __CLASS__ , 'ajax_update_lead_statuses' ) );
+
 		/* add ajax listener for IP Addresses setting saves */
 		add_action( 'wp_ajax_inbound_pro_update_ip_addresses' , array( __CLASS__ , 'ajax_update_ip_addresses' ) );
 
@@ -62,10 +65,14 @@ class Inbound_Pro_Settings {
 		/* load shuffle.js */
 		wp_enqueue_script('shuffle', INBOUND_PRO_URLPATH . 'assets/libraries/Shuffle/jquery.shuffle.modernizr.min.js' , array( 'jquery') );
 
+		/* load jquery minicolors.js */
+		wp_enqueue_script('minicolors', INBOUND_PRO_URLPATH . 'assets/libraries/MiniColors/jquery.minicolors.js' , array( 'jquery') );
+		wp_enqueue_style('minicolors', INBOUND_PRO_URLPATH . 'assets/libraries/MiniColors/jquery.minicolors.css');
+
 		/* load custom CSS & JS for inbound pro welcome */
 		wp_enqueue_style('inbound-settings', INBOUND_PRO_URLPATH . 'assets/css/admin/settings.css');
 		wp_enqueue_script('inbound-settings', INBOUND_PRO_URLPATH . 'assets/js/admin/settings.js', array('jquery', 'jquery-ui-sortable') );
-		wp_localize_script('inbound-settings', 'inboundSettingsLoacalVars' ,  array('apiURL' => Inbound_API_Wrapper::get_api_url() , 'siteURL' => site_url() ) );
+		wp_localize_script('inbound-settings', 'inboundSettingsLocalVars' ,  array('apiURL' => Inbound_API_Wrapper::get_api_url() , 'siteURL' => site_url() , 'inboundProURL' => INBOUND_PRO_URLPATH ) );
 
 		/* load Ink */
 		wp_enqueue_style('Ink', INBOUND_PRO_URLPATH . 'assets/libraries/Ink/css/ink-flex.min.css');
@@ -109,7 +116,7 @@ class Inbound_Pro_Settings {
 							'id'	=> 'api-key',
 							'type'	=> 'api-key',
 							'default'	=> '',
-							'placeholder'	=> __( 'Enter api key here' , INBOUNDNOW_TEXT_DOMAIN ),
+							'placeholder'	=> __( 'Enter api key here' , 'inbound-pro' ),
 							'options' => null,
 							'hidden' => false,
 							'reveal' => array(
@@ -138,6 +145,25 @@ class Inbound_Pro_Settings {
 						),
 					),
 				),
+				/* add custom lead fields field group to setup page */
+				array(
+					'group_name' => 'lead-statuses',
+					'keywords' => __('labels,status,tags,fields' , 'inbound-pro'),
+					'fields' => array (
+						array (
+							'id'	=> 'lead-statuses',
+							'type'	=> 'lead-status-repeater',
+							'default'	=> '',
+							'placeholder'	=> null,
+							'options' => null,
+							'hidden' => false,
+							'reveal' => array(
+								'selector' => null ,
+								'value' => null
+							)
+						),
+					),
+				),
 				/* add Analytics exclusion options */
 				array(
 					'group_name' => 'inbound-analytics-rules',
@@ -146,7 +172,7 @@ class Inbound_Pro_Settings {
 						array (
 							'id'	=> 'analytics-header',
 							'type'	=> 'header',
-							'default'	=> __( 'Analytics' , INBOUNDNOW_TEXT_DOMAIN ),
+							'default'	=> __( 'Analytics' , 'inbound-pro' ),
 							'placeholder'	=> null,
 							'options' => false,
 							'hidden' => false,
@@ -158,13 +184,13 @@ class Inbound_Pro_Settings {
 						array (
 							'id'	=> 'admin-tracking',
 							'type'	=> 'radio',
-							'label'	=> __( 'Admin Tracking' , INBOUNDNOW_TEXT_DOMAIN ),
-							'description'	=> __( 'Toggle this to on to prevent impression/conversion tracking for logged in administrators.' , INBOUNDNOW_TEXT_DOMAIN ),
+							'label'	=> __( 'Admin Tracking' , 'inbound-pro' ),
+							'description'	=> __( 'Toggle this to on to prevent impression/conversion tracking for logged in administrators.' , 'inbound-pro' ),
 							'default'	=> 'on',
 							'placeholder'	=> null,
 							'options' => array(
-								'off' => __( 'Off' , INBOUNDNOW_TEXT_DOMAIN ),
-								'on' => __( 'On' , INBOUNDNOW_TEXT_DOMAIN ),
+								'off' => __( 'Off' , 'inbound-pro' ),
+								'on' => __( 'On' , 'inbound-pro' ),
 							),
 							'hidden' => false,
 							'reveal' => array(
@@ -194,7 +220,7 @@ class Inbound_Pro_Settings {
 						array (
 							'id'	=> 'load-core-comonents-header',
 							'type'	=> 'header',
-							'default'	=> __( 'Core Components' , INBOUNDNOW_TEXT_DOMAIN ),
+							'default'	=> __( 'Core Components' , 'inbound-pro' ),
 							'placeholder'	=> null,
 							'options' => false,
 							'hidden' => false,
@@ -206,13 +232,13 @@ class Inbound_Pro_Settings {
 						array (
 							'id'	=> 'toggle-landing-pages',
 							'type'	=> 'radio',
-							'label'	=> __( 'Landing Pages' , INBOUNDNOW_TEXT_DOMAIN ),
-							'description'	=> __( 'Toggle this off to stop loading Landing Pages component.' , INBOUNDNOW_TEXT_DOMAIN ),
+							'label'	=> __( 'Landing Pages' , 'inbound-pro' ),
+							'description'	=> __( 'Toggle this off to stop loading Landing Pages component.' , 'inbound-pro' ),
 							'default'	=> 'on',
 							'placeholder'	=> null,
 							'options' => array(
-								'on' => __( 'On' , INBOUNDNOW_TEXT_DOMAIN ),
-								'off' => __( 'Off' , INBOUNDNOW_TEXT_DOMAIN ),
+								'on' => __( 'On' , 'inbound-pro' ),
+								'off' => __( 'Off' , 'inbound-pro' ),
 							),
 							'hidden' => false,
 							'reveal' => array(
@@ -223,13 +249,13 @@ class Inbound_Pro_Settings {
 						array (
 							'id'	=> 'toggle-calls-to-action',
 							'type'	=> 'radio',
-							'label'	=> __( 'Calls to Action' , INBOUNDNOW_TEXT_DOMAIN ),
-							'description'	=> __( 'Toggle this off to stop loading Calls to Action component.' , INBOUNDNOW_TEXT_DOMAIN ),
+							'label'	=> __( 'Calls to Action' , 'inbound-pro' ),
+							'description'	=> __( 'Toggle this off to stop loading Calls to Action component.' , 'inbound-pro' ),
 							'default'	=> 'on',
 							'placeholder'	=> null,
 							'options' => array(
-								'on' => __( 'On' , INBOUNDNOW_TEXT_DOMAIN ),
-								'off' => __( 'Off' , INBOUNDNOW_TEXT_DOMAIN ),
+								'on' => __( 'On' , 'inbound-pro' ),
+								'off' => __( 'Off' , 'inbound-pro' ),
 
 							),
 							'hidden' => false,
@@ -241,13 +267,13 @@ class Inbound_Pro_Settings {
 						array (
 							'id'	=> 'toggle-leads',
 							'type'	=> 'radio',
-							'label'	=> __( 'Leads' , INBOUNDNOW_TEXT_DOMAIN ),
-							'description'	=> __( 'Toggle this off to stop loading Leads component.' , INBOUNDNOW_TEXT_DOMAIN ),
+							'label'	=> __( 'Leads' , 'inbound-pro' ),
+							'description'	=> __( 'Toggle this off to stop loading Leads component.' , 'inbound-pro' ),
 							'default'	=> 'on',
 							'placeholder'	=> null,
 							'options' => array(
-								'on' => __( 'On' , INBOUNDNOW_TEXT_DOMAIN ),
-								'off' => __( 'Off' , INBOUNDNOW_TEXT_DOMAIN ),
+								'on' => __( 'On' , 'inbound-pro' ),
+								'off' => __( 'Off' , 'inbound-pro' ),
 
 							),
 							'hidden' => false,
@@ -259,13 +285,13 @@ class Inbound_Pro_Settings {
 						array (
 							'id'	=> 'toggle-email-automation',
 							'type'	=> 'radio',
-							'label'	=> __( 'Mailer & Automation' , INBOUNDNOW_TEXT_DOMAIN ),
-							'description'	=> __( 'Toggle this off to stop loading Mailer & Marketing Automation component. These components require an active pro membership.' , INBOUNDNOW_TEXT_DOMAIN ),
+							'label'	=> __( 'Mailer & Automation' , 'inbound-pro' ),
+							'description'	=> __( 'Toggle this off to stop loading Mailer & Marketing Automation component. These components require an active pro membership.' , 'inbound-pro' ),
 							'default'	=> 'on',
 							'placeholder'	=> null,
 							'options' => array(
-								'on' => __( 'On' , INBOUNDNOW_TEXT_DOMAIN ),
-								'off' => __( 'Off' , INBOUNDNOW_TEXT_DOMAIN ),
+								'on' => __( 'On' , 'inbound-pro' ),
+								'off' => __( 'Off' , 'inbound-pro' ),
 							),
 							'hidden' => ($price_id > 4 ? false : true ),
 							'reveal' => array(
@@ -276,13 +302,13 @@ class Inbound_Pro_Settings {
 						array (
 							'id'	=> 'toggle-google-analytics',
 							'type'	=> 'radio',
-							'label'	=> __( 'Google Analytics' , INBOUNDNOW_TEXT_DOMAIN ),
-							'description'	=> __( 'Toggle this on to load the Google Analytics component. These components require an active pro membership.' , INBOUNDNOW_TEXT_DOMAIN ),
+							'label'	=> __( 'Google Analytics' , 'inbound-pro' ),
+							'description'	=> __( 'Toggle this on to load the Google Analytics component. These components require an active pro membership.' , 'inbound-pro' ),
 							'default'	=> 'off',
 							'placeholder'	=> null,
 							'options' => array(
-								'on' => __( 'On' , INBOUNDNOW_TEXT_DOMAIN ),
-								'off' => __( 'Off' , INBOUNDNOW_TEXT_DOMAIN ),
+								'on' => __( 'On' , 'inbound-pro' ),
+								'off' => __( 'Off' , 'inbound-pro' ),
 							),
 							'hidden' => ( $price_id > 0 ? false : true ),
 							'reveal' => array(
@@ -300,7 +326,7 @@ class Inbound_Pro_Settings {
 						array (
 							'id'	=> 'acf-header',
 							'type'	=> 'header',
-							'default'	=> __( 'ACF Options' , INBOUNDNOW_TEXT_DOMAIN ),
+							'default'	=> __( 'ACF Options' , 'inbound-pro' ),
 							'placeholder'	=> null,
 							'options' => false,
 							'hidden' => ( $price_id > 1 ? false : true ),
@@ -312,13 +338,13 @@ class Inbound_Pro_Settings {
 						array (
 							'id'	=> 'toggle-acf-lite',
 							'type'	=> 'radio',
-							'label'	=> __( 'ACF Lite Mode' , INBOUNDNOW_TEXT_DOMAIN ),
-							'description'	=> __( 'Toggle this off to stop loading Landing Pages component.' , INBOUNDNOW_TEXT_DOMAIN ),
+							'label'	=> __( 'ACF Lite Mode' , 'inbound-pro' ),
+							'description'	=> __( 'Toggle this off to stop loading Landing Pages component.' , 'inbound-pro' ),
 							'default'	=> 'on',
 							'placeholder'	=> null,
 							'options' => array(
-								'on' => __( 'On' , INBOUNDNOW_TEXT_DOMAIN ),
-								'off' => __( 'Off' , INBOUNDNOW_TEXT_DOMAIN ),
+								'on' => __( 'On' , 'inbound-pro' ),
+								'off' => __( 'Off' , 'inbound-pro' ),
 							),
 							'hidden' => ( $price_id > 1 ? false : true ),
 							'reveal' => array(
@@ -336,7 +362,7 @@ class Inbound_Pro_Settings {
 						array (
 							'id'	=> 'fast-ajax-header',
 							'type'	=> 'header',
-							'default'	=> __( 'Fast(er) Ajax' , INBOUNDNOW_TEXT_DOMAIN ),
+							'default'	=> __( 'Fast(er) Ajax' , 'inbound-pro' ),
 							'placeholder'	=> null,
 							'options' => false,
 							'hidden' => false,
@@ -348,13 +374,13 @@ class Inbound_Pro_Settings {
 						array (
 							'id'	=> 'toggle-fast-ajax',
 							'type'	=> 'radio',
-							'label'	=> __( 'Enable Fast Ajax' , INBOUNDNOW_TEXT_DOMAIN ),
-							'description'	=> __( 'Turning this feature will install a mu-plugin that Inbound Now will use to improve ajax response times. We recommend turning this on.' , INBOUNDNOW_TEXT_DOMAIN ),
+							'label'	=> __( 'Enable Fast Ajax' , 'inbound-pro' ),
+							'description'	=> __( 'Turning this feature will install a mu-plugin that Inbound Now will use to improve ajax response times. We recommend turning this on.' , 'inbound-pro' ),
 							'default'	=> 'off',
 							'placeholder'	=> null,
 							'options' => array(
-								'on' => __( 'On' , INBOUNDNOW_TEXT_DOMAIN ),
-								'off' => __( 'Off' , INBOUNDNOW_TEXT_DOMAIN ),
+								'on' => __( 'On' , 'inbound-pro' ),
+								'off' => __( 'Off' , 'inbound-pro' ),
 							),
 							'hidden' => false,
 							'reveal' => array(
@@ -603,12 +629,12 @@ class Inbound_Pro_Settings {
 		<footer class="clearfix pro-footer">
             <div class="ink-grid">
                 <ul class="unstyled inline half-vertical-space">
-                    <li class="active"><a href="http://www.inboundnow.com" target='_blank'><?php _e( 'Inbound Now' , INBOUNDNOW_TEXT_DOMAIN ); ?></a></li>
-                    <li class="active"><a href="http://www.twitter.com/inboundnow" target='_blank'><?php _e( 'Twitter' , INBOUNDNOW_TEXT_DOMAIN ); ?></a></li>
-                    <li class="active"><a href="http://www.github.com/inboundnow" target='_blank'><?php _e( 'GitHub' , INBOUNDNOW_TEXT_DOMAIN ); ?></a></li>
-                    <li class="active"><a href="http://support.inboundnow.com" target='_blank'><?php _e( 'Support' , INBOUNDNOW_TEXT_DOMAIN ); ?></a></li>
-                    <li class="active"><a href="http://docs.inboundnow.com" target='_blank'><?php _e( 'Documentation' , INBOUNDNOW_TEXT_DOMAIN ); ?></a></li>
-                    <li class="active"><a href="http://www.inboundnow.com/translate-inbound-now/" target='_blank'><?php _e( 'Translations' , INBOUNDNOW_TEXT_DOMAIN ); ?></a></li>
+                    <li class="active"><a href="http://www.inboundnow.com" target='_blank'><?php _e( 'Inbound Now' , 'inbound-pro' ); ?></a></li>
+                    <li class="active"><a href="http://www.twitter.com/inboundnow" target='_blank'><?php _e( 'Twitter' , 'inbound-pro' ); ?></a></li>
+                    <li class="active"><a href="http://www.github.com/inboundnow" target='_blank'><?php _e( 'GitHub' , 'inbound-pro' ); ?></a></li>
+                    <li class="active"><a href="http://support.inboundnow.com" target='_blank'><?php _e( 'Support' , 'inbound-pro' ); ?></a></li>
+                    <li class="active"><a href="http://docs.inboundnow.com" target='_blank'><?php _e( 'Documentation' , 'inbound-pro' ); ?></a></li>
+                    <li class="active"><a href="http://www.inboundnow.com/translate-inbound-now/" target='_blank'><?php _e( 'Translations' , 'inbound-pro' ); ?></a></li>
                 </ul>
             </div>
         </footer>
@@ -621,16 +647,16 @@ class Inbound_Pro_Settings {
 	static function display_nav_menu() {
 
 		$pages_array = array(
-			'inbound-pro-setup' => __( 'Core Settings' , INBOUNDNOW_TEXT_DOMAIN ),
-			'inbound-pro-settings' => __( 'Extension Settings' , INBOUNDNOW_TEXT_DOMAIN ),
-			'inbound-pro-welcome' => __( 'Quick Start' , INBOUNDNOW_TEXT_DOMAIN ),
-			'inbound-my-account' => __( 'My Account' , INBOUNDNOW_TEXT_DOMAIN )
+			'inbound-pro-setup' => __( 'Core Settings' , 'inbound-pro' ),
+			'inbound-pro-settings' => __( 'Extension Settings' , 'inbound-pro' ),
+			'inbound-pro-welcome' => __( 'Quick Start' , 'inbound-pro' ),
+			'inbound-my-account' => __( 'My Account' , 'inbound-pro' )
 		);
 
 		$pages_array = apply_filters( 'inbound_pro_nav' , $pages_array );
 
 		echo '<header class="vertical-space">';
-		echo '	<h1><img src="'. INBOUND_PRO_URLPATH . 'assets/images/logos/inbound-now-logo.png" style="width:262px;" title="' . __( 'Inbound Now Professional Suite' , INBOUNDNOW_TEXT_DOMAIN ) .'"></h1>';
+		echo '	<h1><img src="'. INBOUND_PRO_URLPATH . 'assets/images/logos/inbound-now-logo.png" style="width:262px;" title="' . __( 'Inbound Now Professional Suite' , 'inbound-pro' ) .'"></h1>';
 		echo ' 	<nav class="ink-navigation">';
 		echo ' 		<ul class="menu horizontal black">';
 
@@ -661,7 +687,7 @@ class Inbound_Pro_Settings {
 		?>
 		<div class="">
 				<div class='templates-filter-group'>
-					<input class="filter-search" type="search" placeholder="<?php _e(' Filter Options... ' , INBOUNDNOW_TEXT_DOMAIN ); ?>">
+					<input class="filter-search" type="search" placeholder="<?php _e(' Filter Options... ' , 'inbound-pro' ); ?>">
 				</div>
 			</div>
 
@@ -728,7 +754,7 @@ class Inbound_Pro_Settings {
 			case 'api-key':
 
 				echo '<div class="api-key">';
-				echo '	<label>'.__('Inbound API Key:' , INBOUNDNOW_TEXT_DOMAIN ) .'</label>';
+				echo '	<label>'.__('Inbound API Key:' , 'inbound-pro' ) .'</label>';
 				echo '		<input type="text" class="api" name="'.$field['id'].'" id="'.$field['id'].'" placeholder="'.$field['placeholder'].'" value="'.$field['value'].'" data-field-type="'.$field['type'].'" data-field-group="'.$group['group_name'].'"  data-special-handler="true"/>';
 				echo '</div>';
 				break;
@@ -756,7 +782,7 @@ class Inbound_Pro_Settings {
 					$oauth_class = "";
 					$unauth_class = "hidden";
 				}
-				echo '<button class="ink-button orange unauth thickbox '.$unauth_class.'" id="'.$field['id'].'" data-field-type="'.$field['type'].'" data-field-group="'.$group['group_name'].'" '.$data.' >'.__( 'Un-Authorize' , INBOUNDNOW_TEXT_DOMAIN ).'</button>';
+				echo '<button class="ink-button orange unauth thickbox '.$unauth_class.'" id="'.$field['id'].'" data-field-type="'.$field['type'].'" data-field-group="'.$group['group_name'].'" '.$data.' >'.__( 'Un-Authorize' , 'inbound-pro' ).'</button>';
 				$class = 'hidden';
 
 				$params['action'] = 'request_access_token';
@@ -767,7 +793,7 @@ class Inbound_Pro_Settings {
 				$params['width'] = '800';
 				$params['height'] = '500';
 
-				echo '<a href="'. admin_url( add_query_arg( $params , 'admin.php' ) ) .'"  class="ink-button green oauth thickbox '.$oauth_class.'" id="'.$field['id'].'" data-field-type="'.$field['type'].'" data-field-group="'.$group['group_name'].'" '.$data.' >'.__( 'Authorize' , INBOUNDNOW_TEXT_DOMAIN ).'</a>';
+				echo '<a href="'. admin_url( add_query_arg( $params , 'admin.php' ) ) .'"  class="ink-button green oauth thickbox '.$oauth_class.'" id="'.$field['id'].'" data-field-type="'.$field['type'].'" data-field-group="'.$group['group_name'].'" '.$data.' >'.__( 'Authorize' , 'inbound-pro' ).'</a>';
 
 
 				break;
@@ -910,27 +936,26 @@ class Inbound_Pro_Settings {
 			case 'custom-fields-repeater':
 				$fields = Leads_Field_Map::get_lead_fields();
 				$fields = Leads_Field_Map::prioritize_lead_fields( $fields );
-
 				$field_types = Leads_Field_Map::build_field_types_array();
 
 				echo '<div class="repeater-custom-fields">';
-				echo '	<h4>'.__('Manage Lead Fields:' , INBOUNDNOW_TEXT_DOMAIN ) .'</h4>';
+				echo '	<h4>'.__('Manage Lead Fields:' , 'inbound-pro' ) .'</h4>';
 
 				echo '		<div class="map-row-headers column-group">';
 				echo '			<div class="map-key-header all-5">';
 				echo '				<th> </th>';
 				echo '			</div>';
 				echo '			<div class="map-key-header all-25">';
-				echo '				<th>' . __( 'Field Key' , INBOUNDNOW_TEXT_DOMAIN ) .'</th>';
+				echo '				<th>' . __( 'Field Key' , 'inbound-pro' ) .'</th>';
 				echo '			</div>';
 				echo '			<div class="map-key-header all-30">';
-				echo '			<th>' . __( 'Field Label' , INBOUNDNOW_TEXT_DOMAIN ) .'</th>';
+				echo '			<th>' . __( 'Field Label' , 'inbound-pro' ) .'</th>';
 				echo '			</div>';
 				echo '			<div class="map-key-header all-20">';
-				echo '			<th>' . __( 'Field Type' , INBOUNDNOW_TEXT_DOMAIN ) .'</th>';
+				echo '			<th>' . __( 'Field Type' , 'inbound-pro' ) .'</th>';
 				echo '			</div>';
 				echo '			<div class="map-key-header all-15">';
-				echo '			<th>' . __( 'Action' , INBOUNDNOW_TEXT_DOMAIN ) .'</th>';
+				echo '			<th>' . __( 'Action' , 'inbound-pro' ) .'</th>';
 				echo '			</div>';
 				echo ' 		</div>';
 
@@ -940,7 +965,7 @@ class Inbound_Pro_Settings {
 
 				foreach( $fields as $key => $field ) {
 
-					echo '	<li class="map-row column-group"  data-priority="'.$key.'">';
+					echo '	<li class="map-row customer-fields-row column-group"  status-priority="'.$key.'">';
 					echo '		<div class="map-handle all-5">';
 					echo '			<span class="drag-handle">';
 					echo '				<i class="fa fa-arrows"></i>';
@@ -986,10 +1011,10 @@ class Inbound_Pro_Settings {
 
 				echo '		</div>';
 				echo '		<div class="map-key all-25">';
-				echo '				<input type="text"  name="fields[new][key]" data-special-handler="true" id="new-key" placeholder="'.__('Enter field key here' , INBOUNDNOW_TEXT_DOMAIN ).'" required>';
+				echo '				<input type="text"  name="fields[new][key]" data-special-handler="true" id="new-key" placeholder="'.__('Enter field key here' , 'inbound-pro' ).'" required>';
 				echo '		</div>';
 				echo '		<div class="map-label all-30">';
-				echo '				<input type="text" name="fields[new][label]" data-special-handler="true" id="new-label" placeholder="'.__('Enter field label here' , INBOUNDNOW_TEXT_DOMAIN ).'" required>';
+				echo '				<input type="text" name="fields[new][label]" data-special-handler="true" id="new-label" placeholder="'.__('Enter field label here' , 'inbound-pro' ).'" required>';
 				echo '		</div>';
 
 				echo '		<div class="map-label all-20">';
@@ -1001,8 +1026,91 @@ class Inbound_Pro_Settings {
 				echo '		</div>';
 				echo '		<div class="map-actions all-30">';
 				echo '			<div class="edit-btn-group">';
-				echo '				<button type="submit" class="ink-button blue" id="add-custom-field">'.__( 'add new field' , ' inbound-pro' ).'</button>';
+				echo '				<button type="submit" class="ink-button blue" id="add-custom-field">'.__( 'Create new field' , ' inbound-pro' ).'</button>';
 				echo '			</div>';
+				echo '		</div>';
+				echo '	</div>';
+				echo '	</form>';
+				echo '</div>';
+				BREAK;
+			case 'lead-status-repeater':
+				$statuses = Inbound_Leads::get_lead_statuses();
+
+				echo '<div class="repeater-lead-statuses">';
+				echo '	<h4>'.__('Manage Lead Statuses:' , 'inbound-pro' ) .'</h4>';
+
+				echo '		<div class="status-row-headers column-group">';
+				echo '			<div class="status-key-header all-5">';
+				echo '				<th> </th>';
+				echo '			</div>';
+				echo '			<div class="status-key-header all-25">';
+				echo '				<th>' . __( 'Label' , 'inbound-pro' ) .'</th>';
+				echo '			</div>';
+				echo '			<div class="status-key-header all-30">';
+				echo '			<th>' . __( 'Color' , 'inbound-pro' ) .'</th>';
+				echo '			</div>';
+				echo '			<div class="status-key-header all-15">';
+				echo '			<th>' . __( 'Action' , 'inbound-pro' ) .'</th>';
+				echo '			</div>';
+				echo ' 		</div>';
+
+				echo ' 	<form data="'.$field['type'].'" id="lead-statuses-form">';
+				echo ' 	<ul class="lead-statuses ui-sortable" id="lead-statuses">';
+
+
+				foreach( $statuses as $key => $status ) {
+
+					echo '	<li class="status-row column-group"  status-priority="'.$status['priority'].'">';
+					echo '		<div class="map-handle all-5">';
+					echo '			<span class="drag-handle">';
+					echo '				<i class="fa fa-arrows"></i>';
+					echo '			</span>';
+					echo '		</div>';
+					echo '		<div class="map-key all-25">';
+					echo '				<input type="hidden" class="status-priority" name="statuses['.$status['key'].'][priority]" value="'.$status['priority'].'">';
+					echo '				<input type="hidden" class="status-key" name="statuses['.$status['key'].'][key]" value="'.$status['key'].'">';
+					echo '				<input type="text" class="status-label" data-special-handler="true" data-field-type="lead-status-field" name="statuses['.$status['key'].'][label]" value="'.$status['label'].'" '. ( isset($status['nature']) && $status['nature'] == 'core' ? '' : '' ) .' required>';
+					echo '		</div>';
+					echo '		<div class="map-label all-30">';
+					echo '				<input type="text" class="status-colorpicker form-control" data-special-handler="true" data-field-type="lead-status-field"  name="statuses['.$status['key'].'][color]" value="'.$status['color'].'" required>';
+					echo '		</div>';
+					echo '		<div class="map-actions all-30">';
+
+					echo '			<div class="edit-btn-group ">';
+					echo '				<span class="ink-button red delete-lead-status '.( !isset($status['nature']) || $status['nature'] != 'core'  ? '' : 'hidden' ).'" id="remove-field">'.__( 'remove' , ' inbound-pro' ).'</span>';
+					echo '			</div>';
+					echo '			<div class="edit-btn-group ">';
+					echo '				<span class="ink-button red delete-lead-status-confirm hidden" id="remove-status-confirm">'.__( 'confirm removal' , ' inbound-pro' ).'</span>';
+					echo '			</div>';
+
+					echo '		</div>';
+					echo '	</li>';
+				}
+
+				echo '	</ul>';
+				echo '	</form>';
+				echo '	<form id="add-new-lead-status-form">';
+				echo '	<div class="map-row-addnew column-group">';
+				echo '		<div class="map-handle all-5 ">';
+				echo '			<span class="drag-handle">';
+				echo '				<i class="fa fa-arrows"></i>';
+				echo '			</span>';
+
+				echo '		</div>';
+				echo '		<div class="map-label all-30">';
+				echo '				<input type="text" name="statuses[new][label]" data-special-handler="true" id="new-status-label" placeholder="'.__('Enter field label here' , 'inbound-pro' ).'" required>';
+				echo '		</div>';
+
+				echo '		<div class="map-color all-25">';
+				echo '				<input type="text"  name="statuses[new][color]" class="status-colorpicker" data-special-handler="true" id="new-status-color" placeholder="'.__('Color' , 'inbound-pro' ).'" required>';
+				echo '		</div>';
+
+				echo '		<div class="map-actions all-30">';
+				echo '		</div>';
+				echo '	</div>';
+				echo '	<div class="map-row-addnew">';
+				echo '		<div class="edit-btn-group all-30">';
+				echo '				<button type="submit" class="ink-button blue" id="add-lead-status">'.__( 'create status' , ' inbound-pro' ).'</button>';
 				echo '		</div>';
 				echo '	</div>';
 				echo '	</form>';
@@ -1014,7 +1122,7 @@ class Inbound_Pro_Settings {
 				$ip_addresses = ( isset(self::$settings_values['inbound-analytics-rules']['ip-addresses']) && self::$settings_values['inbound-analytics-rules']['ip-addresses'] ) ? self::$settings_values['inbound-analytics-rules']['ip-addresses'] : array('') ;
 
 				echo '<div class="repeater-ip-addresses">';
-				echo '	<h4>'.__('Exclude IPs from Tracking:' , INBOUNDNOW_TEXT_DOMAIN ) .'</h4>';
+				echo '	<h4>'.__('Exclude IPs from Tracking:' , 'inbound-pro' ) .'</h4>';
 				echo ' 	<form data="'.$field['type'].'" id="ip-addresses-form">';
 				echo ' 		<ul class="field-ip-addresses" id="field-ip-address">';
 
@@ -1045,7 +1153,7 @@ class Inbound_Pro_Settings {
 				echo '	<form id="add-new-ip-address-form">';
 				echo '		<div class="ip-address-row-addnew column-group">';
 				echo '			<div class="ip-address all-80">';
-				echo '					<input type="text"  name="ip-addresses" data-special-handler="true" id="new-ip-address" placeholder="'.__('Enter IP Address ' , INBOUNDNOW_TEXT_DOMAIN ).'" required>';
+				echo '					<input type="text"  name="ip-addresses" data-special-handler="true" id="new-ip-address" placeholder="'.__('Enter IP Address ' , 'inbound-pro' ).'" required>';
 				echo '			</div>';
 				echo '			<div class="ip-address-actions all-20">';
 				echo '				<div class="edit-btn-group">';
@@ -1088,6 +1196,25 @@ class Inbound_Pro_Settings {
 		$settings = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
 		$settings[ 'leads-custom-fields' ] =  $data;
 
+		Inbound_Options_API::update_option( 'inbound-pro' , 'settings' , $settings );
+	}
+
+	/**
+	*  Ajax listener for saving updated custom field data
+	*/
+	public static function ajax_update_lead_statuses() {
+		/* parse string */
+		parse_str($_POST['input'] , $data );
+
+		/* Update Setting */
+		$settings = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
+
+		//unset($settings[ 'lead-statuses' ]);
+		//Inbound_Options_API::update_option( 'inbound-pro' , 'settings' ,$settings );
+		//exit;
+
+		$settings[ 'lead-statuses' ] =  $data;
+		error_log(print_r($data,true));
 		Inbound_Options_API::update_option( 'inbound-pro' , 'settings' , $settings );
 	}
 
