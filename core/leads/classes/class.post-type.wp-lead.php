@@ -847,9 +847,9 @@ class Leads_Post_Type {
     public static function ajax_mark_lead_as_read() {
         global $wpdb;
 
-        $post_id = mysql_real_escape_string($_POST['page_id']);
+        $post_id = intval($_POST['page_id']);
 
-        add_post_meta($post_id, 'wp_lead_status', 'read', true) or update_post_meta($post_id, 'wp_lead_status', 'read');
+        add_post_meta($post_id, 'wp_lead_status', 'read') or update_post_meta($post_id, 'wp_lead_status', 'read');
         header('HTTP/1.1 200 OK');
         exit;
     }
@@ -860,7 +860,7 @@ class Leads_Post_Type {
     public static function ajax_mark_lead_as_unread() {
         global $wpdb;
 
-        $post_id = mysql_real_escape_string($_POST['page_id']);
+        $post_id = intval($_POST['page_id']);
 
         add_post_meta($post_id, 'wp_lead_status', 'new', true) or update_post_meta($post_id, 'wp_lead_status', 'new');
         header('HTTP/1.1 200 OK');
