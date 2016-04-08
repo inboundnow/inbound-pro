@@ -332,7 +332,7 @@ var InboundSettings = (function () {
             /* serialize input data */
             var serialized = this.prepareSettingData();
 
-            if ( typeof InboundSettings.running != 'object') {
+            if ( typeof InboundSettings.running == 'object') {
                 InboundSettings.running.abort();
             }
 
