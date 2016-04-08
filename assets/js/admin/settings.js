@@ -332,8 +332,8 @@ var InboundSettings = (function () {
             /* serialize input data */
             var serialized = this.prepareSettingData();
 
-            if ( typeof updateSettingAjax != 'object') {
-                updateSettingAjax.abort();
+            if ( typeof InboundSettings.running != 'object') {
+                InboundSettings.running.abort();
             }
 
             InboundSettings.running = jQuery.ajax({
