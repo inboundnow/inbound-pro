@@ -1209,10 +1209,6 @@ class Inbound_Pro_Settings {
 		/* Update Setting */
 		$settings = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
 
-		//unset($settings[ 'lead-statuses' ]);
-		//Inbound_Options_API::update_option( 'inbound-pro' , 'settings' ,$settings );
-		//exit;
-
 		$settings[ 'lead-statuses' ] =  $data;
 		Inbound_Options_API::update_option( 'inbound-pro' , 'settings' , $settings );
 	}

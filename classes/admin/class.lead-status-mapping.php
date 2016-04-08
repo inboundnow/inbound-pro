@@ -58,6 +58,7 @@ class Inbound_Lead_Statuses {
                     $cleaned[$s['key']]['label'] = (isset($status['label'])) ? $status['label'] : $s['label'];
                     $cleaned[$s['key']]['color'] = (isset($status['color'])) ? $status['color'] : $s['color'];
                     $cleaned[$s['key']]['key'] = $status['key'];
+                    $cleaned[$s['key']]['nature'] = 'core';
                     $present = true;
                 }
             }
