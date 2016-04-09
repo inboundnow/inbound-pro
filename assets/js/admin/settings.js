@@ -345,7 +345,7 @@ var InboundSettings = (function () {
                     input: serialized
                 },
                 dataType: 'html',
-                timeout: 10000,
+                timeout: 20000,
                 success: function (response) {
                     InboundSettings.input.parent().append("<span class='update-text'>Updated</span>");
                     jQuery(this).addClass("update-done");
@@ -391,7 +391,7 @@ var InboundSettings = (function () {
                         input: form.serialize()
                     },
                     dataType: 'html',
-                    timeout: 10000,
+                    timeout: 20000,
                     success: function (response) {
                         InboundSettings.running = '';
                     },
@@ -423,7 +423,7 @@ var InboundSettings = (function () {
                         input: form.serialize()
                     },
                     dataType: 'html',
-                    timeout: 10000,
+                    timeout: 20000,
                     success: function (response) {
                         jQuery('#lead-status-processing').remove();
                         InboundSettings.running = '';
@@ -453,7 +453,7 @@ var InboundSettings = (function () {
                         input: form.serialize()
                     },
                     dataType: 'html',
-                    timeout: 10000,
+                    timeout: 20000,
                     success: function (response) {
                         InboundSettings.running = '';
                     },
@@ -504,7 +504,7 @@ var InboundSettings = (function () {
                     input: serialized
                 },
                 dataType: 'html',
-                timeout: 10000,
+                timeout: 20000,
                 success: function (response) {
                     var group = InboundSettings.input.data('field-group');
                     var button = jQuery('.oauth[data-field-group="' + group + '"]');
@@ -603,7 +603,7 @@ var InboundSettings = (function () {
                     site: inboundSettingsLocalVars.siteURL
                 },
                 dataType: "json",
-                timeout: 10000,
+                timeout: 20000,
                 success: function (response) {
                     if (typeof response.customer != 'undefined') {
                         InboundSettings.markKeyValid();
