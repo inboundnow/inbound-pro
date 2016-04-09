@@ -594,6 +594,7 @@ var InboundForms = (function(_inbound) {
                 /* Set Lead cookie ID */
                 if (leadID) {
                     utils.createCookie("wp_lead_id", leadID);
+                    utils.createCookie("conversion_funnel", JSON.stringify(page_views));
                     _inbound.totalStorage.deleteItem('page_views'); // remove pageviews
                     _inbound.totalStorage.deleteItem('tracking_events'); // remove events
                 }

@@ -533,6 +533,7 @@ class Inbound_Pro_Settings {
 		self::$settings_values = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
 
 		?>
+
 		<div class="xlarge-100 large-100 medium-100 small-100 tiny-100">
 		<?php
 			self::render_fields( 'inbound-pro-setup' );
