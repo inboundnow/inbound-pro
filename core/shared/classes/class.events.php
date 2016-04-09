@@ -65,6 +65,8 @@ class Inbound_Events {
 			  `lead_uid` varchar(255) NOT NULL,
 			  `session_id` varchar(255) NOT NULL,
 			  `event_details` text NOT NULL,
+			  `source` text NOT NULL,
+			  `funnel` text NOT NULL,
 			  `datetime` datetime NOT NULL,
 
 			  UNIQUE KEY id (id)
@@ -72,6 +74,14 @@ class Inbound_Events {
 
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
         dbDelta( $sql );
+
+        /* add new columns to legacy table */
+        $row = $wpdb->get_results(  "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '{$table_name}' AND column_name = 'source'"  );
+        if(empty($row)){
+            // do your stuff
+            $wpdb->get_results( "ALTER TABLE {$table_name} ADD `funnel` text NOT NULL" );
+            $wpdb->get_results( "ALTER TABLE {$table_name} ADD `source` text NOT NULL" );
+        }
     }
 
     /**
