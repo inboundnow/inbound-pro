@@ -349,8 +349,10 @@ var _inboundPageTracking = (function(_inbound) {
                 variation_id: inbound_settings.variation_id,
                 post_type: inbound_settings.post_type,
                 current_url: window.location.href,
+                page_views: JSON.stringify(_inbound.PageTracking.getPageViews()),
                 json: '0'
             };
+
             var firePageCallback = function(leadID) {
                 //_inbound.Events.page_view_saved(leadID);
             };

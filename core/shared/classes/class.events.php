@@ -184,11 +184,23 @@ class Inbound_Events {
             'session_id' => '',
             'event_name' => $args['event_name'],
             'event_details' => '',
-            'datetime' => $wordpress_date_time
+            'datetime' => $wordpress_date_time,
+            'funnel' => ( isset($_COOKIE['inbound_page_views']) ? $_COOKIE['inbound_page_views'] : '' ),
+            'source' => ( isset($_COOKIE['inbound_referral_site']) ? $_COOKIE['inbound_referral_site'] : '' )
         );
+
 
         $args = array_merge( $defaults , $args );
 
+        /* prepare funnel array */
+        if ($args['funnel']) {
+
+            /* check if valid json or if slashes need to be stripepd out */
+            if (!self::isJson($args['funnel'])) {
+                $args['funnel'] = stripslashes($args['funnel']);
+            }
+
+        }
 
         /* unset non db ready keys */
         foreach ($args as $key => $value) {
@@ -473,6 +485,11 @@ class Inbound_Events {
 
         /* return null if nothing there */
         return ($count) ? $count : 0;
+    }
+
+    public static function isJson($string) {
+        json_decode($string);
+        return (json_last_error() == JSON_ERROR_NONE);
     }
 }
 

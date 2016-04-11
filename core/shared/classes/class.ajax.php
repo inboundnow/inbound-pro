@@ -1,22 +1,22 @@
 <?php
 
 /**
-*	This class loads miscellaneous WordPress AJAX listeners
-*/
+ *	This class loads miscellaneous WordPress AJAX listeners
+ */
 if (!class_exists('Inbound_Ajax')) {
 
 	class Inbound_Ajax {
 
 		/**
-		*	Initializes classs
-		*/
+		 *	Initializes classs
+		 */
 		public function __construct() {
 			self::load_hooks();
 		}
 
 		/**
-		*	Loads hooks and filters
-		*/
+		 *	Loads hooks and filters
+		 */
 		public static function load_hooks() {
 
 			/* Ajax that runs on pageload */
@@ -31,15 +31,15 @@ if (!class_exists('Inbound_Ajax')) {
 		}
 
 		/**
-		* Executes hook that runs all ajax actions
-		*/
+		 * Executes hook that runs all ajax actions
+		 */
 		public static function run_ajax_actions() {
 
 		}
 
 		/**
-		*
-		*/
+		 *
+		 */
 		public static function track_lead() {
 
 			global $wpdb;
@@ -50,6 +50,33 @@ if (!class_exists('Inbound_Ajax')) {
 			(isset(	$_POST['wp_lead_uid'] )) ? $lead_data['wp_lead_uid'] = $_POST['wp_lead_uid'] : $lead_data['wp_lead_uid'] = 0;
 			(isset(	$_POST['page_id'] )) ? $lead_data['page_id'] = $_POST['page_id'] : $lead_data['page_id'] = 0;
 			(isset(	$_POST['current_url'] )) ? $lead_data['current_url'] = $_POST['current_url'] : $lead_data['current_url'] = 'notfound';
+
+
+			$page_views = json_decode(stripslashes($_POST['page_views']));
+
+			/* update funnel cookie */
+			if (isset($_COOKIE['inbound_page_views'])) {
+				$stored_views = json_decode(stripslashes($_COOKIE['inbound_page_views']), true);
+			} else {
+				$stored_views = array();
+			}
+
+			foreach ($page_views as $page_id => $visits ) {
+				if (!in_array($page_id, $stored_views)) {
+					$stored_views[] = $page_id;
+				} else {
+
+					/* check if user doubled back to the first page to convert */
+					$funnel_count = count($stored_views);
+					$last_key = $funnel_count - 1;
+					if ( $funnel_count > 1  && $stored_views[0] == $page_id && $stored_views[$last_key] != $page_id ){
+						$stored_views[] = $page_id;
+					}
+
+				}
+			}
+			error_log(print_r($stored_views,true));
+			setcookie( 'inbound_page_views' , 	json_encode($stored_views) , time()+3600 , "/" );
 
 			/* update lead data */
 			if(isset($_POST['wp_lead_id']) && function_exists('wp_leads_update_page_view_obj') ) {

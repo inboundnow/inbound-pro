@@ -348,6 +348,7 @@ if (!class_exists('LeadStorage')) {
 			include_once( INBOUNDNOW_SHARED_PATH. 'assets/includes/Snowplow/RefererParser/INBOUND_Parser.php');
 			include_once( INBOUNDNOW_SHARED_PATH .'assets/includes/Snowplow/RefererParser/INBOUND_Referer.php');
 			include_once(INBOUNDNOW_SHARED_PATH . 'assets/includes/Snowplow/RefererParser/INBOUND_Medium.php');
+
 			/* intialized the parser class */
 			$parser = new INBOUND_Parser();
 			/*$array = array('http://google.com', 'http://twitter.com', 'http://tumblr.com?query=test', ''); */
