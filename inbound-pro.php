@@ -4,7 +4,7 @@ Plugin Name: Inbound Now
 Plugin URI: http://www.inboundnow.com/
 Description: Inbound Marketing Suite for WordPress
 Author: Inbound Now
-Version: 1.6.4
+Version: 1.6.4.1
 Author URI: http://www.inboundnow.com/
 Text Domain: inbound-pro
 Domain Path: /lang/
@@ -95,7 +95,7 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 		*/
 		private static function define_constants() {
 
-			define('INBOUND_PRO_CURRENT_VERSION', '1.6.4' );
+			define('INBOUND_PRO_CURRENT_VERSION', '1.6.4.1' );
 			define('INBOUND_PRO_URLPATH', WP_PLUGIN_URL.'/'.plugin_basename( dirname(__FILE__) ).'/' );
 			define('INBOUND_PRO_PATH', WP_PLUGIN_DIR.'/'.plugin_basename( dirname(__FILE__) ).'/' );
 			define('INBOUND_PRO_SLUG', plugin_basename( dirname(__FILE__) ) );
@@ -120,6 +120,7 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 		 *  Load inbound pro classes
 		 */
 		private static function load_pro_classes() {
+			global $inbound_settings;
 
 			/* Frontend & Admin */
 			include_once( INBOUND_PRO_PATH . 'classes/class.options-api.php');
@@ -130,12 +131,12 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 			self::$access_level = self::get_customer_status();
 
 			/* get inbound now settings */
-			self::$settings = Inbound_Options_API::get_option('inbound-pro', 'settings', array());
+			$inbound_settings = Inbound_Options_API::get_option('inbound-pro', 'settings', array());
 
 			if (self::$access_level > 0 && !isset($_GET['acf_off'])) {
 
 				/* if lite mode enabled then set the constant */
-				if ( !isset(self::$settings['inbound-acf']['toggle-acf-lite']) || self::$settings['inbound-acf']['toggle-acf-lite'] == 'on') {
+				if ( !isset($inbound_settings['inbound-acf']['toggle-acf-lite']) || $inbound_settings['inbound-acf']['toggle-acf-lite'] == 'on') {
 					define('ACF_LITE', true);
 				}
 
@@ -174,20 +175,21 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 		 *  Conditionally load core components
 		 */
 		private static function load_core_components() {
+			global $inbound_settings;
 
 			/* load calls to action  */
-			if ( !isset(self::$settings['inbound-core-loading']['toggle-calls-to-action']) || self::$settings['inbound-core-loading']['toggle-calls-to-action'] =='on' ) {
+			if ( !isset($inbound_settings['inbound-core-loading']['toggle-calls-to-action']) || $inbound_settings['inbound-core-loading']['toggle-calls-to-action'] =='on' ) {
 
 				include_once( INBOUND_COMPONENT_PATH . '/cta/calls-to-action.php');
 			}
 
 			/* load leads */
-			if ( !isset(self::$settings['inbound-core-loading']['toggle-leads']) || self::$settings['inbound-core-loading']['toggle-leads'] =='on' ) {
+			if ( !isset($inbound_settings['inbound-core-loading']['toggle-leads']) || $inbound_settings['inbound-core-loading']['toggle-leads'] =='on' ) {
 				include_once( INBOUND_COMPONENT_PATH . '/leads/leads.php');
 			}
 
 			/* load landing pages */
-			if ( !isset(self::$settings['inbound-core-loading']['toggle-landing-pages']) || self::$settings['inbound-core-loading']['toggle-landing-pages'] =='on' ) {
+			if ( !isset($inbound_settings['inbound-core-loading']['toggle-landing-pages']) || $inbound_settings['inbound-core-loading']['toggle-landing-pages'] =='on' ) {
 				include_once( INBOUND_COMPONENT_PATH . '/landing-pages/landing-pages.php');
 			}
 
@@ -196,7 +198,7 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 			}
 
 			/* load inbound google analytics */
-			if ( isset(self::$settings['inbound-core-loading']['toggle-google-analytics']) && self::$settings['inbound-core-loading']['toggle-google-analytics'] =='on' ) {
+			if ( isset($inbound_settings['inbound-core-loading']['toggle-google-analytics']) && $inbound_settings['inbound-core-loading']['toggle-google-analytics'] =='on' ) {
 				include_once( INBOUND_COMPONENT_PATH . '/inbound-google-analytics/inbound-google-analytics.php');
 			}
 
@@ -205,7 +207,7 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 			}
 
 			/* load inbound mailer & inbound automation */
-			if ( !isset(self::$settings['inbound-core-loading']['toggle-email-automation']) || self::$settings['inbound-core-loading']['toggle-email-automation'] =='on' ) {
+			if ( !isset($inbound_settings['inbound-core-loading']['toggle-email-automation']) || $inbound_settings['inbound-core-loading']['toggle-email-automation'] =='on' ) {
 				include_once( INBOUND_COMPONENT_PATH . '/inbound-mailer/inbound-mailer.php');
 				include_once( INBOUND_COMPONENT_PATH . '/inbound-automation/inbound-automation.php');
 			}
