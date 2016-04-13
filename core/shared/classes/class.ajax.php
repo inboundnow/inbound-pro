@@ -75,7 +75,7 @@ if (!class_exists('Inbound_Ajax')) {
 
 				}
 			}
-			error_log(print_r($stored_views,true));
+
 			setcookie( 'inbound_page_views' , 	json_encode($stored_views) , time()+3600 , "/" );
 
 			/* update lead data */

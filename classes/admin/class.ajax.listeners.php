@@ -48,22 +48,21 @@ class Inbound_Pro_Admin_Ajax_Listeners {
      * Validate API Key
      */
     public static function validate_api_key() {
+        global $inbound_settings;
+
         /* get customer data */
         $customer = Inbound_Options_API::get_option('inbound-pro', 'customer', array());
 
-        /* get api key */
-        $settings = Inbound_Options_API::get_option('inbound-pro', 'settings', array());
-
         /* if there is no change in the api get then return the data on record */
-        if ( ( trim($_REQUEST['api_key']) == $settings['api-key']['api-key'] ) && get_transient('inbound_api_key_cache')) {
+        if ( ( trim($_REQUEST['api_key']) == $inbound_settings['api-key']['api-key'] ) && get_transient('inbound_api_key_cache')) {
             $data['customer'] = $customer;
             echo json_encode($data);
             exit;
         }
 
         /* update api key if changed */
-        $settings['api-key']['api-key'] = trim($_REQUEST['api_key']);
-        Inbound_Options_API::update_option('inbound-pro', 'settings', $settings);
+        $inbound_settings['api-key']['api-key'] = trim($_REQUEST['api_key']);
+        Inbound_Options_API::update_option('inbound-pro', 'settings', $inbound_settings);
 
         /* look up api key to see what permissions it has */
         $response = wp_remote_post(Inbound_API_Wrapper::get_api_url() . 'key/check', array(

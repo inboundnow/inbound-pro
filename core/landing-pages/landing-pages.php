@@ -8,10 +8,8 @@ Author: Inbound Now
 Author URI: http://www.inboundnow.com/
 
 */
-function debug_load_textdomain( $domain , $mofile  ){
-	echo "Trying ",$domain," at ",$mofile,"<br />\n";
-}
-//add_action('load_textdomain','debug_load_textdomain' , 10 ,2);
+
+
 if (!class_exists('Inbound_Landing_Pages_Plugin')) {
 
 	final class Inbound_Landing_Pages_Plugin {

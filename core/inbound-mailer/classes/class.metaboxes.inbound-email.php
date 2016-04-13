@@ -618,10 +618,18 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 </thead>
                 <tbody>
                 <?php
+                $lead_search = "edit.php?s=EMAIL&post_status=all&post_type=wp-lead";
                 foreach (self::$sends as $send) {
+
+                    /* use this opportunity to remove rejections */
+                    $search = str_replace('EMAIL',$send['email'],$lead_search);
                     ?>
                     <tr>
-                        <td class="lalign"><?php echo $send['email']; ?></td>
+                        <td class="lalign">
+                            <a href="<?php echo $search; ?>" target="_blank">
+                                <?php echo $send['email']; ?>
+                            </a>
+                        </td>
                         <td><?php echo $Inbound_Mailer_Variations->vid_to_letter( $post->ID , $send['metadata']['variation_id']); ?></td>
                         <td><?php echo $send['state']; ?></td>
                         <td><?php echo $send['opens']; ?></td>

@@ -311,7 +311,7 @@ class Inbound_Mail_Daemon {
         self::$email['body'] = self::get_email_body();
 
         Inbound_Mailer_Mandrill::send_email( true );
-error_log(print_r(self::$response,true));
+
         /* return mandrill response */
         return self::$response;
 
