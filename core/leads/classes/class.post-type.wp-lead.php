@@ -136,7 +136,7 @@ class Leads_Post_Type {
                 break;
             case "status":
                 $lead_status = get_post_meta($post_id, 'wp_lead_status', true);
-                Inbound_Lead_Statuses::print_status_pill($lead_status);
+                self::display_status_pill($lead_status);
                 break;
             case "action-count":
                 $actions = Inbound_Events::get_total_activity($post_id);
@@ -677,6 +677,22 @@ class Leads_Post_Type {
             );
         }
         return $links;
+    }
+
+
+    public static function display_status_pill( $status ) {
+        global $lead_statuses;
+
+        if (!$lead_statuses) {
+            $lead_statuses = Inbound_Leads::get_lead_statuses();
+        }
+
+        $pill = ( isset($lead_statuses[$status]) ) ? $lead_statuses[$status] : $lead_statuses['new'];
+
+
+        echo '<label class="lead-status-pill lead-status-' . $pill['key'] . '" style="background-color:'.$pill['color'].'">';
+        echo $pill['label'];
+        echo '</label>';
     }
 
     /**

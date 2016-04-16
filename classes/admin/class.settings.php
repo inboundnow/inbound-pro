@@ -707,7 +707,7 @@ class Inbound_Pro_Settings {
 		self::$settings_fields[ $page ] = (isset(self::$settings_fields[ $page ])) ? self::$settings_fields[ $page ] : array();
 
 		foreach( self::$settings_fields[ $page ] as $priority => $group ) {
-			echo '<div class="inbound-settings-group " data-keywords="'.$group['keywords'].','.$group['group_name'].'" data-group-name="'.$group['group_name'].'">';
+			echo '<div class="inbound-settings-group " data-keywords="'.$group['keywords'].','.$group['group_name'].'" data-group-name="'.$group['group_name'].'" id="'.$group['group_name'].'">';
 			foreach( $group['fields'] as $field ) {
 
 				/* get value if available else set to default */

@@ -101,20 +101,6 @@ class Inbound_Lead_Statuses {
 
     }
 
-    public static function print_status_pill( $status ) {
-        global $lead_statuses;
-
-        if (!$lead_statuses) {
-            $lead_statuses = Inbound_Leads::get_lead_statuses();
-        }
-
-        $pill = ( isset($lead_statuses[$status]) ) ? $lead_statuses[$status] : $lead_statuses['new'];
-
-
-        echo '<label class="lead-status-pill lead-status-' . $pill['key'] . '" style="background-color:'.$pill['color'].'">';
-        echo $pill['label'];
-        echo '</label>';
-    }
 
 
 }

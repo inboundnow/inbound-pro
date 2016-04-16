@@ -1184,7 +1184,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
                 }
 
                 if (isset($_SESSION['inbound_popup']) && isset($post) && $_SESSION['inbound_popup'] == $post->ID && !current_user_can('manage_options')) {
-                    return '';
+                    return $content;
                 }
 
                 /* fix for popup size */

@@ -717,14 +717,14 @@ h2 .nav-tab {
 }
 
 #toggle-lead-fields {
-
     margin-right: 10px;
+    margin-bottom: 10px;
     width: 97%;
-    text-align: center;
-
+    text-align: right;
 }
 
 #toggle-lead-fields a {
+    text-align:center;
     font-size: 12px;
     width: 150px;
 }
@@ -1412,7 +1412,6 @@ a.lead-timeline-img {
     }
 
     #toggle-lead-fields a {
-        float: right;
         margin-right: -20px;
     }
 
@@ -1440,11 +1439,6 @@ a.lead-timeline-img {
         min-width: 140px;
     }
 
-    #toggle-lead-fields a {
-        float: right;
-        margin-right: -20px;
-    }
-
 }
 
 @media (min-width: 1200px) {
@@ -1458,11 +1452,6 @@ a.lead-timeline-img {
         float: left;
         width: 75%;
         position: relative;
-    }
-
-    #toggle-lead-fields a {
-        float: right;
-        margin-right: -20px;
     }
 
 }
