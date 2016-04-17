@@ -40,7 +40,7 @@ class Leads_Batch_Processor {
         );
 
         /* Do not let user escape until all leads have been processed */
-        if (!isset($_GET['page']) || $_GET['page'] != 'leads-batch-processing' && phpversion() < 7 ) {
+        if (!isset($_GET['page']) || $_GET['page'] != 'leads-batch-processing' ) {
             header('Location: ' . admin_url('edit.php?post_type=wp-lead&page=leads-batch-processing'));
             exit;
         }
@@ -78,7 +78,10 @@ class Leads_Batch_Processor {
         echo '<div class="wrap">';
 
         /* run the method */
-        self::{$args['method']}($args);
+        call_user_func(
+            array(__ClASS__, $args['method']),
+            $args
+        );
 
         echo '</div>';
 
