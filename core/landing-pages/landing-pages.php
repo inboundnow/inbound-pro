@@ -2,13 +2,12 @@
 /*
 Plugin Name: Landing Pages
 Plugin URI: http://www.inboundnow.com/landing-pages/
-Description: The first true all-in-one Landing Page solution for WordPress, including ongoing conversion metrics, a/b split testing, unlimited design options and so much more!
-Version: 2.1.3
+Description: Landing page template framework with variant testing and lead capturing through cooperation with Inbound Now's Leads plugin. This is the stand alone version served through WordPress.org. 
+Version: 2.1.6
 Author: Inbound Now
 Author URI: http://www.inboundnow.com/
 
 */
-
 
 if (!class_exists('Inbound_Landing_Pages_Plugin')) {
 
@@ -38,7 +37,7 @@ if (!class_exists('Inbound_Landing_Pages_Plugin')) {
 		*/
 		private static function load_constants() {
 
-			define('LANDINGPAGES_CURRENT_VERSION', '2.1.3' );
+			define('LANDINGPAGES_CURRENT_VERSION', '2.1.6' );
 			define('LANDINGPAGES_URLPATH', plugins_url( '/' , __FILE__ ) );
 			define('LANDINGPAGES_PATH', WP_PLUGIN_DIR.'/'.plugin_basename( dirname(__FILE__) ).'/' );
 			define('LANDINGPAGES_PLUGIN_SLUG', plugin_basename( dirname(__FILE__) ) );

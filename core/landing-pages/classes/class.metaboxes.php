@@ -686,7 +686,7 @@ class Landing_Pages_Metaboxes {
      */
     public static function display_showcase_submission() {
         global $post, $current_user;
-        get_currentuserinfo();
+        wp_get_current_user();
         $landing_page_url =  get_permalink($post->ID);
         $admin_email = $current_user->user_email;
         $name = $current_user->display_name;

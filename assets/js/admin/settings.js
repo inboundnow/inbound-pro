@@ -1,13 +1,15 @@
 var InboundSettings = (function () {
 
     var api_url;
-    var search_container; /* element that wraps all settings and is shuffle js ready */
-    var target; /* target setting if available */
+    var search_container;
+    /* element that wraps all settings and is shuffle js ready */
+    var target;
+    /* target setting if available */
     var input;
     var datatype;
     var value;
     var timer;
-    var running; /* keep track of running ajax */
+    var running_ajax;
 
     var construct = {
         /**
@@ -31,6 +33,7 @@ var InboundSettings = (function () {
         setVars: function () {
             this.search_container = jQuery('#grid');
             this.target = InboundSettings.getUrlParam('setting');
+            this.running_ajax = new Object();
         },
         /**
          *  Sets up setting searching
@@ -127,7 +130,24 @@ var InboundSettings = (function () {
                         break;
                 }
 
+                /* add listener for input hide/reveal selectors */
+
+                var group_name = InboundSettings.input.context.dataset.fieldGroup;
+                var value = InboundSettings.input.attr('value');
+
+                jQuery('#'+group_name+' div[data-reveal-selector="#' + InboundSettings.input.attr('id') + '"][data-reveal-value="' + value + '"]').each(function () {
+                        jQuery(this).removeClass('hidden');
+                });
+
+                 jQuery('#'+group_name+' div[data-reveal-selector="#' + InboundSettings.input.attr('id') + '"][data-reveal-value!="'+value+'"]').each(function () {
+                    jQuery(this).addClass('hidden');
+
+                });
+
+
             });
+
+
         },
         /**
          *  Add listeners that support custom lead fields
@@ -172,6 +192,7 @@ var InboundSettings = (function () {
 
             /* Add listeners for add custom field save buttons */
             jQuery(document).on('submit', '#add-new-custom-field-form', function (e) {
+
                 /* prevent the form from doing a submit */
                 e.preventDefault();
 
@@ -332,11 +353,11 @@ var InboundSettings = (function () {
             /* serialize input data */
             var serialized = this.prepareSettingData();
 
-            if ( typeof InboundSettings.running == 'object') {
-                InboundSettings.running.abort();
+            if ('inbound_pro_update_setting' in InboundSettings.running_ajax) {
+                InboundSettings.running_ajax['inbound_pro_update_setting'].abort();
             }
 
-            InboundSettings.running = jQuery.ajax({
+            InboundSettings.running_ajax['inbound_pro_update_setting'] = jQuery.ajax({
                 type: "POST",
                 url: ajaxurl,
                 context: InboundSettings.input,
@@ -355,7 +376,7 @@ var InboundSettings = (function () {
                             jQuery('.update-text').remove();
                         });
                     }, 500);
-                    InboundSettings.running = '';
+                    delete InboundSettings.running_ajax['inbound_pro_update_setting'];
                 },
                 error: function (request, status, err) {
                     console.log(status);
@@ -379,11 +400,11 @@ var InboundSettings = (function () {
                 });
 
 
-                if ( typeof InboundSettings.running == 'object') {
-                    InboundSettings.running.abort();
+                if ('inbound_pro_update_custom_fields' in InboundSettings.running_ajax) {
+                    InboundSettings.running_ajax['inbound_pro_update_custom_fields'].abort();
                 }
 
-                InboundSettings.running = jQuery.ajax({
+                InboundSettings.running_ajax['inbound_pro_update_custom_fields'] = jQuery.ajax({
                     type: "POST",
                     url: ajaxurl,
                     data: {
@@ -393,7 +414,7 @@ var InboundSettings = (function () {
                     dataType: 'html',
                     timeout: 20000,
                     success: function (response) {
-                        InboundSettings.running = '';
+                        delete InboundSettings.running_ajax['inbound_pro_update_custom_fields'];
                     },
                     error: function (request, status, err) {
                         console.log(status);
@@ -408,14 +429,13 @@ var InboundSettings = (function () {
             setTimeout(function () {
                 var form = jQuery('#lead-statuses-form').clone();
 
-                if ( typeof InboundSettings.running == 'object') {
-                    InboundSettings.running.abort();
+                if ('inbound_pro_update_lead_statuses' in InboundSettings.running_ajax) {
+                    InboundSettings.running_ajax['inbound_pro_update_lead_statuses'].abort();
                 } else {
-                    jQuery('#add-lead-status').prepend('<img id="lead-status-processing" src="'+inboundSettingsLocalVars.inboundProURL+'assets/images/processing.gif" /> ');
+                    jQuery('#add-lead-status').prepend('<img id="lead-status-processing" src="' + inboundSettingsLocalVars.inboundProURL + 'assets/images/processing.gif" /> ');
                 }
 
-
-                InboundSettings.running = jQuery.ajax({
+                InboundSettings.running_ajax['inbound_pro_update_lead_statuses'] = jQuery.ajax({
                     type: "POST",
                     url: ajaxurl,
                     data: {
@@ -426,7 +446,7 @@ var InboundSettings = (function () {
                     timeout: 20000,
                     success: function (response) {
                         jQuery('#lead-status-processing').remove();
-                        InboundSettings.running = '';
+                        delete InboundSettings.running_ajax['inbound_pro_update_lead_statuses'];
                     },
                     error: function (request, status, err) {
                         console.log(status);
@@ -441,11 +461,11 @@ var InboundSettings = (function () {
             setTimeout(function () {
                 var form = jQuery('#ip-addresses-form').clone();
 
-                if ( typeof updateIPAddressesAjax != 'undefined') {
-                    updateIPAddressesAjax.abort();
+                if ('inbound_pro_update_ip_addresses' in InboundSettings.running_ajax) {
+                    InboundSettings.running_ajax['inbound_pro_update_ip_addresses'].abort();
                 }
 
-                InboundSettings.running = jQuery.ajax({
+                InboundSettings.running_ajax['inbound_pro_update_ip_addresses'] = jQuery.ajax({
                     type: "POST",
                     url: ajaxurl,
                     data: {
@@ -455,7 +475,7 @@ var InboundSettings = (function () {
                     dataType: 'html',
                     timeout: 20000,
                     success: function (response) {
-                        InboundSettings.running = '';
+                        delete InboundSettings.running_ajax['inbound_pro_update_ip_addresses'];
                     },
                     error: function (request, status, err) {
                         console.log(status);
@@ -590,11 +610,11 @@ var InboundSettings = (function () {
 
             InboundSettings.markKeyProcessing();
 
-            if ( typeof InboundSettings.running == 'object' ) {
-                InboundSettings.running = InboundSettings.running.abort();
+            if ('inbound_validate_api_key' in InboundSettings.running_ajax) {
+                InboundSettings.running_ajax['inbound_validate_api_key'].abort();
             }
 
-            InboundSettings.running = jQuery.ajax({
+            InboundSettings.running_ajax['inbound_validate_api_key'] = jQuery.ajax({
                 type: 'POST',
                 url: ajaxurl,
                 data: {
@@ -609,19 +629,21 @@ var InboundSettings = (function () {
                         InboundSettings.markKeyValid();
                         console.log('is_pro=' + response.customer.is_pro);
                     } else {
-                        InboundSettings.markKeyInvalid( response.message );
+                        InboundSettings.markKeyInvalid(response.message);
                     }
-                    InboundSettings.running = 'off';
+                    delete InboundSettings.running_ajax['inbound_validate_api_key'];
                 },
                 error: function (request, status, err) {
                     console.log(request.responseText);
                     console.log(status);
                     console.log(err);
-                    InboundSettings.markKeyInvalid( 'There was an error connecting to Inbound Now');
+
+                    if (err != 'abort') {
+                        InboundSettings.markKeyInvalid('There was an error connecting to Inbound Now');
+                    }
                 }
             });
-            console.log(InboundSettings.running);
-            console.log(InboundSettings.running.data);
+
         },
         /**
          * mark key as being processed
@@ -640,7 +662,7 @@ var InboundSettings = (function () {
         /**
          * Mark key invalid
          */
-        markKeyInvalid: function ( message) {
+        markKeyInvalid: function (message) {
             InboundSettings.input.removeClass('valid');
             InboundSettings.input.addClass('invalid');
             jQuery('.valid-icon').remove();
@@ -752,11 +774,11 @@ var InboundSettings = (function () {
             clone.find('input.status-key').val(key);
             clone.find('input.status-label').val(jQuery('#add-new-lead-status-form #new-status-label').val());
             clone.find('input.status-colorpicker').val(jQuery('#add-new-lead-status-form #new-status-color').val());
-            clone.find('.minicolors-swatch-color').css('background-color' , jQuery('#add-new-lead-status-form #new-status-color').val());
+            clone.find('.minicolors-swatch-color').css('background-color', jQuery('#add-new-lead-status-form #new-status-color').val());
 
             /* update name spaces to show priority placement */
             clone.find('input').each(function () {
-                this.name = this.name.replace( old_key , key);
+                this.name = this.name.replace(old_key, key);
             });
 
             /* unhide delete button */

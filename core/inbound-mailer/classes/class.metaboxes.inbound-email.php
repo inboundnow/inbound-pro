@@ -96,7 +96,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
         public static function load_statistics() {
             global $post;
 
-            $stats = Inbound_Email_Stats::get_email_timeseries_stats();
+            $stats = Inbound_Mandrill_Stats::get_email_timeseries_stats();
 
             self::$statistics = $stats;
             self::$campaign_stats = $stats['totals'];
@@ -110,7 +110,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
          */
         public static function load_send_stream() {
             global $post;
-            self::$sends = Inbound_Email_Stats::get_send_stream();
+            self::$sends = Inbound_Mandrill_Stats::get_send_stream();
         }
 
         /**
@@ -1653,16 +1653,6 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                             /* Removes wp_content wysiwyg */
                             jQuery('#postdivrich').hide();
 
-                            /* Removes Permalink edit option */
-                            <?php
-
-                            if (!isset(self::$settings['customize-permalinks'])||self::$settings['customize-permalinks']!='yes' ) {
-
-                                ?>
-                            //jQuery('#slugdiv').hide();
-                            <?php
-                        }
-                        ?>
                             /* store current slug */
                             Settings.current_slug = jQuery('#post_name').val();
 

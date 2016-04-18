@@ -6,6 +6,7 @@
 class Inbound_Mail_Daemon {
 
     static $table_name; /* name of the mysql table we use for querying queued emails */
+    static $email_service; /* number of emails we send during a processing job	(wp_mail only) */
     static $send_limit; /* number of emails we send during a processing job	(wp_mail only) */
     static $timestamp; /* the current date time in ISO 8601 gmdate() */
     static $dom; /* reusable object for parsing html for link modification */
@@ -35,7 +36,10 @@ class Inbound_Mail_Daemon {
      *	Loads static variables
      */
     public static function load_static_vars() {
-        global $wpdb;
+        global $wpdb, $inbound_settings;
+
+        /* Set email service */
+        self::$email_service = (isset($inbound_settings['inbound-mailer']['mail-service'])) ? $inbound_settings['inbound-mailer']['mail-service'] : null ;
 
         /* Set send limit */
         self::$send_limit = 150;
@@ -56,6 +60,11 @@ class Inbound_Mail_Daemon {
     */
     public static function load_hooks() {
 
+        /* If no email service set then abort loading class */
+        if (!self::$email_service) {
+            return;
+        }
+
         /* Adds mail processing to Inbound Heartbeat */
         add_action( 'inbound_heartbeat', array( __CLASS__ , 'process_mail_queue' ) );
 
@@ -72,7 +81,9 @@ class Inbound_Mail_Daemon {
         }
 
         /* check mandrill for meta fields & create them if they do not exist */
-        Inbound_Mailer_Mandrill::check_meta_fields();
+        if (self::$email_service =='mandrill') {
+            Inbound_Mailer_Mandrill::check_meta_fields();
+        }
 
         /* send automation emails */
         self::send_automated_emails();
@@ -185,7 +196,14 @@ class Inbound_Mail_Daemon {
 
             self::get_email();
 
-            Inbound_Mailer_Mandrill::send_email();
+            switch (self::$email_service) {
+                case "mandrill":
+                    Inbound_Mailer_Mandrill::send_email();
+                    break;
+                case "sparkpost":
+                    Inbound_Mailer_SparkPost::send_email();
+                    break;
+            }
 
             /* check response for errors  */
             self::check_response();
@@ -252,7 +270,15 @@ class Inbound_Mail_Daemon {
                 continue;
             }
 
-            Inbound_Mailer_Mandrill::send_email();
+
+            switch (self::$email_service) {
+                case "mandrill":
+                    Inbound_Mailer_Mandrill::send_email();
+                    break;
+                case "sparkpost":
+                    Inbound_Mailer_SparkPost::send_email();
+                    break;
+            }
 
             /* check response for errors  */
             self::check_response();
@@ -310,7 +336,17 @@ class Inbound_Mail_Daemon {
         self::$email['reply_email'] = self::get_variation_reply_email();
         self::$email['body'] = self::get_email_body();
 
-        Inbound_Mailer_Mandrill::send_email( true );
+
+
+        switch (self::$email_service) {
+            case "mandrill":
+                Inbound_Mailer_Mandrill::send_email(true);
+                break;
+            case "sparkpost":
+                Inbound_Mailer_SparkPost::send_email(true);
+                break;
+        }
+
 
         /* return mandrill response */
         return self::$response;
@@ -518,7 +554,7 @@ class Inbound_Mail_Daemon {
  *	Load Mail Daemon on init
  */
 function load_inbound_mail_daemon() {
-    $GLOBALS['Inbound_Mail_Daemon'] = new Inbound_Mail_Daemon();
+    new Inbound_Mail_Daemon();
 }
 
 add_action('init' , 'load_inbound_mail_daemon' , 2 );

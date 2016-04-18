@@ -65,7 +65,7 @@ $main_headline				= get_field('lp-main-headline', $post->ID , false );
     <title>
         <?php wp_title();  ?>
     </title>
-    <?php do_action('wp_head') ?>
+    <?php do_action('wp_head'); ?>
     <?php do_action('lp_head');   ?>
 	
 	<!-- commenting styles and scripts as they have been enqueued with the standard WP way

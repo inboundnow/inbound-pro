@@ -58,7 +58,6 @@ var MarketingButton = (function () {
     },
     waitForEditorLoad: function() {
         var that = this;
-        console.log('wait');
         jQuery(".acf_postbox .field_type-wysiwyg iframe")
             .waitUntilExists(function(){
                 console.log('wait');
@@ -210,7 +209,6 @@ var MarketingButton = (function () {
 })();
 
 jQuery(document).ready(function($) {
-    console.log('Markeint buttons gooooo')
     MarketingButton.init();
 
 });

@@ -50,8 +50,8 @@ class Inbound_Automation_Trigger_Form_Submission {
 		) );
 
 		$triggers[self::$trigger] = array (
-			'label' => __( 'On Inbound Form Submission' , 'inbound-pro' ),
-			'description' => __( 'This trigger fires whenever a lead is submitted through an Inbound Form.' , 'inbound-pro' ),
+			'label' => __( 'On Add Lead Event' , 'inbound-pro' ),
+			'description' => __( 'This trigger fires whenever a lead added into the Leads database.' , 'inbound-pro' ),
 			'action_hook' => self::$trigger,
 			'scheduling' => false,
 			'arguments' => $arguments,
@@ -82,6 +82,7 @@ class Inbound_Automation_Trigger_Form_Submission {
             'raw_params' => $raw_params ,
             'mapped_params' => $mapped_params ,
             'url_params' => '{}',
+			'form_id' => 10,
             'variation' => 0,
             'source' => 'http://www.inboundnow.com/',
             'ip_address' => '127.0.0.1',

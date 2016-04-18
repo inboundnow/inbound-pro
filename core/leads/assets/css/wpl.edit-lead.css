@@ -114,3 +114,52 @@ margin-top: 5px;
 	/* content: "\f06e"; */
 	content: "\f016";
 }
+
+
+#show-edit-user {
+	margin-right: 10px;
+	width: 97%;
+	text-align: center;
+}
+
+#show-edit-user a {
+	text-decoration:none;
+	padding-top:10px;
+	padding-bottom:10px;
+}
+
+/* Portrait and Landscape */
+@media only screen
+and (min-device-width: 100px)
+and (max-device-width: 1024px)
+and (-webkit-min-device-pixel-ratio: 1) {
+
+	#wpleads_main_container {
+		margin:0px !important;
+		padding:0px !important;
+		width:90% !important;
+	}
+
+	#lead_image {
+		display:flex !important;
+		margin-left:auto !important;
+		margin-right:auto !important;
+		margin-bottom:15px !important;
+		padding:0px !important;
+		width:80%;
+	}
+
+	h2 .nav-tab {
+		font-size:14px !important;
+	}
+
+	#toggle-lead-fields {
+		text-align:center !important;
+	}
+
+	#toggle-lead-fields a, #toggle-lead-fields a {
+		float:none;
+		margin-right: auto;
+		margin-left: auto;
+	}
+}

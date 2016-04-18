@@ -707,7 +707,7 @@ class Inbound_Pro_Settings {
 		self::$settings_fields[ $page ] = (isset(self::$settings_fields[ $page ])) ? self::$settings_fields[ $page ] : array();
 
 		foreach( self::$settings_fields[ $page ] as $priority => $group ) {
-			echo '<div class="inbound-settings-group " data-keywords="'.$group['keywords'].','.$group['group_name'].'" data-group-name="'.$group['group_name'].'">';
+			echo '<div class="inbound-settings-group " data-keywords="'.$group['keywords'].','.$group['group_name'].'" data-group-name="'.$group['group_name'].'" id="'.$group['group_name'].'">';
 			foreach( $group['fields'] as $field ) {
 
 				/* get value if available else set to default */
@@ -964,7 +964,7 @@ class Inbound_Pro_Settings {
 
 				foreach( $fields as $key => $field ) {
 
-					echo '	<li class="map-row customer-fields-row column-group"  status-priority="'.$key.'">';
+					echo '	<li class="map-row custom-fields-row column-group"  status-priority="'.$key.'">';
 					echo '		<div class="map-handle all-5">';
 					echo '			<span class="drag-handle">';
 					echo '				<i class="fa fa-arrows"></i>';
@@ -978,7 +978,7 @@ class Inbound_Pro_Settings {
 					echo '				<input type="text" class="field-label" data-special-handler="true" data-field-type="mapped-field"  name="fields['.$field['key'].'][label]" value="'.$field['label'].'" required>';
 					echo '		</div>';
 					echo '		<div class="map-label all-20">';
-					echo '				<select type="text" class="field-type" data-special-handler="true" data-field-type="mapped-field"  name="fields['.$field['key'].'][type]">';
+					echo '				<select type="text" class="field-type" data-special-handler="true" data-field-type="mapped-field"  name="fields['.$field['key'].'][type]"  '. ( isset($field['nature']) && $field['nature'] == 'core' ? 'disabled' : '' ) .'>';
 
 					foreach ( $field_types as $type => $label ) {
 						echo 				'<option value="'.$type.'" '.( isset($field['type']) && $field['type'] == $type ? 'selected="selected"' : '' ).'>'.$label.'</option>';

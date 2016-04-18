@@ -156,7 +156,7 @@ td.last-name {
     -webkit-font-smoothing: subpixel-antialiased;
 }
 
-.wp-core-ui .button-primary.hover, .wp-core-ui .button-primary.submitdelete:hover, .wp-core-ui .button-primary.focus, .wp-core-ui .button-primary:focus {
+ .wp-core-ui .button-primary.focus, .wp-core-ui .button-primary:focus {
     background: #1e8cbe;
     border-color: #0074a2;
     -webkit-box-shadow: inset 0 1px 0 rgba(120, 200, 230, .6);
@@ -238,8 +238,12 @@ td.last-name {
     margin-right: 1em;
 }
 
-@media (min-width: 783px ) and (max-width: 1280px ) {
-	
+@media (min-width: 100px ) and (max-width: 1280px ) {
+
+    .manage-column {
+        font-size:10px;
+    }
+
 	.type-wp-lead {
 		height: 140px;
 	}
@@ -248,5 +252,9 @@ td.last-name {
 		display: flex;
 		flex-direction: column;
 		justify-content: flex-end;
+	}
+	.type-wp-lead .first-name .row-actions a {
+		font-size:10px !important;
+        padding:3px !important;
 	}
 }

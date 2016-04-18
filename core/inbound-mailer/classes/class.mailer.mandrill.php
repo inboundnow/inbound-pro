@@ -12,7 +12,7 @@ class Inbound_Mailer_Mandrill extends Inbound_Mail_Daemon {
 	public static function send_email( $send_now = false) {
 		$settings = Inbound_Mailer_Settings::get_settings();
 
-		$mandrill = new Inbound_Mandrill(  $settings['api_key'] );
+		$mandrill = new Inbound_Mandrill(  $settings['mandrill-key'] );
 
 		$message = array(
 			'html' => self::$email['body'],
@@ -127,13 +127,13 @@ class Inbound_Mailer_Mandrill extends Inbound_Mail_Daemon {
 
 		/* see if fields have been created for this api key yet */
 		$history =  Inbound_Options_API::get_option( 'inbound-email' , 'mandrill-metafields-created' , array());
-		if ( in_array( $settings['api_key'] , $history ) ) {
+		if ( in_array( $settings['mandrill-key'] , $history ) ) {
 			return;
 		}
 
 		/* create them if they don't */
-		if ( self::create_metafields_in_mandrill(  $settings['api_key'] ) ) {
-			$history[] = $settings['api_key'];
+		if ( self::create_metafields_in_mandrill(  $settings['mandrill-key'] ) ) {
+			$history[] = $settings['mandrill-key'];
 			Inbound_Options_API::update_option( 'inbound-email' , 'mandrill-metafields-created' , $history );
 		}
 	}
