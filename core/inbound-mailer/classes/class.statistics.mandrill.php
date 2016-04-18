@@ -4,7 +4,7 @@
  *	Calculates & serves Mandrill Stats
  */
 
-class Inbound_Email_Stats {
+class Inbound_Mandrill_Stats {
 
     static $settings; /* email settings */
     static $results; /* results returned from mandrill */
@@ -33,7 +33,7 @@ class Inbound_Email_Stats {
         }
 
         /* get historical statistic blob from db */
-        Inbound_Email_Stats::get_statistics_object();
+        Inbound_Mandrill_Stats::get_statistics_object();
 
         /* get settings from db */
         self::$settings = Inbound_Email_Meta::get_settings( $post->ID );
@@ -42,13 +42,13 @@ class Inbound_Email_Stats {
         if ( !empty(self::$settings['is_sample_email']) ) {
 
             /* unsubscribes are tracked on our side */
-            Inbound_Email_Stats::prepare_unsubscribes();
+            Inbound_Mandrill_Stats::prepare_unsubscribes();
 
             /* prepare totals from variations */
-            Inbound_Email_Stats::prepare_dummy_stats( $post->ID);
+            Inbound_Mandrill_Stats::prepare_dummy_stats( $post->ID);
 
             /* prepare totals from variations */
-            Inbound_Email_Stats::prepare_totals();
+            Inbound_Mandrill_Stats::prepare_totals();
 
             return self::$stats;
         }
@@ -78,17 +78,17 @@ class Inbound_Email_Stats {
 
         /* return empty stats if empty */
         if (!self::$stats) {
-            self::$stats['variations'][0] =	Inbound_Email_Stats::prepare_empty_stats();
-            Inbound_Email_Stats::prepare_totals();
+            self::$stats['variations'][0] =	Inbound_Mandrill_Stats::prepare_empty_stats();
+            Inbound_Mandrill_Stats::prepare_totals();
             return self::$stats ;
         }
 
         /* prepare totals from variations */
-        Inbound_Email_Stats::prepare_totals();
+        Inbound_Mandrill_Stats::prepare_totals();
 
 
         /* save updated statistics object into database */
-        Inbound_Email_Stats::update_statistics_object();
+        Inbound_Mandrill_Stats::update_statistics_object();
 
         return self::$stats;
 
@@ -181,11 +181,10 @@ class Inbound_Email_Stats {
      *	@param STRING $query
      */
     public static function query_mandrill_timeseries( $query ) {
-        global $post;
-        $start = microtime(true);
+        global $post,$inbound_settings;;
+
         /* load mandrill time	*/
-        $settings = Inbound_Mailer_Settings::get_settings();
-        $mandrill = new Inbound_Mandrill(  $settings['api_key'] );
+        $mandrill = new Inbound_Mandrill(  $inbound_settings['inbound-mailer']['mandrill-key'] );
 
         $tags = array();
         $senders = array();
@@ -196,20 +195,17 @@ class Inbound_Email_Stats {
 
         self::$results = $mandrill->messages->searchTimeSeries($query, self::$stats['date_from'] , self::$stats['date_to'] , $tags, $senders);
 
-        /* echo microtime(true) - $start; */
-
     }
 
     /**
      *	Get Mandrill Search Stats
      */
     public static function query_mandrill_search( $query ) {
-        global $post;
+        global $post, $inbound_settings;
         $start = microtime(true);
 
         /* load mandrill time	*/
-        $settings = Inbound_Mailer_Settings::get_settings();
-        $mandrill = new Inbound_Mandrill(  $settings['api_key'] );
+        $mandrill = new Inbound_Mandrill(  $inbound_settings['inbound-mailer']['mandrill-key'] );
 
         $tags = array();
         $senders = array();

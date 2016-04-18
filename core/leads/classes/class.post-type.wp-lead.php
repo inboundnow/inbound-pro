@@ -240,7 +240,10 @@ class Leads_Post_Type {
             return $actions;
         }
 
-        $actions['edit'] = str_replace('Edit', __('View', 'leads'), $actions['edit']);
+        if (isset( $actions['edit'])) {
+            $actions['edit'] = str_replace('Edit', __('View', 'leads'), $actions['edit']);
+        }
+
         unset($actions['inline hide-if-no-js']);
 
         return $actions;

@@ -45,7 +45,7 @@ class Inbound_Leads_Custom_fields {
 				if ( $f['key'] == $key ) {
 					$mappable_fields[$i]['priority'] = $field['priority'];
 					$mappable_fields[$i]['label'] = $field['label'];
-					$mappable_fields[$i]['type'] = $field['type'];
+					//$mappable_fields[$i]['type'] = $field['type'];
 					$present = true;
 				}
 			}

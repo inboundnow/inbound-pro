@@ -63,7 +63,7 @@ if ( !class_exists('Inbound_Mailer_Settings') ) {
 						'type'  => 'dropdown',
 						'default'  => 'sparkpost',
 						'options' => array(
-							'sparkpost' => __( 'SparkPost' , 'inbound-pro' ),
+							'sparkpost' => __( 'SparkPost (In Development)' , 'inbound-pro' ),
 							'mandrill' => __( 'Mandrill' , 'inbound-pro' )
 						),
 						'hidden' => false,
@@ -156,13 +156,12 @@ if ( !class_exists('Inbound_Mailer_Settings') ) {
 		*  Gets settings value depending on if Inbound Pro or single installation.
 		*/
 		public static function get_settings() {
+			global $inbound_settings;
 
-
-			$keys['unsubscribe_page'] = Inbound_Options_API::get_option( 'inbound-email' , 'unsubscribe-page' , null);
-			$keys['mandrill-key'] = Inbound_Options_API::get_option( 'inbound-email' , 'mandrill-key' , null);
-			$keys['sparkpost-key'] = Inbound_Options_API::get_option( 'inbound-email' , 'sparkpost-key' , null);
-			$keys['customize-permalinks'] = Inbound_Options_API::get_option( 'inbound-email' , 'customize-permalinks' , null);
-
+			$keys['unsubscribe_page'] = (isset($inbound_settings['inbound-mailer']['unsubscribe-page'])) ? $inbound_settings['inbound-mailer']['unsubscribe-page'] : null;
+			$keys['mandrill-key'] = (isset($inbound_settings['inbound-mailer']['mandrill-key'])) ? $inbound_settings['inbound-mailer']['mandrill-key'] : null;
+			$keys['sparkpost-key'] = (isset($inbound_settings['inbound-mailer']['sparkpost-key'])) ? $inbound_settings['inbound-mailer']['sparkpost-key'] : null;
+			$keys['mail-service'] = (isset($inbound_settings['inbound-mailer']['mail-service'])) ? $inbound_settings['inbound-mailer']['mail-service'] : null;
 
 			return $keys;
 

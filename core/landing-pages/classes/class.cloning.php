@@ -132,9 +132,9 @@ class Landing_Pages_Cloning {
 
         if (function_exists('wp_get_current_user')) {
             return wp_get_current_user();
-        } else if (function_exists('get_currentuserinfo')) {
+        } else if (function_exists('wp_get_current_user')) {
             global $userdata;
-            $userdata = get_currentuserinfo();
+            $userdata = wp_get_current_user();
             return $userdata;
         } else {
             $user_login = $_COOKIE[USER_COOKIE];

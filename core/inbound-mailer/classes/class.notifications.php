@@ -25,7 +25,7 @@ class Inbound_Mailer_Notifications {
         add_action( 'admin_init' , array( __CLASS__ , 'ignore_notifications' ) );
 
 		/* Load template selector in background */
-		add_action('admin_notices', array( __CLASS__ , 'prompt_mandrill_key' ) );
+		add_action('admin_notices', array( __CLASS__ , 'prompt_key_notifications' ) );
 
 		/* Load template selector in background */
 		add_action('admin_notices', array( __CLASS__ , 'prompt_email_send_error' ) );
@@ -53,8 +53,8 @@ class Inbound_Mailer_Notifications {
 	/**
 	 *  Checks to see if Mandril Key is inputed. If it's not then it throws the notice
 	 */
-	public static function prompt_mandrill_key() {
-		global $post;
+	public static function prompt_key_notifications() {
+		global $post , $inbound_settings;
 
 
 		if (!isset($post)||$post->post_type!='inbound-email'){
@@ -62,16 +62,34 @@ class Inbound_Mailer_Notifications {
 		}
 
 		/* Check if key exists */
-		$settings = Inbound_Mailer_Settings::get_settings();
-        //print_r($settings);exit;
-		if ( !isset($settings['api_key']) || !$settings['api_key'] ) {
-			$settings_url = Inbound_Mailer_Settings::get_settings_url();
-			?>
-			<div class="updated">
-				<p><?php _e( sprintf( 'Email requires a Mandrill API Key with a positive balance. Head to your %s to input your Mandrill API key.' , '<a href="'.$settings_url.'">'.__( 'settings page' , 'inbound-email' ).'</a>') , 'inbound-email'); ?></p>
-			</div>
-			<?php
+		$settings_url = Inbound_Mailer_Settings::get_settings_url();
+
+		switch($inbound_settings['inbound-mailer']['mail-service']) {
+			case 'mandrill':
+
+				if ( isset($inbound_settings['inbound-mailer']['mandrill-key']) && $inbound_settings['inbound-mailer']['mandrill-key'] ) {
+					return;
+				}
+				?>
+				<div class="updated">
+					<p><?php _e( sprintf( 'Email requires a Mandrill API Key. Head to your %s to input your Mandrill API key.' , '<a href="'.$settings_url.'">'.__( 'settings page' , 'inbound-email' ).'</a>') , 'inbound-email'); ?></p>
+				</div>
+				<?php
+
+				break;
+			case 'sparkpost':
+
+				if ( isset($inbound_settings['inbound-mailer']['sparkpost-key']) && $inbound_settings['inbound-mailer']['sparkpost-key'] ) {
+					return;
+				}
+				?>
+				<div class="updated">
+					<p><?php _e( sprintf( 'Email requires a SparkPost API Key. Head to your %s to input your Mandrill API key.' , '<a href="'.$settings_url.'">'.__( 'settings page' , 'inbound-email' ).'</a>') , 'inbound-email'); ?></p>
+				</div>
+				<?php
+				break;
 		}
+
 	}
 
 

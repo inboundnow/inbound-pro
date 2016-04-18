@@ -192,6 +192,7 @@ var InboundSettings = (function () {
 
             /* Add listeners for add custom field save buttons */
             jQuery(document).on('submit', '#add-new-custom-field-form', function (e) {
+
                 /* prevent the form from doing a submit */
                 e.preventDefault();
 

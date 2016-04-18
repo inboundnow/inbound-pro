@@ -95,10 +95,6 @@ if ( !class_exists('Inbound_Mailer_Plugin')	) {
 		*/
 		private static function define_constants() {
 
-			/* this is for testing - the real api key will be served by inboundnow */
-			define('MANDRILL_APIKEY', 'pQrhb6UM1EFJ2sB_ikLVXA' );
-
-
 			define('INBOUND_EMAIL_CURRENT_VERSION', '2.2.1' );
 			define('INBOUND_EMAIL_URLPATH', WP_PLUGIN_URL.'/'.plugin_basename( dirname(__FILE__) ).'/' );
 			define('INBOUND_EMAIL_PATH', WP_PLUGIN_DIR.'/'.plugin_basename( dirname(__FILE__) ).'/' );
@@ -145,7 +141,7 @@ if ( !class_exists('Inbound_Mailer_Plugin')	) {
 					include_once('modules/module.utils.php');
 					include_once('classes/class.customizer.php');
 					include_once('classes/class.tracking.php');
-					include_once('classes/class.statistics.php');
+					include_once('classes/class.statistics.mandrill.php');
 					include_once('classes/class.scheduling.php');
 					include_once('classes/class.cron-api.php');
 					include_once('classes/class.mailer.php');

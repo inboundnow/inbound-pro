@@ -1706,7 +1706,6 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
             if ($api_key === "" || empty($api_key)) {
                 echo "<div class='lead-notice'>Please <a href='" . esc_url(admin_url(add_query_arg(array('post_type' => 'wp-lead', 'page' => 'wpleads_global_settings'), 'edit.php'))) . "'>enter your Full Contact API key</a> for additional lead data. <a href='http://www.inboundnow.com/collecting-advanced-lead-intelligence-wordpress-free/' target='_blank'>Read more</a></div>";
-
             }
 
             foreach (self::$mapped_fields as $field) {
@@ -1724,13 +1723,27 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                         }
 
                         (isset($parts[1])) ? $rows = $parts[1] : $rows = '10';
-                        echo '<textarea name="' . $id . '" id="' . $id . '" rows=' . $rows . '" style="" >' . $field['value'] . '</textarea>';
+
+                        $is_json = self::is_json($field['value']);
+
+                        if ($is_json) {
+                             echo "<textarea name='" . $id . "' id='" . $id . "' rows='" . $rows . "' style='' readonly>" . $field['value'] . "</textarea>";
+                        } else {
+                          echo '<textarea name="' . $id . '" id="' . $id . '" rows=' . $rows . '" style="" >' . $field['value'] . '</textarea>';
+                       }
+
                         break;
                     case strstr($field['type'], 'text'):
                         $parts = explode('-', $field['type']);
                         (isset($parts[1])) ? $size = $parts[1] : $size = 35;
 
-                        echo '<input type="text" name="' . $id . '" id="' . $id . '" value="' . $field['value'] . '" size="' . $size . '" />';
+                        $is_json = self::is_json($field['value']);
+
+                        if ($is_json) {
+                            echo "<input type='text' name='" . $id . "' id='" . $id . "' value='" . $field['value'] . "' size='" . $size . "' readonly/>";
+                        } else {
+                            echo '<input type="text" name="' . $id . '" id="' . $id . '" value="' . $field['value'] . '" size="' . $size . '" />';
+                        }
                         break;
                     case strstr($field['type'], 'links'):
 
@@ -2199,6 +2212,10 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             return strtotime($a['date']) < strtotime($b['date']) ? 1 : -1;
         }
 
+        public static function  is_json($string) {
+            json_decode($string);
+            return (json_last_error() == JSON_ERROR_NONE);
+        }
 
     }
 

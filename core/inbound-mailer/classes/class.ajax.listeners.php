@@ -137,7 +137,7 @@ class Inbound_Mailer_Ajax_Listeners {
 			exit;
 		}
 
-		$stats[$_REQUEST['email_id']] = Inbound_Email_Stats::get_email_timeseries_stats( $_REQUEST['email_id'] );
+		$stats[$_REQUEST['email_id']] = Inbound_Mandrill_Stats::get_email_timeseries_stats( $_REQUEST['email_id'] );
 		set_transient('inbound-email-stats-cache' , $stats , 60* 5);
 
 		echo json_encode($stats[$_REQUEST['email_id']]);
