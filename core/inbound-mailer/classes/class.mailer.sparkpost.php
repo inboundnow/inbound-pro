@@ -21,6 +21,13 @@ class Inbound_Mailer_SparkPost extends Inbound_Mail_Daemon {
 			$send_at = 'now';
 		}
 
+		/* create campaign id */
+		if (isset(self::$email['is_test'])) {
+			$campaign_id = 'test';
+		} else {
+			$campaign_id = self::$row->email_id . '_' . self::$row->variation_id;
+		}
+
 		$message_args = array(
 			'recipients'         => array( // json array
 				array(
@@ -58,14 +65,13 @@ class Inbound_Mailer_SparkPost extends Inbound_Mail_Daemon {
 				'skip_suppression' => null, // bool
 				'inline_css'       => null, // bool
 			),
-			// SparkPost defaults
 			'headers'            => array(
 				'Content-type'  => 'application/json',
-				'Authorization' => self::$apikey,
+				'Authorization' =>  $settings['sparkpost-key'],
 				'User-Agent'    => 'sparkpost-inbound',
 			),
 			'description'        => null, // string
-			'campaign_id'        => self::$row->email_id, // string
+			'campaign_id'        => $campaign_id , // string
 			'metadata'           => array(
 				'email_id' => self::$row->email_id,
 				'lead_id' => self::$row->lead_id,

@@ -97,7 +97,7 @@ if (have_posts()) : while (have_posts()) : the_post();
         /* Import Google Font Stylesheet */
         @import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300);
     </style>
-    <?php dp_action('wp_head'); // Load Regular WP Head ?>
+    <?php do_action('wp_head'); // Load Regular WP Head ?>
     <?php do_action('lp_head'); // Load Landing Page Specific Header Items ?>
 </head>
 <body>
