@@ -281,7 +281,7 @@ var InboundRulesJs = ( function() {
                 var block_id = jQuery(this).parent().parent().parent().attr('data-block-id');
                 InboundRulesJs.action_type = jQuery(this).parent().parent().parent().attr('data-action-type');
 
-                var child_id = jQuery( "body" ).find( '.action-block-actions-container .table-action:last' ).attr( 'data-child-id' );
+                var child_id = jQuery( "body" ).find( '.action-block-then-actions-container .table-action:last' ).attr( 'data-child-id' );
 
 				/* Create Original Filter Id */
 				if ( typeof child_id == 'undefined' ) {
