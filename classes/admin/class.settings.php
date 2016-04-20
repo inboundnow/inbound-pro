@@ -1182,6 +1182,9 @@ class Inbound_Pro_Settings {
 		Inbound_Options_API::update_option( 'inbound-pro' , 'settings' , $settings );
 
 		do_action('inbound-settings/after-field-value-update' , $data );
+
+		/* echo id of field being modified for js to use in callback */
+		echo $data['name'];exit;
 	}
 
 	/**

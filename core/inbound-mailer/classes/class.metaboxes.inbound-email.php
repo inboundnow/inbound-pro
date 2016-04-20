@@ -94,13 +94,18 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
          * Get Send Aggregate Statistics
          */
         public static function load_statistics() {
-            global $post;
+            global $post, $inbound_settings;
 
-            $stats = Inbound_Mandrill_Stats::get_email_timeseries_stats();
+            switch ($inbound_settings['inbound-mailer']['mail-service']) {
+                case 'mandrill' :
+                    self::$statistics = Inbound_Mandrill_Stats::get_email_timeseries_stats();
+                    break;
+                case 'sparkpost' :
+                    break;
+            }
 
-            self::$statistics = $stats;
-            self::$campaign_stats = $stats['totals'];
-            self::$variation_stats = $stats['variations'];
+            self::$campaign_stats = self::$statistics['totals'];
+            self::$variation_stats = self::$statistics['variations'];
 
         }
 
@@ -109,8 +114,15 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
          *
          */
         public static function load_send_stream() {
-            global $post;
-            self::$sends = Inbound_Mandrill_Stats::get_send_stream();
+            global $post, $inbound_settings;
+
+            switch ($inbound_settings['inbound-mailer']['mail-service']) {
+                case 'mandrill' :
+                    self::$sends = Inbound_Mandrill_Stats::get_send_stream();
+                    break;
+                case 'sparkpost' :
+                    break;
+            }
         }
 
         /**

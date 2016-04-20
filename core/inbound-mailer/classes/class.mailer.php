@@ -336,6 +336,9 @@ class Inbound_Mail_Daemon {
         self::$email['reply_email'] = self::get_variation_reply_email();
         self::$email['body'] = self::get_email_body();
 
+        if ( isset($args['is_test']) && $args['is_test'] ) {
+            self::$email['test'] = true;
+        }
 
 
         switch (self::$email_service) {

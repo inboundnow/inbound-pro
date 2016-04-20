@@ -202,7 +202,12 @@ class LP_Variation_Rotation {
 	 *  	Redirects to Correct Variation
 	 */
 	static function redirect() {
-		header("HTTP/1.1 302 Temporary Redirect");
+		if (count(self::$variations) > 1) {
+			header("HTTP/1.1 302 Temporary Redirect");
+		} else {
+			header("HTTP/1.1 301 Moved Permanently");
+		}
+
 		header("Location: ".self::$destination_url);
 		exit;
 	}

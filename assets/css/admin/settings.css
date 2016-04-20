@@ -264,7 +264,7 @@ ul.uninstall {
 input.update-done {
 	border:1px solid #33B829;
 }
-.update-text {
+.update-text, .processing {
 	position: absolute;
 	  /* left: 32%; */
 	  font-size: 11px;
@@ -358,3 +358,4 @@ input.update-done {
 	width:30px !important;
 	height:30px !important;
 }
+

@@ -73,7 +73,7 @@ class Inbound_Mailer_Unsubscribe {
 		$html .= "	<span class='unsubscribe-comments-message'>". __( 'Please help us improve by letting us know why you are unsubscribing.' , 'inbound-email' ) ."</span>";
 		$html .= "	<span class='unsubscribe-comments-label'>". __('Comments:' , 'inbound-email') ."<br><textarea rows='8' cols='60' name='comments'></textarea></span>";
 		$html .= "</div>";
-		$html .= "<span class='unsubscribe-span'><label class='unsubscribe-label'><input name='unsubscribe' type='submit' value='". __( 'Usubscribe' , 'inbound-email' ) ."'></label></span>";
+		$html .= "<span class='unsubscribe-span'><label class='unsubscribe-label'><input name='unsubscribe' type='submit' value='". __( 'Unsubscribe' , 'inbound-email' ) ."' class='inbound-button-submit inbound-submit-action'></label></span>";
 		$html .= "</form>";
 		return $html;
 
