@@ -1,1 +1,0 @@
-Testing folder for frontend karma tests

@@ -154,7 +154,8 @@ class Inbound_Mailer_Ajax_Listeners {
 		$response = $mailer->send_solo_email( array(
 			'email_address' => $_REQUEST['email_address'] ,
 			'email_id' => $_REQUEST['email_id'] ,
-			'vid' => $_REQUEST['variation_id']
+			'vid' => $_REQUEST['variation_id'],
+			'is_test' => true
 		));
 
 		_e( 'Here are your send results:' , 'inbound-pro' );
