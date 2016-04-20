@@ -113,7 +113,7 @@ var InboundSettings = (function () {
          */
         addInputListeners: function () {
             /* add listeners for non array data changes */
-            jQuery(document).on('change unfocus propertychange paste', 'input[data-special-handler!="true"],select,radio', function () {
+            jQuery(document).on('change unfocus propertychange paste', 'input[data-special-handler!="true"],select,radio', function (event) {
 
                 /* set static var */
                 InboundSettings.input = jQuery(this);
@@ -156,7 +156,7 @@ var InboundSettings = (function () {
 
 
             /* add listeners for custom field changes */
-            jQuery(document).on('change unfocus propertychange keyup', 'input[data-field-type="mapped-field"],select[data-field-type="mapped-field"]', function () {
+            jQuery(document).on('change unfocus propertychange keyup', 'input[data-field-type="mapped-field"],select[data-field-type="mapped-field"]', function (event) {
 
                 /* format field key */
                 if (jQuery(this).hasClass('field-key')) {
@@ -254,7 +254,7 @@ var InboundSettings = (function () {
         addIPAddressListeners: function () {
 
             /* add listeners for IP Address rule changes */
-            jQuery(document).on('change unfocus propertychange keyup', 'input[data-field-type="ip-address"]', function () {
+            jQuery(document).on('change unfocus propertychange keyup', 'input[data-field-type="ip-address"]', function (event) {
 
                 if (InboundSettings.timer == true && event.type != 'propertychange') {
                     return;
