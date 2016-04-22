@@ -122,11 +122,11 @@ var InboundSettings = (function () {
                 switch (event.type) {
                     case 'paste':
                         setTimeout(function () {
-                            InboundSettings.updateSetting();
+                            InboundSettings.updateSetting(event);
                         }, 250);
                         break;
                     default:
-                        InboundSettings.updateSetting();
+                        InboundSettings.updateSetting(event);
                         break;
                 }
 
@@ -349,17 +349,14 @@ var InboundSettings = (function () {
         /**
          *  Save Input Data
          */
-        updateSetting: function () {
+        updateSetting: function (event) {
             /* serialize input data */
             var serialized = this.prepareSettingData();
 
-            if (InboundSettings.input.attr("id") in InboundSettings.running_ajax ) {
-                InboundSettings.running_ajax[InboundSettings.input.attr("id")].abort();
-            }
 
-            InboundSettings.input.parent().append("<span class='processing' ><img src='" + inboundSettingsLocalVars.inboundProURL + "assets/images/spinner_60.gif' style=''></span>");
+            InboundSettings.startProcessing(event);
 
-            InboundSettings.running_ajax[InboundSettings.input.attr("id")] = jQuery.ajax({
+            jQuery.ajax({
                 type: "POST",
                 url: ajaxurl,
                 context: InboundSettings.input,
@@ -370,25 +367,47 @@ var InboundSettings = (function () {
                 dataType: 'html',
                 timeout: 20000,
                 success: function (response) {
-                    jQuery('#'+response).parent().find('.processing').remove();
-                    jQuery('#'+response).parent().append("<span class='update-text' >Updated</span>");
-                    setTimeout(function () {
-                        jQuery('.update-text').fadeOut(2000, function () {
-                            jQuery('.update-text').remove();
-                        });
-                    }, 500);
-                    delete InboundSettings.running_ajax['inbound_pro_update_setting'];
+                    InboundSettings.endProcessing();
+
                 },
                 error: function (request, status, err) {
-                    jQuery('#'+response).parent().find('.processing').remove();
-                    jQuery('#'+response).parent().append("<span class='update-text' >"+status+"</span>");
+                    InboundSettings.input.parent().append("<span class='update-text' >"+status+"</span>");
                     setTimeout(function () {
                         jQuery('.update-text').fadeOut(2000, function () {
                             jQuery('.update-text').remove();
                         });
                     }, 500);
-                    console.log(status);
                 }
+            });
+        },
+
+        startProcessing: function(event) {
+            InboundSettings.input.parent().append("<span class='processing' ><img src='" + inboundSettingsLocalVars.inboundProURL + "assets/images/spinner_60.gif' style=''></span>");
+
+            /* temporarily add disabled class */
+            jQuery(".inbound-field input, .inbound-field textarea, .inbound-field select").each(function() {
+                var isDisabled = jQuery(this).is(':disabled');
+                if (!isDisabled) {
+                    jQuery(this).addClass('disabled');
+                    jQuery(this).prop('disabled', true);
+                }
+            });
+        },
+        endProcessing: function() {
+            jQuery('.processing').remove();
+
+            InboundSettings.input.parent().append("<span class='update-text' >Updated</span>");
+            setTimeout(function () {
+                jQuery('.update-text').fadeOut(2000, function () {
+                    jQuery('.update-text').remove();
+                });
+            }, 500);
+
+            /* temporarily add disabled class */
+            jQuery(".disabled").each(function() {
+                jQuery(this).removeClass('disabled');
+                jQuery(this).prop('disabled', false);
+
             });
         },
         /**
