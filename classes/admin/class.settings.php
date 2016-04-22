@@ -686,7 +686,7 @@ class Inbound_Pro_Settings {
 		?>
 		<div class="">
 				<div class='templates-filter-group'>
-					<input class="filter-search" type="search" placeholder="<?php _e(' Filter Options... ' , 'inbound-pro' ); ?>">
+					<input class="filter-search" type="search" placeholder="<?php _e(' Search Settings... ' , 'inbound-pro' ); ?>">
 				</div>
 			</div>
 
@@ -1266,7 +1266,7 @@ class Inbound_Pro_Settings {
 
 		if ( file_exists( $dest ) && !unlink( $dest ) ) {
 			$result['error'] = sprintf(
-				__( '<strong>Error!</strong> Could not remove the Nelio\'s performance MU-Plugin from <code>%s</code>.', 'nelioab' ),
+				__( '<strong>Error!</strong> Could not remove the mu plugin.', 'inbound-pro' ),
 				$dest );
 			$result['status'] = 'ERROR';
 		} else {
@@ -1301,7 +1301,7 @@ class Inbound_Pro_Settings {
 
 
 		header( 'Content-Type: application/json' );
-		echo json_encode( $result );
+		echo 'toggle-fast-ajax';
 		die();
 	}
 }
