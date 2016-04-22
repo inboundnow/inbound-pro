@@ -2215,7 +2215,6 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
         public static function  is_json($string) {
 
             if (!$string) {
-                echo 'here';
                 return false;
             }
 
