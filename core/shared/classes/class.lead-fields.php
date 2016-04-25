@@ -13,154 +13,154 @@ if ( !class_exists('Leads_Field_Map') ) {
 				array(
 					'label' => __( 'First Name', INBOUNDNOW_TEXT_DOMAIN ) ,
 					'key'  => 'wpleads_first_name',
-					'priority' => 20,
+					'priority' => 1,
 					'type'  => 'text',
 					'nature' => 'core'
 				),
 				array(
 					'label' => __( 'Last Name', INBOUNDNOW_TEXT_DOMAIN ) ,
 					'key'  => 'wpleads_last_name',
-					'priority' => 30,
+					'priority' => 2,
 					'type'  => 'text',
 					'nature' => 'core'
 				),
 				array(
 					'label' => __( 'Email', INBOUNDNOW_TEXT_DOMAIN ) ,
 					'key'  => 'wpleads_email_address',
-					'priority' => 40,
+					'priority' => 3,
 					'type'  => 'text',
 					'nature' => 'core'
 				),
 				array(
 					'label' => __( 'Website', INBOUNDNOW_TEXT_DOMAIN ) ,
 					'key'  => 'wpleads_website',
-					'priority' => 50,
+					'priority' => 4,
 					'type'  => 'text',
 					'nature' => 'core'
 				),
 				array(
 					'label' => __( 'Job Title', INBOUNDNOW_TEXT_DOMAIN ) ,
 					'key'  => 'wpleads_job_title',
-					'priority' => 60,
+					'priority' => 5,
 					'type'  => 'text',
 					'nature' => 'core'
 				),
 				array(
 					'label' => __( 'Company Name', INBOUNDNOW_TEXT_DOMAIN ) ,
 					'key'  => 'wpleads_company_name',
-					'priority' => 70,
+					'priority' => 6,
 					'type'  => 'text',
 					'nature' => 'core'
 				),
 				array(
 					'label' => __( 'Mobile Phone', INBOUNDNOW_TEXT_DOMAIN ) ,
 					'key'  => 'wpleads_mobile_phone',
-					'priority' => 80,
+					'priority' => 7,
 					'type'  => 'text',
 					'nature' => 'core'
 				),
 				array(
 					'label' => __( 'Work Phone', INBOUNDNOW_TEXT_DOMAIN ) ,
 					'key'  => 'wpleads_work_phone',
-					'priority' => 90,
+					'priority' => 8,
 					'type'  => 'text',
 					'nature' => 'core'
 				),
 				array(
 					'label' => __( 'Address', INBOUNDNOW_TEXT_DOMAIN ) ,
 					'key'  => 'wpleads_address_line_1',
-					'priority' => 100,
+					'priority' => 9,
 					'type'  => 'text',
 					'nature' => 'core'
 				),
 				array(
 					'label' => __( 'Address Continued', INBOUNDNOW_TEXT_DOMAIN ) ,
 					'key'  => 'wpleads_address_line_2',
-					'priority' => 110,
+					'priority' => 10,
 					'type'  => 'text',
 					'nature' => 'core'
 				),
 				array(
 					'label' => __( 'City', INBOUNDNOW_TEXT_DOMAIN ) ,
 					'key'  => 'wpleads_city',
-					'priority' => 120,
+					'priority' => 11,
 					'type'  => 'text',
 					'nature' => 'core'
 				),
 				array(
 					'label' => __( 'State/Region', INBOUNDNOW_TEXT_DOMAIN ) ,
 					'key'  => 'wpleads_region_name',
-					'priority' => 130,
+					'priority' => 12,
 					'type'  => 'text',
 					'nature' => 'core'
 				),
 				array(
 					'label' => __( 'Zip-code', INBOUNDNOW_TEXT_DOMAIN ) ,
 					'key'  => 'wpleads_zip',
-					'priority' => 140,
+					'priority' => 13,
 					'type'  => 'text',
 					'nature' => 'core'
 				),
 				array(
 					'label' => __( 'Country', INBOUNDNOW_TEXT_DOMAIN ) ,
 					'key'  => 'wpleads_country_code',
-					'priority' => 150,
+					'priority' => 14,
 					'type'  => 'text',
 					'nature' => 'core'
 				),
 				array(
 					'label' => __( 'Billing First Name', INBOUNDNOW_TEXT_DOMAIN ) ,
 					'key'  => 'wpleads_billing_first_name',
-					'priority' => 160,
+					'priority' => 15,
 					'type'  => 'text',
 					'nature' => 'core'
 				),
 				array(
 					'label' => __( 'Billing Last Name', INBOUNDNOW_TEXT_DOMAIN ) ,
 					'key'  => 'wpleads_billing_last_name',
-					'priority' => 120,
+					'priority' => 16,
 					'type'  => 'text',
 					'nature' => 'core'
 				),
 				array(
 					'label' => __( 'Billing Company', INBOUNDNOW_TEXT_DOMAIN ) ,
 					'key'  => 'wpleads_billing_company_name',
-					'priority' => 170,
+					'priority' => 17,
 					'type'  => 'text',
 					'nature' => 'core'
 				),
 				array(
 					'label' => __( 'Billing Address', INBOUNDNOW_TEXT_DOMAIN ) ,
 					'key'  => 'wpleads_billing_address_line_1',
-					'priority' => 180,
+					'priority' => 18,
 					'type'  => 'text',
 					'nature' => 'core'
 				),
 				array(
 					'label' => __( 'Billing Address Continued', INBOUNDNOW_TEXT_DOMAIN ) ,
 					'key'  => 'wpleads_billing_address_line_2',
-					'priority' => 190,
+					'priority' => 19,
 					'type'  => 'text',
 					'nature' => 'core'
 				),
 				array(
 					'label' => __( 'Billing City', INBOUNDNOW_TEXT_DOMAIN ) ,
 					'key'  => 'wpleads_billing_city',
-					'priority' => 200,
+					'priority' => 20,
 					'type'  => 'text',
 					'nature' => 'core'
 				),
 				array(
 					'label' => __( 'Billing State/Region', INBOUNDNOW_TEXT_DOMAIN ) ,
 					'key'  => 'wpleads_billing_region_name',
-					'priority' => 210,
+					'priority' => 21,
 					'type'  => 'text',
 					'nature' => 'core'
 				),
 				array(
 					'label' => __( 'Billing Zip-code', INBOUNDNOW_TEXT_DOMAIN ) ,
 					'key'  => 'wpleads_billing_zip',
-					'priority' => 220,
+					'priority' => 22,
 					'type'  => 'text',
 					'nature' => 'core'
 				),
@@ -168,105 +168,105 @@ if ( !class_exists('Leads_Field_Map') ) {
 				array(
 					'label' => __( 'Billing Country', INBOUNDNOW_TEXT_DOMAIN ) ,
 					'key'  => 'wpleads_billing_country_code',
-					'priority' => 230,
+					'priority' => 23,
 					'type'  => 'text',
 					'nature' => 'core'
 				),
 				array(
 					'label' => __( 'Shipping First Name', INBOUNDNOW_TEXT_DOMAIN ) ,
 					'key'  => 'wpleads_shipping_first_name',
-					'priority' => 240,
+					'priority' => 24,
 					'type'  => 'text',
 					'nature' => 'core'
 				),
 				array(
 					'label' => __( 'Shipping Last Name', INBOUNDNOW_TEXT_DOMAIN ) ,
 					'key'  => 'wpleads_shipping_last_name',
-					'priority' => 250,
+					'priority' => 25,
 					'type'  => 'text',
 					'nature' => 'core'
 				),
 				array(
 					'label' => __( 'Shipping Company Name', INBOUNDNOW_TEXT_DOMAIN ) ,
 					'key'  => 'wpleads_shipping_company_name',
-					'priority' => 260,
+					'priority' => 26,
 					'type'  => 'text',
 					'nature' => 'core'
 				),
 				array(
 					'label' => __( 'Shipping Address', INBOUNDNOW_TEXT_DOMAIN ) ,
 					'key'  => 'wpleads_shipping_address_line_1',
-					'priority' => 270,
+					'priority' => 27,
 					'type'  => 'text',
 					'nature' => 'core'
 				),
 				array(
 					'label' => __( 'Shipping Address Continued', INBOUNDNOW_TEXT_DOMAIN ) ,
 					'key'  => 'wpleads_shipping_address_line_2',
-					'priority' => 280,
+					'priority' => 28,
 					'type'  => 'text',
 					'nature' => 'core'
 				),
 				array(
 					'label' => __( 'Shipping City', INBOUNDNOW_TEXT_DOMAIN ) ,
 					'key'  => 'wpleads_shipping_city',
-					'priority' => 290,
+					'priority' => 29,
 					'type'  => 'text',
 					'nature' => 'core'
 				),
 				array(
 					'label' => __( 'Shipping State/Region', INBOUNDNOW_TEXT_DOMAIN ) ,
 					'key'  => 'wpleads_shipping_region_name',
-					'priority' => 300,
+					'priority' => 30,
 					'type'  => 'text',
 					'nature' => 'core'
 				),
 				array(
 					'label' => __( 'Shipping Zip-code', INBOUNDNOW_TEXT_DOMAIN ) ,
 					'key'  => 'wpleads_shipping_zip',
-					'priority' => 310,
+					'priority' => 31,
 					'type'  => 'text',
 					'nature' => 'core'
 				),
 				array(
 					'label' => __( 'Shipping Country', INBOUNDNOW_TEXT_DOMAIN ) ,
 					'key'  => 'wpleads_shipping_country_code',
-					'priority' => 320,
+					'priority' => 32,
 					'type'  => 'text',
 					'nature' => 'core'
 				),
 				array(
 					'label' => __( 'Related Websites', INBOUNDNOW_TEXT_DOMAIN ) ,
 					'key'  => 'wpleads_websites',
-					'priority' => 330,
+					'priority' => 33,
 					'type'  => 'links',
 					'nature' => 'core'
 				),
 				array(
 					'label' => __( 'Notes', INBOUNDNOW_TEXT_DOMAIN ) ,
 					'key'  => 'wpleads_notes',
-					'priority' => 340,
+					'priority' => 34,
 					'type'  => 'textarea',
 					'nature' => 'core'
 				),
 				array(
 					'label' => __( 'Twitter Account', INBOUNDNOW_TEXT_DOMAIN ) ,
 					'key'  => 'wpleads_social_twitter',
-					'priority' => 350,
+					'priority' => 35,
 					'type'  => 'text',
 					'nature' => 'core'
 				),
 				array(
 					'label' => __( 'Youtube Account', INBOUNDNOW_TEXT_DOMAIN ) ,
 					'key'  => 'wpleads_social_youtube',
-					'priority' => 360,
+					'priority' => 36,
 					'type'  => 'text',
 					'nature' => 'core'
 				),
 				array(
 					'label' => __( 'Facebook Account', INBOUNDNOW_TEXT_DOMAIN ) ,
 					'key'  => 'wpleads_social_facebook',
-					'priority' => 370,
+					'priority' => 37,
 					'type'  => 'text',
 					'nature' => 'core'
 				)
@@ -291,9 +291,13 @@ if ( !class_exists('Leads_Field_Map') ) {
 			$field_map = array();
 			$field_map[''] = 'No Mapping'; /* default empty */
 			foreach ($lead_fields as $key=>$field) {
-					$label = $field['label'];
-					$key = $field['key'];
-					$field_map[$key] = $label;
+				if (!isset($field['key'])) {
+					continue;
+				}
+
+				$label = $field['label'];
+				$key = $field['key'];
+				$field_map[$key] = $label;
 			}
 
 			return $field_map;

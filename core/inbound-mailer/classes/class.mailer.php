@@ -538,7 +538,11 @@ class Inbound_Mail_Daemon {
         $user_id = $current_user->ID;
 
         /* check if there is an error and if there is then exit */
-        if ( isset(self::$response['status']) && self::$response['status'] == 'error' ) {
+        if ( isset(self::$response['status']) && self::$response['status'] == 'error' || isset(self::$response['error'])  ) {
+            if (isset($resonse['description'])) {
+                self::$response['message'] = self::$response['message'] . ' : ' . self::$response['description'];
+            }
+
             Inbound_Options_API::update_option( 'inbound-email' , 'errors-detected' , self::$response['message'] );
             self::$error_mode = true;
             return;

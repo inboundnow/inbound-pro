@@ -468,13 +468,7 @@ if (!function_exists('inbound_get_form_names')) {
                 'post_type'=> 'inbound-forms');
             $form_list = get_posts($args);
             $form_array = array();
-            $default_array = array(
-                "none" => "None (build your own in step 2)",
-                "default_form_3" => "Simple Email Form",
-                "default_form_1" => "First, Last, Email Form",
-                "default_form_2" => "Standard Company Form",
-                // Add in other forms made here
-            );
+
             foreach ( $form_list as $form ) {
                 $this_id = $form->ID;
                 $this_link = get_permalink( $this_id );
@@ -482,9 +476,8 @@ if (!function_exists('inbound_get_form_names')) {
                 $form_array['form_' . $this_id] = $title;
 
             }
-            $result = array_merge( $default_array, $form_array);
 
-            set_transient('inbound-form-names', $result, 24 * HOUR_IN_SECONDS);
+            set_transient('inbound-form-names', $form_array, 24 * HOUR_IN_SECONDS);
         }
 
     }

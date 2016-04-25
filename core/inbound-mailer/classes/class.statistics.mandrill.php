@@ -38,21 +38,6 @@ class Inbound_Mandrill_Stats {
         /* get settings from db */
         self::$settings = Inbound_Email_Meta::get_settings( $post->ID );
 
-        /* if is a sample email then return dummy stats */
-        if ( !empty(self::$settings['is_sample_email']) ) {
-
-            /* unsubscribes are tracked on our side */
-            Inbound_Mandrill_Stats::prepare_unsubscribes();
-
-            /* prepare totals from variations */
-            Inbound_Mandrill_Stats::prepare_dummy_stats( $post->ID);
-
-            /* prepare totals from variations */
-            Inbound_Mandrill_Stats::prepare_totals();
-
-            return self::$stats;
-        }
-
         /* prepare processing criteria */
         self::prepare_date_ranges();
 
@@ -376,6 +361,7 @@ class Inbound_Mandrill_Stats {
         /* calcumate total bounces */
         self::$stats['totals']['bounces'] = self::$stats['totals']['soft_bounces']	+ self::$stats['totals']['hard_bounces'];
 
+        self::$stats['totals']['variations'] = self::$stats['variations'];
 
     }
 
@@ -390,48 +376,6 @@ class Inbound_Mandrill_Stats {
             'unopened' => 0,
             'clicks' => 0
         );
-
-    }
-
-    /**
-     *	Prepare dummy stats - populates an email with dummy statistics
-     */
-    public static function prepare_dummy_stats( $email_id ) {
-
-        /* variation 1 */
-        self::$stats[ 'variations' ][ 0 ] = array(
-            'sent' => 400,
-            'opens' => 300,
-            'clicks' => 19,
-            'hard_bounces' => 0,
-            'soft_bounces' => 0,
-            'rejects' => 0,
-            'complaints' => 0,
-            'unsubs' => 1,
-            'unique_opens' => 0,
-            'unique_clicks' => 0,
-            'unopened' => 100
-        );
-        self::$stats[ 'variations' ][ 0 ][ 'label' ] =	Inbound_Mailer_Variations::vid_to_letter( self::$email_id , 0 );
-        self::$stats[ 'variations' ][ 0 ][ 'subject' ] = self::$settings['variations'][ 0 ][ 'subject' ];
-
-        /* variation 2 */
-        self::$stats[ 'variations' ][ 1 ] = array(
-            'sent' => 400,
-            'opens' => 350,
-            'clicks' => 28,
-            'hard_bounces' => 0,
-            'soft_bounces' => 0,
-            'rejects' => 0,
-            'complaints' => 0,
-            'unsubs' => 0,
-            'unique_opens' => 0,
-            'unique_clicks' => 0,
-            'unopened' => 50
-        );
-        self::$stats[ 'variations' ][ 1 ][ 'label' ] =	Inbound_Mailer_Variations::vid_to_letter( self::$email_id , 1 );
-        self::$stats[ 'variations' ][ 1 ][ 'subject' ] = self::$settings['variations'][ 1 ][ 'subject' ];
-
 
     }
 
