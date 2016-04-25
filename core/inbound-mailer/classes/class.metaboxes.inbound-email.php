@@ -106,7 +106,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             }
 
             self::$campaign_stats = self::$statistics['totals'];
-            self::$variation_stats = self::$statistics['totals']['variations'];
+            self::$variation_stats = (isset(self::$statistics['totals']['variations'])) ? self::$statistics['totals']['variations'] : array();
 
         }
 

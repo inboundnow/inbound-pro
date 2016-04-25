@@ -286,8 +286,6 @@ if ( !class_exists( 'Inbound_Automation_Loader' ) ) {
 							if (strstr( $filter['trigger_filter_key'] , ':')) {
 								$parts = explode(':', $filter['trigger_filter_key']);
 								$target_argument = $arguments[$parts[0]][$parts[1]];
-								error_log(print_r($parts,true));
-								error_log($target_argument);
 							} else {
 								$target_argument = $arguments[$filter['trigger_filter_id']];
 							}

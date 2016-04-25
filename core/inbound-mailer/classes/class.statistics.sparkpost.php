@@ -68,7 +68,6 @@ class Inbound_SparkPost_Stats {
 
         /* prepare totals from variations */
         Inbound_SparkPost_Stats::prepare_totals();
-        error_log(print_r(self::$stats,true));
 
         /* save updated statistics object into database */
         Inbound_SparkPost_Stats::update_statistics_object();
@@ -83,6 +82,7 @@ class Inbound_SparkPost_Stats {
     public static function get_statistics_object() {
         global $post;
 
+        //delete_post_meta( $post->ID , 'inbound_statistics'  );
         $stats = get_post_meta( $post->ID , 'inbound_statistics' , true );
 
         self::$stats = ($stats) ? $stats : array( 'sparkpost' => array() );
@@ -228,8 +228,8 @@ class Inbound_SparkPost_Stats {
         $today = new DateTime( date('c') );
 
         /* account for first load by setting empty variables to today */
-        self::$stats['date_from'] = (isset(self::$stats['date_from'])) ? self::$stats['date_from'] : date('c');
-        self::$stats['date_to'] = (isset(self::$stats['date_to'])) ? self::$stats['date_to'] : date('c');
+        self::$stats['date_from'] = (isset(self::$stats['date_from'])) ? self::$stats['date_from'] : $today->format('c');
+        self::$stats['date_to'] = (isset(self::$stats['date_to'])) ? self::$stats['date_to'] : $today->format('c');
 
         /* create date objects */
         $date_from = new DateTime(self::$stats['date_from']);
@@ -247,7 +247,6 @@ class Inbound_SparkPost_Stats {
             $next_date = self::get_sparkpost_timestamp( $datetime->format('c') );
 
             /* set start date at last processed datetime */
-            self::$stats['date_from'] = $today;
             self::$stats['date_to'] = $next_date;
 
         } else if ($date_from_interval->days > 90  ) {
@@ -262,7 +261,7 @@ class Inbound_SparkPost_Stats {
         } else {
             $today->modify('+90 days');
             self::$stats['date_from'] = ( !empty(self::$settings['send_datetime']) ) ? self::get_sparkpost_timestamp( self::$settings['send_datetime'] ) :  self::get_sparkpost_timestamp( $post->post_date ) ;
-            self::$stats['date_to'] = self::get_sparkpost_timestamp( self::get_sparkpost_timestamp( $today->format('c') ) );
+            self::$stats['date_to'] = self::get_sparkpost_timestamp(  $today->format('c')  );
         }
 
     }
@@ -292,7 +291,7 @@ class Inbound_SparkPost_Stats {
         );
 
         /* skip processing if no data */
-        if (!self::$stats['sparkpost']) {
+        if (!isset(self::$stats['sparkpost'])) {
             return;
         }
 

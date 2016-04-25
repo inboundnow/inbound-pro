@@ -36,7 +36,10 @@ if ( !class_exists('Inbound_SparkPost') ) {
 
 
 			$response = wp_remote_post( $request_url, $args );
+
 			if ( 200 !== wp_remote_retrieve_response_code( $response ) ) {
+				error_log($request_url);
+				error_log(print_r($args,true));
 				error_log(print_r($response,true));
 			}
 

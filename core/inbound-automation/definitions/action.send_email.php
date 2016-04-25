@@ -92,7 +92,7 @@ if ( !class_exists( 'Inbound_Automation_Action_Send_Email' ) ) {
 		public static function run_action( $action , $trigger_data ) {
 
 			//error_log( print_r( $action , true ) );
-			error_log( print_r( $trigger_data , true ) );
+			//error_log( print_r( $trigger_data , true ) );
 			$Inbound_Templating_Engine = Inbound_Templating_Engine();
 
 
@@ -128,7 +128,6 @@ if ( !class_exists( 'Inbound_Automation_Action_Send_Email' ) ) {
 						}
 
 					}
-
 
 					/* send email */
 					$response = $Inbound_Mail_Daemon->send_solo_email( array(

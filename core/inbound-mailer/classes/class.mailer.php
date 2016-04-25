@@ -201,6 +201,7 @@ class Inbound_Mail_Daemon {
                     Inbound_Mailer_Mandrill::send_email();
                     break;
                 case "sparkpost":
+                    error_log('here2');
                     Inbound_Mailer_SparkPost::send_email();
                     break;
             }
@@ -339,7 +340,6 @@ class Inbound_Mail_Daemon {
         if ( isset($args['is_test']) && $args['is_test'] ) {
             self::$email['test'] = true;
         }
-
 
         switch (self::$email_service) {
             case "mandrill":
