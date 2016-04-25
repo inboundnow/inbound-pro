@@ -156,6 +156,7 @@ class Inbound_SparkPost_Stats {
         global $post;
 
         //delete_post_meta( $post->ID , 'inbound_statistics'  );
+        //error_log(print_r(self::$stats,true));
         update_post_meta( $post->ID , 'inbound_statistics' , self::$stats );
 
     }
@@ -256,7 +257,7 @@ class Inbound_SparkPost_Stats {
             $next_date = self::get_sparkpost_timestamp( $datetime->format('c') );
 
             /* set start date at last processed datetime */
-            self::$stats['date_from'] = $today;
+            self::$stats['date_from'] = self::get_sparkpost_timestamp( $today->format('c') );
             self::$stats['date_to'] = $next_date;
         } else {
             $today->modify('+90 days');
