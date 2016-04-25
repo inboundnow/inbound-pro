@@ -125,6 +125,8 @@ class Inbound_Mailer_Ajax_Listeners {
 	*  Gets JSON object containing email send statistics return cached data if cached
 	*/
 	public static function get_email_row_statistics() {
+		global $inbound_settings;
+
 		$stats = get_transient( 'inbound-email-stats-cache');
 
 		if (!is_array($stats)) {
@@ -137,7 +139,14 @@ class Inbound_Mailer_Ajax_Listeners {
 			exit;
 		}
 
-		$stats[$_REQUEST['email_id']] = Inbound_Mandrill_Stats::get_email_timeseries_stats( $_REQUEST['email_id'] );
+		switch ($inbound_settings['inbound-mailer']['mail-service']) {
+			case "mandrill":
+				$stats[$_REQUEST['email_id']] = Inbound_Mandrill_Stats::get_email_timeseries_stats( $_REQUEST['email_id'] );
+				break;
+			case "sparkpost":
+				$stats[$_REQUEST['email_id']] = Inbound_SparkPost_Stats::get_email_timeseries_stats( $_REQUEST['email_id'] );
+				break;
+		}
 		set_transient('inbound-email-stats-cache' , $stats , 60* 5);
 
 		echo json_encode($stats[$_REQUEST['email_id']]);
@@ -155,6 +164,7 @@ class Inbound_Mailer_Ajax_Listeners {
 			'email_address' => $_REQUEST['email_address'] ,
 			'email_id' => $_REQUEST['email_id'] ,
 			'vid' => $_REQUEST['variation_id'],
+			'from_name' => $_REQUEST['variation_id'],
 			'is_test' => true
 		));
 
