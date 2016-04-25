@@ -278,11 +278,21 @@ if ( !class_exists( 'Inbound_Automation_Loader' ) ) {
 
 					$arguments = self::generate_arguments( $trigger , $args );
 
+
 					/* Check Trigger Filters */
 					if ( isset( self::$rule['trigger_filters'] )  && self::$rule['trigger_filters'] ) {
 
 						foreach( self::$rule['trigger_filters'] as $filter) {
-							$target_argument = $arguments[ $filter['trigger_filter_id'] ];
+							if (strstr( $filter['trigger_filter_key'] , ':')) {
+								$parts = explode(':', $filter['trigger_filter_key']);
+								$target_argument = $arguments[$parts[0]][$parts[1]];
+								error_log(print_r($parts,true));
+								error_log($target_argument);
+							} else {
+								$target_argument = $arguments[$filter['trigger_filter_id']];
+							}
+
+
 							$evals[] = self::evaluate_trigger_filter( $filter , $target_argument );
 						}
 
