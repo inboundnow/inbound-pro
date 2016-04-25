@@ -224,6 +224,7 @@ Downloads.Modules.Templates = (function($, undefined) {
 	 *  Method to open the more details box
 	 */
 	openMoreDetails = function( download_name ) {
+
 		/* select correct download object key given template name */
 		var download_object =  _.findWhere( downloads.dataset , { post_name : download_name });
 
@@ -237,7 +238,7 @@ Downloads.Modules.Templates = (function($, undefined) {
 		download_object.post_content = download_object.post_content.replace(/(<iframe.*?>.*?<\/iframe>)/g, '');
 
 		/* build template */
-		var parsedTemplate = _.template($template,  download_object );
+		var parsedTemplate = _.template($template)( download_object );
 
 		$grid.append( parsedTemplate );
 

@@ -61,7 +61,7 @@ class Inbound_API_Wrapper {
 		self::$data = Inbound_Options_API::get_option( 'inbound-api' , 'downloads' , array() );
 
 		/* if data is not set to expire then do not update */
-		if ( isset(self::$data['expire']) && self::$data['expire'] > gmdate( 'Y-m-d G:i:s' ) && !isset($_GET['inbound_reset_downloads_data']) ) {
+		if ( isset(self::$data['expire']) && self::$data['expire'] > gmdate( 'Y-m-d G:i:s' ) && !isset($_GET['inbound_reset_downloads_data']) && is_array(self::$data) ) {
 			return;
 		}
 
@@ -72,7 +72,7 @@ class Inbound_API_Wrapper {
 		self::$data = unserialize( $response['body'] );
 
 		/* build new expiration date */
-		self::$data['expire'] = gmdate('Y-m-d G:i:s' , strtotime( "+1 days" ));
+		self::$data['expire'] = gmdate('Y-m-d G:i:s' , strtotime( "+1 hour" ));
 
 		/* update data object */
 		Inbound_Options_API::update_option( 'inbound-api' , 'downloads' , self::$data );
