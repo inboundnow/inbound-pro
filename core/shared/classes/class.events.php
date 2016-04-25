@@ -185,7 +185,7 @@ class Inbound_Events {
             'event_name' => $args['event_name'],
             'event_details' => '',
             'datetime' => $wordpress_date_time,
-            'funnel' => ( isset($_COOKIE['inbound_page_views']) ? $_COOKIE['inbound_page_views'] : '' ),
+            'funnel' => ( isset($_SESSION['inbound_page_views']) ? $_SESSION['inbound_page_views'] : '' ),
             'source' => ( isset($_COOKIE['inbound_referral_site']) ? $_COOKIE['inbound_referral_site'] : '' )
         );
 

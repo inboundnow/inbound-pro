@@ -29,7 +29,7 @@ class Inbound_Leads_Custom_fields {
 		$settings = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , Leads_Field_Map::get_lead_fields() );
 		
 		self::$custom_field_map = (isset($settings['leads-custom-fields']['fields'])) ?  $settings['leads-custom-fields']['fields'] : array();
-		
+
 	}
 	
 	/**
@@ -38,12 +38,16 @@ class Inbound_Leads_Custom_fields {
 	*/
 	public static function merge_fields( $mappable_fields ) {
 		foreach( self::$custom_field_map as $key => $field ) {
-			
+
+			if (!isset($field['key'])) {
+				continue;
+			}
+
 			/* search core field map and alter label and priority based on user setting */
 			$present = false;
 			foreach( $mappable_fields as $i => $f) {
-				if ( $f['key'] == $key ) {
-					$mappable_fields[$i]['priority'] = $field['priority'];
+				if ( isset($f['key']) && $f['key'] == $key ) {
+					$mappable_fields[$i]['priority'] = (is_numeric($field['priority']) ) ? $field['priority'] : 99;
 					$mappable_fields[$i]['label'] = $field['label'];
 					//$mappable_fields[$i]['type'] = $field['type'];
 					$present = true;

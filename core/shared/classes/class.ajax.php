@@ -76,7 +76,7 @@ if (!class_exists('Inbound_Ajax')) {
 				}
 			}
 
-			setcookie( 'inbound_page_views' , 	json_encode($stored_views) , time()+3600 , "/" );
+			$_SESSION['inbound_page_views'] = json_encode($stored_views);
 
 			/* update lead data */
 			if(isset($_POST['wp_lead_id']) && function_exists('wp_leads_update_page_view_obj') ) {

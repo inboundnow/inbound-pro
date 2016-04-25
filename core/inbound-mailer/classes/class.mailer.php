@@ -201,6 +201,7 @@ class Inbound_Mail_Daemon {
                     Inbound_Mailer_Mandrill::send_email();
                     break;
                 case "sparkpost":
+                    error_log('here2');
                     Inbound_Mailer_SparkPost::send_email();
                     break;
             }
@@ -339,7 +340,6 @@ class Inbound_Mail_Daemon {
         if ( isset($args['is_test']) && $args['is_test'] ) {
             self::$email['test'] = true;
         }
-
 
         switch (self::$email_service) {
             case "mandrill":
@@ -538,7 +538,11 @@ class Inbound_Mail_Daemon {
         $user_id = $current_user->ID;
 
         /* check if there is an error and if there is then exit */
-        if ( isset(self::$response['status']) && self::$response['status'] == 'error' ) {
+        if ( isset(self::$response['status']) && self::$response['status'] == 'error' || isset(self::$response['error'])  ) {
+            if (isset($resonse['description'])) {
+                self::$response['message'] = self::$response['message'] . ' : ' . self::$response['description'];
+            }
+
             Inbound_Options_API::update_option( 'inbound-email' , 'errors-detected' , self::$response['message'] );
             self::$error_mode = true;
             return;

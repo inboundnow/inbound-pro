@@ -525,6 +525,7 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
          * Loads preview iframe. Currently disabled. Plans to update @DavidWells
          */
         public static function load_preview_iframe() {
+
             $variation_id = Landing_Pages_Variations::get_current_variation_id();
             $landing_page_id = $_GET['post_id'];
 

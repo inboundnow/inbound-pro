@@ -77,6 +77,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             /* create first name and last name if not present */
             self::$lead_metadata['wpleads_first_name'] = (isset(self::$lead_metadata['wpleads_first_name'])) ? self::$lead_metadata['wpleads_first_name'] : '';
             self::$lead_metadata['wpleads_last_name'] = (isset(self::$lead_metadata['wpleads_last_name'])) ? self::$lead_metadata['wpleads_last_name']: '';
+            self::$lead_metadata['wp_lead_status'] = (isset(self::$lead_metadata['wp_lead_status'])) ? self::$lead_metadata['wp_lead_status']: 'new';
 
         }
 

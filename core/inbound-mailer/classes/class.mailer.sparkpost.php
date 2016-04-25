@@ -15,8 +15,13 @@ class Inbound_Mailer_SparkPost extends Inbound_Mail_Daemon {
 		$sparkpost = new Inbound_SparkPost(  $settings['sparkpost-key'] );
 
 
-		if ( !$send_now ) {
-			$send_at = gmdate( 'Y-m-d h:i:s \G\M\T' , strtotime( self::$row->datetime ) );
+		if ( !$send_now && self::$row->datetime ) {
+			$send_at = date( 'c' , strtotime( self::$row->datetime ) );
+			if (isset(self::$email_settings['timezone'])) {
+				$date_parts = explode('+' , $send_at );
+				$timezone_parts = explode('UTC' , self::$email_settings['timezone'] );
+				$send_at = $date_parts[0] .$timezone_parts[1].':00';
+			}
 		} else {
 			$send_at = 'now';
 		}
@@ -84,8 +89,6 @@ class Inbound_Mailer_SparkPost extends Inbound_Mail_Daemon {
 			'use_draft_template' => null, // bool
 		);
 
-
-
 		/* error_log( print_r( $message , true ) ); */
 		self::$response = $sparkpost->send( $message_args );
 
@@ -94,45 +97,4 @@ class Inbound_Mailer_SparkPost extends Inbound_Mail_Daemon {
 
 
 
-
-	/**
-	*  Checks to see if meta fields have been created in Mandrill yet.
-	*/
-	public static function check_meta_fields() {
-		/* get api key */
-		$settings = Inbound_Mailer_Settings::get_settings();
-
-
-		/* see if fields have been created for this api key yet */
-		$history =  Inbound_Options_API::get_option( 'inbound-email' , 'mandrill-metafields-created' , array());
-		if ( in_array( $settings['api_key'] , $history ) ) {
-			return;
-		}
-
-		/* create them if they don't */
-		if ( self::create_metafields_in_mandrill(  $settings['api_key'] ) ) {
-			$history[] = $settings['api_key'];
-			Inbound_Options_API::update_option( 'inbound-email' , 'mandrill-metafields-created' , $history );
-		}
-	}
-
-	/**
-	*  Runs a command to create metafields in Manrill
-	*/
-	public static function create_metafields_in_mandrill( $api_key ) {
-		if (!$api_key) {
-			return;
-		}
-		$sparkpost = new Inbound_SparkPost(  $api_key );
-		self::$response = $sparkpost->metadata->add( 'email_id' , '{{value}}');
-		self::$response = $sparkpost->metadata->add( 'lead_id' , '{{value}}');
-		self::$response = $sparkpost->metadata->add( 'variation_id' , '{{value}}');
-		self::$response = $sparkpost->metadata->add( 'nature' , '{{value}}');
-
-		if ( isset(self::$response['status']) && self::$response['status'] != 'error' || self::$response['name'] == 'ValidationError' ) {
-			return 'created';
-		} else {
-			return false;
-		}
-	}
 }

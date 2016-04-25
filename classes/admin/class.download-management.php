@@ -297,6 +297,7 @@ class Inbound_Pro_Downloads {
 		$configuration= Inbound_Options_API::get_option('inbound-pro', 'configuration', array());
 
 		$i=0;
+
 		foreach (self::$items as $key => $download ) {
 
 			self::$downloads[ $download['post_name']  ] = $download;

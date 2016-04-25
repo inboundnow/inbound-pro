@@ -106,34 +106,33 @@ if ( !class_exists( 'Inbound_Automation_Action_Send_Email' ) ) {
 					$vid = Inbound_Mailer_Variations::get_next_variant_marker( $action['email_id'] );
 
 					/* check for lead lists */
-					$lead_lists = (isset($trigget_data[0]['lead_lists'])) ? $trigget_data[0]['lead_lists'] : array();
+					$lead_lists = (isset($trigget_data['lead_data']['lead_lists'])) ? $trigget_data['lead_data']['lead_lists'] : array();
 
 					/* support for user_register hook */
 					if ( isset($trigger_data['user_id']) ) {
 						$user = new WP_User( $trigger_data['user_id'] );
-						$trigger_data[0]['email'] = $user->data->user_email;
+						$trigger_data['lead_data']['email'] = $user->data->user_email;
 
 						/* look for lead */
-						$trigger_data[0]['id'] = LeadStorage::lookup_lead_by_email($trigger_data[0]['email']);
+						$trigger_data['lead_data']['id'] = LeadStorage::lookup_lead_by_email($trigger_data['lead_data']['email']);
 
 						/* create lead if does not exist */
-						if (!$trigger_data[0]['id']) {
+						if (!$trigger_data['lead_data']['id']) {
 							$args = array(
 									'user_ID' => $trigger_data['user_id'],
-									'wpleads_email_address' => $trigger_data[0]['email'],
+									'wpleads_email_address' => $trigger_data['lead_data']['email'],
 									'wpleads_first_name' => $user->data->display_name
 							);
 
-							$trigger_data[0]['id'] = inbound_store_lead( $args );
+							$trigger_data['lead_data']['id'] = inbound_store_lead( $args );
 						}
 
 					}
 
-
 					/* send email */
 					$response = $Inbound_Mail_Daemon->send_solo_email( array(
-							'email_address' => $trigger_data[0]['email'],
-							'lead_id' => $trigger_data[0]['id'],
+							'email_address' => $trigger_data['lead_data']['email'],
+							'lead_id' => $trigger_data['lead_data']['id'],
 							'email_id' => $action['email_id'],
 							'tags' => array( 'automated' ),
 							'vid' => $vid,

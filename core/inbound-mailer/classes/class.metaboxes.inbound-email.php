@@ -101,11 +101,12 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                     self::$statistics = Inbound_Mandrill_Stats::get_email_timeseries_stats();
                     break;
                 case 'sparkpost' :
+                    self::$statistics = Inbound_SparkPost_Stats::get_email_timeseries_stats();
                     break;
             }
 
             self::$campaign_stats = self::$statistics['totals'];
-            self::$variation_stats = self::$statistics['variations'];
+            self::$variation_stats = (isset(self::$statistics['totals']['variations'])) ? self::$statistics['totals']['variations'] : array();
 
         }
 
@@ -121,6 +122,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                     self::$sends = Inbound_Mandrill_Stats::get_send_stream();
                     break;
                 case 'sparkpost' :
+                    self::$sends = array();
                     break;
             }
         }
@@ -146,10 +148,8 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                         init: function (json) {
                             this.stats = JSON.parse(json);
 
-                            console.log('Statistics Loaded!');
                             console.log(this.stats);
-                            console.log('Variation Stats:');
-                            console.log(this.stats.variations);
+                            console.log(this.stats.totals.variations);
 
                             Email_Graphs.load_bar_graph();
                             Email_Graphs.load_totals();
@@ -174,19 +174,18 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                                 }
                             ];
 
-                            console.log(this.stats.variations);
-                            for (id in this.stats.variations) {
+                            for (id in this.stats.totals.variations) {
                                 chart[0]['values'].push({
-                                    "label": this.stats.variations[id].label,
-                                    "value": this.stats.variations[id].opens
+                                    "label": this.stats.totals.variations[id].label,
+                                    "value": this.stats.totals.variations[id].opens
                                 });
                                 chart[1]['values'].push({
-                                    "label": this.stats.variations[id].label,
-                                    "value": this.stats.variations[id].unopened
+                                    "label": this.stats.totals.variations[id].label,
+                                    "value": this.stats.totals.variations[id].unopened
                                 });
                                 chart[2]['values'].push({
-                                    "label": this.stats.variations[id].label,
-                                    "value": this.stats.variations[id].clicks
+                                    "label": this.stats.totals.variations[id].label,
+                                    "value": this.stats.totals.variations[id].clicks
                                 });
                             }
 
@@ -893,11 +892,6 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                             if ($settings['email_type'] == 'automated') {
                                 _e('Automated sends', 'inbound-pro');
                                 $settings['recipients'] = array();
-                            }
-
-                            /* if is a sample email then return dummy stats */
-                            if ( !empty($settings['is_sample_email']) ) {
-                                echo "<a href='" . admin_url('edit.php?page=lead_management&post_type=wp-lead&wplead_list_category%5B%5D=9999&relation=AND&orderby=date&order=asc&s=&t=&submit=Search+Leads') . "' target='_blank' class='label label-default' style='text-decoration:none'>" . __( 'Example List' , 'inbound-mailer' ) . " ( 800 )</a>";
                             }
 
                             foreach ($settings['recipients'] as $list_id) {
@@ -2426,8 +2420,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             if ( !isset($_GET['inbound_generate_email_json'] ) ) {
                 return;
             }
-
-
+            
             $settings = get_post_meta( $post->ID , 'inbound_settings' ,true );
             $settings['is_sample_email'] = true;
             unset($settings['recipients']);
