@@ -434,32 +434,38 @@ class Inbound_Automation_Processing {
 	public static function unset_completed_actions() {
 
 		/* loop through action blocks and remove blocks with no more queued actions */
-		foreach ( self::$job['rule']['action_blocks'] as $block_id => $block ) {
+		foreach ( self::$job['rule']['action_blocks'] as $i => $block ) {
 
-			/* Remove Action Lists that Are Empty */
-			foreach ($block['actions'] as $type => $actions) {
+			/* temp remove - may not even need this */
+			unset($block['actions']['then']['pointer']);
+			unset($block['actions']['then']['run_date']);
+			unset($block['actions']['else']['pointer']);
+			unset($block['actions']['else']['run_date']);
 
-				unset($actions['pointer']);
-				unset($actions['run_date']);
-				if ( count($actions) < 1 ) {
-					unset( self::$job['rule']['action_blocks'][ $block_id ]['actions'][ $type ] );
-				}
+			/* if evaluated to true then we wont need our else actions */
+			if (self::$job['rule']['action_blocks'][$i]['evaluated']) {
+				unset(self::$job['rule']['action_blocks'][$i]['actions']['else']);
 			}
 
-            /* Safety backup -  if 'then' actions exausted also delete else actions */
-            if ( empty(self::$job['rule']['action_blocks'][ $block_id ]['actions']['then'] ) && self::$job['rule']['action_blocks'][$block_id]['evaluated'] == 'true' ) {
-                unset( self::$job['rule']['action_blocks'][ $block_id ]['actions']['else' ] );
-            }
-
-            /* Safety backup -  if 'else' actions exausted also delete then actions */
-            if ( empty(self::$job['rule']['action_blocks'][ $block_id ]['actions']['else'] ) && self::$job['rule']['action_blocks'][$block_id]['evaluated'] == 'false' ) {
-                unset( self::$job['rule']['action_blocks'][ $block_id ]['actions']['then' ] );
-            }
-
-			/* Remove Actionless Action Blocks */
-			if ( count(self::$job['rule']['action_blocks'][ $block_id ]['actions']) < 1 ) {
-				unset( self::$job['rule']['action_blocks'][ $block_id ] );
+			/* if no more then actions unset */
+			if (count($block['actions']['then']) < 1) {
+				unset(self::$job['rule']['action_blocks'][$i]['actions']['then']);
 			}
+
+			/* if no more else actions unset */
+			if (count($block['actions']['else']) < 1) {
+				unset(self::$job['rule']['action_blocks'][$i]['actions']['else']);
+			}
+
+			/* if not more then or else actions then unset action_blocks and prepare to finnish job */
+			if (
+				count($block['actions']['then']) < 1
+				&&
+				count($block['actions']['else']) < 1
+			) {
+				unset(self::$job['rule']['action_blocks']);
+			}
+
 		}
 	}
 
