@@ -1,20 +1,20 @@
 <?php
 
 /**
-*	This class loads miscellaneous WordPress AJAX listeners
-*/
+ *	This class loads miscellaneous WordPress AJAX listeners
+ */
 class Inbound_Mailer_Ajax_Listeners {
 
 	/**
-	*	Initializes class
-	*/
+	 *	Initializes class
+	 */
 	public function __construct() {
 		self::load_hooks();
 	}
 
 	/**
-	*	Loads hooks and filters
-	*/
+	 *	Loads hooks and filters
+	 */
 	public static function load_hooks() {
 
 
@@ -32,8 +32,8 @@ class Inbound_Mailer_Ajax_Listeners {
 	}
 
 	/**
-	*	Saves meta pair values give cta ID, meta key, and meta value
-	*/
+	 *	Saves meta pair values give cta ID, meta key, and meta value
+	 */
 	public static function save_email() {
 		global $wpdb;
 
@@ -72,58 +72,58 @@ class Inbound_Mailer_Ajax_Listeners {
 		/* Update Settings */
 		Inbound_Email_Meta::update_settings( $_POST['post_ID'] , $email_settings );
 
-        /* Update Tags */
-        if ( isset( $_POST['tax_input'] ) ) {
-            foreach ( $_POST['tax_input']  as $tax => $terms ) {
-                wp_set_post_terms( $_POST['post_ID'], $terms, $tax, false );
-            }
-        }
+		/* Update Tags */
+		if ( isset( $_POST['tax_input'] ) ) {
+			foreach ( $_POST['tax_input']  as $tax => $terms ) {
+				wp_set_post_terms( $_POST['post_ID'], $terms, $tax, false );
+			}
+		}
 
 		header('HTTP/1.1 200 OK');
 		exit;
 	}
 
 	/**
-		*	Checks meta key for variation setting qualification
-		*	@returns BOOLEAN $key false for skip true for save
-		*/
-		public static function check_whitelist( $key ) {
-			/* do not save post_ related keys */
-			if ( substr( $key , 0 , 5 ) == 'post_' ) {
-				return false;
-			}
-
-			/* do not save hidden custom fields */
-			if ( substr( $key , 0 , 1 ) == '_' ) {
-				return false;
-			}
-
-			/* do not save hidden custom fields */
-			if ( substr( $key , 0 , 7 ) == 'hidden_' ) {
-				return false;
-			}
-
-			/* do not save hidden custom fields */
-			if ( substr( $key , 0 , 4 ) == 'cur_' ) {
-				return false;
-			}
-
-			/* do not save hidden custom fields */
-			if ( strstr( $key , 'nonce' ) ) {
-				return false;
-			}
-
-			/* do not save hidden custom fields */
-			if ( in_array( $key , array('inbvid', 'email_action' , 'originalaction','action','original_publish','publish','original_post_status', 'referredby', 'meta-box-order-nonce', 'comment_status','ping_status','post_mime_type','newtag','tax_input','post_password' ,'visibility','wp-preview'	) ) ) {
-				return false;
-			}
-
-			return true;
+	 *	Checks meta key for variation setting qualification
+	 *	@returns BOOLEAN $key false for skip true for save
+	 */
+	public static function check_whitelist( $key ) {
+		/* do not save post_ related keys */
+		if ( substr( $key , 0 , 5 ) == 'post_' ) {
+			return false;
 		}
 
+		/* do not save hidden custom fields */
+		if ( substr( $key , 0 , 1 ) == '_' ) {
+			return false;
+		}
+
+		/* do not save hidden custom fields */
+		if ( substr( $key , 0 , 7 ) == 'hidden_' ) {
+			return false;
+		}
+
+		/* do not save hidden custom fields */
+		if ( substr( $key , 0 , 4 ) == 'cur_' ) {
+			return false;
+		}
+
+		/* do not save hidden custom fields */
+		if ( strstr( $key , 'nonce' ) ) {
+			return false;
+		}
+
+		/* do not save hidden custom fields */
+		if ( in_array( $key , array('inbvid', 'email_action' , 'originalaction','action','original_publish','publish','original_post_status', 'referredby', 'meta-box-order-nonce', 'comment_status','ping_status','post_mime_type','newtag','tax_input','post_password' ,'visibility','wp-preview'	) ) ) {
+			return false;
+		}
+
+		return true;
+	}
+
 	/**
-	*  Gets JSON object containing email send statistics return cached data if cached
-	*/
+	 *  Gets JSON object containing email send statistics return cached data if cached
+	 */
 	public static function get_email_row_statistics() {
 		global $inbound_settings;
 
@@ -155,16 +155,20 @@ class Inbound_Mailer_Ajax_Listeners {
 	}
 
 	/**
-	*  Sends test email
-	*/
+	 *  Sends test email
+	 */
 	public static function send_test_email() {
 		$mailer = new Inbound_Mail_Daemon();
+
+		/* see if there is a lead associated with the test email */
+		$lead_id = LeadStorage::lookup_lead_by_email($_REQUEST['email_address']);
 
 		$response = $mailer->send_solo_email( array(
 			'email_address' => $_REQUEST['email_address'] ,
 			'email_id' => $_REQUEST['email_id'] ,
 			'vid' => $_REQUEST['variation_id'],
 			'from_name' => $_REQUEST['variation_id'],
+			'lead_id' => ( $lead_id ) ? $lead_id : 0,
 			'is_test' => true
 		));
 
@@ -179,8 +183,8 @@ class Inbound_Mailer_Ajax_Listeners {
 
 
 	/**
-	*  Schedule email
-	*/
+	 *  Schedule email
+	 */
 	public static function schedule_email() {
 		$response = Inbound_Mailer_Scheduling::schedule_email(intval($_POST['email_id']));
 		echo $response;

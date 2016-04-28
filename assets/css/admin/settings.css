@@ -184,6 +184,7 @@ ul.uninstall {
 
 .inbound-label-field {
 	min-width:170px;
+	vertical-align:top;
 }
 
 .inbound-ol-field {
@@ -357,5 +358,10 @@ input.update-done {
 .repeater-lead-statuses  .minicolors-swatch {
 	width:30px !important;
 	height:30px !important;
+}
+
+
+.sparkpost-status-table {
+	margin:0px !important;
 }
 

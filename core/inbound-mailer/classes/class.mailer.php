@@ -71,7 +71,9 @@ class Inbound_Mail_Daemon {
         /* For debugging */
         add_filter( 'init', array( __CLASS__ , 'process_mail_queue' ) , 12 );
 
+
     }
+
 
 
     public static function process_mail_queue() {
@@ -337,10 +339,8 @@ class Inbound_Mail_Daemon {
         self::$email['body'] = self::get_email_body();
 
         if ( isset($args['is_test']) && $args['is_test'] ) {
-            self::$email['test'] = true;
+            self::$email['is_test'] = true;
         }
-
-        error_log(print_r(self::$email,true));
 
         switch (self::$email_service) {
             case "mandrill":

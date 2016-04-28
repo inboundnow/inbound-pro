@@ -406,7 +406,7 @@ if ( ! class_exists( 'Inbound_Mailer_Variations' ) ) {
 		}
 
 		/**
-		* Get Screenshot URL for Call to Action preview. If local environment show template thumbnail.
+		* Get Screenshot URL for email preview. If local environment show template thumbnail.
 		*
 		* @param INT $inbound_email_id id if of call to action
 		* @param INT $vid id of variation belonging to call to action

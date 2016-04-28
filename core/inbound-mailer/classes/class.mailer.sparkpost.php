@@ -1,14 +1,14 @@
 <?php
 
 /**
-* Inbound Mail Daemon listens for and sends scheduled emails
-*/
+ * Inbound Mail Daemon listens for and sends scheduled emails
+ */
 class Inbound_Mailer_SparkPost extends Inbound_Mail_Daemon {
 
 
 	/**
-	*	Sends email using Inbound Now's mandrill sender
-	*/
+	 *	Sends email using Inbound Now's mandrill sender
+	 */
 	public static function send_email( $send_now = false) {
 		$settings = Inbound_Mailer_Settings::get_settings();
 
