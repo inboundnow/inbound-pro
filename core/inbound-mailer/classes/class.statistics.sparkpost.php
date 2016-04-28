@@ -13,6 +13,19 @@ class Inbound_SparkPost_Stats {
     static $stats; /* stats array */
     static $timemarker; /* marks time of last api call */
 
+    public function __construct() {
+        self::add_hooks();
+    }
+
+    public static function add_hooks() {
+        /* For mail service activation */
+        add_action( 'inbound-settings/after-field-value-update' , array( __CLASS__ , 'sparkpost_activation_routines' ));
+
+        /* For processing webhooks */
+        add_action( 'wp_ajax_nopriv_sparkpost_webhook', array( __CLASS__ , 'process_webhook' ) );
+
+    }
+
     /**
      *	Gets email statistics
      *	@param INT $email_id ID of email
@@ -128,7 +141,6 @@ class Inbound_SparkPost_Stats {
 
         $query = 'u_email_id:' .	$post->ID	. ' ( tags:batch OR tags:automated)';
 
-        self::query_sparkpost_search( $query );
 
         return self::$results;
     }
@@ -163,26 +175,6 @@ class Inbound_SparkPost_Stats {
 
 
     /**
-     *	Get Mandrill Search Stats
-     */
-    public static function query_sparkpost_search( $query ) {
-        global $post;
-        $start = microtime(true);
-
-        /* load sparkpost time	*/
-        $settings = Inbound_Mailer_Settings::get_settings();
-        $sparkpost = new Inbound_Mandrill(  $settings['sparkpost_key'] );
-
-        $tags = array();
-        $senders = array();
-        $api_keys = array();
-
-        self::$results = $sparkpost->search($query, self::$stats['date_from'] , self::$stats['date_to'] , $tags, $senders , $api_keys , 1000 );
-
-        /* echo microtime(true) - $start; */
-    }
-
-    /**
      *	build variation totals
      */
     public static function process_variation_totals() {
@@ -214,7 +206,7 @@ class Inbound_SparkPost_Stats {
                 'unopened' => $totals['count_sent']
             );
 
-         }
+        }
 
 
     }
@@ -390,4 +382,284 @@ class Inbound_SparkPost_Stats {
 
     }
 
+    /**
+     *
+     */
+    public static function create_sparkpost_webhooks($field) {
+        global $inbound_settings;
+
+        if (!$inbound_settings['inbound-mailer']['sparkpost-key']) {
+            return;
+        }
+
+        /* load SparkPost connector */
+        $sparkpost = new Inbound_SparkPost(  $field['value'] );
+
+
+        /* check if webhook is already created */
+        if (isset($inbound_settings['inbound-mailer']['sparkpost']['webhook']['id']) ) {
+            $webhook = $sparkpost->get_webhook($inbound_settings['inbound-mailer']['sparkpost']['webhook']['id']);
+
+            if ( isset($webhook['results']['name']) && $webhook['results']['name'] == 'Inbound Now Webhook' ) {
+                return;
+            }
+        }
+
+        /* create webhook location and save it */
+        $url = add_query_arg(
+            array(
+                'action' => 'sparkpost_webhook' ,
+                'fast_ajax' => true ,
+                'load_plugins' => '["_inbound-now/inbound-pro.php"]'
+            ),
+            admin_url('admin-ajax.php')
+        );
+
+        self::$results = $sparkpost->create_webhook( array(
+            'name' => 'Inbound Now Webhook',
+            'events' => array(
+                'delivery',
+                'bounce',
+                'open',
+                'click',
+                'relay_rejection',
+                'spam_complaint'
+            ),
+            'target' => $url,
+            'auth_type' => 'none'
+            //'auth_credentials' => array(
+            //'username' => preg_replace("/[^A-Za-z0-9 ]/", '', AUTH_KEY),
+            //'password' => preg_replace("/[^A-Za-z0-9 ]/", '', AUTH_SALT)
+            //)
+        ) );
+
+        if (isset(self::$results['results'])) {
+            $inbound_settings['inbound-mailer']['sparkpost']['webhook'] = self::$results['results'];
+        } else {
+            $inbound_settings['inbound-mailer']['sparkpost']['webhook'] = self::$results;
+        }
+
+        Inbound_Options_API::update_option('inbound-pro', 'settings', $inbound_settings);
+
+        error_log(print_r(self::$results ,true));
+
+    }
+
+    /**
+     * @param $field
+     */
+    public static function sparkpost_activation_routines( $field ) {
+
+        if (!isset($field['sparkpost-key'])) {
+            return;
+        }
+
+        Inbound_SparkPost_Stats::create_sparkpost_webhooks($field);
+
+    }
+
+    public static function process_webhook() {
+
+        $data = stripslashes(file_get_contents("php://input"));
+
+        $events = json_decode($data,true);
+        //error_log(print_r($events,true));
+        foreach ($events as $i => $event) {
+            //error_log('start');
+            //error_log(print_r( $event['msys'],true));
+
+            if (isset($event['msys']['message_event'])) {
+                $event = $event['msys']['message_event'];
+            }
+
+            if (isset($event['msys']['track_event'])) {
+                $event = $event['msys']['track_event'];
+            }
+
+
+            if ( $event['campaign_id'] == 'test') {
+                //return
+            }
+
+
+            $args = array(
+                'event_name' => 'sparkpost_' . $event['type'],
+                'email_id' => $event['rcpt_meta']['email_id'],
+                'variation_id' =>  $event['rcpt_meta']['variation_id'],
+                'form_id' => '',
+                'lead_id' => $event['rcpt_meta']['lead_id'],
+                'session_id' => '',
+                'event_details' => json_encode($event)
+            );
+
+            Inbound_Events::store_event($args);
+        }
+
+    }
+
+    public static function display_api_status( $field ) {
+        global $inbound_settings;
+
+        /* do nothing if no key present */
+        if (!isset($inbound_settings['inbound-mailer']['sparkpost-key'])) {
+            return;
+        }
+
+        /* set the sparkpost apikey and load sparkpost connector */
+        $sparkpost = new Inbound_SparkPost(  $inbound_settings['inbound-mailer']['sparkpost-key'] );
+
+        /* discover sending domains */
+        $domains = $sparkpost->get_domains();
+
+        /* check if webhooks are created */
+        $webhook_status = __('not created' , 'inbound-pro');
+        if (isset($inbound_settings['inbound-mailer']['sparkpost']['webhook']['id']) ) {
+            $webhook = $sparkpost->get_webhook($inbound_settings['inbound-mailer']['sparkpost']['webhook']['id']);
+
+            if ( isset($webhook['results']['name']) && $webhook['results']['name'] == 'Inbound Now Webhook' ) {
+                $webhook_status = '<span style="color:green;!important;">'.__('created' , 'inbound-pro') . '</span>';
+            }
+        }
+
+        ?>
+        <table class="sparkpost-status-table">
+            <tr>
+                <td class="inbound-label-field">
+                    <?php _e('API Key:','inbound-pro'); ?>
+                </td>
+                <td class="">
+
+                    <?php
+
+                    if (isset($domains['results']) && is_array($domains['results']) ){
+                        echo '<span style="color:green !important;">'.__('active' , 'inbound-pro') . '</span>';
+                    } else {
+                        if (isset($domains['errors'])) {
+                            switch($domains['errors'][0]['message']) {
+                                case 'Unauthorized.':
+                                    echo '<pre>'.__('invalid' , 'inbound-pro') . '</pre>';
+
+                                    break;
+                            }
+                        }
+                    }
+
+                    ?>
+
+                </td>
+
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <td class="inbound-label-field">
+                    <?php _e('Sending Domains:','inbound-pro'); ?>
+                </td>
+
+                <td class="sparkpost-status-domains status-value">
+                    <table>
+                        <?php
+
+                        if (isset($domains['results']) && is_array($domains['results']) ){
+                            foreach($domains['results'] as $i => $domains ) {
+
+                                ?>
+
+                                <tr>
+                                    <td class="inbound-label-field" style='' colspan="2">
+                                        <span style="color:green !important;"><?php echo $domains['domain']; ?></span>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td class="inbound-label-field" style=''>
+                                        <?php _e('ownership','inbound-pro'); ?>:
+                                    </td>
+
+                                    <td class="status-value">
+                                        <?php
+                                        if ($domains['status']['ownership_verified']) {
+                                            echo '<span style="color:green !important;">'.__('confirmed','inbound-pro').'</span>';
+                                        } else {
+                                            echo '<span style="color:red !important;">'.__('not confirmed','inbound-pro').'</span>';
+                                        }
+                                        ?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="inbound-label-field" style=''>
+                                        <?php _e('spf','inbound-pro'); ?>:
+                                    </td>
+
+                                    <td class="status-value">
+                                        <?php
+                                        if ($domains['status']['spf_status'] == 'valid' ) {
+                                            echo '<span style="color:green !important;">'.__('valid','inbound-pro').'</span>';
+                                        } else {
+                                            echo '<span style="color:red !important;">'.__('invalid','inbound-pro').'</span>';
+                                        }
+                                        ?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="inbound-label-field" style=''>
+                                        <?php _e('dkim','inbound-pro'); ?>:
+                                    </td>
+
+                                    <td class="status-value">
+                                        <?php
+                                        if ($domains['status']['dkim_status'] == 'valid' ) {
+                                            echo '<span style="color:green !important;">'.__('valid','inbound-pro').'</span>';
+                                        } else {
+                                            echo '<span style="color:red !important;">'.__('invalid','inbound-pro').'</span>';
+                                        }
+                                        ?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="inbound-label-field" style=''>
+                                        <?php _e('compliance status','inbound-pro'); ?>
+                                    </td>
+
+                                    <td class="status-value">
+                                        <?php
+                                        if ($domains['status']['compliance_status'] == 'valid' ) {
+                                            echo '<span style="color:green !important;">'.__('valid','inbound-pro').'</span>';
+                                        } else {
+                                            echo '<span style="color:red !important;">'.__('invalid','inbound-pro').'</span>';
+                                        }
+                                        ?>
+                                    </td>
+                                </tr>
+
+                                <?php
+                            }
+
+                        } else {
+                            echo __( 'No sending domains set. Please see https://app.sparkpost.com/account/sending-domains' , 'inbound-pro' );
+                        }
+
+                        ?>
+                    </table>
+                </td>
+
+            </tr>
+        </table>
+
+        <table>
+            <tr>
+                <td class="inbound-label-field">
+                    <?php _e('Webhooks:','inbound-pro'); ?>
+                </td>
+
+                <td class="sparkpost-status-webhooks status-value">
+                    <?php echo  $webhook_status; ?>
+                </td>
+
+            </tr>
+        </table>
+        <?php
+    }
 }
+
+new Inbound_SparkPost_Stats();

@@ -63,7 +63,7 @@ if ( !class_exists('Inbound_Mailer_Settings') ) {
 						'type'  => 'dropdown',
 						'default'  => 'sparkpost',
 						'options' => array(
-							'sparkpost' => __( 'SparkPost (In Development)' , 'inbound-pro' ),
+							'sparkpost' => __( 'SparkPost (new!)' , 'inbound-pro' ),
 							'mandrill' => __( 'Mandrill' , 'inbound-pro' )
 						),
 						'hidden' => false,
@@ -106,6 +106,18 @@ if ( !class_exists('Inbound_Mailer_Settings') ) {
 						'default'  => '',
 						'options' => null,
 						'hidden' =>  ( $service == 'sparkpost' ? false : true ) ,
+						'reveal' => array(
+							'selector' => '#mail-service' ,
+							'value' => 'sparkpost'
+						)
+					),
+					array(
+						'id'  => 'sparkpost-status-display',
+						'type'  => 'html',
+						'label' => __( 'Status:' , 'inbound-pro' ),
+						'value' => '',
+						'callback' => array( 'Inbound_SparkPost_Stats' , 'display_api_status' ),
+						'hidden' => ( $service == 'sparkpost' ? false : true ) ,
 						'reveal' => array(
 							'selector' => '#mail-service' ,
 							'value' => 'sparkpost'

@@ -496,7 +496,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
          *    Adds variation & email type buttons
          */
         public static function add_containers() {
-            global $post;
+            global $post, $inbound_settings;
 
             if (!$post || $post->post_type != 'inbound-email') {
                 return;
@@ -506,7 +506,16 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
             self::add_countdown();
             self::add_statistics();
-            self::add_send_stream();
+
+            /* show events */
+            switch ($inbound_settings['inbound-mailer']['mail-service']) {
+                case 'mandrill' :
+                    self::add_send_stream();
+                    break;
+                case 'sparkpost' :
+                    break;
+            }
+
             self::add_email_send_settings();
             echo '<div class="quick-launch-container bs-callout bs-callout-clear">';
             self::add_variation_buttons();

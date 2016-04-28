@@ -30,7 +30,7 @@ class Inbound_Mailer_Menus {
 			return;
 		}
 
-		add_submenu_page('edit.php?post_type=inbound-email', __( 'Upload' , 'inbound-email' ) , __( 'Upload' , 'inbound-email' ) , 'manage_options', 'inbound_email_manage_templates', array( 'Inbound_Mailer_Template_Manager' , 'display_management_page' ) );
+		add_submenu_page('edit.php?post_type=inbound-email', __( 'Upload Templates' , 'inbound-email' ) , __( 'Upload' , 'inbound-email' ) , 'manage_options', 'inbound_email_manage_templates', array( 'Inbound_Mailer_Template_Manager' , 'display_management_page' ) );
 
 		/* Include Settings only if Inbound Pro not installed */
 		if (!defined('INBOUND_PRO_CURRENT_VERSION')) {

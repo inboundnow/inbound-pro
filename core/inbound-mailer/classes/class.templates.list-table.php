@@ -190,7 +190,7 @@ if ( !class_exists('Inbound_Mailer_Template_Manager_List') ) {
 		}
 
 		function no_items() {
-			_e( 'No premium templates installed. Templates included in the Call to Action core plugin will not be listed here.' );
+			_e( 'No email templates detected.' );
 		}
 
 		function get_bulk_actions() {

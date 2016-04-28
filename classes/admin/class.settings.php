@@ -931,6 +931,17 @@ class Inbound_Pro_Settings {
 				echo $field['value'];
 				echo ( !empty($field['description']) ) ? $field['description'] : '';
 
+				if ( isset($field['callback']) ) {
+					if (is_array($field['callback'])) {
+						call_user_func(
+							array($field['callback'][0], $field['callback'][1]),
+							$field
+						);
+					} else {
+						call_user_func(	$field['callback'] , $field	);
+					}
+				}
+
 			break;
 			case 'custom-fields-repeater':
 				$fields = Leads_Field_Map::get_lead_fields();
