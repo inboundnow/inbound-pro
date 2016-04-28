@@ -487,10 +487,12 @@ class Inbound_Pro_Settings {
 		<img class="size-full wp-image-138047" src="http://www.inboundnow.com/wp-content/uploads/2012/05/2015-10-13_1831.png" alt="Messing around with test email sends" />
 
 
-		<h3>Powered By Mandrill</h3>
-		Inbound Now's email component is 100% powered by <a href="http://mandrill.com/" target="_blank">Mandrill</a>. Mandrill is a transactional email service powered by the people who run MailChimp. Mandrill provides users with <strong>2000</strong> free email sends and then provides 25,000 email sends a month for a <a href="http://mandrill.com/pricing/" target="_blank">low cost</a>.
+		<h3>Powered By Transactional Email Services</h3>
+		<h4><strong>SparkPost</strong></h4>
+		<p>Inbound Now's official email service provider is SparkPost. SparkPost provides it's users with 100,000 free sends a month and then an affordable rate their after. You can read more about SparkPost from their <a href="http://www.sparkpost.com" target="_blank">website</a>.</p>
 
-		We are investigating adding additional services such as SendGrid, though it's not available yet.
+		<h4>Mandrill</h4>
+		<p>Mandrill is only available for paid MailChimp users. Mandrill provides users with <strong>2000</strong> free email sends and then provides 25,000 email sends a month for a <a href="http://mandrill.com/pricing/" target="_blank">low cost</a>.  Unless you are a MailChimp user we do not recommend chosing this service to power your emails. SparkPost, below, is a better, more affordable alternative.</p>
 
 		<h2>The new marketing automation component</h2>
 
