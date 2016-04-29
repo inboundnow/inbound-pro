@@ -22,12 +22,21 @@ if (!class_exists('Inbound_Asset_Loader')) {
 
 			$screen = get_current_screen();
 
-			if ( !isset($screen) || $screen->base != 'post') {
-			    return;
+			self::enqueue_shared_file('jquery-cookie', 'assets/js/global/jquery.cookie.js', array( 'jquery' ));
+			self::enqueue_shared_file('jquery-total-storage', 'assets/js/global/jquery.total-storage.min.js', array( 'jquery' ));
+			
+			if ( isset($screen) && $screen->id == 'wp-call-to-action') {
+				self::enqueue_shared_file('image-picker-js', 'assets/js/admin/image-picker.js');
+				self::enqueue_shared_file('image-picker-css', 'assets/css/admin/image-picker.css');
 			}
 
-			wp_enqueue_script('inbound-editor-js', INBOUNDNOW_SHARED_URLPATH . 'assets/js/admin/editor.js');
-			//wp_enqueue_script('inbound-forms-cpt-js', INBOUNDNOW_SHARED_URLPATH . 'assets/css/admin/inbound-metaboxes.css');
+
+			if ( isset($screen) && $screen->base == 'post') {
+				wp_enqueue_script('inbound-editor-js', INBOUNDNOW_SHARED_URLPATH . 'assets/js/admin/editor.js');
+				//wp_enqueue_script('inbound-forms-cpt-js', INBOUNDNOW_SHARED_URLPATH . 'assets/css/admin/inbound-metaboxes.css');
+
+			}
+
 		}
 		/**
 		 * Registers and enqueues stylesheets for the administration panel and the
@@ -37,49 +46,29 @@ if (!class_exists('Inbound_Asset_Loader')) {
 		 * self::enqueue_shared_file('SCRIPT-ID',  INBOUNDNOW_SHARED_PATH . 'assets/js/frontend/path-in-shared-assets.js', 'localized_var_name', $localized_array_values, $dependancies_array );
 		 */
 		static function register_scripts_and_styles() {
+			global $post;
 			/* Frontent and Backend Files */
 
 
-			/* Conditionals for admin or frontend */
-			if(is_admin()) {
+			global $wp_scripts;
+			$store = false;
 
-				/*self::enqueue_shared_file('inbound-analytics', 'assets/js/frontend/analytics/inboundAnalytics.js', array( 'jquery' ), 'inbound_settings', self::localize_lead_data()); */
-
-				self::enqueue_shared_file('jquery-cookie', 'assets/js/global/jquery.cookie.js', array( 'jquery' ));
-				self::enqueue_shared_file('jquery-total-storage', 'assets/js/global/jquery.total-storage.min.js', array( 'jquery' ));
-				$inbound_now_screens = Inbound_Compatibility::return_inbound_now_screens(); /* list of inbound now screens */
-				$screen = get_current_screen();
-
-				/* Target Specific screen with echo $screen->id; */
-
-				if ( $screen->id == 'wp-call-to-action') {
-					self::enqueue_shared_file('image-picker-js', 'assets/js/admin/image-picker.js');
-					self::enqueue_shared_file('image-picker-css', 'assets/css/admin/image-picker.css');
-				}
-
-
-			} else {
-
-				global $wp_scripts;
-				$store = false;
-
-				if ( !empty( $wp_scripts->queue ) ) {
-					  $store = $wp_scripts->queue; /* store the scripts */
-					  foreach ( $wp_scripts->queue as $handle ) {
-						  wp_dequeue_script( $handle );
-					  }
-				}
-
-				/* unminified source available */
-				self::enqueue_shared_file('inbound-analytics', 'assets/js/frontend/analytics/inboundAnalytics.min.js', array( 'jquery' ), 'inbound_settings', self::localize_lead_data());
-
-				if (is_array($store)) {
-					foreach ( $store as $handle ) {
-						wp_enqueue_script( $handle );
-					}
-				}
-
+			if ( !empty( $wp_scripts->queue ) ) {
+				  $store = $wp_scripts->queue; /* store the scripts */
+				  foreach ( $wp_scripts->queue as $handle ) {
+					  wp_dequeue_script( $handle );
+				  }
 			}
+
+			/* unminified source available */
+			self::enqueue_shared_file('inbound-analytics', 'assets/js/frontend/analytics/inboundAnalytics.min.js', array( 'jquery' ), 'inbound_settings', self::localize_lead_data());
+
+			if (is_array($store)) {
+				foreach ( $store as $handle ) {
+					wp_enqueue_script( $handle );
+				}
+			}
+
 		} /* end register_scripts_and_styles */
 
 		/**
