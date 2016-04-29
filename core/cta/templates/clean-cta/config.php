@@ -226,7 +226,7 @@ $wp_cta_data[$key]['markup'] = '
 #inbound-wrapper-clean {background-color: {{content-color|color}};}
 #inbound-wrapper-clean .btn { border: 3px solid {{submit-button-color|color}}; color: {{submit-button-color|color}};}
 #inbound-wrapper-clean .btn:hover, .inbound-wrapper-clean .btn:active { color: #{{content-color}}; background: {{submit-button-color|color}};}
-#inbound-content p {color:{{content-text-color|color}};}
+#inbound-content p {color:{{sub-header-text-color|color}};}
 #clean-bottom-text {
   padding: 10px;
   font-size: 14px;
@@ -239,7 +239,6 @@ $wp_cta_data[$key]['markup'] = '
   padding-left: 30px;
   padding-right: 30px;
 }
-
 #cta-button {
   border: none;
 }

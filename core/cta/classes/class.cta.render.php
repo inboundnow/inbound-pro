@@ -528,7 +528,6 @@ if ( !class_exists( 'CTA_Render' ) ) {
                 $dynamic_css = str_replace("{{", "", $dynamic_css);
                 $dynamic_css = str_replace("}}", "", $dynamic_css);
 
-
                 $dynamic_css = self::$instance->parse_css_template($dynamic_css, $css_id_preface);
 
                 $css_styleblock_class = apply_filters( 'wp_cta_styleblock_class', '', $selected_cta['id'], $vid );
@@ -983,6 +982,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
             $dynamic_css = str_replace('}}', ']]', $dynamic_css);
 
             $oParser = new Sabberworm\CSS\Parser($dynamic_css);
+
             $oCss = $oParser->parse();
 
             foreach($oCss->getAllDeclarationBlocks() as $oBlock) {

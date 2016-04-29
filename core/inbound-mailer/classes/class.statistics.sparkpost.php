@@ -426,11 +426,11 @@ class Inbound_SparkPost_Stats {
                 'spam_complaint'
             ),
             'target' => $url,
-            'auth_type' => 'none'
-            //'auth_credentials' => array(
-            //'username' => preg_replace("/[^A-Za-z0-9 ]/", '', AUTH_KEY),
-            //'password' => preg_replace("/[^A-Za-z0-9 ]/", '', AUTH_SALT)
-            //)
+            'auth_type' => 'basic',
+            'auth_credentials' => array(
+                'username' => preg_replace("/[^A-Za-z0-9 ]/", '', AUTH_KEY),
+                'password' => preg_replace("/[^A-Za-z0-9 ]/", '', AUTH_SALT)
+            )
         ) );
 
         if (isset(self::$results['results'])) {
@@ -463,10 +463,25 @@ class Inbound_SparkPost_Stats {
         $data = stripslashes(file_get_contents("php://input"));
 
         $events = json_decode($data,true);
-        //error_log(print_r($events,true));
+
+        if (!isset($_SERVER['PHP_AUTH_USER'])) {
+            return;
+        }
+
+        $auth_user = preg_replace( "/[^A-Za-z0-9 ]/", '', AUTH_KEY );
+        $auth_pass = preg_replace( "/[^A-Za-z0-9 ]/", '', AUTH_SALT );
+
+
+        if ( $auth_user != $_SERVER['PHP_AUTH_USER'] ) {
+            return;
+        }
+
+        if ( $auth_pass != $_SERVER['PHP_AUTH_PW'] ) {
+            return;
+        }
+
         foreach ($events as $i => $event) {
-            //error_log('start');
-            //error_log(print_r( $event['msys'],true));
+
 
             if (isset($event['msys']['message_event'])) {
                 $event = $event['msys']['message_event'];
@@ -478,9 +493,12 @@ class Inbound_SparkPost_Stats {
 
 
             if ( $event['campaign_id'] == 'test') {
-                //return
+                return;
             }
 
+            if (!isset($event['rcpt_meta']['email_id'])) {
+                return;
+            }
 
             $args = array(
                 'event_name' => 'sparkpost_' . $event['type'],
