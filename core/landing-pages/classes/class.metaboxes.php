@@ -1062,7 +1062,7 @@ class Landing_Pages_Metaboxes {
                     /*echo 1; exit; */
                     echo '<label for="upload_image" data-field-type="text">';
                     echo '<input name="' . $field_id . '"  id="' . $field_id . '" type="text" size="36" name="upload_image" value="' . $meta . '" />';
-                    echo '<input class="upload_image_button" id="uploader_' . $field_id . '" type="button" value="Upload Image" />';
+                    echo '<input data-field-id="' . $field_id . '"  class="upload_image_button" id="uploader_' . $field_id . '" type="button" value="'.__('Upload Image' , 'inbound-pro' ) .'" />';
                     echo '<p class="description">' . $field['description'] . '</p>';
                     break;
                 /* checkbox */
