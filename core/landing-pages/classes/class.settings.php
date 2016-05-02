@@ -681,7 +681,7 @@ class Landing_Pages_Settings {
                     /*echo 1; exit; */
                     echo '<label for="upload_image">';
                     echo '<input name="' . $field['id'] . '"  id="' . $field['id'] . '" type="text" size="36" name="upload_image" value="' . $field['value'] . '" />';
-                    echo '<input class="upload_image_button" id="uploader_' . $field['id'] . '" type="button" value="Upload Image" />';
+                    echo '<input data-field-id="' . $field['id'] . '" class="upload_image_button" id="uploader_' . $field['id'] . '" type="button" value="'. __( 'Upload Image' , 'inbound-pro' ) .'"/>';
                     continue 2;
                 /* checkbox */
                 case 'checkbox':
