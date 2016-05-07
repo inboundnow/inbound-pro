@@ -181,11 +181,14 @@ class  Landing_Pages_Template_Management {
 
         $is_template = false;
         foreach ($list as $key => $val) {
-            foreach ($val as $k => $val) {
-                if (strstr($val, '/config.php')) {
+            foreach ($val as $k => $v) {
+                error_log($v);
+                if (strstr($v, '/config.php')) {
                     $is_template = true;
                     break;
-                } else if ($is_template == true) {
+                } else if (strstr($v, 'config.php')) {
+                    $misconfig = 1;
+                }else if ($is_template == true) {
                     break;
                 }
             }
@@ -193,7 +196,12 @@ class  Landing_Pages_Template_Management {
 
         if (!$is_template) {
             echo '<br><br><br><br>';
-            die( __('WARNING! This zip file does not seem to be a template file! If you are trying to install a Landing Page extension please use the Plugin\'s upload section! Please press the back button and try again!' , 'inbound-pro' ));
+            if ($misconfig) {
+                die( __('We\'ve detected that this is a landing page template, but the files need to be zipped inside the parent folder. Please restructure your zip file so that it\'s contents are inside a parent directory with your template\'s name.' , 'inbound-pro' ));
+
+            } else {
+                die( __('WARNING! This zip file does not seem to be a template file! If you are trying to install a Landing Page extension please use the Plugin\'s upload section! Please press the back button and try again!' , 'inbound-pro' ));
+            }
         }
 
 

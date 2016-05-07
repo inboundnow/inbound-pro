@@ -16,7 +16,66 @@ class Inbound_Email_Preview {
 	 *	Loads hooks and filters
 	 */
 	public function load_hooks() {
+		add_action( 'inbound-mailer/email/footer' , array( __CLASS__ , 'load_scripts' ) , 11 );
 		add_filter( 'single_template' , array( __CLASS__ , 'load_email' ) , 11 );
+	}
+
+	public static function load_scripts() {
+		?>
+		<script type="text/javascript">
+		var Subscribe = (function () {
+		var nav_background_color,
+		nav_font_color,
+		contents_background_color,
+		contents_font_color;
+
+		/**
+		*  Initialize Script
+		*/
+		init = function () {
+		setupVars();
+		addListeners();
+		createNav();
+
+		},
+		/**
+		* Setup Variables
+		*/
+		setupVars = function() {
+
+		},
+		/**
+		* Add Listeners
+		*/
+		addListeners = function() {
+
+		},
+
+		/**
+		* Create Navigation Elements
+		*/
+		createNav = function () {
+		var nav = jQuery("<nav></nav>")attr('id' , 'nav-subscribe').text = 'hello';
+		var prompt = jQuery("<div></div>");
+		var content = jQuery("<div></div>");
+
+		nav.prepend(content);
+		nav.prepend(prompt);
+
+		jQuery('body').prepend(nav);
+
+		},
+		expandNav = function () {
+
+		},
+		collapseNav = function () {
+
+		}
+		});
+
+		Subscribe.init();
+		</script>
+		<?php
 	}
 
 	/**
@@ -48,6 +107,7 @@ class Inbound_Email_Preview {
 		} else if (file_exists(INBOUND_EMAIL_THEME_TEMPLATES_PATH .$template.'/index.php')) {
 			return INBOUND_EMAIL_THEME_TEMPLATES_PATH . $template . '/index.php';
 		}
+
 
 
 		return $single;

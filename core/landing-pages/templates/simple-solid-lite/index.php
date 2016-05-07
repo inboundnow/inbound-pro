@@ -20,6 +20,7 @@ do_action('lp_init');
 if (have_posts()) : while (have_posts()) :
 the_post();
 
+$headline = get_field( 'lp-main-headline', $post->ID , false );
 $content = get_field( 'simple-solid-lite-main-content', $post->ID , false );
 $conversion_area = get_field( 'simple-solid-lite-conversion-area-content', $post->ID , false );
 $header = get_field( 'simple-solid-lite-header-display', $post->ID , false );
@@ -188,9 +189,11 @@ $test = inbound_color_scheme($background_color, 'hex');
     </div>
 </header>
 <section class="cf container outline-element">
-    <?php if (get_the_title() != "") { ?>
-        <h1><?php the_title(); ?></h1>
-    <?php } ?>
+    <h1><?php
+        if ($headline) {
+            echo do_shortcode($headline);
+        } ?>
+    </h1>
     <div class="inbound-template-intro">
         <div class="inbound_the_content"><?php echo $content;  ?></div>
     </div>

@@ -40,7 +40,7 @@ if (have_posts()) : while (have_posts()) : the_post();
     ?>
     <html>
     <head>
-
+    <?php do_action('inbound-mailer/email/header'); ?>
     </head>
     <body bgcolor="<?php echo $contrast_background_color; ?>" style="">
     <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="<?php echo $contrast_background_color; ?>" style="background-color:<?php echo $contrast_background_color; ?>;margin:0;padding:0;color:#444444;font-size:14px;font-family:Arial, Helvetica, sans-serif; ">
@@ -179,7 +179,7 @@ if (have_posts()) : while (have_posts()) : the_post();
         </tr>
         </tbody>
     </table>
-
+    <?php do_action('inbound-mailer/email/footer'); ?>
     </body>
     </html>
 
