@@ -11,7 +11,7 @@ var Subscribe = (function () {
         setupVars();
         addListeners();
         createNav();
-
+        hideViewInBrowserLink();
     },
     /**
      * Setup Variables
@@ -45,6 +45,9 @@ var Subscribe = (function () {
     },
     collapseNav = function () {
 
+    },
+    hideViewInBrowserLink = function() {
+        //class=view-in-browser
     }
 });
 
