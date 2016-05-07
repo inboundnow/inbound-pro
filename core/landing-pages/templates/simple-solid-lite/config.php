@@ -13,7 +13,7 @@ $path = (preg_match("/uploads/", dirname(__FILE__))) ? LANDINGPAGES_UPLOADS_URLP
 /* Configures Template Information */
 $lp_data[$key]['info'] = array(
 	'data_type' => 'acf4',
-	'version' => '1.0',
+	'version' => '2.0.0',
 	'label' => 'Simple Solid Lite',
 	'category' => '1 Column',
 	'demo' => 'http://demo.inboundnow.com/go/simple/',
@@ -27,6 +27,27 @@ if( function_exists('register_field_group') ):
 		'key' => 'group_55df73a9053d1',
 		'title' => 'Simple Solid Lite',
 		'fields' => array (
+			array (
+				'key' => 'field_55df6384rh9',
+				'label' => __('Main Headline','landing-pages'),
+				'name' => 'lp-main-headline',
+				'type' => 'text',
+				'instructions' => __('Insert the main template headline here.','landing-pages'),
+				'required' => 0,
+				'conditional_logic' => 0,
+				'wrapper' => array (
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'default_value' => '',
+				'placeholder' => '',
+				'prepend' => '',
+				'append' => '',
+				'maxlength' => '',
+				'readonly' => 0,
+				'disabled' => 0,
+			),
 			array (
 				'key' => 'field_55df73bb3fb9a',
 				'label' => 'Main Content',
@@ -55,6 +76,24 @@ if( function_exists('register_field_group') ):
 [/list]
 
 <p>This is the final sentence or paragraph reassuring the visitor of the benefits of filling out the form and how their data will be safe.</p>',
+				'tabs' => 'all',
+				'toolbar' => 'full',
+				'media_upload' => 1,
+			),
+			array (
+				'key' => 'field_55df73e03fb9b',
+				'label' => __('Mailn Headline'),
+				'name' => 'simple-solid-lite-conversion-area-content',
+				'type' => 'wysiwyg',
+				'instructions' => 'Insert a call to action or Inbound form here. ',
+				'required' => 0,
+				'conditional_logic' => 0,
+				'wrapper' => array (
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'default_value' => '',
 				'tabs' => 'all',
 				'toolbar' => 'full',
 				'media_upload' => 1,

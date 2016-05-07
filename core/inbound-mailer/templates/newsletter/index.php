@@ -102,6 +102,7 @@ $privacy_page_url = get_field('privacy_page_url', $post_id);
   }
 </style>
 
+<?php do_action('inbound-mailer/email/header'); ?>
 </head>
 
 <body style="padding:0; margin:0;">
@@ -290,7 +291,7 @@ $privacy_page_url = get_field('privacy_page_url', $post_id);
 	<tr class="bottom-gap"><td height="30"></td></tr>
 
 </table>
-
+<?php do_action('inbound-mailer/email/footer'); ?>
 </body>
 </html>
 

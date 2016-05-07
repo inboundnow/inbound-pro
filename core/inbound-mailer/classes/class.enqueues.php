@@ -58,6 +58,10 @@ class Inbound_Mailer_Enqueues {
 		if ( isset($post) && $post->post_type == 'inbound-email' ) {
 			return;
 		}
+
+		/* Enqueues js for unsubscribe page */
+		wp_enqueue_script('public-facing-subscribe', INBOUND_EMAIL_URLPATH . 'assets/js/frontend/subscribe_cta.js');
+
 	}
 
 
@@ -231,6 +235,7 @@ class Inbound_Mailer_Enqueues {
 	}
 
 }
+
 
 /**
 *  Loads Class Pre-Init

@@ -485,6 +485,7 @@ if (!class_exists('Inbound_Forms')) {
                 'id' => '',
             ), $atts));
 
+            $id = str_replace('form_' , '' , $id );
             $shortcode = get_post_meta($id, 'inbound_shortcode', TRUE);
 
             /* If form id missing add it */

@@ -60,9 +60,6 @@ class Leads_Post_Type {
         /* add extra menu items */
         add_action('admin_menu', array(__CLASS__, 'setup_admin_menu'));
 
-        /* Add quick action link to settings page for Leads */
-        add_filter('plugin_action_links_leads/leads.php', array(__CLASS__, 'display_plugin_quick_links'));
-
         /* Add plugin page 'upgrade to pro' call to action */
         add_filter('plugin_row_meta', array(__CLASS__, 'display_plugin_meta_link'), 10, 2);
 
@@ -661,26 +658,7 @@ class Leads_Post_Type {
     }
 
 
-    /**
-     * Add meta links in Plugins table
-     */
-    public static function display_plugin_meta_link($links, $file) {
 
-        if (defined('INBOUND_PRO_PATH')) {
-            return $links;
-        }
-
-        $plugin = 'leads/leads.php';
-
-        // create link
-        if ($file == $plugin) {
-            return array_merge(
-                $links,
-                array('<a href="http://www.inboundnow.com/membership-packages/">' . __('Upgrade to Pro', 'inbound-pro') . '</a>')
-            );
-        }
-        return $links;
-    }
 
 
     public static function display_status_pill( $status ) {
