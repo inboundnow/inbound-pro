@@ -59,9 +59,6 @@ class Inbound_Mailer_Enqueues {
 			return;
 		}
 
-		/* Enqueues js for unsubscribe page */
-		wp_enqueue_script('public-facing-subscribe', INBOUND_EMAIL_URLPATH . 'assets/js/frontend/subscribe_cta.js');
-
 	}
 
 
