@@ -144,7 +144,7 @@ if ( !class_exists( 'Inbound_Automation_Loader' ) ) {
 						foreach ($args[$id] as $k => $v ) {
 							if (is_array($v) || is_numeric($k)){
 								$c++;
-								continue;
+								$v = json_encode($v);
 							}
 
 							$keys[$id.':'.$k] = $k . ' ('.$v.')';
@@ -482,6 +482,7 @@ if ( !class_exists( 'Inbound_Automation_Loader' ) ) {
 
 			/* loop through arguments and update memory with available data with latest submission */
 			$argument_definitions = self::$instance->triggers[$hook]['arguments'];
+
 			foreach ($args as $key => $argument) {
 
 				/* Get first argument definition in the definition array */
