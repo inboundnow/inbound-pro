@@ -136,7 +136,7 @@ jQuery(document).ready(function($) {
 		timeout = 500;
 	}
 
-	if (cta_variation.cta_id) {
+	if (cta_variation.cta_id > 0) {
 		wp_cta_load_variation( cta_variation.cta_id , null , cta_variation.disable_ajax );
 	}
 
