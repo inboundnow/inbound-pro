@@ -60,9 +60,6 @@ class Leads_Post_Type {
         /* add extra menu items */
         add_action('admin_menu', array(__CLASS__, 'setup_admin_menu'));
 
-        /* Add plugin page 'upgrade to pro' call to action */
-        add_filter('plugin_row_meta', array(__CLASS__, 'display_plugin_meta_link'), 10, 2);
-
         /* enqueue scripts and styles in admin  */
         add_action('admin_enqueue_scripts', array(__CLASS__, 'enqueue_admin_scripts'));
     }
