@@ -370,6 +370,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
          *  Enqueue CSS & JS
          */
         public function enqueue_scripts() {
+            global $post;
 
             /* Get Variation Selection Nature */
             self::$instance->disable_ajax = get_option('wp-cta-main-disable-ajax-variation-discovery', 0 );
@@ -389,8 +390,16 @@ if ( !class_exists( 'CTA_Render' ) ) {
                 $ajax_url =  admin_url( 'admin-ajax.php' );
             }
 
+            /* cta preview mode uses shortcodes that call this manually */
+            if (isset($post) && $post->post_type == 'wp-call-to-action' ) {
+                $cta_id = 0;
+            } else {
+                $cta_id = self::$instance->selected_cta['id'];
+            }
+
             wp_enqueue_script( 'cta-load-variation', WP_CTA_URLPATH . 'assets/js/cta-variation.js', array('jquery'), true );
-            wp_localize_script( 'cta-load-variation', 'cta_variation', array('cta_id' => self::$instance->selected_cta['id'], 'ajax_url' => $ajax_url, 'admin_url' => admin_url( 'admin-ajax.php'), 'home_url' => get_home_url(), 'disable_ajax' => self::$instance->disable_ajax ));
+            wp_localize_script( 'cta-load-variation', 'cta_variation', array('cta_id' => $cta_id, 'ajax_url' => $ajax_url, 'admin_url' => admin_url( 'admin-ajax.php'), 'home_url' => get_home_url(), 'disable_ajax' => self::$instance->disable_ajax ));
+
 
             /* If placement is popup load popup asset files */
             if ( self::$instance->cta_content_placement === 'popup') {
@@ -1347,14 +1356,20 @@ if ( !class_exists( 'CTA_Render' ) ) {
                         return this;
                     }
                 </script>
-            <?php } ?>
-            <script type="text/javascript">
-                jQuery(document).ready(function($) {
-                    jQuery('.wp_cta_<?php echo $cta_id; ?>_variation_<?php echo intval($_GET['wp-cta-variation-id']); ?>').show();
-                });
-            </script>
-            <?php
+            <?php }
+
+            if($_GET['wp-cta-variation-id']) {
+                ?>
+                <script type="text/javascript">
+                    jQuery(document).ready(function($) {
+                        jQuery('.wp_cta_<?php echo $cta_id; ?>_variation_<?php echo intval($_GET['wp-cta-variation-id']); ?>').show();
+                    });
+                </script>
+                <?php
+            }
+
             do_action('wp_footer');
+
             echo '</body>';
             echo '</html>';
             exit;
