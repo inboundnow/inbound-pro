@@ -38,7 +38,6 @@ if (!class_exists('Inbound_Content_Statistics')) {
 
             /* load impressions/conversions collumns on non lp post types */
             if (is_admin() ) {
-
                 /* Register Columns */
                 add_filter( 'manage_post_posts_columns' , array( __CLASS__ , 'register_columns') , 20 );
                 add_filter( 'manage_page_posts_columns' , array( __CLASS__ , 'register_columns') , 20 );
@@ -369,7 +368,7 @@ if (!class_exists('Inbound_Content_Statistics')) {
 
     }
 
-	add_action('init' , 'inbound_load_legacy_statistics' , 10 );
+	add_action('plugins_loaded' , 'inbound_load_legacy_statistics' , 10 );
 	function inbound_load_legacy_statistics() {
 		new Inbound_Content_Statistics;
 	}

@@ -1,9 +1,9 @@
 <?php
 /**
-*
-* Pro welcome screen
-*
-*/
+ *
+ * Pro welcome screen
+ *
+ */
 
 class Inbound_Pro_Settings {
 	static $tab; /* placeholder for page currently opened */
@@ -11,8 +11,8 @@ class Inbound_Pro_Settings {
 	static $settings_values; /* configuration dataset */
 
 	/**
-	*	Load hooks and listners
-	*/
+	 *	Load hooks and listners
+	 */
 	public static function init() {
 		self::$tab = (isset($_GET['tab'])) ? $_GET['tab'] : 'inbound-pro-setup';
 		self::activation_redirect();
@@ -21,8 +21,8 @@ class Inbound_Pro_Settings {
 
 
 	/**
-	*	Loads hooks and filters
-	*/
+	 *	Loads hooks and filters
+	 */
 	public static function add_hooks() {
 
 		/* enqueue js and css */
@@ -45,8 +45,8 @@ class Inbound_Pro_Settings {
 	}
 
 	/**
-	*	Enqueue scripts & stylesheets
-	*/
+	 *	Enqueue scripts & stylesheets
+	 */
 	public static function enqueue_scripts() {
 
 		$screen = get_current_screen();
@@ -86,8 +86,8 @@ class Inbound_Pro_Settings {
 	}
 
 	/**
-	*	Listens for the _inbound_pro_welcome transient and if it exists then redirect to the welcome page
-	*/
+	 *	Listens for the _inbound_pro_welcome transient and if it exists then redirect to the welcome page
+	 */
 	public static function activation_redirect() {
 
 		if ( get_transient('_inbound_pro_welcome') ) {
@@ -99,8 +99,8 @@ class Inbound_Pro_Settings {
 	}
 
 	/**
-	*  Setup Core Settings
-	*/
+	 *  Setup Core Settings
+	 */
 	public static function extend_settings() {
 
 		$price_id = Inbound_Pro_Plugin::get_customer_status();
@@ -316,7 +316,7 @@ class Inbound_Pro_Settings {
 								'value' => null
 							)
 						)
-				    )
+					)
 				),
 				/* add core plugin exclusion options */
 				array(
@@ -398,8 +398,8 @@ class Inbound_Pro_Settings {
 	}
 
 	/**
-	*	Render Pro Display
-	*/
+	 *	Render Pro Display
+	 */
 	public static function display() {
 
 		?>
@@ -414,22 +414,22 @@ class Inbound_Pro_Settings {
 
 			switch ( self::$tab ) {
 				case 'inbound-pro-welcome':
-                    echo '<section class="xlarge-70 large-70 medium-60 small-100 tiny-100 welcome-screen-content">';
+					echo '<section class="xlarge-70 large-70 medium-60 small-100 tiny-100 welcome-screen-content">';
 					self::display_welcome();
-                    echo '</section>';
-                    echo '<section class="xlarge-30 large-30 medium-30 small-100 tiny-100">';
+					echo '</section>';
+					echo '<section class="xlarge-30 large-30 medium-30 small-100 tiny-100">';
 					self::display_blog_posts();
 					self::display_social_ctas();
-                    echo '</section>';
+					echo '</section>';
 					BREAK;
 				case 'inbound-pro-settings':
-                    echo '<section class="xlarge-70 large-70 medium-60 small-100 tiny-100 welcome-screen-content">';
-                    self::display_settings();
-                    echo '</section>';
-                    echo '<section class="xlarge-30 large-30 medium-30 small-100 tiny-100">';
-                    self::display_blog_posts();
-                    self::display_social_ctas();
-                    echo '</section>';
+					echo '<section class="xlarge-70 large-70 medium-60 small-100 tiny-100 welcome-screen-content">';
+					self::display_settings();
+					echo '</section>';
+					echo '<section class="xlarge-30 large-30 medium-30 small-100 tiny-100">';
+					self::display_blog_posts();
+					self::display_social_ctas();
+					echo '</section>';
 					BREAK;
 				case 'inbound-pro-setup':
 					self::display_setup();
@@ -438,7 +438,7 @@ class Inbound_Pro_Settings {
 					self::display_setup();
 					BREAK;
 			}
-            echo '</section>';
+			echo '</section>';
 			self::display_footer();
 			?>
 		</div>
@@ -446,8 +446,8 @@ class Inbound_Pro_Settings {
 	}
 
 	/**
-	*  Display Pro Welcome Screen
-	*/
+	 *  Display Pro Welcome Screen
+	 */
 	public static function display_welcome() {
 		self::extend_settings();
 		self::$settings_values = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
@@ -510,7 +510,7 @@ class Inbound_Pro_Settings {
 		<h2>Better admin/IP anti-tracking measures</h2>
 		<p>By better, we mean they exist now. In your Inbound Pro Settings area you will see a new place where you can disable tracking on admin accounts and disable tracking by IP addresses.</p>
 
-        <img class="size-full wp-image-138044" src="http://www.inboundnow.com/wp-content/uploads/2012/05/2015-10-13_1746.png" alt="Disable tracking by ip and admin"  />
+		<img class="size-full wp-image-138044" src="http://www.inboundnow.com/wp-content/uploads/2012/05/2015-10-13_1746.png" alt="Disable tracking by ip and admin"  />
 		<a name='mapping'></a>
 		<h2>It's now easy to add custom Lead fields</h2>
 		<p>In our current setup we have to use PHP code inserts to add non-native lead fields. Now we can do it straight from the settings area. We can also edit the labels of core fields and change the order they appear within a Lead Profile.</p>
@@ -522,14 +522,14 @@ class Inbound_Pro_Settings {
 
 		<img class="aligncenter size-full wp-image-138164" src="http://www.inboundnow.com/wp-content/uploads/2012/05/extension-settings.gif" alt="extension settings"  />
 		<?php
-			//self::render_fields( 'inbound-pro-welcome' );
+		//self::render_fields( 'inbound-pro-welcome' );
 		?>
 		<?php
 	}
 
 	/**
-	*	Display Inbound Pro Setup page
-	*/
+	 *	Display Inbound Pro Setup page
+	 */
 	public static function display_setup() {
 		self::extend_settings();
 		self::$settings_values = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
@@ -537,16 +537,16 @@ class Inbound_Pro_Settings {
 		?>
 
 		<div class="xlarge-100 large-100 medium-100 small-100 tiny-100">
-		<?php
+			<?php
 			self::render_fields( 'inbound-pro-setup' );
-		?>
+			?>
 		</div>
 		<?php
 	}
 
 	/**
-	*	Display Inbound Pro Settings page
-	*/
+	 *	Display Inbound Pro Settings page
+	 */
 	public static function display_settings() {
 		self::extend_settings();
 		self::$settings_values = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
@@ -556,18 +556,18 @@ class Inbound_Pro_Settings {
 
 
 	/**
-	*	Display Sidebar
-	*/
+	 *	Display Sidebar
+	 */
 	public static function display_sidebar() {
 
 
 		?>
 
-			<!-- 	Nav to Tools -->
-			<?php
-            self::display_social_ctas();
+		<!-- 	Nav to Tools -->
+		<?php
+		self::display_social_ctas();
 
-            ?>
+		?>
 
 		<?php
 	}
@@ -578,47 +578,47 @@ class Inbound_Pro_Settings {
 	public static function display_blog_posts() {
 		$blogs = Inbound_API_Wrapper::get_blog_posts();
 		?>
-        <ul class="unstyled">
-            <!--- Show blog posts --->
-            <?php
-            $i=0;
-            $limit = 20;
-            foreach ($blogs as $item) {
-                if ($i>5) {
-                    break;
-                }
+		<ul class="unstyled">
+			<!--- Show blog posts --->
+			<?php
+			$i=0;
+			$limit = 20;
+			foreach ($blogs as $item) {
+				if ($i>5) {
+					break;
+				}
 
-                $excerpt = explode('The post' ,  $item['description']);
-                $excerpt = $excerpt[0];
+				$excerpt = explode('The post' ,  $item['description']);
+				$excerpt = $excerpt[0];
 
-                ?>
-                <div class="all-80 small-50 tiny-50">
-                    <h6 class='sidebar-h6'><?php echo $item['title']; ?></h6>
-                    <!--<img class="half-bottom-space" src="holder.js/1200x600/auto/ink" alt="">-->
-                    <p><a href='<?php echo $item['guid']; ?>' target='_blank'><?php _e( 'Read more &#8594;' , 'inbound-pro'); ?></a></p>
-                </div>
-                <?php
-                $i++;
-            }
-            ?>
-        </ul>
+				?>
+				<div class="all-80 small-50 tiny-50">
+					<h6 class='sidebar-h6'><?php echo $item['title']; ?></h6>
+					<!--<img class="half-bottom-space" src="holder.js/1200x600/auto/ink" alt="">-->
+					<p><a href='<?php echo $item['guid']; ?>' target='_blank'><?php _e( 'Read more &#8594;' , 'inbound-pro'); ?></a></p>
+				</div>
+				<?php
+				$i++;
+			}
+			?>
+		</ul>
 		<?php
 	}
 
 
 	public static function display_social_ctas() {
-	       ?>
+		?>
 
-	        <a href="https://twitter.com/inboundnow" class="twitter-follow-button" data-show-count="false">Follow @inboundnow</a>
-                <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-            <iframe src='//www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Finboundnow&amp;width=234&amp;height=65&amp;colorscheme=light&amp;show_faces=false&amp;border_color&amp;stream=false&amp;header=false&amp;appId=364256913591848' scrolling='no' frameborder='0' style='border:none; overflow:hidden; width:234px; height:116px;' allowTransparency='true'>
-            </iframe>
-	       <?php
+		<a href="https://twitter.com/inboundnow" class="twitter-follow-button" data-show-count="false">Follow @inboundnow</a>
+		<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+		<iframe src='//www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Finboundnow&amp;width=234&amp;height=65&amp;colorscheme=light&amp;show_faces=false&amp;border_color&amp;stream=false&amp;header=false&amp;appId=364256913591848' scrolling='no' frameborder='0' style='border:none; overflow:hidden; width:234px; height:116px;' allowTransparency='true'>
+		</iframe>
+		<?php
 	}
 
 	/**
-	*	Display Footer
-	*/
+	 *	Display Footer
+	 */
 	public static function display_footer() {
 		$docs = Inbound_API_Wrapper::get_docs();
 		if (!$docs) {
@@ -628,23 +628,23 @@ class Inbound_Pro_Settings {
 
 
 		<footer class="clearfix pro-footer">
-            <div class="ink-grid">
-                <ul class="unstyled inline half-vertical-space">
-                    <li class="active"><a href="http://www.inboundnow.com" target='_blank'><?php _e( 'Inbound Now' , 'inbound-pro' ); ?></a></li>
-                    <li class="active"><a href="http://www.twitter.com/inboundnow" target='_blank'><?php _e( 'Twitter' , 'inbound-pro' ); ?></a></li>
-                    <li class="active"><a href="http://www.github.com/inboundnow" target='_blank'><?php _e( 'GitHub' , 'inbound-pro' ); ?></a></li>
-                    <li class="active"><a href="http://support.inboundnow.com" target='_blank'><?php _e( 'Support' , 'inbound-pro' ); ?></a></li>
-                    <li class="active"><a href="http://docs.inboundnow.com" target='_blank'><?php _e( 'Documentation' , 'inbound-pro' ); ?></a></li>
-                    <li class="active"><a href="http://www.inboundnow.com/translate-inbound-now/" target='_blank'><?php _e( 'Translations' , 'inbound-pro' ); ?></a></li>
-                </ul>
-            </div>
-        </footer>
+			<div class="ink-grid">
+				<ul class="unstyled inline half-vertical-space">
+					<li class="active"><a href="http://www.inboundnow.com" target='_blank'><?php _e( 'Inbound Now' , 'inbound-pro' ); ?></a></li>
+					<li class="active"><a href="http://www.twitter.com/inboundnow" target='_blank'><?php _e( 'Twitter' , 'inbound-pro' ); ?></a></li>
+					<li class="active"><a href="http://www.github.com/inboundnow" target='_blank'><?php _e( 'GitHub' , 'inbound-pro' ); ?></a></li>
+					<li class="active"><a href="http://support.inboundnow.com" target='_blank'><?php _e( 'Support' , 'inbound-pro' ); ?></a></li>
+					<li class="active"><a href="http://docs.inboundnow.com" target='_blank'><?php _e( 'Documentation' , 'inbound-pro' ); ?></a></li>
+					<li class="active"><a href="http://www.inboundnow.com/translate-inbound-now/" target='_blank'><?php _e( 'Translations' , 'inbound-pro' ); ?></a></li>
+				</ul>
+			</div>
+		</footer>
 		<?php
 	}
 
 	/**
-	*	Render About InboundNow Nav
-	*/
+	 *	Render About InboundNow Nav
+	 */
 	static function display_nav_menu() {
 
 		$pages_array = array(
@@ -682,23 +682,23 @@ class Inbound_Pro_Settings {
 	}
 
 	/**
-	*  Displays search filter
-	*/
+	 *  Displays search filter
+	 */
 	public static function display_search() {
 		?>
 		<div class="">
-				<div class='templates-filter-group'>
-					<input class="filter-search" type="search" placeholder="<?php _e(' Search Settings... ' , 'inbound-pro' ); ?>">
-				</div>
+			<div class='templates-filter-group'>
+				<input class="filter-search" type="search" placeholder="<?php _e(' Search Settings... ' , 'inbound-pro' ); ?>">
 			</div>
+		</div>
 
 		<?php
 	}
 
 	/**
-	*  Renders settings given a fields dataset
-	*  @param STRING $fieldgroup_key identification key for which field group to render
-	*/
+	 *  Renders settings given a fields dataset
+	 *  @param STRING $fieldgroup_key identification key for which field group to render
+	 */
 	public static function render_fields( $page ) {
 		echo '<div class="wrap">';
 		/* render search filter */
@@ -708,6 +708,12 @@ class Inbound_Pro_Settings {
 
 		self::$settings_fields[ $page ] = (isset(self::$settings_fields[ $page ])) ? self::$settings_fields[ $page ] : array();
 
+		if (isset($_GET['debug']) && $_GET['debug'] == 2) {
+			echo '<pre>';
+			print_r(self::$settings_fields[ $page ]);
+			echo '</pre>';
+		}
+
 		foreach( self::$settings_fields[ $page ] as $priority => $group ) {
 			echo '<div class="inbound-settings-group " data-keywords="'.$group['keywords'].','.$group['group_name'].'" data-group-name="'.$group['group_name'].'" id="'.$group['group_name'].'">';
 			foreach( $group['fields'] as $field ) {
@@ -716,6 +722,15 @@ class Inbound_Pro_Settings {
 				$field['default'] =  (isset($field['default'])) ? $field['default'] : '';
 				$field['class'] =  (isset($field['class'])) ? $field['class'] : '';
 				$field['value'] = (isset(self::$settings_values[ $group['group_name'] ][ $field['id'] ])) ? self::$settings_values[ $group['group_name'] ][ $field['id'] ] : $field['default'];
+
+				if (isset($_GET['debug'])) {
+					echo '<pre>';
+					echo $group['group_name'];
+					echo '<br>';
+					print_r($field);
+					echo '</pre>';
+					continue;
+				}
 
 				/* rend field */
 				self::render_field( $field , $group );
@@ -729,10 +744,10 @@ class Inbound_Pro_Settings {
 	}
 
 	/**
-	*  Renders label and input given field dataset
-	*  @param ARRAY $field dataset containing field information
-	*  @param ARRAY $group dataset containing fieldgroup information
-	*/
+	 *  Renders label and input given field dataset
+	 *  @param ARRAY $field dataset containing field information
+	 *  @param ARRAY $group dataset containing fieldgroup information
+	 */
 	public static function render_field( $field , $group ) {
 
 		if (isset($field['reveal']) && is_array($field['reveal'])) {
@@ -852,7 +867,7 @@ class Inbound_Pro_Settings {
 				echo	'<span class="description">'.$field['description'].'</span><br><br>';
 				break;
 			// media
-				case 'media':
+			case 'media':
 
 				echo '<label for="upload_image">';
 				echo '<input name="'.$field['id'].'"	id="'.$field['id'].'" type="text" size="36" name="upload_image" value="'.$field['value'].'"  data-field-type="'.$field['type'].'" data-field-group="'.$group['group_name'].'"/>';
@@ -873,8 +888,8 @@ class Inbound_Pro_Settings {
 						echo "<tr>";
 						$i=1;
 					}
-						echo '<td><input type="checkbox" name="'.$field['id'].'[]" id="'.$field['id'].'" value="'.$value.'" ',in_array($value,$field['value']) ? ' checked="checked"' : '','  data-field-type="'.$field['type'].'"  data-field-group="'.$group['group_name'].'"/>';
-						echo '<label for="'.$value.'">&nbsp;&nbsp;'.$label.'</label></td>';
+					echo '<td><input type="checkbox" name="'.$field['id'].'[]" id="'.$field['id'].'" value="'.$value.'" ',in_array($value,$field['value']) ? ' checked="checked"' : '','  data-field-type="'.$field['type'].'"  data-field-group="'.$group['group_name'].'"/>';
+					echo '<label for="'.$value.'">&nbsp;&nbsp;'.$label.'</label></td>';
 					if ($i==4)
 					{
 						echo "</tr>";
@@ -883,7 +898,7 @@ class Inbound_Pro_Settings {
 				}
 				echo "</table>";
 				echo '<br><i class="inbound-tooltip fa-question-circle tool_checkbox" title="'.$field['description'].'"></i>';
-			break;
+				break;
 			// radio
 			case 'radio':
 
@@ -907,7 +922,7 @@ class Inbound_Pro_Settings {
 				echo '</div>';
 
 
-			break;
+				break;
 			// select
 			case 'dropdown':
 				echo '<div class="inbound-field">';
@@ -918,9 +933,9 @@ class Inbound_Pro_Settings {
 
 				echo '		<select name="'.$field['id'].'" id="'.$field['id'].'"  data-field-type="'.$field['type'].'" data-field-group="'.$group['group_name'].'">';
 
-							foreach ($field['options'] as $value=>$label) {
-								echo '		<option', $field['value'] == $value ? ' selected="selected"' : '', ' value="'.$value.'">'.$label.'</option>';
-							}
+				foreach ($field['options'] as $value=>$label) {
+					echo '		<option', $field['value'] == $value ? ' selected="selected"' : '', ' value="'.$value.'">'.$label.'</option>';
+				}
 
 				echo '		</select>';
 				echo '	</div>';
@@ -928,7 +943,7 @@ class Inbound_Pro_Settings {
 				echo '		<br /><i class="inbound-tooltip fa fa-question-circle tool_dropdown" title="'.$field['description'].'"></i>';
 				echo '	</div>';
 				echo '</div>';
-			break;
+				break;
 			case 'html':
 				echo $field['value'];
 				echo ( !empty($field['description']) ) ? $field['description'] : '';
@@ -944,7 +959,7 @@ class Inbound_Pro_Settings {
 					}
 				}
 
-			break;
+				break;
 			case 'custom-fields-repeater':
 				$fields = Leads_Field_Map::get_lead_fields();
 				$fields = Leads_Field_Map::prioritize_lead_fields( $fields );
@@ -1176,15 +1191,15 @@ class Inbound_Pro_Settings {
 				echo '	</form>';
 
 				echo '</div>';
-			break;
+				break;
 		} //end switch
 		echo '</div>';
 
-    }
+	}
 
 	/**
-	*  Ajax listener for saving updated field data
-	*/
+	 *  Ajax listener for saving updated field data
+	 */
 	public static function ajax_update_settings() {
 		/* parse string */
 		parse_str($_POST['input'] , $data );
@@ -1201,8 +1216,8 @@ class Inbound_Pro_Settings {
 	}
 
 	/**
-	*  Ajax listener for saving updated custom field data
-	*/
+	 *  Ajax listener for saving updated custom field data
+	 */
 	public static function ajax_update_custom_fields() {
 		/* parse string */
 		parse_str($_POST['input'] , $data );
@@ -1215,8 +1230,8 @@ class Inbound_Pro_Settings {
 	}
 
 	/**
-	*  Ajax listener for saving updated custom field data
-	*/
+	 *  Ajax listener for saving updated custom field data
+	 */
 	public static function ajax_update_lead_statuses() {
 		/* parse string */
 		parse_str($_POST['input'] , $data );
@@ -1229,8 +1244,8 @@ class Inbound_Pro_Settings {
 	}
 
 	/**
-	*  Ajax listener for saving updated ip addresses to not track
-	*/
+	 *  Ajax listener for saving updated ip addresses to not track
+	 */
 	public static function ajax_update_ip_addresses() {
 		/* parse string */
 		parse_str($_POST['input'] , $data );
