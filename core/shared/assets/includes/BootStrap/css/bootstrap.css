@@ -5691,9 +5691,11 @@ button.close {
 	background-color: transparent;
 	border: 0;
 }
-.hidden {
-	display: none !important;
-	visibility: hidden !important;
+:not(#wpbody) {
+  .hidden {
+    display: none! important;
+    visibility: hidden! important;
+  }
 }
 .affix {
 	position: fixed;

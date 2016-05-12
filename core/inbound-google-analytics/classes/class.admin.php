@@ -41,11 +41,11 @@ class Inbound_GA_Admin_Settings {
 		add_action( 'admin_menu', array( __CLASS__, 'prepare_admin_menu') );
 
 		/* Add css & inline js */
-		add_action( 'admin_footer' , array( __CLASS__ , 'load_inline_css') );
-		add_action( 'admin_footer' , array( __CLASS__ , 'load_inline_js') );
+		//add_action( 'admin_footer' , array( __CLASS__ , 'load_inline_css') );
+		//add_action( 'admin_footer' , array( __CLASS__ , 'load_inline_js') );
 
 		/* Enqueue JS * CSS */
-		add_action( 'admin_enqueue_scripts' , array( __CLASS__ , 'enqueue_scripts') );
+		//add_action( 'admin_enqueue_scripts' , array( __CLASS__ , 'enqueue_scripts') );
 
 		/* add ajax listener for setting saves */
 		add_action( 'wp_ajax_inbound_ga_toggle_insert' , array( __CLASS__ , 'toggle_insert_mode' ) );
@@ -329,7 +329,7 @@ class Inbound_GA_Admin_Settings {
 		/* Client ID */
 		$settings['clientid'] =	array(
 			'id'	=> 'clientid',
-			'label' => __('API Client ID' , INBOUNDNOW_TEXT_DOMAIN ),
+			'label' => __('API Client ID' , 'inbound-pro' ),
 			'description' => __('Description here' , 'inbound-pro'),
 			'type'	=> 'text',
 			'default'	=> '',
@@ -339,7 +339,7 @@ class Inbound_GA_Admin_Settings {
 		/* Client Secret */
 		$settings['clientsecret'] =	array(
 			'id'	=> 'clientsecret',
-			'label' => __('API Client Secret' , INBOUNDNOW_TEXT_DOMAIN ),
+			'label' => __('API Client Secret' , 'inbound-pro' ),
 			'description' => __('Description here' , 'inbound-pro'),
 			'type'	=> 'text',
 			'default'	=> '',
@@ -436,14 +436,14 @@ class Inbound_GA_Admin_Settings {
 		?>
 		<section id="step02">
 			<div class="section_title">
-				<?php _e('Step 02: Authorize your account.' , INBOUNDNOW_TEXT_DOMAIN ); ?>
+				<?php _e('Step 02: Authorize your account.' , 'inbound-pro' ); ?>
 			</div>
 			<div class="section_content active">
 				<div class="hero-unit">
-					<h1><?php _e('Sign In' , INBOUNDNOW_TEXT_DOMAIN ); ?></h1>
+					<h1><?php _e('Sign In' , 'inbound-pro' ); ?></h1>
 					<p><?php _e('Google Analytics data displayed in Google Charts using OAuth2 authorization.<br />
-					Google account must have access to analytics.</p>' , INBOUNDNOW_TEXT_DOMAIN ); ?>
-					<p><a class="btn btn-primary btn-large" href="<?php echo $google_oauth->loginurl ?>"><?php _e('Authorize with Google account' , INBOUNDNOW_TEXT_DOMAIN ); ?></a></p>
+					Google account must have access to analytics.</p>' , 'inbound-pro' ); ?>
+					<p><a class="btn btn-primary btn-large" href="<?php echo $google_oauth->loginurl ?>"><?php _e('Authorize with Google account' , 'inbound-pro' ); ?></a></p>
 
 				</div>
 			</div>
@@ -467,7 +467,7 @@ class Inbound_GA_Admin_Settings {
 		?>
 		<section id="step02">
 			<div class="section_title">
-				<?php _e( 'Associate Profile With Website.' , INBOUNDNOW_TEXT_DOMAIN ); ?>
+				<?php _e( 'Associate Profile With Website.' , 'inbound-pro' ); ?>
 			</div>
 			<div class="section_content active">
 				<div class="hero-unit">
@@ -482,7 +482,7 @@ class Inbound_GA_Admin_Settings {
 							}
 							?>
 						</select>
-						<input name="link_profile" type="submit" value="<?php _e('Link Website' , INBOUNDNOW_TEXT_DOMAIN ); ?>">
+						<input name="link_profile" type="submit" value="<?php _e('Link Website' , 'inbound-pro' ); ?>">
 						<?php
 						if (isset(self::$ga_settings['linked_profile']) &&  self::$ga_settings['linked_profile'] ) {
 							echo '<span class="label">'.__('linked!' , 'inbound-pro') .'</span>';
@@ -516,12 +516,12 @@ class Inbound_GA_Admin_Settings {
 		?>
 		<section id="step02">
 			<div class="section_title">
-				<?php _e( 'Unauthorize Account.' , INBOUNDNOW_TEXT_DOMAIN ); ?>
+				<?php _e( 'Unauthorize Account.' , 'inbound-pro' ); ?>
 			</div>
 			<div class="section_content active">
 				<div class="hero-unit">
 					<form action="" method="post">
-						<input name="delete_credentials" type="submit" value="<?php _e('Unauthorize Account' , INBOUNDNOW_TEXT_DOMAIN ); ?>">
+						<input name="delete_credentials" type="submit" value="<?php _e('Unauthorize Account' , 'inbound-pro' ); ?>">
 					</form>
 
 				</div>
@@ -540,7 +540,7 @@ class Inbound_GA_Admin_Settings {
 		?>
 		<section id="jsinsert">
 			<div class="section_title">
-				<?php _e( 'Analytics Code' , INBOUNDNOW_TEXT_DOMAIN ); ?>
+				<?php _e( 'Analytics Code' , 'inbound-pro' ); ?>
 			</div>
 			<div class="section_content active">
 				<div class="hero-unit">
@@ -548,7 +548,7 @@ class Inbound_GA_Admin_Settings {
 						<textarea name="inbound_ga_js_snippet" style='width:100%;' value='<?php ( isset( self::$ga_settings[ 'inbound_ga_js_snippet' ] ) ) ? self::$ga_settings[ 'inbound_ga_js_snippet' ] :	''; ?>'></textarea>
 						<br>
 						<i><small><?php _e( 'If you have not added your Google Analytics JS snippet to your website yet you can add it in here.' , 'inbound-pro' ); ?></small></i>
-						<input name="js_insert" type="submit" value="<?php _e('Save Analytics Code' , INBOUNDNOW_TEXT_DOMAIN ); ?>">
+						<input name="js_insert" type="submit" value="<?php _e('Save Analytics Code' , 'inbound-pro' ); ?>">
 					</form>
 				</div>
 			</div>
