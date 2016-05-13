@@ -737,7 +737,7 @@ class Leads_Post_Type {
         add_submenu_page(
             'edit.php?post_type=wp-lead',
             __('Forms', 'leads'),
-            __('Manage Forms', 'leads'),
+            __('Forms', 'leads'),
             'manage_options',
             'inbound-forms-redirect',
             100

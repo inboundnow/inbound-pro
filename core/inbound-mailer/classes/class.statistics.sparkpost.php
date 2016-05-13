@@ -33,7 +33,7 @@ class Inbound_SparkPost_Stats {
      *	@return JSON
      */
     public static function get_email_timeseries_stats( $email_id = null ) {
-        global $Inbound_Mailer_Variations, $post, $inbound_settings;
+        global $Inbound_Mailer_Variations, $post;
 
         /* check if email id is set else use global post object */
         if ( $email_id ) {
@@ -388,13 +388,10 @@ class Inbound_SparkPost_Stats {
     public static function create_sparkpost_webhooks($field) {
         global $inbound_settings;
 
-        if (!$inbound_settings['inbound-mailer']['sparkpost-key']) {
-            return;
-        }
-
         /* load SparkPost connector */
         $sparkpost = new Inbound_SparkPost(  $field['value'] );
 
+        $inbound_settings['inbound-mailer']['sparkpost-key'] = $field['value'];
 
         /* check if webhook is already created */
         if (isset($inbound_settings['inbound-mailer']['sparkpost']['webhook']['id']) ) {

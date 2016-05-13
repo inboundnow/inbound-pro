@@ -37,6 +37,7 @@ if ( !class_exists('Inbound_Mailer_Settings') ) {
 			global $inbound_settings;
 
 			$service = (isset($inbound_settings['inbound-mailer']['mail-service'])) ? $inbound_settings['inbound-mailer']['mail-service'] : 'sparkpost';
+			$inbound_settings['inbound-mailer']['mail-service'] = $service;
 
 			$settings['inbound-pro-setup'][] = array(
 				'group_name' => INBOUND_EMAIL_SLUG ,

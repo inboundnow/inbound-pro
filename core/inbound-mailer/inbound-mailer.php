@@ -156,6 +156,7 @@ if ( !class_exists('Inbound_Mailer_Plugin')	) {
 
 				case false :
 					/* load front-end files */
+					include_once('classes/class.settings.php');
 					include_once('classes/class.options-api.php');
 					include_once('classes/class.postmeta.php');;
 					include_once('classes/class.load.email-templates.php');
@@ -180,7 +181,6 @@ if ( !class_exists('Inbound_Mailer_Plugin')	) {
 					include_once('classes/class.connector.mandrill.php');
 					include_once('classes/class.connector.sparkpost.php');
 					include_once('classes/class.scheduling.php');
-					include_once('classes/class.settings.php');
 
 					BREAK;
 			endswitch;

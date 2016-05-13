@@ -158,12 +158,10 @@ class Inbound_Mailer_Ajax_Listeners {
 	 *  Sends test email
 	 */
 	public static function send_test_email() {
-		$mailer = new Inbound_Mail_Daemon();
-
 		/* see if there is a lead associated with the test email */
 		$lead_id = LeadStorage::lookup_lead_by_email($_REQUEST['email_address']);
 
-		$response = $mailer->send_solo_email( array(
+		$response = Inbound_Mail_Daemon::send_solo_email( array(
 			'email_address' => $_REQUEST['email_address'] ,
 			'email_id' => $_REQUEST['email_id'] ,
 			'vid' => $_REQUEST['variation_id'],
