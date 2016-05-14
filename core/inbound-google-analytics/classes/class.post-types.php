@@ -76,36 +76,41 @@ if ( !class_exists('Inbound_GA_Post_Types') ) {
                 case "inbound_ga_stats_impressions":
                     if (isset(self::$statistics[$post->ID])) {
                         echo self::$statistics[$post->ID]['impressions']['current'][self::$range];
-                    } else {
+                    } else if ($post->post_status=='publish'){
                         ?>
-                        <div class="td-col-impressions" data-post-id="<?php echo $post->ID; ?>">
+                        <div class="td-col-impressions" data-post-id="<?php echo $post->ID; ?>" data-post-status="<?php echo $post->post_status; ?>">
                             <img src="<?php echo INBOUND_GA_URLPATH; ?>assets/img/ajax_progress.gif" class="col-ajax-spinner" style="margin-top:3px;">
 
                         </div>
                         <?php
+                    }else {
+                        echo '-';
                     }
                     break;
                 case "inbound_ga_stats_visitors":
                     if (isset(self::$statistics[$post->ID])) {
                         echo self::$statistics[$post->ID]['visitors']['current'][self::$range];
-                    } else {
+                    } else if ($post->post_status=='publish'){
                         ?>
-                        <div class="td-col-visitors" data-post-id="<?php echo $post->ID; ?>">
+                        <div class="td-col-visitors" data-post-id="<?php echo $post->ID; ?>" data-post-status="<?php echo $post->post_status; ?>">
                             <img src="<?php echo INBOUND_GA_URLPATH; ?>assets/img/ajax_progress.gif" class="col-ajax-spinner" style="margin-top:3px;">
                         </div>
                         <?php
+                    } else {
+                        echo '-';
                     }
                     break;
                 case "inbound_ga_stats_actions":
                     if (isset(self::$statistics[$post->ID])) {
                         echo self::$statistics[$post->ID]['actions']['current'][self::$range];
-                    }
-                    else {
+                    } else if ($post->post_status=='publish'){
                         ?>
-                        <div class="td-col-actions" data-post-id="<?php echo $post->ID; ?>">
+                        <div class="td-col-actions" data-post-id="<?php echo $post->ID; ?>" data-post-status="<?php echo $post->post_status; ?>">
                             <img src="<?php echo INBOUND_GA_URLPATH; ?>assets/img/ajax_progress.gif" class="col-ajax-spinner" style="margin-top:3px;">
                         </div>
                         <?php
+                    } else {
+                        echo '-';
                     }
                     break;
 
@@ -267,10 +272,13 @@ if ( !class_exists('Inbound_GA_Post_Types') ) {
                     /* Let's use ajax to discover and set the sends/opens/conversions */
 
                     var post_ids = [];
-                    var i = 0
+                    var i = 0;
                     jQuery( jQuery('.td-col-impressions').get() ).each( function( $ ) {
                         var post_id = jQuery(this).attr('data-post-id');
-                        post_ids[i] = post_id;
+                        var post_status = jQuery(this).attr('data-post-status');
+                        if (post_status=='publish') {
+                            post_ids[i] = post_id;
+                        }
                         i++;
                     });
 
