@@ -43,6 +43,7 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
             /* enqueue scripts for landing page listings */
             add_action( 'admin_enqueue_scripts' , array(__CLASS__, 'enqueue_admin_scripts' ) );
 
+
             /* enqueue scripts for landing page listings */
             if (isset($_GET['dont_save'])
                 || isset($_GET['iframe_window'])
@@ -147,6 +148,9 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
             if (!isset($post) ||$post->post_type != 'landing-page') {
                 return;
             }
+
+            wp_enqueue_style('lp-content-stats', LANDINGPAGES_URLPATH . 'assets/css/admin/content-stats.css');
+
 
             /* listing page only */
             if ($screen->id == 'edit-landing-page' ) {

@@ -368,7 +368,7 @@ if (!class_exists('Inbound_Content_Statistics')) {
 
     }
 
-	add_action('plugins_loaded' , 'inbound_load_legacy_statistics' , 10 );
+	add_action('init' , 'inbound_load_legacy_statistics' , 10 );
 	function inbound_load_legacy_statistics() {
 		new Inbound_Content_Statistics;
 	}
