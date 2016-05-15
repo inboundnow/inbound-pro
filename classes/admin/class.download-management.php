@@ -627,7 +627,7 @@ class Inbound_Pro_Downloads {
 						}
 
 						if ( in_array( 'email' , $download['plugins'] ) ) {
-							$ribbons['email']['ribbon'] = 'cta-ribbon';
+							$ribbons['email']['ribbon'] = 'mail-ribbon';
 							$ribbons['email']['fa'] = 'fa-envelope-o';
 							$ribbons['email']['title'] = __( 'Email' , INBOUNDNOW_TEXT_DOMAIN );
 						}
@@ -743,7 +743,7 @@ class Inbound_Pro_Downloads {
 			return LANDINGPAGES_UPLOADS_PATH . $folder_name . '/';
 		}
 
-		if ( in_array( 'mailer' , $download[ 'plugins' ] ) ) {
+		if ( in_array( 'email' , $download[ 'plugins' ] ) ) {
 			return INBOUND_EMAIL_UPLOADS_PATH . $folder_name . '/';
 		}
 

@@ -33,7 +33,7 @@ class Inbound_SparkPost_Stats {
      *	@return JSON
      */
     public static function get_email_timeseries_stats( $email_id = null ) {
-        global $Inbound_Mailer_Variations, $post;
+        global $Inbound_Mailer_Variations, $post, $inbound_settings;
 
         /* check if email id is set else use global post object */
         if ( $email_id ) {
