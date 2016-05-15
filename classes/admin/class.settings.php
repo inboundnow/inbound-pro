@@ -298,23 +298,6 @@ class Inbound_Pro_Settings {
 								'selector' => null ,
 								'value' => null
 							)
-						),
-						array (
-							'id'	=> 'toggle-google-analytics',
-							'type'	=> 'radio',
-							'label'	=> __( 'Google Analytics' , 'inbound-pro' ),
-							'description'	=> __( 'Toggle this on to load the Google Analytics component. These components require an active pro membership.' , 'inbound-pro' ),
-							'default'	=> 'off',
-							'placeholder'	=> null,
-							'options' => array(
-								'on' => __( 'On' , 'inbound-pro' ),
-								'off' => __( 'Off' , 'inbound-pro' ),
-							),
-							'hidden' => ( $price_id > 0 ? false : true ),
-							'reveal' => array(
-								'selector' => null ,
-								'value' => null
-							)
 						)
 					)
 				),

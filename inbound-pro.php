@@ -4,7 +4,7 @@ Plugin Name: Inbound Now
 Plugin URI: http://www.inboundnow.com/
 Description: Inbound Marketing Suite for WordPress
 Author: Inbound Now
-Version: 1.6.9.4
+Version: 1.6.9.5
 Author URI: http://www.inboundnow.com/
 Text Domain: inbound-pro
 Domain Path: /lang/
@@ -95,7 +95,7 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 		*/
 		private static function define_constants() {
 
-			define('INBOUND_PRO_CURRENT_VERSION', '1.6.9.4' );
+			define('INBOUND_PRO_CURRENT_VERSION', '1.6.9.5' );
 			define('INBOUND_PRO_URLPATH', WP_PLUGIN_URL.'/'.plugin_basename( dirname(__FILE__) ).'/' );
 			define('INBOUND_PRO_PATH', WP_PLUGIN_DIR.'/'.plugin_basename( dirname(__FILE__) ).'/' );
 			define('INBOUND_PRO_SLUG', plugin_basename( dirname(__FILE__) ) );
@@ -195,11 +195,6 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 
 			if (self::$access_level < 1 ) {
 				return;
-			}
-
-			/* load inbound google analytics */
-			if ( isset($inbound_settings['inbound-core-loading']['toggle-google-analytics']) && $inbound_settings['inbound-core-loading']['toggle-google-analytics'] =='on' ) {
-				include_once( INBOUND_COMPONENT_PATH . '/inbound-google-analytics/inbound-google-analytics.php');
 			}
 
 			if (self::$access_level < 3 ) {
