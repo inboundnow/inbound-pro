@@ -122,6 +122,15 @@ class Leads_Settings {
                 'options' => array('1'=>'On','0'=>'Off')
             ),
             array(
+                'id'  => 'inbound_admin_notification_inboundnow_link',
+                'option_name'  => 'inbound_admin_notification_inboundnow_link',
+                'label' => __('Credit Inbound Now in admin notification emails.' , 'leads' ),
+                'description' => __("Admin notification emails are sent after a visitor fills out an inbound form." , 'leads' ),
+                'type'  => 'radio',
+                'default'  => '1',
+                'options' => array('1'=>'On','0'=>'Off')
+            ),
+            array(
                 'id'  => 'inbound_forms_enable_akismet',
                 'option_name'  => 'inbound_forms_enable_akismet',
                 'label' => __('Run form submissions through Akismet if akismet is enabled.' , 'leads' ),
@@ -256,7 +265,7 @@ class Leads_Settings {
                     $field['id'] = $field['option_name'];
                 }
 
-                if ($field['type']=='inboundnow-license-key') {
+                if ($field['type']=='inboundnow-license-key' && isset($_POST['inboundnow_master_license_key'] ) && $_POST['inboundnow_master_license_key'] ) {
                     /* error_log(print_r($field, true)); */
 
                     $api_params = array(

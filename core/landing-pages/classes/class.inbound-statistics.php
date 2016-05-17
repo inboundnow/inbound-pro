@@ -34,7 +34,7 @@ if (!class_exists('Inbound_Content_Statistics')) {
             add_action( 'lp_record_impression' , array( __CLASS__ , 'record_impression' ) , 10, 3);
 
             /* record landing page conversion */
-            add_action( 'inboundnow_store_lead_pre_filter_data' , array( __CLASS__ , 'record_conversion' ) ,10,1);
+            add_filter( 'inboundnow_store_lead_pre_filter_data' , array( __CLASS__ , 'record_conversion' ) ,10,1);
 
             /* load impressions/conversions collumns on non lp post types */
             if (is_admin() ) {
@@ -226,7 +226,7 @@ if (!class_exists('Inbound_Content_Statistics')) {
         public static function record_conversion($data) {
 
             if (!isset( $data['page_id'] ) ) {
-                return;
+                return $data;
             }
 
             $post = get_post( $data['page_id'] );
@@ -238,7 +238,7 @@ if (!class_exists('Inbound_Content_Statistics')) {
             $do_not_track = apply_filters('inbound_analytics_stop_track' , false );
 
             if ( $do_not_track ) {
-                return;
+                return $data;
             }
 
             /* increment conversions for landing pages */
