@@ -15,7 +15,7 @@ class CTA_Conversion_Tracking {
 		add_action( 'inbound_track_link', array(__CLASS__, 'track_link'));
 
 		/* Track form submissions related to call to actions a conversions */
-		add_action('inboundnow_store_lead_pre_filter_data', array(__CLASS__, 'set_form_submission_conversion'), 20, 1 );
+		add_filter('inboundnow_store_lead_pre_filter_data', array(__CLASS__, 'set_form_submission_conversion'), 20, 1 );
 	}
 
 	/**
@@ -51,7 +51,7 @@ class CTA_Conversion_Tracking {
 		$do_not_track = apply_filters('inbound_analytics_stop_track', false );
 
 		if ( $do_not_track ) {
-			return;
+			return $data;
 		}
 
 		$cta_id = $raw_post_values['wp_cta_id'];

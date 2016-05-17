@@ -165,7 +165,7 @@ class Inbound_Promote {
 					 ' . __('Both are free, and we invite you to try them!' , INBOUNDNOW_TEXT_DOMAIN ) .'
                     </p>
 					<br>
-	                 <a class="button button-primary button-large" href="http://wordpress.org/plugins/leads" target="_blank">' . __('Download Leads Plugin', INBOUNDNOW_TEXT_DOMAIN) . '</a>
+	                 <a class="button button-primary button-large" href="'.admin_url('plugin-install.php?tab=search&s=leads').'" >' . __('Download Leads Plugin', INBOUNDNOW_TEXT_DOMAIN) . '</a>
 	                 <a class="button button-primary button-large" href="http://www.inboundnow.com/upgrade/" target="_blank">' . __('Download Inbound Pro (recommended)', INBOUNDNOW_TEXT_DOMAIN) . '</a>
                      <a class="button button-default button-large inbound_dismiss" href="#" id="'.$message_id.'" data-notification-id="'.$message_id.'" >' . __('Dismiss this message', INBOUNDNOW_TEXT_DOMAIN) . '</a>
                      <br>
