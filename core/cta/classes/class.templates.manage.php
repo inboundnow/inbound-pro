@@ -16,9 +16,9 @@ if ( !class_exists('CTA_Template_Manager') ) {
 		*/
 		public function __construct() {
 			add_action( 'admin_enqueue_scripts', array(__CLASS__, 'enqueue_scripts'));
+
 			/* prepare handler hook for uploads page */
 			add_action('admin_menu', array(__CLASS__, 'add_pages'));
-			add_action('admin_notices',  array(__CLASS__, 'dont_install_cta_templates_here'));
 		}
 
 		/**
