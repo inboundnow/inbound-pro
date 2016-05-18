@@ -12,15 +12,8 @@ jQuery(document).ready(function($) {
       }
     });
 
-    jQuery(".lp-impress-num").each(function(){
-    var empty = jQuery(this).text();
-     if ( empty === "" || empty === "0" ){
-      jQuery(this).parent().parent().find(".lp-letter").css("color", "#ccc");
-      jQuery(this).parent().html("<span class='lp-no-stats'>no stats yet</span>");
-      }
-    });
     /* List tour */
-	 var tourbutton = '<a class="" id="lp-tour" style="font-size:13px;">Need help? Take the tour</a>';
+    var tourbutton = '<a class="" id="lp-tour" style="font-size:13px;">Need help? Take the tour</a>';
     jQuery(tourbutton).appendTo(".wrap h1");
     jQuery("body").on('click', '#lp-tour', function () {
         jQuery(this).hide();
@@ -74,43 +67,6 @@ jQuery("body").on('mouseleave', 'tr.type-landing-page', function () {
       jQuery(this).hide();
       jQuery(this).parent().find(".lp-varation-stat-ul").show();
     });
-
-	jQuery('.lp-letter, .cr-number, .qtip').on('mouseenter', function(event) {
-	  // Bind the qTip within the event handler
-	  var text_in_tip = jQuery(this).attr("data-notes");
-	  var letter = jQuery(this).attr("data-letter");
-	  var status = "<span class='lp-paused'>" + jQuery(this).parent().attr("rel") + "</span>";
-	  var winner = "<span class='lp-win'>" + jQuery(this).parent().attr("data-lp") + "</span>";
-	  jQuery(this).qtip({
-		overwrite: false, // Make sure the tooltip won't be overridden once created
-		  content: {
-			  text: text_in_tip,
-			  title: {
-				text: 'Variation ' + letter + "<span class='lp-extra'>" + status + winner + "</span>" + "<span class='lp-pop-close'>close</span>"
-			  }
-			},
-		position: {
-			  my: 'bottom center', // Use the corner...
-			  at: 'top center', // ...and opposite corner
-			  viewport: jQuery(window)
-			},
-		style: {
-			  classes: 'qtip-shadow qtip-jtools',
-			},
-		show: {
-		  event: event.type, // Use the same show event as the one that triggered the event handler
-		  ready: true, // Show the tooltip as soon as it's bound, vital so it shows up the first time you hover!
-		  solo: true
-		},
-		hide: 'unfocus'
-    //hide: { when: { event: 'inactive' }, delay: 1200 }
-	  }, event); // Pass through our original event to qTip
-	})
-
-	jQuery('.lp-letter').on('mouseleave', function(event) {
-
-
-	});
 
 	jQuery("body").on("click", ".lp-pop-close", function(event) {
 		jQuery(this).parent().parent().parent().hide();

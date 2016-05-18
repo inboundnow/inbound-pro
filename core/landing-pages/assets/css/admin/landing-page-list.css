@@ -102,47 +102,10 @@
     margin-left: 5px !important;
 }
 
-.qtip {
-    background: #fff;
-}
-
-.qtip-tip {
-    height: 10px !important;
-}
-
-.qtip-content, .lp-pop-description, .lp-pop-preview a {
-    color: #333;
-
-}
-
 .lp-pop-preview a, .lp-pop-edit a {
     text-decoration: none;
 }
 
-.qtip-titlebar {
-    position: relative;
-    padding: 0px;
-}
-
-.qtip-jtools {
-    border: 2px solid rgba(172, 172, 172, 1);
-}
-
-.qtip-title {
-    position: relative;
-    margin: 0 0 5px;
-    padding: 12px 17px 14px 14px;
-    line-height: 19px;
-    font-size: 19px;
-    color: #fff;
-    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
-    background: #8cc1e9;
-    background-image: -webkit-gradient(linear, left bottom, left top, from(#72a7cf), to(#8cc1e9));
-    background-image: -webkit-linear-gradient(bottom, #72a7cf, #8cc1e9);
-    background-image: -moz-linear-gradient(bottom, #72a7cf, #8cc1e9);
-    background-image: -o-linear-gradient(bottom, #72a7cf, #8cc1e9);
-    background-image: linear-gradient(to top, #72a7cf, #8cc1e9);
-}
 
 .stats li {
     border-bottom: 1px solid #EBEBEA;
@@ -254,7 +217,7 @@ td.stats.column-stats {
 }
 
 .stats li:last-child {
-    border-bottom: none;
+    //border-bottom: none;
 }
 
 .no-stats-yet {
@@ -285,10 +248,14 @@ td.stats.column-stats {
     font-size: 13px;
     min-width: 199px;
     display: inline-block;
-}
+} 
 
 .introjs-showElement .row-actions {
     visibility: visible;
+}
+
+.stats li:last-child:not(:first-child) {
+    border-bottom: none;
 }
 
 .lp-impress-num {
@@ -390,3 +357,136 @@ a.cr-number:hover {
     color: #fff;
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
 }
+
+
+/* New Variation Testing Stat Design by Ahmed Kaludi (AhmedKaludi.com) START */
+.lp-varation-stat-ul{
+    font-family: "Open Sans",sans-serif;
+}
+.lp-varation-stat-ul li{
+    padding: 0;
+}
+.lp-varation-stat-ul li .lp-letter{
+    background: #fff;
+    border: 0;
+    border-radius: 0;
+    margin-right: 0;
+    font-weight: 300;
+    font-size: 30px;
+    padding: 17px 16px;
+    line-height: 1;
+    color: #666666
+}
+.column-stats{
+    padding: 0px !important
+}
+.lp-varation-stat-ul .winner-lp{
+    background: none
+}
+.lp-varation-stat-ul .winner-lp .lp-letter{
+    background: #15dd6f;
+    color: #fff;
+    font-weight: 300
+}
+.lp-varation-stat-ul .visit-text,
+.lp-varation-stat-ul .lp-conversion-txt{
+    width: 100%;
+    text-align: center;
+    display: inline-block;
+    color: #777;
+}
+.lp-varation-stat-ul .lp-impress-num,
+.lp-varation-stat-ul .lp-con-num{
+    width: 100%;
+    text-align: center;
+    padding: 0;
+}
+.lp-varation-stat-ul .lp-visitors,
+.lp-varation-stat-ul .lp-conversions{
+    width: 81px;
+    display: inline-block;
+    text-align: center;    
+}
+.visit-text, .lp-conversion-txt{
+    text-transform: uppercase;
+    font-size: 10px;
+    color: #333333;
+    letter-spacing: 0.6px;
+}
+.lp-varation-stat-ul .lp-impress-num,
+.lp-varation-stat-ul .lp-con-num{
+    font-size: 16px;
+    color: #000;
+    font-weight: normal;
+}
+.lp-varation-stat-ul .lp-numbers{
+    min-width: 140px;
+    position: absolute;
+    margin-top: 12px;
+}
+.lp-varation-stat-ul .cr-number.cr-empty-0,
+.lp-varation-stat-ul .cr-number.cr-empty-0:hover{
+    text-align: center;
+    width: 42px;
+    float: right;
+    background: none;
+    border: 0;
+    box-shadow: none;
+    font-size: 14px;
+    font-weight: bold !important;
+    color: #999;
+    text-shadow: none;
+    padding: 0;
+    margin: 0;
+    margin-top: 16px;
+    padding-right: 10px;
+}
+.lp-varation-stat-ul .cr-number, .lp-varation-stat-ul .cr-number:hover{    
+    background: none;
+    border: 0;
+    box-shadow: none;
+    font-size: 14px;
+    font-weight: 500;
+    color: #555555;
+    text-shadow: none;
+    padding: 0;
+    margin: 0;
+    margin-top: 16px;
+    padding-right: 10px;
+}
+.lp-varation-stat-ul .winner-lp .cr-number{
+    color: #333
+}
+.lp-varation-stat-ul .cr-number{
+    text-align: center;
+    width: 45px;
+    float: right;
+    margin-top: 16px;
+    padding-right: 10px; 
+}
+.lp-varation-stat-ul .cr-number:before{
+    content: "";
+    background: url('../../images/variation-normal.png') no-repeat;
+    padding: 7px 15px 3px 8px;
+    display: inline-block;
+    text-align: center;
+    background-position: 0px 1px;
+}
+.lp-varation-stat-ul .winner-lp .cr-number:before{
+        background-position: 0px 1px;
+    padding: 7px 10px 8px 10px;
+        background: url('../../images/variation-up.png') no-repeat;
+}
+ .column-stats{
+    padding: 0
+}
+/* New Variation Testing Stat Design by Ahmed Kaludi (AhmedKaludi.com) END */
+
+
+body .alternate, .striped>tbody>:nth-child(odd), ul.striped>:nth-child(odd) {
+    background-color:#ffffff;
+}
+body #the-list td {
+    border-bottom: 1px solid #EBEBEA;
+}
+
