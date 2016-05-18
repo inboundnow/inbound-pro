@@ -507,7 +507,11 @@ class Inbound_SparkPost_Stats {
                 'event_details' => json_encode($event)
             );
 
-            Inbound_Events::store_event($args);
+            /* lets not spam our events table with repeat opens and clicks */
+            if (!Inbound_Events::event_exists($args)) {
+                Inbound_Events::store_event($args);
+            }
+
         }
 
     }
