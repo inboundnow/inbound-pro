@@ -263,9 +263,6 @@ class Landing_Pages_Metaboxes {
         wp_enqueue_script('jpicker', LANDINGPAGES_URLPATH . 'assets/libraries/jpicker/jpicker-1.1.6.min.js');
         wp_localize_script( 'jpicker', 'jpicker', array( 'thispath' => LANDINGPAGES_URLPATH.'assets/libraries/jpicker/images/' ));
         wp_enqueue_style('jpicker-css', LANDINGPAGES_URLPATH . 'assets/libraries/jpicker/css/jPicker-1.1.6.min.css');
-        wp_enqueue_script('jquery-qtip', LANDINGPAGES_URLPATH . 'assets/libraries/jquery-qtip/jquery.qtip.min.js');
-        wp_enqueue_script('load-qtip', LANDINGPAGES_URLPATH . 'assets/libraries/jquery-qtip/load.qtip.js', array('jquery-qtip'));
-        wp_enqueue_style('qtip-css', LANDINGPAGES_URLPATH . 'assets/css/jquery.qtip.min.css'); /*Tool tip css */
 
         $template_data = lp_get_extension_data();
         $template_data_json = json_encode($template_data);

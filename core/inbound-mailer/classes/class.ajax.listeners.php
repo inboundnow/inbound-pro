@@ -29,6 +29,9 @@ class Inbound_Mailer_Ajax_Listeners {
 
 		/* Adds listener to schedule email */
 		add_action( 'wp_ajax_inbound_schedule_email' , array( __CLASS__ , 'schedule_email' ) );
+
+		/* Adds listener to schedule email */
+		add_action( 'wp_ajax_clear_email_stats' , array( __CLASS__ , 'clear_stats' ) );
 	}
 
 	/**
@@ -186,6 +189,30 @@ class Inbound_Mailer_Ajax_Listeners {
 	public static function schedule_email() {
 		$response = Inbound_Mailer_Scheduling::schedule_email(intval($_POST['email_id']));
 		echo $response;
+		exit;
+	}
+
+	/**
+	 *  Schedule email
+	 */
+	public static function clear_stats() {
+		global $wpdb;
+
+		$email_id = $_REQUEST['email_id'];
+		$table_name = $wpdb->prefix . "inbound_events";
+
+		/* delete the meta stats object */
+		delete_post_meta( $email_id , 'inbound_statistics' );
+
+
+		/* delete enteries from inbound_events table */
+		$where = array(
+			'email_id' => $email_id
+		);
+
+		$wpdb->delete( $table_name, $where, $where_format = null );
+
+		echo 1;
 		exit;
 	}
 }

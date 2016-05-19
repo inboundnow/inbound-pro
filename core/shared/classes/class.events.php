@@ -31,6 +31,9 @@ class Inbound_Events {
         /* listen for Inbound Form submissions and record event to events table */
         add_action('inbound_email_click_event' , array( __CLASS__ , 'store_email_click'), 10 , 1);
 
+        /* Saves all all incoming POST data as meta pairs */
+        add_action('before_delete_post', array(__CLASS__, 'delete_related_events'));
+
         /* listen for Inbound Mailer send event and record to events table
          * I think we can pull this infromation directly from Mandril
         add_action('inbound_mandrill_send_event' , array( __CLASS__ , 'store_email_send'), 10 , 2);
@@ -215,6 +218,72 @@ class Inbound_Events {
             $args
         );
 
+    }
+
+    public static function delete_related_events( $post_id ) {
+        global $wpdb;
+
+        $post = get_post($post_id);
+
+        $table_name = $wpdb->prefix . "inbound_events";
+
+        switch ($post->post_type) {
+            case  'inbound-email':
+                $where = array(
+                    'email_id' => $post_id
+                );
+                break;
+            case  'wp-lead':
+                $where = array(
+                    'lead_id' => $post_id
+                );
+                break;
+            default:
+                $where = array(
+                    'page_id' => $post_id
+                );
+                break;
+        }
+
+        $wpdb->delete( $table_name, $where, $where_format = null );
+
+    }
+
+    /**
+     * Checks if an event has already been created. Right now inbound-mailer is the only tool leveraging this.
+     * It will need to be improved to support other uses
+     * @param $args
+     * @return bool
+     */
+    public static function event_exists( $args ) {
+        global $wpdb;
+
+        $table_name = $wpdb->prefix . "inbound_events";
+
+        $defaults = array(
+            'page_id' => '',
+            'variation_id' => '',
+            'form_id' => '',
+            'cta_id' => '',
+            'email_id' => '',
+            'lead_id' => ( isset($_COOKIE['wp_lead_id']) ? $_COOKIE['wp_lead_id'] : '' ),
+            'lead_uid' => ( isset($_COOKIE['wp_lead_uid']) ? $_COOKIE['wp_lead_uid'] : '' ),
+            'session_id' => '',
+            'event_name' => $args['event_name'],
+            'event_details' => '',
+            'datetime' => $wordpress_date_time,
+            'funnel' => ( isset($_SESSION['inbound_page_views']) ? $_SESSION['inbound_page_views'] : '' ),
+            'source' => ( isset($_COOKIE['inbound_referral_site']) ? $_COOKIE['inbound_referral_site'] : '' )
+        );
+
+
+        $args = array_merge( $defaults , $args );
+
+        if($wpdb->get_row("SELECT * FROM $table_name WHERE event_name = '".$args['event_name']."' && email_id = '".$args['email_id']."' && lead_id = '".$args['email_id']."' && variation_id = '".$args['variation_id']."' ", ARRAY_A)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**

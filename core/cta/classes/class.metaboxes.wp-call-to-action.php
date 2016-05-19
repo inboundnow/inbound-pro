@@ -176,6 +176,11 @@ if (!class_exists('CTA_Metaboxes')) {
 
 			$template_id = $metabox_args['args']['template_id'];
 
+			if (!isset($extension_data[$template_id])) {
+				_e( '<i>It looks like the template you are using is no longer available. Please check your uploads folder for your custom CTA template or visit our marketplace to download free CTA templates recently removed from this plugin.</i>' , 'inbound-pro' );
+				return;
+			}
+
 			$wp_cta_custom_fields = $extension_data[$template_id]['settings'];
 
 			$template_id = ($template_id) ? $template_id : 'blank-template';

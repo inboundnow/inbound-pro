@@ -76,17 +76,17 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             }
 
             /* Show email administration options */
-            add_meta_box('email-send-actions', __('Actions', 'inbound-email'), array(__CLASS__, 'add_email_actions'), 'inbound-email', (isset($_GET['email-customizer']) ? 'normal' : 'side'), (isset($_GET['email-customizer']) ? 'low' : 'high'));
+            add_meta_box('email-send-actions', __('Actions', 'inbound-pro'), array(__CLASS__, 'add_email_actions'), 'inbound-email', (isset($_GET['email-customizer']) ? 'normal' : 'side'), (isset($_GET['email-customizer']) ? 'low' : 'high'));
 
             /* Show email type select toggle */
-            add_meta_box('email-send-type', __('Send Type', 'inbound-email'), array(__CLASS__, 'add_email_type_select_toggle'), 'inbound-email', 'side', 'high');
+            add_meta_box('email-send-type', __('Send Type', 'inbound-pro'), array(__CLASS__, 'add_email_type_select_toggle'), 'inbound-email', 'side', 'high');
 
             /* Show Selected Template */
-            add_meta_box('email-selected-template', __('Selected Template', 'inbound-email'), array(__CLASS__, 'add_selected_tamplate_info'), 'inbound-email', 'side', 'high');
+            add_meta_box('email-selected-template', __('Selected Template', 'inbound-pro'), array(__CLASS__, 'add_selected_tamplate_info'), 'inbound-email', 'side', 'high');
 
             /* Show Selected Template */
             if (isset($post) && ( $post->post_status == 'sent' || $post->post_status =='automated') ) {
-                add_meta_box('email-unsubscribes', __('Unsubscribed', 'inbound-email'), array(__CLASS__, 'add_unsubscribe_list'), 'inbound-email', 'side', 'high');
+                add_meta_box('email-unsubscribes', __('Unsubscribed', 'inbound-pro'), array(__CLASS__, 'add_unsubscribe_list'), 'inbound-email', 'side', 'high');
             }
         }
 
@@ -104,7 +104,6 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                     self::$statistics = Inbound_SparkPost_Stats::get_email_timeseries_stats();
                     break;
             }
-
 
             self::$campaign_stats = self::$statistics['totals'];
             self::$variation_stats = (isset(self::$statistics['totals']['variations'])) ? self::$statistics['totals']['variations'] : array();
@@ -428,7 +427,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
             echo "<div class='inbound-mailer-template-selector-container' style='{$toggle}'>";
             echo "<div class='inbound-mailer-selection-heading'>";
-            echo "<h1>" . __('Select Your Email Template!', 'inbound-email') . "</h1>";
+            echo "<h1>" . __('Select Your Email Template!', 'inbound-pro') . "</h1>";
             echo '<a class="button-secondary" style="display:none;" id="inbound-mailer-cancel-selection">Cancel Template Change</a>';
             echo "</div>";
             echo '<ul id="template-filter" >';
@@ -557,7 +556,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
                     }
                 ?>
-                <h4><?php _e(sprintf('Variation %s Headers', $letter), 'inbound-email'); ?></h4>
+                <h4><?php _e(sprintf('Variation %s Headers', $letter), 'inbound-pro'); ?></h4>
 
                 <?php
                 self::render_settings('inbound-email', $email_settings, $post);
@@ -593,7 +592,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             }
 
             echo '<div class="statistics-reporting-container bs-callout bs-callout-clear">';
-            echo '<h4>' . __('Reporting', 'inbound-email') . '</h4>';
+            echo '<h4>' . __('Reporting', 'inbound-pro') . '</h4>';
 
 
             self::load_statistics();
@@ -620,7 +619,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             }
 
             echo '<div class="statistics-reporting-container bs-callout bs-callout-clear">';
-            //echo '<h4 title="'.__('This stream is limited to the last 1000 views' , 'inbound-mailer' ) .'">' . __('Stream', 'inbound-email') . '</h4>';
+            //echo '<h4 title="'.__('This stream is limited to the last 1000 views' , 'inbound-mailer' ) .'">' . __('Stream', 'inbound-pro') . '</h4>';
 
             echo '<center><i>this stream is limited to the last 1000 sends</i></center><br>';
             self::load_send_stream();
@@ -714,7 +713,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             <div class='circle-stats stat-row'>
                 <div class="stat-group-container">
                     <div class="stat-group">
-                        <div class="label-top" id='sent-label-top'><?php _e('Sends', 'inbound-email'); ?></div>
+                        <div class="label-top" id='sent-label-top'><?php _e('Sends', 'inbound-pro'); ?></div>
                         <div class="per sent-percentage">0%</div>
                         <svg class="svg"></svg>
                         <div class="label-bottom sent-number">0</div>
@@ -722,7 +721,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 </div>
                 <div class="stat-group-container">
                     <div class="stat-group">
-                        <div class="label-top opens-label-top"><?php _e('Opens', 'inbound-email'); ?></div>
+                        <div class="label-top opens-label-top"><?php _e('Opens', 'inbound-pro'); ?></div>
                         <div class="per opens-percentage">0%</div>
                         <svg class="svg"></svg>
                         <div class="label-bottom opens-number">0</div>
@@ -730,7 +729,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 </div>
                 <div class="stat-group-container featured">
                     <div class="stat-group">
-                        <div class="label-top clicks-label-top"><?php _e('Clicks', 'inbound-email'); ?></div>
+                        <div class="label-top clicks-label-top"><?php _e('Clicks', 'inbound-pro'); ?></div>
                         <div class="per clicks-percentage">0%</div>
                         <svg class="svg"></svg>
                         <div class="label-bottom clicks-number">0</div>
@@ -738,7 +737,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 </div>
                 <div class="stat-group-container">
                     <div class="stat-group">
-                        <div class="label-top unopened-label-top"><?php _e('Unopened', 'inbound-email'); ?></div>
+                        <div class="label-top unopened-label-top"><?php _e('Unopened', 'inbound-pro'); ?></div>
                         <div class="per unopened-percentage">0%</div>
                         <svg class="svg"></svg>
                         <div class="label-bottom unopened-number">0</div>
@@ -746,7 +745,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 </div>
                 <div class="stat-group-container">
                     <div class="stat-group">
-                        <div class="label-top bounces-label-top"><?php _e('Bounces', 'inbound-email'); ?></div>
+                        <div class="label-top bounces-label-top"><?php _e('Bounces', 'inbound-pro'); ?></div>
                         <div class="per bounces-percentage">0%</div>
                         <svg class="svg"></svg>
                         <div class="label-bottom bounces-number">0</div>
@@ -754,7 +753,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 </div>
                 <div class="stat-group-container">
                     <div class="stat-group">
-                        <div class="label-top rejects-label-top"><?php _e('Rejects', 'inbound-email'); ?></div>
+                        <div class="label-top rejects-label-top"><?php _e('Rejects', 'inbound-pro'); ?></div>
                         <div class="per rejects-percentage">0%</div>
                         <svg class="svg"></svg>
                         <div class="label-bottom rejects-number">0</div>
@@ -762,7 +761,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 </div>
                 <div class="stat-group-container">
                     <div class="stat-group">
-                        <div class="label-top unsubs-label-top"><?php _e('Unsubscribed', 'inbound-email'); ?></div>
+                        <div class="label-top unsubs-label-top"><?php _e('Unsubscribed', 'inbound-pro'); ?></div>
                         <div class="per unsubs-percentage">0%</div>
                         <svg class="svg"></svg>
                         <div class="label-bottom unsubs-number">0</div>
@@ -785,7 +784,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             <div class='big-number-stats'>
                 <div class="statistic-container">
                     <div class="stat-number-container">
-                        <label class="stat-label sent-label"><?php _e('Sent', 'inbound-email'); ?></label>
+                        <label class="stat-label sent-label"><?php _e('Sent', 'inbound-pro'); ?></label>
 
                         <div class="stat-number sent-number">0</div>
                         <h1 class="stat-percentage sent-percentage">0%</h1>
@@ -793,7 +792,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 </div>
                 <div class="statistic-container">
                     <div class="stat-number-container">
-                        <label class="stat-label opens-label"><?php _e('Opens', 'inbound-email'); ?></label>
+                        <label class="stat-label opens-label"><?php _e('Opens', 'inbound-pro'); ?></label>
 
                         <div class="stat-number opens-number">0</div>
                         <h1 class="stat-percentage opens-percentage">0%</h1>
@@ -801,7 +800,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 </div>
                 <div class="statistic-container feature">
                     <div class="stat-number-container">
-                        <label class="stat-label clicks-label"><?php _e('Clicks', 'inbound-email'); ?></label>
+                        <label class="stat-label clicks-label"><?php _e('Clicks', 'inbound-pro'); ?></label>
 
                         <div class="stat-number clicks-number">0</div>
                         <h1 class="stat-percentage clicks-percentage">0%</h1>
@@ -809,7 +808,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 </div>
                 <div class="statistic-container">
                     <div class="stat-number-container">
-                        <label class="stat-label unopened-label"><?php _e('Unopened', 'inbound-email'); ?></label>
+                        <label class="stat-label unopened-label"><?php _e('Unopened', 'inbound-pro'); ?></label>
 
                         <div class="stat-number unopened-number">0</div>
                         <h1 class="stat-percentage unopened-percentage">0%</h1>
@@ -817,7 +816,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 </div>
                 <div class="statistic-container">
                     <div class="stat-number-container">
-                        <label class="stat-label bounces-label"><?php _e('Bounces', 'inbound-email'); ?></label>
+                        <label class="stat-label bounces-label"><?php _e('Bounces', 'inbound-pro'); ?></label>
 
                         <div class="stat-number bounces-number">0</div>
                         <h1 class="stat-percentage bounces-percentage">0%</h1>
@@ -825,7 +824,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 </div>
                 <div class="statistic-container">
                     <div class="stat-number-container">
-                        <label class="stat-label rejects-label"><?php _e('Rejects', 'inbound-email'); ?></label>
+                        <label class="stat-label rejects-label"><?php _e('Rejects', 'inbound-pro'); ?></label>
 
                         <div class="stat-number rejects-number">0</div>
                         <h1 class="stat-percentage rejects-percentage">0%</h1>
@@ -833,7 +832,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 </div>
                 <div class="statistic-container">
                     <div class="stat-number-container">
-                        <label class="stat-label unsubs-label"><?php _e('Unsubscribes', 'inbound-email'); ?></label>
+                        <label class="stat-label unsubs-label"><?php _e('Unsubscribes', 'inbound-pro'); ?></label>
 
                         <div class="stat-number unsubs-number">0</div>
                         <h1 class="stat-percentage unsubs-percentage">0%</h1>
@@ -881,7 +880,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                         ?>
                         <tr class='email-details-tr'>
                             <td class='email-details-td-label'>
-                                <?php _e('Send Date', 'inbound-email'); ?>:
+                                <?php _e('Send Date', 'inbound-pro'); ?>:
                             </td>
                             <td class='email-details-td-info'>
                                 <?php
@@ -894,7 +893,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                     ?>
                     <tr class='email-details-tr'>
                         <td class='email-details-td-label'>
-                            <?php _e('Target Audiences', 'inbound-email'); ?>:
+                            <?php _e('Target Audiences', 'inbound-pro'); ?>:
                         </td>
                         <td class='email-details-td-info'>
                             <?php
@@ -915,7 +914,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                     </tr>
                     <tr class='email-details-tr'>
                         <td class='email-details-td-label'>
-                            <?php _e('Variations', 'inbound-email'); ?>:
+                            <?php _e('Variations', 'inbound-pro'); ?>:
                         </td>
                         <td class='email-details-td-info'>
                             <?php
@@ -923,7 +922,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                             foreach ($settings['variations'] as $vid => $variation) {
                                 $letter = Inbound_Mailer_Variations::vid_to_letter($post->ID, $vid);
                                 $permalink = add_query_arg(array('inbvid' => $vid), get_permalink($post->ID));
-                                echo '<a href="' . $permalink . '" class="label label-default thickbox" title="' . __('Variation', 'inbound-email') . ' ' . $letter . '" style="text-decoration:none">[' . $letter . '] ' . $variation['subject'] . '</a> ';
+                                echo '<a href="' . $permalink . '" class="label label-default thickbox" title="' . __('Variation', 'inbound-pro') . ' ' . $letter . '" style="text-decoration:none">[' . $letter . '] ' . $variation['subject'] . '</a> ';
                             }
 
                             ?>
@@ -968,16 +967,16 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 } else {
                     $cur_class = 'btn-default';
                 }
-                echo '<a class="btn ' . $cur_class . '" href="?post=' . $post->ID . '&inbvid=' . $vid . '&action=edit" id="tab-' . $vid . '" data-permalink="' . $permalink . '" target="_parent" data-toggle="tooltip" data-placement="left" title="' . __('Variations', 'inbound-email') . '">' . $letter . '</a>';
+                echo '<a class="btn ' . $cur_class . '" href="?post=' . $post->ID . '&inbvid=' . $vid . '&action=edit" id="tab-' . $vid . '" data-permalink="' . $permalink . '" target="_parent" data-toggle="tooltip" data-placement="left" title="' . __('Variations', 'inbound-pro') . '">' . $letter . '</a>';
             }
             echo '</div>';
             echo ' <div class="btn-group variation-group">';
             if (!isset($_GET['new-variation'])) {
-                echo '<a class="btn btn-default "	href="?post=' . $post->ID . '&inbvid=' . $next_available_variation_id . '&action=edit&new-variation=1"	id="tabs-add-variation" title="' . __('Add New Variation', 'inbound-email') . '"> <i data-code="f132" style="vertical-align:bottom;" class="dashicons dashicons-plus"></i></a>';
+                echo '<a class="btn btn-default "	href="?post=' . $post->ID . '&inbvid=' . $next_available_variation_id . '&action=edit&new-variation=1"	id="tabs-add-variation" title="' . __('Add New Variation', 'inbound-pro') . '"> <i data-code="f132" style="vertical-align:bottom;" class="dashicons dashicons-plus"></i></a>';
             } else {
                 $letter = $Inbound_Mailer_Variations->vid_to_letter($post->ID, $next_available_variation_id);
                 echo '<a class="btn btn-primary selected-variation"	href="?post=' . $post->ID . '&inbvid=' . $next_available_variation_id . '&action=edit" id="tabs-add-variation">' . $letter . '</a>';
-                echo '<a  style="display:none;" class="btn btn-default "	href="?post=' . $post->ID . '&action=edit&new-variation=1"	id="tabs-add-variation-hidden" title="' . __('Add New Variation', 'inbound-email') . '"> <i data-code="f132" style="vertical-align:bottom;" class="dashicons dashicons-plus"></i></a>';
+                echo '<a  style="display:none;" class="btn btn-default "	href="?post=' . $post->ID . '&action=edit&new-variation=1"	id="tabs-add-variation-hidden" title="' . __('Add New Variation', 'inbound-pro') . '"> <i data-code="f132" style="vertical-align:bottom;" class="dashicons dashicons-plus"></i></a>';
             }
 
 
@@ -1010,7 +1009,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 }
             </script>
             <div class="preview-container bs-callout bs-callout-clear">
-                <h4><?php _e('Preview', 'inbound-email'); ?></h4>
+                <h4><?php _e('Preview', 'inbound-pro'); ?></h4>
 
                 <iframe src="<?php echo $url; ?>" id='iframe-email-preview' onload="iframeLoaded()"></iframe>
             </div>
@@ -1025,7 +1024,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             global $post;
 
             echo '<div class="mail-send-settings-container bs-callout bs-callout-clear">';
-            echo '<h4 title="">' . __('Batch Send Settings', 'inbound-email') . '</h4>';
+            echo '<h4 title="">' . __('Batch Send Settings', 'inbound-pro') . '</h4>';
 
             self::add_batch_send_settings();
             self::add_automation_send_settings();
@@ -1094,37 +1093,43 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             <div class='email-status'>
                 <div style='float:left;margin-top:11px;'>
                     <i class='current-status fa fa-info-circle'
-                       title="<?php _e('Current Status', 'inbound-email'); ?>"></i> &nbsp;&nbsp;<i><span
+                       title="<?php _e('Current Status', 'inbound-pro'); ?>"></i> &nbsp;&nbsp;<i><span
                             id='email-status-display'><?php echo $post->post_status; ?></span></i>
                 </div>
 
                 <div class='email-actions'>
                     <button type="button" class="btn btn-warning btn-medium email-action action-trash "
-                            id="action-trash" title="<?php _e('Trash this email.', 'inbound-email'); ?>"><i
+                            id="action-trash" title="<?php _e('Trash this email.', 'inbound-pro'); ?>"><i
                             class='fa fa-trash-o'></i></button>
                     <a href="<?php echo get_permalink($post->ID); ?>" class="btn btn-info email-action action-preview"
-                       id="action-preview" target="_blank" title="<?php _e('Preview', 'inbound-email'); ?>"><i
+                       id="action-preview" target="_blank" title="<?php _e('Preview', 'inbound-pro'); ?>"><i
                             class='fa fa-eye'></i></a>
                     <button type="button" class="btn btn-default btn-medium email-action action-send-test-email"
-                            id="action-send-test-email" title="<?php _e('Send a test email', 'inbound-email'); ?>"><i
+                            id="action-send-test-email" title="<?php _e('Send a test email', 'inbound-pro'); ?>"><i
                             class='fa fa-user'></i></button>
                     <button type="button" class="btn btn-warning btn-medium email-action action-unschedule"
-                            id="action-unschedule"><?php _e('Unschedule this email.', 'inbound-email'); ?></button>
+                            id="action-unschedule"><?php _e('Unschedule this email.', 'inbound-pro'); ?></button>
                     <button type="button" class="btn btn-primary btn-medium email-action action-clone" id="action-clone"
-                            title="<?php _e('Clone this email', 'inbound-email'); ?>"><i class='fa fa-files-o'></i>
+                            title="<?php _e('Clone this email', 'inbound-pro'); ?>"><i class='fa fa-files-o'></i>
                     </button>
                     <button type="button" class="btn btn-danger btn-medium email-action action-cancel"
-                            id="action-cancel-sending" title="<?php _e('Abort Send', 'inbound-email'); ?>"><i
+                            id="action-cancel-sending" title="<?php _e('Abort Send', 'inbound-pro'); ?>"><i
                             class='fa fa-ban'></i></button>
                 </div>
                 <div id="email-actions-continued">
                     <button type="button" class="btn btn-primary btn-medium email-action action-save ladda-button"
                             data-style="expand-right" data-spinner-color="#ffffff" id="action-save"
-                            title="<?php _e('Save', 'inbound-email'); ?>"><i
-                            class='fa fa-save'></i>&nbsp;&nbsp;<?php _e('Save', 'inbound-email'); ?></button>
+                            title="<?php _e('Save', 'inbound-pro'); ?>"><i
+                            class='fa fa-save'></i>&nbsp;&nbsp;<?php _e('Save', 'inbound-pro'); ?>
+                    </button>
                     <button type="button" class="btn btn-success btn-medium email-action action-send" id="action-send"
-                            title="<?php _e('Send Email', 'inbound-email'); ?>"><i
-                            class='fa fa-send-o'></i>&nbsp;&nbsp;<?php _e('Send', 'inbound-email'); ?></button>
+                            title="<?php _e('Send Email', 'inbound-pro'); ?>"><i
+                            class='fa fa-send-o'></i>&nbsp;&nbsp;<?php _e('Send', 'inbound-pro'); ?>
+                    </button>
+                    <button type="button" class="btn btn-danger btn-medium email-action action-clear-stats" id="action-clear-stats"
+                            title="<?php _e('Right now resetting stats will clear cached statistic objects and delete local events from lead records related to this email..', 'inbound-pro'); ?>"><i
+                            class='fa fa-trash-o'></i>&nbsp;&nbsp;<?php _e('Reset Stats', 'inbound-pro'); ?>
+                    </button>
 
                 </div>
             </div>
@@ -1151,10 +1156,10 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 if (!in_array($post->post_status, $ignore)) {
                     ?>
                     <a class="button-primary"
-                       id="inbound-mailer-change-template-button"><?php _e('Switch Templates', 'inbound-email'); ?></a>
+                       id="inbound-mailer-change-template-button"><?php _e('Switch Templates', 'inbound-pro'); ?></a>
                     <br>
                     <a rel='<?php echo $post_link; ?>' id='cta-launch-front' class='button-primary '
-                       href='<?php echo $post_link; ?>&email-customizer=on'><?php _e('Launch Visual Editor', 'inbound-email'); ?></a>
+                       href='<?php echo $post_link; ?>&email-customizer=on'><?php _e('Launch Visual Editor', 'inbound-pro'); ?></a>
                     <?php
                 }
                 ?>
@@ -1356,8 +1361,8 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
                         echo '<div class="jquery-date-picker inbound-datepicker" id="date-picking" data-field-type="text">
 											<span class="datepair" data-language="javascript">
-												<input type="text" id="date-picker-' . $settings_key . '" class="date start" placeholder="' . __('Select Date', 'inbound-email') . '"/></span>
-												<input id="time-picker-' . $settings_key . '" type="text" class="time time-picker " placeholder =" ' . __('Select Time', 'inbound-email') . '" />
+												<input type="text" id="date-picker-' . $settings_key . '" class="date start" placeholder="' . __('Select Date', 'inbound-pro') . '"/></span>
+												<input id="time-picker-' . $settings_key . '" type="text" class="time time-picker " placeholder =" ' . __('Select Time', 'inbound-pro') . '" />
 												<input type="hidden" name="' . $field_id . '" id="' . $field_id . '" value="' . $meta . '" class="new-date" value="" >
 										';
                         echo '</div>';
@@ -1473,7 +1478,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             if ($post->post_type != 'inbound-email') {
                 return $text;
             }
-            return __('Enter Email Description', 'inbound-email');
+            return __('Enter Email Description', 'inbound-pro');
         }
 
         /**
@@ -1622,6 +1627,10 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                     jQuery('.action-save').click(function () {
                         Settings.save_email();
                     });
+                    /* Add listener for saving email */
+                    jQuery('.action-clear-stats').click(function () {
+                        Settings.clear_stats();
+                    });
 
                     /* Fire: load correct send settings on load */
                     Settings.load_email_type();
@@ -1680,7 +1689,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                             jQuery('.current-status').tooltip();
 
                             /* Change 'Publish' to 'Save' */
-                            jQuery('#submitdiv h3 span').text('<?php _e('Save', 'inbound-email'); ?>');
+                            jQuery('#submitdiv h3 span').text('<?php _e('Save', 'inbound-pro'); ?>');
                         },
                         /**
                          *    Changes UI based on current post status
@@ -1708,10 +1717,11 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                                     Settings.hide_header_settings();
                                     Settings.hide_email_send_settings();
                                     Settings.hide_template_settings();
+                                    Settings.hide_save_button();
+                                    Settings.hide_clear_stats_button();
                                     Settings.show_graphs();
                                     Settings.show_cancel_buttons();
                                     Settings.show_trash_button();
-                                    Settings.hide_save_button();
                                     break;
                                 case 'scheduled':
                                     Settings.show_countdown_container();
@@ -1725,6 +1735,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                                     Settings.update_countdown();
                                     break;
                                 case 'automated':
+
                                     Settings.hide_send_buttons();
                                     Settings.hide_email_send_settings();
                                     jQuery('#action-preview').show();
@@ -1735,6 +1746,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                                     Settings.show_header_settings();
                                     Settings.show_template_settings();
                                     Settings.show_graphs();
+                                    Settings.show_clear_stats_button();
                                     jQuery('#post_status').val('automated');
                                     break;
                                 default: /* unsent */
@@ -1812,6 +1824,12 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                         },
                         hide_save_button: function () {
                             jQuery('#action-save').hide();
+                        },
+                        show_clear_stats_button: function () {
+                            jQuery('#action-clear-stats').show();
+                        },
+                        hide_clear_stats_button: function () {
+                            jQuery('#action-clear-stats').hide();
                         },
                         show_trash_button: function () {
                             jQuery('#action-trash').show();
@@ -2256,7 +2274,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                         /**
                          *  Save Email
                          */
-                        save_email: function ( schedule_email , reload ) {
+                        save_email: function ( is_being_scheduled , reload ) {
                             Settings.ladda_button = Ladda.create(document.querySelector('#action-save'));
                             Settings.ladda_button.toggle();
 
@@ -2270,15 +2288,13 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                                 success: function (result) {
                                     Settings.ladda_button.toggle();
                                     jQuery('#tabs-add-variation-hidden').show();
-                                    if (typeof schedule_email != 'undefined' && schedule_email) {
+                                    if (typeof is_being_scheduled != 'undefined' && is_being_scheduled) {
                                         Settings.schedule_email();
                                     }
 
                                     if (typeof reload != 'undefined' && reload) {
                                         window.location.reload();
                                     }
-
-
                                 }
                             });
 
@@ -2287,13 +2303,57 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                             if ( new_slug != Settings.current_slug ) {
                                 var preview_url = jQuery('#action-preview').attr('href');
                                 jQuery('#action-preview').attr('href' , preview_url.replace( Settings.current_slug , new_slug ) );
+                                jQuery('#sample-permalink a').attr('href' , preview_url.replace( Settings.current_slug , new_slug ) );
                                 var visual_editor_url = jQuery('#cta-launch-front').attr('href');
                                 jQuery('#cta-launch-front').attr('href' , visual_editor_url.replace( Settings.current_slug , new_slug ) );
                                 Settings.current_slug = new_slug;
                             }
 
+                        },
+                        /**
+                         *  Save Email
+                         */
+                        clear_stats: function () {
+
+                            /* Throw confirmation for switching templates */
+                            swal({
+                                title: "Are you sure?",
+                                text: "<?php _e( 'Are you sure you want to clear all stats related to this email?' , 'inbound-pro' ); ?>",
+                                type: "info",
+                                showCancelButton: true,
+                                confirmButtonColor: "#c9302c",
+                                confirmButtonText: "<?php _e( 'Clear them now' , 'inbound-pro' ); ?>",
+                                cancelButtonText: "<?php _e( 'Go back' , 'inbound-pro' ); ?>",
+                                closeOnConfirm: false,
+                                closeOnCancel: true
+                            }, function () {
+
+                                jQuery.ajax({
+                                    type: 'post',
+                                    url: ajaxurl,
+                                    data: {
+                                        'action' : 'clear_email_stats',
+                                        'email_id': '<?php echo $post->ID; ?>'
+                                    },
+                                    success: function (result) {
+
+                                    }
+                                });
+
+                                swal({
+                                    title: "<?php _e('Please wait' , 'inbound-pro' ); ?>",
+                                    text: "<?php _e('We are deleting the statistics and reloading the page.' , 'inbound-pro' ); ?>",
+                                    imageUrl: '<?php echo INBOUND_EMAIL_URLPATH; ?>/assets/images/loading_colorful.gif',
+                                    closeOnConfirm: false,
+                                    showConfirmButton: false,
+                                }, function () {
+
+                                });
 
 
+                                window.location.reload();
+
+                            });
                         },
                         /**
                          *  Generate object of data from form inputs

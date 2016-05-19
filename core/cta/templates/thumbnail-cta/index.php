@@ -102,18 +102,39 @@ form  {
 	display: inline-block;
 	width: 50%;
 }
+
+#cta_content_centered {
+	float: none;
+	display: inline-block;
+	width: 100%;
+}
+
 </style>
 
 <div id='cta_container'>
-  <div id="cta_content_left">
-	  <h1 id='main-headline'>{{header-text}}</h1>
+
+  {% if "{{image-url}}" != "" %}
+	<div id="cta_content_left">
+		<h1 id='main-headline'>{{header-text}}</h1>
 		<a id='cta-link' href='{{submit-button-link}}'>
 			<span class='cta_button'>
 			{{submit-button-text}}
 			</span>
 		</a>
 	</div>
-	<div id="cta_content_right">
+  	<div id="cta_content_right">
 		<a href='{{submit-button-link}}'><img src="{{image-url}}"></a>
+ 	 </div>
+  {% endif %}
+
+  {% if "{{image-url}}" == "" %}
+	<div id="cta_content_centered">
+		<h1 id='main-headline'>{{header-text}}</h1>
+		<a id='cta-link' href='{{submit-button-link}}'>
+			<span class='cta_button'>
+			{{submit-button-text}}
+			</span>
+		</a>
 	</div>
+  {% endif %}
 </div>
