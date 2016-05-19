@@ -81,7 +81,7 @@ array(
         'default'  => 'ff6b2c'
         ),
      array(
-        'label' => 'Thumbnail Image',
+        'label' => 'Thumbnail Images',
         'description' => "File/Image Upload Description",
         'id'  => 'image-url', // called in template's index.php file with lp_get_value($post, $key, 'media-id');
         'type'  => 'media',
@@ -89,7 +89,6 @@ array(
         'context'  => 'normal'
         ),
     );
-
 
 /* define dynamic template markup */
 $wp_cta_data[$key]['markup'] = file_get_contents($this_path . 'index.php');

@@ -810,7 +810,8 @@ if ( !class_exists( 'CTA_Render' ) ) {
             //(?<={% if )(.*)(?=%})
             /* Match Conditionals {% if {{var-name}} === "XXXX" %} tokens */
             preg_match_all('/{%+(.*?)%}/', $template, $conditional_tokens);
-            //print_r($conditional_tokens);
+            $conditional_tokens = array_filter($conditional_tokens);
+
             foreach ($conditional_tokens as $key => $value) {
                 if (is_array($value) && !empty($value[0])) {
                     $debug_output = false;
@@ -818,12 +819,12 @@ if ( !class_exists( 'CTA_Render' ) ) {
                         //echo $conditional_code;
                         $clean_val = trim(str_replace(array("{%", "%}"), "", $conditional_code));
                         $pieces = explode(" ", $clean_val); // explode string into function parts
-                        //print_r($pieces);
+
                         if (count($pieces) > 2) {
                             $function = $pieces[0] . "(" . $pieces[1] . $pieces[2] . $pieces[3] . ") {";
                             $function .= 'return TRUE;';
                             $function .= '}';
-                            //echo $function;
+
                             $return_val = eval($function);
 
                             if (!$return_val){

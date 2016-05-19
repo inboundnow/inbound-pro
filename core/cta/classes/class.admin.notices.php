@@ -69,7 +69,7 @@ class CTA_Admin_Notices {
         if ( $_GET["page"] == "wp_cta_manage_templates" )  {
            ?>
             <div id="more-templates-button" style="display:none;display:inline;">
-                <a target="_blank" href="https://www.inboundnow.com/market/?show=calls-to-action" class="button new-lp-button button-primary button-large"><?php _e( 'Open Marketplace' , 'inbound-pro' ); ?></a>
+                <a target="_blank" href="https://www.inboundnow.com/marketplace/?show=cta" class="button new-lp-button button-primary button-large"><?php _e( 'Open Marketplace' , 'inbound-pro' ); ?></a>
             </div>
             <script type="text/javascript">
                 jQuery(document).ready(function($) {

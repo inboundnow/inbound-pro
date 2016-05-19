@@ -77,7 +77,7 @@ class Landing_Pages_Admin_Notices {
         if ((($pagenow == 'edit.php') && ($page_string == "lp_manage_templates")) || (($pagenow == "post-new.php") && (isset($_GET['post_type']) && $_GET['post_type'] == "landing-page"))) {
             ?>
             <div id="more-templates-button" style="display:none;">
-                <a target="_blank" href="https://www.inboundnow.com/market/?show=landing-pages" class="button new-lp-button button-primary button-large"><?php _e( 'Download Additional Landing Page Templates' , 'inbound-pro' ); ?></a>
+                <a target="_blank" href="https://www.inboundnow.com/marketplace/?show=landing-pages" class="button new-lp-button button-primary button-large"><?php _e( 'Download Additional Landing Page Templates' , 'inbound-pro' ); ?></a>
             </div>
             <script type="text/javascript">
                 jQuery(document).ready(function($) {
