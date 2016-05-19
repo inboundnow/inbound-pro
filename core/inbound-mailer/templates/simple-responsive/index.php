@@ -73,13 +73,13 @@ print_r($settings);exit;
 		text-align: center;
 	}
 
-	td[class="viewWebsite"] {
+	td[class="view-in-browser"] {
 		width: 560px !important;
 		height: inherit !important;
 		text-align: center;
 	}
 
-	td[class="viewWebsite"] {
+	td[class="view-in-browser"] {
 		display: none;
 	}
 
@@ -93,7 +93,7 @@ print_r($settings);exit;
 		text-align: center;
 	}
 
-	td[class="viewWebsite"] {
+	td[class="view-in-browser"] {
 		display: none;
 	}
 	td[class="topDiv"] {
@@ -131,6 +131,9 @@ print_r($settings);exit;
 
 }
 </style>
+<?php
+	do_action('inbound-mailer/email/header');
+?>
 <body bgcolor="#f6f6f6" style="font-family: Arial; background-color: #f6f6f6;">
 
 <table style="max-width:630px;" align="center" cellpadding="0" cellspacing="0">
@@ -144,7 +147,7 @@ print_r($settings);exit;
 						<?php } ?>
 					</td>
 
-					<td height="70" class="viewWebsite" style="text-align:right;">
+					<td height="70" class="view-in-browser" style="text-align:right;">
 						<p style="font-family: Arial, Helvetica, sans-serif; color: #555555; font-size: 10px; padding: 0; margin: 0;">Trouble viewing? Read this <a href="<?php echo get_permalink( $post_id ); ?>" style="color: #990000;" class='do-not-tracks'><?php _e('online' , 'inbound-email' ); ?></a>.</p>
 					</td>
 				</tr>
@@ -182,7 +185,7 @@ print_r($settings);exit;
 		</td>
 	</tr>
 </table>
-
+<?php do_action('inbound-mailer/email/footer'); ?>
 </body>
 <?php
 

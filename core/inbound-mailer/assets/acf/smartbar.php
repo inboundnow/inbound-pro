@@ -1,5 +1,4 @@
 <?php
-
 if( function_exists('acf_add_local_field_group') ):
 
     acf_add_local_field_group(array (
@@ -53,7 +52,7 @@ if( function_exists('acf_add_local_field_group') ):
                     'class' => '',
                     'id' => '',
                 ),
-                'default_value' => '#3FB7E4',
+                'default_value' => '#ffffff',
             ),
             array (
                 'key' => 'field_5733ab4b30af1',
@@ -73,7 +72,7 @@ if( function_exists('acf_add_local_field_group') ):
             array (
                 'key' => 'field_5733a96d94509',
                 'label' => 'Smartbar CSS',
-                'name' => 'smartbar_padding',
+                'name' => 'smartbar_css',
                 'type' => 'wysiwyg',
                 'instructions' => 'Build your smartbar CSS here.',
                 'required' => 0,
@@ -84,13 +83,63 @@ if( function_exists('acf_add_local_field_group') ):
                     'id' => '',
                 ),
                 'default_value' => 'body nav .subscribe-prompt{
-		 text-align:center;
-		 padding:10px;
+		text-align:center;
+		margin-left:auto;
+		margin-right:auto;
+		margin-top:10px;
+		width:98%;
 }
 
-body nav .subscribe-prompt{
-		 text-align:center;
-		 padding:10px;
+.inbound-form-wrapper {
+		height:32px;
+}
+
+form {
+	 margin:0px;
+}
+
+nav input {
+		font-family: \'Helvetica Neue\', Helvetica, Arial, sans-serif;
+		font-size: 9px !important;
+		border: 2px solid #ABB0B2;
+		color: #343434;
+		background-color: #fff;
+		padding: .7em 0em .7em 1em;
+		-webkit-border-radius: 3px;
+		-moz-border-radius: 3px;
+		border-radius: 3px;
+		display: inline-block;
+		margin: 0;
+		width:90%;
+}
+
+.inbound-field {
+		display:inline;
+}
+
+nav button {
+		cursor:pointer;
+		font-family: \'Helvetica Neue\', Helvetica, Arial, sans-serif;
+		font-size: 8px !important;
+		letter-spacing: .03em;
+		color: #fff;
+		background-color: #2386C8;
+		padding: .7em 2em;
+		margin-left:5px;
+		border: 2px solid #2386C8;
+		-webkit-border-radius: 3px;
+		-moz-border-radius: 3px;
+		border-radius: 3px;
+		display: inline-block;
+}
+
+/* hides labels - use placeholders */
+.inbound-label {
+	 display:none;
+}
+
+table:first-of-type {
+	padding-top: 50px;
 }',
                 'tabs' => 'text',
                 'toolbar' => 'basic',
