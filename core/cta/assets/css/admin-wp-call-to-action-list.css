@@ -250,7 +250,7 @@ display: none;
 	border-top: none;
 	width: 	100%;
 	border-bottom: none;
-	margin-bottom: -2px;
+	margin-bottom: 0px;
 	padding-bottom: 0px;
 	display: inline-block;
 	margin-top: 0px;
@@ -360,3 +360,136 @@ box-shadow: none;
 	color: #fff;
 	text-shadow: 0 -1px 0 rgba(0,0,0,0.3);
 }
+
+/* New Variation Testing Stat Design by Ahmed Kaludi (AhmedKaludi.com) START */
+.wp-cta-varation-stat-ul{
+    font-family: "Open Sans",sans-serif;
+    padding-bottom: 2px;
+}
+.column-cta_stats{
+    padding: 0px !important;
+} 
+.wp-cta-varation-stat-ul li{
+    padding: 0;
+    background: #fff;
+    border-right: 1px solid #EBEBEA;
+}
+.wp-cta-varation-stat-ul li .wp-cta-letter{
+    background: #fff;
+    border: 0;
+    border-radius: 0;
+    margin-right: 0;
+    font-weight: 300;
+    font-size: 20px;
+    padding: 22px 16px;
+    line-height: 1;
+    color: #666666;    
+}
+.wp-cta-varation-stat-ul .wp-cta-numbers{
+    min-width: 140px;
+    position: absolute;
+    margin-top: 12px;
+}
+.wp-cta-varation-stat-ul .wp-cta-visits, .wp-cta-varation-stat-ul .wp-cta-converstions {
+    width: 81px;
+    display: inline-block;
+    text-align: center;
+}
+.wp-cta-visits{
+    width: 65px !important;
+}
+.wp-cta-varation-stat-ul .visit-text, .wp-cta-varation-stat-ul .conversion_txt{     
+    width: 100%;
+    text-align: center;
+    display: inline-block;
+    color: #777;
+    text-transform: uppercase;
+    font-size: 10px;
+    letter-spacing: 0.6px;
+}
+.wp-cta-varation-stat-ul .wp-cta-impress-num, .wp-cta-varation-stat-ul .wp-cta-con-num{
+    font-size: 16px;
+    color: #000;
+    font-weight: normal;
+    width: 100%;
+    text-align: center;
+    padding: 0;
+}
+.wp-cta-varation-stat-ul .cr-number {
+    text-align: center;
+    width: 45px;
+    float: right;
+    margin-top: 16px;
+    padding-right: 10px;
+}
+.wp-cta-varation-stat-ul .cr-number, .wp-cta-varation-stat-ul .cr-number:hover {
+    background: none;
+    border: 0;
+    box-shadow: none;
+    font-size: 14px;
+    font-weight: 500;
+    color: #555555;
+    text-shadow: none;
+    padding: 0;
+    margin: 0;
+    margin-top: 16px;
+    padding-right: 10px;
+}
+.wp-cta-varation-stat-ul .cr-number:before{
+    content: "";
+    background: url('../images/variation-normal.png') no-repeat;
+    padding: 7px 15px 3px 8px;
+    display: inline-block;
+    text-align: center;
+    background-position: 0px 1px;
+}
+.wp-cta-varation-stat-ul .winner-wp-cta .cr-number:before{
+    background-position: 0px 1px;
+    padding: 7px 10px 8px 10px;
+    background: url('../images/variation-up.png') no-repeat;
+}
+.wp-cta-varation-stat-ul .winner-wp-cta .wp-cta-letter{
+    background: #15dd6f;
+    color: #fff;
+    font-weight: 300;
+}
+.widefat td.column-cta_stats{
+    padding: 0 !important;
+    margin: 0 !important 
+}
+.post-type-wp-call-to-action .widefat td, .post-type-wp-call-to-action .widefat th{
+    padding:8px 10px 6px 10px
+}
+.winner-wp-cta{
+    background: #F9FFF4 !important
+}
+.column-cta_stats{
+ }
+.wp-cta-varation-stat-ul .cr-number.cr-empty-0,
+.wp-cta-varation-stat-ul .cr-number.cr-empty-0:hover{
+    text-align: center;
+    width: 42px;
+    float: right;
+    background: none;
+    border: 0;
+    box-shadow: none;
+    font-size: 14px;
+    font-weight: normal!important;
+    color: #999;
+    text-shadow: none;
+    padding: 0;
+    margin: 0;
+    margin-top: 16px;
+    padding-right: 10px;
+}
+.wp-cta-no-stats {
+    font-size: 10px;
+    display: inline-block;
+    padding-left: 10px;
+    color: #7D7D7D;
+    text-transform: uppercase;
+    letter-spacing: 0.2px;
+    line-height: 20px;
+}
+
+/* New Variation Testing Stat Design by Ahmed Kaludi (AhmedKaludi.com) END */
