@@ -49,7 +49,6 @@ if (!class_exists('Inbound_Asset_Loader')) {
 			global $post;
 			/* Frontent and Backend Files */
 
-
 			global $wp_scripts;
 			$store = false;
 
@@ -103,6 +102,7 @@ if (!class_exists('Inbound_Asset_Loader')) {
 				}
 			}
 
+			error_log('here');
 		}
 
 		/* Global Specific localize functions */

@@ -43,6 +43,7 @@ class Inbound_Email_Preview {
     public static function load_header_scripts() {
         global $post;
 
+
         self::$smartbar_enable = get_field("smartbar_enable", $post->ID);
 
         if (!self::$smartbar_enable) {
@@ -95,6 +96,21 @@ class Inbound_Email_Preview {
 
         if (!self::$smartbar_enable) {
             return;
+        }
+
+        do_action('wp_enqueue_scripts');
+
+        global $wp_scripts;
+
+        /* load inbound analytics */
+        if (isset($wp_scripts->registered['inbound-analytics'])) {
+
+            if (isset($wp_scripts->registered['inbound-analytics']->extra['data'])) {
+                echo '<script type="text/javascript">';
+                echo $wp_scripts->registered['inbound-analytics']->extra['data'];
+                echo '</script>';
+            }
+            echo '<script src="'.$wp_scripts->registered['inbound-analytics']->src.'"></script>';
         }
 
         ?>
