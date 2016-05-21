@@ -37,9 +37,6 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
             /* add styling handlers to custom post states */
             add_filter('display_post_states', array( __CLASS__ , 'filter_custom_post_states' ) );
 
-            /* add quick actions to lists mode */
-            add_filter('post_row_actions', array(__CLASS__, 'add_quick_actions' ) , 10, 2);
-
             /* enqueue scripts for landing page listings */
             add_action( 'admin_enqueue_scripts' , array(__CLASS__, 'enqueue_admin_scripts' ) );
 
@@ -505,19 +502,6 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
                 $state = '<span class="' . strtolower($state) . ' states">' . str_replace(' ', '-', $state) . '</span>';
             }
             return $post_states;
-        }
-
-        /**
-         * Adds quick action
-         */
-        public static function add_quick_actions($actions, $post) {
-            if ($post->post_type != 'landing-page') {
-                return $actions;
-            }
-
-            $actions['clear'] = '<a href="#clear-stats" id="lp_clear_' . $post->ID . '" class="clear_stats" title="' . esc_attr(__("Clear impression and conversion records", 'inbound-pro')) . '" >' . __('Clear All Stats', 'inbound-pro') . '</a><span class="hover-description">' . __('Hover over the letters to the right for more options', 'inbound-pro') . '</span>';
-
-            return $actions;
         }
 
         /**

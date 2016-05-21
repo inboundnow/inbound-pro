@@ -238,7 +238,7 @@ td.stats.column-stats {
     border-top: none;
     width: 100%;
     border-bottom: none;
-    margin-bottom: -2px;
+    margin-bottom: 0px;
     padding-bottom: 0px;
     display: inline-block;
     margin-top: 0px;
@@ -372,8 +372,8 @@ a.cr-number:hover {
     border-radius: 0;
     margin-right: 0;
     font-weight: 300;
-    font-size: 30px;
-    padding: 17px 16px;
+    font-size: 20px;
+    padding: 22px 16px;
     line-height: 1;
     color: #666666
 }
@@ -381,7 +381,7 @@ a.cr-number:hover {
     padding: 0px !important
 }
 .lp-varation-stat-ul .winner-lp{
-    background: none
+    background: #F9FFF4 !important
 }
 .lp-varation-stat-ul .winner-lp .lp-letter{
     background: #15dd6f;
@@ -433,7 +433,7 @@ a.cr-number:hover {
     border: 0;
     box-shadow: none;
     font-size: 14px;
-    font-weight: bold !important;
+    font-weight: normal;
     color: #999;
     text-shadow: none;
     padding: 0;

@@ -51,6 +51,9 @@ class Inbound_Mailer_Load_Templates {
             include_once(INBOUND_EMAIL_THEME_TEMPLATES_PATH . "$name/config.php");
         }
 
+        /* load smartbar acf */
+        include_once( INBOUND_EMAIL_PATH . 'assets/acf/smartbar.php');
+
         self::$instance->template_definitions = $inbound_email_data;
     }
 

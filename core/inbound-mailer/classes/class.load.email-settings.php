@@ -40,8 +40,8 @@ class Inbound_Mailer_Common_Settings {
 	
 
 		self::$instance->settings['email-settings']['subject'] =  array(
-			'description' => __( 'Subject line of the email. This field is variation dependant!' , 'inbound-email' ) ,
-			'label' => __( 'Subject Line' , 'inbound-email' ),
+			'description' => __( 'Subject line of the email. This field is variation dependant!' , 'inbound-pro' ) ,
+			'label' => __( 'Subject Line' , 'inbound-pro' ),
 			'id'  => 'subject',
 			'type'  => 'text',
 			'default'  => '',
@@ -50,8 +50,8 @@ class Inbound_Mailer_Common_Settings {
 		);
 		
 		self::$instance->settings['email-settings']['from_name'] =  array(
-			'label' => __( 'From Name' , 'inbound-email' ),
-			'description' => __( 'The name of the sender. This field is variation dependant!' , 'inbound-email' ) ,
+			'label' => __( 'From Name' , 'inbound-pro' ),
+			'description' => __( 'The name of the sender. This field is variation dependant!' , 'inbound-pro' ) ,
 			'id'  => 'from_name',
 			'type'  => 'text',
 			'default'  => '',
@@ -60,8 +60,8 @@ class Inbound_Mailer_Common_Settings {
 		);
 		
 		self::$instance->settings['email-settings']['from_email'] =  array(
-			'label' => __( 'From Email' , 'inbound-email' ),
-			'description' => __( 'The email address of the sender. This field is variation dependant!' , 'inbound-email' ) ,
+			'label' => __( 'From Email' , 'inbound-pro' ),
+			'description' => __( 'The email address of the sender. This field is variation dependant!' , 'inbound-pro' ) ,
 			'id'  => 'from_email',
 			'type'  => 'text',
 			'default'  => '',
@@ -70,8 +70,8 @@ class Inbound_Mailer_Common_Settings {
 		);	
 		
 		self::$instance->settings['email-settings']['reply_email'] =  array(
-			'label' => __( 'Reply Email' , 'inbound-email' ),
-			'description' => __( 'The email address recipients can reply to. This field is variation dependant!' , 'inbound-email' ) ,
+			'label' => __( 'Reply Email' , 'inbound-pro' ),
+			'description' => __( 'The email address recipients can reply to. This field is variation dependant!' , 'inbound-pro' ) ,
 			'id'  => 'reply_email',
 			'type'  => 'text',
 			'default'  => '',
@@ -92,11 +92,11 @@ class Inbound_Mailer_Common_Settings {
 		
 		self::$instance->settings['batch-send-settings']['recipients'] = array(
 			'id'  => 'recipients',
-			'label' => __( 'Recipient Lists' , 'inbound-email' ),
-			'description' => __( 'This option provides a placeholder for the selected template data.' , 'inbound-email' ),
+			'label' => __( 'Recipient Lists' , 'inbound-pro' ),
+			'description' => __( 'Add the lists you would like to target with this email.' , 'inbound-pro' ),
 			'type'  => 'select2', 
 			'default' => '',
-			'placeholder' => __( 'Select lists to send mail to.' , 'inbound-email' ),
+			'placeholder' => __( 'Select lists to send mail to.' , 'inbound-pro' ),
 			'options' => $lead_lists,
 			'disable_variants' => true
 		);
@@ -105,12 +105,12 @@ class Inbound_Mailer_Common_Settings {
 
 		self::$instance->settings['batch-send-settings']['send_datetime'] = array(
 			'id'  => 'send_datetime',
-			'label' => __( 'Send Date/Time' , 'inbound-email' ),
-			'description' => __( 'Select the date and time you would like this message to send.' , 'inbound-email' ),
+			'label' => __( 'Send Date/Time' , 'inbound-pro' ),
+			'description' => __( 'Select the date and time you would like this message to send.' , 'inbound-pro' ),
 			'type'  => 'datepicker', 
 			'default' => '',
 			'default_timezone_abbr' =>  $tz['abbr'] . '-UTC' . $tz['offset'] ,
-			'placeholder' => __( 'Select lists to send mail to.' , 'inbound-email' ),
+			'placeholder' => __( 'Select lists to send mail to.' , 'inbound-pro' ),
 			'options' => $lead_lists,
 			'disable_variants' => true
 		);
