@@ -22,14 +22,14 @@ if ( !class_exists('Inbound_Mailer_Plugin')	) {
 		 */
 		public static $notices = array();
 
-        /**
-         * Main Inbound_Mailer_Plugin Instance
-         */
-        public function __construct() {
-            self::define_constants();
-            self::includes();
-            self::load_text_domain_init();
-        }
+		/**
+		 * Main Inbound_Mailer_Plugin Instance
+		 */
+		public function __construct() {
+			self::define_constants();
+			self::includes();
+			self::load_text_domain_init();
+		}
 
 
 		/**
@@ -138,6 +138,7 @@ if ( !class_exists('Inbound_Mailer_Plugin')	) {
 					include_once('classes/class.load.email-templates.php');
 					include_once('classes/class.templates.list-table.php');
 					include_once('classes/class.templates.manage.php');
+					include_once('classes/class.templates.preview.php');
 					include_once('modules/module.utils.php');
 					include_once('classes/class.customizer.php');
 					include_once('classes/class.tracking.php');
@@ -151,6 +152,7 @@ if ( !class_exists('Inbound_Mailer_Plugin')	) {
 					include_once('classes/class.connector.mandrill.php');
 					include_once('classes/class.connector.sparkpost.php');
 					include_once('classes/class.unsubscribe.php');
+					include_once('classes/class.unsubscribe.php');
 
 					BREAK;
 
@@ -161,7 +163,7 @@ if ( !class_exists('Inbound_Mailer_Plugin')	) {
 					include_once('classes/class.postmeta.php');;
 					include_once('classes/class.load.email-templates.php');
 					include_once('classes/class.post-type.inbound-email.php');
-                    include_once('classes/class.inbound-forms.php');
+					include_once('classes/class.inbound-forms.php');
 					include_once('classes/class.extension.wp-lead.php');
 					include_once('classes/class.extension.wordpress-seo.php');
 					include_once('classes/class.enqueues.php');
@@ -187,9 +189,9 @@ if ( !class_exists('Inbound_Mailer_Plugin')	) {
 		}
 
 		/**
-		*	Loads the correct .mo file for this plugin
-		*
-		*/
+		 *	Loads the correct .mo file for this plugin
+		 *
+		 */
 		private static function load_text_domain_init() {
 			add_action( 'init' , array( __CLASS__ , 'load_text_domain' ) );
 		}
@@ -203,16 +205,15 @@ if ( !class_exists('Inbound_Mailer_Plugin')	) {
 
 	/* Initiate Plugin */
 	if ( Inbound_Mailer_Plugin::is_valid_php_version() ) {
-		// Get Inbound Now Running
-		$GLOBALS['Inbound_Mailer_Plugin'] = new Inbound_Mailer_Plugin;
+		 new Inbound_Mailer_Plugin;
 	} else {
 		// Show Fail
 		Inbound_Mailer_Plugin::fail_php_version();
 	}
 
 	/**
-	*  Checks if inbound-mailer plugin is active
-	*/
+	 *  Checks if inbound-mailer plugin is active
+	 */
 	function mailer_check_active() {
 		return 1;
 	}

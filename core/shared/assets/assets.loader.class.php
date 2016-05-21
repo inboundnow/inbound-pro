@@ -102,7 +102,6 @@ if (!class_exists('Inbound_Asset_Loader')) {
 				}
 			}
 
-			error_log('here');
 		}
 
 		/* Global Specific localize functions */

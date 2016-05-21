@@ -510,7 +510,7 @@ ul#template-filter a.current{
 }
 
 #postbox-container-2 {
-	display:none;
+	/* display:none; */
 }
 
 #inbound_lead_fields_button {

@@ -1253,6 +1253,9 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 $thumbnail = INBOUND_EMAIL_THEME_TEMPLATES_URLPATH . $template . '/thumbnail.png';
             }
 
+            if (!$thumbnail) {
+                error_log($template);
+            }
             return $thumbnail;
         }
 
@@ -1701,12 +1704,11 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                                 case 'sent':
                                     Settings.show_graphs();
                                     Settings.show_clone_buttons();
+                                    Settings.show_save_button();
                                     Settings.hide_preview();
                                     Settings.hide_quick_lauch_container();
                                     Settings.hide_header_settings();
                                     Settings.hide_email_send_settings();
-                                    Settings.hide_template_settings();
-                                    Settings.hide_save_button();
                                     Settings.hide_send_buttons();
                                     Settings.hide_send_test_email_button();
                                     Settings.hide_email_send_type();
