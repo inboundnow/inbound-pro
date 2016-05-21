@@ -152,7 +152,6 @@ if ( !class_exists('Inbound_Mailer_Plugin')	) {
 					include_once('classes/class.connector.mandrill.php');
 					include_once('classes/class.connector.sparkpost.php');
 					include_once('classes/class.unsubscribe.php');
-					include_once('classes/class.unsubscribe.php');
 
 					BREAK;
 

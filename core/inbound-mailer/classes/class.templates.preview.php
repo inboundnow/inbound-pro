@@ -23,18 +23,11 @@ class Inbound_Email_Preview {
      *    Loads hooks and filters
      */
     public function load_hooks() {
-        add_action('acf/init', array(__CLASS__, 'load_acf_definitions'), 5);
         add_action('inbound-mailer/email/header', array(__CLASS__, 'load_header_scripts'), 11);
         add_action('inbound-mailer/email/footer', array(__CLASS__, 'load_footer_scripts'), 11);
         add_filter('single_template', array(__CLASS__, 'load_email'), 11);
     }
 
-    /**
-     * Load ACF definitions:smartbar
-     */
-    public static function load_acf_definitions() {
-        include_once( INBOUND_EMAIL_PATH . 'assets/acf/smartbar.php');
-    }
     /**
      * loads jquery for web version of email
      */
