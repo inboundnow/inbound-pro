@@ -134,8 +134,6 @@ if ( !class_exists( 'Inbound_Automation_Loader' ) ) {
 				foreach ($trigger['arguments'] as $id => $argument ) {
 
 					$keys = array();
-					//error_log($hook);
-
 
 					if (isset($args[$id]) && is_array($args[$id])) {
 
@@ -378,14 +376,15 @@ if ( !class_exists( 'Inbound_Automation_Loader' ) ) {
 		* Evaluate Filter By Comparing Filter with Corresponding Incoming Data
 		*/
 		public static function evaluate_trigger_filter( $filter , $target_argument ) {
-
+			//error_log(print_r($target_argument,true));
 			if (!is_array($target_argument)) {
 				$arg = $target_argument;
 				$target_argument = array();
 				$target_argument[ $filter['trigger_filter_key'] ] = $arg;
 			} else {
-				$target_argument = Inbound_Automation_Loader::flatten_array( $target_argument );
+				$target_argument[ $filter['trigger_filter_key'] ] = Inbound_Automation_Loader::flatten_array( $target_argument );
 			}
+			//error_log(print_r($target_argument,true));
 
 			$compare_value = ( isset($target_argument[ $filter['trigger_filter_key'] ]) ) ? $target_argument[ $filter['trigger_filter_key'] ] : __('notset','inbound-pro');
 			$eval = false;
@@ -515,16 +514,24 @@ if ( !class_exists( 'Inbound_Automation_Loader' ) ) {
 			$flatten = array();
 
 			foreach ($array as $k => $value ) {
-				if ( is_array($value) ) {
-					foreach ($value as $k1 => $v1 ) {
-						if (is_array($v1)){
-							continue;
+				if (is_numeric($k)) {
+					continue;
+				}
+
+				if (is_array($value)) {
+					foreach ($value as $k1 => $v1) {
+						if (is_array($v1)) {
+							$v1 = json_encode($v1);
 						}
-						$flatten[ $k.':'.$k1 ] =  $v1;
+						$flatten[$k . ':' . $k1] = $v1;
 					}
 				} else {
-					$flatten[ $k ] = $value;
+					$flatten[$k] = $value;
 				}
+			}
+
+			if (!$flatten) {
+				$flatten = json_encode($array);
 			}
 
 			return $flatten;
@@ -535,6 +542,7 @@ if ( !class_exists( 'Inbound_Automation_Loader' ) ) {
 		 */
 		public static function update_arguments() {
 			if (self::$instance->inbound_arguments) {
+				//error_log(print_r( self::$instance->inbound_arguments,true));
 				Inbound_Options_API::update_option( 'inbound_automation' , 'arguments' , self::$instance->inbound_arguments );
 			}
 		}

@@ -94,8 +94,8 @@ class Inbound_Automation_Trigger_Form_Submission {
         );
 
         $inbound_arguments = Inbound_Options_API::get_option( 'inbound_automation' , 'arguments' );
-        $inbound_arguments = ( $inbound_arguments  ) ?  $inbound_arguments : array();
-        $inbound_arguments[self::$trigger]['lead_data'] = $lead;
+		$inbound_arguments = ( is_array($inbound_arguments)  ) ?  $inbound_arguments : array();
+		$inbound_arguments[self::$trigger]['lead_data'] = $lead;
         Inbound_Options_API::update_option( 'inbound_automation' , 'arguments' ,  $inbound_arguments );
     }
 
