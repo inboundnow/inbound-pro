@@ -544,55 +544,79 @@ class Landing_Pages_Metaboxes {
                                     ?>
 								</span>
 
+<span class="settings_icon"> </span>
+<span class="settings_wrapper">
+<span class="settings_wrapper_heading">Variation Settings</span>
+    <ul class="settings_list_li">
+        <li class="settings_edit">
+            <span class='bab-stat-menu-edit'>
+                <a title="<?php _e('Edit this variation', 'landing-pages'); ?>" href='?post=<?php echo $post->ID; ?>&action=edit&action-variation-id=<?php echo $vid; ?>'>
+                    <?php _e('Edit', 'landing-pages'); ?>
+                </a>
+            </span>
+        </li>
+        <li class="settings_preview">
+            <span class='bab-stat-menu-preview'>
+                <a title="<?php _e('Preview this variation', 'landing-pages'); ?>" class='thickbox' href='<?php echo $permalink; ?>&iframe_window=on&post_id=<?php echo $post->ID; ?>&TB_iframe=true&width=1503&height=467' target='_blank'>
+                    <?php _e('Preview', 'landing-pages'); ?>
+                </a>
+            </span>
+        </li>
+        <li class="settings_clone">
+            <span class='bab-stat-menu-clone'>
+                <a title="<?php _e('Clone this variation', 'landing-pages'); ?>" href='?post=<?php echo $post->ID; ?>&action=edit&new-variation=1&clone=<?php echo $vid; ?>&new_meta_key=<?php echo $howmany; ?>'>
+                    <?php _e('Clone', 'landing-pages'); ?>
+                </a>
+            </span>
+        </li>
+        <li class="settings_delete">
+            <span class='bab-stat-control-delete'>
+                <a title="<?php _e('Delete this variation', 'landing-pages'); ?>" href='?post=<?php echo $post->ID; ?>&action=edit&action-variation-id=<?php echo $vid; ?>&ab-action=delete-variation'>
+                    <?php _e('Delete', 'landing-pages'); ?>
+                </a>
+            </span>
+        </li>
+        <li class="settings_clearstat">
+<!-- CLEAR STATS START -->
+           <span class="lp-delete-var-stats" data-letter='<?php echo Landing_Pages_Variations::vid_to_letter( $post->ID , $key); ?>' data-vid='<?php echo $vid; ?>' rel='<?php echo $post->ID; ?>' title="<?php _e('Delete this variations stats', 'landing-pages'); ?>">
+                <?php _e('Clear Stats', 'landing-pages'); ?>
+            </span>
+<!-- CLEAR STAT END --></li>
+    </ul>
+</span>
 
-                                <span class="lp-delete-var-stats" data-letter='<?php echo Landing_Pages_Variations::vid_to_letter( $post->ID , $key); ?>'
-                                      data-vid='<?php echo $vid; ?>' rel='<?php echo $post->ID; ?>'
-                                      title="<?php _e('Delete this variations stats', 'landing-pages'); ?>"><?php _e('Clear Stats', 'landing-pages'); ?></span>
+
+                                
+<!-- PAUSE START -->                                
+<span class='bab-stat-control-pause'><a title="<?php _e('Pause this variation', 'landing-pages'); ?>"
+                                                href='?post=<?php echo $post->ID; ?>&action=edit&action-variation-id=<?php echo $vid; ?>&ab-action=pause-variation'> </a></span>
+<!-- PAUSE END -->                                
+
+<!-- PLAY START -->
+<span class='bab-stat-seperator pause-sep'>|</span>
+<span class='bab-stat-control-play'><a
+        title="<?php _e('Turn this variation on', 'landing-pages'); ?>"
+href='?post=<?php echo $post->ID; ?>&action=edit&action-variation-id=<?php echo $vid; ?>&ab-action=play-variation'> </a></span>
+<!-- PLAY END -->
+                         
+                                
+                                
                             </div>
                             <div class="bab-stat-row">
                                 <div class='bab-stat-stats' colspan='2'>
                                     <div class='bab-stat-container-impressions bab-number-box'>
+                                       <span class="bab-stat-id"><?php _e('Views', 'landing-pages'); ?> </span>
                                         <span class='bab-stat-span-impressions'><?php echo $impressions; ?></span>
-                                        <span class="bab-stat-id"><?php _e('Views', 'landing-pages'); ?> </span>
                                     </div>
                                     <div class='bab-stat-container-conversions bab-number-box'>
-                                        <span class='bab-stat-span-conversions'><?php echo $conversions; ?></span>
-                                        <span
-                                            class="bab-stat-id"><?php _e('Conversions', 'landing-pages'); ?></span></span>
+<span class="bab-stat-id"><?php _e('Conversions', 'landing-pages'); ?></span>                                        <span class='bab-stat-span-conversions'><?php echo $conversions; ?></span>
+                                        </span>
                                     </div>
                                     <div class='bab-stat-container-conversion_rate bab-number-box'>
-                                        <span
-                                            class='bab-stat-span-conversion_rate'><?php echo $conversion_rate; ?></span>
-                                        <span
-                                            class="bab-stat-id bab-rate"><?php _e('Conversion Rate', 'landing-pages'); ?></span>
+                        <span class="bab-stat-id bab-rate"><?php _e('Conversion Rate', 'landing-pages'); ?></span>
+                        <span class='bab-stat-span-conversion_rate'><?php echo $conversion_rate; ?></span>
                                     </div>
-                                    <div class='bab-stat-control-container'>
-                                        <span class='bab-stat-control-pause'><a
-                                                title="<?php _e('Pause this variation', 'landing-pages'); ?>"
-                                                href='?post=<?php echo $post->ID; ?>&action=edit&action-variation-id=<?php echo $vid; ?>&ab-action=pause-variation'><?php _e('Pause', 'landing-pages'); ?></a></span>
-                                        <span class='bab-stat-seperator pause-sep'>|</span>
-                                        <span class='bab-stat-control-play'><a
-                                                title="<?php _e('Turn this variation on', 'landing-pages'); ?>"
-                                                href='?post=<?php echo $post->ID; ?>&action=edit&action-variation-id=<?php echo $vid; ?>&ab-action=play-variation'><?php _e('Play', 'landing-pages'); ?></a></span>
-                                        <span class='bab-stat-seperator play-sep'>|</span>
-                                        <span class='bab-stat-menu-edit'><a
-                                                title="<?php _e('Edit this variation', 'landing-pages'); ?>"
-                                                href='?post=<?php echo $post->ID; ?>&action=edit&action-variation-id=<?php echo $vid; ?>'><?php _e('Edit', 'landing-pages'); ?></a></span>
-                                        <span class='bab-stat-seperator'>|</span>
-                                        <span class='bab-stat-menu-preview'><a
-                                                title="<?php _e('Preview this variation', 'landing-pages'); ?>"
-                                                class='thickbox'
-                                                href='<?php echo $permalink; ?>&iframe_window=on&post_id=<?php echo $post->ID; ?>&TB_iframe=true&width=1503&height=467'
-                                                target='_blank'><?php _e('Preview', 'landing-pages'); ?></a></span>
-                                        <span class='bab-stat-seperator'>|</span>
-                                        <span class='bab-stat-menu-clone'><a
-                                                title="<?php _e('Clone this variation', 'landing-pages'); ?>"
-                                                href='?post=<?php echo $post->ID; ?>&action=edit&new-variation=1&clone=<?php echo $vid; ?>&new_meta_key=<?php echo $howmany; ?>'><?php _e('Clone', 'landing-pages'); ?></a></span>
-                                        <span class='bab-stat-seperator'>|</span>
-                                        <span class='bab-stat-control-delete'><a
-                                                title="<?php _e('Delete this variation', 'landing-pages'); ?>"
-                                                href='?post=<?php echo $post->ID; ?>&action=edit&action-variation-id=<?php echo $vid; ?>&ab-action=delete-variation'><?php _e('Delete', 'landing-pages'); ?></a></span>
-                                    </div>
+                                     
                                 </div>
                             </div>
                             <div class="bab-stat-row">

@@ -370,9 +370,7 @@ box-shadow: none;
     padding: 0px !important;
 } 
 .wp-cta-varation-stat-ul li{
-    padding: 0;
-    background: #fff;
-    border-right: 1px solid #EBEBEA;
+    padding: 0; 
 }
 .wp-cta-varation-stat-ul li .wp-cta-letter{
     background: #fff;
@@ -461,7 +459,8 @@ box-shadow: none;
     padding:8px 10px 6px 10px
 }
 .winner-wp-cta{
-    background: #F9FFF4 !important
+    background: #F9FFF4 !important;
+    width: 99%
 }
 .column-cta_stats{
  }
@@ -490,6 +489,16 @@ box-shadow: none;
     text-transform: uppercase;
     letter-spacing: 0.2px;
     line-height: 20px;
+}
+
+body .alternate, .striped>tbody>:nth-child(odd), ul.striped>:nth-child(odd) {
+    background-color:#ffffff !important; 
+}
+body #the-list td {
+    border-bottom: 1px solid #EBEBEA;
+}
+.post-type-wp-call-to-action .page-title strong, .post-type-wp-call-to-action .page-title .row-actions{
+    margin-left: 15px;
 }
 
 /* New Variation Testing Stat Design by Ahmed Kaludi (AhmedKaludi.com) END */

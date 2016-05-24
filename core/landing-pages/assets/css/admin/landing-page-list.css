@@ -480,13 +480,13 @@ a.cr-number:hover {
  .column-stats{
     padding: 0
 }
-/* New Variation Testing Stat Design by Ahmed Kaludi (AhmedKaludi.com) END */
-
 
 body .alternate, .striped>tbody>:nth-child(odd), ul.striped>:nth-child(odd) {
-    background-color:#ffffff;
+    background-color:#ffffff !important; 
 }
 body #the-list td {
     border-bottom: 1px solid #EBEBEA;
 }
+/* New Variation Testing Stat Design by Ahmed Kaludi (AhmedKaludi.com) END */
+
 

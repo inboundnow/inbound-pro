@@ -1,1 +1,311 @@
-/******************************************************* ab testing admin css */	.nav-tab-special-inactive	{		border-color: #DFDFDF #DFDFDF #FFFFFF;		border-top-left-radius: 3px;		border-top-right-radius: 3px;		border-width: 1px 1px 0;		color: #AAAAAA;		display: inline-block;		font-size: 12px;		line-height: 16px;		margin: 0 6px -1px 0;		padding: 4px 14px 6px;		text-decoration: none;		text-shadow: 0 1px 0 #FFFFFF;		cursor:pointer;	}	.nav-tab-special-active	{		border-top-left-radius: 3px;		border-top-right-radius: 3px;		border-width: 1px 1px 1px;		border-bottom: 0px;		color: #000;		display: inline-block;		font-size: 12px;		line-height: 16px;		margin: 0 6px -1px 0;		padding: 4px 14px 6px;		text-decoration: none;		text-shadow: 0 1px 0 #FFFFFF;		cursor:pointer;		background: rgba(241,241,241, 1) !important;	}	h2.nav-tab-wrapper.a_b_tabs .nav-tab {	padding: 6px 14px;	font-weight: 700;	font-size: 17px;	line-height: 24px;	}	.variation-off .bab-stat-control-pause, .variation-on .bab-stat-control-play, .variation-off .pause-sep,.variation-on .play-sep, .variation-on .is-paused{		display: none;	}	.bab-stat-control-container {	bottom: 0px;	left: 0px;	}	.bab-stat-control-container:hover {	bottom: 0px;	left: 0px;	display: block;	}	.bab-variation-row  {		position: relative;		//margin-bottom: -27px;		//-moz-transition: all .4s ease-in-out;		//-webkit-transition: all .4s ease-in-out;		//-o-transition: all .4s ease-in-out;		//transition: all .4s ease-in-out;	}	.bab-variation-row:last-child {		margin-bottom: 0px;	}	.bab-variation-row:hover {		margin-bottom: 0px;		//-moz-transition: all .4s ease-in-out;		//-webkit-transition: all .4s ease-in-out;		//-o-transition: all .4s ease-in-out;		//transition: all .4s ease-in-out;	}	.bab-stat-control-container span {	vertical-align: bottom;	display: inline-block;	}	.bab-stat-seperator {		padding-left: 3px;		padding-right: 3px;		font-size: 0px;	}	.variation-on .bab-stat-control-pause a {		color: red;		font-weight: bold;	}	.variation-off .bab-number-box {		color: rgb(117, 117, 117);	}	.is-paused { font-size: 10px; font-style: italic; padding-left: 10px;}	.variation-off .bab-stat-control-play a {		color: green;		font-weight: bold;	}	.variation-off .bab-varation-header {		background-color: rgb(243, 145, 145);		font-weight: normal;		color: rgb(117, 117, 117);	}	.lp-tab-display	{		padding:13px;	}	.lp-tab-display td	{		padding:10px;	}	.lp-tab-display th	{		padding:10px;	}	.lp-tab-display th,.lp-tab-display .lp-gs-th	{		width:300px;		font-size: 14px;		font-weight:300px;		text-align:left;	}	/* Begin with quick stats! */	.bab-stat-letter {		border-radius: 3px;		border-style:solid;		border-width:1px;		padding:2px;	}	.bab-stat-container-conversions, .bab-stat-container-impressions, .bab-stat-container-conversion_rate {		display:inline;	}	#a-b-testing {		padding: 0px;	}	.lp-delete-var-stats {		cursor: pointer;	}	#lp_ab_display_stats_metabox .inside {		padding: 0px;		margin-top: 0px;	}	#lp_ab_display_stats_metabox h3.hndle {		border-bottom: none !important;	}
+/******************************************************* ab testing admin css */
+
+
+	.nav-tab-special-inactive
+	{
+		border-color: #DFDFDF #DFDFDF #FFFFFF;
+		border-top-left-radius: 3px;
+		border-top-right-radius: 3px;
+		border-width: 1px 1px 0;
+		color: #AAAAAA;
+		display: inline-block;
+		font-size: 12px;
+		line-height: 16px;
+		margin: 0 6px -1px 0;
+		padding: 4px 14px 6px;
+		text-decoration: none;
+		text-shadow: 0 1px 0 #FFFFFF;
+		cursor:pointer;
+	}
+
+	.nav-tab-special-active
+	{
+
+		border-top-left-radius: 3px;
+		border-top-right-radius: 3px;
+		border-width: 1px 1px 1px;
+		border-bottom: 0px;
+		color: #000;
+		display: inline-block;
+		font-size: 12px;
+		line-height: 16px;
+		margin: 0 6px -1px 0;
+		padding: 4px 14px 6px;
+		text-decoration: none;
+		text-shadow: 0 1px 0 #FFFFFF;
+		cursor:pointer;
+		background: rgba(241,241,241, 1) !important;
+
+
+	}
+	h2.nav-tab-wrapper.a_b_tabs .nav-tab {
+	padding: 6px 14px;
+	font-weight: 700;
+	font-size: 17px;
+	line-height: 24px;
+	}
+	.variation-off .bab-stat-control-pause, .variation-on .bab-stat-control-play, .variation-off .pause-sep,.variation-on .play-sep, .variation-on .is-paused{
+		display: none;
+	}
+	.bab-stat-control-container {
+
+	bottom: 0px;
+	left: 0px;
+	}
+	.bab-stat-control-container:hover {
+
+	bottom: 0px;
+	left: 0px;
+	display: block;
+	}
+	.bab-variation-row  {
+		position: relative;
+		//margin-bottom: -27px;
+		//-moz-transition: all .4s ease-in-out;
+		//-webkit-transition: all .4s ease-in-out;
+		//-o-transition: all .4s ease-in-out;
+		//transition: all .4s ease-in-out;
+	}
+
+	.bab-variation-row:last-child {
+		margin-bottom: 0px;
+	}
+	.bab-variation-row:hover {
+		margin-bottom: 0px;
+		//-moz-transition: all .4s ease-in-out;
+		//-webkit-transition: all .4s ease-in-out;
+		//-o-transition: all .4s ease-in-out;
+		//transition: all .4s ease-in-out;
+
+	}
+	.bab-stat-control-container span {
+	vertical-align: bottom;
+	display: inline-block;
+	}
+	.bab-stat-seperator {
+		padding-left: 3px;
+		padding-right: 3px;
+		font-size: 0px;
+	}
+	.variation-on .bab-stat-control-pause a {
+		color: red;
+		font-weight: bold;
+	}
+	.variation-off .bab-number-box {
+		color: rgb(117, 117, 117);
+	}
+	.is-paused { font-size: 10px;
+    font-style: italic;
+    color: red;
+    opacity: .8;
+    padding-left: 10px; 
+}
+	.variation-off .bab-stat-control-play a {
+		color: green;
+		font-weight: bold;
+	}
+	.variation-off .bab-varation-header {
+ 		font-weight: normal;
+ 	}
+	.lp-tab-display
+	{
+		padding:13px;
+	}
+
+	.lp-tab-display td
+	{
+		padding:10px;
+	}
+	.lp-tab-display th
+	{
+		padding:10px;
+	}
+
+	.lp-tab-display th,.lp-tab-display .lp-gs-th
+	{
+		width:300px;
+		font-size: 14px;
+		font-weight:300px;
+		text-align:left;
+	}
+
+
+	/* Begin with quick stats! */
+
+	.bab-stat-letter {
+		border-radius: 3px;
+		border-style:solid;
+		border-width:1px;
+		padding:2px;
+	}
+
+	.bab-stat-container-conversions, .bab-stat-container-impressions, .bab-stat-container-conversion_rate {
+		display:inline;
+	}
+
+	#a-b-testing {
+		padding: 0px;
+	}
+	.lp-delete-var-stats {
+		cursor: pointer;
+	}
+	#lp_ab_display_stats_metabox .inside {
+		padding: 0px;
+		margin-top: 0px;
+	}
+	#lp_ab_display_stats_metabox h3.hndle {
+		border-bottom: none !important;
+	}
+
+/* --- UI improvement style added by Ahmed Kaludi ( http://AhmedKaludi.com ) - START --- */
+.settings_icon{
+    top: 12px;
+}
+.settings_wrapper{ display: none }
+.settings_icon:hover + .settings_wrapper,
+.settings_wrapper:hover{ 
+    display: block;
+    position: absolute;
+    background: #fff;
+    padding: 15px 10px 10px 10px;
+    right: 0;
+    float: right;
+    z-index: 999;
+    margin-top: -2px;
+    border-color: rgb(204, 204, 204); 
+    box-shadow: 0px 0px 8px 0px rgba(51, 51, 51, 0.4);
+    border-radius: 2px;
+    border: 1px solid #cccccc;
+    width: 128px
+}
+.settings_icon{
+    background: url(../images/ab-retina-icons.png) no-repeat;
+    width: 17px;
+    height: 21px;
+    display: inline-block;
+    background-position: 0px -34px;
+    content: "";
+    background-size: 250px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    position: absolute;
+    right: 15px;
+    opacity: 0.4;
+}
+.settings_wrapper_heading{
+    font-size: 10px;
+    color: #999999;
+    text-transform: uppercase;
+    letter-spacing: 0.65px;
+    font-weight: normal;
+    width: 100%;
+    text-align: center;
+    display: inline-block;
+}
+.settings_list_li a, .lp-delete-var-stats{
+    font-size: 13px;
+    color: #333333;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    font-weight: normal;
+    padding-left: 15px;
+}
+.settings_list_li li a:before, .settings_list_li .settings_clearstat:before{
+    background: url(../images/ab-retina-icons.png) no-repeat;
+    width: 15px;
+    position: absolute;
+    height: 15px;
+    display: inline-block;
+    background-position: -5px -70px;
+    content: "";
+    background-size: 250px;
+    padding-right: 0px;
+    padding-bottom: 0px;
+    opacity: 0.4;
+    left: 20px;
+    margin-top: 0px;
+}
+.settings_list_li{
+    margin-left: 17px;
+    margin-bottom: 13px;
+    margin-top: 18px;
+}
+.settings_list_li li{
+    margin-bottom: 16px
+}
+.settings_preview a:before{
+    background-position: -5px -97px !important;
+}
+.settings_clone a:before{
+    background-position: -5px -124px !important;
+    height: 17px !important;
+    width: 17px !important;
+}
+
+.settings_delete a:before{
+    background-position: -3px -155px !important;
+}
+.settings_clearstat:before{
+    background-position: -3px -183px !important;
+}
+.settings_list_li a:hover{
+    color: #000
+}
+#wpbody .bab-varation-header{
+    font-size: 14px;
+    font-weight: normal;
+    color: #000;
+    padding-left: 18px !important;
+}
+.bab-stat-letter {
+    border-radius: 0px;
+    border-style: solid;
+    border-width: 0px;
+    padding: 0px;
+    background: none !important;
+    font-weight: bold;
+}
+.bab-stat-control-pause a:before{
+    background: url(../images/ab-retina-icons.png) no-repeat;
+    width: 15px;
+    position: absolute;
+    height: 15px;
+    display: inline-block;
+    background-position: -5px -5px;
+    content: "";
+    background-size: 250px;
+    padding-right: 0px;
+    padding-bottom: 0px;
+    opacity: 0.6;
+    right: 55px;
+    margin-top: 0px;
+}
+
+.bab-stat-control-play a:before{
+    background: url(../images/ab-retina-icons.png) no-repeat;
+    width: 15px;
+    position: absolute;
+    height: 15px;
+    display: inline-block;
+    background-position:-5px -212px;
+    content: "";
+    background-size: 250px;
+    padding-right: 0px;
+    padding-bottom: 0px;
+    right: 55px;
+    margin-top: 0px;
+}
+.variation-off{
+    
+}
+.bab-stat-control-play a:before{
+}
+#wpbody .bab-varation-header {
+    line-height: 1;
+    background-color: #ededed;
+    border-color: #dddddd;
+    padding: 15px 5px; 
+    border-bottom: 0px solid #dddddd;
+    border-top: 1px solid #D2D1D1;
+}
+/* --- UI improvement style added by Ahmed Kaludi ( http://AhmedKaludi.com ) - END --- */

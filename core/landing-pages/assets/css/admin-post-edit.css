@@ -64,7 +64,7 @@ body.modal-open {
     min-width: 320px;
 }
 
-.lp-delete-var-stats, .lp-clear-success {
+ .lp-clear-success {
     color: red;
     opacity: .7;
     font-size: 9px;
