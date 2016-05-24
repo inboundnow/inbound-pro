@@ -93,6 +93,10 @@ class Inbound_Events {
      */
     public static function store_form_submission( $lead ){
 
+        if (! isset($lead['raw_params']) )  {
+            return;
+        }
+
         parse_str($lead['raw_params'] , $raw_params );
         $details = array_merge($raw_params,$lead);
         $args = array(

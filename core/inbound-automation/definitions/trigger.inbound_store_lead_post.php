@@ -6,7 +6,7 @@ Trigger Author: Inbound Now
 Contributors: Hudson Atwell
 */
 
-class Inbound_Automation_Trigger_Form_Submission {
+class Inbound_Automation_Trigger_inbound_store_lead_post {
 
     static $trigger;
 
@@ -17,7 +17,41 @@ class Inbound_Automation_Trigger_Form_Submission {
 	    self::$trigger = 'inbound_store_lead_post';
 		add_filter( 'inbound_automation_triggers' , array( __CLASS__ , 'define_trigger' ) , 1 , 1);
 		add_action( 'activate/inbound-automation' , array( __CLASS__ , 'create_dummy_event' ) );
+
+		/* make sure event is fired when leads are being created manually */
+		add_action( 'wp_insert_post', array( __CLASS__ , 'simulate_new_lead' ) , 10, 3 );
 	}
+
+	/**
+	 *  Fire inbound_store_lead_post when a new lead is manually created
+	 */
+	public static function simulate_new_lead( $post_id ) {
+		global $post_id, $post;
+
+		if ( wp_is_post_revision( $post_id ) ) {
+			return;
+		}
+
+		if ( !isset($post) || $post->post_type != 'wp-lead' ) {
+			return;
+		}
+
+		$lead = get_post_custom( $post_id );
+		$lead['id'] = $post_id;
+		$lead['lead_lists'] = json_encode(Inbound_Leads::get_lead_lists_by_lead_id($post_id));
+		$lead['form_id'] = 'wp-core';
+
+		foreach ( $lead as $key => $value ) {
+			if (isset($value[0])) {
+				$lead[$key] = $value[0];
+			}
+		}
+
+		error_log('lead created2');
+
+		do_action( 'inbound_store_lead_post' , $lead );
+	}
+
 
 	/**
 	*  Define Trigger
@@ -102,4 +136,4 @@ class Inbound_Automation_Trigger_Form_Submission {
 }
 
 /* Load Trigger */
-$Inbound_Automation_Trigger_Form_Submission = new Inbound_Automation_Trigger_Form_Submission;
+$Inbound_Automation_Trigger_inbound_store_lead_post = new Inbound_Automation_Trigger_inbound_store_lead_post;
