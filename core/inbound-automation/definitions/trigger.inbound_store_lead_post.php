@@ -28,7 +28,10 @@ class Inbound_Automation_Trigger_inbound_store_lead_post {
 	public static function simulate_new_lead( $post_id ) {
 		global $post_id, $post;
 
-		if ( wp_is_post_revision( $post_id ) ) {
+		if ( wp_is_post_revision( $post_id )
+			|| (defined('DOING_AJAX') && DOING_AJAX )
+			|| ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE )
+			) {
 			return;
 		}
 
@@ -37,9 +40,7 @@ class Inbound_Automation_Trigger_inbound_store_lead_post {
 		}
 
 		$lead = get_post_custom( $post_id );
-		$lead['id'] = $post_id;
-		$lead['lead_lists'] = json_encode(Inbound_Leads::get_lead_lists_by_lead_id($post_id));
-		$lead['form_id'] = 'wp-core';
+
 
 		foreach ( $lead as $key => $value ) {
 			if (isset($value[0])) {
@@ -47,7 +48,9 @@ class Inbound_Automation_Trigger_inbound_store_lead_post {
 			}
 		}
 
-		error_log('lead created2');
+		$lead['id'] = $post_id;
+		$lead['lead_lists'] = json_encode(array_keys(Inbound_Leads::get_lead_lists_by_lead_id($post_id)));
+		$lead['form_id'] = 'wp-core';
 
 		do_action( 'inbound_store_lead_post' , $lead );
 	}
