@@ -55,7 +55,7 @@ margin-bottom: 5px;
 #wp_cta_popup-ebook_custom_meta_box .hndle {
 	background-color: transparent !important;
 }
-.wp-cta-delete-var-stats, .wp-cta-clear-success {
+ .wp-cta-clear-success {
 color: red;
 opacity: .7;
 font-size: 9px;
