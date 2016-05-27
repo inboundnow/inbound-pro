@@ -568,8 +568,8 @@ h2 .nav-tab {
 }
 
 .time-on-page-label {
-    /*	position: absolute;*/
-    /*	right: 19px;*/
+    /*  position: absolute;*/
+    /*  right: 19px;*/
     font-size: 17px;
     top: 2px;
     font-weight: bold;
@@ -853,11 +853,7 @@ h2 .nav-tab {
 }
 
 .quick-stat-label {
-    width: 43%;
-    display: inline;
-    vertical-align: top;
-    float: left;
-    margin-bottom: 21px;
+    margin-bottom: 0px;
 }
 
 .quick-stat-total {
@@ -866,7 +862,46 @@ h2 .nav-tab {
     font-size: 25px;
     padding-top: 10px;
 }
-
+/*UI Improvements by Ahmed Kaludi ( AhmedKaludi.com )  START*/
+.leads_stat_box{
+    display: inline-block;
+    width: 85%;
+    font-weight: bold
+}
+.leads_stat_box .label_1, .leads_stat_box .label_2{
+    float: left;
+    font-size: 10px;
+    color: grey;
+    border-bottom: solid 1px;
+    padding: 0px 0px;
+    width:19%;
+    line-height: 20px;
+    padding-bottom: 3px;
+}
+.leads_stat_box .label_2{
+    float: left
+}
+.leads_stat_box .label_1{
+    width: 76%;
+    margin-right: 5px; 
+    text-align: left;
+    margin-left: 7px;
+}
+.quick-stat-label .label_1, .quick-stat-label .label_2{
+    border: 0;
+    font-size: 10px;
+    line-height: 2;
+    color: #444; 
+}
+.quick-stat-label .label_2{
+    text-align: center;
+    font-size: 12px;
+    font-weight: normal;
+}
+.leads_stat_box_heading{
+    margin-bottom: 5px;
+}
+/*UI Improvements by Ahmed Kaludi ( AhmedKaludi.com )  END*/
 #conversion-total:hover, #p-view-total:hover {
     color: #21759b;
 }
@@ -982,15 +1017,15 @@ a.lead-timeline-img {
 
 /*
 .page-view-item a.lead-timeline-img {
-	background: url('/wp-content/plugins/leads/assets/images/page-views.png') no-repeat;
+    background: url('/wp-content/plugins/leads/assets/images/page-views.png') no-repeat;
 }
 
 .lead-tracking-item a.lead-timeline-img {
-	background: url('/wp-content/plugins/leads/assets/images/eye-ball-50.png') no-repeat;
+    background: url('/wp-content/plugins/leads/assets/images/eye-ball-50.png') no-repeat;
 }
 
 .cta-tracking-item a.lead-timeline-img {
-	background: url('/wp-content/plugins/leads/assets/images/cursor.png') no-repeat;
+    background: url('/wp-content/plugins/leads/assets/images/cursor.png') no-repeat;
 }
 */
 #raw-data-display .nav-container {
@@ -1111,7 +1146,7 @@ a.lead-timeline-img {
 }
 
 .lead-timeline:hover {
-    /*	cursor: url('../images/FB_CUR.cur');	See the result on http://lab.web-gate.fr/timeline/ */
+    /*  cursor: url('../images/FB_CUR.cur');    See the result on http://lab.web-gate.fr/timeline/ */
     cursor: pointer; /* This line is for the cursor */
 }
 
@@ -1345,10 +1380,10 @@ a.lead-timeline-img {
 /* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
 /*
 @media screen and (-webkit-min-device-pixel-ratio:0) {
-	@font-face {
-	font-family: 'fontello';
-	src: url('../font/fontello.svg?39751826#fontello') format('svg');
-	}
+    @font-face {
+    font-family: 'fontello';
+    src: url('../font/fontello.svg?39751826#fontello') format('svg');
+    }
 }
 */
 

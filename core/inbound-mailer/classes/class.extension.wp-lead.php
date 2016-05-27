@@ -25,8 +25,8 @@ class Inbound_Mailer_WordPress_Leads {
 		add_action('wpleads_after_activity_log' , array( __CLASS__ , 'show_inbound_email_unsubscribe_content' ) );
 
 		/* add quick stat  */
-		add_action('wpleads_dsiplay_quick_stat', array(__CLASS__, 'display_quick_stat_email_clicks') , 15 );
-		add_action('wpleads_dsiplay_quick_stat', array(__CLASS__, 'display_quick_stat_email_unsubscribes') , 15 );
+		add_action('wpleads_display_quick_stat', array(__CLASS__, 'display_quick_stat_email_clicks') , 15 );
+		add_action('wpleads_display_quick_stat', array(__CLASS__, 'display_quick_stat_email_unsubscribes') , 15 );
 
 	}
 	
@@ -199,8 +199,14 @@ class Inbound_Mailer_WordPress_Leads {
 		}
 
 		?>
-		<div  class="quick-stat-label"><?php _e('Email Clicks', 'inbound-mailer'); ?>
-			<span class="quick-stat-total"><?php echo count(self::$click_events); ?></span>
+		<div  class="quick-stat-label">
+			<div class="label_1">
+				<?php _e('Email Clicks', 'inbound-mailer'); ?>
+			</div>
+			<div class="label_2">
+				<?php echo count(self::$click_events); ?>
+			</div>
+			<div class="clearfix"></div>
 		</div>
 		<?php
 
