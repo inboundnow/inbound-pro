@@ -40,10 +40,10 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             add_action('add_meta_boxes', array(__CLASS__, 'define_metaboxes'));
 
             /* Add Quick Stats */
-            add_action('wpleads_dsiplay_quick_stat', array(__CLASS__, 'display_quick_stat_page_views'));
-            add_action('wpleads_dsiplay_quick_stat', array(__CLASS__, 'display_quick_stat_form_submissions'));
-            add_action('wpleads_dsiplay_quick_stat', array(__CLASS__, 'display_quick_stat_custom_events'));
-            add_action('wpleads_dsiplay_quick_stat', array(__CLASS__, 'display_quick_stat_last_activity'), 15);
+            add_action('wpleads_display_quick_stat', array(__CLASS__, 'display_quick_stat_page_views'));
+            add_action('wpleads_display_quick_stat', array(__CLASS__, 'display_quick_stat_form_submissions'));
+            add_action('wpleads_display_quick_stat', array(__CLASS__, 'display_quick_stat_custom_events'));
+            add_action('wpleads_display_quick_stat', array(__CLASS__, 'display_quick_stat_last_activity'), 15);
 
             /* Add header metabox   */
             add_action('edit_form_after_title', array(__CLASS__, 'add_header'));
@@ -591,7 +591,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                             <div class="label_2">Count</div>
                             <div class="clearfix"></div>
                             </div>
-                        <?php do_action('wpleads_dsiplay_quick_stat', $post); ?> <!-- Display's the data-->
+                        <?php do_action('wpleads_display_quick_stat', $post); ?> <!-- Display's the data-->
                         </div>
                         <div id="time-since-last-visit"></div>
                         <div id="lead-score"></div>

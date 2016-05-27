@@ -16,7 +16,7 @@ if ( !class_exists('CTA_WordPress_Leads') ) {
 			add_action('wpleads_after_activity_log', array(__CLASS__, 'show_cta_click_content'));
 
 			/* add quick stat  */
-			add_action('wpleads_dsiplay_quick_stat', array(__CLASS__, 'display_quick_stat_cta_clicks') , 15 );
+			add_action('wpleads_display_quick_stat', array(__CLASS__, 'display_quick_stat_cta_clicks') , 15 );
 
 
 		}
