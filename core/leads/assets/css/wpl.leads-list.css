@@ -244,17 +244,43 @@ td.last-name {
         font-size:10px;
     }
 
-	.type-wp-lead {
-		height: 140px;
-	}
-	
-	.type-wp-lead .first-name .row-actions {
-		display: flex;
-		flex-direction: column;
-		justify-content: flex-end;
-	}
-	.type-wp-lead .first-name .row-actions a {
-		font-size:10px !important;
-        padding:3px !important;
-	}
+    .type-wp-lead {
+        height: 140px;
+    }
+/* UI Improvements by Ahmed Kaludi ( http://AhmedKaludi.com ) */
+    .type-wp-lead .first-name .row-actions {
+        display: inline-block;
+        width: 100%;
+        flex-direction: column;
+        justify-content: flex-end;
+    }
+    .type-wp-lead .first-name .row-actions a {
+    font-size: 12px !important;
+    padding: 6px 10px !important;
+    line-height: 1;
+    height: auto;
+    text-shadow: none;
+    border: 0;
+    box-shadow: none !important;
+    font-weight: normal;
+    }
+    .type-wp-lead .first-name .button-primary:active{
+    -webkit-transform: translateY(0px);
+    -ms-transform: translateY(0px);
+    transform: translateY(0px); 
+    }
+    .type-wp-lead .mark-viewed{
+        margin-bottom: 7px;
+        font-size: 12px;
+        background: #27ae60;
+        color: #fff;
+        border: 0;
+        box-shadow: none;
+        height: auto;
+    }
+    .type-wp-lead .mark-viewed:hover{
+        background: green;
+            color:#fff
+    }
+
 }

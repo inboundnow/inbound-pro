@@ -730,6 +730,7 @@ class Inbound_Pro_Downloads {
 
 		/* get zip file name */
 		$folder_name =  ( isset($download['filename']) ) ? $download['filename'] :  $download['post_name'];
+		$folder_name = str_replace('.zip' , '' , $folder_name );
 
 		if ( $download['download_type'] == 'extension' ) {
 			return 	INBOUND_PRO_UPLOADS_PATH . 'extensions/'. $folder_name;
