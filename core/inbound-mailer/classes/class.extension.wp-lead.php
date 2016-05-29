@@ -225,8 +225,15 @@ class Inbound_Mailer_WordPress_Leads {
 		}
 
 		?>
-		<div  class="quick-stat-label"><?php _e('Unsubscribes', 'inbound-mailer'); ?>
-			<span class="quick-stat-total"><?php echo count(self::$unsubscribe_events); ?></span>
+		<div  class="quick-stat-label">
+
+			<div class="label_1">
+				<?php _e('Unsubscribes', 'inbound-mailer'); ?>
+			</div>
+			<div class="label_2">
+				<?php echo count(self::$unsubscribe_events); ?>
+			</div>
+			<div class="clearfix"></div>
 		</div>
 		<?php
 

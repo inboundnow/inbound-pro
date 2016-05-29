@@ -89,6 +89,83 @@ class Inbound_SparkPost_Stats {
 
     }
 
+
+    /**
+     * Get all all custom event data by a certain indicator
+     */
+    public static function get_sparkpost_inbound_events( $email_id , $variation_id = null ){
+        global $wpdb , $post, $inbound_settings;
+
+        /* check if email id is set else use global post object */
+        if ( $email_id ) {
+            $post = get_post($email_id);
+        }
+
+        /* we do not collect stats for statuses not in this array */
+        if ( !in_array( $post->post_status , array( 'sent' , 'sending', 'automated' )) ) {
+            return array();
+        }
+
+        $table_name = $wpdb->prefix . "inbound_events";
+
+        if ( is_numeric($variation_id) ) {
+            $variation_query = 'AND variation_id="'.$variation_id.'"';
+        } else {
+            $variation_query = '';
+        }
+
+        /* get deliveries */
+        $query = 'SELECT DISTINCT(lead_id) FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '.$variation_query.' AND `event_name` =  "sparkpost_delivery"';
+        $results = $wpdb->get_results( $query );
+        $sent = $wpdb->num_rows;
+
+        /* get opens */
+        $query = 'SELECT DISTINCT(lead_id) FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '.$variation_query.' AND `event_name` =  "sparkpost_open"';
+        $results = $wpdb->get_results( $query );
+        $opens = $wpdb->num_rows;
+
+        /* get clicks */
+        $query = 'SELECT DISTINCT(lead_id) FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '.$variation_query.' AND `event_name` =  "sparkpost_click"';
+        $results = $wpdb->get_results( $query );
+        $clicks = $wpdb->num_rows;
+
+        /* get bounce */
+        $query = 'SELECT DISTINCT(lead_id) FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '.$variation_query.' AND `event_name` =  "sparkpost_bounce"';
+        $results = $wpdb->get_results( $query );
+        $bounces = $wpdb->num_rows;
+
+        /* get rejects */
+        $query = 'SELECT DISTINCT(lead_id) FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '.$variation_query.' AND `event_name` =  "sparkpost_relay_rejection"';
+        $results = $wpdb->get_results( $query );
+        $rejects = $wpdb->num_rows;
+
+        /* get spam complaints */
+        $query = 'SELECT DISTINCT(lead_id) FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '.$variation_query.' AND `event_name` LIKE  "sparkpost_spam_complaint"';
+        $results = $wpdb->get_results( $query );
+        $complaints = $wpdb->num_rows;
+
+        /* get unsubscribes */
+        $query = 'SELECT DISTINCT(lead_id) FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '.$variation_query.' AND `event_name` LIKE  "inbound_unsubscribe"';
+        $results = $wpdb->get_results( $query );
+        $unsubs = $wpdb->num_rows;
+
+        self::$stats[ 'totals' ] = array(
+            'sent' => $sent,
+            'opens' =>$opens,
+            'clicks' => $clicks,
+            'bounces' => $bounces,
+            'rejects' => $rejects,
+            'complaints' => $complaints,
+            'unsubs' => $unsubs,
+            'unique_opens' => $opens,
+            'unique_clicks' => $clicks,
+            'unopened' => $sent - $opens
+        );
+
+        return self::$stats;
+    }
+
+
     /**
      *	Get stats object from db
      */
