@@ -182,10 +182,9 @@ if (!class_exists('Landing_Pages_ACF')) {
 
 				}
 
-				if ( !is_admin() && is_string($value) ) {
+				if ( !is_admin() && is_string($value) && !defined('INBOUND_DEBUG_GF_AJAX')  ) {
 					$value = do_shortcode($value);
 				}
-
 
 				/* handle non acf5 template return formatting */
 				if (defined('ACF_PRO')) {

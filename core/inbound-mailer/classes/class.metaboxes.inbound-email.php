@@ -101,7 +101,8 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                     self::$statistics = Inbound_Mandrill_Stats::get_email_timeseries_stats();
                     break;
                 case 'sparkpost' :
-                    self::$statistics = Inbound_SparkPost_Stats::get_email_timeseries_stats();
+                    //self::$statistics = Inbound_SparkPost_Stats::get_email_timeseries_stats();
+                    self::$statistics = Inbound_SparkPost_Stats::get_sparkpost_webhook_stats();
                     break;
             }
 
@@ -254,7 +255,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                             jQuery('.opens-percentage').text(this.get_percentage(this.stats.totals.opens, this.stats.totals.sent) + '%');
                             jQuery('.clicks-percentage').text(this.get_percentage(this.stats.totals.clicks, this.stats.totals.sent) + '%')
                             jQuery('.unopened-percentage').text(this.get_percentage(this.stats.totals.unopened, this.stats.totals.sent) + '%')
-                            jQuery('.bounces-percentage').text(this.get_percentage(this.stats.totals.soft_bounces, this.stats.totals.sent) + '%')
+                            jQuery('.bounces-percentage').text(this.get_percentage(this.stats.totals.bounces, this.stats.totals.sent) + '%')
                             jQuery('.rejects-percentage').text(this.get_percentage(this.stats.totals.rejects, this.stats.totals.sent) + '%')
                             jQuery('.unsubs-percentage').text(this.get_percentage(this.stats.totals.unsubs, this.stats.totals.sent) + '%')
 
@@ -263,7 +264,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                             jQuery('.opens-number').text(this.stats.totals.opens);
                             jQuery('.clicks-number').text(this.stats.totals.clicks);
                             jQuery('.unopened-number').text(this.stats.totals.unopened);
-                            jQuery('.bounces-number').text(this.stats.totals.soft_bounces);
+                            jQuery('.bounces-number').text(this.stats.totals.bounces);
                             jQuery('.rejects-number').text(this.stats.totals.rejects);
                             jQuery('.unsubs-number').text(this.stats.totals.unsubs);
 
@@ -545,16 +546,16 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             ?>
             <div class="mail-headers-container bs-callout bs-callout-clear">
                 <?php
-                    if (isset($_GET['inbvid'])) {
-                        ?>
-                        <span id="delete-variation-button-container">
+                if (isset($_GET['inbvid'])) {
+                    ?>
+                    <span id="delete-variation-button-container">
                         <button type="button" class="btn btn-danger btn-medium" id="action-trash-variation"  title="<?php _e('Trash this variation','inbound-pro'); ?>." >
                             <i class="fa fa-trash-o"></i>
                         </button>
                         </span>
-                        <?php
+                    <?php
 
-                    }
+                }
                 ?>
                 <h4><?php _e(sprintf('Variation %s Headers', $letter), 'inbound-pro'); ?></h4>
 
@@ -2492,7 +2493,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             if ( !isset($_GET['inbound_generate_email_json'] ) ) {
                 return;
             }
-            
+
             $settings = get_post_meta( $post->ID , 'inbound_settings' ,true );
             $settings['is_sample_email'] = true;
             unset($settings['recipients']);

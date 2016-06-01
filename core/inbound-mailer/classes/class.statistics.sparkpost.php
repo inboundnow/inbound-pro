@@ -90,6 +90,108 @@ class Inbound_SparkPost_Stats {
     }
 
     /**
+     *  Get SparkPost Stats including varition totals
+     */
+    public static function get_sparkpost_webhook_stats() {
+        global $post, $Inbound_Mailer_Variations;
+
+        /* first get totals */
+        self::get_sparkpost_inbound_events( $post->ID );
+
+        /* now total variations */
+        $variations = $Inbound_Mailer_Variations->get_variations($post->ID, $vid = null);
+
+        foreach ( $variations as $vid => $variation ) {
+            self::get_sparkpost_inbound_events( $post->ID , $vid );
+        }
+
+        return self::$stats;
+    }
+
+    /**
+     * Get all all custom event data by a certain indicator
+     */
+    public static function get_sparkpost_inbound_events( $email_id , $variation_id = null ){
+        global $wpdb , $post, $inbound_settings;
+
+        /* check if email id is set else use global post object */
+        if ( $email_id ) {
+            $post = get_post($email_id);
+        }
+
+        /* we do not collect stats for statuses not in this array */
+        if ( !in_array( $post->post_status , array( 'sent' , 'sending', 'automated' )) ) {
+            return array();
+        }
+
+        $table_name = $wpdb->prefix . "inbound_events";
+
+        if ( is_numeric($variation_id) ) {
+            $variation_query = 'AND variation_id="'.$variation_id.'"';
+        } else {
+            $variation_query = '';
+        }
+
+        /* get deliveries */
+        $query = 'SELECT DISTINCT(lead_id) FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '.$variation_query.' AND `event_name` =  "sparkpost_delivery"';
+        $results = $wpdb->get_results( $query );
+        $sent = $wpdb->num_rows;
+
+        /* get opens */
+        $query = 'SELECT DISTINCT(lead_id) FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '.$variation_query.' AND `event_name` =  "sparkpost_open"';
+        $results = $wpdb->get_results( $query );
+        $opens = $wpdb->num_rows;
+
+        /* get clicks */
+        $query = 'SELECT DISTINCT(lead_id) FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '.$variation_query.' AND `event_name` =  "sparkpost_click"';
+        $results = $wpdb->get_results( $query );
+        $clicks = $wpdb->num_rows;
+
+        /* get bounce */
+        $query = 'SELECT DISTINCT(lead_id) FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '.$variation_query.' AND `event_name` =  "sparkpost_bounce"';
+        $results = $wpdb->get_results( $query );
+        $bounces = $wpdb->num_rows;
+
+        /* get rejects */
+        $query = 'SELECT DISTINCT(lead_id) FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '.$variation_query.' AND `event_name` =  "sparkpost_relay_rejection"';
+        $results = $wpdb->get_results( $query );
+        $rejects = $wpdb->num_rows;
+
+        /* get spam complaints */
+        $query = 'SELECT DISTINCT(lead_id) FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '.$variation_query.' AND `event_name` LIKE  "sparkpost_spam_complaint"';
+        $results = $wpdb->get_results( $query );
+        $complaints = $wpdb->num_rows;
+
+        /* get unsubscribes */
+        $query = 'SELECT DISTINCT(lead_id) FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '.$variation_query.' AND `event_name` LIKE  "inbound_unsubscribe"';
+        $results = $wpdb->get_results( $query );
+        $unsubs = $wpdb->num_rows;
+
+
+        $totals = array(
+            'sent' => $sent,
+            'opens' =>$opens,
+            'clicks' => $clicks,
+            'bounces' => $bounces,
+            'rejects' => $rejects,
+            'complaints' => $complaints,
+            'unsubs' => $unsubs,
+            'unique_opens' => $opens,
+            'unique_clicks' => $clicks,
+            'unopened' => $sent - $opens
+        );
+
+        if ( is_numeric($variation_id) ) {
+            self::$stats[ 'totals' ]['variations'][$variation_id] = $totals;
+        } else {
+            self::$stats[ 'totals' ] = $totals;
+        }
+
+        return self::$stats;
+    }
+
+
+    /**
      *	Get stats object from db
      */
     public static function get_statistics_object() {
@@ -273,7 +375,6 @@ class Inbound_SparkPost_Stats {
             'bounces' => 0,
             'hard_bounces' => 0,
             'soft_bounces' => 0,
-            'bounces' => 0,
             'rejects' => 0,
             'complaints' => 0,
             'unsubs' => 0,
@@ -299,7 +400,6 @@ class Inbound_SparkPost_Stats {
                     'bounces' => 0,
                     'hard_bounces' => 0,
                     'soft_bounces' => 0,
-                    'bounces' => 0,
                     'rejects' => 0,
                     'complaints' => 0,
                     'unsubs' => 0,
