@@ -89,6 +89,24 @@ class Inbound_SparkPost_Stats {
 
     }
 
+    /**
+     *  Get SparkPost Stats including varition totals
+     */
+    public static function get_sparkpost_webhook_stats() {
+        global $post, $Inbound_Mailer_Variations;
+
+        /* first get totals */
+        self::get_sparkpost_inbound_events( $post->ID );
+
+        /* now total variations */
+        $variations = $Inbound_Mailer_Variations->get_variations($post->ID, $vid = null);
+
+        foreach ( $variations as $vid => $variation ) {
+            self::get_sparkpost_inbound_events( $post->ID , $vid );
+        }
+
+        return self::$stats;
+    }
 
     /**
      * Get all all custom event data by a certain indicator
@@ -149,7 +167,8 @@ class Inbound_SparkPost_Stats {
         $results = $wpdb->get_results( $query );
         $unsubs = $wpdb->num_rows;
 
-        self::$stats[ 'totals' ] = array(
+
+        $totals = array(
             'sent' => $sent,
             'opens' =>$opens,
             'clicks' => $clicks,
@@ -161,6 +180,12 @@ class Inbound_SparkPost_Stats {
             'unique_clicks' => $clicks,
             'unopened' => $sent - $opens
         );
+
+        if ( is_numeric($variation_id) ) {
+            self::$stats[ 'totals' ]['variations'][$variation_id] = $totals;
+        } else {
+            self::$stats[ 'totals' ] = $totals;
+        }
 
         return self::$stats;
     }
@@ -350,7 +375,6 @@ class Inbound_SparkPost_Stats {
             'bounces' => 0,
             'hard_bounces' => 0,
             'soft_bounces' => 0,
-            'bounces' => 0,
             'rejects' => 0,
             'complaints' => 0,
             'unsubs' => 0,
@@ -376,7 +400,6 @@ class Inbound_SparkPost_Stats {
                     'bounces' => 0,
                     'hard_bounces' => 0,
                     'soft_bounces' => 0,
-                    'bounces' => 0,
                     'rejects' => 0,
                     'complaints' => 0,
                     'unsubs' => 0,
