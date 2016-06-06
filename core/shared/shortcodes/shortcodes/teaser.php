@@ -9,32 +9,32 @@
 		'no_preview' => true,
 		'options' => array(
 			'heading' => array(
-				'name' => __('Heading', 'leads'),
-				'desc' => __('Enter the heading text', 'leads'),
+				'name' => __('Heading', 'inbound-pro' ),
+				'desc' => __('Enter the heading text', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => ''
 			),
 			'style' => array(
-				'name' => __('Style', 'leads'),
-				'desc' => __('Select the style.', 'leads'),
+				'name' => __('Style', 'inbound-pro' ),
+				'desc' => __('Select the style.', 'inbound-pro' ),
 				'type' => 'select',
 				'options' => array(
-					'' => __('Default', 'leads'),
-					'nested' => __('Nested', 'leads'),
-					'centered' => __('Centered', 'leads')
+					'' => __('Default', 'inbound-pro' ),
+					'nested' => __('Nested', 'inbound-pro' ),
+					'centered' => __('Centered', 'inbound-pro' )
 				),
 				'std' => ''
 			),
 			'column' => array(
-				'name' => __('Column', 'leads'),
-				'desc' => __('Select the number of column(s).', 'leads'),
+				'name' => __('Column', 'inbound-pro' ),
+				'desc' => __('Select the number of column(s).', 'inbound-pro' ),
 				'type' => 'select',
 				'options' => array(
-					'1' => __('1 Column', 'leads'),
-					'2' => __('2 Columns', 'leads'),
-					'3' => __('3 Columns', 'leads'),
-					'4' => __('4 Columns', 'leads'),
-					'5' => __('5 Columns', 'leads')
+					'1' => __('1 Column', 'inbound-pro' ),
+					'2' => __('2 Columns', 'inbound-pro' ),
+					'3' => __('3 Columns', 'inbound-pro' ),
+					'4' => __('4 Columns', 'inbound-pro' ),
+					'5' => __('5 Columns', 'inbound-pro' )
 				),
 				'std' => '3'
 			)
@@ -42,40 +42,40 @@
 		'child' => array(
 			'options' => array(
 				'title' => array(
-					'name' => __('Title', 'leads'),
-					'desc' => __('Enter the title.', 'leads'),
+					'name' => __('Title', 'inbound-pro' ),
+					'desc' => __('Enter the title.', 'inbound-pro' ),
 					'type' => 'text',
 					'std' => ''
 				),
 				'subtitle' => array(
-					'name' => __('Sub Title', 'leads'),
-					'desc' => __('Enter the sub title.', 'leads'),
+					'name' => __('Sub Title', 'inbound-pro' ),
+					'desc' => __('Enter the sub title.', 'inbound-pro' ),
 					'type' => 'text',
 					'std' => ''
 				),
 				'icon' => array(
-					'name' => __('Icon', 'leads'),
-					'desc' => __('Select an icon.', 'leads'),
+					'name' => __('Icon', 'inbound-pro' ),
+					'desc' => __('Select an icon.', 'inbound-pro' ),
 					'type' => 'select',
 					'options' => $fontawesome,
 					'std' => ''
 				),
 				'image' => array(
-					'name' => __('Image URL', 'leads'),
-					'desc' => __('Enter your image url, it will override the icon above', 'leads'),
+					'name' => __('Image URL', 'inbound-pro' ),
+					'desc' => __('Enter your image url, it will override the icon above', 'inbound-pro' ),
 					'type' => 'text',
 					'std' => '',
 					'class' => ''
 				),
 				'link' => array(
-					'name' => __('Link', 'leads'),
-					'desc' => __('The title link destination URL.', 'leads'),
+					'name' => __('Link', 'inbound-pro' ),
+					'desc' => __('The title link destination URL.', 'inbound-pro' ),
 					'type' => 'text',
 					'std' => ''
 				),
 				'content' => array(
-					'name' => __('Teaser Content', 'leads'),
-					'desc' => __('Enter the content.', 'leads'),
+					'name' => __('Teaser Content', 'inbound-pro' ),
+					'desc' => __('Enter the content.', 'inbound-pro' ),
 					'type' => 'textarea',
 					'std' => ''
 				)
@@ -90,40 +90,40 @@
 /* 	Page builder module config
  * 	----------------------------------------------------- */
 	$freshbuilder_modules['teaser'] = array(
-		'name' => __('Teaser', 'leads'),
+		'name' => __('Teaser', 'inbound-pro' ),
 		'size' => 'one_full',
 		'options' => array(
 			'heading' => array(
-				'name' => __('Heading', 'leads'),
-				'desc' => __('Enter the heading text.', 'leads'),
+				'name' => __('Heading', 'inbound-pro' ),
+				'desc' => __('Enter the heading text.', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => '',
 				'class' => '',
 				'is_content' => 0
 			),
 			'style' => array(
-				'name' => __('Style', 'leads'),
-				'desc' => __('Select the style.', 'leads'),
+				'name' => __('Style', 'inbound-pro' ),
+				'desc' => __('Select the style.', 'inbound-pro' ),
 				'type' => 'select',
 				'options' => array(
-					'' => __('Default', 'leads'),
-					'nested' => __('Nested', 'leads'),
-					'centered' => __('Centered', 'leads')
+					'' => __('Default', 'inbound-pro' ),
+					'nested' => __('Nested', 'inbound-pro' ),
+					'centered' => __('Centered', 'inbound-pro' )
 				),
 				'std' => '',
 				'class' => '',
 				'is_content' => 0
 			),
 			'column' => array(
-				'name' => __('Column', 'leads'),
-				'desc' => __('Select the column.', 'leads'),
+				'name' => __('Column', 'inbound-pro' ),
+				'desc' => __('Select the column.', 'inbound-pro' ),
 				'type' => 'select',
 				'options' => array(
-					'1' => __('1 Column', 'leads'),
-					'2' => __('2 Columns', 'leads'),
-					'3' => __('3 Columns', 'leads'),
-					'4' => __('4 Columns', 'leads'),
-					'5' => __('5 Columns', 'leads')
+					'1' => __('1 Column', 'inbound-pro' ),
+					'2' => __('2 Columns', 'inbound-pro' ),
+					'3' => __('3 Columns', 'inbound-pro' ),
+					'4' => __('4 Columns', 'inbound-pro' ),
+					'5' => __('5 Columns', 'inbound-pro' )
 				),
 				'std' => '3',
 				'class' => '',
@@ -132,8 +132,8 @@
 		),
 		'child' => array(
 			'icon' => array(
-				'name' => __('Icon', 'leads'),
-				'desc' => __('Select an icon.', 'leads'),
+				'name' => __('Icon', 'inbound-pro' ),
+				'desc' => __('Select an icon.', 'inbound-pro' ),
 				'type' => 'select',
 				'options' => $fontawesome,
 				'std' => 'none',
@@ -141,37 +141,37 @@
 				'is_content' => 0
 			),
 			'image' => array(
-				'name' => __('Image URL', 'leads'),
-				'desc' => __('Enter your image url, it will override the icon above', 'leads'),
+				'name' => __('Image URL', 'inbound-pro' ),
+				'desc' => __('Enter your image url, it will override the icon above', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => '',
 				'class' => '',
 				'is_content' => 0
 			),
 			'title' => array(
-				'name' => __('Title', 'leads'),
-				'desc' => __('Enter the heading text.', 'leads'),
+				'name' => __('Title', 'inbound-pro' ),
+				'desc' => __('Enter the heading text.', 'inbound-pro' ),
 				'type' => 'text',
 				'class' => '',
 				'is_content' => 0
 			),
 			'subtitle' => array(
-				'name' => __('Sub Title', 'leads'),
-				'desc' => __('Enter the sub title.', 'leads'),
+				'name' => __('Sub Title', 'inbound-pro' ),
+				'desc' => __('Enter the sub title.', 'inbound-pro' ),
 				'type' => 'text',
 				'class' => '',
 				'is_content' => 0
 			),
 			'link' => array(
-				'name' => __('Link', 'leads'),
-				'desc' => __('The title link destination URL.', 'leads'),
+				'name' => __('Link', 'inbound-pro' ),
+				'desc' => __('The title link destination URL.', 'inbound-pro' ),
 				'type' => 'text',
 				'class' => '',
 				'is_content' => 0
 			),
 			'content' => array(
-				'name' => __('Content', 'leads'),
-				'desc' => __('Enter the content.', 'leads'),
+				'name' => __('Content', 'inbound-pro' ),
+				'desc' => __('Enter the content.', 'inbound-pro' ),
 				'type' => 'textarea',
 				'std' => '',
 				'class' => '',

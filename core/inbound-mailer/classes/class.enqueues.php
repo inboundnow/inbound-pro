@@ -58,9 +58,7 @@ class Inbound_Mailer_Enqueues {
 		if ( isset($post) && $post->post_type == 'inbound-email' ) {
 			return;
 		}
-
 	}
-
 
 
 	/**

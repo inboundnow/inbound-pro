@@ -11,25 +11,25 @@
 		'no_preview' => true,
 		'options' => array(
 			'heading' => array(
-				'name' => __('Heading Text', 'leads'),
-				'desc' => __('Enter the heading text.', 'leads'),
+				'name' => __('Heading Text', 'inbound-pro' ),
+				'desc' => __('Enter the heading text.', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => 'Recent Content Offers'
 			),
 			'column' => array(
-				'name' => __('Column', 'leads'),
-				'desc' => __('Select the number of column(s).', 'leads'),
+				'name' => __('Column', 'inbound-pro' ),
+				'desc' => __('Select the number of column(s).', 'inbound-pro' ),
 				'type' => 'select',
 				'options' => array(
-					'2' => __('2 Columns', 'leads'),
-					'3' => __('3 Columns', 'leads'),
-					'4' => __('4 Columns', 'leads')
+					'2' => __('2 Columns', 'inbound-pro' ),
+					'3' => __('3 Columns', 'inbound-pro' ),
+					'4' => __('4 Columns', 'inbound-pro' )
 				),
 				'std' => '4'
 			),
 			'number' => array(
-				'name' => __('Post Number', 'leads'),
-				'desc' => __('Enter the number of post to show.', 'leads'),
+				'name' => __('Post Number', 'inbound-pro' ),
+				'desc' => __('Enter the number of post to show.', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => '4'
 			)
@@ -41,33 +41,33 @@
 /* 	Page builder module config
  * 	----------------------------------------------------- */
 	$freshbuilder_modules['landing-page-list'] = array(
-		'name' => __('Portfolio', 'leads'),
+		'name' => __('Portfolio', 'inbound-pro' ),
 		'size' => 'one_full',
 		'options' => array(
 			'heading' => array(
-				'name' => __('Heading', 'leads'),
-				'desc' => __('Enter the heading text.', 'leads'),
+				'name' => __('Heading', 'inbound-pro' ),
+				'desc' => __('Enter the heading text.', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => 'Recent Project',
 				'class' => '',
 				'is_content' => 0
 			),
 			'column' => array(
-				'name' => __('Column', 'leads'),
-				'desc' => __('Select the number of column(s).', 'leads'),
+				'name' => __('Column', 'inbound-pro' ),
+				'desc' => __('Select the number of column(s).', 'inbound-pro' ),
 				'type' => 'select',
 				'options' => array(
-					'2' => __('2 Columns', 'leads'),
-					'3' => __('3 Columns', 'leads'),
-					'4' => __('4 Columns', 'leads')
+					'2' => __('2 Columns', 'inbound-pro' ),
+					'3' => __('3 Columns', 'inbound-pro' ),
+					'4' => __('4 Columns', 'inbound-pro' )
 				),
 				'std' => '4',
 				'class' => '',
 				'is_content' => 0
 			),
 			'number' => array(
-				'name' => __('Post Number', 'leads'),
-				'desc' => __('Enter the number of post to show.', 'leads'),
+				'name' => __('Post Number', 'inbound-pro' ),
+				'desc' => __('Enter the number of post to show.', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => '4',
 				'class' => '',
@@ -114,7 +114,7 @@
 							<figure class="item-thumb">
 		                        '.get_the_post_thumbnail($post->ID, '500x360').'
 		                        <div class="overlay">
-		                            <a class="view-link" href="'.get_permalink().'" rel="bookmark">'.__('View Project', 'leads') .'</a>
+		                            <a class="view-link" href="'.get_permalink().'" rel="bookmark">'.__('View Project', 'inbound-pro' ) .'</a>
 		                        </div>
 		                    </figure>
 

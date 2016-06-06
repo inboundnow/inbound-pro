@@ -8,34 +8,34 @@
 	$shortcodes_config['icon'] = array(
 		'options' => array(
 			'icon' => array(
-				'name' => __('Icon', 'leads'),
-				'desc' => __('Select the icon.', 'leads'),
+				'name' => __('Icon', 'inbound-pro' ),
+				'desc' => __('Select the icon.', 'inbound-pro' ),
 				'type' => 'select',
 				'options' => $fontawesome,
 				'std' => 'none'
 			),
 			'size' => array(
-				'name' => __('Size', 'leads'),
-				'desc' => __('Select the icon size.', 'leads'),
+				'name' => __('Size', 'inbound-pro' ),
+				'desc' => __('Select the icon size.', 'inbound-pro' ),
 				'type' => 'select',
 				'options' => array(
-					'normal' => __('Normal Size', 'leads'),
-					'large' => __('Large Size', 'leads'),
-					'2x' => __('2x Size', 'leads'),
-					'3x' => __('3x Size', 'leads'),
-					'4x' => __('4x Size', 'leads')
+					'normal' => __('Normal Size', 'inbound-pro' ),
+					'large' => __('Large Size', 'inbound-pro' ),
+					'2x' => __('2x Size', 'inbound-pro' ),
+					'3x' => __('3x Size', 'inbound-pro' ),
+					'4x' => __('4x Size', 'inbound-pro' )
 				),
 				'std' => 'normal'
 			),
 			'style' => array(
-				'name' => __('Style', 'leads'),
-				'desc' => __('Select the icon style.', 'leads'),
+				'name' => __('Style', 'inbound-pro' ),
+				'desc' => __('Select the icon style.', 'inbound-pro' ),
 				'type' => 'select',
 				'options' => array(
-					'normal' => __('Normal', 'leads'),
-					'muted' => __('Muted', 'leads'),
-					'border' => __('Border', 'leads'),
-					'spin' => __('Spin', 'leads')
+					'normal' => __('Normal', 'inbound-pro' ),
+					'muted' => __('Muted', 'inbound-pro' ),
+					'border' => __('Border', 'inbound-pro' ),
+					'spin' => __('Spin', 'inbound-pro' )
 				),
 				'std' => 'normal'
 			),

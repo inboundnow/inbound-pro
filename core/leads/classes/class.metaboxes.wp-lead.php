@@ -1073,8 +1073,8 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                     continue;
                 }
 
-                $form_id = ($event['form_id']) ? $event['form_id'] : __('undefined', 'leads');
-                $form_name = ($event['form_id']) ? get_the_title($event['form_id']) : __('undefined', 'leads');
+                $form_id = ($event['form_id']) ? $event['form_id'] : __('undefined', 'inbound-pro' );
+                $form_name = ($event['form_id']) ? get_the_title($event['form_id']) : __('undefined', 'inbound-pro' );
                 $converted_page_id = $event['page_id'];
                 $converted_page_permalink = get_permalink($converted_page_id);
                 $converted_page_title = get_the_title($converted_page_id);
@@ -1097,13 +1097,13 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                                 <br>
                                     <span class="lead-helper-text" style="padding-left:6px;">
                                         <?php
-                                        _e(' Converted on page', 'leads');
+                                        _e(' Converted on page', 'inbound-pro' );
                                         ?>
                                     </span>
                                 <a href="<?php echo $converted_page_permalink; ?>" id="lead-session-<?php echo $i; ?>" rel="<?php echo $i; ?>" target="_blank"><?php echo $converted_page_title; ?></a>
                                 <?php
-                                _e('using the form ', 'leads');
-                                echo '<a href="' . admin_url('post.php?post=' . $event['form_id'] . '&action=edit') . '" target="_blank" title="' . ($event['form_id'] ? __('This is the form the user submitted their data through', 'leads') : __('Submission was processed through a 3rd party form tool or event data is incomplete.', 'inbound-pro')) . '">' . $form_name . '</a>';
+                                _e('using the form ', 'inbound-pro' );
+                                echo '<a href="' . admin_url('post.php?post=' . $event['form_id'] . '&action=edit') . '" target="_blank" title="' . ($event['form_id'] ? __('This is the form the user submitted their data through', 'inbound-pro' ) : __('Submission was processed through a 3rd party form tool or event data is incomplete.', 'inbound-pro')) . '">' . $form_name . '</a>';
                                 ?>
                             </p>
                         </div>
@@ -1313,7 +1313,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                                 <p>
                                 <span class="lead-item-num"></span>
                                 <span class="lead-helper-text">
-                                    <b>' . __('Viewed page', 'leads') . ' :</b>
+                                    <b>' . __('Viewed page', 'inbound-pro' ) . ' :</b>
                                     <span class="conversion-date"><b>' . date_format($date_print, 'F jS, Y \a\t g:ia (l)') . '</b></span>
                                     <br>
                                 </span>
@@ -1366,8 +1366,8 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                                        <div class="lead-event-text">
                                             <p>
                                                 <span class="lead-item-num">' . $count . ' </span>
-                                                <span class="conversion-date"><b>' . __('Custom Event ', 'leads') . ' - ' . $date_of_conversion . '</b></span><br>
-                                                <span class="lead-helper-text"><strong>' . $event['event_name'] . ' - ' . __('Tracking ID', 'inbound-pro') . ': <span class="campaing-id">' . ($event['session_id'] ? $event['session_id'] : __('undefined', 'leads')) . '</span></strong>
+                                                <span class="conversion-date"><b>' . __('Custom Event ', 'inbound-pro' ) . ' - ' . $date_of_conversion . '</b></span><br>
+                                                <span class="lead-helper-text"><strong>' . $event['event_name'] . ' - ' . __('Tracking ID', 'inbound-pro') . ': <span class="campaing-id">' . ($event['session_id'] ? $event['session_id'] : __('undefined', 'inbound-pro' )) . '</span></strong>
                                                 <br>
                                                 <span class="custom-details">
                                                     <i>

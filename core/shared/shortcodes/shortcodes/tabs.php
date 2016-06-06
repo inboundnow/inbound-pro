@@ -9,8 +9,8 @@
 		'no_preview' => true,
 		'options' => array(
 			'heading' => array(
-				'name' => __('Heading', 'leads'),
-				'desc' => __('Enter the heading text', 'leads'),
+				'name' => __('Heading', 'inbound-pro' ),
+				'desc' => __('Enter the heading text', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => ''
 			)
@@ -24,8 +24,8 @@
 					'std' => ''
 				),
 				'icon' => array(
-					'name' => __('Icon', 'leads'),
-					'desc' => __('Select an icon.', 'leads'),
+					'name' => __('Icon', 'inbound-pro' ),
+					'desc' => __('Select an icon.', 'inbound-pro' ),
 					'type' => 'select',
 					'options' => $fontawesome,
 					'std' => ''
@@ -47,12 +47,12 @@
 /* 	Page builder module config
  * 	----------------------------------------------------- */
 	$freshbuilder_modules['tabs'] = array(
-		'name' => __('Tabs', 'leads'),
+		'name' => __('Tabs', 'inbound-pro' ),
 		'size' => 'one_half',
 		'options' => array(
 			'heading' => array(
-				'name' => __('Heading', 'leads'),
-				'desc' => __('Enter the heading text', 'leads'),
+				'name' => __('Heading', 'inbound-pro' ),
+				'desc' => __('Enter the heading text', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => '',
 				'class' => '',
@@ -61,16 +61,16 @@
 		),
 		'child' => array(
 			'title' => array(
-				'name' => __('Title', 'leads'),
-				'desc' => __('Enter the tab title', 'leads'),
+				'name' => __('Title', 'inbound-pro' ),
+				'desc' => __('Enter the tab title', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => '',
 				'class' => '',
 				'is_content' => 0
 			),
 			'icon' => array(
-				'name' => __('Icon', 'leads'),
-				'desc' => __('Select an icon.', 'leads'),
+				'name' => __('Icon', 'inbound-pro' ),
+				'desc' => __('Select an icon.', 'inbound-pro' ),
 				'type' => 'select',
 				'options' => $fontawesome,
 				'std' => 'none',
@@ -78,8 +78,8 @@
 				'is_content' => 0
 			),
 			'content' => array(
-				'name' => __('Content', 'leads'),
-				'desc' => __('Enter the tab content', 'leads'),
+				'name' => __('Content', 'inbound-pro' ),
+				'desc' => __('Enter the tab content', 'inbound-pro' ),
 				'type' => 'textarea',
 				'class' => '',
 				'is_content' => 1

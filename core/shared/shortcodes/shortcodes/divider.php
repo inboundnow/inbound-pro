@@ -9,33 +9,33 @@
 		'no_preview' => true,
 		'options' => array(
 			'style' => array(
-				'name' => __('Border Style', 'leads'),
-				'desc' => __('Select the style.', 'leads'),
+				'name' => __('Border Style', 'inbound-pro' ),
+				'desc' => __('Select the style.', 'inbound-pro' ),
 				'type' => 'select',
 				'options' => array(
-					'none' => __('No Border', 'leads'),
-					'dashed' => __('Dashed', 'leads'),
-					'dotted' => __('Dotted', 'leads'),
-					'double' => __('Double', 'leads'),
-					'solid' => __('Solid', 'leads')
+					'none' => __('No Border', 'inbound-pro' ),
+					'dashed' => __('Dashed', 'inbound-pro' ),
+					'dotted' => __('Dotted', 'inbound-pro' ),
+					'double' => __('Double', 'inbound-pro' ),
+					'solid' => __('Solid', 'inbound-pro' )
 				),
 				'std' => 'none'
 			),
 			'color' => array(
-				'name' => __('Border Color', 'leads'),
-				'desc' => __('Enter a hex color code.', 'leads'),
+				'name' => __('Border Color', 'inbound-pro' ),
+				'desc' => __('Enter a hex color code.', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => '#ebebea'
 			),
 			'margin_top' => array(
-				'name' => __('Top Margin', 'leads'),
-				'desc' => __('Enter the top margin value.', 'leads'),
+				'name' => __('Top Margin', 'inbound-pro' ),
+				'desc' => __('Enter the top margin value.', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => '0px'
 			),
 			'margin_bottom' => array(
-				'name' => __('Bottom Margin', 'leads'),
-				'desc' => __('Enter the bottom margin value.', 'leads'),
+				'name' => __('Bottom Margin', 'inbound-pro' ),
+				'desc' => __('Enter the bottom margin value.', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => '0px'
 			)
@@ -47,42 +47,42 @@
 /* 	Page builder module config
  * 	----------------------------------------------------- */
 	$freshbuilder_modules['divider'] = array(
-		'name' => __('Divider', 'leads'),
+		'name' => __('Divider', 'inbound-pro' ),
 		'size' => 'one_full',
 		'options' => array(
 			'style' => array(
-				'name' => __('Border Style', 'leads'),
-				'desc' => __('Select the style.', 'leads'),'type' => 'select',
+				'name' => __('Border Style', 'inbound-pro' ),
+				'desc' => __('Select the style.', 'inbound-pro' ),'type' => 'select',
 				'options' => array(
-					'none' => __('No Border', 'leads'),
-					'dashed' => __('Dashed', 'leads'),
-					'dotted' => __('Dotted', 'leads'),
-					'double' => __('Double', 'leads'),
-					'solid' => __('Solid', 'leads')
+					'none' => __('No Border', 'inbound-pro' ),
+					'dashed' => __('Dashed', 'inbound-pro' ),
+					'dotted' => __('Dotted', 'inbound-pro' ),
+					'double' => __('Double', 'inbound-pro' ),
+					'solid' => __('Solid', 'inbound-pro' )
 				),
 				'std' => 'none',
 				'class' => '',
 				'is_content' => '0'
 			),
 			'color' => array(
-				'name' => __('Border Color', 'leads'),
-				'desc' => __('Enter a hex color code.', 'leads'),
+				'name' => __('Border Color', 'inbound-pro' ),
+				'desc' => __('Enter a hex color code.', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => '#ebebea',
 				'class' => '',
 				'is_content' => '0'
 			),
 			'margin_top' => array(
-				'name' => __('Margin Top', 'leads'),
-				'desc' => __('Enter the top margin value.', 'leads'),
+				'name' => __('Margin Top', 'inbound-pro' ),
+				'desc' => __('Enter the top margin value.', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => '0px',
 				'class' => '',
 				'is_content' => '0'
 			),
 			'margin_bottom' => array(
-				'name' => __('Margin Bottom', 'leads'),
-				'desc' => __('Enter the bottom margin value.', 'leads'),
+				'name' => __('Margin Bottom', 'inbound-pro' ),
+				'desc' => __('Enter the bottom margin value.', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => '0px',
 				'class' => '',

@@ -11,7 +11,7 @@
 		'options' => array(
 			'style' => array(
 				'name' => 'Style of Icons',
-				'desc' => __('Style of Icons', 'leads'),
+				'desc' => __('Style of Icons', 'inbound-pro' ),
 				'type' => 'select',
 				'options' => array(
 					"bar" => "Bar",
@@ -23,8 +23,8 @@
 				'std' => 'bar'
 			),
 			'align' => array(
-				'name' => __('Align Icons', 'leads'),
-				'desc' => __('Alignment Settings', 'leads'),
+				'name' => __('Align Icons', 'inbound-pro' ),
+				'desc' => __('Alignment Settings', 'inbound-pro' ),
 				'type' => 'select',
 				'options' => array(
 					"horizontal" => "Horizontal",
@@ -34,60 +34,60 @@
 			),
 
 			'facebook' => array(
-				'name' => __('Facebook', 'leads'),
-				'desc' => __('Show facebook share icon', 'leads'),
+				'name' => __('Facebook', 'inbound-pro' ),
+				'desc' => __('Show facebook share icon', 'inbound-pro' ),
 				'type' => 'checkbox',
 				'std' => '1'
 			),
 			'twitter' => array(
-				'name' => __('Twitter', 'leads'),
-				'desc' => __('Show twitter share icon', 'leads'),
+				'name' => __('Twitter', 'inbound-pro' ),
+				'desc' => __('Show twitter share icon', 'inbound-pro' ),
 				'type' => 'checkbox',
 				'std' => '1'
 			),
 			'google_plus' => array(
-				'name' => __('Google+', 'leads'),
-				'desc' => __('Show google plus share icon', 'leads'),
+				'name' => __('Google+', 'inbound-pro' ),
+				'desc' => __('Show google plus share icon', 'inbound-pro' ),
 				'type' => 'checkbox',
 				'std' => '1'
 			),
 			'linkedin' => array(
-				'name' => __('Linkedin', 'leads'),
-				'desc' => __('Show linkedin share icon', 'leads'),
+				'name' => __('Linkedin', 'inbound-pro' ),
+				'desc' => __('Show linkedin share icon', 'inbound-pro' ),
 				'type' => 'checkbox',
 				'std' => '1'
 			),
 			'pinterest' => array(
-				'name' => __('Pinterest', 'leads'),
-				'desc' => __('Show pinterest share icon', 'leads'),
+				'name' => __('Pinterest', 'inbound-pro' ),
+				'desc' => __('Show pinterest share icon', 'inbound-pro' ),
 				'type' => 'checkbox',
 				'std' => '1',
 			),
 
 			'text' => array(
-				'name' => __('Custom Share Text', 'leads'),
-				'desc' => __('Optional setting. Enter your custom share text', 'leads'),
+				'name' => __('Custom Share Text', 'inbound-pro' ),
+				'desc' => __('Optional setting. Enter your custom share text', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => '',
 				'placeholder' => 'Custom Share Text. Title of page used by default',
 			),
 			'link' => array(
-				'name' => __('Custom Share URL', 'leads'),
-				'desc' => __('Optional setting. Enter your custom share link URL', 'leads'),
+				'name' => __('Custom Share URL', 'inbound-pro' ),
+				'desc' => __('Optional setting. Enter your custom share link URL', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => '',
 				'placeholder' => 'Custom URL. Page permalink used by default',
 			),
 			'heading' => array(
-				'name' => __('Heading', 'leads'),
-				'desc' => __('Optional setting.', 'leads'),
+				'name' => __('Heading', 'inbound-pro' ),
+				'desc' => __('Optional setting.', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => '',
 				'placeholder' => 'Optional Header Text',
 			),
 			'header-align' => array(
-				'name' => __('Heading Align', 'leads'),
-				'desc' => __('Heading Alignment Settings', 'leads'),
+				'name' => __('Heading Align', 'inbound-pro' ),
+				'desc' => __('Heading Alignment Settings', 'inbound-pro' ),
 				'type' => 'select',
 				'options' => array(
 					"inline" => "Inline",

@@ -9,14 +9,14 @@
 		'no_preview' => true,
 		'options' => array(
 			'column' => array(
-				'name' => __('Column', 'leads'),
-				'desc' => __('Select the column.', 'leads'),
+				'name' => __('Column', 'inbound-pro' ),
+				'desc' => __('Select the column.', 'inbound-pro' ),
 				'type' => 'select',
 				'options' => array(
-					'2' => __('2 Columns', 'leads'),
-					'3' => __('3 Columns', 'leads'),
-					'4' => __('4 Columns', 'leads'),
-					'5' => __('5 Columns', 'leads')
+					'2' => __('2 Columns', 'inbound-pro' ),
+					'3' => __('3 Columns', 'inbound-pro' ),
+					'4' => __('4 Columns', 'inbound-pro' ),
+					'5' => __('5 Columns', 'inbound-pro' )
 				),
 				'std' => '4',
 			)
@@ -25,37 +25,37 @@
 			'options' => array(
 				'featured' => array(
 					'name' => __('Featured Plan',  'leads'),
-					'desc' => __('Check to set this plan as featured', 'leads'),
+					'desc' => __('Check to set this plan as featured', 'inbound-pro' ),
 					'type' => 'checkbox',
 					'std' => '0',
 				),
 				'title' => array(
-					'name' => __('Plan Title', 'leads'),
-					'desc' => __('Enter the plan title.', 'leads'),
+					'name' => __('Plan Title', 'inbound-pro' ),
+					'desc' => __('Enter the plan title.', 'inbound-pro' ),
 					'type' => 'text',
 					'std' => ''
 				),
 				'price' => array(
-					'name' => __('Plan Price', 'leads'),
-					'desc' => __('Enter the plan price.', 'leads'),
+					'name' => __('Plan Price', 'inbound-pro' ),
+					'desc' => __('Enter the plan price.', 'inbound-pro' ),
 					'type' => 'text',
 					'std' => ''
 				),
 				'term' => array(
-					'name' => __('Plan Term', 'leads'),
-					'desc' => __('Enter the plan term. e.g : "per month", "per year" etc.', 'leads'),
+					'name' => __('Plan Term', 'inbound-pro' ),
+					'desc' => __('Enter the plan term. e.g : "per month", "per year" etc.', 'inbound-pro' ),
 					'type' => 'text',
 					'std' => ''
 				),
 				'button_text' => array(
-					'name' => __('Plan Button Text', 'leads'),
-					'desc' => __('Enter the button text label.', 'leads'),
+					'name' => __('Plan Button Text', 'inbound-pro' ),
+					'desc' => __('Enter the button text label.', 'inbound-pro' ),
 					'type' => 'text',
 					'std' => ''
 				),
 				'button_link' => array(
-					'name' => __('Plan Button Link', 'leads'),
-					'desc' => __('Enter the button link destination URL.', 'leads'),
+					'name' => __('Plan Button Link', 'inbound-pro' ),
+					'desc' => __('Enter the button link destination URL.', 'inbound-pro' ),
 					'type' => 'text',
 					'std' => ''
 				),
@@ -76,18 +76,18 @@
 /* 	Page builder module config
  * 	----------------------------------------------------- */
 	$freshbuilder_modules['pricing'] = array(
-		'name' => __('Pricing Table', 'leads'),
+		'name' => __('Pricing Table', 'inbound-pro' ),
 		'size' => 'one_full',
 		'options' => array(
 			'column' => array(
-				'name' => __('Column', 'leads'),
-				'desc' => __('Select the column.', 'leads'),
+				'name' => __('Column', 'inbound-pro' ),
+				'desc' => __('Select the column.', 'inbound-pro' ),
 				'type' => 'select',
 				'options' => array(
-					'2' => __('2 Columns', 'leads'),
-					'3' => __('3 Columns', 'leads'),
-					'4' => __('4 Columns', 'leads'),
-					'5' => __('5 Columns', 'leads')
+					'2' => __('2 Columns', 'inbound-pro' ),
+					'3' => __('3 Columns', 'inbound-pro' ),
+					'4' => __('4 Columns', 'inbound-pro' ),
+					'5' => __('5 Columns', 'inbound-pro' )
 				),
 				'std' => '4',
 				'class' => '',
@@ -96,56 +96,56 @@
 		),
 		'child' => array(
 			'featured' => array(
-				'name' => __('Featured Plan', 'leads'),
-				'desc' => __('Check to set this plan as featured', 'leads'),
+				'name' => __('Featured Plan', 'inbound-pro' ),
+				'desc' => __('Check to set this plan as featured', 'inbound-pro' ),
 				'type' => 'checkbox',
 				'std' => '0',
 				'class' => '',
 				'is_content' => 0
 			),
 			'title' => array(
-				'name' => __('Plan Title', 'leads'),
-				'desc' => __('Enter the plan title.', 'leads'),
+				'name' => __('Plan Title', 'inbound-pro' ),
+				'desc' => __('Enter the plan title.', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => '',
 				'class' => '',
 				'is_content' => 0
 			),
 			'price' => array(
-				'name' => __('Plan Price', 'leads'),
-				'desc' => __('Enter the plan price.', 'leads'),
+				'name' => __('Plan Price', 'inbound-pro' ),
+				'desc' => __('Enter the plan price.', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => '',
 				'class' => '',
 				'is_content' => 0
 			),
 			'term' => array(
-				'name' => __('Plan Term', 'leads'),
-				'desc' => __('Enter the plan term. e.g : "per month", "per year" etc.', 'leads'),
+				'name' => __('Plan Term', 'inbound-pro' ),
+				'desc' => __('Enter the plan term. e.g : "per month", "per year" etc.', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => '',
 				'class' => '',
 				'is_content' => 0
 			),
 			'button_text' => array(
-				'name' => __('Plan Button Text', 'leads'),
-				'desc' => __('Enter the button text label.', 'leads'),
+				'name' => __('Plan Button Text', 'inbound-pro' ),
+				'desc' => __('Enter the button text label.', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => '',
 				'class' => '',
 				'is_content' => 0
 			),
 			'button_link' => array(
-				'name' => __('Plan Button Link', 'leads'),
-				'desc' => __('Enter the button link destination URL.', 'leads'),
+				'name' => __('Plan Button Link', 'inbound-pro' ),
+				'desc' => __('Enter the button link destination URL.', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => '',
 				'class' => '',
 				'is_content' => 0
 			),
 			'content' => array(
-				'name' => __('Plan Content', 'leads'),
-				'desc' => __('Put the content here.', 'leads'),
+				'name' => __('Plan Content', 'inbound-pro' ),
+				'desc' => __('Put the content here.', 'inbound-pro' ),
 				'type' => 'textarea',
 				'class' => '',
 				'is_content' => 1

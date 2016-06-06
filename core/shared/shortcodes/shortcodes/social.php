@@ -9,50 +9,50 @@
 		'no_preview' => true,
 		'options' => array(
 			'facebook' => array(
-				'name' => __('Facebook', 'leads'),
-				'desc' => __('Enter your facebook profile URL', 'leads'),
+				'name' => __('Facebook', 'inbound-pro' ),
+				'desc' => __('Enter your facebook profile URL', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => ''
 			),
 			'twitter' => array(
-				'name' => __('Twitter', 'leads'),
-				'desc' => __('Enter your twitter profile URL', 'leads'),
+				'name' => __('Twitter', 'inbound-pro' ),
+				'desc' => __('Enter your twitter profile URL', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => ''
 			),
 			'google_plus' => array(
-				'name' => __('Google+', 'leads'),
-				'desc' => __('Enter your google plus profile URL', 'leads'),
+				'name' => __('Google+', 'inbound-pro' ),
+				'desc' => __('Enter your google plus profile URL', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => ''
 			),
 			'linkedin' => array(
-				'name' => __('Linkedin', 'leads'),
-				'desc' => __('Enter your linkedin profile URL', 'leads'),
+				'name' => __('Linkedin', 'inbound-pro' ),
+				'desc' => __('Enter your linkedin profile URL', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => ''
 			),
 			'github' => array(
-				'name' => __('Github', 'leads'),
-				'desc' => __('Enter your github profile URL', 'leads'),
+				'name' => __('Github', 'inbound-pro' ),
+				'desc' => __('Enter your github profile URL', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => ''
 			),
 			'pinterest' => array(
-				'name' => __('Instagram', 'leads'),
-				'desc' => __('Enter your instagram profile URL', 'leads'),
+				'name' => __('Instagram', 'inbound-pro' ),
+				'desc' => __('Enter your instagram profile URL', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => ''
 			),
 			'pinterest' => array(
-				'name' => __('Pinterest', 'leads'),
-				'desc' => __('Enter your pinterest profile URL', 'leads'),
+				'name' => __('Pinterest', 'inbound-pro' ),
+				'desc' => __('Enter your pinterest profile URL', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => ''
 			),
 			'rss' => array(
-				'name' => __('RSS', 'leads'),
-				'desc' => __('Enter your RSS feeds URL', 'leads'),
+				'name' => __('RSS', 'inbound-pro' ),
+				'desc' => __('Enter your RSS feeds URL', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => ''
 			)

@@ -9,72 +9,72 @@
 		'no_preview' => true,
 		'options' => array(
 			'type' => array(
-				'name' => __('Map Type', 'leads'),
-				'desc' => __('Select a map type', 'leads'),
+				'name' => __('Map Type', 'inbound-pro' ),
+				'desc' => __('Select a map type', 'inbound-pro' ),
 				'type' => 'select',
 				'options' => array('HYBRID' => 'Hybrid', 'ROADMAP' => 'Road Map', 'SATELLITE' => 'Satellite', 'TERRAIN' => 'Terrain'),
 				'std' => ''
 			),
 			'width' => array(
-				'name' => __('Map Width', 'leads'),
+				'name' => __('Map Width', 'inbound-pro' ),
 				'desc' => '',
 				'type' => 'text',
 				'std' => ''
 			),
 			'height' => array(
-				'name' => __('Map Height', 'leads'),
+				'name' => __('Map Height', 'inbound-pro' ),
 				'desc' => '',
 				'type' => 'text',
 				'std' => ''
 			),
 			'address' => array(
-				'name' => __('Address', 'leads'),
-				'desc' => __('Enter your address here. ex: "New York" or "New York, USA" If you want a accurate position please fill the Latitude and Longitude fields', 'leads'),
+				'name' => __('Address', 'inbound-pro' ),
+				'desc' => __('Enter your address here. ex: "New York" or "New York, USA" If you want a accurate position please fill the Latitude and Longitude fields', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => ''
 			),
 			'latitude' => array(
-				'name' => __('Latitude', 'leads'),
-				'desc' => __('Latitude is specified in degrees within the range [-90, 90]', 'leads'),
+				'name' => __('Latitude', 'inbound-pro' ),
+				'desc' => __('Latitude is specified in degrees within the range [-90, 90]', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => ''
 			),
 			'longitude' => array(
-				'name' => __('Longitude', 'leads'),
-				'desc' => __('Longitude is specified in degrees within the range [-180, 180]', 'leads'),
+				'name' => __('Longitude', 'inbound-pro' ),
+				'desc' => __('Longitude is specified in degrees within the range [-180, 180]', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => ''
 			),
 			'zoom' => array(
-				'name' => __('Zoom', 'leads'),
-				'desc' => __('Set the zoom level, numeric value from 1 to 19', 'leads'),
+				'name' => __('Zoom', 'inbound-pro' ),
+				'desc' => __('Set the zoom level, numeric value from 1 to 19', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => '8'
 			),
 			'pancontrol' => array(
-				'name' => __('Pan Control', 'leads'),
-				'desc' => __('Enable pan control?', 'leads'),
+				'name' => __('Pan Control', 'inbound-pro' ),
+				'desc' => __('Enable pan control?', 'inbound-pro' ),
 				'type' => 'select',
 				'options' => array('true' => 'Enable', 'false' => 'Disable'),
 				'std' => ''
 			),
 			'zoomcontrol' => array(
-				'name' => __('Zoom Control', 'leads'),
-				'desc' => __('Enable zoom control?', 'leads'),
+				'name' => __('Zoom Control', 'inbound-pro' ),
+				'desc' => __('Enable zoom control?', 'inbound-pro' ),
 				'type' => 'select',
 				'options' => array('true' => 'Enable', 'false' => 'Disable'),
 				'std' => ''
 			),
 			'maptypecontrol' => array(
-				'name' => __('Map Type Control', 'leads'),
-				'desc' => __('Enable map type control?', 'leads'),
+				'name' => __('Map Type Control', 'inbound-pro' ),
+				'desc' => __('Enable map type control?', 'inbound-pro' ),
 				'type' => 'select',
 				'options' => array('true' => 'Enable', 'false' => 'Disable'),
 				'std' => ''
 			),
 			'content' => array(
-				'name' => __('Popup Content', 'leads'),
-				'desc' => __('A descriptive text for the Google Map marker popup, ex: "My Office"', 'leads'),
+				'name' => __('Popup Content', 'inbound-pro' ),
+				'desc' => __('A descriptive text for the Google Map marker popup, ex: "My Office"', 'inbound-pro' ),
 				'type' => 'textarea',
 				'std' => ''
 			)

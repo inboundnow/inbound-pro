@@ -9,44 +9,44 @@
 		'no_preview' => true,
 		'options' => array(
 			'name' => array(
-				'name' => __('Profile Name', 'leads'),
-				'desc' => __('Enter the name.', 'leads'),
+				'name' => __('Profile Name', 'inbound-pro' ),
+				'desc' => __('Enter the name.', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => ''
 			),
 			'meta' => array(
-				'name' => __('Profile Meta', 'leads'),
-				'desc' => __('Enter the profile meta. e.g job position etc.', 'leads'),
+				'name' => __('Profile Meta', 'inbound-pro' ),
+				'desc' => __('Enter the profile meta. e.g job position etc.', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => ''
 			),
 			'image' => array(
-				'name' => __('Profile Image', 'leads'),
-				'desc' => __('Paste your profile image URL here.', 'leads'),
+				'name' => __('Profile Image', 'inbound-pro' ),
+				'desc' => __('Paste your profile image URL here.', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => ''
 			),
 			'link' => array(
-				'name' => __('Profile Link', 'leads'),
-				'desc' => __('Paste your profile link URL here.', 'leads'),
+				'name' => __('Profile Link', 'inbound-pro' ),
+				'desc' => __('Paste your profile link URL here.', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => ''
 			),
 			'facebook' => array(
-				'name' => __('Profile Facebook', 'leads'),
-				'desc' => __('Paste your facebook URL here.', 'leads'),
+				'name' => __('Profile Facebook', 'inbound-pro' ),
+				'desc' => __('Paste your facebook URL here.', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => ''
 			),
 			'twitter' => array(
-				'name' => __('Profile Twitter', 'leads'),
-				'desc' => __('Paste your twitter URL here.', 'leads'),
+				'name' => __('Profile Twitter', 'inbound-pro' ),
+				'desc' => __('Paste your twitter URL here.', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => ''
 			),
 			'email' => array(
-				'name' => __('Profile Email Address', 'leads'),
-				'desc' => __('Paste your email address here.', 'leads'),
+				'name' => __('Profile Email Address', 'inbound-pro' ),
+				'desc' => __('Paste your email address here.', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => ''
 			),
@@ -64,67 +64,67 @@
 /* 	Page builder module config
  * 	----------------------------------------------------- */
 	$freshbuilder_modules['profile'] = array(
-		'name' => __('Profile', 'leads'),
+		'name' => __('Profile', 'inbound-pro' ),
 		'size' => 'one_fourth',
 		'options' => array(
 			'name' => array(
-				'name' => __('Profile Name', 'leads'),
-				'desc' => __('Enter the name.', 'leads'),
+				'name' => __('Profile Name', 'inbound-pro' ),
+				'desc' => __('Enter the name.', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => '',
 				'class' => '',
 				'is_content' => 0
 			),
 			'meta' => array(
-				'name' => __('Profile Meta', 'leads'),
-				'desc' => __('Enter the profile meta. e.g job position etc.', 'leads'),
+				'name' => __('Profile Meta', 'inbound-pro' ),
+				'desc' => __('Enter the profile meta. e.g job position etc.', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => '',
 				'class' => '',
 				'is_content' => 0
 			),
 			'image' => array(
-				'name' => __('Profile Image', 'leads'),
-				'desc' => __('Paste your profile image URL here.', 'leads'),
+				'name' => __('Profile Image', 'inbound-pro' ),
+				'desc' => __('Paste your profile image URL here.', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => '',
 				'class' => '',
 				'is_content' => 0
 			),
 			'link' => array(
-				'name' => __('Profile Link', 'leads'),
-				'desc' => __('Paste your profile URL here.', 'leads'),
+				'name' => __('Profile Link', 'inbound-pro' ),
+				'desc' => __('Paste your profile URL here.', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => '',
 				'class' => '',
 				'is_content' => 0
 			),
 			'facebook' => array(
-				'name' => __('Profile Facebook', 'leads'),
-				'desc' => __('Paste your facebook URL here.', 'leads'),
+				'name' => __('Profile Facebook', 'inbound-pro' ),
+				'desc' => __('Paste your facebook URL here.', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => '',
 				'class' => '',
 				'is_content' => 0
 			),
 			'twitter' => array(
-				'name' => __('Profile Twitter', 'leads'),
-				'desc' => __('Paste your twitter URL here.', 'leads'),
+				'name' => __('Profile Twitter', 'inbound-pro' ),
+				'desc' => __('Paste your twitter URL here.', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => '',
 				'class' => '',
 				'is_content' => 0
 			),
 			'email' => array(
-				'name' => __('Profile Email Address', 'leads'),
-				'desc' => __('Paste your email address here.', 'leads'),
+				'name' => __('Profile Email Address', 'inbound-pro' ),
+				'desc' => __('Paste your email address here.', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => '',
 				'class' => '',
 				'is_content' => 0
 			),
 			'content' => array(
-				'name' => __('Profile Description', 'leads'),
+				'name' => __('Profile Description', 'inbound-pro' ),
 				'desc' => __('Enter the profile description text.',  'leads'),
 				'type' => 'textarea',
 				'std' => '',

@@ -9,21 +9,21 @@
 		'no_preview' => true,
 		'options' => array(
 			'heading' => array(
-				'name' => __('Heading Text', 'leads'),
-				'desc' => __('Enter the heading text.', 'leads'),
+				'name' => __('Heading Text', 'inbound-pro' ),
+				'desc' => __('Enter the heading text.', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => 'Testimonial'
 			),
 			'column' => array(
-				'name' => __('Column', 'leads'),
-				'desc' => __('Select the number of column(s).', 'leads'),
+				'name' => __('Column', 'inbound-pro' ),
+				'desc' => __('Select the number of column(s).', 'inbound-pro' ),
 				'type' => 'select',
 				'options' => array(
-					'1' => __('1 Column', 'leads'),
-					'2' => __('2 Columns', 'leads'),
-					'3' => __('3 Columns', 'leads'),
-					'4' => __('4 Columns', 'leads'),
-					'5' => __('5 Columns', 'leads')
+					'1' => __('1 Column', 'inbound-pro' ),
+					'2' => __('2 Columns', 'inbound-pro' ),
+					'3' => __('3 Columns', 'inbound-pro' ),
+					'4' => __('4 Columns', 'inbound-pro' ),
+					'5' => __('5 Columns', 'inbound-pro' )
 				),
 				'std' => '1'
 			)
@@ -37,8 +37,8 @@
 					'std' => ''
 				),
 				'meta' => array(
-					'name' => __('Testimony Author Meta', 'leads'),
-					'desc' => __('The author job, company or website name.', 'leads'),
+					'name' => __('Testimony Author Meta', 'inbound-pro' ),
+					'desc' => __('The author job, company or website name.', 'inbound-pro' ),
 					'type' => 'text',
 					'std' => ''
 				),
@@ -59,27 +59,27 @@
 /* 	Page builder module config
  * 	----------------------------------------------------- */
 	$freshbuilder_modules['testimonial'] = array(
-		'name' => __('Testimonial', 'leads'),
+		'name' => __('Testimonial', 'inbound-pro' ),
 		'size' => 'one_half',
 		'options' => array(
 			'heading' => array(
-				'name' => __('Heading', 'leads'),
-				'desc' => __('Enter the heading text.', 'leads'),
+				'name' => __('Heading', 'inbound-pro' ),
+				'desc' => __('Enter the heading text.', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => 'Testimonial',
 				'class' => '',
 				'is_content' => 0
 			),
 			'column' => array(
-				'name' => __('Column', 'leads'),
-				'desc' => __('Select the number of column(s).', 'leads'),
+				'name' => __('Column', 'inbound-pro' ),
+				'desc' => __('Select the number of column(s).', 'inbound-pro' ),
 				'type' => 'select',
 				'options' => array(
-					'1' => __('1 Column', 'leads'),
-					'2' => __('2 Columns', 'leads'),
-					'3' => __('3 Columns', 'leads'),
-					'4' => __('4 Columns', 'leads'),
-					'5' => __('5 Columns', 'leads')
+					'1' => __('1 Column', 'inbound-pro' ),
+					'2' => __('2 Columns', 'inbound-pro' ),
+					'3' => __('3 Columns', 'inbound-pro' ),
+					'4' => __('4 Columns', 'inbound-pro' ),
+					'5' => __('5 Columns', 'inbound-pro' )
 				),
 				'std' => '3',
 				'class' => '',
@@ -88,24 +88,24 @@
 		),
 		'child' => array(
 			'author' => array(
-				'name' => __('Testimony Author', 'leads'),
-				'desc' => __('Enter the testimony author name.', 'leads'),
+				'name' => __('Testimony Author', 'inbound-pro' ),
+				'desc' => __('Enter the testimony author name.', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => '',
 				'class' => '',
 				'is_content' => 0
 			),
 			'meta' => array(
-				'name' => __('Testimony Author Meta', 'leads'),
-				'desc' => __('The author job, company or website name.', 'leads'),
+				'name' => __('Testimony Author Meta', 'inbound-pro' ),
+				'desc' => __('The author job, company or website name.', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => '',
 				'class' => '',
 				'is_content' => 0
 			),
 			'content' => array(
-				'name' => __('Testimony Text', 'leads'),
-				'desc' => __('Put the content here.', 'leads'),
+				'name' => __('Testimony Text', 'inbound-pro' ),
+				'desc' => __('Put the content here.', 'inbound-pro' ),
 				'type' => 'textarea',
 				'std' => '',
 				'class' => '',
@@ -121,7 +121,7 @@
 
 	function inbound_shortcode_testimonial( $atts, $content = null ) {
 		extract(shortcode_atts(array(
-			'heading' => __('Testimonial', 'leads'),
+			'heading' => __('Testimonial', 'inbound-pro' ),
 			'column' => 1,
 		), $atts));
 

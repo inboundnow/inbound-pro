@@ -29,8 +29,8 @@ class Inbound_Template_Utils {
     static function add_screen() {
         add_submenu_page(
             'edit.php?post_type=landing-page',
-            __( 'Developer Tools' , 'leads' ),
-            __( 'Developer Tools' , 'leads' ),
+            __( 'Developer Tools' , 'inbound-pro' ),
+            __( 'Developer Tools' , 'inbound-pro' ),
             'manage_options',
             'template_utils',
             array( __CLASS__ , 'html' )

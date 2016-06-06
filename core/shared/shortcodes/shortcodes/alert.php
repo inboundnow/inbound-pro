@@ -9,21 +9,21 @@
 		'no_preview' => true,
 		'options' => array(
 			'color' => array(
-				'name' => __('Color Style', 'leads'),
-				'desc' => __('Select the style.', 'leads'),
+				'name' => __('Color Style', 'inbound-pro' ),
+				'desc' => __('Select the style.', 'inbound-pro' ),
 				'type' => 'select',
 				'options' => array(
-					'default' => __('Default', 'leads'),
-					'blue' => __('Blue', 'leads'),
-					'green' => __('Green', 'leads'),
-					'red' => __('Red', 'leads'),
-					'yellow' => __('Yellow', 'leads')
+					'default' => __('Default', 'inbound-pro' ),
+					'blue' => __('Blue', 'inbound-pro' ),
+					'green' => __('Green', 'inbound-pro' ),
+					'red' => __('Red', 'inbound-pro' ),
+					'yellow' => __('Yellow', 'inbound-pro' )
 				),
 				'std' => ''
 			),
 			'content' => array(
-				'name' => __('Message', 'leads'),
-				'desc' => __('Your message here.', 'leads'),
+				'name' => __('Message', 'inbound-pro' ),
+				'desc' => __('Your message here.', 'inbound-pro' ),
 				'type' => 'textarea',
 				'std' => ''
 			)

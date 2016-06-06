@@ -9,8 +9,8 @@
 		'no_preview' => true,
 		'options' => array(
 			'align' => array(
-				'name' => __('Alignment', 'leads'),
-				'desc' => __('Add the pharagraph alignment', 'leads'),
+				'name' => __('Alignment', 'inbound-pro' ),
+				'desc' => __('Add the pharagraph alignment', 'inbound-pro' ),
 				'type' => 'select',
 				'options' => array(
 					'left' => 'Align Left',
@@ -20,14 +20,14 @@
 				'std' => ''
 			),
 			'content' => array(
-				'name' => __('Paragraph Text', 'leads'),
-				'desc' => __('Add the pharagraph text', 'leads'),
+				'name' => __('Paragraph Text', 'inbound-pro' ),
+				'desc' => __('Add the pharagraph text', 'inbound-pro' ),
 				'type' => 'textarea',
 				'std' => ''
 			)
 		),
 		'shortcode' => '[leadp align="{{align}}"]{{content}}[/leadp]',
-		'popup_title' => __('Insert Lead Paragraph Shortcode', 'leads')
+		'popup_title' => __('Insert Lead Paragraph Shortcode', 'inbound-pro' )
 	);
 
 /* 	Add shortcode

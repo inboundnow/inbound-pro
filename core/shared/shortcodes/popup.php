@@ -35,7 +35,7 @@ if( !$shortcode->no_preview ) {
                         <tbody style="display:none;">
                             <tr class="form-row" style="text-align: center;">
                                 <?php if( ! $shortcode->has_child ) : ?><td class="label">&nbsp;</td><?php endif; ?>
-                                <td class="field" style="width:500px;"><a href="#" id="inbound_insert_shortcode" class="button-primary inbound-shortcodes-insert"><?php _e('Insert Shortcode', 'leads'); ?></a></td>
+                                <td class="field" style="width:500px;"><a href="#" id="inbound_insert_shortcode" class="button-primary inbound-shortcodes-insert"><?php _e('Insert Shortcode', 'inbound-pro' ); ?></a></td>
                             </tr>
                         </tbody>
                     </table>
@@ -46,7 +46,7 @@ if( !$shortcode->no_preview ) {
             <?php if( !$shortcode->no_preview ) { ?>
             <div id="inbound-shortcodes-preview-wrap">
                 <div id="inbound-shortcodes-preview-head">
-                    <?php _e('Shortcode Preview', 'leads'); ?>
+                    <?php _e('Shortcode Preview', 'inbound-pro' ); ?>
                 </div>
 
                 <iframe src="<?php echo INBOUND_FORMS; ?>preview.php?sc=" width="285" scrollbar='true' frameborder="0" id="inbound-shortcodes-preview"></iframe>

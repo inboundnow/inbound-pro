@@ -11,8 +11,8 @@
 		'child' => array(
 			'options' => array(
 				'icon' => array(
-					'name' => __('Icon', 'leads'),
-					'desc' => __('Select the icon.', 'leads'),
+					'name' => __('Icon', 'inbound-pro' ),
+					'desc' => __('Select the icon.', 'inbound-pro' ),
 					'type' => 'select',
 					'options' => $fontawesome,
 					'std' => 'none'
@@ -28,7 +28,7 @@
 			'clone' => __('Add More List',  'cta' )
 		),
 		'shortcode' => '[list_icons]{{child}}[/list_icons]',
-		'popup_title' => __('Insert List Icons Shortcode', 'leads')
+		'popup_title' => __('Insert List Icons Shortcode', 'inbound-pro' )
 	);
 
 /* 	Add shortcode
