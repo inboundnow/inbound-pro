@@ -48,20 +48,12 @@ class Leads_Post_Type {
         /* mark lead status as read on first open */
         add_action('wp_ajax_wp_leads_auto_mark_as_read', array(__CLASS__, 'ajax_auto_mark_as_read'));
 
-        /* setup bulk edit options */
-        add_action('admin_footer-edit.php', array(__CLASS__, 'register_bulk_edit_fields'));
-
-        /* process bulk actions  */
-        add_action('load-edit.php', array(__CLASS__, 'process_bulk_actions'));
-
-        /* prepare admin notifications for bulk actions */
-        add_action('admin_notices', array(__CLASS__, 'display_admin_notices'));
-
         /* add extra menu items */
         add_action('admin_menu', array(__CLASS__, 'setup_admin_menu'));
 
         /* enqueue scripts and styles in admin  */
         add_action('admin_enqueue_scripts', array(__CLASS__, 'enqueue_admin_scripts'));
+
     }
 
     /**
@@ -73,14 +65,14 @@ class Leads_Post_Type {
 
         $cols = array(
             "cb" => "<input type=\"checkbox\" />",
-            "lead-picture" => __('Lead', 'leads'),
-            "first-name" => __('First Name', 'leads'),
-            "last-name" => __('Last Name', 'leads'),
-            "title" => __('Email', 'leads'),
-            "status" => __('Status', 'leads'),
-            'action-count' => __('Actions', 'leads'),
-            "page-views" => __('Page Views', 'leads'),
-            "modified" => __('Updated', 'leads')
+            "lead-picture" => __('Lead', 'inbound-pro' ),
+            "first-name" => __('First Name', 'inbound-pro' ),
+            "last-name" => __('Last Name', 'inbound-pro' ),
+            "title" => __('Email', 'inbound-pro' ),
+            "status" => __('Status', 'inbound-pro' ),
+            'action-count' => __('Actions', 'inbound-pro' ),
+            "page-views" => __('Page Views', 'inbound-pro' ),
+            "modified" => __('Updated', 'inbound-pro' )
         );
 
         /* not sure about this, needs documentation - H */
@@ -117,14 +109,14 @@ class Leads_Post_Type {
             case "first-name":
                 $first_name = get_post_meta($post_id, 'wpleads_first_name', true);
                 if (!$first_name || $first_name == 'false') {
-                    $first_name = __('n/a', 'leads');
+                    $first_name = __('n/a', 'inbound-pro' );
                 }
                 echo $first_name;
                 break;
             case "last-name":
                 $last_name = get_post_meta($post_id, 'wpleads_last_name', true);
                 if (!$last_name) {
-                    $last_name = __('n/a', 'leads');
+                    $last_name = __('n/a', 'inbound-pro' );
                 }
                 echo $last_name;
                 break;
@@ -235,7 +227,7 @@ class Leads_Post_Type {
         }
 
         if (isset( $actions['edit'])) {
-            $actions['edit'] = str_replace('Edit', __('View', 'leads'), $actions['edit']);
+            $actions['edit'] = str_replace('Edit', __('View', 'inbound-pro' ), $actions['edit']);
         }
 
         unset($actions['inline hide-if-no-js']);
@@ -374,148 +366,6 @@ class Leads_Post_Type {
     }
 
     /**
-     * process bulk actions for wp-lead post type
-     */
-    public static function process_bulk_actions() {
-
-        if (!isset($_REQUEST['post_type']) || $_REQUEST['post_type'] != 'wp-lead' || !isset($_REQUEST['post'])) {
-            return;
-        }
-
-        $wp_list_table = _get_list_table('WP_Posts_List_Table');
-        $action = $wp_list_table->current_action();
-
-
-        if (!current_user_can('manage_options')) {
-            die();
-        }
-
-        $post_ids = array_map('intval', $_REQUEST['post']);
-
-        switch ($action) {
-            case 'export-csv':
-                $exported = 0;
-
-                header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-                header('Content-Description: File Transfer');
-                header("Content-type: text/csv");
-                header("Content-Disposition: attachment; filename=leads-export-csv-" . date("m.d.y") . ".csv");
-                header("Expires: 0");
-                header("Pragma: public");
-
-                $fh = @fopen('php://output', 'w');
-
-                //get all keys
-                foreach ($post_ids as $post_id) {
-                    $this_lead_data = get_post_custom($post_id);
-
-                    foreach ($this_lead_data as $key => $val) {
-                        $lead_meta_pairs[$key] = $key;
-                    }
-                }
-
-                // Add a header row if it hasn't been added yet
-                fputcsv($fh, array_keys($lead_meta_pairs));
-                $headerDisplayed = true;
-
-
-                foreach ($post_ids as $post_id) {
-                    unset($this_row_data);
-
-                    $this_lead_data = get_post_custom($post_id);
-
-
-                    foreach ($lead_meta_pairs as $key => $val) {
-
-                        if (isset($this_lead_data[$key])) {
-                            $val = $this_lead_data[$key];
-                            if (is_array($val)) $val = implode(';', $val);
-                        } else {
-                            $val = "";
-                        }
-
-                        $this_row_data[$key] = $val;
-                    }
-
-                    fputcsv($fh, $this_row_data);
-                    $exported++;
-                }
-                // Close the file
-                fclose($fh);
-
-                // build the redirect url
-                $sendback = add_query_arg(array('exported' => $exported, 'post_type' => 'wp-lead', 'ids' => join(',', $post_ids)), $sendback);
-
-                // Make sure nothing else is sent, our file is done
-                exit;
-                break;
-            case 'export-xml':
-                echo '<?xml version="1.0" encoding="UTF-8" ?>' . "\n";
-                foreach ($post_ids as $post_id) {
-                    $this_lead_data = get_post_custom($post_id);
-
-                    foreach ($this_lead_data as $key => $val) {
-
-                        if (is_array($val)) {
-                            $this_lead_data[$key] = implode(',', $val);
-                        }
-                    }
-
-                    unset($this_lead_data['_edit_lock']);
-                    unset($this_lead_data['_yoast_wpseo_linkdex']);
-
-                    $xml = self::build_lead_xml($this_lead_data);
-                    echo $xml;
-                }
-                // Make sure nothing else is sent, our file is done
-                exit;
-
-                // build the redirect url
-                $sendback = add_query_arg(array('exported' => $exported, 'post_type' => 'wp-lead', 'ids' => join(',', $post_ids)), $sendback);
-                break;
-            case 'export-list':
-                $list_id = $_REQUEST['action_wordpress_list_id'];
-                $exported = 0;
-
-                foreach ($post_ids as $post_id) {
-
-                    $list_cpt = get_post($list_id, ARRAY_A);
-                    $list_slug = $list_cpt['post_name'];
-                    $list_title = $list_cpt['post_title'];
-
-                    $wplead_cat = get_term_by('slug', $list_slug, 'wplead_list_category');
-                    $wplead_cat_id = $wplead_cat->term_id;
-
-                    $exported++;
-                }
-                $sendback = add_query_arg(array('exported' => $exported, 'post_type' => 'wp-lead', 'ids' => join(',', $post_ids)), $sendback);
-                break;
-            case 'add-to-list':
-                $list_id = $_REQUEST['action_wordpress_list_id'];
-                $added = 0;
-
-                foreach ($post_ids as $post_id) {
-
-                    $list_cpt = get_post($list_id, ARRAY_A);
-                    $list_slug = $list_cpt['post_name'];
-                    $list_title = $list_cpt['post_title'];
-
-                    wpleads_add_lead_to_list($list_id, $post_id, $add = true);
-                    $added++;
-                }
-                $sendback = add_query_arg(array('added' => $added, 'post_type' => 'wp-lead', 'ids' => join(',', $post_ids)), $sendback);
-                break;
-            default:
-                return;
-        }
-
-        // 4. Redirect client
-        wp_redirect($sendback);
-        exit();
-
-    }
-
-    /**
      * Prepare nice names for custom fields
      * @return array
      */
@@ -578,69 +428,6 @@ class Leads_Post_Type {
     }
 
     /**
-     * Adds additiona options to bulk edit fields
-     */
-    public static function register_bulk_edit_fields() {
-        global $post_type;
-
-        if ($post_type != 'wp-lead') {
-            return;
-        }
-
-        $lists = wpleads_get_lead_lists_as_array();
-
-        $html = "<select id='wordpress_list_select' name='action_wordpress_list_id'>";
-        foreach ($lists as $id => $label) {
-            $html .= "<option value='" . $id . "'>" . $label . "</option>";
-        }
-        $html .= "</select>";
-
-
-        ?>
-        <script type="text/javascript">
-            jQuery(document).ready(function () {
-
-                jQuery('<option>').val('add-to-list').text('<?php _e('Add to Contact List', 'lp') ?>').appendTo("select[name='action']");
-                jQuery('<option>').val('add-to-list').text('<?php _e('Add to Contact List', 'lp') ?>').appendTo("select[name='action2']");
-
-                jQuery('<option>').val('export-csv').text('<?php _e('Export CSV')?>').appendTo("select[name='action']");
-                jQuery('<option>').val('export-csv').text('<?php _e('Export CSV')?>').appendTo("select[name='action2']");
-
-                jQuery('<option>').val('export-xml').text('<?php _e('Export XML')?>').appendTo("select[name='action']");
-                jQuery('<option>').val('export-xml').text('<?php _e('Export XML')?>').appendTo("select[name='action2']");
-
-                jQuery(document).on('change', 'select[name=action]', function () {
-                    var this_id = jQuery(this).val();
-                    if (this_id.indexOf("export-csv") >= 0) {
-                        jQuery('#posts-filter').prop('target', '_blank');
-                    }
-                    else if (this_id.indexOf("export-xml") >= 0) {
-                        jQuery('#posts-filter').prop('target', '_blank');
-                    }
-                    else if (this_id.indexOf("add-to-list") >= 0) {
-                        var html = "<?php echo $html; ?>";
-
-                        jQuery("select[name='action']").after(html);
-                    }
-                    else {
-                        jQuery('#posts-filter').prop('target', 'self');
-                        jQuery('#wordpress_list_select').remove();
-                    }
-                });
-
-            });
-        </script>
-        <?php
-    }
-
-    /**
-     * Display admin notices for bulk actions
-     */
-    public static function display_admin_notices() {
-        /* see /classes/class.admin-notices.php */
-    }
-
-    /**
      * Add action links in Plugins table
      */
     public static function display_plugin_quick_links($links) {
@@ -653,10 +440,6 @@ class Leads_Post_Type {
         );
 
     }
-
-
-
-
 
     public static function display_status_pill( $status ) {
         global $lead_statuses;
@@ -726,8 +509,8 @@ class Leads_Post_Type {
         /* Lead Management */
         add_submenu_page(
             'edit.php?post_type=wp-lead',
-            __('Lead Management', 'leads'),
-            __('Lead Management', 'leads'),
+            __('Bulk Actions', 'inbound-pro' ),
+            __('Bulk Actions', 'inbound-pro' ),
             'manage_options',
             'lead_management',
             array('Leads_Manager', 'display_ui')
@@ -736,8 +519,8 @@ class Leads_Post_Type {
         /* Manage Forms */
         add_submenu_page(
             'edit.php?post_type=wp-lead',
-            __('Forms', 'leads'),
-            __('Forms', 'leads'),
+            __('Forms', 'inbound-pro' ),
+            __('Forms', 'inbound-pro' ),
             'manage_options',
             'inbound-forms-redirect',
             100
@@ -746,8 +529,8 @@ class Leads_Post_Type {
         /* Settings */
         add_submenu_page(
             'edit.php?post_type=wp-lead',
-            __('Settings', 'leads'),
-            __('Settings', 'leads'),
+            __('Settings', 'inbound-pro' ),
+            __('Settings', 'inbound-pro' ),
             'manage_options',
             'wpleads_global_settings',
             array('Leads_Settings', 'display_settings')

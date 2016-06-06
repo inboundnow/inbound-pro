@@ -9,20 +9,20 @@
 		'no_preview' => true,
 		'options' => array(
 			'title' => array(
-				'name' => __('Title', 'leads'),
-				'desc' => __('Enter the heading text.', 'leads'),
+				'name' => __('Title', 'inbound-pro' ),
+				'desc' => __('Enter the heading text.', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => ''
 			),
 			'subtitle' => array(
-				'name' => __('Sub Title', 'leads'),
-				'desc' => __('Enter the sub title.', 'leads'),
+				'name' => __('Sub Title', 'inbound-pro' ),
+				'desc' => __('Enter the sub title.', 'inbound-pro' ),
 				'type' => 'textarea',
 				'std' => ''
 			),
 			'button_color' => array(
-				'name' => __('Button Color', 'leads'),
-				'desc' => __('Select the button color.', 'leads'),
+				'name' => __('Button Color', 'inbound-pro' ),
+				'desc' => __('Select the button color.', 'inbound-pro' ),
 				'type' => 'select',
 				'options' => array(
 					'default' => 'Default',
@@ -41,21 +41,21 @@
 				'std' => 'default'
 			),
 			'button_label' => array(
-				'name' => __('Button Text Label', 'leads'),
-				'desc' => __('Enter the button text label.', 'leads'),
+				'name' => __('Button Text Label', 'inbound-pro' ),
+				'desc' => __('Enter the button text label.', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => ''
 			),
 			'button_icon' => array(
-				'name' => __('Button Icon', 'leads'),
-				'desc' => __('Select an icon.', 'leads'),
+				'name' => __('Button Icon', 'inbound-pro' ),
+				'desc' => __('Select an icon.', 'inbound-pro' ),
 				'type' => 'select',
 				'options' => $fontawesome,
 				'std' => 'none'
 			),
 			'link' => array(
-				'name' => __('Link', 'leads'),
-				'desc' => __('Enter the button link destination URL.', 'leads'),
+				'name' => __('Link', 'inbound-pro' ),
+				'desc' => __('Enter the button link destination URL.', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => ''
 			)
@@ -67,26 +67,26 @@
 /* 	Page builder module config
  * 	----------------------------------------------------- */
 	$freshbuilder_modules['callout'] = array(
-		'name' => __('Call Out', 'leads'),
+		'name' => __('Call Out', 'inbound-pro' ),
 		'size' => 'one_full',
 		'options' => array(
 			'title' => array(
-				'name' => __('Title', 'leads'),
-				'desc' => __('Enter the heading text.', 'leads'),
+				'name' => __('Title', 'inbound-pro' ),
+				'desc' => __('Enter the heading text.', 'inbound-pro' ),
 				'type' => 'text',
 				'class' => '',
 				'is_content' => '0'
 			),
 			'subtitle' => array(
-				'name' => __('Sub Title', 'leads'),
-				'desc' => __('Enter the sub title.', 'leads'),
+				'name' => __('Sub Title', 'inbound-pro' ),
+				'desc' => __('Enter the sub title.', 'inbound-pro' ),
 				'type' => 'textarea',
 				'class' => '',
 				'is_content' => '0'
 			),
 			'button_color' => array(
-				'name' => __('Button Color', 'leads'),
-				'desc' => __('Select the button color.', 'leads'),
+				'name' => __('Button Color', 'inbound-pro' ),
+				'desc' => __('Select the button color.', 'inbound-pro' ),
 				'type' => 'select',
 				'options' => array(
 					'default' => 'Default',
@@ -107,15 +107,15 @@
 				'is_content' => '0'
 			),
 			'button_label' => array(
-				'name' => __('Button Text Label', 'leads'),
-				'desc' => __('Enter the button text label.', 'leads'),
+				'name' => __('Button Text Label', 'inbound-pro' ),
+				'desc' => __('Enter the button text label.', 'inbound-pro' ),
 				'type' => 'text',
 				'class' => '',
 				'is_content' => '0'
 			),
 			'button_icon' => array(
-				'name' => __('Button Icon', 'leads'),
-				'desc' => __('Select an icon.', 'leads'),
+				'name' => __('Button Icon', 'inbound-pro' ),
+				'desc' => __('Select an icon.', 'inbound-pro' ),
 				'type' => 'select',
 				'options' => $fontawesome,
 				'std' => 'none',
@@ -123,8 +123,8 @@
 				'is_content' => '0'
 			),
 			'link' => array(
-				'name' => __('Link', 'leads'),
-				'desc' => __('Enter the button link destination URL.', 'leads'),
+				'name' => __('Link', 'inbound-pro' ),
+				'desc' => __('Enter the button link destination URL.', 'inbound-pro' ),
 				'type' => 'text',
 				'class' => '',
 				'is_content' => '0'

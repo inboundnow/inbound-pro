@@ -9,25 +9,25 @@
 		'no_preview' => true,
 		'options' => array(
 			'title' => array(
-				'name' => __('Title', 'leads'),
-				'desc' => __('Enter the heading text.', 'leads'),
+				'name' => __('Title', 'inbound-pro' ),
+				'desc' => __('Enter the heading text.', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => ''
 			),
 			'alignment' => array(
-				'name' => __('Text Alignment', 'leads'),
-				'desc' => __('Enter text alignment.', 'leads'),
+				'name' => __('Text Alignment', 'inbound-pro' ),
+				'desc' => __('Enter text alignment.', 'inbound-pro' ),
 				'type' => 'select',
 				'options' => array(
-					'align-center' => __('Align Center', 'leads'),
-					'align-left' => __('Align Left', 'leads'),
-					'align-right' => __('Align Right', 'leads')
+					'align-center' => __('Align Center', 'inbound-pro' ),
+					'align-left' => __('Align Left', 'inbound-pro' ),
+					'align-right' => __('Align Right', 'inbound-pro' )
 				),
 				'std' => 'align-left',
 			),
 			'content' => array(
-				'name' => __('Content', 'leads'),
-				'desc' => __('Enter the content', 'leads'),
+				'name' => __('Content', 'inbound-pro' ),
+				'desc' => __('Enter the content', 'inbound-pro' ),
 				'type' => 'textarea',
 				'std' => ''
 			)
@@ -39,32 +39,32 @@
 /* 	Page builder module config
  * 	----------------------------------------------------- */
 	$freshbuilder_modules['intro'] = array(
-		'name' => __('Intro', 'leads'),
+		'name' => __('Intro', 'inbound-pro' ),
 		'size' => 'one_full',
 		'options' => array(
 			'title' => array(
-				'name' => __('Title', 'leads'),
-				'desc' => __('Enter the heading text.', 'leads'),
+				'name' => __('Title', 'inbound-pro' ),
+				'desc' => __('Enter the heading text.', 'inbound-pro' ),
 				'type' => 'text',
 				'class' => '',
 				'is_content' => 0
 			),
 			'alignment' => array(
-				'name' => __('Text Alignment', 'leads'),
-				'desc' => __('The text alignment', 'leads'),
+				'name' => __('Text Alignment', 'inbound-pro' ),
+				'desc' => __('The text alignment', 'inbound-pro' ),
 				'type' => 'select',
 				'options' => array(
-					'align-center' => __('Align Center', 'leads'),
-					'align-left' => __('Align Left', 'leads'),
-					'align-right' => __('Align Right', 'leads')
+					'align-center' => __('Align Center', 'inbound-pro' ),
+					'align-left' => __('Align Left', 'inbound-pro' ),
+					'align-right' => __('Align Right', 'inbound-pro' )
 				),
 				'std' => 'align-left',
 				'class' => '',
 				'is_content' => 0
 			),
 			'content' => array(
-				'name' => __('Content', 'leads'),
-				'desc' => __('Enter the content', 'leads'),
+				'name' => __('Content', 'inbound-pro' ),
+				'desc' => __('Enter the content', 'inbound-pro' ),
 				'type' => 'textarea',
 				'std' => '',
 				'class' => '',

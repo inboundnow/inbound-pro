@@ -398,45 +398,30 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
             echo "<ul class='lp-varation-stat-ul'>";
             $cr_array = array();
             $i = 0;
-            $impressions = 0;
-            $conversions = 0;
+
             foreach ($variations as $key => $vid) {
                 $letter = Landing_Pages_Variations::vid_to_letter($post->ID, $key); /* convert to letter */
-                $each_impression = get_post_meta($post->ID, 'lp-ab-variation-impressions-' . $vid, true); /* get impressions */
-                $each_impression = ($each_impression) ? $each_impression : 0;
+                $impressions = Landing_Pages_Variations::get_impressions($post->ID, $vid);
+                $conversions = Landing_Pages_Variations::get_conversions($post->ID, $vid);
+
                 /* get variation status */
-                $v_status = Landing_Pages_Variations::get_variation_status( $post->ID, $vid ); /* Current status */
+                $status = Landing_Pages_Variations::get_variation_status( $post->ID, $vid ); /* Current status */
 
                 /* Get variation notes */
                 $each_notes = Landing_Pages_Variations::get_variation_notes( $post->ID, $vid );
 
-                $each_conversion = get_post_meta($post->ID, 'lp-ab-variation-conversions-' . $vid, true);
-                (($each_conversion === "")) ? $final_conversion = 0 : $final_conversion = $each_conversion;
-                $impressions += get_post_meta($post->ID, 'lp-ab-variation-impressions-' . $vid, true);
-                $conversions += get_post_meta($post->ID, 'lp-ab-variation-conversions-' . $vid, true);
-                if ($each_impression != 0) {
-                    $conversion_rate = $final_conversion / $each_impression;
+                if ($impressions) {
+                    $conversion_rate = $conversions / $impressions;
                 } else {
                     $conversion_rate = 0;
                 }
                 $conversion_rate = round($conversion_rate, 2) * 100;
+
                 $cr_array[] = $conversion_rate;
-                if ($v_status === "0") {
-                    $final_status = __("(Paused)", 'inbound-pro');
-                } else {
-                    $final_status = "";
-                }
-                /*if ($cr_array[$i] > $largest) {
-                $largest = $cr_array[$i];
-                 }
-                (($largest === $conversion_rate)) ? $winner_class = 'lp-current-winner' : $winner_class = ""; */
-                (($final_conversion === "1")) ? $c_text = __('conversion', 'inbound-pro') : $c_text = __("conversions", 'inbound-pro');
-                (($each_impression === "1")) ? $i_text = __('visit', 'inbound-pro') : $i_text = __("visits", 'inbound-pro');
-                (($each_notes === "")) ? $each_notes = __('No notes', 'inbound-pro') : $each_notes = $each_notes;
+
                 $data_letter = "data-letter=\"" . $letter . "\"";
                 $edit_link = admin_url('post.php?post=' . $post->ID . '&lp-variation-id=' . $vid . '&action=edit');
-                $popup = "data-notes=\"<span class='lp-pop-description'>" . $each_notes . "</span><span class='lp-pop-controls'><span class='lp-pop-edit button-primary'><a href='" . $edit_link . "'>Edit This variation</a></span><span class='lp-pop-preview button'><a title='".__('Click to Preview this variation' , 'inbound-pro' ) ."' class='thickbox' href='" . $permalink . "?lp-variation-id=" . $vid . "&iframe_window=on&post_id=" . $post->ID . "&TB_iframe=true&width=640&height=703' target='_blank'>".__( 'Preview This variation' , 'inbound-pro' ) ."</a></span><span class='lp-bottom-controls'><span class='lp-delete-var-stats' data-letter='" . $letter . "' data-vid='" . $vid . "' rel='" . $post->ID . "'>". __( 'Clear These Stats' , 'inbound-pro' ) ."</span></span></span>\"";
-                echo "<li rel='" . $final_status . "' data-postid='" . $post->ID . "' data-letter='" . $letter . "' data-lp='' class='lp-stat-row-" . $vid . " " . $post->ID . '-' . $conversion_rate . " status-" . $v_status . "'><a " . $popup . " " . $data_letter . " class='lp-letter' title='click to edit this variation' href='" . $edit_link . "'>" . $letter . "</a><span class='lp-numbers'><span class='lp-visitors'><span class='visit-text'>" . $i_text . "</span><span class='lp-impress-num'>" . $each_impression . "</span></span> <span class='lp-conversions'> <span class='lp-conversion-txt'>" . $c_text . "</span> <span class='lp-con-num'>" . $final_conversion . "</span> </span> </span><a " . $popup . " " . $data_letter . " class='cr-number cr-empty-" . $conversion_rate . "' href='" . $edit_link . "'>" . $conversion_rate . "%</a></li>";
+                echo "<li rel='" . $status . "' data-postid='" . $post->ID . "' data-letter='" . $letter . "' data-lp='' class='lp-stat-row-" . $vid . " " . $post->ID . '-' . $conversion_rate . " status-" . $status . "'><a  class='lp-letter' title='click to edit this variation' href='" . $edit_link . "'>" . $letter . "</a><span class='lp-numbers'><span class='lp-visitors'><span class='visit-text'>" . __( 'Impressions' , 'inbound-pro' ) . "</span><span class='lp-impress-num'>" . $impressions . "</span></span> <span class='lp-conversions'> <span class='lp-conversion-txt'>" . __( 'Conversions' , 'inbound-pro' ) . "</span> <span class='lp-con-num'>" . $conversions . "</span> </span> </span><a ". $data_letter . " class='cr-number cr-empty-" . $conversion_rate . "' href='" . $edit_link . "'>" . $conversion_rate . "%</a></li>";
                 $i++;
             }
             echo "</ul>";

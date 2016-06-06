@@ -3,7 +3,7 @@
 Plugin Name: Landing Pages
 Plugin URI: http://www.inboundnow.com/landing-pages/
 Description: Landing page template framework with variant testing and lead capturing through cooperation with Inbound Now's Leads plugin. This is the stand alone version served through WordPress.org. 
-Version: 2.1.9
+Version: 2.2.0
 Author: Inbound Now
 Author URI: http://www.inboundnow.com/
 
@@ -37,7 +37,7 @@ if (!class_exists('Inbound_Landing_Pages_Plugin')) {
 		*/
 		private static function load_constants() {
 
-			define('LANDINGPAGES_CURRENT_VERSION', '2.1.9' );
+			define('LANDINGPAGES_CURRENT_VERSION', '2.2.0' );
 			define('LANDINGPAGES_URLPATH', plugins_url( '/' , __FILE__ ) );
 			define('LANDINGPAGES_PATH', WP_PLUGIN_DIR.'/'.plugin_basename( dirname(__FILE__) ).'/' );
 			define('LANDINGPAGES_PLUGIN_SLUG', plugin_basename( dirname(__FILE__) ) );
@@ -67,7 +67,7 @@ if (!class_exists('Inbound_Landing_Pages_Plugin')) {
 					include_once( LANDINGPAGES_PATH . 'classes/class.template-management.php');
 					include_once( LANDINGPAGES_PATH . 'classes/class.wp-list-table.templates.php');
 					include_once( LANDINGPAGES_PATH . 'classes/class.admin-menus.php');
-					include_once( LANDINGPAGES_PATH . 'classes/class.inbound-statistics.php');
+					include_once( LANDINGPAGES_PATH . 'classes/class.statistics.php');
 					include_once( LANDINGPAGES_PATH . 'classes/class.admin-notices.php');
 					include_once( LANDINGPAGES_PATH . 'classes/class.cloning.php');
 					include_once( LANDINGPAGES_PATH . 'classes/class.settings.php');
@@ -91,7 +91,7 @@ if (!class_exists('Inbound_Landing_Pages_Plugin')) {
 					include_once( LANDINGPAGES_PATH . 'classes/class.variations.php');
 					include_once( LANDINGPAGES_PATH . 'classes/class.acf-integration.php');
 					include_once( LANDINGPAGES_PATH . 'classes/class.postmeta.php');
-					include_once( LANDINGPAGES_PATH . 'classes/class.inbound-statistics.php');
+					include_once( LANDINGPAGES_PATH . 'classes/class.statistics.php');
 					include_once( LANDINGPAGES_PATH . 'classes/class.click-tracking.php');
 					include_once( LANDINGPAGES_PATH . 'classes/class.post-type.landing-page.php');
 					include_once( LANDINGPAGES_PATH . 'modules/module.utils.php');

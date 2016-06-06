@@ -2501,5 +2501,5 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
         }
     }
 
-    $GLOBALS['Inbound_Mailer_Metaboxes'] = new Inbound_Mailer_Metaboxes;
+    new Inbound_Mailer_Metaboxes;
 }

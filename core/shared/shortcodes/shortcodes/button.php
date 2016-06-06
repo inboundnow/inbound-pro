@@ -11,8 +11,8 @@
 		'options' => array(
 			/**
 			'style' => array(
-				'name' => __('Button Style', 'leads'),
-				'desc' => __('Select the button style.', 'leads'),
+				'name' => __('Button Style', 'inbound-pro' ),
+				'desc' => __('Select the button style.', 'inbound-pro' ),
 				'type' => 'select',
 				'options' => array(
 					'default' => 'Default',
@@ -22,27 +22,27 @@
 				'std' => 'default'
 			),*/
 			'content' => array(
-				'name' => __('Button Text', 'leads'),
-				'desc' => __('Enter the button text label.', 'leads'),
+				'name' => __('Button Text', 'inbound-pro' ),
+				'desc' => __('Enter the button text label.', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => 'Button Text'
 			),
 			'url' => array(
-				'name' => __('Button Link', 'leads'),
-				'desc' => __('Enter the destination URL.', 'leads'),
+				'name' => __('Button Link', 'inbound-pro' ),
+				'desc' => __('Enter the destination URL.', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => ''
 			),
 			'font-size' => array(
-							'name' => __('Font Size', 'leads'),
-							'desc' => __('Size of Button Font. This also determines default button size', 'leads'),
+							'name' => __('Font Size', 'inbound-pro' ),
+							'desc' => __('Size of Button Font. This also determines default button size', 'inbound-pro' ),
 							'type' => 'text',
 							'std' => '20'
 			),
 			/**
 			'color' => array(
-				'name' => __('Button Color', 'leads'),
-				'desc' => __('Select the button color.', 'leads'),
+				'name' => __('Button Color', 'inbound-pro' ),
+				'desc' => __('Select the button color.', 'inbound-pro' ),
 				'type' => 'select',
 				'options' => array(
 					'default' => 'Default',
@@ -61,35 +61,35 @@
 				'std' => 'default'
 			), */
 			'color' => array(
-							'name' => __('Button Color', 'leads'),
-							'desc' => __('Color of button', 'leads'),
+							'name' => __('Button Color', 'inbound-pro' ),
+							'desc' => __('Color of button', 'inbound-pro' ),
 							'type' => 'colorpicker',
 							'std' => '#c8232b'
 						),
 			'text-color' => array(
-							'name' => __('Button Text Color', 'leads'),
-							'desc' => __('Color of text', 'leads'),
+							'name' => __('Button Text Color', 'inbound-pro' ),
+							'desc' => __('Color of text', 'inbound-pro' ),
 							'type' => 'colorpicker',
 							'std' => '#ffffff'
 						),
 			'icon' => array(
-				'name' => __('Icon', 'leads'),
-				'desc' => __('Select an icon.', 'leads'),
+				'name' => __('Icon', 'inbound-pro' ),
+				'desc' => __('Select an icon.', 'inbound-pro' ),
 				'type' => 'select',
 				'options' => $fontawesome,
 				'std' => ''
 			),
 
 			'width' => array(
-				'name' => __('Custom Width', 'leads'),
-				'desc' => __('Enter in pixel width or % width. Example: 200 <u>or</u> 100%', 'leads'),
+				'name' => __('Custom Width', 'inbound-pro' ),
+				'desc' => __('Enter in pixel width or % width. Example: 200 <u>or</u> 100%', 'inbound-pro' ),
 				'type' => 'text',
 				'std' => '',
 				'class' => 'main-design-settings',
 			),
 			'target' => array(
-				'name' => __('Open Link in New Tab?', 'leads'),
-				'checkbox_text' => __('Do you want to open links in this window or a new one?', 'leads'),
+				'name' => __('Open Link in New Tab?', 'inbound-pro' ),
+				'checkbox_text' => __('Do you want to open links in this window or a new one?', 'inbound-pro' ),
 				'desc' => '',
 				'type' => 'select',
 				'options' => array(

@@ -9,21 +9,21 @@
 		'no_preview' => true,
 		'options' => array(
 			'color' => array(
-				'name' => __('Box Color', 'leads'),
-				'desc' => __('Select the color.', 'leads'),
+				'name' => __('Box Color', 'inbound-pro' ),
+				'desc' => __('Select the color.', 'inbound-pro' ),
 				'type' => 'select',
 				'options' => array(
-					'default' => __('Default', 'leads'),
-					'blue' => __('Blue', 'leads'),
-					'green' => __('Green', 'leads'),
-					'red' => __('Red', 'leads'),
-					'yellow' => __('Yellow', 'leads')
+					'default' => __('Default', 'inbound-pro' ),
+					'blue' => __('Blue', 'inbound-pro' ),
+					'green' => __('Green', 'inbound-pro' ),
+					'red' => __('Red', 'inbound-pro' ),
+					'yellow' => __('Yellow', 'inbound-pro' )
 				),
 				'std' => ''
 			),
 			'content' => array(
-				'name' => __('Content', 'leads'),
-				'desc' => __('Enter the content.', 'leads'),
+				'name' => __('Content', 'inbound-pro' ),
+				'desc' => __('Enter the content.', 'inbound-pro' ),
 				'type' => 'textarea',
 				'std' => ''
 			)
@@ -35,27 +35,27 @@
 /* 	Page builder module config
  * 	----------------------------------------------------- */
 	$freshbuilder_modules['content_box'] = array(
-		'name' => __('Content Box', 'leads'),
+		'name' => __('Content Box', 'inbound-pro' ),
 		'size' => 'one_third',
 		'options' => array(
 			'color' => array(
-				'name' => __('Box Color', 'leads'),
-				'desc' => __('Select the color.', 'leads'),
+				'name' => __('Box Color', 'inbound-pro' ),
+				'desc' => __('Select the color.', 'inbound-pro' ),
 				'type' => 'select',
 				'options' => array(
-					'default' => __('Default', 'leads'),
-					'blue' => __('Blue', 'leads'),
-					'green' => __('Green', 'leads'),
-					'red' => __('Red', 'leads'),
-					'yellow' => __('Yellow', 'leads')
+					'default' => __('Default', 'inbound-pro' ),
+					'blue' => __('Blue', 'inbound-pro' ),
+					'green' => __('Green', 'inbound-pro' ),
+					'red' => __('Red', 'inbound-pro' ),
+					'yellow' => __('Yellow', 'inbound-pro' )
 				),
 				'std' => '',
 				'class' => '',
 				'is_content' => 0
 			),
 			'content' => array(
-				'name' => __('Content', 'leads'),
-				'desc' => __('Enter the content', 'leads'),
+				'name' => __('Content', 'inbound-pro' ),
+				'desc' => __('Enter the content', 'inbound-pro' ),
 				'type' => 'textarea',
 				'std' => '',
 				'class' => '',

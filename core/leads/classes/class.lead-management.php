@@ -76,10 +76,10 @@ if (!class_exists('Leads_Manager')) {
 
             /* set ordering vars */
             self::$orderbys = array(
-                __('Date First Created', 'leads') => 'date',
-                __('Date Last Modified', 'leads') => 'modified',
-                __('Alphabetical Sort', 'leads') => 'title',
-                __('Status', 'leads') => 'post_status'
+                __('Date First Created', 'inbound-pro' ) => 'date',
+                __('Date Last Modified', 'inbound-pro' ) => 'modified',
+                __('Alphabetical Sort', 'inbound-pro' ) => 'title',
+                __('Status', 'inbound-pro' ) => 'post_status'
             );
 
             /* set ordering vars */
@@ -175,19 +175,19 @@ if (!class_exists('Leads_Manager')) {
 
             switch ($_REQUEST['done']) {
                 case 'add':
-                    $message = sprintf(__("Added %d posts to the list '%s'", 'leads'), self::$num, self::$what);
+                    $message = sprintf(__("Added %d posts to the list '%s'", 'inbound-pro' ), self::$num, self::$what);
                     break;
                 case 'remove':
-                    $message = sprintf(__("Removed %d posts from the list '%s'.", 'leads'), self::$num, self::$what);
+                    $message = sprintf(__("Removed %d posts from the list '%s'.", 'inbound-pro' ), self::$num, self::$what);
                     break;
                 case 'tag':
-                    $message = sprintf(__("Tagged %d posts with &ldquo; %s &rdquo; on $on.", 'leads'), self::$num, self::$what);
+                    $message = sprintf(__("Tagged %d posts with &ldquo; %s &rdquo; on $on.", 'inbound-pro' ), self::$num, self::$what);
                     break;
                 case 'untag':
-                    $message = sprintf(__("Untagged %d posts with '%s'", 'leads'), self::$num, self::$what);
+                    $message = sprintf(__("Untagged %d posts with '%s'", 'inbound-pro' ), self::$num, self::$what);
                     break;
                 case 'delete_leads':
-                    $message = sprintf(__("%d leads permanently deleted", 'leads'), self::$num);
+                    $message = sprintf(__("%d leads permanently deleted", 'inbound-pro' ), self::$num);
                     break;
             }
 
@@ -205,13 +205,13 @@ if (!class_exists('Leads_Manager')) {
 
         ?>
         <div class="wrap">
-            <h2><?php _e('Lead Bulk Management', 'leads'); ?></h2>
+            <h2><?php _e('Lead Bulk Management', 'inbound-pro' ); ?></h2>
 
             <?php
 
             /* echo starter text if search not being ran yet */
             if (!isset($_REQUEST['submit'])) {
-                echo '<p class="starter-text">' . __('To get started, select the lead criteria below to see all matching leads.', 'leads') . '</p>';
+                echo '<p class="starter-text">' . __('To get started, select the lead criteria below to see all matching leads.', 'inbound-pro' ) . '</p>';
             }
 
             /* hide current page div */
@@ -238,7 +238,7 @@ if (!class_exists('Leads_Manager')) {
 
                                 <div id="inbound-filter">
                                     <div class="filter-label">
-                                        <label for="taxonomy"><?php _e(sprintf('Select By %s:', $taxonomy->labels->singular_name), 'leads'); ?></label>
+                                        <label for="taxonomy"><?php _e(sprintf('Select By %s:', $taxonomy->labels->singular_name), 'inbound-pro' ); ?></label>
                                     </div>
                                     <?php echo self::build_taxonomy_select($taxonomy, 'multiple'); ?>
                                 </div>
@@ -247,17 +247,17 @@ if (!class_exists('Leads_Manager')) {
                             ?>
                             <div id="inbound-filter">
                                 <div class="filter-label">
-                                    <label for="orderby"><?php _e('Match Condition:', 'leads'); ?></label></div>
+                                    <label for="orderby"><?php _e('Match Condition:', 'inbound-pro' ); ?></label></div>
                                 <select name="relation" id="relation">
-                                    <option value="AND" <?php echo(self::$relation == 'AND' ? ' selected="selected"' : ''); ?>><?php _e('Match All', 'leads'); ?></option>
-                                    <option value="OR" <?php echo(self::$relation == 'OR' ? ' selected="selected"' : 'test'); ?>><?php _e('Match Any', 'leads'); ?></option>
+                                    <option value="AND" <?php echo(self::$relation == 'AND' ? ' selected="selected"' : ''); ?>><?php _e('Match All', 'inbound-pro' ); ?></option>
+                                    <option value="OR" <?php echo(self::$relation == 'OR' ? ' selected="selected"' : 'test'); ?>><?php _e('Match Any', 'inbound-pro' ); ?></option>
 
                                 </select>
                             </div>
                         </div>
                         <div id="bottom-filters">
                             <div class="filter" id="lead-sort-by">
-                                <div class="filter-label"><label for="orderby"><?php _e('Sort by:', 'leads'); ?></label>
+                                <div class="filter-label"><label for="orderby"><?php _e('Sort by:', 'inbound-pro' ); ?></label>
                                 </div>
                                 <select name="orderby" id="orderby">
                                     <?php
@@ -268,25 +268,25 @@ if (!class_exists('Leads_Manager')) {
                                     ?>
                                 </select>
                                 <select name="order" id="order">
-                                    <option value="asc" <?php (self::$order == 'ASC' ? ' selected="selected"' : ''); ?>><?php _e('Ascending', 'leads'); ?></option>
-                                    <option value="desc" <?php (self::$order == 'DESC' ? ' selected="selected"' : ''); ?>><?php _e('Descending', 'leads'); ?></option>
+                                    <option value="asc" <?php (self::$order == 'ASC' ? ' selected="selected"' : ''); ?>><?php _e('Ascending', 'inbound-pro' ); ?></option>
+                                    <option value="desc" <?php (self::$order == 'DESC' ? ' selected="selected"' : ''); ?>><?php _e('Descending', 'inbound-pro' ); ?></option>
                                 </select>
                             </div>
 
 
                             <div class="filter" id="lead-keyword-filter">
-                                <label for="s"><?php _e('Keyword:', 'leads'); ?></label>
-                                <input type="text" name="s" id="s" value="<?php echo htmlentities(self::$keyword); ?>" title="<?php _e('Use % for wildcards.', 'leads'); ?>"/>
+                                <label for="s"><?php _e('Keyword:', 'inbound-pro' ); ?></label>
+                                <input type="text" name="s" id="s" value="<?php echo htmlentities(self::$keyword); ?>" title="<?php _e('Use % for wildcards.', 'inbound-pro' ); ?>"/>
                             </div>
 
 
                             <div class="filter" id="lead-tag-filter">
-                                <label for="s"><?php _e('Tag:', 'leads'); ?></label>
+                                <label for="s"><?php _e('Tag:', 'inbound-pro' ); ?></label>
                                 <input type="text" name="t" id="t" value="<?php echo htmlentities(self::$tag); ?>" title="'foo, bar': posts tagged with 'foo' or 'bar'. 'foo+bar': posts tagged with both 'foo' and 'bar'"/>
                             </div>
 
                             <div class="filter">
-                                <input type="submit" class="button-primary" value="<?php _e('Search Leads', 'leads'); ?>" name="submit"/>
+                                <input type="submit" class="button-primary" value="<?php _e('Search Leads', 'inbound-pro' ); ?>" name="submit"/>
                             </div>
 
                         </div>
@@ -324,7 +324,7 @@ if (!class_exists('Leads_Manager')) {
 
                     if (self::$paged > 1) {
                         $prev = self::$paged - 1;
-                        $pagination .= "<a class='prev page-numbers' href='$current&amp;paged=$prev'>&laquo; " . __('Previous', 'leads') . "</a>";
+                        $pagination .= "<a class='prev page-numbers' href='$current&amp;paged=$prev'>&laquo; " . __('Previous', 'inbound-pro' ) . "</a>";
                     }
 
                     for ($i = 1; $i <= $query->max_num_pages; $i++) {
@@ -337,7 +337,7 @@ if (!class_exists('Leads_Manager')) {
 
                     if (self::$paged < $query->max_num_pages) {
                         $next = self::$paged + 1;
-                        $pagination .= "<a class='next page-numbers' href='$current&amp;paged=$next'>" . __('Next', 'leads') . " &raquo;</a>";
+                        $pagination .= "<a class='next page-numbers' href='$current&amp;paged=$next'>" . __('Next', 'inbound-pro' ) . " &raquo;</a>";
                     }
 
                     $pagination .= "</div>";
@@ -353,20 +353,20 @@ if (!class_exists('Leads_Manager')) {
             public static function display_results_message() {
                 // Criteria were given, but no posts were matched.
                 if (empty(self::$query->posts)) {
-                    echo '<p>' . __('No posts matched that criteria, sorry! Try again with something different.', 'leads') . '</p>';
+                    echo '<p>' . __('No posts matched that criteria, sorry! Try again with something different.', 'inbound-pro' ) . '</p>';
                     return;
                 }
 
                 echo '<div style="margin-top:20px;font-style:italic">';
                 echo '		<div id="display-lead-total">';
-                echo '			' . __('search returned ', 'leads') . '<strong><span id="lead-total-found">' . self::$query->found_posts . ' </span></strong>' . __('results', 'leads');
+                echo '			' . __('search returned ', 'inbound-pro' ) . '<strong><span id="lead-total-found">' . self::$query->found_posts . ' </span></strong>' . __('results', 'inbound-pro' );
                 echo '		</div>';
                 echo '		<div id="display-lead-count">';
                 echo '			<i class="lead-spinner"></i>';
-                echo '			<span id="lead-count-text">' . __('Grabbing Matching Leads', 'leads') . '</span>';
+                echo '			<span id="lead-count-text">' . __('Grabbing Matching Leads', 'inbound-pro' ) . '</span>';
                 echo '		</div>';
                 echo '	<div class="table-search">';
-                echo '		<input type="search" class="light-table-filter" data-table="widefat" placeholder="' . __('Filter Results Below', 'leads') . '" /><span id="search-icon"></span>';
+                echo '		<input type="search" class="light-table-filter" data-table="widefat" placeholder="' . __('Filter Results Below', 'inbound-pro' ) . '" /><span id="search-icon"></span>';
 
                 echo '	</div>';
                 echo '</div>';
@@ -394,12 +394,12 @@ if (!class_exists('Leads_Manager')) {
                             <th class="checkbox-header no-sort" scope="col">
                                 <input type="checkbox" id="toggle" title="Select all posts"/></th>
                             <th class="count-sort-header" scope="col">#</th>
-                            <th scope="col"><?php _e('Date', 'leads'); ?></th>
-                            <th scope="col"><?php _e('Email', 'leads'); ?></th>
-                            <th scope="col"><?php _e('Current Lists', 'leads'); ?></th>
-                            <th scope="col"><?php _e('Current Tags', 'leads'); ?></th>
-                            <th scope="col" class="no-sort"><?php _e('View', 'leads'); ?></th>
-                            <th scope="col"><?php _e('ID', 'leads'); ?></th>
+                            <th scope="col"><?php _e('Date', 'inbound-pro' ); ?></th>
+                            <th scope="col"><?php _e('Email', 'inbound-pro' ); ?></th>
+                            <th scope="col"><?php _e('Current Lists', 'inbound-pro' ); ?></th>
+                            <th scope="col"><?php _e('Current Tags', 'inbound-pro' ); ?></th>
+                            <th scope="col" class="no-sort"><?php _e('View', 'inbound-pro' ); ?></th>
+                            <th scope="col"><?php _e('ID', 'inbound-pro' ); ?></th>
                         </tr>
                         </thead>
                         <tbody id="the-list">
@@ -421,7 +421,7 @@ if (!class_exists('Leads_Manager')) {
                             /* show publish date */
                             echo '<td>';
                             if ('0000-00-00 00:00:00' == $post->post_date) {
-                                _e('Unpublished', 'leads');
+                                _e('Unpublished', 'inbound-pro' );
                             } else {
                                 echo date(__('Y/m/d'), strtotime($post->post_date));
                             }
@@ -449,13 +449,13 @@ if (!class_exists('Leads_Manager')) {
                                     echo "<a title='Click to Edit Lead Tag Name' target='_blank' href='" . admin_url('edit-tags.php?action=edit&taxonomy=lead-tags&tag_ID=' . $tag->term_id . '&post_type=wp-lead') . "'>$tag->name</a>, ";
                                 }
                             } else {
-                                _e('No tags', 'leads');
+                                _e('No tags', 'inbound-pro' );
                             }
                             echo '</td>';
 
                             /* show link to lead */
                             echo '<td>';
-                            echo '	<a class="thickbox" href="post.php?action=edit&post=' . $post->ID . '&amp;small_lead_preview=true&amp;TB_iframe=true&amp;width=1345&amp;height=244">' . __('View', 'leads') . '</a>';
+                            echo '	<a class="thickbox" href="post.php?action=edit&post=' . $post->ID . '&amp;small_lead_preview=true&amp;TB_iframe=true&amp;width=1345&amp;height=244">' . __('View', 'inbound-pro' ) . '</a>';
                             echo '</td>';
 
                             /* show lead id */
@@ -476,7 +476,7 @@ if (!class_exists('Leads_Manager')) {
                         <div id="all-actions" class="tablenav">
 
                             <div id="inbound-lead-management">
-                                <span class="lead-actions-title"><?php _e('What do you want to do with the selected leads?', 'leads'); ?></span>
+                                <span class="lead-actions-title"><?php _e('What do you want to do with the selected leads?', 'inbound-pro' ); ?></span>
 
                                 <div id="controls">
                                     <?php
@@ -487,12 +487,12 @@ if (!class_exists('Leads_Manager')) {
 
 
                                     <div class="action" id="lead-export">
-                                        <input type="submit" class="manage-remove button-primary button" name="export_leads" value="<?php _e('Export Leads as CSV', 'leads'); ?>" title="<?php _e('Exports selected leads into a CSV format.', 'leads'); ?>"/>
+                                        <input type="submit" class="manage-remove button-primary button" name="export_leads" value="<?php _e('Export Leads as CSV', 'inbound-pro' ); ?>" title="<?php _e('Exports selected leads into a CSV format.', 'inbound-pro' ); ?>"/>
 
                                     </div>
 
                                     <div class="action" id="lead-update-lists">
-                                        <label for="lead-update-lists"><?php _e('Choose List:', 'leads'); ?></label>
+                                        <label for="lead-update-lists"><?php _e('Choose List:', 'inbound-pro' ); ?></label>
                                         <?php
 
                                         /* get available terms in taxonomy */
@@ -502,7 +502,7 @@ if (!class_exists('Leads_Manager')) {
                                         echo '<select name="wplead_list_category_action">';
 
                                         /* print the first option */
-                                        echo '<option class="" value="" selected="selected">' . __('Select lead list ', 'leads') . '</option>';
+                                        echo '<option class="" value="" selected="selected">' . __('Select lead list ', 'inbound-pro' ) . '</option>';
 
                                         /* loop through terms and create options */
                                         foreach ($terms as $term) {
@@ -513,30 +513,30 @@ if (!class_exists('Leads_Manager')) {
                                         echo '</select>';
 
                                         ?>
-                                        <input type="submit" class="button-primary button" name="add" value="<?php _e('Add to', 'leads') ?>" title="<?php _e('Add the selected posts to this category.', 'leads'); ?>"/>
-                                        <input type="submit" class="manage-remove button-primary button" name="remove" value="<?php _e('Remove from', 'leads') ?>" title="<?php _e('Remove the selected posts from this category.', 'leads'); ?>"/>
+                                        <input type="submit" class="button-primary button" name="add" value="<?php _e('Add to', 'inbound-pro' ) ?>" title="<?php _e('Add the selected posts to this category.', 'inbound-pro' ); ?>"/>
+                                        <input type="submit" class="manage-remove button-primary button" name="remove" value="<?php _e('Remove from', 'inbound-pro' ) ?>" title="<?php _e('Remove the selected posts from this category.', 'inbound-pro' ); ?>"/>
                                     </div>
 
                                     <div class="action" id="lead-update-tags">
-                                        <label for="lead-update-tags"><?php _e('Tags:', 'leads'); ?></label>
-                                        <input type="text" id="inbound-lead-tags-input" name="tags" placeholder="<?php _e('Separate multiple tags with commas. ', 'leads'); ?>" title="<?php _e('Separate multiple tags with commas.', 'leads'); ?>"/>
-                                        <input type="submit" name="replace_tags" class="manage-tag-replace button-primary button" value="<?php _e('Replace', 'leads'); ?>" title="<?php _e('Replace the selected leads\'s current tags with these ones. Warning this will delete current tags and replace them ', 'leads'); ?>"/>
-                                        <input type="submit" name="tag" class="manage-tag-add button-primary button" value="<?php _e('Add', 'leads') ?>" title="<?php _e('Add tags to the selected leads without altering the leads\' existing tags', 'leads'); ?>"/>
-                                        <input type="submit" name="untag" class="manage-remove button-primary button" value="<?php _e('Remove', 'leads') ?>" title="<?php _e('Remove these tags from the selected leads.', 'leads'); ?>"/>
+                                        <label for="lead-update-tags"><?php _e('Tags:', 'inbound-pro' ); ?></label>
+                                        <input type="text" id="inbound-lead-tags-input" name="tags" placeholder="<?php _e('Separate multiple tags with commas. ', 'inbound-pro' ); ?>" title="<?php _e('Separate multiple tags with commas.', 'inbound-pro' ); ?>"/>
+                                        <input type="submit" name="replace_tags" class="manage-tag-replace button-primary button" value="<?php _e('Replace', 'inbound-pro' ); ?>" title="<?php _e('Replace the selected leads\'s current tags with these ones. Warning this will delete current tags and replace them ', 'inbound-pro' ); ?>"/>
+                                        <input type="submit" name="tag" class="manage-tag-add button-primary button" value="<?php _e('Add', 'inbound-pro' ) ?>" title="<?php _e('Add tags to the selected leads without altering the leads\' existing tags', 'inbound-pro' ); ?>"/>
+                                        <input type="submit" name="untag" class="manage-remove button-primary button" value="<?php _e('Remove', 'inbound-pro' ) ?>" title="<?php _e('Remove these tags from the selected leads.', 'inbound-pro' ); ?>"/>
                                     </div>
 
                                     <div class="action" id="lead-update-meta">
-                                        <label for="lead-update-meta"><?php _e('Meta:', 'leads'); ?></label>
-                                        <input type="text" name="meta_val" title="<?php _e('Separate multiple tags with commas.', 'leads'); ?>"/>
-                                        <input type="submit" name="replace_meta" value="<?php _e('Replace', 'leads'); ?>" title="<?php _e('Replace the selected posts\' current meta values with these ones.', 'leads'); ?>"/>
-                                        <input type="submit" name="meta" value="<?php _e('Add', 'leads'); ?>" title="<?php _e('Add these meta values to the selected posts without altering the posts\' existing tags.', 'leads'); ?>"/>
-                                        <input type="submit" name="unmeta" value="<?php _e('Remove', 'leads'); ?>" title="<?php _e('Remove these meta values from the selected posts.', 'leads'); ?>"/>
+                                        <label for="lead-update-meta"><?php _e('Meta:', 'inbound-pro' ); ?></label>
+                                        <input type="text" name="meta_val" title="<?php _e('Separate multiple tags with commas.', 'inbound-pro' ); ?>"/>
+                                        <input type="submit" name="replace_meta" value="<?php _e('Replace', 'inbound-pro' ); ?>" title="<?php _e('Replace the selected posts\' current meta values with these ones.', 'inbound-pro' ); ?>"/>
+                                        <input type="submit" name="meta" value="<?php _e('Add', 'inbound-pro' ); ?>" title="<?php _e('Add these meta values to the selected posts without altering the posts\' existing tags.', 'inbound-pro' ); ?>"/>
+                                        <input type="submit" name="unmeta" value="<?php _e('Remove', 'inbound-pro' ); ?>" title="<?php _e('Remove these meta values from the selected posts.', 'inbound-pro' ); ?>"/>
                                     </div>
 
                                     <div class="action" id="lead-delete">
-                                        <label for="lead-delete" id="del-label"><span style="color:red;"><?php _e('Delete Selected Leads (Warning! There is no UNDO):', 'leads'); ?></span></label>
+                                        <label for="lead-delete" id="del-label"><span style="color:red;"><?php _e('Delete Selected Leads (Warning! There is no UNDO):', 'inbound-pro' ); ?></span></label>
 
-                                        <input type="submit" class="manage-remove button-primary button" name="delete_leads" value="<?php _e('Permanently Delete Selected Leads', 'leads') ?>" title="<?php _e('This will delete the selected leads from your database. There is no undo.', 'leads'); ?>"/>
+                                        <input type="submit" class="manage-remove button-primary button" name="delete_leads" value="<?php _e('Permanently Delete Selected Leads', 'inbound-pro' ) ?>" title="<?php _e('This will delete the selected leads from your database. There is no undo.', 'inbound-pro' ); ?>"/>
 
                                     </div>
                                 </div>
@@ -558,11 +558,11 @@ if (!class_exists('Leads_Manager')) {
             <section id="set-3">
                 <div class="fleft">
                     <select id="cd-dropdown" class="cd-select">
-                        <option value="-1" selected class="db-drop-label"><?php _e('Choose action to apply to selected leads', 'leads'); ?></option>
-                        <option value="lead-export" class="action-symbol lead-export-symbol db-drop-label"><?php _e('Export Selected Leads as CSV', 'leads'); ?></option>
-                        <option value="lead-update-lists" class="action-symbol lead-update-lists-symbol db-drop-label"><?php _e('Add or Remove Selected Leads from Lists', 'leads'); ?></option>
-                        <option value="lead-update-tags" class="action-symbol lead-update-tags-symbol db-drop-label"><?php _e('Add or Remove Tags to Selected Leads', 'leads'); ?></option>
-                        <option value="lead-delete" class="action-symbol lead-update-delete-symbol db-drop-label"><?php _e('Permanently Delete Selected Leads', 'leads'); ?></option>
+                        <option value="-1" selected class="db-drop-label"><?php _e('Choose action to apply to selected leads', 'inbound-pro' ); ?></option>
+                        <option value="lead-export" class="action-symbol lead-export-symbol db-drop-label"><?php _e('Export Selected Leads as CSV', 'inbound-pro' ); ?></option>
+                        <option value="lead-update-lists" class="action-symbol lead-update-lists-symbol db-drop-label"><?php _e('Add or Remove Selected Leads from Lists', 'inbound-pro' ); ?></option>
+                        <option value="lead-update-tags" class="action-symbol lead-update-tags-symbol db-drop-label"><?php _e('Add or Remove Tags to Selected Leads', 'inbound-pro' ); ?></option>
+                        <option value="lead-delete" class="action-symbol lead-update-delete-symbol db-drop-label"><?php _e('Permanently Delete Selected Leads', 'inbound-pro' ); ?></option>
                     </select>
                 </div>
             </section>
@@ -666,7 +666,7 @@ if (!class_exists('Leads_Manager')) {
             $list_array = (isset($_REQUEST[$taxonomy->name])) ? $_REQUEST[$taxonomy->name] : array();
 
             /* print the first option */
-            echo '<option class="" value="all" ' . (isset($_REQUEST[$taxonomy->name]) && $_REQUEST[$taxonomy->name][0] === 'all' ? 'selected="selected"' : '') . '>' . __('All ', 'leads') . '</option>';
+            echo '<option class="" value="all" ' . (isset($_REQUEST[$taxonomy->name]) && $_REQUEST[$taxonomy->name][0] === 'all' ? 'selected="selected"' : '') . '>' . __('All ', 'inbound-pro' ) . '</option>';
 
             /* get available terms in taxonomy */
             $terms = get_terms($taxonomy->name, array('hide_empty' => false));
@@ -683,7 +683,7 @@ if (!class_exists('Leads_Manager')) {
             <script type='text/javascript'>
                 jQuery("#<?php echo $taxonomy->name; ?>").select2({
                     allowClear: true,
-                    placeholder: '<?php _e(sprintf('Select %s From List', $taxonomy->labels->singular_name), 'leads'); ?>'
+                    placeholder: '<?php _e(sprintf('Select %s From List', $taxonomy->labels->singular_name), 'inbound-pro' ); ?>'
                 });
 
             </script>
@@ -731,7 +731,7 @@ if (!class_exists('Leads_Manager')) {
             }
 
             $term = get_term($_REQUEST['wplead_list_category_action'], 'wplead_list_category');
-            $name = $term->slug;
+            $name = (is_object($term)) ? $term->slug : '';
             $this_tax = "wplead_list_category";
 
             /* We've been told to tag these posts with the given category. */
@@ -896,7 +896,7 @@ if (!class_exists('Leads_Manager')) {
                 /* show publish date */
                 echo '<td>';
                 if ('0000-00-00 00:00:00' == $post->post_date) {
-                    _e('Unpublished', 'leads');
+                    _e('Unpublished', 'inbound-pro' );
                 } else {
                     echo date(__('Y/m/d'), strtotime($post->post_date));
                 }
@@ -924,13 +924,13 @@ if (!class_exists('Leads_Manager')) {
                         echo "<a title='Click to Edit Lead Tag Name' target='_blank' href='" . admin_url('edit-tags.php?action=edit&taxonomy=lead-tags&tag_ID=' . $tag->term_id . '&post_type=wp-lead') . "'>$tag->name</a>, ";
                     }
                 } else {
-                    _e('No tags', 'leads');
+                    _e('No tags', 'inbound-pro' );
                 }
                 echo '</td>';
 
                 /* show link to lead */
                 echo '<td>';
-                echo '	<a class="thickbox" href="post.php?action=edit&post=' . $post->ID . '&amp;small_lead_preview=true&amp;TB_iframe=true&amp;width=1345&amp;height=244">' . __('View', 'leads') . '</a>';
+                echo '	<a class="thickbox" href="post.php?action=edit&post=' . $post->ID . '&amp;small_lead_preview=true&amp;TB_iframe=true&amp;width=1345&amp;height=244">' . __('View', 'inbound-pro' ) . '</a>';
                 echo '</td>';
 
                 /* show lead id */

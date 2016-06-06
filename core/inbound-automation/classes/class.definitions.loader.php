@@ -495,8 +495,13 @@ if ( !class_exists( 'Inbound_Automation_Loader' ) ) {
 				}
 
 				/* Place argument data into memory */
-				self::$instance->inbound_arguments[$hook][ $definition['id'] ] = self::prepare_mixed_data($argument);
+				$updated_arg_data = self::prepare_mixed_data($argument);
 
+				if (isset(self::$instance->inbound_arguments[$hook][ $definition['id'] ]) && is_array(self::$instance->inbound_arguments[$hook][ $definition['id'] ]) ) {
+					self::$instance->inbound_arguments[$hook][ $definition['id'] ] = self::$instance->inbound_arguments[$hook][ $definition['id'] ] + $updated_arg_data;
+				} else {
+					self::$instance->inbound_arguments[$hook][ $definition['id'] ] = $updated_arg_data;
+				}
 			}
 
 			/* update inbound arguments dataset with new data */

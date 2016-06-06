@@ -8,8 +8,8 @@
 		'no_preview' => false,
 		'options' => array(
 			'insert_default' => array(
-						'name' => __('Insert Saved Form', 'leads'),
-						'desc' => __('Insert a Saved Form', 'leads'),
+						'name' => __('Insert Saved Form', 'inbound-pro' ),
+						'desc' => __('Insert a Saved Form', 'inbound-pro' ),
 						'type' => 'select',
 						'options' => $form_names,
 						'std' => 'none',
@@ -25,8 +25,8 @@
 			),
 			*/
 			'form_name' => array(
-				'name' => __('Form Name<span class="small-required-text">*</span>', 'leads'),
-				'desc' => __('This is not shown to visitors', 'leads'),
+				'name' => __('Form Name<span class="small-required-text">*</span>', 'inbound-pro' ),
+				'desc' => __('This is not shown to visitors', 'inbound-pro' ),
 				'type' => 'text',
 				'placeholder' => "Example: XYZ Whitepaper Download",
 				'std' => '',

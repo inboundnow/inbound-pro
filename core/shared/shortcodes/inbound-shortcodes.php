@@ -132,7 +132,7 @@ class Inbound_Shortcodes {
 	static function shortcodes_admin_head() { ?>
 		<script type="text/javascript">
 		/* <![CDATA[ */
-		// Load inline scripts var image_dir = "<?php // echo INBOUND_FORMS; ?>", test = "<?php // _e('Insert Shortcode', 'leads'); ?>";
+		// Load inline scripts var image_dir = "<?php // echo INBOUND_FORMS; ?>", test = "<?php // _e('Insert Shortcode', 'inbound-pro' ); ?>";
 		/* ]]> */
 		</script>
 		<?php
@@ -685,7 +685,7 @@ class Inbound_Shortcodes {
 									<tbody style="display:none;">
 										<tr class="form-row" style="text-align: center;">
 											<?php if( ! $shortcode->has_child ) : ?><td class="label">&nbsp;</td><?php endif; ?>
-											<td class="field" style="width:500px;"><a href="#" id="inbound_insert_shortcode" class="button-primary inbound-shortcodes-insert"><?php _e('Insert Shortcode', 'leads'); ?></a></td>
+											<td class="field" style="width:500px;"><a href="#" id="inbound_insert_shortcode" class="button-primary inbound-shortcodes-insert"><?php _e('Insert Shortcode', 'inbound-pro' ); ?></a></td>
 										</tr>
 									</tbody>
 								</table>
@@ -694,10 +694,10 @@ class Inbound_Shortcodes {
 
 						<div id="inbound-shortcodes-preview-wrap">
 							<div id="inbound-shortcodes-preview-head">
-								<?php _e('Form Preview', 'leads'); ?>
+								<?php _e('Form Preview', 'inbound-pro' ); ?>
 							</div>
 							<?php if( $shortcode->no_preview ) : ?>
-								<div id="inbound-shortcodes-nopreview"><?php _e('Shortcode has no preview', 'leads'); ?></div>
+								<div id="inbound-shortcodes-nopreview"><?php _e('Shortcode has no preview', 'inbound-pro' ); ?></div>
 							<?php else :
 							    if ( isset($_REQUEST['post']) && is_int($_REQUEST['post'])  ) {
 								    $post_id = html_entity_decode( $_REQUEST['post'] );
@@ -713,7 +713,7 @@ class Inbound_Shortcodes {
 
 		</div>
 		<div id="popup-controls">
-					<a href="#" id="inbound_insert_shortcode_two" class="button-primary inbound-shortcodes-insert-two"><?php _e('Insert Shortcode', 'leads'); ?></a>
+					<a href="#" id="inbound_insert_shortcode_two" class="button-primary inbound-shortcodes-insert-two"><?php _e('Insert Shortcode', 'inbound-pro' ); ?></a>
 					<a href="#" id="shortcode_cancel" class="button inbound-shortcodes-insert-cancel">Cancel</a>
 					<a href="#" id="inbound_save_form" style="display:none;" class="button">Save As New Form</a>
 				</div>

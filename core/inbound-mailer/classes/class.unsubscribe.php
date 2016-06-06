@@ -86,6 +86,10 @@ class Inbound_Mailer_Unsubscribe {
 	 */
 	public static function generate_unsubscribe_link( $params ) {
 
+		if (!is_admin()) {
+			return __( '#unsubscribe-not-available-in-online-mode' , 'inbound-pro' );
+		}
+
 		if (isset($_GET['lead_lists']) && !is_array($_GET['lead_lists'])){
 			$params['list_ids'] = explode( ',' , $_GET['lead_lists']);
 		} else if (isset($params['list_ids']) && !is_array($params['list_ids'])) {

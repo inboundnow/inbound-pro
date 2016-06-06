@@ -156,11 +156,11 @@ if ( !class_exists('Inbound_Leads') ) {
 		public static function register_lead_list_columns( $cols ) {
 			$new_columns = array(
 				'cb' => '<input type="checkbox" />',
-				'lead_id' => __('ID', 'leads'),
-				'name' => __('Name', 'leads'),
-				'description' => __('Description', 'leads'),
-				'slug' => __('Slug', 'leads'),
-				'posts' => __('Posts', 'leads')
+				'lead_id' => __('ID', 'inbound-pro' ),
+				'name' => __('Name', 'inbound-pro' ),
+				'description' => __('Description', 'inbound-pro' ),
+				'slug' => __('Slug', 'inbound-pro' ),
+				'posts' => __('Posts', 'inbound-pro' )
 				);
 			return $new_columns;
 		}

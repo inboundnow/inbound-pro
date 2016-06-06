@@ -8,14 +8,14 @@
 		'no_preview' => true,
 		'options' => array(
 			'insert_default' => array(
-						'name' => __('Insert cta', 'leads'),
-						'desc' => __('Choose CTA', 'leads'),
+						'name' => __('Insert cta', 'inbound-pro' ),
+						'desc' => __('Choose CTA', 'inbound-pro' ),
 						'type' => 'cta',
 						'std' => '',
 			),
 			'align' => array(
-						'name' => __('CTA Alignment', 'leads'),
-						'desc' => __('Choose Your Form Layout', 'leads'),
+						'name' => __('CTA Alignment', 'inbound-pro' ),
+						'desc' => __('Choose Your Form Layout', 'inbound-pro' ),
 						'type' => 'select',
 						'options' => array(
 							"none" => "None (Centered)",

@@ -9,8 +9,8 @@
 		'no_preview' => true,
 		'options' => array(
 			'gutter' => array(
-				'name' => __('Gutter Width', 'leads'),
-				'desc' => __('A space between the columns.', 'leads'),
+				'name' => __('Gutter Width', 'inbound-pro' ),
+				'desc' => __('A space between the columns.', 'inbound-pro' ),
 				'type' => 'select',
 				'options' => array(
 					'20' => '20px',
@@ -19,8 +19,8 @@
 				'std' => ''
 			),
 			'set' => array(
-				'name' => __('Column Set', 'leads'),
-				'desc' => __('Select the set.', 'leads'),
+				'name' => __('Column Set', 'inbound-pro' ),
+				'desc' => __('Select the set.', 'inbound-pro' ),
 				'type' => 'select',
 				'options' => array(
 					'[one_full]Content goes here[/one_full]' => '1/1',
@@ -45,12 +45,12 @@
 /* 	Page builder module config
  * 	----------------------------------------------------- */
 	$freshbuilder_modules['column'] = array(
-		'name' => __('Column', 'leads'),
+		'name' => __('Column', 'inbound-pro' ),
 		'size' => 'one_fifth',
 		'options' => array(
 			'content' => array(
-				'name' => __('Column Content', 'leads'),
-				'desc' => __('Enter the column content', 'leads'),
+				'name' => __('Column Content', 'inbound-pro' ),
+				'desc' => __('Enter the column content', 'inbound-pro' ),
 				'type' => 'textarea',
 				'std' => '',
 				'class' => 'wide',

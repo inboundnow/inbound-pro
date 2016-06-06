@@ -108,7 +108,7 @@ class Leads_Batch_Processor {
         if (!self::$leads || $args['offset'] > $pages ) {
             self::delete_flag();
             echo '<br>';
-            _e( 'All done!' , 'leads');
+            _e( 'All done!' , 'inbound-pro' );
             exit;
         }
 

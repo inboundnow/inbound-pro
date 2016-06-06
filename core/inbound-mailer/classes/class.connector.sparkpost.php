@@ -45,6 +45,11 @@ if ( !class_exists('Inbound_SparkPost') ) {
 
 			$response    = wp_remote_get( add_query_arg($domain_args , $request_url), $args );
 
+			if (is_wp_error( $response )) {
+				print_r($response);
+				return $response;
+			}
+
 			return json_decode($response['body'] , true);
 
 		}
