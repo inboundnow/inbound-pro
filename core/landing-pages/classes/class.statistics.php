@@ -39,6 +39,11 @@ if (!class_exists('Landing_Pages_Stats')) {
          */
         public static function record_impression($post_id, $post_type , $variation_id = 0) {
 
+            /* ignore mshots and previews from admin area */
+            if (strstr( wp_get_referer() , site_url() )) {
+                return;
+            }
+
             /* If Landing Page Post Type */
             if ( $post_type == 'landing-page' ) {
                 $impressions = Landing_Pages_Variations::get_impressions( $post_id, $variation_id );
