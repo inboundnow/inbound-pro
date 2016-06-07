@@ -40,7 +40,13 @@ if (!class_exists('Landing_Pages_Stats')) {
         public static function record_impression($post_id, $post_type , $variation_id = 0) {
 
             /* ignore mshots and previews from admin area */
-            if (strstr( $_SERVER['HTTP_REFERER'] , admin_url() )) {
+            if (strstr( $_SERVER['HTTP_REFERER'] , 'edit.php?post_type=landing-page' )) {
+                return;
+            }
+            if (strstr( $_SERVER['HTTP_REFERER'] , 'post.php' )) {
+                return;
+            }
+            if (strstr( $_SERVER['HTTP_REFERER'] , 'edit.php' )) {
                 return;
             }
 
