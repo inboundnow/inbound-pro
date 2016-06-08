@@ -123,7 +123,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                     self::$sends = Inbound_Mandrill_Stats::get_send_stream();
                     break;
                 case 'sparkpost' :
-                    self::$sends = array();
+                    self::$sends = Inbound_SparkPost_Stats::get_send_stream();
                     break;
             }
         }
@@ -514,7 +514,10 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                     self::add_send_stream();
                     break;
                 case 'sparkpost' :
-                    break;
+                    if ( isset($_GET['debug']) && $_GET['debug'] ) {
+                        self::list_transmissions();
+                        break;
+                    }
             }
 
             self::add_email_send_settings();
@@ -606,6 +609,10 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             echo '</div>';
         }
 
+        public static function list_transmissions() {
+            self::load_send_stream();
+            error_log(print_r(self::$sends,true));
+        }
 
         /**
          *    Adds list of last 1000 emails sent

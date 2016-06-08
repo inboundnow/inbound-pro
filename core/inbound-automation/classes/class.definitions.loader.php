@@ -498,7 +498,7 @@ if ( !class_exists( 'Inbound_Automation_Loader' ) ) {
 				$updated_arg_data = self::prepare_mixed_data($argument);
 
 				if (isset(self::$instance->inbound_arguments[$hook][ $definition['id'] ]) && is_array(self::$instance->inbound_arguments[$hook][ $definition['id'] ]) ) {
-					self::$instance->inbound_arguments[$hook][ $definition['id'] ] = self::$instance->inbound_arguments[$hook][ $definition['id'] ] + $updated_arg_data;
+					self::$instance->inbound_arguments[$hook][ $definition['id'] ] = array_replace( self::$instance->inbound_arguments[$hook][ $definition['id'] ] , $updated_arg_data );
 				} else {
 					self::$instance->inbound_arguments[$hook][ $definition['id'] ] = $updated_arg_data;
 				}

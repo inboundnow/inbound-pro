@@ -45,11 +45,6 @@ if ( !class_exists('Inbound_SparkPost') ) {
 
 			$response    = wp_remote_get( add_query_arg($domain_args , $request_url), $args );
 
-			if (is_wp_error( $response )) {
-				print_r($response);
-				return $response;
-			}
-
 			return json_decode($response['body'] , true);
 
 		}
@@ -143,7 +138,6 @@ if ( !class_exists('Inbound_SparkPost') ) {
 				'cookies' => array()
 			);
 
-
 			$response = wp_remote_post( $request_url, $args );
 
 			if ( 200 !== wp_remote_retrieve_response_code( $response ) ) {
@@ -196,9 +190,40 @@ if ( !class_exists('Inbound_SparkPost') ) {
 			return json_decode($response['body'] , true);
 		}
 
+		public static function get_transmissions( $campaign_id ) {
+
+			/* https://developers.sparkpost.com/api/transmissions#transmissions-list-get */
+			$request_url = 'https://api.sparkpost.com/api/v1/transmissions?campaign_id=' . $campaign_id ;
+
+
+			$args = array(
+				'timeout' => 45,
+				'redirection' => 5,
+				'httpversion' => '1.0',
+				'blocking' => true,
+				'headers' => array(
+					'Accecpt'  => 'application/json',
+					'Authorization' =>  self::$apikey
+
+				),
+				'body' => null,
+				'cookies' => array()
+			);
+
+			$response   = wp_remote_get(  $request_url , $args );
+
+			if ( 200 !== wp_remote_retrieve_response_code( $response ) ) {
+				error_log(print_r($response,true));
+				print_r(print_r($response));
+			}
+
+			return json_decode($response['body'] , true);
+		}
+
 		public function log($msg) {
 			if(self::debug) error_log($msg);
 		}
+
 	}
 
 }

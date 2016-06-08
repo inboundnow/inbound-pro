@@ -127,6 +127,10 @@ class Inbound_Mailer_Scheduling {
      *    Get timestamp given saved timezone information
      */
     public static function get_timestamp() {
+        global $inbound_settings;
+
+        /* Set email service */
+        $email_service = (isset($inbound_settings['inbound-mailer']['mail-service'])) ? $inbound_settings['inbound-mailer']['mail-service'] : 'sparkpost' ;
 
         $settings = Inbound_Mailer_Scheduling::$settings;
 
@@ -135,10 +139,20 @@ class Inbound_Mailer_Scheduling {
         }
 
         $tz = explode('-UTC', $settings['timezone']);
-
         $timezone = timezone_name_from_abbr($tz[0], 60 * 60 * intval($tz[1]));
+
         date_default_timezone_set($timezone);
-        $timestamp = gmdate("Y-m-d\\TG:i:s\\Z", strtotime($settings['send_datetime']));
+
+        switch ($email_service) {
+            case "mandrill":
+                $timestamp = gmdate("Y-m-d\\TG:i:s\\Z", strtotime($settings['send_datetime']));
+                break;
+            case "sparkpost":
+                $timestamp = date("Y-m-d\\TG:i:s\\Z", strtotime($settings['send_datetime']));
+                break;
+        }
+
+
 
         return $timestamp;
     }

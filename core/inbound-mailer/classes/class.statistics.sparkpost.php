@@ -182,7 +182,8 @@ class Inbound_SparkPost_Stats {
         );
 
         if ( is_numeric($variation_id) ) {
-            self::$stats[ 'totals' ]['variations'][$variation_id] = $totals;
+            self::$stats[ 'totals' ][ 'variations' ][ $variation_id ] = $totals;
+            self::$stats[ 'totals' ][ 'variations' ][ $variation_id ][ 'label' ] =	Inbound_Mailer_Variations::vid_to_letter( $email_id , $variation_id );
         } else {
             self::$stats[ 'totals' ] = $totals;
         }
@@ -233,16 +234,14 @@ class Inbound_SparkPost_Stats {
      */
     public static function get_send_stream() {
         global $Inbound_Mailer_Variations;
+        global $inbound_settings;
         global $post;
 
         self::$vid = $Inbound_Mailer_Variations->get_current_variation_id();
-        self::$email_id = $post->ID;
 
-        self::$stats['date_from'] =  self::get_sparkpost_timestamp( $post->post_date );
-        self::$stats['date_to'] =  self::get_sparkpost_timestamp( date( "c" ) );
-
-        $query = 'u_email_id:' .	$post->ID	. ' ( tags:batch OR tags:automated)';
-
+        $campaign_id =  $post->ID	. '_'. self::$vid;
+        $sparkpost = new Inbound_SparkPost(  $inbound_settings['inbound-mailer']['sparkpost-key'] );
+        self::$results = $sparkpost->get_transmissions( $campaign_id );
 
         return self::$results;
     }
@@ -537,8 +536,6 @@ class Inbound_SparkPost_Stats {
         }
 
         Inbound_Options_API::update_option('inbound-pro', 'settings', $inbound_settings);
-
-        error_log(print_r(self::$results ,true));
 
     }
 
