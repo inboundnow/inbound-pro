@@ -649,8 +649,12 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             }
 
             ?>
-            <div class="quick-stat-label"><?php _e('Custom Events', 'inbound-pro'); ?>
-                <span class="quick-stat-total"><?php echo count(self::$custom_events); ?></span>
+            <div class="quick-stat-label">
+                <div class="label_1"><?php _e('Custom Events', 'inbound-pro'); ?>:</div>
+                <div class="label_2">
+                    <?php echo count(self::$custom_events); ?>
+                </div>
+                <div class="clearfix"></div>
             </div>
             <?php
 

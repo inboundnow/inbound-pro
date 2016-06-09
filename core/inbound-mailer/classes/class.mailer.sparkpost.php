@@ -13,9 +13,10 @@ class Inbound_Mailer_SparkPost extends Inbound_Mail_Daemon {
 
 		$sparkpost = new Inbound_SparkPost(  $settings['sparkpost-key'] );
 
-
 		if ( !$send_now && self::$row->datetime ) {
+
 			$send_at = date( 'c' , strtotime( self::$row->datetime ) );
+
 			if (isset(self::$email_settings['timezone'])) {
 				$date_parts = explode('+' , $send_at );
 				$timezone_parts = explode('UTC' , self::$email_settings['timezone'] );

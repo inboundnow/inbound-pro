@@ -35,6 +35,8 @@ class Inbound_Automation_Trigger_inbound_store_lead_post {
 			return;
 		}
 
+		remove_action( 'wp_insert_post', array( __CLASS__ , 'simulate_new_lead' ) , 10, 3 );
+
 		if ( !isset($post) || $post->post_type != 'wp-lead' ) {
 			return;
 		}
@@ -49,9 +51,9 @@ class Inbound_Automation_Trigger_inbound_store_lead_post {
 		}
 
 		$lead['id'] = $post_id;
-		$lead['lead_lists'] = json_encode(array_keys(Inbound_Leads::get_lead_lists_by_lead_id($post_id)));
+		$lead_lists = Inbound_Leads::get_lead_lists_by_lead_id($post_id);
+		$lead['lead_lists'] = json_encode(array_keys( $lead_lists));
 		$lead['form_id'] = 'wp-core';
-
 		do_action( 'inbound_store_lead_post' , $lead );
 	}
 
