@@ -222,6 +222,15 @@ class Inbound_Events {
             $args
         );
 
+        /* check error messages for broken tables */
+        if (isset($wpdb->last_error)) {
+            switch ($wpdb->last_error) {
+                case "Unknown column 'funnel' in 'field list'":
+                    self::create_events_table();
+                    break;
+            }
+        }
+
     }
 
     public static function delete_related_events( $post_id ) {
