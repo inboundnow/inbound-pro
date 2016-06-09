@@ -33,6 +33,11 @@ class Inbound_Mailer_Activation {
 
         /* Add listener for uncompleted upgrade routines */
         add_action( 'admin_init' , array( __CLASS__ , 'run_upgrade_routine_checks' ) );
+
+		/* add http auth support for fast cgi */
+		if (php_sapi_name() == 'cgi-fcgi') {
+			add_action('mod_rewrite_rules', array(__CLASS__, 'add_rewrite_rules'));
+		}
     }
 
 	public static function activate() {
@@ -261,6 +266,44 @@ class Inbound_Mailer_Activation {
 		if ( !class_exists('Inbound_Leads') ) {
 			deactivate_plugins( INBOUND_EMAIL_FILE );
 		}
+	}
+
+
+	public static function add_rewrite_rules( $rules ) {
+		if (stristr($rules, '[E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]')) {
+			return $rules;
+		}
+
+		$rules_array = preg_split('/$\R?^/m', $rules);
+
+		if (count($rules_array) < 3) {
+			$rules_array = explode("\n", $rules);
+			$rules_array = array_filter($rules_array);
+		}
+
+		$i = 0;
+		foreach ($rules_array as $key => $val) {
+
+			if (!trim($val)) {
+				continue;
+			}
+
+			if (stristr($val, "RewriteEngine On")) {
+				$new_val = "RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]";
+				$rules_array[$i] = $new_val;
+				$i++;
+			 	$rules_array[$i] = $val;
+			 	$i++;
+			} else {
+				$rules_array[$i] = $val;
+				$i++;
+			}
+		}
+
+		$rules = implode("\n", $rules_array);
+
+
+		return $rules;
 	}
 }
 

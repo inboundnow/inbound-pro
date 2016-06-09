@@ -731,7 +731,7 @@ if (!class_exists('Leads_Manager')) {
             }
 
             $term = get_term($_REQUEST['wplead_list_category_action'], 'wplead_list_category');
-            $name = (is_object($term)) ? $term->slug : '';
+            $name = (is_object($term) && isset($term->slug) ) ? $term->slug : '';
             $this_tax = "wplead_list_category";
 
             /* We've been told to tag these posts with the given category. */

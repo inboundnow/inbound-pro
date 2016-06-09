@@ -230,11 +230,6 @@ class Landing_Pages_Settings {
                             src="<?php echo LANDINGPAGES_URLPATH; ?>assets/images/add-on-image.png"></a>
                 </center>
             </div>
-            <div id="custom-templates">
-                <center><a href="http://dev.inboundnow.com/submit-a-work-request/" target=="_blank"><img
-                            src="<?php echo LANDINGPAGES_URLPATH; ?>assets/images/custom-setup-image.png"></a>
-                </center>
-            </div>
         </div>
         <script type="text/javascript">
             jQuery(document).ready(function ($) {
