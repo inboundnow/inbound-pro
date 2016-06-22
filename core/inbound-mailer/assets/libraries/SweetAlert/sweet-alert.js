@@ -20,7 +20,8 @@
         imageUrl: null,
         imageSize: null,
         timer: null,
-		inputField: null
+		inputField: null,
+		selectField: null,
       };
 
 
@@ -184,7 +185,8 @@
    * Add modal + overlay to DOM
    */
   window.sweetAlertInitialize = function() {
-    var sweetHTML = '<div class="sweet-overlay" tabIndex="-1"></div><div class="sweet-alert" tabIndex="-1">'
+    var sweetHTML = '<div class="sweet-overlay" tabIndex="-1"></div>'
+                    +'<div class="sweet-alert" tabIndex="-1">'
 					+'	<div class="icon error">'
 					+'		<span class="x-mark">'
 					+'			<span class="line left"></span>'
@@ -204,9 +206,15 @@
 					+'	</div>'
 					+'	<div class="icon custom"></div>'
 					+'	<h2>Title</h2><p>Text</p>'
-					+' 	<div class="input"><input type="text" value="" class="form-input"></input>'
-					+'	<button class="cancel" tabIndex="2">Cancel</button>'
-					+'	<button class="confirm" tabIndex="1">OK</button>'
+					+' 	<div class="input">'
+                    +'    <input type="text" value="cc" class="form-input"></input>'
+                     +'  </div>'
+					+' 	<div class="select">'
+                    +'    <select type="text" value="cc" class="form-select"></select>'
+                     +'  </div>'
+					+'	  <button class="cancel" tabIndex="2">Cancel</button>'
+					+'	  <button class="confirm" tabIndex="1">OK</button>'
+
 					+'</div>',
         sweetWrap = document.createElement('div');
 
@@ -290,7 +298,8 @@
         params.imageUrl           = arguments[0].imageUrl || defaultParams.imageUrl;
         params.imageSize          = arguments[0].imageSize || defaultParams.imageSize;
 		params.inputField         = arguments[0].inputField || params.inputField;
-        
+		params.selectField         = arguments[0].selectField || params.selectField;
+
 
         params.doneFunction       = arguments[1] || null;
 
@@ -354,10 +363,16 @@
           break;
         case ("click"):
           if (targetedConfirm && doneFunctionExists && modalIsVisible) { // Clicked "confirm"
-			var $inputField = modal.querySelector("input.form-input")                  
-            var $inputFieldValue = $inputField.value
+			var $inputField = modal.querySelector("input.form-input");
+            var $inputFieldValue = $inputField.value;
+
+            var $selectField = modal.querySelector("select.form-select");
+            var $selectFieldValue = $selectField.value;
+
 			if(params.inputField && $inputField){
                 params.doneFunction($inputFieldValue);
+            } else if(params.selectField && $selectField){
+                params.doneFunction($selectFieldValue);
             } else {
               params.doneFunction();
             }
@@ -523,7 +538,7 @@
     window.onfocus = function() {
       // When the user has focused away and focused back from the whole window.
 
-		if(!params.inputField){
+		if(!params.inputField && !params.selectField ){
 			window.setTimeout(function() {
 			  // Put in a timeout to jump out of the event sequence. Calling focus() in the event
 			  // sequence confuses things.
@@ -534,7 +549,6 @@
 
 			}, 0);
 		}
-
 
     };
   };
@@ -567,6 +581,7 @@
         $cancelBtn = modal.querySelector('button.cancel'),
         $confirmBtn = modal.querySelector('button.confirm');
 		$inputField = modal.querySelector('input.form-input');
+		$selectField = modal.querySelector('select.form-select');
 
     // Title
     $title.innerHTML = escapeHtml(params.title).split("\n").join("<br>");
@@ -649,8 +664,33 @@
 	  $inputField.placeholder = params.inputField.placeholder;
 	  $inputField.style.padding = params.inputField.padding;
 	  $inputField.style.width = params.inputField.width;
-    } else {
+      hide($selectField);
+    } else if(params.selectField){
+      $selectField.style.display = 'block';
+      $selectField.placeholder = params.selectField.placeholder;
+      $selectField.style.padding = params.selectField.padding;
+      $selectField.style.width = params.selectField.width;
+
+      /* add options */
+      var html = "";
+
+      html += "<option value='-1' selected='true'>" + params.selectField.placeholder + "</option>"
+      for(var key in params.selectField.options) {
+        html += "<option value=" + key  + ">" +params.selectField.options[key] + "</option>"
+      }
+      $selectField.innerHTML = html;
+
+      setTimeout(function() {
+        document.querySelector('select.form-select').value=-1;
+      },500);
+
       hide($inputField);
+
+    } else {
+
+      hide($inputField);
+      document.querySelector('.form-select').style.display = 'none';
+
     }
 
 
@@ -759,6 +799,12 @@
     if(inputField){
       inputField.focus();
       inputField.value = "";
+	}
+
+	var selectField = modal.querySelector('select.form-select');
+    if(selectField){
+      selectField.focus();
+      selectField.value = "";
 	}
 
     var timer = modal.getAttribute('data-timer');

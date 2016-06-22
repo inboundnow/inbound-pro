@@ -223,7 +223,7 @@ if (!class_exists('Inbound_API')) {
 		 * @uses Inbound_API::output()
 		 */
 		private static function missing_auth() {
-			$error['error'] = __( 'You must specify both a token and API key!', INBOUNDNOW_TEXT_DOMAIN );
+			$error['error'] = __( 'You must specify both a token and API key!', 'inbound-pro' );
 
 			self::$data = $error;
 			self::output( 401 );
@@ -238,7 +238,7 @@ if (!class_exists('Inbound_API')) {
 		 * @return void
 		 */
 		private static function invalid_auth() {
-			$error['error'] = __( 'Your request could not be authenticated! (check your token)', INBOUNDNOW_TEXT_DOMAIN );
+			$error['error'] = __( 'Your request could not be authenticated! (check your token)', 'inbound-pro' );
 
 			self::$data = $error;
 			self::output( 401 );
@@ -253,7 +253,7 @@ if (!class_exists('Inbound_API')) {
 		 * @return void
 		 */
 		private static function invalid_key() {
-			$error['error'] = __( 'Invalid API key!', INBOUNDNOW_TEXT_DOMAIN );
+			$error['error'] = __( 'Invalid API key!', 'inbound-pro' );
 
 			self::$data = $error;
 			self::output( 401 );
@@ -274,7 +274,7 @@ if (!class_exists('Inbound_API')) {
 				return $value;
 			}
 
-			$error['error'] = sprintf( __( 'Invalid parameter provided. Expecting a %1$s for \'%2$s\' while a field type with %3$s was provided', INBOUNDNOW_TEXT_DOMAIN ), $accepted, $key, gettype($value)) ;
+			$error['error'] = sprintf( __( 'Invalid parameter provided. Expecting a %1$s for \'%2$s\' while a field type with %3$s was provided', 'inbound-pro' ), $accepted, $key, gettype($value)) ;
 
 			self::$data = $error;
 			self::output( 401 );
@@ -288,7 +288,7 @@ if (!class_exists('Inbound_API')) {
 		 * @return void
 		 */
 		private static function invalid_parameter( $key, $accepted, $provided ) {
-			$error['error'] = sprintf( __( 'Invalid parameter provided. Expecting %1$s for %2$s the %3$s was provided', INBOUNDNOW_TEXT_DOMAIN ), $accepted, $key, $provided) ;
+			$error['error'] = sprintf( __( 'Invalid parameter provided. Expecting %1$s for %2$s the %3$s was provided', 'inbound-pro' ), $accepted, $key, $provided) ;
 
 			self::$data = $error;
 			self::output( 401 );
@@ -430,7 +430,7 @@ if (!class_exists('Inbound_API')) {
 
 			/* Make sure our query is valid */
 			if ( ! in_array( $query, $accepted ) ) {
-				$error['error'] = __( 'Invalid endpoint: ' . $query, INBOUNDNOW_TEXT_DOMAIN );
+				$error['error'] = __( 'Invalid endpoint: ' . $query, 'inbound-pro' );
 
 				self::$data = $error;
 				self::output();
@@ -715,7 +715,7 @@ if (!class_exists('Inbound_API')) {
 
 			/* If no results let them know */
 			if (!$results) {
-				$message['message'] = __( 'No leads were found given this query.', INBOUNDNOW_TEXT_DOMAIN ) ;
+				$message['message'] = __( 'No leads were found given this query.', 'inbound-pro' ) ;
 				self::$data = $message;
 				self::output( 401 );
 			}
@@ -909,7 +909,7 @@ if (!class_exists('Inbound_API')) {
 			$already_exists = self::leads_get( array( 'email' => $params['meta_data']['wpleads_email_address'] ) );
 
 			if ( $already_exists ) {
-				$error['error'] = __( 'Lead already exists.', INBOUNDNOW_TEXT_DOMAIN ) ;
+				$error['error'] = __( 'Lead already exists.', 'inbound-pro' ) ;
 
 				self::$data = $error;
 				self::output( 401 );
@@ -973,7 +973,7 @@ if (!class_exists('Inbound_API')) {
 
 			/* ID must be set by this point */
 			if ( !isset( $params['ID'] ) ) {
-				$error['error'] = __( 'Valid ID or email address not set.', INBOUNDNOW_TEXT_DOMAIN ) ;
+				$error['error'] = __( 'Valid ID or email address not set.', 'inbound-pro' ) ;
 				self::$data = $error;
 				self::output( 401 );
 			}
@@ -1082,7 +1082,7 @@ if (!class_exists('Inbound_API')) {
 
 			/* ID must be set by this point */
 			if ( !isset( $params['ID'] ) ) {
-				$error['error'] = __( 'Valid ID or email address not set.', INBOUNDNOW_TEXT_DOMAIN ) ;
+				$error['error'] = __( 'Valid ID or email address not set.', 'inbound-pro' ) ;
 				self::$data = $error;
 				self::output( 401 );
 			}
@@ -1091,7 +1091,7 @@ if (!class_exists('Inbound_API')) {
 			wp_delete_post(  $params['ID'], true );
 
 			return array (
-				'message' => __( 'Lead successfully deleted', INBOUNDNOW_TEXT_DOMAIN ),
+				'message' => __( 'Lead successfully deleted', 'inbound-pro' ),
 				'ID' => $params['ID']
 			);
 		}
@@ -1171,7 +1171,7 @@ if (!class_exists('Inbound_API')) {
 			if (isset($params['id'])) {
 				self::validate_parameter( intval($params['id']), 'id',  'integer'  );
 			} else {
-				$error['error'] = __( 'This endpoint requires that the \'id\' be set.', INBOUNDNOW_TEXT_DOMAIN ) ;
+				$error['error'] = __( 'This endpoint requires that the \'id\' be set.', 'inbound-pro' ) ;
 				self::$data = $error;
 				self::output( 401 );
 			}
@@ -1213,7 +1213,7 @@ if (!class_exists('Inbound_API')) {
 			if (isset($params['id'])) {
 				self::validate_parameter( intval($params['id']), 'id',  'integer'  );
 			} else {
-				$error['error'] = __( 'This endpoint requires that the \'id\' be set.', INBOUNDNOW_TEXT_DOMAIN ) ;
+				$error['error'] = __( 'This endpoint requires that the \'id\' be set.', 'inbound-pro' ) ;
 				self::$data = $error;
 				self::output( 401 );
 			}
@@ -1280,21 +1280,21 @@ if (!class_exists('Inbound_API')) {
 
 			/* lead email or lead id required */
 			if ( !isset( $params['id'] ) && !isset( $params['email_id']) && !isset( $params['cta_id']) ) {
-				$error['error'] = __( 'This endpoint requires either the \'id\' or the \'email\' or the \'cta_id\' parameter be set.', INBOUNDNOW_TEXT_DOMAIN ) ;
+				$error['error'] = __( 'This endpoint requires either the \'id\' or the \'email\' or the \'cta_id\' parameter be set.', 'inbound-pro' ) ;
 				self::$data = $error;
 				self::output( 401 );
 			}
 
 			/* a link to mask is required */
 			if ( !isset( $params['url'] ) && !isset( $params['url'] ) ) {
-				$error['error'] = __( 'This endpoint requires the \'url\' parameter be set.', INBOUNDNOW_TEXT_DOMAIN ) ;
+				$error['error'] = __( 'This endpoint requires the \'url\' parameter be set.', 'inbound-pro' ) ;
 				self::$data = $error;
 				self::output( 401 );
 			}
 
 			/* a tracking_id is required */
 			if ( !isset( $params['tracking_id'] ) ) {
-				$error['error'] = __( 'This endpoint requires the \'tracking_id\' parameter be set.', INBOUNDNOW_TEXT_DOMAIN ) ;
+				$error['error'] = __( 'This endpoint requires the \'tracking_id\' parameter be set.', 'inbound-pro' ) ;
 				self::$data = $error;
 				self::output( 401 );
 			}

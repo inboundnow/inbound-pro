@@ -1,6 +1,5 @@
 <?php
 
-
 if ( !class_exists('Inbound_Mailer_Activation') ) {
 
 class Inbound_Mailer_Activation {
@@ -169,6 +168,7 @@ class Inbound_Mailer_Activation {
 
 	public static function set_default_settings() {
 
+
 	}
 
 	/**
@@ -312,7 +312,6 @@ register_activation_hook( INBOUND_EMAIL_FILE , array( 'Inbound_Mailer_Activation
 register_deactivation_hook( INBOUND_EMAIL_FILE , array( 'Inbound_Mailer_Activation' , 'deactivate' ) );
 
 new Inbound_Mailer_Activation;
-
 
 
 }

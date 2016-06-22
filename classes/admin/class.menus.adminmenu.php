@@ -28,7 +28,7 @@ class Inbound_Menus_Admin {
 		add_menu_page(
 			__( 'Inbound Now' , INBOUNDNOW_TEXT_DOMAIN ) ,  /* page title */
 			__( 'Inbound Now' , INBOUNDNOW_TEXT_DOMAIN ) , /* menu title */
-			'manage_options', /* capability */
+			'edit_posts', /* capability */
 			'inbound-pro', /* menu slug */
 			array( 'Inbound_Pro_Settings' , 'display' ), /* page function */
 			INBOUND_PRO_URLPATH . 'core/shared/assets/images/global/inbound-icon.png', /* icon url */
@@ -43,10 +43,10 @@ class Inbound_Menus_Admin {
 		*/
 
 		/* Manage Templates */
-		add_submenu_page('inbound-pro', __( 'Templates' , INBOUNDNOW_TEXT_DOMAIN ) , __( 'Templates' , INBOUNDNOW_TEXT_DOMAIN ) , 'manage_options', 'inbound-manage-templates', array( 'Inbound_Pro_Downloads' , 'display_ui' ) );
+		add_submenu_page('inbound-pro', __( 'Templates' , INBOUNDNOW_TEXT_DOMAIN ) , __( 'Templates' , INBOUNDNOW_TEXT_DOMAIN ) , 'edit_posts', 'inbound-manage-templates', array( 'Inbound_Pro_Downloads' , 'display_ui' ) );
 
 		/* Manage Extensions */
-		add_submenu_page('inbound-pro', __( 'Extensions' , INBOUNDNOW_TEXT_DOMAIN ) , __( 'Extensions' , INBOUNDNOW_TEXT_DOMAIN ) , 'manage_options', 'inbound-manage-extensions', array( 'Inbound_Pro_Downloads' , 'display_ui' ) );
+		add_submenu_page('inbound-pro', __( 'Extensions' , INBOUNDNOW_TEXT_DOMAIN ) , __( 'Extensions' , INBOUNDNOW_TEXT_DOMAIN ) , 'edit_posts', 'inbound-manage-extensions', array( 'Inbound_Pro_Downloads' , 'display_ui' ) );
 
 	}
 

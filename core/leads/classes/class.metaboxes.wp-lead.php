@@ -587,11 +587,11 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                         <?php do_action('wpleads_before_quickstats', $post); ?>
                         <div class="leads_stat_box">
                             <div class="leads_stat_box_heading">
-                            <div class="label_1">Action Breakdown   </div>
-                            <div class="label_2">Count</div>
-                            <div class="clearfix"></div>
+                                <div class="label_1">Action Breakdown   </div>
+                                <div class="label_2">Count</div>
+                                <div class="clearfix"></div>
                             </div>
-                        <?php do_action('wpleads_display_quick_stat', $post); ?> <!-- Display's the data-->
+                            <?php do_action('wpleads_display_quick_stat', $post); ?> <!-- Display's the data-->
                         </div>
                         <div id="time-since-last-visit"></div>
                         <div id="lead-score"></div>
@@ -612,7 +612,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             <div class="quick-stat-label">
                 <div class="label_1"><?php _e('Page Views ', 'inbound-pro'); ?>:</div>
                 <div class="label_2">
-                     <?php echo self::get_page_view_count(); ?> 
+                    <?php echo self::get_page_view_count(); ?>
                 </div>
                 <div class="clearfix"></div>
             </div>
@@ -630,7 +630,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             <div class="quick-stat-label">
                 <div class="label_1"><?php _e('Form Submissions ', 'inbound-pro'); ?>:</div>
                 <div class="label_2">
-                    <?php echo count(self::$form_submissions); ?> 
+                    <?php echo count(self::$form_submissions); ?>
                 </div>
                 <div class="clearfix"></div>
             </div>
@@ -1842,12 +1842,17 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                         break;
                     // select
                     case $field['type'] == 'dropdown':
-                        echo '<select name="' . $id . '" id="' . $id . '" >';
-                        foreach ($field['options'] as $value => $field['label']) {
-                            echo '<option', $field['value'] == $value ? ' selected="selected"' : '', ' value="' . $value . '">' . $field['label'] . '</option>';
-                        }
-                        echo '</select><div class="wpl_tooltip" title="' . $field['desc'] . '"></div>';
-                        break;
+                      
+                       echo '<select name="' . $id . '" id="' . $id . '" >';
+                       foreach ($field['options'] as $value => $label) {
+                            echo '<option', $field['value'] == $value ? ' selected="selected"' : '', ' value="' . $value . '">' . $label . '</option>';
+                       }
+                       echo '</select>';
+
+                       if (isset($field['desc'])) {
+                        echo '<div class="wpl_tooltip" title="' . $field['desc'] . '"></div>';
+                       }
+                       break;
                     case $field['type'] == 'dropdown-country':
                         echo '<input type="hidden" id="hidden-country-value" value="' . $field['value'] . '">';
                         echo '<select name="' . $id . '" id="' . $id . '" class="wpleads-country-dropdown">';

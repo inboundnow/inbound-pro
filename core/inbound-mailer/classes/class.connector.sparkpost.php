@@ -123,6 +123,8 @@ if ( !class_exists('Inbound_SparkPost') ) {
 		public static function send( $transmission_args ){
 
 			$request_url = 'https://api.sparkpost.com/api/v1/transmissions';
+			$transmission_args_encoded = json_encode($transmission_args);
+
 			$args = array(
 				'method' => 'POST',
 				'timeout' => 45,
@@ -134,7 +136,7 @@ if ( !class_exists('Inbound_SparkPost') ) {
 					'Authorization' =>  self::$apikey,
 					'User-Agent'    => 'sparkpost-inbound',
 				),
-				'body' => json_encode($transmission_args),
+				'body' => $transmission_args_encoded,
 				'cookies' => array()
 			);
 
@@ -146,7 +148,11 @@ if ( !class_exists('Inbound_SparkPost') ) {
 				error_log(print_r($response,true));
 			}
 
-			return json_decode($response['body'] , true);
+			$json_formatted_response = json_decode($response['body'] , true);
+
+			do_action('sparkpost/send/response' , $transmission_args , $json_formatted_response );
+
+			return $json_formatted_response;
 
 		}
 

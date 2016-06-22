@@ -261,13 +261,31 @@ if (!class_exists('LeadStorage')) {
 					$value = strip_tags( $value );
 				}
 
-				update_post_meta($lead['id'], $key, $value);
-
 				/* Old convention with wpleads_ prefix */
 				if( !strstr($key,'wpleads_') ) {
-					update_post_meta($lead['id'], 'wpleads_'.$key, $value);
+					$key = 'wpleads_'.$key;
+					update_post_meta($lead['id'], $key, $value);
 				} else {
 					update_post_meta($lead['id'], $key, $value);
+				}
+
+				/* update options for custom field type */
+				global $inbound_settings;
+				$field = ( isset($inbound_settings['leads-custom-fields']['fields'][ $key ]) ) ? $inbound_settings['leads-custom-fields']['fields'][ $key ] : array();
+
+
+				/* update custom field options for dropdown */
+				if (isset($field['type']) == 'dropdown' ) {
+					$options = $inbound_settings['leads-custom-fields']['fields'][ $key ][ 'options' ];
+
+					if ( !isset($options[ $value ]) ) {
+						$options[$value] = $value;
+						$inbound_settings['leads-custom-fields']['fields'][ $key ][ 'options' ] = $options;
+						Inbound_Options_API::update_option('inbound-pro', 'settings', $inbound_settings);
+					}
+
+					error_log(print_r($inbound_settings,true));
+
 				}
 
 			}

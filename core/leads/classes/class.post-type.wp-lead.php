@@ -31,7 +31,13 @@ class Leads_Post_Type {
         add_action('restrict_manage_posts', array(__CLASS__, 'define_filters'));
         add_filter('parse_query', array(__CLASS__, 'process_filters'), 10, 1);
 
-        /* record last time a piece of meta data was updated */
+        /* setup bulk edit options */
+        add_action('admin_footer-edit.php', array(__CLASS__, 'register_bulk_edit_fields'));
+
+        /* process bulk actions  */
+        add_action('load-edit.php', array(__CLASS__, 'process_bulk_actions'));
+
+         /* record last time a piece of meta data was updated */
         add_action('added_post_meta', array(__CLASS__, 'record_meta_update'), 10, 4);
         add_action('updated_post_meta', array(__CLASS__, 'record_meta_update'), 10, 4);
 
@@ -366,6 +372,101 @@ class Leads_Post_Type {
     }
 
     /**
+     * Adds additiona options to bulk edit fields
+     */
+    public static function register_bulk_edit_fields() {
+        global $post_type;
+
+        if ($post_type != 'wp-lead') {
+            return;
+        }
+
+        $lists = wpleads_get_lead_lists_as_array();
+
+        $html = "<select id='wordpress_list_select' name='action_wordpress_list_id'>";
+        foreach ($lists as $id => $label) {
+            $html .= "<option value='" . $id . "'>" . $label . "</option>";
+        }
+        $html .= "</select>";
+
+
+        ?>
+        <script type="text/javascript">
+            jQuery(document).ready(function () {
+
+                jQuery('<option>').val('add-to-list').text('<?php _e('Add to Contact List', 'lp') ?>').appendTo("select[name='action']");
+                jQuery('<option>').val('add-to-list').text('<?php _e('Add to Contact List', 'lp') ?>').appendTo("select[name='action2']");
+
+                jQuery(document).on('change', 'select[name=action]', function () {
+                    var this_id = jQuery(this).val();
+                    if (this_id.indexOf("export-csv") >= 0) {
+                        jQuery('#posts-filter').prop('target', '_blank');
+                    }
+                    else if (this_id.indexOf("export-xml") >= 0) {
+                        jQuery('#posts-filter').prop('target', '_blank');
+                    }
+                    else if (this_id.indexOf("add-to-list") >= 0) {
+                        var html = "<?php echo $html; ?>";
+
+                        jQuery("select[name='action']").after(html);
+                    }
+                    else {
+                        jQuery('#posts-filter').prop('target', 'self');
+                        jQuery('#wordpress_list_select').remove();
+                    }
+                });
+
+            });
+        </script>
+        <?php
+    }
+
+    /**
+     * process bulk actions for wp-lead post type
+     */
+    public static function process_bulk_actions() {
+
+        if (!isset($_REQUEST['post_type']) || $_REQUEST['post_type'] != 'wp-lead' || !isset($_REQUEST['post'])) {
+            return;
+        }
+
+        $wp_list_table = _get_list_table('WP_Posts_List_Table');
+        $action = $wp_list_table->current_action();
+
+
+        if (!current_user_can('manage_options')) {
+            die();
+        }
+
+        $post_ids = array_map('intval', $_REQUEST['post']);
+
+        switch ($action) {
+            case 'add-to-list':
+                $list_id = $_REQUEST['action_wordpress_list_id'];
+                $added = 0;
+
+                foreach ($post_ids as $post_id) {
+
+                    $list_cpt = get_post($list_id, ARRAY_A);
+                    $list_slug = $list_cpt['post_name'];
+                    $list_title = $list_cpt['post_title'];
+
+                    wpleads_add_lead_to_list($list_id, $post_id, $add = true);
+                    $added++;
+                }
+                $sendback = add_query_arg(array('added' => $added, 'post_type' => 'wp-lead', 'ids' => join(',', $post_ids)), $sendback);
+                break;
+            default:
+                return;
+        }
+
+        // 4. Redirect client
+        wp_redirect($sendback);
+        exit();
+
+    }
+
+    /**
      * Prepare nice names for custom fields
      * @return array
      */
@@ -501,17 +602,13 @@ class Leads_Post_Type {
      * Adds menu items to wp-lead's post type
      */
     public static function setup_admin_menu() {
-        if (!current_user_can('manage_options')) {
-            remove_menu_page('edit.php?post_type=wp-lead');
-            return;
-        }
 
         /* Lead Management */
         add_submenu_page(
             'edit.php?post_type=wp-lead',
             __('Bulk Actions', 'inbound-pro' ),
             __('Bulk Actions', 'inbound-pro' ),
-            'manage_options',
+            'edit_leads',
             'lead_management',
             array('Leads_Manager', 'display_ui')
         );
@@ -521,7 +618,7 @@ class Leads_Post_Type {
             'edit.php?post_type=wp-lead',
             __('Forms', 'inbound-pro' ),
             __('Forms', 'inbound-pro' ),
-            'manage_options',
+            'edit_leads',
             'inbound-forms-redirect',
             100
         );
@@ -531,7 +628,7 @@ class Leads_Post_Type {
             'edit.php?post_type=wp-lead',
             __('Settings', 'inbound-pro' ),
             __('Settings', 'inbound-pro' ),
-            'manage_options',
+            'edit_leads',
             'wpleads_global_settings',
             array('Leads_Settings', 'display_settings')
         );

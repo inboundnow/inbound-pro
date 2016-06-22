@@ -13,6 +13,7 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
          */
         private function load_hooks() {
             add_action('init', array( __CLASS__ , 'register_post_type' ) );
+            add_action( 'admin_init' , array( __CLASS__ , 'register_role_capabilities' ) ,999);
             add_action('init', array( __CLASS__ , 'register_taxonomies' ) );
             add_action('init', array( __CLASS__ , 'add_rewrite_rules') );
             add_filter('mod_rewrite_rules', array( __CLASS__ , 'filter_rewrite_rules' ) , 1);
@@ -87,13 +88,43 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
                 'query_var' => true,
                 'menu_icon' => '',
                 'rewrite' => array("slug" => "$slug",'with_front' => false),
-                'capability_type' => 'post',
+                'capability_type' => array('landing_page','landing_pages'),
+                'map_meta_cap' => true,
                 'hierarchical' => false,
                 'menu_position' => 32,
-                'supports' => array('title','custom-fields','editor', 'excerpt')
+                'supports' => array('title','custom-fields','editor', 'revisions')
             );
 
             register_post_type( 'landing-page' , $args );
+        }
+
+        /**
+         * Register Role Capabilities
+         */
+        public static function register_role_capabilities() {
+            // Add the roles you'd like to administer the custom post types
+            $roles = array('inbound_marketer','administrator');
+
+            // Loop through each role and assign capabilities
+            foreach($roles as $the_role) {
+
+                $role = get_role($the_role);
+                if (!$role) {
+                    continue;
+                }
+
+                $role->add_cap( 'read' );
+                $role->add_cap( 'read_landing_page');
+                $role->add_cap( 'read_private_landing_pages' );
+                $role->add_cap( 'edit_landing_page' );
+                $role->add_cap( 'edit_landing_pages' );
+                $role->add_cap( 'edit_others_landing_pages' );
+                $role->add_cap( 'edit_published_landing_pages' );
+                $role->add_cap( 'publish_landing_pages' );
+                $role->add_cap( 'delete_others_landing_pages' );
+                $role->add_cap( 'delete_private_landing_pages' );
+                $role->add_cap( 'delete_published_landing_pages' );
+            }
         }
 
         /**

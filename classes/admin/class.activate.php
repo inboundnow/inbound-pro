@@ -11,9 +11,11 @@ class Inbound_Pro_Activation {
 	}
 
 	public static function load_hooks() {
+
 		add_action('admin_init' , array( __CLASS__ , 'run_pro_components_activation_check' ) );
 		add_action('update_option_active_plugins', array( __CLASS__ , 'deactivate_standalone_plugins') );
 	}
+
 
 
 	public static function activate() {
@@ -28,6 +30,11 @@ class Inbound_Pro_Activation {
 
 		/* create extension upload folders if not exist */
 		self::create_upload_folders();
+
+
+		/* defines roles and capabilities */
+		self::add_roles();
+
 
 		/* Setup extras */
 		self::run_extras();
@@ -111,6 +118,48 @@ class Inbound_Pro_Activation {
 		}
 	}
 
+	public static function add_roles() {
+		/**/
+		remove_role('inbound_marketer');
+		$result = add_role( 'inbound_marketer', __('Inbound Marketer' , 'inbound-pro') ,
+			array(
+				'activate_plugins' => false,
+				'delete_others_pages' => false,
+				'delete_others_posts' => false,
+				'delete_pages' => true,
+				'delete_posts' => true,
+				'delete_private_pages' => false,
+				'delete_private_posts' => false,
+				'delete_published_pages' => true,
+				'delete_published_posts' => true,
+				'edit_dashboard' => true,
+				'edit_others_pages' => false,
+				'edit_others_posts' => false,
+				'edit_pages' => true,
+				'edit_posts' => true,
+				'edit_private_pages' => true,
+				'edit_private_posts' => true,
+				'edit_published_pages' => true,
+				'edit_published_posts' => true,
+				'edit_theme_options' => false,
+				'export' => true,
+				'import' => true,
+				'list_users' => true,
+				'manage_categories' => true,
+				'moderate_comments' => true,
+				'promote_users' => false,
+				'read'         => true,
+				'read_private_pages'         => true,
+				'read_private_posts'         => true,
+				'switch_themes'         => false,
+				'upload_files'   => true,
+				'delete_posts' => true,
+			)
+		);
+
+
+	}
+
 	/**
 	 *  Tells Inbound Shared to run activation commands
 	 */
@@ -191,5 +240,3 @@ new Inbound_Pro_Activation();
 /* Add Activation Hook */
 register_activation_hook( INBOUND_PRO_FILE , array( 'Inbound_Pro_Activation' , 'activate' ) );
 register_deactivation_hook( INBOUND_PRO_FILE , array( 'Inbound_Pro_Activation' , 'deactivate' ) );
-
-

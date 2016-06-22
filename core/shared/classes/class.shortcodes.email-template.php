@@ -33,7 +33,7 @@ class Inbound_Email_Template_Shortcodes {
 		$html = '';
 
 		$post_params = apply_filters( 'inbound-email-post-params', $_POST);
-		$blacklist = array('g-recaptcha-response','inbound_submitted', 'inbound_notify', 'inbound_params', 'inbound_furl', 'stop_dirty_subs', 'page_id');
+		$blacklist = array('g-recaptcha-response','inbound_submitted', 'inbound_notify', 'inbound_params', 'inbound_furl', 'phone_xoxo', 'page_id');
 
 		/* Parse out UTM Params */
 		if(isset($_POST['inbound_params']) && $_POST['inbound_params'] != "") {

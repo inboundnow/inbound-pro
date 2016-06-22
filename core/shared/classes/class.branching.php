@@ -91,13 +91,13 @@ if ( !class_exists('Inbound_Branching')	) {
 			if ( self::$branch == 'svn' ) {
 				$class = "switch-versions";
 				$switch_to = "git";
-				$title = __( 'Switch to lastest development release. Warning this should not be performed on a live site.', INBOUNDNOW_TEXT_DOMAIN );
-				$button_text = __( 'Switch to latest git', INBOUNDNOW_TEXT_DOMAIN );
+				$title = __( 'Switch to lastest development release. Warning this should not be performed on a live site.', 'inbound-pro' );
+				$button_text = __( 'Switch to latest git', 'inbound-pro' );
 			} else {
 				$class = "switch-versions";
 				$switch_to = "svn";
-				$title = __( 'Switch to latest stable release.', INBOUNDNOW_TEXT_DOMAIN );
-				$button_text = __( 'Switch to latest svn', INBOUNDNOW_TEXT_DOMAIN );
+				$title = __( 'Switch to latest stable release.', 'inbound-pro' );
+				$button_text = __( 'Switch to latest svn', 'inbound-pro' );
 			}
 			return '<a href="#" class="'.$class.'" id="'.self::$plugin.'-toggle" data-branch="'.$switch_to.'" data-plugin="'.self::$plugin.'" title="'.$title.'">'. $button_text .'</a> <div class="spinner" id="spinner-'.self::$plugin.'-toggle"></span></div>';
 		}
@@ -143,7 +143,7 @@ if ( !class_exists('Inbound_Branching')	) {
 					var branch = jQuery( '#' + this.id ).data( 'branch' );
 					var plugin = jQuery( '#' + this.id ).data( 'plugin' );
 
-					var result = confirm("<?php _e('Switching branches on a live site should be avoided. Are you sure you would like to switch filesets?', INBOUNDNOW_TEXT_DOMAIN ); ?>");
+					var result = confirm("<?php _e('Switching branches on a live site should be avoided. Are you sure you would like to switch filesets?', 'inbound-pro' ); ?>");
 
 					if (!result) {
 						return;

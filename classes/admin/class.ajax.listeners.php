@@ -55,9 +55,9 @@ class Inbound_Pro_Admin_Ajax_Listeners {
 
         /* if there is no change in the api get then return the data on record */
         if ( ( trim($_REQUEST['api_key']) == $inbound_settings['api-key']['api-key'] ) && get_transient('inbound_api_key_cache')) {
-            $data['customer'] = $customer;
-            echo json_encode($data);
-            exit;
+            //$data['customer'] = $customer;
+            //echo json_encode($data);
+            //exit;
         }
 
         /* update api key if changed */

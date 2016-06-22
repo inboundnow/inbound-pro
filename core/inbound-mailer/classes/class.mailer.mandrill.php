@@ -111,7 +111,7 @@ class Inbound_Mailer_Mandrill extends Inbound_Mail_Daemon {
 		/* error_log( print_r( $message , true ) ); */
 		self::$response = $mandrill->messages->send($message, $async, $ip_pool, $send_at );
 
-		do_action( 'inbound_mandrill_send_event' , $message , $send_at );
+		do_action( 'mailer/mandrill/send' , $message , $send_at );
 	}
 
 

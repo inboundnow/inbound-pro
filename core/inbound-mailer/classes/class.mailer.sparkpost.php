@@ -92,7 +92,7 @@ class Inbound_Mailer_SparkPost extends Inbound_Mail_Daemon {
 		/* error_log( print_r( $message , true ) ); */
 		self::$response = $sparkpost->send( $message_args );
 
-		do_action( 'inbound_mandrill_send_event' , $message_args  );
+		do_action( 'mailer/sparkpost/send' , $message_args  );
 	}
 
 

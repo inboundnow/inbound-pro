@@ -157,17 +157,33 @@ jQuery(document).ready(function ($) {
 
     jQuery('body').on('change', 'select[data-field-name="map_to"]', function () {
         console.log('changed mapping');
-         var values = [];
-         jQuery('select[data-field-name="map_to"]').each(function(){
-           var value = jQuery(this).val();
-           var a = values.indexOf(value);
+        var values = [];
+        jQuery('select[data-field-name="map_to"]').each(function(){
+            var value = jQuery(this).val();
+            var a = values.indexOf(value);
             if (a != -1) {
-             alert('Warning You have already mapped the ' + value + ' field. You can only map a field one time.');
+                alert('Warning You have already mapped the ' + value + ' field. You can only map a field one time.');
             }
             values.push(value);
 
-         });
+        });
 
     });
+
+    jQuery('body').on('change', 'select[data-field-name="map_to"]', function () {
+        console.log('changed mapping');
+        var values = [];
+        jQuery('select[data-field-name="map_to"]').each(function(){
+            var value = jQuery(this).val();
+            var a = values.indexOf(value);
+            if (a != -1) {
+                alert('Warning You have already mapped the ' + value + ' field. You can only map a field one time.');
+            }
+            values.push(value);
+
+        });
+
+    });
+
 
 });

@@ -46,8 +46,8 @@ if (!class_exists('Inbound_API_Keys_Table')) {
 
 			/* Set parent defaults */
 			parent::__construct( array(
-				'singular'  => __( 'API Key', INBOUNDNOW_TEXT_DOMAIN ),     /* Singular name of the listed records */
-				'plural'    => __( 'API Keys', INBOUNDNOW_TEXT_DOMAIN ),    /* Plural name of the listed records */
+				'singular'  => __( 'API Key', 'inbound-pro' ),     /* Singular name of the listed records */
+				'plural'    => __( 'API Keys', 'inbound-pro' ),    /* Plural name of the listed records */
 				'ajax'      => false                       /* Does this table support ajax? */
 			) );
 
@@ -70,12 +70,12 @@ if (!class_exists('Inbound_API_Keys_Table')) {
 
 					revoke_api_key : function() {
 						jQuery( 'body' ).on( 'click', '.inbound-revoke-api-keys', function( e ) {
-							return confirm( '<?php _e('Are you sure you want to revoke permissions for this API Key?', INBOUNDNOW_TEXT_DOMAIN ); ?> ');
+							return confirm( '<?php _e('Are you sure you want to revoke permissions for this API Key?', 'inbound-pro' ); ?> ');
 						} );
 					},
 					regenerate_api_key : function() {
 						jQuery( 'body' ).on( 'click', '.inbound-regenerate-api-keys', function( e ) {
-							return confirm( '<?php _e('Are you sure you want to regenerate API Keys for this user?', INBOUNDNOW_TEXT_DOMAIN ); ?>  ');
+							return confirm( '<?php _e('Are you sure you want to regenerate API Keys for this user?', 'inbound-pro' ); ?>  ');
 						} );
 					},
 				};
@@ -113,7 +113,7 @@ if (!class_exists('Inbound_API_Keys_Table')) {
 				$actions['view'] = sprintf(
 					'<a href="%s">%s</a>',
 					esc_url( add_query_arg( array( 'view' => 'api_requests', 'post_type' => 'download', 'page' => 'inbound-reports', 'tab' => 'logs', 's' => $item['email'] ), 'edit.php' ) ),
-					__( 'View API Log', INBOUNDNOW_TEXT_DOMAIN )
+					__( 'View API Log', 'inbound-pro' )
 				);
 			}
 			*/
@@ -121,12 +121,12 @@ if (!class_exists('Inbound_API_Keys_Table')) {
 			$actions['reissue'] = sprintf(
 				'<a href="%s" class="inbound-regenerate-api-keys">%s</a>',
 				esc_url( add_query_arg( array( 'user_id' => $item['id'], 'inbound_action' => 'regenerate-api-keys' ) ) ),
-				__( 'Reissue', INBOUNDNOW_TEXT_DOMAIN )
+				__( 'Reissue', 'inbound-pro' )
 			);
 			$actions['revoke'] = sprintf(
 				'<a href="%s" class="inbound-revoke-api-keys inbound-delete">%s</a>',
 				esc_url( add_query_arg( array( 'user_id' => $item['id'], 'inbound_action' => 'revoke-api-keys' ) ) ),
-				__( 'Revoke', INBOUNDNOW_TEXT_DOMAIN )
+				__( 'Revoke', 'inbound-pro' )
 			);
 
 			$actions = apply_filters( 'inbound_api_row_actions', array_filter( $actions ) );
@@ -143,10 +143,10 @@ if (!class_exists('Inbound_API_Keys_Table')) {
 		 */
 		public function get_columns() {
 			$columns = array(
-				'user'         => __( 'Username', INBOUNDNOW_TEXT_DOMAIN ),
-				'key'          => __( 'Public Key', INBOUNDNOW_TEXT_DOMAIN ),
-				'secret'       => __( 'Secret Key', INBOUNDNOW_TEXT_DOMAIN ),
-				'token'        => __( 'Token', INBOUNDNOW_TEXT_DOMAIN )
+				'user'         => __( 'Username', 'inbound-pro' ),
+				'key'          => __( 'Public Key', 'inbound-pro' ),
+				'secret'       => __( 'Secret Key', 'inbound-pro' ),
+				'token'        => __( 'Token', 'inbound-pro' )
 			);
 
 			return $columns;
@@ -183,8 +183,8 @@ if (!class_exists('Inbound_API_Keys_Table')) {
 			?>
 			<form method="post" action="<?php echo admin_url( 'edit.php?post_type=wp-lead&page=wpleads_global_settings&tab=tabs-wpleads-apikeys' ); ?>">
 				<input type="hidden" name="inbound_action" value="generate-api-keys" />
-				<input type='text' name="user_id" placeholder="<?php _e( 'Enter User ID', INBOUNDNOW_TEXT_DOMAIN ); ?>" title="Your Current ID is <?php echo $user->ID; ?> ">
-				<?php submit_button( __( 'Generate New API Keys', INBOUNDNOW_TEXT_DOMAIN ), 'secondary', 'submit', false ); ?>
+				<input type='text' name="user_id" placeholder="<?php _e( 'Enter User ID', 'inbound-pro' ); ?>" title="Your Current ID is <?php echo $user->ID; ?> ">
+				<?php submit_button( __( 'Generate New API Keys', 'inbound-pro' ), 'secondary', 'submit', false ); ?>
 				&nbsp;<a class='button button-primary' href='http://docs.inboundnow.com/guide/lead-api-documentation-v1/' target='_blank'><?php _e('View Documentation', 'inbound-pro' ); ?></a>
 			</form>
 			<?php
