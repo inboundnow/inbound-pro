@@ -95,7 +95,7 @@ class Inbound_Mailer_Clone_Post {
 	/**
 	*	Copt CTA & insert clone into databae
 	*/
-	public static function clone_post_callback($post, $status = '', $parent_id = '', $blank = false) {
+	public static function clone_post_callback($post, $status = '', $parent_id = '', $blank = false ) {
 		$prefix = "";
 		$suffix = "";
 
@@ -117,7 +117,6 @@ class Inbound_Mailer_Clone_Post {
 		
 
 		$new_post_author = wp_get_current_user();
-
 
 		$new_post = array(
 			'menu_order' => $post->menu_order,
@@ -148,6 +147,7 @@ class Inbound_Mailer_Clone_Post {
 			if ($key=='inbound_settings') {
 				$value[0] = unserialize( $value[0] );
 			}
+
 			update_post_meta($new_post_id , $key , $value[0]);
 		}
 

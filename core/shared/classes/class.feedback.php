@@ -245,46 +245,46 @@ if (!class_exists('Inbound_Feedback')) {
 				return;
 		}
 
-		$plugin_name = __( 'Inbound Now Marketing Plugins', INBOUNDNOW_TEXT_DOMAIN ); /* default */
+		$plugin_name = __( 'Inbound Now Marketing Plugins', 'inbound-pro' ); /* default */
 		if (in_array($screen->id, $lp_page_array)) {
-			$plugin_name = __( 'Landing Pages plugin', INBOUNDNOW_TEXT_DOMAIN );
+			$plugin_name = __( 'Landing Pages plugin', 'inbound-pro' );
 		} else if (in_array($screen->id, $cta_page_array)) {
-			$plugin_name = __( 'Calls to Action plugin', INBOUNDNOW_TEXT_DOMAIN );
+			$plugin_name = __( 'Calls to Action plugin', 'inbound-pro' );
 		} else if (in_array($screen->id, $leads_page_array)) {
-			$plugin_name = __( 'Leads plugin', INBOUNDNOW_TEXT_DOMAIN );
+			$plugin_name = __( 'Leads plugin', 'inbound-pro' );
 		}
 
 		?>
 	<div id="launch-feedback" style='z-index:9999999999999; background:gray; position:fixed; bottom:0px; right:20px; width:200px; height:30px;'>
 	<div id="inbound-fb-request">
-	<div class="inbound-close-fb"><?php _e( 'close', INBOUNDNOW_TEXT_DOMAIN ); ?></div>
+	<div class="inbound-close-fb"><?php _e( 'close', 'inbound-pro' ); ?></div>
 		<div id="lp-slide-toggle">
 			<header id="header" class='inbound-customhead'>
-			<a href="http://www.inboundnow.com" target="_blank" title="<?php _e( 'Visit Inbound Now', INBOUNDNOW_TEXT_DOMAIN ); ?>"><img src="<?php echo INBOUNDNOW_SHARED_URLPATH . 'assets/images/admin/inbound-now-logo.png';?>" width="315px"></a>
-			<h3 class="main-feedback-header" ><?php _e( 'We love hearing from You!', INBOUNDNOW_TEXT_DOMAIN ); ?></h3>
+			<a href="http://www.inboundnow.com" target="_blank" title="<?php _e( 'Visit Inbound Now', 'inbound-pro' ); ?>"><img src="<?php echo INBOUNDNOW_SHARED_URLPATH . 'assets/images/admin/inbound-now-logo.png';?>" width="315px"></a>
+			<h3 class="main-feedback-header" ><?php _e( 'We love hearing from You!', 'inbound-pro' ); ?></h3>
 			<h4><?php  _e( sprintf( 'Please leave your %sidea/feature request%s to make the %s better below! ', '<strong>', '</strong>', $plugin_name ), 'inbound-pro' ); ?></h4>
 			</header>
 			<section id="inbound-rules-main">
 			<form accept-charset="UTF-8" method="POST" id="inbound-feedback">
 			<div class="hs_message field hs-form-field">
-				<label placeholder="<?php _e( 'Enter your Feature Request', INBOUNDNOW_TEXT_DOMAIN ); ?>" for="message-4c6efedd-40b4-438e-bb4c-050a1944c974"><?php _e( 'Feature Request', INBOUNDNOW_TEXT_DOMAIN ); ?><span class="hs-form-required"> * </span>
+				<label placeholder="<?php _e( 'Enter your Feature Request', 'inbound-pro' ); ?>" for="message-4c6efedd-40b4-438e-bb4c-050a1944c974"><?php _e( 'Feature Request', 'inbound-pro' ); ?><span class="hs-form-required"> * </span>
 				</label>
 				<div class="input">
 				<textarea required="required" id="inbound-feedback-message" name="message" value=""></textarea>
 				</div>
 				<div class="input">
-				<input id="inbound-feedback-email-field" name="email" value="" placeholder="<?php _e( 'Your Email (optional field)', INBOUNDNOW_TEXT_DOMAIN ); ?>"></textarea>
+				<input id="inbound-feedback-email-field" name="email" value="" placeholder="<?php _e( 'Your Email (optional field)', 'inbound-pro' ); ?>"></textarea>
 				</div>
 			</div>
 
 			<div class="inbound-feedback-actions">
-				<input class="submit-inbound-feedback" type="submit" value="<?php _e( 'Send Feedback/Feature Request', INBOUNDNOW_TEXT_DOMAIN ); ?>">
+				<input class="submit-inbound-feedback" type="submit" value="<?php _e( 'Send Feedback/Feature Request', 'inbound-pro' ); ?>">
 			</div>
-			<div class="inbound-feedback-desc" style="display: block;"><strong><?php _e( 'Please note:', INBOUNDNOW_TEXT_DOMAIN ); ?></strong> <?php _e( 'Support requests will not be handled through this form', INBOUNDNOW_TEXT_DOMAIN ); ?></div>
+			<div class="inbound-feedback-desc" style="display: block;"><strong><?php _e( 'Please note:', 'inbound-pro' ); ?></strong> <?php _e( 'Support requests will not be handled through this form', 'inbound-pro' ); ?></div>
 			</form>
 			</section>
 		</div>
-			<div id="inbound-automation-footer" class="inbound-selectron-foot"><?php _e( 'Submit a Feature Request', INBOUNDNOW_TEXT_DOMAIN ); ?></div>
+			<div id="inbound-automation-footer" class="inbound-selectron-foot"><?php _e( 'Submit a Feature Request', 'inbound-pro' ); ?></div>
 	</div>
 
 	<script type="text/javascript">

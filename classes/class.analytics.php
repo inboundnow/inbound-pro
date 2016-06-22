@@ -17,7 +17,7 @@ class Inbound_Analytics {
 	*  Load hooks and filters
 	*/
 	public static function load_hooks() {
-		
+
 		/* modify localizated data to disable tracking */
 		add_filter( 'inbound_analytics_localized_data' , array( __CLASS__ , 'filter_lead_tracking_rules' ) );
 		
@@ -25,7 +25,8 @@ class Inbound_Analytics {
 		add_filter( 'inbound_analytics_stop_track' , array( __CLASS__ , 'filter_conversions' ) );
 		
 	}
-	
+
+
 	/**
 	*  Hooks into Inbound Analytics and enables/disabled lead tracking based on IP or is admin.
 	*/

@@ -56,7 +56,7 @@ class Inbound_Promote {
 		if ( in_array( $file , $plugins ) ) {
 			return array_merge(
 					$links,
-					array( '<a href="http://www.inboundnow.com/upgrade">'.__( 'UPGRADE TO PRO (FREE)' , INBOUNDNOW_TEXT_DOMAIN ) .'</a>' )
+					array( '<a href="http://www.inboundnow.com/upgrade">'.__( 'UPGRADE TO PRO (FREE)' , 'inbound-pro' ) .'</a>' )
 			);
 		}
 		return $links;
@@ -84,10 +84,10 @@ class Inbound_Promote {
 		}
 
 		echo '<div class="updated" id="inbound_notice_'.$message_id.'">
-				<h2>' . __('Help Translate Inbound Now Marketing Plugins', INBOUNDNOW_TEXT_DOMAIN) . '</h2>
-				 <p style="width:80%;">' . sprintf(__('Help translate Inbound Now\'s marketing plugins to your %s native langauge %s!', INBOUNDNOW_TEXT_DOMAIN), '<a href="http://docs.inboundnow.com/guide/inbound-translations-project/" target="_blank">', '</a>') . '</p>
-				 <a class="button button-primary button-large" href="http://www.inboundnow.com/translate-inbound-now/" target="_blank">' . __('Help Translate the plugins', INBOUNDNOW_TEXT_DOMAIN) . '</a>
-				 <a class="button button-large inbound_dismiss" href="#" id="'.$message_id.'"  data-notification-id="'.$message_id.'" >' . __('No Thanks', INBOUNDNOW_TEXT_DOMAIN) . '</a>
+				<h2>' . __('Help Translate Inbound Now Marketing Plugins', 'inbound-pro') . '</h2>
+				 <p style="width:80%;">' . sprintf(__('Help translate Inbound Now\'s marketing plugins to your %s native langauge %s!', 'inbound-pro'), '<a href="http://docs.inboundnow.com/guide/inbound-translations-project/" target="_blank">', '</a>') . '</p>
+				 <a class="button button-primary button-large" href="http://www.inboundnow.com/translate-inbound-now/" target="_blank">' . __('Help Translate the plugins', 'inbound-pro') . '</a>
+				 <a class="button button-large inbound_dismiss" href="#" id="'.$message_id.'"  data-notification-id="'.$message_id.'" >' . __('No Thanks', 'inbound-pro') . '</a>
 				 <br><br>
 			  </div>';
 
@@ -119,17 +119,17 @@ class Inbound_Promote {
 		echo '<div class="updated" id="inbound_notice_'.$message_id.'">
                     <h1>A friendly message from Inbound Now</h1>
                      <p style="width:80%;">
-						'.__('Hello there!' , INBOUNDNOW_TEXT_DOMAIN ) .'
+						'.__('Hello there!' , 'inbound-pro' ) .'
 					</p>
 					<p style="width:80%;">
-					 ' . __('We noticed you are using a stand alone version of an Inbound Now plugin. Did you know we provide a more powerful free plugin that includes this one and offers a lot more? ' , INBOUNDNOW_TEXT_DOMAIN ) .'
+					 ' . __('We noticed you are using a stand alone version of an Inbound Now plugin. Did you know we provide a more powerful free plugin that includes this one and offers a lot more? ' , 'inbound-pro' ) .'
                     </p>
 					<p style="width:80%;">
-					 ' . __('It\'s free, and we invite you to try it.' , INBOUNDNOW_TEXT_DOMAIN ) .'
+					 ' . __('It\'s free, and we invite you to try it.' , 'inbound-pro' ) .'
                     </p>
 					<br>
-	                 <a class="button button-primary button-large" href="http://www.inboundnow.com/upgrade/" target="_blank">' . __('Upgrade', INBOUNDNOW_TEXT_DOMAIN) . '</a>
-                     <a class="button button-default button-large inbound_dismiss" href="#" id="'.$message_id.'" data-notification-id="'.$message_id.'" >' . __('Dismiss this message', INBOUNDNOW_TEXT_DOMAIN) . '</a>
+	                 <a class="button button-primary button-large" href="http://www.inboundnow.com/upgrade/" target="_blank">' . __('Upgrade', 'inbound-pro') . '</a>
+                     <a class="button button-default button-large inbound_dismiss" href="#" id="'.$message_id.'" data-notification-id="'.$message_id.'" >' . __('Dismiss this message', 'inbound-pro') . '</a>
                      <br>
                      <br>
                   </div>';
@@ -156,18 +156,18 @@ class Inbound_Promote {
 		}
 
 		echo '<div class="updated" id="inbound_notice_'.$message_id.'">
-                    <h1>'.__('Want to view collected data?' , INBOUNDNOW_TEXT_DOMAIN ) .'</h1>
+                    <h1>'.__('Want to view collected data?' , 'inbound-pro' ) .'</h1>
 
 					<p style="width:80%;">
-					 ' . __('You are collecting data, why not review it? Our Leads plugin helps you mange the data you collect with these forms. Leads plugin is available via the WordPress plugin\'s directory as well as included in our free Inbound Pro plugin. We recommend Inbound Pro because it provides better settings management and additional free features. ' , INBOUNDNOW_TEXT_DOMAIN ) .'
+					 ' . __('You are collecting data, why not review it? Our Leads plugin helps you mange the data you collect with these forms. Leads plugin is available via the WordPress plugin\'s directory as well as included in our free Inbound Pro plugin. We recommend Inbound Pro because it provides better settings management and additional free features. ' , 'inbound-pro' ) .'
                     </p>
 					<p style="width:80%;">
-					 ' . __('Both are free, and we invite you to try them!' , INBOUNDNOW_TEXT_DOMAIN ) .'
+					 ' . __('Both are free, and we invite you to try them!' , 'inbound-pro' ) .'
                     </p>
 					<br>
-	                 <a class="button button-primary button-large" href="'.admin_url('plugin-install.php?tab=search&s=leads').'" >' . __('Download Leads Plugin', INBOUNDNOW_TEXT_DOMAIN) . '</a>
-	                 <a class="button button-primary button-large" href="http://www.inboundnow.com/upgrade/" target="_blank">' . __('Download Inbound Pro (recommended)', INBOUNDNOW_TEXT_DOMAIN) . '</a>
-                     <a class="button button-default button-large inbound_dismiss" href="#" id="'.$message_id.'" data-notification-id="'.$message_id.'" >' . __('Dismiss this message', INBOUNDNOW_TEXT_DOMAIN) . '</a>
+	                 <a class="button button-primary button-large" href="'.admin_url('plugin-install.php?tab=search&s=leads').'" >' . __('Download Leads Plugin', 'inbound-pro') . '</a>
+	                 <a class="button button-primary button-large" href="http://www.inboundnow.com/upgrade/" target="_blank">' . __('Download Inbound Pro (recommended)', 'inbound-pro') . '</a>
+                     <a class="button button-default button-large inbound_dismiss" href="#" id="'.$message_id.'" data-notification-id="'.$message_id.'" >' . __('Dismiss this message', 'inbound-pro') . '</a>
                      <br>
                      <br>
                   </div>';

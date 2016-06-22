@@ -18,6 +18,7 @@ class CTA_Call_To_Action_Post_Type {
 
 		/* Load Admin Only Hooks */
 		if (is_admin()) {
+			add_action( 'admin_init' , array( __CLASS__ , 'register_role_capabilities' ) ,999);
 
 			/* Register Columns */
 			add_filter( 'manage_wp-call-to-action_posts_columns', array(__CLASS__, 'register_columns'));
@@ -81,7 +82,8 @@ class CTA_Call_To_Action_Post_Type {
 			'query_var' => true,
 			'menu_icon' => '',
 			'rewrite' => array("slug" => "$slug"),
-			'capability_type' => 'post',
+			'capability_type' => array('cta','ctas'),
+			'map_meta_cap' => true,
 			'hierarchical' => false,
 			'menu_position' => 33,
 			'show_in_nav_menus'	=> false,
@@ -92,7 +94,35 @@ class CTA_Call_To_Action_Post_Type {
 
 		/*flush_rewrite_rules( false );*/
 
+	}
 
+	/**
+	 * Register Role Capabilities
+	 */
+	public static function register_role_capabilities() {
+		// Add the roles you'd like to administer the custom post types
+		$roles = array('inbound_marketer','administrator');
+
+		// Loop through each role and assign capabilities
+		foreach($roles as $the_role) {
+
+			$role = get_role($the_role);
+			if (!$role) {
+				continue;
+			}
+
+			$role->add_cap( 'read' );
+			$role->add_cap( 'read_cta');
+			$role->add_cap( 'read_private_ctas' );
+			$role->add_cap( 'edit_cta' );
+			$role->add_cap( 'edit_ctas' );
+			$role->add_cap( 'edit_others_ctas' );
+			$role->add_cap( 'edit_published_ctas' );
+			$role->add_cap( 'publish_ctas' );
+			$role->add_cap( 'delete_others_ctas' );
+			$role->add_cap( 'delete_private_ctas' );
+			$role->add_cap( 'delete_published_ctas' );
+		}
 	}
 
 	/* Register Category Taxonomy */

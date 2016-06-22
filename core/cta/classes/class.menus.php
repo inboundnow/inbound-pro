@@ -26,20 +26,16 @@ class CTA_Menus {
 	*  Adds sub-menus to 'Calls to Action'
 	*/
 	public static function add_sub_menus() {
-		if ( !current_user_can('manage_options')) {
-			remove_menu_page( 'edit.php?post_type=wp-call-to-action' );
-			return;
-		}
 
-		add_submenu_page('edit.php?post_type=wp-call-to-action', __( 'Forms', 'inbound-pro' ), __( 'Forms', 'cta'), 'manage_options', 'inbound-forms-redirect',100);
+		add_submenu_page('edit.php?post_type=wp-call-to-action', __( 'Forms', 'inbound-pro' ), __( 'Forms', 'cta'), 'edit_ctas', 'inbound-forms-redirect',100);
 
-		add_submenu_page('edit.php?post_type=wp-call-to-action', __( 'Settings', 'cta'), __( 'Settings', 'cta'), 'manage_options', 'wp_cta_global_settings', array( 'CTA_Global_Settings', 'display_global_settings'));
+		add_submenu_page('edit.php?post_type=wp-call-to-action', __( 'Settings', 'cta'), __( 'Settings', 'cta'), 'edit_ctas', 'wp_cta_global_settings', array( 'CTA_Global_Settings', 'display_global_settings'));
 
 		if ( !class_exists('Inbound_Pro_Plugin') ) {
-			add_submenu_page('edit.php?post_type=wp-call-to-action', __( 'Upgrade to Pro', 'cta'), __( 'Upgrade to Pro', 'cta'), 'manage_options', 'wp_cta_store', array( __CLASS__ , 'store_display'));
+			add_submenu_page('edit.php?post_type=wp-call-to-action', __( 'Upgrade to Pro', 'cta'), __( 'Upgrade to Pro', 'cta'), 'edit_ctas', 'wp_cta_store', array( __CLASS__ , 'store_display'));
 		}
 
-		add_submenu_page('edit.php?post_type=wp-call-to-action', __( 'Upload Templates', 'cta'), __( 'Upload Templates', 'cta'), 'manage_options', 'wp_cta_manage_templates', array( 'CTA_Template_Manager', 'display_management_page'));
+		add_submenu_page('edit.php?post_type=wp-call-to-action', __( 'Upload Templates', 'cta'), __( 'Upload Templates', 'cta'), 'edit_ctas', 'wp_cta_manage_templates', array( 'CTA_Template_Manager', 'display_management_page'));
 
 	}
 

@@ -164,7 +164,7 @@ if (!class_exists('Inbound_Menus_Adminbar')) {
 			);
 
 			/* 1.1 - Leads search form */
-			$leads_search_text = __( 'Search All Leads', INBOUNDNOW_TEXT_DOMAIN );
+			$leads_search_text = __( 'Search All Leads', 'inbound-pro' );
 			$menu_items['inbound-leads-search'] = array(
 				'parent' => $leads_key,
 				'title' => '<form id="inbound-menu-form" method="get" action="'.admin_url( 'edit.php?post_type=wp-lead' ).'" class=" " target="_blank">

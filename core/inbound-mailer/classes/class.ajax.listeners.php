@@ -31,6 +31,9 @@ class Inbound_Mailer_Ajax_Listeners {
 		add_action( 'wp_ajax_inbound_schedule_email' , array( __CLASS__ , 'schedule_email' ) );
 
 		/* Adds listener to schedule email */
+		add_action( 'wp_ajax_inbound_prepare_batch_email' , array( __CLASS__ , 'prepare_batch_email' ) );
+
+		/* Adds listener to schedule email */
 		add_action( 'wp_ajax_clear_email_stats' , array( __CLASS__ , 'clear_stats' ) );
 	}
 
@@ -164,6 +167,7 @@ class Inbound_Mailer_Ajax_Listeners {
 	 *  Sends test email
 	 */
 	public static function send_test_email() {
+
 		/* see if there is a lead associated with the test email */
 		$lead_id = LeadStorage::lookup_lead_by_email($_REQUEST['email_address']);
 
@@ -192,6 +196,64 @@ class Inbound_Mailer_Ajax_Listeners {
 	public static function schedule_email() {
 		$response = Inbound_Mailer_Scheduling::schedule_email(intval($_POST['email_id']));
 		echo $response;
+		exit;
+	}
+
+	/**
+	 *
+	 */
+	public static function prepare_batch_email() {
+
+
+		$email_id = $_POST['email_id'];
+		$post_id = $_POST['post_id'];
+
+		if (!$email_id) {
+			return;
+		}
+
+		$post = get_post($email_id);
+
+		$new_post_author = wp_get_current_user();
+
+		$new_post = array(
+			'menu_order' => $post->menu_order,
+			'comment_status' => $post->comment_status,
+			'ping_status' => $post->ping_status,
+			'post_author' => $new_post_author->ID,
+			'post_content' => $post->post_content,
+			'post_excerpt' =>	$post->post_excerpt ,
+			'post_mime_type' => $post->post_mime_type,
+			'post_parent' => $new_post_parent = empty($parent_id)? $post->post_parent : $parent_id,
+			'post_password' => $post->post_password,
+			'post_status' => 'unsent',
+			'post_title' => get_the_title($post_id),
+			'post_type' => $post->post_type,
+		);
+
+		$new_post['post_date'] = $new_post_date =	$post->post_date ;
+		$new_post['post_date_gmt'] = get_gmt_from_date($new_post_date);
+
+		$new_email_id = wp_insert_post($new_post);
+
+		$meta_data = get_post_meta($post->ID);
+
+		/* destroy any past statistics */
+		unset($meta_data['inbound_statistics']);
+
+		foreach ($meta_data as $key=>$value) {
+			if ($key=='inbound_settings') {
+				$value[0] = unserialize( $value[0] );
+			}
+
+			if (strstr($value[0],$email_id)) {
+				$value[0] = str_replace( $email_id, $new_email_id ,$value[0]);
+			}
+
+			update_post_meta($new_email_id , $key , $value[0]);
+		}
+		error_log($new_email_id);
+		echo $new_email_id;
 		exit;
 	}
 

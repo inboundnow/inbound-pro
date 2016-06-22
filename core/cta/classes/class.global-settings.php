@@ -64,14 +64,6 @@ class CTA_Global_Settings {
 				'options' => null
 			),
 			array(
-				'id'	=> 'use-lite-ajax-mode',
-				'label' => __( 'Enable fast ajax.', 'inbound-pro' ),
-				'description' => __( 'Enabling this setting may improve server performance. Currently not compatible with Multi-site.', 'inbound-pro' ),
-				'type'	=> 'radio',
-				'default'	=> '1',
-				'options' => array( 0 => 'Off', 1 => 'On' )
-			),
-			array(
 				'id'	=> 'disable-ajax-variation-discovery',
 				'label' => __( 'Disable Split Testing.', 'inbound-pro' ),
 				'description' => __( 'Enabling this setting may improve server performance at the loss of split testing. Only version A will be displayed for every CTA.', 'inbound-pro' ),

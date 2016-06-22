@@ -146,7 +146,7 @@ class Inbound_Customizer {
             'inbound-customizer-parent-js' ,
             'customizer_off',
             array(
-                'launch_visual_editor' =>__('Launch Visual Editor' , INBOUNDNOW_TEXT_DOMAIN) ,
+                'launch_visual_editor' =>__('Launch Visual Editor' , 'inbound-pro') ,
                 'url' => add_query_arg( array('inbound-customizer'=> 'on' ) , get_permalink($post->ID))
             )
         );

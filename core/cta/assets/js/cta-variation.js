@@ -103,12 +103,14 @@ function wp_cta_load_variation( cta_id, vid, disable_ajax ) {
 	else {
 		jQuery.ajax({
 			type: "GET",
-			url: cta_variation.ajax_url,
+			url: cta_variation.admin_url,
 			dataType: "script",
 			async: false, /* required atm */
 			data : {
 				'action' : 'cta_get_variation',
-				'cta_id' : cta_id
+				'cta_id' : cta_id,
+				'fast_ajax': true,
+				'load_plugins': ["_inbound-now/inbound-pro.php"]
 			},
 			success: function(vid) {
 				/* update local storage variable */

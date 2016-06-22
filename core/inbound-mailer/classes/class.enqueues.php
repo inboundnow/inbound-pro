@@ -88,6 +88,12 @@ class Inbound_Mailer_Enqueues {
 		$Templates = Inbound_Mailer_Load_Templates();
 		$screen = get_current_screen();
 
+		if (  isset($screen) && ( $screen->post_type == 'post' || $screen->post_type == 'page' ) ){
+			/* Enqueue Sweet Alert support for Posts and Pages  */
+			wp_enqueue_script('sweet-alert-js', INBOUND_EMAIL_URLPATH . 'assets/libraries/SweetAlert/sweet-alert.js');
+			wp_enqueue_style('sweet-alert-css', INBOUND_EMAIL_URLPATH . 'assets/libraries/SweetAlert/sweet-alert.css');
+		}
+
 		if ( ( isset($screen) && $screen->post_type != 'inbound-email' ) ){
 			return;
 		}

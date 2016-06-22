@@ -116,13 +116,6 @@ jQuery(document).ready(function($) {
 	var hideempty = jQuery("#touch-point span:visible").length;
 	var hideago = jQuery("#session-time-since:visible").length;
 
-	if (hideempty === 0) {
-		//jQuery("#touch-point").html("<strong>Moments ago</strong>")
-	}
-
-	if (hideago === 0) {
-		//jQuery("#session-time-since").text("Just Now!");
-	}
 
 	jQuery("#submitdiv .hndle").text("Update Lead Information");
 	var html = '<a class="add-new-h2" href="edit.php?post_type=wp-lead">Back</a>';
@@ -152,17 +145,18 @@ jQuery(document).ready(function($) {
 	  jQuery('#lead-tag-cloud a').tagcloud();
 	});
 
-	jQuery('#wpleads_main_container input, #wpleads_main_container textarea').each(
-
+	jQuery('#wpleads_main_container input, #wpleads_main_container textarea, #wpleads_main_container select').each(
+		/*
+		 */
         function(){
    			// hide empty fields
-   		 if( jQuery(this).val() ) {
- 			jQuery(this).parent().parent().show();
-            }
-          if( !jQuery(this).val() ) {
- 			jQuery(this).parent().parent().hide().addClass('hidden-lead-fields');
+   		 	if( jQuery(this).val() ) {
+ 				jQuery(this).parent().parent().show();
             }
 
+          	if( !jQuery(this).val() ) {
+ 				jQuery(this).parent().parent().hide().addClass('hidden-lead-fields');
+            }
         }
     );
 
@@ -170,7 +164,6 @@ jQuery(document).ready(function($) {
 	if (jQuery('#wpleads-td-wpleads_websites').hasClass('hidden-lead-fields')) {
 		jQuery('.wpleads_websites').hide().addClass('hidden-lead-fields');
 	}
-
 
 	jQuery("#activity-data-display nav li").click(function() {
 		jQuery(".active").removeClass("active");

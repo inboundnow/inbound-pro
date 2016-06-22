@@ -18,12 +18,16 @@ class Inbound_SparkPost_Stats {
     }
 
     public static function add_hooks() {
-        /* For mail service activation */
-        add_action( 'inbound-settings/after-field-value-update' , array( __CLASS__ , 'sparkpost_activation_routines' ));
+        if (is_admin()) {
+            /* For mail service activation */
+            add_action('inbound-settings/after-field-value-update', array(__CLASS__, 'sparkpost_activation_routines'));
 
-        /* For processing webhooks */
-        add_action( 'wp_ajax_nopriv_sparkpost_webhook', array( __CLASS__ , 'process_webhook' ) );
+            /* For processing webhooks */
+            add_action('wp_ajax_nopriv_sparkpost_webhook', array(__CLASS__, 'process_webhook'));
+        }
 
+        /* process rejection errors */
+        add_action( 'sparkpost/send/response' , array( __CLASS__ , 'process_rejections') , 10 , 2 );
     }
 
     /**
@@ -519,6 +523,7 @@ class Inbound_SparkPost_Stats {
                 'open',
                 'click',
                 'relay_rejection',
+                'generation_rejection',
                 'spam_complaint'
             ),
             'target' => $url,
@@ -609,6 +614,60 @@ class Inbound_SparkPost_Stats {
                 Inbound_Events::store_event($args);
             }
 
+
+            /* handle rejections */
+            if ($event['type'] == 'spam_compaint') {
+
+                /* create/get maintenance lists */
+                $parent = Inbound_Leads::create_lead_list( array(
+                    'name' => __( 'Maintenance' , 'inbound-pro' )
+                ));
+
+                /* createget spam lists */
+                $term = Inbound_Leads::create_lead_list( array(
+                    'name' => __( 'Spam Complaints' , 'inbound-pro' ),
+                    'parent' =>$parent['id']
+                ));
+
+                /* add to spam complaint list */
+                Inbound_Leads::add_lead_to_list( $event['rcpt_meta']['lead_id'], $term['id'] );
+
+
+            }
+
+        }
+
+    }
+
+    /**
+     * Check SparkPost Response for Errors and Handle them
+     */
+    public static function process_rejections( $transmission_args , $response ) {
+        if (!isset($response['errors']) || !isset($transmission_args['metadata']['lead_id'])) {
+            return;
+        }
+
+        foreach ($response['errors'] as $error) {
+
+            switch( $error['code'] ) {
+                case '1902':
+
+                    /* create/get maintenance lists */
+                    $parent = Inbound_Leads::create_lead_list( array(
+                        'name' => __( 'Maintenance' , 'inbound-pro' )
+                    ));
+
+                    /* create/get rejected lists */
+                    $term = Inbound_Leads::create_lead_list( array(
+                        'name' => __( 'Rejected' , 'inbound-pro' ),
+                        'parent' =>$parent['id']
+                    ));
+
+                    /* add to rejected list */
+                    Inbound_Leads::add_lead_to_list( $transmission_args['metadata']['lead_id'], $term['id'] );
+
+                    break;
+            }
         }
 
     }

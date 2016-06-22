@@ -40,8 +40,22 @@ class Inbound_Mailer_Tokens {
 		add_shortcode( 'lead-field', array( __CLASS__, 'process_lead_field_shortcode' ) );
 
 		/* Add shortcode handler */
+		add_shortcode( 'post-link', array( __CLASS__, 'process_post_link_shortcode' ) );
+
+		/* Add shortcode handler */
+		add_shortcode( 'post-title', array( __CLASS__, 'process_post_title_shortcode' ) );
+
+		/* Add shortcode handler */
+		add_shortcode( 'post-content', array( __CLASS__, 'process_post_content_shortcode' ) );
+
+		/* Add shortcode handler */
+		add_shortcode( 'featured-image', array( __CLASS__, 'process_post_featured_image_shortcode' ) );
+
+		/* Add shortcode handler */
 		add_shortcode( 'unsubscribe-link', array( __CLASS__, 'process_unsubscribe_link' ) );
 
+		/* Add information to posts/pages on how to use content shortcodes */
+		add_action('add_meta_boxes', array(__CLASS__, 'load_metaboxes'));
 	}
 
 	/**
@@ -276,6 +290,56 @@ class Inbound_Mailer_Tokens {
 	}
 
 	/**
+	 * Shortcode to generate post content
+	 */
+	public static function process_post_content_shortcode( $params ) {
+
+		$params = shortcode_atts( array( 'id' => null ), $params );
+
+		$post = get_post(trim($params['id']));
+
+		/* remove cta shortcode */
+		$pattern = '/\[(cta).*?\]/';
+		$content = preg_replace( $pattern ,'',$post->post_content);
+		$content = do_shortcode($content);
+		$content = wpautop($content);
+		return trim($content);
+	}
+
+	/**
+	 * Shortcode to generate post content
+	 */
+	public static function process_post_featured_image_shortcode( $params ) {
+		global $post;
+
+		$params = shortcode_atts( array( 'id' => null ), $params );
+
+		$post = get_post($params['id']);
+
+		return wp_get_attachment_url( get_post_thumbnail_id($post->ID) );
+	}
+
+	/**
+	 * Shortcode to generate post content
+	 */
+	public static function process_post_title_shortcode( $params ) {
+		$params = shortcode_atts( array( 'id' => null ), $params );
+
+		$post = get_post($params['id']);
+
+		return $post->post_title;
+	}
+
+	/**
+	 * Shortcode to generate post content
+	 */
+	public static function process_post_link_shortcode( $params ) {
+		$params = shortcode_atts( array( 'id' => null ), $params );
+
+		return get_permalink($params['id']);
+	}
+
+	/**
 	*  Process unsubscribe link
 	*/
 	public static function process_unsubscribe_link( $params ) {
@@ -303,6 +367,171 @@ class Inbound_Mailer_Tokens {
 
 		return $unsubscribe_link;
 	}
+
+	/**
+	 * Loads Metaboxes
+	 */
+	public static function load_metaboxes() {
+		global $post, $Inbound_Mailer_Variations;
+
+		if ($post->post_type != 'post' && $post->post_type != 'page') {
+			return;
+		}
+
+		/* Show Selected Template */
+		add_meta_box('inbound-email-content-shortcodes', __('Email Setup', 'inbound-pro'), array(__CLASS__, 'display_email_shortcodes'), $post->post_type, 'side', 'low');
+	}
+
+	public static function display_email_shortcodes() {
+		global $post;
+
+		$automated_emails = Inbound_Mailer_Post_Type::get_automation_emails_as( 'ARRAY' );
+		if (!$automated_emails) {
+			$automated_emails[] = __( 'No Automation emails detected. Please create an automated email first.' , 'inbound-pro' );
+		}
+
+		?>
+		<div>
+			<table style='width:100%'>
+				<tr>
+					<td style='width:22%'>
+						<?php _e( 'Permalink Shortcode' , 'inbound-pro' ); ?>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input type='text' style='width:90%;display:inline;' readonly='readonly' value="[post-link id=<?php echo $post->ID; ?>]">
+						<div class="lp_tooltip" style="display:inline" title="<?php _e( 'Use this shortcode inside email blasts. Returns post permalink.' , 'inbound-pro' ); ?>" ><i class="fa fa-question-circle"></i></div>
+					</td>
+				</tr>
+				<tr>
+					<td style='width:22%'>
+						<?php _e( 'Title Shortcode' , 'inbound-pro' ); ?>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input type='text' style='width:90%;display:inline;' readonly='readonly' value="[post-title id=<?php echo $post->ID; ?>]">
+						<div class="lp_tooltip" style="display:inline" title="<?php _e( 'Use this shortcode inside email blasts. Returns title.' , 'inbound-pro' ); ?>" ><i class="fa fa-question-circle"></i></div>
+					</td>
+				</tr>
+				<tr>
+					<td style='width:22%'>
+						<?php _e( 'Content Shortcode' , 'inbound-pro' ); ?>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input type='text' style='width:90%;display:inline;' readonly='readonly' value="[post-content id=<?php echo $post->ID; ?>]">
+						<div class="lp_tooltip" style="display:inline" title="<?php _e( 'Use this shortcode inside email blasts.' , 'inbound-pro' ); ?>" ><i class="fa fa-question-circle"></i></div>
+					</td>
+				</tr>
+				<tr>
+					<td style='width:22%'>
+						<?php _e( 'Featured Image Shortcode' , 'inbound-pro' ); ?>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input type='text' style='width:90%;display:inline;' readonly='readonly' value="[featured-image id=<?php echo $post->ID; ?>]">
+						<div class="lp_tooltip" style="display:inline" title="<?php _e( 'Use this shortcode inside email blasts. Returns URL.' , 'inbound-pro' ); ?>" ><i class="fa fa-question-circle"></i></div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<center>
+							<span style="width:100%;margin-top:5px;" class="button button-default" id="generate-batch-email"><?php _e( 'Generate Batch Email!' , 'inbound-pro'); ?></span>
+
+						</center>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<script>
+			jQuery(document).ready(function () {
+				/* Add listener to prompt sweet alert on unschedule */
+				jQuery('body').on('click', '#generate-batch-email', function (e) {
+					MailerListener.generate_email();
+				});
+
+			});
+			var MailerListener = (function () {
+
+				var Init = {
+					/**
+					 *    Initialize immediate UI modifications
+					 */
+					init: function () {
+
+					},
+					/**
+					 *    Prompts send test email dialog
+					 */
+					generate_email: function () {
+
+						/* Throw confirmation for scheduling */
+						swal({
+							title: "<?php _e( 'Create Batch Email' , 'inbound-pro' ); ?>",
+							text: "",
+							type: "info",
+							showCancelButton: true,
+							confirmButtonColor: "#2ea2cc",
+							confirmButtonText: "<?php _e( 'Create Batch' , 'inbound-pro' ); ?>",
+							closeOnConfirm: false,
+							selectField: {
+								placeholder: '<?php _e( 'Select Automated Email Template.' , 'inbound-pro' ); ?>',
+								padding: '20px',
+								width: '400px',
+								options: <?php echo json_encode($automated_emails); ?>
+							}
+						}, function (email_id) {
+
+							if (!email_id) {
+								return;
+							}
+
+
+							swal({
+								title: "<?php _e('Creating Email' , 'inbound-pro' ); ?>",
+								text: "<?php _e('Your email is being created in the background.' , 'inbound-pro' ); ?>",
+								imageUrl: '<?php echo INBOUND_EMAIL_URLPATH; ?>/assets/images/loading_colorful.gif',
+								selectField : false
+							});
+
+							jQuery.ajax({
+								type: "POST",
+								url: '<?php echo admin_url( 'admin-ajax.php' ); ?>',
+								data: {
+									action: 'inbound_prepare_batch_email',
+									email_id: email_id,
+									post_id: <?php echo $post->ID; ?>
+								},
+								dataType: 'html',
+								timeout: 20000,
+								success: function (email_id) {
+									document.querySelector('.sweet-alert button').click();
+								},
+								error: function (request, status, err) {
+									//alert(status);
+								}
+							});
+
+
+
+						});
+
+					}
+
+
+				}
+
+				return Init;
+
+			})();
+		</script>
+		<?php
+	}
+
 }
 
 /**

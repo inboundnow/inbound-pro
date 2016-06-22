@@ -18,6 +18,7 @@ if ( !class_exists('Inbound_Leads') ) {
 		private function load_hooks() {
 			/* Register Leads Post Type */
 			add_action( 'init', array(__CLASS__, 'register_post_type' ));
+			add_action( 'admin_init' , array( __CLASS__ , 'register_role_capabilities' ) ,999);
 			add_action( 'init', array(__CLASS__, 'register_taxonomies' ));
 
 			/* Modify columns on lead list creation page */
@@ -59,7 +60,8 @@ if ( !class_exists('Inbound_Leads') ) {
 				'show_ui' => true,
 				'query_var' => true,
 				'menu_icon' => INBOUNDNOW_SHARED_URLPATH . 'assets/images/global/leads.png',
-				'capability_type' => 'post',
+				'capability_type' => array('lead','leads'),
+				'map_meta_cap' => true,
 				'hierarchical' => false,
 				'menu_position' => 31,
 				'supports' => array('custom-fields','thumbnail')
@@ -69,6 +71,35 @@ if ( !class_exists('Inbound_Leads') ) {
 
 			register_post_type( 'wp-lead', $args );
 
+		}
+
+		/**
+		 * Register Role Capabilities
+		 */
+		public static function register_role_capabilities() {
+			// Add the roles you'd like to administer the custom post types
+			$roles = array('inbound_marketer','editor','administrator');
+
+			// Loop through each role and assign capabilities
+			foreach($roles as $the_role) {
+
+				$role = get_role($the_role);
+				if (!$role) {
+					continue;
+				}
+
+				$role->add_cap( 'read' );
+				$role->add_cap( 'read_lead');
+				$role->add_cap( 'read_private_leads' );
+				$role->add_cap( 'edit_lead' );
+				$role->add_cap( 'edit_leads' );
+				$role->add_cap( 'edit_others_leads' );
+				$role->add_cap( 'edit_published_leads' );
+				$role->add_cap( 'publish_leads' );
+				$role->add_cap( 'delete_others_leads' );
+				$role->add_cap( 'delete_private_leads' );
+				$role->add_cap( 'delete_published_leads' );
+			}
 		}
 
 		/**
@@ -85,18 +116,18 @@ if ( !class_exists('Inbound_Leads') ) {
 			$list_labels = array(
 				'name'						=> __( 'Lead Lists', 'inbound-pro' ),
 				'singular_name'				=> __( 'Lead List', 'inbound-pro' ),
-				'search_items'				=> __( 'Search Lead Lists', INBOUNDNOW_TEXT_DOMAIN ),
-				'popular_items'				=> __( 'Popular Lead Lists', INBOUNDNOW_TEXT_DOMAIN ),
-				'all_items'					=> __( 'All Lead Lists', INBOUNDNOW_TEXT_DOMAIN ),
+				'search_items'				=> __( 'Search Lead Lists', 'inbound-pro' ),
+				'popular_items'				=> __( 'Popular Lead Lists', 'inbound-pro' ),
+				'all_items'					=> __( 'All Lead Lists', 'inbound-pro' ),
 				'parent_item'				=> null,
 				'parent_item_colon'			=> null,
-				'edit_item'					=> __( 'Edit Lead List', INBOUNDNOW_TEXT_DOMAIN ),
+				'edit_item'					=> __( 'Edit Lead List', 'inbound-pro' ),
 				'update_item'				=> __( 'Update Lead List', 'leads'	),
 				'add_new_item'				=> __( 'Add New Lead List', 'leads'	),
 				'new_item_name'				=> __( 'New Lead List', 'leads'	),
 				'separate_items_with_commas' => __( 'Separate Lead Lists with commas', 'leads'	),
 				'add_or_remove_items'		=> __( 'Add or remove Lead Lists', 'leads'	),
-				'choose_from_most_used'		=> __( 'Choose from the most used lead List', INBOUNDNOW_TEXT_DOMAIN ),
+				'choose_from_most_used'		=> __( 'Choose from the most used lead List', 'inbound-pro' ),
 				'not_found'					=> __( 'No Lead Lists found.', 'leads'	),
 				'menu_name'					=> __( 'Lead Lists', 'leads'	),
 			);
@@ -104,7 +135,7 @@ if ( !class_exists('Inbound_Leads') ) {
 			$list_args = array(
 				'hierarchical'			=> true,
 				'labels'				=> $list_labels,
-				'singular_label'		=> __( 'List Management', INBOUNDNOW_TEXT_DOMAIN ),
+				'singular_label'		=> __( 'List Management', 'inbound-pro' ),
 				'show_ui'				=> true,
 				'show_in_menu'			=> true,
 				'show_in_nav_menus'		=> false,
@@ -341,12 +372,12 @@ if ( !class_exists('Inbound_Leads') ) {
 
 			/* id is required */
 			if (!isset($id)) {
-				return array( 'error' => __( 'must include an id parameter', INBOUNDNOW_TEXT_DOMAIN ) );
+				return array( 'error' => __( 'must include an id parameter', 'inbound-pro' ) );
 			}
 
 			wp_delete_term( $id, 'wplead_list_category' );
 
-			return array( 'message' => __( 'lead list deleted', INBOUNDNOW_TEXT_DOMAIN ) );
+			return array( 'message' => __( 'lead list deleted', 'inbound-pro' ) );
 		}
 
 		/**
@@ -491,8 +522,8 @@ if ( !class_exists('Inbound_Leads') ) {
 				return;
 			}
 
-			if (!wpleads_check_active()) {
-				_e( 'WordPress Leads is not currently installed/activated to view and manage leads please turn it on.', INBOUNDNOW_TEXT_DOMAIN );
+			if (!defined('WPL_CURRENT_VERSION')) {
+				_e( 'WordPress Leads is not currently installed/activated to view and manage leads please turn it on.', 'inbound-pro' );
 			}
 		}
 
@@ -519,7 +550,7 @@ if ( !class_exists('Inbound_Leads') ) {
 
 			$count = $query->post_count;
 
-			return sprintf( __( '%d leads', INBOUNDNOW_TEXT_DOMAIN ), $count );
+			return sprintf( __( '%d leads', 'inbound-pro' ), $count );
 
 		}
 

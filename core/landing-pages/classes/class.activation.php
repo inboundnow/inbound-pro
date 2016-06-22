@@ -33,6 +33,7 @@ class Landing_Pages_Activation {
 
         /* Add listener for uncompleted upgrade routines */
         add_action( 'admin_init' , array( 'Landing_Pages_Activation' , 'run_upgrade_routine_checks' ) );
+
     }
 
 	public static function activate() {
