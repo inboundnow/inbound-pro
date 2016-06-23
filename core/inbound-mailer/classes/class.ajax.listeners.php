@@ -4,6 +4,7 @@
  *	This class loads miscellaneous WordPress AJAX listeners
  */
 class Inbound_Mailer_Ajax_Listeners {
+	static $needle;
 
 	/**
 	 *	Initializes class
@@ -241,20 +242,72 @@ class Inbound_Mailer_Ajax_Listeners {
 		/* destroy any past statistics */
 		unset($meta_data['inbound_statistics']);
 
+
+		/* replace id in meta fields */
 		foreach ($meta_data as $key=>$value) {
 			if ($key=='inbound_settings') {
 				$value[0] = unserialize( $value[0] );
 			}
 
-			if (strstr($value[0],$email_id)) {
-				$value[0] = str_replace( $email_id, $new_email_id ,$value[0]);
+
+			/* set email type to batch */
+			if ($key == 'inbound_settings') {
+				$value[0]['email_type'] = 'batch';
+				$variations = $value[0]['variations'];
+
+				foreach ($variations as $vid => $settings) {
+					$value[0]['variations'][$vid]['acf'] = self::replace_id($value[0]['variations'][$vid]['acf'], $post_id);
+
+					error_log('7777');
+					error_log(print_r($value[0]['variations'][$vid]['acf'],true));
+				}
+
+
+			} else {
+				/* replace shortcode ids */
+				$value[0] = self::replace_id($value[0], $post_id);
 			}
+
+
 
 			update_post_meta($new_email_id , $key , $value[0]);
 		}
-		error_log($new_email_id);
+
+
 		echo $new_email_id;
 		exit;
+	}
+
+	/**
+	 *
+	 */
+	public static function replace_id( $mixed , $post_id ) {
+
+		if (is_array($mixed)) {
+
+			foreach ($mixed as $k => $v ) {
+
+				if (is_array($v)) {
+					$mixed[$k] = self::replace_id($v,$post_id);
+				}else {
+					preg_match("/\sid=\d+/", $v , $output_array);
+					foreach ($output_array as $kk=>$match) {
+						$mixed[$k] = str_replace($match , ' id=' . $post_id , $v);
+					}
+				}
+			}
+
+
+		} else {
+
+			preg_match("/\sid=\d+/", $mixed , $output_array);
+			foreach ($output_array as $k=>$match) {
+				$mixed = str_replace($match , ' id=' . $post_id , $mixed);
+			}
+			error_log($mixed);
+		}
+
+		return $mixed;
 	}
 
 	/**
