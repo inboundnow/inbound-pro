@@ -86,7 +86,8 @@ class Inbound_Mailer_Unsubscribe {
 	 */
 	public static function generate_unsubscribe_link( $params ) {
 
-		if (!isset($params['lead_id']) || $params['lead_id']) {
+
+		if (!isset($params['lead_id']) || !$params['lead_id']) {
 			return __( '#unsubscribe-not-available-in-online-mode' , 'inbound-pro' );
 		}
 
