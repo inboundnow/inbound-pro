@@ -666,6 +666,20 @@ class Inbound_SparkPost_Stats {
                     /* add to rejected list */
                     Inbound_Leads::add_lead_to_list( $transmission_args['metadata']['lead_id'], $term['id'] );
 
+                    $args = array(
+                        'event_name' => 'sparkpost_rejected',
+                        'email_id' => $transmission_args['metadata']['email_id'],
+                        'variation_id' =>  $transmission_args['metadata']['variation_id'],
+                        'form_id' => '',
+                        'lead_id' => $transmission_args['metadata']['lead_id'],
+                        'session_id' => '',
+                        'event_details' => json_encode($error)
+                    );
+
+                    /* lets not spam our events table with repeat opens and clicks */
+                    if (!Inbound_Events::event_exists($args)) {
+                        Inbound_Events::store_event($args);
+                    }
                     break;
             }
         }
