@@ -55,6 +55,7 @@ class Inbound_Mailer_Unsubscribe {
 		/* Begin unsubscribe html inputs */
 		$html = "<form action='?unsubscribed=true' name='unsubscribe' method='post'>";
 		$html .= "<input type='hidden' name='token' value='".$_GET['token']."' >";
+		$html .= "<input type='hidden' name='action' value='inbound_unsubscribe_event' >";
 
 		/* loop through lists and show unsubscribe inputs */
 		if ( isset($params['list_ids']) ) {
@@ -68,12 +69,44 @@ class Inbound_Mailer_Unsubscribe {
 			}
 		}
 
-		$html .= "<span class='unsubscribe-span'><label class='lead-list-label'><input name='unsubscribe_all' type='checkbox' value='all'> " . __( 'Usubscribe from all emails' , 'inbound-email' ) .'</label></span>';
+		$html .= "<span class='unsubscribe-span'><label class='lead-list-label'><input name='lists_all' type='checkbox' value='all'> " . __( 'all lists' , 'inbound-email' ) .'</label></span>';
 		$html .= "<div class='unsubscribe-div unsubsribe-comments'>";
-		$html .= "	<span class='unsubscribe-comments-message'>". __( 'Please help us improve by letting us know why you are unsubscribing.' , 'inbound-email' ) ."</span>";
+		$html .= "	<span class='unsubscribe-comments-message'>". __( 'Please help us improve by providing us with feedback.' , 'inbound-email' ) ."</span>";
 		$html .= "	<span class='unsubscribe-comments-label'>". __('Comments:' , 'inbound-email') ."<br><textarea rows='8' cols='60' name='comments'></textarea></span>";
 		$html .= "</div>";
-		$html .= "<span class='unsubscribe-span'><label class='unsubscribe-label'><input name='unsubscribe' type='submit' value='". __( 'Unsubscribe' , 'inbound-email' ) ."' class='inbound-button-submit inbound-submit-action'></label></span>";
+		$html .= "<div class='unsubscribe-div unsubscribe-options'>";
+		$html .= "	<span class='unsubscribe-action-label'>". __( 'Mute:' , 'inbound-email' ) ."</span>";
+		$html .= "	<div class='mute-buttons'>";
+		$html .= "		<span class='mute-1-span'>
+							<label class='unsubscribe-label'>
+								<input name='mute-1' type='submit' value='". __( '1 month' , 'inbound-email' ) ."' class='inbound-button-submit inbound-submit-action'>
+							</label>
+						</span>";
+		$html .= "		<span class='mute-3-span'>
+							<label class='unsubscribe-label'>
+								<input name='mute-3' type='submit' value='". __( '3 months' , 'inbound-email' ) ."' class='inbound-button-submit inbound-submit-action'>
+							</label>
+						</span>";
+		$html .= "		<span class='mute-6-span'>
+							<label class='unsubscribe-label'>
+								<input name='mute-6' type='submit' value='". __( '6 months' , 'inbound-email' ) ."' class='inbound-button-submit inbound-submit-action'>
+							</label>
+						</span>";
+		$html .= "		<span class='mute-12-span'>
+							<label class='unsubscribe-label'>
+								<input name='mute-12' type='submit' value='". __( '12 months' , 'inbound-email' ) ."' class='inbound-button-submit inbound-submit-action'>
+							</label>
+						</span>";
+		$html .= "	</div>";
+		$html .= "	<span class='unsubscribe-action-label'>". __( 'Unsubscribe:' , 'inbound-email' ) ."</span>";
+		$html .= "	<div class='unsubscribe-button'>";
+		$html .= "		<span class='unsub-span'>
+							<label class='unsubscribe-label'>
+								<input name='unsubscribe' type='submit' value='". __( 'Unsubscribe' , 'inbound-email' ) ."' class='inbound-button-submit inbound-submit-action'>
+							</label>
+						</span>";
+		$html .= "	</div>";
+		$html .= "</div>";
 		$html .= "</form>";
 		return $html;
 
@@ -101,6 +134,7 @@ class Inbound_Mailer_Unsubscribe {
 		$args = array_merge( $params , $_GET );
 
 		$token = Inbound_Mailer_Unsubscribe::encode_unsubscribe_token( $args );
+
 		$settings = Inbound_Mailer_Settings::get_settings();
 
 		if ( empty($settings['unsubscribe_page']) )  {
@@ -120,9 +154,8 @@ class Inbound_Mailer_Unsubscribe {
 	 *  @return INT $token
 	 */
 	public static function encode_unsubscribe_token( $params ) {
-		;
+		unset($params['doing_wp_cron']);
 		$json = json_encode($params);
-
 
 		$iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB);
 		$iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
@@ -158,26 +191,13 @@ class Inbound_Mailer_Unsubscribe {
 
 	}
 
-	/**
-	 *  Unsubscribe lead from all lists
-	 */
-	public static function unsubscribe_from_all_lists( $lead_id = null ) {
-		/* get all lead lists */
-		$lead_lists = Inbound_Leads::get_lead_lists_as_array();
-
-		foreach ( $lead_lists as $list_id => $label ) {
-			Inbound_Leads::remove_lead_from_list( $lead_id , $list_id );
-			Inbound_Mailer_Unsubscribe::add_stop_sort( $lead_id , $list_id );
-		}
-
-	}
 
 	/**
 	 *  Removes a list id to a leads unsubscribed list
 	 *  @param INT $lead_id
 	 *  @param INT $list_id
 	 */
-	public static function remove_stop_sort( $lead_id , $list_id ) {
+	public static function remove_stop_rule( $lead_id , $list_id ) {
 		$stop_rules = get_post_meta( $lead_id , 'inbound_unsubscribed' , true );
 
 		if ( !$stop_rules ) {
@@ -198,25 +218,8 @@ class Inbound_Mailer_Unsubscribe {
 	 */
 	public static function process_unsubscribe() {
 
-		if (!isset($_POST['unsubscribe'])) {
+		if (!isset($_POST['action']) || $_POST['action'] != 'inbound_unsubscribe_event' ) {
 			return;
-		}
-
-		/* decode token */
-		$params = self::decode_unsubscribe_token( $_POST['token'] );
-
-		/* add comments */
-		$params['event_details']['comments'] = ( isset( $_POST['comments'] ) ) ? $_POST['comments'] : '';
-		$params['event_details']['list_ids'] = $params['list_ids'];
-		$params['event_details'] = json_encode( $params['event_details'] );
-
-		/* Debug
-		$params['lead_id'] = '97131'; */
-
-		/* check if unsubscribe all is selected */
-		if (isset($_POST['unsubscribe_all'])) {
-			self::unsubscribe_from_all_lists( $params['lead_id'] );
-			Inbound_Events::store_unsubscribe_event( $params );
 		}
 
 		/* determine if anything is selected */
@@ -224,12 +227,113 @@ class Inbound_Mailer_Unsubscribe {
 			return;
 		}
 
-		/* loop through lists and unsubscribe lead */
-		foreach( $_POST['list_id'] as $list_id ) {
-			Inbound_Leads::remove_lead_from_list( $params['lead_id'] , $list_id );
-			Inbound_Mailer_Unsubscribe::add_stop_sort( $params['lead_id'] , $list_id );
-			Inbound_Events::store_unsubscribe_event( $params );
+		/* decode token */
+		$params = self::decode_unsubscribe_token( $_POST['token'] );
+
+		/* prepare all token */
+		$all = (isset($_POST['all']) ) ? $_POST['all'] : false;
+
+		/* add comments */
+		$params['event_details']['comments'] = ( isset( $_POST['comments'] ) ) ? $_POST['comments'] : '';
+		$params['event_details']['list_ids'] = $params['list_ids'];
+		$params['event_details'] = json_encode( $params['event_details'] );
+
+		if (isset($_POST['mute-1'])) {
+			self::mute_lead_emails( $params , $all , 1 );
+		} else if (isset($_POST['mute-3'])) {
+			self::mute_lead_emails( $params , $all , 3 );
+		} else if (isset($_POST['mute-6'])) {
+			self::mute_lead_emails( $params , $all , 6 );
+		} else if (isset($_POST['mute-12'])) {
+			self::mute_lead_emails( $params , $all , 12 );
+		} else if (isset($_POST['unsubscribe'])) {
+			self::unsubscribe_lead( $params , $all = false );
 		}
+
+	}
+
+	/**
+	 * @param $params
+	 * @param bool $all
+	 */
+	public static function unsubscribe_lead( $params , $all = false) {
+		switch ($all) {
+			case true:
+				self::unsubscribe_from_all_lists( $params['lead_id'] );
+				break;
+			default:
+				/* loop through lists and unsubscribe lead */
+				foreach( $params['list_ids'] as $list_id ) {
+					Inbound_Leads::remove_lead_from_list( $params['lead_id'] , $params['list_id'] );
+					Inbound_Mailer_Unsubscribe::add_stop_sort( $params['lead_id'] , $params['list_id'] );
+					$event = $params;
+					$event['list_id'] = $list_id;
+					Inbound_Events::store_unsubscribe_event( $event );
+				}
+				break;
+		}
+	}
+
+	/**
+	 *  Unsubscribe lead from all lists
+	 */
+	public static function unsubscribe_from_all_lists( $lead_id = null ) {
+		/* get all lead lists */
+		$lead_lists = Inbound_Leads::get_lead_lists_as_array();
+
+		foreach ( $lead_lists as $list_id => $label ) {
+			Inbound_Leads::remove_lead_from_list( $lead_id , $list_id );
+			Inbound_Mailer_Unsubscribe::add_stop_sort( $lead_id , $list_id );
+			$event = $params;
+			$event['list_id'] = $list_id;
+			Inbound_Events::store_unsubscribe_event( $event );
+		}
+
+	}
+
+
+	/**
+	 * @param $params
+	 * @param bool $all
+	 */
+	public static function mute_lead_emails( $params , $all = false, $time ) {
+
+		switch ($all) {
+			case true:
+				self::mute_all_lists( $params , $time );
+				break;
+			default:
+				self::mute_lists($params , $time );
+				break;
+		}
+	}
+
+	/**
+	 *  Unsubscribe lead from all lists
+	 */
+	public static function mute_all_lists( $params , $time ) {
+		/* get all lead lists */
+		$params['list_ids'] = Inbound_Leads::get_lead_lists_as_array();
+		self::mute_lists($params , $time );
+	}
+
+	/**
+	 *  Unsubscribe lead from all lists
+	 */
+	public static function mute_lists( $params, $time ) {
+		$wordpress_date_time =  date_i18n('Y-m-d G:i:s T');
+		$dateTime = new DateTime($wordpress_date_time);
+		$dateTime->modify('+'.$time.' months');
+		$release_date = $dateTime->format('Y-m-d H:i');
+
+		$event = $params;
+
+		foreach ( $params['list_ids'] as $list_id ) {
+			Inbound_Mailer_Unsubscribe::add_stop_rules( $params['lead_id'] , $list_id , $release_date );
+			$event['event_details']['emails_muted_until'] = $release_date;
+			Inbound_Events::store_mute_event( $event );
+		}
+
 	}
 
 
@@ -238,10 +342,10 @@ class Inbound_Mailer_Unsubscribe {
 	 *  @param INT $lead_id
 	 *  @param INT $list_id
 	 */
-	public static function add_stop_sort( $lead_id , $list_id ) {
-		$stop_rules = self::get_stop_sort( $lead_id );
+	public static function add_stop_rules( $lead_id , $list_id , $nature = 'unsubscribed' ) {
+		$stop_rules = self::get_stop_rules( $lead_id );
 
-		$stop_rules[ $list_id ] = true;
+		$stop_rules[ $list_id ] = $nature;
 
 		update_post_meta( $lead_id , 'inbound_unsubscribed' , $stop_rules );
 	}
@@ -251,7 +355,7 @@ class Inbound_Mailer_Unsubscribe {
 	 *  @param INT $lead_id
 	 *  @param INT $list_id
 	 */
-	public static function get_stop_sort( $lead_id ) {
+	public static function get_stop_rules( $lead_id ) {
 		$stop_rules = get_post_meta( $lead_id , 'inbound_unsubscribed' , true );
 
 		if ( !$stop_rules ) {

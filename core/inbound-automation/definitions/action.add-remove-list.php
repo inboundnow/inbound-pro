@@ -105,11 +105,12 @@ if ( !class_exists( 'Inbound_Automation_Action_Add_Remove_List' ) ) {
             if ( isset($action['add_to_lead_lists']) && is_array($action['add_to_lead_lists']) ) {
 
                 /* get stop sort rules for lead */
-                $stop_rules = Inbound_Mailer_Unsubscribe::get_stop_sort( $final_args['id'] );
+                $stop_rules = Inbound_Mailer_Unsubscribe::get_stop_rules( $final_args['id'] );
 
                 foreach ( $action['add_to_lead_lists'] as $list_id ) {
 
-                    if (in_array($list_id, $stop_rules)) {
+                    /* check if there is a stop rule on this list */
+                    if ( isset($stop_rules[$list_id]) && ( $stop_rules[$list_id] == 'unsubscribed' || $stop_rules[$list_id] === true ) ) {
                         $skipped[] = $list_id;
                         continue;
                     }

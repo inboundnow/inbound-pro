@@ -31,10 +31,8 @@ class Inbound_Pro_Activation {
 		/* create extension upload folders if not exist */
 		self::create_upload_folders();
 
-
 		/* defines roles and capabilities */
 		self::add_roles();
-
 
 		/* Setup extras */
 		self::run_extras();
@@ -120,7 +118,7 @@ class Inbound_Pro_Activation {
 
 	public static function add_roles() {
 		/**/
-		remove_role('inbound_marketer');
+		//remove_role('inbound_marketer');
 		$result = add_role( 'inbound_marketer', __('Inbound Marketer' , 'inbound-pro') ,
 			array(
 				'activate_plugins' => false,

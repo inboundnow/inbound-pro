@@ -168,6 +168,18 @@ class Inbound_Events {
         self::store_event($args);
     }
 
+    /**
+     * Stores inbound mailer mute event into events table
+     * @param $args
+     */
+    public static function store_mute_event( $args ){
+        global $wp_query;
+
+        $args['event_name'] = 'mute';
+
+        self::store_event($args);
+    }
+
     public static function store_event( $args ) {
         global $wpdb;
 
