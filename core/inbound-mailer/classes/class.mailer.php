@@ -233,6 +233,9 @@ class Inbound_Mail_Daemon {
             return;
         }
 
+        /* get datetime */
+        $wordpress_date_time =  date_i18n('Y-m-d G:i:s T');
+
         /* get first row of result set for determining email_id */
         self::$row = self::$results[0];
 
@@ -264,14 +267,21 @@ class Inbound_Mail_Daemon {
                 return;
             }
 
-            self::get_email();
-
-            /* send email */
-            if (!self::$email['send_address']) {
+            /* skip sending if lead has temprarily paused email sending */
+            $pass = self::check_stop_rules();
+            if (!$pass) {
                 self::delete_from_queue();
                 continue;
             }
 
+
+            self::get_email();
+
+            /* delete from database queue */
+            if (!self::$email['send_address']) {
+                self::delete_from_queue();
+                continue;
+            }
 
             switch (self::$email_service) {
                 case "mandrill":
@@ -528,6 +538,53 @@ class Inbound_Mail_Daemon {
      */
     public static function get_text_version() {
 
+
+    }
+
+    /**
+     * Check stop rules for lead
+     * returns true to OK sending and false to prevent sending
+     */
+    public static function check_stop_rules() {
+
+        $stop_rules = Inbound_Mailer_Unsubscribe::get_stop_rules(  self::$row->lead_id );
+        $wordpress_date_time =  date_i18n('Y-m-d G:i:s T');
+
+        $passed = 0;
+        $failed = 0;
+
+        foreach (self::$email_settings['recipients'] as $list_id ) {
+            if (!isset($stop_rules[$list_id])) {
+                $passed++;
+                continue;
+            }
+
+            /* if lead has unsubscribed to this list skip it */
+            if ($stop_rules[$list_id] == 'unsubscribed' ) {
+                $failed++;
+                continue;
+            }
+
+            /* if not a datetime string then skip stop rule (treat as pass) */
+            if (!is_string($stop_rules[$list_id]) ) {
+                $passed++;
+                continue;
+            }
+
+            /* if lead has emails for this list paused then set $pass to false */
+            if (strtotime($stop_rules[$list_id]) > strtotime($wordpress_date_time)) {
+                $failed++;
+            } else {
+                $passed++;
+                Inbound_Mailer_Unsubscribe::remove_stop_rule( self::$row->lead_id , $list_id );
+            }
+        }
+
+        if ($passed >= $failed) {
+            return true;
+        } else {
+            return false;
+        }
 
     }
 
