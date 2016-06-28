@@ -171,6 +171,11 @@ class Inbound_SparkPost_Stats {
         $results = $wpdb->get_results( $query );
         $unsubs = $wpdb->num_rows;
 
+        /* get mutes */
+        $query = 'SELECT DISTINCT(lead_id) FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '.$variation_query.' AND `event_name` LIKE  "inbound_mute"';
+        $results = $wpdb->get_results( $query );
+        $mutes = $wpdb->num_rows;
+
 
         $totals = array(
             'sent' => $sent,
@@ -180,6 +185,7 @@ class Inbound_SparkPost_Stats {
             'rejects' => $rejects,
             'complaints' => $complaints,
             'unsubs' => $unsubs,
+            'mutes' => $mutes,
             'unique_opens' => $opens,
             'unique_clicks' => $clicks,
             'unopened' => $sent - $opens
@@ -381,6 +387,7 @@ class Inbound_SparkPost_Stats {
             'rejects' => 0,
             'complaints' => 0,
             'unsubs' => 0,
+            'mutes' => 0,
             'unique_opens' => 0,
             'unique_clicks' => 0,
             'opens' => 0,
@@ -406,6 +413,7 @@ class Inbound_SparkPost_Stats {
                     'rejects' => 0,
                     'complaints' => 0,
                     'unsubs' => 0,
+                    'mutes' => 0,
                     'unique_opens' => 0,
                     'unique_clicks' => 0,
                     'opens' => 0,
@@ -454,6 +462,7 @@ class Inbound_SparkPost_Stats {
         /* calculate unopened */
         self::$stats['totals']['unopened'] = self::$stats['totals']['sent']	- self::$stats['totals']['opens'];
         self::$stats['totals']['unsubs'] = self::prepare_unsubscribes();
+        self::$stats['totals']['mutes'] = self::prepare_mutes();
 
 
     }
@@ -481,6 +490,19 @@ class Inbound_SparkPost_Stats {
 
 
         return Inbound_Events::get_unsubscribes_count_by_email_id( $post->ID  );
+
+
+    }
+
+    /**
+     *	Returns an array of zeros for email statistics
+     */
+    public static function prepare_mutes(  ) {
+
+        global $post;
+
+
+        return Inbound_Events::get_mutes_count_by_email_id( $post->ID  );
 
 
     }

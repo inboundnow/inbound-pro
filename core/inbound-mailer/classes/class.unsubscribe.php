@@ -236,7 +236,6 @@ class Inbound_Mailer_Unsubscribe {
 		/* add comments */
 		$params['event_details']['comments'] = ( isset( $_POST['comments'] ) ) ? $_POST['comments'] : '';
 		$params['event_details']['list_ids'] = $params['list_ids'];
-		$params['event_details'] = json_encode( $params['event_details'] );
 
 		if (isset($_POST['mute-1'])) {
 			self::mute_lead_emails( $params , $all , 1 );
@@ -330,6 +329,7 @@ class Inbound_Mailer_Unsubscribe {
 
 		foreach ( $params['list_ids'] as $list_id ) {
 			Inbound_Mailer_Unsubscribe::add_stop_rules( $params['lead_id'] , $list_id , $release_date );
+			$event['event_details']['emails_muted_for'] = $time . ' month';
 			$event['event_details']['emails_muted_until'] = $release_date;
 			Inbound_Events::store_mute_event( $event );
 		}

@@ -258,6 +258,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                             jQuery('.bounces-percentage').text(this.get_percentage(this.stats.totals.bounces, this.stats.totals.sent) + '%')
                             jQuery('.rejects-percentage').text(this.get_percentage(this.stats.totals.rejects, this.stats.totals.sent) + '%')
                             jQuery('.unsubs-percentage').text(this.get_percentage(this.stats.totals.unsubs, this.stats.totals.sent) + '%')
+                            jQuery('.mutes-percentage').text(this.get_percentage(this.stats.totals.mutes, this.stats.totals.sent) + '%')
 
                             /* Set totals */
                             jQuery('.sent-number').text(this.stats.totals.sent);
@@ -267,6 +268,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                             jQuery('.bounces-number').text(this.stats.totals.bounces);
                             jQuery('.rejects-number').text(this.stats.totals.rejects);
                             jQuery('.unsubs-number').text(this.stats.totals.unsubs);
+                            jQuery('.mutes-number').text(this.stats.totals.mutes);
 
                         },
                         /**
@@ -709,75 +711,6 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             <?php
         }
 
-        /**
-         *    Loads Double Horizontal Bar Chart
-         */
-        /**
-         *    Loads Double Horizontal Bar Chart
-         */
-        public static function add_chart_totals() {
-
-            ?>
-            <div class='circle-stats stat-row'>
-                <div class="stat-group-container">
-                    <div class="stat-group">
-                        <div class="label-top" id='sent-label-top'><?php _e('Sends', 'inbound-pro'); ?></div>
-                        <div class="per sent-percentage">0%</div>
-                        <svg class="svg"></svg>
-                        <div class="label-bottom sent-number">0</div>
-                    </div>
-                </div>
-                <div class="stat-group-container">
-                    <div class="stat-group">
-                        <div class="label-top opens-label-top"><?php _e('Opens', 'inbound-pro'); ?></div>
-                        <div class="per opens-percentage">0%</div>
-                        <svg class="svg"></svg>
-                        <div class="label-bottom opens-number">0</div>
-                    </div>
-                </div>
-                <div class="stat-group-container featured">
-                    <div class="stat-group">
-                        <div class="label-top clicks-label-top"><?php _e('Clicks', 'inbound-pro'); ?></div>
-                        <div class="per clicks-percentage">0%</div>
-                        <svg class="svg"></svg>
-                        <div class="label-bottom clicks-number">0</div>
-                    </div>
-                </div>
-                <div class="stat-group-container">
-                    <div class="stat-group">
-                        <div class="label-top unopened-label-top"><?php _e('Unopened', 'inbound-pro'); ?></div>
-                        <div class="per unopened-percentage">0%</div>
-                        <svg class="svg"></svg>
-                        <div class="label-bottom unopened-number">0</div>
-                    </div>
-                </div>
-                <div class="stat-group-container">
-                    <div class="stat-group">
-                        <div class="label-top bounces-label-top"><?php _e('Bounces', 'inbound-pro'); ?></div>
-                        <div class="per bounces-percentage">0%</div>
-                        <svg class="svg"></svg>
-                        <div class="label-bottom bounces-number">0</div>
-                    </div>
-                </div>
-                <div class="stat-group-container">
-                    <div class="stat-group">
-                        <div class="label-top rejects-label-top"><?php _e('Rejects', 'inbound-pro'); ?></div>
-                        <div class="per rejects-percentage">0%</div>
-                        <svg class="svg"></svg>
-                        <div class="label-bottom rejects-number">0</div>
-                    </div>
-                </div>
-                <div class="stat-group-container">
-                    <div class="stat-group">
-                        <div class="label-top unsubs-label-top"><?php _e('Unsubscribed', 'inbound-pro'); ?></div>
-                        <div class="per unsubs-percentage">0%</div>
-                        <svg class="svg"></svg>
-                        <div class="label-bottom unsubs-number">0</div>
-                    </div>
-                </div>
-            </div>
-            <?php
-        }
 
         /**
          *    Loads numeric statistics
@@ -844,6 +777,14 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
                         <div class="stat-number unsubs-number">0</div>
                         <h1 class="stat-percentage unsubs-percentage">0%</h1>
+                    </div>
+                </div>
+                <div class="statistic-container">
+                    <div class="stat-number-container">
+                        <label class="stat-label mutes-label"><?php _e('Mutes', 'inbound-pro'); ?></label>
+
+                        <div class="stat-number mutes-number">0</div>
+                        <h1 class="stat-percentage mutes-percentage">0%</h1>
                     </div>
                 </div>
             </div>
@@ -1185,7 +1126,9 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             global $post;
 
             $unsubscribes = Inbound_Events::get_unsubscribes_by_email($post->ID);
+            $mutes = Inbound_Events::get_mutes_by_email($post->ID);
 
+            $unsubscribes = $unsubscribes + $mutes;
             ?>
             <div class='inbound-unsubscribes-container'>
 
@@ -1208,11 +1151,33 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                     ?>
                     <table class="lead-unsubscribed">
                         <tr>
-                            <td>
-                                <img class="lead-grav-img" width='25' height='25' src="<?php echo $gravatar; ?>">
+                            <td width="64px;">
+                                <a class="" href="<?php echo admin_url('post.php?post='.$event['lead_id'].'&action=edit&tab=tabs-wpleads_lead_tab_activity'); ?>" target="_blank" >
+                                <img class="inbound-tooltip lead-grav-img" width='25' height='25' src="<?php echo $gravatar; ?>" title="<?php _e('View Lead' , ' inbound-pro' ); ?>">
+                                </a>
+                                <?php
+                                if ($details['comments']) {
+                                    ?>
+                                    <i class=" inbound-tooltip fa fa-comment" style="vertical-align:top;color:darkgray" aria-hidden="true" title='<?php echo addslashes($details['comments']); ?>'></i>
+                                    <?php
+                                }
+
+                                if ($event['event_name'] == 'inbound_mute') {
+                                    ?>
+                                    <i class=" inbound-tooltip fa fa-volume-down" style="margin-left:3px;vertical-align:top;color:darkgray" aria-hidden="true" title='<?php echo __('Muted for ' , 'inbound-pro').  $details['emails_muted_for']; ?>'></i>
+                                    <?php
+                                }
+
+                                if ($event['event_name'] == 'inbound_unsubscribe') {
+                                    ?>
+                                    <i class=" inbound-tooltip fa fa-ban" style="margin-left:3px;vertical-align:top;color:darkgray" aria-hidden="true" title='<?php echo __('Lead has unsubscribed' , 'inbound-pro'); ?>'></i>
+                                    <?php
+                                }
+
+                                ?>
                             </td>
                             <td>
-                                <a class="inbound-tooltip" href="<?php echo admin_url('post.php?post='.$event['lead_id'].'&action=edit&tab=tabs-wpleads_lead_tab_activity'); ?>" target="_blank" title='<?php echo addslashes($details['comments']); ?>'><?php echo $name; ?></a>
+                                <a class="inbound-tooltip" href="<?php echo admin_url('post.php?post='.$event['lead_id'].'&action=edit&tab=tabs-wpleads_lead_tab_activity'); ?>" target="_blank" ><?php echo $name; ?></a>
                             </td>
                         </tr>
                     </table>
