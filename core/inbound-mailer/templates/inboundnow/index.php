@@ -40,10 +40,10 @@ if (have_posts()) : while (have_posts()) : the_post();
     ?>
     <html>
     <head>
-    <?php do_action('inbound-mailer/email/header'); ?>
+        <?php do_action('inbound-mailer/email/header'); ?>
     </head>
     <body bgcolor="<?php echo $contrast_background_color; ?>" style="">
-    <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="<?php echo $contrast_background_color; ?>" style="background-color:<?php echo $contrast_background_color; ?>;margin:0;padding:0;color:#444444;font-size:14px;font-family:Arial, Helvetica, sans-serif; ">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="<?php echo $contrast_background_color; ?>" style="background-color:<?php echo $contrast_background_color; ?>;margin:0;padding:0;color:#444444;font-family: 'proxima_nova_regular', arial, sans-serif;  font-size: 17px;line-height: 35px; color: #70767e;  ">
         <tbody>
         <tr>
             <td>
@@ -86,42 +86,43 @@ if (have_posts()) : while (have_posts()) : the_post();
                                             ?>
                                         </td>
                                     </tr>
-                                <?php
+                                    <?php
                                 }
                                 ?>
-                                <tr>
-                                    <td align="center">
-                                        <div class="inbound-editable">
-                                            <?php if ($headline) {
-                                                ?>
+                                <?php if ($headline) {
+                                    ?>
+                                    <tr>
+                                        <td align="center">
+                                            <div class="inbound-editable">
+
 
                                                 <h1 style="margin-bottom:10px;margin-top:10px;padding:0;font-size:<?php echo $headline_size; ?>;font-weight:normal;color:<?php echo $content_color; ?>;">
                                                     <?php echo $headline; ?>
                                                 </h1>
-                                                <?php
-                                            }
-                                             ?>
-                                            <?php if ($sub_headline) {
+                                                <?php if ($sub_headline) {
 
-                                                echo '<span style="font-size:'.$sub_headline_size.';color:#9a9a9a; ">' . $sub_headline . '</span>';
-                                            }
-                                            ?>
-                                        </div>
-                                    </td>
-                                </tr>
+                                                    echo '<span style="font-size:'.$sub_headline_size.';color:#9a9a9a; ">' . $sub_headline . '</span>';
+                                                }
+                                                ?>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                }
+                                ?>
                                 <?php
                                 if ($featured_image) {
                                     ?>
-                                <tr>
-                                    <td align="center" style="padding:30px 0 25px 0;">
-                                        <div  class="inbound-editable">
+                                    <tr>
+                                        <td align="center" style="padding:30px 0 25px 0;">
+                                            <div  class="inbound-editable">
 
-                                               <?php echo '<img src="'. $featured_image.'" width="'.$featured_image_width.'" height="'.$featured_image_height.'" alt=" ">'; ?>
+                                                <?php echo '<img src="'. $featured_image.'" width="'.$featured_image_width.'" height="'.$featured_image_height.'" alt=" ">'; ?>
 
 
-                                        </div>
-                                    </td>
-                                </tr>
+                                            </div>
+                                        </td>
+                                    </tr>
                                     <?php
                                 }
                                 ?>
@@ -132,13 +133,10 @@ if (have_posts()) : while (have_posts()) : the_post();
                                         <table width="100%" border="0" cellspacing="0" cellpadding="0">
                                             <tbody>
                                             <tr>
-                                                <td align="right" style="font-size:11px;color:#9c9c9c;"></td>
-                                            </tr>
-                                            <tr>
-                                                <td align="<?php echo $align_message_content; ?>" style=" color:<?php echo $content_color; ?>;line-height:30px;padding:0 40px 0 0;font-family:serif">
-                                                <?php
-                                                echo $message_content
-                                                ?>
+                                                <td align="<?php echo $align_message_content; ?>" style=" color:<?php echo $content_color; ?>;line-height:30px;padding:0 40px 0 0;font-family: 'proxima_nova_regular', arial, sans-serif;  font-size: 17px;line-height: 35px; color: #70767e;">
+                                                    <?php
+                                                    echo $message_content
+                                                    ?>
                                                 </td>
                                             </tr>
                                             </tbody>

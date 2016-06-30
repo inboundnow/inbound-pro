@@ -264,7 +264,7 @@ class Inbound_Mailer_Unsubscribe {
 				/* loop through lists and unsubscribe lead */
 				foreach( $params['list_ids'] as $list_id ) {
 					Inbound_Leads::remove_lead_from_list( $params['lead_id'] , $params['list_id'] );
-					Inbound_Mailer_Unsubscribe::add_stop_sort( $params['lead_id'] , $params['list_id'] );
+					Inbound_Mailer_Unsubscribe::add_stop_rules( $params['lead_id'] , $params['list_id'] );
 					$event = $params;
 					$event['list_id'] = $list_id;
 					Inbound_Events::store_unsubscribe_event( $event );
@@ -282,7 +282,7 @@ class Inbound_Mailer_Unsubscribe {
 
 		foreach ( $lead_lists as $list_id => $label ) {
 			Inbound_Leads::remove_lead_from_list( $lead_id , $list_id );
-			Inbound_Mailer_Unsubscribe::add_stop_sort( $lead_id , $list_id );
+			Inbound_Mailer_Unsubscribe::add_stop_rules( $lead_id , $list_id );
 			$event = $params;
 			$event['list_id'] = $list_id;
 			Inbound_Events::store_unsubscribe_event( $event );
