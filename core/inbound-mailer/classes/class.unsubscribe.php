@@ -160,13 +160,13 @@ class Inbound_Mailer_Unsubscribe {
 		$iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB);
 		$iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
 		$encrypted_string =
-				base64_encode(
-						trim(
-								mcrypt_encrypt(
-										MCRYPT_RIJNDAEL_256, substr( SECURE_AUTH_KEY , 0 , 24 )  , $json, MCRYPT_MODE_ECB, $iv
-								)
-						)
-				);
+			base64_encode(
+				trim(
+					mcrypt_encrypt(
+						MCRYPT_RIJNDAEL_256, substr( SECURE_AUTH_KEY , 0 , 24 )  , $json, MCRYPT_MODE_ECB, $iv
+					)
+				)
+			);
 
 		return  str_replace(array('+', '/'), array('-', '_'), $encrypted_string);
 	}
@@ -181,11 +181,11 @@ class Inbound_Mailer_Unsubscribe {
 		$iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB);
 		$iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
 		$decrypted_string =
-				trim(
-						mcrypt_decrypt(
-								MCRYPT_RIJNDAEL_256 ,  substr( SECURE_AUTH_KEY , 0 , 24 )   ,  base64_decode( str_replace(array('-', '_'), array('+', '/'), $token ) ) , MCRYPT_MODE_ECB, $iv
-						)
-				);
+			trim(
+				mcrypt_decrypt(
+					MCRYPT_RIJNDAEL_256 ,  substr( SECURE_AUTH_KEY , 0 , 24 )   ,  base64_decode( str_replace(array('-', '_'), array('+', '/'), $token ) ) , MCRYPT_MODE_ECB, $iv
+				)
+			);
 
 		return json_decode($decrypted_string , true);
 
@@ -263,10 +263,9 @@ class Inbound_Mailer_Unsubscribe {
 			default:
 				/* loop through lists and unsubscribe lead */
 				foreach( $params['list_ids'] as $list_id ) {
-					Inbound_Leads::remove_lead_from_list( $params['lead_id'] , $params['list_id'] );
-					Inbound_Mailer_Unsubscribe::add_stop_rules( $params['lead_id'] , $params['list_id'] );
+					Inbound_Leads::remove_lead_from_list( $params['lead_id'] , $list_id );
+					Inbound_Mailer_Unsubscribe::add_stop_rules( $params['lead_id'] , $list_id );
 					$event = $params;
-					$event['list_id'] = $list_id;
 					Inbound_Events::store_unsubscribe_event( $event );
 				}
 				break;
