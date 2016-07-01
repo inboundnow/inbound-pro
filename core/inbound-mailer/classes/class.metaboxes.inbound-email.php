@@ -86,7 +86,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
             /* Show Selected Template */
             if (isset($post) && ( $post->post_status == 'sent' || $post->post_status =='automated') ) {
-                add_meta_box('email-unsubscribes', __('Unsubscribed', 'inbound-pro'), array(__CLASS__, 'add_unsubscribe_list'), 'inbound-email', 'side', 'high');
+                add_meta_box('email-unsubscribes', __('Unsubscribe Events', 'inbound-pro'), array(__CLASS__, 'add_unsubscribe_list'), 'inbound-email', 'side', 'high');
             }
         }
 
@@ -1133,9 +1133,17 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             <div class='inbound-unsubscribes-container'>
 
                 <?php
-
-
+                $added = array();
                 foreach ($unsubscribes as $key => $event) {
+
+                    /* do not show multiple events from same lead */
+                    if (in_array($event['lead_id'],$added)) {
+                        //continue;
+                        //continue;
+                    }
+
+                    $added[] = $event['lead_id'];
+
                     $email = get_post_meta($event['lead_id'] , 'wpleads_email_address' , true);
                     $first_name = get_post_meta($event['lead_id'] , 'wpleads_first_name' , true);
                     $last_name = get_post_meta($event['lead_id'] , 'wpleads_last_name' , true);
