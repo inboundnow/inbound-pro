@@ -1128,7 +1128,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             $unsubscribes = Inbound_Events::get_unsubscribes_by_email($post->ID);
             $mutes = Inbound_Events::get_mutes_by_email($post->ID);
 
-            $unsubscribes = $unsubscribes + $mutes;
+            $unsubscribes = array_merge($unsubscribes , $mutes);
             ?>
             <div class='inbound-unsubscribes-container'>
 
