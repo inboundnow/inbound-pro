@@ -208,7 +208,6 @@ class Inbound_Events {
             'source' => ( isset($_COOKIE['inbound_referral_site']) ? $_COOKIE['inbound_referral_site'] : '' )
         );
 
-
         $args = array_merge( $defaults , $args );
 
         /* json encode event details if array */
