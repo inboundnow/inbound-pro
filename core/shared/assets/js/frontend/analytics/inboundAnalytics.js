@@ -857,6 +857,11 @@ var _inboundUtils = (function(_inbound) {
 
             /* Set Param Cookies */
             for (var k in urlParams) {
+
+                if (k == 'action') {
+                    continue;
+                }
+
                 if (typeof urlParams[k] == "object") {
                     for (var k2 in urlParams[k])
                         this.createCookie(k2, urlParams[k][k2], 30);
@@ -1895,7 +1900,6 @@ var InboundForms = (function(_inbound) {
                     utils.createCookie("wp_lead_id", leadID);
                     _inbound.totalStorage.deleteItem('page_views'); // remove pageviews
                     _inbound.totalStorage.deleteItem('tracking_events'); // remove events
-                    utils.eraseCookie('inbound_page_views'); // remove events
                 }
 
                 _inbound.trigger('form_after_submission', formData);
