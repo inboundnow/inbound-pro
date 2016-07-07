@@ -50,6 +50,11 @@ class Inbound_Pro_Admin_Ajax_Listeners {
     public static function validate_api_key() {
         global $inbound_settings;
 
+        if (!trim($_REQUEST['api_key'])) {
+            echo "{\"error\":\"missing-api-key\",\"message\":\"You must specify an API key to access this endpoint!\"}";
+            exit;
+        }
+
         /* get customer data */
         $customer = Inbound_Options_API::get_option('inbound-pro', 'customer', array());
 

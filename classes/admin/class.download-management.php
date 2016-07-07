@@ -649,7 +649,7 @@ class Inbound_Pro_Downloads {
 						}
 						?>
 
-						<div class="download-image" style='background-image:url(<?php echo $download['featured_image']; ?>);' >
+						<div class="download-image" style='background-image:url(<?php echo self::get_image_thumbnail($download); ?>);' >
 						</div>
 
 						<div class="col-template-content more-details" data-download='<?php echo $download['post_name']; ?>'  data-toggle="tooltip" data-placement="top" data-original-title='<?php _e( 'View Details' , INBOUNDNOW_TEXT_DOMAIN ); ?>'>
@@ -745,9 +745,57 @@ class Inbound_Pro_Downloads {
 		}
 
 		if ( in_array( 'email' , $download[ 'plugins' ] ) ) {
-			return INBOUND_EMAIL_UPLOADS_PATH . $folder_name . '/';
+			return INBOUND_PRO_UPLOADS_PATH . '/'. $folder_name . '/';
 		}
 
+	}
+
+	public static function get_image_thumbnail($download) {
+		global $inbound_paths_created;
+
+		$path = INBOUND_PRO_UPLOADS_PATH . 'assets/images/';
+		$url = INBOUND_PRO_UPLOADS_URLPATH . 'assets/images/';
+
+
+		if(strstr( $download['featured_image'] , '.png')){
+			$ext = '.png';
+		}else if(strstr( $download['featured_image'] , '.jpg')){
+			$ext = '.jpg';
+		}
+
+		if(file_exists( $path . $download['post_name'] . $ext)){
+			return $url . $download['post_name'] .$ext;
+		}
+
+		$image_path_location = $path . $download['post_name'] . $ext;
+		$image_url_location = $url . $download['post_name'] . $ext;
+
+		/* create wp-content/inbound-pro/assets/images */
+		if (!$inbound_paths_created) {
+			$inbound_paths_created = true;
+			Inbound_Pro_Activation::create_upload_folders();
+		}
+
+		/* get zip file contents from svn */
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $download['featured_image'] );
+		curl_setopt($ch, CURLOPT_HEADER, false);
+		curl_setopt($ch, CURLOPT_FAILONERROR, true);
+		curl_setopt($ch, CURLOPT_AUTOREFERER, true);
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+		curl_setopt($ch, CURLOPT_BINARYTRANSFER,true);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+		$file = curl_exec($ch);
+		curl_close($ch);
+
+		/* write zip file to temp file */
+		$handle = fopen($image_path_location, "w");
+		fwrite($handle, $file);
+		fclose($handle);
+
+		return $image_url_location;
 	}
 
 	/**
