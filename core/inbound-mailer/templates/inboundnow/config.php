@@ -465,6 +465,11 @@ Cheers!
                     'operator' => '==',
                     'value' => $key,
                 ),
+                array (
+                    'param' => 'post_type',
+                    'operator' => '==',
+                    'value' => 'inbound-email',
+                )
             ),
         ),
         'menu_order' => 0,

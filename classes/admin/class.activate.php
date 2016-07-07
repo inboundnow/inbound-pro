@@ -114,6 +114,14 @@ class Inbound_Pro_Activation {
 		if (!is_dir( INBOUND_PRO_UPLOADS_PATH . 'extensions' )) {
 			wp_mkdir_p( INBOUND_PRO_UPLOADS_PATH . 'extensions' );
 		}
+
+		if (!is_dir( INBOUND_PRO_UPLOADS_PATH . 'assets' )) {
+			wp_mkdir_p( INBOUND_PRO_UPLOADS_PATH . 'assets' );
+		}
+
+		if (!is_dir( INBOUND_PRO_UPLOADS_PATH . 'assets/images/' )) {
+			wp_mkdir_p( INBOUND_PRO_UPLOADS_PATH . 'assets/images' );
+		}
 	}
 
 	public static function add_roles() {
