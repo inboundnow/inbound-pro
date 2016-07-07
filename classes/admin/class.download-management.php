@@ -772,7 +772,6 @@ class Inbound_Pro_Downloads {
 
 		/* create wp-content/inbound-pro/assets/images */
 		if (!$inbound_paths_created) {
-			error_log('here');
 			$inbound_paths_created = true;
 			Inbound_Pro_Activation::create_upload_folders();
 		}
