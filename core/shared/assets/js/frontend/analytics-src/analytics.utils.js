@@ -322,7 +322,7 @@ var _inboundUtils = (function(_inbound) {
 
             /* Set Param Cookies */
             for (var k in urlParams) {
-
+                /* account for wordpress media uploader bug */
                 if (k == 'action') {
                     continue;
                 }

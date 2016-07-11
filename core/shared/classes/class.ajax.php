@@ -52,33 +52,15 @@ if (!class_exists('Inbound_Ajax')) {
 			(isset(	$_POST['current_url'] )) ? $lead_data['current_url'] = $_POST['current_url'] : $lead_data['current_url'] = 'notfound';
 
 
-			$page_views = json_decode(stripslashes($_POST['page_views']));
-			$page_views = ($page_views) ? $page_views : array();
+			$page_views = stripslashes($_POST['page_views']);
+			$page_views = ($page_views) ? $page_views : '';
 
 			/* update funnel cookie */
-			if (isset($_COOKIE['inbound_page_views'])) {
-				$stored_views = json_decode(stripslashes($_COOKIE['inbound_page_views']), true);
+			if (isset($_COOKIE['inbound_page_views']) && !$page_views ) {
+				$_SESSION['inbound_page_views'] = stripslashes($_COOKIE['inbound_page_views']);
 			} else {
-				$stored_views = array();
+				$_SESSION['inbound_page_views'] = $page_views;
 			}
-
-
-			foreach ($page_views as $page_id => $visits ) {
-				if (!in_array($page_id, $stored_views)) {
-					$stored_views[] = $page_id;
-				} else {
-
-					/* check if user doubled back to the first page to convert */
-					$funnel_count = count($stored_views);
-					$last_key = $funnel_count - 1;
-					if ( $funnel_count > 1  && $stored_views[0] == $page_id && $stored_views[$last_key] != $page_id ){
-						$stored_views[] = $page_id;
-					}
-
-				}
-			}
-
-			$_SESSION['inbound_page_views'] = json_encode($stored_views);
 
 			/* update lead data */
 			if(isset($_POST['wp_lead_id']) && function_exists('wp_leads_update_page_view_obj') ) {

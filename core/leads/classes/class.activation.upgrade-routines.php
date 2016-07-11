@@ -15,6 +15,12 @@ if ( !class_exists('Leads_Activation_Update_Routines') ) {
 		public static function create_link_tracking_table() {
 			global $wpdb;
 
+			/* ignore if not applicable */
+			$previous_installed_version = get_transient('leads_current_version');
+
+			if ( version_compare($previous_installed_version , "1.5.1") === 1 )  {
+				return;
+			}
 
 			$table_name = $wpdb->prefix . "inbound_tracked_links";
 
@@ -51,6 +57,13 @@ if ( !class_exists('Leads_Activation_Update_Routines') ) {
 		public static function migrate_meta_keys() {
 			global $wpdb;
 
+			/* ignore if not applicable */
+			$previous_installed_version = get_transient('leads_current_version');
+
+			if ( version_compare($previous_installed_version , "1.1.0") === 1 )  {
+				return;
+			}
+
 			$wpdb->query("update {$wpdb->prefix}postmeta set meta_key = 'wpleads_conversion_count' where meta_key = 'wpl-lead-conversion-count'");
 
 			$wpdb->query("update {$wpdb->prefix}postmeta set meta_key = 'wpleads_page_view_count' where meta_key = 'wpl-lead-page-view-count'");
@@ -70,6 +83,14 @@ if ( !class_exists('Leads_Activation_Update_Routines') ) {
 		* @key: wp_lead_status
 		*/
 		public static function migrate_wp_lead_status_values() {
+
+			/* ignore if not applicable */
+			$previous_installed_version = get_transient('leads_current_version');
+
+			if ( version_compare($previous_installed_version , "2.1.8") === 1 )  {
+				return;
+			}
+
 			global $wpdb;
 
 			$wpdb->query("update {$wpdb->prefix}postmeta set meta_value = 'new' where meta_key = 'wp_lead_status' AND meta_value='New Lead' ");
@@ -90,6 +111,13 @@ if ( !class_exists('Leads_Activation_Update_Routines') ) {
 		 */
 		public static function batch_import_event_data_112015() {
 
+			/* ignore if not applicable */
+			$previous_installed_version = get_transient('leads_current_version');
+
+			if ( version_compare($previous_installed_version , "2.0.1") === 1 )  {
+				return;
+			}
+
 			/* lets make sure the inbound_events table is created */
 			if ( !class_exists('Inbound_Events')) {
 				Inbound_Load_Shared::load_constants();
@@ -102,6 +130,35 @@ if ( !class_exists('Leads_Activation_Update_Routines') ) {
 				'leads_batch_processing', 		/* db option name - lets batch processor know it's needed */
 				array(
 					'method' => 'import_events_table_112015', 	/* tells batch processor which method to run */
+					'posts_per_page' => 100, 					/* leads per query */
+					'offset' => 0 								/* initial page offset */
+				),
+				0 , 							/* depreciated leave as 0 */
+				true 							/* autoload true */
+			);
+
+		}
+
+		/**
+		 * @introduced: 2.2.1
+		 * @migration-type: batch lead processing / updating inbound events table
+		 * @details: Moving form submissions, cta clicks, custom events into events table.
+		 * @details: 072016 represents date added in
+		 */
+		public static function batch_import_event_data_072016() {
+
+			/* ignore if not applicable */
+			$previous_installed_version = get_transient('leads_current_version');
+
+			if ( version_compare($previous_installed_version , "2.2.1") === 1 )  {
+				return;
+			}
+
+			/* create flag for batch uploader */
+			add_option(
+				'leads_batch_processing', 		/* db option name - lets batch processor know it's needed */
+				array(
+					'method' => 'import_events_table_072016', 	/* tells batch processor which method to run */
 					'posts_per_page' => 100, 					/* leads per query */
 					'offset' => 0 								/* initial page offset */
 				),

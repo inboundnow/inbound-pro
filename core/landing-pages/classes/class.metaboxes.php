@@ -141,7 +141,7 @@ class Landing_Pages_Metaboxes {
         );
 
         /* Add showcase submission */
-        if (class_exists('Inbound_Pro_Plugin')) {
+        if (class_exists('Inbound_Pro_Plugin') && !isset($_GET['inbound-editor']) ) {
             add_meta_box(
                 'lp_showcase_submission',
                 __('Share your Work', 'landing-pages'),

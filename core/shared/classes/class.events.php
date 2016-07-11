@@ -210,20 +210,45 @@ class Inbound_Events {
 
         $args = array_merge( $defaults , $args );
 
-        /* json encode event details if array */
-        if ($args['event_details'] && is_array($args['event_details'])) {
-            $args['event_details'] = json_encode($args['event_details']);
-        }
-
         /* prepare funnel array */
         if ($args['funnel']) {
-
             /* check if valid json or if slashes need to be stripepd out */
             if (!self::isJson($args['funnel'])) {
                 $args['funnel'] = stripslashes($args['funnel']);
             }
 
+            /* decode into array for modification */
+            $funnel = json_decode( $args['funnel'] , true);
+
+            $stored_views = array();
+            foreach ($funnel as $page_id => $visits ) {
+                if (!in_array($page_id, $stored_views)) {
+                    $stored_views[] = strval($page_id);
+                } else {
+                    /* check if user doubled back to the first page to convert */
+                    $funnel_count = count($stored_views);
+                    $last_key = $funnel_count - 1;
+                    if ( $funnel_count > 1  && $stored_views[0] == $page_id && $stored_views[$last_key] != $page_id ){
+                        $stored_views[] = strval($page_id);
+                    }
+                }
+            }
+
+            /* add original funnel with timestamps to event details */
+            if (is_array($args['event_details'])) {
+                $args['event_details']['funnel'] = $funnel;
+            }
+
+            /* clean funnel of timestamps */
+            $args['funnel'] = json_encode($stored_views);
+
         }
+
+        /* json encode event details if array */
+        if ($args['event_details'] && is_array($args['event_details'])) {
+            $args['event_details'] = json_encode($args['event_details']);
+        }
+
 
         /* unset non db ready keys */
         foreach ($args as $key => $value) {
