@@ -32,8 +32,8 @@ class Leads_Batch_Processor {
         /* Temporarily create admin page for visualizing batch processing */
         add_submenu_page(
             'edit.php?post_type=wp-lead',
-            __( 'Batch Processing', 'leads' ),
-            __( 'Batch Processing', 'leads' ),
+            __( 'Batch Processing', 'inbound-pro' ),
+            __( 'Batch Processing', 'inbound-pro' ),
             'manage_options',
             'leads-batch-processing',
             array( __CLASS__ , 'process_batches' )
@@ -74,7 +74,7 @@ class Leads_Batch_Processor {
         /* load batch processing data into variable */
         $args = get_option('leads_batch_processing');
 
-        echo '<h1>' . __( 'Processing Batches!' , 'leads' ) .'</h1>';
+        echo '<h1>' . __( 'Processing Batches!' , 'inbound-pro' ) .'</h1>';
         echo '<div class="wrap">';
 
         /* run the method */
@@ -101,7 +101,7 @@ class Leads_Batch_Processor {
 
         /* let the user know the processing status */
         self::get_leads( $args );
-        echo  sprintf( __(  '%s of %s steps complete. Please wait...' , 'leads' ) , $args['offset'] , $pages );
+        echo  sprintf( __(  '%s of %s steps complete. Please wait...' , 'inbound-pro' ) , $args['offset'] , $pages );
 
 
         /* if all leads are processed echo complete and delete batch job */
@@ -187,6 +187,57 @@ class Leads_Batch_Processor {
                 }
 
             endif;
+        }
+
+        /* update batch data with next job */
+        $args['offset'] = $args['offset'] + 1;
+        update_option('leads_batch_processing' , $args );
+
+        /* redirect page */
+        ?>
+        <script type="text/javascript">
+            document.location.href = "edit.php?post_type=wp-lead&page=leads-batch-processing";
+        </script>
+        <?php
+    }
+
+
+    /**
+     * Loops through inbound_events table and if records exists updates them
+     */
+    public static function import_events_table_072016( $args ) {
+
+        global $wpdb;
+        $total = $wpdb->get_var('SELECT COUNT(*) FROM '.$wpdb->prefix.'inbound_events WHERE funnel <> "" AND funnel <> ""');
+        $pages = ceil( $total / $args['posts_per_page'] );
+
+        /* offset for custom queries is slightly different, increment it */
+        $args['offset'] = ($args['offset']) ? $args['offset'] : $args['offset'] + 1;
+
+        /* let the user know the processing status */
+        echo  sprintf( __(  '%s of %s steps complete. Please wait...' , 'inbound-pro' ) , $args['offset'] , $pages );
+
+        $next = $args['offset'] * $args['posts_per_page'];
+        $events = $wpdb->get_results( 'SELECT * FROM '.$wpdb->prefix.'inbound_events WHERE funnel <> "" AND funnel <> "[]" ORDER BY id ASC LIMIT '.$args['offset'].' , '. $next , ARRAY_A );
+
+
+
+        /* if all leads are processed echo complete and delete batch job */
+        if (!$events || $args['offset'] > $pages ) {
+            self::delete_flag();
+            echo '<br>';
+            _e( 'All done!' , 'inbound-pro' );
+            exit;
+        }
+
+        echo '<br><br>';
+        echo '<img src="'.admin_url('images/spinner-2x.gif').'">';
+
+        foreach ($events as $key => $event ) {
+            $event['funnel'] = json_decode($event['funnel'] , true);
+            $event['funnel'] = array_keys($event['funnel']);
+            $event['funnel'] = json_encode($event['funnel']);
+            $wpdb->update( $wpdb->prefix.'inbound_events' , $event , array('id' => $event['id']) );
         }
 
         /* update batch data with next job */

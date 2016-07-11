@@ -157,7 +157,7 @@ class Inbound_SparkPost_Stats {
         $bounces = $wpdb->num_rows;
 
         /* get rejects */
-        $query = 'SELECT DISTINCT(lead_id) FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '.$variation_query.' AND `event_name` =  "sparkpost_relay_rejection"';
+        $query = 'SELECT DISTINCT(lead_id) FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '.$variation_query.' AND `event_name` =  "sparkpost_rejected" OR `event_name` = "sparkpost_relay_rejection"';
         $results = $wpdb->get_results( $query );
         $rejects = $wpdb->num_rows;
 

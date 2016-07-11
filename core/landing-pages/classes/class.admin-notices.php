@@ -186,7 +186,7 @@ class Landing_Pages_Admin_Notices {
 
         <div class="error">
             <p>
-                <?php echo sprintf(__('This landing page template requires Inbound Pro Plugin (not available yet) or the %s Inbound Premium Template Support Extension%s to operate. Please download the best available option and activate it as a plugin to continue working with this template.', 'landing-pages'), '<a href="#linkhere">', '</a>'); ?>
+                <?php echo sprintf(__('This landing page template requires %sInbound Pro Plugin + active subscription%s or the  %sInbound Premium Template Support Extension%s to operate. Please download the best available option and activate it as a plugin to continue working with this template.', 'landing-pages'), '<a href="https://www.inboundnow.com/pricing/">', '</a>', '<a href="https://www.inboundnow.com/account/">', '</a>'); ?>
             </p>
         </div>
         <?php
