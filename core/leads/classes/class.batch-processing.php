@@ -74,12 +74,13 @@ class Leads_Batch_Processor {
     public static function process_batches() {
 
         /* load batch processing data into variable */
-        $args = get_option('leads_batch_processing');
+        $jobs = get_option('leads_batch_processing');
 
         echo '<h1>' . __( 'Processing Batches!' , 'inbound-pro' ) .'</h1>';
         echo '<div class="wrap">';
 
         /* run the method */
+        $args = $jobs[0];
         call_user_func(
             array(__ClASS__, $args['method']),
             $args
@@ -89,8 +90,21 @@ class Leads_Batch_Processor {
 
     }
 
+    /**
+     * Removes complete job and deletes leads_batch_processing if all jobs are complete else updates and returns true.
+     * @return bool
+     */
     public static function delete_flag() {
-        delete_option('leads_batch_processing');
+        $jobs = get_option('leads_batch_processing');
+        unset($jobs[0]);
+
+        if ($jobs) {
+            update_option('leads_batch_processing', $jobs);
+            return true;
+        } else {
+            delete_option('leads_batch_processing');
+            return false;
+        }
     }
 
     /**
@@ -108,9 +122,17 @@ class Leads_Batch_Processor {
 
         /* if all leads are processed echo complete and delete batch job */
         if (!self::$leads || $args['offset'] > $pages ) {
-            self::delete_flag();
+            $has_more_jobs = self::delete_flag();
             echo '<br>';
             _e( 'All done!' , 'inbound-pro' );
+            if ($has_more_jobs) {
+                /* redirect page */
+                ?>
+                <script type="text/javascript">
+                    document.location.href = "edit.php?post_type=wp-lead&page=leads-batch-processing";
+                </script>
+                <?php
+            }
             exit;
         }
 
@@ -226,9 +248,17 @@ class Leads_Batch_Processor {
 
         /* if all leads are processed echo complete and delete batch job */
         if (!$events || $args['offset'] > $pages ) {
-            self::delete_flag();
+            $has_more_jobs = self::delete_flag();
             echo '<br>';
             _e( 'All done!' , 'inbound-pro' );
+            if ($has_more_jobs) {
+                /* redirect page */
+                ?>
+                <script type="text/javascript">
+                    document.location.href = "edit.php?post_type=wp-lead&page=leads-batch-processing";
+                </script>
+                <?php
+            }
             exit;
         }
 
@@ -269,9 +299,17 @@ class Leads_Batch_Processor {
 
         /* if all leads are processed echo complete and delete batch job */
         if (!self::$leads || $args['offset'] > $pages ) {
-            self::delete_flag();
+            $has_more_jobs = self::delete_flag();
             echo '<br>';
             _e( 'All done!' , 'inbound-pro' );
+            if ($has_more_jobs) {
+                /* redirect page */
+                ?>
+                <script type="text/javascript">
+                    document.location.href = "edit.php?post_type=wp-lead&page=leads-batch-processing";
+                </script>
+                <?php
+            }
             exit;
         }
 
