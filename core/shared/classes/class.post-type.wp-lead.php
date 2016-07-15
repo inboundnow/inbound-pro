@@ -111,7 +111,7 @@ if ( !class_exists('Inbound_Leads') ) {
 
 			/* Register lead lists */
 			$list_labels = array(
-				'name'						=> __( 'Lead Lists', 'inbound-pro' ),
+				'name'						=> __( 'Lists', 'inbound-pro' ),
 				'singular_name'				=> __( 'Lead List', 'inbound-pro' ),
 				'search_items'				=> __( 'Search Lead Lists', 'inbound-pro' ),
 				'popular_items'				=> __( 'Popular Lead Lists', 'inbound-pro' ),
@@ -145,7 +145,7 @@ if ( !class_exists('Inbound_Leads') ) {
 
 			/* Register Lead Tags Taxonomy */
 			$labels = array(
-				'name'						=> _x( 'Lead Tags', 'taxonomy general name' ),
+				'name'						=> _x( 'Tags', 'taxonomy general name' ),
 				'singular_name'				=> _x( 'Lead Tag', 'taxonomy singular name' ),
 				'search_items'				=> __( 'Search Lead Tags' ),
 				'popular_items'				=> __( 'Popular Lead Tags' ),

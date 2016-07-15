@@ -145,7 +145,7 @@ class Leads_Post_Type {
                 echo $custom_val;
                 break;
             case "page-views":
-                $page_view_count = get_post_meta($post_id, 'wpleads_page_view_count', true);
+                $page_view_count = Inbound_Metaboxes_Leads::get_page_view_count($post_id);
                 echo($page_view_count ? $page_view_count : 0);
                 break;
             case "company":

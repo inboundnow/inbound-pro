@@ -179,7 +179,6 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
 
             wp_enqueue_style('lp-content-stats', LANDINGPAGES_URLPATH . 'assets/css/admin/content-stats.css');
 
-
             /* listing page only */
             if ($screen->id == 'edit-landing-page' ) {
                 /* load stat clear handlers */

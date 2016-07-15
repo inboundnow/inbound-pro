@@ -168,6 +168,35 @@ if ( !class_exists('Leads_Activation_Update_Routines') ) {
 
 		}
 
+		/**
+		 * @introduced: 2.2.2
+		 * @migration-type: batch lead processing / updating inbound events table
+		 * @details: Moving form submissions, cta clicks, custom events into events table.
+		 * @details: 072016 represents date added in
+		 */
+		public static function batch_import_event_data_07132016() {
+
+			/* ignore if not applicable */
+			$previous_installed_version = get_transient('leads_current_version');
+
+			if ( version_compare($previous_installed_version , "2.2.2") === 1 )  {
+				return;
+			}
+
+			/* create flag for batch uploader */
+			add_option(
+				'leads_batch_processing', 		/* db option name - lets batch processor know it's needed */
+				array(
+					'method' => 'import_event_data_07132016', 	/* tells batch processor which method to run */
+					'posts_per_page' => 100, 					/* leads per query */
+					'offset' => 0 								/* initial page offset */
+				),
+				0 , 							/* depreciated leave as 0 */
+				true 							/* autoload true */
+			);
+
+		}
+
 
 	}
 

@@ -1,8 +1,110 @@
 jQuery(document).ready(function($) {
+	
 
 	/* fade wrap in */
 	jQuery(".wrap").fadeIn(1000);
+		
+	jQuery("body").on('click','.export-leads-csv', function (e) {
+		var total_records = jQuery("#lead-manage-table").find("input[name='ids[]']:checked").length;
+	    var ids = jQuery("#lead-manage-table").find("input.lead-select-checkbox:checked").map(function () {
+  					return this.value;
+		}).get();
+		var batch_limit = 100;
+		var count_process = Math.ceil(total_records / batch_limit);
+		var text = "";
+		var i;
 
+		if(total_records < 1){
+			alert("Please select lead/s to export");
+			e.preventDefault();
+			return false;
+		}
+
+		for (i = 0; i < count_process; i++) {
+    		text += '<tr id="row"'+i+'><td><p id="progress'+i+'" class="progress"></p></td><td><div  id="progressbar'+i+'" class="ui-progressbar ui-widget ui-widget-content ui-corner-all" role="progressbar" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0"></div></td></tr>';
+		}
+		
+		jQuery("#progress-table #the-progress-list").html(text);
+
+		$( "#export-leads" ).trigger( "click" );
+		 exportCsv(batch_limit, 0, total_records, 0, ids);
+		 e.preventDefault();
+		 return false;
+	});
+
+	jQuery("#export-leads").magnificPopup({
+		type: 'inline',
+		preloader: false,
+		verticalFit: true,
+		overflowY: 'scroll',
+		callbacks: {
+            open: function(){
+                $("#lead-export-process").css("display", "block");
+            },
+            close: function(){
+                $("#lead-export-process").css("display", "none");
+            }
+        },
+	});
+
+	jQuery("body").on('click','.download-leads-csv a', function (e) { 
+		 location.reload();
+	});
+	
+	
+
+	function exportCsv(cnt, offset, tot, i, ids){
+
+	    var cnt_init = 100;
+	    if(i == 0){
+	    	 var is_first = 1;
+	    }else{
+	    	var is_first = 0;
+	    }
+	   
+	    jQuery.post(
+		    ajaxurl, 
+		    {
+		        'action': 'leads_export_list',
+		        'data': {
+						limit: cnt,
+						offset: offset,
+						total: tot,
+						ids: ids,
+						is_first: is_first
+					},
+		    }, 
+		    function(response){
+		    	var jsonParse = jQuery.parseJSON(response);
+		    	if(jsonParse.status == 0  && jsonParse.error !=""){
+		    		jQuery( "#progress"+i ).text(jsonParse.error);
+		    		return false;
+		    	}
+		        jQuery( "#progressbar"+i ).progressbar({ value: 100 });
+		        if(tot < cnt){
+		        	jQuery( "#progress"+i ).text(offset+" - "+ tot + " of "+tot);
+		        }else{
+		        	jQuery( "#progress"+i ).text(offset+" - "+ cnt + " of "+tot);
+		        }
+		        
+
+		        if(cnt >= tot && jsonParse.url!=""){
+
+		    		jQuery(".download-leads-csv").html('<p><a href="'+jsonParse.url+'" download>Download CSV</a></p> <p>Please note that this file is also available in <strong>wp-content/uploads/leads/csv/</strong></p></a>');
+		    	}
+
+		        offset = cnt;
+		        var cnt_old = cnt;
+		        cnt = cnt+cnt_init;
+		        i = i+1;
+		        if(cnt > tot && cnt_old < tot){
+		            exportCsv(tot, offset, tot, i, ids);
+		        }else if(cnt <= tot){
+		        	exportCsv(cnt, offset, tot, i, ids);
+		        }
+		    }
+		);
+	}
 	/* initiate table sorter */
 	var table = jQuery("#lead-manage-table").length;
 	if (table > 0) {
@@ -311,3 +413,4 @@ jQuery(document).ready(function($) {
 	});
 
 })(document);
+

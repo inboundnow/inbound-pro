@@ -58,6 +58,7 @@ if ($background_style === "fullscreen") {
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
+    <meta name=viewport content="width=device-width, initial-scale=1">
     <title><?php wp_title(); ?></title>
     <link href="<?php echo $path; ?>assets/css/style.css" rel="stylesheet">
 

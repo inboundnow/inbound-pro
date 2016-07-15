@@ -18,8 +18,8 @@ class Inbound_Marketing_Button {
         add_action( 'admin_footer', array(__CLASS__, 'for_popup'));
     }
     static function load_marketing_button_js() {
-        wp_enqueue_script('inbound-marketing-button', INBOUNDNOW_SHARED_URLPATH . 'assets/js/admin/marketing-button.js');
-        wp_enqueue_script('maginificient-popup', INBOUNDNOW_SHARED_URLPATH . 'assets/js/global/jquery.magnific-popup.min.js');
+        wp_enqueue_script('inbound-marketing-button', INBOUNDNOW_SHARED_URLPATH . 'assets/js/admin/marketing-button.js' , array() , null , false );
+        wp_enqueue_script('maginificient-popup', INBOUNDNOW_SHARED_URLPATH . 'assets/js/global/jquery.magnific-popup.min.js' , array() , null , false );
         wp_enqueue_style('maginificient-popup-css', INBOUNDNOW_SHARED_URLPATH . 'assets/css/magnific-popup.css');
     }
     /*

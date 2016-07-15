@@ -51,6 +51,9 @@ if (!class_exists('Leads_Manager')) {
             add_action('wp_ajax_leads_ajax_load_more_leads', array(__CLASS__, 'ajax_load_more_leads'));
             /* ajax listener for deleting lead from list */
             add_action('wp_ajax_leads_delete_from_list', array(__CLASS__, 'ajax_delete_from_list'));
+            /* ajax listener export opration */
+            add_action('wp_ajax_leads_export_list', array(__CLASS__, 'ajax_leads_export_list'));
+
 
         }
 
@@ -113,24 +116,22 @@ if (!class_exists('Leads_Manager')) {
 
             wp_enqueue_script(array('jquery', 'jqueryui', 'jquery-ui-selectable', 'editor', 'thickbox', 'media-upload'));
 
-            if (defined('INBOUND_PRO_URLPATH')) {
-                wp_enqueue_script('selectjs', INBOUND_PRO_URLPATH . 'core/shared/assets/includes/Select2/select2.min.js');
-                wp_enqueue_style('selectjs', INBOUND_PRO_URLPATH . 'core/shared/assets/includes/Select2/select2.css');
-            } else {
-                wp_enqueue_script('selectjs', WPL_URLPATH . '/shared/assets/includes/Select2/select2.min.js');
-                wp_enqueue_style('selectjs', WPL_URLPATH . '/shared/assets/includes/Select2/select2.css');
-            }
+            wp_enqueue_script('selectjs', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/Select2/select2.min.js', array() , null , false );
+            wp_enqueue_style('selectjs', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/Select2/select2.css');
 
-            wp_enqueue_script('tablesort', WPL_URLPATH . '/assets/js/management/tablesort.min.js');
 
-            wp_enqueue_script('light-table-filter', WPL_URLPATH . '/assets/js/management/light-table-filter.min.js');
-            wp_register_script('modernizr', WPL_URLPATH . '/assets/js/management/modernizr.custom.js');
-            wp_enqueue_script('modernizr');
-            wp_enqueue_script('tablesort', WPL_URLPATH . '/assets/js/management/tablesort.min.js');
-            wp_enqueue_script('jquery-dropdown', WPL_URLPATH . '/assets/js/management/jquery.dropdown.js');
-            wp_enqueue_script('bulk-manage-leads', WPL_URLPATH . '/assets/js/management/admin.js');
+            wp_enqueue_script('tablesort', WPL_URLPATH . 'assets/js/management/tablesort.min.js');
+
+            wp_enqueue_script('light-table-filter', WPL_URLPATH . 'assets/js/management/light-table-filter.min.js');
+            wp_enqueue_script('modernizr', WPL_URLPATH . 'assets/js/management/modernizr.custom.js');
+            wp_enqueue_script('tablesort', WPL_URLPATH . 'assets/js/management/tablesort.min.js');
+            wp_enqueue_script('jquery-dropdown', WPL_URLPATH . 'assets/js/management/jquery.dropdown.js');
+            wp_enqueue_script('jquery-ui', WPL_URLPATH . 'assets/js/management/jquery-ui.js');
+            wp_enqueue_script('bulk-manage-leads', WPL_URLPATH . 'assets/js/management/admin.js' );
+
             wp_localize_script('bulk-manage-leads', 'bulk_manage_leads', array('admin_url' => admin_url('admin-ajax.php'), 'taxonomies' => self::$taxonomies));
             wp_enqueue_style('wpleads-list-css', WPL_URLPATH . '/assets/css/admin-management.css');
+            wp_enqueue_style('jquery-ui-css', WPL_URLPATH . '/assets/css/jquery-ui.css');
             wp_admin_css('thickbox');
             add_thickbox();
         }
@@ -162,6 +163,7 @@ if (!class_exists('Leads_Manager')) {
             self::display_row_actions();
 
         }
+
 
         /**
          *  display notifications
@@ -473,80 +475,104 @@ if (!class_exists('Leads_Manager')) {
                          */
                         public static function display_row_actions() {
                         ?>
-                        <div id="all-actions" class="tablenav">
-
-                            <div id="inbound-lead-management">
-                                <span class="lead-actions-title"><?php _e('What do you want to do with the selected leads?', 'inbound-pro' ); ?></span>
-
-                                <div id="controls">
-                                    <?php
-                                    self::display_action_controls();
-                                    ?>
-                                </div>
-                                <div id="lead-action-triggers">
+                        </tbody>
+                    </table>
+                </div>
 
 
-                                    <div class="action" id="lead-export">
-                                        <input type="submit" class="manage-remove button-primary button" name="export_leads" value="<?php _e('Export Leads as CSV', 'inbound-pro' ); ?>" title="<?php _e('Exports selected leads into a CSV format.', 'inbound-pro' ); ?>"/>
 
-                                    </div>
+                <div id="all-actions" class="tablenav">
 
-                                    <div class="action" id="lead-update-lists">
-                                        <label for="lead-update-lists"><?php _e('Choose List:', 'inbound-pro' ); ?></label>
-                                        <?php
+                    <div id="inbound-lead-management">
+                        <span class="lead-actions-title"><?php _e('What do you want to do with the selected leads?', 'inbound-pro' ); ?></span>
 
-                                        /* get available terms in taxonomy */
-                                        $terms = get_terms('wplead_list_category', array('hide_empty' => false));
+                        <div id="controls">
+                            <?php
+                            self::display_action_controls();
+                            ?>
+                        </div>
+                        <div id="lead-action-triggers">
+                            <div class="action" id="lead-export">
+                                <a href="#lead-export-process" class="manage-remove button-primary button export-leads-csv button-primary button"  title="<?php _e('Exports selected leads into a CSV format.', 'inbound-pro' ); ?>"> <?php _e('Exports selected as CSV', 'inbound-pro' ); ?></a>
 
-                                        /* setup the select */
-                                        echo '<select name="wplead_list_category_action">';
+                                <a style="visibility: hidden;" id="export-leads" href="#lead-export-process"> <?php _e('Exports selected as CSV', 'inbound-pro' ); ?></a>
+                            </div>
+                            <div class="action" id="lead-update-lists">
+                                <label for="lead-update-lists"><?php _e('Choose List:', 'inbound-pro' ); ?></label>
+                                <?php
 
-                                        /* print the first option */
-                                        echo '<option class="" value="" selected="selected">' . __('Select lead list ', 'inbound-pro' ) . '</option>';
+                                /* get available terms in taxonomy */
+                                $terms = get_terms('wplead_list_category', array('hide_empty' => false));
 
-                                        /* loop through terms and create options */
-                                        foreach ($terms as $term) {
-                                            echo '<option class="" value="' . $term->term_id . '" >' . $term->name . ' (' . $term->count . ')</option>';
-                                        }
+                                /* setup the select */
+                                echo '<select name="wplead_list_category_action">';
 
-                                        /* end select input */
-                                        echo '</select>';
+                                /* print the first option */
+                                echo '<option class="" value="" selected="selected">' . __('Select lead list ', 'inbound-pro' ) . '</option>';
 
-                                        ?>
-                                        <input type="submit" class="button-primary button" name="add" value="<?php _e('Add to', 'inbound-pro' ) ?>" title="<?php _e('Add the selected posts to this category.', 'inbound-pro' ); ?>"/>
-                                        <input type="submit" class="manage-remove button-primary button" name="remove" value="<?php _e('Remove from', 'inbound-pro' ) ?>" title="<?php _e('Remove the selected posts from this category.', 'inbound-pro' ); ?>"/>
-                                    </div>
+                                /* loop through terms and create options */
+                                foreach ($terms as $term) {
+                                    echo '<option class="" value="' . $term->term_id . '" >' . $term->name . ' (' . $term->count . ')</option>';
+                                }
 
-                                    <div class="action" id="lead-update-tags">
-                                        <label for="lead-update-tags"><?php _e('Tags:', 'inbound-pro' ); ?></label>
-                                        <input type="text" id="inbound-lead-tags-input" name="tags" placeholder="<?php _e('Separate multiple tags with commas. ', 'inbound-pro' ); ?>" title="<?php _e('Separate multiple tags with commas.', 'inbound-pro' ); ?>"/>
-                                        <input type="submit" name="replace_tags" class="manage-tag-replace button-primary button" value="<?php _e('Replace', 'inbound-pro' ); ?>" title="<?php _e('Replace the selected leads\'s current tags with these ones. Warning this will delete current tags and replace them ', 'inbound-pro' ); ?>"/>
-                                        <input type="submit" name="tag" class="manage-tag-add button-primary button" value="<?php _e('Add', 'inbound-pro' ) ?>" title="<?php _e('Add tags to the selected leads without altering the leads\' existing tags', 'inbound-pro' ); ?>"/>
-                                        <input type="submit" name="untag" class="manage-remove button-primary button" value="<?php _e('Remove', 'inbound-pro' ) ?>" title="<?php _e('Remove these tags from the selected leads.', 'inbound-pro' ); ?>"/>
-                                    </div>
+                                /* end select input */
+                                echo '</select>';
 
-                                    <div class="action" id="lead-update-meta">
-                                        <label for="lead-update-meta"><?php _e('Meta:', 'inbound-pro' ); ?></label>
-                                        <input type="text" name="meta_val" title="<?php _e('Separate multiple tags with commas.', 'inbound-pro' ); ?>"/>
-                                        <input type="submit" name="replace_meta" value="<?php _e('Replace', 'inbound-pro' ); ?>" title="<?php _e('Replace the selected posts\' current meta values with these ones.', 'inbound-pro' ); ?>"/>
-                                        <input type="submit" name="meta" value="<?php _e('Add', 'inbound-pro' ); ?>" title="<?php _e('Add these meta values to the selected posts without altering the posts\' existing tags.', 'inbound-pro' ); ?>"/>
-                                        <input type="submit" name="unmeta" value="<?php _e('Remove', 'inbound-pro' ); ?>" title="<?php _e('Remove these meta values from the selected posts.', 'inbound-pro' ); ?>"/>
-                                    </div>
-
-                                    <div class="action" id="lead-delete">
-                                        <label for="lead-delete" id="del-label"><span style="color:red;"><?php _e('Delete Selected Leads (Warning! There is no UNDO):', 'inbound-pro' ); ?></span></label>
-
-                                        <input type="submit" class="manage-remove button-primary button" name="delete_leads" value="<?php _e('Permanently Delete Selected Leads', 'inbound-pro' ) ?>" title="<?php _e('This will delete the selected leads from your database. There is no undo.', 'inbound-pro' ); ?>"/>
-
-                                    </div>
-                                </div>
+                                ?>
+                                <input type="submit" class="button-primary button" name="add" value="<?php _e('Add to', 'inbound-pro' ) ?>" title="<?php _e('Add the selected posts to this category.', 'inbound-pro' ); ?>"/>
+                                <input type="submit" class="manage-remove button-primary button" name="remove" value="<?php _e('Remove from', 'inbound-pro' ) ?>" title="<?php _e('Remove the selected posts from this category.', 'inbound-pro' ); ?>"/>
                             </div>
 
-                            <?php
-                            self::display_hidden_action_fields();
-                            ?>
+                            <div class="action" id="lead-update-tags">
+                                <label for="lead-update-tags"><?php _e('Tags:', 'inbound-pro' ); ?></label>
+                                <input type="text" id="inbound-lead-tags-input" name="tags" placeholder="<?php _e('Separate multiple tags with commas. ', 'inbound-pro' ); ?>" title="<?php _e('Separate multiple tags with commas.', 'inbound-pro' ); ?>"/>
+                                <input type="submit" name="replace_tags" class="manage-tag-replace button-primary button" value="<?php _e('Replace', 'inbound-pro' ); ?>" title="<?php _e('Replace the selected leads\'s current tags with these ones. Warning this will delete current tags and replace them ', 'inbound-pro' ); ?>"/>
+                                <input type="submit" name="tag" class="manage-tag-add button-primary button" value="<?php _e('Add', 'inbound-pro' ) ?>" title="<?php _e('Add tags to the selected leads without altering the leads\' existing tags', 'inbound-pro' ); ?>"/>
+                                <input type="submit" name="untag" class="manage-remove button-primary button" value="<?php _e('Remove', 'inbound-pro' ) ?>" title="<?php _e('Remove these tags from the selected leads.', 'inbound-pro' ); ?>"/>
+                            </div>
+
+                            <div class="action" id="lead-update-meta">
+                                <label for="lead-update-meta"><?php _e('Meta:', 'inbound-pro' ); ?></label>
+                                <input type="text" name="meta_val" title="<?php _e('Separate multiple tags with commas.', 'inbound-pro' ); ?>"/>
+                                <input type="submit" name="replace_meta" value="<?php _e('Replace', 'inbound-pro' ); ?>" title="<?php _e('Replace the selected posts\' current meta values with these ones.', 'inbound-pro' ); ?>"/>
+                                <input type="submit" name="meta" value="<?php _e('Add', 'inbound-pro' ); ?>" title="<?php _e('Add these meta values to the selected posts without altering the posts\' existing tags.', 'inbound-pro' ); ?>"/>
+                                <input type="submit" name="unmeta" value="<?php _e('Remove', 'inbound-pro' ); ?>" title="<?php _e('Remove these meta values from the selected posts.', 'inbound-pro' ); ?>"/>
+                            </div>
+
+                            <div class="action" id="lead-delete">
+                                <label for="lead-delete" id="del-label"><span style="color:red;"><?php _e('Delete Selected Leads (Warning! There is no UNDO):', 'inbound-pro' ); ?></span></label>
+
+                                <input type="submit" class="manage-remove button-primary button" name="delete_leads" value="<?php _e('Permanently Delete Selected Leads', 'inbound-pro' ) ?>" title="<?php _e('This will delete the selected leads from your database. There is no undo.', 'inbound-pro' ); ?>"/>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <?php
+                    self::display_hidden_action_fields();
+                    ?>
+
+                </div>
             </form>
+            <div id="lead-export-process" style="display: none;">
+                <table id="progress-table" class="widefat">
+                    <thead>
+                    <tr>
+                        <th width="50%" scope="col" class="">Count</th>
+                        <th width="50%" scope="col" class="">Progress</th>
+                    </tr>
+                    </thead>
+                    <tbody id="the-progress-list" class="ui-selectable">
+                    </tbody>
+                </table>
+                <div class="download-leads-csv"></div>
+            </div>
+
         </div>
+
+
+
+
         <?php
     }
 
@@ -794,79 +820,154 @@ if (!class_exists('Leads_Manager')) {
                 wp_redirect(get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&done=delete_leads&what=" . $name . "&num=self::$num$query");
                 die;
 
-            } /* Export Selected Leads to CSV */
-            elseif (!empty($_REQUEST['export_leads'])) {
-                $exported = 0;
-
-                header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-                header('Content-Description: File Transfer');
-                header("Content-type: text/csv");
-                header("Content-Disposition: attachment; filename=leads-export-csv-" . date("m.d.y") . ".csv");
-                header("Expires: 0");
-                header("Pragma: public");
-
-                $fh = @fopen('php://output', 'w');
-
-                //get all keys
-                foreach ((array)$_REQUEST['ids'] as $post_id) {
-                    $this_lead_data = get_post_custom($post_id);
-                    unset($this_lead_data['wpleads_inbound_form_mapped_data']);
-                    unset($this_lead_data['wpleads_referral_data']);
-                    unset($this_lead_data['wpleads_raw_post_data']);
-                    unset($this_lead_data['call_to_action_clicks']);
-                    //unset($this_lead_data['wpleads_ip_address']);
-                    //unset($this_lead_data['wpleads_conversion_data']);
-                    //unset($this_lead_data['page_views']);
-
-                    foreach ($this_lead_data as $key => $val) {
-                        $lead_meta_pairs[$key] = $key;
-                    }
-                }
-
-                // Add a header row if it hasn't been added yet
-                fputcsv($fh, array_keys($lead_meta_pairs));
-                $headerDisplayed = true;
-
-
-                foreach ((array)$_REQUEST['ids'] as $post_id) {
-                    unset($this_row_data);
-
-                    $this_lead_data = get_post_custom($post_id);
-                    unset($this_lead_data['wpleads_inbound_form_mapped_data']);
-                    unset($this_lead_data['wpleads_referral_data']);
-                    unset($this_lead_data['wpleads_raw_post_data']);
-                    unset($this_lead_data['call_to_action_clicks']);
-                    //unset($this_lead_data['wpleads_conversion_data']);
-                    //unset($this_lead_data['page_views']);
-
-                    foreach ($lead_meta_pairs as $key => $val) {
-
-                        if (isset($this_lead_data[$key])) {
-                            $val = $this_lead_data[$key];
-                            if (is_array($val))
-                                $val = implode(';', $val);
-                        } else {
-                            $val = "";
-                        }
-
-                        $this_row_data[$key] = $val;
-                    }
-
-                    fputcsv($fh, $this_row_data);
-                    $exported++;
-                }
-                // Close the file
-                fclose($fh);
-
-                // Make sure nothing else is sent, our file is done
-                exit;
-
             }
 
 
             die("Invalid action.");
 
         }
+
+        public static function ajax_leads_export_list(){
+
+            $returnArray = array();
+
+            if(!isset($_POST) || empty($_POST)){
+                $returnArray = array(
+                    'status' => 0,
+                    'error' => 'Empty post values!!.',
+                    'url' => ''
+                );
+                die(json_encode($returnArray));
+
+            }
+            if(empty($_POST['data']['ids'])){
+                $returnArray = array(
+                    'status' => 0,
+                    'error' => 'Please select leads to export!!.',
+                    'url' => ''
+                );
+                die(json_encode($returnArray));
+
+            }
+
+
+            //handle posted data
+            $ids      = $_POST['data']['ids'];
+            $limit    = $_POST['data']['limit'];
+            $offset   = $_POST['data']['offset'];
+            $total    = $_POST['data']['total'];
+            $is_first = $_POST['data']['is_first'];
+
+            $upload_dir = wp_upload_dir();
+            $uploads_path = 'leads/csv';
+
+            //GETTING CORRECT FILE PATH            
+            $path = $upload_dir['path'].'/'.$uploads_path.'/';
+            $blogtime = current_time( 'mysql' );
+            $filename = date("m.d.y.h.i");
+            list( $today_year, $today_month, $today_day, $hour, $minute, $second ) = preg_split( '([^0-9])', $blogtime );
+            $path = str_replace($today_year.'/'.$today_month.'/','',$path);
+            if(file_exists($path)){
+                if($is_first == 1){
+                    //unlink($path."/".$filename.".csv");
+                }
+            } else {
+                mkdir($path, 0755, true);
+            }
+            $exported = 0;
+
+            header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+            header('Content-Description: File Transfer');
+            header("Content-type: text/csv");
+            header("Content-Disposition: attachment; filename=".$path."/".$filename.".csv");
+            header("Expires: 0");
+            header("Pragma: public");
+
+            $file = @fopen($path."/".$filename.".csv","a");
+
+            if(!$file){
+                $returnArray = array(
+                    'status' => 0,
+                    'error' => 'Unable to create file. Please check you uploads folder permission!!.',
+                    'url' => ''
+                );
+                die(json_encode($returnArray));
+            }
+
+            //get all keys
+            for($i = $offset;  $i < $limit; $i++)
+            {
+                if (!isset($ids[$i])) {
+                    continue;
+                }
+
+                $this_lead_data = get_post_custom($ids[$i]);
+                unset($this_lead_data['wpleads_inbound_form_mapped_data']);
+                unset($this_lead_data['wpleads_referral_data']);
+                unset($this_lead_data['wpleads_raw_post_data']);
+                unset($this_lead_data['call_to_action_clicks']);
+
+                foreach ($this_lead_data as $key => $val) {
+                    $lead_meta_pairs[$key] = $key;
+                }
+            }
+            if($is_first == 1){
+                // Add a header row if it hasn't been added yet
+                fputcsv($file, array_keys($lead_meta_pairs));
+                $headerDisplayed = true;
+            }
+
+            for($j = $offset;  $j < $limit; $j++)
+            {
+                unset($this_row_data);
+
+                if (!isset($ids[$j])) {
+                    continue;
+                }
+
+                $this_lead_data = get_post_custom($ids[$j]);
+                unset($this_lead_data['wpleads_inbound_form_mapped_data']);
+                unset($this_lead_data['wpleads_referral_data']);
+                unset($this_lead_data['wpleads_raw_post_data']);
+                unset($this_lead_data['call_to_action_clicks']);
+
+                foreach ($lead_meta_pairs as $key => $val) {
+
+                    if (isset($this_lead_data[$key])) {
+                        $val = $this_lead_data[$key];
+                        if (is_array($val))
+                            $val = implode(';', $val);
+                    } else {
+                        $val = "";
+                    }
+
+                    $this_row_data[$key] = $val;
+                }
+
+                fputcsv($file, $this_row_data);
+                $exported++;
+            }
+            // Close the file
+            fclose($file);
+            if($limit >= $total){
+                $url = content_url().'/uploads/'.$uploads_path.'/'.$filename.'.csv';
+                $returnArray = array(
+                    'status' => 1,
+                    'error' => '',
+                    'url' => $url
+                );
+            }else{
+                $returnArray = array(
+                    'status' => 1,
+                    'error' => '',
+                    'url' => ''
+                );
+            }
+
+            die(json_encode($returnArray));
+        }
+
+
 
 
         /**

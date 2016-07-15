@@ -85,10 +85,6 @@ class Inbound_Email_Preview {
      */
     public static function load_footer_scripts() {
 
-        if (!self::$smartbar_enable) {
-            return;
-        }
-
         do_action('wp_enqueue_scripts');
 
         global $wp_scripts;
@@ -102,6 +98,10 @@ class Inbound_Email_Preview {
                 echo '</script>';
             }
             echo '<script src="'.$wp_scripts->registered['inbound-analytics']->src.'"></script>';
+        }
+
+        if (!self::$smartbar_enable) {
+            return;
         }
 
         ?>

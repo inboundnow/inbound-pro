@@ -100,12 +100,12 @@ class Inbound_Customizer {
     public static function customizer_preview_scripts() {
         show_admin_bar(false);
         wp_enqueue_style('inbound-customizer-preview-css', INBOUNDNOW_SHARED_URLPATH . 'assets/css/customizer-preview.css');
-        wp_enqueue_script('inbound-customizer-preview-js', INBOUNDNOW_SHARED_URLPATH . 'assets/js/admin/customizer-preview.js');
+        wp_enqueue_script('inbound-customizer-preview-js', INBOUNDNOW_SHARED_URLPATH . 'assets/js/admin/customizer-preview.js' , array() , false , true );
 
     }
     /* Load Scripts for Editor Window */
     public static function customizer_editor_scripts() {
-        wp_enqueue_script('inbound-customizer-editor-js', INBOUNDNOW_SHARED_URLPATH . 'assets/js/admin/customizer-editor.js');
+        wp_enqueue_script('inbound-customizer-editor-js', INBOUNDNOW_SHARED_URLPATH . 'assets/js/admin/customizer-editor.js' , array() , false , true );
         wp_enqueue_style('inbound-customizer-editor-css', INBOUNDNOW_SHARED_URLPATH . 'assets/css/customizer-editor.css');
         //wp_enqueue_style('cta-customizer-admin', WP_CTA_URLPATH . 'assets/css/new-customizer-admin.css');
 
@@ -141,7 +141,7 @@ class Inbound_Customizer {
             return;
         }
 
-        wp_enqueue_script('inbound-customizer-parent-js', INBOUNDNOW_SHARED_URLPATH . 'assets/js/admin/customizer-off-parent.js');
+        wp_enqueue_script('inbound-customizer-parent-js', INBOUNDNOW_SHARED_URLPATH . 'assets/js/admin/customizer-off-parent.js' , array() , false , true );
         wp_localize_script(
             'inbound-customizer-parent-js' ,
             'customizer_off',

@@ -73,7 +73,7 @@ if (!class_exists('Inbound_Debug_Scripts')) {
 				wp_dequeue_script( $handle );
 			}
 			/*wp_enqueue_script( 'jquery' ); */
-			wp_register_script('inbound-debug', INBOUNDNOW_SHARED_URLPATH . 'assets/js/global/debug.js', array('jquery'));
+			wp_register_script('inbound-debug', INBOUNDNOW_SHARED_URLPATH . 'assets/js/global/debug.js', array('jquery') , false , true );
 			wp_enqueue_script( 'inbound-debug' );
 
 			foreach ( $store as $handle ) {
@@ -269,7 +269,7 @@ if (!class_exists('Inbound_Debug_Scripts')) {
 			}
 
 			/*show_admin_bar( false ); */
-			wp_enqueue_script('inbound-dequeue-scripts', INBOUNDNOW_SHARED_URLPATH . 'assets/js/global/inbound-dequeue-scripts.js', array( 'jquery' ));
+			wp_enqueue_script('inbound-dequeue-scripts', INBOUNDNOW_SHARED_URLPATH . 'assets/js/global/inbound-dequeue-scripts.js', array( 'jquery' ) , false , true );
 			wp_localize_script( 'inbound-dequeue-scripts', 'inbound_debug', array( 'admin_url' => admin_url( 'admin-ajax.php' ), 'admin_screen' => $current, 'page_id' => $page_id));
 
 			global $wp_scripts;

@@ -1361,38 +1361,42 @@ if (!class_exists('Inbound_API')) {
 			$profile = $profiles[0];
 			$args = unserialize($profile->args);
 
+			$args['id'] = (isset( $args['id'])  && $args['id'] ) ? $args['id'] : $_COOKIE['wp_lead_id'];
 
-			/* Add lead to lists */
-			if (isset($args['add_lists']) && self::validate_parameter( $args['add_lists'], 'add_lists', 'array' ) ) {
-				foreach ( $args['add_lists'] as $list_id ) {
-					$Inbound_Leads->add_lead_to_list( $args['id'], $list_id );
+			/* process extra lead events */
+			if ($args['id']) {
+				/* Add lead to lists */
+				if (isset($args['add_lists']) && self::validate_parameter($args['add_lists'], 'add_lists', 'array')) {
+					foreach ($args['add_lists'] as $list_id) {
+						$Inbound_Leads->add_lead_to_list($args['id'], $list_id);
+					}
 				}
-			}
 
-			/* Remove lead from lists */
-			if (isset($args['remove_lists']) && self::validate_parameter( $args['remove_lists'], 'remove_lists', 'array' ) ) {
+				/* Remove lead from lists */
+				if (isset($args['remove_lists']) && self::validate_parameter($args['remove_lists'], 'remove_lists', 'array')) {
 
-				foreach ( $args['remove_lists'] as $list_id ) {
-					$Inbound_Leads->remove_lead_from_list( $args['id'], $list_id );
+					foreach ($args['remove_lists'] as $list_id) {
+						$Inbound_Leads->remove_lead_from_list($args['id'], $list_id);
+					}
 				}
-			}
 
-			/* Add tag to leads */
-			if (isset($args['add_tags']) && self::validate_parameter( $args['add_tags'], 'add_tags', 'array' ) ) {
-				foreach ( $args['add_tags'] as $tag ) {
-					$Inbound_Leads->add_tag_to_lead( $args['id'], $tag );
+				/* Add tag to leads */
+				if (isset($args['add_tags']) && self::validate_parameter($args['add_tags'], 'add_tags', 'array')) {
+					foreach ($args['add_tags'] as $tag) {
+						$Inbound_Leads->add_tag_to_lead($args['id'], $tag);
+					}
 				}
-			}
 
-			/* Remvoe tags from leads */
-			if (isset($args['remove_tags']) && self::validate_parameter( $args['remove_tags'], 'remove_tags', 'array' ) ) {
-				foreach ( $args['remove_tags'] as $tag ) {
-					$Inbound_Leads->remove_tag_from_lead( $args['id'], $tag );
+				/* Remvoe tags from leads */
+				if (isset($args['remove_tags']) && self::validate_parameter($args['remove_tags'], 'remove_tags', 'array')) {
+					foreach ($args['remove_tags'] as $tag) {
+						$Inbound_Leads->remove_tag_from_lead($args['id'], $tag);
+					}
 				}
-			}
 
-			/* Add link click event to lead profile */
-			do_action( 'inbound_track_link', $args );
+				/* Add link click event to lead profile */
+				do_action('inbound_track_link', $args);
+			}
 
 			/* redirect to  url */
 			header('Location: '. $args['url'] );

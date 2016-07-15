@@ -55,6 +55,7 @@ $videoid = youtubeid($yt_video);
     do_action('lp_head'); // Load Custom Landing Page Specific Header Items
     ?>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name=viewport content="width=device-width, initial-scale=1">
     <link href="<?php echo $path; ?>assets/css/screen.css" rel="stylesheet" type="text/css"/>
     <style type="text/css">
         .inbound-field input[type=text], .inbound-field input[type=url], .inbound-field input[type=email], .inbound-field input[type=tel], .inbound-field input[type=number], .inbound-field input[type=password] {

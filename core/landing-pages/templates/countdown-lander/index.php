@@ -72,6 +72,7 @@ $blue =  (isset($RBG_array['b'])) ? $RBG_array['b'] : '0';
 <html>
 <head>
     <meta charset="utf-8" />
+    <meta name=viewport content="width=device-width, initial-scale=1">
     <title><?php wp_title(); ?></title>
     <?php /* Load all functions hooked to lp_head including global js and global css */
     do_action('wp_head'); // Load Regular WP Head

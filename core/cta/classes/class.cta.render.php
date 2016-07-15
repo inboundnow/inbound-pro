@@ -302,7 +302,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
                 $link = Inbound_API::analytics_track_links( array(
                     'cta_id' => $selected_cta['id'],
-                    'id' => ( isset($_COOKIE['wp_lead_id']) ? $_COOKIE['wp_lead_id'] : null ) ,
+                    'id' => null, /* lead_id - let's not set this here */
                     'page_id' => ( isset($post) && $post->ID  ? $post->ID : null ) ,
                     'vid' => $vid ,
                     'url' => $href ,
@@ -393,7 +393,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
                 $cta_id = self::$instance->selected_cta['id'];
             }
 
-            wp_enqueue_script( 'cta-load-variation', WP_CTA_URLPATH . 'assets/js/cta-variation.js', array('jquery'), true );
+            wp_enqueue_script( 'cta-load-variation', WP_CTA_URLPATH . 'assets/js/cta-variation.js', array('jquery') , null , false);
             wp_localize_script( 'cta-load-variation', 'cta_variation', array('cta_id' => $cta_id, 'admin_url' => admin_url( 'admin-ajax.php'), 'home_url' => get_home_url(), 'disable_ajax' => self::$instance->disable_ajax ));
 
 
@@ -415,42 +415,10 @@ if ( !class_exists( 'CTA_Render' ) ) {
                     'global_c_length' => $global_cookie_length
                 );
 
-                wp_enqueue_style('maginificient-popup-css', INBOUNDNOW_SHARED_URLPATH . 'assets/css/magnific-popup.css');
-                wp_enqueue_script('maginificient-popup', INBOUNDNOW_SHARED_URLPATH . 'assets/js/global/jquery.magnific-popup.min.js',array('jquery'), true );
+                wp_enqueue_style('maginificient-popup', INBOUNDNOW_SHARED_URLPATH . 'assets/css/magnific-popup.css');
+                wp_enqueue_script('maginificient-popup', INBOUNDNOW_SHARED_URLPATH . 'assets/js/global/jquery.magnific-popup.min.js',array('jquery'), null , false);
                 wp_localize_script( 'maginificient-popup', 'wp_cta_popup', $popup_params );
-                wp_enqueue_script('cta-popup-onpage', WP_CTA_URLPATH . 'assets/js/cta-popup-onpage.js', array('jquery', 'maginificient-popup'), true );
-            }
-
-            /* If placement is slideout load slideout asset files */
-            if (self::$instance->cta_content_placement === 'slideout') {
-                wp_enqueue_script('scroll-js',WP_CTA_URLPATH . 'assets/lib/scroll.js', array( 'jquery', 'jquery-cookie', 'jquery-total-storage'));
-                // load common cta styles
-                wp_enqueue_style('scroll-cta-css', WP_CTA_URLPATH . 'assets/css/scroll-cta.css');
-                $slide_out_placement = get_post_meta($post_id, 'wp_cta_slide_out_alignment', TRUE);
-                $reveal_on = get_post_meta($post_id, 'wp_cta_slide_out_reveal', TRUE);
-                $reveal_element = get_post_meta($post_id, 'wp_cta_slide_out_element', TRUE);
-                $slide_speed = get_post_meta($post_id, 'wp_cta_slide_out_speed', TRUE);
-                $keep_open = get_post_meta($post_id, 'wp_cta_slide_out_keep_open', TRUE);
-                $slide_speed_final = (isset($slide_speed) && $slide_speed != "") ? $slide_speed * 1000 : 1000;
-                $scroll_offset = (isset($reveal_on) && $reveal_on != "") ? $reveal_on : 50;
-                $scroll_params = array(
-                    'animation' => 'flyout',
-                    'speed' => $slide_speed_final,
-                    'keep_open' => $keep_open,
-                    'compare' => 'simple',
-                    'css_side' => 5,
-                    'css_width' => 360,
-                    'ga_opt_noninteraction' => 1,
-                    'ga_track_clicks'=> 1,
-                    'offset_element'=> $reveal_element,
-                    'ga_track_views'=> 1,
-                    'offset_percent'=> $scroll_offset,
-                    'position'=> $slide_out_placement,
-                    'title'=> "New Post",
-                    'url_new_window'=> 0
-                );
-
-                wp_localize_script( 'scroll-js', 'wp_cta_slideout', $scroll_params );
+                wp_enqueue_script('cta-popup-onpage', WP_CTA_URLPATH . 'assets/js/cta-popup-onpage.js', array('jquery', 'maginificient-popup'), null , false);
             }
 
             if (!self::$instance->selected_cta) {
@@ -481,7 +449,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
                             case 'js':
                                 foreach ($file as $js)
                                 {
-                                    wp_enqueue_script( md5($js) ,$js, array( 'jquery'));
+                                    wp_enqueue_script( md5($js) ,$js, array( 'jquery') , null , true);
                                     wp_localize_script( md5($js), $localized_template_id, array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'post_id' => self::$instance->obj_id, 'post_type' => self::$instance->obj->post_type));
                                 }
                                 break;
@@ -833,10 +801,10 @@ if ( !class_exists( 'CTA_Render' ) ) {
                         //$return_val = eval($clean_val);
                         //echo $return_val;
                         if($debug_output) {
-                            echo "<br>Template:".$template_slug."<br>";
-                            echo "<br>Conditional : " . $clean_val . "<br>";
-                            echo "PHP evaled: " . "<br>";
-                            echo "<br>Replacement " . $test . "<br>";
+                            error_log("<br>Template:".$template_slug);
+                            error_log("<br>Conditional : " . $clean_val);
+                            error_log("PHP evaled: ");
+                            error_log("<br>Replacement " . $test . "<br>");
                         }
                         /* Clean all Conditional Tokens out of final output */
                         $template = str_ireplace( $conditional_code, '', $template);

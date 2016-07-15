@@ -113,9 +113,12 @@ if ( !class_exists('CTA_WordPress_Leads') ) {
 			}
 
 			?>
-			<div  class="quick-stat-label"><?php _e('CTA Clicks', 'cta'); ?>
-				<span class="quick-stat-total"><?php echo count(self::$cta_clicks); ?></span>
+			<div class="quick-stat-label">
+				<div class="label_1"><?php _e('CTA Clicks', 'cta'); ?></div>
+				<div class="label_2"><?php echo count(self::$cta_clicks); ?></div>
+				<div class="clearfix"></div>
 			</div>
+
 			<?php
 
 		}
