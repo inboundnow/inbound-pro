@@ -22,7 +22,7 @@ if (!class_exists('Inbound_Asset_Loader')) {
 
 			$screen = get_current_screen();
 
-			self::enqueue_shared_file('jquery-cookie', 'assets/js/global/jquery.cookie.js', array( 'jquery' ));
+			self::enqueue_shared_file('jquery-cookie', 'assets/js/global/jquery.cookie.js', array( 'jquery' )  );
 			self::enqueue_shared_file('jquery-total-storage', 'assets/js/global/jquery.total-storage.min.js', array( 'jquery' ));
 
 			if ( isset($screen) && $screen->id == 'wp-call-to-action') {
@@ -32,9 +32,7 @@ if (!class_exists('Inbound_Asset_Loader')) {
 
 
 			if ( isset($screen) && $screen->base == 'post') {
-				wp_enqueue_script('inbound-editor-js', INBOUNDNOW_SHARED_URLPATH . 'assets/js/admin/editor.js');
-				//wp_enqueue_script('inbound-forms-cpt-js', INBOUNDNOW_SHARED_URLPATH . 'assets/css/admin/inbound-metaboxes.css');
-
+				wp_enqueue_script('inbound-editor-js', INBOUNDNOW_SHARED_URLPATH . 'assets/js/admin/editor.js' , array() , null , true );
 			}
 
 		}
@@ -61,7 +59,7 @@ if (!class_exists('Inbound_Asset_Loader')) {
 			}
 
 			/* unminified source available */
-			self::enqueue_shared_file('inbound-analytics', 'assets/js/frontend/analytics/inboundAnalytics.min.js', array( 'jquery' ), 'inbound_settings', self::localize_lead_data());
+			self::enqueue_shared_file('inbound-analytics', 'assets/js/frontend/analytics/inboundAnalytics.min.js', array( 'jquery' ), 'inbound_settings', self::localize_lead_data() , false);
 
 			if (is_array($store)) {
 				foreach ( $store as $handle ) {
@@ -80,7 +78,7 @@ if (!class_exists('Inbound_Asset_Loader')) {
 		 * @deps 			js dependancies by name example 'jquery'
 		 * @localize_var 	the localized variable name
 		 */
-		static function enqueue_shared_file($name, $path, $deps = array(), $localize_var = null, $localize_array = array()) {
+		static function enqueue_shared_file($name, $path, $deps = array(), $localize_var = null, $localize_array = array() , $in_footer = true ) {
 			$is_script = false;
 			$deps = (empty($deps)) ? array() : $deps;
 			$url = INBOUNDNOW_SHARED_URLPATH . $path;
@@ -91,7 +89,8 @@ if (!class_exists('Inbound_Asset_Loader')) {
 
 			if(file_exists($file)) {
 				if($is_script) {
-					wp_register_script($name, $url, $deps);
+
+					wp_register_script($name, $url, $deps , null , $in_footer );
 					wp_enqueue_script($name);
 
 					if ($localize_var != null) {

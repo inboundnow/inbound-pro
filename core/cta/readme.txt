@@ -69,6 +69,9 @@ The plugin is also fully extendable and has a number of actions, filters, and ho
 
 == Changelog ==
 
+= 2.7.4 =
+* Fixing Redner issue with Thumbnail CTA
+
 = 2.7.3 =
 * Adding user role capabilities that support the wp-call-to-action post type.
 * Fixing potential fatal when leads is not installed.

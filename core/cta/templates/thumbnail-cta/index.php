@@ -1,4 +1,5 @@
 <style type="text/css">
+	{%php $has_image = "{{image-url}}"; if($has_image){ return '#cta_content_left, #cta_content_right {display: inline-block !important;} #cta_content_centered{ display: none !important; }';}else{ return '#cta_content_centered{ display: inline-block !important;} #cta_content_left, #cta_content_right { display: none !important; }';} %}
 .wp_cta_container {
   text-align: center;
   font-family: 'proxima_nova_regular', arial, sans-serif;
@@ -113,7 +114,7 @@ form  {
 
 <div id='cta_container'>
 
-  {% if "{{image-url}}" != "" %}
+<!-- if has_image -->
 	<div id="cta_content_left">
 		<h1 id='main-headline'>{{header-text}}</h1>
 		<a id='cta-link' href='{{submit-button-link}}'>
@@ -125,9 +126,9 @@ form  {
   	<div id="cta_content_right">
 		<a href='{{submit-button-link}}'><img src="{{image-url}}"></a>
  	 </div>
-  {% endif %}
+<!-- /if has_image -->
 
-  {% if "{{image-url}}" == "" %}
+<!-- if !has_image -->
 	<div id="cta_content_centered">
 		<h1 id='main-headline'>{{header-text}}</h1>
 		<a id='cta-link' href='{{submit-button-link}}'>
@@ -136,5 +137,5 @@ form  {
 			</span>
 		</a>
 	</div>
-  {% endif %}
+<!-- /if !has_image -->
 </div>
