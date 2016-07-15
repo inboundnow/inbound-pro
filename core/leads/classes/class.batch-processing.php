@@ -15,7 +15,7 @@ class Leads_Batch_Processor {
      * Load hooks and filters
      */
     public static function load_hooks(){
-        add_action( 'admin_menu' , array( __CLASS__ , 'init_listener'));
+        add_action( 'admin_menu' , array( __CLASS__ , 'init_listener') , 30);
     }
 
 
@@ -29,18 +29,20 @@ class Leads_Batch_Processor {
             return;
         }
 
+
         /* Temporarily create admin page for visualizing batch processing */
         add_submenu_page(
             'edit.php?post_type=wp-lead',
-            __( 'Batch Processing', 'inbound-pro' ),
-            __( 'Batch Processing', 'inbound-pro' ),
+            __( 'RESUME DATA MIGRATION', 'inbound-pro' ),
+            __( 'RESUME DATA MIGRATION', 'inbound-pro' ),
             'manage_options',
             'leads-batch-processing',
             array( __CLASS__ , 'process_batches' )
         );
 
         /* Do not let user escape until all leads have been processed */
-        if (!isset($_GET['page']) || $_GET['page'] != 'leads-batch-processing' ) {
+        if ( ( !isset($_GET['page']) || $_GET['page'] != 'leads-batch-processing' ) && !get_transient('batch_processing_started') ) {
+            set_transient('batch_processing_started' , true , 1 * HOUR_IN_SECONDS );
             header('Location: ' . admin_url('edit.php?post_type=wp-lead&page=leads-batch-processing'));
             exit;
         }
@@ -286,6 +288,11 @@ class Leads_Batch_Processor {
             }
             $session_id = uniqid();
             $page_views = json_decode($page_views, true);
+
+
+            if (!is_array($page_views)) {
+                continue;
+            }
 
             foreach ($page_views as $page_id => $times) {
 

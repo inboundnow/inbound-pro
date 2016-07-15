@@ -159,7 +159,7 @@ if ( !class_exists('Leads_Activation_Update_Routines') ) {
 				'leads_batch_processing', 		/* db option name - lets batch processor know it's needed */
 				array(
 					'method' => 'import_events_table_072016', 	/* tells batch processor which method to run */
-					'posts_per_page' => 70, 					/* leads per query */
+					'posts_per_page' => 50, 					/* leads per query */
 					'offset' => 0 								/* initial page offset */
 				),
 				0 , 							/* depreciated leave as 0 */
@@ -171,7 +171,7 @@ if ( !class_exists('Leads_Activation_Update_Routines') ) {
 		/**
 		 * @introduced: 2.2.2
 		 * @migration-type: batch lead processing / updating inbound events table
-		 * @details: Moving form submissions, cta clicks, custom events into events table.
+		 * @details: Imports page events into new inbound_page_views table
 		 * @details: 072016 represents date added in
 		 */
 		public static function batch_import_event_data_07132016() {
@@ -188,7 +188,7 @@ if ( !class_exists('Leads_Activation_Update_Routines') ) {
 				'leads_batch_processing', 		/* db option name - lets batch processor know it's needed */
 				array(
 					'method' => 'import_event_data_07132016', 	/* tells batch processor which method to run */
-					'posts_per_page' => 70, 					/* leads per query */
+					'posts_per_page' => 40, 					/* leads per query */
 					'offset' => 0 								/* initial page offset */
 				),
 				0 , 							/* depreciated leave as 0 */
