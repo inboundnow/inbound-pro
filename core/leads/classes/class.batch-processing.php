@@ -80,7 +80,7 @@ class Leads_Batch_Processor {
         echo '<div class="wrap">';
 
         /* run the method */
-        $args = $jobs[0];
+        $args = array_shift($jobs);
         call_user_func(
             array(__ClASS__, $args['method']),
             $args
@@ -94,9 +94,9 @@ class Leads_Batch_Processor {
      * Removes complete job and deletes leads_batch_processing if all jobs are complete else updates and returns true.
      * @return bool
      */
-    public static function delete_flag() {
+    public static function delete_flag( $args ) {
         $jobs = get_option('leads_batch_processing');
-        unset($jobs[0]);
+        unset($jobs[$args['method']]);
 
         if ($jobs) {
             update_option('leads_batch_processing', $jobs);
@@ -122,7 +122,7 @@ class Leads_Batch_Processor {
 
         /* if all leads are processed echo complete and delete batch job */
         if (!self::$leads || $args['offset'] > $pages ) {
-            $has_more_jobs = self::delete_flag();
+            $has_more_jobs = self::delete_flag( $args );
             echo '<br>';
             _e( 'All done!' , 'inbound-pro' );
             if ($has_more_jobs) {
@@ -215,7 +215,10 @@ class Leads_Batch_Processor {
 
         /* update batch data with next job */
         $args['offset'] = $args['offset'] + 1;
-        update_option('leads_batch_processing' , $args );
+        $jobs = get_option('leads_batch_processing');
+        $jobs[$args['method']] = $args;
+        update_option('leads_batch_processing' , $jobs );
+
 
         /* redirect page */
         ?>
@@ -248,7 +251,7 @@ class Leads_Batch_Processor {
 
         /* if all leads are processed echo complete and delete batch job */
         if (!$events || $args['offset'] > $pages ) {
-            $has_more_jobs = self::delete_flag();
+            $has_more_jobs = self::delete_flag( $args );
             echo '<br>';
             _e( 'All done!' , 'inbound-pro' );
             if ($has_more_jobs) {
@@ -274,7 +277,10 @@ class Leads_Batch_Processor {
 
         /* update batch data with next job */
         $args['offset'] = $args['offset'] + 1;
-        update_option('leads_batch_processing' , $args );
+        $jobs = get_option('leads_batch_processing');
+        $jobs[$args['method']] = $args;
+        update_option('leads_batch_processing' , $jobs );
+
 
         /* redirect page */
         ?>
@@ -299,7 +305,7 @@ class Leads_Batch_Processor {
 
         /* if all leads are processed echo complete and delete batch job */
         if (!self::$leads || $args['offset'] > $pages ) {
-            $has_more_jobs = self::delete_flag();
+            $has_more_jobs = self::delete_flag( $args );
             echo '<br>';
             _e( 'All done!' , 'inbound-pro' );
             if ($has_more_jobs) {
@@ -354,7 +360,10 @@ class Leads_Batch_Processor {
 
         /* update batch data with next job */
         $args['offset'] = $args['offset'] + 1;
-        update_option('leads_batch_processing' , $args );
+        $jobs = get_option('leads_batch_processing');
+        $jobs[$args['method']] = $args;
+        update_option('leads_batch_processing' , $jobs );
+
 
         /* redirect page */
         ?>
