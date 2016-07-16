@@ -864,7 +864,9 @@ if (!class_exists('Leads_Manager')) {
             //GETTING CORRECT FILE PATH            
             $path = $upload_dir['path'].'/'.$uploads_path.'/';
             $blogtime = current_time( 'mysql' );
-            $filename = date("m.d.y.h.i");
+            $hash = md5(serialize($ids));
+            $filename = date("m.d.y." . $hash);
+
             list( $today_year, $today_month, $today_day, $hour, $minute, $second ) = preg_split( '([^0-9])', $blogtime );
             $path = str_replace($today_year.'/'.$today_month.'/','',$path);
             if(file_exists($path)){
