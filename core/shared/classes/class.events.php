@@ -23,7 +23,7 @@ class Inbound_Events {
         add_action('inbound_shared_activate' , array( __CLASS__ , 'create_events_table' ));
 
         /* create page_views table if does not exist */
-        add_action('inbound_shared_activate' , array( __CLASS__ , 'create_page_veiws_table' ));
+        add_action('inbound_shared_activate' , array( __CLASS__ , 'create_page_views_table' ));
 
         /* listen for cta clicks and record event to events table */
         add_action('inbound_tracked_cta_click' , array( __CLASS__ , 'store_cta_click'), 10 , 1);
