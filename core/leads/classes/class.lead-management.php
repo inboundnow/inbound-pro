@@ -857,15 +857,16 @@ if (!class_exists('Leads_Manager')) {
             $offset   = $_POST['data']['offset'];
             $total    = $_POST['data']['total'];
             $is_first = $_POST['data']['is_first'];
+            $fields = Leads_Field_Map::build_map_array();
 
             $upload_dir = wp_upload_dir();
             $uploads_path = 'leads/csv';
 
-            //GETTING CORRECT FILE PATH            
+            //GETTING CORRECT FILE PATH
             $path = $upload_dir['path'].'/'.$uploads_path.'/';
             $blogtime = current_time( 'mysql' );
             $hash = md5(serialize($ids));
-            $filename = date("m.d.y." . $hash);
+            $filename = date("m.d.y.") . $hash ;
 
             list( $today_year, $today_month, $today_day, $hour, $minute, $second ) = preg_split( '([^0-9])', $blogtime );
             $path = str_replace($today_year.'/'.$today_month.'/','',$path);
@@ -896,26 +897,10 @@ if (!class_exists('Leads_Manager')) {
                 die(json_encode($returnArray));
             }
 
-            //get all keys
-            for($i = $offset;  $i < $limit; $i++)
-            {
-                if (!isset($ids[$i])) {
-                    continue;
-                }
 
-                $this_lead_data = get_post_custom($ids[$i]);
-                unset($this_lead_data['wpleads_inbound_form_mapped_data']);
-                unset($this_lead_data['wpleads_referral_data']);
-                unset($this_lead_data['wpleads_raw_post_data']);
-                unset($this_lead_data['call_to_action_clicks']);
-
-                foreach ($this_lead_data as $key => $val) {
-                    $lead_meta_pairs[$key] = $key;
-                }
-            }
             if($is_first == 1){
                 // Add a header row if it hasn't been added yet
-                fputcsv($file, array_keys($lead_meta_pairs));
+                fputcsv($file, array_keys($fields));
                 $headerDisplayed = true;
             }
 
@@ -928,17 +913,15 @@ if (!class_exists('Leads_Manager')) {
                 }
 
                 $this_lead_data = get_post_custom($ids[$j]);
-                unset($this_lead_data['wpleads_inbound_form_mapped_data']);
-                unset($this_lead_data['wpleads_referral_data']);
-                unset($this_lead_data['wpleads_raw_post_data']);
-                unset($this_lead_data['call_to_action_clicks']);
 
-                foreach ($lead_meta_pairs as $key => $val) {
+
+                foreach ($fields as $key => $val) {
 
                     if (isset($this_lead_data[$key])) {
                         $val = $this_lead_data[$key];
-                        if (is_array($val))
+                        if (is_array($val)) {
                             $val = implode(';', $val);
+                        }
                     } else {
                         $val = "";
                     }
