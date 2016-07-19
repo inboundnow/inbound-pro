@@ -21,6 +21,11 @@ if (!class_exists('Leads_User_Profile')) {
 
 
         public static function add_lead_list_setup( $user )  {
+
+            if ( !current_user_can('editor') && !current_user_can('administrator') ) {
+                return;
+            }
+
             $lead_id = LeadStorage::lookup_lead_by_email($user->user_email);
 
             echo '<h2>' . __( 'Lead Profile' , 'inbound-pro' ) . '</h2>';
