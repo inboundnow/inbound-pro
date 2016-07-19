@@ -745,7 +745,7 @@ class Inbound_Pro_Downloads {
 		}
 
 		if ( in_array( 'email' , $download[ 'plugins' ] ) ) {
-			return INBOUND_PRO_UPLOADS_PATH . '/'. $folder_name . '/';
+			return INBOUND_EMAIL_UPLOADS_PATH . $folder_name . '/';
 		}
 
 	}
