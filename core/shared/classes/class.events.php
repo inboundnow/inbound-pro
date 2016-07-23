@@ -505,6 +505,37 @@ class Inbound_Events {
     /**
      * Get all cta click events related to lead ID
      */
+    public static function get_events(){
+        global $wpdb;
+
+        $table_name = $wpdb->prefix . "inbound_events";
+
+        $query = 'SELECT DISTINCT(event_name) FROM '.$table_name.' ORDER BY `event_name` DESC';
+        $results = $wpdb->get_results( $query , ARRAY_A );
+
+        return $results;
+    }
+
+    /**
+     * Get all mute events given an email id
+     */
+    public static function get_events_count( $event_name ){
+        global $wpdb;
+
+        $table_name = $wpdb->prefix . "inbound_events";
+
+        $query = 'SELECT count(*) FROM '.$table_name.' WHERE `event_name` = "'.$event_name.'"';
+
+        $count = $wpdb->get_var( $query , 0, 0 );
+
+        /* return null if nothing there */
+        return ($count) ? $count : 0;
+
+    }
+
+    /**
+     * Get all cta click events related to lead ID
+     */
     public static function get_cta_clicks( $lead_id ){
         global $wpdb;
 

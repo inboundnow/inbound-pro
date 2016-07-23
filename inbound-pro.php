@@ -155,6 +155,7 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.inbound-api-wrapper.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.ajax.listeners.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.oauth-engine.php');
+				include_once( INBOUND_PRO_PATH . 'classes/admin/class.reporting.funnels.php');
 
 			}
 
