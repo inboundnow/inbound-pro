@@ -186,6 +186,9 @@ class Inbound_Funnel_Reporting {
                     <?php _e('Event Count' , 'inbound-pro') ?>
                 </th>
                 <th>
+                    <?php _e('Pages in Funnel' , 'inbound-pro') ?>
+                </th>
+                <th>
                     <?php _e('Event Name' , 'inbound-pro') ?>
                 </th>
                 <th>
@@ -207,6 +210,12 @@ class Inbound_Funnel_Reporting {
                 <tr>
                     <td class="funnel-count">
                         <?php echo $funnel['count'] ?>
+                    </td>
+                    <td class="funnel-pages-count">
+                        <?php
+                        $funnel_count = json_decode($funnel['funnel'],true);
+                        echo count($funnel_count);
+                        ?>
                     </td>
                     <td class="funnel-event-name">
                         <?php echo $funnel['event_name'] ?>
@@ -269,7 +278,7 @@ class Inbound_Funnel_Reporting {
         $query = 'SELECT *, count(*) as count FROM '.$table_name.' WHERE datetime between "'.$start_date.'" AND "'.$end_date.'" AND event_name = "'.$event_name.'" AND CHAR_LENGTH(funnel) > 4 AND page_id!="0" GROUP BY concat( funnel, '.$group_col_2.') ORDER BY count DESC';
 
         $results = $wpdb->get_results( $query , ARRAY_A );
-        print_r($results);
+
         return $results;
     }
 

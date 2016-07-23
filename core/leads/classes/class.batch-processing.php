@@ -241,7 +241,7 @@ class Leads_Batch_Processor {
     public static function import_events_table_072016( $args ) {
 
         global $wpdb;
-        $total = $wpdb->get_var('SELECT COUNT(*) FROM '.$wpdb->prefix.'inbound_events WHERE funnel <> "" funnel AND <> "[]"');
+        $total = $wpdb->get_var('SELECT COUNT(*) FROM '.$wpdb->prefix.'inbound_events WHERE funnel <> "" AND funnel <> ""');
         $pages = ceil( $total / $args['posts_per_page'] );
 
         /* offset for custom queries is slightly different, increment it */
@@ -386,7 +386,7 @@ class Leads_Batch_Processor {
     public static function import_event_data_07232016( $args ) {
 
         global $wpdb;
-        $total = $wpdb->get_var('SELECT COUNT(*) FROM '.$wpdb->prefix.'inbound_events WHERE funnel = "" OR funnel = "[]" OR funnel LIKE "%[0,1" AND event_details LIKE "%\"page_views\":\"{%" ');
+        $total = $wpdb->get_var('SELECT COUNT(*) FROM '.$wpdb->prefix.'inbound_events WHERE funnel = "" AND event_details LIKE "%\"page_views\":\"{%" ');
         $pages = ceil( $total / $args['posts_per_page'] );
 
         /* offset for custom queries is slightly different, increment it */
@@ -457,9 +457,9 @@ class Leads_Batch_Processor {
 
             /* clean funnel of timestamps */
             $event['funnel'] = json_encode($stored_views);
-            $event['funnel'] = json_encode($event['funnel']);
 
             $wpdb->update( $wpdb->prefix.'inbound_events' , $event , array('id' => $event['id']) );
+
         }
 
         /* update batch data with next job */
