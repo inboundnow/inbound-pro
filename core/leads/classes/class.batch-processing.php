@@ -68,6 +68,12 @@ class Leads_Batch_Processor {
 
     }
 
+
+    public static function isJson($string) {
+        json_decode($string);
+        return (json_last_error() == JSON_ERROR_NONE);
+    }
+
     /**
      * Run the batch processing method stored in leads_batch_processing option
      */
@@ -235,7 +241,7 @@ class Leads_Batch_Processor {
     public static function import_events_table_072016( $args ) {
 
         global $wpdb;
-        $total = $wpdb->get_var('SELECT COUNT(*) FROM '.$wpdb->prefix.'inbound_events WHERE funnel <> "" AND funnel <> ""');
+        $total = $wpdb->get_var('SELECT COUNT(*) FROM '.$wpdb->prefix.'inbound_events WHERE funnel <> "" funnel AND <> "[]"');
         $pages = ceil( $total / $args['posts_per_page'] );
 
         /* offset for custom queries is slightly different, increment it */
@@ -372,6 +378,105 @@ class Leads_Batch_Processor {
         </script>
         <?php
     }
+
+
+    /**
+     * Loops through all leads and imports events stored in metapairs into inbound_events table
+     */
+    public static function import_event_data_07232016( $args ) {
+
+        global $wpdb;
+        $total = $wpdb->get_var('SELECT COUNT(*) FROM '.$wpdb->prefix.'inbound_events WHERE funnel = "" OR funnel = "[]" OR funnel LIKE "%[0,1" AND event_details LIKE "%\"page_views\":\"{%" ');
+        $pages = ceil( $total / $args['posts_per_page'] );
+
+        /* offset for custom queries is slightly different, increment it */
+        $args['offset'] = ($args['offset']) ? $args['offset'] : $args['offset'] + 1;
+
+        /* let the user know the processing status */
+        echo  sprintf( __(  '%s of %s steps complete. Please wait...' , 'inbound-pro' ) , $args['offset'] , $pages );
+
+        $next = $args['offset'] * $args['posts_per_page'];
+        $events = $wpdb->get_results( 'SELECT * FROM '.$wpdb->prefix.'inbound_events WHERE funnel = "" AND event_details LIKE "%\"page_views\":\"{%" ORDER BY id ASC LIMIT '.$args['offset'].' , '. $next , ARRAY_A );
+
+
+        /* if all leads are processed echo complete and delete batch job */
+        if (!$events || $args['offset'] > $pages ) {
+            $has_more_jobs = self::delete_flag( $args );
+            echo '<br>';
+            _e( 'All done!' , 'inbound-pro' );
+            if ($has_more_jobs) {
+                /* redirect page */
+                ?>
+                <script type="text/javascript">
+                    document.location.href = "edit.php?post_type=wp-lead&page=leads-batch-processing";
+                </script>
+                <?php
+            }
+            exit;
+        }
+
+        echo '<br><br>';
+        echo '<img src="'.admin_url('images/spinner-2x.gif').'">';
+
+        foreach ($events as $key => $event ) {
+            /* check if valid json or if slashes need to be stripepd out */
+            if (!self::isJson($event['event_details'])) {
+                $event['event_details'] = stripslashes($event['event_details']);
+            }
+            $event_details = json_decode($event['event_details'] , true);
+
+            /* check if valid json or if slashes need to be stripepd out */
+            if (!self::isJson($event_details['page_views'])) {
+                $event_details['page_views']= stripslashes($event_details['page_views']);
+            }
+            $page_views = json_decode($event_details['page_views'] , true);
+
+            if (!$page_views) {
+                continue;
+            }
+
+            $stored_views = array();
+            foreach ($page_views as $page_id => $visits ) {
+
+                if (!is_numeric($page_id)) {
+                    continue;
+                }
+
+                if (!in_array($page_id, $stored_views)) {
+                    $stored_views[] = strval($page_id);
+                } else {
+                    /* check if user doubled back to the first page to convert */
+                    $funnel_count = count($stored_views);
+                    $last_key = $funnel_count - 1;
+                    if ( $funnel_count > 1  && $stored_views[0] == $page_id && $stored_views[$last_key] != $page_id ){
+                        $stored_views[] = strval($page_id);
+                    }
+                }
+            }
+
+
+            /* clean funnel of timestamps */
+            $event['funnel'] = json_encode($stored_views);
+            $event['funnel'] = json_encode($event['funnel']);
+
+            $wpdb->update( $wpdb->prefix.'inbound_events' , $event , array('id' => $event['id']) );
+        }
+
+        /* update batch data with next job */
+        $args['offset'] = $args['offset'] + 1;
+        $jobs = get_option('leads_batch_processing');
+        $jobs[$args['method']] = $args;
+        update_option('leads_batch_processing' , $jobs );
+
+
+        /* redirect page */
+        ?>
+        <script type="text/javascript">
+            document.location.href = "edit.php?post_type=wp-lead&page=leads-batch-processing";
+        </script>
+        <?php
+    }
+
 
 }
 

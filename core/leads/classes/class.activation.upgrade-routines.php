@@ -8,10 +8,10 @@ if ( !class_exists('Leads_Activation_Update_Routines') ) {
 	class Leads_Activation_Update_Routines {
 
 		/**
-		* @introduced: 1.5.1
-		* @migration-type: db modification
-		* @mirgration: creates wp_inbound_link_tracking table
-		*/
+		 * @introduced: 1.5.1
+		 * @migration-type: db modification
+		 * @mirgration: creates wp_inbound_link_tracking table
+		 */
 		public static function create_link_tracking_table() {
 			global $wpdb;
 
@@ -27,11 +27,11 @@ if ( !class_exists('Leads_Activation_Update_Routines') ) {
 			$charset_collate = '';
 
 			if ( ! empty( $wpdb->charset ) ) {
-			  $charset_collate = "DEFAULT CHARACTER SET {$wpdb->charset}";
+				$charset_collate = "DEFAULT CHARACTER SET {$wpdb->charset}";
 			}
 
 			if ( ! empty( $wpdb->collate ) ) {
-			  $charset_collate .= " COLLATE {$wpdb->collate}";
+				$charset_collate .= " COLLATE {$wpdb->collate}";
 			}
 
 			$sql = "CREATE TABLE $table_name (
@@ -47,13 +47,13 @@ if ( !class_exists('Leads_Activation_Update_Routines') ) {
 		}
 
 		/**
-		* @introduced: 1.1.0
-		* @migration-type: meta key update
-		* @mirgration: standardizes meta key from old naming conversion to new naming convention
-		* @keychange: wpl-lead-conversion-count to wpleads_conversion_count
-		* @keychange: wpl-lead-page-view-count to wpleads_page_view_count
-		* @keychange: wpl-lead-raw-post-data to wpleads_raw_post_data
-		*/
+		 * @introduced: 1.1.0
+		 * @migration-type: meta key update
+		 * @mirgration: standardizes meta key from old naming conversion to new naming convention
+		 * @keychange: wpl-lead-conversion-count to wpleads_conversion_count
+		 * @keychange: wpl-lead-page-view-count to wpleads_page_view_count
+		 * @keychange: wpl-lead-raw-post-data to wpleads_raw_post_data
+		 */
 		public static function migrate_meta_keys() {
 			global $wpdb;
 
@@ -73,15 +73,15 @@ if ( !class_exists('Leads_Activation_Update_Routines') ) {
 		}
 
 		/**
-		* @introduced: 2.1.8
-		* @migration-type: meta value update
-		* @mirgration: standardizes meta value from old naming conversion to new naming convention
-		* @valuechange: 'New Lead' to 'new'
-		* @valuechange: 'Read Lead' to 'read'
-		* @valuechange: 'Contacted' to 'contacted'
-		* @valuechange: 'Active' to 'active'
-		* @key: wp_lead_status
-		*/
+		 * @introduced: 2.1.8
+		 * @migration-type: meta value update
+		 * @mirgration: standardizes meta value from old naming conversion to new naming convention
+		 * @valuechange: 'New Lead' to 'new'
+		 * @valuechange: 'Read Lead' to 'read'
+		 * @valuechange: 'Contacted' to 'contacted'
+		 * @valuechange: 'Active' to 'active'
+		 * @key: wp_lead_status
+		 */
 		public static function migrate_wp_lead_status_values() {
 
 			/* ignore if not applicable */
@@ -192,6 +192,39 @@ if ( !class_exists('Leads_Activation_Update_Routines') ) {
 			$processing_jobs['import_event_data_07132016'] = array(
 				'method' => 'import_event_data_07132016', 	/* tells batch processor which method to run */
 				'posts_per_page' => 40, 					/* leads per query */
+				'offset' => 0 								/* initial page offset */
+			);
+
+			/* create flag for batch uploader */
+			update_option(
+				'leads_batch_processing', 		/* db option name - lets batch processor know it's needed */
+				$processing_jobs,
+				0 , 							/* depreciated leave as 0 */
+				false 							/* autoload true */
+			);
+
+		}
+
+		/**
+		 * @introduced: 2.2.3
+		 * @migration-type: improving inbound_events table
+		 * @details: Recover funnel paths from events details for events in inbound_events table
+		 * @details:
+		 */
+		public static function batch_import_event_data_07232016() {
+
+			/* ignore if not applicable */
+			$previous_installed_version = get_transient('leads_current_version');
+
+			if ( version_compare($previous_installed_version , "2.2.3") === 1 )  {
+				return;
+			}
+
+			$processing_jobs = get_option('leads_batch_processing');
+			$processing_jobs = ($processing_jobs) ? $processing_jobs : array();
+			$processing_jobs['import_event_data_07232016'] = array(
+				'method' => 'import_event_data_07232016', 	/* tells batch processor which method to run */
+				'posts_per_page' => 100, 					/* leads per query */
 				'offset' => 0 								/* initial page offset */
 			);
 

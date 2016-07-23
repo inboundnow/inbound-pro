@@ -172,7 +172,7 @@ class Inbound_Funnel_Reporting {
                 echo '<li class="'.$event['event_name'].'"><a href="admin.php?page=inbound-reporting&preiod='.self::$selected_range.'&event_name='.$event['event_name'].'" '. (self::$selected_event == $event['event_name']  ? 'class="current"' : '' ) .'> '.$event['event_name'].' <span class="count">('.$event['count'].')</span></a> '. ( isset(self::$events[$next]) ? '|' : ''  ).'</li>';
             }
             ?>
-          </ul>
+        </ul>
         <?php
 
     }
@@ -245,7 +245,7 @@ class Inbound_Funnel_Reporting {
                         <a title='<?php _e('View Funnel Path' , 'inbound-pro'); ?>' class='thickbox' href='admin.php?page=inbound-view-funnel-path&inbound_popup_preview=on&range=<?php echo self::$selected_range; ?>&event_name=<?php echo $funnel['event_name']; ?>&funnel=<?php echo $funnel['funnel']; ?>&source=<?php echo $funnel['source']; ?>&TB_iframe=true&width=640&height=703' target='_blank'><?php _e('View Funnel','inbound-pro'); ?></a>
                     </td>
                 </tr>
-            <?php
+                <?php
             }
 
             ?>
@@ -269,7 +269,7 @@ class Inbound_Funnel_Reporting {
         $query = 'SELECT *, count(*) as count FROM '.$table_name.' WHERE datetime between "'.$start_date.'" AND "'.$end_date.'" AND event_name = "'.$event_name.'" AND CHAR_LENGTH(funnel) > 4 AND page_id!="0" GROUP BY concat( funnel, '.$group_col_2.') ORDER BY count DESC';
 
         $results = $wpdb->get_results( $query , ARRAY_A );
-
+        print_r($results);
         return $results;
     }
 
@@ -286,7 +286,7 @@ class Inbound_Funnel_Reporting {
         $start_date = date( 'Y-m-d G:i:s' , strtotime("-" . $range ." days" , strtotime($wordpress_date_time )));
         $end_date = $wordpress_date_time;
 
-        $query = 'SELECT * FROM '.$table_name.' WHERE datetime between "'.$start_date.'" AND "'.$end_date.'" AND event_name = "'.$event_name.'" AND funnel = "'.$funnel.'" ORDER BY datetime DESC';
+        $query = 'SELECT * FROM '.$table_name.' WHERE datetime between "'.$start_date.'" AND "'.$end_date.'" AND event_name = "'.$event_name.'" AND funnel = "'.$funnel.'" ORDER BY source DESC';
 
         $results = $wpdb->get_results( $query , ARRAY_A );
 
@@ -308,41 +308,41 @@ class Inbound_Funnel_Reporting {
             <h1>High Performer</h1>
         </header>-->
         <ul class="timeline">
-        <?php
+            <?php
 
-        foreach( $funnel as $page_id ) {
+            foreach( $funnel as $page_id ) {
 
-            $post = get_post($page_id);
+                $post = get_post($page_id);
 
-            if (!$post) {
+                if (!$post) {
+                    ?>
+                    <li >
+                        <div class="direction-l" >
+                            <div class="flag-wrapper" >
+                                <span class="hexa" ></span >
+                            </div >
+                            <div class="desc" ><?php _e( 'Post or Page Not Found' , 'inbound-pro'); ?></div >
+                        </div >
+                    </li >
+                    <?php
+                    continue;
+                }
+
                 ?>
+                <!--Item -->
                 <li >
                     <div class="direction-l" >
                         <div class="flag-wrapper" >
                             <span class="hexa" ></span >
+                            <span class="flag" > <?php echo $post->post_title; ?></span >
+                            <span class="time-wrapper" ><span class="time" > <?php echo $post->post_type; ?> </span ></span >
                         </div >
-                        <div class="desc" ><?php _e( 'Post or Page Not Found' , 'inbound-pro'); ?></div >
+                        <div class="desc" > <?php echo $post->post_excerpt; ?>.</div >
                     </div >
                 </li >
                 <?php
-                continue;
             }
-
             ?>
-            <!--Item -->
-            <li >
-                <div class="direction-l" >
-                    <div class="flag-wrapper" >
-                        <span class="hexa" ></span >
-                        <span class="flag" > <?php echo $post->post_title; ?></span >
-                        <span class="time-wrapper" ><span class="time" > <?php echo $post->post_type; ?> </span ></span >
-                    </div >
-                    <div class="desc" > <?php echo $post->post_excerpt; ?>.</div >
-                </div >
-            </li >
-        <?php
-        }
-        ?>
 
         </ul>
         <div>
@@ -379,7 +379,7 @@ class Inbound_Funnel_Reporting {
                     </td>
                     <td class="funnel-event-name">
                         <a href="<?php echo $event['source']; ?>" target="_blank">
-                        <?php echo $event['source'] ?>
+                            <?php echo $event['source'] ?>
                         </a>
                     </td>
                     <td class="funnel-event-name">
