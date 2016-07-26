@@ -234,68 +234,6 @@ class Leads_Batch_Processor {
         <?php
     }
 
-
-    /**
-     * Loops through inbound_events table and if records exists updates them
-     */
-    public static function import_events_table_072016( $args ) {
-
-        global $wpdb;
-        $total = $wpdb->get_var('SELECT COUNT(*) FROM '.$wpdb->prefix.'inbound_events WHERE funnel <> "" AND funnel <> ""');
-        $pages = ceil( $total / $args['posts_per_page'] );
-
-        /* offset for custom queries is slightly different, increment it */
-        $args['offset'] = ($args['offset']) ? $args['offset'] : $args['offset'] + 1;
-
-        /* let the user know the processing status */
-        echo  sprintf( __(  '%s of %s steps complete. Please wait...' , 'inbound-pro' ) , $args['offset'] , $pages );
-
-        $next = $args['offset'] * $args['posts_per_page'];
-        $events = $wpdb->get_results( 'SELECT * FROM '.$wpdb->prefix.'inbound_events WHERE funnel <> "" AND funnel <> "[]" ORDER BY id ASC LIMIT '.$args['offset'].' , '. $next , ARRAY_A );
-
-
-
-        /* if all leads are processed echo complete and delete batch job */
-        if (!$events || $args['offset'] > $pages ) {
-            $has_more_jobs = self::delete_flag( $args );
-            echo '<br>';
-            _e( 'All done!' , 'inbound-pro' );
-            if ($has_more_jobs) {
-                /* redirect page */
-                ?>
-                <script type="text/javascript">
-                    document.location.href = "edit.php?post_type=wp-lead&page=leads-batch-processing";
-                </script>
-                <?php
-            }
-            exit;
-        }
-
-        echo '<br><br>';
-        echo '<img src="'.admin_url('images/spinner-2x.gif').'">';
-
-        foreach ($events as $key => $event ) {
-            $event['funnel'] = json_decode($event['funnel'] , true);
-            $event['funnel'] = array_keys($event['funnel']);
-            $event['funnel'] = json_encode($event['funnel']);
-            $wpdb->update( $wpdb->prefix.'inbound_events' , $event , array('id' => $event['id']) );
-        }
-
-        /* update batch data with next job */
-        $args['offset'] = $args['offset'] + 1;
-        $jobs = get_option('leads_batch_processing');
-        $jobs[$args['method']] = $args;
-        update_option('leads_batch_processing' , $jobs );
-
-
-        /* redirect page */
-        ?>
-        <script type="text/javascript">
-            document.location.href = "edit.php?post_type=wp-lead&page=leads-batch-processing";
-        </script>
-        <?php
-    }
-
     /**
      * Loops through all leads and imports events stored in metapairs into inbound_events table
      */
@@ -381,12 +319,12 @@ class Leads_Batch_Processor {
 
 
     /**
-     * Loops through all leads and imports events stored in metapairs into inbound_events table
+     * Loops through all events and attempts to repair bad funnel data
      */
     public static function import_event_data_07232016( $args ) {
 
         global $wpdb;
-        $total = $wpdb->get_var('SELECT COUNT(*) FROM '.$wpdb->prefix.'inbound_events WHERE funnel = "" AND event_details LIKE "%\"page_views\":\"{%" ');
+        $total = $wpdb->get_var('SELECT COUNT(*) FROM '.$wpdb->prefix.'inbound_events WHERE event_name = "inbound_form_submission" OR event_name = "inbound_cta_click" OR event_name = "inbound_edd_sale"');
         $pages = ceil( $total / $args['posts_per_page'] );
 
         /* offset for custom queries is slightly different, increment it */
@@ -396,7 +334,7 @@ class Leads_Batch_Processor {
         echo  sprintf( __(  '%s of %s steps complete. Please wait...' , 'inbound-pro' ) , $args['offset'] , $pages );
 
         $next = $args['offset'] * $args['posts_per_page'];
-        $events = $wpdb->get_results( 'SELECT * FROM '.$wpdb->prefix.'inbound_events WHERE funnel = "" AND event_details LIKE "%\"page_views\":\"{%" ORDER BY id ASC LIMIT '.$args['offset'].' , '. $next , ARRAY_A );
+        $events = $wpdb->get_results( 'SELECT * FROM '.$wpdb->prefix.'inbound_events WHERE event_name = "inbound_form_submission" OR event_name = "inbound_cta_click" OR event_name = "inbound_edd_sale"  ORDER BY id ASC LIMIT '.$args['offset'].' , '. $next , ARRAY_A );
 
 
         /* if all leads are processed echo complete and delete batch job */
@@ -419,47 +357,79 @@ class Leads_Batch_Processor {
         echo '<img src="'.admin_url('images/spinner-2x.gif').'">';
 
         foreach ($events as $key => $event ) {
-            /* check if valid json or if slashes need to be stripepd out */
-            if (!self::isJson($event['event_details'])) {
-                $event['event_details'] = stripslashes($event['event_details']);
-            }
-            $event_details = json_decode($event['event_details'] , true);
 
-            /* check if valid json or if slashes need to be stripepd out */
-            if (!self::isJson($event_details['page_views'])) {
-                $event_details['page_views']= stripslashes($event_details['page_views']);
-            }
-            $page_views = json_decode($event_details['page_views'] , true);
-
-            if (!$page_views) {
-                continue;
+            /* check if bad funnel and clean it */
+            if (
+                strstr( $event['funnel'] , "[0,")
+                ||
+                strstr( $event['funnel'] , "[0]")
+                ||
+                strstr( $event['funnel'] , "[]")
+            ) {
+                $event['funnel'] = "";
             }
 
-            $stored_views = array();
-            foreach ($page_views as $page_id => $visits ) {
+            /* check if page views exists and attempt to rebuild funnel */
+            if (
+                strstr( $event['event_details'] , '"page_views":"{')
+                &&
+                !$event['funnel']
+            ) {
+                /* check if valid json or if slashes need to be stripepd out */
+                if (!self::isJson($event['event_details'])) {
+                    $event['event_details'] = stripslashes($event['event_details']);
+                }
+                $event_details = json_decode($event['event_details'] , true);
 
-                if (!is_numeric($page_id)) {
+                /* check if valid json or if slashes need to be stripepd out */
+                if (!self::isJson($event_details['page_views'])) {
+                    $event_details['page_views']= stripslashes($event_details['page_views']);
+                }
+                $page_views = json_decode($event_details['page_views'] , true);
+
+                if (!$page_views) {
                     continue;
                 }
 
-                if (!in_array($page_id, $stored_views)) {
-                    $stored_views[] = strval($page_id);
-                } else {
-                    /* check if user doubled back to the first page to convert */
-                    $funnel_count = count($stored_views);
-                    $last_key = $funnel_count - 1;
-                    if ( $funnel_count > 1  && $stored_views[0] == $page_id && $stored_views[$last_key] != $page_id ){
-                        $stored_views[] = strval($page_id);
+                $stored_views = array();
+                foreach ($page_views as $page_id => $visits ) {
+
+                    if (!is_numeric($page_id)) {
+                        continue;
                     }
+
+                    if (!in_array($page_id, $stored_views)) {
+                        $stored_views[] = strval($page_id);
+                    } else {
+                        /* check if user doubled back to the first page to convert */
+                        $funnel_count = count($stored_views);
+                        $last_key = $funnel_count - 1;
+                        if ( $funnel_count > 1  && $stored_views[0] == $page_id && $stored_views[$last_key] != $page_id ){
+                            $stored_views[] = strval($page_id);
+                        }
+                    }
+                }
+
+
+                /* clean funnel of timestamps */
+                $event['funnel'] = json_encode($stored_views);
+            }
+
+            /* if there are are no quotes in funnel then add them */
+            if (
+                $event['funnel']
+                &&
+                !strstr($event['funnel'] , '"')
+            ) {
+                $event['funnel']   = json_decode($event['funnel'] , true);
+                foreach ($event['funnel'] as $key => $page_id) {
+                    $event['funnel'][$key] = strval($page_id);
+                    $event['funnel']  = json_encode($event['funnel']);
                 }
             }
 
-
-            /* clean funnel of timestamps */
-            $event['funnel'] = json_encode($stored_views);
-
             $wpdb->update( $wpdb->prefix.'inbound_events' , $event , array('id' => $event['id']) );
-
+            usleep(300000);
         }
 
         /* update batch data with next job */
