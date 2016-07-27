@@ -68,10 +68,37 @@ class Leads_Batch_Processor {
 
     }
 
-
+    /**
+     * Checks if string is json format
+     * @param $string
+     * @return bool
+     */
     public static function isJson($string) {
         json_decode($string);
         return (json_last_error() == JSON_ERROR_NONE);
+    }
+
+    /**
+     * Prepares legacy funnel correctly for consuption
+     * @param $array
+     */
+    public static function rebuild_funnel( $array ) {
+        $dates_array = array();
+        foreach ( $array as $page_id => $dates ) {
+            foreach ($dates as $date) {
+                $date = date("c", strtotime($date));
+                $dates_array[$date] = $page_id;
+            }
+        }
+
+        ksort($dates_array);
+
+        $corrected_funnel = array();
+        foreach ($dates_array as $datetime=>$page_id) {
+            $corrected_funnel[] = strval($page_id);
+        }
+        
+        return array_values(array_unique($corrected_funnel));
     }
 
     /**
@@ -334,8 +361,7 @@ class Leads_Batch_Processor {
         echo  sprintf( __(  '%s of %s steps complete. Please wait...' , 'inbound-pro' ) , $args['offset'] , $pages );
 
         $next = $args['offset'] * $args['posts_per_page'];
-        $events = $wpdb->get_results( 'SELECT * FROM '.$wpdb->prefix.'inbound_events WHERE event_name = "inbound_form_submission" OR event_name = "inbound_cta_click" OR event_name = "inbound_edd_sale"  ORDER BY page_id ASC LIMIT '.$args['offset'].' , '. $next , ARRAY_A );
-
+        $events = $wpdb->get_results( 'SELECT * FROM '.$wpdb->prefix.'inbound_events WHERE event_name = "inbound_form_submission" OR event_name = "inbound_cta_click" OR event_name = "inbound_edd_sale"  ORDER BY id ASC LIMIT '.$args['posts_per_page'].' OFFSET '.$next , ARRAY_A );
 
         /* if all leads are processed echo complete and delete batch job */
         if (!$events || $args['offset'] > $pages ) {
@@ -391,25 +417,31 @@ class Leads_Batch_Processor {
                     continue;
                 }
 
-                $stored_views = array();
-                foreach ($page_views as $page_id => $visits ) {
+                $stored_views =  self::rebuild_funnel( $page_views );
 
-                    if (!is_numeric($page_id)) {
-                        continue;
-                    }
+                /* clean funnel of timestamps */
+                $event['funnel'] = json_encode($stored_views);
+            }
 
-                    if (!in_array($page_id, $stored_views)) {
-                        $stored_views[] = strval($page_id);
-                    } else {
-                        /* check if user doubled back to the first page to convert */
-                        $funnel_count = count($stored_views);
-                        $last_key = $funnel_count - 1;
-                        if ( $funnel_count > 1  && $stored_views[0] == $page_id && $stored_views[$last_key] != $page_id ){
-                            $stored_views[] = strval($page_id);
-                        }
-                    }
+            /* Check if funnel contains old funnel data and parse it */
+            if (
+                strstr( $event['funnel'] , '{')
+            ) {
+
+                $event['funnel'] = json_decode($event['funnel'] , true);
+
+                /* check if valid json or if slashes need to be stripepd out */
+                if (!self::isJson($event['funnel'])) {
+                    $event['funnel']= stripslashes($event['funnel']);
                 }
 
+                $page_views = json_decode($event_details['funnel'] , true);
+
+                if (!$page_views) {
+                    continue;
+                }
+
+                $stored_views =  self::rebuild_funnel( $page_views );
 
                 /* clean funnel of timestamps */
                 $event['funnel'] = json_encode($stored_views);
@@ -428,8 +460,9 @@ class Leads_Batch_Processor {
                 }
             }
 
+            $event['funnel'] = stripslashes($event['funnel']);
             $wpdb->update( $wpdb->prefix.'inbound_events' , $event , array('id' => $event['id']) );
-            //usleep(300000);
+
         }
 
         /* update batch data with next job */
