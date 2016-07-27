@@ -1323,7 +1323,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
                 </script>
             <?php }
 
-            if($_GET['wp-cta-variation-id']) {
+            if(isset($_GET['wp-cta-variation-id'])) {
                 ?>
                 <script type="text/javascript">
                     jQuery(document).ready(function($) {
