@@ -112,14 +112,14 @@ class CTA_Enqueues {
 		wp_enqueue_script(array('jquery', 'jqueryui', 'editor', 'thickbox', 'media-upload'));
 
 		/* Enqueue jpicker for color selectors  */
-		wp_enqueue_script('jpicker', WP_CTA_URLPATH . 'assets/lib/jpicker/jpicker-1.1.6.min.js' , array() , null , true);
+		wp_enqueue_script('jpicker', WP_CTA_URLPATH . 'assets/lib/jpicker/jpicker-1.1.6.min.js' , array() , null , false);
 		wp_localize_script( 'jpicker', 'jpicker', array( 'thispath' => WP_CTA_URLPATH . 'assets/lib/jpicker/images/'));
-		wp_enqueue_style('jpicker-css', WP_CTA_URLPATH . 'assets/lib/jpicker/css/jPicker-1.1.6.min.css', array() , null , true);
+		wp_enqueue_style('jpicker-css', WP_CTA_URLPATH . 'assets/lib/jpicker/css/jPicker-1.1.6.min.css', array() , null , false);
 
 		/* Enqueue qtip support */
 		wp_dequeue_script('jquery-qtip');
-		wp_enqueue_script('jquery-qtip', WP_CTA_URLPATH . 'assets/lib/jquery-qtip/jquery.qtip.min.js' , array() , null , true);
-		wp_enqueue_script('load-qtip', WP_CTA_URLPATH . 'assets/lib/jquery-qtip/load.qtip.js', array('jquery-qtip') , null , true);
+		wp_enqueue_script('jquery-qtip', WP_CTA_URLPATH . 'assets/lib/jquery-qtip/jquery.qtip.min.js' , array() , null , false);
+		wp_enqueue_script('load-qtip', WP_CTA_URLPATH . 'assets/lib/jquery-qtip/load.qtip.js', array('jquery-qtip') , null , false);
 		wp_enqueue_style('qtip-css', WP_CTA_URLPATH . 'assets/css/jquery.qtip.min.css');
 
 		/* Enqueue CSS rules for wp-call-to-action post type */

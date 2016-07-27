@@ -334,7 +334,7 @@ class Leads_Batch_Processor {
         echo  sprintf( __(  '%s of %s steps complete. Please wait...' , 'inbound-pro' ) , $args['offset'] , $pages );
 
         $next = $args['offset'] * $args['posts_per_page'];
-        $events = $wpdb->get_results( 'SELECT * FROM '.$wpdb->prefix.'inbound_events WHERE event_name = "inbound_form_submission" OR event_name = "inbound_cta_click" OR event_name = "inbound_edd_sale"  ORDER BY id ASC LIMIT '.$args['offset'].' , '. $next , ARRAY_A );
+        $events = $wpdb->get_results( 'SELECT * FROM '.$wpdb->prefix.'inbound_events WHERE event_name = "inbound_form_submission" OR event_name = "inbound_cta_click" OR event_name = "inbound_edd_sale"  ORDER BY page_id ASC LIMIT '.$args['offset'].' , '. $next , ARRAY_A );
 
 
         /* if all leads are processed echo complete and delete batch job */
@@ -429,7 +429,7 @@ class Leads_Batch_Processor {
             }
 
             $wpdb->update( $wpdb->prefix.'inbound_events' , $event , array('id' => $event['id']) );
-            usleep(300000);
+            //usleep(300000);
         }
 
         /* update batch data with next job */

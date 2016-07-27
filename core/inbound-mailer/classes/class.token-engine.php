@@ -294,7 +294,8 @@ class Inbound_Mailer_Tokens {
 	 */
 	public static function process_post_content_shortcode( $params ) {
 
-		$params = shortcode_atts( array( 'id' => null ), $params );
+		$params = shortcode_atts( array( 'id' => null , 'strip-images' => false  , 'strip-links' => false ), $params );
+
 
 		$post = get_post(trim($params['id']));
 
@@ -303,6 +304,15 @@ class Inbound_Mailer_Tokens {
 		$content = preg_replace( $pattern ,'',$post->post_content);
 		$content = do_shortcode($content);
 		$content = wpautop($content);
+
+		if ($params['strip-images'] && $params['strip-images'] != "false" ) {
+			$content = strip_tags( $content , '<a><span><div><i><b><small><pre><table><p><h1><h2><h3><h4><h5>' );
+		}
+
+		if ($params['strip-links'] && $params['strip-links'] != "false" ) {
+			$content = strip_tags( $content , '<span><div><i><b><small><pre><table><p><h1><h2><h3><h4><h5><img>' );
+		}
+
 		return trim($content);
 	}
 
@@ -422,7 +432,7 @@ class Inbound_Mailer_Tokens {
 				</tr>
 				<tr>
 					<td>
-						<input type='text' style='width:90%;display:inline;' readonly='readonly' value="[post-content id=<?php echo $post->ID; ?>]">
+						<input type='text' style='width:90%;display:inline;' readonly='readonly' value="[post-content id=<?php echo $post->ID; ?> strip-images=false strip-links=false]">
 						<div class="lp_tooltip" style="display:inline" title="<?php _e( 'Use this shortcode inside email blasts.' , 'inbound-pro' ); ?>" ><i class="fa fa-question-circle"></i></div>
 					</td>
 				</tr>

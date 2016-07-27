@@ -80,6 +80,7 @@ class Inbound_Funnel_Reporting {
         self::print_page_header();
         self::print_dates_menu();
         self::print_events_menu();
+        self::print_advanced_settings_menu();
         self::print_table();
     }
 
@@ -174,7 +175,27 @@ class Inbound_Funnel_Reporting {
             ?>
         </ul>
         <?php
+    }
 
+    public static function print_advanced_settings_menu() {
+        $inbound_forms = Inbound_Forms::get_inbound_forms();
+        print_r($inbound_forms);exit;
+        ?>
+        <br>
+        <span class="button button-primary" id="funnels-advanced-settings-button"><?php _e( 'Advanced Settings' , 'inbound-pro'); ?></span>
+        <div class="funnels-advanced-settings-container">
+            <table>
+                <tr>
+                    <td class="label">
+                        <?php _e( 'Narrow by form id:' , 'inbound-pro' ); ?>
+                    </td>
+                    <td class="setting">
+
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <?php
     }
 
     public static function print_table() {
@@ -295,7 +316,7 @@ class Inbound_Funnel_Reporting {
         $start_date = date( 'Y-m-d G:i:s' , strtotime("-" . $range ." days" , strtotime($wordpress_date_time )));
         $end_date = $wordpress_date_time;
 
-        $query = 'SELECT * FROM '.$table_name.' WHERE datetime between "'.$start_date.'" AND "'.$end_date.'" AND event_name = "'.$event_name.'" AND funnel = "'.$funnel.'" ORDER BY source DESC';
+        $query = 'SELECT * FROM '.$table_name.' WHERE datetime between "'.$start_date.'" AND "'.$end_date.'" AND event_name = "'.$event_name.'" AND funnel = "'.$funnel.'"  AND funnel = "'.$funnel.'" ORDER BY source DESC';
 
         $results = $wpdb->get_results( $query , ARRAY_A );
 
