@@ -123,7 +123,7 @@ class CTA_Enqueues {
 		wp_enqueue_style('qtip-css', WP_CTA_URLPATH . 'assets/css/jquery.qtip.min.css');
 
 		/* Enqueue CSS rules for wp-call-to-action post type */
-		wp_enqueue_style('wp-cta-only-cpt-admin-css', WP_CTA_URLPATH . 'assets/css/admin-wp-cta-cpt-only-style.css' , array() , null , true);
+		wp_enqueue_style('wp-cta-only-cpt-admin-css', WP_CTA_URLPATH . 'assets/css/admin-wp-cta-cpt-only-style.css' , array() );
 
 		/* Enqueues support for clear stat buttons */
 		wp_enqueue_script( 'wp-cta-admin-clear-stats-ajax-request', WP_CTA_URLPATH . 'assets/js/ajax.clearstats.js', array( 'jquery') , null , true);
@@ -149,11 +149,11 @@ class CTA_Enqueues {
 			add_filter( 'wp_default_editor', array(__CLASS__, 'set_default_editor_mode'));/* force visual editor to open in text mode */
 
 			/* Enqueue UI assisting js */
-			wp_enqueue_script('wp-cta-post-edit-ui', WP_CTA_URLPATH . 'assets/js/admin/admin.post-edit.js' , array() , false , true);
+			wp_enqueue_script('wp-cta-post-edit-ui', WP_CTA_URLPATH . 'assets/js/admin/admin.post-edit.js' , array() , null , false);
 			wp_localize_script( 'wp-cta-post-edit-ui', 'wp_cta_post_edit_ui', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'post_id' => $post->ID, 'variation_id' => $CTA_Variations->get_current_variation_id(), 'wp_call_to_action_meta_nonce' => wp_create_nonce('wp-call-to-action-meta-nonce'), 'wp_call_to_action_template_nonce' => wp_create_nonce('wp-cta-nonce') ));
 
 			/* Enqueue supportive js for template switching */
-			wp_enqueue_script('wp-cta-js-metaboxes', WP_CTA_URLPATH . 'assets/js/admin/admin.metaboxes.js' , array() , null , true );
+			wp_enqueue_script('wp-cta-js-metaboxes', WP_CTA_URLPATH . 'assets/js/admin/admin.metaboxes.js' , array() , null , false );
 			$template_data = $CTAExtensions->definitions;
 			$template_data = json_encode($template_data);
 			$template = get_post_meta($post->ID, 'wp-cta-selected-template', true);
@@ -171,7 +171,7 @@ class CTA_Enqueues {
 
 		/* Enqueue scripts & styles for cta creation page alone */
 		if ($hook == 'post-new.php'){
-			wp_enqueue_script('wp-cta-js-create-new', WP_CTA_URLPATH . 'assets/js/admin/admin.post-new.js', array('jquery'), '1.0', true );
+			wp_enqueue_script('wp-cta-js-create-new', WP_CTA_URLPATH . 'assets/js/admin/admin.post-new.js', array('jquery'), null, false );
 			wp_enqueue_style('wp-cta-css-post-new', WP_CTA_URLPATH . 'assets/css/admin-post-new.css');
 		}
 	}
