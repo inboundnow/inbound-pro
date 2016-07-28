@@ -18,7 +18,7 @@ array(
 	'data_type' => "template", // datatype
 	'version' => "1.0", // Version Number
 	'label' => "Blank Template", // Nice Name
-	'category' => 'Blank, Box', // Template Category
+	'category' => 'Blank', // Template Category
 	'demo' => 'http://demo.inboundnow.com/go/demo-template-preview/', // Demo Link
 	'description'  => __( 'This template is completely blank, you can use any shortcodes or HTML you want in here' , 'inbound-pro' ), // template description
 	'path' => $this_path, //path to template folder
