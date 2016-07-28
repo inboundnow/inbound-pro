@@ -272,7 +272,7 @@ class Inbound_Funnel_Reporting {
                         ?>
                     </td>
                     <td class="funnel-details">
-                        <a title='<?php _e('View Funnel Path' , 'inbound-pro'); ?>' class='thickbox' href='admin.php?page=inbound-view-funnel-path&inbound_popup_preview=on&range=<?php echo self::$selected_range; ?>&event_name=<?php echo $funnel['event_name']; ?>&funnel=<?php echo $funnel['funnel']; ?>&source=<?php echo $funnel['source']; ?>&TB_iframe=true&width=640&height=703' target='_blank'><?php _e('View Funnel','inbound-pro'); ?></a>
+                        <a title='<?php _e('View Funnel Path' , 'inbound-pro'); ?>' class='thickbox' href='admin.php?page=inbound-view-funnel-path&inbound_popup_preview=on&range=<?php echo self::$selected_range; ?>&capture_page=<?php echo $event['page_id']; ?>&event_name=<?php echo $funnel['event_name']; ?>&funnel=<?php echo $funnel['funnel']; ?>&source=<?php echo $funnel['source']; ?>&TB_iframe=true&width=640&height=703' target='_blank'><?php _e('View Funnel','inbound-pro'); ?></a>
                     </td>
                 </tr>
                 <?php
@@ -323,14 +323,16 @@ class Inbound_Funnel_Reporting {
         return $results;
     }
 
+    /**
+     *
+     */
     public static function display_funnel() {
 
         $funnel = json_decode(stripslashes($_GET['funnel']), true);
         $event_name = $_GET['event_name'];
         $range = $_GET['range'];
+        $capture_page = $_GET['capture_page'];
 
-        //echo $_GET['funnel'];
-        //print_r($funnel);
 
         ?>
         <!--<header>
@@ -339,10 +341,45 @@ class Inbound_Funnel_Reporting {
         </header>-->
         <ul class="timeline">
             <?php
-
+            $i = 0;
             foreach( $funnel as $page_id ) {
 
-                $post = get_post($page_id);
+                $i++;
+
+                /* determine if last in loop*/
+                if (!isset($funnel[$i])) {
+                    if ($page_id != $capture_page) {
+                        $funnel[] = $capture_page;
+                    }
+                }
+
+                if (is_numeric($page_id)) {
+                    $post = get_post($page_id);
+                    $link = get_permalink($page_id);
+                    $title = $post->title;
+                    $excerpt = $post->post_excerpt;
+                    $type = $post->post_type;
+                }
+
+                if (strstr($page_id , 'cat_')) {
+                    $cat_id = str_replace('cat_' , '' , $page_id );
+                    $title = get_cat_name($cat_id);
+                    $$link = get_category_link($cat_id);
+                    $excerpt = "";
+                    $type = __('Category','inbound-pro');
+
+                }
+
+                if (strstr($page_id , 'tag_')) {
+                    $tag_id = str_replace('tag_' , '' , $page_id );
+                    $tag = get_tag($tag_id);
+                    $title = $tag->name;
+                    $link = get_tag_link($tag_id);
+                    $excerpt = "";
+                    $type = __('Tag','inbound-pro');
+                }
+
+
 
                 if (!$post) {
                     ?>
@@ -364,10 +401,10 @@ class Inbound_Funnel_Reporting {
                     <div class="direction-l" >
                         <div class="flag-wrapper" >
                             <span class="hexa" ></span >
-                            <span class="flag" > <?php echo $post->post_title; ?></span >
-                            <span class="time-wrapper" ><span class="time" > <?php echo $post->post_type; ?> </span ></span >
+                            <span class="flag" > <?php echo $title; ?></span >
+                            <span class="time-wrapper" ><span class="time" > <?php echo $post_type; ?> </span ></span >
                         </div >
-                        <div class="desc" > <?php echo $post->post_excerpt; ?>.</div >
+                        <div class="desc" > <?php echo $excerpt; ?>.</div >
                     </div >
                 </li >
                 <?php

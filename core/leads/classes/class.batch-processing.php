@@ -97,7 +97,7 @@ class Leads_Batch_Processor {
         foreach ($dates_array as $datetime=>$page_id) {
             $corrected_funnel[] = strval($page_id);
         }
-        
+
         return array_values(array_unique($corrected_funnel));
     }
 
@@ -428,14 +428,13 @@ class Leads_Batch_Processor {
                 strstr( $event['funnel'] , '{')
             ) {
 
-                $event['funnel'] = json_decode($event['funnel'] , true);
 
                 /* check if valid json or if slashes need to be stripepd out */
                 if (!self::isJson($event['funnel'])) {
                     $event['funnel']= stripslashes($event['funnel']);
                 }
 
-                $page_views = json_decode($event_details['funnel'] , true);
+                $page_views = json_decode( $event['funnel'] , true);
 
                 if (!$page_views) {
                     continue;

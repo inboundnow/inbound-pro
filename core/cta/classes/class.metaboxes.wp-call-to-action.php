@@ -169,7 +169,7 @@ if (!class_exists('CTA_Metaboxes')) {
 		* Show Template Settings Metabox
 		*/
 		public static function show_template_settings(	$post, $metabox_args ) {
-			global $CTA_Variations;
+			global $CTA_Variations, $post;
 
 			$CTAExtensions = CTA_Load_Extensions();
 			$extension_data = $CTAExtensions->definitions;
@@ -191,7 +191,11 @@ if (!class_exists('CTA_Metaboxes')) {
 			echo "<input type='hidden' name='wp_cta_wp-cta_custom_fields_nonce' value='".wp_create_nonce('wp-cta-nonce')."' />";
 
 			/* Display customizer launch button */
-			if (!isset($_GET['inbound-editor']) || $_GET['inbound-editor'] == 'false') {
+			if (
+				( !isset($_GET['inbound-editor']) || $_GET['inbound-editor'] == 'false')
+			&&
+				$post->post_status =='published'
+			){
 
 				$post_link = CTA_Variations::get_variation_permalink( $post->ID, $vid = null );
 
