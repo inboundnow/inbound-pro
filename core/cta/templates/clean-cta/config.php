@@ -18,7 +18,7 @@ array(
     'data_type' => 'template', // Template Data Type
     'version' => "1.0", // Version Number
     'label' => "Clean CTA", // Nice Name
-    'category' => 'Minimal', // Template Category
+    'category' => 'Responsive', // Template Category
     'demo' => '', // Demo Link
     'description'  => 'Clean call to action', // template description
 	'path' => $this_path, //path to template folder

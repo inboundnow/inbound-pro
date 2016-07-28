@@ -194,7 +194,7 @@ if (!class_exists('CTA_Metaboxes')) {
 			if (
 				( !isset($_GET['inbound-editor']) || $_GET['inbound-editor'] == 'false')
 			&&
-				$post->post_status =='published'
+				$post->post_status =='publish'
 			){
 
 				$post_link = CTA_Variations::get_variation_permalink( $post->ID, $vid = null );
