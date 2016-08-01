@@ -18,7 +18,7 @@ array(
     'data_type' => 'template', // Template Data Type
     'version' => "1.0", // Version Number
     'label' => "Flat CTA", // Nice Name
-    'category' => 'flat ui', // Template Category
+    'category' => 'Responsive', // Template Category
     'demo' => 'http://demo.inboundnow.com/go/demo-template-preview/', // Demo Link
     'description'  => 'Flat UI call to action', // template description
 	'path' => $this_path, //path to template folder

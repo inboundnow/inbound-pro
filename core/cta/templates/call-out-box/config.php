@@ -18,7 +18,7 @@ array(
 	'data_type' => 'template', // Template Data Type
 	'version' => "1.0", // Version Number
 	'label' => "Call Out Box", // Nice Name
-	'category' => 'Box', // Template Category
+	'category' => 'Responsive, Padded', // Template Category
 	'demo' => 'http://demo.inboundnow.com/go/demo-template-preview/', // Demo Link
 	'description'  => 'This is a simple box template', // template description
 	'path' => $this_path //path to template folder

@@ -171,10 +171,11 @@ class Landing_Pages_Settings {
                 $htaccess = '<textarea readonly="readonly" onclick="this.focus();this.select()" style="width: 90%;" rows="15" name="robotsnew">' . $contentht . '</textarea><br/>';
             }
         }
-        /*print_r($lp_global_settings); */
+
+        
         $active_tab = 'lp-main';
         if (isset($_REQUEST['open-tab'])) {
-            $active_tab = $_REQUEST['open-tab'];
+            $active_tab = sanitize_title($_REQUEST['open-tab']);
         }
 
         do_action('lp_pre_display_global_settings');
