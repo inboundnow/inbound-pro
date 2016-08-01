@@ -250,7 +250,7 @@ class Leads_Batch_Processor {
         $args['offset'] = $args['offset'] + 1;
         $jobs = get_option('leads_batch_processing');
         $jobs[$args['method']] = $args;
-        update_option('leads_batch_processing' , $jobs );
+        update_option('leads_batch_processing' , $jobs , false );
 
 
         /* redirect page */
@@ -333,7 +333,7 @@ class Leads_Batch_Processor {
         $args['offset'] = $args['offset'] + 1;
         $jobs = get_option('leads_batch_processing');
         $jobs[$args['method']] = $args;
-        update_option('leads_batch_processing' , $jobs );
+        update_option('leads_batch_processing' , $jobs , false );
 
 
         /* redirect page */
@@ -425,7 +425,7 @@ class Leads_Batch_Processor {
 
             /* Check if funnel contains old funnel data and parse it */
             if (
-                strstr( $event['funnel'] , '{')
+            strstr( $event['funnel'] , '{')
             ) {
 
 
@@ -468,7 +468,7 @@ class Leads_Batch_Processor {
         $args['offset'] = $args['offset'] + 1;
         $jobs = get_option('leads_batch_processing');
         $jobs[$args['method']] = $args;
-        update_option('leads_batch_processing' , $jobs );
+        update_option('leads_batch_processing' , $jobs , false );
 
 
         /* redirect page */
