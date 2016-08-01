@@ -14,9 +14,9 @@ if (!class_exists('Inbound_Menus_Adminbar')) {
 		static $load_leads;
 
 		public static function init() {
-			 // Exit if admin bar not there
+			// Exit if admin bar not there
 			if ( ! is_user_logged_in() || ! is_admin_bar_showing() || !current_user_can('activate_plugins') ) {
-			  return;
+				return;
 			}
 
 			self::$add_menu = true;
@@ -29,8 +29,8 @@ if (!class_exists('Inbound_Menus_Adminbar')) {
 
 
 		/**
-		*  Loads Hooks & Filters
-		*/
+		 *  Loads Hooks & Filters
+		 */
 		public static function hooks() {
 
 			/* load main hook */
@@ -60,8 +60,8 @@ if (!class_exists('Inbound_Menus_Adminbar')) {
 
 
 		/**
-		*  Loads the inbound now menu into the admin_bar_menu hook
-		*/
+		 *  Loads the inbound now menu into the admin_bar_menu hook
+		 */
 		public static function load_inboundnow_menu() {
 			global $wp_admin_bar;
 
@@ -120,7 +120,7 @@ if (!class_exists('Inbound_Menus_Adminbar')) {
 
 				if ( '_blank' === $menu_item['meta']['target'] ) {
 					if ( ! isset( $menu_item['meta']['class'] ) ) {
-					  $menu_item['meta']['class'] = '';
+						$menu_item['meta']['class'] = '';
 					}
 
 					$menu_item['meta']['class'] .= ' inbound-new-tab';
@@ -132,10 +132,10 @@ if (!class_exists('Inbound_Menus_Adminbar')) {
 			/* add lead search */
 			if (class_exists('Inbound_Pro_Plugin') && is_admin() ) {
 				$args = array(
-						'id' => 'lead_search',
-						'title' => '<i class="fa fa-search"></i>',
-						'href' => '#lead-search',
-						'meta' => array('class' => 'adminbar-leads-search')
+					'id' => 'lead_search',
+					'title' => '<i class="fa fa-search" aria-hidden="true" style="font-family:FontAwesome;"></i>',
+					'href' => '#lead-search',
+					'meta' => array('class' => 'adminbar-leads-search')
 				);
 				$wp_admin_bar->add_node($args);
 			}
@@ -143,8 +143,8 @@ if (!class_exists('Inbound_Menus_Adminbar')) {
 		}
 
 		/**
-		*  Loads leads menu items
-		*/
+		 *  Loads leads menu items
+		 */
 		public static function load_leads( $menu_items ) {
 			/* Check if Leads Active */
 			if (!function_exists('wpleads_check_active')) {
@@ -204,8 +204,8 @@ if (!class_exists('Inbound_Menus_Adminbar')) {
 		}
 
 		/**
-		*  Loads Calls To Action Menu Items
-		*/
+		 *  Loads Calls To Action Menu Items
+		 */
 		public static function load_callstoaction( $menu_items ) {
 
 			/* Check if Calls To Action Active */
@@ -219,26 +219,26 @@ if (!class_exists('Inbound_Menus_Adminbar')) {
 
 			/* 1 - Calls to Action */
 			$menu_items[ $cta_key ] = array(
-			  'parent' => self::$inboundnow_menu_key,
-			  'title'  => __( 'Call to Actions', 'inbound-pro' ),
-			  'href'   => admin_url( 'edit.php?post_type=wp-call-to-action' ),
-			  'meta'   => array( 'target' => '', 'title' => __( 'View All Landing Pages', 'inbound-pro' ) )
+				'parent' => self::$inboundnow_menu_key,
+				'title'  => __( 'Call to Actions', 'inbound-pro' ),
+				'href'   => admin_url( 'edit.php?post_type=wp-call-to-action' ),
+				'meta'   => array( 'target' => '', 'title' => __( 'View All Landing Pages', 'inbound-pro' ) )
 			);
 
 			/* 1.1 - View Calls to Action */
 			$menu_items['inbound-cta-view'] = array(
-			  'parent' => $cta_key,
-			  'title'  => __( 'View Calls to Action List', 'inbound-pro' ),
-			  'href'   => admin_url( 'post-new.php?post_type=wp-call-to-action' ),
-			  'meta'   => array( 'target' => '', 'title' => __( 'View All Landing Pages', 'inbound-pro' ) )
+				'parent' => $cta_key,
+				'title'  => __( 'View Calls to Action List', 'inbound-pro' ),
+				'href'   => admin_url( 'post-new.php?post_type=wp-call-to-action' ),
+				'meta'   => array( 'target' => '', 'title' => __( 'View All Landing Pages', 'inbound-pro' ) )
 			);
 
 			/* 1.2 - Add Calls to Action */
 			$menu_items['inbound-cta-add'] = array(
-			  'parent' => $cta_key,
-			  'title'  => __( 'Add New Call to Action', 'inbound-pro' ),
-			  'href'   => admin_url( 'post-new.php?post_type=wp-call-to-action' ),
-			  'meta'   => array( 'target' => '', 'title' => __( 'Add new call to action', 'inbound-pro' ) )
+				'parent' => $cta_key,
+				'title'  => __( 'Add New Call to Action', 'inbound-pro' ),
+				'href'   => admin_url( 'post-new.php?post_type=wp-call-to-action' ),
+				'meta'   => array( 'target' => '', 'title' => __( 'Add new call to action', 'inbound-pro' ) )
 			);
 
 			/* 1.3 - Calls to Action Categories */
@@ -263,8 +263,8 @@ if (!class_exists('Inbound_Menus_Adminbar')) {
 		}
 
 		/**
-		*  Loads Landing Page Menu Items
-		*/
+		 *  Loads Landing Page Menu Items
+		 */
 		public static function load_landingpages( $menu_items )
 		{
 			/* Check if Landing Pages Active */
@@ -278,26 +278,26 @@ if (!class_exists('Inbound_Menus_Adminbar')) {
 
 			/* 1 - Landing Pages */
 			$menu_items[ $landing_pages_key ] = array(
-				  'parent' => self::$inboundnow_menu_key,
-				  'title'  => __( 'Landing Pages', 'inbound-pro' ),
-				  'href'   => admin_url( 'edit.php?post_type=landing-page' ),
-				  'meta'   => array( 'target' => '', 'title' => __( 'View All Landing Pages', 'inbound-pro' ) )
+				'parent' => self::$inboundnow_menu_key,
+				'title'  => __( 'Landing Pages', 'inbound-pro' ),
+				'href'   => admin_url( 'edit.php?post_type=landing-page' ),
+				'meta'   => array( 'target' => '', 'title' => __( 'View All Landing Pages', 'inbound-pro' ) )
 			);
 
 			/* 1.1 - View Landing Pages */
 			$menu_items['inbound-landingpages-view'] = array(
-			  'parent' => $landing_pages_key,
-			  'title'  => __( 'View Landing Pages List', 'inbound-pro' ),
-			  'href'   => admin_url( 'edit.php?post_type=landing-page' ),
-			  'meta'   => array( 'target' => '', 'title' => __( 'View All Landing Pages', 'inbound-pro' ) )
+				'parent' => $landing_pages_key,
+				'title'  => __( 'View Landing Pages List', 'inbound-pro' ),
+				'href'   => admin_url( 'edit.php?post_type=landing-page' ),
+				'meta'   => array( 'target' => '', 'title' => __( 'View All Landing Pages', 'inbound-pro' ) )
 			);
 
 			/* 1.2 - Add New Landing Pages */
 			$menu_items['inbound-landingpages-add'] = array(
-			  'parent' => $landing_pages_key,
-			  'title'  => __( 'Add New Landing Page', 'inbound-pro' ),
-			  'href'   => admin_url( 'post-new.php?post_type=landing-page' ),
-			  'meta'   => array( 'target' => '', 'title' => __( 'Add new Landing Page', 'inbound-pro' ) )
+				'parent' => $landing_pages_key,
+				'title'  => __( 'Add New Landing Page', 'inbound-pro' ),
+				'href'   => admin_url( 'post-new.php?post_type=landing-page' ),
+				'meta'   => array( 'target' => '', 'title' => __( 'Add new Landing Page', 'inbound-pro' ) )
 			);
 
 			/* 1.3 - Landing Pages Categories */
@@ -323,8 +323,8 @@ if (!class_exists('Inbound_Menus_Adminbar')) {
 		}
 
 		/**
-		*  Loads Email Menu Items
-		*/
+		 *  Loads Email Menu Items
+		 */
 		public static function load_mailer( $menu_items )
 		{
 			/* Check if Landing Pages Active */
@@ -336,34 +336,34 @@ if (!class_exists('Inbound_Menus_Adminbar')) {
 
 			/* 1 - Inbound Mailer Component */
 			$menu_items[ $mailer_key ] = array(
-				  'parent' => self::$inboundnow_menu_key,
-				  'title'  => __( 'Email', 'inbound-pro' ),
-				  'href'   => admin_url( 'edit.php?post_type=inbound-email' ),
-				  'meta'   => array( 'target' => '', 'title' => __( 'View All E-Mails', 'inbound-pro' ) )
+				'parent' => self::$inboundnow_menu_key,
+				'title'  => __( 'Email', 'inbound-pro' ),
+				'href'   => admin_url( 'edit.php?post_type=inbound-email' ),
+				'meta'   => array( 'target' => '', 'title' => __( 'View All E-Mails', 'inbound-pro' ) )
 			);
 
 			/* 1.1 - View Email */
 			$menu_items['inbound-mailer-view'] = array(
-			  'parent' => $mailer_key,
-			  'title'  => __( 'View Email List', 'inbound-pro' ),
-			  'href'   => admin_url( 'edit.php?post_type=inbound-email' ),
-			  'meta'   => array( 'target' => '', 'title' => __( 'View All E-Mails', 'inbound-pro' ) )
+				'parent' => $mailer_key,
+				'title'  => __( 'View Email List', 'inbound-pro' ),
+				'href'   => admin_url( 'edit.php?post_type=inbound-email' ),
+				'meta'   => array( 'target' => '', 'title' => __( 'View All E-Mails', 'inbound-pro' ) )
 			);
 
 			/* 1.2 - Add New Email */
 			$menu_items['inbound-mailer-create'] = array(
-			  'parent' => $mailer_key,
-			  'title'  => __( 'Create New eMail', 'inbound-pro' ),
-			  'href'   => admin_url( 'post-new.php?post_type=inbound-email' ),
-			  'meta'   => array( 'target' => '', 'title' => __( 'Create New E-Mail', 'inbound-pro' ) )
+				'parent' => $mailer_key,
+				'title'  => __( 'Create New eMail', 'inbound-pro' ),
+				'href'   => admin_url( 'post-new.php?post_type=inbound-email' ),
+				'meta'   => array( 'target' => '', 'title' => __( 'Create New E-Mail', 'inbound-pro' ) )
 			);
 
 			return $menu_items;
 		}
 
 		/**
-		*  Loads Automation Menu Items
-		*/
+		 *  Loads Automation Menu Items
+		 */
 		public static function load_automation( $menu_items )
 		{
 			/* Check if Landing Pages Active */
@@ -375,26 +375,26 @@ if (!class_exists('Inbound_Menus_Adminbar')) {
 
 			/* 1 - Inbound Automation Component */
 			$menu_items[ $automation_key ] = array(
-				  'parent' => self::$inboundnow_menu_key,
-				  'title'  => __( 'Automation', 'inbound-pro' ),
-				  'href'   => admin_url( 'edit.php?post_type=automation' ),
-				  'meta'   => array( 'target' => '', 'title' => __( 'View All Rules', 'inbound-pro' ) )
+				'parent' => self::$inboundnow_menu_key,
+				'title'  => __( 'Automation', 'inbound-pro' ),
+				'href'   => admin_url( 'edit.php?post_type=automation' ),
+				'meta'   => array( 'target' => '', 'title' => __( 'View All Rules', 'inbound-pro' ) )
 			);
 
 			/* 1.1 - View Rules */
 			$menu_items['inbound-automation-view'] = array(
-			  'parent' => $automation_key,
-			  'title'  => __( 'View Rules', 'inbound-pro' ),
-			  'href'   => admin_url( 'edit.php?post_type=automation' ),
-			  'meta'   => array( 'target' => '', 'title' => __( 'View All Rules', 'inbound-pro' ) )
+				'parent' => $automation_key,
+				'title'  => __( 'View Rules', 'inbound-pro' ),
+				'href'   => admin_url( 'edit.php?post_type=automation' ),
+				'meta'   => array( 'target' => '', 'title' => __( 'View All Rules', 'inbound-pro' ) )
 			);
 
 			/* 1.2 - Add New Rule */
 			$menu_items['inbound-automation-create'] = array(
-			  'parent' => $automation_key,
-			  'title'  => __( 'Create New Rule', 'inbound-pro' ),
-			  'href'   => admin_url( 'post-new.php?post_type=automation' ),
-			  'meta'   => array( 'target' => '', 'title' => __( 'Create New Rule', 'inbound-pro' ) )
+				'parent' => $automation_key,
+				'title'  => __( 'Create New Rule', 'inbound-pro' ),
+				'href'   => admin_url( 'post-new.php?post_type=automation' ),
+				'meta'   => array( 'target' => '', 'title' => __( 'Create New Rule', 'inbound-pro' ) )
 			);
 
 			return $menu_items;
@@ -419,10 +419,10 @@ if (!class_exists('Inbound_Menus_Adminbar')) {
 
 			/* 1.1 - View All Forms */
 			$menu_items['inbound-forms-view'] = array(
-				  'parent' => $forms_key,
-				  'title'  => __( 'View All Forms', 'inbound-pro' ),
-				  'href'   => admin_url( 'edit.php?post_type=inbound-forms' ),
-				  'meta'   => array( 'target' => '', 'title' => __( 'View All Forms', 'inbound-pro' ) )
+				'parent' => $forms_key,
+				'title'  => __( 'View All Forms', 'inbound-pro' ),
+				'href'   => admin_url( 'edit.php?post_type=inbound-forms' ),
+				'meta'   => array( 'target' => '', 'title' => __( 'View All Forms', 'inbound-pro' ) )
 			);
 
 			/* 1.1.x Get Forms and List */
@@ -430,10 +430,10 @@ if (!class_exists('Inbound_Menus_Adminbar')) {
 			foreach ($forms as $form)
 			{
 				$menu_items['inbound-form-'.$form->ID] = array(
-				  'parent' => 'inbound-forms-view',
-				  'title'  => $form->post_title,
-				  'href'   => admin_url( 'post.php?post='.$form->ID.'&action=edit' ),
-				  'meta'   => array( 'target' => '_blank', 'title' => $form->post_title )
+					'parent' => 'inbound-forms-view',
+					'title'  => $form->post_title,
+					'href'   => admin_url( 'post.php?post='.$form->ID.'&action=edit' ),
+					'meta'   => array( 'target' => '_blank', 'title' => $form->post_title )
 				);
 			}
 
@@ -544,10 +544,10 @@ if (!class_exists('Inbound_Menus_Adminbar')) {
 
 			/* 1 - Analytics */
 			$menu_items[ $analytics_key ] = array(
-			  'parent' => self::$inboundnow_menu_key,
-			  'title'  => __( 'Analytics (coming soon)', 'inbound-pro' ),
-			  'href'   => '#',
-			  'meta'   => array( 'target' => '', 'title' => __( 'Analytics (coming soon)', 'inbound-pro' ) )
+				'parent' => self::$inboundnow_menu_key,
+				'title'  => __( 'Analytics (coming soon)', 'inbound-pro' ),
+				'href'   => '#',
+				'meta'   => array( 'target' => '', 'title' => __( 'Analytics (coming soon)', 'inbound-pro' ) )
 			);
 
 			return $menu_items;
@@ -593,13 +593,13 @@ if (!class_exists('Inbound_Menus_Adminbar')) {
 			$search_docs_text = __( 'Search Docs', 'inbound-pro' );
 
 			$secondary_menu_items['inbound-docs-searchform'] = array(
-			  'parent' => self::$inboundnow_menu_secondary_group_key,
-			  'title' => '<form method="get" id="inbound-menu-form" action="//www.inboundnow.com/support/search/?action=bbp-search-request" class=" " target="_blank">
+				'parent' => self::$inboundnow_menu_secondary_group_key,
+				'title' => '<form method="get" id="inbound-menu-form" action="//www.inboundnow.com/support/search/?action=bbp-search-request" class=" " target="_blank">
 			  <input id="search-inbound-menu" type="text" placeholder="' . $search_docs_text . '" onblur="this.value=(this.value==\'\') ? \'' . $search_docs_text . '\' : this.value;" onfocus="this.value=(this.value==\'' . $search_docs_text . '\') ? \'\' : this.value;" value="' . $search_docs_text . '" name="bbp_search" value="' . esc_attr( 'Search Docs', 'inbound-pro' ) . '" class="text inbound-search-input" />
 			  <input type="hidden" name="post_type[]" value="docs" />
 			  <input type="hidden" name="post_type[]" value="page" />' . self::$go_button,
-			  'href'   => false,
-			  'meta'   => array( 'target' => '', 'title' => _x( 'Search Docs', 'Translators: For the tooltip', 'inbound-pro' ) )
+				'href'   => false,
+				'meta'   => array( 'target' => '', 'title' => _x( 'Search Docs', 'Translators: For the tooltip', 'inbound-pro' ) )
 			);
 
 			return $secondary_menu_items;
@@ -611,10 +611,10 @@ if (!class_exists('Inbound_Menus_Adminbar')) {
 
 			/* 1 - Inbound Now Plugin HQ */
 			$secondary_menu_items[ $hq_key ] = array(
-			  'parent' => self::$inboundnow_menu_secondary_group_key,
-			  'title'  => __( 'Inbound Now Plugin HQ', 'inbound-pro' ),
-			  'href'   => 'https://www.inboundnow.com/',
-			  'meta'   => array( 'title' => __( 'Inbound Now Plugin HQ', 'inbound-pro' ) )
+				'parent' => self::$inboundnow_menu_secondary_group_key,
+				'title'  => __( 'Inbound Now Plugin HQ', 'inbound-pro' ),
+				'href'   => 'https://www.inboundnow.com/',
+				'meta'   => array( 'title' => __( 'Inbound Now Plugin HQ', 'inbound-pro' ) )
 			);
 
 			/* 1.1 - GitHub Link */
@@ -653,18 +653,18 @@ if (!class_exists('Inbound_Menus_Adminbar')) {
 		}
 
 		/**
-		*  Loads debug menu item section
-		*/
+		 *  Loads debug menu item section
+		 */
 		public static function load_debug( $secondary_menu_items )
 		{
 			$debug_key = 'inbound-debug';
 
 			/* 1 - Debug Tools */
 			$secondary_menu_items[ $debug_key ] = array(
-			  'parent' => self::$inboundnow_menu_secondary_group_key,
-			  'title'  => __( '<span style="color:#fff;font-size: 13px;margin-top: -1px;display: inline-block;">Debug Tools</span>', 'inbound-pro' ),
-			  'href'   => "#",
-			  'meta'   => ""
+				'parent' => self::$inboundnow_menu_secondary_group_key,
+				'title'  => __( '<span style="color:#fff;font-size: 13px;margin-top: -1px;display: inline-block;">Debug Tools</span>', 'inbound-pro' ),
+				'href'   => "#",
+				'meta'   => ""
 			);
 
 			/* 1.1 - 1.2 - Link Setup */
@@ -685,28 +685,28 @@ if (!class_exists('Inbound_Menus_Adminbar')) {
 				$actual_link_two = $actual_link_two . $param_two .'inbound_js';
 			}
 
-			 /* 1.1 - Check for JS Errors */
+			/* 1.1 - Check for JS Errors */
 			$secondary_menu_items['inbound-debug-checkjs'] = array(
-			  'parent' => $debug_key,
-			  'title'  => __( 'Check for Javascript Errors', 'inbound-pro' ),
-			  'href'   => $actual_link_two,
-			  'meta'   => array( 'title' =>  __( 'Click here to check javascript errors on this page', 'inbound-pro' ) )
+				'parent' => $debug_key,
+				'title'  => __( 'Check for Javascript Errors', 'inbound-pro' ),
+				'href'   => $actual_link_two,
+				'meta'   => array( 'title' =>  __( 'Click here to check javascript errors on this page', 'inbound-pro' ) )
 			);
 
 			/* 1.2 - Check for JS Errors */
 			$secondary_menu_items['inbound-debug-turnoffscripts'] = array(
-			  'parent' => $debug_key,
-			  'title'  => __( 'Remove Javascript Errors', 'inbound-pro' ),
-			  'href'   => $actual_link,
-			  'meta'   => array( 'title' =>  __( 'Click here to remove broken javascript to fix issues', 'inbound-pro' ) )
+				'parent' => $debug_key,
+				'title'  => __( 'Remove Javascript Errors', 'inbound-pro' ),
+				'href'   => $actual_link,
+				'meta'   => array( 'title' =>  __( 'Click here to remove broken javascript to fix issues', 'inbound-pro' ) )
 			);
 
 			return apply_filters('inbound_menu_debug', $secondary_menu_items, $debug_key );
 		}
 
 		/**
-		*  Enqueues admin js and css
-		*/
+		 *  Enqueues admin js and css
+		 */
 		public static function enqueue_js_css() {
 			if(!is_user_logged_in()){
 				return;
