@@ -1424,6 +1424,29 @@ if (!class_exists('Inbound_Forms')) {
         }
 
         /**
+         *
+         */
+        public static function get_inbound_forms() {
+            $args = array(
+                'posts_per_page'  => -1,
+                'post_type'=> 'inbound-forms'
+            );
+
+            $form_list = get_posts($args);
+            $form_array = array();
+
+            foreach ( $form_list as $form ) {
+                $this_id = $form->ID;
+                $this_link = get_permalink( $this_id );
+                $title = $form->post_title;
+                $form_array[$form->ID] = $form->post_title;
+
+            }
+
+            return $form_array;
+        }
+
+        /**
          *  Gets dataset of form settings by form id
          */
         public static function get_form_settings($form_id) {
