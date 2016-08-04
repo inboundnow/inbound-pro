@@ -26,7 +26,7 @@ if (!class_exists('Inbound_Asset_Loader')) {
 			self::enqueue_shared_file('jquery-total-storage', 'assets/js/global/jquery.total-storage.min.js', array( 'jquery' ));
 
 			if ( isset($screen) && $screen->id == 'wp-call-to-action') {
-				self::enqueue_shared_file('image-picker-js', 'assets/js/admin/image-picker.js' , false);
+				self::enqueue_shared_file('image-picker-js', 'assets/js/admin/image-picker.js');
 				self::enqueue_shared_file('image-picker-css', 'assets/css/admin/image-picker.css');
 			}
 

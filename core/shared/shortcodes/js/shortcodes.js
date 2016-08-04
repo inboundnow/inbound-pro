@@ -710,6 +710,8 @@ var InboundShortcodes = {
 
             } else if (input_type === "radio") {
 
+            } else if(jQuery(this).attr("multiple") && jQuery(this).hasClass("select2-offscreen")){
+
             } else {
                 jQuery(this).find("option").removeAttr("selected");
                 jQuery(this).find("option[value='" + update_dom + "']").attr('selected', update_dom);
