@@ -473,7 +473,7 @@ if ( !class_exists( 'Inbound_Automation_Loader' ) ) {
 		}
 
 		/**
-		 * This method creates a key->value data map of data being passed from a action hook
+		 * This method creates a key->value data map of data being passed from a trigger hook
 		 * This data is used to assist in designing filters for triggers
 		 */
 		public static function generate_arguments( $hook, $args) {

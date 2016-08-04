@@ -13,7 +13,6 @@ if ( !class_exists( 'Inbound_Automation_Action_Create_Lead' ) ) {
          * Initiate class
          */
         function __construct() {
-
             add_filter( 'inbound_automation_actions' , array( __CLASS__ , 'define_action' ) , 1 , 1);
         }
 
@@ -21,14 +20,16 @@ if ( !class_exists( 'Inbound_Automation_Action_Create_Lead' ) ) {
          * Build Action Definitions
          */
         public static function define_action( $actions ) {
-            return /* Build Action */
-                $actions['create_lead'] = array (
-                    'class_name' => get_class(),
-                    'id' => 'create_lead',
-                    'label' => __( 'Create Lead' , 'inbound-pro' ),
-                    'description' => __( 'Create a lead from user creation event.' , 'inbound-pro' ),
-                    'settings' => array ()
-                );
+            /* Build Action */
+            $actions['create_lead'] = array (
+                'class_name' => get_class(),
+                'id' => 'create_lead',
+                'label' => __( 'Create Lead' , 'inbound-pro' ),
+                'description' => __( 'Create a lead from user creation event.' , 'inbound-pro' ),
+                'settings' => array ()
+            );
+
+            return $actions;
         }
 
 
@@ -63,7 +64,7 @@ if ( !class_exists( 'Inbound_Automation_Action_Create_Lead' ) ) {
 
             /* log the action event */
             inbound_record_log(
-                __( 'Added lead to list' , 'inbound-pro') ,
+                __( 'Created Lead' , 'inbound-pro') ,
                 $trigger_data['lead_data']['id'] . ' <pre>' . print_r($args , true) . '</pre>',
                 $action['rule_id'] ,
                 $action['job_id'] ,

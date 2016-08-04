@@ -34,16 +34,16 @@ if ( !class_exists('Inbound_Automation_Post_Type') ) {
 		public static function register_post_type() {
 
 			$labels = array(
-				'name' => __('Automation', 'leads'),
-				'singular_name' => __( 'Rule', 'leads' ),
-				'add_new' => __( 'New Rule', 'leads' ),
-				'add_new_item' => __( 'Create New Rule' , 'leads' ),
-				'edit_item' => __( 'Edit Rule' , 'leads' ),
-				'new_item' => __( 'New Rules' , 'leads' ),
-				'view_item' => __( 'View Rules' , 'leads' ),
-				'search_items' => __( 'Search Rules' , 'leads' ),
-				'not_found' =>	__( 'Nothing found' , 'leads' ),
-				'not_found_in_trash' => __( 'Nothing found in Trash' , 'leads' ),
+				'name' => __('Automation (beta)', 'inbound-pro' ),
+				'singular_name' => __( 'Rule', 'inbound-pro' ),
+				'add_new' => __( 'New Rule', 'inbound-pro' ),
+				'add_new_item' => __( 'Create New Rule' , 'inbound-pro' ),
+				'edit_item' => __( 'Edit Rule' , 'inbound-pro' ),
+				'new_item' => __( 'New Rules' , 'inbound-pro' ),
+				'view_item' => __( 'View Rules' , 'inbound-pro' ),
+				'search_items' => __( 'Search Rules' , 'inbound-pro' ),
+				'not_found' =>	__( 'Nothing found' , 'inbound-pro' ),
+				'not_found_in_trash' => __( 'Nothing found in Trash' , 'inbound-pro' ),
 				'parent_item_colon' => ''
 			);
 
@@ -71,8 +71,8 @@ if ( !class_exists('Inbound_Automation_Post_Type') ) {
 
 			$cols = array(
 				"cb" => "<input type=\"checkbox\" />",
-				"title" => __( 'Automation' , 'leads' ),
-				"ma-automation-status" => __( 'Automation Status' , 'leads' )
+				"title" => __( 'Automation' , 'inbound-pro' ),
+				"ma-automation-status" => __( 'Automation Status' , 'inbound-pro' )
 			);
 
 			$cols = apply_filters('automation_change_columns',$cols);
