@@ -98,7 +98,7 @@ class CTA_Admin_Notices {
         /* check to see if ctas before 5/18/2016 exist */
         $args = array(
             'posts_per_page' => 5,
-            'post_type' => 'post',
+            'post_type' => 'wp-call-to-action',
             'orderby' => 'comment_count',
             'order' => 'DESC',
             'date_query' => array(

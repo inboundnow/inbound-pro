@@ -40,10 +40,10 @@ body #calls-to-action .toggle .switch-versions, body #landing-pages .toggle .swi
 }
 @font-face {
   font-family: 'FontAwesome';
-  src: url('../../fonts/fontawesome/fontawesome-webfont.eot');
-  src: url('../../fonts/fontawesome/fontawesome-webfont.eot') format('embedded-opentype'),
-  url('../../fonts/fontawesome/fontawesome-webfont.woff?v=3.0.2') format('woff'),
-  url('../../fonts/fontawesome/fontawesome-webfont.ttf?v=3.0.2') format('truetype');
+  src: url('../../fonts/fontawesome/fonts/fontawesome-webfont.eot');
+  src: url('../../fonts/fontawesome/fonts/fontawesome-webfont.eot') format('embedded-opentype'),
+  url('../../fonts/fontawesome/fonts/fontawesome-webfont.woff?v=3.0.2') format('woff'),
+  url('../../fonts/fontawesome/fonts/fontawesome-webfont.ttf?v=3.0.2') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
