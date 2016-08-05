@@ -179,7 +179,7 @@ class Inbound_Funnel_Reporting {
 
     public static function print_advanced_settings_menu() {
         $inbound_forms = Inbound_Forms::get_inbound_forms();
-        print_r($inbound_forms);exit;
+        //print_r($inbound_forms);exit;
         ?>
         <br>
         <span class="button button-primary" id="funnels-advanced-settings-button"><?php _e( 'Advanced Settings' , 'inbound-pro'); ?></span>
