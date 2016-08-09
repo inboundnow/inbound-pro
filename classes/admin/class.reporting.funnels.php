@@ -179,18 +179,40 @@ class Inbound_Funnel_Reporting {
 
     public static function print_advanced_settings_menu() {
         $inbound_forms = Inbound_Forms::get_inbound_forms();
-        //print_r($inbound_forms);exit;
+        $ctas = CTA_Post_Type::get_ctas_as_array();
         ?>
         <br>
         <span class="button button-primary" id="funnels-advanced-settings-button"><?php _e( 'Advanced Settings' , 'inbound-pro'); ?></span>
         <div class="funnels-advanced-settings-container">
             <table>
-                <tr>
+                <tr data-event="inbound_form_submission">
                     <td class="label">
                         <?php _e( 'Narrow by form id:' , 'inbound-pro' ); ?>
                     </td>
                     <td class="setting">
-
+                        <select id="form_id">
+                            <option value="0"><?php _e('All Forms','inbound-pro'); ?></option>
+                            <?php
+                            foreach($inbound_forms as $id => $label) {
+                                echo '<option value="'.$id.'">'.$label.'</option>';
+                            }
+                            ?>
+                        </select>
+                    </td>
+                </tr>
+                <tr data-event="inbound_form_submission">
+                    <td class="label">
+                        <?php _e( 'Narrow by call to action id:' , 'inbound-pro' ); ?>
+                    </td>
+                    <td class="setting">
+                        <select id="form_id">
+                            <option value="0"><?php _e('All Calls to Action','inbound-pro'); ?></option>
+                            <?php
+                            foreach($ctas as $id => $label) {
+                                echo '<option value="'.$id.'">'.$label.'</option>';
+                            }
+                            ?>
+                        </select>
                     </td>
                 </tr>
             </table>

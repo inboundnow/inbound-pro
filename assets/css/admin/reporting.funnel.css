@@ -87,3 +87,16 @@
 .funnel-report .even td, .funnel-report tr:nth-child(even) td {
     background: #E7E7E7;
 }
+
+.funnels-advanced-settings-container {
+    margin-top:10px;
+    margin-bottom:10px;
+    padding-left:5px;
+    padding-top:7px;
+    padding-bottom:7px;
+    background:antiquewhite;
+}
+
+#funnels-advanced-settings-button {
+    margin-top:10px;
+}

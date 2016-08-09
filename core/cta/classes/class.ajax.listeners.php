@@ -46,10 +46,7 @@ class CTA_Ajax_Listeners {
 	* Clears all CTA Stats
 	*/
 	public static function clear_all_stats() {
-		global $wpdb, $CTA_Call_To_Action_Post_Type;
-
-		$CTA_Call_To_Action_Post_Type->clear_all_cta_stats();
-
+		CTA_Post_Type::clear_all_cta_stats();
 		header('HTTP/1.1 200 OK');
 		exit;
 	}
@@ -58,12 +55,8 @@ class CTA_Ajax_Listeners {
 	*	Clears stats for CTA given ID
 	*/
 	public static function clear_stats() {
-		global $wpdb, $CTA_Call_To_Action_Post_Type;
-
 		$post_id = intval($_POST['page_id']);
-
-		$CTA_Call_To_Action_Post_Type->clear_cta_stats( $post_id );
-
+		CTA_Post_Type::clear_cta_stats( $post_id );
 		header('HTTP/1.1 200 OK');
 		exit;
 	}
@@ -72,13 +65,9 @@ class CTA_Ajax_Listeners {
 	*	Clears stats for CTA variations given CTA ID and variation ID
 	*/
 	public static function clear_variation_stats() {
-		global $wpdb, $CTA_Call_To_Action_Post_Type;
-
 		$post_id = intval($_POST['page_id']);
 		$vid = $_POST['variation'];
-
-		$CTA_Call_To_Action_Post_Type->clear_cta_variation_stats( $post_id, $vid );
-
+		CTA_Post_Type::clear_cta_variation_stats( $post_id, $vid );
 		header('HTTP/1.1 200 OK');
 		exit;
 	}
