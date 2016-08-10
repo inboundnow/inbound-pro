@@ -231,7 +231,7 @@ class Inbound_Mailer_Unsubscribe {
 		$params = self::decode_unsubscribe_token( $_POST['token'] );
 
 		/* prepare all token */
-		$all = (isset($_POST['all']) ) ? $_POST['all'] : false;
+		$all = (isset($_POST['lists_all']) && $_POST['lists_all'] ) ? true : false;
 
 		/* add comments */
 		$params['event_details']['comments'] = ( isset( $_POST['comments'] ) ) ? $_POST['comments'] : '';

@@ -856,7 +856,7 @@ if (!class_exists('Leads_Manager')) {
             $limit    = $_POST['data']['limit'];
             $offset   = $_POST['data']['offset'];
             $total    = $_POST['data']['total'];
-            $is_first = $_POST['data']['is_first'];
+            $is_first = (!isset($_POST['data']['is_first'])) ? 0 : 1;
             $fields = Leads_Field_Map::build_map_array();
 
             $upload_dir = wp_upload_dir();
