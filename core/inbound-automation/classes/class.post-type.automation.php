@@ -34,7 +34,7 @@ if ( !class_exists('Inbound_Automation_Post_Type') ) {
 		public static function register_post_type() {
 
 			$labels = array(
-				'name' => __('Automation (beta)', 'inbound-pro' ),
+				'name' => __('Automation', 'inbound-pro' ),
 				'singular_name' => __( 'Rule', 'inbound-pro' ),
 				'add_new' => __( 'New Rule', 'inbound-pro' ),
 				'add_new_item' => __( 'Create New Rule' , 'inbound-pro' ),
