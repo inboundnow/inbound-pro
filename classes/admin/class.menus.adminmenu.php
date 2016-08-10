@@ -48,6 +48,9 @@ class Inbound_Menus_Admin {
 		/* Manage Extensions */
 		add_submenu_page('inbound-pro', __( 'Extensions' , INBOUNDNOW_TEXT_DOMAIN ) , __( 'Extensions' , INBOUNDNOW_TEXT_DOMAIN ) , 'edit_posts', 'inbound-manage-extensions', array( 'Inbound_Pro_Downloads' , 'display_ui' ) );
 
+		/* Reporting */
+		add_submenu_page('inbound-pro', __( 'Reporting' , INBOUNDNOW_TEXT_DOMAIN ) , __( 'Funnels' , INBOUNDNOW_TEXT_DOMAIN ) , 'edit_posts', 'inbound-reporting', array( 'Inbound_Funnel_Reporting' , 'load_ui' ) );
+
 	}
 
 	/**

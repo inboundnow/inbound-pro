@@ -1238,10 +1238,6 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                 }
             }
 
-            // Merge conversion and page view json objects
-            //uasort($new_array, array( __CLASS__ , 'datetime_sort_reverse') ); // Date sort
-
-
             $new_key_array = array();
             $num = 0;
             foreach ($new_array as $key => $val) {

@@ -1,0 +1,102 @@
+/**
+ * Skeleton CSS
+ */
+
+#wpcontent {
+    background:#fff;
+}
+
+.funnel-report {
+    width:100%;
+}
+
+.funnel-report a{
+   text-decoration:none;
+}
+
+.funnel-report th {
+    text-align:left;
+}
+
+.funnel-report .fa {
+    padding-right:5px;
+}
+
+.funnel-count {
+    width:90px;
+}
+.funnel-event-name {
+    width:210px;
+}
+.funnel-details {
+    width:auto;
+}
+
+/* Post Table */
+.funnel-report {
+    border-spacing: 0;
+    border-collapse: separate;
+    width: 100%;
+    color: #314351;
+    font-size: 0.857em;
+    line-height: 1em;
+    margin-bottom: 17px;
+    font-family: "museo-sans",sans-serif;
+}
+.funnel-report a {
+    color: #4183C4;
+    text-decoration: none;
+}
+.funnel-report a:hover {
+    color: #2a5886;
+    text-decoration: none;
+    background-color: inherit;
+}
+.funnel-report th, .funnel-report td {
+    border: 1px solid #BCBABA;
+    border-top-color: #FFF;
+    border-right: none;
+    padding: 8px 20px 8px 23px;
+    text-align: left;
+    vertical-align: middle;
+    background: #EEE;
+    margin: 0;
+}
+
+.funnel-report th {
+    background: #58a7e6;
+    text-align: left;
+    font-size: 1.083em;
+    line-height: 1.538em;
+    padding: 6px 20px 5px 23px;
+    color: #ddedfa;
+    text-shadow: 0px -1px 1px rgba(0, 81, 168, 0.38);
+    border-color: #2c90df;
+    font-weight: 900;
+}
+
+.funnel-report th:last-child {
+    border-right: 1px solid #BCBABA;
+    text-align: center;
+}
+
+.funnel-report td.last, .funnel-report td:last-child {
+    border-right: 1px solid #C2CAD0;
+}
+
+.funnel-report .even td, .funnel-report tr:nth-child(even) td {
+    background: #E7E7E7;
+}
+
+.funnels-advanced-settings-container {
+    margin-top:10px;
+    margin-bottom:10px;
+    padding-left:5px;
+    padding-top:7px;
+    padding-bottom:7px;
+    background:antiquewhite;
+}
+
+#funnels-advanced-settings-button {
+    margin-top:10px;
+}

@@ -8,10 +8,10 @@ if ( !class_exists('Leads_Activation_Update_Routines') ) {
 	class Leads_Activation_Update_Routines {
 
 		/**
-		* @introduced: 1.5.1
-		* @migration-type: db modification
-		* @mirgration: creates wp_inbound_link_tracking table
-		*/
+		 * @introduced: 1.5.1
+		 * @migration-type: db modification
+		 * @mirgration: creates wp_inbound_link_tracking table
+		 */
 		public static function create_link_tracking_table() {
 			global $wpdb;
 
@@ -27,11 +27,11 @@ if ( !class_exists('Leads_Activation_Update_Routines') ) {
 			$charset_collate = '';
 
 			if ( ! empty( $wpdb->charset ) ) {
-			  $charset_collate = "DEFAULT CHARACTER SET {$wpdb->charset}";
+				$charset_collate = "DEFAULT CHARACTER SET {$wpdb->charset}";
 			}
 
 			if ( ! empty( $wpdb->collate ) ) {
-			  $charset_collate .= " COLLATE {$wpdb->collate}";
+				$charset_collate .= " COLLATE {$wpdb->collate}";
 			}
 
 			$sql = "CREATE TABLE $table_name (
@@ -47,13 +47,13 @@ if ( !class_exists('Leads_Activation_Update_Routines') ) {
 		}
 
 		/**
-		* @introduced: 1.1.0
-		* @migration-type: meta key update
-		* @mirgration: standardizes meta key from old naming conversion to new naming convention
-		* @keychange: wpl-lead-conversion-count to wpleads_conversion_count
-		* @keychange: wpl-lead-page-view-count to wpleads_page_view_count
-		* @keychange: wpl-lead-raw-post-data to wpleads_raw_post_data
-		*/
+		 * @introduced: 1.1.0
+		 * @migration-type: meta key update
+		 * @mirgration: standardizes meta key from old naming conversion to new naming convention
+		 * @keychange: wpl-lead-conversion-count to wpleads_conversion_count
+		 * @keychange: wpl-lead-page-view-count to wpleads_page_view_count
+		 * @keychange: wpl-lead-raw-post-data to wpleads_raw_post_data
+		 */
 		public static function migrate_meta_keys() {
 			global $wpdb;
 
@@ -72,36 +72,40 @@ if ( !class_exists('Leads_Activation_Update_Routines') ) {
 
 		}
 
+
 		/**
-		* @introduced: 2.1.8
-		* @migration-type: meta value update
-		* @mirgration: standardizes meta value from old naming conversion to new naming convention
-		* @valuechange: 'New Lead' to 'new'
-		* @valuechange: 'Read Lead' to 'read'
-		* @valuechange: 'Contacted' to 'contacted'
-		* @valuechange: 'Active' to 'active'
-		* @key: wp_lead_status
-		*/
-		public static function migrate_wp_lead_status_values() {
+		 * @introduced: 2.2.4
+		 * @migration-type: alter inbound_events table
+		 * @mirgration: adds column list_id to events table
+		 */
+		public static function alter_inbound_events_table_224() {
 
 			/* ignore if not applicable */
 			$previous_installed_version = get_transient('leads_current_version');
 
-			if ( version_compare($previous_installed_version , "2.1.8") === 1 )  {
+			if ( version_compare($previous_installed_version , "2.2.4") === 1 )  {
 				return;
 			}
 
-			global $wpdb;
+			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+			$table_name = $wpdb->prefix . "inbound_events";
 
-			$wpdb->query("update {$wpdb->prefix}postmeta set meta_value = 'new' where meta_key = 'wp_lead_status' AND meta_value='New Lead' ");
-			$wpdb->query("update {$wpdb->prefix}postmeta set meta_value = 'read' where meta_key = 'wp_lead_status' AND meta_value='Read' ");
-			$wpdb->query("update {$wpdb->prefix}postmeta set meta_value = 'contacted' where meta_key = 'wp_lead_status' AND meta_value='Contacted' ");
-			$wpdb->query("update {$wpdb->prefix}postmeta set meta_value = 'active' where meta_key = 'wp_lead_status' AND meta_value='Active' ");
-			$wpdb->query("update {$wpdb->prefix}postmeta set meta_value = 'lost' where meta_key = 'wp_lead_status' AND meta_value='Lost' ");
-			$wpdb->query("update {$wpdb->prefix}postmeta set meta_value = 'customer' where meta_key = 'wp_lead_status' AND meta_value='Customer' ");
-			$wpdb->query("update {$wpdb->prefix}postmeta set meta_value = 'archive' where meta_key = 'wp_lead_status' AND meta_value='Archive' ");
+			/* add columns funnel and source to legacy table */
+			$row = $wpdb->get_results(  "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '{$table_name}' AND column_name = 'source'"  );
+			if(empty($row)){
+				// do your stuff
+				$wpdb->get_results( "ALTER TABLE {$table_name} ADD `funnel` text NOT NULL" );
+				$wpdb->get_results( "ALTER TABLE {$table_name} ADD `source` text NOT NULL" );
+			}
 
+			/* add columns list_id inbound events table */
+			$row = $wpdb->get_results(  "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '{$table_name}' AND column_name = 'list_id'"  );
+			if(empty($row)){
+				$wpdb->get_results( "ALTER TABLE {$table_name} ADD `list_id` mediumint(20) NOT NULL" );
+			}
 		}
+
+
 
 		/**
 		 * @introduced: 2.0.1
@@ -133,39 +137,6 @@ if ( !class_exists('Leads_Activation_Update_Routines') ) {
 					'posts_per_page' => 100, 					/* leads per query */
 					'offset' => 0 								/* initial page offset */
 				),
-				0 , 							/* depreciated leave as 0 */
-				true 							/* autoload true */
-			);
-
-		}
-
-		/**
-		 * @introduced: 2.2.1
-		 * @migration-type: batch lead processing / updating inbound events table
-		 * @details: Moving form submissions, cta clicks, custom events into events table.
-		 * @details: 072016 represents date added in
-		 */
-		public static function batch_import_event_data_072016() {
-
-			/* ignore if not applicable */
-			$previous_installed_version = get_transient('leads_current_version');
-
-			if ( version_compare($previous_installed_version , "2.2.1") === 1 )  {
-				return;
-			}
-
-			/* create flag for batch uploader */
-			$processing_jobs = get_option('leads_batch_processing');
-			$processing_jobs = ($processing_jobs) ? $processing_jobs : array();
-			$processing_jobs['import_events_table_072016'] = array(
-				'method' => 'import_events_table_072016', 	/* tells batch processor which method to run */
-				'posts_per_page' => 50, 					/* leads per query */
-				'offset' => 0 								/* initial page offset */
-			);
-
-			update_option(
-				'leads_batch_processing', 		/* db option name - lets batch processor know it's needed */
-				$processing_jobs,
 				0 , 							/* depreciated leave as 0 */
 				true 							/* autoload true */
 			);

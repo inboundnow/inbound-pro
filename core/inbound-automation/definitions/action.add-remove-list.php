@@ -65,8 +65,8 @@ if ( !class_exists( 'Inbound_Automation_Action_Add_Remove_List' ) ) {
         * Run the action
         */
         public static function run_action( $action , $arguments ) {
-
             global $Inbound_Leads;
+
             $added = array();
             $removed = array();
             $skipped = array();
@@ -81,6 +81,17 @@ if ( !class_exists( 'Inbound_Automation_Action_Add_Remove_List' ) ) {
                 } else {
                     $final_args[ $key ] = $argument;
                 }
+            }
+
+            /**
+             * If no lead id is present bu a user_id is present then try to descover lead id
+             */
+
+            if ( !isset($final_args['id']) && isset($final_args['user_id']) ) {
+                $user = new WP_User($final_args['user_id']);
+
+                /* look for lead */
+                $final_args['id'] = LeadStorage::lookup_lead_by_email($user->data->user_email);
             }
 
             /**

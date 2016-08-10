@@ -12,6 +12,7 @@ class Landing_Pages_Admin_Notices {
         add_action('admin_notices', array( __CLASS__, 'get_more_templates_notice' ) );
         add_action('admin_notices', array( __CLASS__, 'permalink_structure_notice' ) );
         add_action('admin_notices', array( __CLASS__, 'save_legacy_landing_page' ) );
+        add_action('admin_notices', array( __CLASS__, 'download_legacy_templates' ) );
     }
 
     /**
@@ -243,6 +244,71 @@ class Landing_Pages_Admin_Notices {
             });
         </script>
         <?php
+    }
+
+
+    /**
+     * Prompt user to download required templates
+     */
+    public static function download_legacy_templates() {
+        global $pagenow;
+
+        $message_id = 'download-legacy-landing-page-templates';
+
+        /* check if user viewed message already */
+        if (self::check_if_viewed($message_id)) {
+            return;
+        }
+
+        /* check to see if ctas before 5/18/2016 exist */
+        $args = array(
+            'posts_per_page' => 5,
+            'post_type' => 'landing-page',
+            'order' => 'DESC',
+            'date_query' => array(
+                'before' => '2016-08-05'
+            )
+        );
+
+        $posts = get_posts($args);
+
+        if ($posts && count($posts) < 1) {
+            return;
+        }
+
+        $link = "https://www.inboundnow.com/inbound-now-removing-several-free-templates-core-plugin/";
+
+        ?>
+        <div class="error" style="margin-bottom:10px;"  id="inbound_notice_<?php echo $message_id; ?>">
+            <h3 style='font-weight:normal; margin-bottom:0px;padding-bottom:0px;'>
+                <strong>
+                    <?php _e( 'Very Important Notice for Landing Pages Users!' , 'inbound-pro' ); ?>
+                </strong>
+                <br>
+                <br>
+            </h3>
+            <p style='font-weight:normal; margin-top:0px;margin-bottom:0px;'>
+                <?php _e( "We've removed the following templates from Landing Pages plugin:" , "inbound-pro" ); ?>
+            <br><br>
+            <ul style="list-style-type: circle; margin-left:25px;">
+                <li>Dropcap</li>
+                <li>Half & Half</li>
+                <li>Tublar</li>
+                <li>Countdown Lander</li>
+            </ul>
+            </p>
+            <p>
+                <?php _e( 'They are free & available to be re-downloaded via the link below. If you are using one of the templates above you will need to download and reinstall it for your landing page to continue working. We are doing this to reduce overall plugin size & load times. We are very sorry for any inconvenience this might cause you.' , 'inbound-pro' ) ?>
+            </p>
+            <a class="button button-large button-primary" href="<?php echo $link; ?>" ><?php _e('Recover Templates (free)','inbound-pro'); ?></a>
+            <a class="button button-large inbound_dismiss" href="#" id="<?php echo $message_id; ?>"  data-notification-id="<?php echo $message_id; ?>" ><?php _e('Dismiss','inbound-pro'); ?></a>
+            <br><br>
+        </div>
+        <?php
+
+        /* echo javascript used to listen for notice closing */
+        self::javascript_dismiss_notice();
+
     }
 
 

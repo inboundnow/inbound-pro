@@ -507,24 +507,18 @@ class Leads_Post_Type {
     public static function redirect_email_profile_links() {
         global $wpdb;
 
-        if (!isset($_GET['lead-email-redirect']) || $_GET['lead-email-redirect'] != '') {
+        if (!isset($_GET['lead-email-redirect']) || $_GET['lead-email-redirect'] == '') {
             return;
         }
 
-        $lead_id = $_GET['lead-email-redirect'];
-        $query = $wpdb->prepare('SELECT ID FROM ' . $wpdb->posts . '
-            WHERE post_title = %s
-            AND post_type = \'wp-lead\'', $lead_id);
+        $lead_id = LeadStorage::lookup_lead_by_email($_GET['lead-email-redirect']);
 
-        $wpdb->query($query);
-
-        if ($wpdb->num_rows) {
-            $lead_ID = $wpdb->get_var($query);
-            $url = admin_url();
-            $redirect = $url . 'post.php?post=' . $lead_ID . '&action=edit';
+        if ($lead_id) {
+            $redirect = 'post.php?post=' . $lead_ID . '&action=edit';
             wp_redirect($redirect, 301);
             exit;
         }
+
 
     }
 
