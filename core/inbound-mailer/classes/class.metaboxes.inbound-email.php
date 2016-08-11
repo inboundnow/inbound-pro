@@ -1038,12 +1038,25 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             if ($post->post_status == 'draft' || $post->post_status == 'publish') {
                 $post->post_status = 'unsent';
             }
-            ?>
+
+            /* make sure status does not report sent until schedule time arrives */
+            if ($post->post_status == 'sent') {
+                $settings = Inbound_Email_Meta::get_settings($post->ID);
+                $timezone_format = 'Y-m-d G:i:s';
+                $wordpress_date_time =  date_i18n($timezone_format);
+                $today = new DateTime($wordpress_date_time);
+                $schedule_date = new DateTime($settings['send_datetime']);
+                $interval = $today->diff($schedule_date);
+                $status = ( $interval->format('%R') == '-' ) ? 'scheduled' : $post->post_status;
+            } else {
+                $status = $post->post_status;
+            }
+            ?> 
             <div class='email-status'>
                 <div style='float:left;margin-top:11px;'>
                     <i class='current-status fa fa-info-circle'
                        title="<?php _e('Current Status', 'inbound-pro'); ?>"></i> &nbsp;&nbsp;<i><span
-                            id='email-status-display'><?php echo $post->post_status; ?></span></i>
+                            id='email-status-display'><?php echo $status; ?></span></i>
                 </div>
 
                 <div class='email-actions'>
