@@ -26,6 +26,9 @@ class Inbound_SparkPost_Stats {
             add_action('wp_ajax_nopriv_sparkpost_webhook', array(__CLASS__, 'process_webhook'));
         }
 
+        /* process send event */
+        add_action( 'sparkpost/send/response' , array( __CLASS__ , 'process_send_event') , 10 , 2 );
+
         /* process rejection errors */
         add_action( 'sparkpost/send/response' , array( __CLASS__ , 'process_rejections') , 10 , 2 );
     }
@@ -115,31 +118,47 @@ class Inbound_SparkPost_Stats {
     /**
      * Get all all custom event data by a certain indicator
      */
-    public static function get_sparkpost_inbound_events( $email_id , $variation_id = null ){
-        global $wpdb , $post, $inbound_settings;
+    public static function get_sparkpost_inbound_events( $email_id , $variation_id = null ) {
+        global $wpdb, $post, $inbound_settings;
 
         /* check if email id is set else use global post object */
-        if ( $email_id ) {
+        if ($email_id) {
             $post = get_post($email_id);
         }
 
         /* we do not collect stats for statuses not in this array */
-        if ( !in_array( $post->post_status , array( 'sent' , 'sending', 'automated' )) ) {
+        if (!in_array($post->post_status, array('sent', 'sending', 'automated'))) {
             return array();
         }
 
+        /* get email setup data */
+        $settings = Inbound_Email_Meta::get_settings($post->ID);
         $table_name = $wpdb->prefix . "inbound_events";
 
-        if ( is_numeric($variation_id) ) {
-            $variation_query = 'AND variation_id="'.$variation_id.'"';
+        if (is_numeric($variation_id)) {
+            $variation_query = 'AND variation_id="' . $variation_id . '"';
         } else {
             $variation_query = '';
         }
 
         /* get deliveries */
-        $query = 'SELECT DISTINCT(lead_id) FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '.$variation_query.' AND `event_name` =  "sparkpost_delivery"';
-        $results = $wpdb->get_results( $query );
-        $sent = $wpdb->num_rows;
+        $timezone_format = 'Y-m-d G:i:s';
+        $wordpress_date_time =  date_i18n($timezone_format);
+        $today = new DateTime($wordpress_date_time);
+        $schedule_date = new DateTime($settings['send_datetime']);
+        $interval = $today->diff($schedule_date);
+
+        error_log($interval->format('%R'));
+        //error_log(self::get_sparkpost_timestamp($settings['send_datetime']));
+        //error_log(self::get_sparkpost_timestamp($wordpress_date_time));
+
+        if ( $interval->format('%R') == '-' ) {
+            $query = 'SELECT DISTINCT(lead_id) FROM ' . $table_name . ' WHERE `email_id` = "' . $email_id . '"  ' . $variation_query . ' AND `event_name` =  "sparkpost_delivery"';
+            $results = $wpdb->get_results($query);
+            $sent = $wpdb->num_rows;
+        } else {
+            $sent = 0;
+        }
 
         /* get opens */
         $query = 'SELECT DISTINCT(lead_id) FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '.$variation_query.' AND `event_name` =  "sparkpost_open"';
@@ -540,7 +559,6 @@ class Inbound_SparkPost_Stats {
         self::$results = $sparkpost->create_webhook( array(
             'name' => 'Inbound Now Webhook',
             'events' => array(
-                'delivery',
                 'bounce',
                 'open',
                 'click',
@@ -621,6 +639,10 @@ class Inbound_SparkPost_Stats {
                 return;
             }
 
+            if ($event['type'] == 'delivery') {
+                continue;
+            }
+
             $args = array(
                 'event_name' => 'sparkpost_' . $event['type'],
                 'email_id' => $event['rcpt_meta']['email_id'],
@@ -662,6 +684,37 @@ class Inbound_SparkPost_Stats {
     }
 
     /**
+     * Check SparkPost Response for Errors and Handle them
+     */
+    public static function process_send_event( $transmission_args , $response ) {
+
+        /* skip if contains errors */
+        if (isset($response['errors'])) {
+            return;
+        }
+
+        if (isset($transmission_args['recipients'][0]['tags']) && in_array( 'test' , $transmission_args['recipients'][0]['tags']) ) {
+            return;
+        }
+
+        /* recipients */
+        $args = array(
+            'event_name' => 'sparkpost_delivery',
+            'email_id' => $transmission_args['metadata']['email_id'],
+            'variation_id' =>  $transmission_args['metadata']['variation_id'],
+            'form_id' => '',
+            'lead_id' => $transmission_args['metadata']['lead_id'],
+            'session_id' => '',
+            'event_details' => json_encode($transmission_args)
+        );
+
+        /* lets not spam our events table with repeat opens and clicks */
+        if (!Inbound_Events::event_exists($args)) {
+            Inbound_Events::store_event($args);
+        }
+
+    }
+ /**
      * Check SparkPost Response for Errors and Handle them
      */
     public static function process_rejections( $transmission_args , $response ) {
