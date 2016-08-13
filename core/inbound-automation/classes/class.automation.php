@@ -99,14 +99,20 @@ class Inbound_Automation_Processing {
 	*/
 	public static function load_queue() {
 		Inbound_Automation_Processing::$queue = get_option( 'inbound_automation_queue' , array() );
+		return Inbound_Automation_Processing::$queue;
 	}
 
 	/**
 	*  Update rule queue
 	*/
-	public static function update_queue() {
+	public static function update_queue( $queue = null ) {
+
+		if (is_array($queue)) {
+			Inbound_Automation_Processing::$queue = $queue;
+		}
+
 		if ( get_option( 'inbound_automation_queue' ) !== false ) {
-			update_option( 'inbound_automation_queue' , Inbound_Automation_Processing::$queue );
+			update_option( 'inbound_automation_queue' , Inbound_Automation_Processing::$queue , 'no' );
 		} else {
 			add_option( 'inbound_automation_queue' , Inbound_Automation_Processing::$queue , null,  'no' );
 		}

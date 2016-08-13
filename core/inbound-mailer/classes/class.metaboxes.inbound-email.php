@@ -508,6 +508,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             echo '<div class="mail-container" role="toolbar">';
 
             self::add_countdown();
+            self::add_notifications();
             self::add_statistics();
 
             /* show events */
@@ -583,6 +584,27 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 </div>
             </div>
             <?php
+        }
+
+        /**
+         *    Adds statistics container
+         */
+        public static function add_notifications() {
+            global $post, $inbound_settings;
+
+            $pass = array( 'sending');
+
+            if (!in_array($post->post_status, $pass)) {
+                return;
+            }
+
+            echo '<div class="notifications-container bs-callout bs-callout-clear">';
+            echo '<h4>' . __('Please Wait', 'inbound-pro') . '</h4>';
+
+
+            echo '<p>'. sprintf(__('We are sending your email data to %s now. Depending on how many emails you are generating this might take a moment. If your emails are scheduled to be sent immediately then you can view your current send statistics below.' , 'inbound-ro' ) , $inbound_settings['inbound-mailer']['mail-service'] ) ;
+
+            echo '</div>';
         }
 
         /**
@@ -1041,6 +1063,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
             /* make sure status does not report sent until schedule time arrives */
             if ($post->post_status == 'sent') {
+                /*
                 $settings = Inbound_Email_Meta::get_settings($post->ID);
                 $timezone_format = 'Y-m-d G:i:s';
                 $wordpress_date_time =  date_i18n($timezone_format);
@@ -1048,10 +1071,11 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 $schedule_date = new DateTime($settings['send_datetime']);
                 $interval = $today->diff($schedule_date);
                 $status = ( $interval->format('%R') == '-' ) ? 'scheduled' : $post->post_status;
+                */
             } else {
                 $status = $post->post_status;
             }
-            ?> 
+            ?>
             <div class='email-status'>
                 <div style='float:left;margin-top:11px;'>
                     <i class='current-status fa fa-info-circle'
@@ -1070,7 +1094,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                             id="action-send-test-email" title="<?php _e('Send a test email', 'inbound-pro'); ?>"><i
                             class='fa fa-user'></i></button>
                     <button type="button" class="btn btn-warning btn-medium email-action action-unschedule"
-                            id="action-unschedule"><?php _e('Unschedule this email.', 'inbound-pro'); ?></button>
+                            id="action-unschedule"><?php _e('Unschedule', 'inbound-pro'); ?></button>
                     <button type="button" class="btn btn-primary btn-medium email-action action-clone" id="action-clone"
                             title="<?php _e('Clone this email', 'inbound-pro'); ?>"><i class='fa fa-files-o'></i>
                     </button>
@@ -1657,6 +1681,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
                     var ladda_button;
                     var current_slug;
+                    var interval_id;
 
                     var Init = {
                         /**
@@ -1720,9 +1745,10 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                                     Settings.show_trash_button();
                                     break;
                                 case 'scheduled':
+                                    Settings.show_notification();
                                     Settings.show_countdown_container();
                                     Settings.show_unschedule_buttons();
-                                    Settings.show_trash_button();
+                                    Settings.hide_trash_button();
                                     Settings.hide_save_button();
                                     Settings.hide_header_settings();
                                     Settings.hide_template_settings();
@@ -1809,6 +1835,9 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                         hide_template_settings: function () {
                             jQuery('#postbox-container-2').hide();
                         },
+                        show_notification: function () {
+                            jQuery('.notifications-container').show();
+                        },
                         show_countdown_container: function () {
                             jQuery('.countdown-container').show();
                         },
@@ -1878,11 +1907,27 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                             var target_date = new Date(jQuery('#inbound_send_datetime').val());
 
                             // update the tag with id "countdown" every 1 second
-                            setInterval(function () {
+                            Settings.interval_id = setInterval(function () {
 
                                 // find the amount of "seconds" between now and target
                                 var current_date = new Date().getTime();
                                 var seconds_left = (target_date - current_date) / 1000;
+
+                                /* refresh page if time is past */
+                                if (seconds_left.toString().indexOf('-')> -1 ) {
+                                    clearInterval(Settings.interval_id);
+                                    jQuery.ajax({
+                                        type: 'post',
+                                        url: ajaxurl,
+                                        data: {
+                                            action: 'inbound_mark_sent',
+                                            email_id: '<?php echo $post->ID; ?>'
+                                        },
+                                        success: function (result) {
+                                            window.location.reload();
+                                        }
+                                    });
+                                }
 
                                 // do some time calculations
                                 days = parseInt(seconds_left / 86400);
@@ -1926,7 +1971,6 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                             if (!Settings.validate_recipients()) {
                                 return false;
                             }
-
 
                             return true;
                         },
@@ -2085,6 +2129,49 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                             });
 
                         },
+                        /**
+                         *    Validates and Schedules Email Immediately
+                         */
+                        unschedule_email: function () {
+
+                            /* Throw confirmation for scheduling */
+                            swal({
+                                title: "<?php _e( 'Are you sure?' , 'inbound-pro' ); ?>",
+                                text: "<?php _e( 'Are you sure you want to unschedule this email? Please not that emails 10 minutes or less away from being sent will not be able to be unscheduled from SparkPost.' , 'inbound-pro' ); ?>",
+                                type: "info",
+                                showCancelButton: true,
+                                confirmButtonColor: "#449d44",
+                                confirmButtonText: "<?php _e( 'Yes, unschedule it!' , 'inbound-pro' ); ?>",
+                                closeOnConfirm: false
+                            }, function () {
+
+
+                                swal({
+                                    title: "<?php _e('Please wait' , 'inbound-pro' ); ?>",
+                                    text: "<?php _e('We are unscheduling your email now.' , 'inbound-pro' ); ?>",
+                                    imageUrl: '<?php echo INBOUND_EMAIL_URLPATH; ?>/assets/images/loading_colorful.gif'
+                                });
+
+                                jQuery('#post_status').val('unsent');
+
+                                /* save the email and schedule it */
+                                Settings.save_email();
+
+                                jQuery.ajax({
+                                    type: 'post',
+                                    url: ajaxurl,
+                                    data: {
+                                        action: 'inbound_unschedule_email',
+                                        email_id: '<?php echo $post->ID; ?>'
+                                    },
+                                    success: function (result) {
+                                        //window.location.reload();
+                                    }
+                                });
+
+                            });
+
+                        },
                         schedule_email: function() {
 
                             jQuery.ajax({
@@ -2128,9 +2215,20 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                                 jQuery('#email_action').val('unschedule');
                                 jQuery('#post_status').val('cancelled');
 
+                                /* unschedule transmissions from email server */
+                                jQuery.ajax({
+                                    type: 'post',
+                                    url: ajaxurl,
+                                    data: {
+                                        action: 'inbound_unschedule_email',
+                                        email_id: '<?php echo $post->ID; ?>'
+                                    },
+                                    success: function (result) {
+                                        /* save the email and reload */
+                                        Settings.save_email( false , true );
+                                    }
+                                });
 
-                                /* save the email and reload */
-                                Settings.save_email( false , true );
 
 
                             });
@@ -2441,9 +2539,6 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
             switch ($_POST['email_action']) {
 
-                case 'unschedule':
-                    Inbound_Mailer_Scheduling::unschedule_email($post->ID);
-                    break;
                 case 'trash':
                     Inbound_Mailer_Scheduling::unschedule_email($post->ID);
                     header('Location:' . admin_url('edit.php?post_type=inbound-email'));

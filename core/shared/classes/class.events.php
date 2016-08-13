@@ -430,7 +430,7 @@ class Inbound_Events {
             'session_id' => '',
             'event_name' => $args['event_name'],
             'event_details' => '',
-            'datetime' => $wordpress_date_time,
+            //'datetime' => (isset($args['wordpress_date_time'],
             'funnel' => ( isset($_SESSION['inbound_page_views']) ? $_SESSION['inbound_page_views'] : '' ),
             'source' => ( isset($_COOKIE['inbound_referral_site']) ? $_COOKIE['inbound_referral_site'] : '' )
         );

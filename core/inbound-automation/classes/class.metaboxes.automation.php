@@ -28,6 +28,9 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
             /* Setup Variables */
             add_action('posts_selection', array(__CLASS__, 'load_rule'));
 
+            /* add logs page */
+            add_action( 'admin_menu', array( __CLASS__ , 'add_logs_page_support' ) );
+
             /* Add Metaboxes */
             add_action('add_meta_boxes', array(__CLASS__, 'define_metaboxes'));
 
@@ -67,6 +70,7 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
 
             /* set default screen column to 1 */
             add_filter( 'get_user_option_screen_layout_automation', array (__CLASS__, 'screen_layout_columns' ) );
+
 
         }
 
@@ -172,6 +176,20 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
 
         }
 
+        /**
+         * Add page support for logs
+         */
+        public static function add_logs_page_support() {
+
+            add_submenu_page(
+                'automation',
+                __('Logs','inbound-pro'),
+                __('Logs','inbound-pro'),
+                'manage_options',
+                'inbound_rule_logs',
+                array( __CLASS__  , 'print_logs')
+            );
+        }
 
         public static function print_trigger_container() {
 
@@ -272,11 +290,32 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
          */
         public static function print_logs_container() {
             global $inbound_automation_logs, $post;
+            ?>
+            <iframe
+                src="<?php echo admin_url('admin.php?page=inbound_rule_logs&rule_id='.$post->ID); ?>"
+                frameborder="0" style="height:100vh;width:100%;"  width="100%">
+            </iframe>
+        <?php
+        }
 
+        /**
+         * Renders log section that shows latest rule processing log data
+         */
+        public static function print_logs() {
+            global $inbound_automation_logs, $post;
+
+            $post = get_post($_GET['rule_id']);
             $logs = array_reverse($inbound_automation_logs->get_logs($post->ID), true);
 
             ?>
             <style>
+                html.wp-toolbar {
+                    background:#fff;
+                    padding-top:20px;
+                }
+                header,head,body {
+                    background:#fff;
+                }
                 .tr-log-entry-content {
                     display: none;
                 }
@@ -342,11 +381,22 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
                 .tablesorter tbody:first-child tr:first-child td {
                     border-top: 0;
                 }
+
+                #wpadminbar, #adminmenumain {
+                    display:none;
+                }
+
+                #wpcontent {
+                    margin-left:0px !important;
+                }
             </style>
             <div class='nav-container logs-container' id='logs-container'>
                 <div class='clear-logs-container'>
                     <span class='button button-secondary' id='clear-logs' data-rule-id='<?php echo $post->ID; ?>'>
                         <?php _e( 'Clear logs' , 'inbound-pro' ); ?>
+                    </span>
+                    <span class='button button-secondary' id='refresh-logs' data-rule-id='<?php echo $post->ID; ?>'>
+                        <?php _e( 'Refresh logs' , 'inbound-pro' ); ?>
                     </span>
                 </div>
                 <table class='tablesorter'>
@@ -575,6 +625,12 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
         public static function enqueue_admin_scripts($hook) {
             global $post;
 
+            /* if logs iframe load js */
+            if ($hook == 'admin_page_inbound_rule_logs') {
+               $hook = 'post.php';
+               $post = get_post( $_GET['rule_id']);
+            }
+
             if (!isset($post) || $post->post_type != self::$post_type) {
                 return;
             }
@@ -631,8 +687,8 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
                 wp_enqueue_script('inbound-rules-js');
 
                 /* Enqueue Select2 */
-                wp_register_script('select2', INBOUND_AUTOMATION_URLPATH . 'assets/libraries/Select2/selecct2.min.js');
-                wp_enqueue_script('select2');
+                wp_enqueue_script('selectjs', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/Select2/select2.min.js', array() , null , false );
+                wp_enqueue_style('selectjs', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/Select2/select2.css');
 
                 /* load Sweet Alert */
                 wp_enqueue_script('sweetalert', INBOUND_AUTOMATION_URLPATH . 'assets/libraries/SweetAlert/dist/sweetalert.min.js');
@@ -659,6 +715,9 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
         <?php
 
         }
+
+
+
 
         /**
          * Renders or Returns Action Block HTML - This method doubles as an inline call or an ajax call
@@ -1223,11 +1282,11 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
 
 
     /**
-     *    Hook metaboxes into admin_init
+     *    Hook metaboxes into plugins_loaded
      */
     function inbound_automation_metaboxes() {
         $GLOBALS['Inbound_Metaboxes_Automation'] = new Inbound_Metaboxes_Automation;
     }
 
-    add_action('admin_init', 'inbound_automation_metaboxes', 21);
+    add_action('plugins_loaded', 'inbound_automation_metaboxes', 21);
 }

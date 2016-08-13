@@ -87,6 +87,8 @@ if ( !class_exists('Leads_Activation_Update_Routines') ) {
 				return;
 			}
 
+			global $wpdb;
+
 			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 			$table_name = $wpdb->prefix . "inbound_events";
 

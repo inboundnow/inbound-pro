@@ -4,6 +4,8 @@ if ( !class_exists('Inbound_Automation_Post_Type') ) {
 
 	class Inbound_Automation_Post_Type {
 
+		static $queue;
+
 		function __construct() {
 			self::load_hooks();
 		}
@@ -21,20 +23,29 @@ if ( !class_exists('Inbound_Automation_Post_Type') ) {
 				/* Prepare Column Data */
 				add_action( "manage_posts_custom_column", array( __CLASS__ , 'prepare_column_data' ) , 10, 2 );
 
-				/* Define Sortable Columns */
-				//add_filter( 'manage_edit-automation_sortable_columns', array( __CLASS__ , 'define_sortable_columns' ) );
-
-				/* */
+				/* Define Sortable Columns
+				add_filter( 'manage_edit-automation_sortable_columns', array( __CLASS__ , 'define_sortable_columns' ) );
+				*/
 				add_action( 'admin_enqueue_scripts' , array(__CLASS__ , 'enqueue_admin_scripts' ) );
 
 				add_action( 'admin_menu'  , array( __CLASS__ , 'setup_menus' ));
+
+				/* Adds quick actions to row */
+				add_filter('post_row_actions', array(__CLASS__, 'add_row_actions'),8,2);
+
+				/* Setup Ajax Listeners - Enable/Diable rules */
+				add_action( 'wp_ajax_automation_rule_toggle_status', array(__CLASS__, 'ajax_toggle_rule_status'));
+
+				/* Setup Ajax Listeners - Clear tasks related to a rule */
+				add_action( 'wp_ajax_automation_rule_remove_taks', array(__CLASS__, 'ajax_clear_rule_tasks'));
+
 			}
 		}
 
 		public static function register_post_type() {
 
 			$labels = array(
-				'name' => __('Automation (beta)', 'inbound-pro' ),
+				'name' => __('Automation', 'inbound-pro' ),
 				'singular_name' => __( 'Rule', 'inbound-pro' ),
 				'add_new' => __( 'New Rule', 'inbound-pro' ),
 				'add_new_item' => __( 'Create New Rule' , 'inbound-pro' ),
@@ -69,10 +80,13 @@ if ( !class_exists('Inbound_Automation_Post_Type') ) {
 		/* Register Columns */
 		public static function register_columns( $cols ) {
 
+			/* sneak in - get rule queue */
+			self::$queue = Inbound_Automation_Processing::load_queue();
+
 			$cols = array(
 				"cb" => "<input type=\"checkbox\" />",
 				"title" => __( 'Automation' , 'inbound-pro' ),
-				"ma-automation-status" => __( 'Automation Status' , 'inbound-pro' )
+				"status" => __( 'Automation Status' , 'inbound-pro' )
 			);
 
 			$cols = apply_filters('automation_change_columns',$cols);
@@ -98,9 +112,16 @@ if ( !class_exists('Inbound_Automation_Post_Type') ) {
 					echo $automation_name;
 					break;
 
-				case "ma-automation-status":
-					$status = get_post_meta($post_id,'automation_active',true);
-					echo $status;
+				case "status":
+					$rule = get_post_meta($post->ID, 'inbound_rule', true);
+					$status = ( !isset($rule['status']) || $rule['status'] == 'on' ) ? 'on' : 'off';
+					?>
+					<label class="switch switch-green">
+						<input type="checkbox" class="switch-input toggle-rule-status" data-rule-id="<?php echo $post->ID;?>" <?php echo ($status == 'on') ? 'checked' : ''; ?>>
+						<span class="switch-label " data-on="On" data-off="Off" ></span>
+						<span class="switch-handle "></span>
+					</label>
+					<?php
 					break;
 
 			}
@@ -119,18 +140,83 @@ if ( !class_exists('Inbound_Automation_Post_Type') ) {
 		/**
 		 * load admin scripts and styles
 		 */
-		public static function enqueue_admin_scripts() {
+		public static function enqueue_admin_scripts( $hook ) {
 			wp_enqueue_style( 'automation-global-css' , INBOUND_AUTOMATION_URLPATH . 'assets/css/admin/style.css' );
+
+			$screen = get_current_screen();
+
+			if (isset($screen) && $screen->id == 'edit-automation' ) {
+				/* loads scripts and stylings into automation list view */
+				wp_enqueue_style( 'automation-list' , INBOUND_AUTOMATION_URLPATH . 'assets/css/admin/admin.list.css' );
+				wp_enqueue_script( 'automation-list' , INBOUND_AUTOMATION_URLPATH . 'assets/js/admin.rules-list.js' );
+
+				/* load Sweet Alert */
+				wp_enqueue_script('sweetalert', INBOUND_AUTOMATION_URLPATH . 'assets/libraries/SweetAlert/dist/sweetalert.min.js');
+				wp_enqueue_style('sweetalert', INBOUND_AUTOMATION_URLPATH . 'assets/libraries/SweetAlert/dist/sweetalert.css');
+
+			}
 		}
 
 		public static function setup_menus() {
 			if ( !current_user_can('manage_options')) {
 				remove_menu_page( 'edit.php?post_type=automation' );
-				return;
 			}
+		}
+
+		public static function calculate_tasks($rule_id) {
+
+			$i = 0;
+			foreach( self::$queue as $key => $task ) {
+				if ($task['rule']['ID']== $rule_id ) {
+					$i++;
+				}
+			}
+
+			return $i;
+		}
+
+		/**
+		 *	Adds quick links to row listing
+		 */
+		public static function add_row_actions($actions, $post) {
+
+			if ( $post->post_type != 'automation' ) {
+				return $actions;
+			}
+
+			$actions['clear'] = '<a class="clear-queued-tasks" data-rule-id="'.$post->ID.'" href="#clearing" title="'
+				. esc_attr(__( 'Clear Queued Tasks', 'inbound-pro' ))
+				. '">' .	__( 'Clear Queued Tasks', 'inbound-pro' ) . ' (' . self::calculate_tasks( $post->ID ) .')' . '</a>';
+
+			return $actions;
+		}
+
+		public static function ajax_toggle_rule_status() {
+			$rule_id = intval($_REQUEST['rule_id']);
+			$rule = get_post_meta($rule_id, 'inbound_rule', true);
+			$status = ( isset($_REQUEST['status']) && $_REQUEST['status'] == 'checked'  ) ? 'on' : 'off';
+			$rule['status'] = $status;
+			echo update_post_meta($rule_id, 'inbound_rule', $rule);
+			exit;
+		}
+
+		public static function ajax_clear_rule_tasks() {
+			$rule_id = intval($_REQUEST['rule_id']);
+
+			$queue = Inbound_Automation_Processing::load_queue();
+
+			foreach($queue as $key=> $task) {
+				if ($task['rule']['ID']== $rule_id ) {
+					unset($queue[$key]);
+				}
+			}
+
+			echo $rule_id;
+			Inbound_Automation_Processing::update_queue($queue);
+			exit;
 		}
 	}
 
 	/* Load Automation Post Type Pre Init */
-	$Inbound_Automation_Post_Type = new Inbound_Automation_Post_Type();
+	new Inbound_Automation_Post_Type();
 }

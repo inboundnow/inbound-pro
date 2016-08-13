@@ -32,6 +32,12 @@ class Inbound_Mailer_Ajax_Listeners {
 		add_action( 'wp_ajax_inbound_schedule_email' , array( __CLASS__ , 'schedule_email' ) );
 
 		/* Adds listener to schedule email */
+		add_action( 'wp_ajax_inbound_schedule_email' , array( __CLASS__ , 'unschedule_email' ) );
+
+		/* Adds listener to set scheduled email to sent */
+		add_action( 'wp_ajax_inbound_mark_sent' , array( __CLASS__ , 'mark_sent' ) );
+
+		/* Adds listener to schedule email */
 		add_action( 'wp_ajax_inbound_prepare_batch_email' , array( __CLASS__ , 'prepare_batch_email' ) );
 
 		/* Adds listener to schedule email */
@@ -201,6 +207,27 @@ class Inbound_Mailer_Ajax_Listeners {
 	}
 
 	/**
+	 *  Unschedule email
+	 */
+	public static function unschedule_email() {
+		do_action('inbound-mailer/unschedule-email' , $_REQUEST['email_id'] );
+		exit;
+	}
+
+	/**
+	 *  Mark Email Sent
+	 */
+	public static function mark_sent() {
+		$args = array(
+			'ID' => intval($_REQUEST['email_id']),
+			'post_status' => 'sent',
+		);
+
+		wp_update_post( $args );
+		exit;
+	}
+
+	/**
 	 *
 	 */
 	public static function prepare_batch_email() {
@@ -257,9 +284,6 @@ class Inbound_Mailer_Ajax_Listeners {
 
 				foreach ($variations as $vid => $settings) {
 					$value[0]['variations'][$vid]['acf'] = self::replace_id($value[0]['variations'][$vid]['acf'], $post_id);
-
-					error_log('7777');
-					error_log(print_r($value[0]['variations'][$vid]['acf'],true));
 				}
 
 
@@ -304,7 +328,6 @@ class Inbound_Mailer_Ajax_Listeners {
 			foreach ($output_array as $k=>$match) {
 				$mixed = str_replace($match , ' id=' . $post_id , $mixed);
 			}
-			error_log($mixed);
 		}
 
 		return $mixed;

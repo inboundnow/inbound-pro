@@ -166,8 +166,7 @@ if (!class_exists('Inbound_Automation_Plugin') && class_exists('Inbound_Leads_Pl
 
 	/* Initiate Plugin */
 	if ( Inbound_Automation_Plugin::is_valid_php_version() ) {
-		// Get Inbound Now Running
-		$GLOBALS['Inbound_Automation_Plugin'] = new Inbound_Automation_Plugin;
+		new Inbound_Automation_Plugin;
 	} else {
 		// Show Fail
 		Inbound_Automation_Plugin::fail_php_version();

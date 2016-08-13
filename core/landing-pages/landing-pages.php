@@ -3,7 +3,7 @@
 Plugin Name: Landing Pages
 Plugin URI: http://www.inboundnow.com/landing-pages/
 Description: Landing page template framework with variant testing and lead capturing through cooperation with Inbound Now's Leads plugin. This is the stand alone version served through WordPress.org. 
-Version: 2.2.5
+Version: 2.2.6
 Author: Inbound Now
 Author URI: http://www.inboundnow.com/
 
