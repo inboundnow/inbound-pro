@@ -24,6 +24,8 @@ class Inbound_SparkPost_Stats {
 
             /* For processing webhooks */
             add_action('wp_ajax_nopriv_sparkpost_webhook', array(__CLASS__, 'process_webhook'));
+
+            add_action( 'inbound-mailer/unschedule-email' , array( __CLASS__, 'unschedule_email' ) , 10 , 1 );
         }
 
         /* process send event */
@@ -142,15 +144,11 @@ class Inbound_SparkPost_Stats {
         }
 
         /* get deliveries */
-        $timezone_format = 'Y-m-d G:i:s';
-        $wordpress_date_time =  date_i18n($timezone_format);
+        $wordpress_date_time =  date_i18n('Y-m-d G:i:s');
         $today = new DateTime($wordpress_date_time);
         $schedule_date = new DateTime($settings['send_datetime']);
         $interval = $today->diff($schedule_date);
 
-        error_log($interval->format('%R'));
-        //error_log(self::get_sparkpost_timestamp($settings['send_datetime']));
-        //error_log(self::get_sparkpost_timestamp($wordpress_date_time));
 
         if ( $interval->format('%R') == '-' ) {
             $query = 'SELECT DISTINCT(lead_id) FROM ' . $table_name . ' WHERE `email_id` = "' . $email_id . '"  ' . $variation_query . ' AND `event_name` =  "sparkpost_delivery"';
@@ -714,7 +712,8 @@ class Inbound_SparkPost_Stats {
         }
 
     }
- /**
+
+    /**
      * Check SparkPost Response for Errors and Handle them
      */
     public static function process_rejections( $transmission_args , $response ) {
@@ -761,6 +760,28 @@ class Inbound_SparkPost_Stats {
 
     }
 
+    public static function unschedule_email( $email_id ) {
+        global $Inbound_Mailer_Variations;
+        global $inbound_settings;
+        global $post;
+
+        $variations = $Inbound_Mailer_Variations->get_variations($post->ID, $vid = null);
+        $sparkpost = new Inbound_SparkPost(  $inbound_settings['inbound-mailer']['sparkpost-key'] );
+
+        foreach ($variations as $vid => $variation) {
+            $campaign_id =  $email_id	. '_'. $vid;
+            $results = $sparkpost->get_transmissions( $campaign_id );
+            print_r($results);exit;
+        }
+
+
+
+    }
+
+    /**
+     * Display API status inside settings area
+     * @param $field
+     */
     public static function display_api_status( $field ) {
         global $inbound_settings;
 

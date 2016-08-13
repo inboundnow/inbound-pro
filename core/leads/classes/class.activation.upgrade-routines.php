@@ -79,6 +79,7 @@ if ( !class_exists('Leads_Activation_Update_Routines') ) {
 		 * @mirgration: adds column list_id to events table
 		 */
 		public static function alter_inbound_events_table_224() {
+			global $wpdb;
 
 			/* ignore if not applicable */
 			$previous_installed_version = get_transient('leads_current_version');

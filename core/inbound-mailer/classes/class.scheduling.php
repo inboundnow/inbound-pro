@@ -112,12 +112,9 @@ class Inbound_Mailer_Scheduling {
     /**
      *    Unscheduled email
      */
-    public static function unschedule_email($email_id) {
-        global $wpdb;
+    public static function unschedule_email( $email_id ) {
 
-        $table_name = $wpdb->prefix . "inbound_email_queue";
-
-        $wpdb->query('delete from ' . $table_name . ' where status != "sent" AND email_id = "' . $email_id . '" ');
+        do_action('inbound-mailer/unschedule-email' , $email_id );
 
         /* remove any error flags */
         Inbound_Options_API::update_option('inbound-email', 'errors-detected', false);

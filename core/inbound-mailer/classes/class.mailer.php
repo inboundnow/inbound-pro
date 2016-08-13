@@ -383,11 +383,17 @@ class Inbound_Mail_Daemon {
      *	Updates the post status of an email to sent
      */
     public static function mark_email_sent( ) {
-        global $wpdb;
+
+        $wordpress_date_time =  date_i18n('Y-m-d G:i:s');
+        $today = new DateTime($wordpress_date_time);
+        $schedule_date = new DateTime(self::$row->datetime);
+        $interval = $today->diff($schedule_date);
+
+        $status = ( $interval->format('%R') == '+' ) ? 'scheduled' : 'sent';
 
         $args = array(
             'ID' => self::$row->email_id,
-            'post_status' => 'sent',
+            'post_status' => $status,
         );
 
         wp_update_post( $args );
