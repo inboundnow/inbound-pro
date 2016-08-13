@@ -12,7 +12,6 @@ if ( !class_exists('Inbound_SparkPost') ) {
 		 *  Initialize Class
 		 */
 		public function __construct( $apikey ) {
-
 			self::$apikey = $apikey;
 		}
 

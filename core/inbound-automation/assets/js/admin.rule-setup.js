@@ -20,10 +20,10 @@ var InboundRulesJs = ( function() {
 			jQuery('#publish').val('Save Rule');
 			jQuery('#slugdiv').remove();
 
-			/* disable dragging */
+			/* disable dragging
             jQuery('.meta-box-sortables').sortable({
                 disabled: true
-            });
+            });*/
 
             jQuery('.postbox .hndle').css('cursor', 'pointer');
 
@@ -164,22 +164,16 @@ var InboundRulesJs = ( function() {
 
             /* Clears logs */
             jQuery('body').on( 'click' , '#clear-logs' , function() {
+                jQuery(this).text('Clearing... please wait.');
                 InboundRulesJs.rule_id = jQuery(this).data('rule-id');
-                swal({
-                    title: "Are you sure?",
-                    text: "Are you sure you want to clear these logs?",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#DD6B55",
-                    confirmButtonText: "Yes, clear them!",
-                    closeOnConfirm: false
-                }, function(){
-                    InboundRulesJs.delete_logs();
-                    swal("Deleted!", "Logs have been cleared.", "success");
-                });
+                InboundRulesJs.delete_logs();
             });
 
-
+            /* Reload logs iframe */
+            jQuery('body').on( 'click' , '#refresh-logs' , function() {
+                jQuery(this).text('Refreshing... please wait.');
+                window.location.reload(true);
+            });
 		},
 		/**
 		 *  Loads listerns for toggling selected triggers
@@ -623,6 +617,7 @@ var InboundRulesJs = ( function() {
          */
         clear_logs: function() {
             jQuery('.tablesorter tr:gt(0)').remove();
+            window.location.reload(true);
         },
 		/**
 		 *  Runs AJAX
