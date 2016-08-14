@@ -225,6 +225,39 @@ if ( !class_exists('Inbound_SparkPost') ) {
 			return json_decode($response['body'] , true);
 		}
 
+		public static function delete_transmission( $transmission_id ) {
+
+			/* https://developers.sparkpost.com/api/transmissions#transmissions-list-get */
+			$request_url = 'https://api.sparkpost.com/api/v1/transmissions/' . $transmission_id ;
+
+			$args = array(
+				'method' => 'DELETE',
+				'timeout' => 45,
+				'redirection' => 5,
+				'httpversion' => '1.0',
+				'blocking' => true,
+				'headers' => array(
+					'Accecpt'  => 'application/json',
+					'Authorization' =>  self::$apikey
+
+				),
+				'body' => null,
+				'cookies' => array()
+			);
+
+			$response = wp_remote_post(
+				$request_url,
+				$args
+			);
+
+			if ( 200 !== wp_remote_retrieve_response_code( $response ) ) {
+				error_log(print_r($response,true));
+				print_r(print_r($response));
+			}
+
+			return json_decode($response['body'] , true);
+		}
+
 		public function log($msg) {
 			if(self::debug) error_log($msg);
 		}

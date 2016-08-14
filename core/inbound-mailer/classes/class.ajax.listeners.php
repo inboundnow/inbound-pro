@@ -32,7 +32,7 @@ class Inbound_Mailer_Ajax_Listeners {
 		add_action( 'wp_ajax_inbound_schedule_email' , array( __CLASS__ , 'schedule_email' ) );
 
 		/* Adds listener to schedule email */
-		add_action( 'wp_ajax_inbound_schedule_email' , array( __CLASS__ , 'unschedule_email' ) );
+		add_action( 'wp_ajax_inbound_unschedule_email' , array( __CLASS__ , 'unschedule_email' ) );
 
 		/* Adds listener to set scheduled email to sent */
 		add_action( 'wp_ajax_inbound_mark_sent' , array( __CLASS__ , 'mark_sent' ) );
