@@ -2165,7 +2165,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                                         email_id: '<?php echo $post->ID; ?>'
                                     },
                                     success: function (result) {
-                                        //window.location.reload();
+                                        window.location.reload();
                                     }
                                 });
 
