@@ -386,7 +386,7 @@ if (!class_exists('Inbound_Automation_Loader')) {
         * Evaluate Filter By Comparing Filter with Corresponding Incoming Data
         */
         public static function evaluate_trigger_filter($filter, $target_argument) {
-            //error_log(print_r($target_argument,true));
+
             if (!is_array($target_argument)) {
                 $arg = $target_argument;
                 $target_argument = array();
@@ -394,7 +394,6 @@ if (!class_exists('Inbound_Automation_Loader')) {
             } else {
                 $target_argument[$filter['trigger_filter_key']] = Inbound_Automation_Loader::flatten_array($target_argument);
             }
-            //error_log(print_r($target_argument,true));
 
             $compare_value = (isset($target_argument[$filter['trigger_filter_key']])) ? $target_argument[$filter['trigger_filter_key']] : __('notset', 'inbound-pro');
             $eval = false;
@@ -464,7 +463,6 @@ if (!class_exists('Inbound_Automation_Loader')) {
             $message .= "<p><h2>" . __('Rule Settings:', 'inbound-pro') . "</h2> <br> <pre>" . print_r($rule, true) . "</pre></p>";
             $message .= "<p><h2>" . __('Trigger Data:', 'inbound-pro') . "</h2> <br> <pre>" . print_r($arguments, true) . '</pre></p>';
 
-            error_log(7);
             inbound_record_log(__('Trigger Fired', 'inbound-pro'), $message, $rule->ID, '-', 'trigger_event');
         }
 
@@ -516,6 +514,18 @@ if (!class_exists('Inbound_Automation_Loader')) {
 
             /* update inbound arguments dataset with new data */
             self::update_arguments();
+
+            /* do not use old data that is still in there */
+            $i = 0;
+            foreach (self::$instance->inbound_arguments[$hook] as $key=> $array) {
+                $corresponding_array = $args[$i];
+                foreach($array as $k => $value) {
+                    if (!isset($corresponding_array[$k])) {
+                        unset(self::$instance->inbound_arguments[$hook][$key][$k]);
+                    }
+                }
+                $i++;
+            }
 
             /* return arguments */
             return self::$instance->inbound_arguments[$hook];
