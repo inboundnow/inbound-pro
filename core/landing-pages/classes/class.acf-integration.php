@@ -127,7 +127,7 @@ if (!class_exists('Landing_Pages_ACF')) {
 			if ( $fields ) {
 
 				$settings = Landing_Pages_Meta::get_settings( $landing_page_id );
-				$variation_id = (isset($_REQUEST['lp-variation-id'])) ? $_REQUEST['lp-variation-id'] : '0';
+				$variation_id = (isset($_REQUEST['lp-variation-id'])) ? intval($_REQUEST['lp-variation-id']) : '0';
 
 				if (!isset($settings['variations'])) {
 					$settings['variations'] = array();
@@ -629,7 +629,7 @@ if (!class_exists('Landing_Pages_ACF')) {
             if ( ! isset( $_POST['tab_index'] ) || ! is_numeric( $_POST['tab_index'] ) ) {
                 return;
             }
-            $tab_index = $_POST['tab_index'];
+            $tab_index = sanitize_text_field($_POST['tab_index']);
             $post_id = $_POST['post_id'];
             $transient_value = array(
                 'tab_index' => $tab_index,

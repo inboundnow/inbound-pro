@@ -60,11 +60,11 @@ class Inbound_Mailer_Tracking {
 
         /* setup args */
         $args['page_id'] = (isset($post) && $post->ID ) ? $post->ID : 0;
-        $args['email_id'] = $_GET['email_id'];
-        $args['lead_id'] = $_GET['lead_id'];
-        $args['variation_id'] = (isset($_GET['inbvid'])) ? $_GET['inbvid'] : 0;
+        $args['email_id'] = intval($_GET['email_id']);
+        $args['lead_id'] = intval($_GET['lead_id']);
+        $args['variation_id'] = (isset($_GET['inbvid'])) ? intval($_GET['inbvid']) : 0;
         $args['event_details'] = json_encode($_GET);
-        error_log(print_r($args,true));
+
         /* record click event */
         do_action( 'inbound_email_click_event' , $args );
 

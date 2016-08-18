@@ -118,9 +118,9 @@ if ( !class_exists('CTA_Template_Manager_List') ) {
 
 		function usort_reorder( $a, $b ){
 			// If no sort, default to title
-			$orderby = ( ! empty( $_GET['orderby'] ) ) ? $_GET['orderby'] : 'template';
+			$orderby = ( ! empty( $_GET['orderby'] ) ) ? sanitize_text_field($_GET['orderby']) : 'template';
 			// If no order, default to asc
-			$order = ( ! empty($_GET['order'] ) ) ? $_GET['order'] : 'asc';
+			$order = ( ! empty($_GET['order'] ) ) ? sanitize_text_field($_GET['order']) : 'asc';
 			// Determine sort order
 			$result = strcmp( $a[$orderby], $b[$orderby] );
 			// Send final sort direction to usort

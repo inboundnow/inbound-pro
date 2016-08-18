@@ -452,9 +452,9 @@ if (!class_exists('CTA_Metaboxes')) {
 				if ( isset($_GET['clone']) ) {
 
 					if (isset($field['global']) && $field['global'] === true) {
-						$meta = get_post_meta($post->ID, $field['id']. '-'. $_GET['clone'], true);
+						$meta = get_post_meta($post->ID, $field['id']. '-'. intval($_GET['clone']) , true);
 					} else {
-						$meta = get_post_meta($post->ID,  $settings_key . '-' . $field['id'] . '-'. $_GET['clone'], true);
+						$meta = get_post_meta($post->ID,  $settings_key . '-' . $field['id'] . '-'. intval($_GET['clone']) , true);
 					}
 				}
 
@@ -481,7 +481,7 @@ if (!class_exists('CTA_Metaboxes')) {
 								if (!$meta) {
 									$meta = $field['default'];
 								}
-								$var_id = (isset($_GET['new_meta_key'])) ? "-" . $_GET['new_meta_key'] : '';
+								$var_id = (isset($_GET['new_meta_key'])) ? "-" . intval($_GET['new_meta_key']) : '';
 								echo '<input type="text" class="jpicker" style="background-color:#'.$meta.'" name="'.$field_id.'" id="'.$field_id.'" value="'.$meta.'" size="5" /><span class="button-primary new-save-wp-cta" data-field-type="text" id="'.$field_id.$var_id.'" style="margin-left:10px; display:none;">Update</span>
 										<div class="wp_cta_tooltip tool_color" title="'.$field['description'].'"></div>';
 								break;
@@ -672,9 +672,9 @@ if (!class_exists('CTA_Metaboxes')) {
 		*/
 		public static function switch_templates( ) {
 
-			$current_template = $_POST['selected_template'];
-			$post_id = $_POST['post_id'];
-			$vid = $_POST['variation_id'];
+			$current_template = sanitize_text_field($_POST['selected_template']);
+			$post_id = intval($_POST['post_id']);
+			$vid = intval($_POST['variation_id']);
 			$post = get_post($post_id);
 
 			$key['args']['template_id'] = $current_template;

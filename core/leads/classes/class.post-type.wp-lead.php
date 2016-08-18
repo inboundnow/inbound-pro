@@ -690,7 +690,7 @@ class Leads_Post_Type {
             return;
         }
 
-        $wp_lead_id = $_POST['wp_lead_id'];
+        $wp_lead_id = intval($_POST['wp_lead_id']);
         if (isset($wp_lead_id) && is_numeric($wp_lead_id)) {
             global $wpdb;
             $data = array();

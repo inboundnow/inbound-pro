@@ -229,7 +229,7 @@ class Inbound_Promote {
 	}
 
 	public static function dismiss_notice() {
-		update_user_meta($_REQUEST['user_id'], 'inbound_notification_' . $_REQUEST['notification_id'] , 'viewed' ) ;
+		update_user_meta( intval($_REQUEST['user_id']), 'inbound_notification_' . sanitize_text_field($_REQUEST['notification_id']) , 'viewed' ) ;
 		exit;
 	}
 

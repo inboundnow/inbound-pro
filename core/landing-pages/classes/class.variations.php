@@ -374,8 +374,8 @@ if (!class_exists('Landing_Pages_Variations')) {
             }
 
             if (isset($_REQUEST['lp-variation-id'])) {
-                $_SESSION['lp_ab_test_open_variation'] = $_REQUEST['lp-variation-id'];
-                $current_variation_id = $_REQUEST['lp-variation-id'];
+                $_SESSION['lp_ab_test_open_variation'] = intval($_REQUEST['lp-variation-id']);
+                $current_variation_id = intval($_REQUEST['lp-variation-id']);
             }
 
             if (isset($_GET['message']) && $_GET['message'] == 1 && isset($_SESSION['lp_ab_test_open_variation'])) {
@@ -431,7 +431,7 @@ if (!class_exists('Landing_Pages_Variations')) {
 
             /* listen for clone variation */
             if (isset($_REQUEST['new-variation']) && isset($_REQUEST['clone'])) {
-                $variation_id = $_REQUEST['clone'];
+                $variation_id = intval($_REQUEST['clone']);
             }
 
             return $variation_id;
@@ -648,7 +648,7 @@ if (!class_exists('Landing_Pages_Variations')) {
 
             /* listen for clone variation */
             if (isset($_REQUEST['new-variation']) && isset($_REQUEST['clone'])) {
-                $variation_id = $_REQUEST['clone'];
+                $variation_id = intval($_REQUEST['clone']);
             }
 
             if ( $variation_id > 0  ) {
@@ -767,7 +767,7 @@ if (!class_exists('Landing_Pages_Variations')) {
             global $wpdb;
 
             $landing_page_id = intval($_POST['page_id']);
-            $vid = $_POST['variation'];
+            $vid = intval($_POST['variation']);
 
             self::set_impressions_count( $landing_page_id , $vid , 0 );
             self::set_conversions_count( $landing_page_id , $vid , 0 );

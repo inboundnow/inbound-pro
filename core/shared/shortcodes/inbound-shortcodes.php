@@ -701,7 +701,7 @@ class Inbound_Shortcodes {
 								<div id="inbound-shortcodes-nopreview"><?php _e('Shortcode has no preview', 'inbound-pro' ); ?></div>
 							<?php else :
 							    if ( isset($_REQUEST['post']) && is_int($_REQUEST['post'])  ) {
-								    $post_id = html_entity_decode( $_REQUEST['post'] );
+								    $post_id = intval( $_REQUEST['post'] );
                                 } else {
                                     $post_id = 0;
                                 }

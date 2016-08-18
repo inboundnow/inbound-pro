@@ -198,7 +198,7 @@ class Leads_Settings {
 
         $active_tab = 'wpl-main';
         if (isset($_REQUEST['open-tab'])) {
-            $active_tab = $_REQUEST['open-tab'];
+            $active_tab = sanitize_text_field($_REQUEST['open-tab']);
         }
 
 
@@ -270,8 +270,8 @@ class Leads_Settings {
 
                     $api_params = array(
                         'edd_action' => 'activate_license',
-                        'license' =>   $_POST['inboundnow_master_license_key'],
-                        'item_name' => $field['remote_download_slug']
+                        'license' =>   sanitize_text_field($_POST['inboundnow_master_license_key']),
+                        'item_name' => sanitize_text_field($field['remote_download_slug'])
                     );
                     /* error_log(print_r($api_params, true)); */
 

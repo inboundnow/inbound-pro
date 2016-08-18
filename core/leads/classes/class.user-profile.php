@@ -80,7 +80,7 @@ if (!class_exists('Leads_User_Profile')) {
             global $Inbound_Leads;
 
             foreach ($_REQUEST['tax_input']['wplead_list_category'] as $list_id) {
-                $Inbound_Leads->add_lead_to_list( $_REQUEST['lead_id'], $list_id );
+                $Inbound_Leads->add_lead_to_list( intval($_REQUEST['lead_id']) , $list_id );
             }
 
         }

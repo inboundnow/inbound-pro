@@ -21,7 +21,6 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 		 * @var array
 		 */
 		public static $notices = array();
-		static $access_level = array();
 		static $settings = array();
 
 		/**
@@ -124,16 +123,19 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 
 			/* Frontend & Admin */
 			include_once( INBOUND_PRO_PATH . 'classes/class.options-api.php');
+
+			/* determine customer access level */
+			self::get_customer_status();
+
 			include_once( INBOUND_PRO_PATH . 'classes/class.extension-loader.php');
 			include_once( INBOUND_PRO_PATH . 'classes/class.analytics.php');
 
-			/* determine customer access level */
-			self::$access_level = self::get_customer_status();
+
 
 			/* get inbound now settings */
 			$inbound_settings = Inbound_Options_API::get_option('inbound-pro', 'settings', array());
 
-			if (self::$access_level > 0 && !isset($_GET['acf_off'])) {
+			if ( INBOUND_ACCESS_LEVEL> 0 && !isset($_GET['acf_off'])) {
 
 				/* if lite mode enabled then set the constant */
 				if ( !isset($inbound_settings['inbound-acf']['toggle-acf-lite']) || $inbound_settings['inbound-acf']['toggle-acf-lite'] == 'on') {
@@ -194,11 +196,11 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 				include_once( INBOUND_COMPONENT_PATH . '/landing-pages/landing-pages.php');
 			}
 
-			if (self::$access_level < 1 ) {
+			if ( INBOUND_ACCESS_LEVEL< 1 ) {
 				return;
 			}
 
-			if (self::$access_level < 3 ) {
+			if ( INBOUND_ACCESS_LEVEL < 3 ) {
 				return;
 			}
 
@@ -214,8 +216,14 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
          * Get customer status
          */
         public static function get_customer_status() {
+			if (defined('INBOUND_ACCESS_LEVEL')) {
+				echo 'Error 3210';
+				exit;
+			}
+
             $customer = Inbound_Options_API::get_option( 'inbound-pro' , 'customer' , array() );
             $status = ( isset($customer['is_pro']) ) ? $customer['is_pro'] : 0;
+			define('INBOUND_ACCESS_LEVEL' , $status);
             return $status;
         }
 

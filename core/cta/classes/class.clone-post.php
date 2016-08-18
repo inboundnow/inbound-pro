@@ -68,8 +68,8 @@ class CTA_Clone_Post {
 	*/
 	public static function clone_post($status = '') {
 		// Get the original post
-		$id = (isset($_GET['post']) ? $_GET['post'] : $_POST['post']);
-		$post = get_post($id);
+		$id = (isset($_GET['post']) ? intval($_GET['post']) : intval($_POST['post']));
+		$post = get_post(intval($id));
 
 		// Copy the post and insert it
 		if (isset($post) && $post!=null) {

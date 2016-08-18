@@ -1,6 +1,6 @@
 <?php
 include( 'shortcodes-fields.php' );
-$popup = trim( $_GET['popup'] );
+$popup = trim( sanitize_text_field($_GET['popup']) );
 
 $shortcode = new Inbound_Shortcodes_Fields( $popup );
 
@@ -65,8 +65,6 @@ if( !$shortcode->no_preview ) {
             </div>
 
         </div>
-
     </div>
-
 </body>
 </html>
