@@ -53,7 +53,7 @@ class LP_Variation_Rotation {
 		self::$permalink_name = (isset($_GET['permalink_name'])) ?  sanitize_text_field($_GET['permalink_name']) : null;
 		self::$post_id = self::load_post_id();
 		self::$sticky_variations = get_option( 'lp-main-landing-page-rotation-halt' , false );
-		self::$last_loaded_variation = ( isset( $_COOKIE['lp-loaded-variation-'.self::$permalink_name] ) ) ? $_COOKIE['lp-loaded-variation-'.self::$permalink_name] : null;
+		self::$last_loaded_variation = ( isset( $_COOKIE['lp-loaded-variation-'.self::$permalink_name] ) ) ? intval($_COOKIE['lp-loaded-variation-'.self::$permalink_name]) : null;
 
 		if ( self::$sticky_variations && self::$last_loaded_variation ) {
 
