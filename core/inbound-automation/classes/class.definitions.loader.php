@@ -286,14 +286,15 @@ if (!class_exists('Inbound_Automation_Loader')) {
                     $evals = array();
 
                     $arguments = self::generate_arguments($trigger, $args);
-
+                    error_log('process_trigger');
+                    error_log(print_r($arguments,true));
                     /* Check Trigger Filters */
                     if (isset(self::$rule['trigger_filters']) && self::$rule['trigger_filters']) {
 
                         foreach (self::$rule['trigger_filters'] as $filter) {
                             if (strstr($filter['trigger_filter_key'], ':')) {
                                 $parts = explode(':', $filter['trigger_filter_key']);
-                                $target_argument = $arguments[$parts[0]][$parts[1]];
+                                $target_argument = (isset($arguments[$parts[0]][$parts[1]])) ? $arguments[$parts[0]][$parts[1]] : null;
                             } else {
                                 $target_argument = $arguments[$filter['trigger_filter_id']];
                             }
@@ -486,7 +487,6 @@ if (!class_exists('Inbound_Automation_Loader')) {
          */
         public static function generate_arguments($hook, $args) {
 
-
             /* loop through arguments and update memory with available data with latest submission */
             $argument_definitions = self::$instance->triggers[$hook]['arguments'];
 
@@ -505,27 +505,44 @@ if (!class_exists('Inbound_Automation_Loader')) {
                 /* Place argument data into memory */
                 $updated_arg_data = self::prepare_mixed_data($argument);
 
+
                 if (isset(self::$instance->inbound_arguments[$hook][$definition['id']]) && is_array(self::$instance->inbound_arguments[$hook][$definition['id']])) {
                     self::$instance->inbound_arguments[$hook][$definition['id']] = array_replace(self::$instance->inbound_arguments[$hook][$definition['id']], $updated_arg_data);
                 } else {
-                    self::$instance->inbound_arguments[$hook][$definition['id']] = $updated_arg_data;
+                   self::$instance->inbound_arguments[$hook][$definition['id']] = $updated_arg_data;
                 }
+
             }
 
             /* update inbound arguments dataset with new data */
             self::update_arguments();
 
-            /* do not use old data that is still in there */
+            /* do not use old data stored in memory when no new data available */
             $i = 0;
-            foreach (self::$instance->inbound_arguments[$hook] as $key=> $array) {
+            error_log('near final before');
+            error_log(print_r(self::$instance->inbound_arguments[$hook],true));
+
+            foreach (self::$instance->inbound_arguments[$hook] as $key=> $arg) {
+
+                /* get corresponding arguments from trigger */
                 $corresponding_array = $args[$i];
-                foreach($array as $k => $value) {
+
+                /* Skip non array based arguments - may need to apply the callback instead */
+                if (!is_array($corresponding_array)) {
+                    continue;
+                }
+
+                /* argument contains an array - clean memory of unavailable data */
+                foreach($arg as $k => $value) {
                     if (!isset($corresponding_array[$k])) {
                         unset(self::$instance->inbound_arguments[$hook][$key][$k]);
                     }
                 }
                 $i++;
             }
+
+            error_log('near final after');
+            error_log(print_r(self::$instance->inbound_arguments[$hook],true));
 
             /* return arguments */
             return self::$instance->inbound_arguments[$hook];
