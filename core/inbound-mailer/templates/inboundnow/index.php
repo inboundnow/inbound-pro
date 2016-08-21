@@ -163,7 +163,7 @@ if (have_posts()) : while (have_posts()) : the_post();
                         <td>
                             <p style="font-size:11px;color:#999999;margin:0;padding:20px 20px 30px 20px; font-family:<?php echo $font; ?>">
 
-                                <?php echo sprintf(__('We respect your privacy. If you believe this has been sent to you in error, please safely %sunsubscribe here%s' , 'inbound-pro' ) , '<a href="'.do_shortcode('[unsubscribe-link]').'" style="color:#2b95dd;text-decoration:none;"><strong>' , '</strong></a><br><br>' ) ?>
+                                We respect your privacy. If you believe this has been sent to you in error, please safely <a href="<?php echo do_shortcode('[unsubscribe-link]'); ?>" style="color:#2b95dd;text-decoration:none;"><strong>unsubscribe here</strong></a><br><br>
                                 <span style="text-align:center; display:inline-block; font-size:10px;">
                                     <?php echo $footer_address; ?>
                                 </span>
