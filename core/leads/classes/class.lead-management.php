@@ -74,8 +74,8 @@ if (!class_exists('Leads_Manager')) {
             self::$per_page = 60;
             self::$page = empty($_REQUEST['pull_page']) ? 1 : intval($_REQUEST['pull_page']);
             self::$paged = empty($_REQUEST['paged']) ? 1 : intval($_REQUEST['paged']);
-            self::$orderby = (isset($_REQUEST['orderby'])) ? $_REQUEST['orderby'] : '';
-            self::$order = (isset($_REQUEST['order'])) ? strtoupper($_REQUEST['order']) : 'ASC';
+            self::$orderby = (isset($_REQUEST['orderby'])) ? sanitize_text_field($_REQUEST['orderby']) : '';
+            self::$order = (isset($_REQUEST['order'])) ? strtoupper(sanitize_text_field($_REQUEST['order'])) : 'ASC';
 
             /* set ordering vars */
             self::$orderbys = array(
@@ -91,15 +91,15 @@ if (!class_exists('Leads_Manager')) {
             /* number of leads affected by action if any */
             self::$num = (isset($_REQUEST['num'])) ? intval($_REQUEST['num']) : 0;
 
-            self::$what = (isset($_REQUEST['what'])) ? htmlentities($_REQUEST['what']) : "";
+            self::$what = (isset($_REQUEST['what'])) ? sanitize_text_field($_REQUEST['what']) : "";
 
-            self::$relation = (isset($_REQUEST['relation'])) ? htmlentities($_REQUEST['relation']) : "AND";
+            self::$relation = (isset($_REQUEST['relation'])) ? sanitize_text_field($_REQUEST['relation']) : "AND";
 
-            self::$on = (isset($_REQUEST['on'])) ? htmlentities($_REQUEST['on']) : "";
+            self::$on = (isset($_REQUEST['on'])) ? sanitize_text_field($_REQUEST['on']) : "";
 
-            self::$tag = (isset($_REQUEST['t'])) ? $_REQUEST['t'] : '';
+            self::$tag = (isset($_REQUEST['t'])) ? sanitize_text_field($_REQUEST['t']) : '';
 
-            self::$keyword = (isset($_REQUEST['s'])) ? $_REQUEST['s'] : '';
+            self::$keyword = (isset($_REQUEST['s'])) ? sanitize_text_field($_REQUEST['s']) : '';
 
             self::$taxonomies = get_object_taxonomies('wp-lead', 'objects');
         }
@@ -749,11 +749,11 @@ if (!class_exists('Leads_Manager')) {
             }
 
             if (!empty($_REQUEST['s'])) {
-                $query = '&s=' . $_REQUEST['s'];
+                $query = '&s=' . sanitize_text_field($_REQUEST['s']);
             }
 
             if (!empty($_REQUEST['t'])) {
-                $query = '&t=' . $_REQUEST['t'];
+                $query = '&t=' . sanitize_text_field($_REQUEST['t']);
             }
 
             $term = get_term($_REQUEST['wplead_list_category_action'], 'wplead_list_category');

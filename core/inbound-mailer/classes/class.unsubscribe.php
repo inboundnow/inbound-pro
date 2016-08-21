@@ -54,7 +54,7 @@ class Inbound_Mailer_Unsubscribe {
 
 		/* Begin unsubscribe html inputs */
 		$html = "<form action='?unsubscribed=true' name='unsubscribe' method='post'>";
-		$html .= "<input type='hidden' name='token' value='".$_GET['token']."' >";
+		$html .= "<input type='hidden' name='token' value='".strip_tags($_GET['token'])."' >";
 		$html .= "<input type='hidden' name='action' value='inbound_unsubscribe_event' >";
 
 		/* loop through lists and show unsubscribe inputs */

@@ -502,10 +502,26 @@ if (!class_exists('Inbound_Menus_Adminbar')) {
 			/* 1 - Global Settings */
 			$menu_items[ $settings_key ] = array(
 				'parent' => self::$inboundnow_menu_key,
-				'title'  => __( 'Global Settings', 'inbound-pro' ),
+				'title'  => __( 'Settings', 'inbound-pro' ),
 				'href'   => "",
 				'meta'   => array( 'target' => '', 'title' => _x( 'Manage Settings', 'inbound-pro' ) )
 			);
+
+			/* 1.1 - Call to Action Settings */
+			if (defined('INBOUND_PRO_PATH')) {
+				$menu_items['inbound-now-settings'] = array(
+					'parent' => $settings_key,
+					'title'  => __( 'Inbound Pro Settings', 'inbound-pro' ),
+					'href'   => admin_url( 'admin.php?page=inbound-pro' ),
+					'meta'   => array( 'target' => '', 'title' => __( 'Inbound Pro Settings', 'inbound-pro' ) )
+				);
+				$menu_items['inbound-now-extension-settings'] = array(
+					'parent' => $settings_key,
+					'title'  => __( 'Extension Settings', 'inbound-pro' ),
+					'href'   => admin_url( 'admin.php?tab=inbound-pro-settings&page=inbound-pro' ),
+					'meta'   => array( 'target' => '', 'title' => __( 'Extension Settings', 'inbound-pro' ) )
+				);
+			}
 
 			/* 1.1 - Call to Action Settings */
 			if (self::$load_callstoaction) {

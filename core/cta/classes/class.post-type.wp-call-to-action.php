@@ -237,7 +237,7 @@ if ( !class_exists('CTA_Post_Type') ) {
 					$filters = get_object_taxonomies( $post_type );
 					foreach ( $filters as $tax_slug ) {
 						$tax_obj = get_taxonomy( $tax_slug );
-						(isset($_GET[$tax_slug])) ? $current = $_GET[$tax_slug] : $current = 0;
+						(isset($_GET[$tax_slug])) ? $current = sanitize_text_field($_GET[$tax_slug]) : $current = 0;
 						wp_dropdown_categories( array(
 							'show_option_all' => __('Show All '.$tax_obj->label ),
 							'taxonomy' 		=> $tax_slug,

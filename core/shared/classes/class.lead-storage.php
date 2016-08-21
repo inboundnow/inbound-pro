@@ -284,8 +284,6 @@ if (!class_exists('LeadStorage')) {
 						Inbound_Options_API::update_option('inbound-pro', 'settings', $inbound_settings);
 					}
 
-					error_log(print_r($inbound_settings,true));
-
 				}
 
 			}

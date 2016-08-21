@@ -29,7 +29,7 @@ class Inbound_Extension_Loads {
 	*/
 	public static function load_extensions() {
 
-	    if ( Inbound_Pro_Plugin::get_customer_status() < 1) {
+	    if ( INBOUND_ACCESS_LEVEL < 1) {
 	        return;
         }
 

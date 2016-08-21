@@ -64,7 +64,7 @@ class Landing_Pages_Cloning {
     public static function clone_landing_page($status = 'pending') {
 
         /* Get the original post */
-        $id = (isset($_GET['post']) ? $_GET['post'] : $_POST['post']);
+        $id = (isset($_GET['post']) ? intval($_GET['post']) : intval($_POST['post']) );
         $post = get_post($id);
 
         /* Copy the post and insert it */

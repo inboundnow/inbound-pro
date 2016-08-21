@@ -453,7 +453,7 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
 
 
         /**
-         *    Constructs the rule data set and saves it in post meta
+         * Constructs the rule data set and saves it in post meta
          * @param INT $post_id
          */
         public static function save_automation($post_id) {
@@ -733,8 +733,8 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
             /* loads automation definitions */
             self::load_definitions();
 
-            (isset($_REQUEST['action_block_id'])) ? $action_block_id = $_REQUEST['action_block_id'] : $action_block_id;
-            (isset($_REQUEST['action_block_priority'])) ? $action_block_id = $_REQUEST['action_block_priority'] : $action_block_id;
+            (isset($_REQUEST['action_block_id'])) ? $action_block_id = intval($_REQUEST['action_block_id']) : $action_block_id;
+            (isset($_REQUEST['action_block_priority'])) ? $action_block_id = intval($_REQUEST['action_block_priority']) : $action_block_id;
 
             $html = '';
             $html .= '<div class="action-block-wrapper" data-action-block="' . $action_block_id . '">';
@@ -878,10 +878,10 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
             self::load_definitions();
 
             /* Get Parameters */
-            (isset($args['trigger_id'])) ? $args['trigger_id'] : $args['trigger_id'] = $_REQUEST['trigger_id'];
-            (isset($args['trigger_filter_id'])) ? $args['trigger_filter_id'] : $args['trigger_filter_id'] = $_REQUEST['trigger_filter_id'];
-            (isset($args['child_id'])) ? $args['child_id'] : $args['child_id'] = $_REQUEST['child_id'];
-            (isset($args['defaults'])) ? $args['defaults'] : $args['defaults'] = $_REQUEST['defaults'];
+            (isset($args['trigger_id'])) ? $args['trigger_id'] : $args['trigger_id'] = sanitize_text_field($_REQUEST['trigger_id']);
+            (isset($args['trigger_filter_id'])) ? $args['trigger_filter_id'] : $args['trigger_filter_id'] = sanitize_text_field($_REQUEST['trigger_filter_id']);
+            (isset($args['child_id'])) ? $args['child_id'] : $args['child_id'] = sanitize_text_field($_REQUEST['child_id']);
+            (isset($args['defaults'])) ? $args['defaults'] : $args['defaults'] = sanitize_text_field($_REQUEST['defaults']);
 
 
             /* Die If No Filter Selected */
@@ -946,10 +946,10 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
             self::load_definitions();
 
             /* Get Parameters */
-            (isset($args['action_filter_id'])) ? $args['action_filter_id'] : $args['action_filter_id'] = $_REQUEST['action_filter_id'];
-            (isset($args['action_block_id'])) ? $args['action_block_id'] : $args['action_block_id'] = $_REQUEST['action_block_id'];
-            (isset($args['child_id'])) ? $args['child_id'] : $args['child_id'] = $_REQUEST['child_id'];
-            (isset($args['defaults'])) ? $args['defaults'] : $args['defaults'] = $_REQUEST['defaults'];
+            (isset($args['action_filter_id'])) ? $args['action_filter_id'] : $args['action_filter_id'] = sanitize_text_field($_REQUEST['action_filter_id']);
+            (isset($args['action_block_id'])) ? $args['action_block_id'] : $args['action_block_id'] = intval($_REQUEST['action_block_id']);
+            (isset($args['child_id'])) ? $args['child_id'] : $args['child_id'] = sanitize_text_field($_REQUEST['child_id']);
+            (isset($args['defaults'])) ? $args['defaults'] : $args['defaults'] = sanitize_text_field($_REQUEST['defaults']);
 
             /* Get Filter Definitions */
             $this_filter = $args['action_filter_id'];
@@ -1018,11 +1018,11 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
             self::load_definitions();
 
             /* Get Parameters */
-            (isset($args['action_name'])) ? $args['action_name'] : $args['action_name'] = $_REQUEST['action_name'];
-            (isset($args['action_type'])) ? $args['action_type'] : $args['action_type'] = $_REQUEST['action_type'];
-            (isset($args['action_block_id'])) ? $args['action_block_id'] : $args['action_block_id'] = $_REQUEST['action_block_id'];
-            (isset($args['child_id'])) ? $args['child_id'] : $args['child_id'] = $_REQUEST['child_id'];
-            (isset($args['defaults'])) ? $args['defaults'] : $args['defaults'] = $_REQUEST['defaults'];
+            (isset($args['action_name'])) ? $args['action_name'] : $args['action_name'] = sanitize_text_field($_REQUEST['action_name']);
+            (isset($args['action_type'])) ? $args['action_type'] : $args['action_type'] = sanitize_text_field($_REQUEST['action_type']);
+            (isset($args['action_block_id'])) ? $args['action_block_id'] : $args['action_block_id'] = intval($_REQUEST['action_block_id']);
+            (isset($args['child_id'])) ? $args['child_id'] : $args['child_id'] = sanitize_text_field($_REQUEST['child_id']);
+            (isset($args['defaults'])) ? $args['defaults'] : $args['defaults'] = sanitize_text_field($_REQUEST['defaults']);
 
             $this_action = $args['action_name'];
 
@@ -1118,7 +1118,7 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
          */
         public static function ajax_load_trigger_arguments() {
 
-            $target_trigger = $_REQUEST['trigger'];
+            $target_trigger = sanitize_text_field($_REQUEST['trigger']);
 
             /* loads automation definitions */
             self::load_definitions();
@@ -1150,7 +1150,7 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
             /* loads automation definitions */
             self::load_definitions();
 
-            $target_trigger = $_REQUEST['trigger'];
+            $target_trigger = sanitize_text_field($_REQUEST['trigger']);
 
             $filter_whitelist = array();
 
@@ -1177,7 +1177,7 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
             /* loads automation definitions */
             self::load_definitions();
 
-            $target_trigger = $_REQUEST['trigger'];
+            $target_trigger = sanitize_text_field($_REQUEST['trigger']);
 
             $action_whitelist = array();
 
@@ -1200,7 +1200,7 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
          * Clear logs
          */
         public static function ajax_clear_logs() {
-            update_post_meta( $_REQUEST['rule_id'] , '_automation_logs' ,  null );
+            update_post_meta( intval($_REQUEST['rule_id']) , '_automation_logs' ,  null );
             echo 'cleared';
             exit;
         }

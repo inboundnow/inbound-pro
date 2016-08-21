@@ -79,7 +79,6 @@ if ( !class_exists('Leads_Activation_Update_Routines') ) {
 		 * @mirgration: adds column list_id to events table
 		 */
 		public static function alter_inbound_events_table_224() {
-			global $wpdb;
 
 			/* ignore if not applicable */
 			$previous_installed_version = get_transient('leads_current_version');
@@ -87,6 +86,8 @@ if ( !class_exists('Leads_Activation_Update_Routines') ) {
 			if ( version_compare($previous_installed_version , "2.2.4") === 1 )  {
 				return;
 			}
+
+			global $wpdb;
 
 			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 			$table_name = $wpdb->prefix . "inbound_events";
@@ -176,7 +177,6 @@ if ( !class_exists('Leads_Activation_Update_Routines') ) {
 			);
 
 		}
-
 
 	}
 

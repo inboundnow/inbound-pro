@@ -448,7 +448,7 @@ add_action('admin_init', 'inbound_forms_redirect');
 if (!function_exists('inbound_forms_redirect')) {
     function inbound_forms_redirect($value){
         global $pagenow;
-        $page = (isset($_REQUEST['page']) ? $_REQUEST['page'] : false);
+        $page = (isset($_REQUEST['page']) ? sanitize_text_field($_REQUEST['page']) : false);
         if($pagenow=='edit.php' && $page=='inbound-forms-redirect'){
             wp_redirect(get_admin_url().'edit.php?post_type=inbound-forms');
             exit;

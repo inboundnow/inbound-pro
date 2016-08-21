@@ -345,15 +345,14 @@ if ( ! class_exists( 'Inbound_Mailer_Variations' ) ) {
 			global $post;
 
 			if (isset($_REQUEST['inbvid'])){
-				return $_REQUEST['inbvid'];
+				return intval($_REQUEST['inbvid']);
 			}
 
-			(isset($post->ID)) ? $post_id = $post->ID : $post_id = $_REQUEST['post'];
+			$post_id = (isset($post->ID)) ? $post->ID : intval($_REQUEST['post']);
 
 			if (isset($_SESSION[ $post_id . '-variation-id'])) {
 				return $_SESSION[ $post_id . '-variation-id'];
 			}
-
 
 			return 0;
 		}

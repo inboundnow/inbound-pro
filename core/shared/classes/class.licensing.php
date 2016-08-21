@@ -13,8 +13,9 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; } /* Exit if accessed directly */
 
 
-if ( ! defined( 'INBOUNDNOW_STORE_URL' ) )
-	define('INBOUNDNOW_STORE_URL','http://www.inboundnow.com/');
+if ( ! defined( 'INBOUNDNOW_STORE_URL' ) ) {
+	define('INBOUNDNOW_STORE_URL', 'http://www.inboundnow.com/');
+}
 
 if ( ! class_exists( 'Inbound_License' ) )
 {
@@ -31,12 +32,13 @@ if ( ! class_exists( 'Inbound_License' ) )
 
 		function __construct( $plugin_file, $plugin_label, $plugin_slug, $plugin_version, $remote_download_slug )
 		{
+
 			$this->plugin_basename = plugin_basename( $plugin_file );
 			$this->plugin_slug = $plugin_slug;
 			$this->plugin_label = $plugin_label;
 			$this->plugin_version = $plugin_version;
 			$this->remote_download_slug = $remote_download_slug;
-			$this->master_license_key = get_option('inboundnow_master_license_key', '');
+			$this->master_license_key = (defined('INBOUND_ACCESS_LEVEL')) ? Inbound_API_Wrapper::get_api_key() : get_option('inboundnow_master_license_key', '');
 			$this->remote_api_url = INBOUNDNOW_STORE_URL;
 
 			$this->hooks();
@@ -44,6 +46,16 @@ if ( ! class_exists( 'Inbound_License' ) )
 
 
 		private function hooks() {
+
+			/* add automatic updates to plugin */
+			/*update_option('_site_transient_update_plugins',''); //uncomment to force upload update check */
+			add_filter( 'pre_set_site_transient_update_plugins', array( $this, 'pre_set_site_transient_update_plugins_filter' ) );
+			add_filter( 'plugins_api', array( $this, 'plugins_api_filter' ), 10, 3);
+
+			/* render license key settings in license keys tab */
+			if (defined('INBOUND_ACCESS_LEVEL') ) {
+				return;
+			}
 
 			/* Add licenses key to global settings array */
 			add_filter( 'lp_define_global_settings', array( $this, 'lp_settings' ), 2 );
@@ -55,15 +67,12 @@ if ( ! class_exists( 'Inbound_License' ) )
 				$this->save_license_field();
 			}
 
-			/* render license key settings in license keys tab */
-			add_action('lp_render_global_settings', array( $this, 'display_license_field' ) );
-			add_action('wpleads_render_global_settings', array( $this, 'display_license_field' ) );
-			add_action('wp_cta_render_global_settings', array( $this, 'display_license_field' ) );
 
-			/* add automatic updates to plugin */
-			/*update_option('_site_transient_update_plugins',''); //uncomment to force upload update check */
-			add_filter( 'pre_set_site_transient_update_plugins', array( $this, 'pre_set_site_transient_update_plugins_filter' ) );
-			add_filter( 'plugins_api', array( $this, 'plugins_api_filter' ), 10, 3);
+			add_action('lp_render_global_settings', array($this, 'display_license_field'));
+			add_action('wpleads_render_global_settings', array($this, 'display_license_field'));
+			add_action('wp_cta_render_global_settings', array($this, 'display_license_field'));
+
+
 
 		}
 
@@ -182,11 +191,12 @@ if ( ! class_exists( 'Inbound_License' ) )
 			/* Call the custom API. */
 			$response = wp_remote_get( add_query_arg( $api_params, $this->remote_api_url ), array( 'timeout' => 30, 'sslverify' => false ) );
 
-			if ( is_wp_error( $response ) )
+			if ( is_wp_error( $response ) ) {
 				return false;
+			}
 
 			$license_data = json_decode( wp_remote_retrieve_body( $response ) );
-			/*print_r($license_data);exit; */
+
 
 			if( $license_data->license == 'active' ) {
 				$newDate = date('Y-m-d', strtotime($license_data->expires));
@@ -337,7 +347,15 @@ if ( ! class_exists( 'Inbound_License' ) )
 
 /* Legacy Class Name */
 if ( !class_exists('INBOUNDNOW_EXTEND') ) {
+	if (
+		!defined('INBOUND_ACCESS_LEVEL')
+		||
+		( defined('INBOUND_ACCESS_LEVEL') && INBOUND_ACCESS_LEVEL < 1 )
+	) {
+		class INBOUNDNOW_EXTEND extends Inbound_License {
+		}
 
-	class INBOUNDNOW_EXTEND extends Inbound_License {};
+		;
+	}
 
 }

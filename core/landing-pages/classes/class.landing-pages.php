@@ -426,9 +426,9 @@ function lp_content_area($post = null, $content = null, $return = false) {
     }
 
     if (!isset($post) && isset($_REQUEST['post'])) {
-        $post = get_post($_REQUEST['post']);
+        $post = get_post(intval($_REQUEST['post']));
     } else if (!isset($post) && isset($_REQUEST['lp_id'])) {
-        $post = get_post($_REQUEST['lp_id']);
+        $post = get_post(intval($_REQUEST['lp_id']));
     }
 
 
@@ -649,8 +649,8 @@ function lp_ab_testing_get_current_variation_id() {
     }
     /*echo $_REQUEST['lp-variation-id']; */
     if (isset($_REQUEST['lp-variation-id'])) {
-        $_SESSION['lp_ab_test_open_variation'] = $_REQUEST['lp-variation-id'];
-        $current_variation_id = $_REQUEST['lp-variation-id'];
+        $_SESSION['lp_ab_test_open_variation'] = intval($_REQUEST['lp-variation-id']);
+        $current_variation_id = intval($_REQUEST['lp-variation-id']);
         /*echo "setting session $current_variation_id"; */
     }
 

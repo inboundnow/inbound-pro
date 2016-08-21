@@ -88,8 +88,8 @@ class Inbound_Funnel_Reporting {
      * Load defaults
      */
     public static function load_defaults() {
-        self::$selected_event = (isset($_GET['event_name'])) ? $_GET['event_name'] : 'inbound_form_submission';
-        self::$selected_range = (isset($_GET['range']) ) ? $_GET['range'] : 'all'; /*default is 5 years aka 'all' */
+        self::$selected_event = (isset($_GET['event_name'])) ? sanitize_text_field($_GET['event_name']) : 'inbound_form_submission';
+        self::$selected_range = (isset($_GET['range']) ) ? sanitize_text_field($_GET['range']) : 'all'; /*default is 5 years aka 'all' */
 
         /* get secondary grouping column for MySQL data */
         switch(self::$selected_event) {
@@ -351,9 +351,9 @@ class Inbound_Funnel_Reporting {
     public static function display_funnel() {
 
         $funnel = json_decode(stripslashes($_GET['funnel']), true);
-        $event_name = $_GET['event_name'];
-        $range = $_GET['range'];
-        $capture_page = $_GET['capture_page'];
+        $event_name = sanitize_text_field($_GET['event_name']);
+        $range = sanitize_text_field($_GET['range']);
+        $capture_page = sanitize_text_field($_GET['capture_page']);
 
 
         ?>

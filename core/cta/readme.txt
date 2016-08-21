@@ -6,8 +6,8 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: Call to action, Calls to Action, CTA, inbound marketing, call outs, ad management, split testing, a b test, a b testing, a/b test, a/b testing, popups, email list, landing page, pop up, list building, inbound now, wp-call-to-actions, cpa, click tracking, ad placement, banner ads, slide in call outs, fly ins, like to download, social media share buttons
 Requires at least: 3.8
-Tested up to: 4.5.2
-Stable Tag: 2.7.3
+Tested up to: 4.6
+Stable Tag: 2.7.5
 
 Create Calls to Action for your WordPress site. Monitor and improve conversion rates, run A/B split tests, customize your own CTA templates and more.
 
@@ -68,6 +68,10 @@ The plugin is also fully extendable and has a number of actions, filters, and ho
 8. Global placements via your sites sidebar
 
 == Changelog ==
+
+= 2.7.5 =
+* Sanitizing GET/REQUEST/POST variables when applicable.
+* Upgrading Sabberworm CSS parsing class to be PHP Compatible.
 
 = 2.7.4 =
 * Fixing Redner issue with Thumbnail CTA

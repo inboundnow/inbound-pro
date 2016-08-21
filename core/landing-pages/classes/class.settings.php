@@ -77,27 +77,33 @@ class Landing_Pages_Settings {
         );
 
 
-        if (!defined('INBOUND_PRO_PATH')) {
+        if (
+            !defined('INBOUND_ACCESS_LEVEL')
+            ||
+            ( defined('INBOUND_ACCESS_LEVEL') && INBOUND_ACCESS_LEVEL < 1 )
+        ) {
             /* Setup License Keys Tab */
-            $lp_global_settings['lp-license-keys']['label'] = __( 'License Keys' , 'landing-pages');
-            $lp_global_settings['lp-license-keys']['settings'][] = 	array(
-                'id'  => 'extensions-license-keys-header',
-                'description' => __( "Head to http://www.inboundnow.com/ to retrieve your license key for this template." , 'landing-pages'),
-                'type'  => 'header',
-                'default' => '<h3 class="lp_global_settings_header">'. __( 'Extension Licensing' , 'landing-pages') .'</h3>'
+            $lp_global_settings['lp-license-keys']['label'] = __('License Keys', 'landing-pages');
+            $lp_global_settings['lp-license-keys']['settings'][] = array(
+                'id' => 'extensions-license-keys-header',
+                'description' => __("Head to http://www.inboundnow.com/ to retrieve your license key for this template.", 'landing-pages'),
+                'type' => 'header',
+                'default' => '<h3 class="lp_global_settings_header">' . __('Extension Licensing', 'landing-pages') . '</h3>'
             );
         }
 
-        /* Setup Extensions Tab */
-        $lp_global_settings['lp-extensions']['label'] = __( 'Extensions' , 'landing-pages');
-        $lp_global_settings['lp-extensions']['settings'] = array(
-            array(
-                'id'  => 'lp-ext-header',
-                'type'  => 'header',
-                'default'  => '',
-                'options' => null
-            )
-        );
+        if (!defined('INBOUND_ACCESS_LEVEL') ) {
+            /* Setup Extensions Tab */
+            $lp_global_settings['lp-extensions']['label'] = __( 'Extensions' , 'landing-pages');
+            $lp_global_settings['lp-extensions']['settings'] = array(
+                array(
+                    'id'  => 'lp-ext-header',
+                    'type'  => 'header',
+                    'default'  => '',
+                    'options' => null
+                )
+            );
+        }
 
         /* Setup Debug Tab */
         $lp_global_settings['lp-debug']['label'] = __( 'Debug' , 'landing-pages');
@@ -534,11 +540,14 @@ class Landing_Pages_Settings {
                     $wp_rewrite->flush_rules();
                 }
                 if ($field['type']=='inboundnow-license-key') {
+                    if (defined('INBOUND_ACCESS_LEVEL')  ) {
+                        return;
+                    }
                     /* error_log(print_r($field, true)); */
                     $slug = (isset($field['remote_download_slug'])) ? $field['remote_download_slug'] : $field['slug'];
                     $api_params = array(
                         'edd_action' => 'inbound_check_license',
-                        'license' =>   $_POST['inboundnow_master_license_key'],
+                        'license' =>   sanitize_text_field($_POST['inboundnow_master_license_key']),
                         'item_name' => $slug
                     );
                     /* error_log(print_r($api_params, true)); */
@@ -560,7 +569,7 @@ class Landing_Pages_Settings {
                     update_option('lp_license_status-' . $field['slug'], $license_data->license);
                 } else {
                     if (isset($_POST[$field['id']])) {
-                        update_option($field['id'], $_POST[$field['id']]);
+                        update_option($field['id'], sanitize_text_field($_POST[$field['id']]));
                     }
                 }
 

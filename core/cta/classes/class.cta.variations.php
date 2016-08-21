@@ -42,7 +42,9 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 				return;
 			}
 
-			$post = get_post($_GET['post']);
+			$cta_id = intval($_GET['post']);
+			$variation_id = intval($_GET['post']);
+			$post = get_post(intval($cta_id));
 
 			if (!isset($post)||$post->post_type!='wp-call-to-action') {
 				return;
@@ -55,22 +57,22 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 
 			/* Listen for delete variation command */
 			if ( isset($_GET['ab-action']) && $_GET['ab-action']=='delete-variation' ) {
-				self::delete_variation( $_GET['post']	,$_GET['vid'] );
+				self::delete_variation( $cta_id	, $variation_id );
 			}
 
 			/* Listen for pause variation command */
 			if ( isset($_GET['ab-action']) && $_GET['ab-action']=='pause-variation' ) {
-				self::pause_variation( $_GET['post']	,$_GET['vid'] );
+				self::pause_variation( $cta_id	, $variation_id );
 			}
 
 			/* Listen for play variation command */
 			if ( isset($_GET['ab-action']) && $_GET['ab-action']=='play-variation' ) {
-				self::play_variation( $_GET['post']	,$_GET['vid'] );
+				self::play_variation( $cta_id , $variation_id );
 			}
 
 			/* Listen for clone  variation command */
 			if ( isset($_GET['ab-action']) && $_GET['ab-action']=='play-variation' ) {
-				self::play_variation( $_GET['post']	,$_GET['vid'] );
+				self::play_variation( $cta_id , $variation_id );
 			}
 
 			/* Listen for new variation / clone variation command & localize the correct data */
@@ -186,11 +188,11 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 				return;
 			}
 
-			$current_variation = (isset($_POST['wp-cta-variation-id'])) ? $_POST['wp-cta-variation-id'] : '0';
+			$current_variation = (isset($_POST['wp-cta-variation-id'])) ? intval($_POST['wp-cta-variation-id']) : '0';
 			$variations = self::get_variations( $cta_id );
 
 			/* Set current variation status */
-			$variations[ $current_variation ]['status'] = apply_filters( 'wp_cta_save_variation_status',  $_POST['wp-cta-variation-status'][ $current_variation ] );
+			$variations[ $current_variation ]['status'] = apply_filters( 'wp_cta_save_variation_status',  sanitize_text_field($_POST['wp-cta-variation-status'][ $current_variation ] ) );
 
 			/* Update variation meta object */
 			self::update_variations( $cta_id, $variations );
@@ -390,13 +392,13 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 			global $post;
 
 			if (isset($_REQUEST['wp-cta-variation-id'])){
-				return $_REQUEST['wp-cta-variation-id'];
+				return intval($_REQUEST['wp-cta-variation-id']);
 			}
 
-			(isset($post->ID)) ? $post_id = $post->ID : $post_id = $_REQUEST['post'];
+			(isset($post->ID)) ? $post_id = $post->ID : $post_id = intval($_REQUEST['post']);
 
 			if (isset($_SESSION[ $post_id . '-variation-id'])) {
-				return $_SESSION[ $post_id . '-variation-id'];
+				return intval($_SESSION[ $post_id . '-variation-id']);
 			}
 
 

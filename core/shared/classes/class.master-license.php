@@ -1,7 +1,8 @@
 <?php
 
-if (!function_exists('inboundnow_add_master_license'))
+if (!function_exists('inboundnow_add_master_license') && !defined('INBOUND_ACCESS_LEVEL') )
 {
+
 	/* Add Master License Key Setting*/
 	add_filter('lp_define_global_settings', 'inboundnow_add_master_license', 1, 1);
 	add_filter('wpleads_define_global_settings', 'inboundnow_add_master_license', 1, 1);

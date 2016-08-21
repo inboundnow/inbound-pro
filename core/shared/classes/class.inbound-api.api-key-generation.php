@@ -43,7 +43,7 @@ if (!class_exists('Inbound_API_Keys_Generation')) {
 			/* Get User ID */
 			if( isset( $_REQUEST['user_id'] ) ) {
 
-				$userdata   = get_user_by( 'id', $_REQUEST['user_id'] );
+				$userdata   = get_user_by( 'id', intval($_REQUEST['user_id']) );
 				if (isset($userdata->ID)) {
 					$user_id    = $userdata->ID;
 				} else {

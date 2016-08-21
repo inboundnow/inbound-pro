@@ -266,11 +266,11 @@ class Inbound_Mailer_Tokens {
 
 		/* check to see if lead id is set as a REQUEST */
 		if ( isset($params['lead_id']) ) {
-			$lead_id = $params['lead_id'];
+			$lead_id = intval($params['lead_id']);
 		} else if ( isset($_REQUEST['lead_id']) ) {
-			$lead_id = $_REQUEST['lead_id'];
+			$lead_id = intval($_REQUEST['lead_id']);
 		} else if ( isset($_COOKIE['wp_lead_id']) ) {
-			$lead_id = $_COOKIE['wp_lead_id'];
+			$lead_id = intval($_COOKIE['wp_lead_id']);
 		}
 
 		/* return default if no lead id discovered */

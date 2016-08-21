@@ -70,7 +70,7 @@ class Inbound_Mailer_Clone_Post {
 	public static function clone_post($status = '')
 	{
 		// Get the original post
-		$id = (isset($_GET['post']) ? $_GET['post'] : $_POST['post']);
+		$id = (isset($_GET['post']) ) ? intval($_GET['post']) : intval($_POST['post']);
 		$post = get_post($id);
 
 		// Copy the post and insert it
@@ -142,10 +142,19 @@ class Inbound_Mailer_Clone_Post {
 		
 		/* destroy any past statistics */
 		unset($meta_data['inbound_statistics']);
-		
+
 		foreach ($meta_data as $key=>$value) {
 			if ($key=='inbound_settings') {
 				$value[0] = unserialize( $value[0] );
+
+				/* clean up broken font colors */
+				foreach ($value[0]['variations'] as $vid => $data) {
+					foreach ($data['acf'] as $k => $v) {
+						if (is_array($v) && count($v) > 1 && strstr('#',$v[1]) ) {
+							$value[0]['variations'][$vid]['acf'][$k] = $v[1];
+						}
+					}
+				}
 			}
 
 			update_post_meta($new_post_id , $key , $value[0]);

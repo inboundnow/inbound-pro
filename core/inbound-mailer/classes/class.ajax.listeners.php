@@ -146,26 +146,28 @@ class Inbound_Mailer_Ajax_Listeners {
 			$stats = array();
 		}
 
-		if (isset($stats[$_REQUEST['email_id']])) {
-			echo json_encode($stats[$_REQUEST['email_id']]);
+		$email_id = intval($_REQUEST['email_id']);
+
+		if (isset($stats[$email_id])) {
+			echo json_encode($stats[$email_id]);
 			header('HTTP/1.1 200 OK');
 			exit;
 		}
 
 		switch ($inbound_settings['inbound-mailer']['mail-service']) {
 			case "mandrill":
-				$stats[$_REQUEST['email_id']] = Inbound_Mandrill_Stats::get_email_timeseries_stats( $_REQUEST['email_id'] );
+				$stats[$email_id] = Inbound_Mandrill_Stats::get_email_timeseries_stats( $email_id );
 
 				break;
 			case "sparkpost":
-				$stats[$_REQUEST['email_id']] = Inbound_SparkPost_Stats::get_sparkpost_inbound_events( $_REQUEST['email_id'] );
-				//$stats[$_REQUEST['email_id']] = Inbound_SparkPost_Stats::get_email_timeseries_stats( $_REQUEST['email_id'] );
+				$stats[$email_id] = Inbound_SparkPost_Stats::get_sparkpost_inbound_events( $email_id );
+				//$stats[$email_id] = Inbound_SparkPost_Stats::get_email_timeseries_stats( $email_id );
 				break;
 		}
 
 		set_transient('inbound-email-stats-cache' , $stats , 60* 5);
 
-		echo json_encode($stats[$_REQUEST['email_id']]);
+		echo json_encode($stats[$email_id]);
 		header('HTTP/1.1 200 OK');
 		exit;
 	}
@@ -179,11 +181,11 @@ class Inbound_Mailer_Ajax_Listeners {
 		$lead_id = LeadStorage::lookup_lead_by_email($_REQUEST['email_address']);
 
 		$response = Inbound_Mail_Daemon::send_solo_email( array(
-			'email_address' => $_REQUEST['email_address'] ,
-			'email_id' => $_REQUEST['email_id'] ,
-			'vid' => $_REQUEST['variation_id'],
-			'from_name' => $_REQUEST['variation_id'],
-			'lead_id' => ( $lead_id ) ? $lead_id : 0,
+			'email_address' => sanitize_text_field($_REQUEST['email_address']) ,
+			'email_id' => intval($_REQUEST['email_id']) ,
+			'vid' => intval($_REQUEST['variation_id']),
+			'from_name' => 'test@inboundnow.com',
+			'lead_id' => ( $lead_id ) ? intval($lead_id) : 0,
 			'is_test' => true
 		));
 
@@ -210,6 +212,7 @@ class Inbound_Mailer_Ajax_Listeners {
 	 *  Unschedule email
 	 */
 	public static function unschedule_email() {
+		error_log(1);
 		do_action('inbound-mailer/unschedule-email' , $_REQUEST['email_id'] );
 		exit;
 	}
@@ -339,7 +342,7 @@ class Inbound_Mailer_Ajax_Listeners {
 	public static function clear_stats() {
 		global $wpdb;
 
-		$email_id = $_REQUEST['email_id'];
+		$email_id = intval($_REQUEST['email_id']);
 		$table_name = $wpdb->prefix . "inbound_events";
 
 		/* delete the meta stats object */

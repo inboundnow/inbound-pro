@@ -556,8 +556,7 @@ class Inbound_Pro_Downloads {
 	 *  Loop through downloads datset and display grid items
 	 */
 	public static function display_grid_items() {
-		self::$customer = Inbound_Pro_Plugin::get_customer_status();
-
+		$page = sanitize_text_field($_GET['page']);
 		?>
 
 		<div class="wrap">
@@ -572,16 +571,15 @@ class Inbound_Pro_Downloads {
 
 				/* determine permissions from customer access level*/
 				$permitted = false;
-				self::$access_level = Inbound_Pro_Plugin::get_customer_status();
 
 				switch (self::$management_mode) {
 					case 'templates':
-						if (self::$access_level > 0 ) {
+						if (INBOUND_ACCESS_LEVEL > 0 ) {
 							$permitted = true;
 						}
 						break;
 					case 'extensions':
-						if (self::$access_level > 0 ) {
+						if (INBOUND_ACCESS_LEVEL > 0 ) {
 							$permitted = true;
 						}
 						break;
@@ -661,7 +659,7 @@ class Inbound_Pro_Downloads {
 							if ( in_array( 'uninstalled' , $download['status'] )&& $permitted ) {
 								?>
 								<div class="action-install">
-									<a  href="admin.php?page=<?php echo $_GET['page']; ?>&action=install&download_name=<?php echo $download['post_name']; ?>&download_type=<?php echo $download['download_type']; ?>&filename=<?php echo $download['filename']; ?>" class="power-toggle power-is-off fa fa-power-off"  data-toggle="tooltip" id='<?php echo $download['post_name']; ?>' title='<?php _e( 'Turn On' , INBOUNDNOW_TEXT_DOMAIN ); ?>'></a>
+									<a  href="admin.php?page=<?php echo $page; ?>&action=install&download_name=<?php echo $download['post_name']; ?>&download_type=<?php echo $download['download_type']; ?>&filename=<?php echo $download['filename']; ?>" class="power-toggle power-is-off fa fa-power-off"  data-toggle="tooltip" id='<?php echo $download['post_name']; ?>' title='<?php _e( 'Turn On' , INBOUNDNOW_TEXT_DOMAIN ); ?>'></a>
 								</div>
 								<?php
 							}
@@ -669,14 +667,14 @@ class Inbound_Pro_Downloads {
 							if ( in_array( 'installed' , $download['status'] ) && $permitted ) {
 								?>
 								<div class="action-uninstall">
-									<a href="admin.php?page=<?php echo $_GET['page']; ?>&action=uninstall&download_name=<?php echo $download['post_name']; ?>&filename=<?php echo $download['filename']; ?>" class="power-toggle power-is-on fa fa-power-off"  data-toggle="tooltip" id='<?php echo $download['post_name']; ?>' title='<?php _e( 'Turn Off' , INBOUNDNOW_TEXT_DOMAIN ); ?>'></a>
+									<a href="admin.php?page=<?php echo $page; ?>&action=uninstall&download_name=<?php echo $download['post_name']; ?>&filename=<?php echo $download['filename']; ?>" class="power-toggle power-is-on fa fa-power-off"  data-toggle="tooltip" id='<?php echo $download['post_name']; ?>' title='<?php _e( 'Turn Off' , INBOUNDNOW_TEXT_DOMAIN ); ?>'></a>
 								</div>
 
 								<?php
 								if ( in_array( 'needs-update' , $download['status'] ) ) {
 									?>
 									<div class="action-update">
-										<a href="admin.php?page=<?php echo $_GET['page']; ?>&action=install&download_name=<?php echo $download['post_name']; ?>&download_type=<?php echo $download['download_type']; ?>&filename=<?php echo $download['filename']; ?>" class="fa fa-floppy-o"  data-toggle="tooltip" id='<?php echo $download['post_name']; ?>' title='<?php _e( 'Update' , INBOUNDNOW_TEXT_DOMAIN ); ?>'></a>
+										<a href="admin.php?page=<?php echo $page; ?>&action=install&download_name=<?php echo $download['post_name']; ?>&download_type=<?php echo $download['download_type']; ?>&filename=<?php echo $download['filename']; ?>" class="fa fa-floppy-o"  data-toggle="tooltip" id='<?php echo $download['post_name']; ?>' title='<?php _e( 'Update' , INBOUNDNOW_TEXT_DOMAIN ); ?>'></a>
 									</div>
 									<?php
 								}
@@ -871,7 +869,7 @@ class Inbound_Pro_Downloads {
 		</script>
 		<?php
 
-		if ( intval(self::$access_level) < 3) {
+		if ( intval(INBOUND_ACCESS_LEVEL) < 3) {
 			?>
 			<style type="text/css">
 			body .details-install {
