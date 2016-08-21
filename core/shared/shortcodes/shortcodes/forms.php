@@ -380,10 +380,10 @@ if (!function_exists('inbound_forms_cpt')) {
             'publicly_queryable' => false,
             'show_ui' => true,
             'query_var' => true,
-            'show_in_menu'  => false,
+            'show_in_menu'  => true,
             'capability_type' => 'post',
             'hierarchical' => false,
-            'menu_position' => null,
+            'menu_position' => 34,
             'supports' => array('title','custom-fields', 'editor')
         );
 
@@ -440,18 +440,6 @@ if (is_admin()) {
                     echo $count;
                     break;
             }
-        }
-    }
-}
-
-add_action('admin_init', 'inbound_forms_redirect');
-if (!function_exists('inbound_forms_redirect')) {
-    function inbound_forms_redirect($value){
-        global $pagenow;
-        $page = (isset($_REQUEST['page']) ? sanitize_text_field($_REQUEST['page']) : false);
-        if($pagenow=='edit.php' && $page=='inbound-forms-redirect'){
-            wp_redirect(get_admin_url().'edit.php?post_type=inbound-forms');
-            exit;
         }
     }
 }
