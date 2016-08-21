@@ -37,6 +37,12 @@
     content: "\f111";
     font-family: dashicons;
 }
+:root:root:root #adminmenu .menu-icon-inbound-forms div.wp-menu-image:before {
+    content: "\f044";
+    font-family: "FontAwesome" !important;
+    padding-top: 10px;
+    font-size:16px;
+}
 :root:root:root #adminmenu .menu-icon-wp-call-to-action div.wp-menu-image:before {
     font-family: "FontAwesome" !important;
     content: "\f05b";

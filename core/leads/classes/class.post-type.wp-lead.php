@@ -607,7 +607,7 @@ class Leads_Post_Type {
             array('Leads_Manager', 'display_ui')
         );
 
-        /* Manage Forms */
+        /* Manage Forms - now has it's own menu item
         add_submenu_page(
             'edit.php?post_type=wp-lead',
             __('Forms', 'inbound-pro' ),
@@ -615,7 +615,7 @@ class Leads_Post_Type {
             'edit_leads',
             'inbound-forms-redirect',
             100
-        );
+        );*/
 
         /* Settings */
         add_submenu_page(

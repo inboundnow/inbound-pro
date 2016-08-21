@@ -25,7 +25,7 @@ class Landing_Pages_Admin_Menus {
      */
 	public static function add_sub_menus() {
 
-        add_submenu_page('edit.php?post_type=landing-page', __('Forms', 'landing-pages'), __('Forms', 'landing-pages'), 'edit_landing_pages', 'inbound-forms-redirect', 100);
+        /* add_submenu_page('edit.php?post_type=landing-page', __('Forms', 'landing-pages'), __('Forms', 'landing-pages'), 'edit_landing_pages', 'inbound-forms-redirect', 100); */
 
         add_submenu_page('edit.php?post_type=landing-page', __('Settings', 'landing-pages'), __('Settings', 'landing-pages'), 'edit_landing_pages', 'lp_global_settings', array('Landing_Pages_Settings' , 'display_settings'));
 
