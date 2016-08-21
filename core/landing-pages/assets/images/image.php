@@ -1,5 +1,19 @@
 <?php
 
+
+if (!function_exists('inbound_sanitize_this')) {
+    function inbound_sanitize_this($color) {
+        if ( '' === $color ) {
+            return '';
+        }
+
+        // 3 or 6 hex digits, or the empty string.
+        if ( preg_match('|^#([A-Fa-f0-9]{3}){1,2}$|', $color ) ) {
+            return $color;
+        }
+    }
+}
+
 // file: image.php
 // Dynamically Create a clear png for css background opacities
 header("Content-type: image/png");
@@ -56,18 +70,6 @@ if (isset($RBG_array)) {
 
 }
 
-if (!function_exists('inbound_sanitize_this')) {
-    function inbound_sanitize_this($color) {
-        if ( '' === $color ) {
-            return '';
-        }
-
-        // 3 or 6 hex digits, or the empty string.
-        if ( preg_match('|^#([A-Fa-f0-9]{3}){1,2}$|', $color ) ) {
-            return $color;
-        }
-    }
-}
 // usage in html: <image src="path-to-file/image.php?hex=HEXCOLOR">
 // Make sure to add in the HEX GET Parameters with ?hex= and ?trans= for transparency
 // example: <image src="path-to-file/image.php?hex=ffffff"> will call white transparent png
