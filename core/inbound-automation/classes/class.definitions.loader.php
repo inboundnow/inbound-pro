@@ -286,8 +286,8 @@ if (!class_exists('Inbound_Automation_Loader')) {
                     $evals = array();
 
                     $arguments = self::generate_arguments($trigger, $args);
-                    error_log('process_trigger');
-                    error_log(print_r($arguments,true));
+                    //error_log('process_trigger');
+                    //error_log(print_r($arguments,true));
                     /* Check Trigger Filters */
                     if (isset(self::$rule['trigger_filters']) && self::$rule['trigger_filters']) {
 
@@ -519,8 +519,8 @@ if (!class_exists('Inbound_Automation_Loader')) {
 
             /* do not use old data stored in memory when no new data available */
             $i = 0;
-            error_log('near final before');
-            error_log(print_r(self::$instance->inbound_arguments[$hook],true));
+            //error_log('near final before');
+            //error_log(print_r(self::$instance->inbound_arguments[$hook],true));
 
             foreach (self::$instance->inbound_arguments[$hook] as $key=> $arg) {
 
@@ -541,8 +541,8 @@ if (!class_exists('Inbound_Automation_Loader')) {
                 $i++;
             }
 
-            error_log('near final after');
-            error_log(print_r(self::$instance->inbound_arguments[$hook],true));
+            //error_log('near final after');
+            //error_log(print_r(self::$instance->inbound_arguments[$hook],true));
 
             /* return arguments */
             return self::$instance->inbound_arguments[$hook];
