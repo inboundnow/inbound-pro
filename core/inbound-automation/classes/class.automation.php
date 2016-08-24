@@ -9,8 +9,12 @@ class Inbound_Automation_Processing {
 
 	static $definitions;
 	static $queue;
-	static $job_id; /* placeholder for queue id of job being ran */
-	static $job; /* placeholder for dataset job being ran */
+	static $job; /* placeholder for queued record being processed.   */
+	static $job_id; /* placeholder for unique queue id of current job being processed  */
+	static $job_rule_id; /* placeholder for rule id of current job being processed */
+	static $job_tasks; /* placeholder for tasks dataset related to a running job */
+	static $job_trigger_data; /* placeholder for tasks dataset related to a running job */
+	static $job_run_date; /* placeholder for scheduling */
 
 	/**
 	*  Initializes class
@@ -55,6 +59,7 @@ class Inbound_Automation_Processing {
             update_option( 'inbound_automation_queue' , null );
 		}
 
+
 		if (isset($_GET['inbound-automation-run-rules'])) {
             self::process_rules();
             exit;
@@ -73,22 +78,26 @@ class Inbound_Automation_Processing {
 			return;
 		}
 
-
 		/* Loop through queue and process job */
 		foreach (self::$queue as $job_id => $job) {
 
 			/* set static variables */
 			self::$job = $job;
-			self::$job_id = $job_id;
+			self::$job_id = $job['id'];
+			self::$job_rule_id = $job['rule_id'];
+			self::$job_tasks = json_decode($job['tasks'],true);
+			self::$job_trigger_data = json_decode($job['trigger_data'],true);
+
+			/* discover datetime to run */
+			$timezone_format = 'Y-m-d G:i:s T';
+			$wordpress_date_time =  date_i18n($timezone_format);
+			self::$job_run_date = $wordpress_date_time;
 
 			/* run job */
 			self::run_job();
 
-			/* unset completed job from queue */
-			self::unset_completed_job();
-
-			/* Update Rule Queue After Completed Job */
-			self::update_queue();
+			/* Update Rule After Completed Job */
+			self::update_rule();
 
 		}
 
@@ -98,24 +107,58 @@ class Inbound_Automation_Processing {
 	*  Load rule queue
 	*/
 	public static function load_queue() {
-		Inbound_Automation_Processing::$queue = get_option( 'inbound_automation_queue' , array() );
-		return Inbound_Automation_Processing::$queue;
+		global $wpdb;
+
+		$table_name = $wpdb->prefix . "inbound_automation_queue";
+
+		/* discover datetime to run */
+		$timezone_format = 'Y-m-d G:i:s T';
+		$wordpress_date_time =  date_i18n($timezone_format);
+
+		$query = 'SELECT * FROM '.$table_name.' WHERE datetime <= "'.$wordpress_date_time.'"';
+		self::$queue = $wpdb->get_results( $query , ARRAY_A );
+
+		return self::$queue;
 	}
 
 	/**
 	*  Update rule queue
 	*/
-	public static function update_queue( $queue = null ) {
+	public static function update_rule() {
 
-		if (is_array($queue)) {
-			Inbound_Automation_Processing::$queue = $queue;
-		}
+		global $wpdb;
 
-		if ( get_option( 'inbound_automation_queue' ) !== false ) {
-			update_option( 'inbound_automation_queue' , Inbound_Automation_Processing::$queue , 'no' );
+		$table_name = $wpdb->prefix . "inbound_automation_queue";
+
+		/* Remove Job from Rule Queue if Empty */
+		if (!isset(self::$job_tasks['action_blocks']) || !self::$job_tasks['action_blocks']) {
+
+			$args = array(
+				'id' => self::$job_id
+			);
+
+			$wpdb->delete( $table_name , $args );
+
+			inbound_record_log(
+				__( 'Job Completed' , 'inbound-pro' ) ,
+				__('This job has successfully completed all it\'s tasks.' , 'inbound-pro' ),
+				self::$job_rule_id ,
+				self::$job_id ,
+				'processing_event'
+			);
+
 		} else {
-			add_option( 'inbound_automation_queue' , Inbound_Automation_Processing::$queue , null,  'no' );
+			$update = array(
+				'tasks' => json_encode(self::$job_tasks),
+				'datetime' => self::$job_run_date
+			);
+			$where = array(
+				'id' => self::$job_id,
+			);
+
+			$wpdb->update($table_name, $update , $where);
 		}
+
 	}
 
 	/**
@@ -125,24 +168,24 @@ class Inbound_Automation_Processing {
 	public static function run_job() {
 
 		/* Tell Log We Are Running An Job */
-		inbound_record_log(  'Starting Job' , '<pre>' . print_r( self::$job , true ) . '</pre>', self::$job['rule']['ID'] , self::$job_id , 'processing_event' );
+		inbound_record_log(  'Starting Job' , '<pre>' . print_r( self::$job , true ) . '</pre>', self::$job_rule_id , self::$job_id , 'processing_event' );
 
-		foreach ( self::$job['rule']['action_blocks'] as $block_id => $block ) {
+		foreach ( self::$job_tasks['action_blocks'] as $block_id => $block ) {
 
 			/* Filter Action Block */
-            self::$job['rule']['action_blocks'][$block_id]['evaluated'] = self::evaluate_action_block( $block );
+            self::$job_tasks['action_blocks'][$block_id]['evaluated'] = self::evaluate_action_block( $block );
 
 			/* If Evaluation Fails */
-			if ( self::$job['rule']['action_blocks'][$block_id]['evaluated'] != 'true' ) {
+			if ( self::$job_tasks['action_blocks'][$block_id]['evaluated'] != 'true' ) {
 
 				/* Run 'Else' Actions & Unset Action Block*/
-				if ( isset( self::$job['rule']['action_blocks'][$block_id]['actions']['else']) ) {
-					self::$job['rule']['action_blocks'][ $block_id ] = self::run_actions( self::$job['rule']['action_blocks'][ $block_id ] , 'else' );
+				if ( isset( self::$job_tasks['action_blocks'][$block_id]['actions']['else']) ) {
+					self::$job_tasks['action_blocks'][ $block_id ] = self::run_actions( self::$job_tasks['action_blocks'][ $block_id ] , 'else' );
 				}
 
 				/* Continue to Next Action Block If Above Coditions are False & Unset Action Block */
 				else {
-					unset( self::$job['rule']['action_blocks'][$block_id] );
+					unset( self::$job_tasks['action_blocks'][$block_id] );
 					continue;
 				}
 			}
@@ -151,7 +194,7 @@ class Inbound_Automation_Processing {
 			else {
 				/* Run 'Then' Actions */
 				if ( isset($block['actions']['then']) ) {
-					self::$job['rule']['action_blocks'][ $block_id ] = self::run_actions( self::$job['rule']['action_blocks'][ $block_id ] , 'then' );
+					self::$job_tasks['action_blocks'][ $block_id ] = self::run_actions( self::$job_tasks['action_blocks'][ $block_id ] , 'then' );
 				}
 			}
 		}
@@ -189,7 +232,7 @@ class Inbound_Automation_Processing {
 				inbound_record_log(
 					__( 'Action Delayed' , 'inbound-pro' ) ,
 					'Action Set to Be Performed on ' . $block['actions'][ $type ]['run_date'] . '<h2>Raw Action Block Data</h2><pre>' . print_r($block , true ) . '</pre>',
-					self::$job['rule']['ID'] ,
+					self::$job_rule_id ,
 					self::$job_id ,
 					'delay_event'
 				);
@@ -197,7 +240,7 @@ class Inbound_Automation_Processing {
 			}
 
 			/* Set Additional Data into Action Settings Array */
-			$block['actions'][ $type ][ $action_id ]['rule_id'] = self::$job['rule']['ID'];
+			$block['actions'][ $type ][ $action_id ]['rule_id'] = self::$job_rule_id;
 			$block['actions'][ $type ][ $action_id ]['job_id'] = self::$job_id;
 
 			/* Run Action */
@@ -208,7 +251,7 @@ class Inbound_Automation_Processing {
 
 				/* Update Actions Meta With Schedule Date */
 				$block['actions'][ $type ]['run_date'] = $block['actions'][ $type ][ $action_id ]['run_date'];
-
+				self::$job_run_date = $block['actions'][ $type ]['run_date'];
 			}
 
 			/* Remove Action from Block */
@@ -228,7 +271,7 @@ class Inbound_Automation_Processing {
 
 		$class = new $action['action_class_name'];
 
-		$action = $class->run_action( $action  , self::$job['arguments'] , self::$job['rule']['ID'] );
+		$action = $class->run_action( $action  , self::$job_trigger_data , self::$job_rule_id );
 
 		return $action;
 	}
@@ -276,7 +319,7 @@ class Inbound_Automation_Processing {
 				'<h2>'. __( 'Action Evaluation Nature:' , 'inbound-pro' ) .'</h2><pre>' . $block['action_block_filters_evaluate'] . '</pre>' .
 				'<h2>' . __( 'Action Evaluation Debug Data:' , 'inbound-pro' ) .'</h2> <pre>' . print_r( $evals , true )  . '</pre>' .
 				'<h2>'. __('Action Block' , 'inbound-pro' ) .'</h2><pre>'.print_r( $block , true ).'</pre>'
-				, self::$job['rule']['ID']
+				, self::$job_rule_id
 				, self::$job_id
 				,'evaluation_event'
 			);
@@ -304,7 +347,7 @@ class Inbound_Automation_Processing {
 		$class_name = $db_lookup_filter['class_name'];
 		$function_name = 'query_' . $filter['action_filter_key'] ;
 
-		$db_lookup = $class_name::$function_name(  $db_lookup_filter['id'] , self::$job['arguments'] );
+		$db_lookup = $class_name::$function_name(  $db_lookup_filter['id'] , self::$job_trigger_data );
 
 		if ( $db_lookup===null ) {
 
@@ -441,17 +484,17 @@ class Inbound_Automation_Processing {
 
 
 		/* loop through action blocks and remove blocks with no more queued actions */
-		foreach ( self::$job['rule']['action_blocks'] as $i => $block ) {
+		foreach ( self::$job_tasks['action_blocks'] as $i => $block ) {
 
 			unset($block['actions']['then']['pointer']);
 			unset($block['actions']['then']['run_date']);
 
-			if (self::$job['rule']['action_blocks'][$i]['evaluated']) {
-				unset(self::$job['rule']['action_blocks'][$i]['actions']['else']);
+			if (self::$job_tasks['action_blocks'][$i]['evaluated']) {
+				unset(self::$job_tasks['action_blocks'][$i]['actions']['else']);
 			}
 
 			if (count($block['actions']['then']) < 1) {
-				unset(self::$job['rule']['action_blocks'][$i]['actions']['then']);
+				unset(self::$job_tasks['action_blocks'][$i]['actions']['then']);
 			}
 
 			if (
@@ -459,35 +502,10 @@ class Inbound_Automation_Processing {
 				&&
 				( !isset($block['actions']['else']) || count($block['actions']['else']) < 1 )
 			) {
-				unset(self::$job['rule']['action_blocks']);
+				unset(self::$job_tasks['action_blocks']);
 			}
 
 		}
-	}
-
-	/**
-	*  Unset job from queue
-	*  @param INT $job_id id of job to remove
-	*/
-	public static function unset_completed_job( ) {
-
-		/* Remove Job from Rule Queue if Empty */
-		if (!isset(self::$job['rule']['action_blocks']) || !self::$job['rule']['action_blocks']) {
-
-			unset( Inbound_Automation_Processing::$queue[ self::$job_id ] );
-
-			inbound_record_log(
-				__( 'Job Completed' , 'inbound-pro' ) ,
-				__('This job has successfully completed all it\'s tasks.' , 'inbound-pro' ),
-				self::$job['rule']['ID'] ,
-				self::$job_id ,
-				'processing_event'
-			);
-
-		} else {
-			Inbound_Automation_Processing::$queue[ self::$job_id ] = self::$job;
-		}
-
 	}
 
 
@@ -496,16 +514,26 @@ class Inbound_Automation_Processing {
 	*/
 	public static function add_job_to_queue( $rule , $arguments ) {
 
-		Inbound_Automation_Processing::$queue = get_option('inbound_automation_queue' , array() );
+		global $wpdb;
+		$table_name = $wpdb->prefix . "inbound_automation_queue";
 
-		if ( !is_array(Inbound_Automation_Processing::$queue) ) {
-			Inbound_Automation_Processing::$queue = array();
-		}
+		/* discover datetime to run - first entry is always "now" */
+		$timezone_format = 'Y-m-d G:i:s T';
+		$wordpress_date_time =  date_i18n($timezone_format);
 
-		Inbound_Automation_Processing::$queue[] = array( 'rule' => $rule , 'arguments' => $arguments );
+		/* setup rule arguments */
+		$rule_args = array(
+			'rule_id' => $rule['ID'],
+			'tasks' => json_encode($rule),
+			'trigger_data' => json_encode($arguments),
+			'datetime' => $wordpress_date_time
+		);
 
-		update_option( 'inbound_automation_queue' ,  Inbound_Automation_Processing::$queue  );
-
+		/* add job to automation queue */
+		$wpdb->insert(
+			$table_name,
+			$rule_args
+		);
 	}
 
 }

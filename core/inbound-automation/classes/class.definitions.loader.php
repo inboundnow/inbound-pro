@@ -122,7 +122,7 @@ if (!class_exists('Inbound_Automation_Loader')) {
         public static function define_arguments() {
 
             self::$instance->argument_filters = array();
-            //error_log(print_r(self::$instance->triggers));
+            //error_log(print_r(self::$instance->triggers,true));
             //error_log(print_r(self::$instance->inbound_arguments , true));
             //exit;
             /* Loop Through Trigger Arguments & Build Trigger Filter Setting Array */
@@ -524,10 +524,20 @@ if (!class_exists('Inbound_Automation_Loader')) {
 
             foreach (self::$instance->inbound_arguments[$hook] as $key=> $arg) {
 
-                /* get corresponding arguments from trigger */
-                $corresponding_array = $args[$i];
+                /* pass argument through callback if callback available */
+                if (isset(self::$instance->triggers[$hook]['arguments'][$key]['callback'])) {
+                    $corresponding_array = call_user_func(
+                        array(
+                            self::$instance->triggers[$hook]['arguments'][$key]['callback'][0],
+                            self::$instance->triggers[$hook]['arguments'][$key]['callback'][1],
+                        ),
+                        $args[$i]
+                    );
+                } else {
+                    $corresponding_array = $args[$i];
+                }
 
-                /* Skip non array based arguments - may need to apply the callback instead */
+                /* Skip non array based arguments  */
                 if (!is_array($corresponding_array)) {
                     continue;
                 }

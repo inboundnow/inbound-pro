@@ -1,4 +1,4 @@
-#wpadminbar, #edit-slug-box, #post-status-info, #screen-options-link-wrap, #leads-table-container, .misc-pub-section, #minor-publishing, .misc-pub-section, .misc-pub-section.curtime, #delete-action, #convert-header, #inbound-mailer-tour, #view-post-btn, #launch-visual-editer, #adminmenuwrap, #lp_ab_display_stats_metabox, #inbound-mailer-thumbnail-sidebar-preview, #landing_page_categorydiv, #postimagediv, #leads-table-container-inside, .updated.below-h2 a, #inbound_email_shortcode_form, .inbound_email_tooltip, #inbound_email_ab_display_stats_metabox, #wp_call_to_action_categorydiv, .new-save-inbound-mailer-frontend, #launch-feedback {
+#wpadminbar, #edit-slug-box, #post-status-info, #screen-options-link-wrap, #leads-table-container, .misc-pub-section, #minor-publishing, .misc-pub-section, .misc-pub-section.curtime, #delete-action, #convert-header, #view-post-btn, #launch-visual-editer, #adminmenuwrap, #lp_ab_display_stats_metabox, #inbound-mailer-thumbnail-sidebar-preview, #landing_page_categorydiv, #postimagediv, .updated.below-h2 a, #inbound_email_shortcode_form, .inbound_email_tooltip, #inbound_email_ab_display_stats_metabox, #wp_call_to_action_categorydiv, .new-save-inbound-mailer-frontend, #launch-feedback {
     display: none !important;
 }
 
@@ -14,14 +14,6 @@ html.wp-toolbar {
     width: 0px !important;
 }
 
-.inbound-mailer-success-message, .button-primary.new-save-wp-cta {
-
-    display: block;
-
-    text-align: center;
-    margin-top: 10px;
-    margin-left: 0px !important;
-}
 
 #post-body-content .nav-tab-wrapper .nav-tab {
     font-weight: 600;
@@ -34,13 +26,6 @@ html.wp-toolbar {
     text-align: center !important;
 }
 
-.inbound-textarea-option .button-primary.new-save-wp-cta, .inbound-textarea-option .inbound-mailer-success-message {
-    position: inherit;
-    /* bottom: -21px; */
-    display: block;
-    width: 75%;
-    margin-top: 0px;
-}
 
 .auto-fold #wpcontent, .auto-fold #wpfooter {
     margin-left: 10px !important;

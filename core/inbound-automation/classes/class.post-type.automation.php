@@ -141,8 +141,6 @@ if ( !class_exists('Inbound_Automation_Post_Type') ) {
 		 * load admin scripts and styles
 		 */
 		public static function enqueue_admin_scripts( $hook ) {
-			wp_enqueue_style( 'automation-global-css' , INBOUND_AUTOMATION_URLPATH . 'assets/css/admin/style.css' );
-
 			$screen = get_current_screen();
 
 			if (isset($screen) && $screen->id == 'edit-automation' ) {
@@ -165,14 +163,16 @@ if ( !class_exists('Inbound_Automation_Post_Type') ) {
 
 		public static function calculate_tasks($rule_id) {
 
-			$i = 0;
-			foreach( self::$queue as $key => $task ) {
-				if ($task['rule']['ID']== $rule_id ) {
-					$i++;
-				}
-			}
+			global $wpdb;
 
-			return $i;
+			$table_name = $wpdb->prefix . "inbound_automation_queue";
+
+
+			$query = 'SELECT * FROM '.$table_name.' WHERE rule_id = "'.intval($rule_id).'"';
+			$results = $wpdb->get_results( $query , ARRAY_A );
+
+			return count($results);;
+
 		}
 
 		/**
@@ -191,6 +191,25 @@ if ( !class_exists('Inbound_Automation_Post_Type') ) {
 			return $actions;
 		}
 
+		/**
+		 * @param $rule_id
+		 */
+		public static function delete_rule_tasks( $rule_id ) {
+			global $wpdb;
+
+			$table_name = $wpdb->prefix . "inbound_automation_queue";
+
+			$args = array(
+				'rule_id' => $rule_id
+			);
+
+			$wpdb->delete( $table_name , $args );
+
+		}
+
+		/**
+		 * Ajax handler to toggle rule status
+		 */
 		public static function ajax_toggle_rule_status() {
 			$rule_id = intval($_REQUEST['rule_id']);
 			$rule = get_post_meta($rule_id, 'inbound_rule', true);
@@ -200,19 +219,14 @@ if ( !class_exists('Inbound_Automation_Post_Type') ) {
 			exit;
 		}
 
+		/**
+		 * Delete all rules related
+		 */
 		public static function ajax_clear_rule_tasks() {
 			$rule_id = intval($_REQUEST['rule_id']);
 
-			$queue = Inbound_Automation_Processing::load_queue();
-
-			foreach($queue as $key=> $task) {
-				if ($task['rule']['ID']== $rule_id ) {
-					unset($queue[$key]);
-				}
-			}
-
+			self::delete_rule_tasks($rule_id);
 			echo $rule_id;
-			Inbound_Automation_Processing::update_queue($queue);
 			exit;
 		}
 	}

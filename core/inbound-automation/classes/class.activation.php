@@ -31,6 +31,7 @@ class Inbound_Automation_Activation {
 
 	public static function activate_plugin() {
 
+
 		/* Update DB Markers for Plugin */
 		self::store_version_data();
 
@@ -39,6 +40,9 @@ class Inbound_Automation_Activation {
 
 		/* Activate shared components */
 		self::activate_shared();
+
+		/* create automation queue table */
+		self::create_automation_queue_table();
 
 		/* custom activation hook */
 		do_action('activate/inbound-automation');
@@ -115,7 +119,7 @@ class Inbound_Automation_Activation {
 
 		?>
 		<div class="error">
-			<p><?php _e( '<strong>WARNING!</strong> We\'ve noticed that <strong>Marketing Automation plugin</strong> requires <strong>database upgrades</strong> for proper functioning. To manually initiate the db updates please click the following link:', 'marketing-automation' ); ?> <a href='?plugin=marketing-automation&plugin_action=upgrade_routines'><?php _e('Run Upgrade Processes' , 'marketing-automation' ); ?></a></p>
+			<p><?php _e( 'We\'ve noticed that <strong>Automation Component</strong> requires a <strong>database upgrades</strong>. Please click the following link:', 'marketing-automation' ); ?> <a href='?plugin=marketing-automation&plugin_action=upgrade_routines'><?php _e('Run Upgrade Processes' , 'marketing-automation' ); ?></a></p>
 		</div>
 		<?php
 	}
@@ -124,9 +128,9 @@ class Inbound_Automation_Activation {
 	/* Creates transient records of past and current version data */
 	public static function store_version_data() {
 
-		$old = get_transient('ma_current_version');
-		set_transient( 'ma_previous_version' , $old );
-		set_transient( 'ma_current_version' , WP_CTA_CURRENT_VERSION );
+		$old = get_transient('automation_current_version');
+		set_transient( 'automation_previous_version' , $old );
+		set_transient( 'automation_current_version' , INBOUND_AUTOMATION_CURRENT_VERSION );
 
 	}
 
@@ -156,6 +160,32 @@ class Inbound_Automation_Activation {
 		exit;
 	}
 
+	public static function create_automation_queue_table() {
+		global $wpdb;
+
+		$table_name = $wpdb->prefix . "inbound_automation_queue";
+		$charset_collate = '';
+
+		if ( ! empty( $wpdb->charset ) ) {
+			$charset_collate = "DEFAULT CHARACTER SET {$wpdb->charset}";
+		}
+		if ( ! empty( $wpdb->collate ) ) {
+			$charset_collate .= " COLLATE {$wpdb->collate}";
+		}
+
+		$sql = "CREATE TABLE IF NOT EXISTS $table_name (
+			  `id` mediumint(9) NOT NULL AUTO_INCREMENT,
+			  `rule_id` varchar(255) NOT NULL,
+			  `tasks` text NOT NULL,
+			  `trigger_data` text NOT NULL,
+			  `datetime` datetime NOT NULL,
+			  `status` varchar(255) NOT NULL,
+			  UNIQUE KEY id (id)
+			) $charset_collate;";
+
+		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+		dbDelta( $sql );
+	}
 
 	/* Checks if plugin is compatible with current server PHP version */
 	public static function run_version_checks() {
@@ -231,3 +261,4 @@ register_deactivation_hook( INBOUND_AUTOMATION_FILE , array( 'Inbound_Automation
 add_action( 'admin_init' , array( 'Inbound_Automation_Activation' , 'run_upgrade_routine_checks' ) );
 
 }
+
