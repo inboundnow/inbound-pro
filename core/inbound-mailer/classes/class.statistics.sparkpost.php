@@ -150,7 +150,7 @@ class Inbound_SparkPost_Stats {
         $interval = $today->diff($schedule_date);
 
 
-        if ( $interval->format('%R') == '-' ) {
+        if ( $interval->format('%R') == '-' && $settings['email_type'] != 'automated' ) {
             $query = 'SELECT DISTINCT(lead_id) FROM ' . $table_name . ' WHERE `email_id` = "' . $email_id . '"  ' . $variation_query . ' AND `event_name` =  "sparkpost_delivery"';
             $results = $wpdb->get_results($query);
             $sent = $wpdb->num_rows;

@@ -14,6 +14,7 @@ if (!class_exists('Inbound_Automation_Loader')) {
         public static $triggers; /* dataset containing defined trigger hooks */
         public static $rule; /* dataset containing rule settings */
         public static $rules; /* dataset containing inbound automation rules */
+        public static $job_id; /* dataset job task id in inbound_automation_queue */
         public static $compare_options; /* array of acceptable comparision options */
         public static $argument_filters; /* dataset of agrument filters */
         public static $db_lookup_filters;
@@ -312,11 +313,13 @@ if (!class_exists('Inbound_Automation_Loader')) {
 
                     /* Add Job to Queue if Passes Trigger Filters */
                     if ($evaluate) {
+
+                        self::$job_id = Inbound_Automation_Processing::add_job_to_queue(self::$rule, $arguments);
                         /* Log Evaluation Message */
                         self::record_schedule_event($rule, $arguments, $trigger, $evaluate);
 
-                        Inbound_Automation_Processing::add_job_to_queue(self::$rule, $arguments);
                     }
+
                 }
             }
 
@@ -341,14 +344,19 @@ if (!class_exists('Inbound_Automation_Loader')) {
                     BREAK;
 
                 case 'match-all' :
-                    foreach ($evals as $eval) {
+                    $i_evals = count($evals);
+                    $e = 0;
+                    $evaluate = false;
+
+                    foreach ( $evals as $eval ) {
                         if ($eval['eval']) {
-                            $evaluate = true;
-                        } else {
-                            $evaluate = false;
+                            $e++;
                         }
                     }
 
+                    if ($e == $i_evals) {
+                        $evaluate = true;
+                    }
                     BREAK;
 
                 case 'match-none' :

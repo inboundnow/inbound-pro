@@ -100,6 +100,9 @@ class Automation_Batch_Processing {
         $queue = self::get_tasks();
 
         if (!$queue || !is_array($queue)) {
+
+            echo '<br>Done!</br>';
+            self::delete_flag( $args );
             return;
         }
 
