@@ -1523,6 +1523,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             wp_register_style('bootstrap', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/BootStrap/css/bootstrap.css');
             wp_enqueue_style('bootstrap');
 
+
             /* D3 charting suport */
             wp_register_script('d3', INBOUND_EMAIL_URLPATH . 'assets/libraries/d3/d3.v3.min.js');
             wp_enqueue_script('d3');
@@ -2359,7 +2360,6 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                             jQuery(".wrap").fadeOut(500, function () {
 
                                 jQuery(".inbound-mailer-template-selector-container").fadeIn(500, function () {
-                                    jQuery(".currently_selected").show();
                                     jQuery('#inbound-mailer-cancel-selection').show();
                                 });
 

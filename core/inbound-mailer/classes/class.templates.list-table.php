@@ -27,14 +27,11 @@ if ( !class_exists('Inbound_Mailer_Template_Manager_List') ) {
 
 			foreach ($inbound_email_data as $template_id=>$data)
 			{
-				$array_core_templates = array( 'simple-responsive' );
-				$array_core_templates = array( );
-
+				$array_core_templates = array( 'simple-responsive','inbound-now','simple-basic' );
 
 				if (in_array($template_id,$array_core_templates)) {
 					continue;
 				}
-
 
 				if (isset($_POST['s'])&&!empty($_POST['s'])) {
 					if (!stristr($data['info']['label'],$_POST['s'])) {
@@ -52,7 +49,6 @@ if ( !class_exists('Inbound_Mailer_Template_Manager_List') ) {
 				$this_data['ID']  = $template_id;
 				$this_data['template']  = $template_id;
 				( array_key_exists('info',$data) ) ? $this_data['name'] = $data['info']['label'] :  $this_data['name'] = $data['label'];
-				( array_key_exists('info',$data) ) ? $this_data['category'] = $data['info']['category'] :  $this_data['category'] = $data['category'];
 				( array_key_exists('info',$data) ) ? $this_data['description'] = $data['info']['description'] :  $this_data['description'] = $data['description'];
 
 				$this_data['thumbnail']  = $thumbnail;
@@ -82,14 +78,14 @@ if ( !class_exists('Inbound_Mailer_Template_Manager_List') ) {
 			$args['singular'] = sanitize_key( '' );
 
 			$this->_args = $args;
+
+
 		}
 
 		function get_columns() {
 			$columns = array(
-			'cb'        => '<input type="checkbox" />',
 			'template' => 'Template',
 			'description' => 'Description',
-			'category' => 'Category',
 			'version' => 'Current Version'
 
 			);
@@ -105,7 +101,6 @@ if ( !class_exists('Inbound_Mailer_Template_Manager_List') ) {
 		function get_sortable_columns()	{
 			$sortable_columns = array(
 				'template'  => array('template',false),
-				'category' => array('category',false),
 				'version'   => array('version',false)
 			);
 
@@ -119,9 +114,7 @@ if ( !class_exists('Inbound_Mailer_Template_Manager_List') ) {
 			$order = ( ! empty($_GET['order'] ) ) ? sanitize_text_field($_GET['order']) : 'asc';
 			// Determine sort order
 			$result = strcmp( $a[$orderby], $b[$orderby] );
-			// Send final sort direction to usort
-			//print_r($b);exit;
-			//echo $order;exit;
+
 			return ( $order === 'asc' ) ? $result : -$result;
 		}
 
@@ -142,10 +135,11 @@ if ( !class_exists('Inbound_Mailer_Template_Manager_List') ) {
 
 			$total_items = count( $this->template_data );
 
-			if (is_array($this->template_data))
-			{
-				$this->found_data = array_slice( $this->template_data,( ( $current_page-1 )* $per_page ), $per_page );
-			}
+			/*
+			if (is_array($this->template_data))	{
+				$this->items = array_slice( $this->template_data,( ( $current_page-1 )* $per_page ), $per_page );
+			}*/
+			//$this->found_data = $this->template_data;
 
 			$this->set_pagination_args( array(
 				'total_items' => $total_items,                  //WE have to calculate the total number of items
@@ -154,7 +148,8 @@ if ( !class_exists('Inbound_Mailer_Template_Manager_List') ) {
 
 			$this->_screen = get_current_screen();
 			$this->screen = get_current_screen();
-			$this->items = $this->found_data;
+			$this->items = $this->template_data;
+
 		}
 
 		function column_default( $item, $column_name ) {
@@ -164,14 +159,10 @@ if ( !class_exists('Inbound_Mailer_Template_Manager_List') ) {
 				case 'template':
 					return '<div class="capty-wrapper" style="overflow: hidden; position: relative; "><div class="capty-image"><img src="'.$item[ 'thumbnail' ].'" class="template-thumbnail" alt="'.$item['name'].'" id="id_'.$item['ID'].'" title="'.$item['name'].'">
 					</div><div class="capty-caption" style="text-align:center;width:158px;margin-left:-6px;height: 20px; opacity: 0.7; top:-82px;position: relative;">'.$item['name'].'</div></div>';
-				case 'category':
-					return '<span class="post-state">
-							<span class="pending states">'.$item[ $column_name ].'</span>
-							</span>';
 				case 'description':
 					return $item[ $column_name ];
 				case 'version':
-					echo Inbound_Mailer_Template_Manager::api_check_template_for_updates($item);
+					echo $item['version'];
 					return;
 				case 'actions':
 					//echo inbound_email_templates_print_delete_button($item);

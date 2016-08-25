@@ -132,15 +132,20 @@ if ( !class_exists('Leads_Activation_Update_Routines') ) {
 			Inbound_Events::create_events_table();
 
 			/* create flag for batch uploader */
-			add_option(
+			$processing_jobs = get_option('leads_batch_processing');
+			$processing_jobs = ($processing_jobs) ? $processing_jobs : array();
+			$processing_jobs['import_events_table_112015'] = array(
+				'method' => 'import_events_table_112015', 	/* tells batch processor which method to run */
+				'posts_per_page' => 100, 					/* leads per query */
+				'offset' => 0 								/* initial page offset */
+			);
+
+			/* create flag for batch uploader */
+			update_option(
 				'leads_batch_processing', 		/* db option name - lets batch processor know it's needed */
-				array(
-					'method' => 'import_events_table_112015', 	/* tells batch processor which method to run */
-					'posts_per_page' => 100, 					/* leads per query */
-					'offset' => 0 								/* initial page offset */
-				),
+				$processing_jobs,
 				0 , 							/* depreciated leave as 0 */
-				true 							/* autoload true */
+				false 							/* autoload true */
 			);
 
 		}

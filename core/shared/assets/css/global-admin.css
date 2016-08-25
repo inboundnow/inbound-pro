@@ -64,6 +64,13 @@
 :root:root:root #wp-admin-bar-inbound-admin-bar #wp-admin-bar-inbound-admin-bar-default .menupop:hover:before, :root:root:root #wp-admin-bar-inbound-admin-bar #wp-admin-bar-inbound-admin-bar-default .menupop:focus:before {
     color:#fff;
 }
+#adminmenu .menu-icon-inbound-email div.wp-menu-image:before {
+    font-family: "FontAwesome" !important;
+    content: "\f003";
+    font: 400 18px/1 "FontAwesome" !important;
+    padding-top: 6px;
+
+}
 :root:root:root #wpwrap #wpadminbar #search-inbound-menu {
     height: 23px !important;
     padding: 0px !important;

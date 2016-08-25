@@ -56,8 +56,3 @@ ul#template-filter a.current{ background-color: #DDD; }
 #template-item div{  display: block;  }
 /* #template-item div a{ display: block; width: 163px; height: 120px; overflow: hidden; border: 1px solid #CDCDCD; background: #eee; }*/
 #template-item li p{ font-size: 11px; line-height: 15px; color: #AAA; margin: 5px 0; }
-#template-box .inbound_email_tooltip_templates{
-bottom: 6px;
-    position: absolute;
-    right: 8px;
-}

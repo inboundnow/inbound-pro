@@ -148,7 +148,7 @@ print_r($settings);exit;
 					</td>
 
 					<td height="70" class="view-in-browser" style="text-align:right;">
-						<p style="font-family: Arial, Helvetica, sans-serif; color: #555555; font-size: 10px; padding: 0; margin: 0;">Trouble viewing? Read this <a href="<?php echo get_permalink( $post_id ); ?>" style="color: #990000;" class='do-not-tracks'><?php _e('online' , 'inbound-email' ); ?></a>.</p>
+						<p style="font-family: Arial, Helvetica, sans-serif; color: #555555; font-size: 10px; padding: 0; margin: 0;"><?php echo sprintf( __( 'Trouble viewing? Read this %sonline%s' , 'inbound-email' ) , '<a href="'.get_permalink( $post_id ).'" style="color: #990000;" class="do-not-tracks">' , '</a>'); ?>.</p>
 					</td>
 				</tr>
 			</table>
