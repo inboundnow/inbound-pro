@@ -447,14 +447,19 @@ class Inbound_Automation_Processing {
 				BREAK;
 
 			case 'match-all' :
+				$i_evals = count($evals);
+				$e = 0;
+				$evaluate = false;
+
 				foreach ( $evals as $eval ) {
 					if ($eval['eval']) {
-						$evaluate = 'true';
-					} else {
-						$evaluate = 'false';
+						$e++;
 					}
 				}
 
+				if ($e == $i_evals) {
+					$evaluate = true;
+				}
 				BREAK;
 
 			case 'match-none' :
@@ -534,6 +539,8 @@ class Inbound_Automation_Processing {
 			$table_name,
 			$rule_args
 		);
+
+		return '-';
 	}
 
 }

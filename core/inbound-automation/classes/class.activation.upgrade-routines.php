@@ -14,7 +14,7 @@ if ( !class_exists('Inbound_Automation_Activation_Update_Routines') ) {
             /* ignore if not applicable */
             $previous_installed_version = get_transient('automation_current_version');
 
-            if ( version_compare($previous_installed_version , "2.0.0") === 1 )  {
+            if ( version_compare($previous_installed_version , "2.0.1") === 1 )  {
                 return;
             }
 
@@ -27,14 +27,17 @@ if ( !class_exists('Inbound_Automation_Activation_Update_Routines') ) {
          * @details: Moving form submissions, cta clicks, custom events into events table.
          * @details: 112015 represents date added in
          */
-        public static function batch_import_legacy_rules7x7x() {
+        public static function batch_import_legacy_rules() {
 
             /* ignore if not applicable */
             $previous_installed_version = get_transient('automation_current_version');
 
-            if ( version_compare($previous_installed_version , "1.0.1") === 1 )  {
+            if ( version_compare($previous_installed_version , "2.0.1") === 1 )  {
                 return;
             }
+
+            /* make sure automation queue table exists */
+            Inbound_Automation_Activation::create_automation_queue_table();
 
             /* create flag for batch uploader */
             $processing_jobs = get_option('automation_batch_processing');
