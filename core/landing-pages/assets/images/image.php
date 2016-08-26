@@ -3,12 +3,14 @@
 
 if (!function_exists('inbound_sanitize_this')) {
     function inbound_sanitize_this($color) {
-        if ( '' === $color ) {
-            return '';
+        if (!strstr($color,'#')) {
+            $color = '#'. $color;
         }
 
         // 3 or 6 hex digits, or the empty string.
         if ( preg_match('|^#([A-Fa-f0-9]{3}){1,2}$|', $color ) ) {
+
+
             return $color;
         }
     }
@@ -46,7 +48,6 @@ if (!function_exists('_inbound_HexToRGB')) {
 
     }
 }
-
 $RBG_array = _inbound_HexToRGB($hex_value);
 
 if (isset($RBG_array)) {
