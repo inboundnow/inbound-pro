@@ -900,7 +900,6 @@ if (!class_exists('Leads_Manager')) {
 
 
             if($is_first == 1){
-                error_log('here7');
                 // Add a header row if it hasn't been added yet
                 fputcsv($file, array_keys($fields));
                 $headerDisplayed = true;
