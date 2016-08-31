@@ -119,7 +119,7 @@ class Inbound_Automation_Activation {
 
 		?>
 		<div class="error">
-			<p><?php _e( 'We\'ve noticed that <strong>Automation Component</strong> requires a <strong>database upgrades</strong>. Please click the following link:', 'marketing-automation' ); ?> <a href='?plugin=marketing-automation&plugin_action=upgrade_routines'><?php _e('Run Upgrade Processes' , 'marketing-automation' ); ?></a></p>
+			<p><?php _e( 'We\'ve noticed that <strong>Automation Component</strong> requires a <strong>database upgrade</strong>. Please click the following link:', 'inbound-pro' ); ?> <a href='?plugin=marketing-automation&plugin_action=upgrade_routines'><?php _e('Run Upgrade Processes' , 'inbound-pro' ); ?></a></p>
 		</div>
 		<?php
 	}

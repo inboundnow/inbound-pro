@@ -1684,7 +1684,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                             jQuery('#submitdiv').hide();
 
                             /* Hide screen options */
-                            jQuery('#show-settings-link').hide();
+                            //jQuery('#show-settings-link').hide();
 
                             /* Removes wp_content wysiwyg */
                             jQuery('#postdivrich').hide();

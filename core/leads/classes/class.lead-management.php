@@ -852,7 +852,8 @@ if (!class_exists('Leads_Manager')) {
 
 
             //handle posted data
-            $ids      = $_POST['data']['ids'];
+            $ids      = json_decode(stripslashes($_POST['data']['ids']));
+
             $limit    = $_POST['data']['limit'];
             $offset   = $_POST['data']['offset'];
             $total    = $_POST['data']['total'];
@@ -872,7 +873,7 @@ if (!class_exists('Leads_Manager')) {
             $path = str_replace($today_year.'/'.$today_month.'/','',$path);
             if(file_exists($path)){
                 if($is_first == 1){
-                    //unlink($path."/".$filename.".csv");
+                    //@unlink($path."/".$filename.".csv");
                 }
             } else {
                 mkdir($path, 0755, true);

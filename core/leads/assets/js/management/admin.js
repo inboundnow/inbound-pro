@@ -1,13 +1,13 @@
 jQuery(document).ready(function($) {
-	
+
 
 	/* fade wrap in */
 	jQuery(".wrap").fadeIn(1000);
-		
+
 	jQuery("body").on('click','.export-leads-csv', function (e) {
 		var total_records = jQuery("#lead-manage-table").find("input[name='ids[]']:checked").length;
-	    var ids = jQuery("#lead-manage-table").find("input.lead-select-checkbox:checked").map(function () {
-  					return this.value;
+		var ids = jQuery("#lead-manage-table").find("input.lead-select-checkbox:checked").map(function () {
+			return this.value;
 		}).get();
 		var batch_limit = 100;
 		var count_process = Math.ceil(total_records / batch_limit);
@@ -21,15 +21,15 @@ jQuery(document).ready(function($) {
 		}
 
 		for (i = 0; i < count_process; i++) {
-    		text += '<tr id="row"'+i+'><td><p id="progress'+i+'" class="progress"></p></td><td><div  id="progressbar'+i+'" class="ui-progressbar ui-widget ui-widget-content ui-corner-all" role="progressbar" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0"></div></td></tr>';
+			text += '<tr id="row"'+i+'><td><p id="progress'+i+'" class="progress"></p></td><td><div  id="progressbar'+i+'" class="ui-progressbar ui-widget ui-widget-content ui-corner-all" role="progressbar" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0"></div></td></tr>';
 		}
-		
+
 		jQuery("#progress-table #the-progress-list").html(text);
 
 		$( "#export-leads" ).trigger( "click" );
-		 exportCsv(batch_limit, 0, total_records, 0, ids);
-		 e.preventDefault();
-		 return false;
+		exportCsv(batch_limit, 0, total_records, 0, ids);
+		e.preventDefault();
+		return false;
 	});
 
 	jQuery("#export-leads").magnificPopup({
@@ -38,71 +38,71 @@ jQuery(document).ready(function($) {
 		verticalFit: true,
 		overflowY: 'scroll',
 		callbacks: {
-            open: function(){
-                $("#lead-export-process").css("display", "block");
-            },
-            close: function(){
-                $("#lead-export-process").css("display", "none");
-            }
-        },
+			open: function(){
+				$("#lead-export-process").css("display", "block");
+			},
+			close: function(){
+				$("#lead-export-process").css("display", "none");
+			}
+		},
 	});
 
-	jQuery("body").on('click','.download-leads-csv a', function (e) { 
-		 location.reload();
+	jQuery("body").on('click','.download-leads-csv a', function (e) {
+		location.reload();
 	});
-	
-	
+
+
 
 	function exportCsv(cnt, offset, tot, i, ids){
 
-	    var cnt_init = 100;
-	    if(i == 0){
-	    	 var is_first = 1;
-	    }else{
-	    	var is_first = 0;
-	    }
-	   
-	    jQuery.post(
-		    ajaxurl, 
-		    {
-		        'action': 'leads_export_list',
-		        'data': {
-						limit: cnt,
-						offset: offset,
-						total: tot,
-						ids: ids,
-						is_first: is_first
-					},
-		    }, 
-		    function(response){
-		    	var jsonParse = jQuery.parseJSON(response);
-		    	if(jsonParse.status == 0  && jsonParse.error !=""){
-		    		jQuery( "#progress"+i ).text(jsonParse.error);
-		    		return false;
-		    	}
-		        jQuery( "#progressbar"+i ).progressbar({ value: 100 });
-		        if(tot < cnt){
-		        	jQuery( "#progress"+i ).text(offset+" - "+ tot + " of "+tot);
-		        }else{
-		        	jQuery( "#progress"+i ).text(offset+" - "+ cnt + " of "+tot);
-		        }
-		        
+		var cnt_init = 100;
+		if(i == 0){
+			var is_first = 1;
+		}else{
+			var is_first = 0;
+		}
 
-		        if(cnt >= tot && jsonParse.url!=""){
+		jQuery.post(
+			ajaxurl,
+			{
+				'action': 'leads_export_list',
+				'data': {
+					limit: cnt,
+					offset: offset,
+					total: tot,
+					ids: JSON.stringify(ids),
+					is_first: is_first
+				},
+			},
+			function(response){
+				var jsonParse = jQuery.parseJSON(response);
+				if(jsonParse.status == 0  && jsonParse.error !=""){
+					jQuery( "#progress"+i ).text(jsonParse.error);
+					return false;
+				}
+				jQuery( "#progressbar"+i ).progressbar({ value: 100 });
+				if(tot < cnt){
+					jQuery( "#progress"+i ).text(offset+" - "+ tot + " of "+tot);
+				}else{
+					jQuery( "#progress"+i ).text(offset+" - "+ cnt + " of "+tot);
+				}
 
-		    		jQuery(".download-leads-csv").html('<p><a href="'+jsonParse.url+'" download>Download CSV</a></p> <p>Please note that this file is also available in <strong>wp-content/uploads/leads/csv/</strong></p></a>');
-		    	}
 
-		        offset = cnt;
-		        var cnt_old = cnt;
-		        cnt = cnt+cnt_init;
-		        i = i+1;
-		        if(cnt > tot && cnt_old < tot){
-		            exportCsv(tot, offset, tot, i, ids);
-		        }else if(cnt <= tot){
-		        	exportCsv(cnt, offset, tot, i, ids);
-		        }
-		    }
+				if(cnt >= tot && jsonParse.url!=""){
+
+					jQuery(".download-leads-csv").html('<p><a href="'+jsonParse.url+'" download>Download CSV</a></p> <p>Please note that this file is also available in <strong>wp-content/uploads/leads/csv/</strong></p></a>');
+				}
+
+				offset = cnt;
+				var cnt_old = cnt;
+				cnt = cnt+cnt_init;
+				i = i+1;
+				if(cnt > tot && cnt_old < tot){
+					exportCsv(tot, offset, tot, i, ids);
+				}else if(cnt <= tot){
+					exportCsv(cnt, offset, tot, i, ids);
+				}
+			}
 		);
 	}
 	/* initiate table sorter */
@@ -113,7 +113,7 @@ jQuery(document).ready(function($) {
 
 	/* hide/reveal date range selector */
 	jQuery("body").on('change', '#range', function () {
- 		var value = jQuery(this).val();
+		var value = jQuery(this).val();
 		switch( value ) {
 			case 'all':
 				jQuery('.custom-range').hide();
@@ -127,22 +127,22 @@ jQuery(document).ready(function($) {
 
 	/* initiate selectable */
 	jQuery( "#the-list" ).selectable({
-	  //appendTo: "#the-list",
-	  cancel: "a, i, .lead-email",
-	  stop: function( event, ui ) {
-		console.log('stopped');
-		jQuery('.ui-selected input[type=checkbox]').each(function(){
-			//jQuery(this).attr('checked', true);
-			var el = jQuery(this);
-			check_boxes(el);
-		});
-	  },
-	  selected: function( event, ui ) {
+		//appendTo: "#the-list",
+		cancel: "a, i, .lead-email",
+		stop: function( event, ui ) {
+			console.log('stopped');
+			jQuery('.ui-selected input[type=checkbox]').each(function(){
+				//jQuery(this).attr('checked', true);
+				var el = jQuery(this);
+				check_boxes(el);
+			});
+		},
+		selected: function( event, ui ) {
 
-	  },
-	  unselected: function( event, ui ) {
+		},
+		unselected: function( event, ui ) {
 
-	  }
+		}
 	});
 
 
@@ -150,27 +150,27 @@ jQuery(document).ready(function($) {
 		var checkbox = jQuery(this).find('input');
 		var checked = checkbox.attr('checked');
 		if (checked) {
-		   checkbox.attr('checked', false);
-		   jQuery(this).removeClass('SELECTED-ROW');
-		   jQuery(this).removeClass('ui-selected');
-		  	jQuery(this).find('.ui-selected').removeClass('ui-selected');
+			checkbox.attr('checked', false);
+			jQuery(this).removeClass('SELECTED-ROW');
+			jQuery(this).removeClass('ui-selected');
+			jQuery(this).find('.ui-selected').removeClass('ui-selected');
 		} else {
-		   checkbox.attr('checked', true);
-		   jQuery(this).addClass('SELECTED-ROW');
+			checkbox.attr('checked', true);
+			jQuery(this).addClass('SELECTED-ROW');
 		}
-	 });
+	});
 
 	function check_boxes(el) {
 		var checkbox = jQuery(el);
 		var checked = checkbox.attr('checked');
 		if (checked) {
-		   checkbox.attr('checked', false);
-		   checkbox.parent().parent().removeClass('SELECTED-ROW');
-		   checkbox.parent().parent().removeClass('ui-selected');
-		   checkbox.parent().parent().find('.ui-selected').removeClass('ui-selected');
+			checkbox.attr('checked', false);
+			checkbox.parent().parent().removeClass('SELECTED-ROW');
+			checkbox.parent().parent().removeClass('ui-selected');
+			checkbox.parent().parent().find('.ui-selected').removeClass('ui-selected');
 		} else {
-		   checkbox.attr('checked', true);
-		   checkbox.parent().parent().addClass('SELECTED-ROW');
+			checkbox.attr('checked', true);
+			checkbox.parent().parent().addClass('SELECTED-ROW');
 		}
 	}
 
@@ -179,11 +179,11 @@ jQuery(document).ready(function($) {
 		var checkbox = jQuery(this);
 		var checked = checkbox.attr('checked');
 		if (checked) {
-		   checkbox.attr('checked', false);
+			checkbox.attr('checked', false);
 		} else {
-		   checkbox.attr('checked', true);
+			checkbox.attr('checked', true);
 		}
-	 });
+	});
 
 
 	jQuery("body").on('click', '.remove-from-taxonomy', function () {
@@ -196,27 +196,27 @@ jQuery(document).ready(function($) {
 			context: this,
 			url: bulk_manage_leads.admin_url,
 			data: {
-					action: 'leads_delete_from_taxonomy',
-					lead_id: lead_id,
-					taxonomy: taxonomy,
-					taxonomy_id: list_id
-				},
+				action: 'leads_delete_from_taxonomy',
+				lead_id: lead_id,
+				taxonomy: taxonomy,
+				taxonomy_id: list_id
+			},
 			success: function(data){
-					jQuery(this).parent().remove();
-				   },
+				jQuery(this).parent().remove();
+			},
 			error: function(MLHttpRequest, textStatus, errorThrown){
-					//alert(MLHttpRequest+' '+errorThrown+' '+textStatus);
-					//die();
-				}
-		 });
+				//alert(MLHttpRequest+' '+errorThrown+' '+textStatus);
+				//die();
+			}
+		});
 	});
 
 
 	function getParameterByName(name) {
-	    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-	    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-	        results = regex.exec(location.search);
-	    return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+		name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+		var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+			results = regex.exec(location.search);
+		return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 	}
 
 	var ajax_toggle = getParameterByName('submit');
@@ -243,13 +243,13 @@ jQuery(document).ready(function($) {
 		var end = jQuery('#end-of-list').length;
 
 		if (end == 1) {
-	     	//clearInterval(interval);
-	     	console.log('all leads loaded');
-	     	jQuery(".lead-spinner").addClass('leads-done');
-	     	return false;
-	    }
+			//clearInterval(interval);
+			console.log('all leads loaded');
+			jQuery(".lead-spinner").addClass('leads-done');
+			return false;
+		}
 
-	    console.log('running ajax');
+		console.log('running ajax');
 
 		var data = {
 			page: 'lead_management',
@@ -273,7 +273,7 @@ jQuery(document).ready(function($) {
 				data[tax] = jQuery('#' + tax).val();
 			}
 		}
-        console.log(data);
+		console.log(data);
 		jQuery.ajax({
 			type: 'POST',
 			context: this,
@@ -307,19 +307,19 @@ jQuery(document).ready(function($) {
 
 			}
 		}).done(function() {
-		   run_lead_pull_again();
+			run_lead_pull_again();
 		});
 	}
 
 
 	jQuery("body").on('change', '#bulk-lead-controls', function () {
- 		var value = jQuery(this).val();
- 		console.log(value);
- 		jQuery(".action").hide();
- 		jQuery("#" + value).show();
+		var value = jQuery(this).val();
+		console.log(value);
+		jQuery(".action").hide();
+		jQuery("#" + value).show();
 	});
 
-	 // Fix Thickbox width/hieght
+	// Fix Thickbox width/hieght
 	jQuery(function($) {
 		tb_position = function() {
 			var tbWindow = jQuery('#TB_window');
