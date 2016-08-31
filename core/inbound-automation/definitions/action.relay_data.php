@@ -23,7 +23,7 @@ if ( !class_exists( 'Inbound_Automation_Action_Relay_Data' ) ) {
 				'class_name' => get_class(),
 				'id' => 'relay_data',
 				'label' => __( 'Relay Data', 'marketing-automation') ,
-				'description' => __('Send data intercepted by Trigger to extenal URL using POST or GET methods.' , 'marketing-automation' ),
+				'description' => __('Send data intercepted by Trigger to extenal URL using POST or GET methods.' , 'inbound-pro' ),
 				'settings' => array (
 					array (
 						'id' => 'send_method',
@@ -31,14 +31,14 @@ if ( !class_exists( 'Inbound_Automation_Action_Relay_Data' ) ) {
 						'type' => 'dropdown',
 						'default' => 'POST',
 						'options' => array (
-										'POST' => __('POST (post variables directly to URL)', 'marketing-automation' ),
-										'GET' => __('GET (append parameters to URL)','marketing-automation' ),
-										'JSON-POST' => __('JSON (Post JSON packet directly to URL) ', 'marketing-automation' ),
+										'POST' => __('POST (post variables directly to URL)', 'inbound-pro' ),
+										'GET' => __('GET (append parameters to URL)','inbound-pro' ),
+										'JSON-POST' => __('JSON (Post JSON packet directly to URL) ', 'inbound-pro' ),
 									)
 						),					
 					array (
 						'id' => 'destination',
-						'label' => __('Destination URL:', 'marketing-automation' ),
+						'label' => __('Destination URL:', 'inbound-pro' ),
 						'type' => 'text',
 						'default' => 'http://www.somesite.com/somescript.php'
 						)
