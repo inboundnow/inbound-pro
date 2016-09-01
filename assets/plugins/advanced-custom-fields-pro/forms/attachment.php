@@ -138,6 +138,16 @@ class acf_form_attachment {
 			'ajax'		=> 1
 		));
 		
+		
+?>
+<script type="text/javascript">
+	
+// WP saves attachment on any input change, so unload is not needed
+acf.unload.active = 0;
+
+</script>
+<?php
+		
 	}
 	
 	
@@ -157,19 +167,13 @@ class acf_form_attachment {
 	function edit_attachment( $form_fields, $post ) {
 		
 		// vars
-		$el = 'tr';
+		$is_page = $this->validate_page();
 		$post_id = $post->ID;
+		$el = 'tr';
 		$args = array(
-			'attachment' => 'All'
+			'attachment' => $post_id
 		);
 		
-		
-		// $el
-		if( $this->validate_page() ) {
-			
-			//$el = 'div';
-			
-		}
 		
 		// get field groups
 		$field_groups = acf_get_field_groups( $args );
@@ -191,6 +195,7 @@ class acf_form_attachment {
 			if( $this->validate_page() ) {
 				
 				echo '<style type="text/css">
+					
 					.compat-attachment-fields,
 					.compat-attachment-fields > tbody,
 					.compat-attachment-fields > tbody > tr,
@@ -198,46 +203,60 @@ class acf_form_attachment {
 					.compat-attachment-fields > tbody > tr > td {
 						display: block;
 					}
-					tr.acf-field {
-						display: block;
-						margin: 0 0 13px;
+					
+					.compat-attachment-fields > tbody > tr.acf-field {
+						margin: 0 0 15px;
 					}
-					tr.acf-field td.acf-label {
-						display: block;
+					
+					.compat-attachment-fields > tbody > tr.acf-field > td.acf-label {
 						margin: 0;
 					}
-					tr.acf-field td.acf-input {
-						display: block;
+					
+					.compat-attachment-fields > tbody > tr.acf-field > td.acf-label label {
+						margin: 0;
+						padding: 0;
+					}
+					
+					.compat-attachment-fields > tbody > tr.acf-field > td.acf-label p {
+						margin: 0 0 3px !important;
+					}
+					
+					.compat-attachment-fields > tbody > tr.acf-field > td.acf-input {
 						margin: 0;
 					}
+					
 				</style>';
 				
 			}
 			
 			
-			// $el
-			//if( $el == 'tr' ) {
-				
-				echo '</td></tr>';
-				
-			//}
+			// open
+			echo '</td></tr>';
 			
 			
+			// loop
 			foreach( $field_groups as $field_group ) {
 				
+				// load fields
 				$fields = acf_get_fields( $field_group );
 				
-				acf_render_fields( $post_id, $fields, $el, 'field' );
+				
+				// override instruction placement for modal
+				if( !$is_page ) {
+					
+					$field_group['instruction_placement'] = 'field';
+				}
+				
+				
+				// render			
+				acf_render_fields( $post_id, $fields, $el, $field_group['instruction_placement'] );
 				
 			}
 			
 			
-			// $el
-			//if( $el == 'tr' ) {
-				
-				echo '<tr class="compat-field-acf-blank"><td>';
-				
-			//}
+			// close
+			echo '<tr class="compat-field-acf-blank"><td>';
+			
 			
 			
 			$html = ob_get_contents();

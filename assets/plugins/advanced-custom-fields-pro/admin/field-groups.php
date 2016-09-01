@@ -526,7 +526,6 @@ class acf_admin_field_groups {
 			'acf-fg-description'	=> __('Description', 'acf'),
 			'acf-fg-status' 		=> '<i class="acf-icon -dot-3 small acf-js-tooltip" title="' . __('Status', 'acf') . '"></i>',
 			'acf-fg-count' 			=> __('Fields', 'acf'),
-			
 		);
 		
 	}
@@ -613,16 +612,16 @@ class acf_admin_field_groups {
 	function admin_footer() {
 		
 		// vars
-		$www = 'http://www.advancedcustomfields.com/resources/';
+		$www = 'https://www.advancedcustomfields.com/resources/';
 		
 ?><script type="text/html" id="tmpl-acf-column-2">
 <div class="acf-column-2">
 	<div class="acf-box">
 		<div class="inner">
-			<h2><?php echo acf_get_setting('name'); ?> <?php echo acf_get_setting('version'); ?></h2>
+			<h2><?php echo acf_get_setting('name'); ?></h2>
 
 			<h3><?php _e("Changelog",'acf'); ?></h3>
-			<p><?php _e("See what's new in",'acf'); ?> <a href="<?php echo admin_url('edit.php?post_type=acf-field-group&page=acf-settings-info&tab=changelog'); ?>"><?php _e("version",'acf'); ?> <?php echo acf_get_setting('version'); ?></a>
+			<p><?php printf(__('See what\'s new in <a href="%s">version %s</a>.','acf'), admin_url('edit.php?post_type=acf-field-group&page=acf-settings-info&tab=changelog'), acf_get_setting('version')); ?></p>
 			
 			<h3><?php _e("Resources",'acf'); ?></h3>
 			<ul>
@@ -634,6 +633,7 @@ class acf_admin_field_groups {
 				<li><a href="<?php echo $www; ?>#filters" target="_blank"><?php _e("Filters",'acf'); ?></a></li>
 				<li><a href="<?php echo $www; ?>#how-to" target="_blank"><?php _e("'How to' guides",'acf'); ?></a></li>
 				<li><a href="<?php echo $www; ?>#tutorials" target="_blank"><?php _e("Tutorials",'acf'); ?></a></li>
+				<li><a href="<?php echo $www; ?>#faq" target="_blank"><?php _e("FAQ",'acf'); ?></a></li>
 			</ul>
 		</div>
 		<div class="footer footer-blue">
@@ -707,6 +707,11 @@ class acf_admin_field_groups {
 	// mobile compatibility
 	var status = $('.acf-icon.-dot-3').first().attr('title');
 	$('td.column-acf-fg-status').attr('data-colname', status);
+	
+	
+	// no field groups found
+	$('#the-list tr.no-items td').attr('colspan', 4);
+	
 	
 })(jQuery);
 </script>
