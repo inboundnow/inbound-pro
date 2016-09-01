@@ -36,10 +36,11 @@ class acf_field_checkbox extends acf_field {
 		$this->label = __("Checkbox",'acf');
 		$this->category = 'choice';
 		$this->defaults = array(
-			'layout'		=> 'vertical',
-			'choices'		=> array(),
-			'default_value'	=> '',
-			'toggle'		=> 0
+			'layout'			=> 'vertical',
+			'choices'			=> array(),
+			'default_value'		=> '',
+			'toggle'			=> 0,
+			'return_format'		=> 'value'
 		);
 		
 		
@@ -70,10 +71,7 @@ class acf_field_checkbox extends acf_field {
 		
 		
 		// hiden input
-		acf_hidden_input(array(
-			'type'	=> 'hidden',
-			'name'	=> $field['name'],
-		));
+		acf_hidden_input( array('name' => $field['name']) );
 		
 		
 		// vars
@@ -200,7 +198,7 @@ class acf_field_checkbox extends acf_field {
 		
 		// encode choices (convert from array)
 		$field['choices'] = acf_encode_choices($field['choices']);
-		$field['default_value'] = acf_encode_choices($field['default_value']);
+		$field['default_value'] = acf_encode_choices($field['default_value'], false);
 				
 		
 		// choices
@@ -249,6 +247,20 @@ class acf_field_checkbox extends acf_field {
 		));
 		
 		
+		// return_format
+		acf_render_field_setting( $field, array(
+			'label'			=> __('Return Value','acf'),
+			'instructions'	=> __('Specify the returned value on front end','acf'),
+			'type'			=> 'radio',
+			'name'			=> 'return_format',
+			'layout'		=> 'horizontal',
+			'choices'		=> array(
+				'value'			=> __('Value','acf'),
+				'label'			=> __('Label','acf'),
+				'array'			=> __('Both (Array)','acf')
+			)
+		));		
+		
 	}
 	
 	
@@ -269,13 +281,8 @@ class acf_field_checkbox extends acf_field {
 
 	function update_field( $field ) {
 		
-		// decode choices (convert to array)
-		$field['choices'] = acf_decode_choices($field['choices']);
-		$field['default_value'] = acf_decode_choices($field['default_value']);
+		return acf_get_field_type('select')->update_field( $field );
 		
-		
-		// return
-		return $field;
 	}
 	
 	
@@ -297,25 +304,50 @@ class acf_field_checkbox extends acf_field {
 	
 	function update_value( $value, $post_id, $field ) {
 		
-		// validate
-		if( empty($value) ) {
+		return acf_get_field_type('select')->update_value( $value, $post_id, $field );
+	}
+	
+	
+	/*
+	*  translate_field
+	*
+	*  This function will translate field settings
+	*
+	*  @type	function
+	*  @date	8/03/2016
+	*  @since	5.3.2
+	*
+	*  @param	$field (array)
+	*  @return	$field
+	*/
+	
+	function translate_field( $field ) {
 		
-			return $value;
-			
-		}
+		return acf_get_field_type('select')->translate_field( $field );
 		
+	}
+	
+	
+	/*
+	*  format_value()
+	*
+	*  This filter is appied to the $value after it is loaded from the db and before it is returned to the template
+	*
+	*  @type	filter
+	*  @since	3.6
+	*  @date	23/01/13
+	*
+	*  @param	$value (mixed) the value which was loaded from the database
+	*  @param	$post_id (mixed) the $post_id from which the value was loaded
+	*  @param	$field (array) the field array holding all the field options
+	*
+	*  @return	$value (mixed) the modified value
+	*/
+	
+	function format_value( $value, $post_id, $field ) {
 		
-		// array
-		if( is_array($value) ) {
-			
-			// save value as strings, so we can clearly search for them in SQL LIKE statements
-			$value = array_map('strval', $value);
-			
-		}
+		return acf_get_field_type('select')->format_value( $value, $post_id, $field );
 		
-		
-		// return
-		return $value;
 	}
 	
 }

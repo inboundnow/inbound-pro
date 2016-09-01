@@ -146,7 +146,7 @@ if( empty($groups) ) {
 									?>
 								</td>
 								<td class="add">
-									<a href="#" class="acf-button add-conditional-rule"><?php _e("and",'acf'); ?></a>
+									<a href="#" class="button add-conditional-rule"><?php _e("and",'acf'); ?></a>
 								</td>
 								<td class="remove">
 									<a href="#" class="acf-icon -minus remove-conditional-rule"></a>
@@ -161,7 +161,7 @@ if( empty($groups) ) {
 			
 			<h4><?php _e("or",'acf'); ?></h4>
 			
-			<a href="#" class="acf-button add-conditional-group"><?php _e("Add rule group",'acf'); ?></a>
+			<a href="#" class="button add-conditional-group"><?php _e("Add rule group",'acf'); ?></a>
 			
 		</div>
 		

@@ -119,7 +119,7 @@ $rule_operators = apply_filters( 'acf/location/rule_operators', array(
 									
 								?></td>
 								<td class="add">
-									<a href="#" class="acf-button add-location-rule"><?php _e("and",'acf'); ?></a>
+									<a href="#" class="button add-location-rule"><?php _e("and",'acf'); ?></a>
 								</td>
 								<td class="remove">
 									<a href="#" class="acf-icon -minus remove-location-rule"></a>
@@ -134,7 +134,7 @@ $rule_operators = apply_filters( 'acf/location/rule_operators', array(
 			
 			<h4><?php _e("or",'acf'); ?></h4>
 			
-			<a href="#" class="acf-button add-location-group"><?php _e("Add rule group",'acf'); ?></a>
+			<a href="#" class="button add-location-group"><?php _e("Add rule group",'acf'); ?></a>
 			
 		</div>
 	</div>
