@@ -59,7 +59,7 @@ class Inbound_Pro_Activation {
 		}
 
 		/* if license valid activate pro core components */
-		if ( Inbound_Pro_Plugin::get_customer_status() ) {
+		if ( INBOUND_ACCESS_LEVEL > 0 ) {
 			self::activate_pro_components();
 		}
 	}

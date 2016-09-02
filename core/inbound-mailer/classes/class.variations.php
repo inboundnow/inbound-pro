@@ -104,8 +104,7 @@ if ( ! class_exists( 'Inbound_Mailer_Variations' ) ) {
 		*
 		* @returns ARRAY of variation data
 		*/
-		public static function get_variations( $inbound_email_id	, $vid = null ) {
-
+		public static function get_variations( $inbound_email_id , $vid = null ) {
 
 			$settings = Inbound_Email_Meta::get_settings( $inbound_email_id );
 			$variations = ( isset($settings['variations']) ) ? $settings['variations'] : array( 0 => array( 'status' => 'active' ) );
@@ -346,15 +345,14 @@ if ( ! class_exists( 'Inbound_Mailer_Variations' ) ) {
 			global $post;
 
 			if (isset($_REQUEST['inbvid'])){
-				return $_REQUEST['inbvid'];
+				return intval($_REQUEST['inbvid']);
 			}
 
-			(isset($post->ID)) ? $post_id = $post->ID : $post_id = $_REQUEST['post'];
+			$post_id = (isset($post->ID)) ? $post->ID : intval($_REQUEST['post']);
 
 			if (isset($_SESSION[ $post_id . '-variation-id'])) {
 				return $_SESSION[ $post_id . '-variation-id'];
 			}
-
 
 			return 0;
 		}

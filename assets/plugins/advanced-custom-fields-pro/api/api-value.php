@@ -19,67 +19,37 @@ function acf_get_metadata( $post_id = 0, $name = '', $hidden = false ) {
 	
 	// vars
 	$value = null;
+	$prefix = $hidden ? '_' : '';
 	
 	
-	// add prefix for hidden meta
-	if( $hidden ) {
-		
-		$name = '_' . $name;
-		
-	}
+	// get post_id info
+	$info = acf_get_post_id_info($post_id);
 	
 	
-	// post
-	if( is_numeric($post_id) ) {
-		
-		$meta = get_metadata( 'post', $post_id, $name, false );
-		
-		if( isset($meta[0]) ) {
-		
-		 	$value = $meta[0];
-		 	
-	 	}
+	// bail early if no $post_id (acf_form - new_post)
+	if( !$info['id'] ) return $value;
 	
-	// user
-	} elseif( substr($post_id, 0, 5) == 'user_' ) {
-		
-		$user_id = (int) substr($post_id, 5);
-		
-		$meta = get_metadata( 'user', $user_id, $name, false );
-		
-		if( isset($meta[0]) ) {
-		
-		 	$value = $meta[0];
-		 	
-	 	}
 	
-	// comment
-	} elseif( substr($post_id, 0, 8) == 'comment_' ) {
+	// option
+	if( $info['type'] === 'option' ) {
 		
-		$comment_id = (int) substr($post_id, 8);
+		$name = $prefix . $post_id . '_' . $name;
+		$value = get_option( $name, null );
 		
-		$meta = get_metadata( 'comment', $comment_id, $name, false );
-		
-		if( isset($meta[0]) ) {
-		
-		 	$value = $meta[0];
-		 	
-	 	}
-	 	
+	// meta
 	} else {
 		
-		// modify prefix for hidden meta
-		if( $hidden ) {
-			
-			$post_id = '_' . $post_id;
-			$name = substr($name, 1);
-			
-		}
+		$name = $prefix . $name;
+		$meta = get_metadata( $info['type'], $info['id'], $name, false );
 		
-		$value = get_option( $post_id . '_' . $name, null );
+		if( isset($meta[0]) ) {
+		
+		 	$value = $meta[0];
+		 	
+	 	}
 		
 	}
-		
+	
 	
 	// return
 	return $value;
@@ -107,53 +77,34 @@ function acf_update_metadata( $post_id = 0, $name = '', $value = '', $hidden = f
 	
 	// vars
 	$return = false;
+	$prefix = $hidden ? '_' : '';
 	
 	
-	// add prefix for hidden meta
-	if( $hidden ) {
-		
-		$name = '_' . $name;
-		
-	}
+	// get post_id info
+	$info = acf_get_post_id_info($post_id);
 	
 	
-	// postmeta
-	if( is_numeric($post_id) ) {
-		
-		$return = update_metadata('post', $post_id, $name, $value );
+	// bail early if no $post_id (acf_form - new_post)
+	if( !$info['id'] ) return $return;
 	
-	// usermeta
-	} elseif( substr($post_id, 0, 5) == 'user_' ) {
-		
-		$user_id = (int) substr($post_id, 5);
-		
-		$return = update_metadata('user', $user_id, $name, $value);
-		
-	// commentmeta
-	} elseif( substr($post_id, 0, 8) == 'comment_' ) {
-		
-		$comment_id = (int) substr($post_id, 8);
-		
-		$return = update_metadata('comment', $comment_id, $name, $value);
 	
-	// options	
+	// option
+	if( $info['type'] === 'option' ) {
+		
+		$name = $prefix . $post_id . '_' . $name;
+		$return = acf_update_option( $name, $value );
+		
+	// meta
 	} else {
 		
-		// modify prefix for hidden meta
-		if( $hidden ) {
-			
-			$post_id = '_' . $post_id;
-			$name = substr($name, 1);
-			
-		}
-		
-		$return = acf_update_option( $post_id . '_' . $name, $value );
+		$name = $prefix . $name;
+		$return = update_metadata( $info['type'], $info['id'], $name, $value );
 		
 	}
 	
 	
 	// return
-	return (boolean) $return;
+	return $return;
 	
 }
 
@@ -177,47 +128,28 @@ function acf_delete_metadata( $post_id = 0, $name = '', $hidden = false ) {
 	
 	// vars
 	$return = false;
+	$prefix = $hidden ? '_' : '';
 	
 	
-	// add prefix for hidden meta
-	if( $hidden ) {
-		
-		$name = '_' . $name;
-		
-	}
+	// get post_id info
+	$info = acf_get_post_id_info($post_id);
 	
 	
-	// postmeta
-	if( is_numeric($post_id) ) {
-		
-		$return = delete_metadata('post', $post_id, $name );
+	// bail early if no $post_id (acf_form - new_post)
+	if( !$info['id'] ) return $return;
 	
-	// usermeta
-	} elseif( substr($post_id, 0, 5) == 'user_' ) {
-		
-		$user_id = (int) substr($post_id, 5);
-		
-		$return = delete_metadata('user', $user_id, $name);
-		
-	// commentmeta
-	} elseif( substr($post_id, 0, 8) == 'comment_' ) {
-		
-		$comment_id = (int) substr($post_id, 8);
-		
-		$return = delete_metadata('comment', $comment_id, $name);
 	
-	// options	
+	// option
+	if( $info['type'] === 'option' ) {
+		
+		$name = $prefix . $post_id . '_' . $name;
+		$return = delete_option( $name );
+		
+	// meta
 	} else {
 		
-		// modify prefix for hidden meta
-		if( $hidden ) {
-			
-			$post_id = '_' . $post_id;
-			$name = substr($name, 1);
-			
-		}
-		
-		$return = delete_option( $post_id . '_' . $name );
+		$name = $prefix . $name;
+		$return = delete_metadata( $info['type'], $info['id'], $name );
 		
 	}
 	
@@ -259,8 +191,8 @@ function acf_update_option( $option = '', $value = '', $autoload = null ) {
 	
 	
 	// for some reason, update_option does not use stripslashes_deep.
-	// update_metadata -> http://core.trac.wordpress.org/browser/tags/3.4.2/wp-includes/meta.php#L82: line 101 (does use stripslashes_deep)
-	// update_option -> http://core.trac.wordpress.org/browser/tags/3.5.1/wp-includes/option.php#L0: line 215 (does not use stripslashes_deep)
+	// update_metadata -> https://core.trac.wordpress.org/browser/tags/3.4.2/wp-includes/meta.php#L82: line 101 (does use stripslashes_deep)
+	// update_option -> https://core.trac.wordpress.org/browser/tags/3.5.1/wp-includes/option.php#L0: line 215 (does not use stripslashes_deep)
 	$value = stripslashes_deep($value);
 		
 		
@@ -298,17 +230,14 @@ function acf_update_option( $option = '', $value = '', $autoload = null ) {
 
 function acf_get_value( $post_id = 0, $field ) {
 	
-	// bail early if no $post_id (acf_form - new_post)
-	if( !$post_id ) return null;
+	// vars
+	$cache_key = "get_value/post_id={$post_id}/name={$field['name']}";
 	
 	
-	// try cache
-	$found = false;
-	$cache = wp_cache_get( "load_value/post_id={$post_id}/name={$field['name']}", 'acf', false, $found );
-	
-	if( $found ) {
-	
-		return $cache;
+	// return early if cache is found
+	if( acf_isset_cache($cache_key) ) {
+		
+		return acf_get_cache($cache_key);
 		
 	}
 	
@@ -332,12 +261,12 @@ function acf_get_value( $post_id = 0, $field ) {
 	// filter for 3rd party customization
 	$value = apply_filters( "acf/load_value", $value, $post_id, $field );
 	$value = apply_filters( "acf/load_value/type={$field['type']}", $value, $post_id, $field );
-	$value = apply_filters( "acf/load_value/name={$field['name']}", $value, $post_id, $field );
+	$value = apply_filters( "acf/load_value/name={$field['_name']}", $value, $post_id, $field );
 	$value = apply_filters( "acf/load_value/key={$field['key']}", $value, $post_id, $field );
 	
 	
 	// update cache
-	wp_cache_set( "load_value/post_id={$post_id}/name={$field['name']}", $value, 'acf' );
+	acf_set_cache($cache_key, $value);
 
 	
 	// return
@@ -363,11 +292,27 @@ function acf_get_value( $post_id = 0, $field ) {
 
 function acf_format_value( $value, $post_id, $field ) {
 	
+	// vars
+	$cache_key = "format_value/post_id={$post_id}/name={$field['name']}";
+	
+	
+	// return early if cache is found
+	if( acf_isset_cache($cache_key) ) {
+		
+		return acf_get_cache($cache_key);
+		
+	}
+	
+	
 	// apply filters
 	$value = apply_filters( "acf/format_value", $value, $post_id, $field );
 	$value = apply_filters( "acf/format_value/type={$field['type']}", $value, $post_id, $field );
-	$value = apply_filters( "acf/format_value/name={$field['name']}", $value, $post_id, $field );
+	$value = apply_filters( "acf/format_value/name={$field['_name']}", $value, $post_id, $field );
 	$value = apply_filters( "acf/format_value/key={$field['key']}", $value, $post_id, $field );
+	
+	
+	// update cache
+	acf_set_cache($cache_key, $value);
 	
 	
 	// return
@@ -416,7 +361,8 @@ function acf_update_value( $value = null, $post_id = 0, $field ) {
 	
 	
 	// clear cache
-	wp_cache_delete( "load_value/post_id={$post_id}/name={$field['name']}", 'acf' );
+	acf_delete_cache("get_value/post_id={$post_id}/name={$field['name']}");
+	acf_delete_cache("format_value/post_id={$post_id}/name={$field['name']}");
 
 	
 	// return
@@ -457,12 +403,81 @@ function acf_delete_value( $post_id = 0, $field ) {
 	
 	
 	// clear cache
-	wp_cache_delete( "load_value/post_id={$post_id}/name={$field['name']}", 'acf' );
+	acf_delete_cache("get_value/post_id={$post_id}/name={$field['name']}");
+	acf_delete_cache("format_value/post_id={$post_id}/name={$field['name']}");
 	
 	
 	// return
 	return $return;
 	
+}
+
+
+/*
+*  acf_copy_postmeta
+*
+*  This function will copy postmeta from one post to another.
+*  Very useful for saving and restoring revisions
+*
+*  @type	function
+*  @date	25/06/2016
+*  @since	5.3.8
+*
+*  @param	$from_post_id (int)
+*  @param	$to_post_id (int)
+*  @return	n/a
+*/
+
+function acf_copy_postmeta( $from_post_id, $to_post_id ) {
+	
+	// get all postmeta
+	$meta = get_post_meta( $from_post_id );
+	
+	
+	// bail early if no meta
+	if( !$meta ) return;
+
+	
+	// loop
+	foreach( $meta as $name => $value ) {
+		
+		// attempt to find key value
+		$key = acf_maybe_get( $meta, '_'.$name );
+		
+		
+		// bail ealry if no key
+		if( !$key ) continue;
+		
+		
+		// update vars
+		$value = $value[0];
+		$key = $key[0];
+		
+		
+		// bail early if $key is a not a field_key
+		if( !acf_is_field_key($key) ) continue;
+		
+		
+		// get_post_meta will return array before running maybe_unserialize
+		$value = maybe_unserialize( $value );
+		
+		
+		// add in slashes
+		// - update_post_meta will unslash the value, so we must first slash it to avoid losing backslashes
+		// - https://codex.wordpress.org/Function_Reference/update_post_meta#Character_Escaping
+		if( is_string($value) ) {
+			
+			$value =  wp_slash($value);
+			
+		}
+		
+		
+		// update value
+		acf_update_metadata( $to_post_id, $name, $value );
+		acf_update_metadata( $to_post_id, $name, $key, true );
+					
+	}
+
 }
 
 ?>

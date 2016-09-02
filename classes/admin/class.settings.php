@@ -14,7 +14,7 @@ class Inbound_Pro_Settings {
 	 *	Load hooks and listners
 	 */
 	public static function init() {
-		self::$tab = (isset($_GET['tab'])) ? $_GET['tab'] : 'inbound-pro-setup';
+		self::$tab = (isset($_GET['tab'])) ? sanitize_text_field($_GET['tab']) : 'inbound-pro-setup';
 		self::activation_redirect();
 		self::add_hooks();
 	}
@@ -102,8 +102,6 @@ class Inbound_Pro_Settings {
 	 *  Setup Core Settings
 	 */
 	public static function extend_settings() {
-
-		$price_id = Inbound_Pro_Plugin::get_customer_status();
 
 		self::$settings_fields = array(
 			'inbound-pro-setup' => array(
@@ -293,7 +291,7 @@ class Inbound_Pro_Settings {
 								'on' => __( 'On' , 'inbound-pro' ),
 								'off' => __( 'Off' , 'inbound-pro' ),
 							),
-							'hidden' => ($price_id > 4 ? false : true ),
+							'hidden' => (INBOUND_ACCESS_LEVEL > 4 ? false : true ),
 							'reveal' => array(
 								'selector' => null ,
 								'value' => null
@@ -312,7 +310,7 @@ class Inbound_Pro_Settings {
 							'default'	=> __( 'ACF Options' , 'inbound-pro' ),
 							'placeholder'	=> null,
 							'options' => false,
-							'hidden' => ( $price_id > 1 ? false : true ),
+							'hidden' => ( INBOUND_ACCESS_LEVEL > 1 ? false : true ),
 							'reveal' => array(
 								'selector' => null ,
 								'value' => null
@@ -322,14 +320,14 @@ class Inbound_Pro_Settings {
 							'id'	=> 'toggle-acf-lite',
 							'type'	=> 'radio',
 							'label'	=> __( 'ACF Lite Mode' , 'inbound-pro' ),
-							'description'	=> __( 'Toggle this off to stop loading Landing Pages component.' , 'inbound-pro' ),
+							'description'	=> __( 'If you are presented with this option then ACF5 is being loaded. Turning Lite Mode to off will tell it to also load it\'s additional UI features.' , 'inbound-pro' ),
 							'default'	=> 'on',
 							'placeholder'	=> null,
 							'options' => array(
 								'on' => __( 'On' , 'inbound-pro' ),
 								'off' => __( 'Off' , 'inbound-pro' ),
 							),
-							'hidden' => ( $price_id > 1 ? false : true ),
+							'hidden' => ( INBOUND_ACCESS_LEVEL > 1 ? false : true ),
 							'reveal' => array(
 								'selector' => null ,
 								'value' => null

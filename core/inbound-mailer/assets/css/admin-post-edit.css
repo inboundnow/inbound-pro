@@ -1,4 +1,24 @@
 
+.inbound-mailer-selection-heading{width: 89%; margin-top: 20px;}
+.inbound-mailer-selection-heading h1 {display: inline;}
+
+#inbound-mailer-cancel-selection {
+	display: inline;
+	float: right;
+}
+
+#template-box {
+	background: #FCFDFE;
+	padding: 3%;
+	margin-right: 10px;
+	border: 1px solid #E0E0E0;
+	-moz-border-radius: 7px;
+	border-radius: 7px;
+	position: relative;
+	overflow: hidden;
+	display: block;
+}
+
 
 .mail-send-settings-container {
 	background: #268bd2 !important;
@@ -211,39 +231,7 @@ tr.description th.description-label {
 	position: relative;
 }
 
-#main-title-area .button-primary.new-save-wp-cta {
-	position: absolute !important;
-	top: 1px !important;
-	font-size: 17px !important;
-	padding-top: 3px !important;
-	right: 0px !important;
-	height: 31px !important;
-	width: 70px !important;
-}
-#inbound-mailer-notes-area .button-primary.new-save-wp-cta {
-	position: absolute !important;
-	top: 0px !important;
-	font-size: 14px !important;
-	padding-top: 0px !important;
-	right: -2px !important;
-	height: 28px !important;
-	width: 71px !important;}
-#main-title-area .inbound-mailer-success-message, #inbound-mailer-notes-area .inbound-mailer-success-message {
-	position: absolute !important;
-	top: 1px !important;
-	font-size: 11px !important;
-	padding-top: 3px !important;
-	right: -3px !important;
-	height: 21px !important;
-	vertical-align: middle;
-	margin-top: 0px;
-	padding-bottom: 0px;
-}
-#main-title-area .button-primary.new-save-wp-cta {
-	padding-top: 6px !important; }
-#main-title-area .inbound-mailer-success-message {
-	margin-top: 4px;
-}
+
 #post-body .new-save-inbound-mailer-frontend {
 	font-weight: 200;
 	top: 2px;
@@ -505,16 +493,6 @@ ul#template-filter a.current{
 	margin: 5px 0;
 }
 
-#template-box .inbound_email_tooltip_templates{
-	bottom: 6px;
-	position: absolute;
-	right: 8px;
-}
-
-#postbox-container-2 {
-	/* display:none; */
-}
-
 #inbound_lead_fields_button {
 	background-image: url('../images/token-20.png');
 	background-repeat: no-repeat;
@@ -542,3 +520,7 @@ ul#template-filter a.current{
 	-webkit-flex-direction: row-reverse; /* Safari */
 	flex-direction:         row-reverse;
 }
+
+
+.inbound_email_check_box_table td {padding: 0px;}
+.inbound_email_check_box_table {display: inline; float: left;}

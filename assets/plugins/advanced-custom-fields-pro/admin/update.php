@@ -30,204 +30,10 @@ class acf_admin_update {
 		
 		// actions
 		add_action('admin_menu', 						array($this,'admin_menu'), 20);
-		add_action('network_admin_menu', 				array($this,'network_admin_menu'), 20);
 		
 		
 		// ajax
 		add_action('wp_ajax_acf/admin/data_upgrade',	array($this, 'ajax_upgrade'));
-		
-	}
-	
-	
-	/*
-	*  network_admin_menu
-	*
-	*  This function will chck for available updates and add actions if needed
-	*
-	*  @type	function
-	*  @date	2/04/2015
-	*  @since	5.1.5
-	*
-	*  @param	n/a
-	*  @return	n/a
-	*/
-	
-	function network_admin_menu() {
-		
-		// bail early if no show_admin
-		if( !acf_get_setting('show_admin') ) {
-			
-			return;
-		
-		}
-		
-		
-		// vars
-		$prompt = false;
-		
-		
-		// loop through sites and find updates
-		$sites = wp_get_sites();
-		
-		if( $sites ) {
-			
-			foreach( $sites as $site ) {
-				
-				// switch blog
-				switch_to_blog( $site['blog_id'] );
-				
-				
-				// get site updates
-				$updates = acf_get_updates();
-				
-				
-				// restore
-				restore_current_blog();
-				
-				
-				if( $updates ) {
-				
-					$prompt = true;
-					break;
-					
-				}
-				
-			}
-			
-		}
-		
-		
-		// bail if no prompt
-		if( !$prompt ) {
-			
-			return;
-			
-		}
-		
-		
-		// actions
-		add_action('network_admin_notices', array($this, 'network_admin_notices'), 1);
-		
-		
-		// add page
-		add_submenu_page('update-core.php', __('Upgrade ACF','acf'), __('Upgrade ACF','acf'), acf_get_setting('capability'),'acf-upgrade', array($this,'network_html'));
-		
-	}
-	
-	
-	/*
-	*  network_admin_notices
-	*
-	*  This function will render the update notice
-	*
-	*  @type	function
-	*  @date	2/04/2015
-	*  @since	5.1.5
-	*
-	*  @param	n/a
-	*  @return	n/a
-	*/
-	
-	function network_admin_notices() {
-		
-		// bail ealry if already on update page
-		if( acf_is_screen('admin_page_acf-upgrade-network') ) {
-			
-			return;
-			
-		}
-		
-				
-		// view
-		$view = array(
-			'button_text'	=> __("Review sites & upgrade", 'acf'),
-			'button_url'	=> network_admin_url('update-core.php?page=acf-upgrade'),
-			'confirm'		=> false
-		);
-		
-		
-		// load view
-		acf_get_view('update-notice', $view);
-		
-	}
-	
-	
-	/*
-	*  network_html
-	*
-	*  This function will render the HTML for the network upgrade page
-	*
-	*  @type	function
-	*  @date	19/02/2014
-	*  @since	5.0.0
-	*
-	*  @param	n/a
-	*  @return	n/a
-	*/
-	
-	function network_html() {
-		
-		// vars
-		$plugin_version = acf_get_setting('version');
-		
-		
-		// loop through sites and find updates
-		$sites = wp_get_sites();
-		
-		if( $sites ) {
-			
-			foreach( $sites as $i => $site ) {
-				
-				// switch blog
-				switch_to_blog( $site['blog_id'] );
-				
-				
-				// extra info
-				$site['name'] = get_bloginfo('name');
-				$site['url'] = home_url();
-				
-				
-				// get site updates
-				$site['updates'] = acf_get_updates();
-				
-				
-				// get site version
-				$site['acf_version'] = get_option('acf_version');
-				
-				
-				// no value equals new instal
-				if( !$site['acf_version'] ) {
-					
-					$site['acf_version'] = $plugin_version;
-					
-				}
-				
-				
-				// update
-				$sites[ $i ] = $site;
-				
-				
-				// restore
-				restore_current_blog();
-				
-			}
-			
-		}
-		
-		
-		// view
-		$view = array(
-			'sites' => $sites,
-			'plugin_version'	=> $plugin_version
-		);
-		
-		
-		// enqueue
-		acf_enqueue_scripts();
-		
-		
-		// load view
-		acf_get_view('update-network', $view);
 		
 	}
 	
@@ -295,7 +101,36 @@ class acf_admin_update {
 		
 		
 		// add page
-		add_submenu_page('edit.php?post_type=acf-field-group', __('Upgrade','acf'), __('Upgrade','acf'), acf_get_setting('capability'),'acf-upgrade', array($this,'html') );
+		$page = add_submenu_page('edit.php?post_type=acf-field-group', __('Upgrade Database','acf'), __('Upgrade Database','acf'), acf_get_setting('capability'), 'acf-upgrade', array($this,'html') );
+		
+		
+		// actions
+		add_action('load-' . $page, array($this,'load'));
+		
+	}
+	
+	
+	/*
+	*  load
+	*
+	*  This function will look at the $_POST data and run any functions if needed
+	*
+	*  @type	function
+	*  @date	7/01/2014
+	*  @since	5.0.0
+	*
+	*  @param	n/a
+	*  @return	n/a
+	*/
+	
+	function load() {
+		
+		// hide upgrade 
+		remove_action('admin_notices', array($this, 'admin_notices'), 1);
+		
+		
+		// load acf scripts
+		acf_enqueue_scripts();
 		
 	}
 	
@@ -315,14 +150,6 @@ class acf_admin_update {
 	
 	function admin_notices() {
 		
-		// bail ealry if already on update page
-		if( acf_is_screen('custom-fields_page_acf-upgrade') ) {
-			
-			return;
-			
-		}
-		
-				
 		// view
 		$view = array(
 			'button_text'	=> __("Upgrade Database", 'acf'),
@@ -358,10 +185,6 @@ class acf_admin_update {
 		);
 		
 		
-		// enqueue
-		acf_enqueue_scripts();
-		
-		
 		// load view
 		acf_get_view('update', $view);
 		
@@ -393,7 +216,9 @@ class acf_admin_update {
 		// validate
 		if( !wp_verify_nonce($options['nonce'], 'acf_upgrade') ) {
 		
-			wp_send_json_error();
+			wp_send_json_error(array(
+				'message' => __('Error validating request', 'acf')
+			));	
 			
 		}
 		
@@ -415,7 +240,7 @@ class acf_admin_update {
 		if( empty($updates) ) {
 			
 			wp_send_json_error(array(
-				'message' => 'No updates available'
+				'message' => __('No updates available', 'acf')
 			));	
 			
 		}
@@ -432,7 +257,7 @@ class acf_admin_update {
 			if( !file_exists($path) ) {
 			
 				wp_send_json_error(array(
-					'message' => 'Error loading update'
+					'message' => __('Error loading update', 'acf')
 				));	
 				
 			}
@@ -525,7 +350,7 @@ class acf_admin_update {
         $obj->slug = $_GET['plugin'];
         $obj->new_version = $rollback;
         $obj->url = 'https://wordpress.org/plugins/advanced-custom-fields';
-        $obj->package = 'http://downloads.wordpress.org/plugin/advanced-custom-fields.' . $rollback . '.zip';;
+        $obj->package = 'https://downloads.wordpress.org/plugin/advanced-custom-fields.' . $rollback . '.zip';;
         
         
         // add to transient

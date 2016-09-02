@@ -81,7 +81,7 @@ class Inbound_Mailer_Customizer {
 		$permalink = get_permalink( $page_id );
 
 		$randomString = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 10);
-		$inbound_email_variation = (isset($_GET['inbvid'])) ? $_GET['inbvid'] : '0';
+		$inbound_email_variation = (isset($_GET['inbvid'])) ? intval($_GET['inbvid']) : '0';
 
 		$params = '?inbvid='.$inbound_email_variation.'&cache_bust='.$randomString.'&live-preview-area='.$randomString;
 
@@ -138,12 +138,12 @@ class Inbound_Mailer_Customizer {
 		global $post;
 		global $wp_query;
 
-		$version = $_GET['inbvid'];
+
 
 		$current_page_id = $wp_query->get_queried_object_id();
 
-		$width = get_post_meta($current_page_id, 'inbound_email_width-'.$version, true);
-		$height = get_post_meta($current_page_id, 'inbound_email_height-'.$version, true);
+		$width = get_post_meta($current_page_id, 'inbound_email_width-'.$inbound_email_variation, true);
+		$height = get_post_meta($current_page_id, 'inbound_email_height-'.$inbound_email_variation, true);
 		//$replace = get_post_meta( 2112, 'inbound_email_global_bt_lists', true); // move to ext
 
 		$correct_height = self::get_correct_dimensions($height, 'height');

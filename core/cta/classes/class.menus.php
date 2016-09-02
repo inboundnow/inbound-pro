@@ -27,7 +27,7 @@ class CTA_Menus {
 	*/
 	public static function add_sub_menus() {
 
-		add_submenu_page('edit.php?post_type=wp-call-to-action', __( 'Forms', 'inbound-pro' ), __( 'Forms', 'cta'), 'edit_ctas', 'inbound-forms-redirect',100);
+	//	add_submenu_page('edit.php?post_type=wp-call-to-action', __( 'Forms', 'inbound-pro' ), __( 'Forms', 'cta'), 'edit_ctas', 'inbound-forms-redirect',100);
 
 		add_submenu_page('edit.php?post_type=wp-call-to-action', __( 'Settings', 'cta'), __( 'Settings', 'cta'), 'edit_ctas', 'wp_cta_global_settings', array( 'CTA_Global_Settings', 'display_global_settings'));
 

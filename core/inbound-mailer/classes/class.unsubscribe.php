@@ -54,7 +54,7 @@ class Inbound_Mailer_Unsubscribe {
 
 		/* Begin unsubscribe html inputs */
 		$html = "<form action='?unsubscribed=true' name='unsubscribe' method='post'>";
-		$html .= "<input type='hidden' name='token' value='".$_GET['token']."' >";
+		$html .= "<input type='hidden' name='token' value='".strip_tags($_GET['token'])."' >";
 		$html .= "<input type='hidden' name='action' value='inbound_unsubscribe_event' >";
 
 		/* loop through lists and show unsubscribe inputs */
@@ -231,7 +231,7 @@ class Inbound_Mailer_Unsubscribe {
 		$params = self::decode_unsubscribe_token( $_POST['token'] );
 
 		/* prepare all token */
-		$all = (isset($_POST['lists_all']) && $_POST['lists_all'] ) ? true : false;
+		$all = (isset($_POST['lists_all']) && $_POST['lists_all']  ) ? true : false;
 
 		/* add comments */
 		$params['event_details']['comments'] = ( isset( $_POST['comments'] ) ) ? $_POST['comments'] : '';
@@ -246,7 +246,7 @@ class Inbound_Mailer_Unsubscribe {
 		} else if (isset($_POST['mute-12'])) {
 			self::mute_lead_emails( $params , $all , 12 );
 		} else if (isset($_POST['unsubscribe'])) {
-			self::unsubscribe_lead( $params , $all = false );
+			self::unsubscribe_lead( $params , $all );
 		}
 
 	}

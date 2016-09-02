@@ -36,11 +36,7 @@ class acf_json {
 	function update_field_group( $field_group ) {
 		
 		// validate
-		if( !acf_get_setting('json') ) {
-		
-			return;
-			
-		}
+		if( !acf_get_setting('json') ) return;
 		
 		
 		// get fields
@@ -69,13 +65,14 @@ class acf_json {
 	function delete_field_group( $field_group ) {
 		
 		// validate
-		if( !acf_get_setting('json') ) {
-		
-			return;
-			
-		}
+		if( !acf_get_setting('json') ) return;
 		
 		
+		// WP appends '__trashed' to end of 'key' (post_name) 
+		$field_group['key'] = str_replace('__trashed', '', $field_group['key']);
+		
+		
+		// delete
 		acf_delete_json_field_group( $field_group['key'] );
 		
 	}

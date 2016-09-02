@@ -218,18 +218,18 @@ class Landing_Pages_Metaboxes {
 
         /*check for delete command */
         if (isset($_GET['ab-action']) && $_GET['ab-action'] == 'delete-variation') {
-            Landing_Pages_Variations::delete_variation( $post->ID , $_REQUEST['action-variation-id'] );
+            Landing_Pages_Variations::delete_variation( $post->ID , intval($_REQUEST['action-variation-id']) );
         }
 
         /*check for pause command */
         if (isset($_GET['ab-action']) && $_GET['ab-action'] == 'pause-variation') {
-            Landing_Pages_Variations::pause_variation( $post->ID ,  $_REQUEST['action-variation-id'] );
+            Landing_Pages_Variations::pause_variation( $post->ID ,  intval($_REQUEST['action-variation-id']) );
 
         }
 
         /*check for pause command */
         if (isset($_GET['ab-action']) && $_GET['ab-action'] == 'play-variation') {
-            Landing_Pages_Variations::play_variation( $post->ID ,  $_REQUEST['action-variation-id'] );
+            Landing_Pages_Variations::play_variation( $post->ID ,  intval($_REQUEST['action-variation-id']) );
         }
 
         self::$is_new = (isset($_GET['new-variation'])) ? 1 : 0;
@@ -1144,9 +1144,9 @@ href='?post=<?php echo $post->ID; ?>&action=edit&action-variation-id=<?php echo 
     public static function ajax_get_template_metabox_html() {
         global $wpdb;
 
-        $current_template = $_POST['selected_template'];
+        $current_template = sanitize_text_field($_POST['selected_template']);
 
-        $post_id = $_POST['post_id'];
+        $post_id = intval($_POST['post_id']);
         $post = get_post($post_id);
 
         $args['args']['key'] = $current_template;
@@ -1173,7 +1173,7 @@ href='?post=<?php echo $post->ID; ?>&action=edit&action-variation-id=<?php echo 
         }
 
         $variations = Landing_Pages_Variations::get_variations( $landing_page_id );
-        $variation_id = (isset($_REQUEST['lp-variation-id'])) ? $_REQUEST['lp-variation-id'] : '0';
+        $variation_id = (isset($_REQUEST['lp-variation-id'])) ? intval($_REQUEST['lp-variation-id']) : '0';
         $_SESSION['lp_ab_test_open_variation'] = $variation_id;
         if (!in_array( $variation_id , $variations) ) {
             $variations[] = $variation_id;

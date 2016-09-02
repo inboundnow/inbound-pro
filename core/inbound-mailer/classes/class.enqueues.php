@@ -67,15 +67,11 @@ class Inbound_Mailer_Enqueues {
 	public static function load_all_backend_enqueues( $hook ) {
 		global $post;
 
-		self::dequeue_3rd_party_scripts();
-
-		/* Enqueues general & unorganized admin stylings */
-		wp_enqueue_style('inbound-mailer-admin-css', INBOUND_EMAIL_URLPATH . 'assets/css/admin-style.css');
+		//self::dequeue_3rd_party_scripts();
 
 		/* Load enqueues directly related to inbound-email post type */
 		self::load_inbound_email_post_type_enqueues( $hook );
 		self::load_frontend_editor_enqueus( $hook );
-		self::reload_3rd_party_scripts( $hook );
 	}
 
 
@@ -187,8 +183,6 @@ class Inbound_Mailer_Enqueues {
 		wp_admin_css('thickbox');
 		add_thickbox();
 
-		wp_enqueue_style('inbound-mailer-admin-css', INBOUND_EMAIL_URLPATH . 'assets/css/admin-style.css');
-
 		wp_enqueue_script('inbound-mailer-post-edit-ui', INBOUND_EMAIL_URLPATH . 'assets/js/admin/admin.post-edit.js');
 		wp_localize_script( 'inbound-mailer-post-edit-ui', 'inbound_email_post_edit_ui', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'wp_call_to_action_meta_nonce' => wp_create_nonce('inbound-email-meta-nonce') ) );
 
@@ -199,32 +193,6 @@ class Inbound_Mailer_Enqueues {
 		wp_enqueue_style('jpicker-css', INBOUND_EMAIL_URLPATH . 'assets/libraries/jpicker/css/jPicker.css');
 		wp_enqueue_style('inbound-mailer-customizer-frontend', INBOUND_EMAIL_URLPATH . 'assets/css/customizer.frontend.css');
 		wp_enqueue_script('jquery-easing', INBOUND_EMAIL_URLPATH . 'assets/js/jquery.easing.min.js');
-	}
-
-	/**
-	 *  stores 3rd party script enqueues in a static var and temporarily dequeues
-	 */
-	public static function dequeue_3rd_party_scripts() {
-		global $wp_scripts;
-
-		if ( !empty( $wp_scripts->queue ) ) {
-		    self::$scripts_queue = $wp_scripts->queue; // store the scripts
-		    foreach ( $wp_scripts->queue as $handle ) {
-		          wp_dequeue_script( $handle );
-		    }
-		}
-	}
-
-	/**
-	 *  re-enqueues 3rd party scripts
-	 */
-	public static function reload_3rd_party_scripts() {
-
-		if(isset(self::$scripts_queue)) {
-			foreach ( self::$scripts_queue as $handle ) {
-			    wp_enqueue_script( $handle );
-			}
-		}
 	}
 
 	/**

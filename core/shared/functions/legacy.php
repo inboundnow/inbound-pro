@@ -111,11 +111,11 @@ if (!function_exists('wpl_url_to_postid')) {
 				if ( isset( $wp->extra_query_vars[$wpvar] ) ) {
 					$query[$wpvar] = $wp->extra_query_vars[$wpvar];
 				} elseif ( isset( $_POST[$wpvar] ) ){
-					$query[$wpvar] = $_POST[$wpvar];
+					$query[$wpvar] = sanitize_text_field($_POST[$wpvar]);
 				} elseif ( isset( $_GET[$wpvar] ) ){
-					$query[$wpvar] = $_GET[$wpvar];
+					$query[$wpvar] = sanitize_text_field($_GET[$wpvar]);
 				} elseif ( isset( $query_vars[$wpvar] ) ){
-					$query[$wpvar] = $query_vars[$wpvar];
+					$query[$wpvar] = sanitize_text_field($query_vars[$wpvar]);
 				}
 
 				if ( !empty( $query[$wpvar] ) ) {

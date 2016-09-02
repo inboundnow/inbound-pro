@@ -55,7 +55,7 @@ class Inbound_Mailer_Forms_Integration {
         $template_id = $form_meta_data['inbound_email_send_notification_template'][0];
 
         /* If Email Template Selected Use That */
-        if ( !$template_id || $template_id == 'custom' ) {
+        if ( !$template_id && $template_id == 'custom' ) {
             return false;
         }
 

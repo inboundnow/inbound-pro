@@ -149,20 +149,9 @@
 }
 /* field object handle (open) */
 .acf-field-object.open > .handle {
-  background: #3595BC;
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#46AFDB), to(#3199C5));
-  /* Safari 4+, Chrome */
-  background-image: -webkit-linear-gradient(top, #46AFDB, #3199C5);
-  /* Chrome 10+, Safari 5.1+, iOS 5+ */
-  background-image: -moz-linear-gradient(top, #46AFDB, #3199C5);
-  /* Firefox 3.6-15 */
-  background-image: -o-linear-gradient(top, #46AFDB, #3199C5);
-  /* Opera 11.10+ */
-  background-image: linear-gradient(to bottom, #46AFDB, #3199C5);
-  /* Firefox 16+ */
-  border: #268FBB solid 1px;
+  background: #00a0d2;
+  border: #0092bf solid 1px;
   text-shadow: #268FBB 0 1px 0;
-  box-shadow: inset #5FC8F4 0 1px 0 0;
   color: #fff;
   position: relative;
   margin: -1px -1px 0 -1px;
@@ -173,6 +162,9 @@
   -moz-transition: none;
   -o-transition: none;
   transition: none;
+}
+.acf-field-object.open > .handle .row-options a:hover {
+  text-decoration: underline;
 }
 .acf-field-object.open > .handle .acf-icon {
   border-color: #fff;

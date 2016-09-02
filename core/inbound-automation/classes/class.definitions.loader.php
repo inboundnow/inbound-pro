@@ -14,6 +14,7 @@ if (!class_exists('Inbound_Automation_Loader')) {
         public static $triggers; /* dataset containing defined trigger hooks */
         public static $rule; /* dataset containing rule settings */
         public static $rules; /* dataset containing inbound automation rules */
+        public static $job_id; /* dataset job task id in inbound_automation_queue */
         public static $compare_options; /* array of acceptable comparision options */
         public static $argument_filters; /* dataset of agrument filters */
         public static $db_lookup_filters;
@@ -122,7 +123,7 @@ if (!class_exists('Inbound_Automation_Loader')) {
         public static function define_arguments() {
 
             self::$instance->argument_filters = array();
-            //error_log(print_r(self::$instance->triggers));
+            //error_log(print_r(self::$instance->triggers,true));
             //error_log(print_r(self::$instance->inbound_arguments , true));
             //exit;
             /* Loop Through Trigger Arguments & Build Trigger Filter Setting Array */
@@ -286,14 +287,15 @@ if (!class_exists('Inbound_Automation_Loader')) {
                     $evals = array();
 
                     $arguments = self::generate_arguments($trigger, $args);
-
+                    //error_log('process_trigger');
+                    //error_log(print_r($arguments,true));
                     /* Check Trigger Filters */
                     if (isset(self::$rule['trigger_filters']) && self::$rule['trigger_filters']) {
 
                         foreach (self::$rule['trigger_filters'] as $filter) {
                             if (strstr($filter['trigger_filter_key'], ':')) {
                                 $parts = explode(':', $filter['trigger_filter_key']);
-                                $target_argument = $arguments[$parts[0]][$parts[1]];
+                                $target_argument = (isset($arguments[$parts[0]][$parts[1]])) ? $arguments[$parts[0]][$parts[1]] : null;
                             } else {
                                 $target_argument = $arguments[$filter['trigger_filter_id']];
                             }
@@ -311,11 +313,13 @@ if (!class_exists('Inbound_Automation_Loader')) {
 
                     /* Add Job to Queue if Passes Trigger Filters */
                     if ($evaluate) {
+
+                        self::$job_id = Inbound_Automation_Processing::add_job_to_queue(self::$rule, $arguments);
                         /* Log Evaluation Message */
                         self::record_schedule_event($rule, $arguments, $trigger, $evaluate);
 
-                        Inbound_Automation_Processing::add_job_to_queue(self::$rule, $arguments);
                     }
+
                 }
             }
 
@@ -340,14 +344,19 @@ if (!class_exists('Inbound_Automation_Loader')) {
                     BREAK;
 
                 case 'match-all' :
-                    foreach ($evals as $eval) {
+                    $i_evals = count($evals);
+                    $e = 0;
+                    $evaluate = false;
+
+                    foreach ( $evals as $eval ) {
                         if ($eval['eval']) {
-                            $evaluate = true;
-                        } else {
-                            $evaluate = false;
+                            $e++;
                         }
                     }
 
+                    if ($e == $i_evals) {
+                        $evaluate = true;
+                    }
                     BREAK;
 
                 case 'match-none' :
@@ -386,7 +395,7 @@ if (!class_exists('Inbound_Automation_Loader')) {
         * Evaluate Filter By Comparing Filter with Corresponding Incoming Data
         */
         public static function evaluate_trigger_filter($filter, $target_argument) {
-            //error_log(print_r($target_argument,true));
+
             if (!is_array($target_argument)) {
                 $arg = $target_argument;
                 $target_argument = array();
@@ -394,7 +403,6 @@ if (!class_exists('Inbound_Automation_Loader')) {
             } else {
                 $target_argument[$filter['trigger_filter_key']] = Inbound_Automation_Loader::flatten_array($target_argument);
             }
-            //error_log(print_r($target_argument,true));
 
             $compare_value = (isset($target_argument[$filter['trigger_filter_key']])) ? $target_argument[$filter['trigger_filter_key']] : __('notset', 'inbound-pro');
             $eval = false;
@@ -464,7 +472,6 @@ if (!class_exists('Inbound_Automation_Loader')) {
             $message .= "<p><h2>" . __('Rule Settings:', 'inbound-pro') . "</h2> <br> <pre>" . print_r($rule, true) . "</pre></p>";
             $message .= "<p><h2>" . __('Trigger Data:', 'inbound-pro') . "</h2> <br> <pre>" . print_r($arguments, true) . '</pre></p>';
 
-            error_log(7);
             inbound_record_log(__('Trigger Fired', 'inbound-pro'), $message, $rule->ID, '-', 'trigger_event');
         }
 
@@ -488,7 +495,6 @@ if (!class_exists('Inbound_Automation_Loader')) {
          */
         public static function generate_arguments($hook, $args) {
 
-
             /* loop through arguments and update memory with available data with latest submission */
             $argument_definitions = self::$instance->triggers[$hook]['arguments'];
 
@@ -507,15 +513,54 @@ if (!class_exists('Inbound_Automation_Loader')) {
                 /* Place argument data into memory */
                 $updated_arg_data = self::prepare_mixed_data($argument);
 
+
                 if (isset(self::$instance->inbound_arguments[$hook][$definition['id']]) && is_array(self::$instance->inbound_arguments[$hook][$definition['id']])) {
                     self::$instance->inbound_arguments[$hook][$definition['id']] = array_replace(self::$instance->inbound_arguments[$hook][$definition['id']], $updated_arg_data);
                 } else {
-                    self::$instance->inbound_arguments[$hook][$definition['id']] = $updated_arg_data;
+                   self::$instance->inbound_arguments[$hook][$definition['id']] = $updated_arg_data;
                 }
+
             }
 
             /* update inbound arguments dataset with new data */
             self::update_arguments();
+
+            /* do not use old data stored in memory when no new data available */
+            $i = 0;
+            //error_log('near final before');
+            //error_log(print_r(self::$instance->inbound_arguments[$hook],true));
+
+            foreach (self::$instance->inbound_arguments[$hook] as $key=> $arg) {
+
+                /* pass argument through callback if callback available */
+                if (isset(self::$instance->triggers[$hook]['arguments'][$key]['callback'])) {
+                    $corresponding_array = call_user_func(
+                        array(
+                            self::$instance->triggers[$hook]['arguments'][$key]['callback'][0],
+                            self::$instance->triggers[$hook]['arguments'][$key]['callback'][1],
+                        ),
+                        $args[$i]
+                    );
+                } else {
+                    $corresponding_array = $args[$i];
+                }
+
+                /* Skip non array based arguments  */
+                if (!is_array($corresponding_array)) {
+                    continue;
+                }
+
+                /* argument contains an array - clean memory of unavailable data */
+                foreach($arg as $k => $value) {
+                    if (!isset($corresponding_array[$k])) {
+                        unset(self::$instance->inbound_arguments[$hook][$key][$k]);
+                    }
+                }
+                $i++;
+            }
+
+            //error_log('near final after');
+            //error_log(print_r(self::$instance->inbound_arguments[$hook],true));
 
             /* return arguments */
             return self::$instance->inbound_arguments[$hook];

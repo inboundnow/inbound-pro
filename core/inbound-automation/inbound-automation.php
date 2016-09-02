@@ -3,6 +3,7 @@
 Plugin Name: Inbound Automation
 Plugin URI: http://www.inboundnow.com/
 Description: Automate emails, segmenting, scoring & more.
+Version: 2.0.0
 */
 
 if (!class_exists('Inbound_Automation_Plugin') && class_exists('Inbound_Leads_Plugin')) {
@@ -22,7 +23,7 @@ if (!class_exists('Inbound_Automation_Plugin') && class_exists('Inbound_Leads_Pl
 		* Setup plugin constants
 		*/
 		private static function define_constants() {
-
+			define( 'INBOUND_AUTOMATION_CURRENT_VERSION', '2.0.0' );
 			define( 'INBOUND_AUTOMATION_FILE',  __FILE__ );
 			define( 'INBOUND_AUTOMATION_URLPATH',  plugins_url( '/' , __FILE__ )  );
 			define( 'INBOUND_AUTOMATION_PATH', WP_PLUGIN_DIR.'/'.plugin_basename( dirname(__FILE__) ).'/' );
@@ -39,6 +40,7 @@ if (!class_exists('Inbound_Automation_Plugin') && class_exists('Inbound_Leads_Pl
 					/* loads admin files */
 					include_once('classes/class.activation.php');
 					include_once('classes/class.activation.upgrade-routines.php');
+					include_once('classes/class.batch-processing.php');
 					include_once('classes/class.adminbar.php');
 					include_once('classes/class.post-type.automation.php');
 					include_once('classes/class.logs.php');

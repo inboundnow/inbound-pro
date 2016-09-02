@@ -1061,20 +1061,8 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 $post->post_status = 'unsent';
             }
 
-            /* make sure status does not report sent until schedule time arrives */
-            if ($post->post_status == 'sent') {
-                /*
-                $settings = Inbound_Email_Meta::get_settings($post->ID);
-                $timezone_format = 'Y-m-d G:i:s';
-                $wordpress_date_time =  date_i18n($timezone_format);
-                $today = new DateTime($wordpress_date_time);
-                $schedule_date = new DateTime($settings['send_datetime']);
-                $interval = $today->diff($schedule_date);
-                $status = ( $interval->format('%R') == '-' ) ? 'scheduled' : $post->post_status;
-                */
-            } else {
-                $status = $post->post_status;
-            }
+            $status = $post->post_status;
+
             ?>
             <div class='email-status'>
                 <div style='float:left;margin-top:11px;'>
@@ -1523,6 +1511,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             wp_register_style('bootstrap', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/BootStrap/css/bootstrap.css');
             wp_enqueue_style('bootstrap');
 
+
             /* D3 charting suport */
             wp_register_script('d3', INBOUND_EMAIL_URLPATH . 'assets/libraries/d3/d3.v3.min.js');
             wp_enqueue_script('d3');
@@ -1695,7 +1684,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                             jQuery('#submitdiv').hide();
 
                             /* Hide screen options */
-                            jQuery('#show-settings-link').hide();
+                            //jQuery('#show-settings-link').hide();
 
                             /* Removes wp_content wysiwyg */
                             jQuery('#postdivrich').hide();
@@ -2165,7 +2154,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                                         email_id: '<?php echo $post->ID; ?>'
                                     },
                                     success: function (result) {
-                                        //window.location.reload();
+                                        window.location.reload();
                                     }
                                 });
 
@@ -2359,7 +2348,6 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                             jQuery(".wrap").fadeOut(500, function () {
 
                                 jQuery(".inbound-mailer-template-selector-container").fadeIn(500, function () {
-                                    jQuery(".currently_selected").show();
                                     jQuery('#inbound-mailer-cancel-selection').show();
                                 });
 

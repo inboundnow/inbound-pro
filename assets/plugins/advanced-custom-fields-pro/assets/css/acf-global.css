@@ -100,10 +100,6 @@ img.acf-fw {
   vertical-align: text-top;
   background: transparent url(../images/spinner.gif) no-repeat 50% 50%;
 }
-.acf-loading + .acf-button,
-.acf-spinner + .acf-button {
-  margin-left: 3px;
-}
 /* spinner */
 .acf-spinner {
   display: none;
@@ -168,7 +164,7 @@ img.acf-fw {
   color: #fff;
   padding: 5px 15px;
   position: absolute;
-  z-index: 9999;
+  z-index: 999999;
   font-size: 12px;
 }
 .acf-tooltip.top {
@@ -392,7 +388,7 @@ span.acf-icon {
   border-color: #BBB;
   background-color: #fff;
 }
-/* button */
+/* icon */
 a.acf-icon {
   color: #999;
   border-color: #BBB;
@@ -579,31 +575,43 @@ a.acf-icon.-cancel.grey:hover {
   position: relative;
   display: block;
   background: #F55E4F;
-  border-radius: 3px;
   margin: 5px 0 15px;
-  padding: 1px 10px;
+  padding: 1px 12px;
   min-height: 0px;
+  border-left: #dd4232 solid 4px;
 }
 .acf-error-message p {
   font-size: 13px !important;
-  line-height: 1.4;
-  margin: 8px 0;
-  padding: 0;
+  line-height: 1.5;
+  margin: 0.5em 0;
+  padding: 2px;
   text-shadow: none;
   color: #fff;
-  text-shadow: 0 1px 0 #DD4232;
 }
 .acf-error-message .acf-icon {
   position: absolute;
-  top: 8px;
-  right: 10px;
+  top: 9px;
+  right: 12px;
   background-color: #dd4232;
   border-color: transparent;
   color: #fff;
 }
-.acf-error-message .acf-icon:hover {
-  background-color: #F1F1F1;
+/* important to include .-cancel to override .acf-icon.-cancel class */
+.acf-error-message .acf-icon.-cancel:hover {
+  background-color: #191e23;
   color: #F55E4F;
+}
+/* success */
+.acf-error-message.-success {
+  background-color: #46b450;
+  border-color: #32973b;
+}
+.acf-error-message.-success .acf-icon {
+  background-color: #32973b;
+}
+.acf-error-message.-success .acf-icon.-cancel:hover {
+  background-color: #191e23;
+  color: #46b450;
 }
 /*--------------------------------------------------------------------------------------------
 *
@@ -677,14 +685,9 @@ a.acf-icon.-cancel.grey:hover {
 }
 /*---------------------------------------------------------------------------------------------
 *
-*  Input Table
+*  media-modal
 *
 *---------------------------------------------------------------------------------------------*/
-/*
-.compat-item .acf-table {
-	border: #DFDFDF solid 1px;
-}
-*/
 /* media fix */
 .media-modal .acf-field * {
   box-sizing: border-box;
@@ -695,119 +698,12 @@ a.acf-icon.-cancel.grey:hover {
 .media-item .describe .acf-table > thead > tr > th {
   width: auto;
 }
-/*--------------------------------------------------------------------------------------------
-*
-*	acf-button
-*
-*--------------------------------------------------------------------------------------------*/
-.acf-button {
-  position: relative;
-  display: inline-block;
-  border-radius: 3px;
-  height: 28px;
-  padding: 0 11px 1px;
-  cursor: pointer;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  color: #333;
-  font-weight: normal;
-  font-size: 13px;
-  line-height: 26px;
-  text-align: center;
-  text-decoration: none;
-  background: #F9F9F9;
-  border: #BBBBBB solid 1px;
-  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.25) inset;
-}
-.acf-button:hover {
-  border-color: #999;
-  color: #333;
-}
-.acf-button:focus,
-.acf-button:active {
-  outline: none;
-  line-height: 28px;
-}
-.acf-button:active {
-  box-shadow: none;
-}
-.acf-button[disabled],
-.acf-button.disabled {
-  background: #F7F7F7 !important;
-  border-color: #DDDDDD !important;
-  box-shadow: none !important;
-  color: #AAAAAA !important;
-  cursor: default !important;
-}
-/* sizes */
-.acf-button.large {
-  height: 32px;
-  line-height: 31px;
-  font-size: 14px;
-}
-/* all colors */
-.acf-button.blue,
-.acf-button.green,
-.acf-button.orange {
-  color: #fff !important;
-}
-/* blue */
-.acf-button.blue {
-  background-color: #00a0d2;
-  border-color: #0073aa;
-}
-.acf-button.blue:hover {
-  background-color: #298CBA;
-}
-.acf-button.blue[disabled],
-.acf-button.blue.disabled {
-  background: #298CBA !important;
-  border-color: #1B607F !important;
-  box-shadow: none !important;
-  color: #94CDE7 !important;
-}
-/* orange */
-.acf-button.orange {
-  background: #e86740;
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#eb7551), to(#e05c37));
-  /* Safari 4+, Chrome */
-  background-image: -webkit-linear-gradient(top, #eb7551, #e05c37);
-  /* Chrome 10+, Safari 5.1+, iOS 5+ */
-  background-image: -moz-linear-gradient(top, #eb7551, #e05c37);
-  /* Firefox 3.6-15 */
-  background-image: -o-linear-gradient(top, #eb7551, #e05c37);
-  /* Opera 11.10+ */
-  background-image: linear-gradient(to bottom, #eb7551, #e05c37);
-  /* Firefox 16+ */
-  border: #c94c2a solid 1px;
-  text-shadow: #c94c2a 0 1px 0;
-  box-shadow: inset #f09674 0 1px 0 0;
-}
-/* green */
-.acf-button.green {
-  background: #2CB75A;
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#39cb69), to(#27b957));
-  /* Safari 4+, Chrome */
-  background-image: -webkit-linear-gradient(top, #39cb69, #27b957);
-  /* Chrome 10+, Safari 5.1+, iOS 5+ */
-  background-image: -moz-linear-gradient(top, #39cb69, #27b957);
-  /* Firefox 3.6-15 */
-  background-image: -o-linear-gradient(top, #39cb69, #27b957);
-  /* Opera 11.10+ */
-  background-image: linear-gradient(to bottom, #39cb69, #27b957);
-  /* Firefox 16+ */
-  border: #21B351 solid 1px;
-  text-shadow: #21B351 0 1px 0;
-  box-shadow: inset #4DDF7D 0 1px 0 0;
-}
 /*---------------------------------------------------------------------------------------------
 *
 *  wp-admin
 *
 *---------------------------------------------------------------------------------------------*/
 /* Menu */
-#adminmenu a[href="edit.php?post_type=acf-field-group&page=acf-upgrade"],
 #adminmenu a[href="edit.php?post_type=acf-field-group&page=acf-settings-info"] {
   display: none;
 }
@@ -837,9 +733,6 @@ a.acf-icon.-cancel.grey:hover {
 #acf-field-group-wrap .tablenav.bottom {
   display: block;
 }
-#acf-field-group-wrap .wp-list-table {
-  border-radius: 0;
-}
 #acf-field-group-wrap .acf-description {
   font-weight: normal;
   font-size: 13px;
@@ -860,15 +753,31 @@ a.acf-icon.-cancel.grey:hover {
 /* columns (replicate post edit layout) */
 .acf-columns-2 {
   margin-right: 300px;
+  clear: both;
+  /* rtl */
+}
+html[dir="rtl"] .acf-columns-2 {
+  margin-right: 0;
+  margin-left: 300px;
 }
 .acf-columns-2 .acf-column-1 {
   float: left;
   width: 100%;
+  /* rtl */
+}
+html[dir="rtl"] .acf-columns-2 .acf-column-1 {
+  float: right;
 }
 .acf-columns-2 .acf-column-2 {
   float: right;
   margin-right: -300px;
   width: 280px;
+  /* rtl */
+}
+html[dir="rtl"] .acf-columns-2 .acf-column-2 {
+  float: left;
+  margin-right: 0;
+  margin-left: -300px;
 }
 .acf-clear {
   clear: both;
@@ -919,8 +828,8 @@ a.acf-icon.-cancel.grey:hover {
   font-weight: bold;
 }
 .acf-tfoot {
-  background: #EAF2FA;
-  border-top: #c7d7e2 solid 1px;
+  background: #f5f5f5;
+  border-top: #dddddd solid 1px;
 }
 .acf-tfoot > li {
   color: #7A9BBE;
@@ -938,6 +847,12 @@ a.acf-icon.-cancel.grey:hover {
 *--------------------------------------------------------------------------------------------*/
 .acf-settings-wrap .acf-box {
   margin: 20px 0;
+}
+.acf-settings-wrap table {
+  margin: 0;
+}
+.acf-settings-wrap table .button {
+  vertical-align: middle;
 }
 /*--------------------------------------------------------------------------------------------
 *
@@ -1031,6 +946,9 @@ html[dir="rtl"] #acf-popup .title .acf-icon {
   left: 50%;
   margin: -10px 0 0 -10px;
 }
+#acf-popup .inner > *:first-child {
+  margin-top: 0;
+}
 /* submit p */
 .acf-submit {
   margin-bottom: 0;
@@ -1042,7 +960,7 @@ html[dir="rtl"] #acf-popup .title .acf-icon {
 .acf-submit .acf-loading {
   display: none;
 }
-.acf-submit .acf-button {
+.acf-submit .button {
   margin-right: 5px;
 }
 /*--------------------------------------------------------------------------------------------
@@ -1151,6 +1069,50 @@ html[dir="rtl"] #acf-popup .title .acf-icon {
 }
 /*--------------------------------------------------------------------------------------------
 *
+*	misc
+*
+*--------------------------------------------------------------------------------------------*/
+.acf-actions li {
+  float: right;
+  margin-left: 5px;
+}
+/*--------------------------------------------------------------------------------------------
+*
+*	Plugins
+*
+*--------------------------------------------------------------------------------------------*/
+.acf-plugin-upgrade-notice {
+  font-weight: normal;
+  color: #fff;
+  background: #d54d21;
+  padding: 1em;
+  margin: 9px 0;
+}
+.acf-plugin-upgrade-notice:before {
+  content: "\f348";
+  display: inline-block;
+  font: 400 18px/1 dashicons;
+  speak: none;
+  margin: 0 8px 0 -2px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  vertical-align: top;
+}
+.acf-plugin-upgrade-notice h4 {
+  display: none;
+}
+.acf-plugin-upgrade-notice ul,
+.acf-plugin-upgrade-notice li {
+  display: inline;
+  color: inherit;
+  list-style: none;
+}
+.acf-plugin-upgrade-notice li:after {
+  content: '. ';
+  display: inline;
+}
+/*--------------------------------------------------------------------------------------------
+*
 *	RTL
 *
 *--------------------------------------------------------------------------------------------*/
@@ -1196,7 +1158,7 @@ html[dir="rtl"] .acf-table > tbody > tr > td.order + td {
   [class^="acf-sprite-"],
   [class*=" acf-sprite-"] {
     background-image: url(../images/sprite@2x.png);
-    background-size: 500px 500px;
+    background-size: 250px 250px;
   }
   .acf-loading,
   .acf-spinner {

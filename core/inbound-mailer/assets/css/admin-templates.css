@@ -1,15 +1,14 @@
 .update-message {
     background-color: #FFFBE4;
     border-color: #DFDFDF;
-	border-bottom-color: #DFDFDF;
+    border-bottom-color: #DFDFDF;
     border-top-color: #FFFFFF;
-	padding:3px;
+    padding: 3px;
 }
 
-.update-available
-{
-	font-weight:600;
-	color:cadetblue;
+.update-available {
+    font-weight: 600;
+    color: cadetblue;
 }
 
 .template-thumbnail {
@@ -17,32 +16,43 @@
     border-radius: 2px;
     height: 120px;
     width: 150px;
-	padding:6px;
+    padding: 6px;
 }
 
-.wp-list-table .column-thumbnail
-{
-	height:0px;
+.wp-list-table .column-thumbnail {
+    height: 0px;
 }
 
-.capty-wrapper
-{
-	margin-left:20px;
-	height:140px;
+.capty-wrapper {
+    margin-left: 20px;
+    height: 140px;
 }
 
-.column-template
-{
-	width:200px;
+.column-template {
+    width: 200px;
 }
 
-.column-description
-{
-	width:377px;
-	font-style:italic;
+.column-description {
+    width: 377px;
+    font-style: italic;
 }
 
-.column-category
-{
-	width:160px;
+.column-category {
+    width: 160px;
+}
+
+div.capty-caption {
+    background-color: #000000;
+    color: #FFFFFF;
+    font: bold 11px verdana;
+    padding-left: 10px;
+    padding-top: 7px;
+    text-shadow: 1px 1px 0 #222222;
+}
+
+div.capty-caption a {
+    color: #318DAD;
+    font: bold 11px verdana;
+    text-decoration: none;
+    text-shadow: none;
 }

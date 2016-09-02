@@ -164,14 +164,14 @@ class Inbound_Customizer {
 
         if($post_type === "wp-call-to-action") {
             $syntax = 'wp-cta-variation-id';
-            $vid = (isset($_GET['wp-cta-variation-id'])) ? $_GET['wp-cta-variation-id'] : '0';
+            $vid = (isset($_GET['wp-cta-variation-id'])) ? intval($_GET['wp-cta-variation-id']) : '0';
         } elseif ($post_type === "landing-page") {
             $syntax = 'lp-variation-id';
-            $vid = (isset($_GET['lp-variation-id'])) ? $_GET['lp-variation-id'] : '0';
+            $vid = (isset($_GET['lp-variation-id'])) ? intval($_GET['lp-variation-id']) : '0';
             /* Fix email post type */
         } elseif ($post_type === "email") {
             $syntax = 'email-variation-id';
-            $vid = (isset($_GET['wp-cta-variation-id'])) ? $_GET['wp-cta-variation-id'] : '0';
+            $vid = (isset($_GET['wp-cta-variation-id'])) ? intval($_GET['wp-cta-variation-id']) : '0';
         } else {
             $syntax = 'na';
             $vid = '0';
@@ -241,7 +241,7 @@ class Inbound_Customizer {
 
     public static function redirect_after_save($url) {
 
-        $ref = $_REQUEST['_wp_http_referer'];
+        $ref = sanitize_text_field($_REQUEST['_wp_http_referer']);
         if( !isset($ref) || !strstr($ref, 'inbound-editor') || strstr($ref, 'inbound-editor=false')) {
             return $url;
         }

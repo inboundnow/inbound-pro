@@ -47,8 +47,8 @@ if( $field_groups ) {
 					<tr>
 						<th></th>
 						<td>
-							<input type="submit" name="download" class="acf-button blue" value="<?php _e('Download export file', 'acf'); ?>" />
-							<input type="submit" name="generate" class="acf-button blue" value="<?php _e('Generate export code', 'acf'); ?>" />
+							<input type="submit" name="download" class="button button-primary" value="<?php _e('Download export file', 'acf'); ?>" />
+							<input type="submit" name="generate" class="button button-primary" value="<?php _e('Generate export code', 'acf'); ?>" />
 						</td>
 					</tr>
 				</tbody>
@@ -83,7 +83,7 @@ if( $field_groups ) {
 					<tr>
 						<th></th>
 						<td>
-							<input type="submit" class="acf-button blue" value="<?php _e('Import', 'acf'); ?>" />
+							<input type="submit" class="button button-primary" value="<?php _e('Import', 'acf'); ?>" />
 						</td>
 					</tr>
 				</tbody>

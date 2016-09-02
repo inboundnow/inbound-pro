@@ -150,7 +150,7 @@ class Inbound_SparkPost_Stats {
         $interval = $today->diff($schedule_date);
 
 
-        if ( $interval->format('%R') == '-' ) {
+        if ( $interval->format('%R') == '-' || $settings['email_type'] == 'automated' ) {
             $query = 'SELECT DISTINCT(lead_id) FROM ' . $table_name . ' WHERE `email_id` = "' . $email_id . '"  ' . $variation_query . ' AND `event_name` =  "sparkpost_delivery"';
             $results = $wpdb->get_results($query);
             $sent = $wpdb->num_rows;
@@ -761,21 +761,30 @@ class Inbound_SparkPost_Stats {
     }
 
     public static function unschedule_email( $email_id ) {
-        global $Inbound_Mailer_Variations;
         global $inbound_settings;
-        global $post;
 
-        $variations = $Inbound_Mailer_Variations->get_variations($post->ID, $vid = null);
+        $variations = Inbound_Mailer_Variations::get_variations($email_id);
         $sparkpost = new Inbound_SparkPost(  $inbound_settings['inbound-mailer']['sparkpost-key'] );
 
         foreach ($variations as $vid => $variation) {
+
             $campaign_id =  $email_id	. '_'. $vid;
             $results = $sparkpost->get_transmissions( $campaign_id );
-            print_r($results);exit;
+
+            $delete_count = 0;
+            foreach ($results['results'] as $key=>$transmission) {
+
+                if ($transmission['state'] != 'submitted' ) {
+                    continue;
+                }
+
+                $result = $sparkpost->delete_transmission( $transmission['id'] );
+
+                $delete_count++;
+            }
         }
-
-
-
+        echo $delete_count;
+        exit;
     }
 
     /**
