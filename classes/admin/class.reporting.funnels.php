@@ -8,7 +8,9 @@ class Inbound_Funnel_Reporting {
     static $events;
     static $selected_range;
     static $selected_event;
+    static $selected_funnel_page_min;
     static $secondary_grouping_field;
+    static $secondary_grouping_field_value;
 
     /**
      * constructor.
@@ -26,6 +28,8 @@ class Inbound_Funnel_Reporting {
 
         /* set funnel display page */
         add_action( 'admin_menu' , array( __CLASS__ , 'listen_display') , 30);
+
+        add_filter('inbound-pro/funnels/event-labels' , array( __CLASS__ , 'setup_event_labels' ) , 10 , 1 );
     }
 
     /**
@@ -88,8 +92,10 @@ class Inbound_Funnel_Reporting {
      * Load defaults
      */
     public static function load_defaults() {
-        self::$selected_event = (isset($_GET['event_name'])) ? $_GET['event_name'] : 'inbound_form_submission';
-        self::$selected_range = (isset($_GET['range']) ) ? $_GET['range'] : 'all'; /*default is 5 years aka 'all' */
+        self::$selected_event = (isset($_GET['event_name'])) ? sanitize_text_field($_GET['event_name']) : 'inbound_form_submission';
+        self::$selected_range = (isset($_GET['range']) ) ? sanitize_text_field($_GET['range']) : 'all'; /*default is 5 years aka 'all' */
+        self::$selected_funnel_page_min = (isset($_GET['page_min']) ) ? intval($_GET['page_min']) : 2; /*default is 2 */
+        self::$secondary_grouping_field_value = (isset($_GET['narrow_by_id']) ) ? intval($_GET['narrow_by_id']) : 'all';
 
         /* get secondary grouping column for MySQL data */
         switch(self::$selected_event) {
@@ -109,7 +115,8 @@ class Inbound_Funnel_Reporting {
         self::$events = Inbound_Events::get_events();
 
         /* setup event blacklist - some events blacklisted are depriciated events */
-        $blacklist = array('mute','inbound_mute','inbound_unsubscribe','inbound_email_click','click','inbound_page_view');
+        $blacklist = array('mute','inbound_mute','inbound_list_add','custom_event','inbound_unsubscribe','inbound_email_click','click','inbound_page_view');
+
 
         /* remove sparkpost events */
         foreach (self::$events as $key => $event) {
@@ -129,6 +136,8 @@ class Inbound_Funnel_Reporting {
 
         self::$events = array_values(self::$events);
 
+        self::$events = apply_filters('inbound-pro/funnels/event-labels' , self::$events);
+
         return self::$events;
     }
 
@@ -137,6 +146,29 @@ class Inbound_Funnel_Reporting {
         <h1><?php _e( 'Funnel Tracking' , 'inbound-pro' ); ?></h1>
         <?php
 
+    }
+
+    /**
+     * Adds labels to event names
+     * @param $events
+     * @return mixed
+     */
+    public static function setup_event_labels( $events ) {
+        foreach ($events as $key => $event) {
+            switch ($event['event_name']) {
+                case 'inbound_form_submission':
+                    $events[$key]['event_label'] = __( 'Form Submissions' , 'inbound-pro');
+                    break;
+                case 'inbound_cta_click':
+                    $events[$key]['event_label'] = __( 'CTA Clicks' , 'inbound-pro');
+                    break;
+                default:
+                    $events[$key]['event_label'] = $event['event_name'];
+                    break;
+            }
+        }
+
+        return $events;
     }
 
     public static function print_dates_menu() {
@@ -153,13 +185,12 @@ class Inbound_Funnel_Reporting {
         <ul class="subsubsub ul-dates" style="width:100%">
             <?php
             $i = 0;
-            foreach ($choices as $period => $label) {
+            foreach ($choices as $range => $label) {
                 $i++;
-                echo '<li class="'.$period.'"><a href="admin.php?page=inbound-reporting&event_name='. self::$selected_event .'&range='. $period .'" '. (self::$selected_range == $period  ? 'class="current"' : '' ) .'> '.$label.' </a> '. ( $i==$count ? '' : '|'  ).'</li>';
+                echo '<li class="'.$range.'"><a href="admin.php?page=inbound-reporting&event_name='. self::$selected_event .'&range='. $range .'" '. (self::$selected_range == $range  ? 'class="current"' : '' ) .'> '.$label.' </a> '. ( $i==$count ? '' : '|'  ).'</li>';
             }
             ?>
         </ul>
-        <br>
         <?php
 
     }
@@ -170,7 +201,7 @@ class Inbound_Funnel_Reporting {
             <?php
             foreach (self::$events as $key => $event) {
                 $next = $key + 1;
-                echo '<li class="'.$event['event_name'].'"><a href="admin.php?page=inbound-reporting&preiod='.self::$selected_range.'&event_name='.$event['event_name'].'" '. (self::$selected_event == $event['event_name']  ? 'class="current"' : '' ) .'> '.$event['event_name'].' <span class="count">('.$event['count'].')</span></a> '. ( isset(self::$events[$next]) ? '|' : ''  ).'</li>';
+                echo '<li class="'.$event['event_name'].'"><a href="admin.php?page=inbound-reporting&preiod='.self::$selected_range.'&event_name='.$event['event_name'].'" '. (self::$selected_event == $event['event_name']  ? 'class="current"' : '' ) .'> '.$event['event_label'].' <span class="count">('.$event['count'].')</span></a> '. ( isset(self::$events[$next]) ? '|' : ''  ).'</li>';
             }
             ?>
         </ul>
@@ -181,11 +212,10 @@ class Inbound_Funnel_Reporting {
         $inbound_forms = Inbound_Forms::get_inbound_forms();
         $ctas = CTA_Post_Type::get_ctas_as_array();
         ?>
-        <br>
-        <span class="button button-primary" id="funnels-advanced-settings-button"><?php _e( 'Advanced Settings' , 'inbound-pro'); ?></span>
+        <form action="<?php echo admin_url('admin.php?page=inbound-reporting?range='.self::$selected_range.'&event_name='.self::$selected_event ); ?>" method="GET">
         <div class="funnels-advanced-settings-container">
             <table>
-                <tr data-event="inbound_form_submission">
+                <tr data-event="inbound_form_submission" class="<?php echo (self::$selected_event != 'inbound_form_submission' ? 'hidden' : '' ); ?>" >
                     <td class="label">
                         <?php _e( 'Narrow by form id:' , 'inbound-pro' ); ?>
                     </td>
@@ -200,7 +230,7 @@ class Inbound_Funnel_Reporting {
                         </select>
                     </td>
                 </tr>
-                <tr data-event="inbound_form_submission">
+                <tr data-event="inbound_cta_click" class="<?php echo (self::$selected_event != 'inbound_cta_click' ? 'hidden' : '') ; ?>">
                     <td class="label">
                         <?php _e( 'Narrow by call to action id:' , 'inbound-pro' ); ?>
                     </td>
@@ -215,8 +245,18 @@ class Inbound_Funnel_Reporting {
                         </select>
                     </td>
                 </tr>
+                <tr data-event="all" class="">
+                    <td class="label">
+                        <?php _e( 'Minimum Pages in Funnel:' , 'inbound-pro' ); ?>
+                    </td>
+                    <td class="setting">
+                        <input name="funnels-page-minimum" value="<?php echo self::$selected_funnel_page_min; ?>" size="2">
+                    </td>
+                </tr>
             </table>
         </div>
+        <span class="button button-primary" id="funnels-refresh"><?php _e( 'Apply' , 'inbound-pro'); ?></span>
+        </form>
         <?php
     }
 
@@ -247,7 +287,11 @@ class Inbound_Funnel_Reporting {
             <?php
 
             foreach ($funnels as $key => $funnel) {
+                $funnel_count = count(json_decode($funnel['funnel'],true));
 
+                if ($funnel_count < self::$selected_funnel_page_min) {
+                    continue;
+                }
                 ?>
 
                 <tr>
@@ -256,8 +300,8 @@ class Inbound_Funnel_Reporting {
                     </td>
                     <td class="funnel-pages-count">
                         <?php
-                        $funnel_count = json_decode($funnel['funnel'],true);
-                        echo count($funnel_count);
+
+                        echo $funnel_count;
                         ?>
                     </td>
                     <td class="funnel-event-name">
@@ -294,7 +338,7 @@ class Inbound_Funnel_Reporting {
                         ?>
                     </td>
                     <td class="funnel-details">
-                        <a title='<?php _e('View Funnel Path' , 'inbound-pro'); ?>' class='thickbox' href='admin.php?page=inbound-view-funnel-path&inbound_popup_preview=on&range=<?php echo self::$selected_range; ?>&capture_page=<?php echo $event['page_id']; ?>&event_name=<?php echo $funnel['event_name']; ?>&funnel=<?php echo $funnel['funnel']; ?>&source=<?php echo $funnel['source']; ?>&TB_iframe=true&width=640&height=703' target='_blank'><?php _e('View Funnel','inbound-pro'); ?></a>
+                        <a title='<?php _e('View Funnel Path' , 'inbound-pro'); ?>' class='thickbox' href='admin.php?page=inbound-view-funnel-path&inbound_popup_preview=on&range=<?php echo self::$selected_range; ?>&capture_page=<?php echo $funnel['page_id']; ?>&event_name=<?php echo $funnel['event_name']; ?>&funnel=<?php echo $funnel['funnel']; ?>&source=<?php echo $funnel['source']; ?>&TB_iframe=true&width=640&height=703' target='_blank'><?php _e('View Funnel','inbound-pro'); ?></a>
                     </td>
                 </tr>
                 <?php
@@ -365,7 +409,8 @@ class Inbound_Funnel_Reporting {
             <?php
             $i = 0;
             foreach( $funnel as $page_id ) {
-
+                error_log($page_id);
+                error_log(print_r($funnel,true));
                 $i++;
 
                 /* determine if last in loop*/
@@ -377,6 +422,7 @@ class Inbound_Funnel_Reporting {
 
                 if (is_numeric($page_id)) {
                     $post = get_post($page_id);
+                    echo $page_id;exit;
                     $link = get_permalink($page_id);
                     $title = $post->title;
                     $excerpt = $post->post_excerpt;

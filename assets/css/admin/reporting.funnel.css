@@ -98,5 +98,15 @@
 }
 
 #funnels-advanced-settings-button {
-    margin-top:10px;
+    margin-top:0px;
+}
+
+body .subsubsub {
+    float:none;
+    margin-top:0px !important;
+}
+
+#funnels-refresh {
+    float:right;
+    margin-bottom:10px;
 }
