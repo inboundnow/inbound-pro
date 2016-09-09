@@ -1394,9 +1394,10 @@ if (!class_exists('Inbound_API')) {
 					}
 				}
 
-				/* Add link click event to lead profile */
-				do_action('inbound_track_link', $args);
 			}
+
+			/* Process tracked link extras */
+			do_action('inbound_track_link', $args);
 
 			/* redirect to  url */
 			header('Location: '. $args['url'] );
