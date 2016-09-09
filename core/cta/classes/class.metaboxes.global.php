@@ -427,7 +427,7 @@ if (!class_exists('CTA_Metaboxes_Global')) {
 			}
 
 			if ( isset($_POST['cta_alignment']) ) { // if we get new data
-				update_post_meta($post_id, "cta_alignment", sanitize_text_field($_POST['cta_alignment']) );
+				update_post_meta($post_id, "cta_alignment", $_POST['cta_alignment'] );
 			} else {
 				delete_post_meta($post_id, "cta_alignment" );
 			}
