@@ -1,38 +1,43 @@
-#wpadminbar {
-    display:none;
+#wpadminbar, #adminmenumain {
+    display: none;
+}
+
+body #wpcontent {
+    margin-left:0px;
+
 }
 
 html.wp-toolbar {
-    padding-top:0px;
+    padding-top: 0px;
 }
 
 body {
     margin: 0;
     padding: 0;
+    background-color:#ffffff;
 }
-
 
 /* ================ The Timeline ================ */
 
 @import url(http://fonts.googleapis.com/css?family=Raleway:400,900);
 
-body{
+body {
     font-family: 'Raleway', sans-serif;
     color: #333;
 }
 
-header h1{
+header h1 {
     text-align: left;
     font-weight: bold;
     margin-top: 0;
 }
 
-header p{
+header p {
     text-align: left;
     margin-bottom: 0;
 }
 
-.hexa{
+.hexa {
     border: 0px;
     float: left;
     text-align: center;
@@ -45,7 +50,7 @@ header p{
     margin-top: 15px;
 }
 
-.hexa:before{
+.hexa:before {
     content: "";
     position: absolute;
     left: 0;
@@ -57,7 +62,7 @@ header p{
     top: -15px;
 }
 
-.hexa:after{
+.hexa:after {
     content: "";
     position: absolute;
     left: 0;
@@ -74,6 +79,7 @@ header p{
     padding: 0;
     width: 100%;
     margin-top: 20px;
+    margin-right: 20px;
     list-style-type: none;
 }
 
@@ -86,13 +92,13 @@ header p{
     width: 2px;
     height: 100%;
     margin-left: -1px;
-    background: rgb(213,213,213);
-    background: -moz-linear-gradient(top, rgba(213,213,213,0) 0%, rgb(213,213,213) 8%, rgb(213,213,213) 92%, rgba(213,213,213,0) 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(30,87,153,1)), color-stop(100%,rgba(125,185,232,1)));
-    background: -webkit-linear-gradient(top, rgba(213,213,213,0) 0%, rgb(213,213,213) 8%, rgb(213,213,213) 92%, rgba(213,213,213,0) 100%);
-    background: -o-linear-gradient(top, rgba(213,213,213,0) 0%, rgb(213,213,213) 8%, rgb(213,213,213) 92%, rgba(213,213,213,0) 100%);
-    background: -ms-linear-gradient(top, rgba(213,213,213,0) 0%, rgb(213,213,213) 8%, rgb(213,213,213) 92%, rgba(213,213,213,0) 100%);
-    background: linear-gradient(to bottom, rgba(213,213,213,0) 0%, rgb(213,213,213) 8%, rgb(213,213,213) 92%, rgba(213,213,213,0) 100%);
+    background: rgb(213, 213, 213);
+    background: -moz-linear-gradient(top, rgba(213, 213, 213, 0) 0%, rgb(213, 213, 213) 8%, rgb(213, 213, 213) 92%, rgba(213, 213, 213, 0) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(30, 87, 153, 1)), color-stop(100%, rgba(125, 185, 232, 1)));
+    background: -webkit-linear-gradient(top, rgba(213, 213, 213, 0) 0%, rgb(213, 213, 213) 8%, rgb(213, 213, 213) 92%, rgba(213, 213, 213, 0) 100%);
+    background: -o-linear-gradient(top, rgba(213, 213, 213, 0) 0%, rgb(213, 213, 213) 8%, rgb(213, 213, 213) 92%, rgba(213, 213, 213, 0) 100%);
+    background: -ms-linear-gradient(top, rgba(213, 213, 213, 0) 0%, rgb(213, 213, 213) 8%, rgb(213, 213, 213) 92%, rgba(213, 213, 213, 0) 100%);
+    background: linear-gradient(to bottom, rgba(213, 213, 213, 0) 0%, rgb(213, 213, 213) 8%, rgb(213, 213, 213) 92%, rgba(213, 213, 213, 0) 100%);
     z-index: 5;
 }
 
@@ -100,7 +106,7 @@ header p{
     padding: 2em 0;
 }
 
-.timeline .hexa{
+.timeline .hexa {
     width: 16px;
     height: 10px;
     position: absolute;
@@ -108,8 +114,8 @@ header p{
     z-index: 5;
     left: 0;
     right: 0;
-    margin-left:auto;
-    margin-right:auto;
+    margin-left: auto;
+    margin-right: auto;
     top: -30px;
     margin-top: 0;
 }
@@ -143,7 +149,7 @@ header p{
 .flag {
     position: relative;
     display: inline;
-    background: rgb(255,255,255);
+    background: rgb(255, 255, 255);
     font-weight: 600;
     z-index: 15;
     padding: 6px 10px;
@@ -161,21 +167,21 @@ header p{
     width: 0;
     margin-left: -8px;
     border: solid transparent;
-    border-bottom-color: rgb(255,255,255);
+    border-bottom-color: rgb(255, 255, 255);
     border-width: 8px;
     pointer-events: none;
 }
 
 .direction-l .flag {
-    -webkit-box-shadow: -1px 1px 1px rgba(0,0,0,0.15), 0 0 1px rgba(0,0,0,0.15);
-    -moz-box-shadow: -1px 1px 1px rgba(0,0,0,0.15), 0 0 1px rgba(0,0,0,0.15);
-    box-shadow: -1px 1px 1px rgba(0,0,0,0.15), 0 0 1px rgba(0,0,0,0.15);
+    -webkit-box-shadow: -1px 1px 1px rgba(0, 0, 0, 0.15), 0 0 1px rgba(0, 0, 0, 0.15);
+    -moz-box-shadow: -1px 1px 1px rgba(0, 0, 0, 0.15), 0 0 1px rgba(0, 0, 0, 0.15);
+    box-shadow: -1px 1px 1px rgba(0, 0, 0, 0.15), 0 0 1px rgba(0, 0, 0, 0.15);
 }
 
 .direction-r .flag {
-    -webkit-box-shadow: 1px 1px 1px rgba(0,0,0,0.15), 0 0 1px rgba(0,0,0,0.15);
-    -moz-box-shadow: 1px 1px 1px rgba(0,0,0,0.15), 0 0 1px rgba(0,0,0,0.15);
-    box-shadow: 1px 1px 1px rgba(0,0,0,0.15), 0 0 1px rgba(0,0,0,0.15);
+    -webkit-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15), 0 0 1px rgba(0, 0, 0, 0.15);
+    -moz-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15), 0 0 1px rgba(0, 0, 0, 0.15);
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15), 0 0 1px rgba(0, 0, 0, 0.15);
 }
 
 .time-wrapper {
@@ -206,10 +212,10 @@ header p{
     position: relative;
     margin: 1em 0 0 0;
     padding: 1em;
-    background: rgb(254,254,254);
-    -webkit-box-shadow: 0 0 1px rgba(0,0,0,0.20);
-    -moz-box-shadow: 0 0 1px rgba(0,0,0,0.20);
-    box-shadow: 0 0 1px rgba(0,0,0,0.20);
+    background: rgb(254, 254, 254);
+    -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, 0.20);
+    -moz-box-shadow: 0 0 1px rgba(0, 0, 0, 0.20);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.20);
     z-index: 15;
 }
 
@@ -221,7 +227,7 @@ header p{
     z-index: 15;
 }
 
-@media(min-width: 768px){
+@media (min-width: 768px) {
     .timeline {
         width: 660px;
         margin: 0 auto;
@@ -236,11 +242,6 @@ header p{
         visibility: hidden;
     }
 
-    .timeline .hexa {
-        left: -28px;
-        right: auto;
-        top: 8px;
-    }
 
     .timeline .direction-l .hexa {
         left: auto;
@@ -275,7 +276,7 @@ header p{
         top: 50%;
         margin-top: -8px;
         border: solid transparent;
-        border-left-color: rgb(254,254,254);
+        border-left-color: rgb(254, 254, 254);
         border-width: 8px;
     }
 
@@ -283,7 +284,7 @@ header p{
         top: 50%;
         margin-top: -8px;
         border: solid transparent;
-        border-right-color: rgb(254,254,254);
+        border-right-color: rgb(254, 254, 254);
         border-width: 8px;
         left: -8px;
     }
@@ -311,7 +312,7 @@ header p{
     }
 }
 
-@media(min-width: 992px){
+@media (min-width: 992px) {
     .timeline {
         width: 800px;
         margin: 0 auto;
@@ -325,10 +326,51 @@ header p{
         text-align: right;
     }
 
+    .direction-c {
+        position: relative;
+        width: auto;
+        float: none;
+        text-align: center;
+    }
+
     .direction-r {
         position: relative;
         width: 380px;
         float: right;
         text-align: left;
     }
+}
+
+#save_funnel {
+    background-color: #59b329;
+    border: 1px solid #558939;
+    border-radius: 4px;
+    color: #ffffff;
+    display: inline-block;
+    font-family: sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 40px;
+    text-align: center;
+    text-decoration: none;
+    width: 250px;
+    -webkit-text-size-adjust: none;
+    mso-hide: all;
+}
+
+#delete_funnel {
+    background-color: #000;
+    border: 1px solid #000;
+    border-radius: 4px;
+    color: #ffffff;
+    display: inline-block;
+    font-family: sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 40px;
+    text-align: center;
+    text-decoration: none;
+    width: 250px;
+    -webkit-text-size-adjust: none;
+    mso-hide: all;
 }

@@ -51,6 +51,7 @@ class Inbound_Funnel_Reporting {
 
         /* Load assets for inbound pro page */
         if (isset($screen) && $screen->base == 'admin_page_inbound-view-funnel-path') {
+            wp_enqueue_script('inbound-reporting-funnels-view', INBOUND_PRO_URLPATH . 'assets/js/admin/reporting.funnels.js');
             wp_enqueue_style('inbound-reporting-funnels', INBOUND_PRO_URLPATH . 'assets/css/admin/reporting.funnel.css');
             wp_enqueue_style('inbound-reporting-funnels-view', INBOUND_PRO_URLPATH . 'assets/css/admin/reporting.funnel.view.css');
             wp_enqueue_style('fontawesome', INBOUNDNOW_SHARED_URLPATH . 'assets/fonts/fontawesome/css/font-awesome.min.css');
@@ -95,7 +96,8 @@ class Inbound_Funnel_Reporting {
         self::$selected_event = (isset($_GET['event_name'])) ? sanitize_text_field($_GET['event_name']) : 'inbound_form_submission';
         self::$selected_range = (isset($_GET['range']) ) ? sanitize_text_field($_GET['range']) : 'all'; /*default is 5 years aka 'all' */
         self::$selected_funnel_page_min = (isset($_GET['page_min']) ) ? intval($_GET['page_min']) : 2; /*default is 2 */
-        self::$secondary_grouping_field_value = (isset($_GET['narrow_by_id']) ) ? intval($_GET['narrow_by_id']) : 'all';
+        self::$secondary_grouping_field = (isset($_GET['group_by']) ) ? intval($_GET['group_by']) : '';
+        self::$secondary_grouping_field_value = (isset($_GET['group_id']) ) ? intval($_GET['group_id']) : 'all';
 
         /* get secondary grouping column for MySQL data */
         switch(self::$selected_event) {
@@ -171,6 +173,31 @@ class Inbound_Funnel_Reporting {
         return $events;
     }
 
+
+    /**
+     * Adds labels to event names
+     * @param $events
+     * @return mixed
+     */
+    public static function get_event_label( $event ) {
+
+        $label= '';
+
+        switch ($event) {
+            case 'inbound_form_submission':
+                $label = __( 'Form Submissions' , 'inbound-pro');
+                break;
+            case 'inbound_cta_click':
+                $label = __( 'CTA Clicks' , 'inbound-pro');
+                break;
+            default:
+                $label = $event['event_name'];
+                break;
+        }
+
+        return $label;
+    }
+
     public static function print_dates_menu() {
         $choices = array(
             'all' => __('All' , 'inbound-pro'),
@@ -212,30 +239,43 @@ class Inbound_Funnel_Reporting {
         $inbound_forms = Inbound_Forms::get_inbound_forms();
         $ctas = CTA_Post_Type::get_ctas_as_array();
         ?>
-        <form action="<?php echo admin_url('admin.php?page=inbound-reporting?range='.self::$selected_range.'&event_name='.self::$selected_event ); ?>" method="GET">
+        <form action="<?php echo admin_url('admin.php'); ?>" method="GET">
+        <input name="page" type='hidden' value="inbound-reporting">
+        <input name="range" type='hidden' value="<?php echo self::$selected_range; ?>">
+        <input name="event_name" type='hidden' value="<?php echo self::$selected_event; ?>">
         <div class="funnels-advanced-settings-container">
-            <table>
-                <tr data-event="inbound_form_submission" class="<?php echo (self::$selected_event != 'inbound_form_submission' ? 'hidden' : '' ); ?>" >
+
+        <table>
+            <?php
+            if (self::$selected_event == 'inbound_form_submission') {
+            ?>
+                <input name="group_by" type='hidden' value="inbound_form_id">
+                <tr data-event="inbound_form_submission" class="">
                     <td class="label">
-                        <?php _e( 'Narrow by form id:' , 'inbound-pro' ); ?>
+                        <?php _e('Narrow by form id:', 'inbound-pro'); ?>
                     </td>
                     <td class="setting">
-                        <select id="form_id">
-                            <option value="0"><?php _e('All Forms','inbound-pro'); ?></option>
+                        <select id="form_id" name="group_id">
+                            <option value="0"><?php _e('All Forms', 'inbound-pro'); ?></option>
                             <?php
-                            foreach($inbound_forms as $id => $label) {
-                                echo '<option value="'.$id.'">'.$label.'</option>';
+                            foreach ($inbound_forms as $id => $label) {
+                                echo '<option value="' . $id . '" '.( self::$secondary_grouping_field_value == $id ? 'selected="selected"': ''  ).'>' . $label . '</option>';
                             }
                             ?>
                         </select>
                     </td>
                 </tr>
-                <tr data-event="inbound_cta_click" class="<?php echo (self::$selected_event != 'inbound_cta_click' ? 'hidden' : '') ; ?>">
+            <?php
+            }
+            if (self::$selected_event == 'inbound_cta_click') {
+                ?>
+                <input name="group_by" type='hidden' value="inbound_cta_click">
+                <tr data-event="inbound_cta_click" class="">
                     <td class="label">
                         <?php _e( 'Narrow by call to action id:' , 'inbound-pro' ); ?>
                     </td>
                     <td class="setting">
-                        <select id="form_id">
+                        <select id="cta_id" name="group_id">
                             <option value="0"><?php _e('All Calls to Action','inbound-pro'); ?></option>
                             <?php
                             foreach($ctas as $id => $label) {
@@ -245,17 +285,20 @@ class Inbound_Funnel_Reporting {
                         </select>
                     </td>
                 </tr>
+                <?php
+                }
+            ?>
                 <tr data-event="all" class="">
                     <td class="label">
                         <?php _e( 'Minimum Pages in Funnel:' , 'inbound-pro' ); ?>
                     </td>
                     <td class="setting">
-                        <input name="funnels-page-minimum" value="<?php echo self::$selected_funnel_page_min; ?>" size="2">
+                        <input name="pages_in_funnel_min" value="<?php echo self::$selected_funnel_page_min; ?>" size="2">
                     </td>
                 </tr>
             </table>
         </div>
-        <span class="button button-primary" id="funnels-refresh"><?php _e( 'Apply' , 'inbound-pro'); ?></span>
+        <button class="button button-primary" id="funnels-refresh"><?php _e( 'Apply' , 'inbound-pro'); ?></button>
         </form>
         <?php
     }
@@ -266,7 +309,7 @@ class Inbound_Funnel_Reporting {
         <table class="funnel-report">
             <tr>
                 <th>
-                    <?php _e('Event Count' , 'inbound-pro') ?>
+                    <?php _e('Occurances' , 'inbound-pro') ?>
                 </th>
                 <th>
                     <?php _e('Pages in Funnel' , 'inbound-pro') ?>
@@ -305,7 +348,7 @@ class Inbound_Funnel_Reporting {
                         ?>
                     </td>
                     <td class="funnel-event-name">
-                        <?php echo $funnel['event_name'] ?>
+                        <?php echo self::get_event_label($funnel['event_name']); ?>
                     </td>
                     <td class="funnel-capture-page">
                         <?php
@@ -338,7 +381,7 @@ class Inbound_Funnel_Reporting {
                         ?>
                     </td>
                     <td class="funnel-details">
-                        <a title='<?php _e('View Funnel Path' , 'inbound-pro'); ?>' class='thickbox' href='admin.php?page=inbound-view-funnel-path&inbound_popup_preview=on&range=<?php echo self::$selected_range; ?>&capture_page=<?php echo $funnel['page_id']; ?>&event_name=<?php echo $funnel['event_name']; ?>&funnel=<?php echo $funnel['funnel']; ?>&source=<?php echo $funnel['source']; ?>&TB_iframe=true&width=640&height=703' target='_blank'><?php _e('View Funnel','inbound-pro'); ?></a>
+                        <a title='<?php _e('View Funnel Path' , 'inbound-pro'); ?>' class='thickbox' href='admin.php?page=inbound-view-funnel-path&inbound_popup_preview=on&range=<?php echo self::$selected_range; ?>&capture_page=<?php echo $funnel['page_id']; ?>&event_name=<?php echo $funnel['event_name']; ?>&funnel=<?php echo $funnel['funnel']; ?>&source=<?php echo $funnel['source']; ?>&TB_iframe=true&width=800&height=703' target='_blank'><?php _e('View Funnel','inbound-pro'); ?></a>
                     </td>
                 </tr>
                 <?php
@@ -362,7 +405,20 @@ class Inbound_Funnel_Reporting {
         $start_date = date( 'Y-m-d G:i:s' , strtotime("-" . $range ." days" , strtotime($wordpress_date_time )));
         $end_date = $wordpress_date_time;
 
-        $query = 'SELECT *, count(*) as count FROM '.$table_name.' WHERE datetime between "'.$start_date.'" AND "'.$end_date.'" AND event_name = "'.$event_name.'" AND CHAR_LENGTH(funnel) > 4 AND page_id!="0" GROUP BY concat( funnel, '.$group_col_2.') ORDER BY count DESC';
+        $additional_query = '';
+
+        if (self::$secondary_grouping_field && self::$secondary_grouping_field_value && self::$secondary_grouping_field_value !='all') {
+            $additional_query = ' AND '.self::$secondary_grouping_field.'="'.self::$secondary_grouping_field_value.'" ';
+        }
+
+        $query = 'SELECT *, count(*) as count FROM '.$table_name.'
+                    WHERE datetime between "'.$start_date.'"
+                    AND "'.$end_date.'"
+                    AND event_name = "'.$event_name.'"
+                    AND CHAR_LENGTH(funnel) > 4
+                    AND page_id!="0"
+                    '.$additional_query.'
+                  GROUP BY concat( funnel, '.$group_col_2.') ORDER BY count DESC';
 
         $results = $wpdb->get_results( $query , ARRAY_A );
 
@@ -408,9 +464,13 @@ class Inbound_Funnel_Reporting {
         <ul class="timeline">
             <?php
             $i = 0;
+            error_log(print_r($funnel,true));
             foreach( $funnel as $page_id ) {
-                error_log($page_id);
-                error_log(print_r($funnel,true));
+
+                if (!$page_id) {
+                    continue;
+                }
+
                 $i++;
 
                 /* determine if last in loop*/
@@ -422,17 +482,24 @@ class Inbound_Funnel_Reporting {
 
                 if (is_numeric($page_id)) {
                     $post = get_post($page_id);
-                    echo $page_id;exit;
+                    if (!$post ) {
+                        continue;
+                    }
                     $link = get_permalink($page_id);
-                    $title = $post->title;
+                    $title = $post->post_title;
                     $excerpt = $post->post_excerpt;
                     $type = $post->post_type;
+                    //print_r($post);exit;
+                    /* pluck this out */
+                    if ($type == 'wp-lead') {
+                        continue;
+                    }
                 }
 
                 if (strstr($page_id , 'cat_')) {
                     $cat_id = str_replace('cat_' , '' , $page_id );
                     $title = get_cat_name($cat_id);
-                    $$link = get_category_link($cat_id);
+                    $link = get_category_link($cat_id);
                     $excerpt = "";
                     $type = __('Category','inbound-pro');
 
@@ -452,27 +519,33 @@ class Inbound_Funnel_Reporting {
                 if (!$post) {
                     ?>
                     <li >
-                        <div class="direction-l" >
+                        <div class="direction-c" >
                             <div class="flag-wrapper" >
                                 <span class="hexa" ></span >
                             </div >
-                            <div class="desc" ><?php _e( 'Post or Page Not Found' , 'inbound-pro'); ?></div >
+                            <div class="desc"><?php _e('Post or Page Not Found', 'inbound-pro'); ?></div>
                         </div >
                     </li >
                     <?php
-                    continue;
                 }
 
                 ?>
                 <!--Item -->
                 <li >
-                    <div class="direction-l" >
+                    <div class="direction-c" >
                         <div class="flag-wrapper" >
                             <span class="hexa" ></span >
                             <span class="flag" > <?php echo $title; ?></span >
-                            <span class="time-wrapper" ><span class="time" > <?php echo $post_type; ?> </span ></span >
+                            <span class="time-wrapper" ><span class="time" > <?php echo $type; ?> </span ></span >
                         </div >
-                        <div class="desc" > <?php echo $excerpt; ?>.</div >
+
+                        <?php
+                        if ($excerpt) {
+                            ?>
+                            <div class="desc"> <?php echo $excerpt; ?>.</div>
+                            <?php
+                        }
+                        ?>
                     </div >
                 </li >
                 <?php
@@ -514,12 +587,21 @@ class Inbound_Funnel_Reporting {
                     </td>
                     <td class="funnel-event-name">
                         <a href="<?php echo $event['source']; ?>" target="_blank">
-                            <?php echo $event['source'] ?>
+                            <?php echo ($event['source']) ? $event['source'] : _e('Stange, no source recorded.' , 'inbound-pro') ?>
                         </a>
                     </td>
                     <td class="funnel-event-name">
                         <a href="<?php echo get_edit_post_link($event['lead_id']); ?>" target="_blank">
-                            <?php echo $event['lead_id'] ?>
+                            <?php
+                            $lead = get_post($event['lead_id']);
+                            if ( isset($lead->post_title) ) {
+                                echo $lead->post_title;
+                            } else if ( !$lead ) {
+                                _e( 'Lead Not Found' , 'inbound-pro');
+                            }else {
+                                echo $event['lead_id'];
+                            }
+                            ?>
                         </a>
 
                     </td>
@@ -529,6 +611,27 @@ class Inbound_Funnel_Reporting {
             }
 
             ?>
+        </table>
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-bottom:10px;">
+            <tbody><tr>
+                <td align="center" width="250" height="30" cellpadding="5">
+                    <div>
+                        <a href="#" id="delete_funnel" title="<?php _e('Delete all associated events pertaining to this funnel, while updating analytics counters.', 'inbound-pro'); ?>">
+                            <?php  _e('Delete Funnel', 'inbound-pro');?>
+                        </a>
+                    </div>
+                </td>
+
+                <td align="center" width="250" height="30" cellpadding="5">
+                    <div>
+                        <a href="#" id="save_funnel" title="<?php _e('Add this funnel to your saved funnels list.', 'inbound-pro'); ?>">
+                            <?php  _e('Save funnel', 'inbound-pro');?>
+                        </a>
+                    </div>
+
+                </td>
+            </tr>
+            </tbody>
         </table>
         <?php
 

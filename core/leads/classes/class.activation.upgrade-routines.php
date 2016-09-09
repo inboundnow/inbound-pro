@@ -183,6 +183,39 @@ if ( !class_exists('Leads_Activation_Update_Routines') ) {
 
 		}
 
+		/**
+		 * @introduced: 2.2.6
+		 * @migration-type: batch lead processing / updating inbound events table
+		 * @details: Imports page events into new inbound_page_views table
+		 * @details:
+		 */
+		public static function batch_repair_funnel_data() {
+
+			/* ignore if not applicable */
+			$previous_installed_version = get_transient('leads_current_version');
+
+			if ( version_compare($previous_installed_version , "2.2.6") === 1 )  {
+				return;
+			}
+
+			$processing_jobs = get_option('leads_batch_processing');
+			$processing_jobs = ($processing_jobs) ? $processing_jobs : array();
+			$processing_jobs['repair_funnel_data'] = array(
+				'method' => 'repair_funnel_data', 	/* tells batch processor which method to run */
+				'posts_per_page' => 100, 					/* leads per query */
+				'offset' => 0 								/* initial page offset */
+			);
+
+			/* create flag for batch uploader */
+			update_option(
+				'leads_batch_processing', 		/* db option name - lets batch processor know it's needed */
+				$processing_jobs,
+				0 , 							/* depreciated leave as 0 */
+				false 							/* autoload true */
+			);
+
+		}
+
 	}
 
 }

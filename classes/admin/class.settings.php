@@ -751,7 +751,7 @@ class Inbound_Pro_Settings {
 			case 'api-key':
 
 				echo '<div class="api-key">';
-				echo '	<label>'.__('Inbound API Key:' , 'inbound-pro' ) .'</label>';
+				echo '	<label title="'.INBOUND_ACCESS_LEVEL.'">'.__('Inbound API Key:' , 'inbound-pro' ) .'</label>';
 				echo '		<input type="text" class="api" name="'.$field['id'].'" id="'.$field['id'].'" placeholder="'.$field['placeholder'].'" value="'.$field['value'].'" data-field-type="'.$field['type'].'" data-field-group="'.$group['group_name'].'"  data-special-handler="true"/>';
 				echo '</div>';
 				break;

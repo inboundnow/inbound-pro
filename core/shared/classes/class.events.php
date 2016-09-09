@@ -489,9 +489,9 @@ class Inbound_Events {
     public static function get_page_views( $lead_id ){
         global $wpdb;
 
-        $table_name = $wpdb->prefix . "inbound_events";
+        $table_name = $wpdb->prefix . "inbound_page_views";
 
-        $query = 'SELECT * FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'" AND `event_name` = "inbound_page_view" ORDER BY `datetime` DESC';
+        $query = 'SELECT * FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'" ORDER BY `datetime` DESC';
         $results = $wpdb->get_results( $query , ARRAY_A );
 
         return $results;
@@ -518,6 +518,24 @@ class Inbound_Events {
         $results = $wpdb->get_results( $query , ARRAY_A );
 
         return $results;
+    }
+
+    /**
+     * Get page view count given lead_id
+     *
+     */
+    public static function get_page_views_count( $lead_id  ){
+        global $wpdb;
+
+        $table_name = $wpdb->prefix . "inbound_page_views";
+
+        $query = 'SELECT count(*) FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'"';
+
+        $count = $wpdb->get_var( $query , 0, 0 );
+
+        /* return null if nothing there */
+        return ($count) ? $count : 0;
+
     }
 
     /**

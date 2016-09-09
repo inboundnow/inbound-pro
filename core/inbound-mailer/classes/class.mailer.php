@@ -492,6 +492,9 @@ class Inbound_Mail_Daemon {
         /* add tracking params to links */
         $html = self::rebuild_links( $html );
 
+        /* remove script tags */
+        $html = preg_replace('#<script(.*?)>(.*?)</script>#is', '', $html);
+
         return $html;
 
     }

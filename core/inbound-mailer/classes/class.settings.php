@@ -62,8 +62,9 @@ if ( !class_exists('Inbound_Mailer_Settings') ) {
 						'label'  => __('Mail Service', 'inbound-pro' ),
 						'description'  => __( 'Choose which email service will power the email component.' , 'inbound-pro' ),
 						'type'  => 'dropdown',
-						'default'  => 'sparkpost',
+						'default'  => 'none',
 						'options' => array(
+							'none' => __( 'none' ),
 							'sparkpost' => __( 'SparkPost (new!)' , 'inbound-pro' ),
 							'mandrill' => __( 'Mandrill' , 'inbound-pro' )
 						),

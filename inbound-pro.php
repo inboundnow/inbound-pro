@@ -157,8 +157,7 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.inbound-api-wrapper.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.ajax.listeners.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.oauth-engine.php');
-				//include_once( INBOUND_PRO_PATH . 'classes/admin/class.reporting.funnels.php');
-
+				include_once( INBOUND_PRO_PATH . 'classes/admin/class.reporting.funnels.php');
 			}
 
 
@@ -196,11 +195,11 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 				include_once( INBOUND_COMPONENT_PATH . '/landing-pages/landing-pages.php');
 			}
 
-			if ( INBOUND_ACCESS_LEVEL< 1 ) {
+			if ( INBOUND_ACCESS_LEVEL < 1 ) {
 				return;
 			}
 
-			if ( INBOUND_ACCESS_LEVEL < 3 ) {
+			if ( INBOUND_ACCESS_LEVEL < 5 ) {
 				return;
 			}
 
