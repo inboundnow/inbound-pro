@@ -448,7 +448,7 @@ if (!class_exists('Inbound_Forms')) {
                 /* End Loop */
 
                 $current_page = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-                $form .= '<div class="inbound-field ' . $main_layout . ' inbound-submit-area"><button type="submit" class="inbound-button-submit inbound-submit-action" value="' . $submit_button . '" name="send" id="inbound_form_submit" data-ignore-form-field="true" style="' . $submit_bg . $submit_color . $image_button . '">' . $icon_insert . '' . $submit_button . $inner_button . '</button></div><input data-ignore-form-field="true" type="hidden" name="inbound_submitted" value="1">';
+                $form .= '<div class="inbound-field ' . $main_layout . ' inbound-submit-area"><button type="submit" class="inbound-button-submit inbound-submit-action" value="' . $submit_button . '" name="send" id="inbound_form_submit" data-ignore-form-field="true" style="' . $submit_bg . $submit_color . $image_button . 'position:relative;">' . $icon_insert . '' . $submit_button . $inner_button . '</button></div><input data-ignore-form-field="true" type="hidden" name="inbound_submitted" value="1">';
                 /* <!--<input type="submit" '.$submit_button_type.' class="button" value="'.$submit_button.'" name="send" id="inbound_form_submit" />--> */
 
                 $form .= '<input type="hidden" name="inbound_form_n" class="inbound_form_n" value="' . $form_name . '"><input type="hidden" name="inbound_form_lists" id="inbound_form_lists" value="' . $lists . '" data-map-form-field="inbound_form_lists"><input type="hidden" name="inbound_form_id" class="inbound_form_id" value="' . $id . '"><input type="hidden" name="inbound_current_page_url" value="' . $current_page . '"><input type="hidden" name="page_id" value="' . (isset($post->ID) ? $post->ID : '0') . '"><input type="hidden" name="inbound_furl" value="' . base64_encode($redirect) . '"><input type="hidden" name="inbound_notify" value="' . base64_encode($notify) . '"><input type="hidden" class="inbound_params" name="inbound_params" value=""></form></div>';
@@ -529,6 +529,7 @@ if (!class_exists('Inbound_Forms')) {
          */
         static function register_script() {
             wp_enqueue_style('inbound-shortcodes');
+            wp_enqueue_script('spin.min', INBOUNDNOW_SHARED_URLPATH .  '/shortcodes/js/spin.min.js', null, null, true);
         }
 
         /**
@@ -573,6 +574,46 @@ if (!class_exists('Inbound_Forms')) {
 							return false;
 							}
 						});
+						
+						/*Disable button and add spinner to form*/
+						
+						var target = jQuery(this).find("#inbound_form_submit"),
+							spinnerColor = jQuery(target).css("color"),
+							buttonWidth = jQuery(target).css("width"),
+							scale = jQuery(target).css("font-size");
+							scale = scale.replace("px", "");
+							scale = scale / 40;
+						
+
+						//spinner
+						var opts = {
+							  lines: 8 // The number of lines to draw
+							, length: 0 // The length of each line
+							, width: 7 // The line thickness
+							, radius: 25 // The radius of the inner circle
+							, scale: scale // Scales overall size of the spinner
+							, corners: 1 // Corner roundness (0..1)
+							, color: spinnerColor // #rgb or #rrggbb or array of colors
+							, opacity: 0.25 // Opacity of the lines
+							, rotate: 0 // The rotation offset
+							, direction: 1 // 1: clockwise, -1: counterclockwise
+							, speed: 1 // Rounds per second
+							, trail: 60 // Afterglow percentage
+							, fps: 20 // Frames per second when using setTimeout() as a fallback for CSS
+							, zIndex: 2e9 // The z-index (defaults to 2000000000)
+							, className: "inbound-form-spinner" // The CSS class to assign to the spinner
+							, top: "50%" // Top position relative to parent
+							, left: "50%" // Left position relative to parent
+							, shadow: false // Whether to render a shadow
+							, hwaccel: false // Whether to use hardware acceleration
+							, position: "absolute" // Element positioning
+							}
+							
+						jQuery(target).prop("disabled",true).html("&nbsp;").css("width" , buttonWidth);
+					
+						var spinner = new Spinner(opts).spin(target[0]);
+						
+						
 					});
 
 					jQuery("#inbound_form_submit br").remove(); /* remove br tags */

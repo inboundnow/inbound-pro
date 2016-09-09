@@ -310,8 +310,9 @@ if ( !class_exists( 'CTA_Render' ) ) {
                 ));
 
                 /* standardize & symbol */
-                $link['url'] = str_replace('&', '&amp;' , $link['url'] );
-                $href = str_replace('&', '&amp;' , $href );
+                $link['url'] = str_replace('&amp;', '&' , $link['url'] );
+                $href = str_replace('&amp;', '&' , $href );
+                $variation_html = str_replace('&amp;', '&' , $variation_html );
 
                 $variation_html = str_replace( $href, $link['url'], $variation_html);
 
