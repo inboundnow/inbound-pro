@@ -291,7 +291,7 @@ class Inbound_Pro_Settings {
 								'on' => __( 'On' , 'inbound-pro' ),
 								'off' => __( 'Off' , 'inbound-pro' ),
 							),
-							'hidden' => (INBOUND_ACCESS_LEVEL > 4 ? false : true ),
+							'hidden' => (INBOUND_ACCESS_LEVEL > 2 ? false : true ),
 							'reveal' => array(
 								'selector' => null ,
 								'value' => null
