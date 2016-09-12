@@ -554,7 +554,7 @@ if (!class_exists('Inbound_Forms')) {
 
 				jQuery(document).ready(function($){
 
-					jQuery("form").submit(function(e) {
+					jQuery(".inbound-now-form").submit(function(e) {
 
 						/* added below condition for check any of checkbox checked or not by kirit dholakiya */
 						if( jQuery(\'.checkbox-required\')[0] && jQuery(\'.checkbox-required input[type=checkbox]:checked\').length==0)
