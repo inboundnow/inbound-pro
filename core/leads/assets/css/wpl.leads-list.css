@@ -102,24 +102,31 @@ td.last-name {
 }
 
 
-.mark-viewed {
-    margin-left: 8px;
+.row-actions .mark-read ,.row-actions  .mark-unread {
+    font-size: 14px;
+    padding: 4px 5px;
+    color: #fff;
+    border: 0;
+    box-shadow: none;
 }
 
-.edit a, .clone a, .mark-viewed, .mark-viewed  {
-
+.edit a, .clone a, .mark-read, .mark-unread  {
     margin-right: 5px !important;
 }
-
 
 .clone a:hover {
     color: #000;
 }
 
-.mark-viewed {
-    background-color: #4A4845;
-    font-size: 14px;
+.row-actions .mark-read , .row-actions .mark-read:hover {
+    background: green;
     padding: 4px 5px;
+    color:#fff;
+}
+
+.row-actions .mark-unread, .row-actions .mark-unread:hover{
+    background: darkcyan;
+    color:#fff;
 }
 
 
@@ -269,18 +276,11 @@ td.last-name {
     -ms-transform: translateY(0px);
     transform: translateY(0px); 
     }
-    .type-wp-lead .mark-viewed{
+    .type-wp-lead .mark-read{
         margin-bottom: 7px;
         font-size: 12px;
-        background: #27ae60;
-        color: #fff;
-        border: 0;
-        box-shadow: none;
         height: auto;
     }
-    .type-wp-lead .mark-viewed:hover{
-        background: green;
-            color:#fff
-    }
+
 
 }

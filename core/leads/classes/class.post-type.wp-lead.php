@@ -50,7 +50,7 @@ class Leads_Post_Type {
         /* mark lead status as read */
         add_action('wp_ajax_wp_leads_mark_as_read_save', array(__CLASS__, 'ajax_mark_lead_as_read'));
         /* mark lead status as unread */
-        add_action('wp_ajax_wp_leads_mark_as_read_undo', array(__CLASS__, 'ajax_mark_lead_as_unread'));
+        add_action('wp_ajax_wp_leads_mark_as_unread_save', array(__CLASS__, 'ajax_mark_lead_as_unread'));
         /* mark lead status as read on first open */
         add_action('wp_ajax_wp_leads_auto_mark_as_read', array(__CLASS__, 'ajax_auto_mark_as_read'));
 
@@ -245,7 +245,7 @@ class Leads_Post_Type {
 
         global $wpdb, $table_prefix;
 
-        if (!isset($_GET['post_type']) || $_GET['post_type'] != 'wp-lead') {
+        if (!isset($_GET['post_type']) || $_GET['post_type'] != 'wp-lead' || isset($_GET['page'])) {
             return $pieces;
         }
 
@@ -546,7 +546,7 @@ class Leads_Post_Type {
         $pill = ( isset($lead_statuses[$status]) ) ? $lead_statuses[$status] : $lead_statuses['new'];
 
 
-        echo '<label class="lead-status-pill lead-status-' . $pill['key'] . '" style="background-color:'.$pill['color'].'">';
+        echo '<label class="lead-status-pill lead-status-' . $pill['key'] . '" style="background-color:'.$pill['color'].'" data-status="'.$pill['key'].'">';
         echo $pill['label'];
         echo '</label>';
     }

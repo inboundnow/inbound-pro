@@ -36,11 +36,13 @@ jQuery(document).ready(function ($) {
             });
         }
 
-        var mark_as_read = '<span class="mark-viewed button" title="Mark lead as viewed">Mark as read</span>';
+        var mark_as_read = '<span class="mark-read button" title="Mark lead as viewed">Mark as read</span>';
+        var mark_as_unread = '<span class="mark-unread button" title="Mark lead as unread">Mark as unread</span>';
         //jQuery(mark_as_read).appendTo(".row-actions");
         jQuery(mark_as_read).appendTo(".edit");
+        jQuery(mark_as_unread).appendTo(".edit");
 
-        jQuery('.mark-viewed').each(function () {
+        jQuery('.mark-read, .mark-unread').each(function () {
             var this_lead = jQuery(this).parent().parent().parent().parent().attr("id");
             var lead_id = this_lead.replace("post-", "");
             jQuery(this).attr("id", lead_id);
@@ -71,9 +73,13 @@ jQuery(document).ready(function ($) {
             }
         });
         jQuery('.type-wp-lead').each(function () {
-            var current_status = jQuery(this).find(".status").text();
-            if (current_status === "Read") {
-                jQuery(this).find(".mark-viewed").hide();
+            var current_status = jQuery(this).find(".lead-status-pill").data('status');
+            if (current_status === "read") {
+                jQuery(this).find(".mark-read").hide();
+                jQuery(this).find(".mark-unread").show();
+            } else if (current_status === "new") {
+                jQuery(this).find(".mark-unread").hide();
+                jQuery(this).find(".mark-read").show();
             }
         });
         //var move_box = jQuery(".alignleft.actions").first();
@@ -95,7 +101,7 @@ jQuery(document).ready(function ($) {
             }
         });
 
-        jQuery('.mark-viewed').on('click', function () {
+        jQuery('.mark-read').on('click', function () {
 
             // define the bulk edit row
             var post_id = jQuery(this).attr("id");
@@ -118,6 +124,42 @@ jQuery(document).ready(function ($) {
                     jQuery(self).hide();
                     jQuery(self).parent().parent().parent().parent().css("background-color", "#f2f2f2");
                     jQuery(self).parent().parent().parent().parent().find(".status").text("Read");
+                    //alert("Changes Saved! Refresh the page to see your changes");
+                },
+
+                error: function (MLHttpRequest, textStatus, errorThrown) {
+                    alert("Ajax not enabled");
+                }
+            });
+
+            return false;
+
+        });
+
+        jQuery('.mark-unread').on('click', function () {
+
+            // define the bulk edit row
+            var post_id = jQuery(this).attr("id");
+            var status = "new";
+            jQuery(self).parent().parent().parent().parent().find(".status").text("Updating...");
+
+            jQuery.ajax({
+                type: 'POST',
+                url: ajaxurl,
+                context: this,
+                data: {
+                    action: 'wp_leads_mark_as_unread_save',
+                    j_rules: status,
+                    page_id: post_id
+                },
+
+                success: function (data) {
+                    var self = this;
+                    //alert(data);
+                    // jQuery('.lp-form').unbind('submit').submit();
+                    jQuery(self).hide();
+                    jQuery(self).parent().parent().parent().parent().css("background-color", "#f2f2f2");
+                    jQuery(self).parent().parent().parent().parent().find(".status").text("Done!");
                     //alert("Changes Saved! Refresh the page to see your changes");
                 },
 
