@@ -114,10 +114,17 @@ class Leads_Batch_Processor {
 
         /* run the method */
         $args = array_shift($jobs);
-        call_user_func(
-            array(__ClASS__, $args['method']),
-            $args
-        );
+        if (isset($args['method'])) {
+            call_user_func(
+                array(__ClASS__, $args['method']),
+                $args
+            );
+        } else {
+            echo 'There was an error. No method found. Please see arg dump for debugging';
+            echo '<br>';
+            print_r($args);
+        }
+
 
         echo '</div>';
 
