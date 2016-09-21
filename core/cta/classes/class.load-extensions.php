@@ -48,7 +48,7 @@ if (!class_exists('CTA_Load_Extensions')) {
             $core_templates = self::$instance->get_core_templates();
 
             foreach ($core_templates as $name) {
-                if ($name != ".svn") {
+                if ($name != ".svn" ) {
                     include_once(WP_CTA_PATH . "templates/$name/config.php");
                 }
             }
@@ -57,7 +57,9 @@ if (!class_exists('CTA_Load_Extensions')) {
             $uploaded_templates = self::$instance->get_uploaded_templates();
 
             foreach ($uploaded_templates as $name) {
-                include_once(WP_CTA_UPLOADS_PATH . "$name/config.php");
+                if (file_exists(WP_CTA_UPLOADS_PATH . "$name/config.php")) {
+                    include_once(WP_CTA_UPLOADS_PATH . "$name/config.php");
+                }
             }
 
             /* load included templates from activated theme */

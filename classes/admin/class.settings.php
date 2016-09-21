@@ -807,6 +807,19 @@ class Inbound_Pro_Settings {
 				echo '	</div>';
 				echo '</div>';
 				BREAK;
+			case 'number':
+				echo '<div class="inbound-field">';
+				echo '	<div class="inbound-label-field">';
+				echo '		<label>'.$field['label'] .'</label>';
+				echo '	</div>';
+				echo '	<div class="inbound-text-field">';
+				echo '		<input type="number" min="0" name="'.$field['id'].'" id="'.$field['id'].'" placeholder="'.( isset( $field['placeholder'] ) ? $field['placeholder'] : '' ) .'"  value="'.$field['value'].'" size="2"  data-field-type="'.$field['type'].'" data-field-group="'.$group['group_name'].'"/>';
+				echo '	</div>';
+				echo '	<div class="inbound-tooltip-field">';
+				echo '		<i class="inbound-tooltip fa fa-question-circle tool_text" title="'.$field['description'].'"></i>';
+				echo '	</div>';
+				echo '</div>';
+				BREAK;
 			// ol
 			case 'ol':
 				echo '<div class="inbound-field">';

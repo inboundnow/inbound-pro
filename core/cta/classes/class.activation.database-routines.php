@@ -163,6 +163,40 @@ if ( !class_exists('CTA_Activation_Update_Routines') ) {
 			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 			dbDelta( $sql );
 		}
+
+		/**
+		 * @introduced: 2.7.8
+		 * @migration-type: alter inbound_events table
+		 * @mirgration: adds columns list_id funnel, and source to events table
+		 */
+		public static function add_list_id_to_events_table() {
+
+			/* ignore if not applicable */
+			$previous_installed_version = get_transient('cta_current_version');
+
+			if ( version_compare($previous_installed_version , "2.7.8") === 1 )  {
+				return;
+			}
+
+			global $wpdb;
+
+			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+			$table_name = $wpdb->prefix . "inbound_events";
+
+			/* add columns funnel and source to legacy table */
+			$row = $wpdb->get_results(  "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '{$table_name}' AND column_name = 'source'"  );
+			if(empty($row)){
+				// do your stuff
+				$wpdb->get_results( "ALTER TABLE {$table_name} ADD `funnel` text NOT NULL" );
+				$wpdb->get_results( "ALTER TABLE {$table_name} ADD `source` text NOT NULL" );
+			}
+
+			/* add columns list_id inbound events table */
+			$row = $wpdb->get_results(  "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '{$table_name}' AND column_name = 'list_id'"  );
+			if(empty($row)){
+				$wpdb->get_results( "ALTER TABLE {$table_name} ADD `list_id` mediumint(20) NOT NULL" );
+			}
+		}
 	}
 
 }

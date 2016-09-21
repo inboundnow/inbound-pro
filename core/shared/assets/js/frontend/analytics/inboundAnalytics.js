@@ -2841,6 +2841,57 @@ var _inboundEvents = (function(_inbound) {
     return _inbound;
 
 })(_inbound || {});
+
+function inboundFormNoRedirect(){
+	/*button == the button that was clicked, form == the form that button belongs to, formRedirectUrl == the link that the form redirects to, if set*/
+	
+	/*Get the button...*/
+	/*If not an iframe*/
+	if(window.frames.frameElement == null){
+		var button = document.querySelectorAll('button.inbound-button-submit[disabled]')[0];
+	}
+	/*If it is an iframe*/
+	else if(window.frames.frameElement.tagName.toLowerCase() == "iframe"){
+		var button = window.frames.frameElement.contentWindow.document.querySelectorAll('button.inbound-button-submit')[0];
+	}
+	
+	var	form = button.form,
+		formRedirectUrl = form.querySelectorAll('input[value][type="hidden"][name="inbound_furl"]:not([value=""])');
+
+	/*If the redirect link is not set, or there is a single space in it, the form isn't supposed to redirect. So set the action for void*/
+	if(formRedirectUrl.length == 0 || formRedirectUrl[0]['value'] == 'IA=='){
+		form.action = 'javascript:void(0)';
+	}
+}
+
+_inbound.add_action( 'form_before_submission', inboundFormNoRedirect, 10 );
+
+function inboundFormNoRedirectContent(){
+	
+	/*If not an iframe*/
+	if(window.frames.frameElement == null){
+		var button = document.querySelectorAll('button.inbound-button-submit[disabled]')[0];
+	}
+	/*If it is an iframe*/
+	else if(window.frames.frameElement.tagName.toLowerCase() == "iframe"){
+		var button = window.frames.frameElement.contentWindow.document.querySelectorAll('button.inbound-button-submit')[0];
+		}
+	
+	var	form = button.form,
+		formRedirectUrl = form.querySelectorAll('input[value][type="hidden"][name="inbound_furl"]:not([value=""])'),
+		btnBackground = jQuery(button).css('background'),
+		btnFontColor = jQuery(button).css('color'),
+		btnHeight = jQuery(button).css('height'),
+		spinner = button.getElementsByClassName('inbound-form-spinner');
+		
+	if(formRedirectUrl.length == 0 || formRedirectUrl[0]['value'] == 'IA=='){
+		jQuery(spinner).remove();
+		jQuery(button).prepend('<div id="redir-check"><i class="fa fa-check-square" aria-hidden="true" style="background='+ btnBackground +'; color='+ btnFontColor +'; font-size:calc('+ btnHeight +' * .42);"></i></div>');
+	}
+}
+
+_inbound.add_action( 'form_after_submission', inboundFormNoRedirectContent, 10 );
+
 /* LocalStorage Component */
 var InboundTotalStorage = (function (_inbound){
 

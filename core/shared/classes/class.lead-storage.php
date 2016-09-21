@@ -131,7 +131,9 @@ if (!class_exists('LeadStorage')) {
 					$Inbound_Leads->add_lead_to_list($lead['id'], $lead['lead_lists']);
 
 					/* store lead list cookie */
-					Leads_Tracking::cookie_lead_lists($lead['id']);
+					if (class_exists('Leads_Tracking')) {
+						Leads_Tracking::cookie_lead_lists($lead['id']);
+					}
 				}
 
 

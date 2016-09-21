@@ -1361,7 +1361,8 @@ if (!class_exists('Inbound_API')) {
 			$profile = $profiles[0];
 			$args = unserialize($profile->args);
 
-			$args['id'] = (isset( $args['id'])  && $args['id'] ) ? $args['id'] : $_COOKIE['wp_lead_id'];
+			$lead_id_cookie = (isset($_COOKIE['wp_lead_id'])) ? $_COOKIE['wp_lead_id'] : 0;
+			$args['id'] = (isset( $args['id'])  && $args['id'] ) ? $args['id'] : $lead_id_cookie;
 
 			/* process extra lead events */
 			if ($args['id']) {

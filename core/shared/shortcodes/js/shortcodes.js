@@ -510,15 +510,15 @@ var InboundShortcodes = {
         jQuery("body").on('mousedown', '#inbound_save_form', function () {
 
             var post_id = jQuery("#post_ID").val();
-            var form_settings = jQuery(".child-clone-rows.ui-sortable").html();
+            var form_settings = jQuery(".child-clone-rows.ui-sortable").html().trim();
             var shortcode_name = jQuery("#inbound_current_shortcode").val();
-            var shortcode_value = jQuery('#_inbound_shortcodes_newoutput').html();
+            var shortcode_value = jQuery('#_inbound_shortcodes_newoutput').html().trim();
             var form_name = jQuery("#inbound_shortcode_form_name").val();
             var form_values = jQuery("#inbound-shortcodes-form").serialize();
             var notify_email = jQuery("#inbound_shortcode_notify").val();
             var notify_email_subject = jQuery("#inbound_shortcode_notify_subject").val();
             var field_count = jQuery('.child-clone-row').length;
-            var redirect_value = jQuery('#inbound_shortcode_redirect').val();
+            var redirect_value = jQuery('#inbound_shortcode_redirect').val().trim();
 
             if (typeof (inbound_forms) != "undefined" && inbound_forms !== null) {
                 var post_type = 'inbound-forms';
@@ -551,6 +551,23 @@ var InboundShortcodes = {
                     return false;
                 }
             }
+            
+            /*Redirect whitespace cleaning*/
+            if(form_values.indexOf("&inbound_shortcode_redirect_2=+")){
+		var form_values2 = form_values.substring(form_values.indexOf("&inbound_shortcode_redirect_2=") + 30, form_values.indexOf("inbound_shortcode_notify"));
+		var saveString = form_values2;
+		var length = form_values2.length;
+		
+		for(i = 0; i < length; i++){
+			if(form_values2.charAt(0) == '+'){
+				form_values2 = form_values2.replace('+', '');
+			}else{
+				break;
+			}
+		}
+		form_values = form_values.replace(saveString, form_values2);
+		} 
+            
             if (shortcode_name === "insert_inbound_form_shortcode" && form_name == "") {
                 jQuery(".step-item.first").click();
 

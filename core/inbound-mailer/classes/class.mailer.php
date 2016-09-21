@@ -42,7 +42,7 @@ class Inbound_Mail_Daemon {
         self::$email_service = (isset($inbound_settings['inbound-mailer']['mail-service'])) ? $inbound_settings['inbound-mailer']['mail-service'] : 'sparkpost' ;
 
         /* Set send limit */
-        self::$send_limit = 150;
+        self::$send_limit = (isset($inbound_settings['inbound-mailer']['processing-limit'])) ? $inbound_settings['inbound-mailer']['processing-limit'] : 100 ;
 
         /* Set target mysql table name */
         self::$table_name = $wpdb->prefix . "inbound_email_queue";
@@ -491,6 +491,9 @@ class Inbound_Mail_Daemon {
 
         /* add tracking params to links */
         $html = self::rebuild_links( $html );
+
+        /* remove script tags */
+        $html = preg_replace('#<script(.*?)>(.*?)</script>#is', '', $html);
 
         return $html;
 
