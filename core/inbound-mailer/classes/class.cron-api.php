@@ -1,7 +1,7 @@
 <?php
 
 /**
-*  Inbound Heartbeat adds a 3 minute cron hook for processing Inbound Now actions
+*  Inbound Heartbeat adds a 2 minute cron hook for processing Inbound Now actions
 */
 if (!class_exists('Inbound_Heartbeat')) {
 

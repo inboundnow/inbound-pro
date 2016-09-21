@@ -58,12 +58,20 @@ if ( !class_exists('Inbound_Mailer_Settings') ) {
 						'options' => Inbound_Mailer_Settings::get_pages_array()
 					),
 					array(
+						'id'  => 'processing-limit',
+						'label'  => __('Processing Limit', 'inbound-pro' ),
+						'description'  => __( 'We will schedule/process this many emails to be sent by your email service every two minutes. If your server is having trouble handling 150 emails at once, please try reducing the number. Note that this will slow down the send process. To make up for delayed sends please schedule your email to be sent in the future. ' , 'inbound-pro' ),
+						'type'  => 'number',
+						'default'  => '150'
+					),
+					array(
 						'id'  => 'mail-service',
 						'label'  => __('Mail Service', 'inbound-pro' ),
 						'description'  => __( 'Choose which email service will power the email component.' , 'inbound-pro' ),
 						'type'  => 'dropdown',
-						'default'  => 'sparkpost',
+						'default'  => 'none',
 						'options' => array(
+							'none' => __( 'none' ),
 							'sparkpost' => __( 'SparkPost (new!)' , 'inbound-pro' ),
 							'mandrill' => __( 'Mandrill' , 'inbound-pro' )
 						),
