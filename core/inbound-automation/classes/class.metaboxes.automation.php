@@ -108,7 +108,7 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
             self::$rule_trigger = (isset(self::$rule['trigger'])) ? self::$rule['trigger'] : '';
             self::$rule_trigger_evaluate = (isset(self::$rule['trigger_filters_evaluate'])) ? self::$rule['trigger_filters_evaluate'] : '';
             self::$rule_trigger_filters = (isset(self::$rule['trigger_filters'])) ? self::$rule['trigger_filters'] : array();
-            self::$rule_action_blocks = (isset(self::$rule['action_blocks'])) ? self::$rule['action_blocks'] : array();
+            self::$rule_action_blocks = (isset(self::$rule['action_blocks'])) ? self::$rule['action_blocks'] : array(1 =>array());
 
         }
 
