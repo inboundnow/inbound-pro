@@ -397,19 +397,6 @@ if ( !class_exists('CTA_Post_Type') ) {
 		}
 
 
-		/* Clears stats of all CTAs	*/
-		public static function clear_all_cta_stats() {
-			$ctas = get_posts( array(
-				'post_type' => 'wp-call-to-action',
-				'posts_per_page' => -1
-			));
-
-
-			foreach ($ctas as $cta) {
-				CTA_Post_Type::clear_cta_stats( $cta->ID );
-			}
-		}
-
 		public static function get_ctas_as_array() {
 			$ctas = get_posts( array(
 				'post_type' => 'wp-call-to-action',
@@ -424,38 +411,7 @@ if ( !class_exists('CTA_Post_Type') ) {
 			return $ctas;
 		}
 
-		/* Clears stats of a single CTA
-		*
-		* @param	cta_id INT of call to action
-		*/
-		public static function clear_cta_stats( $cta_id ) {
-			global $CTA_Variations;
 
-			$variations = $CTA_Variations->get_variations($cta_id);
-			if ($variations) {
-				foreach ( $variations as $vid => $variation ) {
-					add_post_meta( $cta_id, 'wp-cta-ab-variation-impressions-'.$vid, 0, true ) or update_post_meta( $cta_id, 'wp-cta-ab-variation-impressions-'.$vid, 0 );
-					add_post_meta( $cta_id, 'wp-cta-ab-variation-conversions-'.$vid, 0, true ) or update_post_meta( $cta_id, 'wp-cta-ab-variation-conversions-'.$vid, 0 );
-				}
-
-			} else {
-				add_post_meta( $cta_id, 'wp-cta-ab-variation-impressions-0', 0, true ) or update_post_meta( $cta_id, 'wp-cta-ab-variation-impressions-0', 0 );
-				add_post_meta( $cta_id, 'wp-cta-ab-variation-conversions-0', 0, true ) or update_post_meta( $cta_id, 'wp-cta-ab-variation-conversions-0', 0 );
-			}
-		}
-
-		/* Clears stats for CTA variation given CTA & Variation ID
-		*
-		* @param cta_id INI
-		* @param variation_id INT
-		*
-		*/
-		public static function clear_cta_variation_stats( $cta_id = 0, $variation_id = 0 ) {
-
-			add_post_meta( $cta_id, 'wp-cta-ab-variation-impressions-'.$variation_id, 0, true ) or update_post_meta( $cta_id, 'wp-cta-ab-variation-impressions-'.$variation_id, 0 );
-			add_post_meta( $cta_id, 'wp-cta-ab-variation-conversions-'.$variation_id, 0, true ) or update_post_meta( $cta_id, 'wp-cta-ab-variation-conversions-'.$variation_id, 0 );
-
-		}
 	}
 
 	/* Load Post Type Pre Init */

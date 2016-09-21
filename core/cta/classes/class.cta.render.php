@@ -300,6 +300,21 @@ if ( !class_exists( 'CTA_Render' ) ) {
                     continue;
                 }
 
+                /* add nofollow to link */
+                $rel = array();
+
+                if ($anchor->hasAttribute('rel') AND ($relAtt = $anchor->getAttribute('rel')) !== '') {
+                    $rel = preg_split('/\s+/', trim($relAtt));
+                }
+
+                if (in_array('nofollow', $rel)) {
+                    continue;
+                }
+
+                $rel[] = 'nofollow';
+                $anchor->setAttribute('rel', implode(' ', $rel));
+
+                /* prepare tracked link */
                 $link = Inbound_API::analytics_track_links( array(
                     'cta_id' => $selected_cta['id'],
                     'id' => null, /* lead_id - let's not set this here */
@@ -311,11 +326,25 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
                 /* standardize & symbol */
                 $link['url'] = str_replace('&amp;', '&' , $link['url'] );
-                $href = str_replace('&amp;', '&' , $href );
-                $variation_html = str_replace('&amp;', '&' , $variation_html );
+                //$href = str_replace('&amp;', '&' , $href );
 
-                $variation_html = str_replace( $href, $link['url'], $variation_html);
+                $anchor->setAttribute('rel', implode(' ', $rel));
 
+                $anchor->setAttribute('href', $link['url']);
+
+                //$variation_html = str_replace('&amp;', '&' , $variation_html );
+                //$variation_html = str_replace('&amp;', '&' , $variation_html );
+
+                //$variation_html = str_replace( $href, $link['url'], $variation_html);
+
+            }
+
+            $doc->saveHTML();
+
+            $variation_html = '';
+
+            foreach($doc->getElementsByTagName('body')->item(0)->childNodes as $element) {
+                $variation_html .= $doc->saveXML($element, LIBXML_NOEMPTYTAG);
             }
 
             return $variation_html;

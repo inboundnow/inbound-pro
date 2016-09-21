@@ -629,7 +629,9 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		*/
 		public static function get_conversions( $cta_id, $vid ) {
 
-			$conversions = get_post_meta( $cta_id ,'wp-cta-ab-variation-conversions-'.$vid, true);
+			$events = Inbound_Events::get_cta_clicks_by( 'cta_id', array( 'cta_id' => $cta_id , 'variation_id' => $vid));
+
+			$conversions = count($events);
 
 			if (!is_numeric($conversions)) {
 				$conversions = 0;

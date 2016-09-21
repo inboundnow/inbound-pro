@@ -46,7 +46,23 @@ class CTA_Ajax_Listeners {
 	* Clears all CTA Stats
 	*/
 	public static function clear_all_stats() {
-		CTA_Post_Type::clear_all_cta_stats();
+		$ctas = get_posts( array(
+			'post_type' => 'wp-call-to-action',
+			'posts_per_page' => -1
+		));
+
+
+		foreach ($ctas as $cta) {
+			/* delete conversions */
+			Inbound_Events::delete_related_events( $cta->ID );
+
+			/* delete impressions */
+			$variations = CTA_Variations::get_variations( $cta->ID  );
+			foreach ($variations as $vid=> $variation){
+				CTA_Variations::set_impression_count($cta->ID , $vid);
+			}
+		}
+
 		header('HTTP/1.1 200 OK');
 		exit;
 	}
@@ -55,8 +71,14 @@ class CTA_Ajax_Listeners {
 	*	Clears stats for CTA given ID
 	*/
 	public static function clear_stats() {
-		$post_id = intval($_POST['page_id']);
-		CTA_Post_Type::clear_cta_stats( $post_id );
+		$cta_id = intval($_POST['page_id']);
+		Inbound_Events::delete_related_events( $cta_id );
+
+		/* delete impressions */
+		$variations = CTA_Variations::get_variations( $cta_id  );
+		foreach ($variations as $vid=> $variation){
+			CTA_Variations::set_impression_count($cta_id , $vid , 0);
+		}
 		header('HTTP/1.1 200 OK');
 		exit;
 	}
@@ -65,9 +87,10 @@ class CTA_Ajax_Listeners {
 	*	Clears stats for CTA variations given CTA ID and variation ID
 	*/
 	public static function clear_variation_stats() {
-		$post_id = intval($_POST['page_id']);
+		$cta_id = intval($_POST['page_id']);
 		$vid = intval($_POST['variation']);
-		CTA_Post_Type::clear_cta_variation_stats( $post_id, $vid );
+		Inbound_Events::delete_related_events( $cta_id, $vid );
+		CTA_Variations::set_impression_count($cta->ID , $vid , 0);
 		header('HTTP/1.1 200 OK');
 		exit;
 	}

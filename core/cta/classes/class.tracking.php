@@ -29,9 +29,6 @@ class CTA_Conversion_Tracking {
 			return;
 		}
 
-		/* might want to study and sunset this */
-		self::store_click_data( $args['cta_id'], $args['vid'] );
-
 		/* store click event in inbound_events table and legacy lead metadata */
 		self::store_as_cta_click($args);
 
@@ -64,23 +61,7 @@ class CTA_Conversion_Tracking {
 		return $data;
 	}
 
-	/**
-	 * Store the click data to the correct CTA variation
-	 *
-	 * @param  INT $cta_id      cta id
-	 * @param  INT $lead_id       lead id
-	 * @param  INT $variation_id which variation was clicked
-	 */
-	public static function store_click_data($cta_id, $variation_id) {
-		// If leads_triggered meta exists do this
-		$event_trigger_log = get_post_meta( $cta_id, 'leads_triggered' ,true );
-		$timezone_format = 'Y-m-d G:i:s T';
-		$wordpress_date_time =  date_i18n($timezone_format);
-		$conversion_count = get_post_meta($cta_id,'wp-cta-ab-variation-conversions-'.$variation_id ,true);
-		$conversion_count++;
-		update_post_meta($cta_id, 'wp-cta-ab-variation-conversions-'.$variation_id, $conversion_count);
-		update_post_meta($cta_id, 'wp_cta_last_triggered', $wordpress_date_time ); // update last fired date
-	}
+
 
 	/**
 	*  	Store click event to lead profile
@@ -91,6 +72,10 @@ class CTA_Conversion_Tracking {
 		$timezone_format = 'Y-m-d G:i:s T';
 		$wordpress_date_time =  date_i18n($timezone_format);
 
+		/* do not record directly accessed links as conversion */
+		if (!wp_get_referer()) {
+			return;
+		}
 
 		$args = array(
 			'cta_id' => (isset($args['cta_id'])) ? $args['cta_id'] : '',
