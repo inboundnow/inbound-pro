@@ -32,7 +32,7 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 
 			define('WP_CTA_CURRENT_VERSION', '2.7.8' );
 			define('WP_CTA_URLPATH', plugins_url( '/' , __FILE__ ) );
-			define('WP_CTA_PATH', WP_PLUGIN_DIR.'/'.plugin_basename( dirname(__FILE__) ).'/' );
+			define('WP_CTA_PATH', plugin_dir_path( __FILE__ ) );
 			define('WP_CTA_SLUG', plugin_basename( dirname(__FILE__) ) );
 			define('WP_CTA_FILE', __FILE__ );
 			$uploads = wp_upload_dir();

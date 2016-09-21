@@ -60,7 +60,7 @@ if ( !class_exists('Inbound_Mailer_Settings') ) {
 					array(
 						'id'  => 'processing-limit',
 						'label'  => __('Processing Limit', 'inbound-pro' ),
-						'description'  => __( 'We will schedule/process this many emails to be sent by your email service every two minutes. If your server is having trouble handling 150 emails at once, please try reducing the number. Note that this will slow down the send process. To make up for delayed sends please schedule your email to be sent in the future. ' , 'inbound-pro' ),
+						'description'  => __( 'We will schedule/process this many emails to be sent to your email service every two minutes. If your server is having trouble handling 100 emails at once, please try reducing the number. Note that this will slow down the send process. To make up for delayed sends please schedule your email to be sent in the future. ' , 'inbound-pro' ),
 						'type'  => 'number',
 						'default'  => '100'
 					),
