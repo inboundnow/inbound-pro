@@ -17,6 +17,10 @@
 	display:none;
 }
 
+.inbound-settings-group  .inbound-setting h4 {
+	padding-top:30px;
+}
+
 
 /* search */
 .templates-filter-group {
@@ -184,7 +188,7 @@ ul.uninstall {
 
 .inbound-label-field {
 	min-width:170px;
-	vertical-align:top;
+	vertical-align:middle;
 }
 
 .inbound-ol-field {

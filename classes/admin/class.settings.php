@@ -759,6 +759,10 @@ class Inbound_Pro_Settings {
 				$extra = (isset($field['default'])) ? $field['default'] : '';
 				echo '<h3 class="inbound-header">'.$extra.'</h3>';
 				break;
+			case 'sub-header':
+				$extra = (isset($field['default'])) ? $field['default'] : '';
+				echo '<h4 class="inbound-header">'.$extra.'</h4>';
+				break;
 			case 'oauth-button':
 				$data = '';
 				$oauth_class = '';
@@ -800,7 +804,7 @@ class Inbound_Pro_Settings {
 				echo '		<label>'.$field['label'] .'</label>';
 				echo '	</div>';
 				echo '	<div class="inbound-text-field">';
-				echo '		<input type="text" name="'.$field['id'].'" id="'.$field['id'].'" placeholder="'.( isset( $field['placeholder'] ) ? $field['placeholder'] : '' ) .'"  value="'.$field['value'].'" size="30"  data-field-type="'.$field['type'].'" data-field-group="'.$group['group_name'].'"/>';
+				echo '		<input type="text" name="'.$field['id'].'" id="'.$field['id'].'" placeholder="'.( isset( $field['placeholder'] ) ? $field['placeholder'] : '' ) .'"  value="'.$field['value'].'" size="30"  data-field-type="'.$field['type'].'" data-field-group="'.$group['group_name'].'" '.( isset( $field['readonly'] ) ? 'readonly' : '' ) .'/>';
 				echo '	</div>';
 				echo '	<div class="inbound-tooltip-field">';
 				echo '		<i class="inbound-tooltip fa fa-question-circle tool_text" title="'.$field['description'].'"></i>';
