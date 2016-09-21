@@ -43,8 +43,8 @@ $shortcodes_config['forms'] = array(
                     'std' => 'redirect'
         ),*/
         'redirect' => array(
-            'name' => __('Redirect URL<span class="small-required-text">*</span>', 'inbound-pro' ),
-            'desc' => __('Where do you want to send people after they fill out the form? Please note: http:// is required.', 'inbound-pro' ),
+            'name' => __('Redirect URL', 'inbound-pro' ),
+            'desc' => __('Where do you want to send people after they fill out the form? Please note: http:// is required. Leave blank to prevent redirection.', 'inbound-pro' ),
             'type' => 'text',
             'placeholder' => "http://www.yoursite.com/thank-you",
             'std' => '',
