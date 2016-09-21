@@ -44,10 +44,24 @@ if ( !class_exists('Inbound_Mailer_Settings') ) {
 				'keywords' => __('email,mailer,marketing automation' , 'inbound-pro'),
 				'fields' => array (
 					array(
-						'id'  => 'header_mailer',
+						'id'  => 'header-mailer',
 						'type'  => 'header',
 						'default'  => __('Inbound Mailer Settings', 'inbound-pro' ),
 						'options' => null
+					),
+					array(
+						'id'  => 'subheader-unsubscribe',
+						'type'  => 'sub-header',
+						'default'  => __('Unsubscribe Page', 'inbound-pro' ),
+						'options' => null
+					),
+					array(
+						'id'  => 'unsubscribe-shortcode',
+						'label'  => __('Shortcode:', 'inbound-pro' ),
+						'description'  => __( 'This shortcode can be used to produce an unsubscribe form. Inbound Now automatically creates an Unsubscribe page with this shortcode on activation.' , 'inbound-pro' ),
+						'type'  => 'text',
+						'readonly'  => true,
+						'default'  => '[inbound-email-unsubscribe]',
 					),
 					array(
 						'id'  => 'unsubscribe-page',
@@ -58,11 +72,103 @@ if ( !class_exists('Inbound_Mailer_Settings') ) {
 						'options' => Inbound_Mailer_Settings::get_pages_array()
 					),
 					array(
+						'id'  => 'subheader-language',
+						'type'  => 'sub-header',
+						'default'  => __('Unsubscribe Labels', 'inbound-pro' ),
+						'options' => null
+					),
+					array(
+						'id'  => 'unsubscribe-button-text',
+						'label'  => __('Unsubscribe Button', 'inbound-pro' ),
+						'description'  => __( 'This text will display inside the unsubscribe button' , 'inbound-pro' ),
+						'type'  => 'text',
+						'default'  => __('Unsubscribe','inbound-pro')
+
+					),
+					array(
+						'id'  => 'mute-header-text',
+						'label'  => __('Mute Button', 'inbound-pro' ),
+						'description'  => __( 'This text will display inside the mute button' , 'inbound-pro' ),
+						'type'  => 'text',
+						'default'  => __('Mute','inbound-pro')
+
+					),
+					array(
+						'id'  => 'unsubscribe-confirmation-message',
+						'label'  => __('Confirmation Message', 'inbound-pro' ),
+						'description'  => __( 'This message will show after a reader has unsubscribed.' , 'inbound-pro' ),
+						'type'  => 'text',
+						'default'  => __('Thank you!','inbound-pro')
+
+					),
+					array(
+						'id'  => 'unsubscribe-comments-header-1',
+						'label'  => __('Comment Prompt', 'inbound-pro' ),
+						'description'  => __( 'This message is meant to encourage the reader to leave an unsubscribe comments.' , 'inbound-pro' ),
+						'type'  => 'text',
+						'default'  => __( 'Please help us improve by providing us with feedback.' , 'inbound-pro' )
+					),
+					array(
+						'id'  => 'unsubscribe-comments-header-2',
+						'label'  => __('Comment Area Header', 'inbound-pro' ),
+						'description'  => __( 'This is a general header denoting the comment textarea below.' , 'inbound-pro' ),
+						'type'  => 'text',
+						'default'  => __( 'Comments' , 'inbound-pro' )
+					),
+					array(
+						'id'  => 'unsubscribe-all-lists-label',
+						'label'  => __('"All Lists" label', 'inbound-pro' ),
+						'description'  => __( 'When readers are given the option to unsubscribe from all lists, this label is displayed.' , 'inbound-pro' ),
+						'type'  => 'text',
+						'default'  => __( 'All Lists' , 'inbound-pro' )
+					),
+					array(
+						'id'  => 'unsubscribe-1-months',
+						'label'  => __('1 Month Label', 'inbound-pro' ),
+						'description'  => __( 'When readers are given the option to unsubscribe for 1 month, this label is displayed.' , 'inbound-pro' ),
+						'type'  => 'text',
+						'default'  => __( '1 Month' , 'inbound-pro' )
+					),
+					array(
+						'id'  => 'unsubscribe-3-months',
+						'label'  => __('3 Months Label', 'inbound-pro' ),
+						'description'  => __( 'When readers are given the option to unsubscribe for 3 months, this label is displayed.' , 'inbound-pro' ),
+						'type'  => 'text',
+						'default'  => __( '3 Months' , 'inbound-pro' )
+					),
+					array(
+						'id'  => 'unsubscribe-6-months',
+						'label'  => __('6 Months Label', 'inbound-pro' ),
+						'description'  => __( 'When readers are given the option to unsubscribe for 6 months, this label is displayed.' , 'inbound-pro' ),
+						'type'  => 'text',
+						'default'  => __( '6 Months' , 'inbound-pro' )
+					),
+					array(
+						'id'  => 'unsubscribe-12-months',
+						'label'  => __('12 Months Label', 'inbound-pro' ),
+						'description'  => __( 'When readers are given the option to unsubscribe for 12 months, this label is displayed.' , 'inbound-pro' ),
+						'type'  => 'text',
+						'default'  => __( '12 Months' , 'inbound-pro' )
+					),
+					array(
+						'id'  => 'subheader-unsubscribe',
+						'type'  => 'sub-header',
+						'default'  => __('Processing Engine', 'inbound-pro' ),
+						'options' => null
+					),
+					array(
 						'id'  => 'processing-limit',
 						'label'  => __('Processing Limit', 'inbound-pro' ),
 						'description'  => __( 'We will schedule/process this many emails to be sent to your email service every two minutes. If your server is having trouble handling 100 emails at once, please try reducing the number. Note that this will slow down the send process. To make up for delayed sends please schedule your email to be sent in the future. ' , 'inbound-pro' ),
 						'type'  => 'number',
 						'default'  => '100'
+					),
+
+					array(
+						'id'  => 'subheader-unsubscribe',
+						'type'  => 'sub-header',
+						'default'  => __('Mail Service Setup', 'inbound-pro' ),
+						'options' => null
 					),
 					array(
 						'id'  => 'mail-service',

@@ -28,16 +28,28 @@ class Inbound_Mailer_Unsubscribe {
 	 * Display unsubscribe options
 	 */
 	public static function display_unsubscribe_page( $atts ) {
+		global $inbound_settings;
+
+		$usubscribe_button_text = (isset($inbound_settings['inbound-mailer']['unsubscribe-button-text'])) ? $inbound_settings['inbound-mailer']['unsubscribe-button-text'] : __( 'Unsubscribe', 'inbound-pro'); ;
+		$mute_header_text = (isset($inbound_settings['inbound-mailer']['mute-header-text'])) ? $inbound_settings['inbound-mailer']['mute-header-text'] : __( 'Mute', 'inbound-pro'); ;
+		$unsubscribed_confirmation_message = (isset($inbound_settings['inbound-mailer']['unsubscribe-confirmation-message'])) ? $inbound_settings['inbound-mailer']['unsubscribe-confirmation-message'] : __( 'Thank You!', 'inbound-pro'); ;
+		$comments_header_1 = (isset($inbound_settings['inbound-mailer']['unsubscribe-comments-header-1'])) ? $inbound_settings['inbound-mailer']['unsubscribe-comments-header-1'] : __( 'Please help us improve by providing us with feedback.' , 'inbound-pro' );
+		$comments_header_2 = (isset($inbound_settings['inbound-mailer']['unsubscribe-comments-header-2'])) ? $inbound_settings['inbound-mailer']['unsubscribe-comments-header-2'] : __( 'Comments:' , 'inbound-pro' );
+		$all_lists = (isset($inbound_settings['inbound-mailer']['unsubscribe-all-lists-label'])) ? $inbound_settings['inbound-mailer']['unsubscribe-all-lists-label'] : __( 'All Lists' , 'inbound-pro' );
+		$month_1 = (isset($inbound_settings['inbound-mailer']['unsubscribe-1-months'])) ? $inbound_settings['inbound-mailer']['unsubscribe-1-months'] : __( '1 Month' , 'inbound-pro' );
+		$month_3 = (isset($inbound_settings['inbound-mailer']['unsubscribe-3-months'])) ? $inbound_settings['inbound-mailer']['unsubscribe-3-months'] : __( '3 Month' , 'inbound-pro' );
+		$month_6 = (isset($inbound_settings['inbound-mailer']['unsubscribe-6-months'])) ? $inbound_settings['inbound-mailer']['unsubscribe-6-months'] : __( '6 Month' , 'inbound-pro' );
+		$month_12 = (isset($inbound_settings['inbound-mailer']['unsubscribe-12-months'])) ? $inbound_settings['inbound-mailer']['unsubscribe-12-months'] : __( '12 Month' , 'inbound-pro' );
 
 
 
 		if ( isset( $_GET['unsubscribed'] ) ) {
-			$unsubscribed_confirmation_message = apply_filters( 'inbound_mailer_unsubscribe_message' , __('Thank you!' , 'inbound-email' ) );
-			return "<span class='unsubscribed-message'>". $unsubscribed_confirmation_message ."</span>";
+			$confirm =  "<span class='unsubscribed-message'>". $unsubscribed_confirmation_message ."</span>";
+			$unsubscribed_confirmation_message = apply_filters( 'inbound-mailer/unsubscribe/confirmation-html' , $confirm );
 		}
 
 		if ( !isset( $_GET['token'] ) ) {
-			return __( 'Invalid token' , 'inbound-email' );
+			return __( 'Invalid token' , 'inbound-pro' );
 		}
 
 
@@ -49,7 +61,7 @@ class Inbound_Mailer_Unsubscribe {
 		$params = self::decode_unsubscribe_token( $_GET['token'] );
 
 		if ( !isset( $params['lead_id'] ) ) {
-			return __( 'Oops. Something is wrong with the unsubscribe link. Are you logged in?' , 'inbound-email' );
+			return __( 'Oops. Something is wrong with the unsubscribe link. Are you logged in?' , 'inbound-pro' );
 		}
 
 		/* Begin unsubscribe html inputs */
@@ -69,45 +81,46 @@ class Inbound_Mailer_Unsubscribe {
 			}
 		}
 
-		$html .= "<span class='unsubscribe-span'><label class='lead-list-label'><input name='lists_all' type='checkbox' value='all'> " . __( 'all lists' , 'inbound-email' ) .'</label></span>';
+		$html .= "<span class='unsubscribe-span'><label class='lead-list-label'><input name='lists_all' type='checkbox' value='all'> " . $all_lists .'</label></span>';
 		$html .= "<div class='unsubscribe-div unsubsribe-comments'>";
-		$html .= "	<span class='unsubscribe-comments-message'>". __( 'Please help us improve by providing us with feedback.' , 'inbound-email' ) ."</span>";
-		$html .= "	<span class='unsubscribe-comments-label'>". __('Comments:' , 'inbound-email') ."<br><textarea rows='8' cols='60' name='comments'></textarea></span>";
+		$html .= "	<span class='unsubscribe-comments-message'>". $comments_header_1 ."</span>";
+		$html .= "	<span class='unsubscribe-comments-label'>". $comments_header_2 ."<br><textarea rows='8' cols='60' name='comments'></textarea></span>";
 		$html .= "</div>";
 		$html .= "<div class='unsubscribe-div unsubscribe-options'>";
-		$html .= "	<span class='unsubscribe-action-label'>". __( 'Mute:' , 'inbound-email' ) ."</span>";
+		$html .= "	<span class='unsubscribe-action-label'>". $mute_header_text .":</span>";
 		$html .= "	<div class='mute-buttons'>";
 		$html .= "		<span class='mute-1-span'>
 							<label class='unsubscribe-label'>
-								<input name='mute-1' type='submit' value='". __( '1 month' , 'inbound-email' ) ."' class='inbound-button-submit inbound-submit-action'>
+								<input name='mute-1' type='submit' value='". $month_1 ."' class='inbound-button-submit inbound-submit-action'>
 							</label>
 						</span>";
 		$html .= "		<span class='mute-3-span'>
 							<label class='unsubscribe-label'>
-								<input name='mute-3' type='submit' value='". __( '3 months' , 'inbound-email' ) ."' class='inbound-button-submit inbound-submit-action'>
+								<input name='mute-3' type='submit' value='". $month_3 ."' class='inbound-button-submit inbound-submit-action'>
 							</label>
 						</span>";
 		$html .= "		<span class='mute-6-span'>
 							<label class='unsubscribe-label'>
-								<input name='mute-6' type='submit' value='". __( '6 months' , 'inbound-email' ) ."' class='inbound-button-submit inbound-submit-action'>
+								<input name='mute-6' type='submit' value='". $month_6 ."' class='inbound-button-submit inbound-submit-action'>
 							</label>
 						</span>";
 		$html .= "		<span class='mute-12-span'>
 							<label class='unsubscribe-label'>
-								<input name='mute-12' type='submit' value='". __( '12 months' , 'inbound-email' ) ."' class='inbound-button-submit inbound-submit-action'>
+								<input name='mute-12' type='submit' value='". $month_12 ."' class='inbound-button-submit inbound-submit-action'>
 							</label>
 						</span>";
 		$html .= "	</div>";
-		$html .= "	<span class='unsubscribe-action-label'>". __( 'Unsubscribe:' , 'inbound-email' ) ."</span>";
+		$html .= "	<span class='unsubscribe-action-label'>".$usubscribe_button_text .":</span>";
 		$html .= "	<div class='unsubscribe-button'>";
 		$html .= "		<span class='unsub-span'>
 							<label class='unsubscribe-label'>
-								<input name='unsubscribe' type='submit' value='". __( 'Unsubscribe' , 'inbound-email' ) ."' class='inbound-button-submit inbound-submit-action'>
+								<input name='unsubscribe' type='submit' value='". $usubscribe_button_text ."' class='inbound-button-submit inbound-submit-action'>
 							</label>
 						</span>";
 		$html .= "	</div>";
 		$html .= "</div>";
 		$html .= "</form>";
+
 		return $html;
 
 	}
@@ -138,7 +151,7 @@ class Inbound_Mailer_Unsubscribe {
 		$settings = Inbound_Mailer_Settings::get_settings();
 
 		if ( empty($settings['unsubscribe_page']) )  {
-			$post = get_page_by_title( __( 'Unsubscribe' , 'inbound-email' ) );
+			$post = get_page_by_title( __( 'Unsubscribe' , 'inbound-pro' ) );
 			$settings['unsubscribe_page'] =  $post->ID;
 		}
 
