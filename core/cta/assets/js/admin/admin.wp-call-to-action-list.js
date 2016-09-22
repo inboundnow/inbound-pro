@@ -20,6 +20,14 @@ jQuery(document).ready(function($) {
       }
     });
 
+    jQuery(".wp-cta-converstions").each(function(){
+    var empty = jQuery(this).text();
+     if ( empty === "" || empty === "0" ){
+      jQuery(this).parent().parent().find(".wp-cta-letter").css("color", "#ccc");
+      jQuery(this).parent().html("<span class='wp-cta-no-stats'>no stats yet</span>");
+      }
+    });
+
 
     jQuery("body").on('mouseenter', 'tr.type-wp-call-to-action', function () {
         jQuery(this).find(".no-stats-yet").show();

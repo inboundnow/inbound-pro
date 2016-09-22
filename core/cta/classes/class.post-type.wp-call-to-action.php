@@ -294,7 +294,8 @@ if ( !class_exists('CTA_Post_Type') ) {
 				foreach ($variations as $vid => $variation)
 				{
 					$letter = $CTA_Variations->vid_to_letter( $post->ID, $vid ); /* convert to letter */
-					$each_impression = get_post_meta($post->ID,'wp-cta-ab-variation-impressions-'.$vid, true); /* get impressions */
+					$vid_impressions = get_post_meta($post->ID,'wp-cta-ab-variation-impressions-'.$vid, true); /* get impressions */
+					$vid_conversions = $CTA_Variations->get_conversions($post->ID, $vid);
 					$v_status = get_post_meta($post->ID,'cta_ab_variation_status_'.$vid, true); /* Current status */
 
 					if ($i === 0) { $v_status = $first_status; } /* get status of first */
@@ -305,15 +306,12 @@ if ( !class_exists('CTA_Post_Type') ) {
 
 					if ($i === 0) { $each_notes = $first_notes; } /* Get first notes */
 
-					$each_conversion = get_post_meta($post->ID,'wp-cta-ab-variation-conversions-'.$vid, true);
-					$final_conversion = (($each_conversion === "")) ? 0 : $each_conversion;
-
 					$impressions += get_post_meta($post->ID,'wp-cta-ab-variation-impressions-'.$vid, true);
 
-					$conversions += get_post_meta($post->ID,'wp-cta-ab-variation-conversions-'.$vid, true);
+					$conversions += $vid_conversions;
 
-					if ($each_impression != 0) {
-						$conversion_rate = $final_conversion / $each_impression;
+					if ($vid_impressions != 0) {
+						$conversion_rate = $vid_conversions / $vid_impressions;
 					} else {
 						$conversion_rate = 0;
 					}
@@ -330,14 +328,14 @@ if ( !class_exists('CTA_Post_Type') ) {
 					$largest = $cr_array[$i];
 					}
 					(($largest === $conversion_rate)) ? $winner_class = 'wp-cta-current-winner' : $winner_class = ""; */
-					$c_text = (($final_conversion === "1")) ? 'conversion' : "conversions";
-					$i_text = (($each_impression === "1")) ? 'view' : "views";
+					$c_text = (($vid_conversions === "1")) ? 'conversion' : "conversions";
+					$i_text = (($vid_impressions === "1")) ? 'view' : "views";
 					$each_notes = (($each_notes === "")) ? 'No notes' : $each_notes;
 					$data_letter = "data-letter=\"".$letter."\"";
 
 					$popup = "data-notes=\"<span class='wp-cta-pop-description'>".$each_notes."</span><span class='wp-cta-pop-controls'><span class='wp-cta-pop-edit button-primary'><a href='".$admin_url."post.php?post=".$post->ID."&wp-cta-variation-id=".$vid."&action=edit'>Edit This Varaition</a></span><span class='wp-cta-pop-preview button'><a title='Click to Preview this variation' class='thickbox' href='".$permalink."&inbound_popup_preview=on&post_id=".$post->ID."&TB_iframe=true&width=640&height=703' target='_blank'>Preview This Varaition</a></span><span class='wp-cta-bottom-controls'><span class='wp-cta-delete-var-stats' data-letter='".$letter."' data-vid='".$vid."' rel='".$post->ID."'>Clear These Stats</span></span></span>\"";
 
-					echo "<li rel='".$final_status."' data-postid='".$post->ID."' data-letter='".$letter."' data-wp-cta='' class='wp-cta-stat-row-".$vid." ".$post->ID. '-'. $conversion_rate ." status-".$v_status. "'><a ".$popup." ".$data_letter." class='wp-cta-letter' title='click to edit this variation' href='".$admin_url."/wp-admin/post.php?post=".$post->ID."&wp-cta-variation-id=".$vid."&action=edit'>" . $letter . "</a><span class='wp-cta-numbers'> <span class='wp-cta-visits'><span class='visit-text'>".$i_text." </span><span class='wp-cta-impress-num'>" . $each_impression . "</span></span> <span class='wp-cta-converstions'><span class='conversion_txt'>".$c_text."</span><span class='wp-cta-con-num'>". $final_conversion . "</span> </span> </span><a ".$popup." ".$data_letter." class='cr-number cr-empty-".$conversion_rate."' href='/wp-admin/post.php?post=".$post->ID."&wp-cta-variation-id=".$vid."&action=edit'>". $conversion_rate . "%</a></li>";
+					echo "<li rel='".$final_status."' data-postid='".$post->ID."' data-letter='".$letter."' data-wp-cta='' class='wp-cta-stat-row-".$vid." ".$post->ID. '-'. $conversion_rate ." status-".$v_status. "'><a ".$popup." ".$data_letter." class='wp-cta-letter' title='click to edit this variation' href='".$admin_url."/wp-admin/post.php?post=".$post->ID."&wp-cta-variation-id=".$vid."&action=edit'>" . $letter . "</a><span class='wp-cta-numbers'> <span class='wp-cta-visits'><span class='visit-text'>".$i_text." </span><span class='wp-cta-impress-num'>" . $vid_impressions . "</span></span> <span class='wp-cta-converstions'><span class='conversion_txt'>".$c_text."</span><span class='wp-cta-con-num'>". $vid_conversions . "</span> </span> </span><a ".$popup." ".$data_letter." class='cr-number cr-empty-".$conversion_rate."' href='/wp-admin/post.php?post=".$post->ID."&wp-cta-variation-id=".$vid."&action=edit'>". $conversion_rate . "%</a></li>";
 					$i++;
 				}
 				echo "</ul>";
