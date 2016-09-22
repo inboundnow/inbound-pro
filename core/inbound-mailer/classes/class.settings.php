@@ -87,7 +87,7 @@ if ( !class_exists('Inbound_Mailer_Settings') ) {
 					),
 					array(
 						'id'  => 'mute-header-text',
-						'label'  => __('Mute Button', 'inbound-pro' ),
+						'label'  => __('Mute Section Header', 'inbound-pro' ),
 						'description'  => __( 'This text will display inside the mute button' , 'inbound-pro' ),
 						'type'  => 'text',
 						'default'  => __('Mute','inbound-pro')

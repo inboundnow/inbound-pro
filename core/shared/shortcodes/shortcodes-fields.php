@@ -4,7 +4,12 @@ if ( !class_exists('Inbound_Shortcodes_Fields') ) {
 
 	/* 	Include wp-load
 	* 	----------------------------------------------------- */
-	$path_to_wp =  get_home_path();
+	if (function_exists('get_home_path')) {
+		$path_to_wp = get_home_path();
+	} else {
+		$path_to_file = explode( 'wp-content', __FILE__ );
+		$path_to_wp = $path_to_file[0];
+	}
 	require_once( $path_to_wp . '/wp-load.php' );
 
 	/* 	The Class
