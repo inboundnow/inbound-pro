@@ -90,7 +90,7 @@ class CTA_Ajax_Listeners {
 		$cta_id = intval($_POST['page_id']);
 		$vid = intval($_POST['variation']);
 		Inbound_Events::delete_related_events( $cta_id, $vid );
-		CTA_Variations::set_impression_count($cta->ID , $vid , 0);
+		CTA_Variations::set_impression_count($cta_id , $vid , 0);
 		header('HTTP/1.1 200 OK');
 		exit;
 	}

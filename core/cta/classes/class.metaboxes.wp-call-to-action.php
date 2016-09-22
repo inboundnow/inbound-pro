@@ -288,117 +288,116 @@ if (!class_exists('CTA_Metaboxes')) {
 				$conversions = $CTA_Variations->get_conversions($post->ID, $vid);
 				$conversion_rate = $CTA_Variations->get_conversion_rate($post->ID, $vid);
 
-				?>
+					?>
 
-				<div id="wp-cta-variation-<?php echo $CTA_Variations->vid_to_letter( $post->ID, $vid ); ?>" class="bab-variation-row variation-<?php echo $status;?>" >
-					 
-
-<!-- New UI START -->
-<div class='bab-varation-header'>
-<span class='bab-variation-name'>Variation
-<span class='bab-stat-letter'>
-<?php echo $CTA_Variations->vid_to_letter( $post->ID, $vid); ?>
-</span>
-            <?php
-			if ( isset($variation_status) && $variation_status != 1) {
-				switch($variation_status) {
-					case 'paused':
-						?>
-						<span class='is-paused'>(<?php _e('Paused', 'landing-pages') ?>)</span>
-						<?php
-						break;
-					default:
-						?>
-						<span class='is-<?php echo $variation_status; ?>'>(<?php echo $variation_status; ?>)</span>
-						<?php
-						break;
-				}
-
-			} ?>
-            
-
- 
-</span>
-
-<span class="settings_icon"> </span>
-<span class="settings_wrapper">
-<span class="settings_wrapper_heading">Variation Settings</span>
-    <ul class="settings_list_li">
-        <li class="settings_edit">
-            <span class='bab-stat-menu-edit'>
-                <a title="Edit this variation" href='?post=<?php echo $post->ID; ?>&action=edit&vid=<?php echo $vid; ?>'><?php _e('Edit', 'inbound-pro' ); ?></a>
-            </span>
-        </li>
-        <li class="settings_preview">
-            <span class='bab-stat-menu-preview'>
-                <a title="Preview this variation" class='thickbox' href='<?php echo $permalink; ?>&inbound_popup_preview=on&post_id=<?php echo $post->ID;?>&TB_iframe=true&width=1503&height=467' target='_blank'><?php _e('Preview', 'inbound-pro' ); ?></a>
-            </span>
-        </li>
-        <li class="settings_clone">
-            <span class='bab-stat-menu-clone'>
-                <a title="Clone this variation" href='?post=<?php echo $post->ID; ?>&action=edit&new-variation=1&clone=<?php echo $vid; ?>&ab-action=clone&wp-cta-variation-id=<?php echo $next_available_variation_id; ?>'><?php _e('Clone', 'inbound-pro' ); ?></a>
-            </span>
-        </li>
-        <li class="settings_delete">
-            <span class='bab-stat-control-delete'>
-                <a title="Delete this variation" href='?post=<?php echo $post->ID; ?>&action=edit&vid=<?php echo $vid; ?>&ab-action=delete-variation'><?php _e('Delete', 'inbound-pro' ); ?></a>
-            </span>
-        </li>
-        <li class="settings_clearstat">
-<!-- CLEAR STATS START -->
-        <span class="wp-cta-delete-var-stats" data-letter='<?php echo $CTA_Variations->vid_to_letter( $post->ID, $vid ); ?>' data-vid='<?php echo $vid; ?>' rel='<?php echo $post->ID;?>' title="Delete this variations stats">Clear Stats</span>
-<!-- CLEAR STAT END --></li>
-    </ul>
-</span>
+					<div id="wp-cta-variation-<?php echo $CTA_Variations->vid_to_letter($post->ID, $vid); ?>" class="bab-variation-row variation-<?php echo $status; ?>">
 
 
-                                
-<!-- PAUSE START -->                                
-<span class='bab-stat-control-pause'><a title="Pause this variation" href='?post=<?php echo $post->ID; ?>&action=edit&vid=<?php echo $vid; ?>&ab-action=pause-variation'> </a></span>
-<!-- PAUSE END -->                                
+						<!-- New UI START -->
+						<div class='bab-varation-header'>
+						<span class='bab-variation-name'>Variation
+						<span class='bab-stat-letter'>
+						<?php echo $CTA_Variations->vid_to_letter($post->ID, $vid); ?>
+						</span>
+							<?php
+							if (isset($variation_status) && $variation_status != 1) {
+								switch ($variation_status) {
+									case 'paused':
+										?>
+										<span class='is-paused'>(<?php _e('Paused', 'landing-pages') ?>)</span>
+										<?php
+										break;
+									default:
+										?>
+										<span class='is-<?php echo $variation_status; ?>'>(<?php echo $variation_status; ?>
+											)</span>
+										<?php
+										break;
+								}
 
-<!-- PLAY START -->
-<span class='bab-stat-seperator pause-sep'>|</span>
-<span class='bab-stat-control-play'><a title="Turn this variation on" href='?post=<?php echo $post->ID; ?>&action=edit&vid=<?php echo $vid; ?>&ab-action=play-variation'> </a></span>
-<!-- PLAY END -->
-                         
-                                
-                                
-                            </div>
-<!-- New Ui end -->
-                    
-					<div class="bab-variation-notes">
-					<?php echo $variation_notes; ?>
-					</div>
-					<div class="bab-stat-row">
-						<div class='bab-stat-stats' colspan='2'>
-							<div class='bab-stat-container-impressions bab-number-box'>
-								<span class="bab-stat-id"><?php _e('Views', 'inbound-pro' ); ?></span>
-                                
-								<span class='bab-stat-span-impressions'><?php echo $impressions; ?></span>
-							</div>
-							<div class='bab-stat-container-conversions bab-number-box'>
-								<span class="bab-stat-id"><?php _e('Conversions', 'inbound-pro' ); ?></span>
-                                <span class='bab-stat-span-conversions'><?php echo $conversions; ?></span>
-								</span>
-							</div>
-							<div class='bab-stat-container-conversion_rate bab-number-box'>
-								<span class="bab-stat-id bab-rate"><?php _e('Conversion Rate', 'inbound-pro' ); ?></span>
-                                <span class='bab-stat-span-conversion_rate'><?php echo $conversion_rate; ?></span>
-								
-							</div>
-							 
+							} ?>
+
+
+
+						</span>
+
+						<span class="settings_icon"> </span>
+						<span class="settings_wrapper">
+						<span class="settings_wrapper_heading">Variation Settings</span>
+							<ul class="settings_list_li">
+								<li class="settings_edit">
+									<span class='bab-stat-menu-edit'>
+										<a title="Edit this variation" href='?post=<?php echo $post->ID; ?>&action=edit&vid=<?php echo $vid; ?>'><?php _e('Edit', 'inbound-pro'); ?></a>
+									</span>
+								</li>
+								<li class="settings_preview">
+									<span class='bab-stat-menu-preview'>
+										<a title="Preview this variation" class='thickbox' href='<?php echo $permalink; ?>&inbound_popup_preview=on&post_id=<?php echo $post->ID; ?>&TB_iframe=true&width=1503&height=467' target='_blank'><?php _e('Preview', 'inbound-pro'); ?></a>
+									</span>
+								</li>
+								<li class="settings_clone">
+									<span class='bab-stat-menu-clone'>
+										<a title="Clone this variation" href='?post=<?php echo $post->ID; ?>&action=edit&new-variation=1&clone=<?php echo $vid; ?>&ab-action=clone&wp-cta-variation-id=<?php echo $next_available_variation_id; ?>'><?php _e('Clone', 'inbound-pro'); ?></a>
+									</span>
+								</li>
+								<li class="settings_delete">
+									<span class='bab-stat-control-delete'>
+										<a title="Delete this variation" href='?post=<?php echo $post->ID; ?>&action=edit&vid=<?php echo $vid; ?>&ab-action=delete-variation'><?php _e('Delete', 'inbound-pro'); ?></a>
+									</span>
+								</li>
+								<li class="settings_clearstat">
+									<!-- CLEAR STATS START -->
+									<span class="wp-cta-delete-var-stats" data-letter='<?php echo $CTA_Variations->vid_to_letter($post->ID, $vid); ?>' data-vid='<?php echo $vid; ?>' rel='<?php echo $post->ID; ?>' title="Delete this variations stats">Clear Stats</span>
+									<!-- CLEAR STAT END --></li>
+							</ul>
+						</span>
+
+
+							<!-- PAUSE START -->
+							<span class='bab-stat-control-pause'><a title="Pause this variation" href='?post=<?php echo $post->ID; ?>&action=edit&vid=<?php echo $vid; ?>&ab-action=pause-variation'> </a></span>
+							<!-- PAUSE END -->
+
+							<!-- PLAY START -->
+							<span class='bab-stat-seperator pause-sep'>|</span>
+							<span class='bab-stat-control-play'><a title="Turn this variation on" href='?post=<?php echo $post->ID; ?>&action=edit&vid=<?php echo $vid; ?>&ab-action=play-variation'> </a></span>
+							<!-- PLAY END -->
+
+
 						</div>
-					</div>
-					<div class="bab-stat-row">
+						<!-- New Ui end -->
+
+						<div class="bab-variation-notes">
+							<?php echo $variation_notes; ?>
+						</div>
+						<div class="bab-stat-row">
+							<div class='bab-stat-stats' colspan='2'>
+								<div class='bab-stat-container-impressions bab-number-box'>
+									<span class="bab-stat-id"><?php _e('Views', 'inbound-pro'); ?></span>
+
+									<span class='bab-stat-span-impressions'><?php echo $impressions; ?></span>
+								</div>
+								<div class='bab-stat-container-conversions bab-number-box'>
+									<span class="bab-stat-id"><?php _e('Conversions', 'inbound-pro'); ?></span>
+									<span class='bab-stat-span-conversions'><?php echo $conversions; ?></span>
+									</span>
+								</div>
+								<div class='bab-stat-container-conversion_rate bab-number-box'>
+									<span class="bab-stat-id bab-rate"><?php _e('Conversion Rate', 'inbound-pro'); ?></span>
+									<span class='bab-stat-span-conversion_rate'><?php echo $conversion_rate; ?></span>
+
+								</div>
+
+							</div>
+						</div>
+						<div class="bab-stat-row">
 
 							<div class='bab-stat-menu-container'>
 
 								<?php do_action('wp_cta_ab_testing_stats_menu_post'); ?>
 
+							</div>
 						</div>
 					</div>
-				</div>
 					<?php
 			}
 			?>

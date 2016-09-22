@@ -416,7 +416,7 @@ class Inbound_Events {
         }
 
         if ($vid != 'all'){
-            $where['vid'] = $vid;
+            $where['variation_id'] = $vid;
         }
 
         $wpdb->delete( $table_name, $where, $where_format = null );
@@ -627,7 +627,7 @@ class Inbound_Events {
             $query .= 'AND datetime >= "'.$params['start_date'].'" AND  datetime <= "'.$params['end_date'].'" ';
         }
 
-        if (isset($params['variaton_id'])) {
+        if (isset($params['variation_id'])) {
             $query .= 'AND variation_id = "'.$params['variation_id'].'" ';
         }
 
