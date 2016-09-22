@@ -30,9 +30,10 @@ class Inbound_Mailer_Unsubscribe {
 	public static function display_unsubscribe_page( $atts ) {
 		global $inbound_settings;
 
-		$usubscribe_button_text = (isset($inbound_settings['inbound-mailer']['unsubscribe-button-text'])) ? $inbound_settings['inbound-mailer']['unsubscribe-button-text'] : __( 'Unsubscribe', 'inbound-pro'); ;
-		$mute_header_text = (isset($inbound_settings['inbound-mailer']['mute-header-text'])) ? $inbound_settings['inbound-mailer']['mute-header-text'] : __( 'Mute', 'inbound-pro'); ;
-		$unsubscribed_confirmation_message = (isset($inbound_settings['inbound-mailer']['unsubscribe-confirmation-message'])) ? $inbound_settings['inbound-mailer']['unsubscribe-confirmation-message'] : __( 'Thank You!', 'inbound-pro'); ;
+		$usubscribe_button_text = (isset($inbound_settings['inbound-mailer']['unsubscribe-button-text'])) ? $inbound_settings['inbound-mailer']['unsubscribe-button-text'] : __( 'Unsubscribe', 'inbound-pro');
+		$usubscribe_show_lists = (isset($inbound_settings['inbound-mailer']['unsubscribe-show-lists'])) ? $inbound_settings['inbound-mailer']['unsubscribe-show-lists'] : 'on';
+		$mute_header_text = (isset($inbound_settings['inbound-mailer']['mute-header-text'])) ? $inbound_settings['inbound-mailer']['mute-header-text'] : __( 'Mute', 'inbound-pro');
+		$unsubscribed_confirmation_message = (isset($inbound_settings['inbound-mailer']['unsubscribe-confirmation-message'])) ? $inbound_settings['inbound-mailer']['unsubscribe-confirmation-message'] : __( 'Thank You!', 'inbound-pro');
 		$comments_header_1 = (isset($inbound_settings['inbound-mailer']['unsubscribe-comments-header-1'])) ? $inbound_settings['inbound-mailer']['unsubscribe-comments-header-1'] : __( 'Please help us improve by providing us with feedback.' , 'inbound-pro' );
 		$comments_header_2 = (isset($inbound_settings['inbound-mailer']['unsubscribe-comments-header-2'])) ? $inbound_settings['inbound-mailer']['unsubscribe-comments-header-2'] : __( 'Comments:' , 'inbound-pro' );
 		$all_lists = (isset($inbound_settings['inbound-mailer']['unsubscribe-all-lists-label'])) ? $inbound_settings['inbound-mailer']['unsubscribe-all-lists-label'] : __( 'All Lists' , 'inbound-pro' );
@@ -70,7 +71,7 @@ class Inbound_Mailer_Unsubscribe {
 		$html .= "<input type='hidden' name='action' value='inbound_unsubscribe_event' >";
 
 		/* loop through lists and show unsubscribe inputs */
-		if ( isset($params['list_ids']) ) {
+		if ( isset($params['list_ids']) && $usubscribe_show_lists == 'on' ) {
 			foreach ($params['list_ids'] as $list_id ) {
 				if ($list_id == '-1' || !$list_id ) {
 					continue;
@@ -81,7 +82,7 @@ class Inbound_Mailer_Unsubscribe {
 			}
 		}
 
-		$html .= "<span class='unsubscribe-span'><label class='lead-list-label'><input name='lists_all' type='checkbox' value='all'> " . $all_lists .'</label></span>';
+		$html .= "<span class='unsubscribe-span'><label class='lead-list-label'><input name='lists_all' type='checkbox' value='all' ". ( $usubscribe_show_lists == 'off' ? 'checked="true"' : '' ) ."> " . $all_lists . "</label></span>";
 		$html .= "<div class='unsubscribe-div unsubsribe-comments'>";
 		$html .= "	<span class='unsubscribe-comments-message'>". $comments_header_1 ."</span>";
 		$html .= "	<span class='unsubscribe-comments-label'>". $comments_header_2 ."<br><textarea rows='8' cols='60' name='comments'></textarea></span>";
