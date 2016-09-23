@@ -736,7 +736,7 @@ if (!function_exists('inbound_add_conversion_to_lead')) {
 			$lead_data['wordpress_date_time'] = date("Y-m-d G:i:s T", $time);
 			$conversion_data = get_post_meta( $lead_id, 'wpleads_conversion_data', TRUE );
 			$conversion_data = json_decode($conversion_data,true);
-			$variation = $lead_data['variation'];
+			$variation = (isset($lead_data['variation'])) ? $lead_data['variation']:0;
 
 			if ( is_array($conversion_data)) {
 				$c_count = count($conversion_data) + 1;

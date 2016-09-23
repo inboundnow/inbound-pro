@@ -857,7 +857,7 @@ var _inboundUtils = (function(_inbound) {
 
             /* Set Param Cookies */
             for (var k in urlParams) {
-
+                /* account for wordpress media uploader bug */
                 if (k == 'action') {
                     continue;
                 }
@@ -2842,6 +2842,7 @@ var _inboundEvents = (function(_inbound) {
 
 })(_inbound || {});
 
+
 function inboundFormNoRedirect(){
 	/*button == the button that was clicked, form == the form that button belongs to, formRedirectUrl == the link that the form redirects to, if set*/
 	
@@ -2854,7 +2855,11 @@ function inboundFormNoRedirect(){
 	else if(window.frames.frameElement.tagName.toLowerCase() == "iframe"){
 		var button = window.frames.frameElement.contentWindow.document.querySelectorAll('button.inbound-button-submit')[0];
 	}
-	
+
+    if ( typeof button == 'undefined' ) {
+       return;
+    }
+
 	var	form = button.form,
 		formRedirectUrl = form.querySelectorAll('input[value][type="hidden"][name="inbound_furl"]:not([value=""])');
 
@@ -2875,8 +2880,13 @@ function inboundFormNoRedirectContent(){
 	/*If it is an iframe*/
 	else if(window.frames.frameElement.tagName.toLowerCase() == "iframe"){
 		var button = window.frames.frameElement.contentWindow.document.querySelectorAll('button.inbound-button-submit')[0];
-		}
-	
+    }
+
+
+    if ( typeof button == 'undefined' ) {
+        return;
+    }
+
 	var	form = button.form,
 		formRedirectUrl = form.querySelectorAll('input[value][type="hidden"][name="inbound_furl"]:not([value=""])'),
 		btnBackground = jQuery(button).css('background'),

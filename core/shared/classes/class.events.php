@@ -136,7 +136,7 @@ class Inbound_Events {
         parse_str($lead['raw_params'] , $raw_params );
         $details = array_merge($raw_params,$lead);
 
-        if (!$raw_params['inbound_form_id']) {
+        if (!isset($raw_params['inbound_form_id'])) {
             return;
         }
 
