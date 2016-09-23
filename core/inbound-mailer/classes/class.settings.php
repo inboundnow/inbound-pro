@@ -89,6 +89,14 @@ if ( !class_exists('Inbound_Mailer_Settings') ) {
 						'options' => null
 					),
 					array(
+						'id'  => 'unsubscribe-header-text',
+						'label'  => __('Unsubscribe Header', 'inbound-pro' ),
+						'description'  => __( 'This text will display inside the unsubscribe button' , 'inbound-pro' ),
+						'type'  => 'text',
+						'default'  => __('Unsubscribe','inbound-pro')
+
+					),
+					array(
 						'id'  => 'unsubscribe-button-text',
 						'label'  => __('Unsubscribe Button', 'inbound-pro' ),
 						'description'  => __( 'This text will display inside the unsubscribe button' , 'inbound-pro' ),

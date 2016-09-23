@@ -348,5 +348,19 @@ function form_after_submission_function( data ) {
  _inbound.add_action( 'form_after_submission', form_after_submission_function, 10 );
 ```
 
+button == the button that was clicked, form == the form that button belongs to, formRedirectUrl == the link that the form redirects to, if set
+
+Get the button...
+
+If not an iframe
+
+If it is an iframe
+
+If the redirect link is not set, or there is a single space in it, the form isn't supposed to redirect. So set the action for void
+
+If not an iframe
+
+If it is an iframe
+
 <!-- End shared\assets\js\frontend\analytics-src\analytics.events.js -->
 
