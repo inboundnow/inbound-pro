@@ -110,7 +110,7 @@ function wp_cta_load_variation( cta_id, vid, disable_ajax ) {
 				'action' : 'cta_get_variation',
 				'cta_id' : cta_id,
 				'fast_ajax': true,
-				'load_plugins': ["_inbound-now/inbound-pro.php"]
+				'load_plugins': ["_inbound-now/inbound-pro.php","cta/calls-to-action.php"]
 			},
 			success: function(vid) {
 				/* update local storage variable */

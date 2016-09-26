@@ -621,24 +621,66 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		}
 
 		/**
-		* Returns impression for given cta and variation id
+		* Returns total conversions for given cta and variation id
 		*
 		* @param INT $cta_id id of call to action
 		* @param INT $vid id of variation belonging to call to action
 		*
-		* @return INT impression count
+		* @return INT total conversions count
 		*/
 		public static function get_conversions( $cta_id, $vid ) {
 
-			$events = Inbound_Events::get_cta_clicks_by( 'cta_id', array( 'cta_id' => $cta_id , 'variation_id' => $vid));
+			/* get clicks */
+			$clicks = self::get_clicks( $cta_id, $vid);
 
-			$conversions = count($events);
+			/* get form submissions */
+			$submissions = self::get_form_submissions( $cta_id, $vid );
 
-			if (!is_numeric($conversions)) {
-				$conversions = 0;
-			}
+			$conversions = $clicks + $submissions;
 
 			return $conversions;
+		}
+
+		/**
+		* Returns clicks for given cta and variation id
+		*
+		* @param INT $cta_id id of call to action
+		* @param INT $vid id of variation belonging to call to action
+		*
+		* @return INT click count
+		*/
+		public static function get_clicks( $cta_id, $vid ) {
+
+			/* get clicks */
+			$clicks = Inbound_Events::get_cta_clicks_by( 'cta_id', array( 'cta_id' => $cta_id , 'variation_id' => $vid));
+
+			$clicks = count($clicks);
+
+			if (!is_numeric($clicks)) {
+				$clicks = 0;
+			}
+
+			return $clicks;
+		}/**
+		* Returns clicks for given cta and variation id
+		*
+		* @param INT $cta_id id of call to action
+		* @param INT $vid id of variation belonging to call to action
+		*
+		* @return INT form submission count
+		*/
+		public static function get_form_submissions( $cta_id, $vid ) {
+
+			/* get form submissions */
+			$submissions = Inbound_Events::get_form_submissions_by( 'cta_id', array( 'cta_id' => $cta_id , 'variation_id' => $vid));
+
+			$submissions = count($submissions);
+
+			if (!is_numeric($submissions)) {
+				$submissions = 0;
+			}
+
+			return $submissions;
 		}
 
 		/**
