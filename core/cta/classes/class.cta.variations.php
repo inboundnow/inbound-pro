@@ -49,7 +49,7 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 				return;
 			}
 
-			$variation_id = intval($_GET['vid']);
+			$variation_id = (isset($_GET['vid'])) ? intval($_GET['vid']) : 0;
 
 			/* Let's disable autosave */
 			if(!defined('AUTOSAVE_INTERVAL')) {

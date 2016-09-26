@@ -575,7 +575,7 @@ class LandingPages_Welcome {
 
                     <h1 style="text-decoration: none; text-align: center;"><a target="_blank" id="create-templates" class='button' href="http://docs.inboundnow.com/guide/creating-landing-page-templates/">Create Your Own Templates</a></h1>
 
-                    <p class="about-description">WordPress Landing Pages is third party extendable. We have a variety of <a href="http://docs.inboundnow.com/landing-pages/dev/core-hooks-filters/hooks">hooks</a>, actions, and filters to add your own functionality</p>
+                    <p class="about-description">WordPress Landing Pages is third party extendable. We have a variety of <a href="#documentation-pending">hooks</a>, actions, and filters to add your own functionality</p>
                 </div>
                 <div class='grid one-third' id="inbound-contribute" style="text-align: center;">
                     <p class="about-description" style=""><a href="https://github.com/inboundnow/landing-pages" target="_blank"><b>Contribute Code</b> + <span style="font-size:21px"><b>Submit Feature Requests</b></span></a></p>

@@ -609,7 +609,7 @@ if (!class_exists('CTA_Metaboxes')) {
 			echo '<a class="button-secondary" style="display:none;" id="wp-cta-cancel-selection">Cancel Template Change</a>';
 			echo "</div>";
 				echo '<ul id="template-filter" >';
-					echo '<li><a href="#" data-filter=".template-item-boxes">All</a></li>';
+					echo '<li class="button primary"><a href="#" data-filter=".template-item-boxes">All</a></li>';
 					$categories = array();
 					foreach ( $CTAExtensions->template_categories as $cat) {
 
@@ -617,7 +617,7 @@ if (!class_exists('CTA_Metaboxes')) {
 						$category_slug = strtolower($category_slug);
 						$cat['value'] = ucwords($cat['value']);
 						if (!in_array($cat['value'],$categories)) {
-							echo '<li><a href="#" data-filter=".'.$category_slug.'">'.$cat['value'].'</a></li>';
+							echo '<li class="button"><a href="#" data-filter=".'.$category_slug.'">'.$cat['value'].'</a></li>';
 							$categories[] = $cat['value'];
 						}
 
