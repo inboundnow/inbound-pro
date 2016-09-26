@@ -279,7 +279,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
 			$variation_html = do_shortcode($variation_html);
             $doc = new DOMDocument();
-            @$doc->loadHTML( $variation_html );
+            @$doc->loadHTML( mb_convert_encoding($variation_html, 'HTML-ENTITIES', 'UTF-8'));
 
             foreach($doc->getElementsByTagName('a') as $anchor) {
                 /* skip links with do-not-track in class */

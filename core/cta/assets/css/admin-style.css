@@ -74,18 +74,6 @@ h4.cta-advanced-section {
     margin-top: 5px;
 }
 
-#template-box, .thumbnail-lander img {
-    background: #FCFDFE;
-    padding: 3%;
-    margin-right: 10px;
-    border: 1px solid #E0E0E0;
-    -moz-border-radius: 7px;
-    border-radius: 7px;
-    position: relative;
-    overflow: hidden;
-    display: block;
-}
-
 #postexcerpt p {
     display: none;
 }
