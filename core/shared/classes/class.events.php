@@ -140,12 +140,20 @@ class Inbound_Events {
             return;
         }
 
+        if (isset($raw_params['wp_cta_id'])) {
+            $lead['cta_id'] = $raw_params['wp_cta_id'];
+            $lead['variation'] = $raw_params['wp_cta_vid'];
+        } else {
+            $lead['cta_id'] = 0;
+        }
+
         $args = array(
             'event_name' => 'inbound_form_submission',
             'page_id' => $lead['page_id'],
             'variation_id' =>  $lead['variation'],
             'form_id' => (isset($raw_params['inbound_form_id'])) ? $raw_params['inbound_form_id'] : '',
             'lead_id' => $lead['id'],
+            'cta_id' => $lead['cta_id'],
             'lead_uid' => ( isset($_COOKIE['wp_lead_uid']) ? $_COOKIE['wp_lead_uid'] : '' ),
             'event_details' => json_encode($details),
             'datetime' => $lead['wordpress_date_time']
@@ -482,16 +490,30 @@ class Inbound_Events {
         global $wpdb;
 
         $table_name = $wpdb->prefix . "inbound_events";
+        $query = 'SELECT * FROM '.$table_name.' WHERE ';
 
         switch ($nature) {
             case 'lead_id':
-                $query = 'SELECT * FROM '.$table_name.' WHERE datetime >= "'.$params['start_date'].'" AND  datetime <= "'.$params['end_date'].'" AND `lead_id` = "'.$params['lead_id'].'" AND `event_name` = "inbound_form_submission" ORDER BY `datetime` DESC';
+                $query .= '`lead_id` = "'.$params['lead_id'].'" ';
                 break;
             case 'page_id':
-                $query = 'SELECT * FROM '.$table_name.' WHERE datetime >= "'.$params['start_date'].'" AND  datetime <= "'.$params['end_date'].'" AND `page_id` = "'.$params['page_id'].'" AND `event_name` = "inbound_form_submission" ORDER BY `datetime` DESC';
+                $query .= '`page_id` = "'.$params['page_id'].'" ';
+                break;
+            case 'cta_id':
+                $query .= '`cta_id` = "'.$params['cta_id'].'" ';
                 break;
         }
 
+        /* add date constraints if applicable */
+        if (isset($params['start_date'])) {
+            $query .= 'AND datetime >= "'.$params['start_date'].'" AND  datetime <= "'.$params['end_date'].'" ';
+        }
+
+        if (isset($params['variation_id'])) {
+            $query .= 'AND variation_id = "'.$params['variation_id'].'" ';
+        }
+
+        $query .= 'AND `event_name` LIKE "%form_submission" ORDER BY `datetime` DESC';
 
         $results = $wpdb->get_results( $query , ARRAY_A );
 
@@ -607,8 +629,6 @@ class Inbound_Events {
 
         $table_name = $wpdb->prefix . "inbound_events";
         $query = 'SELECT * FROM '.$table_name.' WHERE ';
-
-
 
         switch ($nature) {
             case 'lead_id':

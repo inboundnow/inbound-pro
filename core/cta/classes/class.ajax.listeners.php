@@ -265,4 +265,4 @@ class CTA_Ajax_Listeners {
 }
 
 /* Loads CTA_Ajax_Listeners pre init */
-$CTA_Ajax_Listeners = new CTA_Ajax_Listeners();
+new CTA_Ajax_Listeners();
