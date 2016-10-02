@@ -79,7 +79,7 @@ if (!class_exists('CTA_Global_Settings')) {
             ) {
                 /* Setup License Keys Tab */
                 $tab_slug = 'wp-cta-license-keys';
-                $wp_cta_global_settings[$tab_slug]['label'] = __('License Keys', 'inbound-pro');
+                $wp_cta_global_settings[$tab_slug]['label'] = __('Inbound Now API Key', 'inbound-pro');
 
                 /* Setup Extensions Tab */
                 $tab_slug = 'wp-cta-extensions';
