@@ -896,6 +896,16 @@ if (!class_exists('Inbound_API')) {
 			/* Merge POST & GET & @param vars into array variable */
 			$params = array_merge( $params, $_REQUEST );
 
+			/* Account for Zapier */
+			if (!isset($params['meta_data']) && file_get_contents('php://input')) {
+				$params = json_decode(file_get_contents('php://input'), true);
+			}
+
+			/* check if meta_data is http query  */
+			if (!is_array($params['meta_data']) && strstr($params['meta_data'] , '=')) {
+				parse_str($params['meta_data'],$params['meta_data']);
+			}
+
 			/* Make sure our meta_data field is setup correctly */
 			self::validate_parameter( $params['meta_data'], 'meta_data',  'array'  );
 
@@ -929,14 +939,21 @@ if (!class_exists('Inbound_API')) {
 			}
 
 			/* Add lead to lists */
-			if (isset($params['lead_lists']) && self::validate_parameter( $params['lead_lists'], 'lead_lists', 'array' ) ) {
+			if (isset($params['lead_lists']) && !is_array($params['lead_lists']) ){
+				$params['lead_lists'] = explode(',',$params['lead_lists']);
+			}
 
+			if (isset($params['lead_lists']) && self::validate_parameter( $params['lead_lists'], 'lead_lists', 'array' ) ) {
 				foreach ( $params['lead_lists'] as $list_id ) {
 					$Inbound_Leads->add_lead_to_list( $lead_id, $list_id );
 				}
 			}
 
 			/* Add tag to leads */
+			if (isset($params['tags']) && !is_array($params['tags']) && $params['tags']){
+				$params['tags'] = explode(',',$params['tags']);
+			}
+
 			if (isset($params['tags']) && self::validate_parameter( $params['tags'], 'tags', 'array' ) ) {
 				foreach ( $params['tags'] as $tag ) {
 					$Inbound_Leads->add_tag_to_lead( $lead_id, $tag );

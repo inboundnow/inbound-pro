@@ -101,7 +101,7 @@
 			),
 		),
 		// style="{{style}}"
-		'shortcode' => '[button font_size="{{font-size}}" color="{{color}}" text_color="{{text-color}}" icon="{{icon}}" url="{{url}}" width="{{width}}" target="{{target}}"]{{content}}[/button]',
+		'shortcode' => '[inbound_button font_size="{{font-size}}" color="{{color}}" text_color="{{text-color}}" icon="{{icon}}" url="{{url}}" width="{{width}}" target="{{target}}"]{{content}}[/button]',
 		'popup_title' =>'Insert Button Shortcode'
 	);
 

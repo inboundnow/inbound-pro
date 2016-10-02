@@ -7,27 +7,6 @@ if ( !class_exists('Landing_Pages_Activation_Update_Routines') ) {
 
 	class Landing_Pages_Activation_Update_Routines {
 
-		/*
-		* @introduced: 1.8.9
-		* @migration-type: Meta pair migragtion
-		* @migration: Make a meta pair copy of wp_content into 'content' meta key for variation 0 to use (refactor session)
-		* @moredetails: Before 1.8.9 we did not source post_content from a meta pair when variation 0 was served. In a step to refactor and normalize we now pull post_content from the meta pair with key 'content'. For now (subject to further improvements in the future), variation id 0 pulls from 'content' meta key while varation 1+ pulls from 'content-{varation_id}' meta key. *
-		*/
-		public static function prepare_content_meta_key_for_variation_0() {
-
-			/* for all landing pages load variations */
-			$landing_pages = get_posts( array (
-				'post_type' => 'landing-page',
-				'posts_per_page' => -1
-			));
-
-            /* loop through landing pages and copy post content into meta object */
-			foreach ($landing_pages as $post) {
-                $content = $post->post_content;
-                update_post_meta( $post->ID , 'content' , $content);
-			}
-		}
-
 
 		/*
 		* @introduced: 1.5.7
@@ -35,6 +14,13 @@ if ( !class_exists('Landing_Pages_Activation_Update_Routines') ) {
 		* @migration: convert meta key lp-conversion-area to template-name-conversion-area-content-{vid}
 		*/
 		public static function migrate_legacy_conversion_area_contents() {
+
+			/* ignore if not applicable */
+			$previous_installed_version = get_transient('lp_current_version');
+
+			if ( version_compare($previous_installed_version , "1.5.7") === 1 )  {
+				return;
+			}
 
 			/* for all landing pages load variations */
 			$landing_pages = get_posts( array (
@@ -75,17 +61,6 @@ if ( !class_exists('Landing_Pages_Activation_Update_Routines') ) {
 			}
 		}
 
-		/*
-		* @introduced: 1.7.5
-		* @migration-type: Meta key rename
-		* @migration: renames all instances of inbound_conversion_data to _inbound_conversion_data
-
-		*/
-		public static function meta_key_change_conversion_object() {
-			global $wpdb;
-
-			$wpdb->query("UPDATE $wpdb->postmeta SET `meta_key` = REPLACE (`meta_key` , 'inbound_conversion_data', '_inbound_conversion_data')");
-		}
 
 		/*
 		* @introduced: 1.5.7
@@ -94,6 +69,13 @@ if ( !class_exists('Landing_Pages_Activation_Update_Routines') ) {
 
 		*/
 		public static function migrate_legacy_main_content() {
+
+			/* ignore if not applicable */
+			$previous_installed_version = get_transient('lp_current_version');
+
+			if ( version_compare($previous_installed_version , "1.5.8") === 1 )  {
+				return;
+			}
 
 			/* for all landing pages load variations */
 			$landing_pages = get_posts( array (
@@ -134,10 +116,19 @@ if ( !class_exists('Landing_Pages_Activation_Update_Routines') ) {
 		}
 
 		/*
-		* UPDATE METHOD
-		* Moves legacy templates to uploads folder
+		* @introduced: 1.5.8
+		* @migration-type: template migragtion
+		* @migration: Moves legacy templates to uploads folder
+		*
 		*/
 		public static function updater_move_legacy_templates() {
+
+			/* ignore if not applicable */
+			$previous_installed_version = get_transient('lp_current_version');
+
+			if ( version_compare($previous_installed_version , "1.5.8") === 1 )  {
+				return;
+			}
 
 			/* move copy of legacy core templates to the uploads folder and delete from core templates directory */
 			$templates_to_move = array('rsvp-envelope','super-slick');
@@ -213,6 +204,54 @@ if ( !class_exists('Landing_Pages_Activation_Update_Routines') ) {
 			}
 		}
 
+
+		/*
+		* @introduced: 1.7.5
+		* @migration-type: Meta key rename
+		* @migration: renames all instances of inbound_conversion_data to _inbound_conversion_data
+
+		*/
+		public static function meta_key_change_conversion_object() {
+			global $wpdb;
+
+			/* ignore if not applicable */
+			$previous_installed_version = get_transient('lp_current_version');
+
+			if ( version_compare($previous_installed_version , "1.7.5") === 1 )  {
+				return;
+			}
+
+			$wpdb->query("UPDATE $wpdb->postmeta SET `meta_key` = REPLACE (`meta_key` , 'inbound_conversion_data', '_inbound_conversion_data')");
+		}
+
+		/*
+		* @introduced: 1.8.9
+		* @migration-type: Meta pair migragtion
+		* @migration: Make a meta pair copy of wp_content into 'content' meta key for variation 0 to use (refactor session)
+		* @moredetails: Before 1.8.9 we did not source post_content from a meta pair when variation 0 was served. In a step to refactor and normalize we now pull post_content from the meta pair with key 'content'. For now (subject to further improvements in the future), variation id 0 pulls from 'content' meta key while varation 1+ pulls from 'content-{varation_id}' meta key. *
+		*/
+		public static function prepare_content_meta_key_for_variation_0() {
+
+			/* ignore if not applicable */
+			$previous_installed_version = get_transient('lp_current_version');
+
+			if ( version_compare($previous_installed_version , "1.8.9") === 1 )  {
+				return;
+			}
+
+			/* for all landing pages load variations */
+			$landing_pages = get_posts( array (
+				'post_type' => 'landing-page',
+				'posts_per_page' => -1
+			));
+
+			/* loop through landing pages and copy post content into meta object */
+			foreach ($landing_pages as $post) {
+				$content = $post->post_content;
+				update_post_meta( $post->ID , 'content' , $content);
+			}
+		}
+
 		/*
 		* @introduced: 2.0.4
 		* @migration-type: Meta pair migragtion
@@ -221,6 +260,13 @@ if ( !class_exists('Landing_Pages_Activation_Update_Routines') ) {
 
 		*/
 		public static function migrate_variation_status_metapair() {
+
+			/* ignore if not applicable */
+			$previous_installed_version = get_transient('lp_current_version');
+
+			if ( version_compare($previous_installed_version , "2.0.4") === 1 )  {
+				return;
+			}
 
 			/* for all landing pages load variations */
 			$landing_pages = get_posts( array (
@@ -239,6 +285,40 @@ if ( !class_exists('Landing_Pages_Activation_Update_Routines') ) {
 				update_post_meta( $post->ID , 'lp-variation-notes-0' , $status );
 
 			}
+		}
+
+
+		/*
+		* @introduced: 2.3.1
+		* @migration-type: Inbound Pro Setting Migration
+		* @migration: mirgrates option lp-main-landing-page-permalink-prefix  to $inbound_settings['landing-pages']['landing-page-permalink-prefix']
+		* @migration: mirgrates option lp-main-landing-page-rotation-halt  to $inbound_settings['landing-pages']['landing-page-rotation-halt']
+		* @migration: mirgrates option lp-main-landing-page-disable-turn-off-ab  to $inbound_settings['landing-pages']['landing-page-disable-turn-off-ab']
+		*/
+		public static function migrate_landing_page_settings_to_pro_settings() {
+
+			/* ignore if not applicable */
+			$previous_installed_version = get_transient('lp_current_version');
+
+			if ( version_compare($previous_installed_version , "2.3.1") === 1 )  {
+				return;
+			}
+
+			if (!defined('INBOUND_PRO_CURRENT_VERSION')) {
+				return;
+			}
+
+			global $inbound_settings;
+
+			$landing_page_permalink_prefix = get_option(  'lp-main-landing-page-permalink-prefix', 'go' );
+			$sticky_variations = get_option( 'lp-main-landing-page-rotation-halt', '0' );
+			$disable_variant_testing = get_option( 'lp-main-landing-page-disable-turn-off-ab', '0' );
+
+			$inbound_settings['landing-pages']['landing-page-permalink-prefix'] = $landing_page_permalink_prefix;
+			$inbound_settings['landing-pages']['landing-page-rotation-halt'] = $sticky_variations;
+			$inbound_settings['landing-pages']['landing-page-disable-turn-off-ab'] = $disable_variant_testing;
+
+			Inbound_Options_API::update_option( 'inbound-pro' , 'settings' , $inbound_settings );
 		}
 
 	}

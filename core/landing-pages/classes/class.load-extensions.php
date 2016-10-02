@@ -26,8 +26,6 @@ class Landing_Pages_Load_Extensions {
         /* Modifies legacy template data key names for old, un-updated legacy templates */
         add_filter('lp_extension_data', array(__CLASS__, 'add_legacy_data_support'), 10, 1);
 
-        /* Add license key inputs to all uploaded templates */
-        add_filter('lp_define_global_settings', array(__CLASS__, 'prepare_license_keys'), 99, 1);
     }
 
     /**
@@ -72,50 +70,6 @@ class Landing_Pages_Load_Extensions {
         }
 
         return $data;
-    }
-
-    /**
-     *  Adds licensing & automatic updates to uploaded templates
-     *
-     * @param ARRAY $global_settings contains all global setting data
-     *
-     * @retuns ARRAY $global_settings contains modified global setting data
-     */
-    public static function prepare_license_keys($global_settings) {
-
-        if (!is_admin()) {
-            return;
-        }
-
-        $lp_data = self::get_extended_data();
-
-        $global_settings['lp-license-keys']['settings'][] = array('id' => 'template-license-keys-header', 'description' => __("Head to http://www.inboundnow.com/ to retrieve your license key for this template.", 'landing-pages'), 'type' => 'header', 'default' => '<h3 class="lp_global_settings_header">' . __('Template Licensing', 'landing-pages') . '</h3>');
-
-        /* get master license key */
-        $inboundnow_master_key = get_option('inboundnow_master_license_key', '');
-
-        /* Loop through all setting data and add licensing for uploaded templates only */
-        foreach ($lp_data as $key => $data) {
-
-            $array_core_templates = array('simple-solid-lite', 'countdown-lander', 'default', 'demo', 'dropcap', 'half-and-half', 'simple-two-column', 'super-slick', 'svtle', 'tubelar', 'rsvp-envelope', 'three-column-lander');
-
-            if ($key == 'lp' || substr($key, 0, 4) == 'ext-') {
-                continue;
-            }
-
-            if (isset($data['info']['data_type']) && $data['info']['data_type'] == 'metabox') {
-                continue;
-            }
-
-            if (in_array($key, $array_core_templates)) {
-                continue;
-            }
-
-            $template_name = $lp_data[$key]['info']['label'];
-            $global_settings['lp-license-keys']['settings'][$key] = array('id' => $key, 'label' => $template_name, 'slug' => $key, 'description' => __("Head to http://www.inboundnow.com/ to retrieve your license key for this template.", 'landing-pages'), 'type' => 'inboundnow-license-key');
-        }
-
-        return $global_settings;
     }
 
     /**

@@ -206,6 +206,7 @@ var InboundForms = (function(_inbound) {
                     return false;
                 }
             }
+                 
             /* Loop through all match possiblities */
             for (i = 0; i < FieldMapArray.length; i++) {
                 //for (var i = FieldMapArray.length - 1; i >= 0; i--) {
@@ -225,7 +226,6 @@ var InboundForms = (function(_inbound) {
 
                 /* look for name attribute match */
                 if (input_name && input_name.toLowerCase().indexOf(lookingFor) > -1) {
-
                     found = true;
                     _inbound.deBugger('forms', 'Found matching name attribute for -> ' + lookingFor);
 
@@ -261,7 +261,7 @@ var InboundForms = (function(_inbound) {
                 }
 
             }
-
+            
             return inbound_data;
 
         },
@@ -533,6 +533,21 @@ var InboundForms = (function(_inbound) {
             var page_views = _inbound.totalStorage('page_views') || {};
             var urlParams = _inbound.totalStorage('inbound_url_params') || {};
 
+            /* check if redirect url is empty */
+            var formRedirectUrl = form.querySelectorAll('input[value][type="hidden"][name="inbound_furl"]:not([value=""])');
+            var inbound_form_is_ajax = false;
+            if(formRedirectUrl.length == 0 || formRedirectUrl[0]['value'] == 'IA=='){
+                var inbound_form_is_ajax = true;
+            }
+
+            /* get form id */
+            var inbound_form_id = form.querySelectorAll('input[value][type="hidden"][name="inbound_form_id"]');
+            if(inbound_form_id.length > 0 ){
+                inbound_form_id = inbound_form_id[0]['value'];
+            } else {
+                inbound_form_id = 0;
+            }
+
             var inboundDATA = {
                 'email': email
             };
@@ -582,7 +597,9 @@ var InboundForms = (function(_inbound) {
                 'post_type': post_type,
                 'page_id': page_id,
                 'variation': variation,
-                'source': utils.readCookie("inbound_referral_site")
+                'source': utils.readCookie("inbound_referral_site"),
+                'inbound_submitted': inbound_form_is_ajax,
+                'inbound_form_id': inbound_form_id,
             };
 
             callback = function(leadID) {

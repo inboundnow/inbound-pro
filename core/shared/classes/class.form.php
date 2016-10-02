@@ -47,7 +47,6 @@ if (!class_exists('Inbound_Forms')) {
                 'submit_bg_color' => ''
             ), $atts));
 
-
             if (!$id && isset($_GET['post'])) {
                 $id = intval($_GET['post']);
             }
@@ -725,63 +724,69 @@ if (!class_exists('Inbound_Forms')) {
          */
         static function do_actions() {
 
-            if (isset($_POST['inbound_submitted']) && $_POST['inbound_submitted'] === '1') {
-                $form_post_data = array();
-                if (isset($_POST['phone_xoxo']) && $_POST['phone_xoxo'] != "") {
-                    wp_die($message = 'Die You spam bastard');
-                    return false;
+            /* only process actions when told to */
+            if (!isset($_POST['inbound_submitted']) || !$_POST['inbound_submitted']) {
+                return;
+            }
+
+            $form_post_data = array();
+            if (isset($_POST['phone_xoxo']) && $_POST['phone_xoxo'] != "") {
+                wp_die($message = 'Die Die Die');
+                return false;
+            }
+            /* get form submitted form's meta data */
+            $form_meta_data = get_post_meta($_POST['inbound_form_id']);
+
+            if (isset($_POST['inbound_furl']) && $_POST['inbound_furl'] != "") {
+                $redirect = base64_decode($_POST['inbound_furl']);
+            } else if (isset($_POST['inbound_current_page_url'])) {
+                $redirect = $_POST['inbound_current_page_url'];
+            } else {
+                $redirect = "";
+            }
+
+
+            /*print_r($_POST); */
+            foreach ($_POST as $field => $value) {
+
+                if (get_magic_quotes_gpc() && is_string($value)) {
+                    $value = stripslashes($value);
                 }
-                /* get form submitted form's meta data */
-                $form_meta_data = get_post_meta($_POST['inbound_form_id']);
 
-                if (isset($_POST['inbound_furl']) && $_POST['inbound_furl'] != "") {
-                    $redirect = base64_decode($_POST['inbound_furl']);
-                } else if (isset($_POST['inbound_current_page_url'])) {
-                    $redirect = $_POST['inbound_current_page_url'];
-                }
+                $field = strtolower($field);
 
-
-                /*print_r($_POST); */
-                foreach ($_POST as $field => $value) {
-
-                    if (get_magic_quotes_gpc() && is_string($value)) {
-                        $value = stripslashes($value);
+                if (preg_match('/Email|e-mail|email/i', $field)) {
+                    $field = "wpleads_email_address";
+                    if (isset($_POST['inbound_form_id']) && $_POST['inbound_form_id'] != "") {
+                        self::store_form_stats($_POST['inbound_form_id'], $value);
                     }
-
-                    $field = strtolower($field);
-
-                    if (preg_match('/Email|e-mail|email/i', $field)) {
-                        $field = "wpleads_email_address";
-                        if (isset($_POST['inbound_form_id']) && $_POST['inbound_form_id'] != "") {
-                            self::store_form_stats($_POST['inbound_form_id'], $value);
-                        }
-                    }
-
-
-                    $form_post_data[$field] = (!is_array($value)) ? strip_tags($value) : $value;
-
-                }
-
-                $form_meta_data['post_id'] = $_POST['inbound_form_id']; /* pass in form id */
-
-                /* Send emails if passes spam check returns false */
-                if (!apply_filters('inbound_check_if_spam', false, $form_post_data)) {
-                    self::send_conversion_admin_notification($form_post_data, $form_meta_data);
-                    self::send_conversion_lead_notification($form_post_data, $form_meta_data);
-
-                    /* hook runs after form actions are completed and before page redirect */
-                    do_action('inboundnow_form_submit_actions', $form_post_data, $form_meta_data);
                 }
 
 
-                /* redirect now */
-                if ($redirect != "") {
-                    $redirect = str_replace('%3F', '/', html_entity_decode($redirect));
-                    wp_redirect($redirect);
-                    exit();
-                }
+                $form_post_data[$field] = (!is_array($value)) ? strip_tags($value) : $value;
 
             }
+
+            $form_meta_data['post_id'] = $_POST['inbound_form_id']; /* pass in form id */
+
+            /* Send emails if passes spam check returns false */
+            if (!apply_filters('inbound_check_if_spam', false, $form_post_data)) {
+                self::send_conversion_admin_notification($form_post_data, $form_meta_data);
+                self::send_conversion_lead_notification($form_post_data, $form_meta_data);
+
+                /* hook runs after form actions are completed and before page redirect */
+                do_action('inboundnow_form_submit_actions', $form_post_data, $form_meta_data);
+            }
+
+
+            /* redirect now */
+            if ($redirect != "") {
+                $redirect = str_replace('%3F', '/', html_entity_decode($redirect));
+                wp_redirect($redirect);
+                exit();
+            }
+
+
 
         }
 

@@ -65,7 +65,8 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
          */
         public static function register_post_type() {
 
-            $slug = get_option( 'lp-main-landing-page-permalink-prefix', 'go' );
+            $slug = Landing_Pages_Settings::get_setting( 'lp-main-landing-page-permalink-prefix', 'go' );
+
             $labels = array(
                 'name' => __('Landing Pages', 'inbound-pro' ),
                 'singular_name' => __('Landing Page', 'inbound-pro' ),
@@ -360,9 +361,12 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
                 $this_path = "wp-content" . $this_path[1] . "core/landing-pages/";
             }
 
-            $slug = get_option('lp-main-landing-page-permalink-prefix', 'go');
-            /*echo $slug;exit; */
-            $ab_testing = get_option('lp-main-landing-page-disable-turn-off-ab', "0");
+            /* handles local environment */
+            $this_path = str_replace("\\" , "/" , $this_path);
+
+            $slug = Landing_Pages_Settings::get_setting( 'lp-main-landing-page-permalink-prefix', 'go' );
+
+            $ab_testing = Landing_Pages_Settings::get_setting('lp-main-landing-page-disable-turn-off-ab', "0");
             if ($ab_testing === "0") {
                 add_rewrite_rule("$slug/([^/]*)/([0-9]+)/", "$slug/$1?lp-variation-id=$2", 'top');
                 add_rewrite_rule("$slug/([^/]*)?", $this_path . "modules/module.redirect-ab-testing.php?permalink_name=$1 ", 'top');
@@ -391,7 +395,7 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
             /* print_r($rules_array);exit; */
 
 
-            $slug = get_option('lp-main-landing-page-permalink-prefix', 'go');
+            $slug = Landing_Pages_Settings::get_setting( 'lp-main-landing-page-permalink-prefix', 'go' );
 
             $i = 0;
             foreach ($rules_array as $key => $val) {

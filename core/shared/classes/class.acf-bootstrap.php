@@ -45,7 +45,7 @@ class Inbound_Shared_ACF_BootStrap {
     public static function load_acf_extended_fields() {
         if (!function_exists('register_fields_font_awesome')) {
             include_once( INBOUNDNOW_SHARED_PATH . 'assets/plugins/advanced-custom-fields-font-awesome/acf-font-awesome.php');
-            include_once( INBOUNDNOW_SHARED_PATH . 'assets/plugins/acf-field-date-time-picker/acf-date_time_picker.php');
+            include_once( INBOUNDNOW_SHARED_PATH . 'assets/plugins/acf-field-date-time-picker/acf-date-time-picker.php');
         }
     }
 

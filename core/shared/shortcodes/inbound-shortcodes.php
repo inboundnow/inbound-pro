@@ -39,7 +39,9 @@ class Inbound_Shortcodes {
 
 		add_action( 'wp_enqueue_scripts',	array(__CLASS__, 'frontend_loads')); // load styles
 		add_shortcode('list', array(__CLASS__, 'inbound_shortcode_list'));
+		add_shortcode('inbound_list', array(__CLASS__, 'inbound_shortcode_list'));
 		add_shortcode('button', array(__CLASS__, 'inbound_shortcode_button'));
+		add_shortcode('inbound_button', array(__CLASS__, 'inbound_shortcode_button'));
 		add_shortcode('social_share',	array(__CLASS__, 'inbound_shortcode_social_links'));
 		//add_action('admin_notices', array(__CLASS__, 'inbound_shortcode_prompt'));
 		//add_action('admin_init', array(__CLASS__, 'inbound_shortcode_prompt_ignore'));
