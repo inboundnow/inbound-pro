@@ -24,7 +24,9 @@ var InboundSettings = (function () {
             this.initShuffle();
             this.initBootStrapToolTips();
             setTimeout(function () {
-                InboundSettings.validateAPIKey();
+                if (typeof InboundSettings.getUrlParam('setting') == 'undefined' ) {
+                    InboundSettings.validateAPIKey();
+                }
             }, 1000 * 0)
         },
         /**
@@ -33,6 +35,9 @@ var InboundSettings = (function () {
         setVars: function () {
             this.search_container = jQuery('#grid');
             this.target = InboundSettings.getUrlParam('setting');
+            if (typeof this.target != 'undefined' ) {
+                this.target = this.target.replace('+' , ' ')
+            }
             this.running_ajax = new Object();
         },
         /**
@@ -117,6 +122,10 @@ var InboundSettings = (function () {
 
                 /* set static var */
                 InboundSettings.input = jQuery(this);
+
+                if (typeof InboundSettings.input.attr('type') != 'undefined' && InboundSettings.input.attr('type') == 'search' ) {
+                    return;
+                }
 
                 /* Save Data on Change */
                 switch (event.type) {
