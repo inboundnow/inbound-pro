@@ -10,6 +10,7 @@ class Landing_Pages_Templates_List_Table extends WP_List_Table {
     private $found_data;
     private $singular;
     private $plural;
+    private $api_key;
 
     function __construct() {
 
@@ -76,6 +77,7 @@ class Landing_Pages_Templates_List_Table extends WP_List_Table {
         $args['singular'] = sanitize_key('');
 
         $this->_args = $args;
+        $this->api_key = get_option('inboundnow_master_license_key', '');
     }
 
     function get_columns() {
@@ -119,7 +121,7 @@ class Landing_Pages_Templates_List_Table extends WP_List_Table {
             usort($this->template_data, array(&$this, 'usort_reorder'));
         }
 
-        $per_page = 25;
+        $per_page = 10;
         $current_page = $this->get_pagenum();
 
 
@@ -145,7 +147,7 @@ class Landing_Pages_Templates_List_Table extends WP_List_Table {
         switch ($column_name) {
             case 'template':
                 return '<div class="capty-wrapper" style="overflow: hidden; position: relative; "><div class="capty-image"><img src="' . $item['thumbnail'] . '" class="template-thumbnail" alt="' . $item['name'] . '" id="id_' . $item['ID'] . '" title="' . $item['name'] . '">
-                            </div><div class="capty-caption" style="text-align:center;width:158px;margin-left:-6px;height: 20px; opacity: 0.7; top:-82px;position: relative;">' . $item['name'] . '</div></div>';
+                            </div><div class="capty-caption" style="text-align:center;width:158px;margin-left:0px;color:#ffffff;background:#000;height: 20px; opacity: 0.7; top:-82px;position: relative;">' . $item['name'] . '</div></div>';
             case 'category':
                 return '<span class="post-state">
 							<span class="pending states">' . $item[$column_name] . '</span>
@@ -178,7 +180,7 @@ class Landing_Pages_Templates_List_Table extends WP_List_Table {
 
     function get_bulk_actions() {
 
-        if (defined('INBOUND_PRO_PATH') && INBOUND_ACCESS_LEVEL > 0 ) {
+        if (defined('INBOUND_PRO_PATH') && Inbound_Pro_Plugin::get_customer_status() > 0 ) {
             return array(
 
                 '0' => __('See Inbound Pro -> Templates for template options. ', 'landing-pages'),
@@ -203,13 +205,13 @@ class Landing_Pages_Templates_List_Table extends WP_List_Table {
     function check_template_for_update($item) {
         $version = $item['version'];
 
-        if (defined('INBOUND_PRO_PATH') && INBOUND_ACCESS_LEVEL > 0 ) {
+        if (defined('INBOUND_PRO_PATH') && Inbound_Pro_Plugin::get_customer_status() > 0 ) {
             return $version;
         }
 
         $api_response = self::poll_api($item);
 
-        if (false !== $api_response) {
+        if ($api_response) {
             if (version_compare($version, $api_response['new_version'], '<')) {
                 $template_page = LANDINGPAGES_STORE_URL . "/downloads/" . $item['ID'] . "/";
                 $html = '<div class="update-message">' . $item['version'] . ' &nbsp;&nbsp; <font class="update-available">Version ' . $api_response['new_version'] . __( 'available' , 'inbound-pro' ). '</font><br> <a title="' . $item['name'] . '" class="thickbox" href="' . $template_page . '" target="_blank">'. __( 'View template details' , 'inbound-pro' ) .'</a> ';
@@ -229,12 +231,13 @@ class Landing_Pages_Templates_List_Table extends WP_List_Table {
      * @return bool
      */
     function poll_api( $item ) {
-        $api_params = array('edd_action' => 'get_version', 'license' => get_option('lp-license-keys-' . $item['ID']), 'name' => $item['name'], 'slug' => $item['ID'], 'nature' => 'template',);
+        $api_params = array('edd_action' => 'inbound_get_version', 'license' => $this->api_key, 'name' => $item['name'], 'slug' => $item['ID'], 'nature' => 'template',);
 
-        $request = wp_remote_post(LANDINGPAGES_STORE_URL, array('timeout' => 15, 'sslverify' => false, 'body' => $api_params));
+        $request = wp_remote_post('https://www.inboundnow.com', array('timeout' => 15, 'sslverify' => false, 'body' => $api_params));
 
         if (!is_wp_error($request)) {
             $request = json_decode(wp_remote_retrieve_body($request), true);
+
             if ($request) $request['sections'] = maybe_unserialize($request['sections']);
             return $request;
         } else {

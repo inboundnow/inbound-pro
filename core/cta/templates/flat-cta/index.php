@@ -349,10 +349,13 @@ vertical-align: middle;
 #inbound-wrapper .btn { border: 3px solid #{{submit-button-color}}; color: #{{submit-button-color}};}
 #inbound-wrapper .btn:hover, #inbound-wrapper .btn:active { color: #{content-color}; background: #{{submit-button-color}};}
 #inbound-content p {color:#{{content-text-color}};}
+
+{%php $has_header = "{{header-text}}"; if($has_header){ return '';}else{ return '.flat-header{ display: none !important;}';} %}
+{%php $has_subheader = "{{sub-header-text}}"; if($has_subheader){ return '';}else{ return '#inbound-content { display: none !important;}';} %}
 </style>
 <div id="inbound-wrapper">
 	<div id="inbound_cta_header">
-		<h1>{{header-text}}
+		<h1 class="flat-header">{{header-text}}
 
 		</h1>
 			<div id='inbound-content'>

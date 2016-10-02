@@ -57,120 +57,9 @@ if ( ! class_exists( 'Inbound_License' ) )
 				return;
 			}
 
-			/* Add licenses key to global settings array */
-			add_filter( 'lp_define_global_settings', array( $this, 'lp_settings' ), 2 );
-			add_filter( 'wp_cta_define_global_settings', array( $this, 'wp_cta_settings' ), 2 );
-			add_filter( 'wpleads_define_global_settings', array( $this, 'wpleads_settings' ), 2 );
-
-			/* save license key data / activate license keys */
-			if (is_admin()) {
-				$this->save_license_field();
-			}
-
-
-			add_action('lp_render_global_settings', array($this, 'display_license_field'));
-			add_action('wpleads_render_global_settings', array($this, 'display_license_field'));
-			add_action('wp_cta_render_global_settings', array($this, 'display_license_field'));
-
-
-
 		}
 
-		public function lp_settings( $lp_global_settings ) {
-			$lp_global_settings['lp-license-keys']['settings'][$this->plugin_slug] = array(
-					'id' => $this->plugin_slug,
-					'slug' => $this->plugin_slug,
-					'remote_download_slug' => $this->remote_download_slug,
-					'label' => sprintf( '%1$s', $this->plugin_label ),
-					'description' => 'Head to http://www.inboundnow.com/ to retrieve your license key for '.$this->plugin_label,
-					'type' => 'inboundnow-license-key',
-					'default'  => $this->master_license_key
-				);
-
-			return $lp_global_settings;
-		}
-
-		public function wp_cta_settings( $wp_cta_global_settings ) {
-
-			$wp_cta_global_settings['wp-cta-license-keys']['settings'][$this->plugin_slug] = array(
-				'id' => $this->plugin_slug,
-				'slug' => $this->plugin_slug,
-				'remote_download_slug' => $this->remote_download_slug,
-				'label' => sprintf( '%1$s', $this->plugin_label ),
-				'description' => 'Head to http://www.inboundnow.com/ to retrieve your license key for '.$this->plugin_label,
-				'type' => 'inboundnow-license-key',
-				'default'  => ''
-			);
-
-			return $wp_cta_global_settings;
-		}
-
-
-		public function wpleads_settings( $wpleads_global_settings ) {
-			$wpleads_global_settings['wpleads-license-keys']['label'] = 'License Keys';
-			$wpleads_global_settings['wpleads-license-keys']['settings'][$this->plugin_slug] = array(
-					'id' => $this->plugin_slug,
-					'slug' => $this->plugin_slug,
-					'remote_download_slug' => $this->remote_download_slug,
-					'label' => sprintf( '%1$s', $this->plugin_label ),
-					'description' => 'Head to http://www.inboundnow.com/ to retrieve your license key for '.$this->plugin_label,
-					'type' => 'inboundnow-license-key',
-					'default'  => $this->master_license_key
-			);
-
-			/*print_r($lp_global_settings);exit; */
-			return $wpleads_global_settings;
-		}
-
-
-
-		function display_license_field($field)
-		{
-			if ( $field['type']=='inboundnow-license-key' &&  ($field['slug']==$this->plugin_slug) )
-			{
-
-				$field['id']  = "inboundnow-license-keys-".$field['slug'];
-				$field['value'] =  get_option('inboundnow_master_license_key', '');
-
-				echo '<input  type="hidden" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$field['value'].'" size="30" />';
-
-
-				switch ($_GET['post_type']){
-
-					case "landing-page":
-						$prefix = "lp_";
-						break;
-					case "wp-lead":
-						$prefix = "wpleads_";
-						break;
-					case "wp-call-to-action":
-						$prefix = "wp_cta_";
-						break;
-
-				}
-				/*echo here;exit; */
-				$license_status = $this->check_license_status($field);
-
-				echo '<input type="hidden" name="inboundnow_license_status-'.$field['slug'].'" id="'.$field['id'].'" value="'.$license_status.'" size="30" />';
-
-
-				if ($license_status=='valid')
-				{
-					echo '<div class="'.$prefix.'license_status_valid">Enabled</div>';
-				}
-				else
-				{
-					echo '<div class="'.$prefix.'license_status_invalid">Disabled</div>';
-				}
-
-				echo '<div class="'.$prefix.'tooltip tool_text" title="'.$field['description'].'"></div>';
-			}
-		}
-
-
-
-		public function check_license_status($field)
-		{
+		public function check_license_status($field){
 
 			$date = date("Y-m-d");
 			$cache_date = get_transient($field['id']."-expire");
@@ -197,7 +86,6 @@ if ( ! class_exists( 'Inbound_License' ) )
 
 			$license_data = json_decode( wp_remote_retrieve_body( $response ) );
 
-
 			if( $license_data->license == 'active' ) {
 				$newDate = date('Y-m-d', strtotime($license_data->expires));
 				set_transient($field['id']."-expire", true, YEAR_IN_SECONDS / 2 );
@@ -207,81 +95,6 @@ if ( ! class_exists( 'Inbound_License' ) )
 				return 'inactive';
 			}
 		}
-
-
-
-		/* SAVE & ACTIVATE LICENSE & CHECK STATUS OF KEYS */
-
-
-		public function save_license_field()
-		{
-
-			if (!isset($_POST['inboundnow_master_license_key'])) {
-				return;
-			}
-
-			$field_id  = "inboundnow-license-keys-".$this->plugin_slug;
-
-			$license_status = get_option('inboundnow_license_status_'.$this->plugin_slug );
-
-			$master_license_key  = $_POST['inboundnow_master_license_key'];
-
-			/*
-			echo "license status:".$license_status;
-			echo "<br>";
-			echo "new_key:".$master_license_key;
-			echo "<br>";
-			echo "old_key:".$this->master_license_key;
-			echo "<br>";
-			echo "plugin_slug:".$this->plugin_slug;
-			echo "<hr>";
-			*/
-
-			if ($license_status=='valid' && $master_license_key == $this->master_license_key )
-				return;
-
-			if ( $master_license_key ) {
-				update_option($field_id ,$master_license_key);
-
-				/* data to send in our API request */
-				$api_params = array(
-					'edd_action'=> 'inbound_check_license',
-					'license' 	=> $master_license_key,
-					'item_name' =>  $this->remote_download_slug ,
-					'cache_bust'=> substr(md5(rand()),0,7)
-				);
-				/*print_r($api_params); */
-
-
-				/* Call the custom API. */
-				$response = wp_remote_get( add_query_arg( $api_params, $this->remote_api_url ), array( 'timeout' => 30, 'sslverify' => false ) );
-
-				/* decode the license data */
-				$license_data = json_decode( wp_remote_retrieve_body( $response ) );
-
-				/* $license_data->license will be either "active" or "inactive" */
-				$license_status = update_option('inboundnow_license_status_'.$this->plugin_slug, $license_data->license);
-
-			}
-			elseif ( empty($master_license_key) )
-			{
-				update_option($field_id, '' );
-				update_option('inboundnow_license_status_'.$this->plugin_slug, 'inactive');
-			}
-		}
-		/**
-		 * Check for Updates at the defined API endpoint and modify the update array.
-		 *
-		 * This function dives into the update api just when Wordpress creates its update array,
-		 * then adds a custom API call and injects the custom plugin data retrieved from the API.
-		 * It is reassembled from parts of the native Wordpress plugin update code.
-		 * See wp-includes/update.php line 121 for the original wp_update_plugins() function.
-		 *
-		 * @uses api_request()
-		 *
-		 * @param array $_transient_data Update array build by Wordpress.
-		 * @return array Modified update array with custom plugin data.
-		 */
 
 		public function pre_set_site_transient_update_plugins_filter( $_transient_data )
 		{

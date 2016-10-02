@@ -104,7 +104,7 @@ function wp_cta_load_variation( cta_id, vid, disable_ajax ) {
 		jQuery.ajax({
 			type: "GET",
 			url: cta_variation.admin_url,
-			dataType: "script",
+			dataType: "html",
 			async: false, /* required atm */
 			data : {
 				'action' : 'cta_get_variation',

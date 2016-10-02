@@ -22,6 +22,56 @@ class Landing_Pages_Settings {
 
         /* download system info  */
         add_action( 'admin_init', array( __CLASS__ , 'download_system_info' ) );
+
+        /*  Add settings to inbound pro  */
+        add_filter('inbound_settings/extend', array( __CLASS__  , 'define_pro_settings' ) );
+    }
+
+    /**
+     *  Adds pro admin settings
+     */
+    public static function define_pro_settings( $settings ) {
+        global $inbound_settings;
+
+        $settings['inbound-pro-setup'][] = array(
+            'group_name' => LANDINGPAGES_PLUGIN_SLUG ,
+            'keywords' => __('landing pages, landers, permalinks,sticky,ab testing' , 'inbound-pro'),
+            'fields' => array (
+                array(
+                    'id'  => 'header-landing-page',
+                    'type'  => 'header',
+                    'default'  => __('Landing Pages Settings', 'inbound-pro' ),
+                    'options' => null
+                ),
+                array(
+                    'id'  => 'landing-page-permalink-prefix',
+                    'label'  => __('Permalink Prefix', 'inbound-pro' ),
+                    'description'  => __("The prefix for landing page URL permalink. Example: http://www.yoursite.com/PREFIX/landing-page. Inbound Now also provides an extension that will remove the prefix if desired in the extensions area." , 'inbound-pro') ,
+                    'type'  => 'text',
+                    'default'  => 'go',
+                ),
+                array(
+                    'id'  => 'landing-page-rotation-halt',
+                    'label' => __('Sticky Variations' , 'inbound-pro'),
+                    'description' => __("With this setting enabled the landing pages plugin will prevent landing page version a/b rotation for a specific visitor that has viewed the page for 30 days." , 'inbound-pro'),
+                    'type'  => 'radio',
+                    'default'  => '0',
+                    'options' => array('1'=>'on','0'=>'off')
+                ),
+                array(
+                    'id'  => 'landing-page-disable-turn-off-ab',
+                    'label' => __('Turn Off AB Testing?' , 'inbound-pro') ,
+                    'description' => __("This will disable the AB testing functionality of your landing pages. This is to comply with Googles new PPC regulations with redirects. After saving this option <a href='/wp-admin/options-permalink.php'>visit this page to flush/reset your permalinks</a>" , 'inbound-pro'),
+                    'type'  => 'radio',
+                    'default'  => '0',
+                    'options' => array('0'=>'No Keep it on','1'=>'Yes turn AB testing Off')
+                )
+            )
+
+        );
+
+
+        return $settings;
     }
 
     /**
@@ -39,37 +89,29 @@ class Landing_Pages_Settings {
             array(
                 'id'  => 'lp_global_settings_main_header',
                 'type'  => 'header',
-                'default'  => __('Landing Pages Core Settings' , 'landing-pages') ,
+                'default'  => __('Landing Pages Core Settings' , 'inbound-pro') ,
                 'options' => null
             ),
             array(
                 'id'  => 'landing-page-permalink-prefix',
-                'label' => __( 'Default Landing Page Permalink Prefix' , 'landing-pages'),
-                'description' => __("Enter in the <span style='color:red;'>prefix</span> for landing page URLs (aka permalinks).<br><br>This is the URL Slug that will be in the landing page URL.<br><br> Example: http://www.yoursite.com/<span style='color:red;'>PREFIX</span>/landing-page .  Enter in a single word like 'go'" , 'landing-pages') ,
+                'label' => __( 'Default Landing Page Permalink Prefix' , 'inbound-pro'),
+                'description' => __("Enter in the <span style='color:red;'>prefix</span> for landing page URLs (aka permalinks).<br><br>This is the URL Slug that will be in the landing page URL.<br><br> Example: http://www.yoursite.com/<span style='color:red;'>PREFIX</span>/landing-page .  Enter in a single word like 'go'" , 'inbound-pro') ,
                 'type'  => 'text',
                 'default'  => 'go',
                 'options' => null
             ),
             array(
                 'id'  => 'landing-page-rotation-halt',
-                'label' => __('Sticky Variations' , 'landing-pages'),
-                'description' => __("With this setting enabled the landing pages plugin will prevent landing page version a/b rotation for a specific visitor that has viewed the page.<br><br>This pause on the a/b rotation will automatically expire after 30 days." , 'landing-pages'),
+                'label' => __('Sticky Variations' , 'inbound-pro'),
+                'description' => __("With this setting enabled the landing pages plugin will prevent landing page version a/b rotation for a specific visitor that has viewed the page.<br><br>This pause on the a/b rotation will automatically expire after 30 days." , 'inbound-pro'),
                 'type'  => 'radio',
                 'default'  => '0',
                 'options' => array('1'=>'on','0'=>'off')
             ),
             array(
-                'id'  => 'inbound_compatibility_mode',
-                'label' => 'Turn on compability mode',
-                'description' => "<p>This option turns on compability mode for the inbound now plugins. This is typically used if you are experiencing bugs caused by third party plugin conflicts.</p>",
-                'type'  => 'radio',
-                'default'  => '0',
-                'options' => array('1'=>'On','0'=>'Off')
-            ),
-            array(
                 'id'  => 'landing-page-disable-turn-off-ab',
-                'label' => __('Turn Off AB Testing?' , 'landing-pages') ,
-                'description' => __("This will disable the AB testing functionality of your landing pages. This is to comply with Googles new PPC regulations with redirects. After saving this option <a href='/wp-admin/options-permalink.php'>visit this page to flush/reset your permalinks</a>" , 'landing-pages'),
+                'label' => __('Turn Off AB Testing?' , 'inbound-pro') ,
+                'description' => __("This will disable the AB testing functionality of your landing pages. This is to comply with Googles new PPC regulations with redirects. After saving this option <a href='/wp-admin/options-permalink.php'>visit this page to flush/reset your permalinks</a>" , 'inbound-pro'),
                 'type'  => 'radio',
                 'default'  => '0',
                 'options' => array('0'=>'No Keep it on','1'=>'Yes turn AB testing Off')
@@ -83,18 +125,18 @@ class Landing_Pages_Settings {
             ( defined('INBOUND_ACCESS_LEVEL') && INBOUND_ACCESS_LEVEL < 1 )
         ) {
             /* Setup License Keys Tab */
-            $lp_global_settings['lp-license-keys']['label'] = __('License Keys', 'landing-pages');
+            $lp_global_settings['lp-license-keys']['label'] = __('API Key Setup', 'inbound-pro');
             $lp_global_settings['lp-license-keys']['settings'][] = array(
                 'id' => 'extensions-license-keys-header',
-                'description' => __("Head to http://www.inboundnow.com/ to retrieve your license key for this template.", 'landing-pages'),
+                'description' => __("Head to http://www.inboundnow.com/account to retrieve your API key for this template.", 'inbound-pro'),
                 'type' => 'header',
-                'default' => '<h3 class="lp_global_settings_header">' . __('Extension Licensing', 'landing-pages') . '</h3>'
+                'default' => '<h3 class="lp_global_settings_header">' . __('Inbound API Key', 'inbound-pro') . '</h3>'
             );
         }
 
         if (!defined('INBOUND_ACCESS_LEVEL') ) {
             /* Setup Extensions Tab */
-            $lp_global_settings['lp-extensions']['label'] = __( 'Extensions' , 'landing-pages');
+            $lp_global_settings['lp-extensions']['label'] = __( 'Extensions' , 'inbound-pro');
             $lp_global_settings['lp-extensions']['settings'] = array(
                 array(
                     'id'  => 'lp-ext-header',
@@ -106,7 +148,7 @@ class Landing_Pages_Settings {
         }
 
         /* Setup Debug Tab */
-        $lp_global_settings['lp-debug']['label'] = __( 'Debug' , 'landing-pages');
+        $lp_global_settings['lp-debug']['label'] = __( 'Debug' , 'inbound-pro');
         $lp_global_settings['lp-debug']['settings'] = array(
             array(
                 'id'  => 'lp-debug-header',
@@ -119,6 +161,20 @@ class Landing_Pages_Settings {
         $lp_global_settings = apply_filters('lp_define_global_settings',$lp_global_settings);
 
         return $lp_global_settings;
+    }
+
+    public static function get_setting( $field_id , $default ) {
+        global $inbound_settings;
+        $value = $default;
+
+        if (defined('INBOUND_PRO_CURRENT_VERSION')) {
+            $field_id = str_replace('lp-main-' , '', $field_id );
+            $value = (isset($inbound_settings['landing-pages'][$field_id])) ? $inbound_settings['landing-pages'][$field_id] : $default;
+        } else {
+            $value = get_option( $field_id, $default );
+        }
+
+        return $value;
     }
 
 
@@ -171,7 +227,7 @@ class Landing_Pages_Settings {
             $contentht = esc_textarea($contentht);
 
             if (!is_writable($htaccess_file)) {
-                $content = " <div class=\"error\"><h3>" . __("Oh no! Your .htaccess is not writable and A/B testing won't work unless you make your .htaccess file writable.", 'landing-pages') . "</h3></div>";
+                $content = " <div class=\"error\"><h3>" . __("Oh no! Your .htaccess is not writable and A/B testing won't work unless you make your .htaccess file writable.", 'inbound-pro') . "</h3></div>";
                 echo $content;
             } else {
                 $htaccess = '<textarea readonly="readonly" onclick="this.focus();this.select()" style="width: 90%;" rows="15" name="robotsnew">' . $contentht . '</textarea><br/>';
@@ -248,11 +304,11 @@ class Landing_Pages_Settings {
         </script>
         <div id="php-sql-lp-version" style="display:none;">
             <div id="inbound-install-status">
-                <h3><?php _e('Installation Status', 'landing-pages'); ?></h3>
+                <h3><?php _e('Installation Status', 'inbound-pro'); ?></h3>
                 <table id="lp-wordpress-site-status">
 
                     <tr valign="top">
-                        <th scope="row"><label><?php _e('PHP Version', 'landing-pages'); ?></label></th>
+                        <th scope="row"><label><?php _e('PHP Version', 'inbound-pro'); ?></label></th>
                         <td class="installation_item_cell">
                             <strong><?php echo phpversion(); ?></strong>
                         </td>
@@ -273,7 +329,7 @@ class Landing_Pages_Settings {
                         </td>
                     </tr>
                     <tr valign="top">
-                        <th scope="row"><label><?php _e('MySQL Version', 'landing-pages'); ?></label></th>
+                        <th scope="row"><label><?php _e('MySQL Version', 'inbound-pro'); ?></label></th>
                         <td class="installation_item_cell">
                             <strong><?php echo $wpdb->db_version(); ?></strong>
                         </td>
@@ -294,7 +350,7 @@ class Landing_Pages_Settings {
                         </td>
                     </tr>
                     <tr valign="top">
-                        <th scope="row"><label><?php _e('WordPress Version', 'landing-pages'); ?></label></th>
+                        <th scope="row"><label><?php _e('WordPress Version', 'inbound-pro'); ?></label></th>
                         <td class="installation_item_cell">
                             <strong><?php echo get_bloginfo("version"); ?></strong>
                         </td>
@@ -308,16 +364,16 @@ class Landing_Pages_Settings {
                                 ?>
                                &times;
                                 <span
-                                    class="installation_item_message"><?php _e('landing pages requires version X or higher', 'landing-pages'); ?></span>
+                                    class="installation_item_message"><?php _e('landing pages requires version X or higher', 'inbound-pro'); ?></span>
                                 <?php
                             }
                             ?>
                         </td>
                     </tr>
                     <tr valign="top">
-                        <th scope="row"><label><?php _e('Landing Page Version', 'landing-pages'); ?></label></th>
+                        <th scope="row"><label><?php _e('Landing Page Version', 'inbound-pro'); ?></label></th>
                         <td class="installation_item_cell">
-                            <strong><?php _e('Version', 'landing-pages'); ?><?php echo LANDINGPAGES_CURRENT_VERSION; ?></strong>
+                            <strong><?php _e('Version', 'inbound-pro'); ?><?php echo LANDINGPAGES_CURRENT_VERSION; ?></strong>
                         </td>
                         <td>
 
@@ -331,7 +387,7 @@ class Landing_Pages_Settings {
             <div id="htaccess-contents">
 
                 <?php if ($htaccess != "") {
-                    echo "<h3>" . __('The contents of your .htaccess file', 'landing-pages') . ":</h3>";
+                    echo "<h3>" . __('The contents of your .htaccess file', 'inbound-pro') . ":</h3>";
                     echo $htaccess;
                 } ?>
             </div>
@@ -534,7 +590,7 @@ class Landing_Pages_Settings {
                     $field['id'] = $field['option_name'];
                 }
 
-                if ($field['id'] == 'main-landing-page-permalink-prefix') {
+                if ($field['id'] == 'lp-main-landing-page-permalink-prefix') {
                     /*echo "here"; */
                     global $wp_rewrite;
                     $wp_rewrite->flush_rules();
@@ -550,11 +606,9 @@ class Landing_Pages_Settings {
                         'license' =>   sanitize_text_field($_POST['inboundnow_master_license_key']),
                         'item_name' => $slug
                     );
-                    /* error_log(print_r($api_params, true)); */
 
                     /* Call the edd API */
                     $response = wp_remote_get(add_query_arg($api_params, INBOUNDNOW_STORE_URL ), array('timeout' => 30, 'sslverify' => false));
-                    /* error_log(print_r($response, true)); */
 
                     /* make sure the response came back okay */
                     if (is_wp_error($response)) {
@@ -563,7 +617,7 @@ class Landing_Pages_Settings {
 
                     /* decode the license data */
                     $license_data = json_decode(wp_remote_retrieve_body($response));
-                    /* error_log(print_r($license_data, true)); */
+
 
                     /* $license_data->license will be either "active" or "inactive" */
                     update_option('lp_license_status-' . $field['slug'], $license_data->license);
@@ -654,6 +708,7 @@ class Landing_Pages_Settings {
                     } else {
                         $input_type = 'text';
                     }
+
 
                     $license_status = self::check_license_status($field);
 
