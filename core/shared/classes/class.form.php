@@ -725,7 +725,7 @@ if (!class_exists('Inbound_Forms')) {
         static function do_actions() {
 
             /* only process actions when told to */
-            if (!isset($_POST['inbound_submitted']) || !$_POST['inbound_submitted']) {
+            if (!isset($_POST['inbound_submitted']) || (!$_POST['inbound_submitted'] || $_POST['inbound_submitted'] =='false' ) ) {
                 return;
             }
 
