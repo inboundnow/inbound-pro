@@ -304,7 +304,7 @@ if (!class_exists('CTA_Metaboxes')) {
 								switch ($variation_status) {
 									case 'paused':
 										?>
-										<span class='is-paused'>(<?php _e('Paused', 'landing-pages') ?>)</span>
+										<span class='is-paused'>(<?php _e('Paused', 'inbound-pro') ?>)</span>
 										<?php
 										break;
 									default:

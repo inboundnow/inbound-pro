@@ -3,7 +3,7 @@
 Plugin Name: Calls to Action
 Plugin URI: http://www.inboundnow.com/cta/
 Description: Display Targeted Calls to Action on your WordPress site.
-Version: 2.8.4
+Version: 2.8.5
 Author: Inbound Now
 Author URI: http://www.inboundnow.com/
 Text Domain: cta
@@ -30,10 +30,10 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 		*/
 		private static function define_constants() {
 
-			define('WP_CTA_CURRENT_VERSION', '2.8.4' );
+			define('WP_CTA_CURRENT_VERSION', '2.8.5' );
 			define('WP_CTA_URLPATH', plugins_url( '/' , __FILE__ ) );
 			define('WP_CTA_PATH', plugin_dir_path( __FILE__ ) );
-			define('WP_CTA_SLUG', plugin_basename( dirname(__FILE__) ) );
+			define('WP_CTA_SLUG', 'cta' );
 			define('WP_CTA_FILE', __FILE__ );
 			$uploads = wp_upload_dir();
 			define('WP_CTA_UPLOADS_PATH', $uploads['basedir'].'/calls-to-action/templates/' );
@@ -50,6 +50,7 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 			switch (is_admin()) :
 				case true :
 					/* loads admin files */
+					include_once( WP_CTA_PATH . 'classes/class.settings.php');
 					include_once( WP_CTA_PATH . 'classes/class.activation.php');
 					include_once( WP_CTA_PATH . 'classes/class.activation.database-routines.php');
 					include_once( WP_CTA_PATH . 'classes/class.post-type.wp-call-to-action.php');
@@ -59,7 +60,6 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 					include_once( WP_CTA_PATH . 'classes/class.menus.php');
 					include_once( WP_CTA_PATH . 'classes/class.ajax.listeners.php');
 					include_once( WP_CTA_PATH . 'classes/class.enqueues.php');
-					include_once( WP_CTA_PATH . 'classes/class.global-settings.php');
 					include_once( WP_CTA_PATH . 'classes/class.clone-post.php');
 					include_once( WP_CTA_PATH . 'classes/class.cta.variations.php');
 					include_once( WP_CTA_PATH . 'classes/class.widget.static.php');
@@ -77,6 +77,7 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 
 				case false :
 					/* load front-end files */
+					include_once( WP_CTA_PATH . 'classes/class.settings.php');
 					include_once( WP_CTA_PATH . 'classes/class.load-extensions.php');
 					include_once( WP_CTA_PATH . 'classes/class.post-type.wp-call-to-action.php');
 					include_once( WP_CTA_PATH . 'classes/class.extension.wp-lead.php');
