@@ -7,9 +7,9 @@
  * @subpackage    Global Settings
  */
 
-if (!class_exists('CTA_Global_Settings')) {
+if (!class_exists('CTA_Settings')) {
 
-    class CTA_Global_Settings {
+    class CTA_Settings {
 
         static $core_settings;
         static $active_tab;
@@ -27,6 +27,9 @@ if (!class_exists('CTA_Global_Settings')) {
         public static function add_hooks() {
             add_action('admin_enqueue_scripts', array(__CLASS__, 'enqueue_scripts'));
             add_filter('plugin_action_links_cta/calls-to-action.php', array(__CLASS__, 'plugin_action_links'));
+            /*  Add settings to inbound pro  */
+            add_filter('inbound_settings/extend', array( __CLASS__  , 'define_pro_settings' ) );
+
         }
 
         /**
@@ -42,11 +45,42 @@ if (!class_exists('CTA_Global_Settings')) {
             wp_enqueue_style('wp-cta-css-global-settings-here', WP_CTA_URLPATH . 'assets/css/admin-global-settings.css');
         }
 
+        /**
+         *  Adds pro admin settings
+         */
+        public static function define_pro_settings( $settings ) {
+            global $inbound_settings;
+
+            $settings['inbound-pro-setup'][] = array(
+                'group_name' => WP_CTA_SLUG ,
+                'keywords' => __('cta,call to action,calls to action' , 'inbound-pro'),
+                'fields' => array (
+                    array(
+                        'id'  => 'header-cta',
+                        'type'  => 'header',
+                        'default'  => __('Call To Action Settings', 'inbound-pro' ),
+                        'options' => null
+                    ),
+                    array(
+                        'id' => 'disable-ajax-variation-discovery',
+                        'label' => __('Disable Split Testing.', 'inbound-pro'),
+                        'description' => __('Enabling this setting may improve server performance at the loss of split testing. Only version A will be displayed for every CTA.', 'inbound-pro'),
+                        'type' => 'radio',
+                        'default' => '0',
+                        'options' => array(0 => 'Off', 1 => 'On')
+                    )
+                )
+
+            );
+
+
+            return $settings;
+        }
 
         /**
          *    Get global setting data
          */
-        public static function get_core_settings() {
+        public static function define_stand_alone_settings() {
             global $wp_cta_global_settings;
 
             // Setup navigation and display elements
@@ -56,14 +90,6 @@ if (!class_exists('CTA_Global_Settings')) {
 
             $wp_cta_global_settings[$tab_slug]['settings'] =
                 array(
-                    array(
-                        'id' => 'cta-global-settings-main-header',
-                        'type' => 'header',
-                        'default' => __('<h4>CTA Core Settings</h4>', 'inbound-pro'),
-                        'description' => "<a id='clear-cta-cookies' class='button'>" . __('Clear & Reset all Call to Action Cookies', 'inbound-pro') . "</a><div class='wp_cta_tooltip tool_radio' title='" . __('This will reset all CTA cookies to make popups work again etc. For testing purposes.', 'inbound-pro') . "'></div>",
-                        'options' => null,
-                        'label' => ''
-                    ),
                     array(
                         'id' => 'disable-ajax-variation-discovery',
                         'label' => __('Disable Split Testing.', 'inbound-pro'),
@@ -182,19 +208,19 @@ if (!class_exists('CTA_Global_Settings')) {
         /**
          *    Display global settings
          */
-        public static function display_global_settings() {
+        public static function display_stand_alone_settings() {
             global $wpdb;
 
-            self::get_core_settings();
+            self::define_stand_alone_settings();
 
             self::inline_js();
-            self::save_settings();
+            self::save_stand_alone_settings();
             self::display_sidebar();
             self::display_navigation();
 
             foreach (self::$core_settings as $key => $data) {
                 if (isset($data['settings'])) {
-                    self::render_setting($key, $data['settings']);
+                    self::save_stand_alone_setting($key, $data['settings']);
                 }
             }
 
@@ -285,11 +311,11 @@ if (!class_exists('CTA_Global_Settings')) {
 
 
         /**
-         *    Renders setting field
+         * Renders setting field for Landing Page stand alone version
          * @param STRING $key tab key
          * @param ARRAY $custom_fields field settings
          */
-        public static function render_setting($key, $custom_fields) {
+        public static function save_stand_alone_setting($key, $custom_fields) {
 
             ($key == self::$active_tab) ? $display = 'block' : $display = 'none';
 
@@ -448,21 +474,6 @@ if (!class_exists('CTA_Global_Settings')) {
                         return ret;
                     };
 
-                    jQuery("body").on('click', '#clear-cta-cookies', function () {
-
-                        jQuery.removeCookie('wp_cta_global', {path: '/'}); // remove global cookie
-                        var cta_cookies = getCookieByMatch(/^wp_cta_\d+=/);
-                        var length = cta_cookies.length,
-                            element = null;
-                        for (var i = 0; i < length; i++) {
-                            element = cta_cookies[i];
-                            cookie_name = element.split(/=/);
-                            cookie_name = cookie_name[0];
-                            jQuery.removeCookie(cookie_name, {path: '/'}); // remove each id cookie
-                        }
-
-                    });
-
                     jQuery('.wp-cta-nav-tab').live('click', function () {
                         var this_id = this.id.replace('tabs-', '');
                         //alert(this_id);
@@ -484,15 +495,13 @@ if (!class_exists('CTA_Global_Settings')) {
         /**
          *    Listens for POST & saves settings changes
          */
-        public static function save_settings() {
+        public static function save_stand_alone_settings() {
 
             if (!isset($_POST['nature'])) {
                 return;
             }
 
-
-            self::get_core_settings();
-
+            self::define_stand_alone_settings();
 
             foreach (self::$core_settings as $key => $data) {
                 if (!isset(self::$core_settings[$key]['settings'])) {
@@ -554,7 +563,6 @@ if (!class_exists('CTA_Global_Settings')) {
                             $bool = update_option($field['id'], $field['default']);
                         }
                     } else {
-                        //print_r($field);
                         if ($field['type'] == 'license-key' && $new) {
 
                             $license_status = get_option('wp_cta_license_status-' . $field['slug']);
@@ -563,27 +571,27 @@ if (!class_exists('CTA_Global_Settings')) {
                                 continue;
                             }
 
-                            // retrieve the license from the database
+                            /* retrieve the license from the database */
                             $license = trim(get_option('edd_sample_license_key'));
 
-                            // data to send in our API request
+                            /* data to send in our API request */
                             $api_params = array(
                                 'edd_action' => 'activate_license',
                                 'license' => $new,
                                 'item_name' => $field['slug'] // the name of our product in EDD
                             );
 
-                            // Call the custom API.
+                            /* Call the custom API. */
                             $response = wp_remote_get(add_query_arg($api_params, WP_CTA_STORE_URL), array('timeout' => 15, 'sslverify' => false));
 
-                            // make sure the response came back okay
+                            /* make sure the response came back okay */
                             if (is_wp_error($response))
                                 break;
 
-                            // decode the license data
+                            /* decode the license data */
                             $license_data = json_decode(wp_remote_retrieve_body($response));
 
-                            // $license_data->license will be either "active" or "inactive"
+                            /* $license_data->license will be either "active" or "inactive" */
                             $license_status = update_option('wp_cta_license_status-' . $field['slug'], $license_data->license);
                         }
                     }
@@ -594,15 +602,35 @@ if (!class_exists('CTA_Global_Settings')) {
             }
 
         }
+
+        /**
+         * Get setting value from DB. Handles stand alone landing pages plugin differently from Inbound Pro included landing pages plugin
+         * @param $field_id
+         * @param $default
+         * @return mixed
+         */
+        public static function get_setting( $field_id , $default ) {
+            global $inbound_settings;
+            $value = $default;
+
+            if (defined('INBOUND_PRO_CURRENT_VERSION')) {
+                $field_id = str_replace('wp-cta-main-' , '', $field_id );
+                $value = (isset($inbound_settings[WP_CTA_SLUG][$field_id])) ? $inbound_settings[WP_CTA_SLUG][$field_id] : $default;
+            } else {
+                $value = get_option( $field_id, $default );
+            }
+
+            return $value;
+        }
     }
 
     /**
-     *    Loads CTA_Global_Settings on admin_init
+     *    Loads CTA_Settings on admin_init
      */
-    function load_CTA_Global_Settings() {
-        $CTA_Global_Settings = new CTA_Global_Settings;
+    function load_CTA_Settings() {
+        new CTA_Settings;
     }
 
-    add_action('admin_init', 'load_CTA_Global_Settings');
+    add_action('admin_init', 'load_CTA_Settings');
 
 }

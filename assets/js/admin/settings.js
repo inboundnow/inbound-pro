@@ -319,7 +319,24 @@ var InboundSettings = (function () {
 
                 /* Validate api Key */
                 if (!this.target) {
-                    InboundSettings.validateAPIKey();
+                    InboundSettings.validateAPIKey( false );
+                }
+
+            });
+
+            /* add listenrs for license key validation */
+            jQuery('#reauthorize-api-key').click( function () {
+                /* set static var */
+                InboundSettings.input = jQuery('.api');
+
+                /* dont do squat if the api key does not reach a certain length */
+                if (InboundSettings.input.val().length < 10) {
+                    return;
+                }
+
+                /* Validate api Key */
+                if (!this.target) {
+                    InboundSettings.validateAPIKey( true );
                 }
 
             });
@@ -632,7 +649,7 @@ var InboundSettings = (function () {
         /**
          *  Validate API Key
          */
-        validateAPIKey: function () {
+        validateAPIKey: function ( clear_cache ) {
 
             if (jQuery('.api').length === 0) {
                 return;
@@ -656,7 +673,8 @@ var InboundSettings = (function () {
                 data: {
                     action: 'inbound_validate_api_key',
                     api_key: InboundSettings.input.val(),
-                    site: inboundSettingsLocalVars.siteURL
+                    site: inboundSettingsLocalVars.siteURL,
+                    clear_cache: clear_cache
                 },
                 dataType: "json",
                 timeout: 20000,

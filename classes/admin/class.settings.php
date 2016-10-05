@@ -754,6 +754,9 @@ class Inbound_Pro_Settings {
 				echo '	<label>'.__('Inbound API Key:' , 'inbound-pro' ) .'</label>';
 				echo '		<input type="text" class="api" name="'.$field['id'].'" id="'.$field['id'].'" placeholder="'.$field['placeholder'].'" value="'.$field['value'].'" data-field-type="'.$field['type'].'" data-field-group="'.$group['group_name'].'"  data-special-handler="true"/>';
 				echo '</div>';
+				echo '<div class="api-key-reauth">';
+				echo '		<span class="ink-button blue" id="reauthorize-api-key" />' . __('Rebuild Permissions' , 'inbound-pro') . '</span>';
+				echo '</div>';
 				break;
 			case 'header':
 				$extra = (isset($field['default'])) ? $field['default'] : '';

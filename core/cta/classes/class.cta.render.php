@@ -403,7 +403,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
             global $post;
 
             /* Get Variation Selection Nature */
-            self::$instance->disable_ajax = get_option('wp-cta-main-disable-ajax-variation-discovery', 0 );
+            self::$instance->disable_ajax = CTA_Settings::get_setting('wp-cta-main-disable-ajax-variation-discovery', 0 );
 
             $post_id = self::$instance->obj_id;
 
@@ -1280,7 +1280,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
         function load_shortcode_variation_js( $cta_id, $variation_id = null, $return = false ) {
 
             if ( !isset(self::$instance->disable_ajax) ) {
-                self::$instance->disable_ajax = get_option('wp-cta-main-disable-ajax-variation-discovery', 0 );
+                self::$instance->disable_ajax = CTA_Settings::get_setting('wp-cta-main-disable-ajax-variation-discovery', 0 );
             }
 
             $script =	"<script type='text/javascript'>";

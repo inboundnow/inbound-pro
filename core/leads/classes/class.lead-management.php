@@ -142,9 +142,6 @@ if (!class_exists('Leads_Manager')) {
         public static function display_ui() {
             global $wpdb;
 
-            /* Load only our scripts */
-            Inbound_Compatibility::inbound_compatibilities_mode();
-
             /* listen for and display notications */
             self::display_notifications();
             /* display header */
@@ -853,7 +850,6 @@ if (!class_exists('Leads_Manager')) {
 
             //handle posted data
             $ids      = json_decode(stripslashes($_POST['data']['ids']));
-
             $limit    = $_POST['data']['limit'];
             $offset   = $_POST['data']['offset'];
             $total    = $_POST['data']['total'];
@@ -873,7 +869,7 @@ if (!class_exists('Leads_Manager')) {
             $path = str_replace($today_year.'/'.$today_month.'/','',$path);
             if(file_exists($path)){
                 if($is_first == 1){
-                    //@unlink($path."/".$filename.".csv");
+                    //unlink($path."/".$filename.".csv");
                 }
             } else {
                 mkdir($path, 0755, true);

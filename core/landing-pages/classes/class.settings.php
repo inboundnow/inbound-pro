@@ -77,7 +77,7 @@ class Landing_Pages_Settings {
     /**
      * Loads default global settings & extends them
      */
-    public static function get_settings() {
+    public static function get_stand_alone_settings() {
         global $lp_global_settings;
 
         /* Setup Main Navigation Tab and Settings */
@@ -163,6 +163,12 @@ class Landing_Pages_Settings {
         return $lp_global_settings;
     }
 
+    /**
+     * Get setting value from DB. Handles stand alone landing pages plugin differently from Inbound Pro included landing pages plugin
+     * @param $field_id
+     * @param $default
+     * @return mixed
+     */
     public static function get_setting( $field_id , $default ) {
         global $inbound_settings;
         $value = $default;
@@ -217,7 +223,7 @@ class Landing_Pages_Settings {
         global $wpdb;
 
 
-        $lp_global_settings = Landing_Pages_Settings::get_settings();
+        $lp_global_settings = self::get_stand_alone_settings();
 
         $htaccess = "";
         if ((isset($_SERVER['SERVER_SOFTWARE']) && stristr($_SERVER['SERVER_SOFTWARE'], 'nginx') === false) && file_exists(get_home_path() . ".htaccess")) {
@@ -242,7 +248,7 @@ class Landing_Pages_Settings {
 
         do_action('lp_pre_display_global_settings');
 
-        self::save_settings();
+        self::save_stand_alone_settings();
 
         echo '<h2 class="nav-tab-wrapper">';
 
@@ -270,7 +276,7 @@ class Landing_Pages_Settings {
 
 
         foreach ($lp_global_settings as $key => $data) {
-            self::render_settings($key, $data['settings'], $active_tab);
+            self::render_stand_alone_settings($key, $data['settings'], $active_tab);
         }
 
         echo '<div style="float:left;padding-left:9px;padding-top:20px;">
@@ -282,14 +288,14 @@ class Landing_Pages_Settings {
             <hr>
             <div id="more-templates">
                 <center>
-                    <a href="http://www.inboundnow.com/products/landing-pages/templates/" target="_blank"><img
+                    <a href="http://www.inboundnow.com/marketplace/?show=landing-pages" target="_blank"><img
                             src="<?php echo LANDINGPAGES_URLPATH; ?>assets/images/templates-image.png"></a>
 
                 </center>
             </div>
             <div id="more-addons">
                 <center>
-                    <a href="http://www.inboundnow.com/products/landing-pages/extensions/" target="_blank"><img
+                    <a href="http://www.inboundnow.com/marketplace/?show=extensions" target="_blank"><img
                             src="<?php echo LANDINGPAGES_URLPATH; ?>assets/images/add-on-image.png"></a>
                 </center>
             </div>
@@ -570,9 +576,9 @@ class Landing_Pages_Settings {
     /**
      * Saves global settings
      */
-    public static function save_settings() {
+    public static function save_stand_alone_settings() {
 
-        $lp_global_settings = Landing_Pages_Settings::get_settings();
+        $lp_global_settings = self::get_stand_alone_settings();
 
         if (!isset($_POST['nature'])) {
             return;
@@ -639,7 +645,7 @@ class Landing_Pages_Settings {
      * @param $custom_fields
      * @param $active_tab
      */
-    public static function render_settings($key, $custom_fields, $active_tab) {
+    public static function render_stand_alone_settings($key, $custom_fields, $active_tab) {
         if (!$custom_fields) {
             return;
         }

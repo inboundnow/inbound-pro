@@ -193,12 +193,12 @@ if ( !class_exists('CTA_Activation') ) {
                 self::abort_activation(
                     array(
                         'title' => 'Installation aborted',
-                        'message' => __('Calls to Action plugin could not be installed', 'landing-pages'),
+                        'message' => __('Calls to Action plugin could not be installed', 'inbound-pro'),
                         'details' => array(
-                            __( 'Server PHP Version', 'landing-pages' ) => phpversion(),
-                            __( 'Required PHP Version', 'landing-pages' ) => self::$version_php
+                            __( 'Server PHP Version', 'inbound-pro' ) => phpversion(),
+                            __( 'Required PHP Version', 'inbound-pro' ) => self::$version_php
                         ),
-                        'solution' => sprintf( __( 'Please contact your hosting provider to upgrade PHP to %s or greater', 'landing-pages'), self::$version_php )
+                        'solution' => sprintf( __( 'Please contact your hosting provider to upgrade PHP to %s or greater', 'inbound-pro'), self::$version_php )
                     )
                 );
             }
@@ -207,12 +207,12 @@ if ( !class_exists('CTA_Activation') ) {
             if ( version_compare( $wp_version, self::$version_wp, '<' ) ) {
                 self::abort_activation( array(
                         'title' => 'Installation aborted',
-                        'message' => __('Calls to Action plugin could not be installed', 'landing-pages'),
+                        'message' => __('Calls to Action plugin could not be installed', 'inbound-pro'),
                         'details' => array(
-                            __( 'WordPress Version', 'landing-pages' ) => $wp_version,
-                            __( 'Required WordPress Version', 'landing-pages' ) => self::$version_wp
+                            __( 'WordPress Version', 'inbound-pro' ) => $wp_version,
+                            __( 'Required WordPress Version', 'inbound-pro' ) => self::$version_wp
                         ),
-                        'solution' => sprintf( __( 'Please update landing pages to version %s or greater.', 'landing-pages'), self::$version_wp )
+                        'solution' => sprintf( __( 'Please update landing pages to version %s or greater.', 'inbound-pro'), self::$version_wp )
                     )
                 );
             }
@@ -221,12 +221,12 @@ if ( !class_exists('CTA_Activation') ) {
             if ( defined('LANDINGPAGES_CURRENT_VERSION') && version_compare( LANDINGPAGES_CURRENT_VERSION, self::$version_lp, '<' ) ) {
                 self::abort_activation( array(
                         'title' => 'Installation aborted',
-                        'message' => __('Calls to Action plugin could not be installed', 'landing-pages'),
+                        'message' => __('Calls to Action plugin could not be installed', 'inbound-pro'),
                         'details' => array(
-                            __( 'Calls to Action Version', 'landing-pages' ) => LANDINGPAGES_CURRENT_VERSION,
-                            __( 'Required Calls to Action Version', 'landing-pages' ) => self::$version_lp
+                            __( 'Calls to Action Version', 'inbound-pro' ) => LANDINGPAGES_CURRENT_VERSION,
+                            __( 'Required Calls to Action Version', 'inbound-pro' ) => self::$version_lp
                         ),
-                        'solution' => sprintf( __( 'Please update Calls to Action to version %s or greater.', 'landing-pages'), self::$version_lp )
+                        'solution' => sprintf( __( 'Please update Calls to Action to version %s or greater.', 'inbound-pro'), self::$version_lp )
                     )
                 );
             }
@@ -235,12 +235,12 @@ if ( !class_exists('CTA_Activation') ) {
             if ( defined('WPL_CURRENT_VERSION') && version_compare( WPL_CURRENT_VERSION, self::$version_leads, '<' ) ) {
                 self::abort_activation( array(
                         'title' => 'Installation aborted',
-                        'message' => __('Calls to Action plugin could not be installed', 'landing-pages'),
+                        'message' => __('Calls to Action plugin could not be installed', 'inbound-pro'),
                         'details' => array(
-                            __( 'Leads Version', 'landing-pages' ) => WPL_CURRENT_VERSION,
-                            __( 'Required Leads Version', 'landing-pages' ) => self::$version_leads
+                            __( 'Leads Version', 'inbound-pro' ) => WPL_CURRENT_VERSION,
+                            __( 'Required Leads Version', 'inbound-pro' ) => self::$version_leads
                         ),
-                        'solution' => sprintf( __( 'Please update Leads to version %s or greater.', 'landing-pages'), self::$version_leads )
+                        'solution' => sprintf( __( 'Please update Leads to version %s or greater.', 'inbound-pro'), self::$version_leads )
                     )
                 );
             }
