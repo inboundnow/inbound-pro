@@ -804,6 +804,8 @@ class Inbound_SparkPost_Stats {
 
         /* discover sending domains */
         $domains = $sparkpost->get_domains();
+        $webhooks = $sparkpost->get_webhooks();
+
 
         /* check if webhooks are created */
         $webhook_status = __('not created' , 'inbound-pro');
@@ -811,6 +813,23 @@ class Inbound_SparkPost_Stats {
             $webhook = $sparkpost->get_webhook($inbound_settings['inbound-mailer']['sparkpost']['webhook']['id']);
 
             if ( isset($webhook['results']['name']) && $webhook['results']['name'] == 'Inbound Now Webhook' ) {
+                $webhook_status = '<span style="color:green;!important;">'.__('created' , 'inbound-pro') . '</span>';
+            }
+        } else if (isset($webhooks['results']) && count($webhooks['results']) > 0 ) {
+            /* If for any reason we lost data and the webhooks still exist lets find them and update the data */
+            foreach ($webhooks['results'] as $key => $webhook) {
+
+                if ( $webhook['name'] != 'Inbound Now Webhook') {
+                    continue;
+                }
+
+                if (!strstr($webhook['target'] , site_url() )) {
+                    continue;
+                }
+
+                $inbound_settings['inbound-mailer']['sparkpost']['webhook']['id'] = $webhook['id'];
+
+                Inbound_Options_API::update_option('inbound-pro', 'settings', $inbound_settings);
                 $webhook_status = '<span style="color:green;!important;">'.__('created' , 'inbound-pro') . '</span>';
             }
         }

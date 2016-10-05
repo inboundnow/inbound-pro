@@ -43,7 +43,7 @@ if (have_posts()) : while (have_posts()) : the_post();
         <?php do_action('inbound-mailer/email/header'); ?>
     </head>
     <body bgcolor="<?php echo $contrast_background_color; ?>" style="">
-    <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="<?php echo $contrast_background_color; ?>" style="background-color:<?php echo $contrast_background_color; ?>;margin:0;padding:0;color:#444444;font-family: 'proxima_nova_regular', arial, sans-serif;  font-size: 17px;line-height: 35px; color: #70767e;  ">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="<?php echo $contrast_background_color; ?>" style="background-color:<?php echo $contrast_background_color; ?>;margin:0;padding:0;color:#444444;font-family: 'proxima_nova_regular', Arial, Helvetica, sans-serif;  font-size: 17px;line-height: 35px; color: #70767e;  ">
         <tbody>
         <tr>
             <td>

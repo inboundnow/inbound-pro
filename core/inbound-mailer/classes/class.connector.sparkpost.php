@@ -84,6 +84,38 @@ if ( !class_exists('Inbound_SparkPost') ) {
 		 * @param $webhook_args
 		 * @return mixed
 		 */
+		public static function get_webhooks(  ){
+
+			$request_url = 'https://api.sparkpost.com/api/v1/webhooks/';
+
+			$webhook_args = array(
+				//'timezone' => ''
+			);
+
+			$args = array(
+				'timeout' => 45,
+				'redirection' => 5,
+				'httpversion' => '1.0',
+				'blocking' => true,
+				'headers' => array(
+					'Accecpt'  => 'application/json',
+					'Authorization' =>  self::$apikey
+
+				),
+				'body' => null,
+				'cookies' => array()
+			);
+
+			$response = wp_remote_get( add_query_arg($webhook_args , $request_url), $args );
+
+			return json_decode($response['body'] , true);
+
+		}
+
+		/**
+		 * @param $webhook_args
+		 * @return mixed
+		 */
 		public static function create_webhook( $webhook_args ){
 
 			$request_url = 'https://api.sparkpost.com/api/v1/webhooks';
