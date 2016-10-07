@@ -78,6 +78,7 @@ class Landing_Pages_Templates_List_Table extends WP_List_Table {
 
         $this->_args = $args;
         $this->api_key = get_option('inboundnow_master_license_key', '');
+
     }
 
     function get_columns() {
