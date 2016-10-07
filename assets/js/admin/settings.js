@@ -364,7 +364,7 @@ var InboundSettings = (function () {
             /* Add listeners for oauth close button */
             jQuery(document).on('tb_unload', '#TB_window', function (e) {
                 /* listen for success */
-                var success = jQuery('iframe').contents().find('.success');
+                var success = jQuery('#TB_iframeContent').contents().find('.success');
 
                 if (success.length) {
                     InboundSettings.setAuthorized();
