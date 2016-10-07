@@ -69,6 +69,9 @@ The plugin is also fully extendable and has a number of actions, filters, and ho
 
 == Changelog ==
 
+= 2.8.6 =
+* [fix] checks if mb_convert_encoding exists before it attempts to make use of it.
+
 = 2.8.5 =
 * [fix] admin emails sending twice during form submission.
 * [fix] Fixing issue with [inbound_button] shortcode having wrong closing tag
