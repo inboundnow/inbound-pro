@@ -32,23 +32,23 @@ if (!class_exists('Leads_Admin_Notices')) {
 			$user_id = $current_user->ID;
 
 			if ( isset( $_GET['inbound-message'] ) && 'user-id-does-not-exits' == $_GET['inbound-message'] ) {
-				self::throw_notice( __( 'User ID provided does not exist.', 'leads' ) , 'error' );
+				self::throw_notice( __( 'User ID provided does not exist.', 'inbound-pro' ) , 'error' );
 			}
 
 			if ( isset( $_GET['inbound-message'] ) && 'api-key-generated' == $_GET['inbound-message'] ) {
-				self::throw_notice( __( 'API keys successfully generated.', 'leads' ) , 'updated' );
+				self::throw_notice( __( 'API keys successfully generated.', 'inbound-pro' ) , 'updated' );
 			}
 
 			if ( isset( $_GET['inbound-message'] ) && 'api-key-exists' == $_GET['inbound-message'] ) {
-				self::throw_notice(  __( 'The specified user already has API keys.', 'leads' ), 'error' );
+				self::throw_notice(  __( 'The specified user already has API keys.', 'inbound-pro' ), 'error' );
 			}
 
 			if ( isset( $_GET['inbound-message'] ) && 'api-key-regenerated' == $_GET['inbound-message']  ) {
-				self::throw_notice(  __( 'API keys successfully regenerated.', 'leads' ), 'updated' );
+				self::throw_notice(  __( 'API keys successfully regenerated.', 'inbound-pro' ), 'updated' );
 			}
 
 			if ( isset( $_GET['inbound-message'] ) && 'api-key-revoked' == $_GET['inbound-message'] ) {
-				self::throw_notice(  __( 'API keys successfully revoked.', 'leads' ), 'updated' );
+				self::throw_notice(  __( 'API keys successfully revoked.', 'inbound-pro' ), 'updated' );
 			}
 
 			if ($pagenow == 'edit.php' && $post_type == 'wp-lead' && isset($_REQUEST['exported']) && (int)$_REQUEST['exported']) {

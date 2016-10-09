@@ -321,7 +321,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
 
             $email = self::$mapped_fields['wpleads_email_address']['value'];
-            $api_key = get_option('wpl-main-extra-lead-data', "");
+            $api_key = Leads_Settings::get_setting('wpl-main-extra-lead-data', "");
 
 
             $social_data = get_post_meta($post->ID, 'social_data', true);
@@ -869,7 +869,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                     $wp_user_id = get_post_meta($post->ID, 'wpleads_wordpress_user_id', true);
                     if (isset($wp_user_id) && ($wp_user_id != 1)) {
                         $edit_user_link = get_edit_user_link($wp_user_id);
-                        //echo '<a  target="_blank" href="'.$edit_user_link.'">'. __( 'Edit User Profile' , 'leads' ) .'</a>';
+                        //echo '<a  target="_blank" href="'.$edit_user_link.'">'. __( 'Edit User Profile' , 'inbound-pro' ) .'</a>';
                     }
                     ?>
                 </div>
@@ -1717,7 +1717,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
                 </div>
             <?php
-            $api_key = get_option('wpl-main-extra-lead-data', "");
+            $api_key = Leads_Settings::get_setting('wpl-main-extra-lead-data', "");
 
             if ($api_key === "" || empty($api_key)) {
                 echo "<div class='lead-notice'>Please <a href='" . esc_url(admin_url(add_query_arg(array('post_type' => 'wp-lead', 'page' => 'wpleads_global_settings'), 'edit.php'))) . "'>enter your Full Contact API key</a> for additional lead data. <a href='http://www.inboundnow.com/collecting-advanced-lead-intelligence-wordpress-free/' target='_blank'>Read more</a></div>";

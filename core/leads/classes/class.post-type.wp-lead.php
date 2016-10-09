@@ -618,14 +618,35 @@ class Leads_Post_Type {
         );*/
 
         /* Settings */
-        add_submenu_page(
-            'edit.php?post_type=wp-lead',
-            __('Settings', 'inbound-pro' ),
-            __('Settings', 'inbound-pro' ),
-            'edit_leads',
-            'wpleads_global_settings',
-            array('Leads_Settings', 'display_settings')
-        );
+        if ( defined('INBOUND_PRO_PATH') ) {
+
+            add_submenu_page(
+                'edit.php?post_type=wp-lead',
+                __('Settings' , 'inbound-pro'),
+                __('Settings' , 'inbound-pro'),
+                'edit_leads',
+                'inbound-pro-leads',
+                array('Leads_Settings', 'redirect_inbound_pro_settings')
+            );
+
+            add_submenu_page(
+                'edit.php?post_type=wp-lead',
+                __('API Keys' , 'inbound-pro'),
+                __('API Keys' , 'inbound-pro'),
+                'activate_plugins',
+                'wpleads_global_settings',
+                array('Leads_Settings', 'display_stand_alone_settings')
+            );
+        }else {
+            add_submenu_page(
+                'edit.php?post_type=wp-lead',
+                __('Settings' , 'inbound-pro'),
+                __('Settings' , 'inbound-pro'),
+                'edit_leads',
+                'wpleads_global_settings',
+                array('Leads_Settings', 'display_stand_alone_settings')
+            );
+        }
 
 
     }

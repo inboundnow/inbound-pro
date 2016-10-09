@@ -105,7 +105,7 @@ class Leads_Activation {
 	public static function display_upgrade_routine_notice() {
 		?>
 		<div class="error">
-			<p><?php _e( 'Leads plugin requires a database upgrade. Please note that this could take awhile. ', 'leads' ); ?> <a href='?plugin=leads&plugin_action=upgrade_routines'> <?php _e('Run Upgrade Processes' , 'leads' ); ?></a></p>
+			<p><?php _e( 'Leads plugin requires a database upgrade. Please note that this could take awhile. ', 'inbound-pro' ); ?> <a href='?plugin=leads&plugin_action=upgrade_routines'> <?php _e('Run Upgrade Processes' , 'inbound-pro' ); ?></a></p>
 		</div>
 		<?php
 	}

@@ -107,8 +107,6 @@ if ( !class_exists('Leads_Activation_Update_Routines') ) {
 			}
 		}
 
-
-
 		/**
 		 * @introduced: 2.0.1
 		 * @migration-type: batch lead processing / data migration into inbound_events table
