@@ -215,11 +215,11 @@ class Inbound_Pro_Activation {
 	*/
 	public static function import_stand_alone_settings() {
 
-		global $inbound_settings;
-
 		if (get_option('inbound_pro_settings_imported')) {
 			return;
 		}
+
+		$inbound_settings = Inbound_Options_API::get_option('inbound-pro', 'settings', array());
 
 		/* Import Landing Pages Settings */
 		$landing_page_permalink_prefix = get_option(  'lp-main-landing-page-permalink-prefix', 'go' );
