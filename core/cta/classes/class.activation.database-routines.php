@@ -198,35 +198,6 @@ if ( !class_exists('CTA_Activation_Update_Routines') ) {
 			}
 		}
 
-
-		/*
-		* @introduced: 2.3.1
-		* @migration-type: Inbound Pro Setting Migration
-		* @migration: mirgrates option lp-main-landing-page-permalink-prefix  to $inbound_settings['landing-pages']['landing-page-permalink-prefix']
-		* @migration: mirgrates option lp-main-landing-page-rotation-halt  to $inbound_settings['landing-pages']['landing-page-rotation-halt']
-		* @migration: mirgrates option lp-main-landing-page-disable-turn-off-ab  to $inbound_settings['landing-pages']['landing-page-disable-turn-off-ab']
-		*/
-		public static function migrate_cta_settings_to_pro_settings() {
-
-			/* ignore if not applicable */
-			$previous_installed_version = get_transient('cta_current_version');
-
-			if ( version_compare($previous_installed_version , "2.8.5") === 1 )  {
-				return;
-			}
-
-			if (!defined('INBOUND_PRO_CURRENT_VERSION')) {
-				return;
-			}
-
-			global $inbound_settings;
-
-			$disable_variant_testing = get_option( 'wp-cta-main-disable-ajax-variation-discovery', '0' );
-
-			$inbound_settings[WP_CTA_SLUG]['main-disable-ajax-variation-discovery'] = $disable_variant_testing;
-
-			Inbound_Options_API::update_option( 'inbound-pro' , 'settings' , $inbound_settings );
-		}
 	}
 
 }
