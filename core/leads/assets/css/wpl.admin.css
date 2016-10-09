@@ -71,10 +71,7 @@ a:active, a:focus {
     margin-top: 2px;
     display: inline-block;
     border-top: solid 1px #00a0d2;
-    width: 100%;
-    text-align:center;
-    margin-left:auto;
-    margin-right:auto;
+    width: 72%;
 }
 
 #wpfooter {
@@ -869,33 +866,33 @@ h2 .nav-tab {
 .leads_stat_box{
     display: inline-block;
     width: 85%;
-    font-weight: bold;
-    padding-left:20px;
-    padding-right:20px;
+    font-weight: bold
 }
 .leads_stat_box .label_1, .leads_stat_box .label_2{
+    float: left;
     font-size: 10px;
     color: grey;
     border-bottom: solid 1px;
+    padding: 0px 0px;
+    width:19%;
     line-height: 20px;
     padding-bottom: 3px;
 }
 .leads_stat_box .label_2{
-    float: right;
+    float: left
 }
 .leads_stat_box .label_1{
     width: 73%;
+    margin-right: 5px; 
     text-align: left;
-    float:left;
+    margin-left: 7px;
 }
 .quick-stat-label .label_1, .quick-stat-label .label_2{
     border: 0;
     font-size: 10px;
     line-height: 2;
-    color: #444;
-    display:inline-block;
+    color: #444; 
 }
-
 .quick-stat-label .label_2{
     text-align: center;
     font-size: 12px;

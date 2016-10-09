@@ -14,30 +14,27 @@ if (!function_exists('inboundnow_add_master_license') && !defined('INBOUND_ACCES
 		{
 			case 'lp_define_global_settings':
 				$key = 'lp-license-keys';
-				$text_domain = 'landing-pages';
 				break;
 			case 'wpleads_define_global_settings':
 				$key = 'wpleads-license-keys';
-				$text_domain = 'leads';
 				break;
 			case 'wp_cta_define_global_settings':
 				$key = 'wp-cta-license-keys';
-				$text_domain = 'cta';
 				break;
 		}
 
 		$global_settings[$key]['settings']['master-key'] = 	array(
 						'id'  => 'extensions-license-keys-master-key-header',
-						'description' => __( "Head to http://www.inboundnow.com/ to retrieve your extension-ready license key.", $text_domain ),
+						'description' => __( "Head to http://www.inboundnow.com/ to retrieve your extension-ready license key.", 'inbound-pro' ),
 						'type'  => 'header',
-						'default' => '<h3 class="lp_global_settings_header">'. __( 'InboundNow Master Key', $text_domain ) .'</h3>'
+						'default' => '<h3 class="lp_global_settings_header">'. __( 'InboundNow Master Key', 'inbound-pro' ) .'</h3>'
 				);
 
 		$global_settings[$key]['settings']['master-key'] = 	array(
 				'id'  => 'inboundnow_master_license_key',
 				'option_name'  => 'inboundnow_master_license_key',
-				'label' => __('Inbound Now API Key', $text_domain ),
-				'description' => __( "Head to http://www.inboundnow.com/account to retrieve your extension-ready license key.", $text_domain ),
+				'label' => __('Inbound Now API Key', 'inbound-pro' ),
+				'description' => __( "Head to http://www.inboundnow.com/account to retrieve your extension-ready license key.", 'inbound-pro' ),
 				'type'  => 'text',
 				'default' => ''
 		);

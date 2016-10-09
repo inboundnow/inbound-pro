@@ -15,6 +15,12 @@ class Leads_Settings {
     public static function load_hooks() {
         add_action( 'admin_enqueue_scripts' , array( __CLASS__ , 'enqueue_admin_scripts' ) , 10 , 1 );
 
+        /*  Add settings to inbound pro  */
+        add_filter('inbound_settings/extend', array( __CLASS__  , 'define_pro_settings' ) );
+
+        /* redirect to Inbound pro settings */
+        add_action('admin_init', array(__CLASS__, 'redirect_inbound_pro_settings') );
+
     }
 
     public static function enqueue_admin_scripts( $hook ) {
@@ -40,146 +46,247 @@ class Leads_Settings {
 
 
     /**
+     *  Adds pro admin settings
+     */
+    public static function define_pro_settings( $settings ) {
+        global $inbound_settings;
+
+        $settings['inbound-pro-setup'][] = array(
+            'group_name' => WPL_SLUG ,
+            'keywords' => __('leads' , 'inbound-pro'),
+            'fields' => array (
+                array(
+                    'id'  => 'header-leads',
+                    'type'  => 'header',
+                    'default'  => __('Leads Core Settings', 'inbound-pro' ),
+                    'options' => null
+                ),
+                array(
+                    'id'  => 'tracking-ids',
+                    'label' => __('IDs or Classes of 3rd party forms to track' , 'inbound-pro' ),
+                    'description' => __("Enter in a value found in a HTML form's id or class attribute to track it as a conversion as comma separated values. Example ID format: #Form_ID, #Form-ID-2. Example Class format:</strong> .Form_class, .form-class-2</p>" , 'inbound-pro' ),
+                    'type'  => 'text',
+                    'default'  => '',
+                    'options' => null
+                ),
+                array(
+                    'id'  => 'exclude-tracking-ids',
+                    'label' => __('IDs or Classes of 3rd party forms <u>NOT</u> to track' , 'inbound-pro' ),
+                    'description' => __("Enter in a value found in a HTML form's id attribute to turn off tracking." , 'inbound-pro' ),
+                    'type'  => 'text',
+                    'default'  => '',
+                    'options' => null
+                ),
+                array(
+                    'id'  => 'page-view-tracking',
+                    'label' => __('Page View Tracking' , 'inbound-pro' ),
+                    'description' => __("WordPress Leads automatically tracks page views of converted leads. This is extremely valuable lead intelligence and will help with your sales follow ups. However with great power comes great resposibility, this extra tracking can cause problems on high high traffic sites. You can turn off tracking if you see any issues." , 'inbound-pro' ),
+                    'type'  => 'radio',
+                    'default'  => '1',
+                    'options' => array('1'=>'On','0'=>'Off')
+                ),
+                array(
+                    'id'  => 'search-tracking',
+                    'label' => __('Search Query Tracking' , 'inbound-pro' ),
+                    'description' => __("WordPress Leads records searches made by leads and appends them to their lead record. Disabling this will turn this feature off." , 'inbound-pro' ),
+                    'type'  => 'radio',
+                    'default'  => '1',
+                    'options' => array('1'=>'On','0'=>'Off')
+                ),
+                array(
+                    'id'  => 'comment-tracking',
+                    'label' => __('Comment Tracking' , 'inbound-pro' ),
+                    'description' => __("WordPress Leads records comments made by leads and appends them to their lead record. Disabling this will turn this feature off." , 'inbound-pro' ),
+                    'type'  => 'radio',
+                    'default'  => '1',
+                    'options' => array('1'=>'On','0'=>'Off')
+                ),
+                array(
+                    'id'  => 'enable-dashboard',
+                    'label' => __('Show Lead/List Data in Dashboard' , 'inbound-pro' ),
+                    'description' => __("Turn this on to show graphical and list data about lead collection in WP Dashboard." , 'inbound-pro' ),
+                    'type'  => 'radio',
+                    'default'  => '1',
+                    'options' => array('1'=>'On','0'=>'Off')
+                ),
+                array(
+                    'id'  => 'disable-widgets',
+                    'label' => __('Disable Default WordPress Dashboard Widgets' , 'inbound-pro' ),
+                    'description' => __("This turns off some default widgets on the wordpress dashboard." , 'inbound-pro' ),
+                    'type'  => 'radio',
+                    'default'  => '1',
+                    'options' => array('1'=>'On','0'=>'Off')
+                ),
+                array(
+                    'id'  => 'extra-lead-data',
+                    'label' => __('Full Contact API Key' , 'inbound-pro' ),
+                    'description' => sprintf( __("Enter your Full contact API key. If you don't have one. Grab a free one here: %s" , 'inbound-pro' ) , "<a href='https://www.fullcontact.com/developer/pricing/' target='_blank'>" , "</a>"),
+                    'type'  => 'text',
+                    'default'  => '',
+                    'options' => null
+                ),
+                array(
+                    'id'  => 'inbound_admin_notification_inboundnow_link',
+                    'option_name'  => 'inbound_admin_notification_inboundnow_link',
+                    'label' => __('Credit Inbound Now in admin notification emails.' , 'inbound-pro' ),
+                    'description' => __("Admin notification emails are sent after a visitor fills out an inbound form." , 'inbound-pro' ),
+                    'type'  => 'radio',
+                    'default'  => '1',
+                    'options' => array('1'=>'On','0'=>'Off')
+                ),
+                array(
+                    'id'  => 'inbound_forms_enable_akismet',
+                    'option_name'  => 'inbound_forms_enable_akismet',
+                    'label' => __('Run form submissions through Akismet if akismet is enabled.' , 'inbound-pro' ),
+                    'description' => __("Enabling this option will tell Leads to run form submissions through akismet to prevent spam submissions." , 'inbound-pro' ),
+                    'type'  => 'radio',
+                    'default'  => '0',
+                    'options' => array('1'=>'On','0'=>'Off')
+                )
+            )
+
+        );
+
+
+        return $settings;
+    }
+
+    /**
      * Prepare settings object for settings
      * @return mixed
      */
-    public static function get_settings() {
-
-        $tab_slug = 'wpl-main';
-        $wpleads_global_settings[$tab_slug]['label'] = __( 'Global Settings' , 'leads' );
-
-        $wpleads_global_settings[$tab_slug]['settings'] = array(
-            array(
-                'id'  => 'tracking-ids',
-                'label' => __('IDs or Classes of 3rd party forms to track' , 'leads' ),
-                'description' => __("<p>Enter in a value found in a HTML form's id or class attribute to track it as a conversion as comma separated values</p><p><strong>Example ID format:</strong> #Form_ID, #Form-ID-2<br>Example Class format:</strong> .Form_class, .form-class-2</p><p>Gravity Forms, Contact Form 7, and Ninja Forms are automatically tracked (no need to add their IDs in here).</p>" , 'leads' ),
-                'type'  => 'text',
-                'default'  => '',
-                'options' => null
-            ),
-            array(
-                'id'  => 'exclude-tracking-ids',
-                'label' => __('IDs or Classes of 3rd party forms <u>NOT</u> to track' , 'leads' ),
-                'description' => __("Enter in a value found in a HTML form's id attribute to turn off tracking." , 'leads' ),
-                'type'  => 'text',
-                'default'  => '',
-                'options' => null
-            ),
-            array(
-                'id'  => 'page-view-tracking',
-                'label' => __('Page View Tracking' , 'leads' ),
-                'description' => __("WordPress Leads automatically tracks page views of converted leads. This is extremely valuable lead intelligence and will help with your sales follow ups. However with great power comes great resposibility, this extra tracking can cause problems on high high traffic sites. You can turn off tracking if you see any issues." , 'leads' ),
-                'type'  => 'radio',
-                'default'  => '1',
-                'options' => array('1'=>'On','0'=>'Off')
-            ),
-            array(
-                'id'  => 'search-tracking',
-                'label' => __('Search Query Tracking' , 'leads' ),
-                'description' => __("WordPress Leads records searches made by leads and appends them to their lead record. Disabling this will turn this feature off." , 'leads' ),
-                'type'  => 'radio',
-                'default'  => '1',
-                'options' => array('1'=>'On','0'=>'Off')
-            ),
-            array(
-                'id'  => 'comment-tracking',
-                'label' => __('Comment Tracking' , 'leads' ),
-                'description' => __("WordPress Leads records comments made by leads and appends them to their lead record. Disabling this will turn this feature off." , 'leads' ),
-                'type'  => 'radio',
-                'default'  => '1',
-                'options' => array('1'=>'On','0'=>'Off')
-            ),
-            array(
-                'id'  => 'enable-dashboard',
-                'label' => __('Show Lead/List Data in Dashboard' , 'leads' ),
-                'description' => __("Turn this on to show graphical and list data about lead collection in WP Dashboard." , 'leads' ),
-                'type'  => 'radio',
-                'default'  => '1',
-                'options' => array('1'=>'On','0'=>'Off')
-            ),
-            array(
-                'id'  => 'disable-widgets',
-                'label' => __('Disable Default WordPress Dashboard Widgets' , 'leads' ),
-                'description' => __("This turns off some default widgets on the wordpress dashboard." , 'leads' ),
-                'type'  => 'radio',
-                'default'  => '1',
-                'options' => array('1'=>'On','0'=>'Off')
-            ),
-            array(
-                'id'  => 'extra-lead-data',
-                'label' => __('Full Contact API Key' , 'leads' ),
-                'description' => sprintf( __("Enter your Full contact API key. If you don't have one. Grab a free one here: %s" , 'leads' ) , "<a href='https://www.fullcontact.com/developer/pricing/' target='_blank'>" , "</a>"),
-                'type'  => 'text',
-                'default'  => '',
-                'options' => null
-            ),
-            array(
-                'id'  => 'inbound_compatibility_mode',
-                'label' => __('Turn on compatibility mode' , 'leads' ),
-                'description' => __("This option turns on compatibility mode for the Inbound Now plugins. This is typically used if you are experiencing bugs caused by third party plugin conflicts." , 'leads' ),
-                'type'  => 'radio',
-                'default'  => '0',
-                'options' => array('1'=>'On','0'=>'Off')
-            ),
-            array(
-                'id'  => 'inbound_admin_notification_inboundnow_link',
-                'option_name'  => 'inbound_admin_notification_inboundnow_link',
-                'label' => __('Credit Inbound Now in admin notification emails.' , 'leads' ),
-                'description' => __("Admin notification emails are sent after a visitor fills out an inbound form." , 'leads' ),
-                'type'  => 'radio',
-                'default'  => '1',
-                'options' => array('1'=>'On','0'=>'Off')
-            ),
-            array(
-                'id'  => 'inbound_forms_enable_akismet',
-                'option_name'  => 'inbound_forms_enable_akismet',
-                'label' => __('Run form submissions through Akismet if akismet is enabled.' , 'leads' ),
-                'description' => __("Enabling this option will tell Leads to run form submissions through akismet to prevent spam submissions." , 'leads' ),
-                'type'  => 'radio',
-                'default'  => '0',
-                'options' => array('1'=>'On','0'=>'Off')
-            )
-            /*
-            ,array(
-                'id'  => 'inbound_lead_notification_reply',
-                'option_name'  => 'inbound_lead_notification_reply',
-                'label' => __('Lead notification "Reply To" email address' , 'leads' ),
-                'description' => __( "You can set the 'new lead' notification email's reply-to address to be a dummy no-reply email address or the lead's email address. The latter sometimes experiences spam-box issues so we've defaulted the reply-to email to be a dummy one: wordpress@yourdomain.com." , 'leads' ),
-                'type'  => 'dropdown',
-                'default'  => '0',
-                'options' => array( 'noreply' => __( 'Generated Noreply Email' , 'leads' ) , 'lead'=> __( 'Use the Lead\'s Email Address' , 'leads' ) )
-            )
-            */
-        );
+    public static function define_stand_alone_settings() {
 
 
         /* Setup License Keys Tab */
         if ( !defined('INBOUND_PRO_PATH') )  {
-            $tab_slug = 'wpleads-license-keys';
-            $wpleads_global_settings[$tab_slug]['label'] = __('License Keys' , 'leads' );
-        }
+            $tab_slug = 'wpl-main';
 
-        /* Setup Extensions Tab */
-        $tab_slug = 'wpleads-extensions';
-        $wpleads_global_settings[$tab_slug]['label'] = __('Extensions' , 'leads' );
-
-
-
-        $wpleads_global_settings = apply_filters('wpleads_define_global_settings', $wpleads_global_settings);
-
-        /* Setup API Keys Tab */
-        if (current_user_can('activate_plugins')) {
-            $tab_slug = 'wpleads-apikeys';
-            $wpleads_global_settings[$tab_slug]['label'] = __('API Keys' , 'leads' );
+            $wpleads_global_settings[$tab_slug]['label'] = __( 'Settings' , 'inbound-pro' );
 
             $wpleads_global_settings[$tab_slug]['settings'] = array(
                 array(
+                    'id'  => 'tracking-ids',
+                    'label' => __('IDs or Classes of 3rd party forms to track' , 'inbound-pro' ),
+                    'description' => __("<p>Enter in a value found in a HTML form's id or class attribute to track it as a conversion as comma separated values</p><p><strong>Example ID format:</strong> #Form_ID, #Form-ID-2<br>Example Class format:</strong> .Form_class, .form-class-2</p><p>Gravity Forms, Contact Form 7, and Ninja Forms are automatically tracked (no need to add their IDs in here).</p>" , 'inbound-pro' ),
+                    'type'  => 'text',
+                    'default'  => '',
+                    'options' => null
+                ),
+                array(
+                    'id'  => 'exclude-tracking-ids',
+                    'label' => __('IDs or Classes of 3rd party forms <u>NOT</u> to track' , 'inbound-pro' ),
+                    'description' => __("Enter in a value found in a HTML form's id attribute to turn off tracking." , 'inbound-pro' ),
+                    'type'  => 'text',
+                    'default'  => '',
+                    'options' => null
+                ),
+                array(
+                    'id'  => 'page-view-tracking',
+                    'label' => __('Page View Tracking' , 'inbound-pro' ),
+                    'description' => __("WordPress Leads automatically tracks page views of converted leads. This is extremely valuable lead intelligence and will help with your sales follow ups. However with great power comes great resposibility, this extra tracking can cause problems on high high traffic sites. You can turn off tracking if you see any issues." , 'inbound-pro' ),
+                    'type'  => 'radio',
+                    'default'  => '1',
+                    'options' => array('1'=>'On','0'=>'Off')
+                ),
+                array(
+                    'id'  => 'search-tracking',
+                    'label' => __('Search Query Tracking' , 'inbound-pro' ),
+                    'description' => __("WordPress Leads records searches made by leads and appends them to their lead record. Disabling this will turn this feature off." , 'inbound-pro' ),
+                    'type'  => 'radio',
+                    'default'  => '1',
+                    'options' => array('1'=>'On','0'=>'Off')
+                ),
+                array(
+                    'id'  => 'comment-tracking',
+                    'label' => __('Comment Tracking' , 'inbound-pro' ),
+                    'description' => __("WordPress Leads records comments made by leads and appends them to their lead record. Disabling this will turn this feature off." , 'inbound-pro' ),
+                    'type'  => 'radio',
+                    'default'  => '1',
+                    'options' => array('1'=>'On','0'=>'Off')
+                ),
+                array(
+                    'id'  => 'enable-dashboard',
+                    'label' => __('Show Lead/List Data in Dashboard' , 'inbound-pro' ),
+                    'description' => __("Turn this on to show graphical and list data about lead collection in WP Dashboard." , 'inbound-pro' ),
+                    'type'  => 'radio',
+                    'default'  => '1',
+                    'options' => array('1'=>'On','0'=>'Off')
+                ),
+                array(
+                    'id'  => 'disable-widgets',
+                    'label' => __('Disable Default WordPress Dashboard Widgets' , 'inbound-pro' ),
+                    'description' => __("This turns off some default widgets on the wordpress dashboard." , 'inbound-pro' ),
+                    'type'  => 'radio',
+                    'default'  => '1',
+                    'options' => array('1'=>'On','0'=>'Off')
+                ),
+                array(
+                    'id'  => 'extra-lead-data',
+                    'label' => __('Full Contact API Key' , 'inbound-pro' ),
+                    'description' => sprintf( __("Enter your Full contact API key. If you don't have one. Grab a free one here: %s" , 'inbound-pro' ) , "<a href='https://www.fullcontact.com/developer/pricing/' target='_blank'>" , "</a>"),
+                    'type'  => 'text',
+                    'default'  => '',
+                    'options' => null
+                ),
+                array(
+                    'id'  => 'inbound_admin_notification_inboundnow_link',
+                    'option_name'  => 'inbound_admin_notification_inboundnow_link',
+                    'label' => __('Credit Inbound Now in admin notification emails.' , 'inbound-pro' ),
+                    'description' => __("Admin notification emails are sent after a visitor fills out an inbound form." , 'inbound-pro' ),
+                    'type'  => 'radio',
+                    'default'  => '1',
+                    'options' => array('1'=>'On','0'=>'Off')
+                ),
+                array(
+                    'id'  => 'inbound_forms_enable_akismet',
+                    'option_name'  => 'inbound_forms_enable_akismet',
+                    'label' => __('Run form submissions through Akismet if akismet is enabled.' , 'inbound-pro' ),
+                    'description' => __("Enabling this option will tell Leads to run form submissions through akismet to prevent spam submissions." , 'inbound-pro' ),
+                    'type'  => 'radio',
+                    'default'  => '0',
+                    'options' => array('1'=>'On','0'=>'Off')
+                )
+            );
+
+
+            $tab_slug = 'wpleads-license-keys';
+            $wpleads_global_settings[$tab_slug]['label'] = __('License Keys' , 'inbound-pro' );
+
+            /* Setup Extensions Tab */
+            $tab_slug = 'wpleads-extensions';
+            $wpleads_global_settings[$tab_slug]['label'] = __('Extensions' , 'inbound-pro' );
+
+            /* Setup API Keys Tab */
+            $tab_slug = 'wpleads-apikeys';
+        } else {
+            $tab_slug = 'wpl-main';
+        }
+
+
+
+        $wpleads_global_settings[$tab_slug]['label'] = __('API Keys' , 'inbound-pro' );
+        if (current_user_can('activate_plugins')) {
+            $wpleads_global_settings[$tab_slug]['settings'] = array(
+                array(
                     'id'  => 'api-keys-table',
-                    'label' => __('API Keys Table' , 'leads' ),
+                    'label' => __('API Keys Table' , 'inbound-pro' ),
                     'type'  => 'api-keys-table'
                 )
             );
+        } else {
+            $wpleads_global_settings[$tab_slug]['settings'] = array(
+                array(
+                    'id'  => 'api-keys-table',
+                    'label' => __('API Keys Table' , 'inbound-pro' ),
+                    'type'  => 'html',
+                    'default' => __('Not permitted', 'inbound-pro')
+                )
+            );
         }
+
+        $wpleads_global_settings = apply_filters('wpleads_define_global_settings', $wpleads_global_settings);
+
 
         return $wpleads_global_settings;
     }
@@ -187,9 +294,9 @@ class Leads_Settings {
     /**
      * Displays global settings
      */
-    public static function display_settings() {
+    public static function display_stand_alone_settings() {
         global $wpdb;
-        $wpleads_global_settings = self::get_settings();
+        $wpleads_global_settings = self::define_stand_alone_settings();
 
         /* if running pro do not load license keys tab */
         if (defined('INBOUND_PRO_PATH') ) {
@@ -208,7 +315,7 @@ class Leads_Settings {
 
         foreach ($wpleads_global_settings as $key => $data) {
             ?>
-            <a  id='tabs-<?php echo $key; ?>' class="wpl-nav-tab nav-tab nav-tab-special<?php echo $active_tab == $key ? '-active' : '-inactive'; ?>"><?php _e( $data['label'] , 'leads' ); ?></a>
+            <a  id='tabs-<?php echo $key; ?>' class="wpl-nav-tab nav-tab nav-tab-special<?php echo $active_tab == $key ? '-active' : '-inactive'; ?>"><?php _e( $data['label'] , 'inbound-pro' ); ?></a>
             <?php
         }
         echo "</h2><div class='lp-settings-tab-sidebar'>";
@@ -240,6 +347,26 @@ class Leads_Settings {
     }
 
     /**
+     * Get setting value from DB. Handles stand alone landing pages plugin differently from Inbound Pro included landing pages plugin
+     * @param $field_id
+     * @param $default
+     * @return mixed
+     */
+    public static function get_setting( $field_id , $default ) {
+        global $inbound_settings;
+        $value = $default;
+
+        if (defined('INBOUND_PRO_CURRENT_VERSION')) {
+            $field_id = str_replace('wpl-main-' , '', $field_id );
+            $value = (isset($inbound_settings['leads'][$field_id])) ? $inbound_settings['leads'][$field_id] : $default;
+        } else {
+            $value = get_option( $field_id, $default );
+        }
+
+        return $value;
+    }
+
+    /**
      * Saves global settings
      */
     public static function save_settings() {
@@ -248,7 +375,7 @@ class Leads_Settings {
             return;
         }
 
-        $wpleads_global_settings = self::get_settings();
+        $wpleads_global_settings = self::define_stand_alone_settings();
 
         foreach ($wpleads_global_settings as $key=>$array) {
 
@@ -311,16 +438,21 @@ class Leads_Settings {
     public static function render_inline_js() {
         global $wpleads_global_settings;
 
-
         ?>
-
         <script type='text/javascript'>
+            <?php
+             if ( defined('INBOUND_PRO_PATH') ) {
+                echo 'var hide_sidebar = true;';
+             }else {
+                 echo 'var hide_sidebar = false;';
+             }
+            ?>
             /* Hide sidebar when API Keys Tab is opened */
             jQuery(document).ready( function($) {
 
                 jQuery('body').on( 'click' , '.wpl-nav-tab' , function() {
 
-                    if ( this.id == 'tabs-wpleads-apikeys' ) {
+                    if ( this.id == 'tabs-wpleads-apikeys' || hide_sidebar ) {
                         jQuery('.lp-settings-tab-sidebar').hide();
                         jQuery('#wpl-button-create-new-group-open').hide();
                     } else {
@@ -482,6 +614,20 @@ class Leads_Settings {
             echo '</td></tr>';
         } // end foreach
         echo '</table>'; // end table
+    }
+
+    /**
+     * redirects settings link to Inbound Pro settings page with Landing Pages settings pre-loaded
+     */
+    public static function redirect_inbound_pro_settings() {
+
+        if ( !isset($_GET['page']) || $_GET['page'] != 'inbound-pro-leads') {
+            return;
+        }
+
+        header('Location: ' . admin_url('admin.php?page=inbound-pro&setting=leads'));
+        exit;
+
     }
 }
 

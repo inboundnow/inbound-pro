@@ -129,6 +129,12 @@ class Inbound_Pro_Settings {
 					'group_name' => 'leads-custom-fields',
 					'keywords' => __('leads, field mapping, custom fields' , 'inbound-pro'),
 					'fields' => array (
+						array(
+							'id'  => 'header-lead-fields',
+							'type'  => 'header',
+							'default'  => __('Lead Field Management', 'inbound-pro' ),
+							'options' => null
+						),
 						array (
 							'id'	=> 'leads-custom-fields',
 							'type'	=> 'custom-fields-repeater',
@@ -170,7 +176,7 @@ class Inbound_Pro_Settings {
 						array (
 							'id'	=> 'analytics-header',
 							'type'	=> 'header',
-							'default'	=> __( 'Analytics' , 'inbound-pro' ),
+							'default'	=> __( 'Inbound Analytics' , 'inbound-pro' ),
 							'placeholder'	=> null,
 							'options' => false,
 							'hidden' => false,
@@ -213,12 +219,12 @@ class Inbound_Pro_Settings {
 				/* add core plugin exclusion options */
 				array(
 					'group_name' => 'inbound-core-loading',
-					'keywords' => __('core,cta,calls to action,lp,landing pages,leads,activate,deactivate' , 'inbound-pro'),
+					'keywords' => __('activate,deactivate,enable,disable,turn off,turn on' , 'inbound-pro'),
 					'fields' => array (
 						array (
 							'id'	=> 'load-core-comonents-header',
 							'type'	=> 'header',
-							'default'	=> __( 'Core Components' , 'inbound-pro' ),
+							'default'	=> __( 'Toggle Core Components On/Off' , 'inbound-pro' ),
 							'placeholder'	=> null,
 							'options' => false,
 							'hidden' => false,
@@ -967,8 +973,6 @@ class Inbound_Pro_Settings {
 				$field_types = Leads_Field_Map::build_field_types_array();
 
 				echo '<div class="repeater-custom-fields">';
-				echo '	<h4>'.__('Manage Lead Fields:' , 'inbound-pro' ) .'</h4>';
-
 				echo '		<div class="map-row-headers column-group">';
 				echo '			<div class="map-key-header all-5">';
 				echo '				<th> </th>';
