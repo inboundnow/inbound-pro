@@ -222,41 +222,46 @@ class Inbound_Pro_Activation {
 		$inbound_settings = Inbound_Options_API::get_option('inbound-pro', 'settings', array());
 
 		/* Import Landing Pages Settings */
-		$landing_page_permalink_prefix = get_option(  'lp-main-landing-page-permalink-prefix', 'go' );
-		$sticky_variations = get_option( 'lp-main-landing-page-rotation-halt', '0' );
-		$disable_variant_testing = get_option( 'lp-main-landing-page-disable-turn-off-ab', '0' );
+		if (!isset($inbound_settings['landing-pages'])) {
+			$landing_page_permalink_prefix = get_option(  'lp-main-landing-page-permalink-prefix', 'go' );
+			$sticky_variations = get_option( 'lp-main-landing-page-rotation-halt', '0' );
+			$disable_variant_testing = get_option( 'lp-main-landing-page-disable-turn-off-ab', '0' );
 
-		$inbound_settings['landing-pages']['landing-page-permalink-prefix'] = $landing_page_permalink_prefix;
-		$inbound_settings['landing-pages']['landing-page-rotation-halt'] = $sticky_variations;
-		$inbound_settings['landing-pages']['landing-page-disable-turn-off-ab'] = $disable_variant_testing;
+			$inbound_settings['landing-pages']['landing-page-permalink-prefix'] = $landing_page_permalink_prefix;
+			$inbound_settings['landing-pages']['landing-page-rotation-halt'] = $sticky_variations;
+			$inbound_settings['landing-pages']['landing-page-disable-turn-off-ab'] = $disable_variant_testing;
+		}
 
 		/* Import Leads Settings */
-		$tracking_ids = get_option(  'wpl-tracking-ids', '' );
-		$exclude_tracking_ids = get_option(  'wpl-exclude-tracking-ids', '' );
-		$page_view_tracking = get_option(  'wpl-page-view-tracking', 1 );
-		$search_tracking = get_option(  'wpl-search-tracking', 1 );
-		$comment_tracking = get_option(  'wpl-comment-tracking', 1 );
-		$enable_dashboard = get_option(  'wpl-enable-dashboard', 1 );
-		$disable_widgets = get_option(  'wpl-disable-widgets', 1 );
-		$full_contact = get_option(  'wpl-extra-lead-data', '' );
-		$inbound_admin_notification_inboundnow_link = get_option(  'wpl-inbound_admin_notification_inboundnow_link', 1 );
-		$inbound_forms_enable_akismet = get_option(  'wpl-inbound_forms_enable_akismet', 0 );
+		if (!isset($inbound_settings['leads'])) {
+			$tracking_ids = get_option('wpl-tracking-ids', '');
+			$exclude_tracking_ids = get_option('wpl-exclude-tracking-ids', '');
+			$page_view_tracking = get_option('wpl-page-view-tracking', 1);
+			$search_tracking = get_option('wpl-search-tracking', 1);
+			$comment_tracking = get_option('wpl-comment-tracking', 1);
+			$enable_dashboard = get_option('wpl-enable-dashboard', 1);
+			$disable_widgets = get_option('wpl-disable-widgets', 1);
+			$full_contact = get_option('wpl-extra-lead-data', '');
+			$inbound_admin_notification_inboundnow_link = get_option('wpl-inbound_admin_notification_inboundnow_link', 1);
+			$inbound_forms_enable_akismet = get_option('wpl-inbound_forms_enable_akismet', 0);
 
-		$inbound_settings['leads']['tracking-ids'] = $tracking_ids;
-		$inbound_settings['leads']['exclude-tracking-ids'] = $exclude_tracking_ids;
-		$inbound_settings['leads']['page-view-tracking'] = $page_view_tracking;
-		$inbound_settings['leads']['search-tracking'] = $search_tracking;
-		$inbound_settings['leads']['comment-tracking'] = $comment_tracking;
-		$inbound_settings['leads']['enable-dashboard'] = $enable_dashboard;
-		$inbound_settings['leads']['disable-widgets'] = $disable_widgets;
-		$inbound_settings['leads']['extra-lead-data'] = $full_contact;
-		$inbound_settings['leads']['inbound_admin_notification_inboundnow_link'] = $inbound_admin_notification_inboundnow_link;
-		$inbound_settings['leads']['inbound_forms_enable_akismet'] = $inbound_forms_enable_akismet;
+			$inbound_settings['leads']['tracking-ids'] = $tracking_ids;
+			$inbound_settings['leads']['exclude-tracking-ids'] = $exclude_tracking_ids;
+			$inbound_settings['leads']['page-view-tracking'] = $page_view_tracking;
+			$inbound_settings['leads']['search-tracking'] = $search_tracking;
+			$inbound_settings['leads']['comment-tracking'] = $comment_tracking;
+			$inbound_settings['leads']['enable-dashboard'] = $enable_dashboard;
+			$inbound_settings['leads']['disable-widgets'] = $disable_widgets;
+			$inbound_settings['leads']['extra-lead-data'] = $full_contact;
+			$inbound_settings['leads']['inbound_admin_notification_inboundnow_link'] = $inbound_admin_notification_inboundnow_link;
+			$inbound_settings['leads']['inbound_forms_enable_akismet'] = $inbound_forms_enable_akismet;
+		}
 
 		/* Import Call to Action Settings */
-		$disable_variant_testing = get_option( 'wp-cta-main-disable-ajax-variation-discovery', '0' );
-
-		$inbound_settings['cta']['main-disable-ajax-variation-discovery'] = $disable_variant_testing;
+		if (!isset($inbound_settings['cta'])) {
+			$disable_variant_testing = get_option('wp-cta-main-disable-ajax-variation-discovery', '0');
+			$inbound_settings['cta']['main-disable-ajax-variation-discovery'] = $disable_variant_testing;
+		}
 
 		Inbound_Options_API::update_option( 'inbound-pro' , 'settings' , $inbound_settings );
 
