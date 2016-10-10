@@ -64,14 +64,14 @@ class Leads_Settings {
                 array(
                     'id'  => 'tracking-ids',
                     'label' => __('IDs or Classes of 3rd party forms to track' , 'inbound-pro' ),
-                    'description' => __("Enter in a value found in a HTML form's id or class attribute to track it as a conversion as comma separated values. Example ID format: #Form_ID, #Form-ID-2. Example Class format:</strong> .Form_class, .form-class-2</p>" , 'inbound-pro' ),
+                    'description' => __("Enter in a value found in a HTML form's id or class attribute to track it as a conversion as comma separated values. Example ID format: #Form_ID, #Form-ID-2. Example Class format: .Form_class, .form-class-2" , 'inbound-pro' ),
                     'type'  => 'text',
                     'default'  => '',
                     'options' => null
                 ),
                 array(
                     'id'  => 'exclude-tracking-ids',
-                    'label' => __('IDs or Classes of 3rd party forms <u>NOT</u> to track' , 'inbound-pro' ),
+                    'label' => __('IDs or Classes of 3rd party forms NOT to track' , 'inbound-pro' ),
                     'description' => __("Enter in a value found in a HTML form's id attribute to turn off tracking." , 'inbound-pro' ),
                     'type'  => 'text',
                     'default'  => '',
