@@ -8,10 +8,10 @@ if (!class_exists('Inbound_Asset_Loader')) {
 		static $load_assets;
 
 		static function load_inbound_assets() {
-		  self::$load_assets = true;
-		  add_action('admin_enqueue_scripts', array(__CLASS__, 'load_admin_scripts'), 101);
-		  add_action('wp_enqueue_scripts', array(__CLASS__, 'register_scripts_and_styles'), 101);
-		  add_action('admin_enqueue_scripts', array(__CLASS__, 'register_scripts_and_styles'), 101);
+			self::$load_assets = true;
+			add_action('admin_enqueue_scripts', array(__CLASS__, 'load_admin_scripts'), 101);
+			add_action('wp_enqueue_scripts', array(__CLASS__, 'register_scripts_and_styles'), 101);
+			add_action('admin_enqueue_scripts', array(__CLASS__, 'register_scripts_and_styles'), 101);
 		}
 
 		static function load_admin_scripts(){
@@ -52,10 +52,10 @@ if (!class_exists('Inbound_Asset_Loader')) {
 			$store = false;
 
 			if ( !empty( $wp_scripts->queue ) ) {
-				  $store = $wp_scripts->queue; /* store the scripts */
-				  foreach ( $wp_scripts->queue as $handle ) {
-					  wp_dequeue_script( $handle );
-				  }
+				$store = $wp_scripts->queue; /* store the scripts */
+				foreach ( $wp_scripts->queue as $handle ) {
+					wp_dequeue_script( $handle );
+				}
 			}
 
 			/* unminified source available */
@@ -128,8 +128,8 @@ if (!class_exists('Inbound_Asset_Loader')) {
 			$id_check = ($post_id != null) ? true : false;
 
 			if (!is_archive() && !$id_check){
-			   $post_id = (isset($post)) ? $post->ID : false;
-			   $id_check = ($post_id != null) ? true : false;
+				$post_id = (isset($post)) ? $post->ID : false;
+				$id_check = ($post_id != null) ? true : false;
 			}
 			if (!$id_check) {
 				$post_id = wpl_url_to_postid($current_page);
@@ -141,9 +141,9 @@ if (!class_exists('Inbound_Asset_Loader')) {
 			}
 
 			/* If page tracking on */
-			$lead_page_view_tracking = get_option( 'wpl-main-page-view-tracking', 1);
-			$lead_search_tracking = get_option( 'wpl-main-search-tracking', 1);
-			$lead_comment_tracking = get_option( 'wpl-main-comment-tracking', 1);
+			$lead_page_view_tracking = self::get_lead_setting( 'wpl-main-page-view-tracking', 1);
+			$lead_search_tracking = self::get_lead_setting( 'wpl-main-search-tracking', 1);
+			$lead_comment_tracking = self::get_lead_setting( 'wpl-main-comment-tracking', 1);
 			if (!$lead_search_tracking) {
 				$search_tracking = 'off';
 			}
@@ -161,15 +161,15 @@ if (!class_exists('Inbound_Asset_Loader')) {
 			$lead_data_array['lead_uid'] = ($lead_uid) ? $lead_uid : null;
 			$time = current_time( 'timestamp', 0 ); /* Current wordpress time from settings */
 			$wordpress_date_time = date("Y/m/d G:i:s", $time);
-			$inbound_track_include = get_option( 'wpl-main-tracking-ids');
-			$inbound_track_exclude = get_option( 'wpl-main-exclude-tracking-ids');
+			$inbound_track_include = self::get_lead_setting( 'wpl-main-tracking-ids' , '');
+			$inbound_track_exclude = self::get_lead_setting( 'wpl-main-exclude-tracking-ids' , '');
 
 			/* get variation id */
 			if (class_exists('Landing_Pages_Variations')) {
 				$variation = Landing_Pages_Variations::get_current_variation_id();
 			} else if( function_exists('lp_ab_testing_get_current_variation_id') ) {
-                $variation = lp_ab_testing_get_current_variation_id();
-            }
+				$variation = lp_ab_testing_get_current_variation_id();
+			}
 
 			$variation = (isset($variation)) ? $variation : 0;
 
@@ -192,6 +192,27 @@ if (!class_exists('Inbound_Asset_Loader')) {
 
 			return apply_filters( 'inbound_analytics_localized_data' , $inbound_localized_data);
 		} /* end localize lead data */
+
+		/**
+		 * Get setting value from DB. Handles stand alone leads plugin differently from Inbound Pro included leads plugin
+		 * this function is redundant, but neccecary to prevent fatals when Leads is not activated
+		 * @param $field_id
+		 * @param $default
+		 * @return mixed
+		 */
+		public static function get_lead_setting( $field_id , $default ) {
+			global $inbound_settings;
+			$value = $default;
+
+			if (defined('INBOUND_PRO_CURRENT_VERSION')) {
+				$field_id = str_replace('wpl-main-' , '', $field_id );
+				$value = (isset($inbound_settings['leads'][$field_id])) ? $inbound_settings['leads'][$field_id] : $default;
+			} else {
+				$value = get_option( $field_id, $default );
+			}
+
+			return $value;
+		}
 
 	} /* end class */
 }
