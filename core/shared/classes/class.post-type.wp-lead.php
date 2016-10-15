@@ -493,8 +493,8 @@ if ( !class_exists('Inbound_Leads') ) {
 		* @param tag_id MIXED INT, STRING, ARRAY
 		*
 		*/
-		public static function add_tag_to_lead( $lead_id, $tag ) {
-			wp_set_object_terms( $lead_id, $tag, 'lead-tags', true );
+		public static function add_tag_to_lead( $lead_id, $tag , $append = true ) {
+			wp_set_object_terms( $lead_id, $tag, 'lead-tags', $append );
 		}
 
 		/**

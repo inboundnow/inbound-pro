@@ -630,7 +630,7 @@ class Inbound_Shortcodes {
 			?>
 			<div style='display:block; overflow: auto;'>
 				<div id='email-confirm-settings'>
-					<label for="inbound_email_send">Email Confirmation is currently: </label>
+					<label for="inbound_email_send"><?php _e('Email Follow-up' , 'inbound-pro'); ?> </label>
 					<select name="inbound_email_send_notification" id="inbound_email_send_notification">
 						<option value="off" <?php selected( $selected, 'off' ); ?>>Off</option>
 						<option value="on" <?php selected( $selected, 'on' ); ?>>On</option>
