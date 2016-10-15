@@ -59,6 +59,9 @@ class Inbound_Mailer_Forms_Integration {
             return false;
         }
 
+        /* urldecode form post */
+        $form_post_data = array_map('urldecode' , $form_post_data);
+
         $lead_id = Inbound_API::leads_get_id_from_email( $form_post_data['wpleads_email_address'] );
         $vid = Inbound_Mailer_Variations::get_next_variant_marker( $template_id );
 
