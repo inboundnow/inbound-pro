@@ -91,8 +91,8 @@ if (!class_exists('LeadStorage')) {
 				$mappedData = array();
 			}
 
-
 			$mappedData = self::improve_mapping($mappedData, $lead , $args);
+			$lead = array_merge($lead ,$mappedData);
 
 			/* prepate lead lists */
 			$lead['lead_lists'] = (isset($args['lead_lists'])) ? $args['lead_lists'] : null;
@@ -155,9 +155,19 @@ if (!class_exists('LeadStorage')) {
 					self::store_search_history($lead);
 				}
 
-				/* Store ConversionData */
-				if ( isset($lead['page_id']) && $lead['page_id']  ) {
-					self::store_conversion_data($lead);
+				/* attempt to determine page id that refered lead */
+				if (!isset($lead['page_id']) || !$lead['page_id']) {
+					$referer = wp_get_referer();
+					$referer = ($referer) ? $referer : $_SERVER['HTTP_REFERER'];
+					$page_id = url_to_postid($referer);
+					if ($page_id) {
+						$lead['page_id'] = $page_id;
+					}
+				}
+
+				/* Store Legacy Conversion Data to LANDING PAGE/CTA DATA	*/
+				if (isset($lead['page_id']) && $lead['page_id'] ) {
+					self::store_conversion_stats($lead);
 				}
 
 				/* Store Lead Source */
@@ -194,6 +204,13 @@ if (!class_exists('LeadStorage')) {
 					$lead['form_name'] = $raw_params['inbound_form_n'];
 				}
 
+				/* update lead id cookie */
+				setcookie('wp_lead_id', $lead['id'] , time() + (20 * 365 * 24 * 60 * 60), '/');
+
+				/* set unset pageviews to lead using lead_uid */
+				self::update_pageviews($lead);
+
+				/* send data back and perform action hooks */
 				if ( self::$is_ajax ) {
 					echo $lead['id'];
 					do_action('inbound_store_lead_post', $lead );
@@ -442,6 +459,38 @@ if (!class_exists('LeadStorage')) {
 					update_post_meta( $lead['id'], $key, $lead[$shortkey] );
 				}
 			}
+		}
+
+		/**
+		 * Associates prior unassociated pageviews with lead id
+		 */
+		public static function update_pageviews( $lead ) {
+			global $wpdb;
+
+			$table_name = $wpdb->prefix . "inbound_page_views";
+
+			$args = array(
+				'lead_id' => $lead['id'],
+			);
+
+			$array = array(
+				'lead_id' => 0,
+				'lead_uid' => (isset($lead['wp_lead_uid'])) ? $lead['wp_lead_uid'] :  $_COOKIE["wp_lead_uid"]
+			);
+
+			/* update inbound_page_view page view records associated with lead */
+			$wpdb->update(
+				$table_name,
+				$args,
+				array(
+					'lead_id' => 0,
+					'lead_uid' => (isset($lead['wp_lead_uid'])) ? $lead['wp_lead_uid'] :  $_COOKIE["wp_lead_uid"]
+				),
+				array(
+					'%d',
+					'%d'
+				)
+			);
 		}
 
 		/**

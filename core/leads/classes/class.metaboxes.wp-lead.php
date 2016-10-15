@@ -42,7 +42,6 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             /* Add Quick Stats */
             add_action('wpleads_display_quick_stat', array(__CLASS__, 'display_quick_stat_page_views'));
             add_action('wpleads_display_quick_stat', array(__CLASS__, 'display_quick_stat_form_submissions'));
-            add_action('wpleads_display_quick_stat', array(__CLASS__, 'display_quick_stat_custom_events'));
             add_action('wpleads_display_quick_stat', array(__CLASS__, 'display_quick_stat_last_activity'), 15);
 
             /* Add header metabox   */
@@ -612,7 +611,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             <div class="quick-stat-label">
                 <div class="label_1"><?php _e('Page Views ', 'inbound-pro'); ?>:</div>
                 <div class="label_2">
-                    <?php echo self::get_page_view_count(); ?>
+                    <?php echo Inbound_Events::get_page_views_count($post->ID); ?>
                 </div>
                 <div class="clearfix"></div>
             </div>
@@ -621,14 +620,14 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
 
         /**
-         * Adds Form Submissions to Quick Stat Box
+         * Adds Inbound Form Submissions to Quick Stat Box
          */
         public static function display_quick_stat_form_submissions($post) {
 
             ?>
 
             <div class="quick-stat-label">
-                <div class="label_1"><?php _e('Form Submissions ', 'inbound-pro'); ?>:</div>
+                <div class="label_1"><?php _e('Inbound Form Submissions ', 'inbound-pro'); ?>:</div>
                 <div class="label_2">
                     <?php echo count(self::$form_submissions); ?>
                 </div>
@@ -638,27 +637,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
         }
 
-        /**
-         * Adds Custom Events to Quick Stat Box
-         */
-        public static function display_quick_stat_custom_events($post) {
 
-            /* skip stat if none available */
-            if (!self::$custom_events) {
-                return;
-            }
-
-            ?>
-            <div class="quick-stat-label">
-                <div class="label_1"><?php _e('Custom Events', 'inbound-pro'); ?>:</div>
-                <div class="label_2">
-                    <?php echo count(self::$custom_events); ?>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-            <?php
-
-        }
 
 
         /**
@@ -904,29 +883,6 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             return $conversion_count;
         }
 
-        /**
-         * Gets number of pageviews
-         */
-        public static function get_page_view_count() {
-            global $post;
-
-            $page_views = get_post_meta($post->ID, 'page_views', true);
-            self::$page_views = json_decode($page_views, true);
-
-            $main_count = 0;
-            $page_view_count = 0;
-
-            if (is_array(self::$page_views)) {
-                foreach (self::$page_views as $key => $val) {
-                    $page_view_count += count(self::$page_views[$key]);
-                }
-                update_post_meta($post->ID, 'wpleads_page_view_count', $page_view_count);
-            } else {
-                $page_view_count = get_post_meta($post->ID, 'wpleads_page_view_count', true);
-            }
-
-            return ($page_view_count) ? $page_view_count : 0;
-        }
 
         /**
          *    Gets number of form submission events
@@ -1010,11 +966,6 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                     'id' => 'lead-comments',
                     'label' => __('Comments', 'inbound-pro'),
                     'count' => self::get_comment_count()
-                ),
-                array(
-                    'id' => 'lead-tracked-links',
-                    'label' => __('Custom Events', 'inbound-pro'),
-                    'count' => self::get_custom_events_count()
                 )
             );
 
@@ -1331,65 +1282,6 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             echo '</div>';
         }
 
-        /**
-         *    Show tracked link clicks
-         */
-        public static function activity_custom_events() {
-            global $post;
-            ?>
-            <div id="lead-tracked-links" class='lead-activity'>
-                <h2><?php _e('Custom Events', 'inbound-pro'); ?></h2>
-                <?php
-
-
-                // echo "First id : ". $the_array[1]['id'] . "!"; // Get specific value
-                if (self::$custom_events) {
-                    $count = 1;
-
-                    foreach (self::$custom_events as $key => $event) {
-                        $id = $event['session_id'];
-
-                        /* skip events without dates */
-                        if (!self::$custom_events[$key]['datetime']) {
-                            continue;
-                        }
-
-                        $date_raw = new DateTime(self::$custom_events[$key]['datetime']);
-                        $date_of_conversion = $date_raw->format('F jS, Y    g:ia (l)');
-                        $clean_date = $date_raw->format('Y-m-d H:i:s');
-
-                        echo '<div class="lead-timeline recent-conversion-item cta-tracking-item" data-date="' . $clean_date . '">
-                                    <a class="lead-timeline-img" href="#non">
-                                        <!--<i class="lead-icon-target"></i>-->
-                                    </a>
-                                    <div class="lead-timeline-body">
-                                       <div class="lead-event-text">
-                                            <p>
-                                                <span class="lead-item-num">' . $count . ' </span>
-                                                <span class="conversion-date"><b>' . __('Custom Event ', 'inbound-pro' ) . ' - ' . $date_of_conversion . '</b></span><br>
-                                                <span class="lead-helper-text"><strong>' . $event['event_name'] . ' - ' . __('Tracking ID', 'inbound-pro') . ': <span class="campaing-id">' . ($event['session_id'] ? $event['session_id'] : __('undefined', 'inbound-pro' )) . '</span></strong>
-                                                <br>
-                                                <span class="custom-details">
-                                                    <i>
-                                                    ' . ($event['event_details'] ? $event['event_details'] : '') . '
-                                                    </i>
-                                                </span>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>';
-
-
-                    }
-                } else {
-                    printf(__('%1$s No custom events discovered! %2$s', 'inbound-pro'), '<span id=\'wpl-message-none\'>', '</span>');
-                }
-
-
-                ?>
-            </div>
-            <?php
-        }
 
         /**
          *    Loads Activity UI
@@ -1401,7 +1293,6 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             self::activity_comments();
             //self::activity_searches();
             self::activity_pageviews();
-            self::activity_custom_events();
 
             do_action('wpleads_after_activity_log');
             echo '</div>';

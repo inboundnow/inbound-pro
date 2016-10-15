@@ -104,7 +104,7 @@ td.last-name {
 
 .row-actions .mark-read ,.row-actions  .mark-unread {
     font-size: 14px;
-    padding: 4px 5px;
+    padding: 0px 5px;
     color: #fff;
     border: 0;
     box-shadow: none;
@@ -120,7 +120,7 @@ td.last-name {
 
 .row-actions .mark-read , .row-actions .mark-read:hover {
     background: green;
-    padding: 4px 5px;
+    padding: 0px 5px;
     color:#fff;
 }
 

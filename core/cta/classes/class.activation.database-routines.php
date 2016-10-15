@@ -140,31 +140,6 @@ if ( !class_exists('CTA_Activation_Update_Routines') ) {
 		}
 
 		/**
-		* @introduced: 1.5.1
-		* @migration-type: db modification
-		* @mirgration: creates wp_inbound_link_tracking table
-		*/
-		public static function create_link_tracking_table() {
-			global $wpdb;
-			$table_name = $wpdb->prefix . "inbound_tracked_links";
-			$charset_collate = '';
-			if ( ! empty( $wpdb->charset ) ) {
-			  $charset_collate = "DEFAULT CHARACTER SET {$wpdb->charset}";
-			}
-			if ( ! empty( $wpdb->collate ) ) {
-			  $charset_collate .= " COLLATE {$wpdb->collate}";
-			}
-			$sql = "CREATE TABLE $table_name (
-			  `id` mediumint(9) NOT NULL AUTO_INCREMENT,
-			  `token` tinytext NOT NULL,
-			  `args` text NOT NULL,
-			  UNIQUE KEY id (id)
-			) $charset_collate;";
-			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-			dbDelta( $sql );
-		}
-
-		/**
 		 * @introduced: 2.7.8
 		 * @migration-type: alter inbound_events table
 		 * @mirgration: adds columns list_id funnel, and source to events table

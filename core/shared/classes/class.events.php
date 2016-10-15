@@ -25,6 +25,9 @@ class Inbound_Events {
         /* create page_views table if does not exist */
         add_action('inbound_shared_activate' , array( __CLASS__ , 'create_page_views_table' ));
 
+        /* create link_tracking table if does not exist */
+        add_action('inbound_shared_activate' , array( __CLASS__ , 'create_link_tracking_table' ));
+
         /* listen for cta clicks and record event to events table */
         add_action('inbound_tracked_cta_click' , array( __CLASS__ , 'store_cta_click'), 10 , 1);
 
@@ -115,6 +118,35 @@ class Inbound_Events {
 			  `source` text NOT NULL,
 			  `datetime` datetime NOT NULL,
 
+			  UNIQUE KEY id (id)
+			) $charset_collate;";
+
+        require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+        dbDelta( $sql );
+
+    }
+
+
+    /**
+     * Creates inbound_tracked_links table
+     */
+    public static function create_link_tracking_table(){
+        global $wpdb;
+
+        $table_name = $wpdb->prefix . "inbound_tracked_links";
+        $charset_collate = '';
+
+        if ( ! empty( $wpdb->charset ) ) {
+            $charset_collate = "DEFAULT CHARACTER SET {$wpdb->charset}";
+        }
+        if ( ! empty( $wpdb->collate ) ) {
+            $charset_collate .= " COLLATE {$wpdb->collate}";
+        }
+
+        $sql = "CREATE TABLE $table_name (
+			  `id` mediumint(9) NOT NULL AUTO_INCREMENT,
+			  `token` tinytext NOT NULL,
+			  `args` text NOT NULL,
 			  UNIQUE KEY id (id)
 			) $charset_collate;";
 
@@ -469,7 +501,7 @@ class Inbound_Events {
     }
 
     /**
-     * Get all form submission events related to lead ID
+     * Get all Inbound Form submission events related to lead ID
      */
     public static function get_form_submissions( $lead_id ){
         global $wpdb;
@@ -477,6 +509,20 @@ class Inbound_Events {
         $table_name = $wpdb->prefix . "inbound_events";
 
         $query = 'SELECT * FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'" AND `event_name` = "inbound_form_submission" ORDER BY `datetime` DESC';
+        $results = $wpdb->get_results( $query , ARRAY_A );
+
+        return $results;
+    }
+
+    /**
+     * Agnostically get all form submission events related to lead ID
+     */
+    public static function get_all_form_submissions( $lead_id ){
+        global $wpdb;
+
+        $table_name = $wpdb->prefix . "inbound_events";
+
+        $query = 'SELECT * FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'" AND `event_name` LIKE "%_form_submission" ORDER BY `datetime` DESC';
         $results = $wpdb->get_results( $query , ARRAY_A );
 
         return $results;
