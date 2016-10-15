@@ -94,9 +94,6 @@ if (!class_exists('Leads_Manager')) {
             self::$what = (isset($_REQUEST['what'])) ? sanitize_text_field($_REQUEST['what']) : "";
 
             self::$relation = (isset($_REQUEST['relation'])) ? sanitize_text_field($_REQUEST['relation']) : "AND";
-
-            self::$on = (isset($_REQUEST['on'])) ? sanitize_text_field($_REQUEST['on']) : "";
-
             self::$tag = (isset($_REQUEST['t'])) ? sanitize_text_field($_REQUEST['t']) : '';
 
             self::$keyword = (isset($_REQUEST['s'])) ? sanitize_text_field($_REQUEST['s']) : '';
@@ -180,7 +177,7 @@ if (!class_exists('Leads_Manager')) {
                     $message = sprintf(__("Removed %d posts from the list '%s'.", 'inbound-pro' ), self::$num, self::$what);
                     break;
                 case 'tag':
-                    $message = sprintf(__("Tagged %d posts with &ldquo; %s &rdquo; on $on.", 'inbound-pro' ), self::$num, self::$what);
+                    $message = sprintf(__("Tagged %d posts with &ldquo; %s &rdquo;", 'inbound-pro' ), self::$num, self::$what);
                     break;
                 case 'untag':
                     $message = sprintf(__("Untagged %d posts with '%s'", 'inbound-pro' ), self::$num, self::$what);
@@ -385,6 +382,13 @@ if (!class_exists('Leads_Manager')) {
             ?>
             <form method="post" id="man-table" action="<?php echo admin_url('admin.php'); ?>">
                 <input type="hidden" name="action" value="lead_action"/>
+                <?php
+                if (isset($_GET['wplead_list_category'])){
+                    foreach($_GET['wplead_list_category'] as $list_id) {
+                        echo '<input type="hidden" name="wplead_list_category[]" value="'.$list_id.'"/>';
+                    }
+                }
+                ?>
                 <div id="posts">
 
                     <table class="widefat" id="lead-manage-table">
@@ -627,13 +631,7 @@ if (!class_exists('Leads_Manager')) {
                 'posts_per_page' => self::$per_page,
             );
 
-            /* listen for on request - not sure what this does */
-            if (isset($_REQUEST['on'])) {
-                $on_val = explode(",", $on);
-                $args['post__in'] = $on_val;
-                $args['order'] = 'DESC';
-                $args['orderby'] = 'date';
-            }
+
 
             /* set tax_query_relation */
             $tax_query = array('relation' => $_REQUEST['relation']);
@@ -734,9 +732,20 @@ if (!class_exists('Leads_Manager')) {
                 return;
             }
 
+            /* get relation */
+            $relation = $_REQUEST['relation'];
+
             /* prepare array */
             $pass_ids = (is_array($_REQUEST['ids'])) ? implode(',', $_REQUEST['ids']) : $_REQUEST['ids'];
 
+            /* prepare list category url query */
+            $wplead_list_category_query = "";
+            if (isset($_REQUEST['wplead_list_category'])) {
+                foreach ($_REQUEST['wplead_list_category'] as $list_id) {
+                    $wplead_list_category_query .= '&wplead_list_category%5B0%5D='.$list_id;
+                }
+
+            }
 
             self::$num = count($_REQUEST['ids']);
 
@@ -765,7 +774,7 @@ if (!class_exists('Leads_Manager')) {
                     $Inbound_Leads->add_lead_to_list($fid, $list_id); // add to list
                 }
 
-                wp_redirect(get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&done=add&what=" . $name . "&num=" . self::$num . $query);
+                wp_redirect(get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_managementt&submit=true&relation=".$relation."&done=add".$wplead_list_category_query."&what=" . $name . "&num=" . self::$num . $query);
                 die;
             } /* We've been told to remove these posts from the given category. */
             elseif (!empty($_REQUEST['remove'])) {
@@ -774,16 +783,17 @@ if (!class_exists('Leads_Manager')) {
                     $Inbound_Leads->remove_lead_from_list(intval($id), $list_id);
                 }
 
-                wp_redirect(get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&done=remove&what=" . $name . "&num=" . self::$num);
+                wp_redirect(get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management".$wplead_list_category_query."&relation=".$relation."&done=remove&submit=true&what=" . $name . "&num=" . self::$num);
                 die;
             } /* We've been told to tag these posts */
             elseif (!empty($_REQUEST['tag']) || !empty($_REQUEST['replace_tags'])) {
                 $tags = $_REQUEST['tags'];
-
+                $append = (isset($_REQUEST['replace_tags'])) ? false : true;
+                error_log('append'.$append);
                 foreach ((array)$_REQUEST['ids'] as $id) {
-                    $Inbound_Leads->add_tag_to_lead(intval($id), $tags);
+                    $Inbound_Leads->add_tag_to_lead(intval($id), $tags , $append);
                 }
-                wp_redirect(get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&done=tag&what=$tags&num=self::$num$query&on=$pass_ids");
+                wp_redirect(get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&submit=true&relation=".$relation."&done=tag".$wplead_list_category_query."&what=$tags&num=".self::$num.$query);
                 die;
             } /* We've been told to untag these posts */
             elseif (!empty($_REQUEST['untag'])) {
@@ -805,7 +815,7 @@ if (!class_exists('Leads_Manager')) {
                 }
 
                 $tags = join(', ', $tags);
-                wp_redirect(get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&done=untag&what=$tags&num=self::$num$query");
+                wp_redirect(get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&submit=true&relation=".$relation."&done=untag&what=".$tags.$wplead_list_category_query."&num=".self::$num.$query);
                 die;
             } /* Delete selected leads */
             elseif (!empty($_REQUEST['delete_leads'])) {
@@ -814,7 +824,7 @@ if (!class_exists('Leads_Manager')) {
                     wp_delete_post($id, true);
                 }
 
-                wp_redirect(get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&done=delete_leads&what=" . $name . "&num=self::$num$query");
+                wp_redirect(get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&submit=true&relation=".$relation."&done=delete_leads".$wplead_list_category_query."&what=" . $name . "&num=self::$num$query");
                 die;
 
             }
