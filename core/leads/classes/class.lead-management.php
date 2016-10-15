@@ -863,8 +863,13 @@ if (!class_exists('Leads_Manager')) {
             $limit    = $_POST['data']['limit'];
             $offset   = $_POST['data']['offset'];
             $total    = $_POST['data']['total'];
-            $is_first = (!isset($_POST['data']['is_first'])) ? 0 : 1;
+            $is_first = (!isset($_POST['data']['is_first']) || !$_POST['data']['is_first'] ) ? 0 : 1;
             $fields = Leads_Field_Map::build_map_array();
+
+            /* add lead status & date created */
+            $fields['wp_lead_status'] = __("Lead Status","inbound-pro");
+            $fields['wpleads_last_updated'] = __("Last Updated","inbound-pro");
+            $fields['wpleads_date_created'] = __("Date Created","inbound-pro");
 
             $upload_dir = wp_upload_dir();
             $uploads_path = 'leads/csv';
@@ -879,7 +884,7 @@ if (!class_exists('Leads_Manager')) {
             $path = str_replace($today_year.'/'.$today_month.'/','',$path);
             if(file_exists($path)){
                 if($is_first == 1){
-                    //unlink($path."/".$filename.".csv");
+                    unlink($path."/".$filename.".csv");
                 }
             } else {
                 mkdir($path, 0755, true);
@@ -919,6 +924,7 @@ if (!class_exists('Leads_Manager')) {
                     continue;
                 }
 
+                $lead = get_post($ids[$j]);
                 $this_lead_data = get_post_custom($ids[$j]);
 
 
@@ -931,6 +937,11 @@ if (!class_exists('Leads_Manager')) {
                         }
                     } else {
                         $val = "";
+                    }
+
+                    /* account for date created */
+                    if ($key == 'wpleads_date_created') {
+                        $val = $lead->post_date;
                     }
 
                     $this_row_data[$key] = $val;
