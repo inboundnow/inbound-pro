@@ -234,16 +234,16 @@ class Inbound_Pro_Activation {
 
 		/* Import Leads Settings */
 		if (!isset($inbound_settings['leads'])) {
-			$tracking_ids = get_option('wpl-tracking-ids', '');
-			$exclude_tracking_ids = get_option('wpl-exclude-tracking-ids', '');
-			$page_view_tracking = get_option('wpl-page-view-tracking', 1);
-			$search_tracking = get_option('wpl-search-tracking', 1);
-			$comment_tracking = get_option('wpl-comment-tracking', 1);
-			$enable_dashboard = get_option('wpl-enable-dashboard', 1);
-			$disable_widgets = get_option('wpl-disable-widgets', 1);
-			$full_contact = get_option('wpl-extra-lead-data', '');
-			$inbound_admin_notification_inboundnow_link = get_option('wpl-inbound_admin_notification_inboundnow_link', 1);
-			$inbound_forms_enable_akismet = get_option('wpl-inbound_forms_enable_akismet', 0);
+			$tracking_ids = get_option('wpl-main-tracking-ids', '');
+			$exclude_tracking_ids = get_option('wpl-main-exclude-tracking-ids', '');
+			$page_view_tracking = get_option('wpl-main-page-view-tracking', 1);
+			$search_tracking = get_option('wpl-main-search-tracking', 1);
+			$comment_tracking = get_option('wpl-main-comment-tracking', 1);
+			$enable_dashboard = get_option('wpl-main-enable-dashboard', 1);
+			$disable_widgets = get_option('wpl-main-disable-widgets', 1);
+			$full_contact = get_option('wpl-main-extra-lead-data', '');
+			$inbound_admin_notification_inboundnow_link = get_option('wpl-main-inbound_admin_notification_inboundnow_link', 1);
+			$inbound_forms_enable_akismet = get_option('wpl-main-inbound_forms_enable_akismet', 0);
 
 			$inbound_settings['leads']['tracking-ids'] = $tracking_ids;
 			$inbound_settings['leads']['exclude-tracking-ids'] = $exclude_tracking_ids;
