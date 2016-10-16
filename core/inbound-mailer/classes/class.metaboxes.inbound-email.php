@@ -602,7 +602,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             echo '<h4>' . __('Please Wait', 'inbound-pro') . '</h4>';
 
 
-            echo '<p>'. sprintf(__('We are sending your email data to %s now. Depending on how many emails you are generating this might take a moment. If your emails are scheduled to be sent immediately then you can view your current send statistics below.' , 'inbound-ro' ) , $inbound_settings['inbound-mailer']['mail-service'] ) ;
+            echo '<p>'. sprintf(__('We are sending your email data to %s now. Depending on how many emails you are generating this might take a moment. If your emails are scheduled to be sent immediately then you can view your current send statistics below by refreshing the page.' , 'inbound-ro' ) , $inbound_settings['inbound-mailer']['mail-service'] ) ;
 
             echo '</div>';
         }
