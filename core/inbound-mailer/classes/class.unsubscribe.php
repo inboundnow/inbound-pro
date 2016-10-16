@@ -47,7 +47,8 @@ class Inbound_Mailer_Unsubscribe {
 
 		if ( isset( $_GET['unsubscribed'] ) ) {
 			$confirm =  "<span class='unsubscribed-message'>". $unsubscribed_confirmation_message ."</span>";
-			$unsubscribed_confirmation_message = apply_filters( 'inbound-mailer/unsubscribe/confirmation-html' , $confirm );
+			$confirm = apply_filters( 'inbound-mailer/unsubscribe/confirmation-html' , $confirm );
+			return $confirm;
 		}
 
 		if ( !isset( $_GET['token'] ) ) {
