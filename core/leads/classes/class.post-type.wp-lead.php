@@ -316,7 +316,7 @@ class Leads_Post_Type {
     public static function process_filters($query) {
         global $pagenow, $post;
 
-        if (!isset($_REQUEST['post_type']) || $_REQUEST['post_type'] != 'wp-lead') {
+        if (!isset($_REQUEST['post_type']) || $_REQUEST['post_type'] != 'wp-lead' || isset($_GET['page'])) {
             return;
         }
 
