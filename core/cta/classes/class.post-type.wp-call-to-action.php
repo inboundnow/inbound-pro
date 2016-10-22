@@ -61,8 +61,8 @@ if ( !class_exists('CTA_Post_Type') ) {
 			$slug = get_option( 'wp-cta-main-wp-call-to-action-permalink-prefix', 'cta' );
 
 			$labels = array(
-				'name' => __('Call to Action', 'inbound-pro' ),
-				'singular_name' => __('Call to Action', 'inbound-pro' ),
+				'name' => __('Calls to Action', 'inbound-pro' ),
+				'singular_name' => __('Calls to Action', 'inbound-pro' ),
 				'add_new' => __('Add New', 'inbound-pro' ),
 				'add_new_item' => __('Add New Call to Action', 'inbound-pro' ),
 				'edit_item' => __('Edit Call to Action', 'inbound-pro' ),
