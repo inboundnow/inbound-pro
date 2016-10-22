@@ -151,7 +151,7 @@ class Inbound_Mailer_Activation {
 	public static function display_upgrade_routine_notice() {
 		?>
 		<div class="error">
-			<p><?php _e( 'Inbound Email Component plugin requires  a database upgrade:', 'inbound-email' ); ?> <a href='?plugin=inbound-email&plugin_action=upgrade_routines'><?php _e('Upgrade Database Now' , 'inbound-email' ); ?></a></p>
+			<p><?php _e( 'Inbound Email Component plugin requires  a database upgrade:', 'inbound-pro' ); ?> <a href='?plugin=inbound-email&plugin_action=upgrade_routines'><?php _e('Upgrade Database Now' , 'inbound-pro' ); ?></a></p>
 		</div>
 		<?php
 	}

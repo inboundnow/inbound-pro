@@ -34,8 +34,8 @@ class Inbound_Mailer_Clone_Post {
 		}
 		
 		$actions['clone'] = '<a href="'. self::build_clone_link( $post->ID , 'display', true ).'" title="'
-		. esc_attr(__( 'Clone this item' , 'inbound-email' ))
-		. '">' .	__( 'Clone' , 'inbound-email' ) . '</a>';
+		. esc_attr(__( 'Clone this item' , 'inbound-pro' ))
+		. '">' .	__( 'Clone' , 'inbound-pro' ) . '</a>';
 
 		return $actions;
 	}
@@ -88,7 +88,7 @@ class Inbound_Mailer_Clone_Post {
 
 		} else {
 			$post_type_obj = get_post_type_object( $post->post_type );
-			wp_die(esc_attr(__( 'Copy creation failed, could not find original:', 'inbound-email' )) . ' ' . $id);
+			wp_die(esc_attr(__( 'Copy creation failed, could not find original:', 'inbound-pro' )) . ' ' . $id);
 		}
 	}
 	
@@ -111,7 +111,7 @@ class Inbound_Mailer_Clone_Post {
 		}
 
 
-		$prefix = __( "Copy of " , 'inbound-email' );
+		$prefix = __( "Copy of " , 'inbound-pro' );
 		$suffix = "";
 		$status = 'unsent';
 		
