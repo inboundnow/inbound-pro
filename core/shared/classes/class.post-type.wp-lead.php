@@ -486,6 +486,26 @@ if ( !class_exists('Inbound_Leads') ) {
 			return apply_filters('leads/statuses' , $default );
 		}
 
+
+		/**
+		 * Get lead status count given status key
+		 * @dev
+		 */
+		public static function get_status_lead_count( $status ) {
+
+			$args = array(
+				'post_type' => 'wp-lead',
+				'meta_key' => 'wp_lead_status',
+				'meta_value' => (string)$status,
+				'meta_compare' => '=',
+				'posts_per_page' => -1
+			);
+
+			$query = new WP_Query( $args );
+
+			return $query->post_count;
+		}
+
 		/**
 		* Adds tag to lead
 		*
