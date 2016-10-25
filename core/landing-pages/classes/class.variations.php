@@ -14,6 +14,8 @@ if (!class_exists('Landing_Pages_Variations')) {
             add_action('wp_ajax_lp_clear_stats_action',  array( __CLASS__ , 'ajax_clear_stats' ) );
             add_action('wp_ajax_lp_clear_stats_single', array( __CLASS__ , 'ajax_clear_stats_single'));
 
+            /* alter preview link */
+            add_filter('post_type_link' , array( __CLASS__ , 'prepare_filter_link') , 10 , 1 );
         }
 
 
@@ -174,6 +176,35 @@ if (!class_exists('Landing_Pages_Variations')) {
             } else {
                 return $id;
             }
+        }
+
+        /**
+         * Convert permalink to the correct variation preview link
+         * @param $link
+         * @return mixed
+         */
+        public static function prepare_filter_link( $link ) {
+
+            if (!is_admin() || !function_exists('get_current_screen')) {
+                return $link;
+            }
+
+            $screen = get_current_screen();
+
+            if (!isset($screen) || $screen->parent_file != 'edit.php?post_type=landing-page' || strstr($link ,'%') ){
+                return $link;
+            }
+
+            if (strstr($link , 'lp-variation-id')) {
+                return $link;
+            }
+
+
+            $vid = self::get_current_variation_id();
+
+            $link = add_query_arg(array('lp-variation-id'=>$vid) , $link);
+
+            return $link;
         }
 
 
