@@ -1737,18 +1737,25 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
                         /* get available options from memory */
                         $field['options'] = (isset($inbound_settings['leads-custom-fields'][$id]['options'])) ? $inbound_settings['leads-custom-fields'][$id]['options'] : array();
-
+//$inbound_settings['leads-custom-fields'][$id]['options'] = array();
+//Inbound_Options_API::update_option( 'inbound-pro' , 'settings' , $inbound_settings );
+//exit;
                         /* store current option if not available */
                         if (!in_array($field['value'], $field['options'])) {
-                            $inbound_settings['leads-custom-fields'][$id]['options'][] = array($field['value']=>$field['value']);
+                            error_log(print_r($inbound_settings['leads-custom-fields'][$id],true));
+
+                            $inbound_settings['leads-custom-fields'][$id]['options'][] = $field['value'];
+
+
                             $inbound_settings['leads-custom-fields'][$id]['options'] = array_filter($inbound_settings['leads-custom-fields'][$id]['options']);
+
                             $inbound_settings['leads-custom-fields'][$id]['options'] = array_unique($inbound_settings['leads-custom-fields'][$id]['options']);
                             Inbound_Options_API::update_option( 'inbound-pro' , 'settings' , $inbound_settings );
                         }
 
                         $field['options'] = array_merge($inbound_settings['leads-custom-fields'][$id]['options'] , $field['options']);
                         $field['options'] = array_unique($field['options']);
-
+//error_log(print_r($field,true));exit;
                         foreach ($field['options'] as $key => $value) {
                             echo '<input type="radio" name="' . $id . '" id="' . $id . '" value="' . $value . '" ', $field['value'] == $value ? ' checked="checked"' : '', '/>';
                             echo '<label for="' . $value . '">&nbsp;&nbsp;' . $value . '</label> &nbsp;&nbsp;&nbsp;&nbsp;';
