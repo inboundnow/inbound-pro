@@ -207,6 +207,21 @@ class Inbound_Pro_Activation {
 		if( is_plugin_active('leads/leads.php') ) {
 			deactivate_plugins('leads/leads.php');
 		}
+
+		/* deactivate leads if active */
+		if( is_plugin_active('leads/leads.php') ) {
+			deactivate_plugins('leads/leads.php');
+		}
+
+		/* deactivate acf4 if active */
+		if( is_plugin_active('advanced-custom-fields/acf.php') ) {
+			deactivate_plugins('advanced-custom-fields/acf.php');
+		}
+
+		/* deactivate acf5 if active */
+		if( is_plugin_active('advanced-custom-fields-pro/acf.php') ) {
+			deactivate_plugins('advanced-custom-fields-pro/acf.php');
+		}
 	}
 
 	/*

@@ -362,7 +362,7 @@ Cheers!
                     'class' => '',
                     'id' => '',
                 ),
-                'default_value' => 'InboundWP LLC. - Intewebs, USA',
+                'default_value' => 'InboundWP LLC. - Interwebs, USA',
                 'placeholder' => 'Enter address here for CAN-SPAM compliance.',
                 'prepend' => '',
                 'append' => '',

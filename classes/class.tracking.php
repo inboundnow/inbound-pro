@@ -4,7 +4,7 @@
 *  This class loads installed extensions
 */
 	
-class Inbound_Analytics {
+class Inbound_Tracking {
 	
 	/**
 	*  Initiate class
@@ -88,4 +88,4 @@ class Inbound_Analytics {
 	
 }
 
-new Inbound_Analytics();
+new Inbound_Tracking();

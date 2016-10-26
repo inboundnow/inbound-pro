@@ -72,7 +72,7 @@ class Inbound_Mailer_Notifications {
 				}
 				?>
 				<div class="updated">
-					<p><?php _e( sprintf( 'Email requires a Mandrill API Key. Head to your %s to input your Mandrill API key.' , '<a href="'.$settings_url.'">'.__( 'settings page' , 'inbound-email' ).'</a>') , 'inbound-email'); ?></p>
+					<p><?php _e( sprintf( 'Email requires a Mandrill API Key. Head to your %s to input your Mandrill API key.' , '<a href="'.$settings_url.'">'.__( 'settings page' , 'inbound-pro' ).'</a>') , 'inbound-email'); ?></p>
 				</div>
 				<?php
 
@@ -84,7 +84,7 @@ class Inbound_Mailer_Notifications {
 				}
 				?>
 				<div class="updated">
-					<p><?php _e( sprintf( 'Email requires a SparkPost API Key. Head to your %s to input your Mandrill API key.' , '<a href="'.$settings_url.'">'.__( 'settings page' , 'inbound-email' ).'</a>') , 'inbound-email'); ?></p>
+					<p><?php _e( sprintf( 'Email requires a SparkPost API Key. Head to your %s to input your Mandrill API key.' , '<a href="'.$settings_url.'">'.__( 'settings page' , 'inbound-pro' ).'</a>') , 'inbound-email'); ?></p>
 				</div>
 				<?php
 				break;

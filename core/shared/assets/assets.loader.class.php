@@ -11,7 +11,6 @@ if (!class_exists('Inbound_Asset_Loader')) {
 			self::$load_assets = true;
 			add_action('admin_enqueue_scripts', array(__CLASS__, 'load_admin_scripts'), 101);
 			add_action('wp_enqueue_scripts', array(__CLASS__, 'register_scripts_and_styles'), 101);
-			add_action('admin_enqueue_scripts', array(__CLASS__, 'register_scripts_and_styles'), 101);
 		}
 
 		static function load_admin_scripts(){
@@ -37,26 +36,25 @@ if (!class_exists('Inbound_Asset_Loader')) {
 
 		}
 		/**
-		 * Registers and enqueues stylesheets for the administration panel and the
-		 * public facing site.
+		 * Registers enqueues
 		 *
 		 * Example:
 		 * self::enqueue_shared_file('SCRIPT-ID',  INBOUNDNOW_SHARED_PATH . 'assets/js/frontend/path-in-shared-assets.js', 'localized_var_name', $localized_array_values, $dependancies_array );
 		 */
 		static function register_scripts_and_styles() {
 			global $post;
-			/* Frontent and Backend Files */
-
 
 			global $wp_scripts;
 			$store = false;
 
+			/*
 			if ( !empty( $wp_scripts->queue ) ) {
-				$store = $wp_scripts->queue; /* store the scripts */
+				$store = $wp_scripts->queue;
 				foreach ( $wp_scripts->queue as $handle ) {
 					wp_dequeue_script( $handle );
 				}
 			}
+			*/
 
 			/* unminified source available */
 			self::enqueue_shared_file('inbound-analytics', 'assets/js/frontend/analytics/inboundAnalytics.min.js', array( 'jquery' ), 'inbound_settings', self::localize_lead_data() , false);
@@ -67,7 +65,7 @@ if (!class_exists('Inbound_Asset_Loader')) {
 				}
 			}
 
-		} /* end register_scripts_and_styles */
+		}
 
 		/**
 		 * Helper function for registering and enqueueing scripts and styles.

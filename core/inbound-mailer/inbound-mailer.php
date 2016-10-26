@@ -46,7 +46,7 @@ if ( !class_exists('Inbound_Mailer_Plugin')	) {
 		 * add the error message to the admin notices
 		 */
 		static function fail_php_version() {
-			self::notice( __( 'Inbound Email Component requires PHP version 5.3+, plugin is currently NOT ACTIVE.', 'inbound-email' ) );
+			self::notice( __( 'Inbound Email Component requires PHP version 5.3+, plugin is currently NOT ACTIVE.', 'inbound-pro' ) );
 		}
 
 		/**

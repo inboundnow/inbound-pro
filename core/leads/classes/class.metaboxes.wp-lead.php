@@ -1593,7 +1593,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
          * @param ARRAY $fields
          */
         public static function render_settings() {
-
+            global $inbound_settings;
             //uasort( self::$mapped_fields , array( __CLASS__ , 'piority_sort_filter' ) );
 
             ?>
@@ -1704,9 +1704,26 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                             $field['value'] = explode( ',' , $field['value'][0] );
                         }
 
-                        foreach( $field['options'] as $value => $label) {
-                            echo '<input type="checkbox" name="' . $id . '[]" id="' . $id . '" value="' . $value . '" ', in_array($value, $field['value']) ? ' checked="checked"' : '',  in_array( strtolower($label), $field['value']) ? ' checked="checked"' : '', '/>';
-                            echo ' ' . $label;
+                        /* get available options from memory */
+                        $field['options'] = (isset($inbound_settings['leads-custom-fields'][$id]['options'])) ? $inbound_settings['leads-custom-fields'][$id]['options'] : array();
+
+                        /* store current option if not available */
+                        foreach ($field['value'] as $key=>$value) {
+                            if (in_array( $value , $field['options'])) {
+                                continue;
+                            }
+
+                            $inbound_settings['leads-custom-fields'][$id]['options'] = array_merge($inbound_settings['leads-custom-fields'][$id]['options'] , $field['value']);
+                            $inbound_settings['leads-custom-fields'][$id]['options'] = array_unique($inbound_settings['leads-custom-fields'][$id]['options']);
+                            Inbound_Options_API::update_option( 'inbound-pro' , 'settings' , $inbound_settings );
+                        }
+
+                        $field['options'] = array_merge($inbound_settings['leads-custom-fields'][$id]['options'] , $field['options']);
+                        $field['options'] = array_unique($field['options']);
+
+                        foreach( $field['options'] as $key => $value) {
+                            echo '<input type="checkbox" name="' . $id . '[]" id="' . $id . '" value="' . $value . '" '. ( in_array($value, $field['value']) ? ' checked="checked"' : '' ) . '/>';
+                            echo ' ' . $value;
                             echo '<br>';
                         }
 
@@ -1718,9 +1735,28 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                     /* radio */
                     case strstr($field['type'], 'radio'):
 
-                        foreach ($field['options'] as $value => $label) {
+                        /* get available options from memory */
+                        $field['options'] = (isset($inbound_settings['leads-custom-fields'][$id]['options'])) ? $inbound_settings['leads-custom-fields'][$id]['options'] : array();
+
+                        /* store current option if not available */
+                        if (!in_array($field['value'], $field['options'])) {
+                            error_log(print_r($inbound_settings['leads-custom-fields'][$id],true));
+
+                            $inbound_settings['leads-custom-fields'][$id]['options'][] = $field['value'];
+
+
+                            $inbound_settings['leads-custom-fields'][$id]['options'] = array_filter($inbound_settings['leads-custom-fields'][$id]['options']);
+
+                            $inbound_settings['leads-custom-fields'][$id]['options'] = array_unique($inbound_settings['leads-custom-fields'][$id]['options']);
+                            Inbound_Options_API::update_option( 'inbound-pro' , 'settings' , $inbound_settings );
+                        }
+
+                        $field['options'] = array_merge($inbound_settings['leads-custom-fields'][$id]['options'] , $field['options']);
+                        $field['options'] = array_unique($field['options']);
+
+                        foreach ($field['options'] as $key => $value) {
                             echo '<input type="radio" name="' . $id . '" id="' . $id . '" value="' . $value . '" ', $field['value'] == $value ? ' checked="checked"' : '', '/>';
-                            echo '<label for="' . $value . '">&nbsp;&nbsp;' . $label . '</label> &nbsp;&nbsp;&nbsp;&nbsp;';
+                            echo '<label for="' . $value . '">&nbsp;&nbsp;' . $value . '</label> &nbsp;&nbsp;&nbsp;&nbsp;';
                         }
 
                         if (isset($field['desc'])) {

@@ -42,14 +42,14 @@ class Inbound_Mailer_WordPress_Leads {
 		/* Add email click events */
 		$nav_items[] = array(
 			'id'=>'wpleads_lead_inbound_email_click_tab',
-			'label'=> __( 'Email Clicks' , 'inbound-email' ),
+			'label'=> __( 'Email Clicks' , 'inbound-pro' ),
 			'count' => count( self::$click_events )
 		);
 		
 		/* Add email unsubscribe events */
 		$nav_items[] = array(
 			'id'=>'wpleads_lead_inbound_email_unsubscribes_tab',
-			'label'=> __( 'Unsubscribes' , 'inbound-email' ),
+			'label'=> __( 'Unsubscribes' , 'inbound-pro' ),
 			'count' => count( self::$unsubscribe_events )
 		);
 		
@@ -64,7 +64,7 @@ class Inbound_Mailer_WordPress_Leads {
 		global $post; 
 		?>
 		<div id="wpleads_lead_inbound_email_click_tab" class='lead-activity'>
-			<h2><?php _e( 'Email\'s Clicked' , 'inbound-email' ); ?></h2>
+			<h2><?php _e( 'Email\'s Clicked' , 'inbound-pro' ); ?></h2>
 			<?php
 
 			if ( self::$click_events ) {
@@ -92,9 +92,9 @@ class Inbound_Mailer_WordPress_Leads {
 										<span class="lead-item-num">'.$count.'. </span>
 										<span class="conversion-date"><b>'. __('Email Clickthrough' , 'inbound-mailer' ) .' - ' .$date_of_conversion.'</b></span>
 										<br>
-										<span class="lead-helper-text">'.__('Email clickthrough through this email ' , 'inbound-email' ).' </span><a href="'.$email_permalink.'" target="_blank">'.$email_title.'</a>
+										<span class="lead-helper-text">'.__('Email clickthrough through this email ' , 'inbound-pro' ).' </span><a href="'.$email_permalink.'" target="_blank">'.$email_title.'</a>
 										<br>
-										<span class="lead-helper-text">'.__('Lead visited this link ' , 'inbound-email' ).': </span><a href="'.$destination_permalink.'" target="_blank">'.$destination_title.'</a>
+										<span class="lead-helper-text">'.__('Lead visited this link ' , 'inbound-pro' ).': </span><a href="'.$destination_permalink.'" target="_blank">'.$destination_title.'</a>
 										</p>
 									</div>
 								</div>
@@ -105,7 +105,7 @@ class Inbound_Mailer_WordPress_Leads {
 			}
 			else
 			{
-				echo '<span id=\'wpl-message-none\'>'. __( 'No Email Clickthroughs!' , 'inbound-email' ) .'</span>';
+				echo '<span id=\'wpl-message-none\'>'. __( 'No Email Clickthroughs!' , 'inbound-pro' ) .'</span>';
 			}
 
 
@@ -121,7 +121,7 @@ class Inbound_Mailer_WordPress_Leads {
 		global $post; 
 		?>
 		<div id="wpleads_lead_inbound_email_unsubscribes_tab" class='lead-activity'>
-			<h2><?php _e( 'Unsubscribes' , 'inbound-email' ); ?></h2>
+			<h2><?php _e( 'Unsubscribes' , 'inbound-pro' ); ?></h2>
 			<?php
 
 			if ( self::$unsubscribe_events ) {
@@ -148,7 +148,7 @@ class Inbound_Mailer_WordPress_Leads {
 											<span class="lead-item-num">'.$count.'. </span>
 											<span class="conversion-date"><b>' . __('Unsubscribe Event','inbound-mailer') . ' - ' . $datetime . '</b></span>
 											<br>
-											<span class="lead-helper-text">'.__('Lead unsubscribed from' , 'inbound-email' ).': </span>
+											<span class="lead-helper-text">'.__('Lead unsubscribed from' , 'inbound-pro' ).': </span>
 											<br>
 											';
 
@@ -176,7 +176,7 @@ class Inbound_Mailer_WordPress_Leads {
 			}
 			else
 			{
-				echo '<span id=\'wpl-message-none\'>'. __( 'No Unsuvscribe Events!' , 'inbound-email' ) .'</span>';
+				echo '<span id=\'wpl-message-none\'>'. __( 'No Unsuvscribe Events!' , 'inbound-pro' ) .'</span>';
 			}
 
 

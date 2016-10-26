@@ -71,7 +71,7 @@ if (!class_exists('Inbound_Heartbeat')) {
 		public static function add_ping_interval( $schedules ) {
 			$schedules['2min'] = array(
 				'interval' => 60 * 2,
-				'display' => __( 'Every Two Minutes' , 'inbound-email' )
+				'display' => __( 'Every Two Minutes' , 'inbound-pro' )
 			);
 
 			return $schedules;

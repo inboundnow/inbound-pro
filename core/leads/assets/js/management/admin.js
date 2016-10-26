@@ -105,6 +105,127 @@ jQuery(document).ready(function($) {
 		    }
 		);
 	}
+	/*lead action batch processing*/
+	jQuery("body").on('click','#lead-update-lists > input[type="submit"], #lead-update-tags > input[type="submit"], #lead-delete > input[type="submit"]', function (e) {
+		e.preventDefault(); 
+		var total_records = jQuery("#lead-manage-table").find("input[name='ids[]']:checked").length;
+		var ids = jQuery("#lead-manage-table").find("input.lead-select-checkbox:checked").map(function () {
+			return this.value;
+		}).get();
+
+		/*limiter for how many leads the php side processes*/
+		if(ids.length >= 50){
+			var batch_limit = 50;
+		}else{
+			var batch_limit = ids.length; /*if fewer than 50 leads are being processed, set the limit for the lead number so php isn't processing empty indexes*/
+		}
+		var count_process = Math.ceil(total_records / batch_limit); /*number of passes it will take to process the leads. Only used for creating progress bars*/
+		var text = "";
+		var i;	/*counter for the number of progress bars to create*/
+		var possibleActions = {'add' : 'add to a list', 'remove' : 'remove from a list', 'tag' : 'add tags to', 'untag' : 'to remove tags from', 'replace_tags' : 'have tags replaced', 'delete_leads' : 'to have deleted'}; /*action list for UI purposes*/
+		var action = jQuery(this).attr('name'); //action to be taken, the input's name is used for identifying the action
+		var leadListId = jQuery('[name="wplead_list_category_action"]').val();	/*% lead list to commit actions to*/
+		var tags = jQuery('#inbound-lead-tags-input').val(); /*% tags to do stuff with*/
+
+		if(total_records < 1){
+			alert("Please select lead/s to " + possibleActions[action]);
+			e.preventDefault();
+			return false;
+		}
+		
+		if(leadListId == '' && action == 'add' || leadListId == '' && action == 'remove'){
+			alert("Please select a lead list");
+			e.preventDefault();
+			return false;
+		}
+		
+		for (i = 0; i < count_process; i++) {
+			text += '<tr id="row"'+i+'><td><p id="progress'+i+'" class="progress"></p></td><td><div  id="progressbar'+i+'" class="ui-progressbar ui-widget ui-widget-content ui-corner-all" role="progressbar" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0"></div></td></tr>';
+		}
+
+		jQuery("#progress-table #the-progress-list").html(text);
+
+		/*leadAction function call*/
+		$( "#export-leads" ).trigger( "click" );
+		leadAction(batch_limit, 0, total_records, 0, ids, action, leadListId, tags);
+		return false;
+	});
+
+	jQuery("#export-leads").magnificPopup({
+		type: 'inline',
+		preloader: false,
+		verticalFit: true,
+		overflowY: 'scroll',
+		callbacks: {
+			open: function(){
+				$("#lead-export-process").css("display", "block");
+			},
+			close: function(){
+				$("#lead-export-process").css("display", "none");
+				location.reload();
+			}
+		},
+	});
+
+	function leadAction(limit, offset, total, i, ids, action, leadListId, tags){
+		/* limit means "index to stop at". It gets incremented by 50 on each pass, so after three it equals 150. */
+		
+		var possibleActions = {'add' : 'added to the list', 'remove' : 'removed from the list', 'tag' : 'tagged with '+ tags , 'untag' : 'have had '+ tags +' tags removed', 'replace_tags' : 'have had tags replaced with ' + tags, 'delete_leads' : 'deleted'};		   
+		var limit_init = 50; //used for incrementing limit. 
+		
+		jQuery.post(
+			ajaxurl,
+			{
+				'action': 'perform_actions',
+				'data': {
+					action: action,
+					limit: limit,
+					offset: offset,
+					total: total,
+					ids: JSON.stringify(ids),
+					lead_list_id: leadListId,
+					tags: tags,
+				},
+			},
+			
+			function(response){
+				var jsonParse = JSON.parse(response);
+//				console.log(jsonParse);
+
+				jQuery( "#progressbar"+i ).progressbar({ value: 100 });
+
+				if(total < limit){
+					jQuery( "#progress"+i ).text(offset+" - "+ total + " of "+total);
+				}else{
+					jQuery( "#progress"+i ).text(offset+" - "+ limit + " of "+total);
+				}
+
+				//if count is greater than or equal to the total number of records
+				if(limit >= total && limit > 1){
+					//output the download url
+					jQuery(".download-leads-csv").html('<p>' + total + ' leads successfully ' + possibleActions[action] + '</p>');
+				}
+
+				offset = limit;
+
+				var limit_old = limit;
+	
+				limit = limit + limit_init; //increment. 
+				
+				i = i+1;
+				//if incremented limit is greater than total and the old limit is greater than total
+				if(limit > total && limit_old < total){
+					//pass total as the limit. //remember: limit means "index to stop at"
+					leadAction(total, offset, total, i, ids, action, leadListId, tags);
+				
+				}else if(limit <= total){
+					leadAction(limit, offset, total, i, ids, action, leadListId, tags);
+				}
+			}
+		);
+	}		
+	/*end lead action batch processing*/
+	
 	/* initiate table sorter */
 	var table = jQuery("#lead-manage-table").length;
 	if (table > 0) {
@@ -266,6 +387,7 @@ jQuery(document).ready(function($) {
 			year_end: jQuery('#year_end').val(),
 			t: jQuery('#t').val(),
 			paged: parseInt(jQuery('#paged-current').text()) + 1,
+			wp_lead_status : jQuery('#wp_lead_status').val()
 		}
 
 		for ( tax in bulk_manage_leads.taxonomies ) {
@@ -273,7 +395,9 @@ jQuery(document).ready(function($) {
 				data[tax] = jQuery('#' + tax).val();
 			}
 		}
-        console.log(data);
+
+		console.log(data);
+
 		jQuery.ajax({
 			type: 'POST',
 			context: this,

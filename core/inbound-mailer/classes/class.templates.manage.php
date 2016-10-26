@@ -172,7 +172,7 @@ if ( !class_exists('Inbound_Mailer_Template_Manager') ) {
 
 			if (($list = $zip->listContent()) == 0)
 			{
-				die(__('There was a problem. Please try again!' , 'inbound-email' ));
+				die(__('There was a problem. Please try again!' , 'inbound-pro' ));
 			}
 
 			$is_template = false;
@@ -194,14 +194,14 @@ if ( !class_exists('Inbound_Mailer_Template_Manager') ) {
 
 			if (!$is_template) {
 				echo "<br><br><br><br>";
-				die(__( 'WARNING! This zip file does not seem to be a call to action template file! If you are trying to install an inbound now extension please use the Plugin\'s upload section! Please press the back button and try again!' , 'inbound-email' ));
+				die(__( 'WARNING! This zip file does not seem to be a call to action template file! If you are trying to install an inbound now extension please use the Plugin\'s upload section! Please press the back button and try again!' , 'inbound-pro' ));
 			}
 
 			if ($result = $zip->extract(PCLZIP_OPT_PATH, INBOUND_EMAIL_UPLOADS_PATH ,  PCLZIP_OPT_REPLACE_NEWER  ) == 0) {
-				die(__( 'There was a problem. Please try again!' , 'inbound-email' ));
+				die(__( 'There was a problem. Please try again!' , 'inbound-pro' ));
 			} else 	{
 				unlink( $_FILES['templatezip']["tmp_name"]);
-				echo '<div class="updated"><p>'. __( 'Template uploaded successfully!' , 'inbound-email' ) .'</div>';
+				echo '<div class="updated"><p>'. __( 'Template uploaded successfully!' , 'inbound-pro' ) .'</div>';
 			}
 		}
 
@@ -368,23 +368,23 @@ if ( !class_exists('Inbound_Mailer_Template_Manager') ) {
 		public static function display_upload_form() {
 		?>
 			<div class="wrap templates_upload">
-				<div class="icon32" id="icon-plugins"><br></div><h2><?php _e( 'Install Templates' , 'inbound-email' ); ?></h2>
+				<div class="icon32" id="icon-plugins"><br></div><h2><?php _e( 'Install Templates' , 'inbound-pro' ); ?></h2>
 
 				<ul class="subsubsub">
-					<li class="plugin-install-upload"><a class="current" href="#upload" id='menu_upload'><?php _e( 'Upload' , 'inbound-email' ) ; ?></a> </li>
+					<li class="plugin-install-upload"><a class="current" href="#upload" id='menu_upload'><?php _e( 'Upload' , 'inbound-pro' ) ; ?></a> </li>
 				</ul>
 
 				<br class="clear">
-					<h4><?php _e( 'Install Inbound Email Component template by uploading them here in .zip format' , 'inbound-email' ) ; ?></h4>
+					<h4><?php _e( 'Install Inbound Email Component template by uploading them here in .zip format' , 'inbound-pro' ) ; ?></h4>
 
-					 <p class="install-help"><?php _e( 'Warning: Only upload email template zip files downloaded from Inbound Now here.' , 'inbound-email' ) ; ?>
+					 <p class="install-help"><?php _e( 'Warning: Only upload email template zip files downloaded from Inbound Now here.' , 'inbound-pro' ) ; ?>
 					</p>
 					<form action="" class="wp-upload-form" enctype="multipart/form-data" method="post">
 						<input type="hidden" value="<?php echo wp_create_nonce('inbound-mailer-nonce'); ?>" name="inbound_email_wpnonce" id="_wpnonce">
 						<input type="hidden" value="/wp-admin/plugin-install.php?tab=upload" name="_wp_http_referer">
-						<label for="pluginzip" class="screen-reader-text"><?php _e('Template zip file' , 'inbound-email' ) ; ?></label>
+						<label for="pluginzip" class="screen-reader-text"><?php _e('Template zip file' , 'inbound-pro' ) ; ?></label>
 						<input type="file" name="templatezip" id="templatezip">
-						<input type="submit" value="<?php _e('Install Now' , 'inbound-email' ) ; ?>" class="button" id="install-template-submit" name="install-template-submit" disabled="">
+						<input type="submit" value="<?php _e('Install Now' , 'inbound-pro' ) ; ?>" class="button" id="install-template-submit" name="install-template-submit" disabled="">
 					</form>
 			</div>
 		<?php
