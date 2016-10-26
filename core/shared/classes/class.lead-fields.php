@@ -312,7 +312,7 @@ if ( !class_exists('Leads_Field_Map') ) {
 				'text' => __( 'text', 'inbound-pro' ),
 				'textarea' => __( 'textarea', 'inbound-pro' ),
 				'radio' => __( 'radio', 'inbound-pro' ),
-				'checkbox' => __( 'chekcbox', 'inbound-pro' ),
+				'checkbox' => __( 'checkbox', 'inbound-pro' ),
 				'dropdown' => __( 'dropdown', 'inbound-pro' ),
 				'dropdown-country' => __( 'dropdown-country', 'inbound-pro' ),
 				'links' => __( 'links', 'inbound-pro' ),
