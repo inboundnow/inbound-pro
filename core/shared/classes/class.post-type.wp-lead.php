@@ -119,14 +119,14 @@ if ( !class_exists('Inbound_Leads') ) {
 				'parent_item'				=> null,
 				'parent_item_colon'			=> null,
 				'edit_item'					=> __( 'Edit Lead List', 'inbound-pro' ),
-				'update_item'				=> __( 'Update Lead List', 'leads'	),
-				'add_new_item'				=> __( 'Add New Lead List', 'leads'	),
-				'new_item_name'				=> __( 'New Lead List', 'leads'	),
-				'separate_items_with_commas' => __( 'Separate Lead Lists with commas', 'leads'	),
-				'add_or_remove_items'		=> __( 'Add or remove Lead Lists', 'leads'	),
+				'update_item'				=> __( 'Update Lead List', 'inbound-pro' ),
+				'add_new_item'				=> __( 'Add New Lead List', 'inbound-pro' ),
+				'new_item_name'				=> __( 'New Lead List', 'inbound-pro' ),
+				'separate_items_with_commas' => __( 'Separate Lead Lists with commas', 'inbound-pro' ),
+				'add_or_remove_items'		=> __( 'Add or remove Lead Lists', 'inbound-pro' ),
 				'choose_from_most_used'		=> __( 'Choose from the most used lead List', 'inbound-pro' ),
-				'not_found'					=> __( 'No Lead Lists found.', 'leads'	),
-				'menu_name'					=> __( 'Lead Lists', 'leads'	),
+				'not_found'					=> __( 'No Lead Lists found.', 'inbound-pro' ),
+				'menu_name'					=> __( 'Lead Lists', 'inbound-pro' ),
 			);
 
 			$list_args = array(
@@ -145,22 +145,22 @@ if ( !class_exists('Inbound_Leads') ) {
 
 			/* Register Lead Tags Taxonomy */
 			$labels = array(
-				'name'						=> _x( 'Tags', 'taxonomy general name' ),
-				'singular_name'				=> _x( 'Lead Tag', 'taxonomy singular name' ),
-				'search_items'				=> __( 'Search Lead Tags' ),
-				'popular_items'				=> __( 'Popular Lead Tags' ),
-				'all_items'					=> __( 'All Lead Tags' ),
+				'name'						=> __( 'Tags', 'inbound-pro' ),
+				'singular_name'				=> __( 'Lead Tag', 'inbound-pro' ),
+				'search_items'				=> __( 'Search Lead Tags' , 'inbound-pro' ),
+				'popular_items'				=> __( 'Popular Lead Tags' , 'inbound-pro'),
+				'all_items'					=> __( 'All Lead Tags' , 'inbound-pro' ),
 				'parent_item'				=> null,
 				'parent_item_colon'			=> null,
-				'edit_item'					=> __( 'Edit Lead Tag' ),
-				'update_item'				=> __( 'Update Lead Tag' ),
-				'add_new_item'				=> __( 'Add New Lead Tag' ),
-				'new_item_name'				=> __( 'New Lead Tag' ),
-				'separate_items_with_commas'=> __( 'Separate Lead Tags with commas' ),
-				'add_or_remove_items'		=> __( 'Add or remove Lead Tags' ),
-				'choose_from_most_used'		=> __( 'Choose from the most used lead tags' ),
-				'not_found'					=> __( 'No lead tags found.' ),
-				'menu_name'					=> __( 'Lead Tags' ),
+				'edit_item'					=> __( 'Edit Lead Tag' , 'inbound-pro' ),
+				'update_item'				=> __( 'Update Lead Tag' , 'inbound-pro' ),
+				'add_new_item'				=> __( 'Add New Lead Tag' , 'inbound-pro' ),
+				'new_item_name'				=> __( 'New Lead Tag' , 'inbound-pro' ),
+				'separate_items_with_commas'=> __( 'Separate Lead Tags with commas' , 'inbound-pro' ),
+				'add_or_remove_items'		=> __( 'Add or remove Lead Tags' , 'inbound-pro'),
+				'choose_from_most_used'		=> __( 'Choose from the most used lead tags', 'inbound-pro' ),
+				'not_found'					=> __( 'No lead tags found.' , 'inbound-pro'),
+				'menu_name'					=> __( 'Lead Tags', 'inbound-pro' ),
 			);
 
 			$args = array(
@@ -496,7 +496,7 @@ if ( !class_exists('Inbound_Leads') ) {
 			$args = array(
 				'post_type' => 'wp-lead',
 				'meta_key' => 'wp_lead_status',
-				'meta_value' => (string)$status,
+				'meta_value' => $status,
 				'meta_compare' => '=',
 				'posts_per_page' => -1
 			);
