@@ -128,7 +128,7 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 			self::get_customer_status();
 
 			include_once( INBOUND_PRO_PATH . 'classes/class.extension-loader.php');
-			include_once( INBOUND_PRO_PATH . 'classes/class.tacking.php');
+			//include_once( INBOUND_PRO_PATH . 'classes/class.tracking.php');
 
 			/* get inbound now settings */
 			$inbound_settings = Inbound_Options_API::get_option('inbound-pro', 'settings', array());
