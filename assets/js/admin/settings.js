@@ -118,7 +118,7 @@ var InboundSettings = (function () {
          */
         addInputListeners: function () {
             /* add listeners for non array data changes */
-            jQuery(document).on('change unfocus propertychange paste', 'input[data-special-handler!="true"],select,radio', function (event) {
+            jQuery(document).on('change unfocus propertychange paste', 'input[data-special-handler!="true"],select[data-special-handler!="true"],radio[data-special-handler!="true"]', function (event) {
 
                 /* set static var */
                 InboundSettings.input = jQuery(this);
@@ -770,13 +770,14 @@ var InboundSettings = (function () {
             var clone = jQuery(".custom-fields-row:last").clone();
 
             /* discover last priority and next priority in line */
-            var priority = clone.data('priority');
+            var priority = clone.attr('status-priority');
+
             var name = clone.find('input.field-key').val();
             var new_name = jQuery('.map-row-addnew #new-key').val().replace(/ /g, '_').toLowerCase();
             var next_priority = parseInt(priority) + 1;
 
             /* update cloned object's priority */
-            clone.attr('data-priority', next_priority);
+            clone.attr('status-priority', next_priority);
             clone.find('.field-priority').val(next_priority);
 
             /* change values to custom values */
