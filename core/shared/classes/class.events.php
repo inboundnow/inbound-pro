@@ -420,7 +420,7 @@ class Inbound_Events {
 
         /* check error messages for broken tables */
         if (isset($wpdb->last_error)) {
-           self::create_page_views_table();
+            self::create_page_views_table();
         }
 
     }
@@ -587,15 +587,20 @@ class Inbound_Events {
     public static function get_page_views_by( $nature = 'lead_id' ,  $params ){
         global $wpdb;
 
-        $table_name = $wpdb->prefix . "inbound_events";
-
+        $table_name = $wpdb->prefix . "inbound_page_views";
+        $query = 'SELECT * FROM '.$table_name.' WHERE ';
         switch ($nature) {
             case 'lead_id':
-                $query = 'SELECT * FROM '.$table_name.' WHERE datetime >= "'.$params['start_date'].'" AND  datetime <= "'.$params['end_date'].'" AND `lead_id` = "'.$params['lead_id'].'" AND `event_name` = "inbound_page_view" ORDER BY `datetime` DESC';
+                $query .='`lead_id` = "'.$params['lead_id'].'"';
                 break;
             case 'page_id':
-                $query = 'SELECT * FROM '.$table_name.' WHERE datetime >= "'.$params['start_date'].'" AND  datetime <= "'.$params['end_date'].'" AND `page_id` = "'.$params['page_id'].'" AND `event_name` = "inbound_page_view" ORDER BY `datetime` DESC';
+                $query .='`page_id` = "'.$params['page_id'].'"';
                 break;
+        }
+
+        if (isset($params['start_date'])) {
+            $query .= 'AND datetime >= "'.$params['start_date'].'" AND  datetime <= "'.$params['end_date'].'" ';
+            $query .= 'ORDER BY `datetime` DESC';
         }
 
         $results = $wpdb->get_results( $query , ARRAY_A );
@@ -620,6 +625,27 @@ class Inbound_Events {
         return ($count) ? $count : 0;
 
     }
+
+
+    /**
+     * Get visitor count given page_id
+     *
+     */
+    public static function get_visitors_count( $page_id  ){
+        global $wpdb;
+
+        $table_name = $wpdb->prefix . "inbound_page_views";
+
+        $query = 'SELECT * FROM '.$table_name.' WHERE `page_id` = "'.$page_id.'" GROUP BY lead_id';
+
+        $results = $wpdb->get_results( $query , ARRAY_A );
+
+        /* return null if nothing there */
+        return count($results);
+
+    }
+
+
 
     /**
      * Get all cta click events related to lead ID
@@ -934,18 +960,22 @@ class Inbound_Events {
      * @param datetime $start_date
      * @param datetime $end_date
      */
-    public static function get_page_actions($page_id , $activity = 'any' , $start_date, $end_date ){
+    public static function get_page_actions($page_id , $activity = 'any' , $start_date = null, $end_date = null ){
         global $wpdb;
 
         $table_name = $wpdb->prefix . "inbound_events";
 
         switch ($activity) {
             case 'any':
-                $query = 'SELECT count(*) FROM '.$table_name.' WHERE datetime >= "'.$start_date.'" AND  datetime <= "'.$end_date.'" AND `page_id` = "'.$page_id.'"';
+                $query = 'SELECT count(*) FROM '.$table_name.' WHERE `page_id` = "'.$page_id.'"';
                 break;
             default:
-                $query = 'SELECT count(*) FROM '.$table_name.' WHERE datetime >= "'.$start_date.'" AND  datetime <="'.$end_date.'" AND  `page_id` = "'.$page_id.'" AND `event_name` = "'.$activity.'"';
+                $query = 'SELECT count(*) FROM '.$table_name.' WHERE `page_id` = "'.$page_id.'" AND `event_name` = "'.$activity.'"';
                 break;
+        }
+
+        if (isset($start_date) && $start_date) {
+            $query .= 'AND datetime >= "'.$start_date.'" AND  datetime <= "'.$end_date.'" ';
         }
 
 
