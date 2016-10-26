@@ -67,7 +67,7 @@ class Inbound_Pro_Admin_Ajax_Listeners {
             $cache
 
         ) {
-            if ($clear_cache != 'true' && strstr($cache,'is_pro') ) {
+            if ($clear_cache != 'true' && array_key_exists ('is_pro' , $cache ) ) {
                 echo json_encode($cache);
                 exit;
             }
