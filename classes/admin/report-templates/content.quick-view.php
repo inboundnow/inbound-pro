@@ -25,7 +25,7 @@ if ( !class_exists('Inbound_Quick_View') ) {
 			self::define_range();
 
 			/* add this template to the list of available templates */
-			add_filter('inbound_analytics_templates', array(__CLASS__, 'define_template'));
+			add_filter('inbound-analytics/templates', array(__CLASS__, 'define_template'));
 
 			/* Display date range conditions */
 			add_action('inbound-analytics/quick-view', array(__CLASS__, 'display_navigation') , 1 );
@@ -35,7 +35,6 @@ if ( !class_exists('Inbound_Quick_View') ) {
 
 			/* set Inbound powered content stats */
 			add_action('inbound-analytics/quick-view', array(__CLASS__, 'display_action_breakdown') , 30);
-
 		}
 
 		/**
@@ -253,10 +252,12 @@ if ( !class_exists('Inbound_Quick_View') ) {
 		}
 
 		public static function display_sparkline() {
+			/*
 			?>
 			<br>
 			<img src='<?php echo INBOUND_GA_URLPATH; ?>assets/img/example-sparkline.png' title='Example sparkline'>
 			<?php
+			*/
 		}
 
 		public static function display_content_breakdown() {
@@ -401,31 +402,39 @@ if ( !class_exists('Inbound_Quick_View') ) {
 		public static function get_impressions($args) {
 			global $post;
 
-			$default = array(
-				'per_days' => 30,
-				'skip' => 0,
-				'query' => 'impressions',
-				'path' => Inbound_Google_Connect::get_relative_permalink($post->ID)
-			);
+			$wordpress_date_time =  date_i18n('Y-m-d');
 
-			$request = array_replace($default, $args);
+			$args['page_id'] = $post->ID;
 
-			return Inbound_Google_Connect::load_data($request);
+			if ($args['skip']) {
+				$args['start_date'] = date( 'Y-m-d' , strtotime("-". $args['per_days'] * ( $args['skip'] + 1 )." days" , strtotime($wordpress_date_time) ) );
+				$args['end_date'] = date( 'Y-m-d' , strtotime("-".$args['per_days']." days" , strtotime($wordpress_date_time) ));
+			} else {
+				$args['start_date'] = date( 'Y-m-d' , strtotime("-".$args['per_days']." days" , strtotime($wordpress_date_time )));
+				$args['end_date'] = $wordpress_date_time;
+			}
+
+			$result = Inbound_Events::get_page_views_by('page_id' , $args );
+
+			return count($result);
 		}
 
 		public static function get_visitors($args) {
 			global $post;
 
-			$default = array(
-				'per_days' => 30,
-				'skip' => 0,
-				'query' => 'visitors',
-				'path' => Inbound_Google_Connect::get_relative_permalink($post->ID)
-			);
+			$wordpress_date_time =  date_i18n('Y-m-d');
 
-			$request = array_replace($default, $args);
+			$args['page_id'] = $post->ID;
 
-			return Inbound_Google_Connect::load_data($request);
+			if ($args['skip']) {
+				$args['start_date'] = date( 'Y-m-d' , strtotime("-". $args['per_days'] * ( $args['skip'] + 1 )." days" , strtotime($wordpress_date_time) ) );
+				$args['end_date'] = date( 'Y-m-d' , strtotime("-".$args['per_days']." days" , strtotime($wordpress_date_time) ));
+			} else {
+				$args['start_date'] = date( 'Y-m-d' , strtotime("-".$args['per_days']." days" , strtotime($wordpress_date_time )));
+				$args['end_date'] = $wordpress_date_time;
+			}
+
+			return Inbound_Events::get_visitors_count($post->ID, $args);
 		}
 
 
@@ -502,7 +511,6 @@ if ( !class_exists('Inbound_Quick_View') ) {
 
 		public static function prepare_rate_format($rate, $plusminus = true) {
 			$plus = ($plusminus) ? '+' : '';
-			$minus = ($plusminus) ? '-' : '';
 
 			if ($rate == 1) {
 				return '100%';
@@ -511,7 +519,7 @@ if ( !class_exists('Inbound_Quick_View') ) {
 			} else if ($rate == 0) {
 				return '0%';
 			} else {
-				return $minus . round($rate, 2) . '%';
+				return  round($rate, 2) . '%';
 			}
 		}
 	}

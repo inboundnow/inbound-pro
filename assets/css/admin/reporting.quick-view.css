@@ -1,0 +1,102 @@
+.count {
+    color:#0074a2;
+    text-decoration:none;
+}
+
+.ia-table-summary td {
+    vertical-align:top;
+}
+
+.ia-table-summary tr {
+//background: #fef8ec;
+}
+
+.ia-td-value {
+    width:100px;
+}
+
+.ia-td-label {
+    width:60%;
+//text-transform: uppercase;
+    font-size:10px;
+}
+
+.ia-td-th {
+    font-size:10px;
+    color:grey;
+    border-bottom: solid 1px;
+
+}
+
+.ia-td-change {
+    text-align:right;
+}
+
+.ia-td-label {
+    width: 100%;
+}
+
+.ia-td-label label, .ia-td-th label {
+    cursor: help;
+}
+
+
+.ia-table-summary a {
+    text-decoration: none;
+}
+
+.ia-table-summary .negative {
+    color:thistle;
+}
+
+.ia-table-summary .positive {
+    color:thistle;
+}
+
+.ia-table-summary .ia-rate  {
+    color:#0096C7;
+}
+
+.ia-table-summary .ia-int {
+    color:darkgrey;
+}
+
+.timespan-img {
+    display: inline-block;
+    width: 23px;
+    height: 12px;
+    cursor: pointer;
+    text-align: center;
+    padding-top: 0px;
+    padding-bottom: 5px;
+    background: #0096C7;
+    color: #fff;
+    font-size: 11px;
+}
+
+
+.modal-content {
+    width:90%;
+    height:75%;
+    background:#fff;
+    margin-left:auto;
+    margin-right:auto;
+    margin-top:100px;
+    z-index:9999;
+}
+#wpwrap div.ace_gutter {
+    z-index: 999 /* covers up admin sidebar sub-menu's */
+}
+
+#inbound-analytics  .nav > li  {
+    width:19%;
+}
+#inbound-analytics  .nav > li a {
+    text-decoration: none;
+    background-color: #eee;
+    text-align:center;
+}
+#inbound-analytics  .nav > li.active a {
+    text-decoration: none;
+    background-color: #428bca !important;
+}

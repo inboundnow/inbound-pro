@@ -76,8 +76,7 @@ class Inbound_Analytics {
         wp_enqueue_script( 'ia-content-loader' );
         */
 
-        wp_register_style( 'inbound-analytics-css' , INBOUND_GA_URLPATH. 'assets/css/style.css');
-        wp_enqueue_style( 'inbound-analytics-css' );
+        wp_enqueue_style( 'inbound-analytics-css' , INBOUND_PRO_URLPATH. 'assets/css/admin/reporting.quick-view.css');
 
     }
 
@@ -85,7 +84,7 @@ class Inbound_Analytics {
      *	Imports analytic templates & sets data into static variable
      */
     public static function load_templates() {
-        self::$templates = apply_filters( 'inbound_analytics_templates' , array() );
+        self::$templates = apply_filters( 'inbound-analytics/templates' , array() );
     }
 
     /**

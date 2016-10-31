@@ -16,7 +16,7 @@ if ( !class_exists('Inbound_Expanded_View') ) {
 			self::define_range();
 
 			/* add this template to the list of available templates */
-			add_filter( 'inbound_analytics_templates' , array( __CLASS__ , 'define_template' ) );
+			add_filter( 'inbound-analytics/templates' , array( __CLASS__ , 'define_template' ) );
 
 		}
 

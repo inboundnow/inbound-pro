@@ -631,12 +631,19 @@ class Inbound_Events {
      * Get visitor count given page_id
      *
      */
-    public static function get_visitors_count( $page_id  ){
+    public static function get_visitors_count( $page_id , $params = array() ){
         global $wpdb;
 
         $table_name = $wpdb->prefix . "inbound_page_views";
 
-        $query = 'SELECT * FROM '.$table_name.' WHERE `page_id` = "'.$page_id.'" GROUP BY lead_id';
+        $query = 'SELECT * FROM '.$table_name.' WHERE `page_id` = "'.$page_id.'" ';
+
+        if (isset($params['start_date'])) {
+            $query .= 'AND datetime >= "'.$params['start_date'].'" AND  datetime <= "'.$params['end_date'].'" ';
+        }
+
+        $query .='GROUP BY lead_id';
+
 
         $results = $wpdb->get_results( $query , ARRAY_A );
 

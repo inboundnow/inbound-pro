@@ -37,6 +37,8 @@ class Inbound_Pro_Downloads {
 		/* load inline js & css */
 		add_action( 'admin_footer' , array( __CLASS__ , 'load_inline_js_css' ) );
 
+		add_action( 'inbound-pro/check-for-updates' , array( __CLASS__ , 'cron_check_for_updates' ) );
+
 	}
 
 
@@ -359,6 +361,10 @@ class Inbound_Pro_Downloads {
 		self::build_main_dataset();
 		self::grid_container();
 	}
+
+	/**
+	 *
+	 */
 	public static function grid_container() {
 		// Conditional showing of tabs
 		$showAll = true;
@@ -556,7 +562,10 @@ class Inbound_Pro_Downloads {
 	 *  Loop through downloads datset and display grid items
 	 */
 	public static function display_grid_items() {
+		global $inbound_settings;
+
 		$page = sanitize_text_field($_GET['page']);
+		$inbound_settings['system']['counts']['needs-update'][self::$management_mode] = 0;
 		?>
 
 		<div class="wrap">
@@ -596,8 +605,8 @@ class Inbound_Pro_Downloads {
 					/* Determine if needs update */
 					if ( version_compare( $download['current_version'] ,  $download['server_version']) == -1  && !in_array('uninstalled', $download['status']) )  {
 						$download['status'][] = 'needs-update';
+						$inbound_settings['system']['counts']['needs-update'][self::$management_mode]++;
 					}
-
 
 
 					?>
@@ -709,6 +718,9 @@ class Inbound_Pro_Downloads {
 			</div>
 		</div>
 		<?php
+
+		/* update needs update count */
+		Inbound_Options_API::update_option('inbound-pro', 'settings', $inbound_settings);
 	}
 
 
@@ -803,17 +815,6 @@ class Inbound_Pro_Downloads {
 
 		$page = (isset($_REQUEST['page'])) ? $_REQUEST['page'] : 'inbound-manage-extensions';
 		switch( $page ) {
-			case 'inbound-marketing':
-
-				/* set mode to templates */
-				self::$management_mode = 'templates';
-
-				/* set headline */
-				self::$headline = __( 'Manage Templates' , INBOUNDNOW_TEXT_DOMAIN );
-
-				/* set pre-processed download items */
-				self::$items = Inbound_API_Wrapper::get_pro_templates();
-				break;
 			case 'inbound-manage-templates':
 
 				/* set mode to templates */
@@ -895,6 +896,46 @@ class Inbound_Pro_Downloads {
 		}
 
 	}
+
+	public static function cron_check_for_updates() {
+		global $inbound_settings;
+
+		$configuration = Inbound_Options_API::get_option( 'inbound-pro' , 'configuration' , array() );
+
+
+		$inbound_settings['system']['counts']['needs-update']['extensions'] = 0;
+		$inbound_settings['system']['counts']['needs-update']['templates'] = 0;
+
+		$data = Inbound_API_Wrapper::get_downloads();
+
+		foreach ( $data as $key => $download ) {
+
+			if (!isset($download->post_name)) {
+				continue;
+			}
+
+			$status = ( isset($configuration[ $download->post_name ]['status'] ) ) ? $configuration[ $download->post_name ]['status'] : 'uninstalled' ;
+
+			if($status=='uninstalled') {
+				continue;
+			}
+
+			if ( isset($download->download_type) && $download->download_type == 'extension' ) {
+				$extensions[] = (array) $download;
+			}
+
+
+			/* Determine if needs update */
+			if ( version_compare( $configuration[ $download->post_name ]['current_version'] ,  $download->server_version) == -1   )  {
+				$inbound_settings['system']['update-count'][self::$management_mode]++;
+			}
+		}
+
+		/* update needs update count */
+		Inbound_Options_API::update_option('inbound-pro', 'settings', $inbound_settings);
+	}
+
+
 
 }
 

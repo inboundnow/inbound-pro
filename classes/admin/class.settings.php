@@ -48,8 +48,15 @@ class Inbound_Pro_Settings {
 	 *	Enqueue scripts & stylesheets
 	 */
 	public static function enqueue_scripts() {
-
+		global $inbound_settings;
 		$screen = get_current_screen();
+
+		$counts['extensions'] = (isset($inbound_settings['system']['counts']['needs-update']['extensions'])) ? $inbound_settings['system']['counts']['needs-update']['extensions'] : 0;
+		$counts['templates'] = (isset($inbound_settings['system']['counts']['needs-update']['templates'])) ? $inbound_settings['system']['counts']['needs-update']['templates'] : 0;
+
+		/* load wp-admin global js */
+		wp_enqueue_script('inbound-wp-admin', INBOUND_PRO_URLPATH . 'assets/js/admin/wp-admin.js', array('jquery') );
+		wp_localize_script('inbound-wp-admin', 'inboundCounts' ,  array('counts' =>  $counts ) );
 
 		/* Load assets for inbound pro page */
 		if (isset($screen) && $screen->base != 'toplevel_page_inbound-pro' ){
