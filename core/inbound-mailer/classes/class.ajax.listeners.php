@@ -212,7 +212,6 @@ class Inbound_Mailer_Ajax_Listeners {
 	 *  Unschedule email
 	 */
 	public static function unschedule_email() {
-		error_log(1);
 		do_action('inbound-mailer/unschedule-email' , $_REQUEST['email_id'] );
 		exit;
 	}

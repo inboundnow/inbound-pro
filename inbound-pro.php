@@ -128,12 +128,14 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 			self::get_customer_status();
 
 			include_once( INBOUND_PRO_PATH . 'classes/class.extension-loader.php');
-			include_once( INBOUND_PRO_PATH . 'classes/class.tracking.php');
 
 			/* get inbound now settings */
 			$inbound_settings = Inbound_Options_API::get_option('inbound-pro', 'settings', array());
 
-			if ( INBOUND_ACCESS_LEVEL> 0 && !isset($_GET['acf_off'])) {
+			if ( INBOUND_ACCESS_LEVEL> 0 && !isset($_GET['acf_off']) && INBOUND_ACCESS_LEVEL != 9 ) {
+
+				/* load tracking report features */
+				include_once( INBOUND_PRO_PATH . 'classes/class.tracking.php');
 
 				/* if lite mode enabled then set the constant */
 				if ( !isset($inbound_settings['inbound-acf']['toggle-acf-lite']) || $inbound_settings['inbound-acf']['toggle-acf-lite'] == 'on') {
@@ -151,6 +153,11 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.lead-field-mapping.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.lead-status-mapping.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.settings.php');
+				include_once( INBOUND_PRO_PATH . 'classes/admin/class.analytics.php');
+				include_once( INBOUND_PRO_PATH . 'classes/admin/class.reporting.templates.php');
+				include_once( INBOUND_PRO_PATH . 'classes/admin/report-templates/content.quick-view.php');
+				include_once( INBOUND_PRO_PATH . 'classes/admin/report-templates/content.impressions-expanded.php');
+
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.download-management.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.inbound-api-wrapper.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.ajax.listeners.php');
