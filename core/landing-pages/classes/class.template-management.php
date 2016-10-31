@@ -182,7 +182,6 @@ class  Landing_Pages_Template_Management {
         $is_template = false;
         foreach ($list as $key => $val) {
             foreach ($val as $k => $v) {
-                error_log($v);
                 if (strstr($v, '/config.php')) {
                     $is_template = true;
                     break;

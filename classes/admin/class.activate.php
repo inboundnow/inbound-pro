@@ -40,6 +40,9 @@ class Inbound_Pro_Activation {
 		/* Setup extras */
 		self::run_extras();
 
+		/* Schedule Events */
+		self::schedule_events();
+
 
 	}
 
@@ -183,6 +186,15 @@ class Inbound_Pro_Activation {
 	 */
 	public static function activate_shared() {
 		update_option( 'Inbound_Activate', true );
+	}
+
+	/**
+	 * Schedule cronjob events
+	 */
+	public static function schedule_events() {
+		if (! wp_next_scheduled ( 'inbound-pro/check-for-updates' )) {
+			wp_schedule_event(time(), 'twicedaily', 'inbound-pro/check-for-updates');
+		}
 	}
 
 	/**

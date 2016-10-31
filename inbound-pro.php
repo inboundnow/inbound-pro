@@ -4,7 +4,7 @@ Plugin Name: Inbound Now
 Plugin URI: http://www.inboundnow.com/
 Description: Inbound Marketing Suite for WordPress
 Author: InboundWP LLC
-Version: 1.7.4.9.6
+Version: 1.7.5.0.1
 Author URI: http://www.inboundnow.com/
 Text Domain: inbound-pro
 Domain Path: /lang/
@@ -94,7 +94,7 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 		*/
 		private static function define_constants() {
 
-			define('INBOUND_PRO_CURRENT_VERSION', '1.7.4.9.6' );
+			define('INBOUND_PRO_CURRENT_VERSION', '1.7.5.0.1' );
 			define('INBOUND_PRO_URLPATH', plugin_dir_url( __FILE__ ));
 			define('INBOUND_PRO_PATH', plugin_dir_path( __FILE__ ) );
 			define('INBOUND_PRO_SLUG', plugin_basename( dirname(__FILE__) ) );
@@ -128,12 +128,15 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 			self::get_customer_status();
 
 			include_once( INBOUND_PRO_PATH . 'classes/class.extension-loader.php');
-			include_once( INBOUND_PRO_PATH . 'classes/class.tracking.php');
 
 			/* get inbound now settings */
 			$inbound_settings = Inbound_Options_API::get_option('inbound-pro', 'settings', array());
 
-			if ( INBOUND_ACCESS_LEVEL> 0 && !isset($_GET['acf_off'])) {
+			/* load subscriber only assets/features */
+			if ( INBOUND_ACCESS_LEVEL> 0 && !isset($_GET['acf_off']) && INBOUND_ACCESS_LEVEL != 9 ) {
+
+				/* load tracking report features */
+				include_once( INBOUND_PRO_PATH . 'classes/class.tracking.php');
 
 				/* if lite mode enabled then set the constant */
 				if ( !isset($inbound_settings['inbound-acf']['toggle-acf-lite']) || $inbound_settings['inbound-acf']['toggle-acf-lite'] == 'on') {
@@ -151,6 +154,11 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.lead-field-mapping.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.lead-status-mapping.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.settings.php');
+				include_once( INBOUND_PRO_PATH . 'classes/admin/class.analytics.php');
+				include_once( INBOUND_PRO_PATH . 'classes/admin/class.reporting.templates.php');
+				include_once( INBOUND_PRO_PATH . 'classes/admin/report-templates/content.quick-view.php');
+				include_once( INBOUND_PRO_PATH . 'classes/admin/report-templates/content.impressions-expanded.php');
+
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.download-management.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.inbound-api-wrapper.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.ajax.listeners.php');

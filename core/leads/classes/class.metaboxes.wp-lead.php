@@ -1705,7 +1705,9 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                         }
 
                         /* get available options from memory */
-                        $field['options'] = (isset($inbound_settings['leads-custom-fields'][$id]['options'])) ? $inbound_settings['leads-custom-fields'][$id]['options'] : array();
+                        $field['options'] = (isset($inbound_settings['leads-custom-fields']['fields'][$id]['options']) ) ? $inbound_settings['leads-custom-fields']['fields'][$id]['options'] : array();
+
+
 
                         /* store current option if not available */
                         foreach ($field['value'] as $key=>$value) {
@@ -1713,12 +1715,14 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                                 continue;
                             }
 
-                            $inbound_settings['leads-custom-fields'][$id]['options'] = array_merge($inbound_settings['leads-custom-fields'][$id]['options'] , $field['value']);
-                            $inbound_settings['leads-custom-fields'][$id]['options'] = array_unique($inbound_settings['leads-custom-fields'][$id]['options']);
+                            $inbound_settings['leads-custom-fields']['fields'][$id]['options'] = array_merge($field['value'] , $field['options']);
+
+                            $inbound_settings['leads-custom-fields']['fields'][$id]['options'] = array_unique($inbound_settings['leads-custom-fields']['fields'][$id]['options']);
+
                             Inbound_Options_API::update_option( 'inbound-pro' , 'settings' , $inbound_settings );
                         }
 
-                        $field['options'] = array_merge($inbound_settings['leads-custom-fields'][$id]['options'] , $field['options']);
+                        $field['options'] = array_merge($inbound_settings['leads-custom-fields']['fields'][$id]['options'] , $field['options']);
                         $field['options'] = array_unique($field['options']);
 
                         foreach( $field['options'] as $key => $value) {
@@ -1735,23 +1739,23 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                     /* radio */
                     case strstr($field['type'], 'radio'):
 
-                        /* get available options from memory */
-                        $field['options'] = (isset($inbound_settings['leads-custom-fields'][$id]['options'])) ? $inbound_settings['leads-custom-fields'][$id]['options'] : array();
+                       /* get available options from memory */
+                        $field['options'] = (isset($inbound_settings['leads-custom-fields']['fields'][$id]['options']) ) ? $inbound_settings['leads-custom-fields']['fields'][$id]['options'] : array();
+
 
                         /* store current option if not available */
                         if (!in_array($field['value'], $field['options'])) {
-                            error_log(print_r($inbound_settings['leads-custom-fields'][$id],true));
 
-                            $inbound_settings['leads-custom-fields'][$id]['options'][] = $field['value'];
+                            $inbound_settings['leads-custom-fields']['fields'][$id]['options'][] = $field['value'];
 
 
-                            $inbound_settings['leads-custom-fields'][$id]['options'] = array_filter($inbound_settings['leads-custom-fields'][$id]['options']);
+                            $inbound_settings['leads-custom-fields']['fields'][$id]['options'] = array_filter($inbound_settings['leads-custom-fields']['fields'][$id]['options']);
 
-                            $inbound_settings['leads-custom-fields'][$id]['options'] = array_unique($inbound_settings['leads-custom-fields'][$id]['options']);
+                            $inbound_settings['leads-custom-fields']['fields'][$id]['options'] = array_unique($inbound_settings['leads-custom-fields']['fields'][$id]['options']);
                             Inbound_Options_API::update_option( 'inbound-pro' , 'settings' , $inbound_settings );
                         }
 
-                        $field['options'] = array_merge($inbound_settings['leads-custom-fields'][$id]['options'] , $field['options']);
+                        $field['options'] = array_merge($inbound_settings['leads-custom-fields']['fields'][$id]['options'] , $field['options']);
                         $field['options'] = array_unique($field['options']);
 
                         foreach ($field['options'] as $key => $value) {
