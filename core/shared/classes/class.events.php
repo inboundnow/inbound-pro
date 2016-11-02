@@ -627,7 +627,6 @@ class Inbound_Events {
     }
 
 
-
     /**
      * Get visitor count given page_id
      *

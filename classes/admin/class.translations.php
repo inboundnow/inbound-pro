@@ -41,7 +41,7 @@ class Inbound_Translation_Updater {
         }
         ?>
         <div class="updated" id="inbound_translation_notification">
-            <p><?php _e( sprintf( 'A new translation package for Inbound Pro is available. %s' , '<a href="#" id="inbound-install-translations">'.__( 'Please click to download (this may take a moment). ' , 'inbound-pro' ).' <i class="fa fa-download" aria-hidden="true"></i></a><span class="spinner" id="inbound-spinner"></span> ') , 'inbound-pro'); ?></p>
+            <p><?php _e( sprintf( 'A new translation package is available for Inbound Pro. %s' , '<a href="#" id="inbound-install-translations">'.__( 'Please click to download (this may take a moment). ' , 'inbound-pro' ).' <i class="fa fa-download" aria-hidden="true"></i></a><span class="spinner" id="inbound-spinner"></span> ') , 'inbound-pro'); ?></p>
         </div>
         <?php
     }
