@@ -137,6 +137,10 @@ class Inbound_Pro_Activation {
 		if (!is_dir( INBOUND_PRO_UPLOADS_PATH . 'assets/images/' )) {
 			wp_mkdir_p( INBOUND_PRO_UPLOADS_PATH . 'assets/images' );
 		}
+
+		if (!is_dir( INBOUND_PRO_UPLOADS_PATH . 'assets/images/' )) {
+			wp_mkdir_p( INBOUND_PRO_UPLOADS_PATH . 'assets/lang' );
+		}
 	}
 
 	public static function add_roles() {

@@ -150,7 +150,7 @@ Downloads.Modules.Templates = (function($, undefined) {
 				meta_filter: meta_filter,
 			},
 			dataType: 'html',
-			timeout: 10000,
+			timeout: 60000,
 			success: function (response) {
 
 			},

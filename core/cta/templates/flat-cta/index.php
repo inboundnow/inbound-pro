@@ -355,12 +355,8 @@ vertical-align: middle;
 </style>
 <div id="inbound-wrapper">
 	<div id="inbound_cta_header">
-		<h1 class="flat-header">{{header-text}}
-
-		</h1>
-			<div id='inbound-content'>
-        <span>{{sub-header-text}}</span>
-			</div>
+		<h1 class="flat-header">{{header-text}}	</h1>
+			<div id='inbound-content'><span>{{sub-header-text}}</span></div>
 		<nav class="demos">
 		<a href="{{link_url}}" id="checkMark" class="btn">{{submit-button-text}}</a>
 		</nav>

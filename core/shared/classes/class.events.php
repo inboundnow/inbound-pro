@@ -627,6 +627,7 @@ class Inbound_Events {
     }
 
 
+
     /**
      * Get visitor count given page_id
      *
@@ -642,7 +643,7 @@ class Inbound_Events {
             $query .= 'AND datetime >= "'.$params['start_date'].'" AND  datetime <= "'.$params['end_date'].'" ';
         }
 
-        $query .='GROUP BY lead_id';
+        $query .='GROUP BY lead_uid';
 
 
         $results = $wpdb->get_results( $query , ARRAY_A );
