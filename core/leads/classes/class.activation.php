@@ -51,7 +51,8 @@ class Leads_Activation {
 	*/
 
 	public static function run_updates() {
-
+		/* remove update_post_meta hook to cut down on resources */
+		remove_action('updated_post_meta', array( 'Leads_Post_Type' , 'record_meta_update'), 10, 4);
 
 		/* Get list of updaters from Leads_Activation_Update_Routines class */
 		$updaters = get_class_methods('Leads_Activation_Update_Routines');

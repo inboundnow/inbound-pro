@@ -216,7 +216,8 @@ class Inbound_Email_Preview {
         $template = $Inbound_Mailer_Variations->get_current_template($post->ID, $vid);
 
         if (!isset($template)) {
-            return;
+            error_log('Template not selected for variation');
+            return $template;
         }
 
 
@@ -229,7 +230,7 @@ class Inbound_Email_Preview {
         }
 
 
-        return $single;
+        return $template;
     }
 }
 

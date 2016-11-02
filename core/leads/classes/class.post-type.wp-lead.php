@@ -38,7 +38,6 @@ class Leads_Post_Type {
         add_action('load-edit.php', array(__CLASS__, 'process_bulk_actions'));
 
          /* record last time a piece of meta data was updated */
-        add_action('added_post_meta', array(__CLASS__, 'record_meta_update'), 10, 4);
         add_action('updated_post_meta', array(__CLASS__, 'record_meta_update'), 10, 4);
 
         /* redirect lead notification email links to lead profile */

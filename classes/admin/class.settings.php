@@ -383,6 +383,36 @@ class Inbound_Pro_Settings {
 							)
 						)
 					),
+				),
+				/* add custom lead fields field group to setup page */
+				array(
+					'group_name' => 'notifications',
+					'keywords' => __('translations,enable,disable,notifications' , 'inbound-pro'),
+					'fields' => array (
+						array(
+							'id'  => 'header-notifications',
+							'type'  => 'header',
+							'default'  => __('Notifications', 'inbound-pro' ),
+							'options' => null
+						),
+						array (
+							'id'	=> 'toggle-translations-updater',
+							'type'	=> 'radio',
+							'label'	=> __( 'Translation Update Notifications' , 'inbound-pro' ),
+							'description'	=> __( 'This is a consmetic feature that enables customers not to be notified when new trasnlation packages are available.' , 'inbound-pro' ),
+							'default'	=> 'on',
+							'placeholder'	=> null,
+							'options' => array(
+								'on' => __( 'On' , 'inbound-pro' ),
+								'off' => __( 'Off' , 'inbound-pro' ),
+							),
+							'hidden' => false,
+							'reveal' => array(
+								'selector' => null ,
+								'value' => null
+							)
+						)
+					),
 				)
 			)
 		);
