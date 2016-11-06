@@ -128,7 +128,11 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 			/* determine customer access level */
 			self::get_customer_status();
 
+			/* load templates and extensions */
 			include_once( INBOUND_PRO_PATH . 'classes/class.extension-loader.php');
+
+			/* load misc front & backend files */
+			include_once( INBOUND_PRO_PATH . 'classes/admin/class.lead-field-mapping.php');
 
 			/* get inbound now settings */
 			$inbound_settings = Inbound_Options_API::get_option('inbound-pro', 'settings', array());
@@ -152,14 +156,12 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.updater.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.activate.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.menus.adminmenu.php');
-				include_once( INBOUND_PRO_PATH . 'classes/admin/class.lead-field-mapping.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.lead-status-mapping.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.settings.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.analytics.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.reporting.templates.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/report-templates/content.quick-view.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/report-templates/content.impressions-expanded.php');
-
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.download-management.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.inbound-api-wrapper.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.ajax.listeners.php');

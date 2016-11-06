@@ -549,111 +549,106 @@ if (!class_exists('Inbound_Forms')) {
                 return;
             }
             /* TODO remove this */
-            echo '<script type="text/javascript">
+            ?>
+            <script type="text/javascript">
+                _inbound.add_action( 'form_before_submission', inbound_additional_checks, 10);
 
-				jQuery(document).ready(function($){
+                function inbound_additional_checks( data ) {
 
-					jQuery(".inbound-now-form").submit(function(e) {
+                    /* added below condition for check any of checkbox checked or not by kirit dholakiya */
+                    if( jQuery('.checkbox-required')[0] && jQuery('.checkbox-required input[type=checkbox]:checked').length==0) {
+                        jQuery('.checkbox-required input[type=checkbox]:first').focus();
+                        alert("<?php _e('Oops! Looks like you have not filled out all of the required fields!', 'inbound-pro') ; ?> ");
+                        throw new Error('<?php _e('Oops! Looks like you have not filled out all of the required fields!', 'inbound-pro') ; ?>');
+                    }
 
-						/* added below condition for check any of checkbox checked or not by kirit dholakiya */
-						if( jQuery(\'.checkbox-required\')[0] && jQuery(\'.checkbox-required input[type=checkbox]:checked\').length==0)
-						{
-							jQuery(\'.checkbox-required input[type=checkbox]:first\').focus();
-							alert("' . __('Oops! Looks like you have not filled out all of the required fields!', 'inbound-pro') . '");
-							e.preventDefault();
-							e.stopImmediatePropagation();
-						}
-						jQuery(this).find("input").each(function(){
-							if(!jQuery(this).prop("required")){
-							} else if (!jQuery(this).val()) {
-							alert("' . __('Oops! Looks like you have not filled out all of the required fields!', 'inbound-pro') . '");
+                    jQuery(this).find("input").each(function(){
+                        if(!jQuery(this).prop("required")){
+                        } else if (!jQuery(this).val()) {
+                            alert("<?php  _e('Oops! Looks like you have not filled out all of the required fields!', 'inbound-pro'); ?>");
+                            throw new Error('<?php _e('Oops! Looks like you have not filled out all of the required fields!', 'inbound-pro') ; ?>');
+                        }
+                    });
 
-							e.preventDefault();
-							e.stopImmediatePropagation();
-							return false;
-							}
-						});
-						
-						/*Disable button and add spinner to form*/
-						
-						var target = jQuery(this).find("#inbound_form_submit"),
-							spinnerColor = jQuery(target).css("color"),
-							buttonWidth = jQuery(target).css("width"),
-							buttonHeight = jQuery(target).css("height"),
-							scale = jQuery(target).css("font-size");
-							scale = scale.replace("px", "");
-							scale = scale / 40;
-						
-
-						//spinner
-						var opts = {
-							  lines: 8 // The number of lines to draw
-							, length: 0 // The length of each line
-							, width: 7 // The line thickness
-							, radius: 25 // The radius of the inner circle
-							, scale: scale // Scales overall size of the spinner
-							, corners: 1 // Corner roundness (0..1)
-							, color: spinnerColor // #rgb or #rrggbb or array of colors
-							, opacity: 0.25 // Opacity of the lines
-							, rotate: 0 // The rotation offset
-							, direction: 1 // 1: clockwise, -1: counterclockwise
-							, speed: 1 // Rounds per second
-							, trail: 60 // Afterglow percentage
-							, fps: 20 // Frames per second when using setTimeout() as a fallback for CSS
-							, zIndex: 2e9 // The z-index (defaults to 2000000000)
-							, className: "inbound-form-spinner" // The CSS class to assign to the spinner
-							, top: "50%" // Top position relative to parent
-							, left: "50%" // Left position relative to parent
-							, shadow: false // Whether to render a shadow
-							, hwaccel: false // Whether to use hardware acceleration
-							, position: "absolute" // Element positioning
-							}
-							
-						jQuery(target).prop("disabled",true).html("").css({"width" : buttonWidth, "height" : buttonHeight});
-					
-						var spinner = new Spinner(opts).spin(target[0]);
-						
-						
-					});
-
-					jQuery("#inbound_form_submit br").remove(); /* remove br tags */
-					function validateEmail(email) {
-
-						var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-						return re.test(email);
-					}
-					var parent_redirect = parent.window.location.href;
-					jQuery("#inbound_parent_page").val(parent_redirect);
+                    /*Disable button and add spinner to form*/
+                    var target = jQuery(event.target).find("#inbound_form_submit"),
+                        spinnerColor = jQuery(target).css("color"),
+                        buttonWidth = jQuery(target).css("width"),
+                        buttonHeight = jQuery(target).css("height"),
+                        scale = jQuery(target).css("font-size");
+                    scale = scale.replace("px", "");
+                    scale = scale / 40;
 
 
-					/* validate email */
-					jQuery("input.inbound-email").on("change keyup", function (e) {
-						var $this = jQuery(this);
-						var email = $this.val();
-						jQuery(".inbound_email_suggestion").remove();
-						if (validateEmail(email)) {
-							$this.css("color", "green");
-							$this.addClass("inbound-valid-email");
-							$this.removeClass("inbound-invalid-email");
-						} else {
-							$this.css("color", "red");
-							$this.addClass("inbound-invalid-email");
-							$this.removeClass("inbound-valid-email");
-						}
-						if($this.hasClass("inbound-valid-email")) {
-							$this.parent().parent().find("#inbound_form_submit").removeAttr("disabled");
-						}
-					});
+                    /* spinner param setup */
+                    var opts = {
+                        lines: 8 // The number of lines to draw
+                        , length: 0 // The length of each line
+                        , width: 7 // The line thickness
+                        , radius: 25 // The radius of the inner circle
+                        , scale: scale // Scales overall size of the spinner
+                        , corners: 1 // Corner roundness (0..1)
+                        , color: spinnerColor // #rgb or #rrggbb or array of colors
+                        , opacity: 0.25 // Opacity of the lines
+                        , rotate: 0 // The rotation offset
+                        , direction: 1 // 1: clockwise, -1: counterclockwise
+                        , speed: 1 // Rounds per second
+                        , trail: 60 // Afterglow percentage
+                        , fps: 20 // Frames per second when using setTimeout() as a fallback for CSS
+                        , zIndex: 2e9 // The z-index (defaults to 2000000000)
+                        , className: "inbound-form-spinner" // The CSS class to assign to the spinner
+                        , top: "50%" // Top position relative to parent
+                        , left: "50%" // Left position relative to parent
+                        , shadow: false // Whether to render a shadow
+                        , hwaccel: false // Whether to use hardware acceleration
+                        , position: "absolute" // Element positioning
+                    };
 
-					/* Trims whitespace on advancing to the next input */
-					jQuery("input[type=\'text\']").on("blur", function() {
-						var value = jQuery.trim( $(this).val() );
-						jQuery(this).val( value );
-					})
+                    jQuery(target).prop("disabled",true).html("").css({"width" : buttonWidth, "height" : buttonHeight});
 
+                    var spinner = new Spinner(opts).spin(target[0]);
 
-				});
-				</script>';
+                }
+
+                /* helper function for validating email */
+                function inboundFormsVaidateEmail(email) {
+                    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                    return re.test(email);
+                }
+
+                /* Adding helpful listeners - may need to move all this into the analytics engine */
+                jQuery(document).ready(function($){
+                    /* remove br tags */
+                    jQuery("#inbound_form_submit br").remove();
+
+                    /* validate email */
+                    jQuery("input.inbound-email").on("change keyup", function (e) {
+                        var $this = jQuery(this);
+                        var email = $this.val();
+                        jQuery(".inbound_email_suggestion").remove();
+                        if (inboundFormsVaidateEmail(email)) {
+                            $this.css("color", "green");
+                            $this.addClass("inbound-valid-email");
+                            $this.removeClass("inbound-invalid-email");
+                        } else {
+                            $this.css("color", "red");
+                            $this.addClass("inbound-invalid-email");
+                            $this.removeClass("inbound-valid-email");
+                        }
+                        if($this.hasClass("inbound-valid-email")) {
+                            $this.parent().parent().find("#inbound_form_submit").removeAttr("disabled");
+                        }
+                    });
+
+                    /* Trims whitespace on advancing to the next input */
+                    jQuery("input[type='text']").on("blur", function() {
+                        var value = jQuery.trim( $(this).val() );
+                        jQuery(this).val( value );
+                    })
+
+                });
+            </script>
+            <?php
 
         }
 
@@ -810,7 +805,7 @@ if (!class_exists('Inbound_Forms')) {
                 }
 
                 /* If there's no notification email in place then bail */
-                if (!isset($form_meta_data['inbound_notify_email'])) {
+                if (!isset($form_meta_data['inbound_notify_email']) || !trim($form_meta_data['inbound_notify_email'])) {
                     return;
                 }
 
@@ -948,9 +943,9 @@ if (!class_exists('Inbound_Forms')) {
             $content = apply_filters('the_content', $content);
             $content = str_replace(']]>', ']]&gt;', $content);
 
-            $confirm_email_message = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html><head><meta http-equiv="Content-Type" content="text/html;' . get_option('blog_charset') . '" /></head><body style="margin: 0px; background-color: #F4F3F4; font-family: Helvetica, Arial, sans-serif; font-size:12px;" text="#444444" bgcolor="#F4F3F4" link="#21759B" alink="#21759B" vlink="#21759B" marginheight="0" topmargin="0" marginwidth="0" leftmargin="0"><table cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff" border="0"><tr>';
-            $confirm_email_message .= $content;
-            $confirm_email_message .= '</tr></table></body></html>';
+            //$confirm_email_message = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html><head><meta http-equiv="Content-Type" content="text/html;' . get_option('blog_charset') . '" /></head><body style="margin: 0px; background-color: #F4F3F4; font-family: Helvetica, Arial, sans-serif; font-size:12px;" text="#444444" bgcolor="#F4F3F4" link="#21759B" alink="#21759B" vlink="#21759B" marginheight="0" topmargin="0" marginwidth="0" leftmargin="0"><table cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff" border="0"><tr>';
+            $confirm_email_message = $content;
+            //$confirm_email_message .= '</tr></table></body></html>';
 
 
             $confirm_subject = apply_filters('inbound_lead_conversion/subject', $confirm_subject, $form_meta_data, $form_post_data);

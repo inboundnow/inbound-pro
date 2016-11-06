@@ -21,14 +21,14 @@ class Inbound_Leads_Custom_fields {
 	public static function load_hooks() {
 		add_filter( 'wp_leads_add_lead_field' , array( __CLASS__ , 'merge_fields' ) , 99  );
 	}
-	
+
 	/**
 	*  Get mappable fields
 	*/
 	public static function get_custom_fields() {
-		$settings = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , Leads_Field_Map::get_lead_fields() );
-		
-		self::$custom_field_map = (isset($settings['leads-custom-fields']['fields'])) ?  $settings['leads-custom-fields']['fields'] : array();
+		global $inbound_settings;
+
+		self::$custom_field_map = (isset($inbound_settings['leads-custom-fields']['fields'])) ?  $inbound_settings['leads-custom-fields']['fields'] : Leads_Field_Map::get_lead_fields();
 
 	}
 	

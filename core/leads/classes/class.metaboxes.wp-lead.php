@@ -1698,7 +1698,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                     /* checkbox */
                     case strstr($field['type'], 'checkbox'):
 
-                        if (!isset($field['value'])) {
+                        if (!isset($field['value']) || !$field['value'] ) {
                             $field['value'] = array();
                         } else if (is_array($field['value'])) {
                             $field['value'] = explode( ',' , $field['value'][0] );
@@ -1706,8 +1706,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
                         /* get available options from memory */
                         $field['options'] = (isset($inbound_settings['leads-custom-fields']['fields'][$id]['options']) ) ? $inbound_settings['leads-custom-fields']['fields'][$id]['options'] : array();
-
-
+                        $inbound_settings['leads-custom-fields']['fields'][$id]['options'] = $field['options'];
 
                         /* store current option if not available */
                         foreach ($field['value'] as $key=>$value) {
@@ -1741,7 +1740,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
                        /* get available options from memory */
                         $field['options'] = (isset($inbound_settings['leads-custom-fields']['fields'][$id]['options']) ) ? $inbound_settings['leads-custom-fields']['fields'][$id]['options'] : array();
-
+                        $inbound_settings['leads-custom-fields']['fields'][$id]['options'] = $field['options'];
 
                         /* store current option if not available */
                         if (!in_array($field['value'], $field['options'])) {
