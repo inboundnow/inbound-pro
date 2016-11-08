@@ -297,7 +297,7 @@ if (!class_exists('LeadStorage')) {
 
 
 				/* update custom field options for dropdown */
-				if (isset($field['type']) == 'dropdown' ) {
+				if (isset($field['type']) && $field['type']== 'dropdown' ) {
 					$options = $inbound_settings['leads-custom-fields']['fields'][ $key ][ 'options' ];
 
 					if ( !isset($options[ $value ]) ) {
