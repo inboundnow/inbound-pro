@@ -42,7 +42,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             /* Add Quick Stats */
             add_action('wpleads_display_quick_stat', array(__CLASS__, 'display_quick_stat_page_views'));
             add_action('wpleads_display_quick_stat', array(__CLASS__, 'display_quick_stat_form_submissions'));
-            add_action('wpleads_display_quick_stat', array(__CLASS__, 'display_quick_stat_last_activity'), 15);
+            add_action('wpleads_display_quick_stat', array(__CLASS__, 'display_quick_stat_last_activity'), 100 );
 
             /* Add header metabox   */
             add_action('edit_form_after_title', array(__CLASS__, 'add_header'));
@@ -1700,8 +1700,8 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
                         if (!isset($field['value']) || !$field['value'] ) {
                             $field['value'] = array();
-                        } else if (is_array($field['value'])) {
-                            $field['value'] = explode( ',' , $field['value'][0] );
+                        } else if (!is_array($field['value'])) {
+                            $field['value'] = explode( ',' , $field['value'] );
                         }
 
                         /* get available options from memory */
