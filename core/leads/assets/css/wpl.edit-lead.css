@@ -163,3 +163,11 @@ and (-webkit-min-device-pixel-ratio: 1) {
 		margin-left: auto;
 	}
 }
+
+body .metabox-holder .postbox-container .empty-container {
+	border:none !important;
+}
+
+#postbox-container-1 {
+	margin-top:79px;
+}
