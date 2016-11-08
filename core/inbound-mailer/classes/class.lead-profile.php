@@ -23,10 +23,13 @@ if (!class_exists('Inbound_Mailer_Direct_Email_Leads')) {
             add_action('wpl_print_lead_tab_sections', array(__CLASS__, 'add_direct_email_tab_contents'));
 
             /*Add ajax listener for populating the address headers when a premade template is selected*/
-            add_action('wp_ajax_get_addressing_settings', array(__CLASS__, 'get_addressing_settings'));
+            add_action('wp_ajax_get_addressing_settings', array(__CLASS__, 'ajax_get_addressing_settings'));
 
             /*Add ajax listener for sending the email*/
             add_action('wp_ajax_send_email_to_lead', array(__CLASS__, 'ajax_send_email_to_lead'));
+
+            /*Adds direct messages to quick stats */
+            add_action('wpleads_display_quick_stat', array(__CLASS__, 'display_quick_stat_direct_messages') , 20 , 1);
 
         }
 
@@ -93,7 +96,7 @@ if (!class_exists('Inbound_Mailer_Direct_Email_Leads')) {
                 ),
                 'subject' => array(
                     'description' => __('Subject line of the email. This field is variation dependant!', 'inbound-pro'),
-                    'label' => __('Subject Line', 'inbound-pro'),
+                    'label' => __('Subject', 'inbound-pro'),
                     'id' => 'subject',
                     'type' => 'text',
                     'default' => '',
@@ -165,7 +168,7 @@ if (!class_exists('Inbound_Mailer_Direct_Email_Leads')) {
                 <?php
                 Inbound_Mailer_Metaboxes::render_settings('inbound-email', $custom_fields, $post); ?>
 
-                <button id="send-email-button" type="button" style="padding:15px;">
+                <button id="send-email-button" type="button" style="padding:15px;cursor:pointer">
                     <?php _e('Send Email', 'inbound-pro'); ?>
                     <i class="fa fa-envelope" aria-hidden="true"></i>
                 </button>
@@ -364,9 +367,10 @@ if (!class_exists('Inbound_Mailer_Direct_Email_Leads')) {
 
 
         /**
-         *
+         * Determines if automation email has variations.
+         * echos
          */
-        public static function get_addressing_settings() {
+        public static function ajax_get_addressing_settings() {
             if (isset($_POST['email_id']) && !empty($_POST['email_id'])) {
 
                 $id = intval($_POST['email_id']);
@@ -586,6 +590,43 @@ error_log(print_r($data,true));
             );
 
             Inbound_Events::store_event($args);
+        }
+
+        /**
+         * Adds Inbound Form Submissions to Quick Stat Box
+         */
+        public static function display_quick_stat_direct_messages($post) {
+            global $post;
+            ?>
+
+            <div class="quick-stat-label">
+                <div class="label_1"><?php _e('Direct Messages', 'inbound-pro'); ?>:</div>
+                <div class="label_2">
+                    <?php echo self::get_direct_mail_count($post->ID); ?>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <?php
+
+        }
+
+        /**
+         * Gets number of direct mail messages sent to lead
+         */
+        public static function get_direct_mail_count( $lead_id  ){
+            global $wpdb;
+
+            $table_name = $wpdb->prefix . "inbound_events";
+
+            $query = 'SELECT count(*) FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'"';
+
+
+            $query .= 'AND `event_name` = "inbound_direct_message"';
+
+            $count = $wpdb->get_var( $query , 0, 0 );
+
+            /* return null if nothing there */
+            return ($count) ? $count : 0;
         }
     }
 
