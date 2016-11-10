@@ -179,7 +179,7 @@ if ( !class_exists('Inbound_Mailer_Post_Type') ) {
 						$thumbnail = Inbound_Mailer_Metaboxes::get_template_thumbnail($template);
 					}
 
-                    echo "<a title='". __('Click to Preview' , 'inbound-mailer' ) ."' class='thickbox' href='".add_query_arg( array( 'TB_iframe' => 'true' , 'width'=>640 , 'height' => 763 ) , $permalink )."' target='_blank'><img src='".$thumbnail."' style='max-width:100%;' title='".__('Click to Preview' , 'inbound-mailer') ."'></a>";
+                    echo "<a title='". __('Click to Preview' , 'inbound-pro' ) ."' class='thickbox' href='".add_query_arg( array( 'TB_iframe' => 'true' , 'width'=>640 , 'height' => 763 ) , $permalink )."' target='_blank'><img src='".$thumbnail."' style='max-width:100%;' title='".__('Click to Preview' , 'inbound-pro') ."'></a>";
                     break;
 				case "inbound_email_type":
 					$email_type = Inbound_Mailer_Metaboxes::get_email_type($post->ID);
@@ -200,7 +200,7 @@ if ( !class_exists('Inbound_Mailer_Post_Type') ) {
 										<div class="email-square" style="width: 10px;height: 10px; border-radius: 2px;margin-top:5px;	background: green;"></div>
 									</td>
 									<td>
-									<?php echo __( 'Sends' ,'inbound-mailer' ); ?>
+									<?php echo __( 'Sends' ,'inbound-pro' ); ?>
 									</td>
 								</tr>
 								<tr>
@@ -211,7 +211,7 @@ if ( !class_exists('Inbound_Mailer_Post_Type') ) {
 										<div class="email-square" style="width: 10px;height: 10px; border-radius: 2px;margin-top:5px;	background: cornflowerblue;"></div>
 									</td>
 									<td>
-									<?php echo __( 'Opens' ,'inbound-mailer' ); ?>
+									<?php echo __( 'Opens' ,'inbound-pro' ); ?>
 									</td>
 								</tr>
 								<tr>
@@ -222,7 +222,7 @@ if ( !class_exists('Inbound_Mailer_Post_Type') ) {
 										<div class="email-square" style="width: 10px;height: 10px; border-radius: 2px;margin-top:5px;	background: violet;"></div>
 									</td>
 									<td>
-										<?php echo __( 'Clicks' ,'inbound-mailer' ); ?>
+										<?php echo __( 'Clicks' ,'inbound-pro' ); ?>
 									</td>
 								</tr>
 								<tr>
@@ -233,7 +233,18 @@ if ( !class_exists('Inbound_Mailer_Post_Type') ) {
 										<div class="email-square" style="width: 10px;height: 10px; border-radius: 2px;margin-top:5px;	background: #000;"></div>
 									</td>
 									<td>
-										<?php echo __( 'Unsubscribes' ,'inbound-mailer' ); ?>
+										<?php echo __( 'Unsubscribes' ,'inbound-pro' ); ?>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="td-col-mutes" data-email-id="<?php echo $post->ID; ?>" data-email-status="<?php echo $post->post_status; ?>"><img src="<?php echo INBOUND_EMAIL_URLPATH; ?>assets/images/ajax_progress.gif" class="col-ajax-spinner" style="margin-top:3px;"></div>
+									</td>
+									<td>
+										<div class="email-square" style="width: 10px;height: 10px; border-radius: 2px;margin-top:5px;	background: #000;"></div>
+									</td>
+									<td>
+										<?php echo __( 'Mutes' ,'inbound-pro' ); ?>
 									</td>
 								</tr>
 							</table>
@@ -421,9 +432,10 @@ if ( !class_exists('Inbound_Mailer_Post_Type') ) {
 			));
       
             /* direct_email */
+			$public = (current_user_can('administrator') && !is_admin()) ? true : false;
 			register_post_status( 'direct_email', array(
 				'label'	=> __( 'Direct Emails', 'inbound-pro' ),
-				'public' => current_user_can('administrator'),
+				'public' => $public,
 				'show_in_admin_all_list' => false,
 				'show_in_admin_status_list' => false,
 				'label_count' => _n_noop( 'Direct Emails <span class="count">(%s)</span>', 'Direct Emails <span class="count">(%s)</span>' )

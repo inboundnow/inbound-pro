@@ -15,6 +15,7 @@ function inbound_stats_lookup( email_ids, i , callback , response ) {
         jQuery( '.td-col-opens[data-email-id="' + old_email_id + '"]').text(response['totals']['opens']);
         jQuery( '.td-col-clicks[data-email-id="' + old_email_id + '"]').text(response['totals']['clicks']);
         jQuery( '.td-col-unsubs[data-email-id="' + old_email_id + '"]').text(response['totals']['unsubs']);
+        jQuery( '.td-col-mutes[data-email-id="' + old_email_id + '"]').text(response['totals']['mutes']);
     }
 
     i++;
@@ -60,11 +61,13 @@ jQuery(document).ready( function($) {
             jQuery( '.td-col-opens[data-email-id="' + email_id + '"]').text('0');
             jQuery( '.td-col-clicks[data-email-id="' + email_id + '"]').text('0');
             jQuery( '.td-col-unsubs[data-email-id="' + email_id + '"]').text('0');
+            jQuery( '.td-col-mutes[data-email-id="' + email_id + '"]').text('0');
         } else  if (email_status=='sending') {
             jQuery( '.td-col-sends[data-email-id="' + email_id + '"]').text('-');
             jQuery( '.td-col-opens[data-email-id="' + email_id + '"]').text('-');
             jQuery( '.td-col-clicks[data-email-id="' + email_id + '"]').text('-');
             jQuery( '.td-col-unsubs[data-email-id="' + email_id + '"]').text('-');
+            jQuery( '.td-col-mutes[data-email-id="' + email_id + '"]').text('-');
         } else {
             email_ids[i] = email_id;
             i++;

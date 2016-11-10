@@ -281,6 +281,10 @@ class Inbound_Events {
         self::store_event($args);
     }
 
+    /**
+     * Add event to inbound_events table
+     * @param $args
+     */
     public static function store_event( $args ) {
         global $wpdb;
 
@@ -626,6 +630,23 @@ class Inbound_Events {
 
     }
 
+    /**
+     * Get sources given lead_id
+     *
+     */
+    public static function get_lead_sources( $lead_id  ){
+        global $wpdb;
+
+        $table_name = $wpdb->prefix . "inbound_events";
+
+        $query = 'SELECT *, count(*) as count FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'" GROUP BY source';
+
+        $results = $wpdb->get_results( $query , ARRAY_A );
+
+        return $results;
+
+    }
+
 
     /**
      * Get visitor count given page_id
@@ -808,6 +829,7 @@ class Inbound_Events {
 
 
     }
+
     /**
      * Get all mute events given a lead id
      */

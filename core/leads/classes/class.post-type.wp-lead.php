@@ -59,6 +59,9 @@ class Leads_Post_Type {
         /* enqueue scripts and styles in admin  */
         add_action('admin_enqueue_scripts', array(__CLASS__, 'enqueue_admin_scripts'));
 
+        /* delete events when lead deleted */
+        add_action('delete_post' , array( __CLASS__ , 'delete_lead_stats'));
+
     }
 
     /**
@@ -699,6 +702,26 @@ class Leads_Post_Type {
             wp_enqueue_style('wpleads-list-css', WPL_URLPATH . 'assets/css/wpl.leads-list.css');
             return;
         }
+    }
+
+    /**
+     * Deletes page_views and events related to deleted lead
+     * @param $lead_id
+     */
+    public static function delete_lead_stats( $lead_id ) {
+        if (did_action( 'delete_post' ) > 1) {
+            return;
+        }
+
+        if (get_post_type($lead_id) != 'wp-lead') {
+            return;
+        }
+
+        global $wpdb;
+
+        $wpdb->delete( $wpdb->prefix . "inbound_page_views", array( 'lead_id' => $lead_id ) );
+        $wpdb->delete( $wpdb->prefix . "inbound_events", array( 'lead_id' => $lead_id ) );
+
     }
 
     /**

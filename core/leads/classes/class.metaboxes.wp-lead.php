@@ -123,7 +123,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
 
             add_meta_box('wplead_metabox_referal', // $id
-                __('Source of Lead', 'inbound-pro'), array(__CLASS__, 'display_referData'), 'wp-lead', // $page
+                __('Source of Lead', 'inbound-pro'), array(__CLASS__, 'display_sources'), 'wp-lead', // $page
                 'normal', // $context
                 'high' // $priority
             );
@@ -606,12 +606,12 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
          * Adds Page Views to Quick Stat Box
          */
         public static function display_quick_stat_page_views($post) {
-
+            self::$page_views = Inbound_Events::get_page_views($post->ID);
             ?>
             <div class="quick-stat-label">
                 <div class="label_1"><?php _e('Page Views ', 'inbound-pro'); ?>:</div>
                 <div class="label_2">
-                    <?php echo Inbound_Events::get_page_views_count($post->ID); ?>
+                    <?php echo count(self::$page_views); ?>
                 </div>
                 <div class="clearfix"></div>
             </div>
@@ -865,6 +865,12 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                     <?php
                 }
                 ?>
+
+                <div id='toggle-lead-fields'>
+                    <a class='button button-primary' id='show-hidden-fields'>
+                        <?php _e('Show Empty Fields', 'inbound-pro'); ?>
+                    </a>
+                </div>
             </div>
             <style type="text/css">.icon32-posts-wp-lead {
                     background-image: url("<?php echo $gravatar2;?>") !important;
@@ -1177,84 +1183,30 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                 return;
             }
 
-            $new_array = array();
-            $loop = 0;
+            foreach (self::$page_views as $key => $row) {
 
-            // Combine and loop through all page view objects
-            foreach (self::$page_views as $key => $val) {
-                foreach (self::$page_views[$key] as $test) {
-                    $new_array[$loop]['page'] = $key;
-                    $new_array[$loop]['date'] = $test;
-                    $loop++;
-                }
-            }
 
-            $new_key_array = array();
-            $num = 0;
-            foreach ($new_array as $key => $val) {
-                $new_key_array[$num] = $val;
-                $num++;
-            }
-
-            $new_loop = 1;
-            $total_session_count = 0;
-            $test = count($new_key_array);
-            foreach ($new_key_array as $key => $value) {
-
-                $last_item = $key - 1;
-
-                $next_item = $key + 1;
-                $conversion = (isset($new_key_array[$key]['conversion'])) ? 'lead-conversion-mark' : '';
-                $conversion_text = (isset($new_key_array[$key]['conversion'])) ? '<span class="conv-text">(Conversion Event)</span>' : '';
-                //echo $new_key_array[$new_loop]['date'];
-                if (isset($new_key_array[$last_item]['date'])) {
-                    $timeout = abs(strtotime($new_key_array[$last_item]['date']) - strtotime($new_key_array[$key]['date']));
-                } else {
-                    $timeout = 3601;
-                }
-
-                $date = date_create($new_key_array[$key]['date']);
-                $page_id = $new_key_array[$key]['page'];
                 $this_post_type = '';
-                if (strpos($page_id, 'cat_') !== false) {
-                    $cat_id = str_replace("cat_", "", $page_id);
-                    $page_name = get_cat_name($cat_id) . " Category Page";
-                    $tag_names = '';
+                if (strpos($row['page_id'], 'cat_') !== false) {
+                    $cat_id = str_replace("cat_", "", $row['page_id']);
+                    $page_name = get_cat_name($cat_id) . ' '. __('Category Page' , 'inbound-pro');
                     $page_permalink = get_category_link($cat_id);
-                } elseif (strpos($page_id, 'tag_') !== false) {
-                    $tag_id = str_replace("tag_", "", $page_id);
+                } elseif (strpos($row['page_id'], 'tag_') !== false) {
+                    $tag_id = str_replace("tag_", "", $row['page_id']);
                     $tag = get_tag($tag_id);
-                    $page_name = $tag->name . " - Tag Page";
-                    $tag_names = '';
+                    $page_name = $tag->name . " - " . __('Tag Page' , 'inbound-pro');
                     $page_permalink = get_tag_link($tag_id);
                 } else {
-                    $page_title = get_the_title($page_id);
-                    $page_name = ($page_id != 0) ? $page_title : 'N/A';
-                    $page_permalink = get_permalink($page_id);
-                    $this_post_type = get_post_type($page_id);
+                    $page_title = get_the_title($row['page_id']);
+                    $page_name = ($row['page_id'] != 0) ? $page_title : 'N/A';
+                    $page_permalink = get_permalink($row['page_id']);
+                    $this_post_type = get_post_type($row['page_id']);
                 }
 
-                $timeon_page = $timeout / 60;
-                $date_print = date_create($new_key_array[$key]['date']);
-
-                if (isset($new_key_array[$last_item]['date'])) {
-                    $second_diff = self::get_time_diff($new_key_array[$last_item]['date'], $new_key_array[$key]['date']);
-                } else {
-                    $second_diff['minutes'] = 0;
-                    $second_diff['seconds'] = 0;
-                }
-                //print_r($second_diff);
-                //$second_diff = date('i:s',$second_diff);
-                $minute = ($second_diff['minutes'] != 0) ? "<strong>" . $second_diff['minutes'] . "</strong> " : '';
-                $minute_text = ($second_diff['minutes'] != 0) ? $second_diff['mm-text'] . " " : '';
-                $second = ($second_diff['seconds'] != 0) ? "<strong>" . $second_diff['seconds'] . "</strong> " : 'Less than 1 second';
-                $second_text = ($second_diff['seconds'] != 0) ? $second_diff['sec-text'] . " " : '';
-
-
-                $clean_date = date_format($date_print, 'Y-m-d H:i:s');
+                $date_print = date_create($row['datetime']);
 
                 // Display Data
-                echo '<div class="lead-timeline recent-conversion-item page-view-item ' . $this_post_type . '" title="' . $page_permalink . '"  data-date="' . $clean_date . '">
+                echo '<div class="lead-timeline recent-conversion-item page-view-item ' . $this_post_type . '" title="' . $page_permalink . '"  data-date="' . date_format($date_print, 'F jS, Y \a\t g:ia (l)') . '">
                         <a class="lead-timeline-img page-views" href="#non">
 
                         </a>
@@ -1273,9 +1225,6 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                             </div>
                         </div>
                     </div>';
-
-                $new_loop++;
-                $test--;
 
             }
 
@@ -1303,6 +1252,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
          */
         public static function display_lead_conversion_paths() {
             global $post, $wpdb;
+            return;
             echo "<p>Visitors path through the website per visit. Visits timeout after 1 hour of inactivity.</p>";
             $c_array = array();
             if (is_array(self::$conversions)) {
@@ -1476,38 +1426,36 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
         /**
          *    Displays main lead content containers
          */
-        public static function display_referData() {
+        public static function display_sources() {
             global $post;
 
-            // Get Raw form Data
-            $referral_data = get_post_meta($post->ID, 'wpleads_referral_data', true);
-            if ($referral_data) {
-                $referral_data = json_decode(stripslashes($referral_data), true);
-                $count = count($referral_data);
-                $referral_data = ($referral_data) ? $referral_data : array();
-                $referral_data = array_reverse($referral_data);
-                foreach ($referral_data as $key => $value) {
-                    $date = date_create($referral_data[$key]['datetime']);
 
+            /* Get Referrals */
+            $referrals = Inbound_Events::get_lead_sources($post->ID);
+
+            if (count($referrals)>0) {
+                foreach ($referrals as $key => $value) {
+                    $date = date_create($value['datetime']);
+
+                    /* skip internal sources */
+                    if (strstr($value['source'],site_url()) || !$value['source']) {
+                        continue;
+                    }
                     ?>
                     <div class="wpl-raw-data-tr">
-                        <span class="wpl-raw-data-td-label">
-                            <?php echo " <span class='lead-key-normal'>" . $count . "</span>"; ?>
-                        </span>
                         <span class="wpl-raw-data-td-value">
                             <?php
                             if (isset($value['source'])) {
-                                $src = ($value['source'] === "NA") ? "Direct Traffic" : $value['source'];
+                                $src = ($value['source'] === "Direct Traffic") ? __("Direct Traffic",'inbound-pro') : $value['source'];
                                 echo $src . ' on ' . date_format($date, 'F jS, Y \a\t g:ia (l)');
                             }
                             ?>
                         </span>
                     </div>
                     <?php
-                    $count--;
                 }
             } else {
-                echo "<h2>No Referral Data Detected.</h2>";
+                echo "<h2>" .__('No Referral Data Detected.' , 'inbound-pro' ) . "</h2>";
             }
         }
 
@@ -1599,19 +1547,18 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             ?>
 
             <table id='wpleads_main_container'>
-                <div id='toggle-lead-fields'>
-                  <a class='button' id='show-hidden-fields'>
-                    <?php _e('Show Empty Fields', 'inbound-pro'); ?>
-                  </a>
-                </div>
 
 
-                </div>
             <?php
             $api_key = Leads_Settings::get_setting('wpl-main-extra-lead-data', "");
 
             if ($api_key === "" || empty($api_key)) {
-                echo "<div class='lead-notice'>Please <a href='" . esc_url(admin_url(add_query_arg(array('post_type' => 'wp-lead', 'page' => 'wpleads_global_settings'), 'edit.php'))) . "'>enter your Full Contact API key</a> for additional lead data. <a href='http://www.inboundnow.com/collecting-advanced-lead-intelligence-wordpress-free/' target='_blank'>Read more</a></div>";
+                if (class_exists('Inbound_Pro_Plugin')) {
+                    $full_contact_setup_link = admin_url('edit.php?post_type=wp-lead&page=inbound-pro-leads');
+                } else {
+                    $full_contact_setup_link = admin_url('edit.php?post_type=wp-lead&page=wpleads_global_settings');
+                }
+                echo "<div class='lead-notice'>". sprintf(__('Please %s enter your Full Contact API key %s for additional lead data.' , 'inbound-pro' ) , "<a href='" . $full_contact_setup_link  . "'>" , '</a>')." <a href='http://www.inboundnow.com/collecting-advanced-lead-intelligence-wordpress-free/' target='_blank'>". __('Read more' , 'inbound-pro') ."</a></div>";
             }
 
             foreach (self::$mapped_fields as $field) {
