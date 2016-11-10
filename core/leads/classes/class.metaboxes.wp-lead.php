@@ -460,7 +460,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                 ),
                 array(
                     'id' => 'wpleads_lead_tab_conversions',
-                    'label' => __('Conversion Path', 'inbound-pro')
+                    'label' => __('Conversion Paths', 'inbound-pro')
                 ),
                 array(
                     'id' => 'wpleads_lead_tab_raw_form_data',
@@ -878,17 +878,6 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             <?php
         }
 
-        /**
-         *  Leagacy -  Gets number of conversion events
-         */
-        public static function get_conversion_count() {
-            global $post;
-
-            $conversion_count = count(self::$conversions);
-
-            return $conversion_count;
-        }
-
 
         /**
          *    Gets number of form submission events
@@ -1252,175 +1241,132 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
          */
         public static function display_lead_conversion_paths() {
             global $post, $wpdb;
-            return;
-            echo "<p>Visitors path through the website per visit. Visits timeout after 1 hour of inactivity.</p>";
-            $c_array = array();
-            if (is_array(self::$conversions)) {
-                //uasort(self::$conversions, array( __CLASS__ , 'datetime_sort_reverse' )); // Date sort
-                $conversion_count = count(self::$conversions);
-                //print_r(self::$conversions);
-                $i = $conversion_count;
 
-                $c_count = 0;
-                foreach (self::$conversions as $key => $value) {
+            self::get_conversions( $post->ID );
 
-                    if (!isset($value['id']) || !isset($value['datetime'])) {
-                        continue;
-                    }
-
-                    $c_array[$c_count]['page'] = $value['id'];
-                    $c_array[$c_count]['date'] = $value['datetime'];
-                    $c_array[$c_count]['conversion'] = 'yes';
-                    $c_array[$c_count]['variation'] = $value['variation'];
-                    $c_count++;
-
-                }
-            }
-
-            if (!is_array(self::$page_views)) {
-                echo "No Data";
+            if (!self::$conversions) {
                 return;
             }
 
-            $new_array = array();
-            $loop = 0;
-            // Combine and loop through all page view objects
-            foreach (self::$page_views as $key => $val) {
-                foreach (self::$page_views[$key] as $test) {
-                    $new_array[$loop]['page'] = $key;
-                    $test = preg_replace('/\\//', "-", $test);
-                    if (!strstr($test, "UTC")) {
-                        $test .= " UTC";
-                    }
-                    $new_array[$loop]['date'] = $test;
-                    $loop++;
-                }
-            }
-
-            $new_array = array_merge($c_array, $new_array); // Merge conversion and page view json objects
-
-
-            uasort($new_array, array(__CLASS__, 'datetime_sort_reverse')); // Date sort
-
-
-            $new_key_array = array();
-            $num = 0;
-
-            foreach ($new_array as $key => $val) {
-                $new_key_array[$num] = $val;
-                $num++;
-            }
-
-            //uasort($new_key_array, array( __CLASS__ , 'datetime_sort_reverse' ) ); // Date sort
-
-
-            $new_loop = 1;
-            $total_session_count = 0;
-            $new_key_array = array_reverse($new_key_array);
-            foreach ($new_key_array as $key => $value) {
-
-                $last_item = $key - 1;
-                $next_item = $key + 1;
-
-                $conversion = (isset($new_key_array[$key]['conversion'])) ? 'lead-conversion-mark' : '';
-                $conversion_text = (isset($new_key_array[$key]['conversion'])) ? '<span class="conv-text">(Conversion Event)</span>' : '';
-                $close_div = ($total_session_count != 0) ? '</div></div>' : '';
-
-
-                if (isset($new_key_array[$last_item]['date'])) {
-                    $timeout = abs(strtotime($new_key_array[$last_item]['date']) - strtotime($new_key_array[$key]['date']));
-                } else {
-                    $timeout = 3601;
+            foreach (self::$conversions as $key => $value) {
+                /* get funnel */
+                $value['funnel'] = json_decode($value['funnel'],true);
+                if (!$value['funnel']) {
+                    continue;
                 }
 
-                $date = date_create($new_key_array[$key]['date']);
-                $break = 'off';
+                $date = date_create($value['datetime']);
 
-                if ($timeout >= 3600) {
-                    echo $close_div . '<a class="session-anchor" id="view-session-' . $total_session_count . '""></a><div id="conversion-tracking" class="wpleads-conversion-tracking-table" summary="Conversion Tracking">
 
+                /* now add action event */
+                switch($value['event_name']) {
+                    case 'inbound_cta_click':
+                        $event_label = __('Call to Action Click','inbound-pro');
+                        $event_id = ($value['cta_id']) ? $value['cta_id'] : __('undefined', 'inbound-pro' );
+                        $event_source_title = ($value['form_id']) ? get_the_title($value['form_id']) : __('undefined', 'inbound-pro' );
+                        break;
+                    default:
+                        $event_label = __('Form Submission','inbound-pro');
+                        $event_id = ($value['form_id']) ? $value['form_id'] : __('undefined', 'inbound-pro' );
+                        $event_source_title = ($value['form_id']) ? get_the_title($value['form_id']) : __('undefined', 'inbound-pro' );
+                        break;
+                }
+
+                /* start funnel */
+                ?>
+                <div id="conversion-tracking" class="wpleads-conversion-tracking-table">
                     <div class="conversion-tracking-header">
                         <div class="path-left">
-                            <h2><span class="toggle-conversion-list">-</span><strong>Visit <span class="visit-number"></span></strong> on <span class="shown_date">' . date_format($date, 'F jS, Y \a\t g:ia (l)') . '</span></h2>
+                            <h2><?php echo $event_label; ?> - <span class="shown_date"><?php echo date_format($date, 'F jS, Y \a\t g:i:s a');?></span></h2>
                         </div>
                         <div class="path-right">
-                            <h2 class="time-on-page-label">Time spent on page</h2> <span class="hidden_date date_' . $total_session_count . '">' . date_format($date, 'F jS, Y \a\t g:ia:s') . '</span>
+                            <span class="toggle-conversion-list">-</span>
                         </div>
                     </div>
-                    
-                    <div class="session-item-holder">';
 
-                    $total_session_count++;
-                    //echo "</div>";
-                    $break = "on";
-                }
+                    <div class="session-item-holder">
 
-                $page_id = $new_key_array[$key]['page'];
-
-                if (strpos($page_id, 'cat_') !== false) {
-                    $cat_id = str_replace("cat_", "", $page_id);
-                    $page_name = get_cat_name($cat_id) . " Category Page";
-                    $tag_names = '';
-                    $page_permalink = get_category_link($cat_id);
-
-                } elseif (strpos($page_id, 'tag_') !== false) {
-                    $tag_id = str_replace("tag_", "", $page_id);
-                    $tag = get_tag($tag_id);
-                    $page_name = $tag->name . " - Tag Page";
-                    $tag_names = '';
-                    $page_permalink = get_tag_link($tag_id);
-
-                } else {
-                    $page_title = get_the_title($page_id);
-                    $page_name = ($page_id != 0) ? $page_title : 'N/A';
-                    $page_permalink = get_permalink($page_id);
-                }
-
-                $timeon_page = $timeout / 60;
-                $date_print = date_create($new_key_array[$key]['date']);
-
-                if (isset($new_key_array[$last_item]['date'])) {
-                    $second_diff = self::get_time_diff($new_key_array[$last_item]['date'], $new_key_array[$key]['date']);
-                } else {
-                    $second_diff['minutes'] = 0;
-                    $second_diff['seconds'] = 0;
-                }
-
-                $minute = ($second_diff['minutes'] != 0) ? "<strong>" . $second_diff['minutes'] . "</strong> " : '';
-                $minute_text = ($second_diff['minutes'] != 0) ? $second_diff['mm-text'] . " " : '';
-                $second = ($second_diff['seconds'] != 0) ? "<strong>" . $second_diff['seconds'] . "</strong> " : 'Less than 1 second';
-                $second_text = ($second_diff['seconds'] != 0) ? $second_diff['sec-text'] . " " : '';
-
-                if ($break === "on") {
-                    $minute = "";
-                    $minute_text = "";
-                    $second = "";
-                    $second_text = "Session Timeout";
-                }
-
-                if ($page_id != "0" && $page_id != "null") {
-
-                    $page_output = strlen($page_name) > 65 ? substr($page_name, 0, 65) . "..." : $page_name;
-                    echo "<div class='lp-page-view-item " . $conversion . "'>
-                        <div class='path-left'>
-                            <span class='marker'></span> <a href='" . $page_permalink . "' title='View " . $page_name . "' target='_blank'>" . $page_output . "</a> on <span>" . date_format($date_print, 'F jS, Y \a\t g:i:s a') . "</span>
-                        " . $conversion_text . "
+                        <?php
+                        /* show source */
+                        ?>
+                        <div class="lp-page-view-item ">
+                            <div class="path-left">
+                             <span class="marker">
+                                 <i class="fa fa-map-marker" aria-hidden="true"></i>
+                             </span>
+                                <?php echo __( 'Source' , 'inbound-pro');  ?>
+                            </div>
+                            <div class="path-right">
+                                <?php echo $value['source'];  ?>
+                            </div>
                         </div>
-                        <div class='path-right'>
-                            <span class='time-on-page'>" . $minute . $minute_text . $second . $second_text . "</span>
+                        <?php
+
+                        $count = 1;
+                        foreach($value['funnel'] as $page_id) {
+
+                            if (!$page_id) {
+                                continue;
+                            }
+
+
+
+                            if (strpos($page_id, 'cat_') !== false) {
+                                $cat_id = str_replace("cat_", "", $page_id);
+                                $page_title = get_cat_name($cat_id) . " Category Page";
+                                $tag_names = '';
+                                $page_permalink = get_category_link($cat_id);
+
+                            } elseif (strpos($page_id, 'tag_') !== false) {
+                                $tag_id = str_replace("tag_", "", $page_id);
+                                $tag = get_tag($tag_id);
+                                $page_title = $tag->name . " - Tag Page";
+                                $tag_names = '';
+                                $page_permalink = get_tag_link($tag_id);
+
+                            } else {
+                                $page_title = get_the_title($page_id);
+                                $page_title = ($page_id != 0) ? $page_title : 'N/A';
+                                $page_permalink = get_permalink($page_id);
+                            }
+
+                            $page_title_short = strlen($page_title) > 65 ? substr($page_title, 0, 65) . "..." : $page_title;
+                            ?>
+                            <div class="lp-page-view-item ">
+                                <div class="path-left">
+                                    <span class="marker">
+                                        <?php echo $count; ?>
+                                    </span>
+                                    <a href='<?php echo $page_permalink; ?>' title='<?php echo $page_name; ?>' target='_blank'><?php echo $page_title_short; ?></a>
+                                </div>
+                                <div class="path-right">
+                                    <span class="time-on-page">
+                                    </span>
+                                </div>
+                            </div>
+                            <?php
+                            $count++;
+                        }
+
+                        ?>
+                        <div class="lp-page-view-item ">
+                            <div class="path-left">
+                             <span class="marker">
+                                    <i class="fa fa-crosshairs" aria-hidden="true"></i>
+                             </span>
+                             <?php echo $event_label; ?> (<?php echo $value['event_name'];?>)
+                            </div>
+                            <div class="path-right">
+                                <?php echo $event_source_title; ?>
+                            </div>
                         </div>
-                    </div>";
-                }
-
-                $new_loop++;
-
+                        <?php
+                        ?>
+                    </div>
+                  </div>
+                  <?php
             }
-            ?>
 
-            </div><!-- end .conversion-session-view -->
-            </div><!-- end #conversion-tracking -->
-
-            <?php
         }
 
         /**
@@ -1985,6 +1931,33 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             }
 
             echo '</table>';
+        }
+
+        /**
+         * Get conversion events from event table
+         */
+        public static function get_conversions( $lead_id ){
+            global $wpdb;
+
+            $event_whitelist = array('inbound_form_submission','inbound_cta_click','ninja_form_submission' , 'gravity_form_submission');
+
+            $table_name = $wpdb->prefix . "inbound_events";
+
+            $query = 'SELECT * FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'" AND ( ';
+
+            foreach($event_whitelist as $key => $event_name) {
+                $query .= 'event_name = "'.$event_name.'" ';
+
+                if (isset($event_whitelist[$key+1])) {
+                    $query .= 'OR ';
+                }
+            }
+
+            $query .= ') ORDER BY `datetime` DESC';
+
+            self::$conversions = $wpdb->get_results( $query , ARRAY_A );
+
+            return self::$conversions;
         }
 
         /**
