@@ -133,7 +133,7 @@ class Leads_Post_Type {
                 self::display_status_pill($lead_status);
                 break;
             case "action-count":
-                $actions = Inbound_Events::get_total_activity($lead_id);
+                $actions = Inbound_Events::get_total_activity($lead_id , 'any' , array('inbound_list_add'));
                 echo $actions;
                 break;
             case "custom":

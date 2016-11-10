@@ -411,6 +411,7 @@ h2 .nav-tab {
     margin-right: 10px;
     font-size: 25px;
     font-weight: normal;
+    float:right;
 }
 
 .session-stats {
@@ -578,7 +579,7 @@ h2 .nav-tab {
 }
 
 .session-item-holder .lp-page-view-item .marker:before {
-    content: "\f062";
+    content: "\f063";
     font-family: 'FontAwesome';
     font-style: normal;
     text-decoration: inherit;
@@ -601,12 +602,6 @@ h2 .nav-tab {
     position: absolute;
     bottom: -7px;
     z-index: 99999;
-}
-
-.session-item-holder .lp-page-view-item:nth-child(odd) .marker:before {
-    content: "\f106";
-    content: "";
-    content: "\f062";
 }
 
 .session-item-holder .lp-page-view-item:last-child .marker:before {
@@ -1351,13 +1346,13 @@ a.lead-timeline-img {
 .conversion-tracking-header .path-left, .lp-page-view-item .path-left {
     display: inline;
     float: left;
-    width: 75%;
+    width: 60%;
 }
 
 .conversion-tracking-header .path-right, .lp-page-view-item .path-right {
     display: inline;
     float: right;
-    width: 25%;
+    width: 40%;
 }
 
 .session-item-holder, .lp-page-view-item {
