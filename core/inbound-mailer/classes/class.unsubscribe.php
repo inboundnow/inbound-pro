@@ -79,8 +79,10 @@ class Inbound_Mailer_Unsubscribe {
 					continue;
 				}
 
-				$html .= "<span class='unsubscribe-span'><label class='lead-list-label'><input type='checkbox' name='list_id[]' value='".$list_id."' class='lead-list-class'> " . $lead_lists[ $list_id ] . '</label></span>';
-
+				/* make sure not to reveal unrelated lists */
+				if (has_term($list_id, 'wplead_list_category' , $params['lead_id'] )) {
+					$html .= "<span class='unsubscribe-span'><label class='lead-list-label'><input type='checkbox' name='list_id[]' value='" . $list_id . "' class='lead-list-class'> " . $lead_lists[$list_id] . '</label></span>';
+				}
 			}
 		}
 
@@ -346,6 +348,7 @@ class Inbound_Mailer_Unsubscribe {
 			Inbound_Mailer_Unsubscribe::add_stop_rules( $params['lead_id'] , $list_id , $release_date );
 			$event['event_details']['emails_muted_for'] = $time . ' month';
 			$event['event_details']['emails_muted_until'] = $release_date;
+			$event['list_id'] = $list_id;
 			Inbound_Events::store_mute_event( $event );
 		}
 

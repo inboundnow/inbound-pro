@@ -292,9 +292,7 @@ form  {
     </div>
 {% if {{ show-button }} == true %}
 		<a id="cta-link" href="{{submit-button-link}}">
-			<span class="cta_button">
-			{{submit-button-text}}
-			</span>
+			<span class="cta_button">{{submit-button-text}}</span>
 		</a>
 {% endif %}
 </div>';

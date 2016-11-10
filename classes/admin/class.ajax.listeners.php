@@ -92,6 +92,11 @@ class Inbound_Pro_Admin_Ajax_Listeners {
         /* decode json response */
         $decoded = json_decode($response['body'], true);
 
+        /* check for 403 errors */
+        if (strstr($response['body'], '403 Forbidden')) {
+            echo "{\"error\":\"403\",\"message\":\"Your website is being blocked by our servers. Please contact Inbound Now support for further assistance!\"}";
+            exit;
+        }
 
         if (isset($decoded['customer'])) {
             $customer['is_pro'] = self::get_highest_price_id($decoded['customer']);

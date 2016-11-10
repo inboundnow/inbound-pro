@@ -172,7 +172,8 @@ jQuery(document).ready(function($) {
 
 	jQuery("#show-hidden-fields").click(function() {
 		var $this = $(this);
-		if($this.text() === "Show Empty Fields") {
+
+		if($this.text().trim() == "Show Empty Fields") {
 			$this.text("Hide Empty Fields");
 		} else {
 			$this.text("Show Empty Fields");

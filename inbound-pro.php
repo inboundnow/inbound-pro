@@ -4,7 +4,7 @@ Plugin Name: Inbound Pro
 Plugin URI: http://www.inboundnow.com/
 Description: Inbound Marketing Suite for WordPress
 Author: InboundWP LLC
-Version: 1.7.5.0.2
+Version: 1.7.5.4.1
 Author URI: http://www.inboundnow.com/
 Text Domain: inbound-pro
 Domain Path: /lang/
@@ -94,8 +94,8 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 		*/
 		private static function define_constants() {
 
-			define('INBOUND_PRO_CURRENT_VERSION', '1.7.5.0.2' );
-			define('INBOUND_PRO_TRANSLATIONS_VERSION', '1.13' );
+			define('INBOUND_PRO_CURRENT_VERSION', '1.7.5.4.1' );
+			define('INBOUND_PRO_TRANSLATIONS_VERSION', '1.16' );
 			define('INBOUND_PRO_URLPATH', plugin_dir_url( __FILE__ ));
 			define('INBOUND_PRO_PATH', plugin_dir_path( __FILE__ ) );
 			define('INBOUND_PRO_SLUG', plugin_basename( dirname(__FILE__) ) );
@@ -128,7 +128,11 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 			/* determine customer access level */
 			self::get_customer_status();
 
+			/* load templates and extensions */
 			include_once( INBOUND_PRO_PATH . 'classes/class.extension-loader.php');
+
+			/* load misc front & backend files */
+			include_once( INBOUND_PRO_PATH . 'classes/admin/class.lead-field-mapping.php');
 
 			/* get inbound now settings */
 			$inbound_settings = Inbound_Options_API::get_option('inbound-pro', 'settings', array());
@@ -152,14 +156,12 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.updater.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.activate.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.menus.adminmenu.php');
-				include_once( INBOUND_PRO_PATH . 'classes/admin/class.lead-field-mapping.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.lead-status-mapping.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.settings.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.analytics.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.reporting.templates.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/report-templates/content.quick-view.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/report-templates/content.impressions-expanded.php');
-
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.download-management.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.inbound-api-wrapper.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.ajax.listeners.php');

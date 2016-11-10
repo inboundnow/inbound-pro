@@ -346,7 +346,14 @@ class Inbound_Mail_Daemon {
         self::$email['from_email'] = self::get_variation_from_email();
         self::$email['email_title'] = get_the_title( self::$row->email_id );
         self::$email['reply_email'] = self::get_variation_reply_email();
-        self::$email['body'] = self::get_email_body();
+
+        /* If direct email we won't load from template */
+        if (isset($args['is_direct']) && $args['is_direct']) {
+            $email = get_post($args['email_id']);
+            self::$email['body'] = self::rebuild_links(do_shortcode($email->post_content));
+        } else {
+            self::$email['body'] = self::get_email_body();
+        }
 
         if ( isset($args['is_test']) && $args['is_test'] ) {
             self::$email['is_test'] = true;

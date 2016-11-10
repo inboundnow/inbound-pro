@@ -297,7 +297,7 @@ if (!class_exists('LeadStorage')) {
 
 
 				/* update custom field options for dropdown */
-				if (isset($field['type']) == 'dropdown' ) {
+				if (isset($field['type']) && $field['type']== 'dropdown' ) {
 					$options = $inbound_settings['leads-custom-fields']['fields'][ $key ][ 'options' ];
 
 					if ( !isset($options[ $value ]) ) {
@@ -468,14 +468,14 @@ if (!class_exists('LeadStorage')) {
 			global $wpdb;
 
 			$table_name = $wpdb->prefix . "inbound_page_views";
-
+			$lead_uid_cookie = (isset($_COOKIE["wp_lead_uid"])) ? $_COOKIE["wp_lead_uid"] : '';
 			$args = array(
 				'lead_id' => $lead['id'],
 			);
 
 			$array = array(
 				'lead_id' => 0,
-				'lead_uid' => (isset($lead['wp_lead_uid'])) ? $lead['wp_lead_uid'] :  $_COOKIE["wp_lead_uid"]
+				'lead_uid' => (isset($lead['wp_lead_uid'])) ? $lead['wp_lead_uid'] :  $lead_uid_cookie
 			);
 
 			/* update inbound_page_view page view records associated with lead */
@@ -484,7 +484,7 @@ if (!class_exists('LeadStorage')) {
 				$args,
 				array(
 					'lead_id' => 0,
-					'lead_uid' => (isset($lead['wp_lead_uid'])) ? $lead['wp_lead_uid'] :  $_COOKIE["wp_lead_uid"]
+					'lead_uid' => (isset($lead['wp_lead_uid'])) ? $lead['wp_lead_uid'] :  $lead_uid_cookie
 				),
 				array(
 					'%d',

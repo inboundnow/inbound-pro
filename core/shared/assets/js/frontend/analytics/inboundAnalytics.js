@@ -1402,7 +1402,6 @@ var InboundForms = (function(_inbound) {
                 if (!form.dataset.formProcessed) {
                     form.dataset.formProcessed = true;
                     trackForm = this.checkTrackStatus(form);
-                    // var trackForm = _inbound.Utils.hasClass("wpl-track-me", form);
                     if (trackForm) {
                         this.attachFormSubmitEvent(form); /* attach form listener */
                         this.initFormMapping(form);

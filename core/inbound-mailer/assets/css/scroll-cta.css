@@ -51,6 +51,7 @@
     border:0;
     float:left;
     margin:0 10px 5px 0;
+    width:140px;
 }
 
 #inbound_email_box.rtl a.inbound_email_thumbnail img
