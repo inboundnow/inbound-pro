@@ -962,7 +962,7 @@ class Inbound_Events {
      * @param string $activity
      * @return datetime or null
      */
-    public static function get_total_activity($lead_id , $activity = 'any' ){
+    public static function get_total_activity($lead_id , $activity = 'any' , $blacklist = array() ){
         global $wpdb;
 
         $table_name = $wpdb->prefix . "inbound_events";
@@ -974,6 +974,11 @@ class Inbound_Events {
             default:
                 $query = 'SELECT count(*) FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'" AND `event_name` = "'.$activity.'"';
                 break;
+        }
+
+        /* add blacklist queries */
+        foreach ($blacklist as $event_name ) {
+            $query .= ' AND `event_name` != "'.$event_name.'"';
         }
 
         /* return latest activity if recorded */
