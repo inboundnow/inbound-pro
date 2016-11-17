@@ -2,7 +2,7 @@
 	background-color:#fff;
 }
 #wpcontent {
-    padding-left: 0px;
+	padding-left: 0px;
 }
 #wpwrap, #wpcontent {
 	background-color:#fff;
@@ -31,8 +31,8 @@
 .filter-search {
 	text-align:left;
 	width: 215px;
-	  margin-top: -20px;
-	  margin-bottom: 15px;
+	margin-top: -20px;
+	margin-bottom: 15px;
 }
 
 /* Settings Rows */
@@ -79,12 +79,12 @@
 }
 
 ul.features {
-	 list-style-type: circle;
+	list-style-type: circle;
 	margin-left:20px;
 }
 
 ul.uninstall {
-	 list-style-type: circle;
+	list-style-type: circle;
 	margin-left:20px;
 }
 
@@ -96,49 +96,49 @@ ul.uninstall {
 /* License Key */
 
 .api-key {
-  margin:auto;
-  font-family: 'Oswald', sans-serif;
-  width:100%;
+	margin:auto;
+	font-family: 'Oswald', sans-serif;
+	width:100%;
 
 }
 .all-30, .all-20, .all-25 {
 	margin-right: 10px;
 }
 .api-key label{
-  font-size: 20px;
-  height:100px;
-  left: 0;
-  width:100%;
-  margin-right: 20px;
-  color: #000;
-  margin-bottom: 10px;
-  z-index:-1;
-  transition-duration: 0.2s;
-  transition-property: transform;
+	font-size: 20px;
+	height:100px;
+	left: 0;
+	width:100%;
+	margin-right: 20px;
+	color: #000;
+	margin-bottom: 10px;
+	z-index:-1;
+	transition-duration: 0.2s;
+	transition-property: transform;
 }
 .ink-button.blue {
 	width: 100%;
 	margin-top: 20px;
 }
 .api-key  input{
-  border:none;
-  padding: 10px;
-  border-color: #5b9dd9;
+	border:none;
+	padding: 10px;
+	border-color: #5b9dd9;
 	-webkit-box-shadow: 0 0 2px rgba(30,140,190,.8);
 	box-shadow: 0 0 2px rgba(30,140,190,.8);
-  color: #000;
-  background:#fff;
-  outline:none;
-  font-family:'Oswald', sans-serif;
-  width:68%;
-  transition-property: transform;
-  font-size:16px
+	color: #000;
+	background:#fff;
+	outline:none;
+	font-family:'Oswald', sans-serif;
+	width:68%;
+	transition-property: transform;
+	font-size:16px
 
 }
 
 .api-key .invalid {
 	border-style: solid;
-    border-width: 2px;
+	border-width: 2px;
 	border-color:  #b94a48 !important;
 }
 
@@ -153,28 +153,28 @@ ul.uninstall {
 }
 
 .processing-icon {
-    margin-left:20px;
+	margin-left:20px;
 }
 
 .api-key .valid {
 	border-style: solid;
-    border-width: 2px;
+	border-width: 2px;
 	border-color: #AAD661 !important;
 }
 
 .api-key  input:focus label{
-  transform:translateY(-45px) translateX(-80px) scale(0.6);
+	transform:translateY(-45px) translateX(-80px) scale(0.6);
 }
 
 .api-key input:valid + label {
-  transform:translateY(-45px) translateX(-80px) scale(0.6);
+	transform:translateY(-45px) translateX(-80px) scale(0.6);
 }
 .api-key  input:valid + label::after{
-  display:block;
-  transform:translateX(-10px) rotate(-45deg)
+	display:block;
+	transform:translateX(-10px) rotate(-45deg)
 }
 .api-key  input:invalid + label::after{
-  transform:translateX(100px) rotate(-45deg)
+	transform:translateX(100px) rotate(-45deg)
 }
 
 /* Field Styles */
@@ -221,7 +221,7 @@ ul.uninstall {
 
 }
 .footer-right-h2 {
-	//padding-left:27px;
+//padding-left:27px;
 	padding-bottom:10px;
 
 }
@@ -241,7 +241,7 @@ ul.uninstall {
 *
 */
 
-.field-map input ,.field-map select , .map-row-addnew input , .map-row-addnew select, .ip-address-row input  , .ip-address-row-addnew input   {
+.field-map input[type=text] ,.field-map select , .map-row-addnew input , .map-row-addnew select, .ip-address-row input  , .ip-address-row-addnew input   {
 	width:100%;
 	height:40px;
 	padding-left:5px;
@@ -271,10 +271,10 @@ input.update-done {
 }
 .update-text, .processing {
 	position: absolute;
-	  /* left: 32%; */
-	  font-size: 11px;
-	  top: 4px;
-	  right: -70px;
+	/* left: 32%; */
+	font-size: 11px;
+	top: 4px;
+	right: -70px;
 }
 .map-row-addnew {
 	margin-left:0px;
@@ -293,16 +293,17 @@ input.update-done {
 .drag-handle  {
 	color: #919191;
 	cursor: move;
-	margin-top: 10px;
-	margin-left: 13px;
+	margin-top: 0px;
+	margin-left: 10px;
 	display: block;
 }
 .drag-handle .fa {
-  font-size: 17px;
+	font-size: 17px;
+	vartical-align:top;
 }
 
 .ink-grid {
-  padding: 0 1em;
+	padding: 0 1em;
 }
 
 .field-ip-addresses {
@@ -311,9 +312,9 @@ input.update-done {
 }
 
 .tooltip {
-    float:right;
-    position:absolute;
-    overflow:inherit;
+	float:right;
+	position:absolute;
+	overflow:inherit;
 }
 
 .repeater-lead-statuses ul {
@@ -369,3 +370,7 @@ input.update-done {
 	margin:0px !important;
 }
 
+
+.import-export-container {
+	background:#fff;
+}

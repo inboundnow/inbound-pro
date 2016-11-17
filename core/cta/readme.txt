@@ -6,7 +6,7 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: Call to action, Calls to Action, CTA, inbound marketing, call outs, ad management, split testing, a b test, a b testing, a/b test, a/b testing, popups, email list, landing page, pop up, list building, inbound now, wp-call-to-actions, cpa, click tracking, ad placement, banner ads, slide in call outs, fly ins, like to download, social media share buttons
 Requires at least: 3.8
-Tested up to: 4.6
+Tested up to: 4.6.1
 Stable Tag: 2.8.8
 
 Create Calls to Action for your WordPress site. Monitor and improve conversion rates, run A/B split tests, customize your own CTA templates and more.

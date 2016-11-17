@@ -536,6 +536,10 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
             foreach ($mapped_fields as $key => $field) {
 
+                if ($field['enable'] == 'off') {
+                    continue;
+                }
+
                 $fields[$field['key']] = $field;
 
                 /* Get related meta value if exists */
@@ -607,6 +611,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
          */
         public static function display_quick_stat_page_views($post) {
             self::$page_views = Inbound_Events::get_page_views($post->ID);
+
             ?>
             <div class="quick-stat-label">
                 <div class="label_1"><?php _e('Page Views ', 'inbound-pro'); ?>:</div>
@@ -945,7 +950,6 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
         public static function activity_navigation() {
             global $post;
 
-
             $nav_items = array(
                 array(
                     'id' => 'lead-form-submissions',
@@ -955,7 +959,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                 array(
                     'id' => 'lead-page-views',
                     'label' => __('Page Views', 'inbound-pro'),
-                    'count' => get_post_meta($post->ID, 'wpleads_page_view_count', true)
+                    'count' => count(self::$page_views)
                 ),
                 array(
                     'id' => 'lead-comments',
