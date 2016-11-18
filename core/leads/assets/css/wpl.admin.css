@@ -494,48 +494,7 @@ h2 .nav-tab {
 }
 
 /* UI Fixes */
-#lead-header h1 {
-    margin-bottom: 0px;
-    margin-top: 5px;
-}
 
-#wpleads_main_container, #lead-websites, #lead-demographics, #lead-topics {
-    display: inline-block;
-    box-sizing: border-box;
-    vertical-align: top;
-    float: left;
-    padding-left: 28px;
-}
-
-#lead-websites, #lead-demographics, #lead-topics {
-    width: 100%;
-}
-
-#lead-websites, #lead-demographics, #lead-topics {
-    padding: 5px;
-    padding-left: 43px;
-}
-
-#lead-social-profiles h4, #lead-websites h4, #lead-demographics h4, #lead-topics h4, #lead-tag-cloud h4 {
-    margin-top: 5px;
-    margin-bottom: 5px;
-    padding-top: 0px;
-    padding-bottom: 0px;
-    font-size: 15px;
-    font-weight: 300;
-}
-
-#lead-social-profiles h4 {
-    font-size: 12px;
-}
-
-.primary-work-org {
-    display: inline-block;
-}
-
-.lead-work-label, #show-work-history {
-    display: block;
-}
 
 .lead-work-label.work-secondary, .lead-work-label.work-primary, #show-work-history, #wplead_metabox_conversion .handlediv {
     display: none;
@@ -711,18 +670,6 @@ h2 .nav-tab {
     padding-top: 0px;
 }
 
-#toggle-lead-fields {
-    margin-right: 10px;
-    margin-bottom: 10px;
-    width: 97%;
-    text-align: right;
-}
-
-#toggle-lead-fields a {
-    text-align:center;
-    font-size: 12px;
-    width: 150px;
-}
 
 #lead_image {
     max-width: 160px;
@@ -1441,9 +1388,6 @@ a.lead-timeline-img {
         min-width: 140px;
     }
 
-    #toggle-lead-fields a {
-        margin-right: -20px;
-    }
 
     .lead-profile-section .nav-container {
         display: inline-block;

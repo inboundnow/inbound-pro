@@ -141,9 +141,6 @@ class Inbound_Mailer_Scheduling {
         date_default_timezone_set($timezone);
 
         switch ($email_service) {
-            case "mandrill":
-                $timestamp = gmdate("Y-m-d\\TG:i:s\\Z", strtotime($settings['send_datetime']));
-                break;
             case "sparkpost":
                 $timestamp = date("Y-m-d\\TG:i:s\\Z", strtotime($settings['send_datetime']));
                 break;

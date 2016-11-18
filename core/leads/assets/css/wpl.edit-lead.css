@@ -10,6 +10,7 @@
 }
 #postbox-container-1 {
 	margin-bottom: 50px;
+	margin-top:95px;
 }
 #misc-publishing-actions {
 padding: 0px;
@@ -116,16 +117,15 @@ margin-top: 5px;
 }
 
 
-#show-edit-user {
+#show-edit-user, #toggle-lead-fields {
 	margin-right: 10px;
 	width: 97%;
 	text-align: center;
 }
 
-#show-edit-user a {
-	text-decoration:none;
-	padding-top:10px;
-	padding-bottom:10px;
+#show-edit-user a, #toggle-lead-fields a {
+	margin-bottom:5px;
+	width:95%;
 }
 
 /* Portrait and Landscape */
@@ -168,6 +168,54 @@ body .metabox-holder .postbox-container .empty-container {
 	border:none !important;
 }
 
-#postbox-container-1 {
-	margin-top:79px;
+#lead-social-profiles {
+	padding-left: 0px;
+	display: inline-block;
+}
+
+#lead-header h1 {
+	margin-bottom: 0px;
+	margin-top: 5px;
+}
+
+#lead-social-profiles h4, #lead-websites h4, #lead-demographics h4, #lead-topics h4, #lead-tag-cloud h4 {
+	margin-top: 5px;
+	margin-bottom: 5px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	font-size: 15px;
+	font-weight: 300;
+}
+
+#lead-social-profiles h4 {
+	font-size: 12px;
+}
+
+.primary-work-org {
+	display: inline-block;
+}
+
+.lead-work-label, #show-work-history {
+	display: block;
+}
+
+
+#toggle-lead-fields a {
+	text-align:center;
+	font-size: 12px;
+	width: 95%;
+}
+
+
+#toggle-lead-fields {
+	margin-right: 10px;
+	margin-bottom: 10px;
+	text-align: center;
+}
+
+#full-contact-table .wpleads-td {
+	padding-top:13px;
+}
+#full-contact-table .wpleads-th {
+	width:225px;
 }

@@ -155,10 +155,6 @@ class Inbound_Mailer_Ajax_Listeners {
 		}
 
 		switch ($inbound_settings['inbound-mailer']['mail-service']) {
-			case "mandrill":
-				$stats[$email_id] = Inbound_Mandrill_Stats::get_email_timeseries_stats( $email_id );
-
-				break;
 			case "sparkpost":
 				$stats[$email_id] = Inbound_SparkPost_Stats::get_sparkpost_inbound_events( $email_id );
 				//$stats[$email_id] = Inbound_SparkPost_Stats::get_email_timeseries_stats( $email_id );

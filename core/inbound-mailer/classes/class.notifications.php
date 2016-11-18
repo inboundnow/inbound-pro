@@ -27,8 +27,6 @@ class Inbound_Mailer_Notifications {
 		/* Load template selector in background */
 		add_action('admin_notices', array( __CLASS__ , 'prompt_key_notifications' ) );
 
-		/* Load template selector in background */
-		add_action('admin_notices', array( __CLASS__ , 'prompt_email_send_error' ) );
 	}
 
     /**
@@ -42,11 +40,11 @@ class Inbound_Mailer_Notifications {
         global $current_user;
         $user_id = $current_user->ID;
 
-        $ignore_check = get_transient('mandrill_ignore_error' , array());
+        $ignore_check = get_transient('inbound_pro_ignore_email_errors' , array());
 
         $ignore_check[] = $user_id;
 
-        set_transient( 'mandrill_ignore_error' , array_unique($ignore_check) , 60 * 60 * 24 * 3 );
+        set_transient( 'inbound_pro_ignore_email_errors' , array_unique($ignore_check) , 60 * 60 * 24 * 3 );
     }
 
 
@@ -65,18 +63,6 @@ class Inbound_Mailer_Notifications {
 		$settings_url = Inbound_Mailer_Settings::get_settings_url();
 
 		switch($inbound_settings['inbound-mailer']['mail-service']) {
-			case 'mandrill':
-
-				if ( isset($inbound_settings['inbound-mailer']['mandrill-key']) && $inbound_settings['inbound-mailer']['mandrill-key'] ) {
-					return;
-				}
-				?>
-				<div class="updated">
-					<p><?php _e( sprintf( 'Email requires a Mandrill API Key. Head to your %s to input your Mandrill API key.' , '<a href="'.$settings_url.'">'.__( 'settings page' , 'inbound-pro' ).'</a>') , 'inbound-email'); ?></p>
-				</div>
-				<?php
-
-				break;
 			case 'sparkpost':
 
 				if ( isset($inbound_settings['inbound-mailer']['sparkpost-key']) && $inbound_settings['inbound-mailer']['sparkpost-key'] ) {
@@ -101,14 +87,14 @@ class Inbound_Mailer_Notifications {
         $user_id = $current_user->ID;
 
 
-        $mandrill_error = Inbound_Options_API::get_option('inbound-email', 'errors-detected', false);
+        $errors = Inbound_Options_API::get_option('inbound-email', 'errors-detected', false);
 
         /* if no error message then return */
-        if (!$mandrill_error) {
+        if (!$errors) {
             return;
         }
 
-        $ignore_check = get_transient('mandrill_ignore_error' , array());
+        $ignore_check = get_transient('inbound_pro_ignore_email_errors' , array());
 
         if ($ignore_check && in_array( $user_id , $ignore_check ) && (!isset($post) || $post->post_type != 'inbound-email')) {
             return;
@@ -120,7 +106,7 @@ class Inbound_Mailer_Notifications {
             echo '<div style="float:right;margin-top:10px;"><a href="?mailer-disable-notification=true" title="'. __('Disable this notification. Note this error message will still appear in the email listing area until all scheduled emails are canceled or the error itself resolves.', 'inbound-pro') . '"><strong>x</strong></a> </div>';
         }
 
-        echo '<p>' . __( sprintf( 'Mandrill is rejecting email send attempts and returning the message below:  <pre>%s</pre>' , $mandrill_error) , 'inbound-email') .'</p>';
+        echo '<p>' . __( sprintf( 'The selected email service is rejecting email send attempts and returning the message below:  <pre>%s</pre>' , $errors) , 'inbound-pro') .'</p>';
         echo '     </div>';
 
     }

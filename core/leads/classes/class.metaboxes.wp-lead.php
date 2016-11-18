@@ -318,10 +318,13 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
         public static function get_full_contact_details() {
             global $post;
 
-
+            self::$full_contact = false;
             $email = self::$mapped_fields['wpleads_email_address']['value'];
             $api_key = Leads_Settings::get_setting('wpl-main-extra-lead-data', "");
 
+            if (!$api_key) {
+                return;
+            }
 
             $social_data = get_post_meta($post->ID, 'social_data', true);
             $person_obj = $social_data;
@@ -361,88 +364,6 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             self::$full_contact = $person_obj;
         }
 
-
-        /**
-         *    Gets data from full contact social object
-         */
-        public static function display_full_contact_details($values, $type) {
-
-            $person_obj = $values;
-
-            //print_r($person_obj);
-            $confidence_level = (isset($person_obj['likelihood'])) ? $person_obj['likelihood'] : "";
-
-            $photos = (isset($person_obj['photos'])) ? $person_obj['photos'] : "No Photos";
-            $fullname = (isset($person_obj['contactInfo']['fullName'])) ? $person_obj['contactInfo']['fullName'] : "";
-            $websites = (isset($person_obj['contactInfo']['websites'])) ? $person_obj['contactInfo']['websites'] : "N/A";
-            $chats = (isset($person_obj['contactInfo']['chats'])) ? $person_obj['contactInfo']['chats'] : "No";
-            $social_profiles = (isset($person_obj['socialProfiles'])) ? $person_obj['socialProfiles'] : "No Profiles Found";
-            $organizations = (isset($person_obj['organizations'])) ? $person_obj['organizations'] : "No Organizations Found";
-            $demographics = (isset($person_obj['demographics'])) ? $person_obj['demographics'] : "N/A";
-            $interested_in = (isset($person_obj['digitalFootprint']['topics'])) ? $person_obj['digitalFootprint']['topics'] : "N/A";
-            $image = (isset($person_obj['photos'][0]['url'])) ? $person_obj['photos'][0]['url'] : "/wp-content/plugins/leads/assets/images/gravatar_default_150.jpg";
-
-            $klout_score = (isset($person_obj['digitalFootprint']['scores'][0]['value'])) ? $person_obj['digitalFootprint']['scores'][0]['value'] : "N/A";
-
-
-            /* Get All Photos associated with the person */
-            if ($type === 'photo' && isset($photos) && is_array($photos)) {
-                foreach ($photos as $photo) {
-                    //print_r($photo);
-                    echo $photo['url'] . " from " . $photo['typeName'] . "<br>";
-                }
-            } /* Get All Websites associated with the person */
-            else if ($type === 'website' && isset($websites) && is_array($websites)) {
-                echo "<div id='lead-websites'><h4>" . __('Websites', 'inbound-pro') . "</h4>";
-                //print_r($websites);
-                foreach ($websites as $site) {
-                    echo "<a href='" . $site['url'] . "' target='_blank'>" . $site['url'] . "</a><br>";
-                }
-                echo "</div>";
-            } /* Get All Social Media Account associated with the person */
-            else if ($type === 'social' && isset($social_profiles) && is_array($social_profiles)) {
-                echo "<div id='lead-social-profiles'><h4>" . __('Social Media Profiles', 'inbound-pro') . "</h4>";
-                //print_r($social_profiles);
-                foreach ($social_profiles as $profiles) {
-                    $network = (isset($profiles['typeName'])) ? $profiles['typeName'] : "";
-                    $username = (isset($profiles['username'])) ? $profiles['username'] : "";
-                    ($network == 'Twitter') ? $echo_val = "@" . $username : $echo_val = "";
-                    echo "<a href='" . $profiles['url'] . "' target='_blank'>" . $profiles['typeName'] . "</a> " . $echo_val . "<br>";
-                }
-                echo "</div>";
-            } /* Get All Work Organizations associated with the person */
-            else if ($type === 'work' && isset($organizations) && is_array($organizations)) {
-                echo "<div id='lead-work-history'>";
-
-                foreach ($organizations as $org) {
-                    $title = (isset($org['title'])) ? $org['title'] : "";
-                    $org_name = (isset($org['name'])) ? $org['name'] : "";
-                    (isset($org['name'])) ? $at_org = "<span class='primary-work-org'>" . $org['name'] . "</span>" : $at_org = ""; // get primary org
-                    ($org['isPrimary'] === true) ? $print = "<span id='primary-title'>" . $title . "</span> at " . $at_org : $print = "";
-                    ($org['isPrimary'] === true) ? $hideclass = "work-primary" : $hideclass = "work-secondary";
-                    echo $print;
-                    echo "<span class='lead-work-label " . $hideclass . "'>" . $title . " at " . $org_name . "</span>";
-                }
-                echo "<span id='show-work-history'>" . __('View past work', 'inbound-pro') . "</span></div>";
-            } /* Get All demo graphic info associated with the person */
-            else if ($type === 'demographics' && isset($demographics) && is_array($demographics)) {
-                echo "<div id='lead-demographics'><h4>" . __('Demographics', 'inbound-pro') . "</h4>";
-                $location = (isset($demographics['locationGeneral'])) ? $demographics['locationGeneral'] : "";
-                $age = (isset($demographics['age'])) ? $demographics['age'] : "";
-                $ageRange = (isset($demographics['ageRange'])) ? $demographics['ageRange'] : "";
-                $gender = (isset($demographics['gender'])) ? $demographics['gender'] : "";
-                echo $gender . " in " . $location;
-                echo "</div>";
-            } /*  Get All Topics associated with the person */
-            elseif ($type === 'topics' && isset($interested_in) && is_array($interested_in)) {
-                echo "<div id='lead-topics'><h4>" . __('Interests', 'inbound-pro') . "</h4>";
-                foreach ($interested_in as $topic) {
-                    echo "<span class='lead-topic-tag'>" . $topic['value'] . "</span>";
-                }
-                echo "</div>";
-            }
-
-        }
 
         /**
          *    Setups main metabox tab navigation
@@ -793,11 +714,15 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
             self::render_settings();
 
+            echo "<table id='full-contact-table'>";
+            self::display_full_contact_details(self::$full_contact, 'work'); // Display extra data work history
+            self::display_full_contact_details(self::$full_contact, 'social'); // Display extra social
+
             /* Display more Full Contact data */
             self::display_full_contact_details(self::$full_contact, 'website');
             self::display_full_contact_details(self::$full_contact, 'demographics');
             self::display_full_contact_details(self::$full_contact, 'topics');
-
+            echo "</table>";
             /* Display tag cloud */
             self::display_tag_cloud();
 
@@ -844,9 +769,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                             $gravatar = $extra_image;
                         }
                         echo '<img src="' . $gravatar . '" id="lead-main-image" title="' . self::$mapped_fields['wpleads_first_name']['value'] . ' ' . self::$mapped_fields['wpleads_last_name']['value'] . '"></a>';
-                        self::display_full_contact_details(self::$full_contact, 'work'); // Display extra data work history
-                        self::display_full_contact_details(self::$full_contact, 'social'); // Display extra social
-                        ?>
+                       ?>
                     </div>
                     <?php
                     /* Display WP USer edit link */
@@ -863,8 +786,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                 if (isset($user->ID)) {
                     ?>
                     <div id='show-edit-user'>
-                        <a href="<?php echo get_edit_user_link($user->ID); ?>">
-                            <?php _e('[edit user profile]', 'inbound-pro'); ?></a>
+                        <a  class='button button-secondary' href="<?php echo get_edit_user_link($user->ID); ?>"><?php _e('Edit User Profile', 'inbound-pro'); ?></a>
                     </div>
 
                     <?php
@@ -883,6 +805,408 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             <?php
         }
 
+        /**
+         *    Loads Activity UI
+         */
+        public static function display_lead_activity() {
+            echo '<div id="activity-data-display">';
+            self::activity_navigation();
+            self::activity_form_submissions();
+            self::activity_comments();
+            //self::activity_searches();
+            self::activity_pageviews();
+
+            do_action('wpleads_after_activity_log');
+            echo '</div>';
+        }
+
+        /**
+         *    Displays conversion funnel data
+         */
+        public static function display_lead_conversion_paths() {
+            global $post, $wpdb;
+
+            self::get_conversions( $post->ID );
+
+            if (!self::$conversions) {
+                return;
+            }
+
+            foreach (self::$conversions as $key => $value) {
+                /* get funnel */
+                $value['funnel'] = json_decode($value['funnel'],true);
+                if (!$value['funnel']) {
+                    continue;
+                }
+
+                $date = date_create($value['datetime']);
+
+
+                /* now add action event */
+                switch($value['event_name']) {
+                    case 'inbound_cta_click':
+                        $event_label = __('Call to Action Click','inbound-pro');
+                        $event_id = ($value['cta_id']) ? $value['cta_id'] : __('undefined', 'inbound-pro' );
+                        $event_source_title = ($value['form_id']) ? get_the_title($value['form_id']) : __('undefined', 'inbound-pro' );
+                        break;
+                    default:
+                        $event_label = __('Form Submission','inbound-pro');
+                        $event_id = ($value['form_id']) ? $value['form_id'] : __('undefined', 'inbound-pro' );
+                        $event_source_title = ($value['form_id']) ? get_the_title($value['form_id']) : __('undefined', 'inbound-pro' );
+                        break;
+                }
+
+                /* start funnel */
+                ?>
+                <div id="conversion-tracking" class="wpleads-conversion-tracking-table">
+                    <div class="conversion-tracking-header">
+                        <div class="path-left">
+                            <h2><?php echo $event_label; ?> - <span class="shown_date"><?php echo date_format($date, 'F jS, Y \a\t g:i:s a');?></span></h2>
+                        </div>
+                        <div class="path-right">
+                            <span class="toggle-conversion-list">-</span>
+                        </div>
+                    </div>
+
+                    <div class="session-item-holder">
+
+                        <?php
+                        /* show source */
+                        ?>
+                        <div class="lp-page-view-item ">
+                            <div class="path-left">
+                             <span class="marker">
+                                 <i class="fa fa-map-marker" aria-hidden="true"></i>
+                             </span>
+                                <?php echo __( 'Source' , 'inbound-pro');  ?>
+                            </div>
+                            <div class="path-right">
+                                <?php echo $value['source'];  ?>
+                            </div>
+                        </div>
+                        <?php
+
+                        $count = 1;
+                        foreach($value['funnel'] as $page_id) {
+
+                            if (!$page_id) {
+                                continue;
+                            }
+
+
+
+                            if (strpos($page_id, 'cat_') !== false) {
+                                $cat_id = str_replace("cat_", "", $page_id);
+                                $page_title = get_cat_name($cat_id) . " Category Page";
+                                $tag_names = '';
+                                $page_permalink = get_category_link($cat_id);
+
+                            } elseif (strpos($page_id, 'tag_') !== false) {
+                                $tag_id = str_replace("tag_", "", $page_id);
+                                $tag = get_tag($tag_id);
+                                $page_title = $tag->name . " - Tag Page";
+                                $tag_names = '';
+                                $page_permalink = get_tag_link($tag_id);
+
+                            } else {
+                                $page_title = get_the_title($page_id);
+                                $page_title = ($page_id != 0) ? $page_title : 'N/A';
+                                $page_permalink = get_permalink($page_id);
+                            }
+
+                            $page_title_short = strlen($page_title) > 65 ? substr($page_title, 0, 65) . "..." : $page_title;
+                            ?>
+                            <div class="lp-page-view-item ">
+                                <div class="path-left">
+                                    <span class="marker">
+                                        <?php echo $count; ?>
+                                    </span>
+                                    <a href='<?php echo $page_permalink; ?>' title='<?php echo $page_name; ?>' target='_blank'><?php echo $page_title_short; ?></a>
+                                </div>
+                                <div class="path-right">
+                                    <span class="time-on-page">
+                                    </span>
+                                </div>
+                            </div>
+                            <?php
+                            $count++;
+                        }
+
+                        ?>
+                        <div class="lp-page-view-item ">
+                            <div class="path-left">
+                             <span class="marker">
+                                    <i class="fa fa-crosshairs" aria-hidden="true"></i>
+                             </span>
+                                <?php echo $event_label; ?> (<?php echo $value['event_name'];?>)
+                            </div>
+                            <div class="path-right">
+                                <?php echo $event_source_title; ?>
+                            </div>
+                        </div>
+                        <?php
+                        ?>
+                    </div>
+                </div>
+                <?php
+            }
+
+        }
+
+        /**
+         *    Displays main lead content containers
+         */
+        public static function display_sources() {
+            global $post;
+
+
+            /* Get Referrals */
+            $referrals = Inbound_Events::get_lead_sources($post->ID);
+
+            if (count($referrals)>0) {
+                foreach ($referrals as $key => $value) {
+                    $date = date_create($value['datetime']);
+
+                    /* skip internal sources */
+                    if (strstr($value['source'],site_url()) || !$value['source']) {
+                        continue;
+                    }
+                    ?>
+                    <div class="wpl-raw-data-tr">
+                        <span class="wpl-raw-data-td-value">
+                            <?php
+                            if (isset($value['source'])) {
+                                $src = ($value['source'] === "Direct Traffic") ? __("Direct Traffic",'inbound-pro') : $value['source'];
+                                echo $src . ' on ' . date_format($date, 'F jS, Y \a\t g:ia (l)');
+                            }
+                            ?>
+                        </span>
+                    </div>
+                    <?php
+                }
+            } else {
+                echo "<h2>" .__('No Referral Data Detected.' , 'inbound-pro' ) . "</h2>";
+            }
+        }
+
+        /**
+         * Display raw data logs
+         */
+        public static function display_raw_logs() {
+            global $post;
+            ?>
+            <div id="raw-data-display">
+
+            </div>
+            <?php
+        }
+
+
+        /**
+         *    Gets data from full contact social object
+         */
+        public static function display_full_contact_details($values, $type) {
+
+            $person_obj = $values;
+
+            //print_r($person_obj);
+            $confidence_level = (isset($person_obj['likelihood'])) ? $person_obj['likelihood'] : "";
+
+            $photos = (isset($person_obj['photos'])) ? $person_obj['photos'] : "No Photos";
+            $fullname = (isset($person_obj['contactInfo']['fullName'])) ? $person_obj['contactInfo']['fullName'] : "";
+            $websites = (isset($person_obj['contactInfo']['websites'])) ? $person_obj['contactInfo']['websites'] : "N/A";
+            $chats = (isset($person_obj['contactInfo']['chats'])) ? $person_obj['contactInfo']['chats'] : "No";
+            $social_profiles = (isset($person_obj['socialProfiles'])) ? $person_obj['socialProfiles'] : "No Profiles Found";
+            $organizations = (isset($person_obj['organizations'])) ? $person_obj['organizations'] : "No Organizations Found";
+            $demographics = (isset($person_obj['demographics'])) ? $person_obj['demographics'] : "N/A";
+            $interested_in = (isset($person_obj['digitalFootprint']['topics'])) ? $person_obj['digitalFootprint']['topics'] : "N/A";
+            $image = (isset($person_obj['photos'][0]['url'])) ? $person_obj['photos'][0]['url'] : "/wp-content/plugins/leads/assets/images/gravatar_default_150.jpg";
+
+            $klout_score = (isset($person_obj['digitalFootprint']['scores'][0]['value'])) ? $person_obj['digitalFootprint']['scores'][0]['value'] : "N/A";
+
+            echo '<tr class="" style="display: table-row;">';
+
+            /* Get All Photos associated with the person */
+            if ($type === 'photo' && isset($photos) && is_array($photos)) {
+                foreach ($photos as $photo) {
+                    echo $photo['url'] . " from " . $photo['typeName'] . "<br>";
+                }
+            } /* Get All Websites associated with the person */
+            else if ($type === 'website' && isset($websites) && is_array($websites)) {
+                ?>
+                <td class="wpleads-th">
+                    <img title="<?php _e('Full Contact' , 'inbound-pro' ); ?>" src="<?php  echo WPL_URLPATH . '/assets/images/icons/fullcontact.png'; ?>" width="16px">
+                    <label for=""><?php  _e('Websites:', 'inbound-pro'); ?></label></td>
+                <td class="wpleads-td" id="">
+                    <?php
+                    foreach ($websites as $site) {
+                        echo "<a href='" . $site['url'] . "' target='_blank'>" . $site['url'] . "</a><br>";
+                    }
+                    ?>
+                </td>
+                <?php
+            } /* Get All Social Media Account associated with the person */
+            else if ($type === 'social' && isset($social_profiles) && is_array($social_profiles)) {
+                ?>
+                <td class="wpleads-th">
+                    <img title="<?php _e('Full Contact' , 'inbound-pro' ); ?>" src="<?php  echo WPL_URLPATH . '/assets/images/icons/fullcontact.png'; ?>" width="16px">
+                    <label for=""><?php  _e('Social Profiles:', 'inbound-pro'); ?></label>
+                </td>
+                <td class="wpleads-td" id="">
+                    <?php
+
+                    foreach ($social_profiles as $profiles) {
+                        $network = (isset($profiles['typeName'])) ? $profiles['typeName'] : "";
+                        $username = (isset($profiles['username'])) ? $profiles['username'] : "";
+                        ($network == 'Twitter') ? $echo_val = "@" . $username : $echo_val = "";
+                        echo "<a href='" . $profiles['url'] . "' target='_blank'>" . $profiles['typeName'] . "</a> " . $echo_val . "<br>";
+                    }
+                    ?>
+                </td>
+                <?php
+            } /* Get All Work Organizations associated with the person */
+            else if ($type === 'work' && isset($organizations) && is_array($organizations) && $organizations ) {
+                ?>
+                <td class="wpleads-th">
+                    <img title="<?php _e('Full Contact' , 'inbound-pro' ); ?>" src="<?php  echo WPL_URLPATH . '/assets/images/icons/fullcontact.png'; ?>" width="16px">
+                    <label for=""><?php
+                        _e('Work:', 'inbound-pro');
+                        ?></label>
+                </td>
+                <td class="wpleads-td" id="">
+                    <?php
+
+                    foreach ($organizations as $org) {
+                        $title = (isset($org['title'])) ? $org['title'] : "";
+                        $org_name = (isset($org['name'])) ? $org['name'] : "";
+                        (isset($org['name'])) ? $at_org = "<span class='primary-work-org'>" . $org['name'] . "</span>" : $at_org = ""; // get primary org
+                        (isset($org['isPrimary']) && $org['isPrimary'] === true) ? $print = "<span id='primary-title'>" . $title . "</span> at " . $at_org : $print = "";
+                        (isset($org['isPrimary']) && $org['isPrimary'] === true) ? $hideclass = "work-primary" : $hideclass = "work-secondary";
+                        echo $print;
+                        echo "<span class='lead-work-label " . $hideclass . "'>" . $title . " at " . $org_name . "</span>";
+                    }
+                    echo "<span id='show-work-history'>" . __('View past work', 'inbound-pro') . "</span></div>";
+                    ?>
+                </td>
+                <?php
+            } /* Get All demo graphic info associated with the person */
+            else if ($type === 'demographics' && isset($demographics) && is_array($demographics)) {
+                ?>
+                <td class="wpleads-th">
+                    <img title="<?php _e('Full Contact' , 'inbound-pro' ); ?>" src="<?php  echo WPL_URLPATH . '/assets/images/icons/fullcontact.png'; ?>" width="16px">
+                    <label for=""><?php  _e('Demographics', 'inbound-pro'); ?></label>
+                </td>
+                <td class="wpleads-td" id="">
+                    <?php
+
+                    $location = (isset($demographics['locationGeneral'])) ? $demographics['locationGeneral'] : "";
+                    $age = (isset($demographics['age'])) ? $demographics['age'] : "";
+                    $ageRange = (isset($demographics['ageRange'])) ? $demographics['ageRange'] : "";
+                    $gender = (isset($demographics['gender'])) ? $demographics['gender'] : "";
+                    echo $gender . " in " . $location;
+                    ?>
+                </td>
+                <?php
+            } /*  Get All Topics associated with the person */
+            elseif ($type === 'topics' && isset($interested_in) && is_array($interested_in)) {
+                ?>
+                <td class="wpleads-th"><label for=""><?php  _e('Interests:', 'inbound-pro'); ?></label></td>
+                <td class="wpleads-td" id="">
+                    <?php
+                    foreach ($interested_in as $topic) {
+                        echo "<span class='lead-topic-tag'>" . $topic['value'] . "</span>";
+                    }
+                    ?>
+                </td>
+                <?php
+
+            }
+
+            echo '</tr>';
+        }
+
+
+        /**
+         *    Displays tag cloud
+         */
+        public static function display_tag_cloud() {
+            $tags = self::get_lead_tag_cloud(); // get content tags
+
+            ?>
+            <table>
+                <tr class="" style="display: table-row;">
+                    <td class="wpleads-th"><label for=""><?php  _e('Consumed Tags:', 'inbound-pro'); ?></label></td>
+                    <td class="wpleads-td" id="">
+                    <?php
+                    if (!empty($tags)) {
+                        foreach ($tags as $key => $value) {
+                            echo "<a href='#' rel='$value'>$key</a> ,";
+                        }
+                    }
+                    ?>
+
+                </tr>
+            </table>
+            <?php
+        }
+
+
+        /**
+         *    Displays main lead content containers
+         */
+        public static function display_main() {
+            global $post, $wpdb;
+
+            self::setup_tabs();
+
+            self::get_mapped_fields();
+
+            self::get_full_contact_details();
+
+
+            ?>
+            <div class="lead-profile">
+                <?php
+
+                self::display_tabs();
+                ?>
+                <div class="lead-profile-section" id='wpleads_lead_tab_main'>
+
+                    <div id="wpleads_lead_tab_main_inner">
+                        <?php
+
+                        self::display_lead_profile();
+
+                        ?>
+                    </div>
+                </div>
+                <div class="lead-profile-section" id='wpleads_lead_tab_activity'>
+                    <?php
+
+                    self::display_lead_activity();
+
+                    ?>
+                </div>
+                <div class="lead-profile-section" id='wpleads_lead_tab_conversions'>
+                    <?php
+
+                    self::display_lead_conversion_paths();
+
+                    ?>
+                </div>
+                <div class="lead-profile-section" id="wpleads_lead_tab_raw_form_data">
+                    <?php
+                    self::display_raw_logs();
+
+                    ?>
+                </div>
+            </div>
+
+
+            <?php
+            do_action('wpl_print_lead_tab_sections');
+
+        }
 
         /**
          *    Gets number of form submission events
@@ -1225,258 +1549,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
         }
 
 
-        /**
-         *    Loads Activity UI
-         */
-        public static function display_lead_activity() {
-            echo '<div id="activity-data-display">';
-            self::activity_navigation();
-            self::activity_form_submissions();
-            self::activity_comments();
-            //self::activity_searches();
-            self::activity_pageviews();
 
-            do_action('wpleads_after_activity_log');
-            echo '</div>';
-        }
-
-        /**
-         *    Displays conversion funnel data
-         */
-        public static function display_lead_conversion_paths() {
-            global $post, $wpdb;
-
-            self::get_conversions( $post->ID );
-
-            if (!self::$conversions) {
-                return;
-            }
-
-            foreach (self::$conversions as $key => $value) {
-                /* get funnel */
-                $value['funnel'] = json_decode($value['funnel'],true);
-                if (!$value['funnel']) {
-                    continue;
-                }
-
-                $date = date_create($value['datetime']);
-
-
-                /* now add action event */
-                switch($value['event_name']) {
-                    case 'inbound_cta_click':
-                        $event_label = __('Call to Action Click','inbound-pro');
-                        $event_id = ($value['cta_id']) ? $value['cta_id'] : __('undefined', 'inbound-pro' );
-                        $event_source_title = ($value['form_id']) ? get_the_title($value['form_id']) : __('undefined', 'inbound-pro' );
-                        break;
-                    default:
-                        $event_label = __('Form Submission','inbound-pro');
-                        $event_id = ($value['form_id']) ? $value['form_id'] : __('undefined', 'inbound-pro' );
-                        $event_source_title = ($value['form_id']) ? get_the_title($value['form_id']) : __('undefined', 'inbound-pro' );
-                        break;
-                }
-
-                /* start funnel */
-                ?>
-                <div id="conversion-tracking" class="wpleads-conversion-tracking-table">
-                    <div class="conversion-tracking-header">
-                        <div class="path-left">
-                            <h2><?php echo $event_label; ?> - <span class="shown_date"><?php echo date_format($date, 'F jS, Y \a\t g:i:s a');?></span></h2>
-                        </div>
-                        <div class="path-right">
-                            <span class="toggle-conversion-list">-</span>
-                        </div>
-                    </div>
-
-                    <div class="session-item-holder">
-
-                        <?php
-                        /* show source */
-                        ?>
-                        <div class="lp-page-view-item ">
-                            <div class="path-left">
-                             <span class="marker">
-                                 <i class="fa fa-map-marker" aria-hidden="true"></i>
-                             </span>
-                                <?php echo __( 'Source' , 'inbound-pro');  ?>
-                            </div>
-                            <div class="path-right">
-                                <?php echo $value['source'];  ?>
-                            </div>
-                        </div>
-                        <?php
-
-                        $count = 1;
-                        foreach($value['funnel'] as $page_id) {
-
-                            if (!$page_id) {
-                                continue;
-                            }
-
-
-
-                            if (strpos($page_id, 'cat_') !== false) {
-                                $cat_id = str_replace("cat_", "", $page_id);
-                                $page_title = get_cat_name($cat_id) . " Category Page";
-                                $tag_names = '';
-                                $page_permalink = get_category_link($cat_id);
-
-                            } elseif (strpos($page_id, 'tag_') !== false) {
-                                $tag_id = str_replace("tag_", "", $page_id);
-                                $tag = get_tag($tag_id);
-                                $page_title = $tag->name . " - Tag Page";
-                                $tag_names = '';
-                                $page_permalink = get_tag_link($tag_id);
-
-                            } else {
-                                $page_title = get_the_title($page_id);
-                                $page_title = ($page_id != 0) ? $page_title : 'N/A';
-                                $page_permalink = get_permalink($page_id);
-                            }
-
-                            $page_title_short = strlen($page_title) > 65 ? substr($page_title, 0, 65) . "..." : $page_title;
-                            ?>
-                            <div class="lp-page-view-item ">
-                                <div class="path-left">
-                                    <span class="marker">
-                                        <?php echo $count; ?>
-                                    </span>
-                                    <a href='<?php echo $page_permalink; ?>' title='<?php echo $page_name; ?>' target='_blank'><?php echo $page_title_short; ?></a>
-                                </div>
-                                <div class="path-right">
-                                    <span class="time-on-page">
-                                    </span>
-                                </div>
-                            </div>
-                            <?php
-                            $count++;
-                        }
-
-                        ?>
-                        <div class="lp-page-view-item ">
-                            <div class="path-left">
-                             <span class="marker">
-                                    <i class="fa fa-crosshairs" aria-hidden="true"></i>
-                             </span>
-                             <?php echo $event_label; ?> (<?php echo $value['event_name'];?>)
-                            </div>
-                            <div class="path-right">
-                                <?php echo $event_source_title; ?>
-                            </div>
-                        </div>
-                        <?php
-                        ?>
-                    </div>
-                  </div>
-                  <?php
-            }
-
-        }
-
-        /**
-         *    Displays main lead content containers
-         */
-        public static function display_sources() {
-            global $post;
-
-
-            /* Get Referrals */
-            $referrals = Inbound_Events::get_lead_sources($post->ID);
-
-            if (count($referrals)>0) {
-                foreach ($referrals as $key => $value) {
-                    $date = date_create($value['datetime']);
-
-                    /* skip internal sources */
-                    if (strstr($value['source'],site_url()) || !$value['source']) {
-                        continue;
-                    }
-                    ?>
-                    <div class="wpl-raw-data-tr">
-                        <span class="wpl-raw-data-td-value">
-                            <?php
-                            if (isset($value['source'])) {
-                                $src = ($value['source'] === "Direct Traffic") ? __("Direct Traffic",'inbound-pro') : $value['source'];
-                                echo $src . ' on ' . date_format($date, 'F jS, Y \a\t g:ia (l)');
-                            }
-                            ?>
-                        </span>
-                    </div>
-                    <?php
-                }
-            } else {
-                echo "<h2>" .__('No Referral Data Detected.' , 'inbound-pro' ) . "</h2>";
-            }
-        }
-
-        /**
-         * Display raw data logs
-         */
-        public static function display_raw_logs() {
-            global $post;
-            ?>
-            <div id="raw-data-display">
-
-            </div>
-            <?php
-        }
-
-        /**
-         *    Displays main lead content containers
-         */
-        public static function display_main() {
-            global $post, $wpdb;
-
-            self::setup_tabs();
-
-            self::get_mapped_fields();
-
-            self::get_full_contact_details();
-
-
-            ?>
-            <div class="lead-profile">
-                <?php
-
-                self::display_tabs();
-                ?>
-                <div class="lead-profile-section" id='wpleads_lead_tab_main'>
-
-                    <div id="wpleads_lead_tab_main_inner">
-                        <?php
-
-                        self::display_lead_profile();
-
-                        ?>
-                    </div>
-                </div>
-                <div class="lead-profile-section" id='wpleads_lead_tab_activity'>
-                    <?php
-
-                    self::display_lead_activity();
-
-                    ?>
-                </div>
-                <div class="lead-profile-section" id='wpleads_lead_tab_conversions'>
-                    <?php
-
-                    self::display_lead_conversion_paths();
-
-                    ?>
-                </div>
-                <div class="lead-profile-section" id="wpleads_lead_tab_raw_form_data">
-                    <?php
-                    self::display_raw_logs();
-
-                    ?>
-                </div>
-            </div>
-
-
-            <?php
-            do_action('wpl_print_lead_tab_sections');
-
-        }
 
 
         /**
@@ -2013,20 +2086,6 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             return $icon;
         }
 
-        /**
-         *    Displays tag cloud
-         */
-        public static function display_tag_cloud() {
-            $tags = self::get_lead_tag_cloud(); // get content tags
-
-            if (!empty($tags)) {
-                echo '<div id="lead-tag-cloud"><h4>' . __('Tag cloud of content consumed', 'inbound-pro') . '</h4>';
-                foreach ($tags as $key => $value) {
-                    echo "<a href='#' rel='$value'>$key</a>";
-                }
-                echo "</div>";
-            }
-        }
 
         /**
          *    Fetches tag cloud

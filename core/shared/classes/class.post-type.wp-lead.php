@@ -93,8 +93,6 @@ if ( !class_exists('Inbound_Leads') ) {
 				$role->add_cap( 'edit_others_leads' );
 				$role->add_cap( 'edit_published_leads' );
 				$role->add_cap( 'publish_leads' );
-				$role->add_cap( 'delete_lead' );
-				$role->add_cap( 'delete_leads' );
 				$role->add_cap( 'delete_others_leads' );
 				$role->add_cap( 'delete_private_leads' );
 				$role->add_cap( 'delete_published_leads' );

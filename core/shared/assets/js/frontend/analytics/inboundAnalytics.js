@@ -1698,10 +1698,7 @@ var InboundForms = (function(_inbound) {
                     if (formInput.dataset.mapFormField) {
                         inputsObject[inputName]['map'] = formInput.dataset.mapFormField;
                     }
-                    /*if (formInput.id) { inputsObject[inputName]['id'] = formInput.id; }
-                  if ('classList' in document.documentElement)  {
-                      if (formInput.classList) { inputsObject[inputName]['class'] = formInput.classList; }
-                  }*/
+
 
                     switch (formInput.nodeName) {
 
@@ -1733,7 +1730,6 @@ var InboundForms = (function(_inbound) {
                                 value = (formInput.value);
                             }
 
-                            //console.log('select val', value);
                             break;
                     }
 
@@ -1869,23 +1865,6 @@ var InboundForms = (function(_inbound) {
             // data['search_data'] = JSON.stringify(jQuery.totalStorage('inbound_search')) || {};
             search_data = {};
             /* Filter here for raw */
-            //alert(mapped_params);
-            /**
-			* Old data model
-              var return_data = {
-                        "action": 'inbound_store_lead',
-                        "emailTo": data['email'],
-                        "first_name": data['first_name'],
-                        "last_name": data['last_name'],
-                        "phone": data['phone'],
-                        "address": data['address'],
-                        "company_name": data['company'],
-                        "page_views": data['page_views'],
-                        "form_input_values": all_form_fields,
-                        "Mapped_Data": mapped_form_data,
-                        "Search_Data": data['search_data']
-              };
-			*/
             formData = {
                 'action': 'inbound_lead_store',
                 'email': email,
@@ -1903,6 +1882,7 @@ var InboundForms = (function(_inbound) {
                 'source': utils.readCookie("inbound_referral_site"),
                 'inbound_submitted': inbound_form_is_ajax,
                 'inbound_form_id': inbound_form_id,
+                'event': form
             };
 
             callback = function(leadID) {
@@ -2380,9 +2360,7 @@ var _inboundEvents = (function(_inbound) {
     function fireEvent(eventName, data, options) {
         var data = data || {};
         options = options || {};
-        //alert('ran + ' + eventName);
-        //console.log(eventName);
-        //console.log(data);
+
         /*! defaults for JS dispatch event */
         options.bubbles = options.bubbles || true,
         options.cancelable = options.cancelable || true;
