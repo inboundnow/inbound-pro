@@ -26,7 +26,6 @@ jQuery(document).ready(function ($) {
         });
 
         if (jQuery("li.publish").length > 0) {
-            jQuery(".submitdelete").text("Delete");
             var textchange = jQuery("li.publish").html().replace("Published", "Live");
             jQuery('li.publish').html(textchange);
 
