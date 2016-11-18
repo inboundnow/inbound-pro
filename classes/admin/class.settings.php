@@ -525,9 +525,6 @@ class Inbound_Pro_Settings {
 		<h4><strong>SparkPost</strong></h4>
 		<p>Inbound Now's official email service provider is SparkPost. SparkPost provides it's users with 100,000 free sends a month and then an affordable rate their after. You can read more about SparkPost from their <a href="http://www.sparkpost.com" target="_blank">website</a>.</p>
 
-		<h4>Mandrill</h4>
-		<p>Mandrill is only available for paid MailChimp users. Mandrill provides users with <strong>2000</strong> free email sends and then provides 25,000 email sends a month for a <a href="http://mandrill.com/pricing/" target="_blank">low cost</a>.  Unless you are a MailChimp user we do not recommend chosing this service to power your emails. SparkPost, below, is a better, more affordable alternative.</p>
-
 		<h2>The new marketing automation component</h2>
 
 		<p>Our marketing automation component is brand new and still under development. We plan to study how our users leverage it and improve it over the 2016 year. Currently it can only be used to schedule time driven email series. In essence it is a trigger/action rule engine powered by WordPress hooks. Right now there are only a few triggers and actions. We'd like to see this list grow. One day this tool might be used to create a lead rating/badging system.  We are curious about how this component will be leveraged over time.</p>
@@ -596,7 +593,7 @@ class Inbound_Pro_Settings {
 				<br>
 				<h2><?php _e('Import Inbound Now Settings' , 'inbound-pro'); ?></h2>
 				<?php
-				if (isset($_FILES)) {
+				if (isset($_FILES) && $_FILES ) {
 					?>
 					<p><?php _e('Your settings have been imported!.' , 'inbound-pro'); ?></p>
 					<?php
@@ -1431,7 +1428,7 @@ class Inbound_Pro_Settings {
 	}
 
 	/**
-	 *
+	 * Listen for command to import settings from uploaded json file
 	 */
 	public static function import_settings_from_json() {
 		if (!isset($_POST['inbound-action'])) {
@@ -1458,6 +1455,13 @@ class Inbound_Pro_Settings {
 			die(__('Error: json file is corrupt.','inbound-pro'));
 		}
 
+		/* get current settings */
+		$settings = get_option( 'inbound-pro' , array() );
+
+		/* set configuration memory */
+		$settings_array['configuration'] = $settings['configuration'];
+
+		/* update with new imported settings */
 		update_option( 'inbound-pro' , $settings_array );
 
 	}
