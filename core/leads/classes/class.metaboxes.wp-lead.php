@@ -457,7 +457,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
             foreach ($mapped_fields as $key => $field) {
 
-                if ($field['enable'] == 'off') {
+                if (isset($field['enable']) && $field['enable'] == 'off') {
                     continue;
                 }
 
@@ -921,7 +921,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                                     <span class="marker">
                                         <?php echo $count; ?>
                                     </span>
-                                    <a href='<?php echo $page_permalink; ?>' title='<?php echo $page_name; ?>' target='_blank'><?php echo $page_title_short; ?></a>
+                                    <a href='<?php echo $page_permalink; ?>' title='<?php echo $page_title; ?>' target='_blank'><?php echo $page_title_short; ?></a>
                                 </div>
                                 <div class="path-right">
                                     <span class="time-on-page">
@@ -1131,18 +1131,20 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
          */
         public static function display_tag_cloud() {
             $tags = self::get_lead_tag_cloud(); // get content tags
-
+            if (!$tags) {
+                return;
+            }
             ?>
             <table>
                 <tr class="" style="display: table-row;">
                     <td class="wpleads-th"><label for=""><?php  _e('Consumed Tags:', 'inbound-pro'); ?></label></td>
                     <td class="wpleads-td" id="">
                     <?php
-                    if (!empty($tags)) {
-                        foreach ($tags as $key => $value) {
-                            echo "<a href='#' rel='$value'>$key</a> ,";
-                        }
+
+                    foreach ($tags as $key => $value) {
+                        echo "<a href='#' rel='$value'>$key</a> ,";
                     }
+
                     ?>
 
                 </tr>

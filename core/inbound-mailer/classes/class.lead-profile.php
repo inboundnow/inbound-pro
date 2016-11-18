@@ -14,7 +14,9 @@ if (!class_exists('Inbound_Mailer_Direct_Email_Leads')) {
          *
          */
         public static function add_hooks() {
-            /*do actions and filters here!*/
+            /*get the mail service settings*/
+            $settings = Inbound_Mailer_Settings::get_settings();
+
 
             /*Add the "Email Lead" tab to the edit lead list of tabs*/
             add_filter('wpl_lead_tabs', array(__CLASS__, 'add_direct_email_tab'), 10, 1);
@@ -82,7 +84,7 @@ if (!class_exists('Inbound_Mailer_Direct_Email_Leads')) {
             
             /***setup the sending domains dropdown***/
             /*get the available Sparkpost sending domains*/
-            if($inbound_settings['mail-service'] == 'sparkpost'){
+            if($inbound_settings['mail-service'] == 'sparkpost' ){
 				$sparkpost = new Inbound_SparkPost(  $inbound_settings['sparkpost-key'] );
 				$domain_query = $sparkpost->get_domains();
 				/*if there are no errors*/
@@ -724,10 +726,8 @@ error_log(print_r($data,true));
      *    Only load Inbound_Mailer_Direct_Email_Leads if an email service provider has been selected
      */
     function inbound_confirm_email_service_provider() {
-        $Inbound_Mailer_Settings = new Inbound_Mailer_Settings;
-        $email_settings = $Inbound_Mailer_Settings::get_settings();
-        if ($email_settings['mail-service'] != 'none') {
-
+        $email_settings = Inbound_Mailer_Settings::get_settings();
+        if (isset($email_settings['mail-service']) && $email_settings['mail-service'] != 'none' ) {
             new Inbound_Mailer_Direct_Email_Leads;
         }
     }

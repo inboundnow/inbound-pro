@@ -1100,7 +1100,7 @@ class Inbound_Pro_Settings {
 						echo '				<input type="hidden" class="toggle-lead-field" name="fields['.$field['key'].'][enable]" value="off" data-special-handler="true"  data-field-type="mapped-field">';
 						echo '				<input type="checkbox" class="toggle-lead-field" name="fields['.$field['key'].'][enable]" '. ( !isset($field['enable']) || $field['enable'] == 'on' ? 'checked="true"' : '' ) .' data-special-handler="true"  data-field-type="mapped-field">';
 					} else {
-						echo '<i class="fa fa-lock" aria-hidden="true" target="'.__('This field is important to Inbound Now. Please continue to use them.','inbound-pro').'"></i>';
+						echo '<i class="fa fa-lock" aria-hidden="true" title="'.__('This field is important to Inbound Now. Please continue to use them.','inbound-pro').'"></i>';
 					}
 					echo '		</div>';
 					echo '		<div class="map-key all-25">';
