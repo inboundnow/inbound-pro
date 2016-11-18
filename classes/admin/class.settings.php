@@ -25,6 +25,9 @@ class Inbound_Pro_Settings {
 	 */
 	public static function add_hooks() {
 
+		/* add listener for importing settings from json file */
+		add_action( 'admin_init' , array( __CLASS__ , 'import_settings_from_json' ) );
+
 		/* enqueue js and css */
 		add_action( 'admin_enqueue_scripts' , array( __CLASS__ , 'enqueue_scripts' ) );
 
@@ -40,6 +43,9 @@ class Inbound_Pro_Settings {
 		/* add ajax listener for IP Addresses setting saves */
 		add_action( 'wp_ajax_inbound_pro_update_ip_addresses' , array( __CLASS__ , 'ajax_update_ip_addresses' ) );
 
+		/* add ajax listener for export inbound now settings */
+		add_action( 'wp_ajax_inbound_pro_export_settings' , array( __CLASS__ , 'ajax_export_settings' ) );
+
 		/* listen for fast ajax installation */
 		add_action( 'inbound-settings/after-field-value-update' , array( __CLASS__ , 'ajax_toggle_fast_ajax' ) , 10 , 1 );
 	}
@@ -49,6 +55,7 @@ class Inbound_Pro_Settings {
 	 */
 	public static function enqueue_scripts() {
 		global $inbound_settings;
+
 		$screen = get_current_screen();
 
 		$counts['extensions'] = (isset($inbound_settings['system']['counts']['needs-update']['extensions'])) ? $inbound_settings['system']['counts']['needs-update']['extensions'] : 0;
@@ -455,6 +462,9 @@ class Inbound_Pro_Settings {
 					self::display_social_ctas();
 					echo '</section>';
 					BREAK;
+				case 'inbound-pro-import-export':
+					self::display_import_export();
+					BREAK;
 				case 'inbound-pro-setup':
 					self::display_setup();
 					BREAK;
@@ -515,9 +525,6 @@ class Inbound_Pro_Settings {
 		<h4><strong>SparkPost</strong></h4>
 		<p>Inbound Now's official email service provider is SparkPost. SparkPost provides it's users with 100,000 free sends a month and then an affordable rate their after. You can read more about SparkPost from their <a href="http://www.sparkpost.com" target="_blank">website</a>.</p>
 
-		<h4>Mandrill</h4>
-		<p>Mandrill is only available for paid MailChimp users. Mandrill provides users with <strong>2000</strong> free email sends and then provides 25,000 email sends a month for a <a href="http://mandrill.com/pricing/" target="_blank">low cost</a>.  Unless you are a MailChimp user we do not recommend chosing this service to power your emails. SparkPost, below, is a better, more affordable alternative.</p>
-
 		<h2>The new marketing automation component</h2>
 
 		<p>Our marketing automation component is brand new and still under development. We plan to study how our users leverage it and improve it over the 2016 year. Currently it can only be used to schedule time driven email series. In essence it is a trigger/action rule engine powered by WordPress hooks. Right now there are only a few triggers and actions. We'd like to see this list grow. One day this tool might be used to create a lead rating/badging system.  We are curious about how this component will be leveraged over time.</p>
@@ -564,6 +571,46 @@ class Inbound_Pro_Settings {
 			<?php
 			self::render_fields( 'inbound-pro-setup' );
 			?>
+		</div>
+		<?php
+	}
+
+	/**
+	 *	Display Inbound Pro Import Export Settings Option
+	 */
+	public static function display_import_export() {
+
+		?>
+
+		<div class="xlarge-100 large-100 medium-100 small-100 tiny-100">
+			<div class="import-export-container">
+				<h2><?php _e('Export Inbound Now Settings' , 'inbound-pro'); ?></h2>
+				<p><?php _e('This will export all Inbound Now core settings and extension settings for use with future installs. Extensions and templates will still need to be activated manually.' , 'inbound-pro'); ?></p>
+				<span class="button button-secondary" id="export-settings">
+					<?php _e('Generate JSON Backup' , 'inbound-pro'); ?>
+				</span>
+				<br><br>
+				<br>
+				<h2><?php _e('Import Inbound Now Settings' , 'inbound-pro'); ?></h2>
+				<?php
+				if (isset($_FILES) && $_FILES ) {
+					?>
+					<p><?php _e('Your settings have been imported!.' , 'inbound-pro'); ?></p>
+					<?php
+				} else {
+				?>
+				<p><?php _e('Warning, this will overwrite Inbound Now settings already in place for this WordPress instance.' , 'inbound-pro'); ?></p>
+
+				<form action="<?php echo admin_url('admin.php?tab=inbound-pro-import-export&page=inbound-pro'); ?>" class="wp-upload-form" enctype="multipart/form-data" method="post">
+				<input type="file" name="jsonfile" id="jsonfile">
+				<input type="hidden" name="inbound-action" value="import-json">
+				<input type="submit" value="<?php _e('Import JSON' , 'inbound-pro'); ?>" class="button" id="import-settings" name="install-template-submit" disabled="">
+				</form>
+				<?php
+				}
+				?>
+				<br><br><br>
+			</div>
 		</div>
 		<?php
 	}
@@ -674,7 +721,8 @@ class Inbound_Pro_Settings {
 		$pages_array = array(
 			'inbound-pro-setup' => __( 'Core Settings' , 'inbound-pro' ),
 			'inbound-pro-settings' => __( 'Extension Settings' , 'inbound-pro' ),
-			'inbound-pro-welcome' => __( 'Quick Start' , 'inbound-pro' ),
+			'inbound-pro-import-export' => __( 'Import/Export' , 'inbound-pro' ),
+			'inbound-pro-welcome' => __( 'Welcome Screen' , 'inbound-pro' ),
 			'inbound-my-account' => __( 'My Account' , 'inbound-pro' )
 		);
 
@@ -1008,11 +1056,15 @@ class Inbound_Pro_Settings {
 				$fields = Leads_Field_Map::get_lead_fields();
 				$fields = Leads_Field_Map::prioritize_lead_fields( $fields );
 				$field_types = Leads_Field_Map::build_field_types_array();
+				$mandatory = array('wpleads_email_address','wpleads_first_name','wpleads_last_name');
 
 				echo '<div class="repeater-custom-fields">';
 				echo '		<div class="map-row-headers column-group">';
 				echo '			<div class="map-key-header all-5">';
-				echo '				<th> </th>';
+				echo '				<th>' . __( 'Order' , 'inbound-pro' ) .'</th>';
+				echo '			</div>';
+				echo '			<div class="map-key-header all-5">';
+				echo '				<th>' . __( 'Enable' , 'inbound-pro' ) .'</th>';
 				echo '			</div>';
 				echo '			<div class="map-key-header all-25">';
 				echo '				<th>' . __( 'Field Key' , 'inbound-pro' ) .'</th>';
@@ -1020,7 +1072,7 @@ class Inbound_Pro_Settings {
 				echo '			<div class="map-key-header all-30">';
 				echo '			<th>' . __( 'Field Label' , 'inbound-pro' ) .'</th>';
 				echo '			</div>';
-				echo '			<div class="map-key-header all-20">';
+				echo '			<div class="map-key-header all-15">';
 				echo '			<th>' . __( 'Field Type' , 'inbound-pro' ) .'</th>';
 				echo '			</div>';
 				echo '			<div class="map-key-header all-15">';
@@ -1031,24 +1083,34 @@ class Inbound_Pro_Settings {
 				echo ' 	<form data="'.$field['type'].'" id="custom-fields-form">';
 				echo ' 	<ul class="field-map" id="field-map">';
 
-
 				foreach( $fields as $key => $field ) {
+
+					$read_only =  ($field['enable'] == 'off') ? 'readonly' : '';
+
 
 					echo '	<li class="map-row custom-fields-row column-group"  status-priority="'.$key.'">';
 					echo '		<div class="map-handle all-5">';
 					echo '			<span class="drag-handle">';
+					echo '				<input type="hidden" class="field-priority" name="fields['.$field['key'].'][priority]" value="'.$key.'">';
 					echo '				<i class="fa fa-arrows"></i>';
 					echo '			</span>';
 					echo '		</div>';
+					echo '		<div class="map-handle all-5">';
+					if (!in_array($field['key'],$mandatory)) {
+						echo '				<input type="hidden" class="toggle-lead-field" name="fields['.$field['key'].'][enable]" value="off" data-special-handler="true"  data-field-type="mapped-field">';
+						echo '				<input type="checkbox" class="toggle-lead-field" name="fields['.$field['key'].'][enable]" '. ( !isset($field['enable']) || $field['enable'] == 'on' ? 'checked="true"' : '' ) .' data-special-handler="true"  data-field-type="mapped-field">';
+					} else {
+						echo '<i class="fa fa-lock" aria-hidden="true" target="'.__('This field is important to Inbound Now. Please continue to use them.','inbound-pro').'"></i>';
+					}
+					echo '		</div>';
 					echo '		<div class="map-key all-25">';
-					echo '				<input type="hidden" class="field-priority" name="fields['.$field['key'].'][priority]" value="'.$key.'">';
-					echo '				<input type="text" class="field-key" data-special-handler="true" data-field-type="mapped-field" name="fields['.$field['key'].'][key]" value="'.$field['key'].'" '. ( isset($field['nature']) && $field['nature'] == 'core' ? 'disabled' : '' ) .' required>';
+					echo '				<input '.$read_only.' type="text" class="field-key" data-special-handler="true" data-field-type="mapped-field" name="fields['.$field['key'].'][key]" value="'.$field['key'].'" '. ( isset($field['nature']) && $field['nature'] == 'core' ? 'disabled' : '' ) .' required>';
 					echo '		</div>';
 					echo '		<div class="map-label all-30">';
-					echo '				<input type="text" class="field-label" data-special-handler="true" data-field-type="mapped-field"  name="fields['.$field['key'].'][label]" value="'.$field['label'].'" required>';
+					echo '				<input '.$read_only.' type="text" class="field-label" data-special-handler="true" data-field-type="mapped-field"  name="fields['.$field['key'].'][label]" value="'.$field['label'].'" required>';
 					echo '		</div>';
-					echo '		<div class="map-label all-20">';
-					echo '				<select type="text" class="field-type" data-special-handler="true" data-field-type="mapped-field"  name="fields['.$field['key'].'][type]"  '. ( isset($field['nature']) && $field['nature'] == 'core' ? 'disabled' : '' ) .'>';
+					echo '		<div class="map-label all-15">';
+					echo '				<select '.$read_only.' type="text" class="field-type" data-special-handler="true" data-field-type="mapped-field"  name="fields['.$field['key'].'][type]"  '. ( isset($field['nature']) && $field['nature'] == 'core' ? 'disabled' : '' ) .'>';
 
 					foreach ( $field_types as $type => $label ) {
 						echo 				'<option value="'.$type.'" '.( isset($field['type']) && $field['type'] == $type ? 'selected="selected"' : '' ).'>'.$label.'</option>';
@@ -1060,11 +1122,8 @@ class Inbound_Pro_Settings {
 
 					echo '			<div class="edit-btn-group ">';
 					echo '				<span class="ink-button red delete-custom-field '.( !isset($field['nature']) || $field['nature'] != 'core'  ? '' : 'hidden' ).'" id="remove-field">'.__( 'remove' , ' inbound-pro' ).'</span>';
-					echo '			</div>';
-					echo '			<div class="edit-btn-group ">';
 					echo '				<span class="ink-button red delete-custom-field-confirm hidden" id="remove-field-confirm">'.__( 'confirm removal' , ' inbound-pro' ).'</span>';
 					echo '			</div>';
-
 					echo '		</div>';
 					echo '	</li>';
 				}
@@ -1274,6 +1333,53 @@ class Inbound_Pro_Settings {
 	/**
 	 *  Ajax listener for saving updated custom field data
 	 */
+	public static function ajax_export_settings() {
+
+		/* GETTING CORRECT FILE PATH */
+		$path = INBOUND_PRO_UPLOADS_PATH . 'settings/';
+		$filename = "inbound-settings-".date("m.d.y.") . substr( md5(rand()), 0, 7);
+
+
+		if(!file_exists($path)){
+			mkdir($path, 0755, true);
+			$indexphp = fopen( $path. 'index.php' ,"x+");
+			fclose($indexphp);
+		}
+
+		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+		header('Content-Description: File Transfer');
+		header("Content-type: text/json");
+		header("Content-Disposition: attachment; filename=".$path."/".$filename.".json");
+		header("Expires: 0");
+		header("Pragma: public");
+
+		$file = @fopen($path."/".$filename.".json","a");
+
+		if(!$file){
+			$returnArray = array(
+				'status' => 0,
+				'error' => 'Unable to create file. Please check you uploads folder permission!!.',
+				'url' => ''
+			);
+			die(json_encode($returnArray));
+		}
+
+		/* Get Setting */
+		$settings = get_option( 'inbound-pro' , array() );
+
+		/* unset configuration memory */
+		unset($settings['configuration']);
+
+		fwrite($file, json_encode($settings));
+		fclose($file);
+
+		die( INBOUND_PRO_UPLOADS_URLPATH . 'settings/' . $filename.".json" );
+
+	}
+
+	/**
+	 *  Ajax listener for saving updated custom field data
+	 */
 	public static function ajax_update_lead_statuses() {
 		/* parse string */
 		parse_str($_POST['input'] , $data );
@@ -1319,6 +1425,45 @@ class Inbound_Pro_Settings {
 				self::install_mu_plugin_fast_ajax( true );
 				break;
 		}
+	}
+
+	/**
+	 * Listen for command to import settings from uploaded json file
+	 */
+	public static function import_settings_from_json() {
+		if (!isset($_POST['inbound-action'])) {
+			return;
+		}
+
+		if ($_GET['tab'] != 'inbound-pro-import-export') {
+			return;
+		}
+
+		$file_name = $_FILES['jsonfile']['name'];
+		$file_size = $_FILES['jsonfile']['size'];
+		$file_temp = $_FILES['jsonfile']['tmp_name'];
+		$file_ext = strtolower(end(explode('.', $file_name)));
+
+		if ($file_ext != 'json') {
+			die(__('Error: This is not an Inbound Now Settings .json file.','inbound-pro'));
+		}
+
+		$json = file_get_contents($_FILES["jsonfile"]["tmp_name"]);
+		$settings_array = json_decode($json,true);
+
+		if (!is_array($settings_array)) {
+			die(__('Error: json file is corrupt.','inbound-pro'));
+		}
+
+		/* get current settings */
+		$settings = get_option( 'inbound-pro' , array() );
+
+		/* set configuration memory */
+		$settings_array['configuration'] = $settings['configuration'];
+
+		/* update with new imported settings */
+		update_option( 'inbound-pro' , $settings_array );
+
 	}
 
 	/**

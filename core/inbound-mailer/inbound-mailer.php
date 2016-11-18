@@ -142,14 +142,11 @@ if ( !class_exists('Inbound_Mailer_Plugin')	) {
 					include_once('modules/module.utils.php');
 					include_once('classes/class.customizer.php');
 					include_once('classes/class.tracking.php');
-					include_once('classes/class.statistics.mandrill.php');
 					include_once('classes/class.statistics.sparkpost.php');
 					include_once('classes/class.scheduling.php');
 					include_once('classes/class.cron-api.php');
 					include_once('classes/class.mailer.php');
-					include_once('classes/class.mailer.mandrill.php');
 					include_once('classes/class.mailer.sparkpost.php');
-					include_once('classes/class.connector.mandrill.php');
 					include_once('classes/class.connector.sparkpost.php');
 					include_once('classes/class.unsubscribe.php');
 					include_once('classes/class.lead-profile.php');
@@ -178,9 +175,7 @@ if ( !class_exists('Inbound_Mailer_Plugin')	) {
 					include_once('classes/class.token-engine.php');
 					include_once('classes/class.cron-api.php');
 					include_once('classes/class.mailer.php');
-					include_once('classes/class.mailer.mandrill.php');
 					include_once('classes/class.mailer.sparkpost.php');
-					include_once('classes/class.connector.mandrill.php');
 					include_once('classes/class.connector.sparkpost.php');
 					include_once('classes/class.scheduling.php');
 					include_once('classes/class.statistics.sparkpost.php');

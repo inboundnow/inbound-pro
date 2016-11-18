@@ -554,6 +554,11 @@ if (!class_exists('Inbound_Forms')) {
                 _inbound.add_action( 'form_before_submission', inbound_additional_checks, 10);
 
                 function inbound_additional_checks( data ) {
+                    /* make sure event is defined */
+                    if (typeof event == 'undefined') {
+                        var event = {};
+                        event.target = data.event;
+                    }
 
                     /* added below condition for check any of checkbox checked or not by kirit dholakiya */
                     if( jQuery('.checkbox-required')[0] && jQuery('.checkbox-required input[type=checkbox]:checked').length==0) {

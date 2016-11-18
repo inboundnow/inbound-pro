@@ -688,7 +688,7 @@ error_log(print_r($data,true));
             ?>
 
             <div class="quick-stat-label">
-                <div class="label_1"><?php _e('Direct Messages', 'inbound-pro'); ?>:</div>
+                <div class="label_1"><?php _e('Direct E-Mails', 'inbound-pro'); ?>:</div>
                 <div class="label_2">
                     <?php echo self::get_direct_mail_count($post->ID); ?>
                 </div>

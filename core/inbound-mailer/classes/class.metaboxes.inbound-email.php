@@ -97,9 +97,6 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             global $post, $inbound_settings;
 
             switch ($inbound_settings['inbound-mailer']['mail-service']) {
-                case 'mandrill' :
-                    self::$statistics = Inbound_Mandrill_Stats::get_email_timeseries_stats();
-                    break;
                 case 'sparkpost' :
                     //self::$statistics = Inbound_SparkPost_Stats::get_email_timeseries_stats();
                     self::$statistics = Inbound_SparkPost_Stats::get_sparkpost_webhook_stats();
@@ -119,9 +116,6 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             global $post, $inbound_settings;
 
             switch ($inbound_settings['inbound-mailer']['mail-service']) {
-                case 'mandrill' :
-                    self::$sends = Inbound_Mandrill_Stats::get_send_stream();
-                    break;
                 case 'sparkpost' :
                     self::$sends = Inbound_SparkPost_Stats::get_send_stream();
                     break;
@@ -513,9 +507,6 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
             /* show events */
             switch ($inbound_settings['inbound-mailer']['mail-service']) {
-                case 'mandrill' :
-                    self::add_send_stream();
-                    break;
                 case 'sparkpost' :
                     if ( isset($_GET['debug']) && $_GET['debug'] ) {
                         self::list_transmissions();

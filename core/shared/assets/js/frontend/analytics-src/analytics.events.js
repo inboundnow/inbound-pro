@@ -50,9 +50,7 @@ var _inboundEvents = (function(_inbound) {
     function fireEvent(eventName, data, options) {
         var data = data || {};
         options = options || {};
-        //alert('ran + ' + eventName);
-        //console.log(eventName);
-        //console.log(data);
+
         /*! defaults for JS dispatch event */
         options.bubbles = options.bubbles || true,
         options.cancelable = options.cancelable || true;

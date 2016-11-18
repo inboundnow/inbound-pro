@@ -197,39 +197,12 @@ if ( !class_exists('Inbound_Mailer_Settings') ) {
 						'default'  => 'none',
 						'options' => array(
 							'none' => __( 'none' ),
-							'sparkpost' => __( 'SparkPost (new!)' , 'inbound-pro' ),
-							'mandrill' => __( 'Mandrill' , 'inbound-pro' )
+							'sparkpost' => __( 'SparkPost' , 'inbound-pro' )
 						),
 						'hidden' => false,
 						'reveal' => array(
 							'selector' => null ,
 							'value' => null
-						)
-					),
-					array(
-						'id'  => 'mandrill-key',
-						'label'  => __('Mandrill API Key', 'inbound-pro' ),
-						'description'  => __( 'Enter in your maindrill API Key here.' , 'inbound-pro' ),
-						'type'  => 'text',
-						'default'  => '',
-						'options' => null,
-						'hidden' =>  ( $service == 'mandrill' ? false : true ) ,
-						'reveal' => array(
-							'selector' => '#mail-service' ,
-							'value' => 'mandrill'
-						)
-					),
-					array(
-						'id'  => 'mandrill-setup-instructions',
-						'type'  => 'ol',
-						'label' => __( 'Setup Instructions:' , 'inbound-pro' ),
-						'options' => array(
-							'<a href="http://docs.inboundnow.com/guide/how-to-get-your-mandrill-api-key/" target="_blank">How to get your mandrill api key.</a>'
-						),
-						'hidden' => ( $service == 'mandrill' ? false : true ) ,
-						'reveal' => array(
-							'selector' => '#mail-service' ,
-							'value' => 'mandrill'
 						)
 					),
 					array(
@@ -305,7 +278,6 @@ if ( !class_exists('Inbound_Mailer_Settings') ) {
 			global $inbound_settings;
 
 			$keys['unsubscribe_page'] = (isset($inbound_settings['inbound-mailer']['unsubscribe-page'])) ? $inbound_settings['inbound-mailer']['unsubscribe-page'] : null;
-			$keys['mandrill-key'] = (isset($inbound_settings['inbound-mailer']['mandrill-key'])) ? $inbound_settings['inbound-mailer']['mandrill-key'] : null;
 			$keys['sparkpost-key'] = (isset($inbound_settings['inbound-mailer']['sparkpost-key'])) ? $inbound_settings['inbound-mailer']['sparkpost-key'] : null;
 			$keys['mail-service'] = (isset($inbound_settings['inbound-mailer']['mail-service'])) ? $inbound_settings['inbound-mailer']['mail-service'] : null;
 

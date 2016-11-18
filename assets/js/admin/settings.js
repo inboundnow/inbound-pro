@@ -186,6 +186,13 @@ var InboundSettings = (function () {
             });
 
             /* Add listener to delete custom field */
+            jQuery('body').on('click', '.toggle-lead-field', function () {
+                /* set static var */
+                InboundSettings.input = jQuery(this);
+                InboundSettings.toggleCustomField();
+            });
+
+            /* Add listener to delete custom field */
             jQuery('body').on('click', '.delete-custom-field', function () {
                 /* set static var */
                 InboundSettings.input = jQuery(this);
@@ -358,6 +365,11 @@ var InboundSettings = (function () {
             jQuery('body').on('click', '.oauth', function () {
                 /* set static var */
                 InboundSettings.input = jQuery(this);
+            });
+
+            /* Add listeners for export settings button */
+            jQuery('body').on('click', '#export-settings', function () {
+                InboundSettings.exportSettings();
             });
 
 
@@ -535,6 +547,34 @@ var InboundSettings = (function () {
                     }
                 });
             }, 500);
+        },
+
+        /**
+         *  Export Settings
+         */
+        exportSettings: function (event) {
+            var spin = jQuery('<i>').addClass('fa fa-spinner fa-spin')
+            jQuery('#export-settings').text('');
+            spin.appendTo('#export-settings');
+
+            jQuery.ajax({
+                type: "POST",
+                url: ajaxurl,
+                data: {
+                    action: 'inbound_pro_export_settings',
+                },
+                dataType: 'html',
+                timeout: 20000,
+                success: function (response) {
+                    jQuery('#export-settings').text('Creating File in /uploads/inbound-pro/settings/');
+                    var link = jQuery('<a>').attr('href' , response).text(response).attr('title','Open and save to your computer.').addClass('exported-json-link').css( 'display' , 'list-item').attr('target' , '_blank');
+                    link.insertAfter('#export-settings');
+                    jQuery('#export-settings').remove();
+                },
+                error: function (request, status, err) {
+
+                }
+            });
         },
         /**
          *  Rebuilds priority for custom fields
@@ -877,6 +917,22 @@ var InboundSettings = (function () {
             /* run update */
             InboundSettings.updateIPAddresses();
 
+        },
+        /**
+         *  Prompt remove custom field confirmation
+         */
+        toggleCustomField: function () {
+            if (InboundSettings.input.is(':checked')) {
+                InboundSettings.input = InboundSettings.input.parent().parent();
+                InboundSettings.input.find('input[type!="checkbox"]').prop('readonly' , false);
+                InboundSettings.input.find('select').prop('disabled' , false);
+                InboundSettings.input.find('select').prop('required' , true);
+            } else {
+                InboundSettings.input = InboundSettings.input.parent().parent();
+                InboundSettings.input.find('input[type!="checkbox"],select').prop('readonly', true);
+                InboundSettings.input.find('select').prop('disabled' , true);
+                InboundSettings.input.find('select').prop('required' , true);
+            }
         },
         /**
          *  Prompt remove custom field confirmation

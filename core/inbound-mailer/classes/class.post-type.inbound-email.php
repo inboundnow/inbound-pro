@@ -263,9 +263,6 @@ if ( !class_exists('Inbound_Mailer_Post_Type') ) {
             }
 
 			switch ($inbound_settings['inbound-mailer']['mail-service']) {
-				case 'mandrill' :
-					self::$stats[$email_id] = Inbound_Mandrill_Stats::get_email_timeseries_stats();
-					break;
 				case 'sparkpost' :
 					self::$stats[$email_id] = Inbound_SparkPost_Stats::get_email_timeseries_stats();
 					break;

@@ -120,7 +120,7 @@ class Leads_Settings {
                 array(
                     'id'  => 'extra-lead-data',
                     'label' => __('Full Contact API Key' , 'inbound-pro' ),
-                    'description' => sprintf( __("Enter your Full contact API key. If you don't have one. Grab a free one here: %s" , 'inbound-pro' ) , "<a href='https://www.fullcontact.com/developer/pricing/' target='_blank'>" , "</a>"),
+                    'description' => sprintf( __("Enter your Full contact API key. If you don't have one. Grab a free one here: %s" , 'inbound-pro' ) , "https://www.fullcontact.com/developer/pricing/" , "</a>"),
                     'type'  => 'text',
                     'default'  => '',
                     'options' => null

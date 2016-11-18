@@ -82,11 +82,6 @@ class Inbound_Mail_Daemon {
             return;
         }
 
-        /* check mandrill for meta fields & create them if they do not exist */
-        if (self::$email_service =='mandrill') {
-            Inbound_Mailer_Mandrill::check_meta_fields();
-        }
-
         /* send automation emails */
         self::send_automated_emails();
 
@@ -199,9 +194,6 @@ class Inbound_Mail_Daemon {
             self::get_email();
 
             switch (self::$email_service) {
-                case "mandrill":
-                    Inbound_Mailer_Mandrill::send_email();
-                    break;
                 case "sparkpost":
                     Inbound_Mailer_SparkPost::send_email();
                     break;
@@ -284,9 +276,6 @@ class Inbound_Mail_Daemon {
             }
 
             switch (self::$email_service) {
-                case "mandrill":
-                    Inbound_Mailer_Mandrill::send_email();
-                    break;
                 case "sparkpost":
                     Inbound_Mailer_SparkPost::send_email();
                     break;
@@ -360,16 +349,13 @@ class Inbound_Mail_Daemon {
         }
 
         switch (self::$email_service) {
-            case "mandrill":
-                Inbound_Mailer_Mandrill::send_email(true);
-                break;
             case "sparkpost":
                 Inbound_Mailer_SparkPost::send_email(true);
                 break;
         }
 
 
-        /* return mandrill response */
+        /* return response */
         return self::$response;
 
     }
@@ -624,7 +610,6 @@ class Inbound_Mail_Daemon {
 
         /* if error mode is on and response is good then turn it off */
         if (self::$error_mode) {
-            delete_transient('mandrill_ignore_error');
             Inbound_Options_API::update_option( 'inbound-email' , 'errors-detected' , false );
             self::$error_mode = false;
         }
