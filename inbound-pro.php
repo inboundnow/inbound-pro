@@ -1,8 +1,8 @@
 <?php
 /*
-Plugin Name: Inbound Pro
+Plugin Name: Inbound Now PRO
 Plugin URI: http://www.inboundnow.com/
-Description: Inbound Marketing Suite for WordPress
+Description: Professional Inbound Marketing Suite for WordPress
 Author: InboundWP LLC
 Version: 1.7.6.1.2
 Author URI: http://www.inboundnow.com/

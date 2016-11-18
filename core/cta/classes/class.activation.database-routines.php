@@ -149,7 +149,7 @@ if ( !class_exists('CTA_Activation_Update_Routines') ) {
 			/* ignore if not applicable */
 			$previous_installed_version = get_transient('cta_current_version');
 
-			if ( version_compare($previous_installed_version , "2.7.8") === 1 )  {
+			if (  !$previous_installed_version || version_compare($previous_installed_version , "2.7.8") === 1 )  {
 				return;
 			}
 

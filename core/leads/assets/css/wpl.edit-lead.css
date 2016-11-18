@@ -217,5 +217,9 @@ body .metabox-holder .postbox-container .empty-container {
 	padding-top:13px;
 }
 #full-contact-table .wpleads-th {
-	width:225px;
+	width:116px;
+}
+
+#full-contact-icon  {
+	vertical-align:middle;
 }
