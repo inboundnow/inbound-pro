@@ -14,7 +14,7 @@ if ( !class_exists('Inbound_Automation_Activation_Update_Routines') ) {
             /* ignore if not applicable */
             $previous_installed_version = get_transient('automation_current_version');
 
-            if ( version_compare($previous_installed_version , "2.0.1") === 1 )  {
+            if (!$previous_installed_version ||  version_compare($previous_installed_version , "2.0.1") === 1 )  {
                 return;
             }
 
@@ -32,7 +32,7 @@ if ( !class_exists('Inbound_Automation_Activation_Update_Routines') ) {
             /* ignore if not applicable */
             $previous_installed_version = get_transient('automation_current_version');
 
-            if ( version_compare($previous_installed_version , "2.0.1") === 1 )  {
+            if ( !$previous_installed_version || version_compare($previous_installed_version , "2.0.1") === 1 )  {
                 return;
             }
 

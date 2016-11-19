@@ -1,5 +1,4 @@
-#inbound_email_box
-{
+#inbound_email_box {
     text-align: left;
     background-color: #fff;
     position: fixed;
@@ -16,71 +15,62 @@
     _top: 0;
 }
 
-#inbound_email_box.rtl
-{
+#inbound_email_box.rtl {
     text-align: right;
 }
 
-#inbound_email_box h6
-{
+#inbound_email_box h6 {
     text-transform: uppercase;
     font-size: 10px;
     font-weight: bold;
-    font-family: arial,helvetica,sans-serif;
+    font-family: arial, helvetica, sans-serif;
     color: inherit;
     padding: 0;
     margin: 0 0 10px 0;
 }
 
-#inbound_email_box h6 .num
-{
+#inbound_email_box h6 .num {
     font-size: inherit;
     font-weight: 400;
     font-family: inherit;
     color: #888;
 }
 
-#inbound_email_box .inbound_email_excerpt p
-{
+#inbound_email_box .inbound_email_excerpt p {
     overflow: hidden;
     margin: 0;
 }
 
-#inbound_email_box a.inbound_email_thumbnail img
-{
-    border:0;
-    float:left;
-    margin:0 10px 5px 0;
-    width:140px;
+.inbound_email_thumbnail img {
+    border: 0;
+    float: left;
+    margin: 0 10px 5px 0;
+    width: 140px;
 }
 
-#inbound_email_box.rtl a.inbound_email_thumbnail img
-{
+#inbound_email_box.rtl a.inbound_email_thumbnail img {
     float: right;
     margin: 0 0 5px 10px;
 }
 
-#inbound_email_box div
-,#inbound_email_box div.inbound_email_thumbnail br
-{
+#inbound_email_box div, #inbound_email_box div.inbound_email_thumbnail br {
     clear: both;
 }
 
-#inbound_email_box h5
-{
+#inbound_email_box h5 {
     margin-top: 0;
 }
-#inbound_email_box div.inbound_email_thumbnail h5
-{
+
+#inbound_email_box div.inbound_email_thumbnail h5 {
     clear: right;
     margin: 0 0 .5em 0;
 }
-#inbound_email_box.rtl div.inbound_email_thumbnail h5
-{
+
+#inbound_email_box.rtl div.inbound_email_thumbnail h5 {
     clear: left;
 }
-#inbound_email_close
-{
+
+#inbound_email_close {
     background: #fff url(../assets/css/images/close.gif) no-repeat 0;
     border: none;
     display: block;
@@ -94,14 +84,12 @@
     width: 13px;
 }
 
-#inbound_email_close.rtl
-{
+#inbound_email_close.rtl {
     right: auto;
     left: 5px;
 }
 
-#inbound_email_box p.promote
-{
+#inbound_email_box p.promote {
     clear: both;
     color: #888;
     font-size: .9em;

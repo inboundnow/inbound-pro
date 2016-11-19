@@ -1083,7 +1083,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                         (isset($org['isPrimary']) && $org['isPrimary'] === true) ? $print = "<span id='primary-title'>" . $title . "</span> at " . $at_org : $print = "";
                         (isset($org['isPrimary']) && $org['isPrimary'] === true) ? $hideclass = "work-primary" : $hideclass = "work-secondary";
                         echo $print;
-                        echo "<span class='lead-work-label " . $hideclass . "'>" . $title . " at " . $org_name . "</span>";
+                        echo "<span class='lead-work-label " . $hideclass . "'>" . $title . " at " . $org_name . "</span><br>";
                     }
                     echo "<span id='show-work-history'>" . __('View past work', 'inbound-pro') . "</span></div>";
                     ?>
@@ -1093,7 +1093,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             else if ($type === 'demographics' && isset($demographics) && is_array($demographics)) {
                 ?>
                 <td class="wpleads-th">
-                    <img title="<?php _e('Full Contact' , 'inbound-pro' ); ?>" src="<?php  echo WPL_URLPATH . '/assets/images/icons/fullcontact.png'; ?>" width="16px">
+                    <img id="full-contact-icon" title="<?php _e('Full Contact' , 'inbound-pro' ); ?>" src="<?php  echo WPL_URLPATH . '/assets/images/icons/fullcontact.png'; ?>" width="16px">
                     <label for=""><?php  _e('Demographics', 'inbound-pro'); ?></label>
                 </td>
                 <td class="wpleads-td" id="">
