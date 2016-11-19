@@ -38,28 +38,38 @@ class Inbound_Leads_Custom_fields {
 	 */
 	public static function merge_fields( $mappable_fields ) {
 
+		$combined = array();
+		/* loop through memory and change labels for core fields */
 		foreach( self::$custom_field_map as $key => $field ) {
 
-			/* search core field map and alter label and priority based on user setting */
-			$present = false;
-			foreach( $mappable_fields as $i => $f) {
-
-				if ( $f['key'] == $field['key'] ) {
-					$mappable_fields[$i]['priority'] = (is_numeric($field['priority']) ) ? $field['priority'] : 99;
-					$mappable_fields[$i]['label'] = $field['label'];
-					$mappable_fields[$i]['enable'] = (isset($field['enable'])) ? $field['enable'] : 'on';
-					$present = true;
-				}
+			if (!isset($field['key']) && !is_numeric($key)) {
+				$field['key'] = $key;
 			}
+
+			$present = false;
+
+			foreach ($mappable_fields as $i => $f) {
+
+				if ( $f['key'] != $field['key']) {
+					continue;
+				}
+
+				$combined[$field['key']] = $f;
+				$combined[$field['key']]['priority'] = (is_numeric($field['priority'])) ? $field['priority'] : 99;
+				$combined[$field['key']]['label'] = $field['label'];
+				$combined[$field['key']]['enable'] = (isset($field['enable'])) ? $field['enable'] : 'on';
+				$combined[$field['key']]['enable'] = (isset($field['enable'])) ? $field['enable'] : 'on';
+				$present = true;
+			}
+
 
 			/* if custom field detected add field to field map */
 			if (!$present) {
-				$mappable_fields[] = $field;
+				$combined[$field['key']] = $field;
 			}
 		}
 
-
-		return  $mappable_fields;
+		return  $combined;
 	}
 
 
