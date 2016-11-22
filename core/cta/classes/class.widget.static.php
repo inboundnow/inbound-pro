@@ -1,18 +1,18 @@
 <?php
 
 /**
- * Creates CTA Dynamic Widget
+ * Creates CTA Static Widget
  *
  * @package	Calls To Action
  * @subpackage	Widgets
 */
 
-if (!class_exists('CTA_Dynamic_Widget')) {
+if (!class_exists('CTA_Static_Widget')) {
 
 	class CTA_Static_Widget extends WP_Widget {
 		private $cta_templates;
 
-		function CTA_Static_Widget() {
+		public function __construct() {
 
 			/* Widget settings. */
 			$widget_ops = array( 'classname' => 'class_CTA_Static_Widget', 'description' => __('Use this widget to manually display Calls to Action in sidebars.', 'cta'));
@@ -21,7 +21,7 @@ if (!class_exists('CTA_Dynamic_Widget')) {
 			$control_ops = array( 'width' => 300, 'height' => 350, 'id_base' => 'id_wp_cta_static_widget' );
 
 			/* Create the widget. */
-			parent::__construct( 'id_wp_cta_static_widget', __('Call to Action Static Widget', 'cta'), $widget_ops, $control_ops );
+			parent::__construct( 'id_wp_cta_static_widget', __('Call to Action Static Widget', 'inbound-pro'), $widget_ops, $control_ops );
 		}
 
 		/**
