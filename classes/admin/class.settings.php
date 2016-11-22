@@ -393,14 +393,31 @@ class Inbound_Pro_Settings {
 				),
 				/* add custom lead fields field group to setup page */
 				array(
-					'group_name' => 'notifications',
+					'group_name' => 'translations',
 					'keywords' => __('translations,enable,disable,notifications' , 'inbound-pro'),
 					'fields' => array (
 						array(
 							'id'  => 'header-notifications',
 							'type'  => 'header',
-							'default'  => __('Notifications', 'inbound-pro' ),
+							'default'  => __('Translations', 'inbound-pro' ),
 							'options' => null
+						),
+						array (
+							'id'	=> 'toggle-translations',
+							'type'	=> 'radio',
+							'label'	=> __( 'Enable Translations' , 'inbound-pro' ),
+							'description'	=> __( 'Enabling this feature will tell Inbound Now to load translated strings if they are available.' , 'inbound-pro' ),
+							'default'	=> 'off',
+							'placeholder'	=> null,
+							'options' => array(
+								'on' => __( 'On' , 'inbound-pro' ),
+								'off' => __( 'Off' , 'inbound-pro' ),
+							),
+							'hidden' => false,
+							'reveal' => array(
+								'selector' => null ,
+								'value' => null
+							)
 						),
 						array (
 							'id'	=> 'toggle-translations-updater',
@@ -721,7 +738,7 @@ class Inbound_Pro_Settings {
 		$pages_array = array(
 			'inbound-pro-setup' => __( 'Core Settings' , 'inbound-pro' ),
 			'inbound-pro-settings' => __( 'Extension Settings' , 'inbound-pro' ),
-			'inbound-pro-import-export' => __( 'Import/Export' , 'inbound-pro' ),
+			'inbound-pro-import-export' => __( 'Import/Export Settings' , 'inbound-pro' ),
 			'inbound-pro-welcome' => __( 'Welcome Screen' , 'inbound-pro' ),
 			'inbound-my-account' => __( 'My Account' , 'inbound-pro' )
 		);
