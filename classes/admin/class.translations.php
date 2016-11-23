@@ -18,7 +18,7 @@ class Inbound_Translation_Updater {
         global $inbound_settings;
 
         self::$old_version = get_option('inbound_translation_version' , 0);
-        self::$enable = (isset($inbound_settings['notifications']['toggle-translations-updater'])) ? $inbound_settings['notifications']['toggle-translations-updater'] : 'on';
+        self::$enable = (isset($inbound_settings['translations']['toggle-translations-updater'])) ? $inbound_settings['translations']['toggle-translations-updater'] : 'on';
         self::$translations_path = self::get_language_path();
 
         if ( version_compare(self::$old_version , INBOUND_PRO_TRANSLATIONS_VERSION) === -1 && self::$enable == 'on' )  {

@@ -156,11 +156,11 @@ core/leads/.idea/
 /core/landing-pages/templates/custom-simple-solid2
 /core/landing-pages/svn
 /core/landing-pages/assets/lang
+/core/landing-pages/assets/lang
+/core/landing-pages/assets/tests
 /core/leads/assets/lang
 /core/leads/assets/tests
-/core/cta/assets/lang
-/core/landing-pages/assets/lang
 /core/leads/assets/lang
-/core/landing-pages/assets/tests
+/core/cta/assets/lang
 /core/cta/assets/tests
 /notes.txt

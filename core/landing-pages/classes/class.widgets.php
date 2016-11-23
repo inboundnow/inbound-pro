@@ -10,14 +10,11 @@ function lp_load_widgets() {
 
 class LP_Widget_Conversion_Area extends WP_Widget {
 
-    /**
-     * Constructor. Sets up widget options.
-     */
 
-    function LP_Widget_Conversion_Area() {
+    function __construct() {
 
         /* Widget settings. */
-        $widget_ops = array('classname' => 'class_LP_Widget_Conversion_Area', 'description' => __('Use this widget on your landing page sidebar. This sidebar replaces the normal sidebar while using your default theme as a template, or other inactive themes as landing page templates.', 'landing-pages'));
+        $widget_ops = array('classname' => 'class_LP_Widget_Conversion_Area', 'description' => __('Use this widget on your landing page sidebar. This sidebar replaces the normal sidebar while using your default theme as a template, or other inactive themes as landing page templates.', 'inbound-pro'));
 
         /* Widget control settings. */
         $control_ops = array('width' => 300, 'height' => 350, 'id_base' => 'id_lp_conversion_area_widget');

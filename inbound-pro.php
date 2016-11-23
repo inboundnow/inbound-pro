@@ -4,7 +4,7 @@ Plugin Name: Inbound Now PRO
 Plugin URI: http://www.inboundnow.com/
 Description: Professional Inbound Marketing Suite for WordPress
 Author: InboundWP LLC
-Version: 1.7.6.1.3
+Version: 1.7.6.1.4
 Author URI: http://www.inboundnow.com/
 Text Domain: inbound-pro
 Domain Path: /lang/
@@ -82,10 +82,10 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 		*/
 		public function __construct() {
 			self::define_constants();
-			self::load_text_domain_init();
 			self::load_pro_classes();
 			self::load_shared_components();
 			self::load_core_components();
+			self::load_text_domain_init();
 		}
 
 		/*
@@ -94,7 +94,7 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 		*/
 		private static function define_constants() {
 
-			define('INBOUND_PRO_CURRENT_VERSION', '1.7.6.1.3' );
+			define('INBOUND_PRO_CURRENT_VERSION', '1.7.6.1.4' );
 			define('INBOUND_PRO_TRANSLATIONS_VERSION', '1.22.1' );
 			define('INBOUND_PRO_URLPATH', plugin_dir_url( __FILE__ ));
 			define('INBOUND_PRO_PATH', plugin_dir_path( __FILE__ ) );
@@ -125,6 +125,9 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 			/* Frontend & Admin */
 			include_once( INBOUND_PRO_PATH . 'classes/class.options-api.php');
 
+			/* load settings global */
+			$inbound_settings = Inbound_Options_API::get_option('inbound-pro', 'settings', array());
+
 			/* determine customer access level */
 			self::get_customer_status();
 
@@ -133,9 +136,6 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 
 			/* load misc front & backend files */
 			include_once( INBOUND_PRO_PATH . 'classes/admin/class.lead-field-mapping.php');
-
-			/* get inbound now settings */
-			$inbound_settings = Inbound_Options_API::get_option('inbound-pro', 'settings', array());
 
 			/* load subscriber only assets/features */
 			if ( INBOUND_ACCESS_LEVEL> 0 && !isset($_GET['acf_off']) && INBOUND_ACCESS_LEVEL != 9 ) {
@@ -242,6 +242,12 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 		*/
 		private static function load_text_domain_init() {
 			$local = get_locale();
+			global $inbound_settings;
+
+			if (!isset($inbound_settings['translations']['toggle-translations']) || $inbound_settings['translations']['toggle-translations'] != 'on' ) {
+				return;
+			}
+
 
 			if (!defined('INBOUNDNOW_TEXT_DOMAIN')) {
 				define('INBOUNDNOW_TEXT_DOMAIN', 'inbound-pro' );

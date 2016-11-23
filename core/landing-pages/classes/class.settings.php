@@ -460,7 +460,16 @@ class Landing_Pages_Settings {
                 Registered Post Stati: <?php echo implode(', ', get_post_stati()) . "\n\n"; ?>
 
                 PHP Version: <?php echo PHP_VERSION . "\n"; ?>
-                MySQL Version: <?php echo mysql_get_server_info($wpdb->dbh) . "\n"; ?>
+                MySQL Version: <?php
+                                $con=mysqli_connect("localhost","my_user","my_password","my_db");
+
+                                if (mysqli_connect_errno()) {
+                                    echo "Failed to connect to MySQL: " . mysqli_connect_error(). "\n";
+                                }
+
+                                echo mysqli_get_server_info($con). "\n";
+
+                                ?>
                 Web Server Info: <?php echo $_SERVER['SERVER_SOFTWARE'] . "\n"; ?>
 
                 PHP Safe Mode: <?php echo ini_get('safe_mode') ? "Yes" : "No\n"; ?>
