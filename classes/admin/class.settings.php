@@ -58,6 +58,7 @@ class Inbound_Pro_Settings {
 
 		$screen = get_current_screen();
 
+		$counts = array();
 		$counts['extensions'] = (isset($inbound_settings['system']['counts']['needs-update']['extensions'])) ? $inbound_settings['system']['counts']['needs-update']['extensions'] : 0;
 		$counts['templates'] = (isset($inbound_settings['system']['counts']['needs-update']['templates'])) ? $inbound_settings['system']['counts']['needs-update']['templates'] : 0;
 
@@ -137,6 +138,96 @@ class Inbound_Pro_Settings {
 							)
 						),
 					),
+				),
+
+				/* add core plugin exclusion options */
+				array(
+					'group_name' => 'inbound-core-loading',
+					'keywords' => __('activate,deactivate,enable,disable,turn off,turn on' , 'inbound-pro'),
+					'fields' => array (
+						array (
+							'id'	=> 'load-core-comonents-header',
+							'type'	=> 'header',
+							'default'	=> __( 'Toggle Core Components On/Off' , 'inbound-pro' ),
+							'placeholder'	=> null,
+							'options' => false,
+							'hidden' => false,
+							'reveal' => array(
+								'selector' => null ,
+								'value' => null
+							)
+						),
+						array (
+							'id'	=> 'toggle-landing-pages',
+							'type'	=> 'radio',
+							'label'	=> __( 'Landing Pages' , 'inbound-pro' ),
+							'description'	=> __( 'Toggle this off to stop loading Landing Pages component.' , 'inbound-pro' ),
+							'default'	=> 'on',
+							'placeholder'	=> null,
+							'options' => array(
+								'on' => __( 'On' , 'inbound-pro' ),
+								'off' => __( 'Off' , 'inbound-pro' ),
+							),
+							'hidden' => false,
+							'reveal' => array(
+								'selector' => null ,
+								'value' => null
+							)
+						),
+						array (
+							'id'	=> 'toggle-calls-to-action',
+							'type'	=> 'radio',
+							'label'	=> __( 'Calls to Action' , 'inbound-pro' ),
+							'description'	=> __( 'Toggle this off to stop loading Calls to Action component.' , 'inbound-pro' ),
+							'default'	=> 'on',
+							'placeholder'	=> null,
+							'options' => array(
+								'on' => __( 'On' , 'inbound-pro' ),
+								'off' => __( 'Off' , 'inbound-pro' ),
+
+							),
+							'hidden' => false,
+							'reveal' => array(
+								'selector' => null ,
+								'value' => null
+							)
+						),
+						array (
+							'id'	=> 'toggle-leads',
+							'type'	=> 'radio',
+							'label'	=> __( 'Leads' , 'inbound-pro' ),
+							'description'	=> __( 'Toggle this off to stop loading Leads component.' , 'inbound-pro' ),
+							'default'	=> 'on',
+							'placeholder'	=> null,
+							'options' => array(
+								'on' => __( 'On' , 'inbound-pro' ),
+								'off' => __( 'Off' , 'inbound-pro' ),
+
+							),
+							'hidden' => false,
+							'reveal' => array(
+								'selector' => null ,
+								'value' => null
+							)
+						),
+						array (
+							'id'	=> 'toggle-email-automation',
+							'type'	=> 'radio',
+							'label'	=> __( 'Mailer & Automation' , 'inbound-pro' ),
+							'description'	=> __( 'Toggle this off to stop loading Mailer & Marketing Automation component. These components require an active pro membership.' , 'inbound-pro' ),
+							'default'	=> 'on',
+							'placeholder'	=> null,
+							'options' => array(
+								'on' => __( 'On' , 'inbound-pro' ),
+								'off' => __( 'Off' , 'inbound-pro' ),
+							),
+							'hidden' => (INBOUND_ACCESS_LEVEL > 2 ? false : true ),
+							'reveal' => array(
+								'selector' => null ,
+								'value' => null
+							)
+						)
+					)
 				),
 				/* add custom lead fields field group to setup page */
 				array(
@@ -229,95 +320,6 @@ class Inbound_Pro_Settings {
 							)
 						),
 					),
-				),
-				/* add core plugin exclusion options */
-				array(
-					'group_name' => 'inbound-core-loading',
-					'keywords' => __('activate,deactivate,enable,disable,turn off,turn on' , 'inbound-pro'),
-					'fields' => array (
-						array (
-							'id'	=> 'load-core-comonents-header',
-							'type'	=> 'header',
-							'default'	=> __( 'Toggle Core Components On/Off' , 'inbound-pro' ),
-							'placeholder'	=> null,
-							'options' => false,
-							'hidden' => false,
-							'reveal' => array(
-								'selector' => null ,
-								'value' => null
-							)
-						),
-						array (
-							'id'	=> 'toggle-landing-pages',
-							'type'	=> 'radio',
-							'label'	=> __( 'Landing Pages' , 'inbound-pro' ),
-							'description'	=> __( 'Toggle this off to stop loading Landing Pages component.' , 'inbound-pro' ),
-							'default'	=> 'on',
-							'placeholder'	=> null,
-							'options' => array(
-								'on' => __( 'On' , 'inbound-pro' ),
-								'off' => __( 'Off' , 'inbound-pro' ),
-							),
-							'hidden' => false,
-							'reveal' => array(
-								'selector' => null ,
-								'value' => null
-							)
-						),
-						array (
-							'id'	=> 'toggle-calls-to-action',
-							'type'	=> 'radio',
-							'label'	=> __( 'Calls to Action' , 'inbound-pro' ),
-							'description'	=> __( 'Toggle this off to stop loading Calls to Action component.' , 'inbound-pro' ),
-							'default'	=> 'on',
-							'placeholder'	=> null,
-							'options' => array(
-								'on' => __( 'On' , 'inbound-pro' ),
-								'off' => __( 'Off' , 'inbound-pro' ),
-
-							),
-							'hidden' => false,
-							'reveal' => array(
-								'selector' => null ,
-								'value' => null
-							)
-						),
-						array (
-							'id'	=> 'toggle-leads',
-							'type'	=> 'radio',
-							'label'	=> __( 'Leads' , 'inbound-pro' ),
-							'description'	=> __( 'Toggle this off to stop loading Leads component.' , 'inbound-pro' ),
-							'default'	=> 'on',
-							'placeholder'	=> null,
-							'options' => array(
-								'on' => __( 'On' , 'inbound-pro' ),
-								'off' => __( 'Off' , 'inbound-pro' ),
-
-							),
-							'hidden' => false,
-							'reveal' => array(
-								'selector' => null ,
-								'value' => null
-							)
-						),
-						array (
-							'id'	=> 'toggle-email-automation',
-							'type'	=> 'radio',
-							'label'	=> __( 'Mailer & Automation' , 'inbound-pro' ),
-							'description'	=> __( 'Toggle this off to stop loading Mailer & Marketing Automation component. These components require an active pro membership.' , 'inbound-pro' ),
-							'default'	=> 'on',
-							'placeholder'	=> null,
-							'options' => array(
-								'on' => __( 'On' , 'inbound-pro' ),
-								'off' => __( 'Off' , 'inbound-pro' ),
-							),
-							'hidden' => (INBOUND_ACCESS_LEVEL > 2 ? false : true ),
-							'reveal' => array(
-								'selector' => null ,
-								'value' => null
-							)
-						)
-					)
 				),
 				/* add core plugin exclusion options */
 				array(
@@ -435,6 +437,12 @@ class Inbound_Pro_Settings {
 								'selector' => null ,
 								'value' => null
 							)
+						),
+						array (
+							'id'	=> 'translations-html',
+							'type'	=> 'html',
+							'label'	=> __( 'Help Inbound Now Translate' , 'inbound-pro' ),
+							'description'	=> sprintf( __( 'Click %shere%s to help improve the quality of Inbound Now translations.' , 'inbound-pro' ), '<a href="https://www.transifex.com/inboundnow/inbound-pro/">' , '</a>' ),
 						)
 					),
 				)
@@ -1075,10 +1083,17 @@ class Inbound_Pro_Settings {
 				$field_types = Leads_Field_Map::build_field_types_array();
 				$mandatory = array('wpleads_email_address','wpleads_first_name','wpleads_last_name');
 
+				/* add hide/show toggle */
+				echo '<div class="toggle-custom-fields-container">';
+				echo '	<label><input type="checkbox" data-special-handler="true" id="show-hide-disabled-custom-fields"> ' .__('Show Disabled Fields' , 'inbound-pro') . '</label>';
+				echo '</div>';
 				echo '<div class="repeater-custom-fields">';
 				echo '		<div class="map-row-headers column-group">';
 				echo '			<div class="map-key-header all-5">';
 				echo '				<th>' . __( 'Order' , 'inbound-pro' ) .'</th>';
+				echo '			</div>';
+				echo '			<div class="map-key-header all-5">';
+				echo '				<th>' . __( 'Delete' , 'inbound-pro' ) .'</th>';
 				echo '			</div>';
 				echo '			<div class="map-key-header all-5">';
 				echo '				<th>' . __( 'Enable' , 'inbound-pro' ) .'</th>';
@@ -1089,11 +1104,8 @@ class Inbound_Pro_Settings {
 				echo '			<div class="map-key-header all-30">';
 				echo '			<th>' . __( 'Field Label' , 'inbound-pro' ) .'</th>';
 				echo '			</div>';
-				echo '			<div class="map-key-header all-15">';
+				echo '			<div class="map-key-header all-20">';
 				echo '			<th>' . __( 'Field Type' , 'inbound-pro' ) .'</th>';
-				echo '			</div>';
-				echo '			<div class="map-key-header all-15">';
-				echo '			<th>' . __( 'Action' , 'inbound-pro' ) .'</th>';
 				echo '			</div>';
 				echo ' 		</div>';
 
@@ -1105,19 +1117,30 @@ class Inbound_Pro_Settings {
 					$read_only =  ($field['enable'] == 'off') ? 'readonly' : '';
 
 
-					echo '	<li class="map-row custom-fields-row column-group"  status-priority="'.$key.'">';
+					echo '	<li class="map-row custom-fields-row column-group '.$read_only.'"  status-priority="'.$key.'">';
 					echo '		<div class="map-handle all-5">';
 					echo '			<span class="drag-handle">';
 					echo '				<input type="hidden" class="field-priority" name="fields['.$field['key'].'][priority]" value="'.$key.'">';
 					echo '				<i class="fa fa-arrows"></i>';
 					echo '			</span>';
 					echo '		</div>';
+					echo '		<div class="map-actions all-5">';
+					echo '			<div class="edit-btn-group ">';
+					if (!isset($field['nature']) || $field['nature'] != 'core') {
+						echo '			<span class="fa fa-trash ink-button green  delete-custom-field" id="remove-field"></span>';
+						echo '			<span class="ink-button red delete-custom-field-confirm hidden" id="remove-field-confirm" title="confirm">'.__( 'Confirm' , ' inbound-pro' ).'</span>';
+
+					} else {
+						echo '			<i class="fa fa-lock" title="'.__( 'This field cannot be deleted' , 'inbound-pro' ).'"></i>';
+					}
+					echo '			</div>';
+					echo '		</div>';
 					echo '		<div class="map-handle all-5">';
 					if (!in_array($field['key'],$mandatory)) {
 						echo '				<input type="hidden" class="toggle-lead-field" name="fields['.$field['key'].'][enable]" value="off" data-special-handler="true"  data-field-type="mapped-field">';
 						echo '				<input type="checkbox" class="toggle-lead-field" name="fields['.$field['key'].'][enable]" '. ( !isset($field['enable']) || $field['enable'] == 'on' ? 'checked="true"' : '' ) .' data-special-handler="true"  data-field-type="mapped-field">';
 					} else {
-						echo '<i class="fa fa-lock" aria-hidden="true" title="'.__('This field is important to Inbound Now. Please continue to use them.','inbound-pro').'"></i>';
+						echo '<i class="fa fa-lock" aria-hidden="true" title="'.__('This field cannot be disbled.','inbound-pro').'"></i>';
 					}
 					echo '		</div>';
 					echo '		<div class="map-key all-25">';
@@ -1126,7 +1149,7 @@ class Inbound_Pro_Settings {
 					echo '		<div class="map-label all-30">';
 					echo '				<input '.$read_only.' type="text" class="field-label" data-special-handler="true" data-field-type="mapped-field"  name="fields['.$field['key'].'][label]" value="'.$field['label'].'" required>';
 					echo '		</div>';
-					echo '		<div class="map-label all-15">';
+					echo '		<div class="map-label all-20">';
 					echo '				<select '.$read_only.' type="text" class="field-type" data-special-handler="true" data-field-type="mapped-field"  name="fields['.$field['key'].'][type]"  '. ( isset($field['nature']) && $field['nature'] == 'core' ? 'disabled' : '' ) .'>';
 
 					foreach ( $field_types as $type => $label ) {
@@ -1134,13 +1157,6 @@ class Inbound_Pro_Settings {
 					}
 
 					echo '				</select>';
-					echo '		</div>';
-					echo '		<div class="map-actions all-10">';
-
-					echo '			<div class="edit-btn-group ">';
-					echo '				<span class="ink-button red delete-custom-field '.( !isset($field['nature']) || $field['nature'] != 'core'  ? '' : 'hidden' ).'" id="remove-field">'.__( 'remove' , ' inbound-pro' ).'</span>';
-					echo '				<span class="ink-button red delete-custom-field-confirm hidden" id="remove-field-confirm">'.__( 'confirm removal' , ' inbound-pro' ).'</span>';
-					echo '			</div>';
 					echo '		</div>';
 					echo '	</li>';
 				}
