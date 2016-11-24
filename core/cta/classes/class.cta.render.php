@@ -1327,7 +1327,9 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
             do_action('wp_head');
             wp_print_styles();
-
+            echo '<style type="text/css">';
+            echo 'body .wp_cta_container { margin-top:50px !important; }';
+            echo '</style>';
             echo '</head>';
 
             echo '<body style="backgorund-image:none;background-color:#fff;width:100%;">';
