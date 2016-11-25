@@ -684,7 +684,6 @@ if (!class_exists('Leads_Manager')) {
                     if ($status == 'all') {
                        continue;
                     } else {
-                        error_log($status);
                         $meta_query[] = array(
                             'key' => 'wp_lead_status',
                             'value' => $status,
