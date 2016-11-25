@@ -186,15 +186,23 @@ var InboundSettings = (function () {
             });
 
             /* Add listener to delete custom field */
+            jQuery('body').on('click', '#show-hide-disabled-custom-fields', function () {
+                InboundSettings.input = jQuery(this);
+                if (InboundSettings.input.is(':checked')) {
+                    jQuery('.field-map .readonly').css('display', 'flex');
+                } else {
+                    jQuery('.field-map .readonly').css('display', 'none');
+                }
+            });
+
+            /* Add listener to delete custom field */
             jQuery('body').on('click', '.toggle-lead-field', function () {
-                /* set static var */
                 InboundSettings.input = jQuery(this);
                 InboundSettings.toggleCustomField();
             });
 
             /* Add listener to delete custom field */
             jQuery('body').on('click', '.delete-custom-field', function () {
-                /* set static var */
                 InboundSettings.input = jQuery(this);
                 InboundSettings.removeCustomFieldConfirm();
             });

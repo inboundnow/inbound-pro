@@ -120,7 +120,7 @@ class Leads_Settings {
                 array(
                     'id'  => 'extra-lead-data',
                     'label' => __('Full Contact API Key' , 'inbound-pro' ),
-                    'description' => sprintf( __("Enter your Full contact API key. If you don't have one. Grab a free one here: %s" , 'inbound-pro' ) , "https://www.fullcontact.com/developer/pricing/" , "</a>"),
+                    'description' => sprintf( __("Enter your Full contact API key. If you don't have one. Grab a free one here: %s" , 'inbound-pro' ) , "<a href='https://www.fullcontact.com/developer/pricing/' target='_blank'>" , "</a>"),
                     'type'  => 'text',
                     'default'  => '',
                     'options' => null
@@ -385,7 +385,7 @@ class Leads_Settings {
 
             /* loop through fields and save the data */
             foreach ($wpleads_global_settings[$key]['settings'] as $field) {
-                error_log(print_r($field,true));
+
                 $field['id'] = $key.'-'.$field['id'];
 
                 if (array_key_exists('option_name',$field) && $field['option_name'] ) {

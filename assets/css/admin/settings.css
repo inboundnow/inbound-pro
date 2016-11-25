@@ -287,9 +287,19 @@ input.update-done {
 	vertical-align: center;
 	margin-top:3px;
 }
+
+.map-row div {
+	margin-right:10px;
+}
+
+.map-key-header {
+	margin-right:10px;
+}
+
 .ip-address-actions {
 	margin-left: 10px;
 }
+
 .drag-handle  {
 	color: #919191;
 	cursor: move;
@@ -373,4 +383,28 @@ input.update-done {
 
 .import-export-container {
 	background:#fff;
+}
+
+.toggle-custom-fields-container {
+	text-align:right;
+	width:88%;
+	position:absolute;
+	margin-top:-42px;
+
+}
+
+.field-map .readonly {
+	display:none;
+}
+
+.delete-custom-field {
+	cursor:pointer;
+}
+
+.map-row .fa  {
+	cursor:pointer;
+}
+.map-handle, .map-actions  {
+	text-align:center;
+	width:100%;
 }
