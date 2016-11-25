@@ -34,7 +34,7 @@ class Inbound_Mailer_Activation {
         add_action( 'admin_init' , array( __CLASS__ , 'run_upgrade_routine_checks' ) );
 
 		/* add http auth support for fast cgi */
-		if (php_sapi_name() == 'cgi-fcgi') {
+		if ( strstr(php_sapi_name() , 'fcgi') ) {
 			add_action('mod_rewrite_rules', array(__CLASS__, 'add_rewrite_rules'));
 		}
     }
@@ -268,7 +268,10 @@ class Inbound_Mailer_Activation {
 		}
 	}
 
-
+	/**
+	 * @param $rules
+	 * @return string
+	 */
 	public static function add_rewrite_rules( $rules ) {
 		if (stristr($rules, '[E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]')) {
 			return $rules;

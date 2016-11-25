@@ -61,7 +61,7 @@ class Inbound_Mailer_Unsubscribe {
 		$lead_lists = Inbound_Leads::get_lead_lists_as_array();
 
 		/* decode token */
-		$params = self::decode_unsubscribe_token( $_GET['token'] );
+		$params = self::decode_unsubscribe_token( sanitize_text_field($_GET['token']) );
 
 		if ( !isset( $params['lead_id'] ) ) {
 			return __( 'Oops. Something is wrong with the unsubscribe link. Are you logged in?' , 'inbound-pro' );
@@ -181,12 +181,14 @@ class Inbound_Mailer_Unsubscribe {
 			base64_encode(
 				trim(
 					mcrypt_encrypt(
-						MCRYPT_RIJNDAEL_256, substr( SECURE_AUTH_KEY , 0 , 24 )  , $json, MCRYPT_MODE_ECB, $iv
+						MCRYPT_RIJNDAEL_256, substr( SECURE_AUTH_KEY , 0 , 10 )  , $json, MCRYPT_MODE_ECB, $iv
 					)
 				)
 			);
 
-		return  str_replace(array('+', '/'), array('-', '_'), $encrypted_string);
+		$decode_test = self::decode_unsubscribe_token($encrypted_string);
+
+		return  str_replace(array('+', '/', '='), array('-', '_', '^'), $encrypted_string);
 	}
 
 	/**
@@ -201,7 +203,7 @@ class Inbound_Mailer_Unsubscribe {
 		$decrypted_string =
 			trim(
 				mcrypt_decrypt(
-					MCRYPT_RIJNDAEL_256 ,  substr( SECURE_AUTH_KEY , 0 , 24 )   ,  base64_decode( str_replace(array('-', '_'), array('+', '/'), $token ) ) , MCRYPT_MODE_ECB, $iv
+					MCRYPT_RIJNDAEL_256 ,  substr( SECURE_AUTH_KEY , 0 , 10 )   ,  base64_decode( str_replace(array('-', '_', '^'), array('+', '/', '='), $token ) ) , MCRYPT_MODE_ECB, $iv
 				)
 			);
 
@@ -253,7 +255,7 @@ class Inbound_Mailer_Unsubscribe {
 
 		/* add comments */
 		$params['event_details']['comments'] = ( isset( $_POST['comments'] ) ) ? $_POST['comments'] : '';
-		$params['event_details']['list_ids'] = $params['list_ids'];
+		$params['event_details']['list_ids'] = $_POST['list_id'];
 
 		if (isset($_POST['mute-1'])) {
 			self::mute_lead_emails( $params , $all , 1 );
@@ -280,7 +282,7 @@ class Inbound_Mailer_Unsubscribe {
 				break;
 			default:
 				/* loop through lists and unsubscribe lead */
-				foreach( $params['list_ids'] as $list_id ) {
+				foreach( $params['event_details']['list_ids'] as $list_id ) {
 					Inbound_Leads::remove_lead_from_list( $params['lead_id'] , $list_id );
 					Inbound_Mailer_Unsubscribe::add_stop_rules( $params['lead_id'] , $list_id );
 					$event = $params;
@@ -329,7 +331,7 @@ class Inbound_Mailer_Unsubscribe {
 	 */
 	public static function mute_all_lists( $params , $time ) {
 		/* get all lead lists */
-		$params['list_ids'] = Inbound_Leads::get_lead_lists_as_array();
+		$params['event_details']['list_ids'] = Inbound_Leads::get_lead_lists_as_array();
 		self::mute_lists($params , $time );
 	}
 
@@ -337,6 +339,7 @@ class Inbound_Mailer_Unsubscribe {
 	 *  Unsubscribe lead from all lists
 	 */
 	public static function mute_lists( $params, $time ) {
+
 		$wordpress_date_time =  date_i18n('Y-m-d G:i:s T');
 		$dateTime = new DateTime($wordpress_date_time);
 		$dateTime->modify('+'.$time.' months');
@@ -344,7 +347,8 @@ class Inbound_Mailer_Unsubscribe {
 
 		$event = $params;
 
-		foreach ( $params['list_ids'] as $list_id ) {
+		foreach ( $params['event_details']['list_ids'] as $list_id ) {
+			error_log($list_id);
 			Inbound_Mailer_Unsubscribe::add_stop_rules( $params['lead_id'] , $list_id , $release_date );
 			$event['event_details']['emails_muted_for'] = $time . ' month';
 			$event['event_details']['emails_muted_until'] = $release_date;
