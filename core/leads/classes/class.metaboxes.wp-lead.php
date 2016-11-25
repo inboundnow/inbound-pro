@@ -1035,7 +1035,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             else if ($type === 'website' && isset($websites) && is_array($websites)) {
                 ?>
                 <td class="wpleads-th">
-                    <img title="<?php _e('Full Contact' , 'inbound-pro' ); ?>" src="<?php  echo WPL_URLPATH . '/assets/images/icons/fullcontact.png'; ?>" width="16px">
+                    <img title="<?php _e('Full Contact' , 'inbound-pro' ); ?>" src="<?php  echo WPL_URLPATH . 'assets/images/fullcontact.png'; ?>" width="16px">
                     <label for=""><?php  _e('Websites:', 'inbound-pro'); ?></label></td>
                 <td class="wpleads-td" id="">
                     <?php
@@ -1049,7 +1049,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             else if ($type === 'social' && isset($social_profiles) && is_array($social_profiles)) {
                 ?>
                 <td class="wpleads-th">
-                    <img title="<?php _e('Full Contact' , 'inbound-pro' ); ?>" src="<?php  echo WPL_URLPATH . '/assets/images/fullcontact.png'; ?>" width="16px">
+                    <img title="<?php _e('Full Contact' , 'inbound-pro' ); ?>" src="<?php  echo WPL_URLPATH . 'assets/images/fullcontact.png'; ?>" width="16px">
                     <label for=""><?php  _e('Social Profiles:', 'inbound-pro'); ?></label>
                 </td>
                 <td class="wpleads-td" id="">
@@ -1068,7 +1068,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             else if ($type === 'work' && isset($organizations) && is_array($organizations) && $organizations ) {
                 ?>
                 <td class="wpleads-th">
-                    <img title="<?php _e('Full Contact' , 'inbound-pro' ); ?>" src="<?php  echo WPL_URLPATH . '/assets/images/fullcontact.png'; ?>" width="16px">
+                    <img title="<?php _e('Full Contact' , 'inbound-pro' ); ?>" src="<?php  echo WPL_URLPATH . 'assets/images/fullcontact.png'; ?>" width="16px">
                     <label for=""><?php
                         _e('Work:', 'inbound-pro');
                         ?></label>
