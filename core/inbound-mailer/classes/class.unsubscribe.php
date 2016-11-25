@@ -348,7 +348,6 @@ class Inbound_Mailer_Unsubscribe {
 		$event = $params;
 
 		foreach ( $params['event_details']['list_ids'] as $list_id ) {
-			error_log($list_id);
 			Inbound_Mailer_Unsubscribe::add_stop_rules( $params['lead_id'] , $list_id , $release_date );
 			$event['event_details']['emails_muted_for'] = $time . ' month';
 			$event['event_details']['emails_muted_until'] = $release_date;
