@@ -29,7 +29,7 @@ class Inbound_Extension_Loads {
 	*/
 	public static function load_extensions() {
 
-	    if ( INBOUND_ACCESS_LEVEL < 1) {
+	    if ( INBOUND_ACCESS_LEVEL == 0 || INBOUND_ACCESS_LEVEL == 9 ) {
 	        return;
         }
 

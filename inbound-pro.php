@@ -4,7 +4,7 @@ Plugin Name: Inbound Now PRO
 Plugin URI: http://www.inboundnow.com/
 Description: Professional Inbound Marketing Suite for WordPress
 Author: InboundWP LLC
-Version: 1.7.6.2.1
+Version: 1.7.6.2.2
 Author URI: http://www.inboundnow.com/
 Text Domain: inbound-pro
 Domain Path: /lang/
@@ -94,7 +94,7 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 		*/
 		private static function define_constants() {
 
-			define('INBOUND_PRO_CURRENT_VERSION', '1.7.6.2.1' );
+			define('INBOUND_PRO_CURRENT_VERSION', '1.7.6.2.2' );
 			define('INBOUND_PRO_TRANSLATIONS_VERSION', '1.22.1' );
 			define('INBOUND_PRO_URLPATH', plugin_dir_url( __FILE__ ));
 			define('INBOUND_PRO_PATH', plugin_dir_path( __FILE__ ) );
@@ -206,13 +206,10 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 				include_once( INBOUND_COMPONENT_PATH . '/landing-pages/landing-pages.php');
 			}
 
-			if ( INBOUND_ACCESS_LEVEL< 1 ) {
+			if ( INBOUND_ACCESS_LEVEL == 0 || INBOUND_ACCESS_LEVEL == 9 ) {
 				return;
 			}
 
-			if ( INBOUND_ACCESS_LEVEL < 3 ) {
-				return;
-			}
 
 			/* load inbound mailer & inbound automation */
 			if ( !isset($inbound_settings['inbound-core-loading']['toggle-email-automation']) || $inbound_settings['inbound-core-loading']['toggle-email-automation'] =='on' ) {
