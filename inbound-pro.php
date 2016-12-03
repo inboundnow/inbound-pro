@@ -159,14 +159,17 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.lead-status-mapping.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.settings.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.analytics.php');
-				include_once( INBOUND_PRO_PATH . 'classes/admin/class.reporting.templates.php');
-				include_once( INBOUND_PRO_PATH . 'classes/admin/report-templates/content.quick-view.php');
-				include_once( INBOUND_PRO_PATH . 'classes/admin/report-templates/content.impressions-expanded.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.download-management.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.inbound-api-wrapper.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.ajax.listeners.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.oauth-engine.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.translations.php');
+				include_once( INBOUND_PRO_PATH . 'classes/admin/class.reporting.templates.php');
+				include_once( INBOUND_PRO_PATH . 'classes/admin/report-templates/content.quick-view.php');
+				include_once( INBOUND_PRO_PATH . 'classes/admin/report-templates/content.impressions-expanded.php');
+				include_once( INBOUND_PRO_PATH . 'classes/admin/report-templates/content.visitor-expanded.php');
+				include_once( INBOUND_PRO_PATH . 'classes/admin/report-templates/content.visitors-expanded.php');
+
 				//include_once( INBOUND_PRO_PATH . 'classes/admin/class.reporting.funnels.php');
 
 			}

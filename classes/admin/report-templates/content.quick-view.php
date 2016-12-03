@@ -24,9 +24,6 @@ if ( !class_exists('Inbound_Quick_View') ) {
 			/* build timespan for analytics report */
 			self::define_range();
 
-			/* add this template to the list of available templates */
-			add_filter('inbound-analytics/templates', array(__CLASS__, 'define_template'));
-
 			/* Display date range conditions */
 			add_action('inbound-analytics/quick-view', array(__CLASS__, 'display_navigation') , 1 );
 
@@ -46,19 +43,6 @@ if ( !class_exists('Inbound_Quick_View') ) {
 			} else {
 				self::$range = $_GET['range'];
 			}
-		}
-
-		/**
-		 *    Adds template to list of available templates
-		 */
-		public static function define_template($templates) {
-
-			$templates[get_class()] = array(
-				'class_name' => get_class(),
-				'label' => __('Content Analytics Summary', 'inbound-pro'),
-				'report_type' => 'content_quick_view'
-			);
-
 		}
 
 		/**
@@ -264,6 +248,9 @@ if ( !class_exists('Inbound_Quick_View') ) {
 			self::load_impressions();
 			self::load_actions();
 			self::load_visitors();
+
+			global $post;
+
 			?>
 			<table class='ia-table-summary'>
 				<tr>
@@ -290,7 +277,7 @@ if ( !class_exists('Inbound_Quick_View') ) {
 						</label>
 					</td>
 					<td>
-						<a href='#' class='count' data-toggle="modal-disabled" data-target="#ia-modal-container" report-class-name="Inbound_Expanded_View" modal-width='60%'><?php echo self::$statistics['impressions']['current'][self::$range]; ?></a>
+						<a href='<?php echo admin_url('index.php?action=inbound_generate_report&page_id='.$post->ID.'&class=Inbound_Impressions_Report&range='.self::$range.'&tb_hide_nav=true&TB_iframe=true&width=1503&height=400'); ?>' class='thickbox inbound-thickbox'><?php echo self::$statistics['impressions']['current'][self::$range]; ?></a>
 					</td>
 
 					<td>
@@ -304,7 +291,9 @@ if ( !class_exists('Inbound_Quick_View') ) {
 						</label>
 					</td>
 					<td>
-						<a href='#' class='count'><?php echo self::$statistics['visitors']['current'][self::$range]; ?></a>
+						<a href='<?php echo admin_url('index.php?action=inbound_generate_report&page_id='.$post->ID.'&class=Inbound_Visitors_Report&range='.self::$range.'&tb_hide_nav=true&TB_iframe=true&width=1503&height=400'); ?>' class='thickbox inbound-thickbox'>
+							<?php echo self::$statistics['visitors']['current'][self::$range]; ?>
+						</a>
 					</td>
 
 					<td>

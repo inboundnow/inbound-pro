@@ -3,7 +3,7 @@
 
 if ( !class_exists('Inbound_Expanded_View') ) {
 
-	class Inbound_Expanded_View extends Inbound_Reporting_Templates {
+	class Inbound_Impressions_Report extends Inbound_Reporting_Templates {
 
 		static $range;
 
@@ -62,11 +62,11 @@ if ( !class_exists('Inbound_Expanded_View') ) {
 		*	@param ARRAY $args
 		*/
 		public static function load_data() {
-			$Inbound_Analytics = new Inbound_Analytics_Connect();
+
 		}
 
 	}
 
-	add_action( 'admin_init' , array( 'Inbound_Expanded_View' , 'init' ) , 10 );
+	add_action( 'admin_init' , array( 'Inbound_Impressions_Report' , 'init' ) , 10 );
 
 }

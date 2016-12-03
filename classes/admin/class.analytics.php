@@ -22,9 +22,6 @@ class Inbound_Analytics {
         /* disable legacy inbound statistics metaboxes */
         remove_action('init' , 'inbound_load_legacy_statistics' , 10 );
 
-        /* Setup Automatic Updating & Licensing */
-        add_action( 'admin_init', array( __CLASS__ , 'load_templates') , 99 );
-
         /* Load Google Charting API & Inbound Analytics Styling CSS*/
         add_action( 'admin_enqueue_scripts' , array( __CLASS__ , 'load_scripts') );
 
@@ -78,13 +75,6 @@ class Inbound_Analytics {
 
         wp_enqueue_style( 'inbound-analytics-css' , INBOUND_PRO_URLPATH. 'assets/css/admin/reporting.quick-view.css');
 
-    }
-
-    /**
-     *	Imports analytic templates & sets data into static variable
-     */
-    public static function load_templates() {
-        self::$templates = apply_filters( 'inbound-analytics/templates' , array() );
     }
 
     /**

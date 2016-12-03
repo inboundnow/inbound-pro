@@ -62,9 +62,10 @@ class Inbound_Pro_Settings {
 		$counts['extensions'] = (isset($inbound_settings['system']['counts']['needs-update']['extensions'])) ? $inbound_settings['system']['counts']['needs-update']['extensions'] : 0;
 		$counts['templates'] = (isset($inbound_settings['system']['counts']['needs-update']['templates'])) ? $inbound_settings['system']['counts']['needs-update']['templates'] : 0;
 
-		/* load wp-admin global js */
+		/* load wp-admin global js & css */
+		wp_enqueue_style('inbound-wp-admin', INBOUND_PRO_URLPATH . 'assets/css/admin/wp-admin.css');
 		wp_enqueue_script('inbound-wp-admin', INBOUND_PRO_URLPATH . 'assets/js/admin/wp-admin.js', array('jquery') );
-		wp_localize_script('inbound-wp-admin', 'inboundCounts' ,  array('counts' =>  $counts ) );
+		wp_localize_script('inbound-wp-admin', 'inboundWPAdmin' ,  array('counts' =>  $counts , 'tb_hide_nav' =>  (isset($_GET['tb_hide_nav']) && $_GET['tb_hide_nav'] == 'true') ? true : false ) );
 
 		/* Load assets for inbound pro page */
 		if (isset($screen) && $screen->base != 'toplevel_page_inbound-pro' ){

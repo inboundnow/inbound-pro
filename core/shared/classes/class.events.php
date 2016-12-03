@@ -573,12 +573,18 @@ class Inbound_Events {
     /**
      * Get page view events related to lead ID
      */
-    public static function get_page_views( $lead_id ){
+    public static function get_page_views( $lead_id , $lead_uid = 0 , $page_id = 0 ){
         global $wpdb;
 
         $table_name = $wpdb->prefix . "inbound_page_views";
 
-        $query = 'SELECT * FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'" ORDER BY `datetime` DESC';
+        $query = 'SELECT * FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'"';
+
+        if ($page_id) {
+            $query .=' AND page_views_id` = "'.$page_id.'"';
+        }
+
+        $query .='ORDER BY `datetime` DESC';
         $results = $wpdb->get_results( $query , ARRAY_A );
 
         return $results;
@@ -593,20 +599,47 @@ class Inbound_Events {
 
         $table_name = $wpdb->prefix . "inbound_page_views";
         $query = 'SELECT * FROM '.$table_name.' WHERE ';
+
+
         switch ($nature) {
             case 'lead_id':
-                $query .='`lead_id` = "'.$params['lead_id'].'"';
+                $query .=' `lead_id` = "'.$params['lead_id'].'" ';
+                break;
+            case 'lead_uid':
+                $query .=' `lead_uid` = "'.$params['lead_uid'].'" ';
                 break;
             case 'page_id':
-                $query .='`page_id` = "'.$params['page_id'].'"';
+                $query .=' `page_id` = "'.$params['page_id'].'" ';
+                break;
+            case 'mixed':
+                if (isset($params['lead_id']) && $params['lead_id'] ) {
+                    $queries[] = ' `lead_id` = "'.$params['lead_id'].'" ';
+                }
+                if (isset($params['lead_uid']) && $params['lead_uid']) {
+                    $queries[] = ' `lead_uid` = "'.$params['lead_uid'].'" ';
+                }
+                if (isset($params['page_id']) && $params['page_id']) {
+                    $queries[] = ' `page_id` = "'.$params['page_id'].'" ';
+                }
+
+                /* combine queries into a usable string */
+                foreach ($queries as $i => $q) {
+                    $query .= $q . ( isset($queries[$i+1]) ? ' AND ' : '' );
+                }
+
                 break;
         }
 
         if (isset($params['start_date'])) {
-            $query .= 'AND datetime >= "'.$params['start_date'].'" AND  datetime <= "'.$params['end_date'].'" ';
-            $query .= 'ORDER BY `datetime` DESC';
+            $query .= ' AND datetime >= "'.$params['start_date'].'" AND  datetime <= "'.$params['end_date'].'" ';
         }
 
+        if (isset($params['group_by'])) {
+            $query .= ' GROUP BY `'.$params['group_by'].'` ';
+        }
+
+        $query .= ' ORDER BY `datetime` DESC';
+        //print_r($query);exit;
         $results = $wpdb->get_results( $query , ARRAY_A );
 
         return $results;
@@ -665,12 +698,49 @@ class Inbound_Events {
 
         $query .='GROUP BY lead_uid';
 
-
         $results = $wpdb->get_results( $query , ARRAY_A );
 
         /* return null if nothing there */
         return count($results);
 
+    }
+
+
+    /**
+     * Get page view events given conditions
+     *
+     */
+    public static function get_visitors( $params ){
+        global $wpdb;
+
+        $params['group_by'] = (isset($params['group_by'])) ? $params['group_by'] : 'lead_uid';
+        $params['order_by'] = (isset($params['order_by'])) ? $params['order_by'] : 'datetime';
+        $params['order'] = (isset($params['order'])) ? $params['order'] : 'DESC';
+
+        $table_name = $wpdb->prefix . "inbound_page_views";
+        $query = 'SELECT *, count('.$params['group_by'].') as visits FROM '.$table_name.' WHERE `page_id` = "'.$params['page_id'].'"';
+
+        if (isset($params['source']) && $params['source'] ) {
+            $query .= ' AND source = "'.$params['source'].'" ';
+        }
+
+        if (isset($params['start_date'])) {
+            $query .= ' AND datetime >= "'.$params['start_date'].'" AND  datetime <= "'.$params['end_date'].'" ';
+        }
+
+        $query .= ' GROUP BY `'.$params['group_by'].'` ';
+
+        if (isset($params['order_by'])) {
+            $query .= ' ORDER BY `'.$params['order_by'].'` '.$params['order'];
+        }
+
+        if (isset($params['limit'])) {
+            $query .= ' LIMIT '.$params['limit'];;
+        }
+
+        $results = $wpdb->get_results( $query , ARRAY_A );
+
+        return $results;
     }
 
 

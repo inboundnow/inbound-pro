@@ -501,7 +501,6 @@ if ( !class_exists('Inbound_Leads') ) {
 				'posts_per_page' => -1
 			);
 
-
 			$query = new WP_Query( $args );
 
 			return $query->post_count;

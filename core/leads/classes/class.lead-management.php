@@ -469,7 +469,7 @@ if (!class_exists('Leads_Manager')) {
 
                             /* show link to lead */
                             echo '<td>';
-                            echo '	<a class="thickbox" href="post.php?action=edit&post=' . $post->ID . '&amp;small_lead_preview=true&amp;TB_iframe=true&amp;width=1345&amp;height=244">' . __('View', 'inbound-pro' ) . '</a>';
+                            echo '	<a class="thickbox inbound-thickbox" href="post.php?action=edit&post=' . $post->ID . '&amp;small_lead_preview=true&amp;TB_iframe=true&amp;width=1345&amp;height=244">' . __('View', 'inbound-pro' ) . '</a>';
                             echo '</td>';
 
                             /* show lead id */
