@@ -9,11 +9,14 @@ if (!class_exists('Inbound_Visitors_Report')) {
     class Inbound_Visitors_Report extends Inbound_Reporting_Templates {
 
         static $range;
+        static $graph_data;
         static $visits;
         static $top_visitors;
         static $top_sources;
         static $start_date;
         static $end_date;
+        static $past_start_date;
+        static $past_end_date;
 
 
         /**
@@ -35,11 +38,11 @@ if (!class_exists('Inbound_Visitors_Report')) {
             self::load_data();
 
             self::display_header();
+            self::print_css();
             parent::display_filters();
             self::display_top_widgets();
             self::display_all_visitors();
-            self::print_css();
-
+            self::display_chart();
             die();
         }
 
@@ -53,10 +56,13 @@ if (!class_exists('Inbound_Visitors_Report')) {
             $default_gravatar = INBOUND_PRO_URLPATH . 'assets/images/gravatar-unknown.png';
 
             ?>
+            <head>
+                <script type="text/javascript" src="<?php echo INBOUND_PRO_URLPATH ;?>assets/libraries/echarts/echarts.min.js"  /></script>
+            </head>
             <aside class="profile-card">
 
                 <header>
-                    <h1><?php _e('Incomming Visitors' , 'inbound-pro'); ?></h1>
+                    <h1><?php _e('Visitors' , 'inbound-pro'); ?></h1>
                     <h2><?php echo $title; ?></h2>
                     <h3><a href="<?php echo $permalink; ?>" target="_self"><?php echo $permalink; ?></a></h3>
                 </header>
@@ -68,6 +74,87 @@ if (!class_exists('Inbound_Visitors_Report')) {
                 </ul>
 
             </aside>
+            <?php
+        }
+
+        public static function display_chart() {
+
+            self::$graph_data['current']= self::prepare_chart_data(self::$start_date, self::$end_date , 'current');
+            self::$graph_data['past']= self::prepare_chart_data(self::$past_start_date, self::$past_end_date , 'past');
+
+
+            /* loop through  */
+            ?>
+            <div id="graph-container" style='width: 100%; height:350px;'></div>
+            <script type="text/javascript">
+                // based on prepared DOM, initialize echarts instance
+                var myChart = echarts.init(document.getElementById('graph-container'));
+
+                // specify chart configuration item and data
+                var option = {
+                    title: {
+                        text: ''
+                    },
+                    tooltip : {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        data:['<?php echo sprintf( __('Past %s days','inbound-pro') , self::$range ); ?>',
+                            '<?php echo sprintf( __('Current %s days','inbound-pro') , self::$range ); ?>']
+                    },
+                    toolbox: {
+                        show : true,
+                        feature : {
+                            mark : {show: true},
+                            dataView : {show: true, readOnly: false},
+                            magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+                            restore : {show: true},
+                            saveAsImage : {show: true}
+                        }
+                    },
+                    calculable : true,
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    xAxis : [
+                        {
+                            type : 'category',
+                            boundaryGap : false,
+                            data : <?php echo json_encode(self::$graph_data['current']['dates']); ?>
+
+                        }
+                    ],
+                    yAxis : [
+                        {
+                            type : 'value'
+                        }
+                    ],
+                    series : [
+                        {
+                            name:'<?php echo sprintf( __('Current %s days','inbound-pro') , self::$range ); ?>',
+                            type:'line',/*55ddff , 55ff77*/
+                            itemStyle: {normal: {color:'#55ddff', label:{show:false}}},
+                            areaStyle: {normal: {color:'#55ddff', label:{show:true}}},
+                            data:<?php echo json_encode(self::$graph_data['current']['visits']); ?>
+
+                        },
+                        {
+                            name:'<?php echo sprintf( __('Past %s days','inbound-pro') , self::$range ); ?>',
+                            type:'line', /* 3d3d3d , 6655ff */
+                            itemStyle: {normal: {color:'#6655ff', label:{show:true}}},
+                            areaStyle: {normal: {color:'#6655ff', label:{show:true}}},
+                            data:<?php echo json_encode(self::$graph_data['past']['visits']); ?>
+
+                        }
+                    ]
+                };
+
+                // use configuration item and data specified to show chart
+                myChart.setOption(option);
+            </script>
             <?php
         }
 
@@ -90,7 +177,7 @@ if (!class_exists('Inbound_Visitors_Report')) {
                                 <span><?php _e('Visitor' , 'inbound-pro'); ?></span>
                             </th>
                             <th scope="col" class="">
-                                <span><?php _e('Visits' , 'inbound-pro'); ?></span>
+                                <span><?php _e('Opens' , 'inbound-pro'); ?></span>
                             </th>
                         </tr>
                         </thead>
@@ -135,7 +222,7 @@ if (!class_exists('Inbound_Visitors_Report')) {
                                                                     .(isset($_REQUEST['source']) ? '&source='. urlencode(sanitize_text_field($_REQUEST['source'])) : '' )
                                                                     . '&page_id='.intval($_REQUEST['page_id'])
                                                                     .'&range='.self::$range.'&tb_hide_nav=true&TB_iframe=true&width=1503&height=400'); ?>" target="_self">
-                                        <?php echo $event['visits']; ?>
+                                        <?php echo $event['count']; ?>
                                     </a>
                                 </td>
                             </tr>
@@ -164,6 +251,9 @@ if (!class_exists('Inbound_Visitors_Report')) {
                             <th scope="col" class="">
                                 <span><?php _e('Visitors' , 'inbound-pro'); ?></span>
                             </th>
+                            <th scope="col" class="">
+                                <span><?php _e('Opens' , 'inbound-pro'); ?></span>
+                            </th>
                         </tr>
                         </thead>
                         <tbody id="">
@@ -182,9 +272,12 @@ if (!class_exists('Inbound_Visitors_Report')) {
                                     <?php echo $event['source']; ?>
                                 </td>
                                 <td class="" >
-                                    <a target="_self" href="<?php echo admin_url('index.php?action=inbound_generate_report&page_id='.$event['page_id'].'&source='.urlencode($event['source']).'&class=Inbound_Visitors_Report&range='.self::$range.'&tb_hide_nav=true'); ?>" class="">
-                                        <?php echo $event['visits']; ?>
+                                    <a target="_self" href="<?php echo admin_url('index.php?action=inbound_generate_report&page_id='.intval($_REQUEST['page_id']).'&source='.urlencode($event['source']).'&class=Inbound_Visitors_Report&range='.self::$range.'&tb_hide_nav=true'); ?>" class="">
+                                        <?php echo $event['visitors']; ?>
                                     </a>
+                                </td>
+                                <td class="" >
+                                    <?php echo $event['page_views_total']; ?>
                                 </td>
                             </tr>
                             <?php
@@ -208,7 +301,7 @@ if (!class_exists('Inbound_Visitors_Report')) {
             $default_gravatar = INBOUND_PRO_URLPATH . 'assets/images/gravatar-unknown.png';
             ?>
             <div class="visitors-stream-view">
-            <h3><?php _e( 'Visitors' , 'inbound-pro' ); ?></h3>
+            <h3><?php _e( 'Stream' , 'inbound-pro' ); ?></h3>
             <table class="">
                 <thead>
                 <tr>
@@ -225,7 +318,7 @@ if (!class_exists('Inbound_Visitors_Report')) {
                         <span><?php _e('Source' , 'inbound-pro'); ?></span>
                     </th>
                     <th scope="col" class="">
-                        <span><?php _e('Visits' , 'inbound-pro'); ?></span>
+                        <span><?php _e('Opens' , 'inbound-pro'); ?></span>
                     </th>
                     <th scope="col" class="">
                         <span><?php _e('Lead' , 'inbound-pro'); ?></span>
@@ -281,7 +374,7 @@ if (!class_exists('Inbound_Visitors_Report')) {
                         </td>
                         <td class="" >
                             <a href="<?php echo admin_url('index.php?action=inbound_generate_report&class=Inbound_Visitor_Report&'.($lead_exists ? 'lead_uid=' . $event['lead_uid'] : 'lead_uid='.$event['lead_uid'] ) . '&page_id='.intval($_REQUEST['page_id']).'&range='.self::$range.'&tb_hide_nav=true&TB_iframe=true&width=1503&height=400'); ?>" target="_self">
-                                <?php echo $event['visits']; ?>
+                                <?php echo $event['count']; ?>
                             </a>
                         </td>
                         <td class="">
@@ -312,7 +405,7 @@ if (!class_exists('Inbound_Visitors_Report')) {
                         <span><?php _e('Last Source' , 'inbound-pro'); ?></span>
                     </th>
                     <th scope="col" class=" column-title column-primary  desc">
-                        <span><?php _e('Visits' , 'inbound-pro'); ?></span>
+                        <span><?php _e('Opens' , 'inbound-pro'); ?></span>
                     </th>
                     <th scope="col" class="  desc">
                         <span><?php _e('Lead' , 'inbound-pro'); ?></span>
@@ -613,9 +706,14 @@ if (!class_exists('Inbound_Visitors_Report')) {
                 .visitors-stream-view {
                     margin-left:10px;
                     margin-right:10px;
+                    margin-bottom:44px;
                 }
 
-
+                #graph-container {
+                    margin-top:10px;
+                    margin-left:auto;
+                    margin-right:auto;
+                }
 
             </style>
             <link rel='stylesheet' id='fontawesome-css'  href='<?php echo INBOUNDNOW_SHARED_URLPATH ;?>assets/fonts/fontawesome/css/font-awesome.min.css?ver=4.6.1' type='text/css' media='all' />
@@ -631,13 +729,35 @@ if (!class_exists('Inbound_Visitors_Report')) {
             self::define_range();
 
             $dates = Inbound_Reporting_Templates::prepare_range( self::$range );
+            self::$start_date = $dates['start_date'];
+            self::$end_date = $dates['end_date'];
+            self::$past_start_date = $dates['past_start_date'];
+            self::$past_end_date = $dates['past_end_date'];
+
+            /* get daily visitor counts - group by lead_uid */
+            $params = array(
+                'page_id' => intval($_REQUEST['page_id']),
+                'source' => (isset($_REQUEST['source']) ) ? sanitize_text_field(urldecode($_REQUEST['source'])) : '' ,
+                'start_date' => self::$start_date,
+                'end_date' => self::$end_date
+            );
+            self::$graph_data['current'] = Inbound_Events::get_visitors_by_dates($params);
+
+            /* get daily visitor counts - group by lead_uid */
+            $params = array(
+                'page_id' => intval($_REQUEST['page_id']),
+                'source' => (isset($_REQUEST['source']) ) ? sanitize_text_field(urldecode($_REQUEST['source'])) : '' ,
+                'start_date' => self::$past_start_date,
+                'end_date' => self::$past_end_date
+            );
+            self::$graph_data['past'] = Inbound_Events::get_visitors_by_dates($params);
 
             /* get all visitors - group by lead_uid */
             $params = array(
                 'page_id' => intval($_REQUEST['page_id']),
                 'source' => (isset($_REQUEST['source']) ) ? sanitize_text_field(urldecode($_REQUEST['source'])) : '' ,
-                'start_date' => $dates['start_date'],
-                'end_date' => $dates['end_date']
+                'start_date' => self::$start_date,
+                'end_date' => self::$end_date
             );
             self::$visits = Inbound_Events::get_visitors($params);
 
@@ -645,9 +765,10 @@ if (!class_exists('Inbound_Visitors_Report')) {
             $params = array(
                 'page_id' => intval($_REQUEST['page_id']),
                 'source' => (isset($_REQUEST['source']) ) ? sanitize_text_field(urldecode($_REQUEST['source'])) : '' ,
-                'start_date' => $dates['start_date'],
-                'end_date' => $dates['end_date'],
-                'order_by' => 'visits',
+                'start_date' => self::$start_date,
+                'end_date' => self::$end_date,
+                'order_by' => 'count desc',
+                'group_by' => 'session_id',
                 'limit' => 10
             );
             self::$top_visitors = Inbound_Events::get_visitors($params);
@@ -656,15 +777,46 @@ if (!class_exists('Inbound_Visitors_Report')) {
             $params = array(
                 'page_id' => intval($_REQUEST['page_id']),
                 'source' => (isset($_REQUEST['source']) ) ? sanitize_text_field(urldecode($_REQUEST['source'])) : '' ,
-                'start_date' => $dates['start_date'],
-                'end_date' => $dates['end_date'],
-                'group_by' => 'source',
-                'order_by' => 'visits',
+                'start_date' => self::$start_date,
+                'end_date' => self::$end_date,
+                'order_by' => 'visitors desc',
                 'limit' => 10
             );
-            self::$top_sources = Inbound_Events::get_visitors($params);
-
+            self::$top_sources = Inbound_Events::get_visitors_group_by_source($params);
 		}
+
+        /**
+         *
+         */
+        public static function prepare_chart_data( $start_date, $end_date , $period = 'current' ) {
+            /* prepare empty dates */
+            $dates = Inbound_Reporting_Templates::get_days_from_range($start_date,$end_date);
+
+            /* create new temporary array with different structure */
+            $temp = array();
+            foreach (self::$graph_data[$period] as $key=> $data) {
+                $temp[$data['date']] = $data['visitors'];
+            }
+
+            $date_array = array();
+            $visits_array = array();
+            $fromatted = array();
+            foreach ($dates as $index => $date) {
+                if (isset($temp[$date])) {
+                    $fromatted[$date]['date'] = $date;
+                    $fromatted[$date]['visits'] = $temp[$date];
+                    $date_array[$date] = $date;
+                    $visits_array[]= $temp[$date];
+                } else {
+                    $formatted[$date]['date'] = $date;
+                    $formatted[$date]['visits'] = 0;
+                    $date_array[$date] = $date;
+                    $visits_array[]= 0;
+                }
+            }
+
+            return array( 'data' => $formatted, 'dates' => array_keys($formatted), 'visits' => array_values($visits_array));
+        }
     }
 
     new Inbound_Visitors_Report;

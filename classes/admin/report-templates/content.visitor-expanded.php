@@ -41,6 +41,7 @@ if (!class_exists('Inbound_Visitor_Report')) {
         public static function load_template() {
             self::load_data();
 
+
             if (self::$lead) {
                 $lead_meta = get_post_meta(self::$lead->ID);
 
@@ -64,7 +65,7 @@ if (!class_exists('Inbound_Visitor_Report')) {
                     <!-- here’s the avatar -->
                     <a href="<?php echo ( self::$lead ) ? 'post.php?action=edit&post=' . self::$lead->ID . '&amp;small_lead_preview=true&tb_hide_nav=true' : '#'; ?>" target="_self" class="profile-img-link">
                         <?php
-                        $default = INBOUND_PRO_URLPATH . '/assets/images/gravatar-unknown.jpg';
+                        $default = INBOUND_PRO_URLPATH . '/assets/images/gravatar-unknown.png';
                         $gravatar = ($lead_exists) ? Leads_Post_Type::get_gravatar(self::$lead->ID , 100) : $default;
                         echo '<img src="' . $gravatar . '">';
                         ?>
@@ -427,22 +428,26 @@ if (!class_exists('Inbound_Visitor_Report')) {
             /* determine lookup param */
             $lookup =  (isset($_REQUEST['lead_id'])) ? 'lead_id' : 'lead_uid';
 
-            self::$lead = ($lookup == 'lead_id' ) ? get_post(intval($_REQUEST['lead_id'])) : false;
-
             $params = array(
                 'page_id' => (isset($_REQUEST['page_id'])) ? intval($_REQUEST['page_id']) : 0,
                 'lead_uid' => (isset($_REQUEST['lead_uid'])) ? sanitize_text_field($_REQUEST['lead_uid']) : 0,
                 'lead_id' => (isset($_REQUEST['lead_id'])) ? sanitize_text_field($_REQUEST['lead_id']) : 0,
                 'start_date' => $dates['start_date'],
                 'end_date' => $dates['end_date'],
-                'orderby' => 'ORDER BY datetime DESC, session_id DESC'
+                'orderby' => 'ORDER BY datetime DESC, session_id DESC, lead_id DESC'
             );
 
 
             self::$events = Inbound_Events::get_page_views_by( 'mixed' , $params);
 
 
-		}
+            self::$lead = ($lookup == 'lead_id' ) ? get_post(intval($_REQUEST['lead_id'])) : false;
+
+            if (!self::$lead && isset(self::$events[0]['lead_id']) && self::$events[0]['lead_id'] ) {
+                self::$lead = get_post(self::$events[0]['lead_id']);
+            }
+
+        }
     }
 
     new Inbound_Visitor_Report;

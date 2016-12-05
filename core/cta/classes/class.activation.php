@@ -118,7 +118,7 @@ if ( !class_exists('CTA_Activation') ) {
             /* Listen for a manual upgrade call */
             if (isset($_GET['plugin_action']) && $_GET['plugin_action'] == 'upgrade_routines' && $_GET['plugin'] =='cta' ) {
                 self::run_updates();
-                wp_redirect(admin_url('edit.php?post_type=wp-call-to-action'));
+                wp_redirect(wp_get_referer());
                 exit;
             }
 

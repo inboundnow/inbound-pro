@@ -391,7 +391,7 @@ if ( !class_exists('Inbound_Quick_View') ) {
 		public static function get_impressions($args) {
 			global $post;
 
-			$wordpress_date_time =  date_i18n('Y-m-d');
+			$wordpress_date_time = date_i18n('Y-m-d G:i:s T');
 
 			$args['page_id'] = $post->ID;
 
@@ -411,7 +411,7 @@ if ( !class_exists('Inbound_Quick_View') ) {
 		public static function get_visitors($args) {
 			global $post;
 
-			$wordpress_date_time =  date_i18n('Y-m-d');
+			$wordpress_date_time =  date_i18n('Y-m-d G:i:s T');
 
 			$args['page_id'] = $post->ID;
 
@@ -430,7 +430,7 @@ if ( !class_exists('Inbound_Quick_View') ) {
 		public static function get_actions($args) {
 			global $post;
 
-			$wordpress_date_time = date_i18n('Y-m-d G:i:s');
+			$wordpress_date_time = date_i18n('Y-m-d G:i:s T');
 
 			if ($args['skip']) {
 				$start_date = date('Y-m-d G:i:s', strtotime("-" . $args['per_days'] * ($args['skip'] + 1) . " days", strtotime($wordpress_date_time)));
@@ -446,7 +446,7 @@ if ( !class_exists('Inbound_Quick_View') ) {
 		public static function get_submissions($args) {
 			global $post;
 
-			$wordpress_date_time = date_i18n('Y-m-d G:i:s');
+			$wordpress_date_time = date_i18n('Y-m-d G:i:s T');
 
 			if ($args['skip']) {
 				$start_date = date('Y-m-d G:i:s', strtotime("-" . $args['per_days'] * ($args['skip'] + 1) . " days", strtotime($wordpress_date_time)));
@@ -463,7 +463,7 @@ if ( !class_exists('Inbound_Quick_View') ) {
 		public static function get_tracked_clicks($args) {
 			global $post;
 
-			$wordpress_date_time = date_i18n('Y-m-d G:i:s');
+			$wordpress_date_time = date_i18n('Y-m-d G:i:s T');
 
 			if ($args['skip']) {
 				$start_date = date('Y-m-d G:i:s', strtotime("-" . $args['per_days'] * ($args['skip'] + 1) . " days", strtotime($wordpress_date_time)));

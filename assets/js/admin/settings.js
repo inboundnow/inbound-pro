@@ -728,7 +728,7 @@ var InboundSettings = (function () {
                 timeout: 20000,
                 success: function (response) {
                     if (typeof response.customer != 'undefined') {
-                        InboundSettings.markKeyValid();
+                        InboundSettings.markKeyValid(response.customer.is_pro);
                         console.log('is_pro=' + response.customer.is_pro);
                     } else {
                         InboundSettings.markKeyInvalid(response.message);
@@ -785,7 +785,7 @@ var InboundSettings = (function () {
         /**
          * mark key valid
          */
-        markKeyValid: function () {
+        markKeyValid: function ( is_pro ) {
             InboundSettings.input.removeClass('invalid');
             InboundSettings.input.addClass('valid');
             jQuery('.invalid-icon').remove();
@@ -794,7 +794,7 @@ var InboundSettings = (function () {
             jQuery('.tooltip').hide();
             jQuery('<i>', {
                 class: "fa fa-check valid-icon inbound-tooltip",
-                title: "API Key Is Valid"
+                title: "Welcome Subscriber - privledge level " + is_pro
             }).appendTo('.api-key');
         },
         /**
