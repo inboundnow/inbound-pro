@@ -137,7 +137,6 @@ class Inbound_Updater {
         self::$info->plugin = self::$name;
         self::$info->last_updated = '';
         self::$info->sections =  (array) self::$info->sections;
-        self::$info->sections =  (array) self::$info->sections;
         //self::$info->package = add_query_arg( array( 'api' => self::$api_key , 'site' => self::$domain ) , self::$info->package );
     }
 
