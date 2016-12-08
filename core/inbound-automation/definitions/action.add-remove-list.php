@@ -65,7 +65,6 @@ if ( !class_exists( 'Inbound_Automation_Action_Add_Remove_List' ) ) {
         * Run the action
         */
         public static function run_action( $action , $arguments ) {
-            global $Inbound_Leads;
 
             $added = array();
             $removed = array();

@@ -394,8 +394,7 @@ class Inbound_Events {
         global $wpdb;
 
         $table_name = $wpdb->prefix . "inbound_page_views";
-        $timezone_format = 'Y-m-d G:i:s T';
-        $wordpress_date_time =  date_i18n($timezone_format);
+        $wordpress_date_time =  date_i18n('Y-m-d G:i:s T');
 
         $defaults = array(
             'page_id' => '',
@@ -405,7 +404,7 @@ class Inbound_Events {
             'session_id' => ( isset($_COOKIE['PHPSESSID']) ? $_COOKIE['PHPSESSID'] : session_id() ),
             'datetime' => $wordpress_date_time,
             'source' => ( isset($_COOKIE['inbound_referral_site']) ? $_COOKIE['inbound_referral_site'] : '' ),
-            'ip' => Lead_Storage::lookup_ip_address()
+            'ip' => LeadStorage::lookup_ip_address()
         );
 
         $args = array_merge( $defaults , $args );
@@ -423,11 +422,6 @@ class Inbound_Events {
             $table_name,
             $args
         );
-
-        /* check error messages for broken tables */
-        if (isset($wpdb->last_error)) {
-            self::create_page_views_table();
-        }
 
     }
 
@@ -647,6 +641,38 @@ class Inbound_Events {
         return $results;
     }
 
+
+
+    /**
+     * Get page view events given conditions
+     *
+     */
+    public static function get_page_views_by_dates( $params ){
+        global $wpdb;
+
+        $params['group_by'] = (isset($params['group_by'])) ? $params['group_by'] : 'lead_uid';
+        $params['order_by'] = (isset($params['order_by'])) ? $params['order_by'] : 'datetime DESC';
+
+        $table_name = $wpdb->prefix . "inbound_page_views";
+
+        $query = 'SELECT *, count(*) as impressions, count(date(datetime)) as impressions_per_day, date(datetime) as date  FROM '.$table_name.' WHERE `page_id` = "'.$params['page_id'].'"';
+
+
+        if (isset($params['source']) && $params['source'] ) {
+            $query .= ' AND source = "'.$params['source'].'" ';
+        }
+
+        if (isset($params['start_date'])) {
+            $query .= ' AND datetime >= "'.$params['start_date'].'" AND  datetime <= "'.$params['end_date'].'" ';
+        }
+
+        $query .= 'GROUP BY DATE(datetime)';
+
+        $results = $wpdb->get_results( $query , ARRAY_A );
+
+        return $results;
+    }
+
     /**
      * Get page view count given lead_id
      *
@@ -755,9 +781,9 @@ class Inbound_Events {
         $params['order_by'] = (isset($params['order_by'])) ? $params['order_by'] : 'datetime DESC';
 
         $table_name = $wpdb->prefix . "inbound_page_views";
-        $query = 'SELECT count(date(datetime)) as visitors, date(datetime) as date  FROM ( ';
+        $query = 'SELECT count(date(datetime)) as visits_per_day, date(datetime) as date , sum(visits) as visitors FROM ( ';
 
-        $query .= ' SELECT * FROM '.$table_name.' WHERE `page_id` = "'.$params['page_id'].'"';
+        $query .= ' SELECT *, count('.$params['group_by'].') as visits FROM '.$table_name.' WHERE `page_id` = "'.$params['page_id'].'"';
 
 
         if (isset($params['source']) && $params['source'] ) {
@@ -786,7 +812,7 @@ class Inbound_Events {
         global $wpdb;
 
         $table_name = $wpdb->prefix . "inbound_page_views";
-        $query = 'SELECT * , count(source) as visitors,  sum(page_views) as page_views_total  FROM ( ';
+        $query = 'SELECT * , count(source) as visitors, sum(page_views) as page_views_total  FROM ( ';
 
         $query .= ' SELECT *, count(lead_uid) as page_views FROM '.$table_name.' WHERE `page_id` = "'.$params['page_id'].'"';
 

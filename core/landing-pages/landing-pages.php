@@ -74,7 +74,7 @@ if (!class_exists('Inbound_Landing_Pages_Plugin')) {
 					include_once( LANDINGPAGES_PATH . 'classes/class.welcome.php');
 					include_once( LANDINGPAGES_PATH . 'classes/class.install.php');
 					include_once( LANDINGPAGES_PATH . 'classes/class.landing-pages.php');
-					include_once( LANDINGPAGES_PATH . 'classes/class.load-extensions.php');
+					include_once( LANDINGPAGES_PATH . 'classes/class.load-templates.php');
 					include_once( LANDINGPAGES_PATH . 'classes/class.post-type.landing-page.php');
 					include_once( LANDINGPAGES_PATH . 'modules/module.utils.php');
 					include_once( LANDINGPAGES_PATH . 'classes/class.sidebars.php');
@@ -99,8 +99,6 @@ if (!class_exists('Inbound_Landing_Pages_Plugin')) {
 					include_once( LANDINGPAGES_PATH . 'classes/class.sidebars.php');
 					include_once( LANDINGPAGES_PATH . 'classes/class.widgets.php');
 					include_once( LANDINGPAGES_PATH . 'classes/class.landing-pages.php');
-					include_once( LANDINGPAGES_PATH . 'classes/class.load-extensions.php');
-
 
 					BREAK;
 			endswitch;

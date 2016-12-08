@@ -576,7 +576,7 @@ if ( !class_exists('Inbound_Leads') ) {
 	/**
 	*  	Register 'wp-lead' CPT
 	*/
-	$GLOBALS['Inbound_Leads'] = new Inbound_Leads();
+	new Inbound_Leads();
 
 
 }

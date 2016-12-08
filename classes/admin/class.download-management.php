@@ -39,6 +39,9 @@ class Inbound_Pro_Downloads {
 
 		add_action( 'inbound-pro/check-for-updates' , array( __CLASS__ , 'cron_check_for_updates' ) );
 
+		/* add open_base_dir check */
+		add_action('admin_notices', array( __CLASS__ , 'check_open_base_dir' ) );
+
 	}
 
 
@@ -490,7 +493,31 @@ class Inbound_Pro_Downloads {
 			<!--<div id="load_more">Load More</div> -->
 		</ul>
 
-	<?php }
+	<?php
+	}
+
+
+	/**
+	 *  Checks if open_base dir
+	 */
+	public static function check_open_base_dir() {
+		global $post , $inbound_settings;
+
+
+		if (!isset($_GET['page'])|| ( $_GET['page']!='inbound-manage-extensions' && $_GET['page']!='inbound-manage-templates' ) ){
+			return false;
+		}
+
+		if ( ini_get('open_basedir') ) {
+			return;
+		}
+		?>
+		<div class="updated">
+			<p><?php _e( sprintf( 'ATTENTION: open_basedir restriction in effect which will cause problems with installation. %s ' , '<a href="'.$settings_url.'">'.__( 'settings page' , 'inbound-pro' ).'</a>') , 'inbound-email'); ?></p>
+		</div>
+
+		<?php
+	}
 
 	/**
 	 *  Loads all UI elements

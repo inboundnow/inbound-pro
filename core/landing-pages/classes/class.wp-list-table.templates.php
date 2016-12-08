@@ -14,7 +14,7 @@ class Landing_Pages_Templates_List_Table extends WP_List_Table {
 
     function __construct() {
 
-        $lp_data = lp_get_extension_data();
+        $lp_data = Landing_Pages_Load_Extensions::get_extended_data();;
         $final_data = array();
 
         foreach ($lp_data as $key => $data) {

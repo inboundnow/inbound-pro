@@ -40,9 +40,9 @@ if (!class_exists('Inbound_Visitors_Report')) {
             self::display_header();
             self::print_css();
             parent::display_filters();
+            self::display_chart();
             self::display_top_widgets();
             self::display_all_visitors();
-            self::display_chart();
             die();
         }
 
@@ -99,8 +99,8 @@ if (!class_exists('Inbound_Visitors_Report')) {
                         trigger: 'axis'
                     },
                     legend: {
-                        data:['<?php echo sprintf( __('Past %s days','inbound-pro') , self::$range ); ?>',
-                            '<?php echo sprintf( __('Current %s days','inbound-pro') , self::$range ); ?>']
+                        data:['<?php echo sprintf( __('Visitors past %s days','inbound-pro') , self::$range ); ?>',
+                            '<?php echo sprintf( __('Visitors prior %s days','inbound-pro') , self::$range ); ?>']
                     },
                     toolbox: {
                         show : true,
@@ -134,7 +134,7 @@ if (!class_exists('Inbound_Visitors_Report')) {
                     ],
                     series : [
                         {
-                            name:'<?php echo sprintf( __('Current %s days','inbound-pro') , self::$range ); ?>',
+                            name:'<?php echo sprintf( __('Visitors past %s days','inbound-pro') , self::$range ); ?>',
                             type:'line',/*55ddff , 55ff77*/
                             itemStyle: {normal: {color:'#55ddff', label:{show:false}}},
                             areaStyle: {normal: {color:'#55ddff', label:{show:true}}},
@@ -142,7 +142,7 @@ if (!class_exists('Inbound_Visitors_Report')) {
 
                         },
                         {
-                            name:'<?php echo sprintf( __('Past %s days','inbound-pro') , self::$range ); ?>',
+                            name:'<?php echo sprintf( __('Visitors prior %s days','inbound-pro') , self::$range ); ?>',
                             type:'line', /* 3d3d3d , 6655ff */
                             itemStyle: {normal: {color:'#6655ff', label:{show:true}}},
                             areaStyle: {normal: {color:'#6655ff', label:{show:true}}},
@@ -177,7 +177,7 @@ if (!class_exists('Inbound_Visitors_Report')) {
                                 <span><?php _e('Visitor' , 'inbound-pro'); ?></span>
                             </th>
                             <th scope="col" class="">
-                                <span><?php _e('Opens' , 'inbound-pro'); ?></span>
+                                <span><?php _e('Impressions' , 'inbound-pro'); ?></span>
                             </th>
                         </tr>
                         </thead>
@@ -237,7 +237,7 @@ if (!class_exists('Inbound_Visitors_Report')) {
 
                 </div>
                 <div>
-                    <h3><?php _e( 'Top Sources' , 'inbound-pro' ); ?></h3>
+                    <h3><?php _e( 'Top Referrers' , 'inbound-pro' ); ?></h3>
 
                     <table class="top-ten-sources">
                         <thead>
@@ -252,7 +252,7 @@ if (!class_exists('Inbound_Visitors_Report')) {
                                 <span><?php _e('Visitors' , 'inbound-pro'); ?></span>
                             </th>
                             <th scope="col" class="">
-                                <span><?php _e('Opens' , 'inbound-pro'); ?></span>
+                                <span><?php _e('Impressions' , 'inbound-pro'); ?></span>
                             </th>
                         </tr>
                         </thead>
@@ -312,16 +312,16 @@ if (!class_exists('Inbound_Visitors_Report')) {
                         <span><?php _e('Visitor' , 'inbound-pro'); ?></span>
                     </th>
                     <th scope="col" class="">
-                        <span><?php _e('Last Visit' , 'inbound-pro'); ?><i class="fa fa-sort-desc" aria-hidden="true"></i></span>
-                    </th>
-                    <th scope="col" class="">
                         <span><?php _e('Source' , 'inbound-pro'); ?></span>
                     </th>
                     <th scope="col" class="">
-                        <span><?php _e('Opens' , 'inbound-pro'); ?></span>
+                        <span><?php _e('Impressions' , 'inbound-pro'); ?></span>
                     </th>
                     <th scope="col" class="">
                         <span><?php _e('Lead' , 'inbound-pro'); ?></span>
+                    </th>
+                    <th scope="col" class="">
+                        <span><?php _e('Last Visit' , 'inbound-pro'); ?><i class="fa fa-sort-desc" aria-hidden="true"></i></span>
                     </th>
                 </tr>
                 </thead>
@@ -368,11 +368,6 @@ if (!class_exists('Inbound_Visitors_Report')) {
                             </p>
                         </td>
                         <td class="" >
-                            <p class="mod-date"><em> <?php echo $event['source']; ?>
-                                </em>
-                            </p>
-                        </td>
-                        <td class="" >
                             <a href="<?php echo admin_url('index.php?action=inbound_generate_report&class=Inbound_Visitor_Report&'.($lead_exists ? 'lead_uid=' . $event['lead_uid'] : 'lead_uid='.$event['lead_uid'] ) . '&page_id='.intval($_REQUEST['page_id']).'&range='.self::$range.'&tb_hide_nav=true&TB_iframe=true&width=1503&height=400'); ?>" target="_self">
                                 <?php echo $event['count']; ?>
                             </a>
@@ -383,6 +378,11 @@ if (!class_exists('Inbound_Visitors_Report')) {
 
                                 </i>
                             </a>
+                        </td>
+                        <td class="" >
+                            <p class="mod-date"><em> <?php echo $event['source']; ?>
+                                </em>
+                            </p>
                         </td>
                     </tr>
                     <?php
@@ -399,16 +399,16 @@ if (!class_exists('Inbound_Visitors_Report')) {
                         <span><?php _e('Visitor' , 'inbound-pro'); ?></span>
                     </th>
                     <th scope="col" class="  desc">
-                        <span><?php _e('Datetime' , 'inbound-pro'); ?><i class="fa fa-sort-desc" aria-hidden="true"></i></span>
-                    </th>
-                    <th scope="col" class="  desc">
                         <span><?php _e('Last Source' , 'inbound-pro'); ?></span>
                     </th>
                     <th scope="col" class=" column-title column-primary  desc">
-                        <span><?php _e('Opens' , 'inbound-pro'); ?></span>
+                        <span><?php _e('Impressions' , 'inbound-pro'); ?></span>
                     </th>
                     <th scope="col" class="  desc">
                         <span><?php _e('Lead' , 'inbound-pro'); ?></span>
+                    </th>
+                    <th scope="col" class="  desc">
+                        <span><?php _e('Last Visit' , 'inbound-pro'); ?><i class="fa fa-sort-desc" aria-hidden="true"></i></span>
                     </th>
                 </tr>
                 </tfoot>

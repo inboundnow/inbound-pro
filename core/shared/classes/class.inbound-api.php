@@ -891,7 +891,7 @@ if (!class_exists('Inbound_API')) {
 		 *  @global OBJECT $Inbound_Leads Inbound_Leads
 		 */
 		public static function leads_add( $params = array() ) {
-			global $Inbound_Leads;
+
 
 			/* Merge POST & GET & @param vars into array variable */
 			$params = array_merge( $params, $_REQUEST );
@@ -945,7 +945,7 @@ if (!class_exists('Inbound_API')) {
 
 			if (isset($params['lead_lists']) && self::validate_parameter( $params['lead_lists'], 'lead_lists', 'array' ) ) {
 				foreach ( $params['lead_lists'] as $list_id ) {
-					$Inbound_Leads->add_lead_to_list( $lead_id, $list_id );
+					Inbound_Leads::add_lead_to_list( $lead_id, $list_id );
 				}
 			}
 
@@ -956,7 +956,7 @@ if (!class_exists('Inbound_API')) {
 
 			if (isset($params['tags']) && self::validate_parameter( $params['tags'], 'tags', 'array' ) ) {
 				foreach ( $params['tags'] as $tag ) {
-					$Inbound_Leads->add_tag_to_lead( $lead_id, $tag );
+					Inbound_Leads::add_tag_to_lead( $lead_id, $tag );
 				}
 			}
 
@@ -970,7 +970,7 @@ if (!class_exists('Inbound_API')) {
 		 *  @global OBJECT $Inbound_Leads Inbound_Leads
 		 */
 		public static function leads_update( $params = array() ) {
-			global $Inbound_Leads;
+
 
 			/* Merge POST & GET & @param vars into array variable */
 			$params = array_merge( $params, $_REQUEST );
@@ -1026,7 +1026,7 @@ if (!class_exists('Inbound_API')) {
 
 				/* Loop through list ids and add */
 				foreach ($params['add_to_lists'] as $list_id ) {
-					$Inbound_Leads->add_lead_to_list( $params['ID'], $list_id );
+					Inbound_Leads::add_lead_to_list( $params['ID'], $list_id );
 				}
 			}
 
@@ -1038,7 +1038,7 @@ if (!class_exists('Inbound_API')) {
 
 				/* Loop through list ids and remove */
 				foreach ($params['remove_from_lists'] as $list_id ) {
-					$Inbound_Leads->remove_lead_from_list( $params['ID'], $list_id );
+					Inbound_Leads::remove_lead_from_list( $params['ID'], $list_id );
 				}
 			}
 
@@ -1050,7 +1050,7 @@ if (!class_exists('Inbound_API')) {
 
 				/* Loop through tags and add */
 				foreach ($params['add_tags'] as $tag ) {
-					$Inbound_Leads->add_tag_to_lead( $params['ID'], $tag );
+					Inbound_Leads::add_tag_to_lead( $params['ID'], $tag );
 				}
 			}
 
@@ -1062,7 +1062,7 @@ if (!class_exists('Inbound_API')) {
 
 				/* Loop through tags and remove */
 				foreach ($params['remove_tags'] as $tag ) {
-					$Inbound_Leads->remove_tag_from_lead( $params['ID'], $tag );
+					Inbound_Leads::remove_tag_from_lead( $params['ID'], $tag );
 				}
 			}
 
@@ -1139,9 +1139,9 @@ if (!class_exists('Inbound_API')) {
 		 *  @global OBJECT $Inbound_Leads Inbound_Leads
 		 */
 		public static function lists_get() {
-			global $Inbound_Leads;
 
-			return $Inbound_Leads->get_lead_lists_as_array();
+
+			return Inbound_Leads::get_lead_lists_as_array();
 		}
 
 		/**
@@ -1149,7 +1149,7 @@ if (!class_exists('Inbound_API')) {
 		 *  @global OBJECT $Inbound_Leads class Inbound_Leads
 		 */
 		public static function lists_add( $params = array() ) {
-			global $Inbound_Leads;
+
 
 			/* Merge POST & GET & @param vars into array variable */
 			$params = array_merge( $params, $_REQUEST );
@@ -1170,7 +1170,7 @@ if (!class_exists('Inbound_API')) {
 				$params['parent'] = '';
 			}
 
-			return $Inbound_Leads->create_lead_list( $params );
+			return Inbound_Leads::create_lead_list( $params );
 		}
 
 		/**
@@ -1179,7 +1179,7 @@ if (!class_exists('Inbound_API')) {
 		*  @return ARRAY
 		*/
 		public static function lists_update( $params = array() ) {
-			global $Inbound_Leads;
+
 
 			/* Merge POST & GET & @param vars into array variable */
 			$params = array_merge( $params, $_REQUEST );
@@ -1214,14 +1214,14 @@ if (!class_exists('Inbound_API')) {
 				$params['parent'] = 0;
 			}
 
-			return $Inbound_Leads->update_lead_list( $params );
+			return Inbound_Leads::update_lead_list( $params );
 		}
 
 		/**
 		*  Deletes a lead list
 		*/
 		public static function lists_delete( $params = array() ) {
-			global $Inbound_Leads;
+
 
 			/* Merge POST & GET & @param vars into array variable */
 			$params = array_merge( $params, $_REQUEST );
@@ -1235,7 +1235,7 @@ if (!class_exists('Inbound_API')) {
 				self::output( 401 );
 			}
 
-			return $Inbound_Leads->delete_lead_list( $params['id'] );
+			return Inbound_Leads::delete_lead_list( $params['id'] );
 		}
 
 		/**
@@ -1345,6 +1345,7 @@ if (!class_exists('Inbound_API')) {
 			return array( 'url' => $tracked_link );
 		}
 
+
 		/**
 		 * Listens for the tracked links and update lead event profile
 		 *
@@ -1353,7 +1354,7 @@ if (!class_exists('Inbound_API')) {
 		 * @return void
 		 */
 		public static function process_tracked_link() {
-			global $wp_query, $wpdb, $Inbound_Leads;
+			global $wp_query, $wpdb;
 
 			/* Check for inbound-api var. Get out if not present */
 			if ( ! isset( $wp_query->query_vars[ self::$tracking_endpoint ] ) && ( isset($_SERVER["REQUEST_URI"]) && !strstr($_SERVER["REQUEST_URI"], self::$tracking_endpoint.'/' ) )) {
@@ -1386,7 +1387,7 @@ if (!class_exists('Inbound_API')) {
 				/* Add lead to lists */
 				if (isset($args['add_lists']) && self::validate_parameter($args['add_lists'], 'add_lists', 'array')) {
 					foreach ($args['add_lists'] as $list_id) {
-						$Inbound_Leads->add_lead_to_list($args['id'], $list_id);
+						Inbound_Leads::add_lead_to_list($args['id'], $list_id);
 					}
 				}
 
@@ -1394,24 +1395,29 @@ if (!class_exists('Inbound_API')) {
 				if (isset($args['remove_lists']) && self::validate_parameter($args['remove_lists'], 'remove_lists', 'array')) {
 
 					foreach ($args['remove_lists'] as $list_id) {
-						$Inbound_Leads->remove_lead_from_list($args['id'], $list_id);
+						Inbound_Leads::remove_lead_from_list($args['id'], $list_id);
 					}
 				}
 
 				/* Add tag to leads */
 				if (isset($args['add_tags']) && self::validate_parameter($args['add_tags'], 'add_tags', 'array')) {
 					foreach ($args['add_tags'] as $tag) {
-						$Inbound_Leads->add_tag_to_lead($args['id'], $tag);
+						Inbound_Leads::add_tag_to_lead($args['id'], $tag);
 					}
 				}
 
 				/* Remvoe tags from leads */
 				if (isset($args['remove_tags']) && self::validate_parameter($args['remove_tags'], 'remove_tags', 'array')) {
 					foreach ($args['remove_tags'] as $tag) {
-						$Inbound_Leads->remove_tag_from_lead($args['id'], $tag);
+						Inbound_Leads::remove_tag_from_lead($args['id'], $tag);
 					}
 				}
 
+			}
+
+			/* check for known bots and ignore */
+			if (isset($_SERVER['HTTP_USER_AGENT']) && preg_match('/bot|crawl|slurp|spider/i', $_SERVER['HTTP_USER_AGENT'])) {
+				return;
 			}
 
 			/* Process tracked link extras */
@@ -1423,7 +1429,7 @@ if (!class_exists('Inbound_API')) {
 		}
 	}
 
-	$GLOBALS['Inbound_API'] = new Inbound_API();
+	new Inbound_API();
 
 }
 

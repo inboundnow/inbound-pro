@@ -815,7 +815,7 @@ var InboundSettings = (function () {
          */
         addCustomLeadField: function () {
             /* create a new li and append to list */
-            var clone = jQuery(".custom-fields-row:last").clone();
+            var clone = jQuery(".custom-fields-row:not('.readonly'):last").clone();
 
             /* discover last priority and next priority in line */
             var priority = clone.attr('status-priority');

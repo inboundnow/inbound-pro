@@ -128,8 +128,8 @@ if (!class_exists('LeadStorage')) {
 
 				/* Add Leads to List on creation */
 				if(!empty($lead['lead_lists']) && is_array($lead['lead_lists'])){
-					global $Inbound_Leads;
-					$Inbound_Leads->add_lead_to_list($lead['id'], $lead['lead_lists']);
+
+					Inbound_Leads::add_lead_to_list($lead['id'], $lead['lead_lists']);
 
 					/* store lead list cookie */
 					if (class_exists('Leads_Tracking')) {
