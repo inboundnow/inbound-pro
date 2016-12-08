@@ -22,11 +22,11 @@ class Inbound_SparkPost_Stats {
             /* For mail service activation */
             add_action('inbound-settings/after-field-value-update', array(__CLASS__, 'sparkpost_activation_routines'));
 
-            /* For processing webhooks */
-            add_action('wp_ajax_nopriv_sparkpost_webhook', array(__CLASS__, 'process_webhook'));
-
             add_action( 'inbound-mailer/unschedule-email' , array( __CLASS__, 'unschedule_email' ) , 10 , 1 );
         }
+
+        /* For processing webhooks */
+        add_action('wp_ajax_nopriv_sparkpost_webhook', array(__CLASS__, 'process_webhook'));
 
         /* process send event */
         add_action( 'sparkpost/send/response' , array( __CLASS__ , 'process_send_event') , 10 , 2 );
