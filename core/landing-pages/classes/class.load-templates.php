@@ -16,9 +16,9 @@ class Landing_Pages_Load_Extensions {
     public static function load_hooks() {
 
         /*load core & uploaded templates */
-        add_action('init',array(__CLASS__,'load_core_template_configurations') , 5  );
-        add_action('init',array(__CLASS__,'load_uploaded_template_configurations') , 5  );
-        add_action('init',array(__CLASS__,'load_theme_privided_template_configurations') , 5  );
+        add_action('admin_init',array(__CLASS__,'load_core_template_configurations') , 5  );
+        add_action('admin_init',array(__CLASS__,'load_uploaded_template_configurations') , 5  );
+        add_action('admin_init',array(__CLASS__,'load_theme_privided_template_configurations') , 5  );
 
         /* Adds core metabox settings to extension data array */
         add_filter('lp_extension_data', array(__CLASS__, 'add_core_setting_data'), 1, 1);
@@ -33,10 +33,6 @@ class Landing_Pages_Load_Extensions {
      */
     public static function add_core_setting_data($data) {
 
-        if (!is_admin()) {
-            return;
-        }
-
         $data['lp']['settings'] = array(array('id' => 'selected-template', 'label' => __('Select Template', 'landing-pages'), 'description' => __("This option provides a placeholder for the selected template data.", 'landing-pages'), 'type' => 'radio', /* this is not honored. Template selection setting is handled uniquely by core. */
             'default' => 'default', 'options' => null /* this is not honored. Template selection setting is handled uniquely by core. */), array('id' => 'main-headline', 'label' => __('Set Main Headline', 'landing-pages'), 'description' => __("Set Main Headline", 'landing-pages'), 'type' => 'text', /* this is not honored. Main Headline Input setting is handled uniquely by core. */
             'default' => '', 'options' => null),);
@@ -48,9 +44,6 @@ class Landing_Pages_Load_Extensions {
      *  Looks for occurances of 'options' in template & extension data arrays and replaces key with 'settings'
      */
     public static function add_legacy_data_support($data) {
-        if (!is_admin()) {
-            return;
-        }
 
         foreach ($data as $parent_key => $subarray) {
             if (is_array($subarray)) {
@@ -78,10 +71,7 @@ class Landing_Pages_Load_Extensions {
      * @returns ARRAY contains template setting data
      */
     public static function load_core_template_configurations() {
-
-        if (!is_admin()) {
-            return;
-        }
+        global $lp_data;
 
         $template_ids = self::get_core_template_ids();
 
@@ -94,11 +84,6 @@ class Landing_Pages_Load_Extensions {
             }
         }
 
-
-        /* Store all template config files in global */
-        $GLOBALS['lp_data'] = $lp_data;
-
-        return $lp_data;
     }
 
     /**
@@ -123,9 +108,6 @@ class Landing_Pages_Load_Extensions {
             }
         }
 
-
-        return $lp_data;
-
     }
 
     /**
@@ -143,9 +125,6 @@ class Landing_Pages_Load_Extensions {
                 include_once(LANDINGPAGES_THEME_TEMPLATES_PATH . "$name/config.php");
             }
         }
-
-
-        return $lp_data;
 
     }
 
@@ -290,9 +269,5 @@ class Landing_Pages_Load_Extensions {
 }
 
 /* Initialize Landing_Pages_Load_Extensions */
-$GLOBALS['Landing_Pages_Load_Extensions'] = new Landing_Pages_Load_Extensions;
+new Landing_Pages_Load_Extensions;
 
-/* Get data array of template settings */
-function lp_get_extension_data() {
-    return Landing_Pages_Load_Extensions::get_extended_data();
-}

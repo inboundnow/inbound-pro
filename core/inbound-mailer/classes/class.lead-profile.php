@@ -42,7 +42,7 @@ if (!class_exists('Inbound_Mailer_Direct_Email_Leads')) {
         public static function add_direct_email_tab($tabs) {
             $args = array(
                 'id' => 'wpleads_lead_tab_direct_email',
-                'label' => __('Email Lead', 'inbound-pro')
+                'label' => __('Email', 'inbound-pro')
             );
 
             array_push($tabs, $args);

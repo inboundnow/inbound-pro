@@ -469,7 +469,7 @@ if (!class_exists('Leads_Manager')) {
 
                             /* show link to lead */
                             echo '<td>';
-                            echo '	<a class="thickbox" href="post.php?action=edit&post=' . $post->ID . '&amp;small_lead_preview=true&amp;TB_iframe=true&amp;width=1345&amp;height=244">' . __('View', 'inbound-pro' ) . '</a>';
+                            echo '	<a class="thickbox inbound-thickbox" href="post.php?action=edit&post=' . $post->ID . '&amp;small_lead_preview=true&amp;TB_iframe=true&amp;width=1345&amp;height=244">' . __('View', 'inbound-pro' ) . '</a>';
                             echo '</td>';
 
                             /* show lead id */
@@ -779,7 +779,6 @@ if (!class_exists('Leads_Manager')) {
          *  Perform lead actions
          */
         public static function ajax_perform_actions() {
-            global $Inbound_Leads;
 
             /*permission check*/
             if (!current_user_can('level_9')) {
@@ -804,27 +803,27 @@ if (!class_exists('Leads_Manager')) {
             if($action == 'add'){
 
                 for($offset; $offset < $limit; $offset++) {
-                    $Inbound_Leads->add_lead_to_list(intval($ids[$offset]), $lead_list_id); // add to list
+                    Inbound_Leads::add_lead_to_list(intval($ids[$offset]), $lead_list_id); // add to list
                 }
 
             } elseif($action == 'remove'){
 
                 for($offset; $offset < $limit; $offset++) {
-                    $Inbound_Leads->remove_lead_from_list(intval($ids[$offset]), $lead_list_id);
+                    Inbound_Leads::remove_lead_from_list(intval($ids[$offset]), $lead_list_id);
                 }
 
             } elseif($action == 'tag'){
                 $tags = explode(',', $tags);
 
                 for($offset; $offset < $limit; $offset++) {
-                    $Inbound_Leads->add_tag_to_lead(intval($ids[$offset]), $tags);
+                    Inbound_Leads::add_tag_to_lead(intval($ids[$offset]), $tags);
                 }
 
             } elseif($action == 'untag'){
                 $tags = explode(',', $tags);
 
                 for($offset; $offset < $limit; $offset++) {
-                    $Inbound_Leads->remove_tag_from_lead(intval($ids[$offset]), $tags);
+                    Inbound_Leads::remove_tag_from_lead(intval($ids[$offset]), $tags);
                 }
 
             } elseif($action == 'replace_tags'){

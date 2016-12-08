@@ -732,5 +732,3 @@ class Inbound_Shortcodes {
 /*	Initialize InboundNow Shortcodes
  *	--------------------------------------------------------- */
 Inbound_Shortcodes::init();
-
-?>

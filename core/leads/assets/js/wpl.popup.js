@@ -1,7 +1,10 @@
-// Loads for lightbox popup screen
 jQuery(document).ready(function($) {
 	var link = window.location.href.replace('&small_lead_preview=true&', '');
 	var link = link.replace('&small_lead_preview=true', '');
-	var full_link = "<a id='view-lead-in-new-window' target='_blank' href='" + link +"'>View Lead in new window</a>";
-   $("#poststuff").before(full_link);
+	var full_link = jQuery('<a>')
+							.attr('id', 'view-lead-in-new-window')
+							.attr('target','_blank')
+							.attr('href',link)
+							.html(' Popout <i class="fa fa-external-link" aria-hidden="true"></i>');
+    full_link.appendTo("#post-body-content");
  });

@@ -122,6 +122,7 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
                 $role->add_cap( 'edit_others_landing_pages' );
                 $role->add_cap( 'edit_published_landing_pages' );
                 $role->add_cap( 'publish_landing_pages' );
+                $role->add_cap( 'delete_landing_pages' );
                 $role->add_cap( 'delete_others_landing_pages' );
                 $role->add_cap( 'delete_private_landing_pages' );
                 $role->add_cap( 'delete_published_landing_pages' );

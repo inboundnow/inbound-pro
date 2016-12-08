@@ -123,7 +123,7 @@ class Landing_Pages_Admin_Notices {
             return;
         }
 
-        $extension_data = lp_get_extension_data();
+        $extension_data = Landing_Pages_Load_Extensions::get_extended_data();;
         $current_template = Landing_Pages_Variations::get_current_template($post->ID);
 
         if ( !isset($extension_data[$current_template]['info']['data_type']) || $extension_data[$current_template]['info']['data_type'] != 'acf4' ) {
@@ -176,7 +176,7 @@ class Landing_Pages_Admin_Notices {
             return;
         }
 
-        $extension_data = lp_get_extension_data();
+        $extension_data = Landing_Pages_Load_Extensions::get_extended_data();;
         $current_template = Landing_Pages_Variations::get_current_template($post->ID);
 
         if ( defined('ACF_PRO') || !isset($extension_data[$current_template]['info']['data_type']) || $extension_data[$current_template]['info']['data_type'] != 'acf5' ) {

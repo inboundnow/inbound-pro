@@ -85,7 +85,7 @@ class Leads_Activation {
 		/* Listen for a manual upgrade call */
 		if (isset($_GET['plugin_action']) && $_GET['plugin_action'] == 'upgrade_routines' && $_GET['plugin'] =='leads' ) {
 			self::run_updates();
-			wp_redirect(admin_url('edit.php?post_type=wp-lead'));
+			wp_redirect(wp_get_referer());
 			exit;
 		}
 

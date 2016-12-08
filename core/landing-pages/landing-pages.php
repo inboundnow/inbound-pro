@@ -3,7 +3,7 @@
 Plugin Name: Landing Pages
 Plugin URI: http://www.inboundnow.com/landing-pages/
 Description: Landing page template framework with variant testing and lead capturing through cooperation with Inbound Now's Leads plugin. This is the stand alone version served through WordPress.org. 
-Version: 2.3.8
+Version: 2.4.1
 Author: Inbound Now
 Author URI: http://www.inboundnow.com/
 
@@ -37,7 +37,7 @@ if (!class_exists('Inbound_Landing_Pages_Plugin')) {
 		*/
 		private static function load_constants() {
 
-			define('LANDINGPAGES_CURRENT_VERSION', '2.3.8' );
+			define('LANDINGPAGES_CURRENT_VERSION', '2.4.1' );
 			define('LANDINGPAGES_URLPATH', plugins_url( '/' , __FILE__ ) );
 			define('LANDINGPAGES_PATH', WP_PLUGIN_DIR.'/'.plugin_basename( dirname(__FILE__) ).'/' );
 			define('LANDINGPAGES_PLUGIN_SLUG', 'landing-pages' );
@@ -74,7 +74,7 @@ if (!class_exists('Inbound_Landing_Pages_Plugin')) {
 					include_once( LANDINGPAGES_PATH . 'classes/class.welcome.php');
 					include_once( LANDINGPAGES_PATH . 'classes/class.install.php');
 					include_once( LANDINGPAGES_PATH . 'classes/class.landing-pages.php');
-					include_once( LANDINGPAGES_PATH . 'classes/class.load-extensions.php');
+					include_once( LANDINGPAGES_PATH . 'classes/class.load-templates.php');
 					include_once( LANDINGPAGES_PATH . 'classes/class.post-type.landing-page.php');
 					include_once( LANDINGPAGES_PATH . 'modules/module.utils.php');
 					include_once( LANDINGPAGES_PATH . 'classes/class.sidebars.php');
@@ -99,8 +99,6 @@ if (!class_exists('Inbound_Landing_Pages_Plugin')) {
 					include_once( LANDINGPAGES_PATH . 'classes/class.sidebars.php');
 					include_once( LANDINGPAGES_PATH . 'classes/class.widgets.php');
 					include_once( LANDINGPAGES_PATH . 'classes/class.landing-pages.php');
-					include_once( LANDINGPAGES_PATH . 'classes/class.load-extensions.php');
-
 
 					BREAK;
 			endswitch;

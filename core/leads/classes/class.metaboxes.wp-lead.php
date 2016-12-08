@@ -1615,6 +1615,8 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                         $parts = explode('-', $field['type']);
                         (isset($parts[1])) ? $size = $parts[1] : $size = 35;
 
+                        $field['value'] = (!is_array($field['value'])) ? $field['value'] : implode(' ' , $field['value']);
+
                         $is_json = self::is_json($field['value']);
 
                         if ($is_json ) {

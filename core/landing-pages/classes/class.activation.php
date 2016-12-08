@@ -110,7 +110,7 @@ class Landing_Pages_Activation {
 		/* Listen for a manual upgrade call */
 		if (isset($_GET['plugin_action']) && $_GET['plugin_action'] == 'upgrade_routines' && $_GET['plugin'] =='landing-pages' ) {
 			self::run_updates();
-			wp_redirect(admin_url('edit.php?post_type=landing-page'));
+			wp_redirect(wp_get_referer());
 			exit;
 		}
 

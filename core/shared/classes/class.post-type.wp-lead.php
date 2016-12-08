@@ -501,7 +501,6 @@ if ( !class_exists('Inbound_Leads') ) {
 				'posts_per_page' => -1
 			);
 
-
 			$query = new WP_Query( $args );
 
 			return $query->post_count;
@@ -577,7 +576,7 @@ if ( !class_exists('Inbound_Leads') ) {
 	/**
 	*  	Register 'wp-lead' CPT
 	*/
-	$GLOBALS['Inbound_Leads'] = new Inbound_Leads();
+	new Inbound_Leads();
 
 
 }

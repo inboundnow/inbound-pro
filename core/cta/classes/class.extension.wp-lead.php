@@ -135,5 +135,5 @@ if ( !class_exists('CTA_WordPress_Leads') ) {
 	}
 
 	/* Load Post Type Pre Init */
-	$GLOBALS['CTA_WordPress_Leads'] = new CTA_WordPress_Leads();
+	new CTA_WordPress_Leads();
 }

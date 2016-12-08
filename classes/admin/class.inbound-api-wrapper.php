@@ -68,6 +68,13 @@ class Inbound_API_Wrapper {
 		/* This call home gets a list of available downloads - We have minimum security because no sensitive information is revealed */
 		$response = wp_remote_post( self::$inbound_api_uri , array(  'body' => array ( 'get_downloads' => true , 'key' => 'hudson11' ) ) );
 
+		/* check for errors */
+		if ( is_wp_error( $response ) ) {
+			$error_message = $response->get_error_message();
+			echo "Something went wrong: $error_message";
+			exit;
+		}
+
 		/* unserialize response */
 		self::$data = unserialize( $response['body'] );
 
@@ -254,6 +261,7 @@ class Inbound_API_Wrapper {
 			if (isset($GLOBALS['is_activating'])) {
 				return '';
 			} else {
+				echo '<pre>'.$json.'</pre>';
 				print_r($array);exit;
 			}
 		}

@@ -77,7 +77,7 @@ class Landing_Pages_Metaboxes {
         );
 
         /* Load Template Settings */
-        $extension_data = lp_get_extension_data();
+        $extension_data = Landing_Pages_Load_Extensions::get_extended_data();;
         $current_template = Landing_Pages_Variations::get_current_template($post->ID);
         foreach ($extension_data as $key => $data) {
 
@@ -264,7 +264,7 @@ class Landing_Pages_Metaboxes {
         wp_localize_script( 'jpicker', 'jpicker', array( 'thispath' => LANDINGPAGES_URLPATH.'assets/libraries/jpicker/images/' ));
         wp_enqueue_style('jpicker-css', LANDINGPAGES_URLPATH . 'assets/libraries/jpicker/css/jPicker-1.1.6.min.css');
 
-        $template_data = lp_get_extension_data();
+        $template_data = Landing_Pages_Load_Extensions::get_extended_data();;
         $template_data_json = json_encode($template_data);
         $template = Landing_Pages_Variations::get_current_template( $post->ID );
         $params = array('selected_template'=>$template, 'templates'=>$template_data_json);
@@ -763,7 +763,7 @@ href='?post=<?php echo $post->ID; ?>&action=edit&action-variation-id=<?php echo 
 
         $toggle = ($screen->parent_file != 'edit.php?post_type=landing-page' || $screen->action != 'add') ? "display:none" : "";
 
-        $extension_data = lp_get_extension_data();
+        $extension_data = Landing_Pages_Load_Extensions::get_extended_data();;
         $extension_data_cats = Landing_Pages_Load_Extensions::get_template_categories();
 
         unset($extension_data['lp']);
@@ -938,7 +938,7 @@ href='?post=<?php echo $post->ID; ?>&action=edit&action-variation-id=<?php echo 
      */
     public static function display_extended_metabox( $post , $args) {
 
-        $extension_data = lp_get_extension_data();
+        $extension_data = Landing_Pages_Load_Extensions::get_extended_data();;
 
         $key = $args['args']['key'];
 

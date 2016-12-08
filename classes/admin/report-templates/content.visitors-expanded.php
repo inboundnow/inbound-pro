@@ -4,9 +4,9 @@
  * Expanded Report
  */
 
-if (!class_exists('Inbound_Impressions_Report')) {
+if (!class_exists('Inbound_Visitors_Report')) {
 
-    class Inbound_Impressions_Report extends Inbound_Reporting_Templates {
+    class Inbound_Visitors_Report extends Inbound_Reporting_Templates {
 
         static $range;
         static $graph_data;
@@ -62,7 +62,7 @@ if (!class_exists('Inbound_Impressions_Report')) {
             <aside class="profile-card">
 
                 <header>
-                    <h1><?php _e('Impressions' , 'inbound-pro'); ?></h1>
+                    <h1><?php _e('Visitors' , 'inbound-pro'); ?></h1>
                     <h2><?php echo $title; ?></h2>
                     <h3><a href="<?php echo $permalink; ?>" target="_self"><?php echo $permalink; ?></a></h3>
                 </header>
@@ -99,8 +99,8 @@ if (!class_exists('Inbound_Impressions_Report')) {
                         trigger: 'axis'
                     },
                     legend: {
-                        data:['<?php echo sprintf( __('Impressions past %s days','inbound-pro') , self::$range ); ?>',
-                            '<?php echo sprintf( __('Impressions prior %s days','inbound-pro') , self::$range ); ?>']
+                        data:['<?php echo sprintf( __('Visitors past %s days','inbound-pro') , self::$range ); ?>',
+                            '<?php echo sprintf( __('Visitors prior %s days','inbound-pro') , self::$range ); ?>']
                     },
                     toolbox: {
                         show : true,
@@ -134,19 +134,19 @@ if (!class_exists('Inbound_Impressions_Report')) {
                     ],
                     series : [
                         {
-                            name:'<?php echo sprintf( __('Impressions past %s days','inbound-pro') , self::$range ); ?>',
+                            name:'<?php echo sprintf( __('Visitors past %s days','inbound-pro') , self::$range ); ?>',
                             type:'line',/*55ddff , 55ff77*/
                             itemStyle: {normal: {color:'#55ddff', label:{show:false}}},
                             areaStyle: {normal: {color:'#55ddff', label:{show:true}}},
-                            data:<?php echo json_encode(self::$graph_data['current']['impressions']); ?>
+                            data:<?php echo json_encode(self::$graph_data['current']['visits']); ?>
 
                         },
                         {
-                            name:'<?php echo sprintf( __('Impressions prior %s days','inbound-pro') , self::$range ); ?>',
+                            name:'<?php echo sprintf( __('Visitors prior %s days','inbound-pro') , self::$range ); ?>',
                             type:'line', /* 3d3d3d , 6655ff */
                             itemStyle: {normal: {color:'#6655ff', label:{show:true}}},
                             areaStyle: {normal: {color:'#6655ff', label:{show:true}}},
-                            data:<?php echo json_encode(self::$graph_data['past']['impressions']); ?>
+                            data:<?php echo json_encode(self::$graph_data['past']['visits']); ?>
 
                         }
                     ]
@@ -167,14 +167,14 @@ if (!class_exists('Inbound_Impressions_Report')) {
             <div class="flexbox-container top-10-widgets">
                 <div>
                     <h3><?php _e( 'Top Visitors' , 'inbound-pro' ); ?></h3>
-                    <table class="top-ten-viewers">
+                    <table class="top-ten-visitors">
                         <thead>
                         <tr>
                             <th scope="col" class="">
                                 #
                             </th>
                             <th scope="col" class="">
-                                <span><?php _e('Viewer' , 'inbound-pro'); ?></span>
+                                <span><?php _e('Visitor' , 'inbound-pro'); ?></span>
                             </th>
                             <th scope="col" class="">
                                 <span><?php _e('Impressions' , 'inbound-pro'); ?></span>
@@ -309,16 +309,19 @@ if (!class_exists('Inbound_Impressions_Report')) {
                         <?php _e('' , 'inbound-pro'); ?>
                     </th>
                     <th scope="col" class="">
-                        <span><?php _e('Name' , 'inbound-pro'); ?></span>
+                        <span><?php _e('Visitor' , 'inbound-pro'); ?></span>
                     </th>
                     <th scope="col" class="">
                         <span><?php _e('Source' , 'inbound-pro'); ?></span>
                     </th>
                     <th scope="col" class="">
+                        <span><?php _e('Impressions' , 'inbound-pro'); ?></span>
+                    </th>
+                    <th scope="col" class="">
                         <span><?php _e('Lead' , 'inbound-pro'); ?></span>
                     </th>
                     <th scope="col" class="">
-                        <span><?php _e('Impression Date' , 'inbound-pro'); ?><i class="fa fa-sort-desc" aria-hidden="true"></i></span>
+                        <span><?php _e('Last Visit' , 'inbound-pro'); ?><i class="fa fa-sort-desc" aria-hidden="true"></i></span>
                     </th>
                 </tr>
                 </thead>
@@ -360,9 +363,14 @@ if (!class_exists('Inbound_Impressions_Report')) {
                             ?>
                         </td>
                         <td class="" >
-                            <p class="mod-date"><em> <?php echo $event['source']; ?>
+                            <p class="mod-date"><em> <?php echo date("F j, Y, g:i a" , strtotime($event['datetime'])); ?>
                                 </em>
                             </p>
+                        </td>
+                        <td class="" >
+                            <a href="<?php echo admin_url('index.php?action=inbound_generate_report&class=Inbound_Visitor_Report&'.($lead_exists ? 'lead_uid=' . $event['lead_uid'] : 'lead_uid='.$event['lead_uid'] ) . '&page_id='.intval($_REQUEST['page_id']).'&range='.self::$range.'&tb_hide_nav=true&TB_iframe=true&width=1503&height=400'); ?>" target="_self">
+                                <?php echo $event['count']; ?>
+                            </a>
                         </td>
                         <td class="">
                             <a href="<?php echo ($lead_exists) ? 'post.php?action=edit&post=' . $event['lead_id'] . '&amp;small_lead_preview=true&tb_hide_nav=true' : '#'  ; ?>" target="_self">
@@ -372,7 +380,7 @@ if (!class_exists('Inbound_Impressions_Report')) {
                             </a>
                         </td>
                         <td class="" >
-                            <p class="mod-date"><em> <?php echo date("F j, Y, g:i a" , strtotime($event['datetime'])); ?>
+                            <p class="mod-date"><em> <?php echo $event['source']; ?>
                                 </em>
                             </p>
                         </td>
@@ -388,16 +396,19 @@ if (!class_exists('Inbound_Impressions_Report')) {
                         <?php _e('' , 'inbound-pro'); ?></th>
 
                     <th scope="col" class=" column-first-name  desc">
-                        <span><?php _e('Name' , 'inbound-pro'); ?></span>
+                        <span><?php _e('Visitor' , 'inbound-pro'); ?></span>
                     </th>
                     <th scope="col" class="  desc">
                         <span><?php _e('Last Source' , 'inbound-pro'); ?></span>
+                    </th>
+                    <th scope="col" class=" column-title column-primary  desc">
+                        <span><?php _e('Impressions' , 'inbound-pro'); ?></span>
                     </th>
                     <th scope="col" class="  desc">
                         <span><?php _e('Lead' , 'inbound-pro'); ?></span>
                     </th>
                     <th scope="col" class="  desc">
-                        <span><?php _e('Impression Date' , 'inbound-pro'); ?><i class="fa fa-sort-desc" aria-hidden="true"></i></span>
+                        <span><?php _e('Last Visit' , 'inbound-pro'); ?><i class="fa fa-sort-desc" aria-hidden="true"></i></span>
                     </th>
                 </tr>
                 </tfoot>
@@ -730,7 +741,7 @@ if (!class_exists('Inbound_Impressions_Report')) {
                 'start_date' => self::$start_date,
                 'end_date' => self::$end_date
             );
-            self::$graph_data['current'] = Inbound_Events::get_page_views_by_dates($params);
+            self::$graph_data['current'] = Inbound_Events::get_visitors_by_dates($params);
 
             /* get daily visitor counts - group by lead_uid */
             $params = array(
@@ -739,7 +750,7 @@ if (!class_exists('Inbound_Impressions_Report')) {
                 'start_date' => self::$past_start_date,
                 'end_date' => self::$past_end_date
             );
-            self::$graph_data['past'] = Inbound_Events::get_page_views_by_dates($params);
+            self::$graph_data['past'] = Inbound_Events::get_visitors_by_dates($params);
 
             /* get all visitors - group by lead_uid */
             $params = array(
@@ -748,7 +759,7 @@ if (!class_exists('Inbound_Impressions_Report')) {
                 'start_date' => self::$start_date,
                 'end_date' => self::$end_date
             );
-            self::$visits = Inbound_Events::get_page_views_by('page_id' , $params);
+            self::$visits = Inbound_Events::get_visitors($params);
 
             /* get top 10 visitors */
             $params = array(
@@ -784,7 +795,7 @@ if (!class_exists('Inbound_Impressions_Report')) {
             /* create new temporary array with different structure */
             $temp = array();
             foreach (self::$graph_data[$period] as $key=> $data) {
-                $temp[$data['date']] = $data['impressions_per_day'];
+                $temp[$data['date']] = $data['visitors'];
             }
 
             $date_array = array();
@@ -793,21 +804,21 @@ if (!class_exists('Inbound_Impressions_Report')) {
             foreach ($dates as $index => $date) {
                 if (isset($temp[$date])) {
                     $fromatted[$date]['date'] = $date;
-                    $fromatted[$date]['impressions'] = $temp[$date];
+                    $fromatted[$date]['visits'] = $temp[$date];
                     $date_array[$date] = $date;
                     $visits_array[]= $temp[$date];
                 } else {
                     $formatted[$date]['date'] = $date;
-                    $formatted[$date]['impressions'] = 0;
+                    $formatted[$date]['visits'] = 0;
                     $date_array[$date] = $date;
                     $visits_array[]= 0;
                 }
             }
 
-            return array( 'data' => $formatted, 'dates' => array_keys($formatted), 'impressions' => array_values($visits_array));
+            return array( 'data' => $formatted, 'dates' => array_keys($formatted), 'visits' => array_values($visits_array));
         }
     }
 
-    new Inbound_Impressions_Report;
+    new Inbound_Visitors_Report;
 
 }

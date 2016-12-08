@@ -17,11 +17,24 @@ margin-left: 20px !important;
 overflow: hidden !important;
 }
 #view-lead-in-new-window {
-	position: absolute;
-	top: -20px;
-	font-size: 20px;
+	font-size: 10px;
 	text-decoration: none;
+	float:right;
 }
-.update-nag, #lead-header {
+.update-nag {
   display: none !important;
+}
+#notice {
+	display:none;
+}
+
+body  #postbox-container-1 {
+	margin-top:0px;
+}
+
+.wrap  {
+	padding-top:20px;
+}
+.wrap h1 {
+	display:none;
 }

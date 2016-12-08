@@ -38,11 +38,16 @@ if (!class_exists('Inbound_Ajax')) {
 		}
 
 		/**
-		 *
+		 * Listen for page view event
 		 */
 		public static function track_lead() {
 
 			global $wpdb;
+
+			/* check for known bots and ignore */
+			if (isset($_SERVER['HTTP_USER_AGENT']) && preg_match('/bot|crawl|slurp|spider/i', $_SERVER['HTTP_USER_AGENT'])) {
+				return;
+			}
 
 			$lead_data['lead_id'] = (isset($_POST['wp_lead_id'])) ? $_POST['wp_lead_id'] : '';
 			$lead_data['nature'] = (isset($_POST['nature'])) ? $_POST['nature'] : 'non-conversion'; /* what is nature? */
@@ -68,8 +73,7 @@ if (!class_exists('Inbound_Ajax')) {
 				$_SESSION['inbound_page_views'] = $page_views;
 			}
 
-			/* update lead data */
-
+			/* update lead data and set lead lists into cookies */
 			if ($lead_data['lead_id']) {
 				self::update_page_view_obj($lead_data);
 				self::set_current_lists($lead_data['lead_id']);
