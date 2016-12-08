@@ -111,6 +111,8 @@ class Inbound_Updater {
      * API Call -
      */
     public static function api_request() {
+        global $inbound_settings;
+
         self::$response  = wp_remote_get( self::$api_url );
 
         if ( is_wp_error(self::$response) || empty(self::$response['body']) ) {
@@ -134,6 +136,7 @@ class Inbound_Updater {
         self::$info->slug = self::$slug;
         self::$info->plugin = self::$name;
         self::$info->last_updated = '';
+        self::$info->sections =  (array) self::$info->sections;
         self::$info->sections =  (array) self::$info->sections;
         //self::$info->package = add_query_arg( array( 'api' => self::$api_key , 'site' => self::$domain ) , self::$info->package );
     }

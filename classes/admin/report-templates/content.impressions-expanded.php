@@ -269,7 +269,16 @@ if (!class_exists('Inbound_Impressions_Report')) {
                                     <span class="top-count-num"><?php echo $i; ?></span>
                                 </td>
                                 <td class="">
-                                    <?php echo $event['source']; ?>
+                                    <?php
+
+                                    if (strstr( $event['source'] , 'http' ) ) {
+                                        $end = ( strlen($event['source']) > 65 ) ? '...' : '';
+                                        echo '<a target="_blank" href="'.$event['source'].'">'. substr($event['source'], 0 , 65).$end .'</a>';
+                                    } else {
+                                        echo $event['source'];
+                                    }
+
+                                    ?>
                                 </td>
                                 <td class="" >
                                     <a target="_self" href="<?php echo admin_url('index.php?action=inbound_generate_report&page_id='.intval($_REQUEST['page_id']).'&source='.urlencode($event['source']).'&class=Inbound_Visitors_Report&range='.self::$range.'&tb_hide_nav=true'); ?>" class="">
@@ -360,9 +369,16 @@ if (!class_exists('Inbound_Impressions_Report')) {
                             ?>
                         </td>
                         <td class="" >
-                            <p class="mod-date"><em> <?php echo $event['source']; ?>
-                                </em>
-                            </p>
+                            <?php
+
+                            if (strstr( $event['source'] , 'http' ) ) {
+                                $end = ( strlen($event['source']) > 65 ) ? '...' : '';
+                                echo '<a target="_blank" href="'.$event['source'].'">'. substr($event['source'], 0 , 65).$end .'</a>';
+                            } else {
+                                echo $event['source'];
+                            }
+
+                            ?>
                         </td>
                         <td class="">
                             <a href="<?php echo ($lead_exists) ? 'post.php?action=edit&post=' . $event['lead_id'] . '&amp;small_lead_preview=true&tb_hide_nav=true' : '#'  ; ?>" target="_self">
@@ -789,11 +805,11 @@ if (!class_exists('Inbound_Impressions_Report')) {
 
             $date_array = array();
             $visits_array = array();
-            $fromatted = array();
+            $formatted = array();
             foreach ($dates as $index => $date) {
                 if (isset($temp[$date])) {
-                    $fromatted[$date]['date'] = $date;
-                    $fromatted[$date]['impressions'] = $temp[$date];
+                    $formatted[$date]['date'] = $date;
+                    $formatted[$date]['impressions'] = $temp[$date];
                     $date_array[$date] = $date;
                     $visits_array[]= $temp[$date];
                 } else {
@@ -805,6 +821,7 @@ if (!class_exists('Inbound_Impressions_Report')) {
             }
 
             return array( 'data' => $formatted, 'dates' => array_keys($formatted), 'impressions' => array_values($visits_array));
+
         }
     }
 

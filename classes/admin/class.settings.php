@@ -443,7 +443,7 @@ class Inbound_Pro_Settings {
 							'id'	=> 'translations-html',
 							'type'	=> 'html',
 							'label'	=> __( 'Help Inbound Now Translate' , 'inbound-pro' ),
-							'description'	=> sprintf( __( 'Click %shere%s to help improve the quality of Inbound Now translations.' , 'inbound-pro' ), '<a href="https://www.transifex.com/inboundnow/inbound-pro/">' , '</a>' ),
+							'description'	=> sprintf( __( 'Click %shere%s to help improve the quality of Inbound Now translations.' , 'inbound-pro' ), '<a href="http://docs.inboundnow.com/guide/inbound-translations-project/">' , '</a>' ),
 						)
 					),
 				)

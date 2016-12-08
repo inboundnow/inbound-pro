@@ -510,7 +510,7 @@ class Leads_Post_Type {
         $lead_id = LeadStorage::lookup_lead_by_email($_GET['lead-email-redirect']);
 
         if ($lead_id) {
-            $redirect = 'post.php?post=' . $lead_ID . '&action=edit';
+            $redirect = 'post.php?post=' . $lead_id . '&action=edit';
             wp_redirect($redirect, 301);
             exit;
         }
