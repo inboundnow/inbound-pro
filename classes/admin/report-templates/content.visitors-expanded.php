@@ -275,7 +275,7 @@ if (!class_exists('Inbound_Visitors_Report')) {
                                         $end = ( strlen($event['source']) > 65 ) ? '...' : '';
                                         echo '<a target="_blank" href="'.$event['source'].'">'. substr($event['source'], 0 , 65).$end .'</a>';
                                     } else {
-                                        echo $event['source'];
+                                       echo ($event['source']) ? $event['source']: __('Direct Traffic' , 'inbound-pro') ;
                                     }
 
                                     ?>
@@ -395,7 +395,7 @@ if (!class_exists('Inbound_Visitors_Report')) {
                                 $end = ( strlen($event['source']) > 65 ) ? '...' : '';
                                 echo '<a target="_blank" href="'.$event['source'].'">'. substr($event['source'], 0 , 65).$end .'</a>';
                             } else {
-                                echo $event['source'];
+                                echo ($event['source']) ? $event['source']: __('Direct Traffic' , 'inbound-pro') ;
                             }
 
                             ?>
@@ -729,6 +729,10 @@ if (!class_exists('Inbound_Visitors_Report')) {
                     margin-top:10px;
                     margin-left:auto;
                     margin-right:auto;
+                }
+
+                .top-ten-viewers td, .top-ten-sources td {
+                    height:40px;
                 }
 
             </style>
