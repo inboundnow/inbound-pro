@@ -1098,7 +1098,7 @@ if (!class_exists('Inbound_Forms')) {
                                  <w:anchorlock/>
                                  <center style="color:#ffffff;font-family:sans-serif;font-size:13px;font-weight:bold;">' . __('View Lead', 'inbound-pro') . '</center>
                                </v:roundrect>
-                             <![endif]--><a href="{{admin-url}}edit.php?post_type=wp-lead&s={{lead-email-address}}"
+                             <![endif]--><a href="{{admin-url}}edit.php?post_status=all&post_type=wp-lead&s={{lead-email-address}}"
                              style="background-color:#3A9FD1;border:1px solid #7490af;border-radius:4px;color:#ffffff;display:inline-block;font-family:sans-serif;font-size:18px;font-weight:bold;line-height:40px;text-align:center;text-decoration:none;width:250px;-webkit-text-size-adjust:none;mso-hide:all;" title="' . __('View the full Lead details in WordPress', 'inbound-pro') . '">' . __('View Full Lead Details', 'inbound-pro') . '</a>
                            </div>
                           </td>

@@ -828,7 +828,11 @@ class Inbound_Events {
 
         $query .= ') AS s1 GROUP BY source';
 
-        $query .= ' ORDER BY visitors DESC, page_views DESC ';
+        $query .= ' ORDER BY visitors DESC, page_views DESC  ';
+
+        if (isset($params['limit'])) {
+            $query .= ' LIMIT '.$params['limit'];;
+        }
 
         $results = $wpdb->get_results( $query , ARRAY_A );
 

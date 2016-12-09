@@ -237,7 +237,7 @@ if (!class_exists('Inbound_Impressions_Report')) {
 
                 </div>
                 <div>
-                    <h3><?php _e( 'Top Referrers' , 'inbound-pro' ); ?></h3>
+                    <h3><?php _e( 'Top Sources' , 'inbound-pro' ); ?></h3>
 
                     <table class="top-ten-sources">
                         <thead>
@@ -275,7 +275,7 @@ if (!class_exists('Inbound_Impressions_Report')) {
                                         $end = ( strlen($event['source']) > 65 ) ? '...' : '';
                                         echo '<a target="_blank" href="'.$event['source'].'">'. substr($event['source'], 0 , 65).$end .'</a>';
                                     } else {
-                                        echo $event['source'];
+                                        echo ($event['source']) ? $event['source']: __('Direct Traffic' , 'inbound-pro') ;
                                     }
 
                                     ?>
@@ -375,7 +375,7 @@ if (!class_exists('Inbound_Impressions_Report')) {
                                 $end = ( strlen($event['source']) > 65 ) ? '...' : '';
                                 echo '<a target="_blank" href="'.$event['source'].'">'. substr($event['source'], 0 , 65).$end .'</a>';
                             } else {
-                                echo $event['source'];
+                                echo ($event['source']) ? $event['source']: __('Direct Traffic' , 'inbound-pro') ;
                             }
 
                             ?>
@@ -718,6 +718,10 @@ if (!class_exists('Inbound_Impressions_Report')) {
                     margin-top:10px;
                     margin-left:auto;
                     margin-right:auto;
+                }
+
+                .top-ten-viewers td, .top-ten-sources td {
+                    height:40px;
                 }
 
             </style>
