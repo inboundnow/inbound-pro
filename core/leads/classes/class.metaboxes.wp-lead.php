@@ -553,7 +553,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             ?>
 
             <div class="quick-stat-label">
-                <div class="label_1"><?php _e('Inbound Form Submissions ', 'inbound-pro'); ?>:</div>
+                <div class="label_1"><?php echo Inbound_Events::get_event_label('inbound_form_submission'); ?>:</div>
                 <div class="label_2">
                     <?php echo count(self::$form_submissions); ?>
                 </div>

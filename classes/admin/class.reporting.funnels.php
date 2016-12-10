@@ -106,7 +106,7 @@ class Inbound_Funnel_Reporting {
     }
 
     public static function load_event_select() {
-        self::$events = Inbound_Events::get_events();
+        self::$events = Inbound_Events::get_event_names();
 
         /* setup event blacklist - some events blacklisted are depriciated events */
         $blacklist = array('mute','inbound_mute','inbound_unsubscribe','inbound_email_click','click','inbound_page_view');

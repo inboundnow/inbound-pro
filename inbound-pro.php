@@ -167,9 +167,11 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.translations.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.reporting.templates.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/report-templates/content.quick-view.php');
-				include_once( INBOUND_PRO_PATH . 'classes/admin/report-templates/content.impressions-expanded.php');
-				include_once( INBOUND_PRO_PATH . 'classes/admin/report-templates/content.visitor-expanded.php');
-				include_once( INBOUND_PRO_PATH . 'classes/admin/report-templates/content.visitors-expanded.php');
+				include_once( INBOUND_PRO_PATH . 'classes/admin/report-templates/content.impressions.php');
+				include_once( INBOUND_PRO_PATH . 'classes/admin/report-templates/content.visitor-pageviews.php');
+				include_once( INBOUND_PRO_PATH . 'classes/admin/report-templates/content.visitors.php');
+				include_once( INBOUND_PRO_PATH . 'classes/admin/report-templates/content.events.php');
+				include_once( INBOUND_PRO_PATH . 'classes/admin/report-templates/content.visitor-events.php');
 
 				//include_once( INBOUND_PRO_PATH . 'classes/admin/class.reporting.funnels.php');
 
