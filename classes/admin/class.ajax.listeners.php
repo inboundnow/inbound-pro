@@ -98,6 +98,8 @@ class Inbound_Pro_Admin_Ajax_Listeners {
             exit;
         }
 
+        //error_log(print_r($decoded,true));
+
         if (isset($decoded['customer'])) {
             $customer['is_pro'] = self::get_highest_price_id($decoded['customer']);
             Inbound_Options_API::update_option('inbound-pro', 'customer', $decoded['customer']);

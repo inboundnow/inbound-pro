@@ -307,7 +307,7 @@ if ( !class_exists('Inbound_Quick_View') ) {
 						</label>
 					</td>
 					<td class='ia-td-value'>
-						<a href='#' class='count'><?php echo self::$statistics['actions']['current'][self::$range]; ?></a>
+						<a href='<?php echo admin_url('index.php?action=inbound_generate_report&page_id='.$post->ID.'&class=Inbound_Events_Report&range='.self::$range.'&tb_hide_nav=true&TB_iframe=true&width=1503&height=400'); ?>' class='thickbox inbound-thickbox'><?php echo self::$statistics['actions']['current'][self::$range]; ?></a>
 					</td>
 					<td class='ia-td-value'>
 					<span class='stat label  <?php echo (self::$statistics['actions']['difference'][self::$range] > 0) ? 'label-success' : 'label-warning'; ?>' title="<?php echo sprintf(__('%s actions in the last %s days versus %s actions in the prior %s day period)', 'inbound-pro'), self::$statistics['actions']['current'][self::$range], self::$range, self::$statistics['actions']['past'][self::$range], self::$range); ?>" data-toggle="tooltip" data-placement="left"><?php echo self::prepare_rate_format(self::$statistics['actions']['difference'][self::$range]); ?></a>

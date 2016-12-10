@@ -217,7 +217,7 @@ if (!class_exists('Inbound_Impressions_Report')) {
                                     ?>
                                 </td>
                                 <td class="" >
-                                    <a href="<?php echo admin_url('index.php?action=inbound_generate_report&class=Inbound_Visitor_Report&'
+                                    <a href="<?php echo admin_url('index.php?action=inbound_generate_report&class=Inbound_Visitor_Impressions_Report&'
                                                                     .($lead_exists ? 'lead_uid='. $event['lead_uid'] : 'lead_uid='.$event['lead_uid'] )
                                                                     .(isset($_REQUEST['source']) ? '&source='. urlencode(sanitize_text_field($_REQUEST['source'])) : '' )
                                                                     . '&page_id='.intval($_REQUEST['page_id'])

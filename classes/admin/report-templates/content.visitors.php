@@ -731,7 +731,7 @@ if (!class_exists('Inbound_Visitors_Report')) {
                     margin-right:auto;
                 }
 
-                .top-ten-viewers td, .top-ten-sources td {
+                .top-ten-visitors td, .top-ten-sources td {
                     height:40px;
                 }
 

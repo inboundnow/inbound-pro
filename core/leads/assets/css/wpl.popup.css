@@ -38,3 +38,7 @@ body  #postbox-container-1 {
 .wrap h1 {
 	display:none;
 }
+
+body .wp-heading-inline,body .page-title-action {
+	display:none !important;
+}

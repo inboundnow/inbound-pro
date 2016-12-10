@@ -1,9 +1,9 @@
 <?php
 
 
-if (!class_exists('Inbound_Visitor_Report')) {
+if (!class_exists('Inbound_Visitor_Event_Report')) {
 
-    class Inbound_Visitor_Report extends Inbound_Reporting_Templates {
+    class Inbound_Visitor_Event_Report extends Inbound_Reporting_Templates {
 
         static $lead;
         static $range;
@@ -21,18 +21,7 @@ if (!class_exists('Inbound_Visitor_Report')) {
             }
         }
 
-        /**
-         *    Adds template to list of available templates
-         */
-        public static function define_template($templates) {
 
-            $templates[get_class()] = array(
-                'class_name' => get_class(),
-                'label' => __('Content Impressions Expanded', 'inbound-pro'),
-                'report_type' => 'content'
-            );
-
-        }
 
         /**
          *    Loads the analytics template
@@ -450,6 +439,6 @@ if (!class_exists('Inbound_Visitor_Report')) {
         }
     }
 
-    new Inbound_Visitor_Report;
+    new Inbound_Visitor_Event_Report;
 
 }
