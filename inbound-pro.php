@@ -128,6 +128,7 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 
 			/* load settings global */
 			$inbound_settings = Inbound_Options_API::get_option('inbound-pro', 'settings', array());
+			$inbound_settings = (is_array($inbound_settings)) ? $inbound_settings : array();
 
 			/* determine customer access level */
 			self::get_customer_status();
