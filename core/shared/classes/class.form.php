@@ -795,6 +795,13 @@ if (!class_exists('Inbound_Forms')) {
          */
         public static function send_conversion_admin_notification($form_post_data, $form_meta_data) {
 
+            /* Get Lead Email Address */
+            $lead_email = self::get_email_from_post_data($form_post_data);
+
+            if (!$lead_email) {
+                return;
+            }
+
             if ($template = self::get_new_lead_email_template()) {
 
                 add_filter('wp_mail_content_type', 'inbound_set_html_content_type');
@@ -909,25 +916,7 @@ if (!class_exists('Inbound_Forms')) {
             }
 
             /* Get Lead Email Address */
-            $lead_email = false;
-            foreach ($form_post_data as $key => $value) {
-                if (preg_match('/email|e-mail/i', $key)) {
-                    $lead_email = $form_post_data[$key];
-                }
-            }
-
-            /* Redundancy */
-            if (!$lead_email) {
-                if (isset($form_post_data['email'])) {
-                    $lead_email = $form_post_data['email'];
-                } else if (isset($form_post_data['e-mail'])) {
-                    $lead_email = $form_post_data['e-mail'];
-                } else if (isset($form_post_data['wpleads_email_address'])) {
-                    $lead_email = $form_post_data['wpleads_email_address'];
-                } else {
-                    $lead_email = 'null map email field';
-                }
-            }
+            $lead_email = self::get_email_from_post_data($form_post_data);
 
             if (!$lead_email) {
                 return;
@@ -977,8 +966,37 @@ if (!class_exists('Inbound_Forms')) {
 
         }
 
+        public static function get_email_from_post_data( $form_post_data ) {
+            /* Get Lead Email Address */
+            $lead_email = '';
+            foreach ($form_post_data as $key => $value) {
+                if (preg_match('/email|e-mail/i', $key)) {
+                    $lead_email = $form_post_data[$key];
+                }
+            }
+
+            /* Redundancy */
+            if (!$lead_email) {
+                if (isset($form_post_data['email'])) {
+                    $lead_email = $form_post_data['email'];
+                } else if (isset($form_post_data['e-mail'])) {
+                    $lead_email = $form_post_data['e-mail'];
+                } else if (isset($form_post_data['wpleads_email_address'])) {
+                    $lead_email = $form_post_data['wpleads_email_address'];
+                }
+            }
+
+            $lead_email = str_replace('%40' , '@' , $lead_email);
+
+            if ($lead_email == 'false') {
+                $lead_email = false;
+            }
+            return $lead_email;
+        }
+
         /**
          *  Get Email Template for New Lead Notification
+         *
          */
         static function get_new_lead_email_template() {
 
