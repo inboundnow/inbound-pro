@@ -76,6 +76,6 @@ if ( !class_exists( 'Inbound_Automation_Action_Wait' ) ) {
 	}
 
 	/* Load Action */
-	$Inbound_Automation_Action_Wait = new Inbound_Automation_Action_Wait();
+	new Inbound_Automation_Action_Wait();
 
 }

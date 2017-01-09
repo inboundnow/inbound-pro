@@ -78,7 +78,7 @@ class Leads_Post_Type {
             "last-name" => __('Last Name', 'inbound-pro' ),
             "title" => __('Email', 'inbound-pro' ),
             "status" => __('Status', 'inbound-pro' ),
-            'action-count' => __('Actions', 'inbound-pro' ),
+            'action-count' => (class_exists('Inbound_Analytics')) ? __('Logs', 'inbound-pro' ) : __('Events', 'inbound-pro' ),
             "page-views" => __('Page Views', 'inbound-pro' ),
             "modified" => __('Updated', 'inbound-pro' )
         );
@@ -133,8 +133,17 @@ class Leads_Post_Type {
                 self::display_status_pill($lead_status);
                 break;
             case "action-count":
-                $actions = Inbound_Events::get_total_activity($lead_id , 'any' , array('inbound_list_add'));
-                echo $actions;
+                if (class_exists('Inbound_Analytics')) {
+                    $actions = Inbound_Events::get_total_activity($lead_id , 'any' , array());
+                    ?>
+                    <a href='<?php echo admin_url('index.php?action=inbound_generate_report&class=Inbound_Events_Report&range=10000&lead_id='.$post->ID.'&show_chart=false&title='.__('Logs','inbound-pro') .'&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox' title="<?php echo  sprintf(__('past %s days','inbound-pro') , 99999 ); ?>">
+                        <?php echo $actions; ?>
+                    </a>
+                    <?php
+                } else {
+                    $actions = Inbound_Events::get_total_activity($lead_id , 'any' , array('inbound_list_add','sparkpost_delivery'));
+                    echo $actions;
+                }
                 break;
             case "custom":
                 if (isset($_GET['wp_leads_filter_field'])) {
@@ -148,7 +157,17 @@ class Leads_Post_Type {
                 break;
             case "page-views":
                 $page_view_count = Inbound_Events::get_page_views_count($lead_id);
-                echo($page_view_count ? $page_view_count : 0);
+                if (class_exists('Inbound_Analytics')) {
+                    ?>
+                    <a href='<?php echo admin_url('index.php?action=inbound_generate_report&class=Inbound_Visitor_Impressions_Report&range=10000&lead_id='.$post->ID.'&show_chart=false&title='.__('Logs','inbound-pro') .'&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox' title="<?php echo  sprintf(__('past %s days','inbound-pro') , 99999 ); ?>">
+                        <?php echo $page_view_count; ?>
+                    </a>
+                    <?php
+                } else {
+                    echo($page_view_count ? $page_view_count : 0);
+                }
+
+
                 break;
             case "company":
                 $company = get_post_meta($lead_id, 'wpleads_company_name', true);

@@ -24,6 +24,12 @@ function row_add_callback() {
     InboundShortcodes.generateChild();
     jQuery('.child-clone-row').last().find('input').first().focus(); // focus on new input
     //InboundShortcodes.updatePreview();
+
+    /* make sure correct hidden fields are displayed */
+    setTimeout(function() {
+        jQuery('select[data-field-name="field_type"]').trigger('change');
+    } , 1000);
+
 }
 
 var InboundShortcodes = {
@@ -92,7 +98,7 @@ var InboundShortcodes = {
                     row_output = row_output.replace(re, val);
                 }
                 else {
-                    row_output = row_output.replace(re, input.val());
+                    row_output = row_output.replace(re, input.val().replace(/"/g, "'"));
                 }
                 //console.log(newoutput);
             });
@@ -551,23 +557,23 @@ var InboundShortcodes = {
                     return false;
                 }
             }
-            
+
             /*Redirect whitespace cleaning*/
             if(form_values.indexOf("&inbound_shortcode_redirect_2=+")){
-		var form_values2 = form_values.substring(form_values.indexOf("&inbound_shortcode_redirect_2=") + 30, form_values.indexOf("inbound_shortcode_notify"));
-		var saveString = form_values2;
-		var length = form_values2.length;
-		
-		for(i = 0; i < length; i++){
-			if(form_values2.charAt(0) == '+'){
-				form_values2 = form_values2.replace('+', '');
-			}else{
-				break;
-			}
-		}
-		form_values = form_values.replace(saveString, form_values2);
-		} 
-            
+                var form_values2 = form_values.substring(form_values.indexOf("&inbound_shortcode_redirect_2=") + 30, form_values.indexOf("inbound_shortcode_notify"));
+                var saveString = form_values2;
+                var length = form_values2.length;
+
+                for(i = 0; i < length; i++){
+                    if(form_values2.charAt(0) == '+'){
+                        form_values2 = form_values2.replace('+', '');
+                    }else{
+                        break;
+                    }
+                }
+                form_values = form_values.replace(saveString, form_values2);
+            }
+
             if (shortcode_name === "insert_inbound_form_shortcode" && form_name == "") {
                 jQuery(".step-item.first").click();
 

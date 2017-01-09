@@ -38,6 +38,7 @@ if ( !class_exists( 'Inbound_Automation_Action_Create_Lead' ) ) {
          */
         public static function run_action( $action , $trigger_data ) {
 
+            global $Inbound_Leads;
             $args = array();
 
             /* support for user_register hook */
@@ -76,6 +77,6 @@ if ( !class_exists( 'Inbound_Automation_Action_Create_Lead' ) ) {
     }
 
     /* Load Action */
-    $Inbound_Automation_Action_Create_Lead = new Inbound_Automation_Action_Create_Lead();
+    new Inbound_Automation_Action_Create_Lead();
 
 }

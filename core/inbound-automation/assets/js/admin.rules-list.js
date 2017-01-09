@@ -17,11 +17,15 @@ var InboundRulesListingsJs = ( function() {
         listeners: function() {
             /* Toggles rule status */
             jQuery('body').on( 'click' , '.toggle-rule-status' , function() {
+                var status = 'off';
+                if (jQuery(this).attr('checked') == 'checked') {
+                    status='on';
+                }
                 /* Run Ajax Call */
                 InboundRulesListingsJs.run_ajax({
                     'action' : 'automation_rule_toggle_status',
                     'rule_id' : jQuery(this).data('rule-id'),
-                    'status' : jQuery(this).attr('checked')
+                    'status' : status
                 } , 'json' );
             });
 

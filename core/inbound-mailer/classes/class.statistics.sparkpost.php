@@ -702,6 +702,9 @@ class Inbound_SparkPost_Stats {
             return;
         }
 
+        /* clear funnel from session if it exists */
+        $_SESSION['inbound_page_views'] = "";
+
         /* recipients */
         $args = array(
             'event_name' => 'sparkpost_delivery',

@@ -602,14 +602,16 @@ if (!class_exists('Inbound_Mailer_Direct_Email_Leads')) {
 
 
             /*get the current time according to the wp format*/
-            $time = new DateTime('', new DateTimeZone(get_option('timezone_string')));
+            $timezone = get_option('timezone_string' , 'EST');
+            $timezone = ($timezone) ? $timezone : 'EST';
+            $time = new DateTime('', new DateTimeZone($timezone));
             $format = get_option('date_format') . ' \a\t ' . get_option('time_format');
 
 
             /*assemble the post data*/
             $direct_email = array(
                 'post_title' => __('Direct email to ', 'inbound-pro') . $data['recipient_email']['value'] . __(' on ', 'inbound-pro') . $time->format($format),
-                'post_content' => $data['email_content']['value'],
+                'post_content' => wpautop($data['email_content']['value']),
                 'post_status' => 'direct_email',
                 'post_author' => $data['user_id'],
                 'post_type' => 'inbound-email',
@@ -636,7 +638,7 @@ if (!class_exists('Inbound_Mailer_Direct_Email_Leads')) {
 
             /*add the settings to the email*/
             Inbound_Email_Meta::update_settings($data['direct_email_id'], $mailer_settings);
-error_log(print_r($data,true));
+
             /*sending args*/
             $args = array(
                 'email_address' => $data['recipient_email']['value'],

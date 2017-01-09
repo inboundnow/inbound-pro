@@ -31,7 +31,7 @@ function inbound_stats_lookup( email_ids, i , callback , response ) {
             action: 'inbound_load_email_row_stats',
             email_id: email_id,
             fast_ajax: true,
-            load_plugins: ["_inbound-now/inbound-pro.php"]
+            load_plugins: ["inbound-pro/inbound-pro.php"]
         },
         dataType: 'json',
         timeout: 20000,

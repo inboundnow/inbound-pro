@@ -107,47 +107,6 @@ if ( !class_exists('Leads_Activation_Update_Routines') ) {
 
 		}
 
-
-		/**
-		 * @introduced: 3.0.1
-		 * @migration-type: alter inbound_events table
-		 * @mirgration: adds column list_id to events table
-		 */
-		public static function repair_events_table() {
-
-			/* ignore if not applicable */
-			$previous_installed_version = get_transient('leads_current_version');
-
-			if (  !$previous_installed_version || version_compare($previous_installed_version , "3.0.1") === 1 )  {
-				return;
-			}
-
-			global $wpdb;
-
-			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-			$table_name = $wpdb->prefix . "inbound_events";
-
-			/* add columns funnel and source to legacy table */
-			$row = $wpdb->get_results(  "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '{$table_name}' AND column_name = 'source'"  );
-			if(empty($row)){
-				// do your stuff
-				$wpdb->get_results( "ALTER TABLE {$table_name} ADD `funnel` text NOT NULL" );
-				$wpdb->get_results( "ALTER TABLE {$table_name} ADD `source` text NOT NULL" );
-			}
-
-			/* add columns list_id inbound events table */
-			$row = $wpdb->get_results(  "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '{$table_name}' AND column_name = 'list_id'"  );
-			if(empty($row)){
-				$wpdb->get_results( "ALTER TABLE {$table_name} ADD `list_id` mediumint(20) NOT NULL" );
-			}
-
-			/* add columns ip inbound_page_views table */
-			$table_name = $wpdb->prefix . "inbound_page_views";
-			$row = $wpdb->get_results(  "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '{$table_name}' AND column_name = 'ip'"  );
-			if(empty($row)){
-				$wpdb->get_results( "ALTER TABLE {$table_name} ADD `ip` VARCHAR(45) NOT NULL" );
-			}
-		}
 	}
 
 }

@@ -1163,6 +1163,9 @@ if ( !class_exists( 'CTA_Render' ) ) {
                 return $content;
             }
 
+            /* Remove Additional Filters */
+            remove_filter( 'the_content', array( $this, 'add_cta_to_post_content'), apply_filters('cta_the_content_priority', 5) );
+
             self::$instance->cta_template = self::$instance->build_cta_content();
 
             if (self::$instance->cta_content_placement=='above') {

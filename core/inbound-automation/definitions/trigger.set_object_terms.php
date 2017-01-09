@@ -62,11 +62,11 @@ if ( !class_exists( 'Inbound_Automation_Trigger_Set_Object_Terms' ) ) {
 				'send_email' , 'wait' , 'relay_data'
 			) );
 
+			/* define trigger */
 			$triggers[ self::$trigger ] = array (
 				'label' => __('On tag or categorize event' , 'inbound-pro'),
 				'description' => __('This trigger fires whenever a tag or category is added to a post object.' , 'inbound-pro'),
 				'action_hook' => self::$trigger ,
-				'scheduling' => false,
 				'arguments' => $arguments,
 				'db_lookup_filters' => $db_lookup_filters,
 				'actions' => $actions

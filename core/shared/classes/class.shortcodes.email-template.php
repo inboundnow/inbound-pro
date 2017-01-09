@@ -33,7 +33,7 @@ class Inbound_Email_Template_Shortcodes {
 		$html = '';
 
 		$post_params = apply_filters( 'inbound-email-post-params', $_POST);
-		$blacklist = array('g-recaptcha-response','inbound_submitted', 'inbound_notify', 'inbound_params', 'inbound_furl', 'phone_xoxo', 'page_id');
+		$blacklist = array('action','event','post_type','mapped_params','raw_params','url_params','page_views','g-recaptcha-response','inbound_submitted', 'inbound_notify', 'inbound_params', 'inbound_furl', 'phone_xoxo', 'page_id');
 
 		/* Parse out UTM Params */
 		if(isset($_POST['inbound_params']) && $_POST['inbound_params'] != "") {
@@ -48,14 +48,7 @@ class Inbound_Email_Template_Shortcodes {
 			}
 		}
 
-		if( isset($post_params[ 'email' ])){
-			$emailVal = $post_params[ 'email' ];
-			unset($post_params[ 'email' ]);
-			$email_array = array('email' => $emailVal );
-			$post_params = array_merge( $email_array, $post_params );
-			/*print_r($post_params); exit; */
-		}
-
+		$post_params[ 'email' ] = str_replace('%40' , '@' , $post_params[ 'email' ] );
 
 		/* filter params */
 		$post_params = apply_filters('inbound_email_response/post_params' , $post_params);
@@ -73,7 +66,7 @@ class Inbound_Email_Template_Shortcodes {
 			if (is_array($value)) {
 				$value = implode(', ', $value);
 			} else if ( strlen($value) < 1 ) {
-				$value  = __( 'n/a', 'ma');
+				$value  = __( 'n/a', 'inbound-pro');
 			}
 
 
@@ -84,7 +77,7 @@ class Inbound_Email_Template_Shortcodes {
 			}
 
 			if ($key == "inbound_form_id" ) {
-				$value = "<a title='". __( 'View/Edit this form', 'ma' ) ."' href='" . admin_url( 'post.php?post=' . $value . '&action=edit' ). "'>".$value."</a>";
+				$value = "<a title='". __( 'View/Edit this form', 'inbound-pro' ) ."' href='" . admin_url( 'post.php?post=' . $value . '&action=edit' ). "'>".$value."</a>";
 			}
 
 			if($key == "inbound_form_lists" && $value != "") {
@@ -94,18 +87,18 @@ class Inbound_Email_Template_Shortcodes {
 				$list_links = "";
 				foreach ($lists as $list ) {
 					/*$list_name = get_term_by('term_id', $list, 'wplead_list_category'); */
-					$list_links .= "<a title='". __( 'View this list', 'ma' ) ."' href='" . admin_url( 'edit.php?page=lead_management&post_type=wp-lead&wplead_list_category%5B%5D='.$list.'&relation=AND&orderby=date&order=asc&s=&t=&submit=Search+Leads' ). "'>".$list."</a>";
+					$list_links .= "<a title='". __( 'View this list', 'inbound-pro' ) ."' href='" . admin_url( 'edit.php?page=lead_management&post_type=wp-lead&wplead_list_category%5B%5D='.$list.'&relation=AND&orderby=date&order=asc&s=&t=&submit=Search+Leads' ). "'>".$list."</a>";
 					if($count) { $list_links .= ' - '; $count--; }
 				}
 				$value = $list_links;
 			}
 
 			if ($key == "wp_cta_id" ) {
-				$value = "<a title=' ". __( 'View/Edit this CTA', 'ma' ) ."' href='" . admin_url( 'post.php?post=' . $value . '&action=edit' ). "'>".$value."</a>";
+				$value = "<a title=' ". __( 'View/Edit this CTA', 'inbound-pro' ) ."' href='" . admin_url( 'post.php?post=' . $value . '&action=edit' ). "'>".$value."</a>";
 			}
 
 			if ( $key == "inbound_current_page_url" ) {
-				$name = __("Converted on Page", 'ma' );
+				$name = __("Converted on Page", 'inbound-pro' );
 			}
 
 			$html .= '<tr style="border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#cccccc;">';

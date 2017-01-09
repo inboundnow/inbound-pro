@@ -93,7 +93,7 @@ if ( !class_exists('Inbound_Mailer_Settings') ) {
 						'label'  => __('Unsubscribe Header', 'inbound-pro' ),
 						'description'  => __( 'This text will display inside the unsubscribe button' , 'inbound-pro' ),
 						'type'  => 'text',
-						'default'  => __('Unsubscribe','inbound-pro')
+						'default'  => __('Unsubscribe:','inbound-pro')
 
 					),
 					array(
@@ -109,15 +109,23 @@ if ( !class_exists('Inbound_Mailer_Settings') ) {
 						'label'  => __('Mute Section Header', 'inbound-pro' ),
 						'description'  => __( 'This text will display inside the mute button' , 'inbound-pro' ),
 						'type'  => 'text',
-						'default'  => __('Mute','inbound-pro')
+						'default'  => __('Mute:','inbound-pro')
 
 					),
 					array(
 						'id'  => 'unsubscribe-confirmation-message',
-						'label'  => __('Confirmation Message', 'inbound-pro' ),
+						'label'  => __('Confirmation Message #1', 'inbound-pro' ),
 						'description'  => __( 'This message will show after a reader has unsubscribed.' , 'inbound-pro' ),
 						'type'  => 'text',
 						'default'  => __('Thank you!','inbound-pro')
+
+					),
+					array(
+						'id'  => 'unsubscribe-notice-automation-series',
+						'label'  => __('Confirmation Message #2', 'inbound-pro' ),
+						'description'  => __( 'This message will show after a reader has clicked unsubscribe within an email automated series.' , 'inbound-pro' ),
+						'type'  => 'text',
+						'default'  => __( 'You have unsubscribed!<br>Additional options below.', 'inbound-pro')
 
 					),
 					array(
