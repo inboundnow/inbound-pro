@@ -15,6 +15,73 @@ if ( !class_exists('Inbound_Reporting_Templates') ) {
 
             /* Load and Dislay Correct Template */
             add_action('admin_init' , array( __CLASS__ , 'display_template' ) );
+            /* add property to screen options */
+            add_filter( 'screen_settings',array( __CLASS__ , 'add_screen_option_field'), 10, 2 );
+
+            /* save screen options */
+            add_filter( 'init', array( __CLASS__, 'set_screen_option'), 1 );
+        }
+
+        /**
+         * Hooked into 'screen_settings'. Adds the field to the settings area
+         *
+         * @access public
+         * @return string The settings fields
+         */
+
+        public static function add_screen_option_field($rv, $screen) {
+
+            $screen = get_current_screen();
+
+            $whitelist = array('edit-post' , 'edit-page', 'post', 'page');
+            if (!$screen || !in_array( $screen->id , $whitelist ) ) {
+                return;
+            }
+
+            $val = get_user_option(
+                'inbound_screen_option_range',
+                get_current_user_id()
+            );
+
+            $val = ($val) ? $val : 90;
+
+            $rv .= '<fieldset class="">';
+
+            $rv .= '<legend>' . __('Inbound Analytics') . '</legend>';
+
+            $rv .=  __('Reporting range in days' , 'inbound-pro' ). ':';
+
+            $rv .= '<select  name="inbound_screen_option_range" class="" id="" style="width:100px;" ';
+
+            $ranges = array(1,7,30,90,360);
+
+            foreach ($ranges as $range) {
+                $rv .= '<option value="'.$range.'" '. ( $val==$range ? 'selected="true"' : '' ).'">'.$range.' ' . __('days','inbound-pro') .'</option>';
+            }
+
+            $rv .= '</select></fieldset>';
+
+            return $rv;
+
+        }
+
+
+        /**
+         * Listen for updated option and save.
+         *
+         */
+        public static function set_screen_option() {
+
+            if (!isset($_POST['inbound_screen_option_range'])) {
+                return;
+            }
+
+            $response = update_user_option(
+                get_current_user_id(),
+                'inbound_screen_option_range',
+                intval($_POST['inbound_screen_option_range'])
+            );
+
 
         }
 
@@ -120,6 +187,13 @@ if ( !class_exists('Inbound_Reporting_Templates') ) {
                     ?>
                     <div class="tag"><span><?php _e('source' , 'inbound-pro'); ?></span>
                         <?php echo sanitize_text_field($_REQUEST['source']); ?> <i class="fa fa-tag" aria-hidden="true"></i>
+                    </div>
+                    <?php
+                }
+                if (isset($_REQUEST['event_name'])) {
+                    ?>
+                    <div class="tag"><span><?php _e('event' , 'inbound-pro'); ?></span>
+                        <?php echo sanitize_text_field($_REQUEST['event_name']); ?> <i class="fa fa-tag" aria-hidden="true"></i>
                     </div>
                     <?php
                 }
