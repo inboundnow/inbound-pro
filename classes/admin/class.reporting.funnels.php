@@ -36,7 +36,7 @@ class Inbound_Funnel_Reporting {
         $screen = get_current_screen();
 
         /* Load assets for inbound pro page */
-        if (isset($screen) && $screen->base == 'inbound-now_page_inbound-reporting') {
+        if (isset($screen) && $screen->base == 'inbound-pro_page_inbound-reporting') {
             wp_enqueue_style('inbound-reporting-funnels', INBOUND_PRO_URLPATH . 'assets/css/admin/reporting.funnel.css');
             wp_enqueue_style('fontawesome', INBOUNDNOW_SHARED_URLPATH . 'assets/fonts/fontawesome/css/font-awesome.min.css');
 
