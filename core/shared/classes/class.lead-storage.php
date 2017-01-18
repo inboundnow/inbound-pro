@@ -168,11 +168,7 @@ if (!class_exists('LeadStorage')) {
 				/* Store Legacy Conversion Data to LANDING PAGE/CTA DATA	*/
 				if (isset($lead['page_id']) && $lead['page_id'] ) {
 					self::store_conversion_stats($lead);
-				}
 
-				/* Store Lead Source */
-				if ( isset($lead['source']) ) {
-					self::store_referral_data($lead);
 				}
 
 				/* Store URL Params */
@@ -182,11 +178,6 @@ if (!class_exists('LeadStorage')) {
 					if(is_array($param_array)){
 
 					}
-				}
-
-				/* Store Conversion Data to LANDING PAGE/CTA DATA	*/
-				if (isset($lead['page_id'])) {
-					self::store_conversion_stats($lead);
 				}
 
 				/* Store IP addresss & Store GEO Data */
@@ -388,48 +379,6 @@ if (!class_exists('LeadStorage')) {
 			update_post_meta($lead['page_id'], '_inbound_conversion_data', $page_conversion_data);
 		}
 
-		/**
-		 *	Stores referral data
-		 */
-		static function store_referral_data($lead) {
-			$referral_data = get_post_meta( $lead['id'], 'wpleads_referral_data', TRUE );
-
-			/* Parse referral for additional data */
-			include_once( INBOUNDNOW_SHARED_PATH. 'assets/includes/Snowplow/RefererParser/INBOUND_Parser.php');
-			include_once( INBOUNDNOW_SHARED_PATH .'assets/includes/Snowplow/RefererParser/INBOUND_Referer.php');
-			include_once(INBOUNDNOW_SHARED_PATH . 'assets/includes/Snowplow/RefererParser/INBOUND_Medium.php');
-
-			/* intialized the parser class */
-			$parser = new INBOUND_Parser();
-			/*$array = array('http://google.com', 'http://twitter.com', 'http://tumblr.com?query=test', ''); */
-			$referer = $parser->parse($lead['source']);
-
-			if ( $referer->isKnown() ) {
-				$ref_type = $referer->getMedium();
-
-			} else {
-				/* check if ref exists */
-				$ref_type = ($lead['source'] === "Direct Traffic") ? 'Direct Traffic' : 'referral';
-			}
-
-			$referral_data = json_decode($referral_data,true);
-			if (is_array($referral_data)){
-				$r_count = count($referral_data) + 1;
-				$referral_data[$r_count]['source'] = $lead['source'];
-				$referral_data[$r_count]['type'] = $ref_type;
-				$referral_data[$r_count]['datetime'] = $lead['wordpress_date_time'];
-			} else {
-				$referral_data[1]['source'] = $lead['source'];
-				$referral_data[1]['type'] = $ref_type;
-				$referral_data[1]['datetime'] = $lead['wordpress_date_time'];
-				$referral_data[1]['original_source'] = 1;
-			}
-
-			$lead['referral_data'] = json_encode($referral_data);
-			/*echo $lead['referral_data']; exit; */
-			update_post_meta($lead['id'], 'wpleads_referral_data', $lead['referral_data']); /* Store referral object */
-			update_post_meta($lead['id'], 'wpleads_referral_type', $ref_type); /* Store referral object */
-		}
 
 		/**
 		 *		Loop trough lead_data array and update post meta

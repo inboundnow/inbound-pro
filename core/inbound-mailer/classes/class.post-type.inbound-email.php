@@ -545,6 +545,7 @@ if ( !class_exists('Inbound_Mailer_Post_Type') ) {
          */
         public static function filter_post_status_priority( $links ) {
             //$new_links['all'] = $links['unsent'];
+			$new_links = array();
 
             if (isset($links['draft'])) {
                 $new_links['draft'] =  $links['draft'];

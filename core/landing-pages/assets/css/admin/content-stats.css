@@ -1,4 +1,4 @@
-#bab-stat-box
+#stat-box
 {
     font-size: 12px;
     margin-bottom: 10px;
@@ -14,17 +14,17 @@
     z-index: 200;
     width: 100%;
 }
-#bab-stat-box:last-child {
+#stat-box:last-child {
     margin-bottom: 0px;
 }
-.bab-number-box
+.number-box
 {
     background: transparent; 
     display: inline-block;
     width: 31%;
     padding-top: 15px
 }
-.bab-number-box span
+.number-box span
 {
     text-align: center;
     padding: 20px;
@@ -35,7 +35,7 @@
     padding-top: 6px; 
 }
 
-.bab-varation-header
+.varation-header
 {
     font-size: 19px;
     font-weight: bold;
@@ -46,32 +46,32 @@
     border-top: 1px solid #CECDCA;
 }
 
-.bab-stat-control-container
+.stat-control-container
 {
     text-align: center;
     padding: 5px;
 }
 
-.bab-variation-row
+.variation-row
 {
     display: block;
 }
 
-.bab-stat-letter
+.stat-letter
 {
     background: #fff;
     padding-top: 0px;
     padding-bottom: 0px;
 }
 
-.bab-notes
+.notes
 {
     float: right;
     font-size: 12px;
     font-weight: normal;
 }
 
-.bab-number-box span.bab-stat-id{
+.number-box span.stat-id{
     line-height: 1;
     font-size: 9px;
     font-weight: normal;
@@ -81,7 +81,7 @@
     color: #333333
 }
 
-.bab-rate
+.rate
 {
     font-size: 9px !important;
 }

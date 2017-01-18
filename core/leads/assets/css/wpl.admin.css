@@ -816,12 +816,15 @@ h2 .nav-tab {
     color: grey;
     border-bottom: solid 1px;
     padding: 0px 0px;
-    width:19%;
-    line-height: 20px;
-    padding-bottom: 3px;
+    width: 19%;
+    height: 24px;
+    margin-bottom: 9px;
 }
 .leads_stat_box .label_2{
     float: left
+}
+.leads_stat_box .label_2 a{
+    text-decoration:none;
 }
 .leads_stat_box .label_1{
     width: 73%;
@@ -832,7 +835,6 @@ h2 .nav-tab {
 .quick-stat-label .label_1, .quick-stat-label .label_2{
     border: 0;
     font-size: 10px;
-    line-height: 2;
     color: #444; 
 }
 .quick-stat-label .label_2{

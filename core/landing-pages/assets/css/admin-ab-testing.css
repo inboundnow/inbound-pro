@@ -44,21 +44,21 @@
 	font-size: 17px;
 	line-height: 24px;
 	}
-	.variation-off .bab-stat-control-pause, .variation-on .bab-stat-control-play, .variation-off .pause-sep,.variation-on .play-sep, .variation-on .is-paused{
+	.variation-off .stat-control-pause, .variation-on .stat-control-play, .variation-off .pause-sep,.variation-on .play-sep, .variation-on .is-paused{
 		display: none;
 	}
-	.bab-stat-control-container {
+	.stat-control-container {
 
 	bottom: 0px;
 	left: 0px;
 	}
-	.bab-stat-control-container:hover {
+	.stat-control-container:hover {
 
 	bottom: 0px;
 	left: 0px;
 	display: block;
 	}
-	.bab-variation-row  {
+	.variation-row  {
 		position: relative;
 		//margin-bottom: -27px;
 		//-moz-transition: all .4s ease-in-out;
@@ -67,10 +67,10 @@
 		//transition: all .4s ease-in-out;
 	}
 
-	.bab-variation-row:last-child {
+	.variation-row:last-child {
 		margin-bottom: 0px;
 	}
-	.bab-variation-row:hover {
+	.variation-row:hover {
 		margin-bottom: 0px;
 		//-moz-transition: all .4s ease-in-out;
 		//-webkit-transition: all .4s ease-in-out;
@@ -78,20 +78,20 @@
 		//transition: all .4s ease-in-out;
 
 	}
-	.bab-stat-control-container span {
+	.stat-control-container span {
 	vertical-align: bottom;
 	display: inline-block;
 	}
-	.bab-stat-seperator {
+	.stat-seperator {
 		padding-left: 3px;
 		padding-right: 3px;
 		font-size: 0px;
 	}
-	.variation-on .bab-stat-control-pause a {
+	.variation-on .stat-control-pause a {
 		color: red;
 		font-weight: bold;
 	}
-	.variation-off .bab-number-box {
+	.variation-off .number-box {
 		color: rgb(117, 117, 117);
 	}
 	.is-paused { font-size: 10px;
@@ -100,11 +100,11 @@
     opacity: .8;
     padding-left: 10px; 
 }
-	.variation-off .bab-stat-control-play a {
+	.variation-off .stat-control-play a {
 		color: green;
 		font-weight: bold;
 	}
-	.variation-off .bab-varation-header {
+	.variation-off .varation-header {
  		font-weight: normal;
  	}
 	.lp-tab-display
@@ -132,14 +132,14 @@
 
 	/* Begin with quick stats! */
 
-	.bab-stat-letter {
+	.stat-letter {
 		border-radius: 3px;
 		border-style:solid;
 		border-width:1px;
 		padding:2px;
 	}
 
-	.bab-stat-container-conversions, .bab-stat-container-impressions, .bab-stat-container-conversion_rate {
+	.stat-container-conversions, .stat-container-impressions, .stat-container-conversion_rate {
 		display:inline;
 	}
 
@@ -251,13 +251,13 @@
 .settings_list_li a:hover{
     color: #000
 }
-#wpbody .bab-varation-header{
+#wpbody .varation-header{
     font-size: 14px;
     font-weight: normal;
     color: #000;
     padding-left: 18px !important;
 }
-.bab-stat-letter {
+.stat-letter {
     border-radius: 0px;
     border-style: solid;
     border-width: 0px;
@@ -265,7 +265,7 @@
     background: none !important;
     font-weight: bold;
 }
-.bab-stat-control-pause a:before{
+.stat-control-pause a:before{
     background: url(../images/ab-retina-icons.png) no-repeat;
     width: 15px;
     position: absolute;
@@ -281,7 +281,7 @@
     margin-top: 0px;
 }
 
-.bab-stat-control-play a:before{
+.stat-control-play a:before{
     background: url(../images/ab-retina-icons.png) no-repeat;
     width: 15px;
     position: absolute;
@@ -298,9 +298,9 @@
 .variation-off{
     
 }
-.bab-stat-control-play a:before{
+.stat-control-play a:before{
 }
-#wpbody .bab-varation-header {
+#wpbody .varation-header {
     line-height: 1;
     background-color: #ededed;
     border-color: #dddddd;

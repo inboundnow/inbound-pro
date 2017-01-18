@@ -370,24 +370,26 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
          */
         public static function setup_tabs() {
 
-            $tabs = array(
-                array(
-                    'id' => 'wpleads_lead_tab_main',
-                    'label' => __('Profile', 'inbound-pro')
-                ),
-                array(
-                    'id' => 'wpleads_lead_tab_activity',
-                    'label' => __('Activity', 'inbound-pro')
-                ),
-                array(
-                    'id' => 'wpleads_lead_tab_conversions',
-                    'label' => __('Conversion Paths', 'inbound-pro')
-                ),
-                array(
-                    'id' => 'wpleads_lead_tab_raw_form_data',
-                    'label' => __('Logs', 'inbound-pro')
-                )
+            $tabs['wpleads_lead_tab_main'] =  array(
+                'id' => 'wpleads_lead_tab_main',
+                'label' => __('Profile', 'inbound-pro')
             );
+
+            $tabs['wpleads_lead_tab_activity'] =  array(
+                'id' => 'wpleads_lead_tab_activity',
+                'label' => __('Activity', 'inbound-pro')
+            );
+
+            $tabs['wpleads_lead_tab_conversions'] =  array(
+                'id' => 'wpleads_lead_tab_conversions',
+                'label' => __('Conversion Paths', 'inbound-pro')
+            );
+
+            /*
+             $tabs['wpleads_lead_tab_raw_form_data'] =  array(
+                'id' => 'wpleads_lead_tab_raw_form_data',
+                'label' => __('WordPress Meta Fields', 'inbound-pro')
+            );*/
 
             self::$tabs = apply_filters('wpl_lead_tabs', $tabs);
 
@@ -537,7 +539,18 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             <div class="quick-stat-label">
                 <div class="label_1"><?php _e('Page Views ', 'inbound-pro'); ?>:</div>
                 <div class="label_2">
-                    <?php echo count(self::$page_views); ?>
+
+                    <?php
+                    if (class_exists('Inbound_Analytics')) {
+                        ?>
+                         <a href='<?php echo admin_url('index.php?action=inbound_generate_report&class=Inbound_Visitor_Impressions_Report&range=10000&lead_id='.$post->ID.'&title='.__('Page Views','inbound-pro') .'&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox' title="<?php echo  sprintf(__('past %s days','inbound-pro') , 10000 ); ?>">
+                        <?php  echo count(self::$page_views); ?>
+                        </a>
+                        <?php
+                    } else {
+                        echo count(self::$page_views);
+                    }
+                    ?>
                 </div>
                 <div class="clearfix"></div>
             </div>
@@ -555,7 +568,17 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             <div class="quick-stat-label">
                 <div class="label_1"><?php echo Inbound_Events::get_event_label('inbound_form_submission'); ?>:</div>
                 <div class="label_2">
-                    <?php echo count(self::$form_submissions); ?>
+                    <?php
+                    if (class_exists('Inbound_Analytics')) {
+                    ?>
+                        <a href='<?php echo admin_url('index.php?action=inbound_generate_report&lead_id='.$post->ID.'&class=Inbound_Event_Report&event_name=inbound_form_submission&range=10000&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox'>
+                            <?php echo count(self::$form_submissions); ?>
+                        </a>
+                    <?php
+                    } else {
+                        echo count(self::$form_submissions);
+                    }
+                    ?>
                 </div>
                 <div class="clearfix"></div>
             </div>
@@ -809,6 +832,12 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
          *    Loads Activity UI
          */
         public static function display_lead_activity() {
+
+            /* do not render legacy activity tab if Inbound Analytics is on */
+            if (class_exists('Inbound_Analytics')) {
+                return;
+            }
+
             echo '<div id="activity-data-display">';
             self::activity_navigation();
             self::activity_form_submissions();
@@ -825,6 +854,11 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
          */
         public static function display_lead_conversion_paths() {
             global $post, $wpdb;
+
+            /* do not render legacy activity tab if Inbound Analytics is on */
+            if (class_exists('Inbound_Analytics')) {
+                return;
+            }
 
             self::get_conversions( $post->ID );
 
@@ -969,7 +1003,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
                     /* skip internal sources */
                     if (strstr($value['source'],site_url()) || !$value['source']) {
-                        continue;
+                       //continue;
                     }
                     ?>
                     <div class="wpl-raw-data-tr">
@@ -1198,7 +1232,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                 </div>
                 <div class="lead-profile-section" id="wpleads_lead_tab_raw_form_data">
                     <?php
-                    self::display_raw_logs();
+                    //self::display_raw_logs();
 
                     ?>
                 </div>

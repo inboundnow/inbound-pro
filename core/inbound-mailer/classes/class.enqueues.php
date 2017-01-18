@@ -42,6 +42,9 @@ class Inbound_Mailer_Enqueues {
 	public static function load_frontend_global_enqueue() {
 		global $post;
 
+		/* enqueue jquery if not available */
+		wp_enqueue_script('jquery');
+
 		/* Enqueues css for unsubscribe page */
 		wp_enqueue_style('inbound-mailer-unsubsribe-css', INBOUND_EMAIL_URLPATH . 'assets/css/frontend/style-unsubscribe.css');
 

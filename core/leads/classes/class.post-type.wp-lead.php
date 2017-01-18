@@ -136,7 +136,7 @@ class Leads_Post_Type {
                 if (class_exists('Inbound_Analytics')) {
                     $actions = Inbound_Events::get_total_activity($lead_id , 'any' , array());
                     ?>
-                    <a href='<?php echo admin_url('index.php?action=inbound_generate_report&class=Inbound_Events_Report&range=10000&lead_id='.$post->ID.'&show_chart=false&title='.__('Logs','inbound-pro') .'&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox' title="<?php echo  sprintf(__('past %s days','inbound-pro') , 99999 ); ?>">
+                    <a href='<?php echo admin_url('index.php?action=inbound_generate_report&class=Inbound_Events_Report&range=10000&lead_id='.$post->ID.'&show_graph=false&title='.__('Logs','inbound-pro') .'&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox' title="<?php echo  sprintf(__('past %s days','inbound-pro') , 99999 ); ?>">
                         <?php echo $actions; ?>
                     </a>
                     <?php
@@ -159,7 +159,7 @@ class Leads_Post_Type {
                 $page_view_count = Inbound_Events::get_page_views_count($lead_id);
                 if (class_exists('Inbound_Analytics')) {
                     ?>
-                    <a href='<?php echo admin_url('index.php?action=inbound_generate_report&class=Inbound_Visitor_Impressions_Report&range=10000&lead_id='.$post->ID.'&show_chart=false&title='.__('Logs','inbound-pro') .'&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox' title="<?php echo  sprintf(__('past %s days','inbound-pro') , 99999 ); ?>">
+                    <a href='<?php echo admin_url('index.php?action=inbound_generate_report&class=Inbound_Visitor_Impressions_Report&range=10000&lead_id='.$post->ID.'&show_graph=false&title='.__('Logs','inbound-pro') .'&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox' title="<?php echo  sprintf(__('past %s days','inbound-pro') , 99999 ); ?>">
                         <?php echo $page_view_count; ?>
                     </a>
                     <?php
@@ -305,20 +305,22 @@ class Leads_Post_Type {
 
                 case 'page-views':
 
-                    $pieces['join'] .= " LEFT JOIN $wpdb->postmeta wp_rd ON wp_rd.post_id = {$wpdb->posts}.ID AND wp_rd.meta_key = 'wpleads_page_view_count'";
+                    $pieces['join'] .= " LEFT JOIN {$table_prefix}inbound_page_views ipv ON ipv.lead_id = {$wpdb->posts}.ID ";
 
-                    $pieces['orderby'] = " wp_rd.meta_value $order , " . $pieces['orderby'];
+                    $pieces['groupby'] = " {$wpdb->posts}.ID ";
+
+                    $pieces['orderby'] = " COUNT(ipv.lead_id) " . $order;
 
                     break;
 
 
                 case 'action-count':
 
-                    $pieces['join'] .= " LEFT JOIN {$table_prefix}inbound_events ee ON ee.lead_id = {$wpdb->posts}.ID ";
+                    $pieces['join'] .= " LEFT JOIN {$table_prefix}inbound_events ie ON ie.lead_id = {$wpdb->posts}.ID ";
 
                     $pieces['groupby'] = " {$wpdb->posts}.ID ";
 
-                    $pieces['orderby'] = "COUNT(ee.lead_id) $order ";
+                    $pieces['orderby'] = "COUNT(ie.lead_id) $order ";
 
                     break;
             }

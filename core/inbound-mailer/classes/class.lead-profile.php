@@ -2,6 +2,7 @@
 if (!class_exists('Inbound_Mailer_Direct_Email_Leads')) {
 
     class Inbound_Mailer_Direct_Email_Leads {
+        static $range;
 
         /**
          * Inbound_Mailer_Direct_Email_Leads constructor.
@@ -33,6 +34,9 @@ if (!class_exists('Inbound_Mailer_Direct_Email_Leads')) {
             /*Adds direct messages to quick stats */
             add_action('wpleads_display_quick_stat', array(__CLASS__, 'display_quick_stat_direct_messages') , 20 , 1);
 
+            /*Adds direct messages to quick stats */
+            add_action('wpleads_display_quick_stat', array(__CLASS__, 'display_quick_stat_unsubscribes') , 20 , 1);
+
         }
 
         /**
@@ -42,7 +46,7 @@ if (!class_exists('Inbound_Mailer_Direct_Email_Leads')) {
         public static function add_direct_email_tab($tabs) {
             $args = array(
                 'id' => 'wpleads_lead_tab_direct_email',
-                'label' => __('Email', 'inbound-pro')
+                'label' => __('Direct Email', 'inbound-pro')
             );
 
             array_push($tabs, $args);
@@ -122,7 +126,7 @@ if (!class_exists('Inbound_Mailer_Direct_Email_Leads')) {
 			}
 
             /*put the email ids and names in an array for use in the email dropdown selector*/
-            $template_id_and_name;
+            $template_id_and_name = array();
             foreach ($email_templates as $email_template) {
                 $template_id_and_name[$email_template->ID] = $email_template->post_title;
             }
@@ -450,6 +454,14 @@ if (!class_exists('Inbound_Mailer_Direct_Email_Leads')) {
                #wpleads_lead_tab_direct_email .direct_email_lead_field {
                    display:inherit;
                }
+
+               #wpleads_lead_tab_direct_email #left-sidebar {
+                   width:20%;
+               }
+
+               .email_message_box .inbound-wysiwyg-option {
+                   display:table-row-group;
+               }
             </style>
 
             <?php
@@ -689,17 +701,56 @@ if (!class_exists('Inbound_Mailer_Direct_Email_Leads')) {
          */
         public static function display_quick_stat_direct_messages($post) {
             global $post;
+            if (!isset($_REQUEST['range'])) {
+                self::$range = 90;
+            } else {
+                self::$range = intval($_REQUEST['range']);
+            }
             ?>
-
             <div class="quick-stat-label">
                 <div class="label_1"><?php _e('Direct E-Mails', 'inbound-pro'); ?>:</div>
                 <div class="label_2">
-                    <?php echo self::get_direct_mail_count($post->ID); ?>
+                    <?php
+                    if (class_exists('Inbound_Analytics')) {
+                        ?>
+                        <a href='<?php echo admin_url('index.php?action=inbound_generate_report&lead_id='.$post->ID.'&class=Inbound_Event_Report&event_name=inbound_direct_message&range=10000&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox'>
+                            <?php echo self::get_direct_mail_count($post->ID); ?>
+                        </a>
+                        <?php
+                    } else {
+                        echo self::get_direct_mail_count($post->ID);
+                    }
+                    ?>
                 </div>
                 <div class="clearfix"></div>
             </div>
             <?php
+        }
 
+        /**
+         * Adds Inbound Form Submissions to Quick Stat Box
+         */
+        public static function display_quick_stat_unsubscribes($post) {
+            global $post;
+            ?>
+            <div class="quick-stat-label">
+                <div class="label_1"><?php _e('Unsubscribes', 'inbound-pro'); ?>:</div>
+                <div class="label_2">
+                    <?php
+                    if (class_exists('Inbound_Analytics')) {
+                        ?>
+                        <a href='<?php echo admin_url('index.php?action=inbound_generate_report&lead_id='.$post->ID.'&class=Inbound_Event_Report&event_name=inbound_unsubscribe&range='.self::$range.'&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox'>
+                            <?php echo self::get_direct_mail_count($post->ID); ?>
+                        </a>
+                        <?php
+                    } else {
+                        echo self::get_direct_mail_count($post->ID);
+                    }
+                    ?>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <?php
         }
 
         /**

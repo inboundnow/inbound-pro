@@ -113,7 +113,7 @@ class Inbound_Events {
 			  `session_id` varchar(255) NOT NULL,
 			  `source` text NOT NULL,
 			  `datetime` datetime NOT NULL,
-			  `ip` varchar(255) NOT NULL,
+			  `ip` varchar(45) NOT NULL,
 
 			  UNIQUE KEY id (id)
 			) $charset_collate;";
@@ -387,6 +387,10 @@ class Inbound_Events {
         $args = array_merge( $defaults , $args );
 
 
+        if (!$args['page_id']) {
+            return;
+        }
+
         /* unset non db ready keys */
         foreach ($args as $key => $value) {
             if (!isset($defaults[$key])) {
@@ -394,7 +398,7 @@ class Inbound_Events {
             }
         }
 
-        /* add event to event table */
+        /* add page view to inbound_page_views table */
         $wpdb->insert(
             $table_name,
             $args
@@ -548,7 +552,7 @@ class Inbound_Events {
         $array['title'] = ($title) ? $title : __('n/a','inbound-pro');
         $array['capture_id'] = ($capture_id) ? $capture_id : 0;
 
-        return $array;
+        return apply_filters('inbound-events/capture-data' , $array , $event);
     }
 
     /**
@@ -582,7 +586,7 @@ class Inbound_Events {
             $query .= 'AND variation_id = "'.$params['variation_id'].'" ';
         }
 
-        $query .= 'AND `event_name` LIKE "%form_submission" ORDER BY `datetime` DESC';
+        $query .= 'AND `event_name` = "inbound_form_submission" ORDER BY `datetime` DESC';
 
         $results = $wpdb->get_results( $query , ARRAY_A );
 
@@ -598,6 +602,8 @@ class Inbound_Events {
         $table_name = $wpdb->prefix . "inbound_page_views";
 
         $query = 'SELECT * FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'"';
+
+        $query .=' AND `page_id` != "0"';
 
         if ($page_id) {
             $query .=' AND page_views_id` = "'.$page_id.'"';
@@ -649,6 +655,9 @@ class Inbound_Events {
                 break;
         }
 
+
+        $query .=' AND `page_id` != "0" ';
+
         if (isset($params['start_date'])) {
             $query .= ' AND datetime >= "'.$params['start_date'].'" AND  datetime <= "'.$params['end_date'].'" ';
         }
@@ -685,6 +694,8 @@ class Inbound_Events {
             $query .= ' AND source = "'.$params['source'].'" ';
         }
 
+        $query .=' AND `page_id` != "0" ';
+
         if (isset($params['start_date'])) {
             $query .= ' AND datetime >= "'.$params['start_date'].'" AND  datetime <= "'.$params['end_date'].'" ';
         }
@@ -706,6 +717,8 @@ class Inbound_Events {
         $table_name = $wpdb->prefix . "inbound_page_views";
 
         $query = 'SELECT count(*) FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'"';
+
+        $query .=' AND `page_id` != "0" ';
 
         $count = $wpdb->get_var( $query , 0, 0 );
 
@@ -875,12 +888,15 @@ class Inbound_Events {
         $table_name = $wpdb->prefix . "inbound_events";
         $query = 'SELECT *';
 
-        if (isset($params['group_by'])) {
+        if (isset($params['group_by']) && $params['group_by'] ) {
             $query .=' , count('.$params['group_by'].') as count ';
         }
 
-        $query .=' FROM '.$table_name.' WHERE `page_id` = "'.$params['page_id'].'"';
+        $query .=' FROM '.$table_name.' WHERE 1=1 ';
 
+        if (isset($params['page_id']) && $params['page_id'] ) {
+            $query .= ' AND page_id = "'.$params['page_id'].'" ';
+        }
 
         if (isset($params['event_name']) && $params['event_name'] ) {
             $query .= ' AND event_name = "'.$params['event_name'].'" ';
@@ -894,15 +910,15 @@ class Inbound_Events {
             $query .= ' AND lead_id = "'.$params['lead_id'].'" ';
         }
 
-        if (isset($params['start_date'])) {
+        if (isset($params['start_date']) && $params['start_date']) {
             $query .= ' AND datetime >= "'.$params['start_date'].'" AND  datetime <= "'.$params['end_date'].'" ';
         }
 
-        if (isset($params['group_by'])) {
+        if (isset($params['group_by']) && $params['group_by']) {
             $query .= ' GROUP BY `' . $params['group_by'] . '` ';
         }
 
-        if (isset($params['order_by'])) {
+        if (isset($params['order_by']) && $params['order_by']) {
             $query .= ' ORDER BY '.$params['order_by'].' ';
         }
 
@@ -929,9 +945,6 @@ class Inbound_Events {
             case 'inbound_direct_messege':
                 return ($plural) ?  __('Direct Messages' , 'inbound-pro') : __('Direct Message' , 'inbound-pro');
                 break;
-            case 'cf7_form_submission':
-                return ($plural) ?  __('CF7 Form Submissions' , 'inbound-pro') : __('CTF7 Form Submission' , 'inbound-pro');
-                break;
             case 'inbound_list_add':
                 return ($plural) ?  __('Lead Added to Lists' , 'inbound-pro') : __('Lead Added to List' , 'inbound-pro');
                 break;
@@ -940,7 +953,7 @@ class Inbound_Events {
                 break;
         }
 
-        return apply_filters('inbound-events/event-label' , $event_name );
+        return apply_filters('inbound-events/event-label' , $event_name , $plural );
     }
 
     /**

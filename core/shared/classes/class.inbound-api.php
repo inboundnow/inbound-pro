@@ -1362,7 +1362,8 @@ if (!class_exists('Inbound_API')) {
 			}
 
 			/* discover token */
-			$token = ( isset($wp_query->query_vars[ self::$tracking_endpoint ]) ) ? $wp_query->query_vars[ self::$tracking_endpoint ] : str_replace( '/'.self::$tracking_endpoint.'/', '', $_SERVER["REQUEST_URI"] );
+			$parts = explode( self::$tracking_endpoint.'/',  $_SERVER["REQUEST_URI"] );
+			$token = ( isset($wp_query->query_vars[ self::$tracking_endpoint ]) ) ? $wp_query->query_vars[ self::$tracking_endpoint ] : $parts[1] ;
 
 			/* Pull record from database */
 			$table_name = $wpdb->prefix . "inbound_tracked_links";
