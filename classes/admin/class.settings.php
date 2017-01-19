@@ -1115,7 +1115,7 @@ class Inbound_Pro_Settings {
 
 				foreach( $fields as $key => $field ) {
 
-					$read_only =  ($field['enable'] == 'off') ? 'readonly' : '';
+					$read_only =  (isset($field['enable']) && $field['enable'] == 'off') ? 'readonly' : '';
 
 
 					echo '	<li class="map-row custom-fields-row column-group '.$read_only.'"  status-priority="'.$key.'">';
