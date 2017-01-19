@@ -9,6 +9,7 @@ if (!class_exists('Inbound_Event_Report')) {
     class Inbound_Event_Report extends Inbound_Reporting_Templates {
 
         static $range;
+        static $show_graph;
         static $graph_data;
         static $event_name;
         static $events;
@@ -51,6 +52,7 @@ if (!class_exists('Inbound_Event_Report')) {
          */
         public static function display_header() {
 
+            $report_headline = (isset($_REQUEST['title'])) ? $_REQUEST['title'] : __('Actions' , 'inbound-pro');
             $title = get_the_title(intval($_REQUEST['page_id']));
             $permalink = get_the_permalink(intval($_REQUEST['page_id']));
             $default_gravatar = INBOUND_PRO_URLPATH . 'assets/images/gravatar-unknown.png';
@@ -62,9 +64,9 @@ if (!class_exists('Inbound_Event_Report')) {
             <aside class="profile-card">
 
                 <header>
-                    <h1><?php _e('Actions' , 'inbound-pro'); ?></h1>
-                    <h2><?php echo $title; ?></h2>
-                    <h3><a href="<?php echo $permalink; ?>" target="_self"><?php echo $permalink; ?></a></h3>
+                    <h1><?php echo $report_headline; ?></h1>
+                    <?php echo ($title) ? '<h2>'.$title.'</h2>' : ''; ?>
+                     <?php echo ($title) ? '<h3><a href="'.$permalink.'" target="_self">'.$permalink.'</a></h3>' : ''; ?>
                 </header>
 
                 <!-- some social links to show off -->
@@ -78,7 +80,9 @@ if (!class_exists('Inbound_Event_Report')) {
         }
 
         public static function display_chart() {
-
+            if (self::$show_graph == 'false') {
+                return;
+            }
             /* loop through  */
             ?>
             <div id="graph-container" style='height:350px;'></div>
@@ -343,7 +347,7 @@ if (!class_exists('Inbound_Event_Report')) {
                     $event['funnel'][] = $event['page_id'];
                 }
             }
-            error_log(print_r($event['funnel'],true));
+
             $date = date_create($event['datetime']);
 
             /* start funnel */
@@ -865,7 +869,7 @@ if (!class_exists('Inbound_Event_Report')) {
         public static function load_data() {
             /* build timespan for analytics report */
             self::define_range();
-
+            self::$show_graph = (isset($_REQUEST['show_graph'])) ? $_REQUEST['show_graph'] : true;
             $dates = Inbound_Reporting_Templates::prepare_range( self::$range );
             self::$event_name = (isset($_REQUEST['event_name'])) ? $_REQUEST['event_name'] :  'inbound_form_submission' ;
             self::$start_date = $dates['start_date'];
@@ -873,9 +877,29 @@ if (!class_exists('Inbound_Event_Report')) {
             self::$past_start_date = $dates['past_start_date'];
             self::$past_end_date = $dates['past_end_date'];
 
+
+
+            /* get all events  */
+            $params = array(
+                'page_id' => (isset($_REQUEST['page_id'])) ? intval($_REQUEST['page_id']) : 0,
+                'lead_id' => (isset($_REQUEST['lead_id'])) ? intval($_REQUEST['lead_id']) : 0,
+                'source' => (isset($_REQUEST['source']) ) ? sanitize_text_field(urldecode($_REQUEST['source'])) : '' ,
+                'start_date' => self::$start_date,
+                'end_date' => self::$end_date,
+                'event_name' => self::$event_name
+            );
+
+            self::$events = Inbound_Events::get_events($params);
+
+
+            if (self::$show_graph == 'false') {
+                return;
+            }
+
             /* get daily action counts for chart 1 */
             $params = array(
-                'page_id' => intval($_REQUEST['page_id']),
+                'page_id' => (isset($_REQUEST['page_id'])) ? intval($_REQUEST['page_id']) : 0,
+                'lead_id' => (isset($_REQUEST['lead_id'])) ? intval($_REQUEST['lead_id']) : 0,
                 'source' => (isset($_REQUEST['source']) ) ? sanitize_text_field(urldecode($_REQUEST['source'])) : '' ,
                 'start_date' => self::$start_date,
                 'end_date' => self::$end_date,
@@ -888,7 +912,8 @@ if (!class_exists('Inbound_Event_Report')) {
 
             /* get daily action counts for chart 2 */
             $params = array(
-                'page_id' => intval($_REQUEST['page_id']),
+                'page_id' => (isset($_REQUEST['page_id'])) ? intval($_REQUEST['page_id']) : 0,
+                'lead_id' => (isset($_REQUEST['lead_id'])) ? intval($_REQUEST['lead_id']) : 0,
                 'source' => (isset($_REQUEST['source']) ) ? sanitize_text_field(urldecode($_REQUEST['source'])) : '' ,
                 'start_date' => self::$past_start_date,
                 'end_date' => self::$past_end_date,
@@ -898,16 +923,6 @@ if (!class_exists('Inbound_Event_Report')) {
             self::$graph_data['past'] = Inbound_Events::get_events_by_dates($params);
             self::$graph_data['past'] = self::prepare_chart_data( self::$past_start_date , self::$past_end_date , 'past');
 
-            /* get all events  */
-            $params = array(
-                'page_id' => intval($_REQUEST['page_id']),
-                'source' => (isset($_REQUEST['source']) ) ? sanitize_text_field(urldecode($_REQUEST['source'])) : '' ,
-                'start_date' => self::$start_date,
-                'end_date' => self::$end_date,
-                'event_name' => self::$event_name
-            );
-
-            self::$events = Inbound_Events::get_events($params);
 
 		}
 

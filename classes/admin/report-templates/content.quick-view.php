@@ -351,11 +351,11 @@ if ( !class_exists('Inbound_Quick_View') ) {
 				</tr>
 				<tr>
 					<td class='ia-td-label'>
-						<label title='<?php _e('Total number of Inbound Form submissions originating from this page', 'inbound-pro'); ?>'><?php _e('Form Submissions', 'inbound-pro'); ?>
+						<label title='<?php _e('Total number of Inbound Form submissions originating from this page', 'inbound-pro'); ?>'><?php _e('Inbound Form Submissions', 'inbound-pro'); ?>
 							:</label>
 					</td>
 					<td class='ia-td-value'>
-						<a href='<?php echo admin_url('index.php?action=inbound_generate_report&page_id='.$post->ID.'&class=Inbound_Event_Report&event_name=inbound_form_submission&range='.self::$range.'&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox'>
+						<a href='<?php echo admin_url('index.php?action=inbound_generate_report&page_id='.$post->ID.'&class=Inbound_Event_Report&event_name=inbound_form_submission&range='.self::$range.'&title='.__('Inbound Form Submissions', 'inbound-pro').'&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox'>
 							<?php echo self::$statistics['submissions']['current'][self::$range]; ?>
 						</a>
 					</td>
@@ -369,11 +369,11 @@ if ( !class_exists('Inbound_Quick_View') ) {
 				<tr>
 					<td class='ia-td-label'>
 						<label title='<?php _e('Total number of clicked tracked links related to this page.', 'inbound-pro'); ?>'>
-							<?php _e('Tracked Click Events', 'inbound-pro'); ?>
+							<?php _e('CTA Clicks', 'inbound-pro'); ?>
 						</label>
 					</td>
 					<td class='ia-td-value'>
-						<a href='<?php echo admin_url('index.php?action=inbound_generate_report&page_id='.$post->ID.'&class=Inbound_Event_Report&event_name=inbound_cta_click&range='.self::$range.'&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox'>
+						<a href='<?php echo admin_url('index.php?action=inbound_generate_report&page_id='.$post->ID.'&class=Inbound_Event_Report&event_name=inbound_cta_click&range='.self::$range.'&title='.__('CTA Clicks', 'inbound-pro').'&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox'>
 							<?php echo self::$statistics['clicks']['current'][self::$range]; ?>
 						</a>
 					</td>
@@ -384,6 +384,7 @@ if ( !class_exists('Inbound_Quick_View') ) {
 						<span class="stat label  <?php echo (self::$statistics['clicks']['rate']['difference'][self::$range] > 0) ? 'label-success' : 'label-warning'; ?>" title="<?php echo sprintf(__('%s action rate in the last %s days versus an %s action rate in the prior %s day period)', 'inbound-pro'), self::prepare_rate_format(self::$statistics['clicks']['rate']['current'][self::$range]), self::$range, self::prepare_rate_format(self::$statistics['clicks']['rate']['past'][self::$range]), self::$range); ?>"><?php echo self::prepare_rate_format(self::$statistics['clicks']['rate']['difference'][self::$range]); ?></span>
 					</td>
 				</tr>
+				<?php do_action('inbound-analytics/quick-view/action-breakdown') ; ?>
 			</table>
 			<?php
 		}
@@ -460,6 +461,11 @@ if ( !class_exists('Inbound_Quick_View') ) {
 			return count(Inbound_Events::get_form_submissions_by('page_id', array('page_id' => $post->ID, 'start_date' => $start_date, 'end_date' => $end_date)));
 		}
 
+		/**
+		 * Get count of cta click events given a page_id and server other arguments including date time constrictions
+		 * @param $args
+		 * @return int
+		 */
 		public static function get_tracked_clicks($args) {
 			global $post;
 

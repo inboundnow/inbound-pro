@@ -9,7 +9,7 @@ if (!class_exists('Inbound_Events_Report')) {
     class Inbound_Events_Report extends Inbound_Reporting_Templates {
 
         static $range;
-        static $show_chart;
+        static $show_graph;
         static $graph_data;
         static $event_names;
         static $events;
@@ -93,7 +93,7 @@ if (!class_exists('Inbound_Events_Report')) {
 
         public static function display_chart() {
 
-            if (self::$show_chart == 'false') {
+            if (self::$show_graph == 'false') {
                 return;
             }
 
@@ -350,6 +350,19 @@ if (!class_exists('Inbound_Events_Report')) {
             if (in_array($event['event_name'], $exclude)) {
                 return;
             }
+
+             /* get funnel */
+            $event['funnel'] = json_decode($event['funnel'],true);
+            $event['funnel'] = (is_array($event['funnel'])) ? $event['funnel'] : array();
+
+            /* make sure the final page is the converting page */
+            if ($event['funnel']) {
+                $end = count($event['funnel']) - 1;
+
+                if ($event['funnel'][$end] != $event['page_id']) {
+                    $event['funnel'][] = $event['page_id'];
+                }
+            }
              ?>
             <div class="session-item-holder">
                      <div class="popup-header"><strong><?php _e('Traffic Funnel' , 'inbound-pro'); ?></strong></div>
@@ -376,6 +389,8 @@ if (!class_exists('Inbound_Events_Report')) {
                     <?php
 
                     $count = 1;
+                    $event['funnel'] = ($event['funnel']) ? $event['funnel'] : array();
+
                     foreach($event['funnel'] as $page_id) {
 
                         if (!$page_id) {
@@ -851,6 +866,10 @@ if (!class_exists('Inbound_Events_Report')) {
                 .session-item-holder {
                     background-color:#fff;
                     cursor:default;
+                    padding-top:5px;
+                    padding-bottom:5px;
+                    padding-right:5px;
+                    padding-left:5px;
                 }
 
                 .pop .marker {
@@ -875,12 +894,6 @@ if (!class_exists('Inbound_Events_Report')) {
                    font-size:11px;
                 }
 
-                .session-item-holder {
-                    padding-top:5px;
-                    padding-bottom:5px;
-                    padding-right:5px;
-                    padding-left:5px;
-                }
 
                 .popup-header {
                     padding-top:10px;
@@ -903,7 +916,7 @@ if (!class_exists('Inbound_Events_Report')) {
             $dates = Inbound_Reporting_Templates::prepare_range( self::$range );
             self::$start_date = $dates['start_date'];
             self::$end_date = $dates['end_date'];
-            self::$show_chart = (isset($_REQUEST['show_chart'])) ? $_REQUEST['show_chart'] : true;
+            self::$show_graph = (isset($_REQUEST['show_graph'])) ? $_REQUEST['show_graph'] : true;
 
             /* get all events - group by lead_uid */
             $params = array(
@@ -912,11 +925,12 @@ if (!class_exists('Inbound_Events_Report')) {
                 'source' => (isset($_REQUEST['source']) ) ? sanitize_text_field(urldecode($_REQUEST['source'])) : '' ,
                 'start_date' => self::$start_date,
                 'end_date' => self::$end_date,
-                'group_by' => 'lead_uid'
+                'group_by' => (isset($_REQUEST['group_by'])) ? intval($_REQUEST['group_by']) : '',
             );
+
             self::$events = Inbound_Events::get_events($params);
 
-            if (self::$show_chart == 'false' ) {
+            if (self::$show_graph == 'false' ) {
                 return;
             }
 
@@ -926,7 +940,7 @@ if (!class_exists('Inbound_Events_Report')) {
                 /* get action counts */
                 $params = array(
                     'page_id' => (isset($_REQUEST['page_id'])) ? : intval($_REQUEST['page_id']),
-                    'lead_id' => (isset($_REQUEST['page_id'])) ? : intval($_REQUEST['lead_id']),
+                    'lead_id' => (isset($_REQUEST['lead_id'])) ? : intval($_REQUEST['lead_id']),
                     'source' => (isset($_REQUEST['source']) ) ? sanitize_text_field(urldecode($_REQUEST['source'])) : '' ,
                     'start_date' => self::$start_date,
                     'end_date' => self::$end_date,
