@@ -178,7 +178,7 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 
 				/* load subscriber only assets */
 				if ( INBOUND_ACCESS_LEVEL> 0 && INBOUND_ACCESS_LEVEL != 9 ) {
-					include_once( INBOUND_PRO_PATH . 'classes/admin/class.analytics.php');
+					include_once( INBOUND_PRO_PATH . 'classes/admin/class.inbound-analytics.php');
 				}
 				//include_once( INBOUND_PRO_PATH . 'classes/admin/class.reporting.funnels.php');
 
