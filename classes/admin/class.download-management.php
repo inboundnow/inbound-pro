@@ -514,7 +514,7 @@ class Inbound_Pro_Downloads {
 
 		?>
 		<div class="updated">
-			<p><?php _e( sprintf( 'ATTENTION: open_basedir restriction in effect which will cause problems with installation. %s ' , '<a href="'.$settings_url.'">'.__( 'settings page' , 'inbound-pro' ).'</a>') , 'inbound-email'); ?></p>
+			<p><?php _e( 'ATTENTION: open_basedir restriction in effect which will cause problems with installation.' , 'inbound-pro'); ?></p>
 		</div>
 
 		<?php
