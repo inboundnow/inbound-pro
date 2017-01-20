@@ -238,7 +238,7 @@ if (!class_exists('Inbound_Event_Report')) {
                         <span><?php _e('Source' , 'inbound-pro'); ?></span>
                     </th>
                     <th scope="col" class="">
-                        <span><?php _e('' , 'inbound-pro'); ?></span>
+                        <span></span>
                     </th>
                     <th scope="col" class="">
                         <span><?php _e('Event Date' , 'inbound-pro'); ?><i class="fa fa-sort-desc" aria-hidden="true"></i></span>
