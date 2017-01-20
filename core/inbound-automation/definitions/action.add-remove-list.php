@@ -65,7 +65,6 @@ if ( !class_exists( 'Inbound_Automation_Action_Add_Remove_List' ) ) {
         * Run the action
         */
         public static function run_action( $action , $arguments ) {
-            global $Inbound_Leads;
 
             $added = array();
             $removed = array();
@@ -126,7 +125,7 @@ if ( !class_exists( 'Inbound_Automation_Action_Add_Remove_List' ) ) {
                         continue;
                     }
 
-                    $Inbound_Leads->add_lead_to_list( $final_args['id'] , intval($list_id) );
+                    Inbound_Leads::add_lead_to_list( $final_args['id'] , intval($list_id) );
                     $added[] = $list_id;
                 }
             }
@@ -135,7 +134,7 @@ if ( !class_exists( 'Inbound_Automation_Action_Add_Remove_List' ) ) {
             if ( isset($action['remove_from_lead_lists']) && is_array($action['remove_from_lead_lists']) ) {
                 foreach ( $action['remove_from_lead_lists'] as $list_id ) {
 
-                    $Inbound_Leads->remove_lead_from_list( $final_args['id'] , intval($list_id) );
+                    Inbound_Leads::remove_lead_from_list( $final_args['id'] , intval($list_id) );
                     $removed[] = $list_id;
                 }
             }
