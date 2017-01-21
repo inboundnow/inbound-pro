@@ -39,6 +39,11 @@ if ( !class_exists('Inbound_Automation_Post_Type') ) {
 				/* Setup Ajax Listeners - Clear tasks related to a rule */
 				add_action( 'wp_ajax_automation_rule_remove_taks', array(__CLASS__, 'ajax_clear_rule_tasks'));
 
+				/* setup bulk edit options */
+				add_action('admin_footer-edit.php', array(__CLASS__, 'register_bulk_edit_fields'));
+
+				/* process bulk actions  */
+				add_action('load-edit.php', array(__CLASS__, 'process_bulk_actions'));
 			}
 		}
 
@@ -192,6 +197,69 @@ if ( !class_exists('Inbound_Automation_Post_Type') ) {
 		}
 
 		/**
+		 * Adds additional options to bulk edit fields
+		 */
+		public static function register_bulk_edit_fields() {
+			global $post_type;
+
+			if ($post_type != 'automation') {
+				return;
+			}
+
+			?>
+			<script type="text/javascript">
+				jQuery(document).ready(function () {
+
+					jQuery('<option>').val('turn-off').text('<?php _e('Turn Off Rule', 'inbound-pro' ) ?>').appendTo("select[name='action']");
+					jQuery('<option>').val('turn-off').text('<?php _e('Turn Off Rule', 'inbound-pro' ) ?>').appendTo("select[name='action2']");
+					jQuery('<option>').val('turn-on').text('<?php _e('Turn On Rule', 'inbound-pro' ) ?>').appendTo("select[name='action']");
+					jQuery('<option>').val('turn-on').text('<?php _e('Turn On Rule', 'inbound-pro' ) ?>').appendTo("select[name='action2']");
+				});
+			</script>
+			<?php
+		}
+
+		/**
+		 * process bulk actions for wp-lead post type
+		 */
+		public static function process_bulk_actions() {
+
+			if (!isset($_REQUEST['post_type']) || $_REQUEST['post_type'] != 'automation' || !isset($_REQUEST['post'])) {
+				return;
+			}
+
+			if (!current_user_can('manage_options')) {
+				die();
+			}
+
+			$rule_ids = array_map('intval', $_REQUEST['post']);
+
+			switch ($_REQUEST['action']) {
+				case 'turn-off':
+					$added = 0;
+					foreach ($rule_ids as $rule_id) {
+						self::ajax_toggle_rule_status( $rule_id , 'off');
+						$added++;
+					}
+					$sendback = add_query_arg(array('added' => $added, 'post_type' => 'automation', 'ids' => join(',', $rule_ids)), $sendback);
+					break;
+				case 'turn-on':
+					$added = 0;
+					foreach ($rule_ids as $rule_id) {
+						self::ajax_toggle_rule_status( $rule_id , 'on');
+						$added++;
+					}
+					$sendback = add_query_arg(array('added' => $added, 'post_type' => 'automation', 'ids' => join(',', $rule_ids)), $sendback);
+					break;
+			}
+
+			// 4. Redirect client
+			wp_redirect($sendback);
+			exit();
+
+		}
+
+		/**
 		 * @param $rule_id
 		 */
 		public static function delete_rule_tasks( $rule_id ) {
@@ -210,13 +278,19 @@ if ( !class_exists('Inbound_Automation_Post_Type') ) {
 		/**
 		 * Ajax handler to toggle rule status
 		 */
-		public static function ajax_toggle_rule_status() {
-			$rule_id = intval($_REQUEST['rule_id']);
+		public static function ajax_toggle_rule_status( $rule_id = null , $status = 'on') {
+			$rule_id = (isset($_REQUEST['rule_id'])) ? intval($_REQUEST['rule_id']) : $rule_id;
 			$rule = get_post_meta($rule_id, 'inbound_rule', true);
-			$status = ( isset($_REQUEST['status']) && $_REQUEST['status'] == 'checked'  ) ? 'on' : 'off';
+			$status = ( isset($_REQUEST['status']) ) ? sanitize_text_field($_REQUEST['status']) : $status;
 			$rule['status'] = $status;
-			echo update_post_meta($rule_id, 'inbound_rule', $rule);
-			exit;
+
+			if (defined('DOING_AJAX') && DOING_AJAX) {
+				echo update_post_meta($rule_id, 'inbound_rule', $rule);
+				exit;
+			} else {
+				return update_post_meta($rule_id, 'inbound_rule', $rule);
+			}
+
 		}
 
 		/**

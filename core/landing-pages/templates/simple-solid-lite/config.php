@@ -153,7 +153,7 @@ if( function_exists('register_field_group') ):
 				'key' => 'field_55df74203fb9e',
 				'label' => 'Top Right Area',
 				'name' => 'simple-solid-lite-social-media-options',
-				'type' => 'textarea',
+				'type' => 'wysiwyg',
 				'instructions' => 'Insert your social media shortcode/snippet here. We provide one out of the box for you but you are welcome to change it.',
 				'required' => 0,
 				'conditional_logic' => 0,

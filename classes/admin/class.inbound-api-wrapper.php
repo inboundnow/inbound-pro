@@ -200,12 +200,11 @@ class Inbound_API_Wrapper {
 	}
 
 	/**
-	 * Get the pro download url
+	 * Get the API endpoint that allows class.updater.php to discover information about the latest fileset
 	 */
 	public static function get_pro_info_endpoint() {
-		return self::get_api_url().'pro/info';
+		return self::get_api_url().'pro/latest';
 	}
-
 
 	/**
 	 *  Get download zip file from inbound now

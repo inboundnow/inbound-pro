@@ -128,8 +128,56 @@ if (!class_exists('LeadStorage')) {
 
 				/* Add Leads to List on creation */
 				if(!empty($lead['lead_lists']) && is_array($lead['lead_lists'])){
+					$double_optin_lists = array();
+					$normal_lists = array();
+				
+					/*differentiate between double optin lists and lists that don't require double optin*/
+					foreach($lead['lead_lists'] as $list_id){
+						$list_meta_settings = get_term_meta($list_id, 'wplead_lead_list_meta_settings', true);
+						if(isset($list_meta_settings['double_optin']) && $list_meta_settings['double_optin'] == '1'){
+							$double_optin_lists[] = $list_id;
+						}else{
+							$normal_lists[] = $list_id;
+						}
+					}
+                    
+                    /*remove any groups that the lead is already on from the double optin groups*/
+                    if(array_filter($double_optin_lists)){
+                        $existing_lists = wp_get_post_terms( $lead['id'], 'wplead_list_category');
+                        foreach($existing_lists as $existing_list){
+                            if(in_array($existing_list->term_id, $double_optin_lists)){
+                                $index = array_search($existing_list->term_id, $double_optin_lists);
+                                unset($double_optin_lists[$index]);
+                            }
+                        }
+                    }
 
-					Inbound_Leads::add_lead_to_list($lead['id'], $lead['lead_lists']);
+					if(array_filter($double_optin_lists)){
+                        /*get the double optin waiting list id*/
+                        if(!defined('INBOUND_PRO_CURRENT_VERSION')){
+                            $double_optin_list_id = get_option('list-double-optin-list-id', '');
+                        }else{
+                            $settings = Inbound_Options_API::get_option('inbound-pro', 'settings', array());
+                            $double_optin_list_id = $settings['leads']['list-double-optin-list-id'];
+                        }
+                        
+                        /*if there is a list to store the leads in*/
+                        if($double_optin_list_id){
+                            /*store the list ids that need confirmation*/
+                            update_post_meta($lead['id'], 'double_optin_lists', $double_optin_lists);
+                            
+                            /*change the lead status to waiting for double optin*/
+                            update_post_meta( $lead['id'] , 'wp_lead_status' , 'double-optin');
+                            
+                        
+                            /*add the lead to the double optin confirmation list*/
+                            Inbound_Leads::add_lead_to_list($lead['id'], $double_optin_list_id);
+                            Inbound_List_Double_Optin::send_double_optin_confirmation($lead);
+                        }
+					}
+										
+					/*add the lead to all lists that don't require double optin*/
+					Inbound_Leads::add_lead_to_list($lead['id'], $normal_lists);
 
 					/* store lead list cookie */
 					if (class_exists('Leads_Tracking')) {
@@ -168,11 +216,7 @@ if (!class_exists('LeadStorage')) {
 				/* Store Legacy Conversion Data to LANDING PAGE/CTA DATA	*/
 				if (isset($lead['page_id']) && $lead['page_id'] ) {
 					self::store_conversion_stats($lead);
-				}
 
-				/* Store Lead Source */
-				if ( isset($lead['source']) ) {
-					self::store_referral_data($lead);
 				}
 
 				/* Store URL Params */
@@ -182,11 +226,6 @@ if (!class_exists('LeadStorage')) {
 					if(is_array($param_array)){
 
 					}
-				}
-
-				/* Store Conversion Data to LANDING PAGE/CTA DATA	*/
-				if (isset($lead['page_id'])) {
-					self::store_conversion_stats($lead);
 				}
 
 				/* Store IP addresss & Store GEO Data */
@@ -388,48 +427,6 @@ if (!class_exists('LeadStorage')) {
 			update_post_meta($lead['page_id'], '_inbound_conversion_data', $page_conversion_data);
 		}
 
-		/**
-		 *	Stores referral data
-		 */
-		static function store_referral_data($lead) {
-			$referral_data = get_post_meta( $lead['id'], 'wpleads_referral_data', TRUE );
-
-			/* Parse referral for additional data */
-			include_once( INBOUNDNOW_SHARED_PATH. 'assets/includes/Snowplow/RefererParser/INBOUND_Parser.php');
-			include_once( INBOUNDNOW_SHARED_PATH .'assets/includes/Snowplow/RefererParser/INBOUND_Referer.php');
-			include_once(INBOUNDNOW_SHARED_PATH . 'assets/includes/Snowplow/RefererParser/INBOUND_Medium.php');
-
-			/* intialized the parser class */
-			$parser = new INBOUND_Parser();
-			/*$array = array('http://google.com', 'http://twitter.com', 'http://tumblr.com?query=test', ''); */
-			$referer = $parser->parse($lead['source']);
-
-			if ( $referer->isKnown() ) {
-				$ref_type = $referer->getMedium();
-
-			} else {
-				/* check if ref exists */
-				$ref_type = ($lead['source'] === "Direct Traffic") ? 'Direct Traffic' : 'referral';
-			}
-
-			$referral_data = json_decode($referral_data,true);
-			if (is_array($referral_data)){
-				$r_count = count($referral_data) + 1;
-				$referral_data[$r_count]['source'] = $lead['source'];
-				$referral_data[$r_count]['type'] = $ref_type;
-				$referral_data[$r_count]['datetime'] = $lead['wordpress_date_time'];
-			} else {
-				$referral_data[1]['source'] = $lead['source'];
-				$referral_data[1]['type'] = $ref_type;
-				$referral_data[1]['datetime'] = $lead['wordpress_date_time'];
-				$referral_data[1]['original_source'] = 1;
-			}
-
-			$lead['referral_data'] = json_encode($referral_data);
-			/*echo $lead['referral_data']; exit; */
-			update_post_meta($lead['id'], 'wpleads_referral_data', $lead['referral_data']); /* Store referral object */
-			update_post_meta($lead['id'], 'wpleads_referral_type', $ref_type); /* Store referral object */
-		}
 
 		/**
 		 *		Loop trough lead_data array and update post meta

@@ -125,6 +125,6 @@ if ( !class_exists( 'Inbound_Automation_Action_Relay_Data' ) ) {
 	}
 
 	/* Load Action */
-	$Inbound_Automation_Action_Relay_Data = new Inbound_Automation_Action_Relay_Data();
+	new Inbound_Automation_Action_Relay_Data();
 
 }

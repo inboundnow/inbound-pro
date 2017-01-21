@@ -37,11 +37,13 @@ jQuery(document).ready(function ($) {
 
         var mark_as_read = '<span class="mark-read button" title="Mark lead as viewed">Mark as read</span>';
         var mark_as_unread = '<span class="mark-unread button" title="Mark lead as unread">Mark as unread</span>';
+        //var stop_waiting_for_optin = '<span class="stop-waiting-for-optin button" title="Remove the lead from the double opt in waiting list">Stop waiting for opt in</span>';
         //jQuery(mark_as_read).appendTo(".row-actions");
         jQuery(mark_as_read).appendTo(".edit");
         jQuery(mark_as_unread).appendTo(".edit");
+        //jQuery(stop_waiting_for_optin).appendTo(".edit");
 
-        jQuery('.mark-read, .mark-unread').each(function () {
+        jQuery('.mark-read, .mark-unread, .stop-waiting-for-optin').each(function () {
             var this_lead = jQuery(this).parent().parent().parent().parent().attr("id");
             var lead_id = this_lead.replace("post-", "");
             jQuery(this).attr("id", lead_id);
@@ -79,7 +81,11 @@ jQuery(document).ready(function ($) {
             } else if (current_status === "new") {
                 jQuery(this).find(".mark-unread").hide();
                 jQuery(this).find(".mark-read").show();
-            }
+            } else if (current_status === "double-optin") {
+				jQuery(this).find(".mark-unread").hide();
+                jQuery(this).find(".mark-read").hide();
+				jQuery(this).find(".stop-waiting-for-optin").css({'display' : 'inline-block'});
+			}
         });
         //var move_box = jQuery(".alignleft.actions").first();
         //jQuery(".subsubsub").before(move_box);
@@ -148,6 +154,42 @@ jQuery(document).ready(function ($) {
                 context: this,
                 data: {
                     action: 'wp_leads_mark_as_unread_save',
+                    j_rules: status,
+                    page_id: post_id
+                },
+
+                success: function (data) {
+                    var self = this;
+                    //alert(data);
+                    // jQuery('.lp-form').unbind('submit').submit();
+                    jQuery(self).hide();
+                    jQuery(self).parent().parent().parent().parent().css("background-color", "#f2f2f2");
+                    jQuery(self).parent().parent().parent().parent().find(".status").text("Done!");
+                    //alert("Changes Saved! Refresh the page to see your changes");
+                },
+
+                error: function (MLHttpRequest, textStatus, errorThrown) {
+                    alert("Ajax not enabled");
+                }
+            });
+
+            return false;
+
+        });
+
+        jQuery('.stop-waiting-for-optin').on('click', function () {
+
+            // define the bulk edit row
+            var post_id = jQuery(this).attr("id");
+            var status = "Read";
+            jQuery(self).parent().parent().parent().parent().find(".status").text("Updating...");
+
+            jQuery.ajax({
+                type: 'POST',
+                url: ajaxurl,
+                context: this,
+                data: {
+                    action: 'wp_leads_stop_waiting_for_double_optin',
                     j_rules: status,
                     page_id: post_id
                 },

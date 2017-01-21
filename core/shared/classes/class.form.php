@@ -551,7 +551,7 @@ if (!class_exists('Inbound_Forms')) {
             /* TODO remove this */
             ?>
             <script type="text/javascript">
-                _inbound.add_action( 'form_before_submission', inbound_additional_checks, 10);
+                _inbound.add_action( 'form_before_submission', inbound_additional_checks, 9);
 
                 function inbound_additional_checks( data ) {
                     /* make sure event is defined */
@@ -560,14 +560,17 @@ if (!class_exists('Inbound_Forms')) {
                         event.target = data.event;
                     }
 
-                    /* added below condition for check any of checkbox checked or not by kirit dholakiya */
-                    if( jQuery('.checkbox-required')[0] && jQuery('.checkbox-required input[type=checkbox]:checked').length==0) {
-                        jQuery('.checkbox-required input[type=checkbox]:first').focus();
+                  	/*make sure all of this form's required checkboxes are checked*/
+                    var checks = jQuery(event.target).find('.checkbox-required');
+                    for(var a = 0; a < checks.length; a++){
+                      if( checks[a] && jQuery(checks[a]).find('input[type=checkbox]:checked').length==0){
+                        jQuery(jQuery(checks[a]).find('input')).focus();
                         alert("<?php _e('Oops! Looks like you have not filled out all of the required fields!', 'inbound-pro') ; ?> ");
-                        throw new Error('<?php _e('Oops! Looks like you have not filled out all of the required fields!', 'inbound-pro') ; ?>');
+                        throw new Error("<?php _e('Oops! Looks like you have not filled out all of the required fields!', 'inbound-pro') ; ?>");
+                      }
                     }
 
-                    jQuery(this).find("input").each(function(){
+                  jQuery(this).find("input").each(function(){
                         if(!jQuery(this).prop("required")){
                         } else if (!jQuery(this).val()) {
                             alert("<?php  _e('Oops! Looks like you have not filled out all of the required fields!', 'inbound-pro'); ?>");

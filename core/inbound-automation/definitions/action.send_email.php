@@ -137,7 +137,8 @@ if ( !class_exists( 'Inbound_Automation_Action_Send_Email' ) ) {
 							'email_id' => $action['email_id'],
 							'tags' => array( 'automated' ),
 							'vid' => $vid,
-							'lead_lists' => $lead_lists
+							'lead_lists' => $lead_lists,
+						    'rule_id' => $action['rule_id']
 					));
 
 					BREAK;
@@ -180,6 +181,6 @@ if ( !class_exists( 'Inbound_Automation_Action_Send_Email' ) ) {
 	}
 
 	/* Load Action */
-	$Inbound_Automation_Action_Send_Email = new Inbound_Automation_Action_Send_Email();
+	new Inbound_Automation_Action_Send_Email();
 
 }

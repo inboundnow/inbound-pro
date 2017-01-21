@@ -365,7 +365,8 @@ class Inbound_Mailer_Tokens {
 		$params = shortcode_atts( array(
 			'lead_id' => '',
 			'list_ids' => '-1',
-			'email_id' => '-1'
+			'email_id' => '-1',
+			'rule_id' => '-1'
 		), $params );
 
 		/* check to see if lead id is set as a REQUEST */

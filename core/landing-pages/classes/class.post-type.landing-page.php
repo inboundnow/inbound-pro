@@ -46,7 +46,7 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
             if (isset($_GET['dont_save'])
                 || isset($_GET['iframe_window'])
                 || isset($_GET['inbound-preview']) ) {
-                add_action('wp_enqueue_scripts', array(__CLASS__, 'stop_stat_tracking'));
+                add_action('wp_enqueue_scripts', array(__CLASS__, 'stop_stat_tracking') , 20);
             }
 
             /* load iframed preview page when preview is clicked from AB stats box */
@@ -583,7 +583,7 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
          */
         public static function stop_stat_tracking() {
             show_admin_bar(false);
-            wp_enqueue_script('stop-inbound-stats-js', LANDINGPAGES_URLPATH . 'assets/js/stop_page_stats.js');
+            wp_enqueue_script('stop-inbound-stats-js', LANDINGPAGES_URLPATH . 'assets/js/stop_page_stats.js' , array('inbound-analytics'));
             wp_enqueue_style('inbound-preview-window-css', LANDINGPAGES_URLPATH . 'assets/css/iframe-preview.css');
         }
 

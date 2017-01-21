@@ -30,7 +30,9 @@ class Inbound_Mailer_Unsubscribe {
 	public static function display_unsubscribe_page( $atts ) {
 		global $inbound_settings;
 
-		$usubscribe_header_text = (isset($inbound_settings['inbound-mailer']['unsubscribe-header-text'])) ? $inbound_settings['inbound-mailer']['unsubscribe-header-text'] : __( 'Unsubscribe:', 'inbound-pro');
+		$html = "";
+		$usubscribe_notice_automation_series = (isset($inbound_settings['inbound-mailer']['unsubscribe-notice-automation-series'])) ? $inbound_settings['inbound-mailer']['unsubscribe-notice-automation-series'] : __( 'You have unsubscribed!<br> Additional options below.', 'inbound-pro');
+		$unsubscribe_header_text = (isset($inbound_settings['inbound-mailer']['unsubscribe-header-text'])) ? $inbound_settings['inbound-mailer']['unsubscribe-header-text'] : __( 'Unsubscribe:', 'inbound-pro');
 		$usubscribe_button_text = (isset($inbound_settings['inbound-mailer']['unsubscribe-button-text'])) ? $inbound_settings['inbound-mailer']['unsubscribe-button-text'] : __( 'Unsubscribe', 'inbound-pro');
 		$usubscribe_show_lists = (isset($inbound_settings['inbound-mailer']['unsubscribe-show-lists'])) ? $inbound_settings['inbound-mailer']['unsubscribe-show-lists'] : 'on';
 		$mute_header_text = (isset($inbound_settings['inbound-mailer']['mute-header-text'])) ? $inbound_settings['inbound-mailer']['mute-header-text'] : __( 'Mute:', 'inbound-pro');
@@ -55,20 +57,33 @@ class Inbound_Mailer_Unsubscribe {
 			return __( 'Invalid token' , 'inbound-pro' );
 		}
 
-
-
 		/* get all lead lists */
 		$lead_lists = Inbound_Leads::get_lead_lists_as_array();
 
 		/* decode token */
 		$params = self::decode_unsubscribe_token( sanitize_text_field($_GET['token']) );
 
+
+
 		if ( !isset( $params['lead_id'] ) ) {
 			return __( 'Oops. Something is wrong with the unsubscribe link. Are you logged in?' , 'inbound-pro' );
 		}
 
+		/* check if lead is coming from automation seriest */
+		if (isset($params['rule_id']) && $params['rule_id'] ) {
+			$html .= "<blockquote class='unsubscribe-notice'>";
+			$html .= $usubscribe_notice_automation_series;
+			$html .= "</blockquote>";
+
+			/* delete remaining automation tasks for automation rule */
+			Inbound_Automation_Post_Type::delete_rule_tasks($params['rule_id']);
+		}
+
+		/* Add header */
+		$html .= "<div class='unsubscribe-header'>" .$unsubscribe_header_text . "</div>";
+
 		/* Begin unsubscribe html inputs */
-		$html = "<form action='?unsubscribed=true' name='unsubscribe' method='post'>";
+		$html .= "<form action='?unsubscribed=true' name='unsubscribe' method='post'>";
 		$html .= "<input type='hidden' name='token' value='".strip_tags($_GET['token'])."' >";
 		$html .= "<input type='hidden' name='action' value='inbound_unsubscribe_event' >";
 

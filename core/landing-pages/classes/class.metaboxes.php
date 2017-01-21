@@ -482,7 +482,7 @@ class Landing_Pages_Metaboxes {
             </style>
             <div class="inside" id="a-b-testing">
 
-                <div id="bab-stat-box">
+                <div id="stat-box">
                     <?php
 
                     if (isset($_GET['new_meta_key']) && is_numeric($_GET['new_meta_key']) ) {
@@ -531,10 +531,10 @@ class Landing_Pages_Metaboxes {
                         ?>
 
                         <div id="lp-variation-<?php echo Landing_Pages_Variations::vid_to_letter( $post->ID , $key); ?>"
-                             class="bab-variation-row <?php echo $variation_status_class; ?>">
-                            <div class='bab-varation-header'>
-								<span class='bab-variation-name'><?php _e('Variation', 'landing-pages'); ?> <span
-                                        class='bab-stat-letter'><?php echo Landing_Pages_Variations::vid_to_letter( $post->ID , $key); ?></span>
+                             class="variation-row <?php echo $variation_status_class; ?>">
+                            <div class='varation-header'>
+								<span class='variation-name'><?php _e('Variation', 'landing-pages'); ?> <span
+                                        class='stat-letter'><?php echo Landing_Pages_Variations::vid_to_letter( $post->ID , $key); ?></span>
                                     <?php
                                     if ($variation_status != 1) {
                                         ?>
@@ -549,28 +549,28 @@ class Landing_Pages_Metaboxes {
 <span class="settings_wrapper_heading">Variation Settings</span>
     <ul class="settings_list_li">
         <li class="settings_edit">
-            <span class='bab-stat-menu-edit'>
+            <span class='stat-menu-edit'>
                 <a title="<?php _e('Edit this variation', 'landing-pages'); ?>" href='?post=<?php echo $post->ID; ?>&action=edit&action-variation-id=<?php echo $vid; ?>'>
                     <?php _e('Edit', 'landing-pages'); ?>
                 </a>
             </span>
         </li>
         <li class="settings_preview">
-            <span class='bab-stat-menu-preview'>
+            <span class='stat-menu-preview'>
                 <a title="<?php _e('Preview this variation', 'landing-pages'); ?>" class='thickbox' href='<?php echo $permalink; ?>&iframe_window=on&post_id=<?php echo $post->ID; ?>&TB_iframe=true&width=1503&height=467' target='_blank'>
                     <?php _e('Preview', 'landing-pages'); ?>
                 </a>
             </span>
         </li>
         <li class="settings_clone">
-            <span class='bab-stat-menu-clone'>
+            <span class='stat-menu-clone'>
                 <a title="<?php _e('Clone this variation', 'landing-pages'); ?>" href='?post=<?php echo $post->ID; ?>&action=edit&new-variation=1&clone=<?php echo $vid; ?>&new_meta_key=<?php echo $howmany; ?>'>
                     <?php _e('Clone', 'landing-pages'); ?>
                 </a>
             </span>
         </li>
         <li class="settings_delete">
-            <span class='bab-stat-control-delete'>
+            <span class='stat-control-delete'>
                 <a title="<?php _e('Delete this variation', 'landing-pages'); ?>" href='?post=<?php echo $post->ID; ?>&action=edit&action-variation-id=<?php echo $vid; ?>&ab-action=delete-variation'>
                     <?php _e('Delete', 'landing-pages'); ?>
                 </a>
@@ -588,13 +588,13 @@ class Landing_Pages_Metaboxes {
 
                                 
 <!-- PAUSE START -->                                
-<span class='bab-stat-control-pause'><a title="<?php _e('Pause this variation', 'landing-pages'); ?>"
+<span class='stat-control-pause'><a title="<?php _e('Pause this variation', 'landing-pages'); ?>"
                                                 href='?post=<?php echo $post->ID; ?>&action=edit&action-variation-id=<?php echo $vid; ?>&ab-action=pause-variation'> </a></span>
 <!-- PAUSE END -->                                
 
 <!-- PLAY START -->
-<span class='bab-stat-seperator pause-sep'>|</span>
-<span class='bab-stat-control-play'><a
+<span class='stat-seperator pause-sep'>|</span>
+<span class='stat-control-play'><a
         title="<?php _e('Turn this variation on', 'landing-pages'); ?>"
 href='?post=<?php echo $post->ID; ?>&action=edit&action-variation-id=<?php echo $vid; ?>&ab-action=play-variation'> </a></span>
 <!-- PLAY END -->
@@ -602,26 +602,26 @@ href='?post=<?php echo $post->ID; ?>&action=edit&action-variation-id=<?php echo 
                                 
                                 
                             </div>
-                            <div class="bab-stat-row">
-                                <div class='bab-stat-stats' colspan='2'>
-                                    <div class='bab-stat-container-impressions bab-number-box'>
-                                       <span class="bab-stat-id"><?php _e('Views', 'landing-pages'); ?> </span>
-                                        <span class='bab-stat-span-impressions'><?php echo $impressions; ?></span>
+                            <div class="stat-row">
+                                <div class='stat-stats' colspan='2'>
+                                    <div class='stat-container-impressions number-box'>
+                                       <span class="stat-id"><?php _e('Views', 'landing-pages'); ?> </span>
+                                        <span class='stat-span-impressions'><?php echo $impressions; ?></span>
                                     </div>
-                                    <div class='bab-stat-container-conversions bab-number-box'>
-<span class="bab-stat-id"><?php _e('Conversions', 'landing-pages'); ?></span>                                        <span class='bab-stat-span-conversions'><?php echo $conversions; ?></span>
+                                    <div class='stat-container-conversions number-box'>
+<span class="stat-id"><?php _e('Conversions', 'landing-pages'); ?></span>                                        <span class='stat-span-conversions'><?php echo $conversions; ?></span>
                                         </span>
                                     </div>
-                                    <div class='bab-stat-container-conversion_rate bab-number-box'>
-                        <span class="bab-stat-id bab-rate"><?php _e('Conversion Rate', 'landing-pages'); ?></span>
-                        <span class='bab-stat-span-conversion_rate'><?php echo $conversion_rate; ?></span>
+                                    <div class='stat-container-conversion_rate number-box'>
+                        <span class="stat-id rate"><?php _e('Conversion Rate', 'landing-pages'); ?></span>
+                        <span class='stat-span-conversion_rate'><?php echo $conversion_rate; ?></span>
                                     </div>
                                      
                                 </div>
                             </div>
-                            <div class="bab-stat-row">
+                            <div class="stat-row">
 
-                                <div class='bab-stat-menu-container'>
+                                <div class='stat-menu-container'>
 
                                     <?php do_action('lp_ab_testing_stats_menu_post'); ?>
 

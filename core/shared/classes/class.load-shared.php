@@ -37,6 +37,7 @@ if (!class_exists('Inbound_Load_Shared')) {
 		 */
 		public static function load_constants() {
 			define('INBOUNDNOW_SHARED', 'loaded' );
+			define('INBOUNDNOW_SHARED_DBRV', '1.0.1' );
 			define('INBOUNDNOW_SHARED_PATH', self::get_shared_path() );
 			define('INBOUNDNOW_SHARED_URLPATH', self::get_shared_urlpath() );
 			define('INBOUNDNOW_SHARED_FILE', self::get_shared_file() );
@@ -59,6 +60,8 @@ if (!class_exists('Inbound_Load_Shared')) {
 			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.shortcodes.email-template.php');
 			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.shortcodes.cookie-values.php');
 			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.lead-fields.php');
+			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.list-double-optin.php');
+			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.confirm-double-optin.php');
 			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.options-api.php');
 			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.events.php');
 			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.lead-storage.php');
@@ -72,6 +75,7 @@ if (!class_exists('Inbound_Load_Shared')) {
 
 			/* load admin only */
 			if (is_admin()) {
+				include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.database-routines.php');
 				include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.licensing.php');
 				include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.master-license.php');
 				include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.promote.php');
@@ -173,14 +177,18 @@ if (!class_exists('Inbound_Load_Shared')) {
 		*  Run activation rules hosted in shared directory
 		*/
 		public static function run_activation_rules() {
-			if ( is_admin() && get_option( 'Inbound_Activate' ) ) {
 
-				/* Delete activation trigger */
-				delete_option( 'Inbound_Activate' );
-
-				/* Run activation action hook for shared components */
-				do_action( 'inbound_shared_activate' );
+			if ( !is_admin() || !get_option( 'Inbound_Activate' ) ) {
+				return;
 			}
+
+			/* Delete activation trigger */
+			delete_option( 'Inbound_Activate' );
+
+			/* Run activation action hook for shared components */
+			do_action( 'inbound_shared_activate' );
+
+
 		}
 	}
 }

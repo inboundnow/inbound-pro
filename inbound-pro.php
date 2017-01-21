@@ -4,7 +4,7 @@ Plugin Name: Inbound Now PRO
 Plugin URI: http://www.inboundnow.com/
 Description: Professional Inbound Marketing Suite for WordPress
 Author: InboundWP LLC
-Version: 1.8.0.0.7
+Version: 1.8.2.0.1
 Author URI: http://www.inboundnow.com/
 Text Domain: inbound-pro
 Domain Path: /lang/
@@ -94,9 +94,9 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 		*/
 		private static function define_constants() {
 
-			define('INBOUND_PRO_CURRENT_VERSION', '1.8.0.0.7' );
-			define('INBOUND_PRO_STABLE_VERSION', '1.8.0.0.7' );
-			define('INBOUND_PRO_TRANSLATIONS_VERSION', '1.22.1' );
+			define('INBOUND_PRO_CURRENT_VERSION', '1.8.2.0.1' );
+			define('INBOUND_PRO_STABLE_VERSION', '1.8.2.0.1' );
+			define('INBOUND_PRO_TRANSLATIONS_VERSION', '1.29.1' );
 			define('INBOUND_PRO_URLPATH', plugin_dir_url( __FILE__ ));
 			define('INBOUND_PRO_PATH', plugin_dir_path( __FILE__ ) );
 			define('INBOUND_PRO_SLUG', plugin_basename( dirname(__FILE__) ) );
@@ -139,11 +139,11 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 			/* load misc front & backend files */
 			include_once( INBOUND_PRO_PATH . 'classes/admin/class.lead-field-mapping.php');
 
+			/* load tracking report features */
+			include_once( INBOUND_PRO_PATH . 'classes/class.tracking.php');
+
 			/* load subscriber only assets/features */
 			if ( INBOUND_ACCESS_LEVEL> 0 && !isset($_GET['acf_off']) && INBOUND_ACCESS_LEVEL != 9 ) {
-
-				/* load tracking report features */
-				include_once( INBOUND_PRO_PATH . 'classes/class.tracking.php');
 
 				/* if lite mode enabled then set the constant */
 				if ( !isset($inbound_settings['inbound-acf']['toggle-acf-lite']) || $inbound_settings['inbound-acf']['toggle-acf-lite'] == 'on') {
@@ -151,7 +151,9 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 				}
 
 				include_once( INBOUND_PRO_PATH . 'assets/plugins/advanced-custom-fields-pro/acf.php');
+
 			}
+
 
 			/* Admin Only */
 			if (is_admin()) {
@@ -160,7 +162,6 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.menus.adminmenu.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.lead-status-mapping.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.settings.php');
-				include_once( INBOUND_PRO_PATH . 'classes/admin/class.analytics.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.download-management.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.inbound-api-wrapper.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.ajax.listeners.php');
@@ -171,9 +172,14 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 				include_once( INBOUND_PRO_PATH . 'classes/admin/report-templates/content.impressions.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/report-templates/content.visitor-pageviews.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/report-templates/content.visitors.php');
+				include_once( INBOUND_PRO_PATH . 'classes/admin/report-templates/content.event.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/report-templates/content.events.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/report-templates/content.visitor-events.php');
 
+				/* load subscriber only assets */
+				if ( INBOUND_ACCESS_LEVEL> 0 && INBOUND_ACCESS_LEVEL != 9 ) {
+					include_once( INBOUND_PRO_PATH . 'classes/admin/class.inbound-analytics.php');
+				}
 				//include_once( INBOUND_PRO_PATH . 'classes/admin/class.reporting.funnels.php');
 
 			}
@@ -250,11 +256,6 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 
 			if (!isset($inbound_settings['translations']['toggle-translations']) || $inbound_settings['translations']['toggle-translations'] != 'on' ) {
 				return;
-			}
-
-
-			if (!defined('INBOUNDNOW_TEXT_DOMAIN')) {
-				define('INBOUNDNOW_TEXT_DOMAIN', 'inbound-pro' );
 			}
 
 			load_textdomain( 'inbound-pro' , INBOUND_PRO_UPLOADS_PATH . 'assets/lang/'.$local.'.mo'  );

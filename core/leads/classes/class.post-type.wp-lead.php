@@ -52,7 +52,9 @@ class Leads_Post_Type {
         add_action('wp_ajax_wp_leads_mark_as_unread_save', array(__CLASS__, 'ajax_mark_lead_as_unread'));
         /* mark lead status as read on first open */
         add_action('wp_ajax_wp_leads_auto_mark_as_read', array(__CLASS__, 'ajax_auto_mark_as_read'));
-
+        /* mark lead status as read and stop waiting for the lead to opt into lists*/
+        add_action('wp_ajax_wp_leads_stop_waiting_for_double_optin', array(__CLASS__, 'ajax_stop_waiting_for_double_optin'));
+        
         /* add extra menu items */
         add_action('admin_menu', array(__CLASS__, 'setup_admin_menu'));
 
@@ -78,7 +80,7 @@ class Leads_Post_Type {
             "last-name" => __('Last Name', 'inbound-pro' ),
             "title" => __('Email', 'inbound-pro' ),
             "status" => __('Status', 'inbound-pro' ),
-            'action-count' => __('Actions', 'inbound-pro' ),
+            'action-count' => (class_exists('Inbound_Analytics')) ? __('Logs', 'inbound-pro' ) : __('Events', 'inbound-pro' ),
             "page-views" => __('Page Views', 'inbound-pro' ),
             "modified" => __('Updated', 'inbound-pro' )
         );
@@ -133,8 +135,17 @@ class Leads_Post_Type {
                 self::display_status_pill($lead_status);
                 break;
             case "action-count":
-                $actions = Inbound_Events::get_total_activity($lead_id , 'any' , array('inbound_list_add'));
-                echo $actions;
+                if (class_exists('Inbound_Analytics')) {
+                    $actions = Inbound_Events::get_total_activity($lead_id , 'any' , array());
+                    ?>
+                    <a href='<?php echo admin_url('index.php?action=inbound_generate_report&class=Inbound_Events_Report&range=10000&lead_id='.$post->ID.'&show_graph=false&title='.__('Logs','inbound-pro') .'&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox' title="<?php echo  sprintf(__('past %s days','inbound-pro') , 99999 ); ?>">
+                        <?php echo $actions; ?>
+                    </a>
+                    <?php
+                } else {
+                    $actions = Inbound_Events::get_total_activity($lead_id , 'any' , array('inbound_list_add','sparkpost_delivery'));
+                    echo $actions;
+                }
                 break;
             case "custom":
                 if (isset($_GET['wp_leads_filter_field'])) {
@@ -148,7 +159,17 @@ class Leads_Post_Type {
                 break;
             case "page-views":
                 $page_view_count = Inbound_Events::get_page_views_count($lead_id);
-                echo($page_view_count ? $page_view_count : 0);
+                if (class_exists('Inbound_Analytics')) {
+                    ?>
+                    <a href='<?php echo admin_url('index.php?action=inbound_generate_report&class=Inbound_Visitor_Impressions_Report&range=10000&lead_id='.$post->ID.'&show_graph=false&title='.__('Logs','inbound-pro') .'&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox' title="<?php echo  sprintf(__('past %s days','inbound-pro') , 99999 ); ?>">
+                        <?php echo $page_view_count; ?>
+                    </a>
+                    <?php
+                } else {
+                    echo($page_view_count ? $page_view_count : 0);
+                }
+
+
                 break;
             case "company":
                 $company = get_post_meta($lead_id, 'wpleads_company_name', true);
@@ -286,20 +307,22 @@ class Leads_Post_Type {
 
                 case 'page-views':
 
-                    $pieces['join'] .= " LEFT JOIN $wpdb->postmeta wp_rd ON wp_rd.post_id = {$wpdb->posts}.ID AND wp_rd.meta_key = 'wpleads_page_view_count'";
+                    $pieces['join'] .= " LEFT JOIN {$table_prefix}inbound_page_views ipv ON ipv.lead_id = {$wpdb->posts}.ID ";
 
-                    $pieces['orderby'] = " wp_rd.meta_value $order , " . $pieces['orderby'];
+                    $pieces['groupby'] = " {$wpdb->posts}.ID ";
+
+                    $pieces['orderby'] = " COUNT(ipv.lead_id) " . $order;
 
                     break;
 
 
                 case 'action-count':
 
-                    $pieces['join'] .= " LEFT JOIN {$table_prefix}inbound_events ee ON ee.lead_id = {$wpdb->posts}.ID ";
+                    $pieces['join'] .= " LEFT JOIN {$table_prefix}inbound_events ie ON ie.lead_id = {$wpdb->posts}.ID ";
 
                     $pieces['groupby'] = " {$wpdb->posts}.ID ";
 
-                    $pieces['orderby'] = "COUNT(ee.lead_id) $order ";
+                    $pieces['orderby'] = "COUNT(ie.lead_id) $order ";
 
                     break;
             }
@@ -783,6 +806,35 @@ class Leads_Post_Type {
         update_post_meta($lead_id, 'wp_lead_status', 'read');
         header('HTTP/1.1 200 OK');
     }
+    
+    /**
+     * Ajax listener to stop waiting for double optin
+     * Deletes the array of lists waiting for confirmation from the lead,
+     * moves the lead out of the waiting for confirmation list,
+     * and marks the lead as read
+     */
+    public static function ajax_stop_waiting_for_double_optin() {
+        global $wpdb;
+ 
+         /*get the double optin waiting list id*/
+        if(!defined('INBOUND_PRO_CURRENT_VERSION')){
+            $double_optin_list_id = get_option('list-double-optin-list-id', '');
+        }else{
+            $settings = Inbound_Options_API::get_option('inbound-pro', 'settings', array());
+            $double_optin_list_id = $settings['leads']['list-double-optin-list-id'];
+        }
+
+        $lead_id = intval($_POST['page_id']);
+
+		delete_post_meta($lead_id, 'double_optin_lists');
+        Inbound_Leads::remove_lead_from_list($lead_id, (int)$double_optin_list_id);
+        
+        update_post_meta($lead_id, 'wp_lead_status', 'read');
+        header('HTTP/1.1 200 OK');
+        exit;
+    }
+
+    
 }
 
 new Leads_Post_Type;

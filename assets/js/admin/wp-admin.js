@@ -18,7 +18,6 @@ jQuery(document).ready(function () {
         jQuery('input[value="needs-update"]').click();
     }
 
-
     /* Add navigation to thickbox if contains class inbound-thickbox */
     if (!inboundWPAdmin.tb_hide_nav) {
 
@@ -40,6 +39,8 @@ jQuery(document).ready(function () {
             forward_button.appendTo(nav_container);
 
             nav_container.prependTo('#TB_window');
+
+            jQuery('#TB_ajaxWindowTitle').text('');
         });
     }
 

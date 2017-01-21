@@ -85,7 +85,7 @@ if (!class_exists('Inbound_Visitors_Report')) {
 
             /* loop through  */
             ?>
-            <div id="graph-container" style='width: 100%; height:350px;'></div>
+            <div id="graph-container" style='height:350px;'></div>
             <script type="text/javascript">
                 // based on prepared DOM, initialize echarts instance
                 var myChart = echarts.init(document.getElementById('graph-container'));
@@ -315,7 +315,7 @@ if (!class_exists('Inbound_Visitors_Report')) {
                 <thead>
                 <tr>
                     <th scope="col" class=" column-lead-picture">
-                        <?php _e('' , 'inbound-pro'); ?>
+
                     </th>
                     <th scope="col" class="">
                         <span><?php _e('Visitor' , 'inbound-pro'); ?></span>
@@ -409,7 +409,7 @@ if (!class_exists('Inbound_Visitors_Report')) {
                 <tfoot>
                 <tr>
                     <th scope="col" class=" column-lead-picture">
-                        <?php _e('' , 'inbound-pro'); ?></th>
+                    </th>
 
                     <th scope="col" class=" column-first-name  desc">
                         <span><?php _e('Visitor' , 'inbound-pro'); ?></span>

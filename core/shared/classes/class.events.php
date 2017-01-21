@@ -113,7 +113,7 @@ class Inbound_Events {
 			  `session_id` varchar(255) NOT NULL,
 			  `source` text NOT NULL,
 			  `datetime` datetime NOT NULL,
-			  `ip` mediumint(20) NOT NULL,
+			  `ip` varchar(45) NOT NULL,
 
 			  UNIQUE KEY id (id)
 			) $charset_collate;";
@@ -387,6 +387,10 @@ class Inbound_Events {
         $args = array_merge( $defaults , $args );
 
 
+        if (!$args['page_id']) {
+            return;
+        }
+
         /* unset non db ready keys */
         foreach ($args as $key => $value) {
             if (!isset($defaults[$key])) {
@@ -394,7 +398,7 @@ class Inbound_Events {
             }
         }
 
-        /* add event to event table */
+        /* add page view to inbound_page_views table */
         $wpdb->insert(
             $table_name,
             $args
@@ -532,13 +536,23 @@ class Inbound_Events {
                 $title = get_the_title($event['form_id']);
                 $capture_id = $event['form_id'];
                 break;
+            case 'inbound_list_add':
+                $link = "";
+                $title = "";
+                $capture_id = "";
+                break;
+            case 'sparkpost_delivery':
+                $link = "";
+                $title = "";
+                $capture_id = "";
+                break;
         }
 
         $array['link'] = ($link) ? $link : '#';
         $array['title'] = ($title) ? $title : __('n/a','inbound-pro');
         $array['capture_id'] = ($capture_id) ? $capture_id : 0;
 
-        return $array;
+        return apply_filters('inbound-events/capture-data' , $array , $event);
     }
 
     /**
@@ -572,7 +586,7 @@ class Inbound_Events {
             $query .= 'AND variation_id = "'.$params['variation_id'].'" ';
         }
 
-        $query .= 'AND `event_name` LIKE "%form_submission" ORDER BY `datetime` DESC';
+        $query .= 'AND `event_name` = "inbound_form_submission" ORDER BY `datetime` DESC';
 
         $results = $wpdb->get_results( $query , ARRAY_A );
 
@@ -588,6 +602,8 @@ class Inbound_Events {
         $table_name = $wpdb->prefix . "inbound_page_views";
 
         $query = 'SELECT * FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'"';
+
+        $query .=' AND `page_id` != "0"';
 
         if ($page_id) {
             $query .=' AND page_views_id` = "'.$page_id.'"';
@@ -639,6 +655,9 @@ class Inbound_Events {
                 break;
         }
 
+
+        $query .=' AND `page_id` != "0" ';
+
         if (isset($params['start_date'])) {
             $query .= ' AND datetime >= "'.$params['start_date'].'" AND  datetime <= "'.$params['end_date'].'" ';
         }
@@ -675,6 +694,8 @@ class Inbound_Events {
             $query .= ' AND source = "'.$params['source'].'" ';
         }
 
+        $query .=' AND `page_id` != "0" ';
+
         if (isset($params['start_date'])) {
             $query .= ' AND datetime >= "'.$params['start_date'].'" AND  datetime <= "'.$params['end_date'].'" ';
         }
@@ -696,6 +717,8 @@ class Inbound_Events {
         $table_name = $wpdb->prefix . "inbound_page_views";
 
         $query = 'SELECT count(*) FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'"';
+
+        $query .=' AND `page_id` != "0" ';
 
         $count = $wpdb->get_var( $query , 0, 0 );
 
@@ -860,23 +883,42 @@ class Inbound_Events {
     public static function get_events( $params ){
         global $wpdb;
 
-        $params['group_by'] = (isset($params['group_by'])) ? $params['group_by'] : 'lead_uid';
         $params['order_by'] = (isset($params['order_by'])) ? $params['order_by'] : 'datetime DESC';
 
         $table_name = $wpdb->prefix . "inbound_events";
-        $query = 'SELECT *, count('.$params['group_by'].') as count FROM '.$table_name.' WHERE `page_id` = "'.$params['page_id'].'"';
+        $query = 'SELECT *';
+
+        if (isset($params['group_by']) && $params['group_by'] ) {
+            $query .=' , count('.$params['group_by'].') as count ';
+        }
+
+        $query .=' FROM '.$table_name.' WHERE 1=1 ';
+
+        if (isset($params['page_id']) && $params['page_id'] ) {
+            $query .= ' AND page_id = "'.$params['page_id'].'" ';
+        }
+
+        if (isset($params['event_name']) && $params['event_name'] ) {
+            $query .= ' AND event_name = "'.$params['event_name'].'" ';
+        }
 
         if (isset($params['source']) && $params['source'] ) {
             $query .= ' AND source = "'.$params['source'].'" ';
         }
 
-        if (isset($params['start_date'])) {
+        if (isset($params['lead_id']) && $params['lead_id'] ) {
+            $query .= ' AND lead_id = "'.$params['lead_id'].'" ';
+        }
+
+        if (isset($params['start_date']) && $params['start_date']) {
             $query .= ' AND datetime >= "'.$params['start_date'].'" AND  datetime <= "'.$params['end_date'].'" ';
         }
 
-        $query .= ' GROUP BY `'.$params['group_by'].'` ';
+        if (isset($params['group_by']) && $params['group_by']) {
+            $query .= ' GROUP BY `' . $params['group_by'] . '` ';
+        }
 
-        if (isset($params['order_by'])) {
+        if (isset($params['order_by']) && $params['order_by']) {
             $query .= ' ORDER BY '.$params['order_by'].' ';
         }
 
@@ -903,23 +945,32 @@ class Inbound_Events {
             case 'inbound_direct_messege':
                 return ($plural) ?  __('Direct Messages' , 'inbound-pro') : __('Direct Message' , 'inbound-pro');
                 break;
-            case 'cf7_form_submission':
-                return ($plural) ?  __('CF7 Form Submissions' , 'inbound-pro') : __('CTF7 Form Submission' , 'inbound-pro');
+            case 'inbound_list_add':
+                return ($plural) ?  __('Lead Added to Lists' , 'inbound-pro') : __('Lead Added to List' , 'inbound-pro');
+                break;
+            case 'sparkpost_delivery':
+                return ($plural) ?  __('SparkPost Deliveries' , 'inbound-pro') : __('SparkPost Delivery' , 'inbound-pro');
                 break;
         }
 
-        return apply_filters('inbound-events/event-label' , $event_name );
+        return apply_filters('inbound-events/event-label' , $event_name , $plural );
     }
 
     /**
      * Get all possible event names
      */
-    public static function get_event_names(){
+    public static function get_event_names( $params = array() ){
         global $wpdb;
 
         $table_name = $wpdb->prefix . "inbound_events";
 
-        $query = 'SELECT DISTINCT(event_name) FROM '.$table_name.' ORDER BY `event_name` DESC';
+        $query = 'SELECT DISTINCT(event_name) FROM '.$table_name;
+
+        if (isset($params['page_id']) && $params['page_id']) {
+            $query .= ' WHERE `page_id` = "'.$params['page_id'].'" ';
+        }
+
+        $query .= ' ORDER BY `event_name` DESC ';
         $results = $wpdb->get_results( $query , ARRAY_A );
 
         return $results;
@@ -953,13 +1004,20 @@ class Inbound_Events {
         $params['order_by'] = (isset($params['order_by'])) ? $params['order_by'] : 'datetime DESC';
 
         $table_name = $wpdb->prefix . "inbound_events";
-        $query = 'SELECT count(date(datetime)) as events_per_day, date(datetime) as date , sum(events) as events_count FROM ( ';
+        $query = 'SELECT date(datetime) as date , sum(events) as events_count FROM ( ';
 
         $query .= ' SELECT *, count('.$params['group_by'].') as events FROM '.$table_name.' WHERE `page_id` = "'.$params['page_id'].'"';
 
+        if (isset($params['event_name']) && $params['event_name'] ) {
+            $query .= ' AND event_name = "'.$params['event_name'].'" ';
+        }
 
         if (isset($params['source']) && $params['source'] ) {
             $query .= ' AND source = "'.$params['source'].'" ';
+        }
+
+        if (isset($params['lead_id']) && $params['lead_id'] ) {
+            $query .= ' AND lead_id = "'.$params['lead_id'].'" ';
         }
 
         if (isset($params['start_date'])) {
@@ -1264,7 +1322,7 @@ class Inbound_Events {
      * @param datetime $start_date
      * @param datetime $end_date
      */
-    public static function get_page_actions($page_id , $activity = 'any' , $start_date = null, $end_date = null ){
+    public static function get_page_actions_count($page_id , $activity = 'any' , $start_date = null, $end_date = null ){
         global $wpdb;
 
         $table_name = $wpdb->prefix . "inbound_events";

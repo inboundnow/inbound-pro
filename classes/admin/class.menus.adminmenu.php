@@ -25,9 +25,13 @@ class Inbound_Menus_Admin {
 	*/
 	public static function add_menu_items() {
 
+		if (!defined('INBOUND_PRO_MENU_LABEL')) {
+			define('INBOUND_PRO_MENU_LABEL' , __( 'Inbound Pro' , 'inbound-pro' ) );
+		}
+
 		add_menu_page(
-			__( 'Inbound Now' , INBOUNDNOW_TEXT_DOMAIN ) ,  /* page title */
-			__( 'Inbound Now' , INBOUNDNOW_TEXT_DOMAIN ) , /* menu title */
+			INBOUND_PRO_MENU_LABEL ,  /* page title */
+			INBOUND_PRO_MENU_LABEL , /* menu title */
 			'edit_posts', /* capability */
 			'inbound-pro', /* menu slug */
 			array( 'Inbound_Pro_Settings' , 'display' ), /* page function */
@@ -36,20 +40,20 @@ class Inbound_Menus_Admin {
 		);
 
 		/* Manage Settings */
-		add_submenu_page('inbound-pro', __( 'Settings' , INBOUNDNOW_TEXT_DOMAIN ) , __( 'Settings' , INBOUNDNOW_TEXT_DOMAIN ) , 'manage_options', 'inbound-pro', array( 'Inbound_Pro_Settings' , 'display' ) );
+		add_submenu_page('inbound-pro', __( 'Settings' , 'inbound-pro' ) , __( 'Settings' , 'inbound-pro' ) , 'manage_options', 'inbound-pro', array( 'Inbound_Pro_Settings' , 'display' ) );
 
 		/* Manage Templates
-		add_submenu_page('inbound-pro', __( 'Test' , INBOUNDNOW_TEXT_DOMAIN ) , __( 'Test' , INBOUNDNOW_TEXT_DOMAIN ) , 'manage_options', 'inbound-marketing', array( 'Inbound_Pro_Downloads' , 'test_ui' ) );
+		add_submenu_page('inbound-pro', __( 'Test' , 'inbound-pro' ) , __( 'Test' , 'inbound-pro' ) , 'manage_options', 'inbound-marketing', array( 'Inbound_Pro_Downloads' , 'test_ui' ) );
 		*/
 
 		/* Manage Templates */
-		add_submenu_page('inbound-pro', __( 'Templates' , INBOUNDNOW_TEXT_DOMAIN ) , __( 'Templates' , INBOUNDNOW_TEXT_DOMAIN ) , 'edit_posts', 'inbound-manage-templates', array( 'Inbound_Pro_Downloads' , 'display_ui' ) );
+		add_submenu_page('inbound-pro', __( 'Templates' , 'inbound-pro' ) , __( 'Templates' , 'inbound-pro' ) , 'edit_posts', 'inbound-manage-templates', array( 'Inbound_Pro_Downloads' , 'display_ui' ) );
 
 		/* Manage Extensions */
-		add_submenu_page('inbound-pro', __( 'Extensions' , INBOUNDNOW_TEXT_DOMAIN ) , __( 'Extensions' , INBOUNDNOW_TEXT_DOMAIN ) , 'edit_posts', 'inbound-manage-extensions', array( 'Inbound_Pro_Downloads' , 'display_ui' ) );
+		add_submenu_page('inbound-pro', __( 'Extensions' , 'inbound-pro' ) , __( 'Extensions' , 'inbound-pro' ) , 'edit_posts', 'inbound-manage-extensions', array( 'Inbound_Pro_Downloads' , 'display_ui' ) );
 
 		/* Reporting */
-		//add_submenu_page('inbound-pro', __( 'Funnels' , INBOUNDNOW_TEXT_DOMAIN ) , __( 'Funnels' , INBOUNDNOW_TEXT_DOMAIN ) , 'edit_posts', 'inbound-reporting', array( 'Inbound_Funnel_Reporting' , 'load_ui' ) );
+		//add_submenu_page('inbound-pro', __( 'Funnels' , 'inbound-pro' ) , __( 'Funnels' , 'inbound-pro' ) , 'edit_posts', 'inbound-reporting', array( 'Inbound_Funnel_Reporting' , 'load_ui' ) );
 
 	}
 

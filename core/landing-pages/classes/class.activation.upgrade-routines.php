@@ -287,33 +287,6 @@ if ( !class_exists('Landing_Pages_Activation_Update_Routines') ) {
 			}
 		}
 
-		/**
-		 * @introduced: 2.4.1
-		 * @routine-type: alter inbound_page_views table
-		 * @routine-action: adds columns `ip` to table
-		 */
-		public static function add_ip_to_page_views_table() {
-
-			/* ignore if not applicable */
-			$previous_installed_version = get_transient('lp_current_version');
-
-			if (  !$previous_installed_version || version_compare($previous_installed_version , "2.4.1") === 1 )  {
-				return;
-			}
-
-			global $wpdb;
-
-			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-			$table_name = $wpdb->prefix . "inbound_page_views";
-
-			$row = $wpdb->get_results(  "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '{$table_name}' AND column_name = 'ip'"  );
-			if(empty($row)){
-				$wpdb->get_results( "ALTER TABLE {$table_name} ADD `ip` VARCHAR(45) NOT NULL" );
-			}
-
-		}
-
-
 	}
 
 }

@@ -15,6 +15,14 @@ if ( !class_exists('CTA_Activation_Update_Routines') ) {
 		* @migration: convert all meta keys that do not have an -{{vid}} suffix to a -0 suffix
 		*/
 		public static function create_variation_objects() {
+
+			/* ignore if not applicable */
+			$previous_installed_version = get_transient('cta_current_version');
+
+			if (  !$previous_installed_version || version_compare($previous_installed_version , "2.0.8") === 1 )  {
+				return;
+			}
+
 			$ctas = get_posts( array(
 				'post_type' => 'wp-call-to-action',
 				'posts_per_page' => -1
@@ -73,7 +81,6 @@ if ( !class_exists('CTA_Activation_Update_Routines') ) {
 
 		/**
 		*  Creates an example call to action
-		* @introduced: 2.0.0
 		*
 		*
 		*/
@@ -136,67 +143,6 @@ if ( !class_exists('CTA_Activation_Update_Routines') ) {
 
 			add_post_meta($default_lander, 'link_open_option', 'this_window');
 
-
-		}
-
-		/**
-		 * @introduced: 2.7.8
-		 * @migration-type: alter inbound_events table
-		 * @mirgration: adds columns list_id funnel, and source to events table
-		 */
-		public static function add_list_id_to_events_table() {
-
-			/* ignore if not applicable */
-			$previous_installed_version = get_transient('cta_current_version');
-
-			if (  !$previous_installed_version || version_compare($previous_installed_version , "2.7.8") === 1 )  {
-				return;
-			}
-
-			global $wpdb;
-
-			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-			$table_name = $wpdb->prefix . "inbound_events";
-
-			/* add columns funnel and source to legacy table */
-			$row = $wpdb->get_results(  "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '{$table_name}' AND column_name = 'source'"  );
-			if(empty($row)){
-				// do your stuff
-				$wpdb->get_results( "ALTER TABLE {$table_name} ADD `funnel` text NOT NULL" );
-				$wpdb->get_results( "ALTER TABLE {$table_name} ADD `source` text NOT NULL" );
-			}
-
-			/* add columns list_id inbound events table */
-			$row = $wpdb->get_results(  "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '{$table_name}' AND column_name = 'list_id'"  );
-			if(empty($row)){
-				$wpdb->get_results( "ALTER TABLE {$table_name} ADD `list_id` mediumint(20) NOT NULL" );
-			}
-		}
-
-
-		/**
-		 * @introduced: 3.0.1
-		 * @routine-type: alter inbound_page_views table
-		 * @routine-action: adds columns `ip` to table
-		 */
-		public static function add_ip_to_page_views_table() {
-
-			/* ignore if not applicable */
-			$previous_installed_version = get_transient('cta_current_version');
-
-			if (  !$previous_installed_version || version_compare($previous_installed_version , "3.0.1") === 1 )  {
-				return;
-			}
-
-			global $wpdb;
-
-			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-			$table_name = $wpdb->prefix . "inbound_page_views";
-
-			$row = $wpdb->get_results(  "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '{$table_name}' AND column_name = 'ip'"  );
-			if(empty($row)){
-				$wpdb->get_results( "ALTER TABLE {$table_name} ADD `ip` VARCHAR(45) NOT NULL" );
-			}
 
 		}
 

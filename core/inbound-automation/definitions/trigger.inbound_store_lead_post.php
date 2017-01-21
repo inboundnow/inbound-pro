@@ -92,7 +92,6 @@ class Inbound_Automation_Trigger_inbound_store_lead_post {
 			'label' => __( 'On add lead event' , 'inbound-pro' ),
 			'description' => __( 'This trigger fires whenever a lead added into the Leads database.' , 'inbound-pro' ),
 			'action_hook' => self::$trigger,
-			'scheduling' => false,
 			'arguments' => $arguments,
 			'db_lookup_filters' => $db_lookup_filters,
 			'actions' => $actions
@@ -141,4 +140,4 @@ class Inbound_Automation_Trigger_inbound_store_lead_post {
 }
 
 /* Load Trigger */
-$Inbound_Automation_Trigger_inbound_store_lead_post = new Inbound_Automation_Trigger_inbound_store_lead_post;
+new Inbound_Automation_Trigger_inbound_store_lead_post;

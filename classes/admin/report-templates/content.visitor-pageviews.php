@@ -96,6 +96,8 @@ if (!class_exists('Inbound_Visitor_Impressions_Report')) {
                 <?php
 
                 foreach (self::$events as $key => $event) {
+                    error_log(print_r($event,true));
+
                     $title = get_the_title($event['page_id']);
                     $permalink = get_permalink($event['page_id']);
 

@@ -48,7 +48,6 @@ if ( !class_exists( 'Inbound_Automation_Trigger_Update_Lead' ) ) {
 				'label' => 'On Lead Tracking Event',
 				'description' => 'This trigger fires whenever a tracked lead visits a new page.',
 				'action_hook' => self::$trigger ,
-				'scheduling' => false,
 				'arguments' => $arguments,
 				'db_lookup_filters' => $db_lookup_filters,
 				'actions' => $actions
@@ -81,6 +80,6 @@ if ( !class_exists( 'Inbound_Automation_Trigger_Update_Lead' ) ) {
 	}
 
 	/* Load Trigger */
-	$Inbound_Automation_Trigger_Update_Lead = new Inbound_Automation_Trigger_Update_Lead;
+	new Inbound_Automation_Trigger_Update_Lead;
 
 }

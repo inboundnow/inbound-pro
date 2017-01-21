@@ -76,6 +76,6 @@ if ( !class_exists( 'Inbound_Automation_Action_Create_Lead' ) ) {
     }
 
     /* Load Action */
-    $Inbound_Automation_Action_Create_Lead = new Inbound_Automation_Action_Create_Lead();
+    new Inbound_Automation_Action_Create_Lead();
 
 }
