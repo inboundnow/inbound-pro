@@ -152,7 +152,7 @@ class Leads_Settings {
                 array(
                     'id'  => 'confirm-link-shortcode',
                     'label'  => __('List double opt in confirmation link:', 'inbound-pro' ),
-                    'description'  => __( 'This shortcode is used to add a special link to emails requesting list double opt in confirmation. The link contains coded information required for the lead to confirm being added to a list.' , 'inbound-pro' ),
+                    'description'  => __( 'Use this shortcode inside an automated email and it will return the list confirmation link. This will only work when creating custom confirmation email templates using our Inbound Mailer component.' , 'inbound-pro' ),
                     'type'  => 'text',
                     'readonly'  => true,
                     'default'  => '[inbound-list-double-optin-link]',
