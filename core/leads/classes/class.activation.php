@@ -180,7 +180,6 @@ class Leads_Activation {
      * Creates the "Confirm Double Optin Page" if the double optin page id is empty
      */
     public static function create_double_optin_page(){
-		global $inbound_settings;
 
         $title = __( 'Confirm Subscription' , 'inbound-pro' );
 
@@ -214,6 +213,8 @@ class Leads_Activation {
 	 * Creates a maintenance list
 	 */
 	public static function create_double_optin_list() {
+		global $inbound_settings;
+
 		/*get the double optin waiting list id*/
 		if (!defined('INBOUND_PRO_CURRENT_VERSION')) {
 			$double_optin_list_id = get_option('list-double-optin-list-id', '');
@@ -240,9 +241,8 @@ class Leads_Activation {
 			if (!defined('INBOUND_PRO_CURRENT_VERSION')) {
 				update_option('list-double-optin-list-id', $term['id']);
 			} else {
-				$settings = Inbound_Options_API::get_option('inbound-pro', 'settings');
-				$settings['leads']['list-double-optin-list-id'] = $term['id'];
-				Inbound_Options_API::update_option('inbound-pro', 'settings', $settings);
+				$inbound_settings['leads']['list-double-optin-list-id'] = $term['id'];
+				Inbound_Options_API::update_option('inbound-pro', 'settings', $inbound_settings);
 			}
 
 		}
@@ -275,7 +275,7 @@ class Leads_Activation {
 			update_option('list-double-optin-page-id', $page_id);
 		} else {
 			$inbound_settings['leads']['list-double-optin-page-id'] = $page_id;
-			Inbound_Options_API::update_option('inbound-pro', 'settings', $settings);
+			Inbound_Options_API::update_option('inbound-pro', 'settings', $inbound_settings);
 		}
 	}
 
