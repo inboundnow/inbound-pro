@@ -128,8 +128,56 @@ if (!class_exists('LeadStorage')) {
 
 				/* Add Leads to List on creation */
 				if(!empty($lead['lead_lists']) && is_array($lead['lead_lists'])){
+					$double_optin_lists = array();
+					$normal_lists = array();
+				
+					/*differentiate between double optin lists and lists that don't require double optin*/
+					foreach($lead['lead_lists'] as $list_id){
+						$list_meta_settings = get_term_meta($list_id, 'wplead_lead_list_meta_settings', true);
+						if(isset($list_meta_settings['double_optin']) && $list_meta_settings['double_optin'] == '1'){
+							$double_optin_lists[] = $list_id;
+						}else{
+							$normal_lists[] = $list_id;
+						}
+					}
+                    
+                    /*remove any groups that the lead is already on from the double optin groups*/
+                    if(array_filter($double_optin_lists)){
+                        $existing_lists = wp_get_post_terms( $lead['id'], 'wplead_list_category');
+                        foreach($existing_lists as $existing_list){
+                            if(in_array($existing_list->term_id, $double_optin_lists)){
+                                $index = array_search($existing_list->term_id, $double_optin_lists);
+                                unset($double_optin_lists[$index]);
+                            }
+                        }
+                    }
 
-					Inbound_Leads::add_lead_to_list($lead['id'], $lead['lead_lists']);
+					if(array_filter($double_optin_lists)){
+                        /*get the double optin waiting list id*/
+                        if(!defined('INBOUND_PRO_CURRENT_VERSION')){
+                            $double_optin_list_id = get_option('list-double-optin-list-id', '');
+                        }else{
+                            $settings = Inbound_Options_API::get_option('inbound-pro', 'settings', array());
+                            $double_optin_list_id = $settings['leads']['list-double-optin-list-id'];
+                        }
+                        
+                        /*if there is a list to store the leads in*/
+                        if($double_optin_list_id){
+                            /*store the list ids that need confirmation*/
+                            update_post_meta($lead['id'], 'double_optin_lists', $double_optin_lists);
+                            
+                            /*change the lead status to waiting for double optin*/
+                            update_post_meta( $lead['id'] , 'wp_lead_status' , 'double-optin');
+                            
+                        
+                            /*add the lead to the double optin confirmation list*/
+                            Inbound_Leads::add_lead_to_list($lead['id'], $double_optin_list_id);
+                            Inbound_List_Double_Optin::send_double_optin_confirmation($lead);
+                        }
+					}
+										
+					/*add the lead to all lists that don't require double optin*/
+					Inbound_Leads::add_lead_to_list($lead['id'], $normal_lists);
 
 					/* store lead list cookie */
 					if (class_exists('Leads_Tracking')) {

@@ -52,7 +52,9 @@ class Leads_Post_Type {
         add_action('wp_ajax_wp_leads_mark_as_unread_save', array(__CLASS__, 'ajax_mark_lead_as_unread'));
         /* mark lead status as read on first open */
         add_action('wp_ajax_wp_leads_auto_mark_as_read', array(__CLASS__, 'ajax_auto_mark_as_read'));
-
+        /* mark lead status as read and stop waiting for the lead to opt into lists*/
+        add_action('wp_ajax_wp_leads_stop_waiting_for_double_optin', array(__CLASS__, 'ajax_stop_waiting_for_double_optin'));
+        
         /* add extra menu items */
         add_action('admin_menu', array(__CLASS__, 'setup_admin_menu'));
 
@@ -804,6 +806,35 @@ class Leads_Post_Type {
         update_post_meta($lead_id, 'wp_lead_status', 'read');
         header('HTTP/1.1 200 OK');
     }
+    
+    /**
+     * Ajax listener to stop waiting for double optin
+     * Deletes the array of lists waiting for confirmation from the lead,
+     * moves the lead out of the waiting for confirmation list,
+     * and marks the lead as read
+     */
+    public static function ajax_stop_waiting_for_double_optin() {
+        global $wpdb;
+ 
+         /*get the double optin waiting list id*/
+        if(!defined('INBOUND_PRO_CURRENT_VERSION')){
+            $double_optin_list_id = get_option('list-double-optin-list-id', '');
+        }else{
+            $settings = Inbound_Options_API::get_option('inbound-pro', 'settings', array());
+            $double_optin_list_id = $settings['leads']['list-double-optin-list-id'];
+        }
+
+        $lead_id = intval($_POST['page_id']);
+
+		delete_post_meta($lead_id, 'double_optin_lists');
+        Inbound_Leads::remove_lead_from_list($lead_id, (int)$double_optin_list_id);
+        
+        update_post_meta($lead_id, 'wp_lead_status', 'read');
+        header('HTTP/1.1 200 OK');
+        exit;
+    }
+
+    
 }
 
 new Leads_Post_Type;

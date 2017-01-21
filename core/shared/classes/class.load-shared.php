@@ -60,6 +60,8 @@ if (!class_exists('Inbound_Load_Shared')) {
 			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.shortcodes.email-template.php');
 			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.shortcodes.cookie-values.php');
 			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.lead-fields.php');
+			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.list-double-optin.php');
+			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.confirm-double-optin.php');
 			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.options-api.php');
 			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.events.php');
 			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.lead-storage.php');

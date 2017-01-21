@@ -614,7 +614,7 @@ class Inbound_Shortcodes {
             <h3><?php _e( 'Inbound Pro Users' , 'inbound-pro' ); ?></h3>
             <div class='' style='padding-left:20px;'>
 
-                <?php echo sprintf( __( 'To learn how to creat a follow email series please referrer to %s this document %s. ' , 'inbound-pro' ) , '<a href="http://docs.inboundnow.com/guide/creating-a-follow-up-email-using-inbound-now-as-an-autoresponder-marketing-automation/">', '</a>') ; ?>
+                <?php echo sprintf( __( 'To learn how to create a follow up email series, please refer to %s this document %s. ' , 'inbound-pro' ) , '<a href="http://docs.inboundnow.com/guide/creating-a-follow-up-email-using-inbound-now-as-an-autoresponder-marketing-automation/">', '</a>') ; ?>
             </div>
             <br>
             <?php

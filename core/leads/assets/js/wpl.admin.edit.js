@@ -14,7 +14,6 @@ function getUrlVar(name) {
 }
 
 jQuery(document).ready(function ($) {
-
     // Getting URL var by its nam
     var byName = getUrlVar('tab');
     setTimeout(function () {
@@ -340,5 +339,14 @@ jQuery(document).ready(function ($) {
         jQuery(this).addClass('selected');
         jQuery('.dropdown h1').html($(this).html()).removeClass().addClass('selected-' + (jQuery(this).index() + 1));
     });
+	
+	/**if there's lists waiting for double optin, prevent the lead status from changing**/
+	jQuery('input#publish[name="save"]').click(function(e){
+		if(jQuery('.lead_status_dropdown').val() != 'double-optin' && jQuery('#wplead_list_category-need-double-optin').val() != null){
+			e.preventDefault();
+			alert('There are still lists that need to be opted into');
+		}
+		
+	});
 
 });

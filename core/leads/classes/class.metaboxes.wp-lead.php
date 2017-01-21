@@ -98,7 +98,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
          *
          */
         public static function define_metaboxes() {
-            global $post;
+            global $post, $wp_meta_boxes;
 
             if ($post->post_type != 'wp-lead') {
                 return;
@@ -127,9 +127,181 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                 'normal', // $context
                 'high' // $priority
             );
-
-
+            
+            /*change the lead list metabox callback to a new function*/
+            $wp_meta_boxes['wp-lead']['side']['core']['wplead_list_categorydiv']['callback'] = array(__CLASS__, 'display_lead_list_metabox');
+           
         }
+        
+        /**
+         * Renders a custom metabox for leads
+         * The base function is post_categories_meta_box
+         */
+        public static function display_lead_list_metabox($post, $box){
+
+            $defaults = array( 'taxonomy' => 'category' );
+            if ( ! isset( $box['args'] ) || ! is_array( $box['args'] ) ) {
+                $args = array();
+            } else {
+                $args = $box['args'];
+            }
+            $r = wp_parse_args( $args, $defaults );
+            $tax_name = esc_attr( $r['taxonomy'] );
+            $taxonomy = get_taxonomy( $r['taxonomy'] );
+            
+            /*get the lists waiting for double optin from the lead's meta*/
+            $double_optin_lists = get_post_meta($post->ID, 'double_optin_lists', true);
+            /*get the lists that the lead is in*/
+            $applied_terms = wp_get_post_terms($post->ID, 'wplead_list_category');
+            
+            /**Update the lead's array of lists that still need confirmation if a list has been manually confirmed**/
+            /*if there are double optin lists*/
+            if(!empty($double_optin_lists) && is_array($double_optin_lists)){
+                foreach($applied_terms as $applied_term){
+                    if(in_array($applied_term->term_id, $double_optin_lists)){
+                        $index = array_search($applied_term->term_id, $double_optin_lists);
+                        unset($double_optin_lists[$index]);
+                    }
+                }
+                /**if there are still lists awaiting double optin confirmation after the "waiting" meta listing has been updated**/
+                if(!empty($double_optin_lists)){
+                    /*update the "waiting" meta listing with the remaining lists*/
+                    update_post_meta($post->ID, 'double_optin_lists', array_values($double_optin_lists));
+                }else{
+                /**if there are no lists awaiting double optin confirmation**/
+                    /*get the double optin waiting list id*/
+                    if(!defined('INBOUND_PRO_CURRENT_VERSION')){
+                        $double_optin_list_id = get_option('list-double-optin-list-id', '');
+                    }else{
+                        $settings = Inbound_Options_API::get_option('inbound-pro', 'settings', array());
+                        $double_optin_list_id = $settings['leads']['list-double-optin-list-id'];
+                    }
+                    /*remove the meta listing for double optin*/
+                    delete_post_meta($post->ID, 'double_optin_lists');
+                    /*remove this lead from the double optin list*/
+                    wp_remove_object_terms($post->ID, $double_optin_list_id, 'wplead_list_category');
+                    /*update the lead status*/
+                    update_post_meta( $post->ID , 'wp_lead_status' , 'read');
+                    ?>
+                    <script>
+                        /**update the status selector for the initial page reload**/
+                        jQuery(document).ready(function(){
+                            jQuery('#wp_lead_status').val('read');
+                        });
+                    </script>
+                    <?php
+                }
+            }
+            ?>
+            <div id="taxonomy-<?php echo $tax_name; ?>" class="categorydiv">
+                <ul id="<?php echo $tax_name; ?>-tabs" class="category-tabs">
+                    <li class="tabs"><a href="#<?php echo $tax_name; ?>-all"><?php echo $taxonomy->labels->all_items; ?></a></li>
+                    <li class="hide-if-no-js"><a href="#<?php echo $tax_name; ?>-pop"><?php _e( 'Most Used' ); ?></a></li>
+                    <?php if(!empty($double_optin_lists) && is_array($double_optin_lists)){ ?>
+                    <li class="hide-if-no-js"><a href="#<?php echo $tax_name; ?>-need-double-optin"><?php _e( 'Unconfirmed' ); ?></a></li>
+                    <?php } ?>
+                </ul>
+         
+                <div id="<?php echo $tax_name; ?>-pop" class="tabs-panel" style="display: none;">
+                    <ul id="<?php echo $tax_name; ?>checklist-pop" class="categorychecklist form-no-clear" >
+                        <?php $popular_ids = wp_popular_terms_checklist( $tax_name ); ?>
+                    </ul>
+                </div>
+         
+                <div id="<?php echo $tax_name; ?>-all" class="tabs-panel">
+                    <?php
+                    $name = ( $tax_name == 'category' ) ? 'post_category' : 'tax_input[' . $tax_name . ']';
+                    echo "<input type='hidden' name='{$name}[]' value='0' />"; // Allows for an empty term set to be sent. 0 is an invalid Term ID and will be ignored by empty() checks.
+                    ?>
+                    <ul id="<?php echo $tax_name; ?>checklist" data-wp-lists="list:<?php echo $tax_name; ?>" class="categorychecklist form-no-clear">
+                        <?php wp_terms_checklist( $post->ID, array( 'taxonomy' => $tax_name, 'popular_cats' => $popular_ids ) ); ?>
+                    </ul>
+                </div>
+                
+                <?php if(!empty($double_optin_lists) && is_array($double_optin_lists)){ ?>
+                <div id="<?php echo $tax_name; ?>-need-double-optin" class="tabs-panel" style="display: none;">
+                    <ul id="<?php echo $tax_name; ?>checklist-need-double-optin" class="categorychecklist form-no-clear" >
+                        <?php foreach($double_optin_lists as $list_id){ ?>
+                        <li id="wplead_list_category-<?php echo $list_id; ?>">
+                            
+                            <input value="<?php echo $list_id; ?>" type="checkbox" name="tax_input[wplead_list_category][]" id="in-wplead_list_category-<?php echo $list_id; ?>" >
+                            <label class="selectit" for="in-wplead_list_category-<?php echo $list_id; ?>" ><?php echo get_term($list_id, 'wplead_list_category')->name; ?></label>
+                        </li>
+                        <?php } ?>
+                    </ul>
+                </div>
+                <?php } ?>
+                
+                <?php if(!empty($double_optin_lists) && is_array($double_optin_lists)){ ?>
+                <div id="<?php echo $tax_name; ?>-need-double-optin" class="tabs-panel" style="display: none;">
+                    
+                </div>
+                <?php } ?>
+                
+            <?php if ( current_user_can( $taxonomy->cap->edit_terms ) ) : ?>
+                    <div id="<?php echo $tax_name; ?>-adder" class="wp-hidden-children">
+                        <a id="<?php echo $tax_name; ?>-add-toggle" href="#<?php echo $tax_name; ?>-add" class="hide-if-no-js taxonomy-add-new">
+                            <?php
+                                /* translators: %s: add new taxonomy label */
+                                printf( __( '+ %s' ), $taxonomy->labels->add_new_item );
+                            ?>
+                        </a>
+                        <p id="<?php echo $tax_name; ?>-add" class="category-add wp-hidden-child">
+                            <label class="screen-reader-text" for="new<?php echo $tax_name; ?>"><?php echo $taxonomy->labels->add_new_item; ?></label>
+                            <input type="text" name="new<?php echo $tax_name; ?>" id="new<?php echo $tax_name; ?>" class="form-required form-input-tip" value="<?php echo esc_attr( $taxonomy->labels->new_item_name ); ?>" aria-required="true"/>
+                            <label class="screen-reader-text" for="new<?php echo $tax_name; ?>_parent">
+                                <?php echo $taxonomy->labels->parent_item_colon; ?>
+                            </label>
+                            <?php
+                            /*commented out to avoid possible conflicts*/
+                            /*
+                            $parent_dropdown_args = array(
+                                'taxonomy'         => $tax_name,
+                                'hide_empty'       => 0,
+                                'name'             => 'new' . $tax_name . '_parent',
+                                'orderby'          => 'name',
+                                'hierarchical'     => 1,
+                                'show_option_none' => '&mdash; ' . $taxonomy->labels->parent_item . ' &mdash;',
+                            );
+                            */
+                            /**
+                             * Filters the arguments for the taxonomy parent dropdown on the Post Edit page.
+                             *
+                             * @since 4.4.0
+                             *
+                             * @param array $parent_dropdown_args {
+                             *     Optional. Array of arguments to generate parent dropdown.
+                             *
+                             *     @type string   $taxonomy         Name of the taxonomy to retrieve.
+                             *     @type bool     $hide_if_empty    True to skip generating markup if no
+                             *                                      categories are found. Default 0.
+                             *     @type string   $name             Value for the 'name' attribute
+                             *                                      of the select element.
+                             *                                      Default "new{$tax_name}_parent".
+                             *     @type string   $orderby          Which column to use for ordering
+                             *                                      terms. Default 'name'.
+                             *     @type bool|int $hierarchical     Whether to traverse the taxonomy
+                             *                                      hierarchy. Default 1.
+                             *     @type string   $show_option_none Text to display for the "none" option.
+                             *                                      Default "&mdash; {$parent} &mdash;",
+                             *                                      where `$parent` is 'parent_item'
+                             *                                      taxonomy label.
+                             * }
+                             */
+                            /*$parent_dropdown_args = apply_filters( 'post_edit_category_parent_dropdown_args', $parent_dropdown_args );
+         
+                            wp_dropdown_categories( $parent_dropdown_args );*/
+                            ?>
+                            <input type="button" id="<?php echo $tax_name; ?>-add-submit" data-wp-lists="add:<?php echo $tax_name; ?>checklist:<?php echo $tax_name; ?>-add" class="button category-add-submit" value="<?php echo esc_attr( $taxonomy->labels->add_new_item ); ?>" />
+                            <?php wp_nonce_field( 'add-' . $tax_name, '_ajax_nonce-add-' . $tax_name, false ); ?>
+                            <span id="<?php echo $tax_name; ?>-ajax-response"></span>
+                        </p>
+                    </div>
+                <?php endif; ?>
+            </div>
+            <?php
+        }
+        
 
         /**
          *    Adds header menu items
@@ -1202,8 +1374,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
             ?>
             <div class="lead-profile">
-                <?php
-
+                <?php 
                 self::display_tabs();
                 ?>
                 <div class="lead-profile-section" id='wpleads_lead_tab_main'>

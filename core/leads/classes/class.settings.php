@@ -142,6 +142,28 @@ class Leads_Settings {
                     'type'  => 'radio',
                     'default'  => '0',
                     'options' => array('1'=>'On','0'=>'Off')
+                ),
+                array(
+                    'id'  => 'list-double-optin-options',
+                    'type'  => 'sub-header',
+                    'default'  => __('Double Opt In Options', 'inbound-pro' ),
+                    'options' => null
+                ),
+                array(
+                    'id'  => 'confirm-link-shortcode',
+                    'label'  => __('List double opt in confirmation link:', 'inbound-pro' ),
+                    'description'  => __( 'This shortcode is used to add a special link to emails requesting list double opt in confirmation. The link contains coded information required for the lead to confirm being added to a list.' , 'inbound-pro' ),
+                    'type'  => 'text',
+                    'readonly'  => true,
+                    'default'  => '[inbound-list-double-optin-link]',
+                ),
+                array(
+                    'id'  => 'list-double-optin-page-id',
+                    'label'  => __('Confirmation Page Location', 'inbound-pro' ),
+                    'description'  => __( 'Where to send readers to confirm being added to a list. We auto create a confirmation page on activation, but you can use our shortcode on any page [inbound-list-confirm-double-optin]. ' , 'inbound-pro' ),
+                    'type'  => 'dropdown',
+                    'default'  => '',
+                    'options' => self::leads_get_pages_array(),
                 )
             )
 
@@ -246,6 +268,22 @@ class Leads_Settings {
                     'type'  => 'radio',
                     'default'  => '0',
                     'options' => array('1'=>'On','0'=>'Off')
+                ),
+                array(
+                    'id'  => 'confirm-link-shortcode',
+                    'label'  => __('List double opt in confirmation link:', 'inbound-pro' ),
+                    'description'  => __( 'This shortcode is used to add a special link to emails requesting list double opt in confirmation. The link contains coded information required for the lead to confirm being added to a list.' , 'inbound-pro' ),
+                    'type'  => 'text',
+                    'readonly'  => true,
+                    'default'  => '[inbound-list-double-optin-link link_text=&quot;' . __('Please confirm being put on our mailing list', 'inbound-pro') . '&quot;]',
+                ),
+                array(
+                    'id'  => 'list-double-optin-page-id',
+                    'label'  => __('Confirmation Page Location', 'inbound-pro' ),
+                    'description'  => __( 'Where to send readers to confirm being added to a list. We auto create a confirmation page on activation, but you can use our shortcode on any page [inbound-list-confirm-double-optin]. ' , 'inbound-pro' ),
+                    'type'  => 'dropdown',
+                    'default'  => '',
+                    'options' => self::leads_get_pages_array(),
                 )
             );
 
@@ -289,6 +327,21 @@ class Leads_Settings {
 
 
         return $wpleads_global_settings;
+    }
+    
+    /**
+    *  Gets array of pages with ID => Label format
+    */
+    public static function leads_get_pages_array() {
+        $pages = get_pages();
+
+        $pages_array = array() ;
+
+        foreach ($pages as $page) {
+            $pages_array[ $page->ID ] = $page->post_title;
+        }
+
+        return $pages_array;
     }
 
     /**
@@ -547,7 +600,7 @@ class Leads_Settings {
                     echo '<input id="datepicker-example2" class="Zebra_DatePicker_Icon" type="text" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$field['value'].'" size="8" />';
                     break;
                 case 'text':
-                    echo '<input type="text" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$field['value'].'" size="30" />';
+                    echo '<input type="text" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$field['value'].'" size="30" '.(isset($field['readonly']) && $field['readonly']  ? 'readonly' :'' ).'/>';
                     break;
                 // textarea
                 case 'textarea':
