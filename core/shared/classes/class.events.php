@@ -518,7 +518,7 @@ class Inbound_Events {
         switch( $event['event_name'] ) {
             case 'inbound_cta_click':
                 $link = admin_url('post.php?post='.$event['cta_id'].'&action=edit');
-                $title = get_the_title($event['form_id']);
+                $title = get_the_title($event['cta_id']);
                 $capture_id = $event['cta_id'];
                 break;
             case 'inbound_form_submission':

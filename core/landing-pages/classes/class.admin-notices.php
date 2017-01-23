@@ -253,6 +253,11 @@ class Landing_Pages_Admin_Notices {
     public static function download_legacy_templates() {
         global $pagenow;
 
+        /* ignore for pro users */
+        if (class_exists('Inbound_Pro_Plugin')) {
+            return;
+        }
+
         $message_id = 'download-legacy-landing-page-templates';
 
         /* check if user viewed message already */
