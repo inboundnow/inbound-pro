@@ -2354,14 +2354,22 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             return strtotime($a['date']) < strtotime($b['date']) ? 1 : -1;
         }
 
+        /**
+         * Check if string is a json string
+         * @param $string
+         * @return bool
+         */
         public static function  is_json($string) {
 
-            if (!$string) {
-                return false;
+            $array = array('{','[');
+
+            foreach ($array as $v) {
+                if (substr($string, 0, 1) === $v) {
+                    return true;
+                }
             }
 
-            json_decode($string);
-            return (json_last_error() == JSON_ERROR_NONE);
+            return false;
         }
 
     }
