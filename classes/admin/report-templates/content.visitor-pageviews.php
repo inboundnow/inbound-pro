@@ -32,7 +32,7 @@ if (!class_exists('Inbound_Visitor_Impressions_Report')) {
                 $lead_meta = get_post_meta(self::$lead->ID);
 
                 $first_name = (isset($lead_meta['wpleads_first_name'][0])) ? $lead_meta['wpleads_first_name'][0] : __('n/a');
-                $last_name = (isset($lead_meta['wpleads_last_name'][0])) ? $lead_meta['wpleads_first_name'][0] : '';
+                $last_name = (isset($lead_meta['wpleads_last_name'][0])) ? $lead_meta['wpleads_last_name'][0] : '';
                 $name = $first_name . ' ' .$last_name;
                 $lead_exists =true;
             } else {
