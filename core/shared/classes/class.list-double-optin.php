@@ -170,7 +170,6 @@ if (!class_exists('Inbound_List_Double_Optin')) {
 
             echo json_encode(__('Settings Updated!', 'inbound-pro'));
 
-
             die();
         }
 
