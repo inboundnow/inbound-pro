@@ -260,7 +260,7 @@ if (!class_exists('Inbound_List_Double_Optin')) {
                 <td>
                     <select name="double_optin_email_template" id="double_optin_email_template" class="double-optin-setting" >
                         <option value='default-email-template' <?php selected($settings['double_optin_email_template'], 'default-email-template'); ?>>
-                            <?php _e('Use the default email templates.', 'inbound-pro'); ?>
+                            <?php _e('Use the default email template', 'inbound-pro'); ?>
                         </option>
                         <?php
                         foreach ($emails as $id => $label) {
@@ -449,6 +449,7 @@ if (!class_exists('Inbound_List_Double_Optin')) {
                 return;
             }
 
+
             foreach ($email_contents as $list_id => $email_content) {
 
                 $content = self::get_default_email_content($email_content);
@@ -472,6 +473,9 @@ if (!class_exists('Inbound_List_Double_Optin')) {
                 $headers = apply_filters('list_double_optin_lead_conversion/headers', $headers);
 
                 wp_mail($lead['email'], $confirm_subject, $content, $headers);
+
+                /* only send once */
+                return;
             }
 
         }
