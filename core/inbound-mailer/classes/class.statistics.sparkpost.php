@@ -549,7 +549,7 @@ class Inbound_SparkPost_Stats {
             array(
                 'action' => 'sparkpost_webhook' ,
                 'fast_ajax' => true ,
-                'load_plugins' => '["_inbound-now/inbound-pro.php"]'
+                'load_plugins' => '["inbound-pro/inbound-pro.php"]'
             ),
             admin_url('admin-ajax.php')
         );

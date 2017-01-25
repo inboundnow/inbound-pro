@@ -136,7 +136,7 @@ if ( !class_exists('Inbound_Shortcodes_Fields') ) {
 						case 'select' :
 							$output	= $row_start;
 							$output .= '<select name="'. $key .'" id="'.$key.'" class="inbound-shortcodes-input select inbound-shortcodes-select">';
-							if ( isset( $option['options'] ) ) {
+							if ( isset( $option['options']) && is_array($option['options'])  ) {
 								foreach( $option['options'] as $val => $opt ) {
 									$selected = ($std == $val) ? ' selected="selected"' : '';
 									$output .= '<option'. $selected .' value="'. $val .'">'. $opt .'</option>';
