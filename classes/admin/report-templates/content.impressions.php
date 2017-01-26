@@ -196,7 +196,7 @@ if (!class_exists('Inbound_Impressions_Report')) {
                             }
 
                             $lead_meta['wpleads_first_name'][0] = ($lead_exists && isset($lead_meta['wpleads_first_name'][0])) ? $lead_meta['wpleads_first_name'][0] : __('Anonymous','inbound-pro');
-                            $lead_meta['wpleads_last_name'][0] = ($lead_exists && isset($lead_meta['wpleads_last_name'][0])) ? $lead_meta['wpleads_first_name'][0] : '';
+                            $lead_meta['wpleads_last_name'][0] = ($lead_exists && isset($lead_meta['wpleads_last_name'][0])) ? $lead_meta['wpleads_last_name'][0] : '';
 
                             ?>
                             <tr id="" class="">
@@ -342,7 +342,7 @@ if (!class_exists('Inbound_Impressions_Report')) {
                     $lead_meta = get_post_meta($event['lead_id'] , '' ,  true);
 
                     $lead_meta['wpleads_first_name'][0] = ($lead_exists && isset($lead_meta['wpleads_first_name'][0])) ? $lead_meta['wpleads_first_name'][0] : __('n/a' , 'inbound-pro');
-                    $lead_meta['wpleads_last_name'][0] = ($lead_exists && isset($lead_meta['wpleads_last_name'][0])) ? $lead_meta['wpleads_first_name'][0] : '';
+                    $lead_meta['wpleads_last_name'][0] = ($lead_exists && isset($lead_meta['wpleads_last_name'][0])) ? $lead_meta['wpleads_last_name'][0] : '';
                     ?>
                     <tr id="post-98600" class="hentry">
                         <td class="lead-picture">
