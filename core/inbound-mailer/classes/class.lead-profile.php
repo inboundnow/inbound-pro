@@ -37,6 +37,12 @@ if (!class_exists('Inbound_Mailer_Direct_Email_Leads')) {
             /*Adds direct messages to quick stats */
             add_action('wpleads_display_quick_stat', array(__CLASS__, 'display_quick_stat_unsubscribes') , 20 , 1);
 
+            /*Adds email clicks to quick stats */
+            add_action('wpleads_display_quick_stat', array(__CLASS__, 'display_quick_stat_email_clicks') , 20 , 1 );
+
+            /*Adds email opens to quick stats */
+            add_action('wpleads_display_quick_stat', array(__CLASS__, 'display_quick_stat_email_opens') , 20 , 1 );
+
         }
 
         /**
@@ -753,6 +759,83 @@ if (!class_exists('Inbound_Mailer_Direct_Email_Leads')) {
             <?php
         }
 
+
+        /**
+         * Adds a quick stat form email clicks to the Quick Stats box
+         */
+        public static function display_quick_stat_email_clicks() {
+            global $post;
+
+            /* get daily action counts for chart 1 */
+            $params = array(
+                'lead_id' => $post->ID,
+                'event_name' => 'inbound_email_clicks'
+            );
+            $click_events = Inbound_Events::get_events($params);
+
+
+            ?>
+            <div  class="quick-stat-label">
+                <div class="label_1">
+                    <?php _e('Email Clicks', 'inbound-pro'); ?>
+                </div>
+                <div class="label_2">
+                    <?php
+                    if (class_exists('Inbound_Analytics')) {
+                        ?>
+                        <a href='<?php echo admin_url('index.php?action=inbound_generate_report&lead_id='.$post->ID.'&class=Inbound_Event_Report&event_name=inbound_email_click&range='.self::$range.'&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox'>
+                            <?php echo count($click_events); ?>
+                        </a>
+                        <?php
+                    } else {
+                        echo count($click_events);
+                    }
+                    ?>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <?php
+
+        }
+
+        /**
+         * Adds a quick stat form email clicks to the Quick Stats box
+         */
+        public static function display_quick_stat_email_opens() {
+            global $post;
+
+            /* get daily action counts for chart 1 */
+            $params = array(
+                'lead_id' => $post->ID,
+                'event_name' => 'inbound_email_clicks'
+            );
+            $opens = Inbound_Events::get_events($params);
+
+
+            ?>
+            <div  class="quick-stat-label">
+                <div class="label_1">
+                    <?php _e('Email Opens', 'inbound-pro'); ?>
+                </div>
+                <div class="label_2">
+                    <?php
+                    if (class_exists('Inbound_Analytics')) {
+                        ?>
+                        <a href='<?php echo admin_url('index.php?action=inbound_generate_report&lead_id='.$post->ID.'&class=Inbound_Event_Report&event_name=inbound_email_click&range='.self::$range.'&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox'>
+                            <?php echo count($opens); ?>
+                        </a>
+                        <?php
+                    } else {
+                        echo count($opens);
+                    }
+                    ?>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <?php
+
+        }
+
         /**
          * Gets number of direct mail messages sent to lead
          */
@@ -762,7 +845,6 @@ if (!class_exists('Inbound_Mailer_Direct_Email_Leads')) {
             $table_name = $wpdb->prefix . "inbound_events";
 
             $query = 'SELECT count(*) FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'"';
-
 
             $query .= 'AND `event_name` = "inbound_direct_message"';
 
