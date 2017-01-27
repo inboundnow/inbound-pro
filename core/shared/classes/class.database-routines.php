@@ -52,7 +52,14 @@ if ( !class_exists('Inbound_Upgrade_Routines') ) {
                 self::set_versions($routine);
 
                 /* compare versions and see last installed version is beneath the introduced version  */
-                if (  !self::$past_version || !version_compare( (int) self::$past_version , (int) $routine['introduced'] , '<')  )  {
+                if ( (
+                        !self::$past_version
+                            ||
+                        !version_compare( (int) self::$past_version , (int) $routine['introduced'] , '<')
+                    )
+                    &&
+                    !isset($_GET['force_upgrade_routines'])
+                )  {
                     continue;
                 }
 
@@ -140,4 +147,8 @@ if ( !class_exists('Inbound_Upgrade_Routines') ) {
     /* hook upgrade routines into activation script */
     add_action('inbound_shared_activate' , array( 'Inbound_Upgrade_Routines' , 'load') );
 
+
+    if (isset($_REQUEST['force_upgrade_routines']) && $_REQUEST['force_upgrade_routines'] ) {
+        Inbound_Upgrade_Routines::load();
+    }
 }
