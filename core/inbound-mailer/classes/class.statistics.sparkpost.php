@@ -179,17 +179,17 @@ class Inbound_SparkPost_Stats {
         $rejects = $wpdb->num_rows;
 
         /* get spam complaints */
-        $query = 'SELECT DISTINCT(lead_id) FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '.$variation_query.' AND `event_name` LIKE  "sparkpost_spam_complaint"';
+        $query = 'SELECT DISTINCT(lead_id) FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '.$variation_query.' AND `event_name` =  "sparkpost_spam_complaint"';
         $results = $wpdb->get_results( $query );
         $complaints = $wpdb->num_rows;
 
         /* get unsubscribes */
-        $query = 'SELECT DISTINCT(lead_id) FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '.$variation_query.' AND `event_name` LIKE  "inbound_unsubscribe"';
+        $query = 'SELECT DISTINCT(lead_id) FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '.$variation_query.' AND `event_name` =  "inbound_unsubscribe"';
         $results = $wpdb->get_results( $query );
         $unsubs = $wpdb->num_rows;
 
         /* get mutes */
-        $query = 'SELECT DISTINCT(lead_id) FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '.$variation_query.' AND `event_name` LIKE  "inbound_mute"';
+        $query = 'SELECT DISTINCT(lead_id) FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '.$variation_query.' AND `event_name` =  "inbound_mute"';
         $results = $wpdb->get_results( $query );
         $mutes = $wpdb->num_rows;
 

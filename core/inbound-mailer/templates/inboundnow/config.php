@@ -10,10 +10,10 @@ $key = basename(dirname(__FILE__));
 /* Configures Template Information */
 $inbound_email_data[$key]['info'] = array(
     'data_type' => 'email-template',
-    'label' => __('Inbound Now', 'inbound-mailer'),
+    'label' => __('Inbound Now', 'inbound-pro'),
     'category' => 'responsive',
     'demo' => '',
-    'description' => __('An email template in the style of Inbound Now emails.', 'inbound-mailer'),
+    'description' => __('An email template in the style of Inbound Now emails.', 'inbound-pro'),
     'acf' => true
 );
 

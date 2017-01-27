@@ -652,11 +652,11 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             <table id="stream" cellspacing="0" cellpadding="0">
                 <thead>
                 <tr>
-                    <th class='stream-recipient'><span><?php _e('Recipient', 'inbound-mailer'); ?></span></th>
-                    <th class='stream-variation'><span><?php _e('Variation', 'inbound-mailer'); ?></span></th>
-                    <th class='stream-sent'><span><?php _e('Status', 'inbound-mailer'); ?></span></th>
-                    <th class='stream-recipient'><span><?php _e('Opens', 'inbound-mailer'); ?></span></th>
-                    <th class='stream-opened'><span><?php _e('Cicked', 'inbound-mailer'); ?></span></th>
+                    <th class='stream-recipient'><span><?php _e('Recipient', 'inbound-pro'); ?></span></th>
+                    <th class='stream-variation'><span><?php _e('Variation', 'inbound-pro'); ?></span></th>
+                    <th class='stream-sent'><span><?php _e('Status', 'inbound-pro'); ?></span></th>
+                    <th class='stream-recipient'><span><?php _e('Opens', 'inbound-pro'); ?></span></th>
+                    <th class='stream-opened'><span><?php _e('Cicked', 'inbound-pro'); ?></span></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -830,6 +830,10 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
                 .email-details-td-info {
                     padding-left: 20px;
+                }
+
+                .email-details-td-info .label-default{
+                    display:flex;
                 }
             </style>
             <div class='email-send-details'>
@@ -1154,8 +1158,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
                     /* do not show multiple events from same lead */
                     if (in_array($event['lead_id'],$added)) {
-                        //continue;
-                        //continue;
+                        continue;
                     }
 
                     $added[] = $event['lead_id'];

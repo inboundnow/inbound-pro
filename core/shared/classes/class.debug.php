@@ -417,5 +417,3 @@ display: inline-block;}
  *	--------------------------------------------------------- */
 
 Inbound_Debug_Scripts::init();
-
-?>

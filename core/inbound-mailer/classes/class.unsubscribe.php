@@ -293,7 +293,7 @@ class Inbound_Mailer_Unsubscribe {
 	public static function unsubscribe_lead( $params , $all = false) {
 		switch ($all) {
 			case true:
-				self::unsubscribe_from_all_lists( $params['lead_id'] );
+				self::unsubscribe_from_all_lists( $params );
 				break;
 			default:
 				/* loop through lists and unsubscribe lead */
@@ -310,16 +310,20 @@ class Inbound_Mailer_Unsubscribe {
 	/**
 	 *  Unsubscribe lead from all lists
 	 */
-	public static function unsubscribe_from_all_lists( $lead_id = null ) {
+	public static function unsubscribe_from_all_lists( $params ) {
+
+		if (!isset($params['lead_id']) || !$params['lead_id'] ) {
+			return;
+		}
+
 		/* get all lead lists */
 		$lead_lists = Inbound_Leads::get_lead_lists_as_array();
 
 		foreach ( $lead_lists as $list_id => $label ) {
-			Inbound_Leads::remove_lead_from_list( $lead_id , $list_id );
-			Inbound_Mailer_Unsubscribe::add_stop_rules( $lead_id , $list_id );
-			$event = $params;
-			$event['list_id'] = $list_id;
-			Inbound_Events::store_unsubscribe_event( $event );
+			Inbound_Leads::remove_lead_from_list( $params['lead_id'] , $list_id );
+			Inbound_Mailer_Unsubscribe::add_stop_rules( $params['lead_id'] , $list_id );
+			$params['list_id'] = $list_id;
+			Inbound_Events::store_unsubscribe_event( $params );
 		}
 
 	}

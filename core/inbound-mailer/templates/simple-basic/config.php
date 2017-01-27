@@ -11,7 +11,7 @@ $key = basename(dirname(__FILE__));
 /* Configures Template Information */
 $inbound_email_data[$key]['info'] = array(
 	'data_type' =>'email-template',
-	'label' => __( 'Simple Basic' , 'inbound-mailer') ,
+	'label' => __( 'Simple Basic' , 'inbound-pro') ,
 	'category' => 'responsive',
 	'demo' => '',
 	'description' => __( 'Simple basic email template.' , 'inbound-mailer' ),

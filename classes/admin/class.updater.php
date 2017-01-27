@@ -103,7 +103,7 @@ class Inbound_Updater {
             }
 
         }
-        //print_r($_transient_data);exit;
+
         return $_transient_data;
     }
 
@@ -113,11 +113,12 @@ class Inbound_Updater {
     public static function api_request() {
         global $inbound_settings;
 
-        self::$response  = wp_remote_get( self::$api_url );
+        self::$response  = wp_remote_get( self::$api_url , array ('timeout' => 10 ) );
 
         if ( is_wp_error(self::$response) || empty(self::$response['body']) ) {
             return;
         }
+
 
         self::$info  = json_decode( self::$response['body'] );
 
