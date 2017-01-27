@@ -652,7 +652,7 @@ if ( !class_exists('Inbound_Leads') ) {
 				$double_optin_list_id = get_option('list-double-optin-list-id', '');
 			} else {
 				$settings = Inbound_Options_API::get_option('inbound-pro', 'settings', array());
-				$double_optin_list_id = $settings['leads']['list-double-optin-list-id'];
+				$double_optin_list_id = $inbound_settings['leads']['list-double-optin-list-id'];
 			}
 
 			// If the list doesn't already exist, create it
