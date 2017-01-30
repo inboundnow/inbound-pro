@@ -685,8 +685,8 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                         <?php do_action('wpleads_before_quickstats', $post); ?>
                         <div class="leads_stat_box">
                             <div class="leads_stat_box_heading">
-                                <div class="label_1">Action Breakdown   </div>
-                                <div class="label_2">Count</div>
+                                <div class="label_1"><?php _e('Action Breakdown' , 'inbound-pro'); ?>   </div>
+                                <div class="label_2"><?php _e('Count' , 'inbound-pro'); ?></div>
                                 <div class="clearfix"></div>
                             </div>
                             <?php do_action('wpleads_display_quick_stat', $post); ?> <!-- Display's the data-->
@@ -709,7 +709,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
             ?>
             <div class="quick-stat-label">
-                <div class="label_1"><?php _e('Page Views ', 'inbound-pro'); ?>:</div>
+                <div class="label_1"><?php _e('Page Views', 'inbound-pro') ?>:</div>
                 <div class="label_2">
 
                     <?php
@@ -743,7 +743,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                     <?php
                     if (class_exists('Inbound_Analytics')) {
                     ?>
-                        <a href='<?php echo admin_url('index.php?action=inbound_generate_report&lead_id='.$post->ID.'&class=Inbound_Event_Report&event_name=inbound_form_submission&range=10000&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox'>
+                        <a href='<?php echo admin_url('index.php?action=inbound_generate_report&lead_id='.$post->ID.'&class=Inbound_Event_Report&event_name=inbound_form_submission&range=10000&title='. urlencode(Inbound_Events::get_event_label('inbound_form_submission')).'&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox'>
                             <?php echo count(self::$form_submissions); ?>
                         </a>
                     <?php

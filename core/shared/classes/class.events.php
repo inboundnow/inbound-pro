@@ -305,23 +305,24 @@ class Inbound_Events {
             $funnel = json_decode( $args['funnel'] , true);
 
             $stored_views = array();
+
             foreach ($funnel as $page_id => $visits ) {
 
                 if (!is_numeric($page_id)) {
                     continue;
                 }
 
-                if (!in_array($page_id, $stored_views)) {
-                    $stored_views[] = strval($page_id);
-                } else {
-                    /* check if user doubled back to the first page to convert */
-                    $funnel_count = count($stored_views);
-                    $last_key = $funnel_count - 1;
-                    if ( $funnel_count > 1  && $stored_views[0] == $page_id && $stored_views[$last_key] != $page_id ){
-                        $stored_views[] = strval($page_id);
+                if (is_array($visits)) {
+                    foreach ($visits as $visit) {
+                        $stored_views[stripslashes($visit)] = strval($page_id);
                     }
+                } else {
+                    $stored_views[stripslashes($visits)] = strval($page_id);
                 }
             }
+
+            /* order by date */
+            ksort($stored_views);
 
             /* add original funnel with timestamps to event details */
             if (is_array($args['event_details'])) {
@@ -546,11 +547,16 @@ class Inbound_Events {
                 $title = "";
                 $capture_id = "";
                 break;
+            default:
+                $link = "";
+                $title = "";
+                $capture_id = "";
+                break;
         }
 
-        $array['link'] = ($link) ? $link : '#';
-        $array['title'] = ($title) ? $title : __('n/a','inbound-pro');
-        $array['capture_id'] = ($capture_id) ? $capture_id : 0;
+        $array['link'] = (isset($link)) ? $link : '#';
+        $array['title'] = (isset($title)) ? $title : __('n/a','inbound-pro');
+        $array['capture_id'] = (isset($capture_id)) ? $capture_id : 0;
 
         return apply_filters('inbound-events/capture-data' , $array , $event);
     }

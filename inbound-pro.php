@@ -4,7 +4,7 @@ Plugin Name: Inbound Now PRO
 Plugin URI: http://www.inboundnow.com/
 Description: Professional Inbound Marketing Suite for WordPress
 Author: InboundWP LLC
-Version: 1.8.2.1.1
+Version: 1.8.2.1.2
 Author URI: http://www.inboundnow.com/
 Text Domain: inbound-pro
 Domain Path: /lang/
@@ -94,8 +94,8 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 		*/
 		private static function define_constants() {
 
-			define('INBOUND_PRO_CURRENT_VERSION', '1.8.2.1.1' );
-			define('INBOUND_PRO_STABLE_VERSION', '1.8.2.1.1' );
+			define('INBOUND_PRO_CURRENT_VERSION', '1.8.2.1.2' );
+			define('INBOUND_PRO_STABLE_VERSION', '1.8.2.1.2' );
 			define('INBOUND_PRO_TRANSLATIONS_VERSION', '1.29.1' );
 			define('INBOUND_PRO_URLPATH', plugin_dir_url( __FILE__ ));
 			define('INBOUND_PRO_PATH', plugin_dir_path( __FILE__ ) );
@@ -168,13 +168,13 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.oauth-engine.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.translations.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.reporting.templates.php');
-				include_once( INBOUND_PRO_PATH . 'classes/admin/report-templates/content.quick-view.php');
-				include_once( INBOUND_PRO_PATH . 'classes/admin/report-templates/content.impressions.php');
-				include_once( INBOUND_PRO_PATH . 'classes/admin/report-templates/content.visitor-pageviews.php');
-				include_once( INBOUND_PRO_PATH . 'classes/admin/report-templates/content.visitors.php');
-				include_once( INBOUND_PRO_PATH . 'classes/admin/report-templates/content.event.php');
-				include_once( INBOUND_PRO_PATH . 'classes/admin/report-templates/content.events.php');
-				include_once( INBOUND_PRO_PATH . 'classes/admin/report-templates/content.visitor-events.php');
+				include_once( INBOUND_PRO_PATH . 'classes/admin/report-templates/report.quick-view.php');
+				include_once( INBOUND_PRO_PATH . 'classes/admin/report-templates/report.impressions.php');
+				include_once( INBOUND_PRO_PATH . 'classes/admin/report-templates/report.visitor-pageviews.php');
+				include_once( INBOUND_PRO_PATH . 'classes/admin/report-templates/report.visitors.php');
+				include_once( INBOUND_PRO_PATH . 'classes/admin/report-templates/report.event.php');
+				include_once( INBOUND_PRO_PATH . 'classes/admin/report-templates/report.events.php');
+				include_once( INBOUND_PRO_PATH . 'classes/admin/report-templates/report.visitor-events.php');
 
 				/* load subscriber only assets */
 				if ( INBOUND_ACCESS_LEVEL> 0 && INBOUND_ACCESS_LEVEL != 9 ) {
