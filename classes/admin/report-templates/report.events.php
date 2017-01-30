@@ -355,14 +355,6 @@ if (!class_exists('Inbound_Events_Report')) {
             $event['funnel'] = json_decode($event['funnel'],true);
             $event['funnel'] = (is_array($event['funnel'])) ? $event['funnel'] : array();
 
-            /* make sure the final page is the converting page */
-            if ($event['funnel']) {
-                $end = count($event['funnel']) - 1;
-
-                if ($event['funnel'][$end] != $event['page_id']) {
-                    $event['funnel'][] = $event['page_id'];
-                }
-            }
              ?>
             <div class="session-item-holder">
                      <div class="popup-header"><strong><?php _e('Traffic Funnel' , 'inbound-pro'); ?></strong></div>
@@ -391,6 +383,20 @@ if (!class_exists('Inbound_Events_Report')) {
                     $count = 1;
                     $event['funnel'] = ($event['funnel']) ? $event['funnel'] : array();
 
+                    if (!$event['funnel']) {
+                        ?>
+                        <div class="lp-page-view-item inbetween ">
+                            <div class="path-left">
+                                <?php _e('no data' , 'inbound-pro'); ?>
+                            </div>
+                            <div class="path-right">
+                                <span class="time-on-page">
+                                </span>
+                            </div>
+                        </div>
+                        <?php
+                    }
+
                     foreach($event['funnel'] as $page_id) {
 
                         if (!$page_id) {
@@ -412,6 +418,12 @@ if (!class_exists('Inbound_Events_Report')) {
                             $tag_names = '';
                             $page_permalink = get_tag_link($tag_id);
 
+                        } elseif (strpos($page_id, '/') !== false) {
+                            $page_permalink = site_url($page_id);
+                            $page_id = url_to_postid($url);
+                            $page = get_post($page_id);
+                            $page_type = (isset($page->post_type)) ? $page->post_type : 'unknown' ;
+                            $page_title = (isset($page->post_title)) ? $page->post_type : 'unknown' ;
                         } else {
                             $page_type = __('post' , 'inbound-pro');
                             $page_title = get_the_title($page_id);
@@ -471,7 +483,7 @@ if (!class_exists('Inbound_Events_Report')) {
                 <div class="popup-header"><strong><?php _e('List Added' , 'inbound-pro'); ?></strong></div>
                 <div>
                     <ul>
-                     <li><?php echo $term->name;?></li>
+                     <li><?php echo (isset($term->name)) ? $term->name : '' ;?></li>
                     </ul>
                 </div>
             </div>

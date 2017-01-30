@@ -746,11 +746,11 @@ if (!class_exists('Inbound_Mailer_Direct_Email_Leads')) {
                     if (class_exists('Inbound_Analytics')) {
                         ?>
                         <a href='<?php echo admin_url('index.php?action=inbound_generate_report&lead_id='.$post->ID.'&class=Inbound_Event_Report&event_name=inbound_unsubscribe&range='.self::$range.'&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox'>
-                            <?php echo self::get_direct_mail_count($post->ID); ?>
+                            <?php echo self::get_unsubscribes_count($post->ID); ?>
                         </a>
                         <?php
                     } else {
-                        echo self::get_direct_mail_count($post->ID);
+                        echo self::get_unsubscribes_count($post->ID);
                     }
                     ?>
                 </div>
@@ -847,6 +847,24 @@ if (!class_exists('Inbound_Mailer_Direct_Email_Leads')) {
             $query = 'SELECT count(*) FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'"';
 
             $query .= 'AND `event_name` = "inbound_direct_message"';
+
+            $count = $wpdb->get_var( $query , 0, 0 );
+
+            /* return null if nothing there */
+            return ($count) ? $count : 0;
+        }
+
+        /**
+         * Gets number of direct mail messages sent to lead
+         */
+        public static function get_unsubscribes_count( $lead_id  ){
+            global $wpdb;
+
+            $table_name = $wpdb->prefix . "inbound_events";
+
+            $query = 'SELECT count(*) FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'"';
+
+            $query .= 'AND `event_name` = "inbound_unsubscribe"';
 
             $count = $wpdb->get_var( $query , 0, 0 );
 

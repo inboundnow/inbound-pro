@@ -53,8 +53,10 @@ if (!class_exists('Inbound_Event_Report')) {
         public static function display_header() {
 
             $report_headline = (isset($_REQUEST['title'])) ? $_REQUEST['title'] : __('Actions' , 'inbound-pro');
-            $title = get_the_title(intval($_REQUEST['page_id']));
-            $permalink = get_the_permalink(intval($_REQUEST['page_id']));
+
+            $title = (isset($_REQUEST['page_id'])) ? get_the_title(intval($_REQUEST['page_id'])) : 'n/a';
+            $title = (isset($_REQUEST['lead_id'])) ? get_the_title(intval($_REQUEST['lead_id'])) : $title;
+            $permalink = (isset($_REQUEST['page_id'])) ? get_the_permalink(intval($_REQUEST['page_id'])) : '#';
             $default_gravatar = INBOUND_PRO_URLPATH . 'assets/images/gravatar-unknown.png';
 
             ?>
@@ -226,7 +228,7 @@ if (!class_exists('Inbound_Event_Report')) {
 
                     </th>
                     <th scope="col" class="">
-                        <span><?php _e('Event Source' , 'inbound-pro'); ?></span>
+                        <span><?php _e('Event' , 'inbound-pro'); ?></span>
                     </th>
                     <th scope="col" class="">
                         <span><?php _e('Lead' , 'inbound-pro'); ?></span>
@@ -344,7 +346,7 @@ if (!class_exists('Inbound_Event_Report')) {
                 $end = count($event['funnel']) - 1;
 
                 if ($event['funnel'][$end] != $event['page_id']) {
-                    $event['funnel'][] = $event['page_id'];
+                    $event['funnel'][$end] = $event['page_id'];
                 }
             }
 
@@ -379,11 +381,7 @@ if (!class_exists('Inbound_Event_Report')) {
 
                     $count = 1;
 
-                    foreach($event['funnel'] as $page_id) {
-
-                        if (!$page_id) {
-                            continue;
-                        }
+                    foreach($event['funnel'] as $key => $page_id) {
 
                         if (strpos($page_id, 'cat_') !== false) {
                             $page_type = __('Category' , 'inbound-pro');
@@ -400,6 +398,12 @@ if (!class_exists('Inbound_Event_Report')) {
                             $tag_names = '';
                             $page_permalink = get_tag_link($tag_id);
 
+                        } elseif (strpos($page_id, '/') !== false) {
+                            $page_permalink = site_url($page_id);
+                            $page_id = url_to_postid($url);
+                            $page = get_post($page_id);
+                            $page_type = (isset($page->post_type)) ? $page->post_type : 'unknown' ;
+                            $page_title = (isset($page->post_title)) ? $page->post_type : 'unknown' ;
                         } else {
                             $page_type = __('post' , 'inbound-pro');
                             $page_title = get_the_title($page_id);
