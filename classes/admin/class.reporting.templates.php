@@ -15,6 +15,7 @@ if ( !class_exists('Inbound_Reporting_Templates') ) {
 
             /* Load and Dislay Correct Template */
             add_action('admin_init' , array( __CLASS__ , 'display_template' ) );
+
             /* add property to screen options */
             add_filter( 'screen_settings',array( __CLASS__ , 'add_screen_option_field'), 10, 2 );
 

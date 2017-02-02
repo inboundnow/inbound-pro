@@ -27,7 +27,7 @@ if ( !class_exists('Inbound_Upgrade_Routines') ) {
             self::$routines['page-views-table-1'] = array(
                 'id' => 'page-views-table-1',
                 'scope' => 'shared',
-                'introduced' => '1.0.1',
+                'introduced' => '1.0.2',
                 'callback' => array( __CLASS__ , 'alter_page_views_table_1')
             );
 
@@ -35,7 +35,7 @@ if ( !class_exists('Inbound_Upgrade_Routines') ) {
             self::$routines['events-table-1'] = array(
                 'id' => 'events-table-1',
                 'scope' => 'shared',
-                'introduced' => '1.0.1',
+                'introduced' => '1.0.2',
                 'callback' => array( __CLASS__ , 'alter_events_table_1')
             );
         }
@@ -52,11 +52,10 @@ if ( !class_exists('Inbound_Upgrade_Routines') ) {
                 self::set_versions($routine);
 
                 /* compare versions and see last installed version is beneath the introduced version  */
-                if ( (
-                        !self::$past_version
-                            ||
-                        !version_compare( (int) self::$past_version , (int) $routine['introduced'] , '<')
-                    )
+                if (
+                    self::$past_version
+                    &&
+                    !version_compare( self::$past_version , $routine['introduced'] , '<')
                     &&
                     !isset($_GET['force_upgrade_routines'])
                 )  {
