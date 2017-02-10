@@ -176,6 +176,7 @@ class Inbound_Automation_Activation {
 		$sql = "CREATE TABLE IF NOT EXISTS $table_name (
 			  `id` mediumint(9) NOT NULL AUTO_INCREMENT,
 			  `rule_id` varchar(255) NOT NULL,
+			  `lead_id` varchar(255) NOT NULL,
 			  `tasks` text NOT NULL,
 			  `trigger_data` text NOT NULL,
 			  `datetime` datetime NOT NULL,
