@@ -43,6 +43,9 @@ if (!class_exists('Inbound_Mailer_Direct_Email_Leads')) {
             /*Adds email opens to quick stats */
             add_action('wpleads_display_quick_stat', array(__CLASS__, 'display_quick_stat_email_opens') , 20 , 1 );
 
+            /*Adds email opens to quick stats */
+            add_action('wpleads_display_quick_stat', array(__CLASS__, 'display_quick_stat_email_bounces') , 20 , 1 );
+
         }
 
         /**
@@ -823,6 +826,45 @@ if (!class_exists('Inbound_Mailer_Direct_Email_Leads')) {
                         ?>
                         <a href='<?php echo admin_url('index.php?action=inbound_generate_report&lead_id='.$post->ID.'&class=Inbound_Event_Report&event_name=inbound_email_click&range='.self::$range.'&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox'>
                             <?php echo count($opens); ?>
+                        </a>
+                        <?php
+                    } else {
+                        echo count($opens);
+                    }
+                    ?>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <?php
+
+        }
+
+        /**
+         * Adds a quick stat form email clicks to the Quick Stats box
+         */
+        public static function display_quick_stat_email_bounces() {
+            global $post;
+
+            /* get daily action counts for chart 1 */
+            $params = array(
+                'lead_id' => $post->ID,
+                'event_name' => 'sparkpost_bounce'
+            );
+
+            $bounces = Inbound_Events::get_events($params);
+
+
+            ?>
+            <div  class="quick-stat-label">
+                <div class="label_1">
+                    <?php _e('Email Bounces', 'inbound-pro'); ?>
+                </div>
+                <div class="label_2">
+                    <?php
+                    if (class_exists('Inbound_Analytics')) {
+                        ?>
+                        <a href='<?php echo admin_url('index.php?action=inbound_generate_report&lead_id='.$post->ID.'&class=Inbound_Event_Report&event_name=sparkpost_bounce&title='.__('SparkPost Bounces' , 'inbound-pro') .'&range='.self::$range.'&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox'>
+                            <?php echo count($bounces); ?>
                         </a>
                         <?php
                     } else {
