@@ -56,7 +56,9 @@ if (!class_exists('Inbound_Automation_Plugin') && class_exists('Inbound_Leads_Pl
 					include_once('definitions/action.create_lead.php');
 					include_once('definitions/action.send_email.php');
 					include_once('definitions/action.relay_data.php');
-					include_once('definitions/action.add-remove-list.php');
+					include_once('definitions/action.add_remove_list.php');
+					include_once('definitions/action.add_remove_tag.php');
+					include_once('definitions/action.kill_lead_tasks.php');
 					include_once('definitions/query.lead_data.php');
 					include_once('definitions/query.user_data.php');
 
@@ -78,7 +80,9 @@ if (!class_exists('Inbound_Automation_Plugin') && class_exists('Inbound_Leads_Pl
 					include_once('definitions/action.create_lead.php');
 					include_once('definitions/action.send_email.php');
 					include_once('definitions/action.relay_data.php');
-					include_once('definitions/action.add-remove-list.php');
+					include_once('definitions/action.add_remove_list.php');
+					include_once('definitions/action.add_remove_tag.php');
+					include_once('definitions/action.kill_lead_tasks.php');
 					include_once('definitions/query.lead_data.php');
 					include_once('definitions/query.user_data.php');
 
