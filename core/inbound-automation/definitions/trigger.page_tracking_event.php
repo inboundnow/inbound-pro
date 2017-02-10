@@ -41,7 +41,7 @@ if ( !class_exists( 'Inbound_Automation_Trigger_Update_Lead' ) ) {
 
 			/* Set & Extend Available Actions */
 			$actions = apply_filters('inbound_automation_trigger_actions-update-lead' , array(
-				'send_email' , 'wait' , 'relay_data' , 'add_remove_lead_list'
+				'send_email' , 'wait' , 'relay_data' , 'add_remove_lead_list', 'add_remove_lead_tag'
 			) );
 
 			$triggers[ self::$trigger ] = array (

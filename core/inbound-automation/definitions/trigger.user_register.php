@@ -46,7 +46,7 @@ if ( !class_exists( 'Inbound_Automation_Trigger_User_Register' ) ) {
 
 			/* Set & Extend Available Actions */
 			$actions = apply_filters('trigger/user_register/actions' , array(
-				'create_lead' ,'add_remove_lead_list','send_email' , 'wait' , 'relay_data'
+				'create_lead' ,'add_remove_lead_list','add_remove_lead_tag','send_email' , 'wait' , 'relay_data'
 			) );
 
 			$triggers[ self::$trigger ] = array (
