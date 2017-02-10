@@ -47,9 +47,11 @@
 }
 
 #cta_container #main-headline {
-	color:#{{headline-text-color}};
 	font-size: 20px;
 	margin-bottom: 20px;
+	display:block;
+	margin-top:{{header-padding-top}};
+	color:#{{headline-text-color}};
 }
 .cta_content {
 	padding-bottom: 5px;
@@ -80,13 +82,13 @@
 	border-style: solid;
 	border-color: #{{submit-button-text-color|brightness(30)}};
 }
-.wp_cta_container  h1#main-headline {
-	color: #{{headline-text-color}};
+.wp_cta_container  #main-headline {
 	margin-top: 0px;
 	padding-top: 10px;
 	line-height: 36px;
 	margin-bottom: 10px;
-
+	display:block;
+	color: #{{headline-text-color}};
 }
 #cta_container a {
 	text-decoration: none;
@@ -116,7 +118,7 @@ form  {
 
 <!-- if has_image -->
 	<div id="cta_content_left">
-		<h1 id='main-headline'>{{header-text}}</h1>
+		<span id='main-headline'>{{header-text}}</span>
 		<a id='cta-link' href='{{submit-button-link}}'>
 			<span class='cta_button'>
 			{{submit-button-text}}
@@ -130,7 +132,7 @@ form  {
 
 <!-- if !has_image -->
 	<div id="cta_content_centered">
-		<h1 id='main-headline'>{{header-text}}</h1>
+		<span id='main-headline'>{{header-text}}</span>
 		<a id='cta-link' href='{{submit-button-link}}'>
 			<span class='cta_button'>
 			{{submit-button-text}}

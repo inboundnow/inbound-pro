@@ -51,7 +51,7 @@ array(
          'description' => "enter height in px",
          'id'  => 'header-height',
          'type'  => 'text',
-         'default'  => '',
+         'default'  => '141px',
          'context'  => 'normal'
          ),
    array(
@@ -67,7 +67,7 @@ array(
        'description' => "Use this setting to change headline color",
        'id'  => 'header-text-color',
        'type'  => 'colorpicker',
-       'default'  => '000000',
+       'default'  => 'fff',
        'context'  => 'normal'
        ),
       array(
@@ -75,8 +75,7 @@ array(
          'description' => "Sub Header Text",
          'id'  => 'sub-header-text',
          'type'  => 'wysiwyg',
-         'default'  => '<h3>Awesome Subheadline Text Goes here</h3>
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vitae mauris arcu, eu pretium nisi. Praesent fringilla ornare ullamcorper. Pellentesque diam orci, sodales in blandit ut, placerat quis felis. Vestibulum at sem massa, in tempus nisi. Vivamus ut fermentum odio. Etiam porttitor faucibus volutpat. Vivamus vitae mi ligula, non hendrerit urna. Suspendisse potenti. Quisque eget massa a massa semper mollis.',
+         'default'  => '<strong class="clean-cta-subheadline">Awesome Subheadline Text Goes here</strong>',
          'context'  => 'normal'
          ),
      array(
@@ -84,7 +83,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vitae mauris ar
          'description' => "Use this setting to change headline color",
          'id'  => 'sub-header-text-color',
          'type'  => 'colorpicker',
-         'default'  => '000000',
+         'default'  => 'fff',
          'context'  => 'normal'
          ),
      array(
@@ -152,11 +151,11 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vitae mauris ar
 /* define dynamic template markup */
 $wp_cta_data[$key]['markup'] = '
 <style type="text/css">
-#inbound-wrapper-clean h1, #inbound-wrapper-clean p {
+#inbound-wrapper-clean span, #inbound-wrapper-clean p {
   margin-bottom: 20px;
-  color: #333;
+  color:{{sub-header-text-color|color}};
 }
-#inbound-wrapper-clean h1 {
+#inbound-wrapper-clean span {
   margin-top: 2.5rem;
   margin-bottom: 0;
   text-align: center;
@@ -175,7 +174,6 @@ $wp_cta_data[$key]['markup'] = '
 .button-list {
   text-align: center;
   list-style: none;
-  line-height: 2.5rem;
   padding-bottom: 10px;
   padding-top: 5px;
 }
@@ -198,12 +196,10 @@ $wp_cta_data[$key]['markup'] = '
   background-size: cover;
   background-position: top;
   height: {{header-height}};
+  text-align:center;
 }
-#inbound-wrapper-clean .cover h1 {
-  color: {{header-text-color|color}};
-  text-shadow: 1px 1px 0px rgba(150, 150, 150, 0.59);
-}
-.cover #clean-sub-head-text, #clean-sub-head-text h1,#clean-sub-head-text h2,#clean-sub-head-text h3,#clean-sub-head-text h4,#clean-sub-head-text h5,#clean-sub-head-text h6 {
+
+.cover #clean-head-text,.cover #clean-sub-head-text, #clean-sub-head-text h1,#clean-sub-head-text h2,#clean-sub-head-text h3,#clean-sub-head-text h4,#clean-sub-head-text h5,#clean-sub-head-text h6 {
   color: {{sub-header-text-color|color}};
 }
 .clean-button {
@@ -243,11 +239,19 @@ $wp_cta_data[$key]['markup'] = '
   border: none;
 }
 
+#clean-head-text {
+    display:inline-block;
+    color: {{header-text-color|color}};
+    text-shadow: 1px 1px 0px rgba(150, 150, 150, 0.59);
+    margin-top:10px;
+    font-size:25px;
+}
+
 </style>
 <div id="inbound-wrapper-clean" class="card">
   <div class="cover">
 
-    <h1>{{ header-text }}</h1>
+    <span id="clean-head-text">{{ header-text }}</span>
 
     <div id="clean-sub-head-text">{{sub-header-text}}</div>
   </div>

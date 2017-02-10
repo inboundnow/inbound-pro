@@ -38,6 +38,16 @@ array(
        'context'  => 'normal' // Context in screen (advanced layouts in future)
        ),
    array(
+       'label' => 'Font Family',
+       'description' => "Font Family",
+       'id'  => 'font-family',
+       'type'  => 'dropdown',
+       'default'  => '',
+       'context'  => 'normal',
+       'options' => array('Lato, sans-serif'=>'Lato, sans-serif', 'inherit'=>'Inherit from WordPress theme.', )
+
+       ),
+   array(
        'label' => 'Header Text',
        'description' => "Header Text",
        'id'  => 'header-text',
@@ -91,6 +101,16 @@ array(
        'type'  => 'text',
        'default'  => 'Download Now'
        ),
+
+    array(
+        'label' => 'Button Width',
+        'description' => "Select whether to have a fullwidth or non full width button.",
+        'id'  => 'button-width',
+        'type'  => 'dropdown',
+        'default'  => 'block',
+        'options' => array('100%'=>'Full Width', 'auto'=>'Not Full Width', ),
+        'context'  => 'normal'
+    ),
      array(
        'label' => 'Destination Link',
        'description' => "Where do you want to link people to?",
