@@ -49,7 +49,7 @@ class Inbound_Automation_Processing {
 		}
 
 		if (isset($_GET['inbound-automation-view-rule-queue'])) {
-			self::load_queue();
+			self::load_queue( false );
 			echo '<pre>';
 			print_r(self::$queue);
 			echo '</pre>';exit;
@@ -106,7 +106,7 @@ class Inbound_Automation_Processing {
 	/**
 	*  Load rule queue
 	*/
-	public static function load_queue() {
+	public static function load_queue( $hide_future_events = true) {
 		global $wpdb;
 
 		$table_name = $wpdb->prefix . "inbound_automation_queue";
@@ -115,7 +115,12 @@ class Inbound_Automation_Processing {
 		$timezone_format = 'Y-m-d G:i:s T';
 		$wordpress_date_time =  date_i18n($timezone_format);
 
-		$query = 'SELECT * FROM '.$table_name.' WHERE datetime <= "'.$wordpress_date_time.'"';
+		$query = 'SELECT * FROM '.$table_name;
+
+		if (!$hide_future_events) {
+			$query .= ' WHERE datetime <= "'.$wordpress_date_time.'"';
+		}
+
 		self::$queue = $wpdb->get_results( $query , ARRAY_A );
 
 		return self::$queue;
