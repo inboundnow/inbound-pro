@@ -66,7 +66,12 @@ class Inbound_API_Wrapper {
 		}
 
 		/* This call home gets a list of available downloads - We have minimum security because no sensitive information is revealed */
-		$response = wp_remote_post( self::$inbound_api_uri , array(  'body' => array ( 'get_downloads' => true , 'key' => 'hudson11' ) ) );
+		$response = wp_remote_post( self::$inbound_api_uri ,
+			array(
+				'timeout' => 30,
+				'body' => array ( 'get_downloads' => true , 'key' => 'hudson11' )
+			)
+		);
 
 		/* check for errors */
 		if ( is_wp_error( $response ) ) {
