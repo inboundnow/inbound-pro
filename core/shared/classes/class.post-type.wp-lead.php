@@ -435,6 +435,30 @@ if ( !class_exists('Inbound_Leads') ) {
 			return $array;
 		}
 
+
+		/**
+		* Get an array of all lead lists
+		*
+		* @returns ARRAY of lead lists with term id as key and list name as value
+		*/
+		public static function get_lead_tags_as_array() {
+			self::register_taxonomies();
+
+			$array = array();
+
+			$args = array(
+				'hide_empty' => false,
+			);
+
+			$terms = get_terms('lead-tags', $args);
+
+			foreach ( $terms as $term	) {
+				$array[$term->term_id] = $term->name;
+			}
+
+			return $array;
+		}
+
 		/**
 		*  Get lead list infomration
 		*

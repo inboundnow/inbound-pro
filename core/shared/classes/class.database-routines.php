@@ -38,6 +38,14 @@ if ( !class_exists('Inbound_Upgrade_Routines') ) {
                 'introduced' => '1.0.2',
                 'callback' => array( __CLASS__ , 'alter_events_table_1')
             );
+
+            /* alter automation queue table */
+            self::$routines['automation-queue-table-1'] = array(
+                'id' => 'automation-queue-table-1',
+                'scope' => 'shared',
+                'introduced' => '1.0.3',
+                'callback' => array( __CLASS__ , 'alter_automation_queue_table_1')
+            );
         }
 
         /**
@@ -139,6 +147,26 @@ if ( !class_exists('Inbound_Upgrade_Routines') ) {
             $row = $wpdb->get_results(  "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '{$table_name}' AND column_name = 'list_id'"  );
             if(empty($row)){
                 $wpdb->get_results( "ALTER TABLE {$table_name} ADD `list_id` varchar(255) NOT NULL" );
+            }
+        }
+
+
+        /**
+         * @migration-type: alter inbound_automation_queue table
+         * @mirgration: adds columns lead_id
+         */
+        public static function alter_automation_queue_table_1() {
+
+            global $wpdb;
+
+            require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+            $table_name = $wpdb->prefix . "inbound_automation_queue";
+
+            /* add columns funnel and source to legacy table */
+            $row = $wpdb->get_results(  "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '{$table_name}' AND column_name = 'lead_id'"  );
+            if(empty($row)){
+                // do your stuff
+                $wpdb->get_results( "ALTER TABLE {$table_name} ADD `lead_id` varchar(255)  NOT NULL" );
             }
         }
     }

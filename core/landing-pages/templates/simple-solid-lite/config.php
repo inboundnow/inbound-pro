@@ -49,6 +49,21 @@ if( function_exists('register_field_group') ):
 				'disabled' => 0,
 			),
 			array (
+				'key' => 'field_55df74363ffr3ccd',
+				'label' => 'Main Headline Color',
+				'name' => 'main-headline-color',
+				'type' => 'color_picker',
+				'instructions' => 'Font color of headline',
+				'required' => 0,
+				'conditional_logic' => 0,
+				'wrapper' => array (
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'default_value' => '#fff',
+			),
+			array (
 				'key' => 'field_55df73bb3fb9a',
 				'label' => 'Main Content',
 				'name' => 'simple-solid-lite-main-content',

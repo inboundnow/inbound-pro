@@ -82,6 +82,24 @@ if ( !class_exists('Inbound_Automation_Post_Type') ) {
 
 		}
 
+		/**
+		 * Get Automation Rules as Array
+		 * @return array
+		 */
+		public static function get_rules_as_array() {
+			$rules = get_posts( array(
+				'post_type' => 'automation',
+				'posts_per_page' => -1
+			));
+
+			$rules_array = array();
+			foreach ($rules as $rule) {
+				$rules_array[$rule->ID] = $rule->post_title;
+			}
+
+			return $rules_array;
+		}
+
 		/* Register Columns */
 		public static function register_columns( $cols ) {
 

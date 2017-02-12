@@ -59,7 +59,7 @@ class Inbound_Mailer_Ajax_Listeners {
 		/* update post type */
 		wp_update_post( array(
 			'ID' => $_POST['post_ID'],
-			'post_status' => $_POST['post_status'],
+			'post_status' => isset($_POST['post_status']) ? $_POST['post_status'] : $_POST['hidden_post_status'],
 			'post_title' => $_POST['post_title'],
 		));
 

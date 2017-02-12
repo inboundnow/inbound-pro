@@ -45,6 +45,14 @@ array(
         'context'  => 'normal'
         ),
     array(
+        'label' => 'Header Padding Top (include px eg: 36px)',
+        'description' => "Header Padding Top",
+        'id'  => 'header-padding-top',
+        'type'  => 'text',
+        'default'  => '36px',
+        'context'  => 'normal'
+        ),
+    array(
         'label' => 'Background Color',
         'description' => "Changes background color",
         'id'  => 'content-background-color',

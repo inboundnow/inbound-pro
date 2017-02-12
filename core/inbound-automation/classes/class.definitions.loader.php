@@ -123,9 +123,13 @@ if (!class_exists('Inbound_Automation_Loader')) {
         public static function define_arguments() {
 
             self::$instance->argument_filters = array();
-            //error_log(print_r(self::$instance->triggers,true));
-            //error_log(print_r(self::$instance->inbound_arguments , true));
-            //exit;
+
+            /*
+            error_log(print_r(self::$instance->triggers,true));
+            error_log(print_r(self::$instance->inbound_arguments , true));
+            exit;
+            */
+
             /* Loop Through Trigger Arguments & Build Trigger Filter Setting Array */
             foreach (self::$instance->triggers as $hook => $trigger) {
 
@@ -136,17 +140,27 @@ if (!class_exists('Inbound_Automation_Loader')) {
 
                     $keys = array();
 
+                    /* check for callback */
+                    if (isset($argument['callback'])) {
+                        if (isset($args[$id])) {
+                            $args[$id] = $argument['callback'][0]::$argument['callback'][1]($args[$id]);
+                        }
+                    }
+
+                    /* cycle through data and prepare keys*/
                     if (isset($args[$id]) && is_array($args[$id])) {
+
 
                         $count = count($args[$id]);
                         $c = 0;
-                        foreach ($args[$id] as $k => $v) {
-                            if (is_array($v) || is_numeric($k)) {
+                        foreach ($args[$id] as $arg_key => $arg_value) {
+
+                            if (is_array($arg_value) || is_numeric($arg_key)) {
                                 $c++;
-                                $v = json_encode($v);
+                                $arg_value = json_encode($arg_value);
                             }
 
-                            $keys[$id . ':' . $k] = $k . ' (' . $v . ')';
+                            $keys[$id . ':' . $arg_key] = $arg_key . ' (' . $arg_value . ')';
                         }
 
                         if ($c == $count) {
@@ -157,13 +171,10 @@ if (!class_exists('Inbound_Automation_Loader')) {
                         $keys[$id] = $argument['label'] . ' (' . $args[$id] . ')';
                     }
 
+                    /* account for empty arguments */
                     if (!isset($keys[$id]) || !$keys[$id]) {
                         $keys[$id] = $argument['label'];
                     }
-
-
-                    //error_log(print_r($keys,true));
-
 
                     /* Build Trigger Filter Data */
                     self::$instance->argument_filters[$hook][$argument['id']] = array(
@@ -287,8 +298,7 @@ if (!class_exists('Inbound_Automation_Loader')) {
                     $evals = array();
 
                     $arguments = self::generate_arguments($trigger, $args);
-                    //error_log('process_trigger');
-                    //error_log(print_r($arguments,true));
+
                     /* Check Trigger Filters */
                     if (isset(self::$rule['trigger_filters']) && self::$rule['trigger_filters']) {
 
@@ -299,7 +309,6 @@ if (!class_exists('Inbound_Automation_Loader')) {
                             } else {
                                 $target_argument = $arguments[$filter['trigger_filter_id']];
                             }
-
 
                             $evals[] = self::evaluate_trigger_filter($filter, $target_argument);
                         }
@@ -511,7 +520,7 @@ if (!class_exists('Inbound_Automation_Loader')) {
                 }
 
                 /* Place argument data into memory */
-                $updated_arg_data = self::prepare_mixed_data($argument);
+                $updated_arg_data = self::prepare_mixed_data( $argument);
 
 
                 if (isset(self::$instance->inbound_arguments[$hook][$definition['id']]) && is_array(self::$instance->inbound_arguments[$hook][$definition['id']])) {
@@ -610,11 +619,11 @@ if (!class_exists('Inbound_Automation_Loader')) {
         /**
          * checks if json
          */
-        public static function prepare_mixed_data($mixed) {
+        public static function prepare_mixed_data( $mixed) {
 
             if (is_array($mixed)) {
                 foreach ($mixed as $key => $value) {
-                    $mixed[$key] = self::prepare_mixed_data($value);
+                    $mixed[$key] = self::prepare_mixed_data( $value);
                 }
                 return $mixed;
             }

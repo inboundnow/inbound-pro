@@ -21,6 +21,7 @@ if (have_posts()) : while (have_posts()) :
 the_post();
 
 $headline = get_field( 'lp-main-headline', $post->ID , false );
+$headline_color = get_field( 'main-headline-color', $post->ID , false );
 $content = get_field( 'simple-solid-lite-main-content', $post->ID , false );
 $conversion_area = get_field( 'simple-solid-lite-conversion-area-content', $post->ID , false );
 $header = get_field( 'simple-solid-lite-header-display', $post->ID , false );
@@ -171,6 +172,7 @@ $test = inbound_color_scheme($background_color, 'hex');
             font-size: 37px;
             text-align: center;
             margin-top: 15px;
+            color:<?php echo ($headline_color) ? $headline_color : '#fff'; ?>
         }
     </style>
 </head>
@@ -189,17 +191,17 @@ $test = inbound_color_scheme($background_color, 'hex');
     </div>
 </header>
 <section class="cf container outline-element">
-    <h1><?php
+    <?php
         if ($headline) {
-            echo do_shortcode($headline);
+            echo '<h1>'.do_shortcode($headline).'</h1>';
         } ?>
-    </h1>
+
     <div class="inbound-template-intro">
         <div class="inbound_the_content"><?php echo $content;  ?></div>
     </div>
     <div class="form inbound_the_conversion_area" data-eq-selector=".cf.container .form:eq(0)" data-count-size="1"
          data-css-selector=".cf.container .form"
-         data-js-selector=".cf.container .form"><?php echo $conversion_area; ?></div>
+         data-js-selector=".cf.container .form"><?php echo wpautop($conversion_area); ?></div>
 
     <div class="cf"></div>
 

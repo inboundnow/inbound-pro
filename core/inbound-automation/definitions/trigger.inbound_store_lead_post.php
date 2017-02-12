@@ -67,7 +67,10 @@ class Inbound_Automation_Trigger_inbound_store_lead_post {
 		$arguments = apply_filters('trigger/inbound_store_lead_post/args' , array(
 			'lead_data' => array(
 				'id' => 'lead_data',
-				'label' => __( 'Lead Data' , 'inbound-pro' )
+				'label' => __( 'Lead Data' , 'inbound-pro' ),
+				'callback' => array(
+					get_class() , 'expand_argument_data'
+				)
 			)
 		) );
 
@@ -85,11 +88,13 @@ class Inbound_Automation_Trigger_inbound_store_lead_post {
 			'send_email' ,
 			'wait' ,
 			'relay_data' ,
-			'add_remove_lead_list'
+			'add_remove_lead_list',
+			'add_remove_lead_tag',
+			'kill_lead_tasks',
 		) );
 
 		$triggers[self::$trigger] = array (
-			'label' => __( 'On add lead event' , 'inbound-pro' ),
+			'label' => __( 'On add/update lead' , 'inbound-pro' ),
 			'description' => __( 'This trigger fires whenever a lead added into the Leads database.' , 'inbound-pro' ),
 			'action_hook' => self::$trigger,
 			'arguments' => $arguments,
@@ -98,6 +103,49 @@ class Inbound_Automation_Trigger_inbound_store_lead_post {
 		);
 
 		return $triggers;
+	}
+
+	public static function expand_argument_data( $args ) {
+		$new_args = array();
+
+		foreach ($args as $arg_key => $arg_value) {
+
+			if (is_array($arg_value) || is_numeric($arg_key)) {
+				$arg_value = json_encode($arg_value);
+			}
+
+			/* account for raw params */
+			if ($arg_key == 'raw_params') {
+				if (self::is_json($arg_value)) {
+					$arg_value_array = json_decode($arg_value,true);
+				} else {
+					parse_str($arg_value , $arg_value_array);
+				}
+
+				$arg_value_array = (is_array($arg_value_array)) ? $arg_value_array : array();
+				foreach ($arg_value_array as $raw_key => $raw_value) {
+					if (is_array($raw_value)) {
+						$raw_value = json_encode($raw_value);
+					}
+					$new_args[$raw_key]  = $raw_value;
+				}
+			}
+			/* account for mapped params */
+			else if ($arg_key == 'mapped_params') {
+				parse_str($arg_value , $arg_value_array);
+				$arg_value_array = (is_array($arg_value_array)) ? $arg_value_array : array();
+				foreach ($arg_value_array as $mapped_key => $mapped_value) {
+					if (is_array($mapped_value)) {
+						$mapped_value = json_encode($mapped_value);
+					}
+					$new_args[$mapped_key]  = $mapped_value;
+				}
+			}
+
+			$new_args[$arg_key] = $arg_value;
+		}
+
+		return $new_args;
 	}
 
     /**
@@ -136,6 +184,24 @@ class Inbound_Automation_Trigger_inbound_store_lead_post {
 		$inbound_arguments[self::$trigger]['lead_data'] = $lead;
         Inbound_Options_API::update_option( 'inbound_automation' , 'arguments' ,  $inbound_arguments );
     }
+
+	/**
+	 * Check if string is a json string
+	 * @param $string
+	 * @return bool
+	 */
+	public static function  is_json($string) {
+
+		$array = array('{','[');
+
+		foreach ($array as $v) {
+			if (substr($string, 0, 1) === $v) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 
 }
 

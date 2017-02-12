@@ -30,7 +30,7 @@ if ( !class_exists( 'Inbound_Automation_Action_Add_Remove_List' ) ) {
             $actions['add_remove_lead_list'] = array (
                 'class_name' => get_class(),
                 'id' => 'add_remove_lead_list',
-                'label' => __( 'Add/Remove from list' , 'inbound-pro' ),
+                'label' => __( 'Add/Remove From List' , 'inbound-pro' ),
                 'description' => __( 'Action to add or remove a lead from a lead list.' , 'inbound-pro' ),
                 'settings' => array (
                     array (
