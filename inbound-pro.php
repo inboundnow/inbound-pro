@@ -4,7 +4,7 @@ Plugin Name: Inbound Now PRO
 Plugin URI: http://www.inboundnow.com/
 Description: Professional Inbound Marketing Suite for WordPress
 Author: InboundWP LLC
-Version: 1.8.2.2.3
+Version: 1.8.2.2.4
 Author URI: http://www.inboundnow.com/
 Text Domain: inbound-pro
 Domain Path: /lang/
@@ -94,7 +94,7 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 		*/
 		private static function define_constants() {
 
-			define('INBOUND_PRO_CURRENT_VERSION', '1.8.2.2.3' );
+			define('INBOUND_PRO_CURRENT_VERSION', '1.8.2.2.4' );
 			define('INBOUND_PRO_STABLE_VERSION', '1.8.2.1.3' );
 			define('INBOUND_PRO_TRANSLATIONS_VERSION', '1.29.1' );
 			define('INBOUND_PRO_URLPATH', plugin_dir_url( __FILE__ ));

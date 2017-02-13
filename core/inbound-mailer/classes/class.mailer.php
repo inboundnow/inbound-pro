@@ -411,7 +411,7 @@ class Inbound_Mail_Daemon {
         /* setup static var as empty array */
         self::$templates = array();
 
-        if (!isset(self::$email_settings)) {
+        if (!isset(self::$email_settings[ 'variations' ]) || !self::$email_settings[ 'variations' ] ) {
             return array();
         }
 

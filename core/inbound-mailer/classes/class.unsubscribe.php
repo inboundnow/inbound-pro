@@ -196,7 +196,7 @@ class Inbound_Mailer_Unsubscribe {
 			base64_encode(
 				trim(
 					mcrypt_encrypt(
-						MCRYPT_RIJNDAEL_256, substr( SECURE_AUTH_KEY , 0 , 10 )  , $json, MCRYPT_MODE_ECB, $iv
+						MCRYPT_RIJNDAEL_256, substr( SECURE_AUTH_KEY , 0 , 16 )  , $json, MCRYPT_MODE_ECB, $iv
 					)
 				)
 			);
@@ -218,7 +218,7 @@ class Inbound_Mailer_Unsubscribe {
 		$decrypted_string =
 			trim(
 				mcrypt_decrypt(
-					MCRYPT_RIJNDAEL_256 ,  substr( SECURE_AUTH_KEY , 0 , 10 )   ,  base64_decode( str_replace(array('-', '_', '^'), array('+', '/', '='), $token ) ) , MCRYPT_MODE_ECB, $iv
+					MCRYPT_RIJNDAEL_256 ,  substr( SECURE_AUTH_KEY , 0 , 16 )   ,  base64_decode( str_replace(array('-', '_', '^'), array('+', '/', '='), $token ) ) , MCRYPT_MODE_ECB, $iv
 				)
 			);
 
