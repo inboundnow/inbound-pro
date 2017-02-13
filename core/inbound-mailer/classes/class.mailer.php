@@ -153,6 +153,15 @@ class Inbound_Mail_Daemon {
     }
 
 
+    public static function replace_attached_tokens( $html ){
+        if (isset(self::$row->tokens)) {
+
+        }
+
+        return $html;
+    }
+
+
     /**
      *	Sends scheduled automated emails
      */
@@ -479,6 +488,9 @@ class Inbound_Mail_Daemon {
 
         /* clean mal formatted quotations */
         $html = str_replace('&#8221;', '"' , $html);
+
+        /* check for appended tokens */
+        $html = self::replace_attached_tokens( $html );
 
         /* process shortcodes */
         $html = do_shortcode( $html );

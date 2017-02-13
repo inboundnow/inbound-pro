@@ -143,7 +143,13 @@ if (!class_exists('Inbound_Automation_Loader')) {
                     /* check for callback */
                     if (isset($argument['callback'])) {
                         if (isset($args[$id])) {
-                            $args[$id] = $argument['callback'][0]::$argument['callback'][1]($args[$id]);
+                            $args[$id] = call_user_func(
+                                array(
+                                    $argument['callback'][0],
+                                    $argument['callback'][1]
+                                ),
+                                $args[$id]
+                            );
                         }
                     }
 
@@ -515,7 +521,13 @@ if (!class_exists('Inbound_Automation_Loader')) {
                 /* if there is a call back run it */
                 if (isset($definition['callback'])) {
                     if (is_array($definition['callback'])) {
-                        $argument = $definition['callback'][0]::$definition['callback'][1]($argument);
+                        $argument = call_user_func(
+                            array(
+                                $definition['callback'][0],
+                                $definition['callback'][1]
+                            ),
+                            $argument
+                        );
                     }
                 }
 

@@ -1180,7 +1180,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                         <tr>
                             <td width="64px;">
                                 <a class="" href="<?php echo admin_url('post.php?post='.$event['lead_id'].'&action=edit&tab=tabs-wpleads_lead_tab_activity'); ?>" target="_blank" >
-                                <img class="inbound-tooltip lead-grav-img" width='25' height='25' src="<?php echo $gravatar; ?>" title="<?php _e('View Lead' , ' inbound-pro' ); ?>">
+                                    <img class="inbound-tooltip lead-grav-img" width='25' height='25' src="<?php echo $gravatar; ?>" title="<?php _e('View Lead' , ' inbound-pro' ); ?>">
                                 </a>
                                 <?php
                                 if ($details['comments']) {
@@ -1906,7 +1906,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                                         url: ajaxurl,
                                         data: {
                                             action: 'inbound_mark_sent',
-                                            email_id: '<?php echo (isset($_GET['post'])) ? $_GET['post'] : $post->ID; ?>'
+                                            email_id: '<?php echo $post->ID; ?>'
                                         },
                                         success: function (result) {
                                             window.location.reload();
@@ -2062,7 +2062,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                                     data: {
                                         action: 'inbound_send_test_email',
                                         email_address: email_address,
-                                        email_id: '<?php echo (isset($_GET['post'])) ? $_GET['post'] : $post->ID; ?>',
+                                        email_id: '<?php echo $post->ID; ?>',
                                         variation_id: jQuery('#open_variation').val()
                                     },
                                     dataType: 'html',
@@ -2149,7 +2149,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                                     url: ajaxurl,
                                     data: {
                                         action: 'inbound_unschedule_email',
-                                        email_id: '<?php echo (isset($_GET['post'])) ? $_GET['post'] : $post->ID; ?>'
+                                        email_id: '<?php echo $post->ID; ?>'
                                     },
                                     success: function (result) {
                                         window.location.reload();
@@ -2166,7 +2166,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                                 url: ajaxurl,
                                 data: {
                                     action: 'inbound_schedule_email',
-                                    email_id: '<?php echo (isset($_GET['post'])) ? $_GET['post'] : $post->ID; ?>'
+                                    email_id: '<?php echo $post->ID; ?>'
                                 },
                                 success: function (result) {
                                     window.location.reload();
@@ -2209,7 +2209,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                                     url: ajaxurl,
                                     data: {
                                         action: 'inbound_unschedule_email',
-                                        email_id: '<?php echo (isset($_GET['post'])) ? $_GET['post'] : $post->ID; ?>'
+                                        email_id: '<?php echo $post->ID; ?>'
                                     },
                                     success: function (result) {
                                         /* save the email and reload */
@@ -2415,7 +2415,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                                     url: ajaxurl,
                                     data: {
                                         'action' : 'clear_email_stats',
-                                        'email_id': '<?php echo (isset($_GET['post'])) ? $_GET['post'] : $post->ID; ?>'
+                                        'email_id': '<?php echo $post->ID; ?>'
                                     },
                                     success: function (result) {
 
@@ -2444,10 +2444,9 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
                             var formData = jQuery('#post').serializeArray();
                             var o = {};
-
                             jQuery.each(formData, function () {
-                                if (o[this.name] !== undefined) {
-                                    if (!o[this.name].push) {
+                                if (o[this.name] !== undefined && jQuery('input[name="'+this.name+'"').attr('type') != 'hidden') {
+                                    if (!o[this.name].push ) {
                                         o[this.name] = [o[this.name]];
                                     }
                                     o[this.name].push(this.value || '');

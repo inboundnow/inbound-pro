@@ -186,7 +186,6 @@ if (!class_exists('LeadStorage')) {
 				}
 
 
-
 				/* Store page views for people with ajax tracking off */
 				$ajax_tracking_off = false; /* get_option */
 				if($lead['page_views'] && $ajax_tracking_off ) {
@@ -248,6 +247,9 @@ if (!class_exists('LeadStorage')) {
 
 				/* set unset pageviews to lead using lead_uid */
 				self::update_pageviews($lead);
+
+				/* set unset events to lead using lead_uid */
+				self::update_events($lead);
 
 				/* send data back and perform action hooks */
 				if ( self::$is_ajax ) {
@@ -465,6 +467,38 @@ if (!class_exists('LeadStorage')) {
 			global $wpdb;
 
 			$table_name = $wpdb->prefix . "inbound_page_views";
+			$lead_uid_cookie = (isset($_COOKIE["wp_lead_uid"])) ? $_COOKIE["wp_lead_uid"] : '';
+			$args = array(
+				'lead_id' => $lead['id'],
+			);
+
+			$array = array(
+				'lead_id' => 0,
+				'lead_uid' => (isset($lead['wp_lead_uid'])) ? $lead['wp_lead_uid'] :  $lead_uid_cookie
+			);
+
+			/* update inbound_page_view page view records associated with lead */
+			$wpdb->update(
+				$table_name,
+				$args,
+				array(
+					'lead_id' => 0,
+					'lead_uid' => (isset($lead['wp_lead_uid'])) ? $lead['wp_lead_uid'] :  $lead_uid_cookie
+				),
+				array(
+					'%d',
+					'%d'
+				)
+			);
+		}
+
+		/**
+		 * Associates prior unassociated pageviews with lead id
+		 */
+		public static function update_events( $lead ) {
+			global $wpdb;
+
+			$table_name = $wpdb->prefix . "inbound_events";
 			$lead_uid_cookie = (isset($_COOKIE["wp_lead_uid"])) ? $_COOKIE["wp_lead_uid"] : '';
 			$args = array(
 				'lead_id' => $lead['id'],

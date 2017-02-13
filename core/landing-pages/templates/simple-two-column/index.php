@@ -157,13 +157,13 @@ if ($social_display==="1" ) { // Show Social Media Icons?>
 <div id="left">
 	<div id="left-content">
 		<h1><?php echo $main_headline; ?></h1>
-		<?php echo $content; ?>
+		<?php echo wpautop($content); ?>
 	</div> <!-- end left-content -->
 </div> <!-- end left -->
 
 <div id="right">
 	<div id="right-content">
- <?php echo  $conversion_area; /* Print out form content */ ?>
+ <?php echo  wpautop($conversion_area); /* Print out form content */ ?>
 	</div> <!-- end right-content -->
 </div> <!-- end left-content -->
 
