@@ -279,9 +279,20 @@ if (!class_exists('Inbound_Events_Report')) {
                             </p>
                         </td>
                         <td class="" >
-                            <a href="<?php echo 'post.php?action=edit&post=' . $event['lead_id'] . '&amp;small_lead_preview=true&tb_hide_nav=true'   ; ?>" title="<?php echo $lead_meta['wpleads_first_name'][0] . ' ' . $lead_meta['wpleads_last_name'][0]; ?>" target="_self">
+                            <?php
+                            if ($event['lead_id']) {
+                            ?>
+                             <a href="<?php echo 'post.php?action=edit&post=' . $event['lead_id'] . '&amp;small_lead_preview=true&tb_hide_nav=true'   ; ?>" title="<?php echo $lead_meta['wpleads_first_name'][0] . ' ' . $lead_meta['wpleads_last_name'][0]; ?>" target="_self">
                                 <i class="fa fa-user inbound-tooltip" aria-hidden="true"></i>
-                            </a>
+                             </a>
+                            <?php
+                            } else {
+                                ?>
+                                <i class="fa fa-hourglass-half inbound-tooltip" aria-hidden="true"></i>
+                                <?php
+                            }
+                            ?>
+
                         </td>
                         <td class="" >
                             <div id="wrapper">
