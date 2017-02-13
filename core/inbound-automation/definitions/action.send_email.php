@@ -161,7 +161,7 @@ if ( !class_exists( 'Inbound_Automation_Action_Send_Email' ) ) {
 				case 'lead_list':
 					$Inbound_Mailer_Scheduling = new Inbound_Mailer_Scheduling;
 					$Inbound_Mailer_Scheduling->recipients = $action['lead_lists'];
-					$response = $Inbound_Mailer_Scheduling->schedule_email( $action['email_id'] );
+					$response = $Inbound_Mailer_Scheduling->schedule_email( $action['email_id'] , $trigger_data );
 					$response = __( sprintf( '%s emails have been scheduled' , $response ) , 'inbound-pro' );
 					BREAK;
 

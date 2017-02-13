@@ -68,9 +68,12 @@ class Inbound_Mailer_Scheduling {
     }
 
     /**
-     *    Schedules email
+     * Schedules email
+     * @param $email_id
+     * @param array $tokens
+     * @return int
      */
-    public static function schedule_email($email_id) {
+    public static function schedule_email($email_id , $tokens = array() ) {
         global $wpdb;
 
         /* load email settings into static variable */
@@ -91,11 +94,11 @@ class Inbound_Mailer_Scheduling {
             $send_count = $send_count + count($leads);
 
             $query_values_array = array();
-            $query_prefix = "INSERT INTO {$table_name} ( `email_id` , `variation_id` , `lead_id` , `type` , `status` , `datetime` )";
+            $query_prefix = "INSERT INTO {$table_name} ( `email_id` , `variation_id` , `lead_id` , `type` , , `tokens` ,`status` , `datetime` )";
             $query_prefix .= "VALUES";
 
             foreach ($leads as $ID) {
-                $query_values_array[] = "( {$email_id} , {$vid} , {$ID} , '" . Inbound_Mailer_Scheduling::$settings['email_type'] . "' , 'waiting' , '{$timestamp}')";
+                $query_values_array[] = "( {$email_id} , {$vid} , {$ID} , '" . Inbound_Mailer_Scheduling::$settings['email_type'] . "' , '".json_encode($tokens)."' ,'waiting' , '{$timestamp}')";
             }
 
             $value_batches = array_chunk($query_values_array, 500);
