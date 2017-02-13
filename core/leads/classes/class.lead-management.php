@@ -898,12 +898,14 @@ if (!class_exists('Leads_Manager')) {
 
             //GETTING CORRECT FILE PATH
             $path = $upload_dir['path'].'/'.$uploads_path.'/';
+            $url = $upload_dir['url'].'/'.$uploads_path.'/';
             $blogtime = current_time( 'mysql' );
             $hash = md5(serialize($ids));
             $filename = date("m.d.y.") . $hash ;
-
             list( $today_year, $today_month, $today_day, $hour, $minute, $second ) = preg_split( '([^0-9])', $blogtime );
             $path = str_replace($today_year.'/'.$today_month.'/','',$path);
+            $url = str_replace($today_year.'/'.$today_month.'/','',$url);
+
             if(file_exists($path)){
                 if($is_first == 1){
                     unlink($path."/".$filename.".csv");
@@ -920,7 +922,7 @@ if (!class_exists('Leads_Manager')) {
             header("Expires: 0");
             header("Pragma: public");
 
-            $file = @fopen($path."/".$filename.".csv","a");
+            $file = @fopen($path.$filename.".csv","a");
 
             if(!$file){
                 $returnArray = array(
@@ -975,7 +977,7 @@ if (!class_exists('Leads_Manager')) {
             // Close the file
             fclose($file);
             if($limit >= $total){
-                $url = content_url().'/uploads/'.$uploads_path.'/'.$filename.'.csv';
+                $url = $url.$filename.'.csv';
                 $returnArray = array(
                     'status' => 1,
                     'error' => '',
