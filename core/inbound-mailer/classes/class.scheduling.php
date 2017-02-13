@@ -94,7 +94,7 @@ class Inbound_Mailer_Scheduling {
             $send_count = $send_count + count($leads);
 
             $query_values_array = array();
-            $query_prefix = "INSERT INTO {$table_name} ( `email_id` , `variation_id` , `lead_id` , `type` , , `tokens` ,`status` , `datetime` )";
+            $query_prefix = "INSERT INTO {$table_name} ( `email_id` , `variation_id` , `lead_id` , `type` , `tokens` ,`status` , `datetime` )";
             $query_prefix .= "VALUES";
 
             foreach ($leads as $ID) {
