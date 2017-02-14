@@ -140,8 +140,10 @@ if (!class_exists('Inbound_Automation_Loader')) {
 
                     $keys = array();
 
-                    /* check for callback */
+
+                    /* check for callback
                     if (isset($argument['callback'])) {
+                        //error_log('near final before');
                         if (isset($args[$id])) {
                             $args[$id] = call_user_func(
                                 array(
@@ -151,7 +153,7 @@ if (!class_exists('Inbound_Automation_Loader')) {
                                 $args[$id]
                             );
                         }
-                    }
+                    }*/
 
                     /* cycle through data and prepare keys*/
                     if (isset($args[$id]) && is_array($args[$id])) {
@@ -222,6 +224,11 @@ if (!class_exists('Inbound_Automation_Loader')) {
 
                     /* Get Class Name */
                     $class = $db_lookup_filter['class_name'];
+
+                    /* make sure class exists */
+                    if (!class_exists($class)) {
+                        continue;
+                    }
 
                     /* Load Queries Only Once */
                     if (array_key_exists($db_lookup_filter['id'], $db_lookup_filters)) {
@@ -534,7 +541,6 @@ if (!class_exists('Inbound_Automation_Loader')) {
                 /* Place argument data into memory */
                 $updated_arg_data = self::prepare_mixed_data( $argument);
 
-
                 if (isset(self::$instance->inbound_arguments[$hook][$definition['id']]) && is_array(self::$instance->inbound_arguments[$hook][$definition['id']])) {
                     self::$instance->inbound_arguments[$hook][$definition['id']] = array_replace(self::$instance->inbound_arguments[$hook][$definition['id']], $updated_arg_data);
                 } else {
@@ -548,8 +554,6 @@ if (!class_exists('Inbound_Automation_Loader')) {
 
             /* do not use old data stored in memory when no new data available */
             $i = 0;
-            //error_log('near final before');
-            //error_log(print_r(self::$instance->inbound_arguments[$hook],true));
 
             foreach (self::$instance->inbound_arguments[$hook] as $key=> $arg) {
 
