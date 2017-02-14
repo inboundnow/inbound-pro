@@ -863,6 +863,10 @@ class Inbound_SparkPost_Stats {
                                     echo '<pre>'.__('invalid' , 'inbound-pro') . '</pre>';
 
                                     break;
+                                case 'Forbidden.':
+                                    echo '<pre>'.__('API Key does not have correct permissions checked. Try creating a new key and checking all the available permissions.' , 'inbound-pro') . '</pre>';
+
+                                    break;
                             }
                         }
                     }
