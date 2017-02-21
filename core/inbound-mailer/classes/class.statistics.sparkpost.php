@@ -915,21 +915,6 @@ class Inbound_SparkPost_Stats {
                                 </tr>
                                 <tr>
                                     <td class="inbound-label-field" style=''>
-                                        <?php _e('spf','inbound-pro'); ?>:
-                                    </td>
-
-                                    <td class="status-value">
-                                        <?php
-                                        if ($domains['status']['spf_status'] == 'valid' ) {
-                                            echo '<span style="color:green !important;">'.__('valid','inbound-pro').'</span>';
-                                        } else {
-                                            echo '<span style="color:red !important;">'.__('invalid','inbound-pro').'</span>';
-                                        }
-                                        ?>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="inbound-label-field" style=''>
                                         <?php _e('dkim','inbound-pro'); ?>:
                                     </td>
 

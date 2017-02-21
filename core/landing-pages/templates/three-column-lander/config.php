@@ -74,8 +74,7 @@ if( function_exists('register_field_group') ):
 
 <p>This is the final sentence or paragraph reassuring the visitor of the benefits of filling out the form and how their data will be safe.</p>',
                 'tabs' => 'all',
-                'toolbar' => 'full',
-                'media_upload' => 1,
+                'toolbar' => 'full'
             ),
             array (
                 'key' => 'field_55e4beb2e8797',
@@ -122,8 +121,7 @@ if( function_exists('register_field_group') ):
                 ),
                 'default_value' => '',
                 'tabs' => 'all',
-                'toolbar' => 'full',
-                'media_upload' => 1,
+                'toolbar' => 'full'
             ),
             array (
                 'key' => 'field_55e4be1ae8792',
@@ -182,8 +180,7 @@ if( function_exists('register_field_group') ):
                 ),
                 'default_value' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
                 'tabs' => 'all',
-                'toolbar' => 'full',
-                'media_upload' => 1,
+                'toolbar' => 'full'
             ),
             array (
                 'key' => 'field_55e4be45e8794',
@@ -230,8 +227,7 @@ if( function_exists('register_field_group') ):
                 ),
                 'default_value' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
                 'tabs' => 'all',
-                'toolbar' => 'full',
-                'media_upload' => 1,
+                'toolbar' => 'full'
             ),
             array (
                 'key' => 'field_55e4bedae8799',

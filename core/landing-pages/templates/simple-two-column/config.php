@@ -78,8 +78,7 @@ if( function_exists('register_field_group') ):
 
 <p>This is the final sentence or paragraph reassuring the visitor of the benefits of filling out the form and how their data will be safe.</p>',
                 'tabs' => 'all',
-                'toolbar' => 'full',
-                'media_upload' => 1,
+                'toolbar' => 'full'
             ),
             array (
                 'key' => 'field_55df9ba8c7ea9',
@@ -96,8 +95,8 @@ if( function_exists('register_field_group') ):
                 ),
                 'default_value' => '',
                 'tabs' => 'all',
-                'toolbar' => 'full',
-                'media_upload' => 1,
+                'toolbar' => 'full'
+
             ),
             array (
                 'key' => 'field_55df8eee2aa27',

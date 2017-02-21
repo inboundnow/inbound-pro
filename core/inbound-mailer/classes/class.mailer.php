@@ -20,7 +20,7 @@ class Inbound_Mail_Daemon {
     static $error_mode; /* detects if there is an error flag already in the data base */
 
     /**
-     *	Initialize class
+     *    Initialize class
      */
     function __construct() {
 
@@ -33,25 +33,25 @@ class Inbound_Mail_Daemon {
     }
 
     /**
-     *	Loads static variables
+     *    Loads static variables
      */
     public static function load_static_vars() {
         global $wpdb, $inbound_settings;
 
         /* Set email service */
-        self::$email_service = (isset($inbound_settings['inbound-mailer']['mail-service'])) ? $inbound_settings['inbound-mailer']['mail-service'] : 'sparkpost' ;
+        self::$email_service = (isset($inbound_settings['inbound-mailer']['mail-service'])) ? $inbound_settings['inbound-mailer']['mail-service'] : 'sparkpost';
 
         /* Set send limit */
-        self::$send_limit = (isset($inbound_settings['inbound-mailer']['processing-limit'])) ? $inbound_settings['inbound-mailer']['processing-limit'] : 100 ;
+        self::$send_limit = (isset($inbound_settings['inbound-mailer']['processing-limit'])) ? $inbound_settings['inbound-mailer']['processing-limit'] : 100;
 
         /* Set target mysql table name */
         self::$table_name = $wpdb->prefix . "inbound_email_queue";
 
         /* Get now timestamp */
-        self::$timestamp = gmdate( "Y-m-d\\TG:i:s\\Z" );
+        self::$timestamp = gmdate("Y-m-d\\TG:i:s\\Z");
 
         /* Check if there is an error flag in db from previous processing run */
-        self::$error_mode = Inbound_Options_API::get_option( 'inbound-email' , 'errors-detected' , false );
+        self::$error_mode = Inbound_Options_API::get_option('inbound-email', 'errors-detected', false);
 
     }
 
@@ -66,19 +66,18 @@ class Inbound_Mail_Daemon {
         }
 
         /* Adds mail processing to Inbound Heartbeat */
-        add_action( 'inbound_heartbeat', array( __CLASS__ , 'process_mail_queue' ) );
+        add_action('inbound_heartbeat', array(__CLASS__, 'process_mail_queue'));
 
         /* For debugging */
-        add_filter( 'init', array( __CLASS__ , 'process_mail_queue' ) , 12 );
+        add_filter('init', array(__CLASS__, 'process_mail_queue'), 12);
 
 
     }
 
 
-
     public static function process_mail_queue() {
 
-        if ( !isset( $_GET['forceprocess'] ) && current_filter() == 'init' ) {
+        if (!isset($_GET['forceprocess']) && current_filter() == 'init') {
             return;
         }
 
@@ -92,51 +91,51 @@ class Inbound_Mail_Daemon {
 
 
     /**
-     *	Tells WordPress to send emails as HTML
+     *    Tells WordPress to send emails as HTML
      */
     public static function toggle_email_type() {
-        add_filter( 'wp_mail_content_type', array( __CLASS__ , 'toggle_email_type_html' ) );
+        add_filter('wp_mail_content_type', array(__CLASS__, 'toggle_email_type_html'));
     }
 
     /**
-     *	Set email type to html for wp_mail
+     *    Set email type to html for wp_mail
      */
-    public static function toggle_email_type_html( $type ) {
+    public static function toggle_email_type_html($type) {
         return 'text/html';
     }
 
     /**
-     *	Loads DOMDocument class object
+     *    Loads DOMDocument class object
      */
     public static function toggle_dom_parser() {
         self::$dom = new DOMDocument;
     }
 
     /**
-     *	Rebuild links with tracking params
+     *    Rebuild links with tracking params
      */
-    public static function rebuild_links( $html ) {
+    public static function rebuild_links($html) {
         preg_match_all('/href="([^\s"]+)/', $html, $links);
 
-        if  (!$links) {
+        if (!$links) {
             return $html;
         }
 
         /* Iterate over the extracted links and display their URLs */
-        foreach ($links[1] as $link){
+        foreach ($links[1] as $link) {
 
             /* Do not modify unsubscribe links or non links */
-            if ( strstr( $link , '?token=') || !strstr($link,'://') ) {
+            if (strstr($link, '?token=') || !strstr($link, '://')) {
                 continue;
             }
 
-            $safe_link = Inbound_API::analytics_track_links( array(
+            $safe_link = Inbound_API::analytics_track_links(array(
                 'email_id' => self::$row->email_id,
-                'lead_lists' => implode( ',' , self::$email_settings['recipients'] ),
-                'id' => self::$row->lead_id ,
-                'lead_id' => self::$row->lead_id ,
+                'lead_lists' => implode(',', self::$email_settings['recipients']),
+                'id' => self::$row->lead_id,
+                'lead_id' => self::$row->lead_id,
                 'page_id' => 0,
-                'vid' => self::$row->variation_id ,
+                'vid' => self::$row->variation_id,
                 'url' => $link,
                 'utm_source' => urlencode(self::$email['email_title']),
                 'utm_medium' => 'email',
@@ -144,8 +143,8 @@ class Inbound_Mail_Daemon {
                 'tracking_id' => urlencode(self::$email['email_title'])
             ));
 
-            $html = str_replace( "'".$link."'" , "'".$safe_link['url']."'" , $html );
-            $html = str_replace( '"'.$link.'"' , '"'.$safe_link['url'].'"' , $html );
+            $html = str_replace("'" . $link . "'", "'" . $safe_link['url'] . "'", $html);
+            $html = str_replace('"' . $link . '"', '"' . $safe_link['url'] . '"', $html);
 
         }
 
@@ -153,7 +152,7 @@ class Inbound_Mail_Daemon {
     }
 
 
-    public static function replace_attached_tokens( $html ){
+    public static function replace_attached_tokens($html) {
         if (isset(self::$row->tokens)) {
 
         }
@@ -163,13 +162,13 @@ class Inbound_Mail_Daemon {
 
 
     /**
-     *	Sends scheduled automated emails
+     *    Sends scheduled automated emails
      */
     public static function send_automated_emails() {
         global $wpdb;
 
-        $query = "select * from ". self::$table_name ." WHERE `status` != 'processed' && `type` = 'automated' && `datetime` <	'". self::$timestamp ."' && `email_id` = `email_id` order by email_id  ASC LIMIT " .self::$send_limit;
-        self::$results = $wpdb->get_results( $query );
+        $query = "select * from " . self::$table_name . " WHERE `status` != 'processed' && `type` = 'automated' && `datetime` <	'" . self::$timestamp . "' && `email_id` = `email_id` order by email_id  ASC LIMIT " . self::$send_limit;
+        self::$results = $wpdb->get_results($query);
 
         if (!self::$results) {
             return;
@@ -179,10 +178,10 @@ class Inbound_Mail_Daemon {
         self::$row = self::$results[0];
 
         /* Get email title */
-        self::$email['email_title'] = get_the_title( self::$row->email_id );
+        self::$email['email_title'] = get_the_title(self::$row->email_id);
 
         /* Get email settings if they have not been loaded yet */
-        self::$email_settings = Inbound_Email_Meta::get_settings( self::$row->email_id );
+        self::$email_settings = Inbound_Email_Meta::get_settings(self::$row->email_id);
 
         /* Build array of html content for variations */
         self::get_templates();
@@ -196,7 +195,7 @@ class Inbound_Mail_Daemon {
         /* load dom parser class object */
         self::toggle_dom_parser();
 
-        foreach( self::$results as $row ) {
+        foreach (self::$results as $row) {
 
             self::$row = $row;
 
@@ -221,30 +220,30 @@ class Inbound_Mail_Daemon {
     }
 
     /**
-     *	Sends scheduled batch emails
+     *    Sends scheduled batch emails
      */
     public static function send_batch_emails() {
         global $wpdb;
 
         /* Get results for singular email id */
-        $query = "select * from ". self::$table_name ." WHERE `status` != 'processed' && `type` = 'batch' && email_id = email_id order by email_id ASC LIMIT " .self::$send_limit;
-        self::$results = $wpdb->get_results( $query );
+        $query = "select * from " . self::$table_name . " WHERE `status` != 'processed' && `type` = 'batch' && email_id = email_id order by email_id ASC LIMIT " . self::$send_limit;
+        self::$results = $wpdb->get_results($query);
 
         if (!self::$results) {
             return;
         }
 
         /* get datetime */
-        $wordpress_date_time =  date_i18n('Y-m-d G:i:s T');
+        $wordpress_date_time = date_i18n('Y-m-d G:i:s T');
 
         /* get first row of result set for determining email_id */
         self::$row = self::$results[0];
 
         /* Get email title */
-        self::$email['email_title'] = get_the_title( self::$row->email_id );
+        self::$email['email_title'] = get_the_title(self::$row->email_id);
 
         /* Get email settings if they have not been loaded yet */
-        self::$email_settings = Inbound_Email_Meta::get_settings( self::$row->email_id );
+        self::$email_settings = Inbound_Email_Meta::get_settings(self::$row->email_id);
 
         /* Build array of html content for variations */
         self::get_templates();
@@ -259,12 +258,12 @@ class Inbound_Mail_Daemon {
         self::toggle_dom_parser();
 
         $send_count = 1;
-        foreach( self::$results as $row ) {
+        foreach (self::$results as $row) {
 
             self::$row = $row;
 
             /* make sure not to try and send more than wp can handle */
-            if ( $send_count > self::$send_limit ){
+            if ($send_count > self::$send_limit) {
                 return;
             }
 
@@ -304,38 +303,38 @@ class Inbound_Mail_Daemon {
         }
 
         /* mark batch email as sent if no more emails with this email id exists */
-        $count = $wpdb->get_var( "SELECT COUNT(*) FROM ". self::$table_name ." where email_id = '". self::$row->email_id ."'");
-        if ($count<1) {
+        $count = $wpdb->get_var("SELECT COUNT(*) FROM " . self::$table_name . " where email_id = '" . self::$row->email_id . "'");
+        if ($count < 1) {
             self::mark_email_sent();
         }
     }
 
 
     /**
-     *	Send email by lead id
+     *    Send email by lead id
      */
-    public static function send_solo_email( $args	) {
+    public static function send_solo_email($args) {
         global $wpdb;
 
-        if ( !$args['email_id'] || !$args['email_address'] ) {
+        if (!$args['email_id'] || !$args['email_address']) {
             return;
         }
 
         /* setup test tags */
-        self::$tags[ $args['email_id'] ] = (isset($args['tags'])) ? $args['tags'] : array('test');
+        self::$tags[$args['email_id']] = (isset($args['tags'])) ? $args['tags'] : array('test');
 
         /* setup email send params */
         self::$row = new stdClass();
         self::$row->email_id = $args['email_id'];
         self::$row->variation_id = $args['vid'];
         self::$row->lead_id = (isset($args['lead_id'])) ? $args['lead_id'] : 0;
-        self::$row->datetime = gmdate( 'Y-m-d h:i:s \G\M\T');
+        self::$row->datetime = gmdate('Y-m-d h:i:s \G\M\T');
         self::$row->rule_id = (isset($args['rule_id'])) ? $args['rule_id'] : 0;
 
         /* load extras */
-        self::$email_settings = Inbound_Email_Meta::get_settings( self::$row->email_id );
+        self::$email_settings = Inbound_Email_Meta::get_settings(self::$row->email_id);
         self::$email_settings['recipients'] = (isset($args['lead_lists'])) ? $args['lead_lists'] : array();
-        self::get_templates( self::$row->variation_id );
+        self::get_templates(self::$row->variation_id);
         self::toggle_dom_parser();
 
         /* build email */
@@ -343,7 +342,7 @@ class Inbound_Mail_Daemon {
         self::$email['subject'] = self::get_variation_subject();
         self::$email['from_name'] = self::get_variation_from_name();
         self::$email['from_email'] = self::get_variation_from_email();
-        self::$email['email_title'] = get_the_title( self::$row->email_id );
+        self::$email['email_title'] = get_the_title(self::$row->email_id);
         self::$email['reply_email'] = self::get_variation_reply_email();
 
         /* If direct email we won't load from template */
@@ -354,7 +353,7 @@ class Inbound_Mail_Daemon {
             self::$email['body'] = self::get_email_body();
         }
 
-        if ( isset($args['is_test']) && $args['is_test'] ) {
+        if (isset($args['is_test']) && $args['is_test']) {
             self::$email['is_test'] = true;
         }
 
@@ -372,70 +371,70 @@ class Inbound_Mail_Daemon {
 
 
     /**
-     *	Updates the status of the email in the queue
+     *    Updates the status of the email in the queue
      */
     public static function delete_from_queue() {
         global $wpdb;
 
-        $query = "delete from ". self::$table_name ." where `id` = '".self::$row->id."'";
-        $wpdb->query( $query );
+        $query = "delete from " . self::$table_name . " where `id` = '" . self::$row->id . "'";
+        $wpdb->query($query);
 
     }
 
     /**
-     *	Updates the post status of an email to sent
+     *    Updates the post status of an email to sent
      */
-    public static function mark_email_sent( ) {
+    public static function mark_email_sent() {
 
-        $wordpress_date_time =  date_i18n('Y-m-d G:i:s');
+        $wordpress_date_time = date_i18n('Y-m-d G:i:s');
         $today = new DateTime($wordpress_date_time);
         $schedule_date = new DateTime(self::$row->datetime);
         $interval = $today->diff($schedule_date);
 
-        $status = ( $interval->format('%R') == '+' ) ? 'scheduled' : 'sent';
+        $status = ($interval->format('%R') == '+') ? 'scheduled' : 'sent';
 
         $args = array(
             'ID' => self::$row->email_id,
             'post_status' => $status,
         );
 
-        wp_update_post( $args );
+        wp_update_post($args);
     }
 
 
     /**
-     *	Gets array of raw html for each variation
+     *    Gets array of raw html for each variation
      */
-    public static function get_templates( $variation_id = null ) {
+    public static function get_templates($variation_id = null) {
 
         /* setup static var as empty array */
         self::$templates = array();
 
-        if (!isset(self::$email_settings[ 'variations' ]) || !self::$email_settings[ 'variations' ] ) {
+        if (!isset(self::$email_settings['variations']) || !self::$email_settings['variations']) {
             return array();
         }
 
 
-        foreach ( self::$email_settings[ 'variations' ] as $vid => $variation ) {
+        foreach (self::$email_settings['variations'] as $vid => $variation) {
 
             if ($variation_id !== null && $vid != $variation_id) {
                 continue;
             }
 
             /* get permalink */
-            $permalink = get_post_permalink( self::$row->email_id	);
+            $permalink = get_post_permalink(self::$row->email_id);
 
             /* add param */
-            $permalink = add_query_arg( array( 'inbvid' => $vid , 'disable_shortcodes' => true ), $permalink );;
+            $permalink = add_query_arg(array('inbvid' => $vid, 'disable_shortcodes' => true), $permalink);;
 
             /* Stash variation template in static array */
-            self::$templates[ self::$row->email_id ][ $vid ] =	self::get_variation_html( $permalink );
+            self::$templates[self::$row->email_id][$vid] = self::get_variation_html($permalink);
         }
 
     }
 
     /**
-     *	Gets tags & sets them into static array
+     *    Gets tags & sets them into static array
      */
     public static function get_tags() {
 
@@ -451,52 +450,52 @@ class Inbound_Mail_Daemon {
 
         $array[] = self::$email_settings['email_type'];
 
-        self::$tags[ self::$row->email_id ] = $array;
+        self::$tags[self::$row->email_id] = $array;
     }
 
     /**
-     *	Prepares email data for sending
-     *	@return ARRAY $email
+     *    Prepares email data for sending
+     * @return ARRAY $email
      */
     public static function get_email() {
 
-        self::$email['send_address'] = Leads_Field_Map::get_field( self::$row->lead_id ,	'wpleads_email_address' );
+        self::$email['send_address'] = Leads_Field_Map::get_field(self::$row->lead_id, 'wpleads_email_address');
         self::$email['subject'] = self::get_variation_subject();
-        self::$email['from_name'] =  self::get_variation_from_name();
-        self::$email['from_email'] =  self::get_variation_from_email();
-        self::$email['reply_email'] =  self::get_variation_reply_email();
+        self::$email['from_name'] = self::get_variation_from_name();
+        self::$email['from_email'] = self::get_variation_from_email();
+        self::$email['reply_email'] = self::get_variation_reply_email();
         self::$email['body'] = self::get_email_body();
     }
 
     /**
-     *	Generates targeted email body html
+     *    Generates targeted email body html
      */
     public static function get_email_body() {
 
         /* set required variables if empty */
         self::$email_settings['recipients'] = (isset(self::$email_settings['recipients'])) ? self::$email_settings['recipients'] : array();
 
-        $html = self::$templates[ self::$row->email_id ][ self::$row->variation_id ];
+        $html = self::$templates[self::$row->email_id][self::$row->variation_id];
 
         /* add lead id to all shortcodes before processing */
-        $html = str_replace('[lead-field ' , '[lead-field lead_id="'. self::$row->lead_id .'" ' , $html );
+        $html = str_replace('[lead-field ', '[lead-field lead_id="' . self::$row->lead_id . '" ', $html);
 
-        $unsubscribe = do_shortcode('[unsubscribe-link lead_id="'. self::$row->lead_id .'" list_ids="'.implode( ',' , self::$email_settings['recipients'] ) .'" email_id="'.self::$row->email_id.'" rule_id="'.self::$row->rule_id.'"]');
+        $unsubscribe = do_shortcode('[unsubscribe-link lead_id="' . self::$row->lead_id . '" list_ids="' . implode(',', self::$email_settings['recipients']) . '" email_id="' . self::$row->email_id . '" rule_id="' . self::$row->rule_id . '"]');
 
         /* add lead id & list ids to unsubscribe shortcode */
-        $html = str_replace('[unsubscribe-link]' , $unsubscribe , $html );
+        $html = str_replace('[unsubscribe-link]', $unsubscribe, $html);
 
         /* clean mal formatted quotations */
-        $html = str_replace('&#8221;', '"' , $html);
+        $html = str_replace('&#8221;', '"', $html);
 
         /* check for appended tokens */
-        $html = self::replace_attached_tokens( $html );
+        $html = self::replace_attached_tokens($html);
 
         /* process shortcodes */
-        $html = do_shortcode( $html );
+        $html = do_shortcode($html);
 
         /* add tracking params to links */
-        $html = self::rebuild_links( $html );
+        $html = self::rebuild_links($html);
 
         /* remove script tags */
         $html = preg_replace('#<script(.*?)>(.*?)</script>#is', '', $html);
@@ -506,50 +505,57 @@ class Inbound_Mail_Daemon {
     }
 
     /**
-     *	Generate HTML for email
-     *	@param STRING $permalink
-     *	@return STRING
+     *    Generate HTML for email
+     * @param STRING $permalink
+     * @return STRING
      */
-    public static function get_variation_html( $permalink ) {
+    public static function get_variation_html($permalink) {
 
-        $response = wp_remote_get( $permalink ,  array( 'timeout' => 120 ) );
-        $html = wp_remote_retrieve_body( $response );
+        $response = wp_remote_get($permalink, array('timeout' => 120));
+
+        if (is_wp_error($response)) {
+            error_log(print_r($response, true));
+            print_r($response);
+            exit;
+        }
+
+        $html = wp_remote_retrieve_body($response);
         return $html;
     }
 
     /**
-     *	Gets the subject line from variation settings
+     *    Gets the subject line from variation settings
      */
     public static function get_variation_subject() {
         /* add lead id to all shortcodes before processing */
-        $subject = str_replace('[lead-field ' , '[lead-field lead_id="'. self::$row->lead_id .'" ' , self::$email_settings[ 'variations' ] [ self::$row->variation_id ] [ 'subject' ] );
-        return do_shortcode( $subject );
+        $subject = str_replace('[lead-field ', '[lead-field lead_id="' . self::$row->lead_id . '" ', self::$email_settings['variations'] [self::$row->variation_id] ['subject']);
+        return do_shortcode($subject);
     }
 
     /**
-     *	Gets the from name from variation settings
+     *    Gets the from name from variation settings
      */
     public static function get_variation_from_name() {
-        return self::$email_settings[ 'variations' ] [ self::$row->variation_id ] [ 'from_name' ];
+        return self::$email_settings['variations'] [self::$row->variation_id] ['from_name'];
     }
 
     /**
-     *	Gets the from email from variation settings
+     *    Gets the from email from variation settings
      */
     public static function get_variation_from_email() {
-        return self::$email_settings[ 'variations' ] [ self::$row->variation_id ] [ 'from_email' ];
+        return self::$email_settings['variations'] [self::$row->variation_id] ['from_email'];
     }
 
     /**
-     *	Gets the reply email from variation settings
+     *    Gets the reply email from variation settings
      */
     public static function get_variation_reply_email() {
-        return self::$email_settings[ 'variations' ] [ self::$row->variation_id ] [ 'reply_email' ];
+        return self::$email_settings['variations'] [self::$row->variation_id] ['reply_email'];
     }
 
 
     /**
-     *	Generate text version of html email automatically
+     *    Generate text version of html email automatically
      */
     public static function get_text_version() {
 
@@ -562,26 +568,26 @@ class Inbound_Mail_Daemon {
      */
     public static function check_stop_rules() {
 
-        $stop_rules = Inbound_Mailer_Unsubscribe::get_stop_rules(  self::$row->lead_id );
-        $wordpress_date_time =  date_i18n('Y-m-d G:i:s T');
+        $stop_rules = Inbound_Mailer_Unsubscribe::get_stop_rules(self::$row->lead_id);
+        $wordpress_date_time = date_i18n('Y-m-d G:i:s T');
 
         $passed = 0;
         $failed = 0;
 
-        foreach (self::$email_settings['recipients'] as $list_id ) {
+        foreach (self::$email_settings['recipients'] as $list_id) {
             if (!isset($stop_rules[$list_id])) {
                 $passed++;
                 continue;
             }
 
             /* if lead has unsubscribed to this list skip it */
-            if ($stop_rules[$list_id] == 'unsubscribed' ) {
+            if ($stop_rules[$list_id] == 'unsubscribed') {
                 $failed++;
                 continue;
             }
 
             /* if not a datetime string then skip stop rule (treat as pass) */
-            if (!is_string($stop_rules[$list_id]) ) {
+            if (!is_string($stop_rules[$list_id])) {
                 $passed++;
                 continue;
             }
@@ -591,7 +597,7 @@ class Inbound_Mail_Daemon {
                 $failed++;
             } else {
                 $passed++;
-                Inbound_Mailer_Unsubscribe::remove_stop_rule( self::$row->lead_id , $list_id );
+                Inbound_Mailer_Unsubscribe::remove_stop_rule(self::$row->lead_id, $list_id);
             }
         }
 
@@ -611,29 +617,29 @@ class Inbound_Mail_Daemon {
         $user_id = $current_user->ID;
 
         /* check if there is an error and if there is then exit */
-        if ( isset(self::$response['status']) && self::$response['status'] == 'error' || isset(self::$response['error'])  ) {
+        if (isset(self::$response['status']) && self::$response['status'] == 'error' || isset(self::$response['error'])) {
             if (isset($resonse['description'])) {
                 self::$response['message'] = self::$response['message'] . ' : ' . self::$response['description'];
             }
 
-            Inbound_Options_API::update_option( 'inbound-email' , 'errors-detected' , self::$response['message'] );
+            Inbound_Options_API::update_option('inbound-email', 'errors-detected', self::$response['message']);
             self::$error_mode = true;
             return;
         }
 
         /* if error mode is on and response is good then turn it off */
         if (self::$error_mode) {
-            Inbound_Options_API::update_option( 'inbound-email' , 'errors-detected' , false );
+            Inbound_Options_API::update_option('inbound-email', 'errors-detected', false);
             self::$error_mode = false;
         }
     }
 }
 
 /**
- *	Load Mail Daemon on init
+ *    Load Mail Daemon on init
  */
 function load_inbound_mail_daemon() {
     new Inbound_Mail_Daemon();
 }
 
-add_action('init' , 'load_inbound_mail_daemon' , 2 );
+add_action('init', 'load_inbound_mail_daemon', 2);
