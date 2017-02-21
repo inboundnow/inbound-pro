@@ -24,7 +24,7 @@
 	box-shadow: none;
 }
 
-.acf_postbox.no_box > h3,
+.acf_postbox.no_box > .hndle,
 .acf_postbox.no_box > .handlediv {
 	display: none;
 }
@@ -508,17 +508,21 @@ not needed in WP 3.8
 
 .media-modal.acf-media-modal .media-frame-router,
 .media-modal.acf-media-modal .attachments,
-.media-modal.acf-media-modal .media-frame-content .media-toolbar {
+.media-modal.acf-media-modal .media-frame-content .media-toolbar,
+.media-modal.acf-media-modal .media-frame-menu {
     display: none;
 }
 
 .media-modal.acf-media-modal .media-frame-content {
-    top: 56px;
+    top: 50px;
+    left: 0;
 }
+
 
 .media-modal.acf-media-modal .media-frame-title {
     border-bottom: 1px solid #DFDFDF;
     box-shadow: 0 4px 4px -4px rgba(0, 0, 0, 0.1);
+    left: 0;
 }
 
 .media-modal.acf-media-modal .media-frame-content .media-sidebar {
@@ -528,6 +532,7 @@ not needed in WP 3.8
 
 .media-modal.acf-media-modal .media-toolbar {
     right: 0;
+    left: 0;
 }
 
 

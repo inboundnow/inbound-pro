@@ -26,7 +26,7 @@ class acf_field_file extends acf_field
 			'select'		=>	__("Select File",'acf'),
 			'edit'			=>	__("Edit File",'acf'),
 			'update'		=>	__("Update File",'acf'),
-			'uploadedTo'	=>	__("uploaded to this post",'acf'),
+			'uploadedTo'	=>	__("Uploaded to this post",'acf'),
 		);
 		
 		
