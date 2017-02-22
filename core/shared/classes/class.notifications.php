@@ -1,14 +1,13 @@
 <?php
 
 /**
- * Inbound_Promote Class
+ * Inbound_Notifications Class
  *
- * A general class for About and Credits page.
+ * This class provides methods for displaying and closing admin notifications
  *
- * @since 1.4
  */
 
-class Inbound_Promote {
+class Inbound_Notifications {
 
 	/**
 	 * initiate class
@@ -235,4 +234,4 @@ class Inbound_Promote {
 
 }
 
-new Inbound_Promote;
+new Inbound_Notifications;

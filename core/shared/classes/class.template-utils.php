@@ -10,7 +10,7 @@ class Inbound_Template_Utils {
 
     static $activate_msg = '<h1>Hello and welcome to Inbound Now dev tools</h1>
                 <p>Dev tools were created to help you, the developer, quickly create templates for all of inbound now plugins.</p>
-                <p>You need will need <strong>inbound now pro</strong> activated to use this screen.</p>';
+                <p>You need will need an active <strong>inbound now pro</strong> subscription to use this screen.</p>';
 
     public function __construct() {
         self::init();

@@ -265,6 +265,52 @@ class acf_field_google_map extends acf_field
 		return $value;
 	}
 	
+	
+	/*
+   	*  input_admin_footer
+   	*
+   	*  description
+   	*
+   	*  @type	function
+   	*  @date	6/03/2014
+   	*  @since	5.0.0
+   	*
+   	*  @param	$post_id (int)
+   	*  @return	$post_id (int)
+   	*/
+   	
+   	function input_admin_head() {
+	   	
+   		add_action( 'admin_footer', array( $this, 'input_admin_footer') );
+   		
+   	}
+   	
+   	function input_admin_footer() {
+	   	
+	   	// vars
+	   	$api = array(
+			'libraries'		=> 'places',
+			'key'			=> '',
+			'client'		=> ''
+	   	);
+	   	
+	   	
+	   	// filter
+	   	$api = apply_filters('acf/fields/google_map/api', $api);
+	   	
+	   	
+	   	// remove empty
+	   	if( empty($api['key']) ) unset($api['key']);
+	   	if( empty($api['client']) ) unset($api['client']);
+	   	
+	   	
+?>
+<script type="text/javascript">
+acf.fields.google_map.api = <?php echo json_encode($api); ?>;
+</script>
+<?php
+	
+   	}
 }
 
 new acf_field_google_map();

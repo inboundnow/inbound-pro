@@ -3,7 +3,7 @@
 Plugin Name: Advanced Custom Fields
 Plugin URI: http://www.advancedcustomfields.com/
 Description: Customise WordPress with powerful, professional and intuitive fields
-Version: 4.4.3
+Version: 4.4.11
 Author: Elliot Condon
 Author URI: http://www.elliotcondon.com/
 License: GPL
@@ -43,7 +43,7 @@ class acf
 			'path'				=> apply_filters('acf/helpers/get_path', __FILE__),
 			'dir'				=> apply_filters('acf/helpers/get_dir', __FILE__),
 			'hook'				=> basename( dirname( __FILE__ ) ) . '/' . basename( __FILE__ ),
-			'version'			=> '4.4.3',
+			'version'			=> '4.4.11',
 			'upgrade_version'	=> '3.4.1',
 			'include_3rd_party'	=> false
 		);
@@ -159,42 +159,63 @@ class acf
 	*  @return	{mixed}	$post_id
 	*/
 	
-	function get_post_id( $post_id )
-	{
-		// set post_id to global
-		if( !$post_id )
-		{
-			global $post;
+	function get_post_id( $post_id ) {
+		
+		// if not $post_id, load queried object
+		if( !$post_id ) {
 			
-			if( $post )
-			{
-				$post_id = intval( $post->ID );
+			// try for global post (needed for setup_postdata)
+			$post_id = (int) get_the_ID();
+			
+			
+			// try for current screen
+			if( !$post_id ) {
+				
+				$post_id = get_queried_object();
+					
 			}
+			
+		}
+		
+		
+		// $post_id may be an object
+		if( is_object($post_id) ) {
+			
+			// user
+			if( isset($post_id->roles, $post_id->ID) ) {
+			
+				$post_id = 'user_' . $post_id->ID;
+			
+			// term
+			} elseif( isset($post_id->taxonomy, $post_id->term_id) ) {
+			
+				$post_id = $post_id->taxonomy . '_' . $post_id->term_id;
+			
+			// comment
+			} elseif( isset($post_id->comment_ID) ) {
+			
+				$post_id = 'comment_' . $post_id->comment_ID;
+			
+			// post
+			} elseif( isset($post_id->ID) ) {
+			
+				$post_id = $post_id->ID;
+			
+			// default
+			} else {
+				
+				$post_id = 0;
+				
+			}
+			
 		}
 		
 		
 		// allow for option == options
-		if( $post_id == "option" )
-		{
-			$post_id = "options";
-		}
+		if( $post_id === 'option' ) {
 		
-		
-		// object
-		if( is_object($post_id) )
-		{
-			if( isset($post_id->roles, $post_id->ID) )
-			{
-				$post_id = 'user_' . $post_id->ID;
-			}
-			elseif( isset($post_id->taxonomy, $post_id->term_id) )
-			{
-				$post_id = $post_id->taxonomy . '_' . $post_id->term_id;
-			}
-			elseif( isset($post_id->ID) )
-			{
-				$post_id = $post_id->ID;
-			}
+			$post_id = 'options';
+			
 		}
 		
 		
@@ -209,13 +230,16 @@ class acf
 		*  the user wants to load data from a completely different post_id
 		*/
 		
-		if( isset($_GET['preview_id']) )
-		{
+		if( isset($_GET['preview_id']) ) {
+		
 			$autosave = wp_get_post_autosave( $_GET['preview_id'] );
-			if( $autosave->post_parent == $post_id )
-			{
-				$post_id = intval( $autosave->ID );
+			
+			if( $autosave && $autosave->post_parent == $post_id ) {
+			
+				$post_id = (int) $autosave->ID;
+				
 			}
+			
 		}
 		
 		

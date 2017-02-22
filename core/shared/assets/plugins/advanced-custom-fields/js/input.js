@@ -884,7 +884,7 @@ var acf = {
 	*  @created: 22/12/12
 	*/
 	
-	$(window).load(function(){
+	$(window).on('load', function(){
 		
 		// init
 		acf.media.init();
@@ -1573,11 +1573,8 @@ var acf = {
 			div.closest('.field').removeClass('error');
 	
 		},
-		edit : function(){
-			
-			// vars
-			var id = this.$input.val();
-			
+		
+		new_frame: function( attributes ){
 			
 			// set global var
 			_media.div = this.$el;
@@ -1587,23 +1584,77 @@ var acf = {
 			_media.clear_frame();
 			
 			
-			// create the media frame
-			_media.frame = wp.media({
+			// vars
+			attributes.states = [];
+			
+			// append states
+			attributes.states.push(
+				new wp.media.controller.Library({
+					library		:	wp.media.query( this.o.query ),
+					multiple	:	attributes.multiple,
+					title		:	attributes.title,
+					priority	:	20,
+					filterable	:	'all'
+				})
+			);
+			
+			
+			// edit image functionality (added in WP 3.9)
+			if( acf.helpers.isset(wp, 'media', 'controller', 'EditImage') ) {
+				
+				attributes.states.push( new wp.media.controller.EditImage() );
+				
+			}
+			
+			
+			// Create the media frame
+			_media.frame = wp.media( attributes );
+			
+			
+			// edit image view
+			// source: media-views.js:2410 editImageContent()
+			_media.frame.on('content:render:edit-image', function(){
+				
+				var image = this.state().get('image'),
+					view = new wp.media.view.EditImage( { model: image, controller: this } ).render();
+	
+				this.content.set( view );
+	
+				// after creating the wrapper view, load the actual editor via an ajax call
+				view.loadEditor();
+				
+			}, _media.frame);
+			
+			
+			// update toolbar button
+			_media.frame.on( 'toolbar:create:select', function( toolbar ) {
+				
+				toolbar.view = new wp.media.view.Toolbar.Select({
+					text: attributes.button.text,
+					controller: this
+				});
+				
+			}, _media.frame );
+			
+			
+			// return
+			return _media.frame;
+			
+		},
+		
+		edit : function(){
+			
+			// vars
+			var id = this.$input.val();
+			
+			
+			// create frame
+			this.new_frame({
 				title		:	acf.l10n.file.edit,
 				multiple	:	false,
 				button		:	{ text : acf.l10n.file.update }
 			});
-			
-			
-			// log events
-			/*
-			acf.media.frame.on('all', function(e){
-				
-				console.log( e );
-				
-			});
-			*/
-			
+						
 			
 			// open
 			_media.frame.on('open',function() {
@@ -1670,25 +1721,11 @@ var acf = {
 			var t = this;
 			
 			
-			// set global var
-			_media.div = this.$el;
-			
-
-			// clear the frame
-			_media.clear_frame();
-			
-			
-			 // Create the media frame
-			 _media.frame = wp.media({
-				states : [
-					new wp.media.controller.Library({
-						library		:	wp.media.query( t.o.query ),
-						multiple	:	t.o.multiple,
-						title		:	acf.l10n.file.select,
-						priority	:	20,
-						filterable	:	'all'
-					})
-				]
+			// create frame
+			this.new_frame({
+				title		:	acf.l10n.file.select,
+				multiple	:	t.o.multiple,
+				button		:	{ text : acf.l10n.file.select }
 			});
 			
 			
@@ -1876,6 +1913,10 @@ var acf = {
 		$input : null,
 		
 		o : {},
+		api: {
+			sensor:		false,
+			libraries:	'places'
+		},
 		
 		ready : false,
 		geocoder : false,
@@ -1889,7 +1930,7 @@ var acf = {
 			
 			
 			// find input
-			this.$input = this.$el.find('.value');
+			this.$input = this.$el.find('.input-address');
 			
 			
 			// get options
@@ -2267,37 +2308,46 @@ var acf = {
 	
 	$(document).on('acf/setup_fields', function(e, el){
 		
+		// reference
+		var self = acf.fields.google_map;
+			
+			
 		// vars
-		$fields = $(el).find('.acf-google-map');
+		var $fields = $(el).find('.acf-google-map');
 		
 		
 		// validate
-		if( ! $fields.exists() )
-		{
-			return;
-		}
+		if( ! $fields.exists() ) return false;
 		
 		
-		// validate google
-		if( typeof google === 'undefined' )
-		{
-			$.getScript('https://www.google.com/jsapi', function(){
+		// no google
+		if( !acf.helpers.isset(window, 'google', 'load') ) {
 			
-			    google.load('maps', '3', { other_params: 'sensor=false&libraries=places', callback: function(){
-			    
-			        $fields.each(function(){
+			// load API
+			$.getScript('https://www.google.com/jsapi', function(){
+				
+				// load maps
+				google.load('maps', '3', { other_params: $.param(self.api), callback: function(){
+			    	
+			    	$fields.each(function(){
 					
 						acf.fields.google_map.set({ $el : $(this) }).init();
 						
 					});
 			        
 			    }});
+			    
 			});
 			
+			return false;
+				
 		}
-		else
-		{
-			google.load('maps', '3', { other_params: 'sensor=false&libraries=places', callback: function(){
+		
+		
+		// no maps or places
+		if( !acf.helpers.isset(window, 'google', 'maps', 'places') ) {
+			
+			google.load('maps', '3', { other_params: $.param(self.api), callback: function(){
 				
 				$fields.each(function(){
 					
@@ -2306,8 +2356,22 @@ var acf = {
 				});
 		        
 		    }});
+			
+			return false;
 				
 		}
+		
+		
+		// google exists
+		$fields.each(function(){
+					
+			acf.fields.google_map.set({ $el : $(this) }).init();
+			
+		});
+
+		
+		// return
+		return true;
 		
 	});
 	
@@ -2486,11 +2550,8 @@ var acf = {
 			div.closest('.field').removeClass('error');
 	
 		},
-		edit : function(){
-			
-			// vars
-			var id = this.$input.val();
-			
+		
+		new_frame: function( attributes ){
 			
 			// set global var
 			_media.div = this.$el;
@@ -2500,23 +2561,78 @@ var acf = {
 			_media.clear_frame();
 			
 			
-			// create the media frame
-			_media.frame = wp.media({
+			// vars
+			attributes.states = [];
+			
+			
+			// append states
+			attributes.states.push(
+				new wp.media.controller.Library({
+					library		:	wp.media.query( this.o.query ),
+					multiple	:	attributes.multiple,
+					title		:	attributes.title,
+					priority	:	20,
+					filterable	:	'all'
+				})
+			);
+			
+			
+			// edit image functionality (added in WP 3.9)
+			if( acf.helpers.isset(wp, 'media', 'controller', 'EditImage') ) {
+				
+				attributes.states.push( new wp.media.controller.EditImage() );
+				
+			}
+			
+			
+			// Create the media frame
+			_media.frame = wp.media( attributes );
+			
+			
+			// edit image view
+			// source: media-views.js:2410 editImageContent()
+			_media.frame.on('content:render:edit-image', function(){
+				
+				var image = this.state().get('image'),
+					view = new wp.media.view.EditImage( { model: image, controller: this } ).render();
+	
+				this.content.set( view );
+	
+				// after creating the wrapper view, load the actual editor via an ajax call
+				view.loadEditor();
+				
+			}, _media.frame);
+			
+			
+			// update toolbar button
+			_media.frame.on( 'toolbar:create:select', function( toolbar ) {
+				
+				toolbar.view = new wp.media.view.Toolbar.Select({
+					text: attributes.button.text,
+					controller: this
+				});
+				
+			}, _media.frame );
+			
+			
+			// return
+			return _media.frame;
+			
+		},
+		
+		edit : function(){
+			
+			// vars
+			var id = this.$input.val();
+			
+			
+			// create frame
+			this.new_frame({
 				title		:	acf.l10n.image.edit,
 				multiple	:	false,
 				button		:	{ text : acf.l10n.image.update }
 			});
-			
-			
-			// log events
-			/*
-			acf.media.frame.on('all', function(e){
-				
-				console.log( e );
-				
-			});
-			*/
-			
+						
 			
 			// open
 			_media.frame.on('open',function() {
@@ -2559,7 +2675,7 @@ var acf = {
 			
 							
 			// Finally, open the modal
-			acf.media.frame.open();
+			_media.frame.open();
 			
 		},
 		remove : function()
@@ -2580,37 +2696,16 @@ var acf = {
 			var t = this;
 			
 			
-			// set global var
-			_media.div = this.$el;
-			
-
-			// clear the frame
-			_media.clear_frame();
-			
-			
-			 // Create the media frame
-			 _media.frame = wp.media({
-				states : [
-					new wp.media.controller.Library({
-						library		:	wp.media.query( t.o.query ),
-						multiple	:	t.o.multiple,
-						title		:	acf.l10n.image.select,
-						priority	:	20,
-						filterable	:	'all'
-					})
-				]
+			// create frame
+			this.new_frame({
+				title		:	acf.l10n.image.select,
+				multiple	:	t.o.multiple,
+				button		:	{ text : acf.l10n.image.select }
 			});
 			
 			
-			/*acf.media.frame.on('all', function(e){
-				
-				console.log( e );
-				
-			});*/
-			
-			
 			// customize model / view
-			acf.media.frame.on('content:activate', function(){
+			_media.frame.on('content:activate', function(){
 
 				// vars
 				var toolbar = null,
@@ -3099,17 +3194,17 @@ var acf = {
 			
 			
 			// template
-			var data = {
-					post_id		:	$a.attr('data-post_id'),
-					title		:	$a.html(),
-					name		:	this.$input.attr('name')
-				},
-				tmpl = _.template(acf.l10n.relationship.tmpl_li, data);
-			
+			var html = [
+				'<li>',
+					'<a href="#" data-post_id="' + $a.attr('data-post_id') + '">',
+						$a.html() + '<span class="acf-button-remove"></span>',
+					'</a>',
+					'<input type="hidden" name="' + this.$input.attr('name') + '[]" value="' + $a.attr('data-post_id') + '" />',
+				'</li>'].join('');
 			
 	
 			// add new li
-			this.$right.find('.relationship_list').append( tmpl )
+			this.$right.find('.relationship_list').append( html )
 			
 			
 			// trigger change on new_li
@@ -3978,12 +4073,12 @@ var acf = {
 	
 	var _wysiwyg = acf.fields.wysiwyg = {
 		
-		$el : null,
-		$textarea : null,
+		$el: null,
+		$textarea: null,
 		
-		o : {},
+		o: {},
 		
-		set : function( o ){
+		set: function( o ){
 			
 			// merge in new option
 			$.extend( this, o );
@@ -3995,9 +4090,6 @@ var acf = {
 			
 			// get options
 			this.o = acf.helpers.get_atts( this.$el );
-			
-			
-			// add ID
 			this.o.id = this.$textarea.attr('id');
 			
 			
@@ -4005,6 +4097,7 @@ var acf = {
 			return this;
 			
 		},
+		
 		has_tinymce : function(){
 		
 			var r = false;
@@ -4043,7 +4136,8 @@ var acf = {
 			
 			
 			// vars
-			var toolbar = this.get_toolbar(),
+			var id = this.o.id,
+				toolbar = this.get_toolbar(),
 				command = 'mceAddControl',
 				setting = 'theme_advanced_buttons{i}';
 			
@@ -4087,15 +4181,19 @@ var acf = {
 			
 			
 			// add editor
-			tinyMCE.execCommand( command, false, this.o.id);
+			tinyMCE.execCommand( command, false, id);
 			
 			
 			// events - load
-			$(document).trigger('acf/wysiwyg/load', this.o.id);
+			$(document).trigger('acf/wysiwyg/load', id);
 			
 			
 			// add events (click, focus, blur) for inserting image into correct editor
-			this.add_events();
+			setTimeout(function(){
+				
+				_wysiwyg.add_events( id );
+				
+			}, 100);
 				
 			
 			// restore tinyMCE.settings
@@ -4106,18 +4204,15 @@ var acf = {
 			wpActiveEditor = null;
 					
 		},
-		add_events : function(){
 		
+		add_events: function( id ){
+			
 			// vars
-			var id = this.o.id,
-				editor = tinyMCE.get( id );
+			var editor = tinyMCE.get( id );
 			
 			
 			// validate
-			if( !editor )
-			{
-				return;
-			}
+			if( !editor ) return;
 			
 			
 			// vars
@@ -4437,7 +4532,7 @@ var acf = {
 	*  @created: 22/12/12
 	*/
 	
-	$(window).load(function(){
+	$(window).on('load', function(){
 		
 		// validate
 		if( ! _wysiwyg.has_tinymce() )
@@ -4485,7 +4580,7 @@ var acf = {
 			// Add events to content editor
 			if( wp_content )
 			{
-				_wysiwyg.set({ $el : $('#wp-content-wrap') }).add_events();
+				_wysiwyg.add_events('content');
 			}
 			
 			

@@ -162,7 +162,7 @@ class acf_field_textarea extends acf_field
 <tr class="field_option field_option_<?php echo $this->name; ?>">
 	<td class="label">
 		<label><?php _e("Formatting",'acf'); ?></label>
-		<p><?php _e("Effects value on front end",'acf') ?></p>
+		<p><?php _e("Affects value on front end",'acf') ?></p>
 	</td>
 	<td>
 		<?php 

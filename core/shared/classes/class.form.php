@@ -285,16 +285,22 @@ if (!class_exists('Inbound_Forms')) {
 
                     } else if ($type === 'date') {
 
-                        if ($type === 'hidden' && $dynamic_value != "") {
+                        if ($dynamic_value != "") {
                             $fill_value = $dynamic_value;
+                        } else {
+                            $fill_value = '';
                         }
+
                         $form .= '<input class="inbound-input inbound-input-text ' . $formatted_label . $input_classes . ' ' . $field_input_class . '" name="' . $field_name . '" ' . $form_placeholder . ' id="' . $field_name . '" value="' . $fill_value . '" type="' . $type . '"' . $data_mapping_attr . $et_output . ' ' . $req . '/>';
 
                     } else if ($type === 'time') {
 
-                        if ($type === 'hidden' && $dynamic_value != "") {
+                        if ( $dynamic_value != "") {
                             $fill_value = $dynamic_value;
+                        } else {
+                            $fill_value = '';
                         }
+
                         $form .= '<input class="inbound-input inbound-input-text ' . $formatted_label . $input_classes . ' ' . $field_input_class . '" name="' . $field_name . '" ' . $form_placeholder . ' id="' . $field_name . '" value="' . $fill_value . '" type="' . $type . '"' . $data_mapping_attr . $et_output . ' ' . $req . '/>';
 
                     } else if ($type === 'radio') {
@@ -380,25 +386,32 @@ if (!class_exists('Inbound_Forms')) {
 
                     } else if ($type === 'url') {
 
-                        if ($type === 'hidden' && $dynamic_value != "") {
+                        if ( $dynamic_value != "") {
                             $fill_value = $dynamic_value;
+                        } else {
+                            $fill_value = '';
                         }
 
                         $form .= '<input type="url" class="inbound-input inbound-input-url ' . $formatted_label . $input_classes . ' ' . $field_input_class . '" name="' . $field_name . '" ' . $form_placeholder . ' id="' . $field_name . '" value="' . $fill_value . '" ' . $data_mapping_attr . $et_output . ' ' . $req . '/>';
 
                     } else if ($type === 'tel') {
 
-                        if ($type === 'hidden' && $dynamic_value != "") {
+                        if ( $dynamic_value != "") {
                             $fill_value = $dynamic_value;
+                        } else {
+                            $fill_value = '';
                         }
 
                         $form .= '<input type="tel" class="inbound-input inbound-input-tel ' . $formatted_label . $input_classes . ' ' . $field_input_class . '" name="' . $field_name . '" ' . $form_placeholder . ' id="' . $field_name . '" value="' . $fill_value . '" ' . $data_mapping_attr . $et_output . ' ' . $req . '/>';
 
                     } else if ($type === 'email') {
 
-                        if ($type === 'hidden' && $dynamic_value != "") {
+                        if ($dynamic_value != "") {
                             $fill_value = $dynamic_value;
+                        } else {
+                            $fill_value = '';
                         }
+
                         $form .= '<input type="email" class="inbound-input inbound-input-email ' . $formatted_label . $input_classes . ' ' . $field_input_class . '" name="' . $field_name . '" ' . $form_placeholder . ' id="' . $field_name . '" value="' . $fill_value . '" ' . $data_mapping_attr . $et_output . ' ' . $req . '/>';
 
                     } else if ($type === 'range') {
@@ -417,6 +430,8 @@ if (!class_exists('Inbound_Forms')) {
                     } else if ($type === 'text') {
                         if ($dynamic_value) {
                             $fill_value = $dynamic_value;
+                        } else {
+                            $fill_value = '';
                         }
 
                         $input_type = ($email_input) ? 'email' : 'text';

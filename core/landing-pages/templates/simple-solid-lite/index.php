@@ -84,7 +84,8 @@ $test = inbound_color_scheme($background_color, 'hex');
 
     <?php
     do_action('wp_head');
-    do_action('lp_head'); ?>
+    do_action('lp_head');
+    ?>
     <style id="inbound-style-overrides" type="text/css">
 
         <?php

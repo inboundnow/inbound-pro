@@ -79,9 +79,9 @@ class acf_field_functions
 		}
 		elseif( strpos($post_id, 'user_') !== false )
 		{
-			$post_id = str_replace('user_', '', $post_id);
+			$user_id = str_replace('user_', '', $post_id);
 			
-			$v = get_user_meta( $post_id, $field['name'], false );
+			$v = get_user_meta( $user_id, $field['name'], false );
 			
 			// value is an array
 			if( isset($v[0]) )

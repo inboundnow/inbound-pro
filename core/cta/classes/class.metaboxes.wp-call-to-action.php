@@ -274,7 +274,7 @@ if (!class_exists('CTA_Metaboxes')) {
 			$variations = $CTA_Variations->get_variations($post->ID);
 			$next_available_variation_id = $CTA_Variations->get_next_available_variation_id( $post->ID );
 
-			echo '<div id="bab-stat-box">';
+			echo '<div id="cta-stat-box">';
 
 			foreach ($variations as $vid=>$variation) {
 
@@ -290,13 +290,13 @@ if (!class_exists('CTA_Metaboxes')) {
 
 					?>
 
-					<div id="wp-cta-variation-<?php echo $CTA_Variations->vid_to_letter($post->ID, $vid); ?>" class="bab-variation-row variation-<?php echo $status; ?>">
+					<div id="wp-cta-variation-<?php echo $CTA_Variations->vid_to_letter($post->ID, $vid); ?>" class="cta-variation-row variation-<?php echo $status; ?>">
 
 
 						<!-- New UI START -->
-						<div class='bab-varation-header'>
-						<span class='bab-variation-name'>Variation
-						<span class='bab-stat-letter'>
+						<div class='cta-varation-header'>
+						<span class='cta-variation-name'>Variation
+						<span class='cta-stat-letter'>
 						<?php echo $CTA_Variations->vid_to_letter($post->ID, $vid); ?>
 						</span>
 							<?php
@@ -326,22 +326,22 @@ if (!class_exists('CTA_Metaboxes')) {
 						<span class="settings_wrapper_heading">Variation Settings</span>
 							<ul class="settings_list_li">
 								<li class="settings_edit">
-									<span class='bab-stat-menu-edit'>
+									<span class='cta-stat-menu-edit'>
 										<a title="Edit this variation" href='?post=<?php echo $post->ID; ?>&action=edit&vid=<?php echo $vid; ?>'><?php _e('Edit', 'inbound-pro'); ?></a>
 									</span>
 								</li>
 								<li class="settings_preview">
-									<span class='bab-stat-menu-preview'>
+									<span class='cta-stat-menu-preview'>
 										<a title="Preview this variation" class='thickbox' href='<?php echo $permalink; ?>&inbound_popup_preview=on&post_id=<?php echo $post->ID; ?>&TB_iframe=true&width=1503&height=467' target='_blank'><?php _e('Preview', 'inbound-pro'); ?></a>
 									</span>
 								</li>
 								<li class="settings_clone">
-									<span class='bab-stat-menu-clone'>
+									<span class='cta-stat-menu-clone'>
 										<a title="Clone this variation" href='?post=<?php echo $post->ID; ?>&action=edit&new-variation=1&clone=<?php echo $vid; ?>&ab-action=clone&wp-cta-variation-id=<?php echo $next_available_variation_id; ?>'><?php _e('Clone', 'inbound-pro'); ?></a>
 									</span>
 								</li>
 								<li class="settings_delete">
-									<span class='bab-stat-control-delete'>
+									<span class='cta-stat-control-delete'>
 										<a title="Delete this variation" href='?post=<?php echo $post->ID; ?>&action=edit&vid=<?php echo $vid; ?>&ab-action=delete-variation'><?php _e('Delete', 'inbound-pro'); ?></a>
 									</span>
 								</li>
@@ -354,44 +354,45 @@ if (!class_exists('CTA_Metaboxes')) {
 
 
 							<!-- PAUSE START -->
-							<span class='bab-stat-control-pause'><a title="Pause this variation" href='?post=<?php echo $post->ID; ?>&action=edit&vid=<?php echo $vid; ?>&ab-action=pause-variation'> </a></span>
+							<span class='cta-stat-control-pause'><a title="<?php _e('Pause this variation' , 'inbound-pro' ); ?>" href='?post=<?php echo $post->ID; ?>&action=edit&vid=<?php echo $vid; ?>&ab-action=pause-variation'> </a></span>
 							<!-- PAUSE END -->
 
 							<!-- PLAY START -->
-							<span class='bab-stat-seperator pause-sep'>|</span>
-							<span class='bab-stat-control-play'><a title="Turn this variation on" href='?post=<?php echo $post->ID; ?>&action=edit&vid=<?php echo $vid; ?>&ab-action=play-variation'> </a></span>
+							<span class='cta-stat-seperator pause-sep'>|</span>
+							<span class='cta-stat-control-play'><a title="<?php _e('Turn this variation on' , 'inbound-pro' ); ?>" href='?post=<?php echo $post->ID; ?>&action=edit&vid=<?php echo $vid; ?>&ab-action=play-variation'> </a></span>
+							<span class='cta-stat-control-behavioral' title="<?php  _e('This variation is behavioral.','inbound-pro'); ?>"><i class ='fa fa-lock' aria-hidden='true'></i> </span>
 							<!-- PLAY END -->
 
 
 						</div>
 						<!-- New Ui end -->
 
-						<div class="bab-variation-notes">
+						<div class="cta-variation-notes">
 							<?php echo $variation_notes; ?>
 						</div>
-						<div class="bab-stat-row">
-							<div class='bab-stat-stats' colspan='2'>
-								<div class='bab-stat-container-impressions bab-number-box'>
-									<span class="bab-stat-id"><?php _e('Views', 'inbound-pro'); ?></span>
+						<div class="cta-stat-row">
+							<div class='cta-stat-stats' colspan='2'>
+								<div class='cta-stat-container-impressions cta-number-box'>
+									<span class="cta-stat-id"><?php _e('Views', 'inbound-pro'); ?></span>
 
-									<span class='bab-stat-span-impressions'><?php echo $impressions; ?></span>
+									<span class='cta-stat-span-impressions'><?php echo $impressions; ?></span>
 								</div>
-								<div class='bab-stat-container-conversions bab-number-box'>
-									<span class="bab-stat-id"><?php _e('Conversions', 'inbound-pro'); ?></span>
-									<span class='bab-stat-span-conversions'><?php echo $conversions; ?></span>
+								<div class='cta-stat-container-conversions cta-number-box'>
+									<span class="cta-stat-id"><?php _e('Conversions', 'inbound-pro'); ?></span>
+									<span class='cta-stat-span-conversions'><?php echo $conversions; ?></span>
 									</span>
 								</div>
-								<div class='bab-stat-container-conversion_rate bab-number-box'>
-									<span class="bab-stat-id bab-rate"><?php _e('Conversion Rate', 'inbound-pro'); ?></span>
-									<span class='bab-stat-span-conversion_rate'><?php echo $conversion_rate; ?></span>
+								<div class='cta-stat-container-conversion_rate cta-number-box'>
+									<span class="cta-stat-id cta-rate"><?php _e('Conversion Rate', 'inbound-pro'); ?></span>
+									<span class='cta-stat-span-conversion_rate'><?php echo $conversion_rate; ?></span>
 
 								</div>
 
 							</div>
 						</div>
-						<div class="bab-stat-row">
+						<div class="cta-stat-row">
 
-							<div class='bab-stat-menu-container'>
+							<div class='cta-stat-menu-container'>
 
 								<?php do_action('wp_cta_ab_testing_stats_menu_post'); ?>
 

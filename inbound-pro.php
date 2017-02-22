@@ -159,6 +159,7 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 			if (is_admin()) {
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.updater.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.activate.php');
+				include_once( INBOUND_PRO_PATH . 'classes/admin/class.notifications.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.menus.adminmenu.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.lead-status-mapping.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.settings.php');

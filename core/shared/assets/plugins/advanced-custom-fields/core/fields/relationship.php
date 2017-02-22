@@ -26,13 +26,7 @@ class acf_field_relationship extends acf_field
 			'return_format'		=>	'object'
 		);
 		$this->l10n = array(
-			'max'		=> __("Maximum values reached ( {max} values )",'acf'),
-			'tmpl_li'	=> '
-							<li>
-								<a href="#" data-post_id="<%= post_id %>"><%= title %><span class="acf-button-remove"></span></a>
-								<input type="hidden" name="<%= name %>[]" value="<%= post_id %>" />
-							</li>
-							'
+			'max'		=> __("Maximum values reached ( {max} values )",'acf')
 		);
 		
 		

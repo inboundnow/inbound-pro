@@ -183,7 +183,7 @@ if (!class_exists('Inbound_API_Keys_Table')) {
 			?>
 			<form method="post" action="<?php echo admin_url( 'edit.php?post_type=wp-lead&page=wpleads_global_settings&tab=tabs-wpleads-apikeys' ); ?>">
 				<input type="hidden" name="inbound_action" value="generate-api-keys" />
-				<input type='text' name="user_id" placeholder="<?php _e( 'Enter User ID', 'inbound-pro' ); ?>" title="Your Current ID is <?php echo $user->ID; ?> ">
+				<input type='text' name="user_id" placeholder="<?php _e( 'Enter User ID', 'inbound-pro' ); ?>" title="Your Current ID is <?php echo $user->ID; ?> " value="<?php echo $user->ID; ?>">
 				<?php submit_button( __( 'Generate New API Keys', 'inbound-pro' ), 'secondary', 'submit', false ); ?>
 				&nbsp;<a class='button button-primary' href='http://docs.inboundnow.com/guide/lead-api-documentation-v1/' target='_blank'><?php _e('View Documentation', 'inbound-pro' ); ?></a>
 			</form>
