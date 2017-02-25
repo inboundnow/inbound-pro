@@ -345,7 +345,7 @@ if (!class_exists('Inbound_Event_Report')) {
             if ($event['funnel']) {
                 $end = count($event['funnel']) - 1;
 
-                if ($event['funnel'][$end] != $event['page_id']) {
+                if (isset($event['funnel'][$end]) && $event['funnel'][$end] != $event['page_id']) {
                     $event['funnel'][$end] = $event['page_id'];
                 }
             }
