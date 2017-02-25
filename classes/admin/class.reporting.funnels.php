@@ -99,6 +99,9 @@ class Inbound_Funnel_Reporting {
             case 'inbound_cta_click':
                 self::$secondary_grouping_field = 'cta_id';
                 break;
+            case 'inbound_content_click':
+                self::$secondary_grouping_field = 'inbound_content_click';
+                break;
             default:
                 self::$secondary_grouping_field = 'page_id';
                 break;
