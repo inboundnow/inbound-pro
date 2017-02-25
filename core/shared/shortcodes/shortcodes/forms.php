@@ -12,6 +12,13 @@ if (empty($lead_list_names)){
     );
 }
 
+if (empty($lead_tag_names)){
+    // if lead transient doesn't exist use defaults
+    $lead_tag_names = array(
+        'null' => 'No Lists detected',
+    );
+}
+
 
 $shortcodes_config['forms'] = array(
     'no_preview' => false,
@@ -89,7 +96,19 @@ $shortcodes_config['forms'] = array(
             'type' => 'hidden',
             'class' => 'main-form-settings exclude-from-refresh',
         ),
-
+        'tags' => array(
+            'name' => __('Add Tags to Lead', 'inbound-pro' ),
+            'desc' => __('Tag the lead with these tags', 'inbound-pro' ),
+            'type' => 'leadtags',
+            'options' => $lead_tag_names,
+            'class' => 'main-form-settings exclude-from-refresh',
+        ),
+        'tags_hidden' => array(
+            'name' => __('Hidden Tag Values', 'inbound-pro' ),
+            'desc' => __('Hidden Tag values', 'inbound-pro' ),
+            'type' => 'hidden',
+            'class' => 'main-form-settings exclude-from-refresh',
+        ),
         'helper-block-one' => array(
             'name' => __('Name Name Name',  'inbound-pro' ),
             'desc' => __('<span class="switch-to-form-insert button">Cancel Form Creation & Insert Existing Form</span>',  'inbound-pro' ),
@@ -351,7 +370,7 @@ $shortcodes_config['forms'] = array(
         'shortcode' => '[inbound_field label="{{label}}" type="{{field_type}}" description="{{description}}" required="{{required}}" exclude_tracking={{exclude_tracking}} dropdown="{{dropdown_options}}" radio="{{radio_options}}"  checkbox="{{checkbox_options}}"  range="{{range_options}}" placeholder="{{placeholder}}" field_container_class="{{field_container_class}}"  field_input_class="{{field_input_class}}" html="{{html_block_options}}" dynamic="{{hidden_input_options}}" default="{{default_value}}" map_to="{{map_to}}" divider_options="{{divider_options}}"]',
         'clone' => __('Add Another Field',  'inbound-pro' )
     ),
-    'shortcode' => '[inbound_form name="{{form_name}}" lists="{{lists_hidden}}" redirect="{{redirect}}" notify="{{notify}}" notify_subject="{{notify_subject}}" layout="{{layout}}" font_size="{{font-size}}"  labels="{{labels}}" icon="{{icon}}" submit="{{submit}}" submit="{{submit}}" submit_colors="{{submit-colors}}" submit_text_color="{{submit-text-color}}" submit_bg_color="{{submit-bg-color}}" width="{{width}}"]{{child}}[/inbound_form]',
+    'shortcode' => '[inbound_form name="{{form_name}}" lists="{{lists_hidden}}" tags="{{tags_hidden}}" redirect="{{redirect}}" notify="{{notify}}" notify_subject="{{notify_subject}}" layout="{{layout}}" font_size="{{font-size}}"  labels="{{labels}}" icon="{{icon}}" submit="{{submit}}" submit="{{submit}}" submit_colors="{{submit-colors}}" submit_text_color="{{submit-text-color}}" submit_bg_color="{{submit-bg-color}}" width="{{width}}"]{{child}}[/inbound_form]',
     'popup_title' => 'Insert Inbound Form Shortcode'
 );
 
@@ -470,48 +489,6 @@ if (!function_exists('inbound_get_form_names')) {
 
     }
 }
-add_action('init', 'inbound_get_lead_list_names',16);
-if (!function_exists('inbound_get_lead_list_names')) {
-    function inbound_get_lead_list_names() {
-        global $post;
-
-        $loop = get_transient( 'inbound-list-names' );
-        if ( false === $loop ) {
-            $args = array(
-                'hide_empty'    => false,
-            );
-            $terms = get_terms('wplead_list_category', $args);
-            $list_names = array();
-            foreach ($terms as $term ) {
-                $list_names[$term->term_id] = $term->name;
-            }
-
-            set_transient('inbound-list-names', $list_names, 24 * HOUR_IN_SECONDS);
-        }
-
-    }
-}
-
-add_action( 'edit_term', 'inbound_lists_delete_transient', 10, 3 );
-add_action( 'created_term', 'inbound_lists_delete_transient', 10, 3 );
-add_action( 'edited_term', 'inbound_lists_delete_transient', 10, 3 );
-add_action( 'create_term', 'inbound_lists_delete_transient', 10, 3 );
-add_action( 'delete_term', 'inbound_lists_delete_transient', 10, 3 );
-if (!function_exists('inbound_lists_delete_transient')) {
-    function inbound_lists_delete_transient( $term_id, $tt_id, $taxonomy ) {
-        global $wpdb;
-        //print_r($taxonomy); exit;
-
-        $whitelist  = array( 'wplead_list_category' ); /* maybe this needs to include attachment, revision, feedback as well? */
-        if ( !in_array( $taxonomy, $whitelist ) ) {
-            return array( 'term_id' => $term_id, 'term_taxonomy_id' => $tt_id );
-        }
-
-        delete_transient('inbound-list-names');
-        inbound_get_lead_list_names();
-
-    }
-}
 
 add_action('save_post', 'inbound_form_delete_transient', 10, 2);
 add_action('edit_post', 'inbound_form_delete_transient', 10, 2);
@@ -519,12 +496,14 @@ add_action('wp_insert_post', 'inbound_form_delete_transient', 10, 2);
 if (!function_exists('inbound_form_delete_transient')) {
     // Refresh transient
     function inbound_form_delete_transient($post_id){
-        //determine post type
-        if(get_post_type( $post_id ) == 'inbound-forms'){
-            //run your code
-            delete_transient('inbound-form-names');
-            inbound_get_form_names();
+
+        if(get_post_type( $post_id ) != 'inbound-forms') {
+            return;
         }
+
+        delete_transient('inbound-form-names');
+        inbound_get_form_names();
+
     }
 }
 

@@ -85,23 +85,54 @@ class Leads_Tracking {
      * @param  string $lead_id - lead CPT id
      * @return sets cookie of lists lead belongs to
      */
-    public static function cookie_lead_lists($lead_id) {
+    public static function cookie_lead_lists($lead_id , $lists = null) {
 
-        $terms = get_the_terms( $lead_id , 'wplead_list_category' );
-        if ( $terms && ! is_wp_error( $terms ) ) {
+        if (is_array($lists)) {
+            $lead_lists = array( 'ids' => $lists );
+        } else {
+            $terms = get_the_terms($lead_id, 'wplead_list_category');
 
-            $lead_list = array();
-            $count = 0;
-            foreach ( $terms as $term ) {
-                $lead_list[] = $term->term_id;
-                $count++;
+            $lists = array();
+            if ($terms && !is_wp_error($terms)) {
+
+                foreach ($terms as $term) {
+                    $lists[] = $term->term_id;
+                }
+            }
+        }
+
+        $lead_lists = json_encode(array('ids' => $lists));;
+
+        setcookie('wp_lead_list', $lead_lists, time() + (20 * 365 * 24 * 60 * 60), '/');
+
+    }
+
+    /**
+     * Cookies visitor's browser with proper lead list given a lead id
+     * @param  string $lead_id - lead CPT id
+     * @return sets cookie of lists lead belongs to
+     */
+    public static function cookie_lead_tags($lead_id , $tags = null ) {
+        $lead_tags = array();
+
+        if (is_array($tags)) {
+            $lead_tags = array( 'ids' => $tags );
+        } else {
+            $terms = get_the_terms($lead_id, 'lead-tags');
+            $tags = array();
+
+            if ($terms && !is_wp_error($terms)) {
+                foreach ($terms as $term) {
+                    $tags[] = $term->term_id;
+                }
             }
 
-            //$test = serialize($lead_list);
-            $list_array = json_encode(array( 'ids' => $lead_list )); ;
-
-            setcookie('wp_lead_list' , $list_array, time() + (20 * 365 * 24 * 60 * 60),'/');
+            $lead_tags = array( 'ids' => $tags );
         }
+
+        $tags_json = json_encode($lead_tags);
+        setcookie('wp_lead_tags' , $tags_json, time() + (20 * 365 * 24 * 60 * 60),'/');
+
     }
 
     /**
