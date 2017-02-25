@@ -173,6 +173,17 @@ if ( !class_exists('Inbound_Shortcodes_Fields') ) {
 							$output .= $row_end;
 							$this->append_output($output);
 							break;
+						case 'leadtags' :
+							$output	= $row_start;
+							$output .= '<select multiple name="'. $key .'" id="'.$key.'" class="inbound-shortcodes-input select inbound-shortcodes-select">';
+							foreach( $option['options'] as $val => $opt ) {
+								$selected = ($std == $val) ? ' selected="selected"' : '';
+								$output .= '<option'. $selected .' value="'. $val .'">'. $opt .'</option>';
+							}
+							$output .= '</select>';
+							$output .= $row_end;
+							$this->append_output($output);
+							break;
 						case 'multiselect' :
 							$output	= $row_start;
 							$output .= '<select multiple name="'. $key .'" id="'.$key.'" class="inbound-shortcodes-input select inbound-shortcodes-select">';

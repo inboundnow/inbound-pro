@@ -28,9 +28,6 @@ class Inbound_Events {
         /* create link_tracking table if does not exist */
         add_action('inbound_shared_activate' , array( __CLASS__ , 'create_link_tracking_table' ));
 
-        /* listen for cta clicks and record event to events table */
-        add_action('inbound_tracked_cta_click' , array( __CLASS__ , 'store_cta_click'), 10 , 1);
-
         /* listen for Inbound Form submissions and record event to events table */
         add_action('inbound_store_lead_post' , array( __CLASS__ , 'store_form_submission'), 10 , 1);
 
@@ -188,15 +185,6 @@ class Inbound_Events {
             'datetime' => $lead['wordpress_date_time']
         );
 
-        self::store_event($args);
-    }
-
-    /**
-     * Stores cta click event into events table
-     * @param $args
-     */
-    public static function store_cta_click( $args ) {
-        $args['event_name'] = 'inbound_cta_click';
         self::store_event($args);
     }
 
@@ -521,6 +509,11 @@ class Inbound_Events {
                 $link = admin_url('post.php?post='.$event['cta_id'].'&action=edit');
                 $title = get_the_title($event['cta_id']);
                 $capture_id = $event['cta_id'];
+                break;
+            case 'inbound_content_click':
+                $link = admin_url('post.php?post='.$event['page_id'].'&action=edit');
+                $title = get_the_title($event['page_id']);
+                $capture_id = $event['page_id'];
                 break;
             case 'inbound_form_submission':
                 $link = admin_url('post.php?post='.$event['form_id'].'&action=edit');
@@ -948,6 +941,9 @@ class Inbound_Events {
             case 'inbound_cta_click':
                 return ($plural) ?  __('CTA Clicks' , 'inbound-pro') : __('CTA Click' , 'inbound-pro');
                 break;
+            case 'inbound_content_click':
+                return ($plural) ?  __('Content Clicks' , 'inbound-pro') : __('Content Click' , 'inbound-pro');
+                break;
             case 'inbound_direct_messege':
                 return ($plural) ?  __('Direct Messages' , 'inbound-pro') : __('Direct Message' , 'inbound-pro');
                 break;
@@ -1059,6 +1055,58 @@ class Inbound_Events {
      *
      */
     public static function get_cta_clicks_by( $nature = 'lead_id' ,  $params ){
+        global $wpdb;
+
+        $table_name = $wpdb->prefix . "inbound_events";
+        $query = 'SELECT * FROM '.$table_name.' WHERE ';
+
+        switch ($nature) {
+            case 'lead_id':
+                $query .= '`lead_id` = "'.$params['lead_id'].'" ';
+                break;
+            case 'page_id':
+                $query .= '`page_id` = "'.$params['page_id'].'" ';
+                break;
+            case 'cta_id':
+                $query .= '`cta_id` = "'.$params['cta_id'].'" ';
+                break;
+        }
+
+        /* add date constraints if applicable */
+        if (isset($params['start_date'])) {
+            $query .= 'AND datetime >= "'.$params['start_date'].'" AND  datetime <= "'.$params['end_date'].'" ';
+        }
+
+        if (isset($params['variation_id'])) {
+            $query .= 'AND variation_id = "'.$params['variation_id'].'" ';
+        }
+
+        $query .= 'AND `event_name` = "inbound_cta_click" ORDER BY `datetime` DESC';
+
+        $results = $wpdb->get_results( $query , ARRAY_A );
+
+        return $results;
+    }
+
+    /**
+     * Get all cta click events related to lead ID
+     */
+    public static function get_content_clicks( $lead_id ){
+        global $wpdb;
+
+        $table_name = $wpdb->prefix . "inbound_events";
+
+        $query = 'SELECT * FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'" AND `event_name` = "inbound_content_click" ORDER BY `datetime` DESC';
+        $results = $wpdb->get_results( $query , ARRAY_A );
+
+        return $results;
+    }
+
+    /**
+     * Get cta click events given conditions
+     *
+     */
+    public static function get_content_clicks_by( $nature = 'lead_id' ,  $params ){
         global $wpdb;
 
         $table_name = $wpdb->prefix . "inbound_events";
