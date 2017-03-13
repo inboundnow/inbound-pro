@@ -723,7 +723,7 @@ class Inbound_Pro_Downloads {
 							if (!$permitted) {
 								?>
 								<div class="action-locked">
-									<i class="fa fa-lock"  data-toggle="tooltip" id='' title='<?php _e( 'Active license with correct permissions required to install.' , 'inbound-pro' ); ?>'></i>
+									<i class="fa fa-lock"  data-toggle="tooltip" id='' title='<?php _e( 'Only available to subscribers.' , 'inbound-pro' ); ?>'></i>
 								</div>
 								<?php
 							}
