@@ -107,15 +107,23 @@ if ( !class_exists('CTA_WordPress_Leads') ) {
 
 			self::$cta_clicks = Inbound_Events::get_cta_clicks( $post->ID );
 
-			/* skip stat if none available */
-			if (!self::$cta_clicks) {
-				return;
-			}
 
 			?>
 			<div class="quick-stat-label">
-				<div class="label_1"><?php _e('CTA Clicks', 'cta'); ?></div>
-				<div class="label_2"><?php echo count(self::$cta_clicks); ?></div>
+				<div class="label_1"><?php _e('CTA Clicks:', 'inbound-pro'); ?></div>
+				<div class="label_2">
+					<?php
+					if (class_exists('Inbound_Analytics')) {
+						?>
+						<a href='<?php echo admin_url('index.php?action=inbound_generate_report&lead_id='.$post->ID.'&class=Inbound_Event_Report&event_name=inbound_cta_click&range=10000&title='. urlencode(Inbound_Events::get_event_label('inbound_cta_click')).'&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox'>
+							<?php echo count(self::$cta_clicks); ?>
+						</a>
+						<?php
+					} else {
+						echo count(self::$cta_clicks);
+					}
+					?>
+				</div>
 				<div class="clearfix"></div>
 			</div>
 

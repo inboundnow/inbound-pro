@@ -87,7 +87,7 @@ if ( !class_exists( 'Inbound_Automation_Trigger_Set_Object_Terms' ) ) {
 
             $inbound_arguments = Inbound_Options_API::get_option( 'inbound_automation' , 'arguments' );
             $inbound_arguments = ( $inbound_arguments  ) ?  $inbound_arguments : array();
-            $inbound_arguments[self::$trigger]['user_id'] = $lead;
+            $inbound_arguments[self::$trigger] = $event;
 
             Inbound_Options_API::update_option( 'inbound_automation' , 'arguments' ,  $inbound_arguments );
         }

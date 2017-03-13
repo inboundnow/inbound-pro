@@ -179,7 +179,7 @@ print_r($settings);exit;
 
 			<table bgcolor="" style="line-height: 135%;text-align:center;font-size:10px;padding:10px;" class="container" align="center" cellpadding="0" cellspacing="0">
 				<tr>
-					<td bgcolor="" colspan="3" width="100%" height="10"><a href="<?php echo do_shortcode('[unsubscribe-link]'); ?>"><?php _e('Unsubscribe from this list' , 'inbound-mailer' ); ?></a></td>
+					<td bgcolor="" colspan="3" width="100%" height="10"><a href="<?php echo do_shortcode('[unsubscribe-link]'); ?>"><?php _e('Unsubscribe from this list' , 'inbound-pro' ); ?></a></td>
 				</tr>
 			</table>
 		</td>

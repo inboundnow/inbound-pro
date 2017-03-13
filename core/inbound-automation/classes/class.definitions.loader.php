@@ -584,8 +584,6 @@ if (!class_exists('Inbound_Automation_Loader')) {
                 $i++;
             }
 
-            //error_log('near final after');
-            //error_log(print_r(self::$instance->inbound_arguments[$hook],true));
 
             /* return arguments */
             return self::$instance->inbound_arguments[$hook];
@@ -637,7 +635,11 @@ if (!class_exists('Inbound_Automation_Loader')) {
          */
         public static function prepare_mixed_data( $mixed) {
 
-            if (is_array($mixed)) {
+            if (is_object($mixed)) {
+                $mixed = (array) $mixed;
+            }
+
+            if ( is_array($mixed) ) {
                 foreach ($mixed as $key => $value) {
                     $mixed[$key] = self::prepare_mixed_data( $value);
                 }

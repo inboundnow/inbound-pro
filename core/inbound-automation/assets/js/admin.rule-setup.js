@@ -70,12 +70,6 @@ var InboundRulesJs = ( function() {
                 }
 			});
 
-			/* Toggle Log Content - expands log data */
-			jQuery('body').on( 'click' , '.toggle-log-content' , function() {
-				var log_id = jQuery(this).attr('data-id');
-				jQuery('#log-content-' + log_id ).toggle();
-			});
-
 			/*  This js will hide/reveal action settings based on their hide/reveal rule definitions */
 			jQuery('body').on('change' , '.table-action select, .table-action input[type="checkbox"], .table-action input[type="radio"]' , function() {
 				var selector =  jQuery( this ).attr('data-id');
@@ -162,18 +156,6 @@ var InboundRulesJs = ( function() {
                 InboundRulesJs.change_action_order('down');
             });
 
-            /* Clears logs */
-            jQuery('body').on( 'click' , '#clear-logs' , function() {
-                jQuery(this).text('Clearing... please wait.');
-                InboundRulesJs.rule_id = jQuery(this).data('rule-id');
-                InboundRulesJs.delete_logs();
-            });
-
-            /* Reload logs iframe */
-            jQuery('body').on( 'click' , '#refresh-logs' , function() {
-                jQuery(this).text('Refreshing... please wait.');
-                window.location.reload(true);
-            });
 		},
 		/**
 		 *  Loads listerns for toggling selected triggers
@@ -648,6 +630,28 @@ var InboundRulesJs = ( function() {
  */
 jQuery(document).ready(function() {
 
-	InboundRulesJs.init();
+    /* Toggle Log Content - expands log data */
+    if (inbound_rules.hook != 'admin_page_inbound_rule_logs') {
+        InboundRulesJs.init();
+        return;
+    }
+
+    jQuery('body').on('click', '.toggle-log-content', function () {
+        var log_id = jQuery(this).attr('data-id');
+        jQuery('#log-content-' + log_id).toggle();
+    });
+
+    /* Clears logs */
+    jQuery('body').on( 'click' , '#clear-logs' , function() {
+        jQuery(this).text('Clearing... please wait.');
+        InboundRulesJs.rule_id = jQuery(this).data('rule-id');
+        InboundRulesJs.delete_logs();
+    });
+
+    /* Reload logs iframe */
+    jQuery('body').on( 'click' , '#refresh-logs' , function() {
+        jQuery(this).text('Refreshing... please wait.');
+        window.location.reload(true);
+    });
 
 });

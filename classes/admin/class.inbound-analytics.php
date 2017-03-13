@@ -12,6 +12,7 @@ class Inbound_Analytics {
      *  Initiate class
      */
     public function __construct() {
+
         self::load_hooks();
     }
 
@@ -21,13 +22,13 @@ class Inbound_Analytics {
     public static function load_hooks() {
 
         /* load static vars */
-        add_action('admin_init', array( __CLASS__ , 'load_static_vars' ) , 10);
+        add_action('admin_init', array(__CLASS__, 'load_static_vars'), 10);
 
         /* disable legacy inbound statistics metaboxes */
         remove_action('init', 'inbound_load_legacy_statistics', 10);
 
         /* remove navigation tabs from lead profile */
-        add_filter('wpl_lead_tabs', array(__CLASS__ , 'filter_profile_tabs') , 10 ,1 );
+        add_filter('wpl_lead_tabs', array(__CLASS__, 'filter_profile_tabs'), 10, 1);
 
         /* Load Google Charting API & Inbound Analytics Styling CSS*/
         add_action('admin_enqueue_scripts', array(__CLASS__, 'load_scripts'));
@@ -72,7 +73,7 @@ class Inbound_Analytics {
 
         self::$dates = Inbound_Reporting_Templates::prepare_range(self::$range);
 
-        return array('range'=>self::$range , 'dates'=>self::$dates);
+        return array('range' => self::$range, 'dates' => self::$dates);
     }
 
     /**
@@ -123,7 +124,7 @@ class Inbound_Analytics {
         }
 
         /* Get public post types to add metabox to */
-        $post_types = get_post_types(array('public'=> true ), 'names');
+        $post_types = get_post_types(array('public' => true), 'names');
 
         /* Clean post types of known non-applicants */
         $exclude[] = 'attachment';
@@ -215,9 +216,9 @@ class Inbound_Analytics {
                     'start_date' => self::$dates['start_date'],
                     'end_date' => self::$dates['end_date']
                 );
-                $results = Inbound_Events::get_page_views_by('page_id' , $params);
+                $results = Inbound_Events::get_page_views_by('page_id', $params);
                 ?>
-                <a href='<?php echo admin_url('index.php?action=inbound_generate_report&page_id='.$post->ID.'&class=Inbound_Impressions_Report&range='.self::$range.'&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox' title="<?php echo  sprintf(__('past %s days','inbound-pro') , self::$range ); ?>">
+                <a href='<?php echo admin_url('index.php?action=inbound_generate_report&page_id=' . $post->ID . '&class=Inbound_Impressions_Report&range=' . self::$range . '&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox' title="<?php echo sprintf(__('past %s days', 'inbound-pro'), self::$range); ?>">
                     <?php echo count($results); ?>
                 </a>
                 <?php
@@ -230,15 +231,15 @@ class Inbound_Analytics {
                 );
                 $results = Inbound_Events::get_visitors($params);
                 ?>
-                <a href='<?php echo admin_url('index.php?action=inbound_generate_report&page_id='.$post->ID.'&class=Inbound_Visitors_Report&range='.self::$range.'&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox' title="<?php echo  sprintf(__('past %s days','inbound-pro') , self::$range ); ?>">
+                <a href='<?php echo admin_url('index.php?action=inbound_generate_report&page_id=' . $post->ID . '&class=Inbound_Visitors_Report&range=' . self::$range . '&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox' title="<?php echo sprintf(__('past %s days', 'inbound-pro'), self::$range); ?>">
                     <?php echo count($results); ?>
                 </a>
                 <?php
                 break;
             case "inbound_actions":
-                $results = Inbound_Events::get_page_actions_count($post_id, 'any' , self::$dates['start_date'] , self::$dates['end_date']);
+                $results = Inbound_Events::get_page_actions_count($post_id, 'any', self::$dates['start_date'], self::$dates['end_date']);
                 ?>
-                <a href='<?php echo admin_url('index.php?action=inbound_generate_report&page_id='.$post->ID.'&class=Inbound_Events_Report&range='.self::$range.'&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox' title="<?php echo  sprintf(__('past %s days','inbound-pro') , self::$range ); ?>">
+                <a href='<?php echo admin_url('index.php?action=inbound_generate_report&page_id=' . $post->ID . '&class=Inbound_Events_Report&range=' . self::$range . '&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox' title="<?php echo sprintf(__('past %s days', 'inbound-pro'), self::$range); ?>">
                     <?php echo $results; ?>
                 </a>
                 <?php
@@ -279,7 +280,7 @@ class Inbound_Analytics {
 
                 case 'inbound_impressions':
 
-                    $pieces['join'] .= " LEFT JOIN {$table_prefix}inbound_page_views ee ON ee.page_id = {$wpdb->posts}.ID  AND ee.datetime >= '".self::$dates['start_date']."' AND  datetime <= '".self::$dates['end_date']."'";
+                    $pieces['join'] .= " LEFT JOIN {$table_prefix}inbound_page_views ee ON ee.page_id = {$wpdb->posts}.ID  AND ee.datetime >= '" . self::$dates['start_date'] . "' AND  datetime <= '" . self::$dates['end_date'] . "'";
 
                     $pieces['groupby'] = " {$wpdb->posts}.ID";
 
@@ -289,18 +290,18 @@ class Inbound_Analytics {
 
                 case 'inbound_visitors':
 
-                    $pieces[ 'join' ] .= " LEFT JOIN (select lead_id, page_id from {$table_prefix}inbound_page_views group by lead_id) ee ON ee.page_id = {$wpdb->posts}.ID   AND ee.datetime >= '".self::$dates['start_date']."' AND  datetime <= '".self::$dates['end_date']."'";
+                    $pieces['join'] .= " LEFT JOIN (select lead_id, page_id from {$table_prefix}inbound_page_views group by lead_id) ee ON ee.page_id = {$wpdb->posts}.ID   AND ee.datetime >= '" . self::$dates['start_date'] . "' AND  datetime <= '" . self::$dates['end_date'] . "'";
 
-                    $pieces[ 'groupby' ] = " {$wpdb->posts}.ID ";
+                    $pieces['groupby'] = " {$wpdb->posts}.ID ";
 
-                    $pieces[ 'orderby' ] = "COUNT(ee.lead_id) $order ";
+                    $pieces['orderby'] = "COUNT(ee.lead_id) $order ";
 
                     break;
 
 
                 case 'inbound_actions':
 
-                    $pieces['join'] .= " LEFT JOIN {$table_prefix}inbound_events ee ON ee.page_id = {$wpdb->posts}.ID AND ee.datetime >= '".self::$dates['start_date']."' AND  datetime <= '".self::$dates['end_date']."'";
+                    $pieces['join'] .= " LEFT JOIN {$table_prefix}inbound_events ee ON ee.page_id = {$wpdb->posts}.ID AND ee.datetime >= '" . self::$dates['start_date'] . "' AND  datetime <= '" . self::$dates['end_date'] . "'";
 
                     $pieces['groupby'] = " {$wpdb->posts}.ID";
 
@@ -343,10 +344,12 @@ class Inbound_Analytics {
      * Filter to unset tabs that are irrelevant to non-subscribers inside the lead profile
      * @param $tabs
      */
-    public static function filter_profile_tabs( $tabs ) {
+    public static function filter_profile_tabs($tabs) {
 
-        unset($tabs['wpleads_lead_tab_activity']);
-        unset($tabs['wpleads_lead_tab_conversions']);
+        if (INBOUND_ACCESS_LEVEL > 0 && INBOUND_ACCESS_LEVEL != 9 ) {
+            unset($tabs['wpleads_lead_tab_activity']);
+            unset($tabs['wpleads_lead_tab_conversions']);
+        }
 
         return $tabs;
     }

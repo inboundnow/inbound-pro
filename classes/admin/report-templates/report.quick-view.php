@@ -106,7 +106,8 @@ if ( !class_exists('Inbound_Quick_View') ) {
 		public static function load_actions() {
 			self::load_action_totals();
 			self::load_submissions();
-			self::load_clicks();
+			self::load_cta_clicks();
+			self::load_content_clicks();
 		}
 
 
@@ -170,31 +171,60 @@ if ( !class_exists('Inbound_Quick_View') ) {
 
 		}
 
-		public static function load_clicks() {
+		public static function load_cta_clicks() {
 
 			/* get cta clickthrough count in current time period */
-			self::$statistics['clicks']['current'][self::$range] = self::get_tracked_clicks(array(
+			self::$statistics['cta-clicks']['current'][self::$range] = self::get_tracked_cta_clicks(array(
 				'per_days' => self::$range,
 				'skip' => 0
 			));
 
 			/* get cta clickthrough count in past time period */
-			self::$statistics['clicks']['past'][self::$range] = self::get_tracked_clicks(array(
+			self::$statistics['cta-clicks']['past'][self::$range] = self::get_tracked_cta_clicks(array(
 				'per_days' => self::$range,
 				'skip' => 1
 			));
 
 			/* determine difference rate */
-			self::$statistics['clicks']['difference'][self::$range] = self::get_percentage_change(self::$statistics['clicks']['current'][self::$range], self::$statistics['clicks']['past'][self::$range]);
+			self::$statistics['cta-clicks']['difference'][self::$range] = self::get_percentage_change(self::$statistics['cta-clicks']['current'][self::$range], self::$statistics['cta-clicks']['past'][self::$range]);
 
 			/* determine action to impression rate for current time period */
-			self::$statistics['clicks']['rate']['current'][self::$range] = (self::$statistics['impressions']['current'][self::$range]) ? self::$statistics['clicks']['current'][self::$range] / self::$statistics['impressions']['current'][self::$range] : 0;
+			self::$statistics['cta-clicks']['rate']['current'][self::$range] = (self::$statistics['impressions']['current'][self::$range]) ? self::$statistics['cta-clicks']['current'][self::$range] / self::$statistics['impressions']['current'][self::$range] : 0;
 
 			/* determine action to impression rate for past time period */
-			self::$statistics['clicks']['rate']['past'][self::$range] = (self::$statistics['impressions']['past'][self::$range]) ? self::$statistics['clicks']['past'][self::$range] / self::$statistics['impressions']['past'][self::$range] : 0;
+			self::$statistics['cta-clicks']['rate']['past'][self::$range] = (self::$statistics['impressions']['past'][self::$range]) ? self::$statistics['cta-clicks']['past'][self::$range] / self::$statistics['impressions']['past'][self::$range] : 0;
 
 			/* determine action to impression rate for past time period */
-			self::$statistics['clicks']['rate']['difference'][self::$range] = self::get_percentage_change(self::$statistics['clicks']['rate']['current'][self::$range], self::$statistics['clicks']['rate']['past'][self::$range]);
+			self::$statistics['cta-clicks']['rate']['difference'][self::$range] = self::get_percentage_change(self::$statistics['cta-clicks']['rate']['current'][self::$range], self::$statistics['cta-clicks']['rate']['past'][self::$range]);
+
+		}
+
+
+		public static function load_content_clicks() {
+
+			/* get cta clickthrough count in current time period */
+			self::$statistics['content-clicks']['current'][self::$range] = self::get_tracked_content_clicks(array(
+				'per_days' => self::$range,
+				'skip' => 0
+			));
+
+			/* get cta clickthrough count in past time period */
+			self::$statistics['content-clicks']['past'][self::$range] = self::get_tracked_content_clicks(array(
+				'per_days' => self::$range,
+				'skip' => 1
+			));
+
+			/* determine difference rate */
+			self::$statistics['content-clicks']['difference'][self::$range] = self::get_percentage_change(self::$statistics['content-clicks']['current'][self::$range], self::$statistics['content-clicks']['past'][self::$range]);
+
+			/* determine action to impression rate for current time period */
+			self::$statistics['content-clicks']['rate']['current'][self::$range] = (self::$statistics['impressions']['current'][self::$range]) ? self::$statistics['content-clicks']['current'][self::$range] / self::$statistics['impressions']['current'][self::$range] : 0;
+
+			/* determine action to impression rate for past time period */
+			self::$statistics['content-clicks']['rate']['past'][self::$range] = (self::$statistics['impressions']['past'][self::$range]) ? self::$statistics['content-clicks']['past'][self::$range] / self::$statistics['impressions']['past'][self::$range] : 0;
+
+			/* determine action to impression rate for past time period */
+			self::$statistics['content-clicks']['rate']['difference'][self::$range] = self::get_percentage_change(self::$statistics['content-clicks']['rate']['current'][self::$range], self::$statistics['content-clicks']['rate']['past'][self::$range]);
 
 		}
 
@@ -368,23 +398,41 @@ if ( !class_exists('Inbound_Quick_View') ) {
 				</tr>
 				<tr>
 					<td class='ia-td-label'>
-						<label title='<?php _e('Total number of clicked tracked links related to this page.', 'inbound-pro'); ?>'>
+						<label title='<?php _e('Total number of clicked tracked call to action links related to this page.', 'inbound-pro'); ?>'>
 							<?php _e('CTA Clicks', 'inbound-pro'); ?>
 						</label>
 					</td>
 					<td class='ia-td-value'>
 						<a href='<?php echo admin_url('index.php?action=inbound_generate_report&page_id='.$post->ID.'&class=Inbound_Event_Report&event_name=inbound_cta_click&range='.self::$range.'&title='.__('CTA Clicks', 'inbound-pro').'&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox'>
-							<?php echo self::$statistics['clicks']['current'][self::$range]; ?>
+							<?php echo self::$statistics['cta-clicks']['current'][self::$range]; ?>
 						</a>
 					</td>
 					<td class='ia-td-value'>
-						<span class="label label-info" title='<?php _e('Rate of action events compared to impressions.', 'inbound-pro'); ?>' title="<?php echo sprintf(__('%s action rate in the last %s days versus an %s action rate in the prior %s day period)', 'inbound-pro'), self::prepare_rate_format(self::$statistics['clicks']['rate']['current'][self::$range]), self::$range, self::prepare_rate_format(self::$statistics['clicks']['rate']['past'][self::$range]), self::$range); ?>"><?php echo self::prepare_rate_format(self::$statistics['clicks']['rate']['current'][self::$range], false); ?></span>
+						<span class="label label-info" title='<?php _e('Rate of action events compared to impressions.', 'inbound-pro'); ?>' title="<?php echo sprintf(__('%s action rate in the last %s days versus an %s action rate in the prior %s day period)', 'inbound-pro'), self::prepare_rate_format(self::$statistics['cta-clicks']['rate']['current'][self::$range]), self::$range, self::prepare_rate_format(self::$statistics['cta-clicks']['rate']['past'][self::$range]), self::$range); ?>"><?php echo self::prepare_rate_format(self::$statistics['cta-clicks']['rate']['current'][self::$range], false); ?></span>
 					</td>
 					<td class='ia-td-value'>
-						<span class="stat label  <?php echo (self::$statistics['clicks']['rate']['difference'][self::$range] > 0) ? 'label-success' : 'label-warning'; ?>" title="<?php echo sprintf(__('%s action rate in the last %s days versus an %s action rate in the prior %s day period)', 'inbound-pro'), self::prepare_rate_format(self::$statistics['clicks']['rate']['current'][self::$range]), self::$range, self::prepare_rate_format(self::$statistics['clicks']['rate']['past'][self::$range]), self::$range); ?>"><?php echo self::prepare_rate_format(self::$statistics['clicks']['rate']['difference'][self::$range]); ?></span>
+						<span class="stat label  <?php echo (self::$statistics['cta-clicks']['rate']['difference'][self::$range] > 0) ? 'label-success' : 'label-warning'; ?>" title="<?php echo sprintf(__('%s action rate in the last %s days versus an %s action rate in the prior %s day period)', 'inbound-pro'), self::prepare_rate_format(self::$statistics['cta-clicks']['rate']['current'][self::$range]), self::$range, self::prepare_rate_format(self::$statistics['cta-clicks']['rate']['past'][self::$range]), self::$range); ?>"><?php echo self::prepare_rate_format(self::$statistics['cta-clicks']['rate']['difference'][self::$range]); ?></span>
 					</td>
 				</tr>
-				<?php do_action('inbound-analytics/quick-view/action-breakdown') ; ?>
+				<tr>
+					<td class='ia-td-label'>
+						<label title='<?php _e('Total number of clicked tracked content links related to this page.', 'inbound-pro'); ?>'>
+							<?php _e('Content Clicks', 'inbound-pro'); ?>
+						</label>
+					</td>
+					<td class='ia-td-value'>
+						<a href='<?php echo admin_url('index.php?action=inbound_generate_report&page_id='.$post->ID.'&class=Inbound_Event_Report&event_name=inbound_content_click&range='.self::$range.'&title='.__('Content Clicks', 'inbound-pro').'&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox'>
+							<?php echo self::$statistics['content-clicks']['current'][self::$range]; ?>
+						</a>
+					</td>
+					<td class='ia-td-value'>
+						<span class="label label-info" title='<?php _e('Rate of action events compared to impressions.', 'inbound-pro'); ?>' title="<?php echo sprintf(__('%s action rate in the last %s days versus an %s action rate in the prior %s day period)', 'inbound-pro'), self::prepare_rate_format(self::$statistics['content-clicks']['rate']['current'][self::$range]), self::$range, self::prepare_rate_format(self::$statistics['content-clicks']['rate']['past'][self::$range]), self::$range); ?>"><?php echo self::prepare_rate_format(self::$statistics['content-clicks']['rate']['current'][self::$range], false); ?></span>
+					</td>
+					<td class='ia-td-value'>
+						<span class="stat label  <?php echo (self::$statistics['content-clicks']['rate']['difference'][self::$range] > 0) ? 'label-success' : 'label-warning'; ?>" title="<?php echo sprintf(__('%s action rate in the last %s days versus an %s action rate in the prior %s day period)', 'inbound-pro'), self::prepare_rate_format(self::$statistics['content-clicks']['rate']['current'][self::$range]), self::$range, self::prepare_rate_format(self::$statistics['content-clicks']['rate']['past'][self::$range]), self::$range); ?>"><?php echo self::prepare_rate_format(self::$statistics['content-clicks']['rate']['difference'][self::$range]); ?></span>
+					</td>
+				</tr>
+				<?php do_action('inbound-analytics/quick-view/action-breakdown' , self::$statistics ) ; ?>
 			</table>
 			<?php
 		}
@@ -466,7 +514,29 @@ if ( !class_exists('Inbound_Quick_View') ) {
 		 * @param $args
 		 * @return int
 		 */
-		public static function get_tracked_clicks($args) {
+		public static function get_tracked_cta_clicks($args) {
+			global $post;
+
+			$wordpress_date_time = date_i18n('Y-m-d G:i:s T');
+
+			if ($args['skip']) {
+				$start_date = date('Y-m-d G:i:s', strtotime("-" . $args['per_days'] * ($args['skip'] + 1) . " days", strtotime($wordpress_date_time)));
+				$end_date = date('Y-m-d G:i:s', strtotime("-" . $args['per_days'] . " days", strtotime($wordpress_date_time)));
+			} else {
+				$start_date = date('Y-m-d G:i:s', strtotime("-" . $args['per_days'] . " days", strtotime($wordpress_date_time)));
+				$end_date = $wordpress_date_time;
+			}
+
+			return count(Inbound_Events::get_cta_clicks_by('page_id', array('page_id' => $post->ID, 'start_date' => $start_date, 'end_date' => $end_date)));
+		}
+
+
+		/**
+		 * Get count of content click events given a page_id and server other arguments including date time constrictions
+		 * @param $args
+		 * @return int
+		 */
+		public static function get_tracked_content_clicks($args) {
 			global $post;
 
 			$wordpress_date_time = date_i18n('Y-m-d G:i:s T');
@@ -480,7 +550,7 @@ if ( !class_exists('Inbound_Quick_View') ) {
 			}
 
 
-			return count(Inbound_Events::get_cta_clicks_by('page_id', array('page_id' => $post->ID, 'start_date' => $start_date, 'end_date' => $end_date)));
+			return count(Inbound_Events::get_content_clicks_by('page_id', array('page_id' => $post->ID, 'start_date' => $start_date, 'end_date' => $end_date)));
 		}
 
 

@@ -93,7 +93,7 @@ if (!class_exists('Inbound_Events_Report')) {
 
         public static function display_chart() {
 
-            if (self::$show_graph == 'false') {
+            if (self::$show_graph === 'false') {
                 return;
             }
 
@@ -266,6 +266,9 @@ if (!class_exists('Inbound_Events_Report')) {
                             ?>
                         </td>
                         <td class="" >
+                            <label>
+                            <?php echo $lead_meta['wpleads_first_name'][0] . ' ' . $lead_meta['wpleads_last_name'][0]; ?>
+                            </label>
                             <p>
                             <?php
                             echo Inbound_Events::get_event_label( $event['event_name'] , false );
@@ -943,8 +946,10 @@ if (!class_exists('Inbound_Events_Report')) {
 
             /* get all events - group by lead_uid */
             $params = array(
+                'event_name' => (isset($_REQUEST['event_name'])) ? sanitize_text_field($_REQUEST['event_name']) : '',
                 'page_id' => (isset($_REQUEST['page_id'])) ? intval($_REQUEST['page_id']) : '',
                 'lead_id' => (isset($_REQUEST['lead_id'])) ? intval($_REQUEST['lead_id']) : '',
+                'list_id' => (isset($_REQUEST['list_id'])) ? intval($_REQUEST['list_id']) : '',
                 'source' => (isset($_REQUEST['source']) ) ? sanitize_text_field(urldecode($_REQUEST['source'])) : '' ,
                 'start_date' => self::$start_date,
                 'end_date' => self::$end_date,
@@ -953,17 +958,23 @@ if (!class_exists('Inbound_Events_Report')) {
 
             self::$events = Inbound_Events::get_events($params);
 
-            if (self::$show_graph == 'false' ) {
+            if (self::$show_graph === 'false' ) {
                 return;
             }
 
-            self::$event_names = Inbound_Events::get_event_names( array('page_id' => intval($_REQUEST['page_id']) ));
+            $args = array();
+            if (isset($_REQUEST['page_id'])) {
+                $args = $args + array( 'page_id' => intval($_REQUEST['page_id']) );
+            }
+
+            self::$event_names = Inbound_Events::get_event_names( $args );
 
             foreach(self::$event_names as $name) {
                 /* get action counts */
                 $params = array(
-                    'page_id' => (isset($_REQUEST['page_id'])) ? : intval($_REQUEST['page_id']),
-                    'lead_id' => (isset($_REQUEST['lead_id'])) ? : intval($_REQUEST['lead_id']),
+                    'page_id' => (isset($_REQUEST['page_id'])) ? intval($_REQUEST['page_id']) : '',
+                    'lead_id' => (isset($_REQUEST['lead_id'])) ? intval($_REQUEST['lead_id']) : '',
+                    'list_id' => (isset($_REQUEST['list_id'])) ? intval($_REQUEST['list_id']) : '',
                     'source' => (isset($_REQUEST['source']) ) ? sanitize_text_field(urldecode($_REQUEST['source'])) : '' ,
                     'start_date' => self::$start_date,
                     'end_date' => self::$end_date,

@@ -14,7 +14,7 @@ $inbound_email_data[$key]['info'] = array(
 	'label' => __( 'Simple Responsive' , 'inbound-pro') ,
 	'category' => 'responsive',
 	'demo' => '',
-	'description' => __( 'Responsive email template.' , 'inbound-mailer' ),
+	'description' => __( 'Responsive email template.' , 'inbound-pro' ),
 	'acf' => true
 );
 

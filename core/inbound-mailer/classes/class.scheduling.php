@@ -26,10 +26,10 @@ class Inbound_Mailer_Scheduling {
 
         /* count variations */
         $variation_count = count($variations);
-
         if (isset(Inbound_Mailer_Scheduling::$recipients)) {
             $settings['recipients'] = Inbound_Mailer_Scheduling::$recipients;
         }
+
 
         /* Prepare leads lookup */
         $params = array(
@@ -69,12 +69,16 @@ class Inbound_Mailer_Scheduling {
 
     /**
      * Schedules email
-     * @param $email_id
-     * @param array $tokens
+     * @param $email_id Post ID of automated email to send
+     * @param array $tokens Tokens belonging to Automation Rule Trigger
+     * @param array $action Action information belonging to Automation Rule
      * @return int
      */
-    public static function schedule_email($email_id , $tokens = array() ) {
+    public static function schedule_email($email_id , $tokens = array() , $action = array() , $recipients = null ) {
         global $wpdb;
+
+        /* set recipeints */
+        Inbound_Mailer_Scheduling::$recipients = ($recipients ) ?  $recipients : Inbound_Mailer_Scheduling::$recipients;
 
         /* load email settings into static variable */
         Inbound_Mailer_Scheduling::$settings = Inbound_Email_Meta::get_settings($email_id);
@@ -88,17 +92,26 @@ class Inbound_Mailer_Scheduling {
         /* Prepare Schedule time */
         $timestamp = Inbound_Mailer_Scheduling::get_timestamp();
 
+        /* prepare rule and action id if none are set */
+        if (!isset($action['rule_id'])) {
+            $action['rule_id'] = 0;
+            $action['job_id'] = 0;
+        }
+
+        /* check for a post id inside of tokens */
+        $post_id =  (isset($tokens['post_object']) && isset($tokens['post_object']['ID'])) ? $tokens['post_object']['ID'] : 0;
+
         /* prepare multi insert query string - limit to 1000 inserts at a time */
         $send_count = 0;
         foreach (self::$batches as $vid => $leads) {
             $send_count = $send_count + count($leads);
 
             $query_values_array = array();
-            $query_prefix = "INSERT INTO {$table_name} ( `email_id` , `variation_id` , `lead_id` , `type` , `tokens` ,`status` , `datetime` )";
+            $query_prefix = "INSERT INTO {$table_name} ( `email_id` , `variation_id` , `lead_id` , `type` , `tokens` ,`status` , `datetime` , `rule_id` , `job_id`, `list_ids`, `post_id` )";
             $query_prefix .= "VALUES";
 
             foreach ($leads as $ID) {
-                $query_values_array[] = "( {$email_id} , {$vid} , {$ID} , '" . Inbound_Mailer_Scheduling::$settings['email_type'] . "' , '".json_encode($tokens)."' ,'waiting' , '{$timestamp}')";
+                $query_values_array[] = "( {$email_id} , {$vid} , {$ID} , '" . Inbound_Mailer_Scheduling::$settings['email_type'] . "' , '".json_encode($tokens)."' ,'waiting' , '{$timestamp}' , '{$action['rule_id']}' , '{$action['job_id']}', '".json_encode(Inbound_Mailer_Scheduling::$recipients)."' , '".$post_id."')";
             }
 
             $value_batches = array_chunk($query_values_array, 500);

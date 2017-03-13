@@ -52,6 +52,7 @@ var InboundShortcodes = {
             newoutput = output;
 
         jQuery('.inbound-shortcodes-input').each(function () {
+
             var input = jQuery(this),
                 theid = input.attr('id'),
                 id = theid.replace('inbound_shortcode_', ''),
@@ -64,8 +65,6 @@ var InboundShortcodes = {
                 newoutput = newoutput.replace(re, input.val());
             }
             // Add fix to remove empty params. maybe
-            //console.log(newoutput);
-
         });
 
         jQuery('#_inbound_shortcodes_newoutput').remove();
@@ -438,15 +437,22 @@ var InboundShortcodes = {
                 placeholder: "Select one or more lists",
 
             });
+            jQuery("#inbound_shortcode_tags").select2({
+                placeholder: "Select one or more tags",
+
+            });
 
 
             jQuery("body").on("inbound_forms_data_ready", function () {
                 setTimeout(function () {
                     var fill_list_vals = jQuery("#inbound_shortcode_lists_hidden").val().split(",");
                     jQuery("#inbound_shortcode_lists").val(fill_list_vals).select2();
+                    var fill_tag_vals = jQuery("#inbound_shortcode_tags_hidden").val().split(",");
+                    jQuery("#inbound_shortcode_tags").val(fill_tag_vals).select2();
                 }, 200);
             });
 
+            /* add selected lists to hidden fields */
             jQuery("body").on('change', '#inbound_shortcode_lists', function () {
                 var list_ids = jQuery("#inbound_shortcode_lists").select2("data");
                 var list_ids_array = new Array();
@@ -458,6 +464,20 @@ var InboundShortcodes = {
                 var final_list_ids = list_ids_array.join();
                 console.log(final_list_ids);
                 jQuery("#inbound_shortcode_lists_hidden").val(final_list_ids);
+            });
+
+            /* add selected tags to hidden fields */
+            jQuery("body").on('change', '#inbound_shortcode_tags', function () {
+                var tag_ids = jQuery("#inbound_shortcode_tags").select2("data");
+                var tag_ids_array = new Array();
+                jQuery.each(tag_ids, function (key, valueObj) {
+                    var the_id = valueObj['id'];
+                    tag_ids_array.push(the_id);
+                });
+
+                var final_tag_ids = tag_ids_array.join();
+                console.log(final_tag_ids);
+                jQuery("#inbound_shortcode_tags_hidden").val(final_tag_ids);
             });
         }
 

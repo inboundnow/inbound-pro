@@ -25,9 +25,12 @@
 input.short-shortcode-input {
 	width: 520px;
 }
-.row-class-helper-block label, .parent-inbound_shortcode_lists_hidden {
+.row-class-helper-block label,
+.parent-inbound_shortcode_lists_hidden ,
+.parent-inbound_shortcode_tags_hidden {
 	display: none !important;
 }
+
 .select2-container.inbound-shortcodes-input {
 	width:100%;
 }

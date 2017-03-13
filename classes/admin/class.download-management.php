@@ -723,7 +723,7 @@ class Inbound_Pro_Downloads {
 							if (!$permitted) {
 								?>
 								<div class="action-locked">
-									<i class="fa fa-lock"  data-toggle="tooltip" id='' title='<?php _e( 'Active license with correct permissions required to install.' , 'inbound-pro' ); ?>'></i>
+									<i class="fa fa-lock"  data-toggle="tooltip" id='' title='<?php _e( 'Only available to subscribers.' , 'inbound-pro' ); ?>'></i>
 								</div>
 								<?php
 							}
@@ -805,24 +805,24 @@ class Inbound_Pro_Downloads {
 			Inbound_Pro_Activation::create_upload_folders();
 		}
 
-		/* get zip file contents from svn */
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, $download['featured_image'] );
-		curl_setopt($ch, CURLOPT_HEADER, false);
-		curl_setopt($ch, CURLOPT_FAILONERROR, true);
-		curl_setopt($ch, CURLOPT_AUTOREFERER, true);
-		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-		curl_setopt($ch, CURLOPT_BINARYTRANSFER,true);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-		$file = curl_exec($ch);
-		curl_close($ch);
 
+		$image_path_location = $path . $download['post_name'] . $ext;
+		$image_url_location = $url . $download['post_name'] . $ext;
+
+		/* create wp-content/inbound-pro/assets/images */
+		if (!$inbound_paths_created) {
+			$inbound_paths_created = true;
+			Inbound_Pro_Activation::create_upload_folders();
+		}
+
+		/* get zip file contents from svn */
+		$file = wp_remote_get($download['featured_image']);
+		$image = wp_remote_retrieve_body($file);
 		/* write zip file to temp file */
 		$handle = fopen($image_path_location, "w");
-		fwrite($handle, $file);
+		fwrite($handle, $image);
 		fclose($handle);
+
 
 		return $image_url_location;
 	}

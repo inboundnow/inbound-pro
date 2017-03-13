@@ -12,25 +12,35 @@ class CTA_Conversion_Tracking {
 	public static function load_hooks() {
 
 		/* track masked cta links */
-		add_action( 'inbound_track_link', array(__CLASS__, 'track_link'));
+		add_action( 'inbound_track_link', array(__CLASS__, 'track_cta_link'));
 
 		/* Track form submissions related to call to actions a conversions */
 		add_filter('inboundnow_store_lead_pre_filter_data', array(__CLASS__, 'set_form_submission_conversion'), 20, 1 );
+
 	}
 
 	/**
 	*  Listens for tracked masked link processing
 	*/
-	public static function track_link( $args ) {
+	public static function track_cta_link( $args ) {
 
 		$do_not_track = apply_filters('inbound_analytics_stop_track', false );
 
-		if ( $do_not_track || !isset($args['cta_id']) || !$args['cta_id'] ) {
+		/* do not track if tracking disabled, if not cta, if cta is 0, or link is directly accessed without referrer */
+		if ( $do_not_track || !isset($args['cta_id']) || !$args['cta_id'] || !wp_get_referer() ) {
 			return;
 		}
 
-		/* store click event in inbound_events table and legacy lead metadata */
-		self::store_as_cta_click($args);
+
+		$args = array(
+			'event_name' => 'inbound_cta_click',
+			'cta_id' => (isset($args['cta_id'])) ? $args['cta_id'] : 0,
+			'page_id' => (isset($args['page_id'])) ? $args['page_id'] : 0,
+			'variation_id' => (isset($args['vid'])) ? $args['vid'] : 0
+		);
+
+		/* for events table tracking and other hooks */
+		Inbound_events::store_event($args);
 
 	}
 
@@ -59,35 +69,6 @@ class CTA_Conversion_Tracking {
 		update_post_meta($cta_id, 'wp-cta-ab-variation-conversions-'.$vid, $lp_conversions );
 
 		return $data;
-	}
-
-
-
-	/**
-	*  	Store click event to lead profile
-	*
-	*  @param INT $cta_id
-	*/
-	public static function store_as_cta_click($args) {
-		$timezone_format = 'Y-m-d G:i:s T';
-		$wordpress_date_time =  date_i18n($timezone_format);
-
-		/* do not record directly accessed links as conversion */
-		if (!wp_get_referer()) {
-			return;
-		}
-
-		$args = array(
-			'cta_id' => (isset($args['cta_id'])) ? $args['cta_id'] : '',
-			'page_id' => (isset($args['page_id'])) ? $args['page_id'] : '',
-			'variation_id' => (isset($args['vid'])) ? $args['vid'] : '',
-			'lead_id' => (isset($args['id'])) ? $args['id'] : '',
-			'datetime' => $wordpress_date_time
-		);
-
-		/* for events table tracking and other hooks */
-		do_action('inbound_tracked_cta_click' , $args);
-
 	}
 
 

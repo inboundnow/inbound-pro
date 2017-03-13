@@ -8,7 +8,8 @@ $fontawesome = array("" => "None", "arrow-circle-o-right" => "Arrow Circle O Rig
 $lp_cats = get_transient('landing-page-cats'); // array of landing page categories
 $form_names = get_transient('inbound-form-names'); // array of landing page categories
 $lead_mapping_fields = Leads_Field_Map::build_map_array();
-$lead_list_names = get_transient('inbound-list-names');
+$lead_list_names = Inbound_Leads::get_lead_lists_as_array();
+$lead_tag_names = Inbound_Leads::get_lead_tags_as_array();
 
 /* Global Inbound Now Shortcodes */
 require_once('shortcodes/forms.php'); // Form Builder

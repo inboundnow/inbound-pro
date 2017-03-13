@@ -933,6 +933,13 @@ if (!class_exists('Inbound_API')) {
 				self::throw_wp_error( $lead_id );
 			}
 
+			/* determine last name from first name */
+			if (isset($params['meta_data']['wpleads_first_name']) && !isset($params['meta_data']['wpleads_last_name']))  {
+				$split = explode(' ' , $params['meta_data']['wpleads_first_name']);
+				$params['meta_data']['wpleads_first_name'] = ($split[0]) ? $split[0] : $params['meta_data']['wpleads_first_name'];
+				$params['meta_data']['wpleads_last_name'] = (isset($split[1])) ? $split[1] : '';
+			}
+
 			/* Add meta data to lead record */
 			foreach ($params['meta_data'] as $key => $value ) {
 				update_post_meta( $lead_id, $key, $value );
@@ -1265,12 +1272,10 @@ if (!class_exists('Inbound_API')) {
 
 			$table_name = $wpdb->prefix . "inbound_tracked_links";
 
-			/* if cta link check to see if token already exists */
-			if (isset($args['cta_id'])) {
-				$results = $wpdb->get_results("SELECT * FROM $table_name WHERE args = '".serialize( $args )."' LIMIT 1", ARRAY_A );
-				if ($results) {
-					return get_site_url( get_current_blog_id(), self::$tracking_endpoint . '/' . $results[0]['token'] );
-				}
+			/* check args to see if token already exists */
+			$results = $wpdb->get_results("SELECT * FROM $table_name WHERE args = '".serialize( $args )."' LIMIT 1", ARRAY_A );
+			if ($results) {
+				return get_site_url( get_current_blog_id(), self::$tracking_endpoint . '/' . $results[0]['token'] );
 			}
 
 			$token = self::generate_token();
@@ -1296,8 +1301,8 @@ if (!class_exists('Inbound_API')) {
 			$params = array_merge( $params, $_REQUEST );
 
 			/* lead email or lead id required */
-			if ( !isset( $params['id'] ) && !isset( $params['email_id']) && !isset( $params['cta_id']) ) {
-				$error['error'] = __( 'This endpoint requires either the \'id\' or the \'email\' or the \'cta_id\' parameter be set.', 'inbound-pro' ) ;
+			if ( !isset( $params['id'] ) && !isset( $params['email_id']) && !isset( $params['cta_id']) && !isset( $params['page_id']) ) {
+				$error['error'] = __( 'This endpoint requires either the \'id\' or the \'email\' or the \'cta_id\'or the \'page_id\' parameter be set.', 'inbound-pro' ) ;
 				self::$data = $error;
 				self::output( 401 );
 			}
@@ -1329,15 +1334,6 @@ if (!class_exists('Inbound_API')) {
 				$args = array_merge( $args, $params['custom_data'] );
 			}
 
-			/* Set datetime */
-			if (!isset($args['cta_id'])) {
-				$args['datetime'] = current_time('mysql');
-			}
-
-			/* if lead_id is not set then set */
-			if (!isset($args['lead_id'])) {
-				$args['lead_id'] = $args['id'];
-			}
 
 			/* get tracked link */
 			$tracked_link = self::analytics_get_tracking_code( $args );
@@ -1380,8 +1376,19 @@ if (!class_exists('Inbound_API')) {
 			$profile = $profiles[0];
 			$args = unserialize($profile->args);
 
+			/* get lead id from cookie if it exists */
 			$lead_id_cookie = (isset($_COOKIE['wp_lead_id'])) ? $_COOKIE['wp_lead_id'] : 0;
+
+			/* if lead_id is set then apply it to 'id' */
+			$args['id'] = (isset( $args['lead_id'] )  && $args['lead_id']) ? $args['lead_id'] : $args['id'];
+
+			/* if no lead_id so far then fall back on cookie value */
 			$args['id'] = (isset( $args['id'])  && $args['id'] ) ? $args['id'] : $lead_id_cookie;
+
+			/* cookie lead id if availabled and not cookied */
+			if (!isset($_COOKIE['wp_lead_id']) && $args['id'] ) {
+				setcookie('wp_lead_id' , $args['id'] , time() + (20 * 365 * 24 * 60 * 60), '/' );
+			}
 
 			/* process extra lead events */
 			if ($args['id']) {

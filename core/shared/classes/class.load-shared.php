@@ -68,7 +68,7 @@ if (!class_exists('Inbound_Load_Shared')) {
 			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.ajax.php');
 			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.inbound-api.php');
 			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.inbound-customizer.php');
-			include_once( INBOUNDNOW_SHARED_PATH . 'assets/assets.loader.class.php');
+			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.load-assets.php');
 			include_once( INBOUNDNOW_SHARED_PATH . 'shortcodes/inbound-shortcodes.php');
 			include_once( INBOUNDNOW_SHARED_PATH . 'functions/legacy.php');
 			include_once( INBOUNDNOW_SHARED_PATH . 'functions/shared.php');

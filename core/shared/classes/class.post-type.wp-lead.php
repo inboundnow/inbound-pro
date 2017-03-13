@@ -714,7 +714,7 @@ if ( !class_exists('Inbound_Leads') ) {
 			if(!defined('INBOUND_PRO_CURRENT_VERSION')){
 				$double_optin_page_id = get_option('list-double-optin-page-id', '');
 			}else{
-				$double_optin_page_id = $inbound_settings['leads']['list-double-optin-page-id'];
+				$double_optin_page_id = (isset($inbound_settings['leads']['list-double-optin-page-id'])) ?  $inbound_settings['leads']['list-double-optin-page-id'] : '';
 			}
 
 			return $double_optin_page_id;

@@ -302,7 +302,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
                 }
 
                 /* if not a valid link move on */
-                if ( !strstr( $href , '.' ) ) {
+                if ( !strstr( $href , '.' ) && !strstr( $href , 'tel:' )&& !strstr( $href , 'mailto:' ) ) {
                     continue;
                 }
 

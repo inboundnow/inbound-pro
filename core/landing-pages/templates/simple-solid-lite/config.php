@@ -80,7 +80,6 @@ if( function_exists('register_field_group') ):
 
 <strong>In this guide you will learn:</strong>
 
-[list icon="check" font_size="16" icon_color="#00a319" text_color="" bottom_margin="10"]
 <ul>
 	<li>This list was created with the list icon shortcode.</li>
 	<li>Click on the power icon in your editor to customize your own</li>
@@ -88,7 +87,6 @@ if( function_exists('register_field_group') ):
 	<li>Keep it short and sweet.</li>
 	<li>This list should be easily scannable</li>
 </ul>
-[/list]
 
 <p>This is the final sentence or paragraph reassuring the visitor of the benefits of filling out the form and how their data will be safe.</p>',
 				'tabs' => 'all',

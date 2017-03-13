@@ -222,7 +222,7 @@ class Inbound_Pro_Settings {
 								'on' => __( 'On' , 'inbound-pro' ),
 								'off' => __( 'Off' , 'inbound-pro' ),
 							),
-							'hidden' => (INBOUND_ACCESS_LEVEL > 2 ? false : true ),
+							'hidden' => (INBOUND_ACCESS_LEVEL > 0 && INBOUND_ACCESS_LEVEL != 9  ? false : true ),
 							'reveal' => array(
 								'selector' => null ,
 								'value' => null
@@ -333,7 +333,7 @@ class Inbound_Pro_Settings {
 							'default'	=> __( 'ACF Options' , 'inbound-pro' ),
 							'placeholder'	=> null,
 							'options' => false,
-							'hidden' => ( INBOUND_ACCESS_LEVEL > 1 ? false : true ),
+							'hidden' => ( INBOUND_ACCESS_LEVEL > 0 && INBOUND_ACCESS_LEVEL != 9  ? false : true ),
 							'reveal' => array(
 								'selector' => null ,
 								'value' => null
@@ -350,7 +350,7 @@ class Inbound_Pro_Settings {
 								'on' => __( 'On' , 'inbound-pro' ),
 								'off' => __( 'Off' , 'inbound-pro' ),
 							),
-							'hidden' => ( INBOUND_ACCESS_LEVEL > 1 ? false : true ),
+							'hidden' => ( INBOUND_ACCESS_LEVEL > 0 && INBOUND_ACCESS_LEVEL != 9 ? false : true ),
 							'reveal' => array(
 								'selector' => null ,
 								'value' => null
@@ -908,7 +908,7 @@ class Inbound_Pro_Settings {
 
 				$params['action'] = 'request_access_token';
 				$params['group'] = $group['group_name'];
-				$params['oauth_urls'] = $field['oauth_urls'];
+				$params['oauth_urls'] = (isset($field['oauth_urls'])) ? $field['oauth_urls'] : '';
 				$params['oauth_map'] = $field['oauth_map'];
 				$params['TB_iframe'] = 'true';
 				$params['width'] = '800';
