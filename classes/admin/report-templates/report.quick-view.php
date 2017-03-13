@@ -432,7 +432,7 @@ if ( !class_exists('Inbound_Quick_View') ) {
 						<span class="stat label  <?php echo (self::$statistics['content-clicks']['rate']['difference'][self::$range] > 0) ? 'label-success' : 'label-warning'; ?>" title="<?php echo sprintf(__('%s action rate in the last %s days versus an %s action rate in the prior %s day period)', 'inbound-pro'), self::prepare_rate_format(self::$statistics['content-clicks']['rate']['current'][self::$range]), self::$range, self::prepare_rate_format(self::$statistics['content-clicks']['rate']['past'][self::$range]), self::$range); ?>"><?php echo self::prepare_rate_format(self::$statistics['content-clicks']['rate']['difference'][self::$range]); ?></span>
 					</td>
 				</tr>
-				<?php do_action('inbound-analytics/quick-view/action-breakdown') ; ?>
+				<?php do_action('inbound-analytics/quick-view/action-breakdown' , self::$statistics ) ; ?>
 			</table>
 			<?php
 		}
