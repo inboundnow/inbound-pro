@@ -7,11 +7,13 @@
 if ( !class_exists('Inbound_Reporting_Templates') ) {
 
     class Inbound_Reporting_Templates {
+        static $prompt_upgrade;
 
         /**
          * Inbound_Reporting_Templates constructor.
          */
         public function __construct() {
+
 
             /* Load and Dislay Correct Template */
             add_action('admin_init' , array( __CLASS__ , 'display_template' ) );
@@ -95,7 +97,14 @@ if ( !class_exists('Inbound_Reporting_Templates') ) {
                 return;
             }
 
-            $_REQUEST['class']::load_template();
+            /* Check Permissions */
+            if ( INBOUND_ACCESS_LEVEL === 0 || INBOUND_ACCESS_LEVEL === 9) {
+                $class = 'Inbound_Upgrade_For_More_Reports';
+            } else {
+                $class = $_REQUEST['class'];
+            }
+
+            call_user_func(array( $class , 'load_template'));
         }
 
         /**
@@ -195,6 +204,13 @@ if ( !class_exists('Inbound_Reporting_Templates') ) {
                     ?>
                     <div class="tag"><span><?php _e('event' , 'inbound-pro'); ?></span>
                         <?php echo sanitize_text_field($_REQUEST['event_name']); ?> <i class="fa fa-tag" aria-hidden="true"></i>
+                    </div>
+                    <?php
+                }
+                if (isset($_REQUEST['list_id'])) {
+                    ?>
+                    <div class="tag"><span><?php _e('list id' , 'inbound-pro'); ?></span>
+                        <?php echo intval($_REQUEST['list_id']); ?> <i class="fa fa-tag" aria-hidden="true"></i>
                     </div>
                     <?php
                 }
