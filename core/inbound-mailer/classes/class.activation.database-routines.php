@@ -56,6 +56,8 @@ class Inbound_Mailer_Activation_Update_Routines {
 			`email_id` mediumint(9) NOT NULL,
 			`variation_id` mediumint(9) NOT NULL,
 			`lead_id` mediumint(9) NOT NULL,
+			`job_id` mediumint(9) NOT NULL,
+			`rule_id` mediumint(9) NOT NULL,
 			`token` tinytext NOT NULL,
 			`type` tinytext NOT NULL,
 			`tokens` text NOT NULL,
@@ -74,7 +76,7 @@ class Inbound_Mailer_Activation_Update_Routines {
 	* @migration-type: db modification
 	* @mirgration: creates wp_inbound_email_queue table
 	*/
-	public static function alert_inbound_email_queue() {
+	public static function alter_inbound_email_queue_add_fields() {
 		global $wpdb;
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
@@ -83,12 +85,15 @@ class Inbound_Mailer_Activation_Update_Routines {
 		$charset_collate = $wpdb->get_charset_collate();
 
 		/* add ip field if does not exist */
-		$row = $wpdb->get_results(  "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '{$table_name}' AND column_name = 'tokens'"  );
+		//$row = $wpdb->get_results(  "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '{$table_name}' AND column_name = 'list_ids'"  );
 		if(empty($row)){
-			$wpdb->get_results( "ALTER TABLE {$table_name} ADD `tokens` text NOT NULL" );
+			$wpdb->get_results( "ALTER TABLE {$table_name} ADD `job_id` mediumint(9) NOT NULL" );
+			$wpdb->get_results( "ALTER TABLE {$table_name} ADD `rule_id` mediumint(9) NOT NULL" );
+			$wpdb->get_results( "ALTER TABLE {$table_name} ADD `post_id` mediumint(9) NOT NULL" );
+			$wpdb->get_results( "ALTER TABLE {$table_name} ADD `list_ids` text NOT NULL" );
+			$wpdb->get_results( "ALTER TABLE {$table_name} ADD `tokens` mediumint(9) NOT NULL" );
 		}
 
-		dbDelta( $sql );
 	}
 
 

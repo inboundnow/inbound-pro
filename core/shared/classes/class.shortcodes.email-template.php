@@ -53,9 +53,16 @@ if (!class_exists('Inbound_Email_Template_Shortcodes')) {
 
             /* add mapped params */
             parse_str($_POST['mapped_params'], $mapped_params);
+            parse_str($_POST['raw_params'], $raw_params);
 
             foreach ($mapped_params as $key => $value) {
                 $post_params = array($key => $value) + $post_params;
+            }
+
+            foreach ($raw_params as $key => $value) {
+                if (!isset($post_params[$key])) {
+                    $post_params = $post_params + array($key => $value);
+                }
             }
 
             /* filter params */

@@ -48,26 +48,49 @@ class Landing_Pages_Sidebars {
             return;
         }
 
-        $original_widgets = $_wp_sidebars_widgets;
+        $whitelist = array('sidebar-1','sidebar-left','primary','default','blog','sidebar-right','blog-sidebar','left-sidebar','right-sidebar');
+
+        /* get correct registered widget */
+        $registered_widget_id = 'id_lp_conversion_area_widget-1';
+        foreach ($wp_registered_widgets as $key => $array ) {
+            if (strstr($key , 'id_lp_conversion_area_widget')) {
+                $registered_widget_id = $key;
+                break;
+            }
+        }
 
         if (!is_active_sidebar('lp_sidebar')) {
             $active_widgets = get_option('sidebars_widgets');
-            $active_widgets['lp_sidebar'] = array('0', 'id_lp_conversion_area_widget-1');
-            update_option('sidebars_widgets', $active_widgets);
-        }
+            $active_widgets = get_option('sidebars_widgets');
 
-        $stop = 0;
-        foreach ($original_widgets as $key => $val) {
-
-            if (stristr($key, 'header') || stristr($key, 'footer') || stristr($key, 'lp_sidebar') || stristr($key, 'wp_inactive_widgets') || stristr($key, 'wp_inactive_widgets') || stristr($key, 'array_version')) {
-
-            } else if (strstr($key, 'secondary')) {
-                unset($_wp_sidebars_widgets[$key]);
-            } else if (isset($_wp_sidebars_widgets['lp_sidebar'])) {
-                $_wp_sidebars_widgets[$key] = $_wp_sidebars_widgets['lp_sidebar'];
-                $stop = 1;
+            if (!isset($active_widgets['lp_sidebar']) || !$active_widgets['lp_sidebar'] ) {
+                $active_widgets['lp_sidebar'] = array($registered_widget_id);
+                $_wp_sidebars_widgets['lp_sidebar'] = $active_widgets['lp_sidebar'];
+                update_option('sidebars_widgets', $active_widgets);
             }
         }
+
+
+        $count = 0;
+        $found = 0;
+        foreach ($_wp_sidebars_widgets as $key => $val) {
+
+            foreach ($whitelist as $item) {
+
+                if (strpos($key, $item) !== FALSE || $key == 'sidebar') {
+                    $_wp_sidebars_widgets['wp_inactive_widgets'] = array();
+                    $_wp_sidebars_widgets[$key] = $_wp_sidebars_widgets['lp_sidebar'];
+                    $found = 1;
+                }
+            }
+            if (!$found && $count===0) {
+                $_wp_sidebars_widgets[$key] = $_wp_sidebars_widgets['lp_sidebar'];
+            }
+            $count++;
+        }
+
+        /* error_log(print_r($wp_registered_widgets,true)); */
+        error_log(print_r($_wp_sidebars_widgets,true));
 
 
     }

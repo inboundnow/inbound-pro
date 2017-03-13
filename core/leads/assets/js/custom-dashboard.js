@@ -94,14 +94,70 @@ jQuery(document).ready(function ($) {
             axisMargin: 20
         }
     };
-    chartplot = jQuery.plot(jQuery("#flot-placeholder"), dataset, options);
-    jQuery("#flot-placeholder").UseTooltip_leads();
-    var the_data = chartplot.getData();
+    
+    if(jQuery("#flot-placeholder").length){ //only render the lead events grid if the div to render it exists
+        chartplot = jQuery.plot(jQuery("#flot-placeholder"), dataset, options);
+        jQuery("#flot-placeholder").UseTooltip_leads();
+        var the_data = chartplot.getData();
 
-    var today = new Date();
-    var dd = today.getDate();
-    var date_exists = the_data[1].data[dd];
-    if (typeof(date_exists) != "undefined" && date_exists !== null && date_exists !== "") {
-        var getit = the_data[1].data[dd][0]; // gets the crosshair location
+        var today = new Date();
+        var dd = today.getDate();
+        var date_exists = the_data[1].data[dd];
+        if (typeof(date_exists) != "undefined" && date_exists !== null && date_exists !== "") {
+            var getit = the_data[1].data[dd][0]; // gets the crosshair location
+        }
     }
+
+    /**300 ms after page load, add some size parameters to list performance leads popup window**/
+    setTimeout(function(){
+        var width = window.innerWidth
+        || document.documentElement.clientWidth
+        || document.body.clientWidth;
+
+        var height = window.innerHeight
+        || document.documentElement.clientHeight
+        || document.body.clientHeight;                    
+        
+        if(width < 772){
+            var boxWidth = width - 30;
+        }else{
+            var boxWidth = 772;
+        }
+
+        jQuery('a.thickbox').map(function(value, index){ 
+            if(index.href.indexOf('width') == -1){
+                jQuery(index).attr('href', jQuery(index).attr('href') + '&width=' + boxWidth + '&height=' + (height - 60)); 
+            }
+        });
+    }, 300);
+
+    /**When the widget display settings change, store the change in the options**/
+    var wait;
+    var widgetLoadStatus = {};
+    jQuery('.hide-postbox-tog').on('click', function(){
+        var inputs = jQuery('.hide-postbox-tog');
+        jQuery.each(inputs, function(input){
+            widgetLoadStatus[inputs[input].value] = jQuery(inputs[input]).is(':checked');
+        });
+
+        clearTimeout(wait);
+        wait = setTimeout(updateDashboardWidgetDisplayStatus, 600);
+    }); 
+    
+    function updateDashboardWidgetDisplayStatus(){
+        if(widgetLoadStatus && typeof widgetLoadStatus == 'object'){
+            jQuery.ajax({
+                type: 'POST',
+                url: ajaxurl,
+                data: {
+                    action: 'dashboard_widget_load_status',
+                    widget_data: widgetLoadStatus,
+                },
+                success: function(response){
+                  //  console.log(JSON.parse(response));
+                },
+            
+            });
+        }
+    }               
 });

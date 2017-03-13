@@ -242,7 +242,14 @@ $shortcodes_config['forms'] = array(
                 ),
                 'std' => ''
             ),
-
+            'map_to' => array(
+                'name' => __('Mapping', 'inbound-pro' ),
+                'desc' => __('This is required.', 'inbound-pro' ),
+                'type' => 'select',
+                'options' => $lead_mapping_fields,
+                'std' => 'none',
+                'class' => '',
+            ),
             'dropdown_options' => array(
                 'name' => __('Dropdown choices',  'inbound-pro' ),
                 'desc' => __('Enter Your Dropdown Options. Separate by commas. You may also use label|value to have a different value than the label stored.',  'inbound-pro' ),
@@ -319,14 +326,6 @@ $shortcodes_config['forms'] = array(
                 'type' => 'checkbox',
                 'std' => '0',
                 'class' => 'advanced',
-            ),
-            'map_to' => array(
-                'name' => __('Map Field To  <span class="small-optional-text">(optional)</span>', 'inbound-pro' ),
-                'desc' => __('Map this field to Leads Value', 'inbound-pro' ),
-                'type' => 'select',
-                'options' => $lead_mapping_fields,
-                'std' => 'none',
-                'class' => 'advanced exclude',
             ),
             'placeholder' => array(
                 'name' => __('Field Placeholder <span class="small-optional-text">(optional)</span>',  'inbound-pro' ),

@@ -12,7 +12,6 @@ class Landing_Pages_Click_Tracking {
     public static function add_hooks() {
 
         add_action('wp_footer', array( __CLASS__ , 'build_trackable_links') );
-        /* Click Tracking init */
         add_action('init', array( __CLASS__ , 'intecept_tracked_link' ), 11);
     }
 
@@ -49,7 +48,7 @@ class Landing_Pages_Click_Tracking {
                     }
 
                     var external = RegExp('^((f|ht)tps?:)?//(?!' + location.host + ')');
-                    jQuery('.wpl-track-me-link, .inbound-special-class, .link-click-tracking a').not("#wpadminbar a").each(function () {
+                    jQuery('.wpl-track-me-link a').not("#wpadminbar a").each(function () {
 
                         jQuery(this).attr("data-event-id", '<?php echo $post->ID; ?>').attr("data-cta-varation", '<?php echo $variation;?>');
 

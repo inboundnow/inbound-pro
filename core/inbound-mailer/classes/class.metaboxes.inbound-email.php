@@ -626,7 +626,6 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
         public static function list_transmissions() {
             self::load_send_stream();
-            error_log(print_r(self::$sends,true));
         }
 
         /**
@@ -642,7 +641,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             }
 
             echo '<div class="statistics-reporting-container bs-callout bs-callout-clear">';
-            //echo '<h4 title="'.__('This stream is limited to the last 1000 views' , 'inbound-mailer' ) .'">' . __('Stream', 'inbound-pro') . '</h4>';
+            //echo '<h4 title="'.__('This stream is limited to the last 1000 views' , 'inbound-pro' ) .'">' . __('Stream', 'inbound-pro') . '</h4>';
 
             echo '<center><i>this stream is limited to the last 1000 sends</i></center><br>';
             self::load_send_stream();
@@ -1252,10 +1251,6 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             } else if (file_exists(INBOUND_EMAIL_THEME_TEMPLATES_PATH . $template . '/thumbnail.png')) {
                 $thumbnail = INBOUND_EMAIL_THEME_TEMPLATES_URLPATH . $template . '/thumbnail.png';
             }
-
-            if (!$thumbnail) {
-                error_log($template);
-            }
             return $thumbnail;
         }
 
@@ -1553,6 +1548,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             }
 
             global $post;
+            $post->ID = (isset($_GET['post'])) ? (int) $_GET['post'] : $post->ID; /* conflict fix */
 
             /* Load Settings JS Class */
             self::print_settings_class_JS();

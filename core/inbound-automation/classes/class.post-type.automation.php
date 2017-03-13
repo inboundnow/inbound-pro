@@ -278,19 +278,27 @@ if ( !class_exists('Inbound_Automation_Post_Type') ) {
 		}
 
 		/**
-		 * @param $rule_id
+		 * Deletes emails from automation queue given a rule id or a task id
+		 * @param $params
 		 */
-		public static function delete_rule_tasks( $rule_id ) {
+		public static function delete_rule_tasks( $params ) {
 			global $wpdb;
 
 			$table_name = $wpdb->prefix . "inbound_automation_queue";
 
-			$args = array(
-				'rule_id' => $rule_id
-			);
+			$args = array();
 
-			$wpdb->delete( $table_name , $args );
+			if (isset($params['rule_id'])) {
+				$args['rule_id'] = $params['rule_id'];
+			}
 
+			if (isset($params['job_id'])) {
+				$args['id'] = $params['job_id'];
+			}
+
+			if ($params) {
+				$wpdb->delete($table_name, $args);
+			}
 		}
 
 		/**
@@ -317,7 +325,11 @@ if ( !class_exists('Inbound_Automation_Post_Type') ) {
 		public static function ajax_clear_rule_tasks() {
 			$rule_id = intval($_REQUEST['rule_id']);
 
-			self::delete_rule_tasks($rule_id);
+			$args = array(
+				'rule_id' => $rule_id
+			);
+
+			self::delete_rule_tasks($args);
 			echo $rule_id;
 			exit;
 		}

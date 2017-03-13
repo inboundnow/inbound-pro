@@ -64,19 +64,18 @@ class Inbound_Mailer_Unsubscribe {
 		$params = self::decode_unsubscribe_token( sanitize_text_field($_GET['token']) );
 
 
-
 		if ( !isset( $params['lead_id'] ) ) {
 			return __( 'Oops. Something is wrong with the unsubscribe link. Are you logged in?' , 'inbound-pro' );
 		}
 
 		/* check if lead is coming from automation seriest */
-		if (isset($params['rule_id']) && $params['rule_id'] ) {
+		if (isset($params['job_id']) && $params['job_id'] ) {
 			$html .= "<blockquote class='unsubscribe-notice'>";
 			$html .= $usubscribe_notice_automation_series;
 			$html .= "</blockquote>";
 
 			/* delete remaining automation tasks for automation rule */
-			Inbound_Automation_Post_Type::delete_rule_tasks($params['rule_id']);
+			Inbound_Automation_Post_Type::delete_rule_tasks( array('job_id' => $params['job_id']) );
 		}
 
 		/* Add header */
@@ -187,7 +186,10 @@ class Inbound_Mailer_Unsubscribe {
 	 *  @return INT $token
 	 */
 	public static function encode_unsubscribe_token( $params ) {
-		unset($params['doing_wp_cron']);
+
+		if (isset($params['doing_wp_cron'])) {
+			unset($params['doing_wp_cron']);
+		}
 		$json = json_encode($params);
 
 		$iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB);

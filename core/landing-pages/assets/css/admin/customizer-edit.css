@@ -1,5 +1,5 @@
 /* moving to shared customizer */
-#wpadminbar, #edit-slug-box, #post-status-info, #screen-options-link-wrap, #leads-table-container, .misc-pub-section, #minor-publishing, .misc-pub-section, .misc-pub-section.curtime, #delete-action, #convert-header, #lp-tour, #view-post-btn, #launch-visual-editer, #adminmenuwrap, #lp_ab_display_stats_metabox, #lp-thumbnail-sidebar-preview, #landing_page_categorydiv, #postimagediv, #leads-table-container-inside, .updated.below-h2 a, .mceButton.mceButtonEnabled.mce_fullscreen, .mce_strikethrough, .mce_wp_more, #setting-error-tgmpa, #lp_preview_this_template  {
+#wpadminbar,.page-title-action, #edit-slug-box, #post-status-info, #screen-options-link-wrap, #leads-table-container, .misc-pub-section, #minor-publishing, .misc-pub-section, .misc-pub-section.curtime, #delete-action, #convert-header, #lp-tour, #view-post-btn, #launch-visual-editer, #adminmenuwrap, #lp_ab_display_stats_metabox, #lp-thumbnail-sidebar-preview, #landing_page_categorydiv, #postimagediv, #leads-table-container-inside, .updated.below-h2 a, .mceButton.mceButtonEnabled.mce_fullscreen, .mce_strikethrough, .mce_wp_more, #setting-error-tgmpa, #lp_preview_this_template  {
 	display: none !important;
 }
 html.wp-toolbar {

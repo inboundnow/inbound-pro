@@ -933,6 +933,13 @@ if (!class_exists('Inbound_API')) {
 				self::throw_wp_error( $lead_id );
 			}
 
+			/* determine last name from first name */
+			if (isset($params['meta_data']['wpleads_first_name']) && !isset($params['meta_data']['wpleads_last_name']))  {
+				$split = explode(' ' , $params['meta_data']['wpleads_first_name']);
+				$params['meta_data']['wpleads_first_name'] = ($split[0]) ? $split[0] : $params['meta_data']['wpleads_first_name'];
+				$params['meta_data']['wpleads_last_name'] = (isset($split[1])) ? $split[1] : '';
+			}
+
 			/* Add meta data to lead record */
 			foreach ($params['meta_data'] as $key => $value ) {
 				update_post_meta( $lead_id, $key, $value );
@@ -1369,8 +1376,19 @@ if (!class_exists('Inbound_API')) {
 			$profile = $profiles[0];
 			$args = unserialize($profile->args);
 
+			/* get lead id from cookie if it exists */
 			$lead_id_cookie = (isset($_COOKIE['wp_lead_id'])) ? $_COOKIE['wp_lead_id'] : 0;
+
+			/* if lead_id is set then apply it to 'id' */
+			$args['id'] = (isset( $args['lead_id'] )  && $args['lead_id']) ? $args['lead_id'] : $args['id'];
+
+			/* if no lead_id so far then fall back on cookie value */
 			$args['id'] = (isset( $args['id'])  && $args['id'] ) ? $args['id'] : $lead_id_cookie;
+
+			/* cookie lead id if availabled and not cookied */
+			if (!isset($_COOKIE['wp_lead_id']) && $args['id'] ) {
+				setcookie('wp_lead_id' , $args['id'] , time() + (20 * 365 * 24 * 60 * 60), '/' );
+			}
 
 			/* process extra lead events */
 			if ($args['id']) {

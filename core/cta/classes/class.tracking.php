@@ -33,11 +33,10 @@ class CTA_Conversion_Tracking {
 
 
 		$args = array(
-			'event_name' => 'inbound_content_click',
+			'event_name' => 'inbound_cta_click',
 			'cta_id' => (isset($args['cta_id'])) ? $args['cta_id'] : 0,
 			'page_id' => (isset($args['page_id'])) ? $args['page_id'] : 0,
-			'variation_id' => (isset($args['vid'])) ? $args['vid'] : 0,
-			'datetime' => $wordpress_date_time
+			'variation_id' => (isset($args['vid'])) ? $args['vid'] : 0
 		);
 
 		/* for events table tracking and other hooks */

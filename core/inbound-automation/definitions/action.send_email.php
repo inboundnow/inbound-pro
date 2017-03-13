@@ -91,12 +91,26 @@ if ( !class_exists( 'Inbound_Automation_Action_Send_Email' ) ) {
 		 */
 		public static function run_action( $action , $trigger_data ) {
 
-			//error_log( print_r( $action , true ) );
 
 			$Inbound_Templating_Engine = Inbound_Templating_Engine();
 
 			$trigger_data = apply_filters( 'action/send_email/trigger_data' , $trigger_data );
-			
+
+			/* if contains a post_object and the lock is enabled then exit */
+			if (isset($trigger_data['post_object']['ID']) && $trigger_data['post_object']['ID']) {
+				if (get_post_meta($trigger_data['post_object']['ID'] , 'inbound_automation_email_sent' , true )) {
+					inbound_record_log(
+						__( 'Email Blocked - Post Locked' , 'inbound-pro') ,
+						'<h2>'.__('Details', 'inbound-pro') .'</h2><pre>'.__( 'It seems this email has been manually locked or has already been sent via an automation rule once.' , 'inbound-pro' ).'</pre>' .
+						'<h2>'.__('Action Settings' , 'inbound-pro') .'</h2><pre>'. print_r($action,true).'</pre><h2>'.__('Action Settings' , 'inbound-pro') .'</h2><pre>'.print_r($trigger_data,true) .'</pre>',
+						$action['rule_id'] ,
+						$action['job_id'] ,
+						'action_event'
+					);
+					return;
+				}
+			}
+
 			switch ($action['send_to']) {
 
 				case 'lead':
@@ -130,6 +144,13 @@ if ( !class_exists( 'Inbound_Automation_Action_Send_Email' ) ) {
 
 					}
 
+					/* check for special muting performed by admin */
+					$toggle = get_post_meta( $trigger_data['lead_data']['id'] , 'inbound_automation_mute' , true);
+
+					/* if mute is enabled then cancel send */
+					if ($toggle) {
+						return;
+					}
 					/* send email */
 					$response = $Inbound_Mail_Daemon->send_solo_email( array(
 							'email_address' => $trigger_data['lead_data']['email'],
@@ -138,7 +159,8 @@ if ( !class_exists( 'Inbound_Automation_Action_Send_Email' ) ) {
 							'tags' => array( 'automated' ),
 							'vid' => $vid,
 							'lead_lists' => $lead_lists,
-						    'rule_id' => $action['rule_id']
+						    'rule_id' => $action['rule_id'],
+						    'job_id' => $action['job_id'],
 					));
 
 					BREAK;
@@ -154,27 +176,33 @@ if ( !class_exists( 'Inbound_Automation_Action_Send_Email' ) ) {
 							'email_address' => $action['custom_email'],
 							'email_id' => $action['email_id'],
 							'vid' => $vid,
-							'tags' => array('automated')
+							'tags' => array('automated'),
+							'rule_id' => $action['rule_id'],
+						    'job_id' => $action['job_id'],
 					));
 
 					BREAK;
 				case 'lead_list':
 					$Inbound_Mailer_Scheduling = new Inbound_Mailer_Scheduling;
-					$Inbound_Mailer_Scheduling->recipients = $action['lead_lists'];
-					$response = $Inbound_Mailer_Scheduling->schedule_email( $action['email_id'] , $trigger_data );
+					$response = $Inbound_Mailer_Scheduling->schedule_email( $action['email_id'] , $trigger_data , $action , $action['lead_lists'] );
 					$response = __( sprintf( '%s emails have been scheduled' , $response ) , 'inbound-pro' );
 					BREAK;
 
 
 			}
 
+			/* update post object lock if  post object detected */
+			if (isset($trigger_data['post_object']['ID']) && $trigger_data['post_object']['ID']) {
+				update_post_meta($trigger_data['post_object']['ID'] , 'inbound_automation_email_sent' , true );
+			}
+
 			inbound_record_log(
-					__( 'Send Email' , 'inbound-pro') ,
-					'<h2>'.__('Email Server Response', 'inbound-pro') .'</h2><pre>'.print_r($response,true).'</pre>' .
-					'<h2>'.__('Action Settings' , 'inbound-pro') .'</h2><pre>'. print_r($action,true).'</pre><h2>'.__('Action Settings' , 'inbound-pro') .'</h2><pre>'.print_r($trigger_data,true) .'</pre>',
-					$action['rule_id'] ,
-					$action['job_id'] ,
-					'action_event'
+				__( 'Send Email' , 'inbound-pro') ,
+				'<h2>'.__('Email Server Response', 'inbound-pro') .'</h2><pre>'.print_r($response,true).'</pre>' .
+				'<h2>'.__('Action Settings' , 'inbound-pro') .'</h2><pre>'. print_r($action,true).'</pre><h2>'.__('Action Settings' , 'inbound-pro') .'</h2><pre>'.print_r($trigger_data,true) .'</pre>',
+				$action['rule_id'] ,
+				$action['job_id'] ,
+				'action_event'
 			);
 		}
 

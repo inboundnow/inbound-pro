@@ -625,9 +625,9 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
         public static function enqueue_admin_scripts($hook) {
             global $post;
 
+
             /* if logs iframe load js */
             if ($hook == 'admin_page_inbound_rule_logs') {
-               $hook = 'post.php';
                $post = get_post( $_GET['rule_id']);
             }
 
@@ -635,13 +635,8 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
                 return;
             }
 
-            if ($hook == 'post-new.php') {
-            }
 
-            if ($hook == 'post.php') {
-            }
-
-            if ($hook == 'post-new.php' || $hook == 'post.php') {
+            if ($hook == 'post-new.php' || $hook == 'post.php' || $hook == 'admin_page_inbound_rule_logs') {
 
                 /* disable heartbeat */
                 wp_deregister_script('heartbeat');
@@ -685,6 +680,7 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
                 /* Load Main JS File */
                 wp_register_script('inbound-rules-js', INBOUND_AUTOMATION_URLPATH . 'assets/js/admin.rule-setup.js');
                 wp_enqueue_script('inbound-rules-js');
+                wp_localize_script('inbound-rules-js' , 'inbound_rules' , array('hook' => $hook ));
 
                 /* Enqueue Select2 */
                 wp_enqueue_script('selectjs', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/Select2/select2.min.js', array() , null , false );

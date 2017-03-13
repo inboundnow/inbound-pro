@@ -127,12 +127,12 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                 'normal', // $context
                 'high' // $priority
             );
-            
+
             /*change the lead list metabox callback to a new function*/
             $wp_meta_boxes['wp-lead']['side']['core']['wplead_list_categorydiv']['callback'] = array(__CLASS__, 'display_lead_list_metabox');
-           
+
         }
-        
+
         /**
          * Renders a custom metabox for leads
          * The base function is post_categories_meta_box
@@ -148,12 +148,12 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             $r = wp_parse_args( $args, $defaults );
             $tax_name = esc_attr( $r['taxonomy'] );
             $taxonomy = get_taxonomy( $r['taxonomy'] );
-            
+
             /*get the lists waiting for double optin from the lead's meta*/
             $double_optin_lists = get_post_meta($post->ID, 'double_optin_lists', true);
             /*get the lists that the lead is in*/
             $applied_terms = wp_get_post_terms($post->ID, 'wplead_list_category');
-            
+
             /**Update the lead's array of lists that still need confirmation if a list has been manually confirmed**/
             /*if there are double optin lists*/
             if(!empty($double_optin_lists) && is_array($double_optin_lists)){
@@ -168,7 +168,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                     /*update the "waiting" meta listing with the remaining lists*/
                     update_post_meta($post->ID, 'double_optin_lists', array_values($double_optin_lists));
                 }else{
-                /**if there are no lists awaiting double optin confirmation**/
+                    /**if there are no lists awaiting double optin confirmation**/
                     /*get the double optin waiting list id*/
                     if(!defined('INBOUND_PRO_CURRENT_VERSION')){
                         $double_optin_list_id = get_option('list-double-optin-list-id', '');
@@ -198,16 +198,16 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                     <li class="tabs"><a href="#<?php echo $tax_name; ?>-all"><?php echo $taxonomy->labels->all_items; ?></a></li>
                     <li class="hide-if-no-js"><a href="#<?php echo $tax_name; ?>-pop"><?php _e( 'Most Used' ); ?></a></li>
                     <?php if(!empty($double_optin_lists) && is_array($double_optin_lists)){ ?>
-                    <li class="hide-if-no-js"><a href="#<?php echo $tax_name; ?>-need-double-optin"><?php _e( 'Unconfirmed' ); ?></a></li>
+                        <li class="hide-if-no-js"><a href="#<?php echo $tax_name; ?>-need-double-optin"><?php _e( 'Unconfirmed' ); ?></a></li>
                     <?php } ?>
                 </ul>
-         
+
                 <div id="<?php echo $tax_name; ?>-pop" class="tabs-panel" style="display: none;">
                     <ul id="<?php echo $tax_name; ?>checklist-pop" class="categorychecklist form-no-clear" >
                         <?php $popular_ids = wp_popular_terms_checklist( $tax_name ); ?>
                     </ul>
                 </div>
-         
+
                 <div id="<?php echo $tax_name; ?>-all" class="tabs-panel">
                     <?php
                     $name = ( $tax_name == 'category' ) ? 'post_category' : 'tax_input[' . $tax_name . ']';
@@ -217,33 +217,33 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                         <?php wp_terms_checklist( $post->ID, array( 'taxonomy' => $tax_name, 'popular_cats' => $popular_ids ) ); ?>
                     </ul>
                 </div>
-                
+
                 <?php if(!empty($double_optin_lists) && is_array($double_optin_lists)){ ?>
-                <div id="<?php echo $tax_name; ?>-need-double-optin" class="tabs-panel" style="display: none;">
-                    <ul id="<?php echo $tax_name; ?>checklist-need-double-optin" class="categorychecklist form-no-clear" >
-                        <?php foreach($double_optin_lists as $list_id){ ?>
-                        <li id="wplead_list_category-<?php echo $list_id; ?>">
-                            
-                            <input value="<?php echo $list_id; ?>" type="checkbox" name="tax_input[wplead_list_category][]" id="in-wplead_list_category-<?php echo $list_id; ?>" >
-                            <label class="selectit" for="in-wplead_list_category-<?php echo $list_id; ?>" ><?php echo get_term($list_id, 'wplead_list_category')->name; ?></label>
-                        </li>
-                        <?php } ?>
-                    </ul>
-                </div>
+                    <div id="<?php echo $tax_name; ?>-need-double-optin" class="tabs-panel" style="display: none;">
+                        <ul id="<?php echo $tax_name; ?>checklist-need-double-optin" class="categorychecklist form-no-clear" >
+                            <?php foreach($double_optin_lists as $list_id){ ?>
+                                <li id="wplead_list_category-<?php echo $list_id; ?>">
+
+                                    <input value="<?php echo $list_id; ?>" type="checkbox" name="tax_input[wplead_list_category][]" id="in-wplead_list_category-<?php echo $list_id; ?>" >
+                                    <label class="selectit" for="in-wplead_list_category-<?php echo $list_id; ?>" ><?php echo get_term($list_id, 'wplead_list_category')->name; ?></label>
+                                </li>
+                            <?php } ?>
+                        </ul>
+                    </div>
                 <?php } ?>
-                
+
                 <?php if(!empty($double_optin_lists) && is_array($double_optin_lists)){ ?>
-                <div id="<?php echo $tax_name; ?>-need-double-optin" class="tabs-panel" style="display: none;">
-                    
-                </div>
+                    <div id="<?php echo $tax_name; ?>-need-double-optin" class="tabs-panel" style="display: none;">
+
+                    </div>
                 <?php } ?>
-                
-            <?php if ( current_user_can( $taxonomy->cap->edit_terms ) ) : ?>
+
+                <?php if ( current_user_can( $taxonomy->cap->edit_terms ) ) : ?>
                     <div id="<?php echo $tax_name; ?>-adder" class="wp-hidden-children">
                         <a id="<?php echo $tax_name; ?>-add-toggle" href="#<?php echo $tax_name; ?>-add" class="hide-if-no-js taxonomy-add-new">
                             <?php
-                                /* translators: %s: add new taxonomy label */
-                                printf( __( '+ %s' ), $taxonomy->labels->add_new_item );
+                            /* translators: %s: add new taxonomy label */
+                            printf( __( '+ %s' ), $taxonomy->labels->add_new_item );
                             ?>
                         </a>
                         <p id="<?php echo $tax_name; ?>-add" class="category-add wp-hidden-child">
@@ -301,7 +301,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             </div>
             <?php
         }
-        
+
 
         /**
          *    Adds header menu items
@@ -715,8 +715,8 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                     <?php
                     if (class_exists('Inbound_Analytics')) {
                         ?>
-                         <a href='<?php echo admin_url('index.php?action=inbound_generate_report&class=Inbound_Visitor_Impressions_Report&range=10000&lead_id='.$post->ID.'&title='.__('Page Views','inbound-pro') .'&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox' title="<?php echo  sprintf(__('past %s days','inbound-pro') , 10000 ); ?>">
-                        <?php  echo count(self::$page_views); ?>
+                        <a href='<?php echo admin_url('index.php?action=inbound_generate_report&class=Inbound_Visitor_Impressions_Report&range=10000&lead_id='.$post->ID.'&title='.__('Page Views','inbound-pro') .'&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox' title="<?php echo  sprintf(__('past %s days','inbound-pro') , 10000 ); ?>">
+                            <?php  echo count(self::$page_views); ?>
                         </a>
                         <?php
                     } else {
@@ -742,11 +742,11 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                 <div class="label_2">
                     <?php
                     if (class_exists('Inbound_Analytics')) {
-                    ?>
+                        ?>
                         <a href='<?php echo admin_url('index.php?action=inbound_generate_report&lead_id='.$post->ID.'&class=Inbound_Event_Report&event_name=inbound_form_submission&range=10000&title='. urlencode(Inbound_Events::get_event_label('inbound_form_submission')).'&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox'>
                             <?php echo count(self::$form_submissions); ?>
                         </a>
-                    <?php
+                        <?php
                     } else {
                         echo count(self::$form_submissions);
                     }
@@ -964,7 +964,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                             $gravatar = $extra_image;
                         }
                         echo '<img src="' . $gravatar . '" id="lead-main-image" title="' . self::$mapped_fields['wpleads_first_name']['value'] . ' ' . self::$mapped_fields['wpleads_last_name']['value'] . '"></a>';
-                       ?>
+                        ?>
                     </div>
                     <?php
                     /* Display WP USer edit link */
@@ -1005,9 +1005,11 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
          */
         public static function display_lead_activity() {
 
-            /* do not render legacy activity tab if Inbound Analytics is on */
+            /* do not render legacy activity tab if Inbound Analytics is on and user is subscriber */
             if (class_exists('Inbound_Analytics')) {
-                return;
+                if (INBOUND_ACCESS_LEVEL > 0 && INBOUND_ACCESS_LEVEL != 9 ) {
+                    return;
+                }
             }
 
             echo '<div id="activity-data-display">';
@@ -1027,9 +1029,11 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
         public static function display_lead_conversion_paths() {
             global $post, $wpdb;
 
-            /* do not render legacy activity tab if Inbound Analytics is on */
+            /* do not render legacy activity tab if Inbound Analytics is on and suer is subsriber */
             if (class_exists('Inbound_Analytics')) {
-                return;
+                if (INBOUND_ACCESS_LEVEL > 0 && INBOUND_ACCESS_LEVEL != 9 ) {
+                    return;
+                }
             }
 
             self::get_conversions( $post->ID );
@@ -1175,7 +1179,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
                     /* skip internal sources */
                     if (strstr($value['source'],site_url()) || !$value['source']) {
-                       //continue;
+                        //continue;
                     }
                     ?>
                     <div class="wpl-raw-data-tr">
@@ -1345,13 +1349,13 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                 <tr class="" style="display: table-row;">
                     <td class="wpleads-th"><label for=""><?php  _e('Consumed Tags:', 'inbound-pro'); ?></label></td>
                     <td class="wpleads-td" id="">
-                    <?php
+                        <?php
 
-                    foreach ($tags as $key => $value) {
-                        echo "<a href='#' rel='$value'>$key</a> ,";
-                    }
+                        foreach ($tags as $key => $value) {
+                            echo "<a href='#' rel='$value'>$key</a> ,";
+                        }
 
-                    ?>
+                        ?>
 
                 </tr>
             </table>
@@ -1374,7 +1378,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
             ?>
             <div class="lead-profile">
-                <?php 
+                <?php
                 self::display_tabs();
                 ?>
                 <div class="lead-profile-section" id='wpleads_lead_tab_main'>
