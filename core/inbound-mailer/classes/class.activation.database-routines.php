@@ -40,16 +40,13 @@ class Inbound_Mailer_Activation_Update_Routines {
 	* @migration-type: db modification
 	* @mirgration: creates wp_inbound_email_queue table
 	*/
-	public static function create_email_queue_table_aaa() {
+	public static function create_email_queue_table() {
 		global $wpdb;
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
 		$table_name = $wpdb->prefix . "inbound_email_queue";
 
 		$charset_collate = $wpdb->get_charset_collate();
-
-		$sql = "DROP TABLE $table_name";
-		dbDelta( $sql );
 
 		$sql = "CREATE TABLE $table_name (
 			`id` mediumint(9) NOT NULL AUTO_INCREMENT,

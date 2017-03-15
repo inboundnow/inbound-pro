@@ -423,7 +423,6 @@ class Inbound_Mailer_Tokens {
         }
 
         if ( !$email_tokens ) {
-            print_r($email_tokens);
             $email_tokens = array();
 
             if ($tokens) {
@@ -438,7 +437,7 @@ class Inbound_Mailer_Tokens {
                 $email_tokens = (array) $post;
                 $email_tokens['permalink'] = get_the_permalink((int) $_GET['post_id']);
                 $email_tokens['featured_image'] = wp_get_attachment_url(get_post_thumbnail_id((int)$post->ID));
-                error_log(print_r($email_tokens,true));
+
                 wp_reset_query();
             }
 
