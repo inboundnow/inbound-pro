@@ -460,7 +460,6 @@ class Inbound_Mailer_Tokens {
 
 
         foreach ($matches[1] as $token_key) {
-            echo $token_key."\r\n";
             if (isset($email_tokens[$token_key])) {
                 $field_value = str_replace('{{' . $token_key . '}}', $email_tokens[$token_key], $field_value);
             } else {
