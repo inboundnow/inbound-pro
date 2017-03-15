@@ -38,8 +38,8 @@ if (!class_exists('Inbound_Automation_Plugin') && class_exists('Inbound_Leads_Pl
 			switch (is_admin()) :
 				case true :
 					/* loads admin files */
-					include_once('classes/class.activation.php');
 					include_once('classes/class.activation.upgrade-routines.php');
+					include_once('classes/class.activation.php');
 					include_once('classes/class.batch-processing.php');
 					include_once('classes/class.adminbar.php');
 					include_once('classes/class.post-type.automation.php');

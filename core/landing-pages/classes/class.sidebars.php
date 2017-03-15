@@ -90,7 +90,7 @@ class Landing_Pages_Sidebars {
         }
 
         /* error_log(print_r($wp_registered_widgets,true)); */
-        error_log(print_r($_wp_sidebars_widgets,true));
+        /* error_log(print_r($_wp_sidebars_widgets,true)); */
 
 
     }

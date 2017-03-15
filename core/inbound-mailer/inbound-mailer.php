@@ -116,8 +116,8 @@ if ( !class_exists('Inbound_Mailer_Plugin')	) {
 			switch (is_admin()) :
 				case true :
 					/* loads admin files */
-					include_once('classes/class.activation.php');
 					include_once('classes/class.activation.database-routines.php');
+					include_once('classes/class.activation.php');
 					include_once('classes/class.options-api.php');
 					include_once('classes/class.postmeta.php');
 					include_once('classes/class.post-type.inbound-email.php');

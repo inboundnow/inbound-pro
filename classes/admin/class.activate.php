@@ -11,8 +11,6 @@ class Inbound_Pro_Activation {
 	}
 
 	public static function load_hooks() {
-
-		add_action('admin_init' , array( __CLASS__ , 'run_pro_components_activation_check' ) );
 		add_action('update_option_active_plugins', array( __CLASS__ , 'deactivate_standalone_plugins') );
 	}
 
@@ -74,7 +72,7 @@ class Inbound_Pro_Activation {
 		}
 
 		/* if license valid activate pro core components */
-		if ( INBOUND_ACCESS_LEVEL > 0 ) {
+		if ( INBOUND_ACCESS_LEVEL > 0 && INBOUND_ACCESS_LEVEL != 9 ) {
 			self::activate_pro_components();
 		}
 	}
@@ -83,29 +81,11 @@ class Inbound_Pro_Activation {
 	 * Runs license protected activation functions
 	 */
 	public static function activate_pro_components() {
-
-		/* automatically install certain extensions */
-		//self::install_extensions();
-
-		if (class_exists('Inbound_Automation_Activation')) {
-			Inbound_Automation_Activation::activate();
-		}
-
-		if (class_exists('Inbound_Mailer_Activation')) {
-			Inbound_Mailer_Activation::activate();
-		}
-
-		delete_option('inbound_activate_pro_components');
+		update_option('inbound_activate_automation' , true);
+		update_option('inbound_activate_mailer' , true);
 	}
 
-	/**
-	 * Check to see if we should run the activation commands for our pro core components
-	 */
-	public static function run_pro_components_activation_check() {
-		if (get_option('inbound_activate_pro_components' , false )) {
-			Inbound_Pro_Activation::activate_pro_components();
-		}
-	}
+
 
 	/**
 	 *  Runs extras & fires hook
