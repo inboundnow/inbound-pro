@@ -229,7 +229,7 @@ if (have_posts()) : while (have_posts()) : the_post();
                 if ($email_header_text) {
                     ?>
                     <tr>
-                        <td style="font-family: Helvetica, arial, sans-serif; font-size: 25px; color: #282828; text-align:center; line-height: 24px;padding-top: 40px;">
+                        <td style="font-family: Helvetica, arial, sans-serif; font-size: 25px; color: #282828; text-align:center; line-height: 24px;padding-top: 40px;padding-left: 10px;padding-right: 10px;">
                             <?php echo $email_header_text; ?>
                         </td>
                     </tr>
