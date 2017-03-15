@@ -585,7 +585,7 @@ class acf_field_gallery extends acf_field {
 					<a href="#" class="acf-button button acf-gallery-close"><?php _e('Close', 'acf'); ?></a>
 				</li>
 				<li class="acf-fr">
-					<a class="acf-button button button-primary acf-gallery-update" href="#"><?php _e('Update', 'acf'); ?></a>
+					<a class="acf-button button button-primary acf-gallery-update"><?php _e('Update', 'acf'); ?></a>
 				</li>
 			</ul>
 			
@@ -695,7 +695,9 @@ class acf_field_gallery extends acf_field {
 			'name'			=> 'min_height',
 			'prepend'		=> __('Height', 'acf'),
 			'append'		=> 'px',
-			'_append' 		=> 'min_width'
+			'wrapper'		=> array(
+				'data-append' => 'min_width'
+			)
 		));
 		
 		acf_render_field_setting( $field, array(
@@ -704,7 +706,9 @@ class acf_field_gallery extends acf_field {
 			'name'			=> 'min_size',
 			'prepend'		=> __('File size', 'acf'),
 			'append'		=> 'MB',
-			'_append' 		=> 'min_width'
+			'wrapper'		=> array(
+				'data-append' => 'min_width'
+			)
 		));	
 		
 		
@@ -724,7 +728,9 @@ class acf_field_gallery extends acf_field {
 			'name'			=> 'max_height',
 			'prepend'		=> __('Height', 'acf'),
 			'append'		=> 'px',
-			'_append' 		=> 'max_width'
+			'wrapper'		=> array(
+				'data-append' => 'max_width'
+			)
 		));
 		
 		acf_render_field_setting( $field, array(
@@ -733,7 +739,9 @@ class acf_field_gallery extends acf_field {
 			'name'			=> 'max_size',
 			'prepend'		=> __('File size', 'acf'),
 			'append'		=> 'MB',
-			'_append' 		=> 'max_width'
+			'wrapper'		=> array(
+				'data-append' => 'max_width'
+			)
 		));	
 		
 		

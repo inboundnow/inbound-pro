@@ -379,16 +379,16 @@ if (!function_exists('inbound_forms_cpt')) {
     function inbound_forms_cpt() {
         //echo $slug;exit;
         $labels = array(
-            'name' => _x('Inbound Forms', 'post type general name'),
-            'singular_name' => _x('Form', 'post type singular name'),
+            'name' => _x('Inbound Forms' , 'inbound-pro'),
+            'singular_name' => _x('Form' , 'inbound-pro'),
             'add_new' => _x('Add New', 'Form'),
-            'add_new_item' => __('Create New Form'),
-            'edit_item' => __('Edit Form'),
-            'new_item' => __('New Form'),
-            'view_item' => __('View Lists'),
-            'search_items' => __('Search Lists'),
-            'not_found' =>  __('Nothing found'),
-            'not_found_in_trash' => __('Nothing found in Trash'),
+            'add_new_item' => __('Create New Form' , 'inbound-pro'),
+            'edit_item' => __('Edit Form' , 'inbound-pro'),
+            'new_item' => __('New Form' , 'inbound-pro'),
+            'view_item' => __('View Form' , 'inbound-pro'),
+            'search_items' => __('Search Forms' , 'inbound-pro'),
+            'not_found' =>  __('Nothing found' , 'inbound-pro'),
+            'not_found_in_trash' => __('Nothing found in Trash' , 'inbound-pro'),
             'parent_item_colon' => ''
         );
 

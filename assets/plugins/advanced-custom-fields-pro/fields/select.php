@@ -87,52 +87,27 @@ class acf_field_select extends acf_field {
 	
 	function input_admin_enqueue_scripts() {
 		
-		// bail ealry if no enqueue
-	   	if( !acf_get_setting('enqueue_select2') ) return;
-	   	
-	   	
 		// globals
 		global $wp_scripts, $wp_styles;
 		
 		
 		// vars
+		$version = '3.5.2';
 		$min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
-		$major = acf_get_setting('select2_version');
-		$version = '';
-		$script = '';
-		$style = '';
 		
 		
-		// attempt to find 3rd party Select2 version
-		// - avoid including v3 CSS when v4 JS is already enququed
-		if( isset($wp_scripts->registered['select2']) ) {
-			
-			$major = (int) $wp_scripts->registered['select2']->ver;
-		
-		}
+		// script
+		wp_enqueue_script('select2', acf_get_dir("assets/inc/select2/select2{$min}.js"), array('jquery'), $version );
 		
 		
+		// style
+		wp_enqueue_style('select2', acf_get_dir('assets/inc/select2/select2.css'), '', $version );
+
+
 		// v4
-		if( $major == 4 ) {
-			
-			$version = '4.0';
-			$script = acf_get_dir("assets/inc/select2/4/select2.full{$min}.js");
-			$style = acf_get_dir("assets/inc/select2/4/select2{$min}.css");
-		
-		// v3
-		} else {
-			
-			$version = '3.5.2';
-			$script = acf_get_dir("assets/inc/select2/3/select2{$min}.js");
-			$style = acf_get_dir("assets/inc/select2/3/select2.css");
-			
-		}
-		
-		
-		// enqueue
-		wp_enqueue_script('select2', $script, array('jquery'), $version );
-		wp_enqueue_style('select2', $style, '', $version );
-		
+		//wp_enqueue_script('select2', acf_get_dir("assets/inc/select2/dist/js/select2.full.js"), array('jquery'), '4.0', true );
+		//wp_enqueue_style('select2', acf_get_dir("assets/inc/select2/dist/css/select2{$min}.css"), '', '4.0' );
+				
 	}
 	
 	
@@ -262,7 +237,7 @@ class acf_field_select extends acf_field {
 	*/
 	
 	function render_field( $field ) {
-		
+	
 		// convert
 		$field['value'] = acf_get_array($field['value'], false);
 		$field['choices'] = acf_get_array($field['choices']);
@@ -277,14 +252,14 @@ class acf_field_select extends acf_field {
 		
 		
 		// add empty value (allows '' to be selected)
-		if( empty($field['value']) ) {
+		if( !count($field['value']) ) {
 			
-			$field['value'] = array('');
+			$field['value'][''] = '';
 			
 		}
 		
 		
-		// allow null
+		// null
 		// - have tried array_merge but this causes keys to re-index if is numeric (post ID's)
 		if( $field['allow_null'] && !$field['multiple'] ) {
 			
@@ -292,6 +267,7 @@ class acf_field_select extends acf_field {
 			$field['choices'] = $prepend + $field['choices'];
 			
 		}
+		
 		
 		
 		// vars
@@ -314,7 +290,7 @@ class acf_field_select extends acf_field {
 			$atts['size'] = 5;
 			$atts['name'] .= '[]';
 			
-		}
+		} 
 		
 		
 		// special atts
@@ -469,8 +445,8 @@ class acf_field_select extends acf_field {
 		acf_render_field_setting( $field, array(
 			'label'			=> __('Choices','acf'),
 			'instructions'	=> __('Enter each choice on a new line.','acf') . '<br /><br />' . __('For more control, you may specify both a value and label like this:','acf'). '<br /><br />' . __('red : Red','acf'),
-			'name'			=> 'choices',
 			'type'			=> 'textarea',
+			'name'			=> 'choices',
 		));	
 		
 		
@@ -478,8 +454,8 @@ class acf_field_select extends acf_field {
 		acf_render_field_setting( $field, array(
 			'label'			=> __('Default Value','acf'),
 			'instructions'	=> __('Enter each default value on a new line','acf'),
-			'name'			=> 'default_value',
 			'type'			=> 'textarea',
+			'name'			=> 'default_value',
 		));
 		
 		
@@ -487,9 +463,13 @@ class acf_field_select extends acf_field {
 		acf_render_field_setting( $field, array(
 			'label'			=> __('Allow Null?','acf'),
 			'instructions'	=> '',
+			'type'			=> 'radio',
 			'name'			=> 'allow_null',
-			'type'			=> 'true_false',
-			'ui'			=> 1,
+			'choices'		=> array(
+				1				=> __("Yes",'acf'),
+				0				=> __("No",'acf'),
+			),
+			'layout'	=>	'horizontal',
 		));
 		
 		
@@ -497,9 +477,13 @@ class acf_field_select extends acf_field {
 		acf_render_field_setting( $field, array(
 			'label'			=> __('Select multiple values?','acf'),
 			'instructions'	=> '',
+			'type'			=> 'radio',
 			'name'			=> 'multiple',
-			'type'			=> 'true_false',
-			'ui'			=> 1,
+			'choices'		=> array(
+				1				=> __("Yes",'acf'),
+				0				=> __("No",'acf'),
+			),
+			'layout'	=>	'horizontal',
 		));
 		
 		
@@ -507,9 +491,13 @@ class acf_field_select extends acf_field {
 		acf_render_field_setting( $field, array(
 			'label'			=> __('Stylised UI','acf'),
 			'instructions'	=> '',
+			'type'			=> 'radio',
 			'name'			=> 'ui',
-			'type'			=> 'true_false',
-			'ui'			=> 1,
+			'choices'		=> array(
+				1				=> __("Yes",'acf'),
+				0				=> __("No",'acf'),
+			),
+			'layout'	=>	'horizontal',
 		));
 				
 		
@@ -517,9 +505,13 @@ class acf_field_select extends acf_field {
 		acf_render_field_setting( $field, array(
 			'label'			=> __('Use AJAX to lazy load choices?','acf'),
 			'instructions'	=> '',
+			'type'			=> 'radio',
 			'name'			=> 'ajax',
-			'type'			=> 'true_false',
-			'ui'			=> 1,
+			'choices'		=> array(
+				1				=> __("Yes",'acf'),
+				0				=> __("No",'acf'),
+			),
+			'layout'	=>	'horizontal',
 		));
 		
 		
@@ -527,8 +519,9 @@ class acf_field_select extends acf_field {
 		acf_render_field_setting( $field, array(
 			'label'			=> __('Return Format','acf'),
 			'instructions'	=> __('Specify the value returned','acf'),
-			'type'			=> 'select',
+			'type'			=> 'radio',
 			'name'			=> 'return_format',
+			'layout'		=> 'horizontal',
 			'choices'		=> array(
 				'value'			=> __('Value','acf'),
 				'label'			=> __('Label','acf'),

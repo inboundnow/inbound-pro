@@ -463,7 +463,7 @@ if (!class_exists('Inbound_Forms')) {
                     }
 
                     if ($description_block != "" && $type != 'hidden') {
-                        $form .= "<div class='inbound-description'>" . $description_block . "</div>";
+                        $form .= "<div class='inbound-description'>" . html_entity_decode($description_block) . "</div>";
                     }
                     if ($type != 'honeypot') {
                         $form .= '</div>';

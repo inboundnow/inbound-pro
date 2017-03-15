@@ -124,8 +124,7 @@ class acf_field_radio extends acf_field {
 				'type'		=> 'text',
 				'name'		=> $field['name'],
 				'value'		=> '',
-				'disabled'	=> 'disabled',
-				'class'		=> 'acf-disabled'
+				'disabled'	=> 'disabled'
 			);
 			
 			
@@ -250,9 +249,13 @@ class acf_field_radio extends acf_field {
 		acf_render_field_setting( $field, array(
 			'label'			=> __('Allow Null?','acf'),
 			'instructions'	=> '',
+			'type'			=> 'radio',
 			'name'			=> 'allow_null',
-			'type'			=> 'true_false',
-			'ui'			=> 1,
+			'choices'		=> array(
+				1				=> __("Yes",'acf'),
+				0				=> __("No",'acf'),
+			),
+			'layout'	=>	'horizontal',
 		));
 		
 		
@@ -260,10 +263,9 @@ class acf_field_radio extends acf_field {
 		acf_render_field_setting( $field, array(
 			'label'			=> __('Other','acf'),
 			'instructions'	=> '',
-			'name'			=> 'other_choice',
 			'type'			=> 'true_false',
-			'ui'			=> 1,
-			'message'		=> __("Add 'other' choice to allow for custom values", 'acf'),
+			'name'			=> 'other_choice',
+			'message'		=> __("Add 'other' choice to allow for custom values", 'acf')
 		));
 		
 		
@@ -271,9 +273,8 @@ class acf_field_radio extends acf_field {
 		acf_render_field_setting( $field, array(
 			'label'			=> __('Save Other','acf'),
 			'instructions'	=> '',
-			'name'			=> 'save_other_choice',
 			'type'			=> 'true_false',
-			'ui'			=> 1,
+			'name'			=> 'save_other_choice',
 			'message'		=> __("Save 'other' values to the field's choices", 'acf')
 		));
 		

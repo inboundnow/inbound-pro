@@ -147,7 +147,7 @@ class acf_settings_updates {
 		// license
 		if( acf_pro_is_license_active() ) {
 		
-			$this->view['license'] = acf_pro_get_license_key();
+			$this->view['license'] = acf_pro_get_license();
 			$this->view['active'] = 1;
 			
 		}
@@ -299,7 +299,7 @@ class acf_settings_updates {
 		// connect
 		$args = array(
 			'_nonce'		=> wp_create_nonce('deactivate_pro_licence'),
-			'acf_license'	=> acf_pro_get_license_key(),
+			'acf_license'	=> acf_pro_get_license(),
 			'wp_url'		=> home_url(),
 		);
 		

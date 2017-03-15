@@ -169,7 +169,7 @@ class acf_media {
 		
 ?>
 <script type="text/javascript">
-	if( acf ) acf.media.mime_types = <?php echo json_encode( get_allowed_mime_types() ); ?>;
+acf.media.mime_types = <?php echo json_encode( get_allowed_mime_types() ); ?>;
 </script>
 <?php
 		

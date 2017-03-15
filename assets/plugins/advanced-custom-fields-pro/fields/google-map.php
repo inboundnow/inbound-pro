@@ -104,6 +104,7 @@ class acf_field_google_map extends acf_field {
 		$atts = array(
 			'id'			=> $field['id'],
 			'class'			=> "acf-google-map {$field['class']}",
+			'data-id'		=> $field['id'] . '-' . uniqid(), 
 			'data-lat'		=> $field['center_lat'],
 			'data-lng'		=> $field['center_lng'],
 			'data-zoom'		=> $field['zoom'],
@@ -181,7 +182,9 @@ class acf_field_google_map extends acf_field {
 			'name'			=> 'center_lng',
 			'prepend'		=> 'lng',
 			'placeholder'	=> $this->default_values['center_lng'],
-			'_append' 		=> 'center_lat'
+			'wrapper'		=> array(
+				'data-append' => 'center_lat'
+			)
 		));
 		
 		
@@ -317,7 +320,7 @@ class acf_field_google_map extends acf_field {
 	   	
 ?>
 <script type="text/javascript">
-	if( acf ) acf.fields.google_map.url = '<?php echo $url; ?>';
+acf.fields.google_map.url = '<?php echo $url; ?>';
 </script>
 <?php
 	
