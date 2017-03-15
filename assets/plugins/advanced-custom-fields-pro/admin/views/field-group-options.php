@@ -1,16 +1,17 @@
-<?php
+<?php 
 
 // active
 acf_render_field_wrap(array(
-	'label'			=> __('Active','acf'),
+	'label'			=> __('Status','acf'),
 	'instructions'	=> '',
-	'type'			=> 'true_false',
+	'type'			=> 'select',
 	'name'			=> 'active',
 	'prefix'		=> 'acf_field_group',
 	'value'			=> $field_group['active'],
-	'ui'			=> 1,
-	//'ui_on_text'	=> __('Active', 'acf'),
-	//'ui_off_text'	=> __('Inactive', 'acf'),
+	'choices' 		=> array(
+		1				=>	__("Active",'acf'),
+		0				=>	__("Disabled",'acf'),
+	)
 ));
 
 

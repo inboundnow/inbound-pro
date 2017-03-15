@@ -123,12 +123,9 @@ class acf_field_taxonomy extends acf_field {
 		if( !$field ) return false;
 		
 		
-		// bail early if taxonomy does not exist
-		if( !taxonomy_exists($field['taxonomy']) ) return false;
-		
-		
 		// vars
    		$results = array();
+		$args = array();
 		$is_hierarchical = is_taxonomy_hierarchical( $field['taxonomy'] );
 		$is_pagination = ($options['paged'] > 0);
 		$is_search = false;
@@ -136,11 +133,8 @@ class acf_field_taxonomy extends acf_field {
 		$offset = 20 * ($options['paged'] - 1);
 		
 		
-		// args
-		$args = array(
-			'taxonomy'		=> $field['taxonomy'],
-			'hide_empty'	=> false
-		);
+		// hide empty
+		$args['hide_empty'] = false;
 		
 		
 		// pagination
@@ -174,7 +168,7 @@ class acf_field_taxonomy extends acf_field {
 		
 		
 		// get terms
-		$terms = acf_get_terms( $args );
+		$terms = get_terms( $field['taxonomy'], $args );
 		
 		
 		// sort into hierachial order!
@@ -192,17 +186,9 @@ class acf_field_taxonomy extends acf_field {
 			
 			// this will fail if a search has taken place because parents wont exist
 			if( !$is_search ) {
+			
+				$terms = _get_term_children( $parent, $terms, $field['taxonomy'] );
 				
-				// order terms
-				$ordered_terms = _get_term_children( $parent, $terms, $field['taxonomy'] );
-				
-				
-				// check for empty array (possible if parent did not exist within original data)
-				if( !empty($ordered_terms) ) {
-					
-					$terms = $ordered_terms;
-					
-				}
 			}
 			
 			
@@ -309,10 +295,9 @@ class acf_field_taxonomy extends acf_field {
 		// load terms in 1 query to save multiple DB calls from following code
 		if( count($value) > 1 ) {
 			
-			$terms = acf_get_terms(array(
-				'taxonomy'		=> $taxonomy,
+			$terms = get_terms($taxonomy, array(
+				'hide_empty'	=> false,
 				'include'		=> $value,
-				'hide_empty'	=> false
 			));
 			
 		}
@@ -794,9 +779,13 @@ class acf_field_taxonomy extends acf_field {
 		acf_render_field_setting( $field, array(
 			'label'			=> __('Allow Null?','acf'),
 			'instructions'	=> '',
+			'type'			=> 'radio',
 			'name'			=> 'allow_null',
-			'type'			=> 'true_false',
-			'ui'			=> 1,
+			'choices'		=> array(
+				1				=> __("Yes",'acf'),
+				0				=> __("No",'acf'),
+			),
+			'layout'	=>	'horizontal',
 		));
 		
 		
@@ -804,9 +793,13 @@ class acf_field_taxonomy extends acf_field {
 		acf_render_field_setting( $field, array(
 			'label'			=> __('Create Terms','acf'),
 			'instructions'	=> __('Allow new terms to be created whilst editing','acf'),
+			'type'			=> 'radio',
 			'name'			=> 'add_term',
-			'type'			=> 'true_false',
-			'ui'			=> 1,
+			'choices'		=> array(
+				1				=> __("Yes",'acf'),
+				0				=> __("No",'acf'),
+			),
+			'layout'	=>	'horizontal',
 		));
 		
 		
@@ -814,9 +807,13 @@ class acf_field_taxonomy extends acf_field {
 		acf_render_field_setting( $field, array(
 			'label'			=> __('Save Terms','acf'),
 			'instructions'	=> __('Connect selected terms to the post','acf'),
+			'type'			=> 'radio',
 			'name'			=> 'save_terms',
-			'type'			=> 'true_false',
-			'ui'			=> 1,
+			'choices'		=> array(
+				1				=> __("Yes",'acf'),
+				0				=> __("No",'acf'),
+			),
+			'layout'	=>	'horizontal',
 		));
 		
 		
@@ -824,9 +821,13 @@ class acf_field_taxonomy extends acf_field {
 		acf_render_field_setting( $field, array(
 			'label'			=> __('Load Terms','acf'),
 			'instructions'	=> __('Load value from posts terms','acf'),
+			'type'			=> 'radio',
 			'name'			=> 'load_terms',
-			'type'			=> 'true_false',
-			'ui'			=> 1,
+			'choices'		=> array(
+				1				=> __("Yes",'acf'),
+				0				=> __("No",'acf'),
+			),
+			'layout'	=>	'horizontal',
 		));
 		
 		
@@ -897,7 +898,7 @@ class acf_field_taxonomy extends acf_field {
 		// note: this situation should never occur due to condition of the add new button
 		if( !current_user_can( $taxonomy_obj->cap->manage_terms) ) {
 			
-			echo '<p><strong>' . __("Error.", 'acf') . '</strong> ' . sprintf( __('User unable to add new %s', 'acf'), $taxonomy_label ) . '</p>';
+			echo '<p><strong>' . __("Error", 'acf') . '.</strong> ' . sprintf( __('User unable to add new %s', 'acf'), $taxonomy_label ) . '</p>';
 			die;
 			
 		}

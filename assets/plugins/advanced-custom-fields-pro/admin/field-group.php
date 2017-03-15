@@ -392,7 +392,7 @@ class acf_admin_field_group {
 		
 		
 		// vars
-		$status = $field_group['active'] ? __("Active",'acf') : __("Inactive",'acf');
+		$status = $field_group['active'] ? __("Active",'acf') : __("Disabled",'acf');
 		
 ?>
 <script type="text/javascript">
@@ -697,15 +697,11 @@ class acf_admin_field_group {
 			case "post_type" :
 			
 				// get post types
-				// - removed show_ui to allow 3rd party code to register a post type using a custom admin edit page
-				$post_types = acf_get_post_types(array(
-					//'show_ui'	=> 1, 
-					'exclude'	=> array('attachment')
-				));
+				$choices = acf_get_pretty_post_types();
 				
 				
-				// get choices
-				$choices = acf_get_pretty_post_types( $post_types );
+				// remove attachments
+				unset( $choices['attachment'] );
 				
 				
 				// end
@@ -715,11 +711,10 @@ class acf_admin_field_group {
 			case "post" :
 				
 				// get post types
-				$post_types = acf_get_post_types(array(
-					'exclude'	=> array('page', 'attachment')
-				));
+				$exclude = array('page', 'attachment');
+				$post_types = acf_get_post_types( $exclude );
 				
-				
+						
 				// get posts grouped by post type
 				$groups = acf_get_grouped_posts(array(
 					'post_type' => $post_types
@@ -752,32 +747,7 @@ class acf_admin_field_group {
 				
 				break;
 			
-			case "post_template" :
-				
-				// vars
-				$templates = wp_get_theme()->get_post_templates();
-				$default = apply_filters( 'default_page_template_title',  __('Default Template', 'acf') );
-				
-				
-				// choices
-				$choices = array('default' => $default);
-				
-				
-				// templates
-				if( !empty($templates) ) {
-					
-					foreach( $templates as $post_type => $post_type_templates ) {
-						
-						$choices = array_merge($choices, $post_type_templates);
-						
-					}
-					
-				}
-				
-				
-				// break
-				break;
-				
+			
 			case "post_category" :
 				
 				$terms = acf_get_taxonomy_terms( 'category' );
@@ -892,13 +862,18 @@ class acf_admin_field_group {
 			
 			case "page_template" :
 				
-				// vars
-				$templates = wp_get_theme()->get_page_templates();
-				$default = apply_filters( 'default_page_template_title',  __('Default Template', 'acf') );
+				$choices = array(
+					'default' => apply_filters( 'default_page_template_title',  __('Default Template', 'acf') ),
+				);
 				
 				
-				// merge
-				$choices = array_merge(array('default' => $default), $templates);
+				$templates = get_page_templates();
+				
+				foreach( $templates as $k => $v ) {
+				
+					$choices[ $v ] = $k;
+					
+				}
 				
 				break;
 				
@@ -1158,14 +1133,17 @@ class acf_admin_field_group {
 		
 		$args = acf_parse_args($_POST, array(
 			'nonce'				=> '',
-			'post_id'			=> 0,
 			'field_id'			=> 0,
 			'field_group_id'	=> 0
 		));
 		
 		
 		// verify nonce
-		if( !wp_verify_nonce($args['nonce'], 'acf_nonce') ) die();
+		if( ! wp_verify_nonce($args['nonce'], 'acf_nonce') ) {
+		
+			die();
+			
+		}
 		
 		
 		// confirm?
@@ -1205,22 +1183,15 @@ class acf_admin_field_group {
 		$choices = array();
 		
 		
-		// check
 		if( !empty($field_groups) ) {
 			
-			// loop
 			foreach( $field_groups as $field_group ) {
 				
-				// bail early if no ID
-				if( !$field_group['ID'] ) continue;
-				
-				
-				// bail ealry if is current
-				if( $field_group['ID'] == $args['post_id'] ) continue;
-				
-				
-				// append
-				$choices[ $field_group['ID'] ] = $field_group['title'];
+				if( $field_group['ID'] ) {
+					
+					$choices[ $field_group['ID'] ] = $field_group['title'];
+					
+				}
 				
 			}
 			

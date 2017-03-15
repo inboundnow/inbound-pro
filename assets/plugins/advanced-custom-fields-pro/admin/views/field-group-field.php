@@ -76,68 +76,82 @@ $atts['class'] = str_replace('_', '-', $atts['class']);
 		<table class="acf-table">
 			<tbody>
 				<?php 
-				
+		
 				// label
-				acf_render_field_setting($field, array(
+				acf_render_field_wrap(array(
 					'label'			=> __('Field Label','acf'),
 					'instructions'	=> __('This is the name which will appear on the EDIT page','acf'),
-					'name'			=> 'label',
-					'type'			=> 'text',
 					'required'		=> 1,
+					'type'			=> 'text',
+					'name'			=> 'label',
+					'prefix'		=> $field['prefix'],
+					'value'			=> $field['label'],
 					'class'			=> 'field-label'
-				), true);
+				), 'tr');
 				
 				
 				// name
-				acf_render_field_setting($field, array(
+				acf_render_field_wrap(array(
 					'label'			=> __('Field Name','acf'),
 					'instructions'	=> __('Single word, no spaces. Underscores and dashes allowed','acf'),
-					'name'			=> 'name',
-					'type'			=> 'text',
 					'required'		=> 1,
+					'type'			=> 'text',
+					'name'			=> 'name',
+					'prefix'		=> $field['prefix'],
+					'value'			=> $field['name'],
 					'class'			=> 'field-name'
-				), true);
+				), 'tr');
 				
 				
 				// type
-				acf_render_field_setting($field, array(
+				acf_render_field_wrap(array(
 					'label'			=> __('Field Type','acf'),
 					'instructions'	=> '',
 					'required'		=> 1,
 					'type'			=> 'select',
 					'name'			=> 'type',
-					'choices' 		=> acf_get_grouped_field_types(),
+					'prefix'		=> $field['prefix'],
+					'value'			=> $field['type'],
+					'choices' 		=> acf_get_field_types(),
 					'class'			=> 'field-type'
-				), true);
+				), 'tr');
 				
 				
 				// instructions
-				acf_render_field_setting($field, array(
+				acf_render_field_wrap(array(
 					'label'			=> __('Instructions','acf'),
 					'instructions'	=> __('Instructions for authors. Shown when submitting data','acf'),
 					'type'			=> 'textarea',
 					'name'			=> 'instructions',
+					'prefix'		=> $field['prefix'],
+					'value'			=> $field['instructions'],
 					'rows'			=> 5
-				), true);
+				), 'tr');
 				
 				
 				// required
-				acf_render_field_setting($field, array(
+				acf_render_field_wrap(array(
 					'label'			=> __('Required?','acf'),
 					'instructions'	=> '',
-					'type'			=> 'true_false',
+					'type'			=> 'radio',
 					'name'			=> 'required',
-					'ui'			=> 1,
+					'prefix'		=> $field['prefix'],
+					'value'			=> $field['required'],
+					'choices'		=> array(
+						1				=> __("Yes",'acf'),
+						0				=> __("No",'acf'),
+					),
+					'layout'		=> 'horizontal',
 					'class'			=> 'field-required'
-				), true);
-				
-				
-				// 3rd party settings
-				do_action('acf/render_field_settings', $field);
+				), 'tr');
 				
 				
 				// type specific settings
 				do_action("acf/render_field_settings/type={$field['type']}", $field);
+				
+				
+				// 3rd party settings
+				do_action('acf/render_field_settings', $field);
 				
 				
 				// conditional logic
@@ -155,8 +169,7 @@ $atts['class'] = str_replace('_', '-', $atts['class']);
 					'prepend'		=> __('width', 'acf'),
 					'append'		=> '%',
 					'wrapper'		=> array(
-						'data-name' => 'wrapper',
-						'class' => 'acf-field-setting-wrapper'
+						'data-name' => 'wrapper'
 					)
 				), 'tr');
 				

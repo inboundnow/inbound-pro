@@ -6,10 +6,10 @@ $field_groups = acf_extract_var( $args, 'field_groups');
 
 // replace
 $str_replace = array(
-	"  "			=> "\t",
-	"'!!__(!!\'"	=> "__('",
-	"!!\', !!\'"	=> "', '",
-	"!!\')!!'"		=> "')"
+	"  "	=> "\t",
+	"!!\'"	=> "'",
+	"'!!"	=> "",
+	"!!'"	=> ""
 );
 
 $preg_replace = array(

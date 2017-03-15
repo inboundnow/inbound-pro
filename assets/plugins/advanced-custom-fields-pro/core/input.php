@@ -267,22 +267,21 @@ class acf_input {
 		
 ?>
 <script type="text/javascript">
-var acf = acf || null;
-if( acf ) {
-	
+	acf = acf || {};
 	acf.o = <?php echo json_encode($o); ?>;
 	acf.l10n = <?php echo json_encode($l10n); ?>;
 	<?php do_action('acf/input/admin_footer_js'); ?>
-
-}
 </script>
 <?php
 
-do_action('acf/input/admin_footer');
-	
+		
+		// action
+		do_action('acf/input/admin_footer');
+		
+		
 ?>
 <script type="text/javascript">
-	if( acf ) acf.do_action('prepare');
+	acf.do_action('prepare');
 </script>
 <?php
 		
@@ -456,26 +455,10 @@ function acf_form_data( $args = array() ) {
 	$args = acf_set_form_data( $args );
 	
 	
-	// hidden inputs
-	$inputs = array(
-		'_acfnonce'		=> wp_create_nonce($args['nonce']),
-		'_acfchanged'	=> 0
-	);
-	
-	
-	// append custom
-	foreach( $args as $k => $v ) {
-		
-		if( substr($k, 0, 4) === '_acf' ) $inputs[ $k ] = $v;
-		
-	}
-	
-	
 	?>
 	<div id="acf-form-data" class="acf-hidden">
-		<?php foreach( $inputs as $k => $v ): ?>
-		<input type="hidden" name="<?php echo esc_attr($k); ?>" value="<?php echo esc_attr($v); ?>" />
-		<?php endforeach; ?>
+		<input type="hidden" name="_acfnonce" value="<?php echo wp_create_nonce( $args['nonce'] ); ?>" />
+		<input type="hidden" name="_acfchanged" value="0" />
 		<?php do_action('acf/input/form_data', $args); ?>
 	</div>
 	<?php

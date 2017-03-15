@@ -24,7 +24,7 @@ if( empty($groups) ) {
 }
 
 ?>
-<tr class="acf-field acf-field-true-false acf-field-setting-conditional_logic" data_type="true_false" data-name="conditional_logic">
+<tr data-name="conditional_logic" class="acf-field">
 	<td class="acf-label">
 		<label><?php _e("Conditional Logic",'acf'); ?></label>
 	</td>
@@ -32,12 +32,16 @@ if( empty($groups) ) {
 		<?php 
 		
 		acf_render_field(array(
-			'type'			=> 'true_false',
+			'type'			=> 'radio',
 			'name'			=> 'conditional_logic',
 			'prefix'		=> $field['prefix'],
 			'value'			=> $disabled ? 0 : 1,
-			'ui'			=> 1,
-			'class'			=> 'conditional-toggle',
+			'choices'		=> array(
+								1	=> __("Yes",'acf'),
+								0	=> __("No",'acf'),
+			),
+			'layout'		=> 'horizontal',
+			'class'			=> 'conditional-toggle'
 		));
 		
 		?>
@@ -46,8 +50,11 @@ if( empty($groups) ) {
 			<?php foreach( $groups as $group_id => $group ): 
 				
 				// validate
-				if( empty($group) ) continue;
+				if( empty($group) ) {
 				
+					continue;
+					
+				}
 				
 				// vars
 				// $group_id must be completely different to $rule_id to avoid JS issues
