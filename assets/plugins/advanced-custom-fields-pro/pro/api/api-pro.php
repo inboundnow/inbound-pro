@@ -51,6 +51,7 @@ function acf_pro_get_remote_url( $action = '', $args = array() ) {
 	
 	// vars
 	$url = "https://connect.advancedcustomfields.com/index.php?" . build_query($args);
+	//$url = "http://connect/index.php?" . build_query($args);
 	
 	
 	// return
@@ -227,67 +228,162 @@ function acf_pro_get_remote_info() {
 }
 
 
-function acf_pro_is_license_active() {
-	
-	// vars
-	$data = acf_pro_get_license( true );
-	$url = home_url();
-	
-	if( !empty($data['url']) && !empty($data['key']) && $data['url'] == $url ) {
-		
-		return true;
-		
-	}
-	
-	
-	return false;
-	
-}
+/*
+*  acf_pro_get_license
+*
+*  This function will return the license
+*
+*  @type	function
+*  @date	20/09/2016
+*  @since	5.4.0
+*
+*  @param	n/a
+*  @return	n/a
+*/
 
-function acf_pro_get_license( $all = false ) {
+function acf_pro_get_license() {
 	
 	// get option
-	$data = get_option('acf_pro_license');
+	$license = get_option('acf_pro_license');
+	
+	
+	// bail early if no value
+	if( !$license ) return false;
 	
 	
 	// decode
-	$data = base64_decode($data);
+	$license = maybe_unserialize(base64_decode($license));
 	
 	
-	// attempt deserialize
-	if( is_serialized( $data ) )
-	{
-		$data = maybe_unserialize($data);
+	// bail early if corrupt
+	if( !acf_is_array( $license )) return false;
+	
+	
+	// return
+	return $license;
+	
+}
+
+
+/*
+*  acf_pro_get_license_key
+*
+*  This function will return the license key
+*
+*  @type	function
+*  @date	20/09/2016
+*  @since	5.4.0
+*
+*  @param	n/a
+*  @return	n/a
+*/
+
+function acf_pro_get_license_key() {
+	
+	// vars
+	$license = acf_pro_get_license();
+	
+	
+	// bail early if empty
+	if( !$license ) return false;
+	
+	
+	// return
+	return $license['key'];
+	
+}
+
+
+/*
+*  acf_pro_is_license_active
+*
+*  This function will return true if the current license is active
+*
+*  @type	function
+*  @date	20/09/2016
+*  @since	5.4.0
+*
+*  @param	n/a
+*  @return	n/a
+*/
+
+function acf_pro_is_license_active() {
+	
+	// vars
+	$license = acf_pro_get_license();
+	$url = home_url();
+	
+	// bail early if empty
+	if( !$license ) return false;
+	
+	
+	// bail early if no key
+	if( !$license['key'] ) return false;
+	
+
+	// strip proticol from urls
+	$license['url'] = acf_strip_protocol( $license['url'] );
+	$url = acf_strip_protocol( $url );
+
+
+	// bail early if url does not match
+	if( $license['url'] !== $url ) {
 		
-		// $all
-		if( !$all )
-		{
-			$data = $data['key'];
-		}
+		// add notice (only once) - removed due to feedback 
+		// if( !acf_has_done('acf_pro_is_license_active_notice') ) {
+		// 	
+		// 	acf_add_admin_notice( __('Error validating ACF PRO license URL (website does not match). Please re-activate your license','acf'), 'error' );
+		// 	
+		// }
 		
-		return $data;
+		return false;
+		
 	}
 	
 	
 	// return
-	return false;
+	return true;
+	
 }
 
 
+/*
+*  acf_pro_update_license
+*
+*  This function will update the DB license
+*
+*  @type	function
+*  @date	20/09/2016
+*  @since	5.4.0
+*
+*  @param	$key (string)
+*  @return	n/a
+*/
 
-function acf_pro_update_license( $license ) {
+function acf_pro_update_license( $key = '' ) {
 	
-	$save = array(
-		'key'	=> $license,
-		'url'	=> home_url()
-	);
+	// vars
+	$value = '';
 	
 	
-	$save = maybe_serialize($save);
-	$save = base64_encode($save);
+	// key
+	if( $key ) {
+		
+		// vars
+		$data = array(
+			'key'	=> $key,
+			'url'	=> home_url()
+		);
+		
+		
+		// encode
+		$value = base64_encode(maybe_serialize($data));
+		
+	}
 	
 	
-	return update_option('acf_pro_license', $save);
+	// update
+	return update_option('acf_pro_license', $value);
 	
 }
 
