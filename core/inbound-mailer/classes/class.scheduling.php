@@ -98,6 +98,9 @@ class Inbound_Mailer_Scheduling {
             $action['job_id'] = 0;
         }
 
+        /* prepare tokens for MySQL */
+        $tokens_encoded = mysql_real_escape_string(json_encode($tokens));
+
         /* check for a post id inside of tokens */
         $post_id =  (isset($tokens['post_object']) && isset($tokens['post_object']['ID'])) ? $tokens['post_object']['ID'] : 0;
 
@@ -111,7 +114,7 @@ class Inbound_Mailer_Scheduling {
             $query_prefix .= "VALUES";
 
             foreach ($leads as $ID) {
-                $query_values_array[] = "( {$email_id} , {$vid} , {$ID} , '" . Inbound_Mailer_Scheduling::$settings['email_type'] . "' , '".json_encode($tokens)."' ,'waiting' , '{$timestamp}' , '{$action['rule_id']}' , '{$action['job_id']}', '".json_encode(Inbound_Mailer_Scheduling::$recipients)."' , '".$post_id."')";
+                $query_values_array[] = "( {$email_id} , {$vid} , {$ID} , '" . Inbound_Mailer_Scheduling::$settings['email_type'] . "' , '".$tokens_encoded."' ,'waiting' , '{$timestamp}' , '{$action['rule_id']}' , '{$action['job_id']}', '".json_encode(Inbound_Mailer_Scheduling::$recipients)."' , '".$post_id."')";
             }
 
             $value_batches = array_chunk($query_values_array, 500);
