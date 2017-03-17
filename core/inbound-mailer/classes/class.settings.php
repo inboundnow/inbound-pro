@@ -190,6 +190,13 @@ if ( !class_exists('Inbound_Mailer_Settings') ) {
 						'type'  => 'number',
 						'default'  => '100'
 					),
+					array(
+						'id'  => 'processing-threads',
+						'label'  => __('Processing Threads', 'inbound-pro' ),
+						'description'  => __( 'We can increase this number to multiply our processing powers. Be very careful though, this could cause your server to overwork and damage your sending efforts. If you\'re not sure what you are doing leave this to 1.' , 'inbound-pro' ),
+						'type'  => 'number',
+						'default'  => '1'
+					),
 
 					array(
 						'id'  => 'subheader-unsubscribe',
