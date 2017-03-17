@@ -8,6 +8,7 @@ class Inbound_Mail_Daemon {
     static $table_name; /* name of the mysql table we use for querying queued emails */
     static $email_service; /* number of emails we send during a processing job	(wp_mail only) */
     static $send_limit; /* number of emails we send during a processing job	(wp_mail only) */
+    static $thread_limit; /* number of emails we send during a processing job	(wp_mail only) */
     static $timestamp; /* the current date time in ISO 8601 gmdate() */
     static $dom; /* reusable object for parsing html for link modification */
     static $row; /* current mysql row object being processed */
@@ -43,6 +44,9 @@ class Inbound_Mail_Daemon {
 
         /* Set send limit */
         self::$send_limit = (isset($inbound_settings['inbound-mailer']['processing-limit'])) ? $inbound_settings['inbound-mailer']['processing-limit'] : 100;
+
+        /* Set thread limit */
+        self::$send_limit = (isset($inbound_settings['inbound-mailer']['thread-limit'])) ? $inbound_settings['inbound-mailer']['thread-limit'] : 1;
 
         /* Set target mysql table name */
         self::$table_name = $wpdb->prefix . "inbound_email_queue";
@@ -174,8 +178,8 @@ class Inbound_Mail_Daemon {
         self::$email_settings = Inbound_Email_Meta::get_settings(self::$row->email_id);
 
         /* set list ids if available */
-        if (isset($row->list_ids)) {
-            self::$email_settings['recipients'] = json_decode($row->list_ids ,true);
+        if (isset(self::$row->list_ids)) {
+            self::$email_settings['recipients'] = json_decode(self::$row->list_ids ,true);
         }
 
         /* Build array of html content for variations */
