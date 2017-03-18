@@ -549,8 +549,9 @@ if ( !class_exists('Inbound_Quick_View') ) {
 				$end_date = $wordpress_date_time;
 			}
 
+			$events = Inbound_Events::get_content_clicks_by('page_id', array('page_id' => $post->ID, 'start_date' => $start_date, 'end_date' => $end_date));
 
-			return count(Inbound_Events::get_content_clicks_by('page_id', array('page_id' => $post->ID, 'start_date' => $start_date, 'end_date' => $end_date)));
+			return count($events);
 		}
 
 

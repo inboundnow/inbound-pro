@@ -70,9 +70,11 @@ class Inbound_Mailer_Unsubscribe {
 
 		/* check if lead is coming from automation seriest */
 		if (isset($params['job_id']) && $params['job_id'] ) {
+			/*
 			$html .= "<blockquote class='unsubscribe-notice'>";
 			$html .= $usubscribe_notice_automation_series;
 			$html .= "</blockquote>";
+			*/
 
 			/* delete remaining automation tasks for automation rule */
 			Inbound_Automation_Post_Type::delete_rule_tasks( array('job_id' => $params['job_id']) );
