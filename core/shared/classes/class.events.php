@@ -511,9 +511,10 @@ class Inbound_Events {
                 $capture_id = $event['cta_id'];
                 break;
             case 'inbound_content_click':
-                $link = admin_url('post.php?post='.$event['page_id'].'&action=edit');
-                $title = get_the_title($event['page_id']);
-                $capture_id = $event['page_id'];
+                $details = json_decode($event['event_details'],true);
+                $link = $details['url'];
+                $title = $details['url'];
+                $capture_id = '';
                 break;
             case 'inbound_form_submission':
                 $link = admin_url('post.php?post='.$event['form_id'].'&action=edit');
@@ -1133,7 +1134,7 @@ class Inbound_Events {
             $query .= 'AND variation_id = "'.$params['variation_id'].'" ';
         }
 
-        $query .= 'AND `event_name` = "inbound_cta_click" ORDER BY `datetime` DESC';
+        $query .= 'AND `event_name` = "inbound_content_click" ORDER BY `datetime` DESC';
 
         $results = $wpdb->get_results( $query , ARRAY_A );
 

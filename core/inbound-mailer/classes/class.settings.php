@@ -120,6 +120,7 @@ if ( !class_exists('Inbound_Mailer_Settings') ) {
 						'default'  => __('Thank you!','inbound-pro')
 
 					),
+					/*
 					array(
 						'id'  => 'unsubscribe-notice-automation-series',
 						'label'  => __('Confirmation Message #2', 'inbound-pro' ),
@@ -127,7 +128,7 @@ if ( !class_exists('Inbound_Mailer_Settings') ) {
 						'type'  => 'text',
 						'default'  => __( 'You have unsubscribed!<br>Additional options below.', 'inbound-pro')
 
-					),
+					),*/
 					array(
 						'id'  => 'unsubscribe-comments-header-1',
 						'label'  => __('Comment Prompt', 'inbound-pro' ),
