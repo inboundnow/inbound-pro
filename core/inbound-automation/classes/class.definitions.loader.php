@@ -176,6 +176,7 @@ if (!class_exists('Inbound_Automation_Loader')) {
                         }
 
                     } else if (isset($args[$id])) {
+                        $args[$id] = strip_tags($args[$id]);
                         $keys[$id] = $argument['label'] . ' (' . $args[$id] . ')';
                     }
 
