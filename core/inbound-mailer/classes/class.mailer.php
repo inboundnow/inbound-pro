@@ -430,12 +430,12 @@ class Inbound_Mail_Daemon {
             $query_args = array('inbvid' => $vid, 'disable_shortcodes' => true);
 
             /* encode post_id */
-            if (self::$row->post_id) {
+            if (isset(self::$row->post_id)) {
                 $query_args['post_id'] = self::$row->post_id ;
             }
 
             /* encode tokens */
-            if (self::$row->tokens) {
+            if (self::$row->tokens && strlen(self::$row->tokens) < 1000 )  {
                 $token = Inbound_Mailer_Unsubscribe::encode_unsubscribe_token(json_decode(self::$row->tokens,true));
                 $query_args['tokens'] = $token ;
             }
