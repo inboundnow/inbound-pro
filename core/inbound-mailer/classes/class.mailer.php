@@ -46,7 +46,7 @@ class Inbound_Mail_Daemon {
         self::$send_limit = (isset($inbound_settings['inbound-mailer']['processing-limit'])) ? $inbound_settings['inbound-mailer']['processing-limit'] : 100;
 
         /* Set thread limit */
-        self::$send_limit = (isset($inbound_settings['inbound-mailer']['thread-limit'])) ? $inbound_settings['inbound-mailer']['thread-limit'] : 1;
+        self::$thread_limit = (isset($inbound_settings['inbound-mailer']['thread-limit'])) ? $inbound_settings['inbound-mailer']['thread-limit'] : 1;
 
         /* Set target mysql table name */
         self::$table_name = $wpdb->prefix . "inbound_email_queue";
