@@ -423,8 +423,8 @@ if (have_posts()) : while (have_posts()) : the_post();
                                                 <tbody>
                                                 <!-- image -->
                                                 <tr>
-                                                    <td width="280" height="191" align="center" class="devicewidth">
-                                                        <img src="<?php echo $thumbnail; ?>" alt="" border="0" width="280" height="191" style="display:block; border:none; outline:none; text-decoration:none;" class="col2img">
+                                                    <td width="280" height="220" align="center" class="devicewidth">
+                                                        <img src="<?php echo $thumbnail; ?>" alt="" border="0" width="280" height="220" style="display:block; border:none; outline:none; text-decoration:none;" class="col2img">
                                                     </td>
                                                 </tr>
                                                 <!-- /image -->
