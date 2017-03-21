@@ -95,6 +95,4 @@ class Inbound_Mailer_SparkPost extends Inbound_Mail_Daemon {
 		do_action( 'mailer/sparkpost/send' , $message_args  );
 	}
 
-
-
 }

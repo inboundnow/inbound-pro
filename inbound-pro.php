@@ -4,7 +4,7 @@ Plugin Name: Inbound Now PRO
 Plugin URI: http://www.inboundnow.com/
 Description: Professional Inbound Marketing Suite for WordPress
 Author: InboundWP LLC
-Version: 1.8.3.1.3
+Version: 1.8.3.1.4
 Author URI: http://www.inboundnow.com/
 Text Domain: inbound-pro
 Domain Path: /lang/
@@ -94,8 +94,8 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 		*/
 		private static function define_constants() {
 
-			define('INBOUND_PRO_CURRENT_VERSION', '1.8.3.1.3' );
-			define('INBOUND_PRO_STABLE_VERSION', '1.8.3.1.3' );
+			define('INBOUND_PRO_CURRENT_VERSION', '1.8.3.1.4' );
+			define('INBOUND_PRO_STABLE_VERSION', '1.8.3.1.4' );
 			define('INBOUND_PRO_TRANSLATIONS_VERSION', '1.30.1' );
 			define('INBOUND_PRO_URLPATH', plugin_dir_url( __FILE__ ));
 			define('INBOUND_PRO_PATH', plugin_dir_path( __FILE__ ) );
@@ -142,7 +142,12 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 			/* load tracking report features */
 			include_once( INBOUND_PRO_PATH . 'classes/class.tracking.php');
 
-			/* load subscriber only assets/features */
+			/* load cronjob system for mailer and automation */
+			if ( !isset($inbound_settings['inbound-core-loading']['toggle-email-automation']) || $inbound_settings['inbound-core-loading']['toggle-email-automation'] =='on' ) {
+				include_once( INBOUND_PRO_PATH . 'classes/class.cron.php');
+			}
+
+				/* load subscriber only assets/features */
 			if ( INBOUND_ACCESS_LEVEL> 0 && !isset($_GET['acf_off']) && INBOUND_ACCESS_LEVEL != 9 ) {
 
 				/* if lite mode enabled then set the constant */

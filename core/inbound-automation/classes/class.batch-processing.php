@@ -89,58 +89,6 @@ class Automation_Batch_Processing {
         }
     }
 
-    /**
-     * get rule queue from option value
-     */
-    public static function get_tasks(  ) {
-        return get_option( 'inbound_automation_queue' , array() );
-    }
-
-    public static function import_legacy_rules( $args ) {
-        $queue = self::get_tasks();
-
-        if (!$queue || !is_array($queue)) {
-
-            echo '<br>Done!</br>';
-            self::delete_flag( $args );
-            return;
-        }
-
-        global $wpdb;
-        $table_name = $wpdb->prefix . "inbound_automation_queue";
-
-        foreach ($queue  as $key => $job ) {
-
-            /* discover datetime to run */
-            $timezone_format = 'Y-m-d G:i:s T';
-            $wordpress_date_time =  date_i18n($timezone_format);
-
-            /* get first action block */
-            $temp = $job['rule']['action_blocks'];
-            $action_block = array_shift($temp);
-
-            /* check for run date */
-            $run_date = (isset($action_block['actions']['then']['run_date'])) ? $action_block['actions']['then']['run_date'] : $wordpress_date_time;
-
-            /* setup rule arguments */
-            $rule_args = array(
-                'rule_id' => $job['rule']['ID'],
-                'tasks' => json_encode($job['rule']),
-                'trigger_data' => json_encode($job['arguments']),
-                'datetime' => $run_date
-            );
-
-            /* add job to automation queue */
-            $wpdb->insert(
-                $table_name,
-                $rule_args
-            );
-        }
-
-        echo '<br>Done!</br>';
-        self::delete_flag( $args );
-    }
-
 }
 
 new Automation_Batch_Processing();

@@ -45,7 +45,9 @@ class Inbound_Pro_Activation {
 	}
 
 	public static function deactivate() {
-
+		wp_clear_scheduled_hook( 'inbound_mailer_heartbeat' );
+		wp_clear_scheduled_hook( 'inbound_automation_heartbeat' );
+		wp_clear_scheduled_hook( 'inbound_heartbeat' ); /* legacy */
 	}
 
 	/**

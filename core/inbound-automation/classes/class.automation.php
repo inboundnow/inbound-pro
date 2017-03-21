@@ -34,7 +34,7 @@ class Inbound_Automation_Processing {
 		add_action( 'admin_enqueue_scripts' , array( __CLASS__ , 'load_debug_tools' ) );
 
 		/* Adds automation processing to Inbound heartbeat */
-		add_action( 'inbound_heartbeat' , array( __CLASS__ , 'process_rules' ) );
+		add_action( 'inbound_automation_heartbeat' , array( __CLASS__ , 'process_rules' ) );
 
 	}
 
@@ -54,11 +54,6 @@ class Inbound_Automation_Processing {
 			print_r(self::$queue);
 			echo '</pre>';exit;
 		}
-
-		if (isset($_GET['inbound-automation-empty-queue'])) {
-            update_option( 'inbound_automation_queue' , null );
-		}
-
 
 		if (isset($_GET['inbound-automation-run-rules'])) {
             self::process_rules();
@@ -559,4 +554,3 @@ function inbound_automation_processing() {
 }
 add_action( 'init' , 'inbound_automation_processing' , 2 );
 
-//update_option( 'inbound_automation_queue' , '' );
