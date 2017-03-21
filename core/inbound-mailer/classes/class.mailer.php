@@ -70,19 +70,64 @@ class Inbound_Mail_Daemon {
         }
 
         /* Adds mail processing to Inbound Heartbeat */
-        add_action('inbound_heartbeat', array(__CLASS__, 'process_mail_queue'));
+        //add_action('inbound_heartbeat', array(__CLASS__, 'process_mail_queue'));
+        add_action('inbound_heartbeat', array(__CLASS__, 'process_threaded_mail_queue'));
 
         /* For debugging */
         add_filter('init', array(__CLASS__, 'process_mail_queue'), 12);
+    }
+
+    /**
+     *  Use time out connections to run multiple processes
+     */
+    public static function process_threaded_mail_queue() {
+        return;
+        $nonce = md5( SECURE_AUTH_KEY . 'inbound-mailer-nonce' );
+        $admin_url = admin_url();
+
+        for($i=0;$i<self::$thread_count; $i++) {
+            $admin_url_prepared = add_query_arg( array('cb' => rand(0, 2000) , 'nonce'=>$nonce, 'action'=> 'process_mail_queue' , $admin_url );
+            self::curl_process_email_thread($admin_url_prepared);
+            sleep(1);
+        }
+    }
+
+
+    /**
+     *  Multi submit POPEN Style
+     */
+    public static function curl_process_email_thread($url) {
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_FAILONERROR,true);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 2);
+        curl_setopt($ch, CURLOPT_VERBOSE, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        //print_r(curl_getinfo($ch));
+
+        curl_close($ch);
 
     }
 
 
     public static function process_mail_queue() {
 
-        if (!isset($_GET['forceprocess']) && current_filter() == 'init') {
+        /* lets make sure action is set */
+        if (!isset($_GET['action']) || $_GET['action'] != 'process_mail_queue' ) {
             return;
         }
+
+        /* check security nonces */
+        if (!isset($_GET['nonce']) || $_GET['nonce'] != md5( SECURE_AUTH_KEY . 'inbound-mailer-nonce' ) ) {
+            return;
+        }
+
 
         /* send automation emails */
         self::send_automated_emails();
@@ -164,6 +209,7 @@ class Inbound_Mail_Daemon {
         $query = "select * from " . self::$table_name . " WHERE `status` != 'processed' && `type` = 'automated' && `datetime` <	'" . self::$timestamp . "' && `email_id` = `email_id` order by email_id  ASC LIMIT " . self::$send_limit;
         self::$results = $wpdb->get_results($query);
 
+
         if (!self::$results) {
             return;
         }
@@ -194,6 +240,7 @@ class Inbound_Mail_Daemon {
         /* load dom parser class object */
         self::toggle_dom_parser();
 
+        $i = 0;
         foreach (self::$results as $row) {
 
             self::$row = $row;
@@ -215,6 +262,10 @@ class Inbound_Mail_Daemon {
             }
 
             self::delete_from_queue();
+
+
+            error_log('COUNT ' . $i );
+            $i++;
         }
     }
 
