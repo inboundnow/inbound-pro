@@ -70,6 +70,7 @@ if ( !class_exists('Inbound_Mailer_Activation') ) {
 
 			/* Get list of updaters from Inbound_Mailer_Activation_Update_Routines class */
 			$updaters = get_class_methods('Inbound_Mailer_Activation_Update_Routines');
+			$updaters = (is_array($updaters)) ? $updaters : array();
 
 			/* Get transient list of completed update processes */
 			$completed = ( get_option( 'inbound_email_completed_upgrade_routines' ) ) ?  get_option( 'inbound_email_completed_upgrade_routines' ) : array();

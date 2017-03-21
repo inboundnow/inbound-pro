@@ -36,7 +36,6 @@ if (have_posts()) : while (have_posts()) : the_post();
     /*Columns*/
     $footer_text_font_size = get_field("footer_text_font_size", $post_id);
     $column_display_single_column_or_double_column = get_field("column_display_single_column_or_double_column", $post_id);
-    $footer_column_width = get_field("footer_column_width", $post_id);
 
     /* Latest Posts */
     $show_latest_posts = get_field("show_latest_posts", $post_id);
@@ -176,6 +175,25 @@ if (have_posts()) : while (have_posts()) : the_post();
                 border: 15px solid <?php echo $email_button_hover_color; ?> !important;
             }
 
+            @media only screen and (max-width: 480px) {
+                .col2img {
+                    height: auto !important;
+                    width: 100% !important;
+                }
+
+                .devicewidth {
+                    width: 95%;
+                    margin-left: 10px;
+                    margin-right: 10px;
+                    text-align: center;
+                    float: none;
+                }
+
+                .container {
+                    width:95%;
+                }
+            }
+
         </style>
         <?php do_action('inbound-mailer/email/header'); ?>
     </head>
@@ -193,9 +211,9 @@ if (have_posts()) : while (have_posts()) : the_post();
             1. max-width for all clients except Desktop Windows Outlook, allowing the email to squish on narrow but never go wider than 600px.
             2. MSO tags for Desktop Windows Outlook enforce a 600px width.
         -->
-        <div style="max-width: 600px; margin: auto;">
+        <div style="max-width: 600px; margin: auto;" class="container">
             <!--[if (gte mso 9)|(IE)]>
-            <table cellspacing="0" cellpadding="0" border="0" width="600" align="center">
+            <table cellspacing="0" cellpadding="0" border="0" width="600" align="center" class="container">
                 <tr>
                     <td>
             <![endif]-->
@@ -224,7 +242,7 @@ if (have_posts()) : while (have_posts()) : the_post();
                     </tr>
                     <?php
                 }
-                ?>  <!-- Hero Image, Flush : BEGIN -->
+                ?> <!-- Hero Image, Flush : BEGIN -->
                 <?php
                 if ($email_header_text) {
                     ?>
@@ -243,7 +261,7 @@ if (have_posts()) : while (have_posts()) : the_post();
                     <td>
                         <table cellspacing="0" cellpadding="0" border="0" width="100%">
                             <tr>
-                                <td  style="padding-left: 40px; padding-right: 40px; padding-bottom: 40px;padding-top: 25px; font-family: sans-serif; font-size: <?php echo $main_content_font_size; ?>; mso-height-rule: exactly; line-height: 20px; color: <?php echo $email_text_color; ?>;">
+                                <td style="padding-left: 40px; padding-right: 40px; padding-bottom: 40px;padding-top: 25px; font-family: sans-serif; font-size: <?php echo $main_content_font_size; ?>; mso-height-rule: exactly; line-height: 20px; color: <?php echo $email_text_color; ?>;">
                                     <div style="text-align:center;width:100%"><?php echo $main_content_a; ?></div>
                                     <br><br>
                                     <!-- Button : Begin -->
@@ -258,117 +276,12 @@ if (have_posts()) : while (have_posts()) : the_post();
                                     </table>
                                     <!-- Button : END -->
                                     <br>
-                                    <?php echo strip_tags($main_content_b , '<div><table><tr><td><i><b><strong><br><p><a>'); ?>
+                                    <?php echo strip_tags($main_content_b, '<div><table><tr><td><i><b><strong><br><p><a>'); ?>
                                 </td>
                             </tr>
                         </table>
                     </td>
                 </tr>
-                <!-- 1 Column Text + Button : BEGIN -->
-
-                <!-- 2 Even Columns : BEGIN -->
-                <!--if-single-->
-                <?php if ($column_display_single_column_or_double_column == 'single_column') { ?>
-                    <tr>
-                        <td align="center" height="100%" valign="top" width="100%" style="padding-bottom: 40px; background-color: <?php echo $email_content_background_color; ?>;">
-                            <table border="0" cellpadding="0" cellspacing="0" align="center" width="100%" style="max-width:560px;">
-                                <tr>
-                                    <td align="center" valign="top" width="<?php echo ($footer_column_width * 100) . '%'; ?>">
-                                        <?php
-                                        /* Start footer_column_blocks Repeater Output.*/
-                                        if (have_rows("footer_column_blocks")) {
-
-
-                                            while (have_rows("footer_column_blocks")) : the_row();
-                                                $column_block_image = get_sub_field("column_block_image");
-                                                $column_block_content = get_sub_field("column_block_content");
-                                                ?>
-
-                                                <table cellspacing="0" cellpadding="0" border="0" width="<?php echo ($footer_column_width * 100) . '%'; ?>" style="font-size: 14px;text-align: left;">
-                                                    <tr>
-                                                        <td style="text-align: center; padding: 0 10px;">
-                                                            <img src="<?php echo $column_block_image; ?>" width="<?php echo(540 * $footer_column_width); ?>" alt="footer-column-image" style="border: 0; width: 100%; max-width: <?php echo (540 * $footer_column_width) . 'px'; ?>;" class="center-on-narrow">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="text-align: center;font-family: sans-serif; font-size: <?php echo $footer_text_font_size; ?>; mso-height-rule: exactly; line-height: 20px; color: <?php echo $email_text_color; ?>; padding: 10px 10px 0;" class="stack-column-center">
-                                                            <?php echo $column_block_content; ?>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-
-                                            <?php endwhile; ?>
-
-                                        <?php } /* end if have_rows(footer_column_blocks) */
-                                        /* End footer_column_blocks Repeater Output */
-                                        ?>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                <?php }; ?>
-                <!--/if-single-->
-
-                <!--if-double-->
-                <?php if ($column_display_single_column_or_double_column == 'double_column'){
-                $counter_num = 2;
-
-                /* Start footer_column_blocks Repeater Output.*/
-                if (have_rows("footer_column_blocks")) {
-
-                    while (have_rows("footer_column_blocks")) : the_row();
-                        $column_block_image = get_sub_field("column_block_image");
-                        $column_block_content = get_sub_field("column_block_content");
-                        ?>
-
-                        <?php if ($counter_num % 2 == 0) { ?>
-                            <tr>
-                            <td align="center" height="100%" valign="top" width="100%" style="padding-bottom: 40px; background-color: <?php echo $email_content_background_color; ?>;">
-                            <table border="0" cellpadding="0" cellspacing="0" align="center" width="100%" style="max-width:560px;">
-                            <tr>
-                        <?php }
-                    ; ?>
-
-                        <td align="center" valign="top" width="<?php echo ($footer_column_width * 50) . '%'; ?>">
-                            <!--orig: 50%-->
-                            <table cellspacing="0" cellpadding="0" border="0" width="<?php echo ($footer_column_width * 100) . '%'; ?>" style="font-size: 14px;text-align: left;">
-                                <tr>
-                                    <td style="text-align: center; padding: 0 10px;">
-                                        <img src="<?php echo $column_block_image; ?>" width="<?php echo(540 * $footer_column_width * .5); ?>" alt="footer-column-image" style="border: 0; width: 100%; max-width: <?php echo (540 * $footer_column_width * .5) . 'px'; ?>;" class="center-on-narrow">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: center;font-family: sans-serif; font-size: <?php echo $footer_text_font_size; ?>; mso-height-rule: exactly; line-height: 20px; color: <?php echo $email_text_color; ?>; padding: 10px 10px 0;" class="stack-column-center">
-                                        <?php echo $column_block_content; ?>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <?php if ($counter_num % 2 == 1) { ?>
-                            </tr>
-                            </table>
-                            </td>
-                            </tr>
-                        <?php }; ?>
-
-                        <?php $counter_num++; ?>
-                    <?php endwhile; ?>
-
-                <?php } /* end if have_rows(footer_column_blocks) */
-                /* End footer_column_blocks Repeater Output */
-                ?>
-
-                </tr>
-            </table>
-            </td>
-            </tr>
-
-            <?php }; ?>
-            <!--/if-double-->
-
-            <!-- Two Even Columns : END -->
-
             </table>
             <!-- Email Body : END -->
             <?php
@@ -381,10 +294,10 @@ if (have_posts()) : while (have_posts()) : the_post();
                             'terms' => $show_latest_posts_category
                         )
                     ),
-                    'orderby'   => 'date',
-                    'order'  => 'DESC',
+                    'orderby' => 'date',
+                    'order' => 'DESC',
                     'post_staus' => 'published',
-                    'limit' => (int) $show_latest_posts_limit + 1
+                    'limit' => (int)$show_latest_posts_limit + 1
                 );
 
                 $posts = get_posts($args);
@@ -400,46 +313,47 @@ if (have_posts()) : while (have_posts()) : the_post();
                     $thumbnail = wp_get_attachment_url(get_post_thumbnail_id($post->ID));
                     $excerpt = $post->post_object;
                     if (!$excerpt) {
-                        $excerpt = wp_trim_words($post->post_content , 8) ;
+                        $excerpt = wp_trim_words($post->post_content, 8);
                     }
                     ?>
                     <div style="height:25px"></div>
                     <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%" style="max-width: 600px; background-color:<?php echo $email_content_background_color; ?> ">
                         <tr>
                             <td align="center" height="100%" valign="top" width="100%" style="background-color: <?php echo $email_content_background_color; ?>;">
-                                <table width="600" cellpadding="0" cellspacing="0" border="0" align="center" class="devicewidth">
+                                <table width="100%" cellpadding="0" cellspacing="0" border="0" align="center" class="devicewidth">
                                     <tbody>
                                     <tr>
                                         <td>
                                             <?php
                                             $right_col_width = '100%';
                                             if ($thumbnail) {
-                                                $right_col_width = 320;
+                                                $right_col_width = "50%";
                                                 ?>
 
 
-                                            <!-- Start of left column -->
-                                            <table width="280" align="left" border="0" cellpadding="0" cellspacing="0" class="devicewidth">
-                                                <tbody>
-                                                <!-- image -->
-                                                <tr>
-                                                    <td width="280" height="220" align="center" class="devicewidth">
-                                                        <img src="<?php echo $thumbnail; ?>" alt="" border="0" width="280" height="220" style="display:block; border:none; outline:none; text-decoration:none;" class="col2img">
-                                                    </td>
-                                                </tr>
-                                                <!-- /image -->
-                                                </tbody>
-                                            </table>
-                                            <!-- end of left column -->
-                                            <!-- spacing for mobile devices-->
-                                            <table align="left" border="0" cellpadding="0" cellspacing="0" class="mobilespacing">
-                                                <tbody>
-                                                <tr>
-                                                    <td width="100%" height="15" style="font-size:1px; line-height:1px; mso-line-height-rule: exactly;">&nbsp;</td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                                            <?php
+                                                <!-- Start of left column -->
+                                                <table width="280" align="left" border="0" cellpadding="0" cellspacing="0" class="devicewidth">
+                                                    <tbody>
+                                                    <!-- image -->
+                                                    <tr>
+                                                        <td width="280" height="220" align="center" class="devicewidth">
+                                                            <img src="<?php echo $thumbnail; ?>" alt="" border="0" width="280" height="220" style="width:280px; max-width:280px; border:none; outline:none; text-decoration:none;" class="col2img">
+                                                        </td>
+                                                    </tr>
+                                                    <!-- /image -->
+                                                    </tbody>
+                                                </table>
+                                                <!-- end of left column -->
+                                                <!-- spacing for mobile devices-->
+                                                <table align="left" border="0" cellpadding="0" cellspacing="0" class="mobilespacing">
+                                                    <tbody>
+                                                    <tr>
+                                                        <td width="100%" height="15" style="font-size:1px; line-height:1px; mso-line-height-rule: exactly;">
+                                                            &nbsp;</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                                <?php
 
                                             } ?>
                                             <!-- end of for mobile devices-->
@@ -448,11 +362,11 @@ if (have_posts()) : while (have_posts()) : the_post();
                                                 <tbody>
                                                 <tr>
                                                     <td>
-                                                        <table width="<?php echo $right_col_width; ?>" align="center" border="0" cellpadding="0" cellspacing="0" class="devicewidth" style="padding-top:20px">
+                                                        <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="devicewidth" style="padding-top:20px">
                                                             <tbody>
                                                             <!-- title -->
                                                             <tr>
-                                                                <td style="font-family: Helvetica, arial, sans-serif; font-size: 18px; color: #282828; text-align:left; line-height: 24px;padding-top: 8px;padding-left:25px;;">
+                                                                <td style="font-family: Helvetica, arial, sans-serif; font-size: 18px; color: #282828; text-align:left; line-height: 24px;padding-top: 8px;padding-left:0px;;">
                                                                     <?php echo $post->post_title; ?>
                                                                 </td>
                                                             </tr>
@@ -460,28 +374,31 @@ if (have_posts()) : while (have_posts()) : the_post();
                                                             <!-- Spacing -->
                                                             <tr>
                                                             <tr>
-                                                                <td width="100%" height="15" style="font-size:1px; line-height:1px; mso-line-height-rule: exactly;">&nbsp;</td>
+                                                                <td width="100%" height="15" style="font-size:1px; line-height:1px; mso-line-height-rule: exactly;">
+                                                                    &nbsp;</td>
                                                             </tr>
                                                             <!-- /Spacing -->
                                                             <!-- content -->
                                                             <tr>
-                                                                <td style="font-family: Helvetica, arial, sans-serif; font-size: 14px; color: #889098; text-align:left; line-height: 24px;padding-left:25px;">
+                                                                <td style="font-family: Helvetica, arial, sans-serif; font-size: 14px; color: #889098; text-align:left; line-height: 24px;padding-left:0px;">
                                                                     <?php echo strip_shortcodes($excerpt); ?>
                                                                 </td>
                                                             </tr>
                                                             <!-- end of content -->
                                                             <!-- Spacing -->
                                                             <tr>
-                                                                <td width="100%" height="15" style="font-size:1px; line-height:1px; mso-line-height-rule: exactly;">&nbsp;</td>
+                                                                <td width="100%" height="15" style="font-size:1px; line-height:1px; mso-line-height-rule: exactly;">
+                                                                    &nbsp;</td>
                                                             </tr>
                                                             <!-- /Spacing -->
                                                             <!-- read more -->
                                                             <tr>
-                                                                <td style="padding-left:25px;padding-bottom:10px;">
+                                                                <td style="padding-left:0px;padding-bottom:10px;">
                                                                     <table width="120" height="32" bgcolor="#eacb3c" align="left" valign="middle" border="0" cellpadding="0" cellspacing="0" style="border-radius:3px;" st-button="learnmore">
                                                                         <tbody>
                                                                         <tr>
-                                                                            <td height="9" align="center" style="font-size:1px; line-height:1px;">&nbsp;</td>
+                                                                            <td height="9" align="center" style="font-size:1px; line-height:1px;">
+                                                                                &nbsp;</td>
                                                                         </tr>
                                                                         <tr>
                                                                             <td height="14" align="center" valign="middle" style="font-family: Helvetica, Arial, sans-serif; font-size: 13px; font-weight:bold;color: #ffffff; text-align:center; line-height: 14px; ; -webkit-text-size-adjust:none;" st-title="fulltext-btn">
@@ -489,7 +406,8 @@ if (have_posts()) : while (have_posts()) : the_post();
                                                                             </td>
                                                                         </tr>
                                                                         <tr>
-                                                                            <td height="9" align="center" style="font-size:1px; line-height:1px;">&nbsp;</td>
+                                                                            <td height="9" align="center" style="font-size:1px; line-height:1px;">
+                                                                                &nbsp;</td>
                                                                         </tr>
                                                                         </tbody>
                                                                     </table>

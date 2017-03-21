@@ -70,7 +70,7 @@ class Inbound_Mail_Daemon {
         }
 
         /* Adds mail processing to Inbound Heartbeat */
-        add_action('inbound_heartbeat', array(__CLASS__, 'process_mail_queue'));
+        add_action('inbound_mailer_heartbeat', array(__CLASS__, 'process_mail_queue'));
 
         /* For debugging */
         add_filter('init', array(__CLASS__, 'process_mail_queue'), 12);

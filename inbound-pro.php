@@ -142,7 +142,12 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 			/* load tracking report features */
 			include_once( INBOUND_PRO_PATH . 'classes/class.tracking.php');
 
-			/* load subscriber only assets/features */
+			/* load cronjob system for mailer and automation */
+			if ( !isset($inbound_settings['inbound-core-loading']['toggle-email-automation']) || $inbound_settings['inbound-core-loading']['toggle-email-automation'] =='on' ) {
+				include_once( INBOUND_PRO_PATH . 'classes/class.cron.php');
+			}
+
+				/* load subscriber only assets/features */
 			if ( INBOUND_ACCESS_LEVEL> 0 && !isset($_GET['acf_off']) && INBOUND_ACCESS_LEVEL != 9 ) {
 
 				/* if lite mode enabled then set the constant */
