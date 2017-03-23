@@ -254,5 +254,6 @@ if ( !class_exists('Inbound_Reporting_Templates') ) {
         }
     }
 
+
     new Inbound_Reporting_Templates;
 }
