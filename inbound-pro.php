@@ -133,6 +133,11 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 			/* determine customer access level */
 			self::get_customer_status();
 
+			/* reporting template class need to be loaded before extensions */
+			if (is_admin()) {
+				include_once(INBOUND_PRO_PATH . 'classes/admin/class.reporting.templates.php');
+			}
+
 			/* load templates and extensions */
 			include_once( INBOUND_PRO_PATH . 'classes/class.extension-loader.php');
 
@@ -173,7 +178,6 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.ajax.listeners.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.oauth-engine.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/class.translations.php');
-				include_once( INBOUND_PRO_PATH . 'classes/admin/class.reporting.templates.php');
 				if ( INBOUND_ACCESS_LEVEL> 0 && INBOUND_ACCESS_LEVEL != 9 ) {
 					include_once(INBOUND_PRO_PATH . 'classes/admin/report-templates/report.impressions.php');
 					include_once(INBOUND_PRO_PATH . 'classes/admin/report-templates/report.visitor-pageviews.php');

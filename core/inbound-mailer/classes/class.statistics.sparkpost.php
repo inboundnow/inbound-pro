@@ -151,9 +151,17 @@ class Inbound_SparkPost_Stats {
 
 
         if ( !$settings['send_datetime'] || $interval->format('%R') == '-' || $settings['email_type'] == 'automated' ) {
-            $query = 'SELECT DISTINCT(lead_id) FROM ' . $table_name . ' WHERE `email_id` = "' . $email_id . '"  ' . $variation_query . ' AND `event_name` =  "sparkpost_delivery"';
-            $results = $wpdb->get_results($query);
-            $sent = $wpdb->num_rows;
+            $query = 'SELECT `variation_id`, `lead_id` FROM ' . $table_name . ' WHERE `email_id` = "' . $email_id . '"  ' . $variation_query . ' AND `event_name` =  "sparkpost_delivery"';
+            $results = $wpdb->get_results($query, ARRAY_A);
+            
+            /*get the unique lead_id sends for each variation*/
+            $sent_array = array();
+            foreach( $results as $index => $rows ){
+                if(!isset($sent_array[$rows['variation_id']][$rows['lead_id']])){
+                    $sent_array[$rows['variation_id']][$rows['lead_id']] = 1;
+                }
+            }
+            $sent = (count($sent_array, 1) - count($sent_array));
         } else {
             $sent = 0;
         }

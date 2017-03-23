@@ -48,6 +48,9 @@ if ( !class_exists('Inbound_Mailer_Post_Type') ) {
 
 				/* Cache statistics data */
 				add_filter( 'admin_footer' , array( __CLASS__ , 'cache_data' ) );
+                
+                /* Enqueue scripts */
+                add_action( 'admin_enqueue_scripts' , array( __CLASS__ , 'enqueue_email_list_scripts') );
 
 			}
 		}
@@ -153,7 +156,6 @@ if ( !class_exists('Inbound_Mailer_Post_Type') ) {
 		}
 
 
-
 		/**
 		*  	Prepare Column Data
 		*/
@@ -194,7 +196,10 @@ if ( !class_exists('Inbound_Mailer_Post_Type') ) {
 							<table class="email-stats-table">
 								<tr>
 									<td>
-										<div class="td-col-sends" data-email-id="<?php echo $post->ID; ?>" data-email-status="<?php echo $post->post_status; ?>"><img src="<?php echo INBOUND_EMAIL_URLPATH; ?>assets/images/ajax_progress.gif" class="col-ajax-spinner" style="margin-top:3px;"></div>
+										<div class="td-col-sends" data-email-id="<?php echo $post->ID; ?>" data-email-status="<?php echo $post->post_status; ?>">
+                                            <img src="<?php echo INBOUND_EMAIL_URLPATH; ?>assets/images/ajax_progress.gif" class="col-ajax-spinner" style="margin-top:3px;">
+                                            <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range=90&email_id=' . $post->ID . '&event_name=sparkpost_delivery&show_graph=false&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox email-report-link" style="text-decoration: underline;"></a>
+                                        </div>
 									</td>
 									<td>
 										<div class="email-square" style="width: 10px;height: 10px; border-radius: 2px;margin-top:5px;	background: green;"></div>
@@ -205,7 +210,10 @@ if ( !class_exists('Inbound_Mailer_Post_Type') ) {
 								</tr>
 								<tr>
 									<td>
-										<div class="td-col-opens" data-email-id="<?php echo $post->ID; ?>" data-email-status="<?php echo $post->post_status; ?>"><img src="<?php echo INBOUND_EMAIL_URLPATH; ?>assets/images/ajax_progress.gif" class="col-ajax-spinner" style="margin-top:3px;"></div>
+										<div class="td-col-opens" data-email-id="<?php echo $post->ID; ?>" data-email-status="<?php echo $post->post_status; ?>">
+                                            <img src="<?php echo INBOUND_EMAIL_URLPATH; ?>assets/images/ajax_progress.gif" class="col-ajax-spinner" style="margin-top:3px;">
+                                            <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range=90&email_id=' . $post->ID . '&event_name=sparkpost_open&show_graph=false&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox email-report-link" style="text-decoration: underline;"></a>
+                                        </div>
 									</td>
 									<td>
 										<div class="email-square" style="width: 10px;height: 10px; border-radius: 2px;margin-top:5px;	background: cornflowerblue;"></div>
@@ -216,7 +224,10 @@ if ( !class_exists('Inbound_Mailer_Post_Type') ) {
 								</tr>
 								<tr>
 									<td>
-										<div class="td-col-clicks" data-email-id="<?php echo $post->ID; ?>" data-email-status="<?php echo $post->post_status; ?>"><img src="<?php echo INBOUND_EMAIL_URLPATH; ?>assets/images/ajax_progress.gif" class="col-ajax-spinner" style="margin-top:3px;"></div>
+										<div class="td-col-clicks" data-email-id="<?php echo $post->ID; ?>" data-email-status="<?php echo $post->post_status; ?>">
+                                            <img src="<?php echo INBOUND_EMAIL_URLPATH; ?>assets/images/ajax_progress.gif" class="col-ajax-spinner" style="margin-top:3px;">
+                                            <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range=90&email_id=' . $post->ID . '&event_name=sparkpost_click&show_graph=false&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox email-report-link" style="text-decoration: underline;"></a>
+                                        </div>
 									</td>
 									<td>
 										<div class="email-square" style="width: 10px;height: 10px; border-radius: 2px;margin-top:5px;	background: violet;"></div>
@@ -227,7 +238,10 @@ if ( !class_exists('Inbound_Mailer_Post_Type') ) {
 								</tr>
 								<tr>
 									<td>
-										<div class="td-col-unsubs" data-email-id="<?php echo $post->ID; ?>" data-email-status="<?php echo $post->post_status; ?>"><img src="<?php echo INBOUND_EMAIL_URLPATH; ?>assets/images/ajax_progress.gif" class="col-ajax-spinner" style="margin-top:3px;"></div>
+										<div class="td-col-unsubs" data-email-id="<?php echo $post->ID; ?>" data-email-status="<?php echo $post->post_status; ?>">
+                                            <img src="<?php echo INBOUND_EMAIL_URLPATH; ?>assets/images/ajax_progress.gif" class="col-ajax-spinner" style="margin-top:3px;">
+                                            <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range=90&email_id=' . $post->ID . '&event_name=inbound_unsubscribe&show_graph=false&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox email-report-link" style="text-decoration: underline;"></a>
+                                        </div>
 									</td>
 									<td>
 										<div class="email-square" style="width: 10px;height: 10px; border-radius: 2px;margin-top:5px;	background: #000;"></div>
@@ -238,7 +252,10 @@ if ( !class_exists('Inbound_Mailer_Post_Type') ) {
 								</tr>
 								<tr>
 									<td>
-										<div class="td-col-mutes" data-email-id="<?php echo $post->ID; ?>" data-email-status="<?php echo $post->post_status; ?>"><img src="<?php echo INBOUND_EMAIL_URLPATH; ?>assets/images/ajax_progress.gif" class="col-ajax-spinner" style="margin-top:3px;"></div>
+										<div class="td-col-mutes" data-email-id="<?php echo $post->ID; ?>" data-email-status="<?php echo $post->post_status; ?>">
+                                            <img src="<?php echo INBOUND_EMAIL_URLPATH; ?>assets/images/ajax_progress.gif" class="col-ajax-spinner" style="margin-top:3px;">
+                                            <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range=90&email_id=' . $post->ID . '&event_name=inbound_mute&show_graph=false&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox email-report-link" style="text-decoration: underline;"></a>
+                                        </div>
 									</td>
 									<td>
 										<div class="email-square" style="width: 10px;height: 10px; border-radius: 2px;margin-top:5px;	background: #000;"></div>
@@ -672,6 +689,16 @@ if ( !class_exists('Inbound_Mailer_Post_Type') ) {
 
 			}
 		}
+
+        /**
+         * Enqueues scripts for the email list page
+         */
+        public static function enqueue_email_list_scripts(){
+            
+            wp_enqueue_style('thickbox-css', '/wp-includes/js/thickbox/thickbox.css');
+        
+        }
+        
 	}
 
 	/* Load Post Type Pre Init */
