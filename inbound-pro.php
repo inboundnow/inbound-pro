@@ -176,6 +176,7 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 				include_once( INBOUND_PRO_PATH . 'classes/admin/report-templates/report.event.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/report-templates/report.events.php');
 				include_once( INBOUND_PRO_PATH . 'classes/admin/report-templates/report.visitor-events.php');
+                include_once( INBOUND_PRO_PATH . 'classes/admin/report-templates/report.email-stats.php');
 
 				/* load subscriber only assets */
 				if ( INBOUND_ACCESS_LEVEL> 0 && INBOUND_ACCESS_LEVEL != 9 ) {
