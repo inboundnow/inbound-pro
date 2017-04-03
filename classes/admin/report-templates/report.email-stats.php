@@ -12,6 +12,7 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
         static $past_start_date;
         static $past_end_date;
         static $possible_actions;
+        static $recipient_data = array();
         
 
 
@@ -38,6 +39,8 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
             parent::display_filters();
             self::display_chart();
             self::display_top_email_variations();
+            self::display_email_recipients();
+            parent::js_lead_table_sort();
             die();
         }
 
@@ -219,6 +222,114 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
                 </div>
             </div>
             <?php
+        }
+
+        /**
+         * Displays a sortable list of all leads that have had an interaction with the given email 
+         */
+        public static function display_email_recipients(){
+            
+            /*exit if there's no lead data to show or if the lead table isn't supposed to show*/
+            if(empty(self::$recipient_data) || $_REQUEST['display_lead_table'] !== 'true'){
+                return;
+            }
+            
+            $variation_letters = array( 
+             'A', 'B', 'C', 'D', 'E', 'F',
+             'G', 'H', 'I', 'J', 'K', 'L',
+             'M', 'N', 'O', 'P', 'Q', 'R',
+             'S', 'T', 'U', 'V', 'W', 'X',
+             'Y', 'Z');
+            
+            ?>
+            <div class="flexbox-container lead-action-data-list">
+                <div>
+                    <h3><?php echo sprintf(__('Leads who have %s email in the past %d days'), self::$possible_actions['lead_table'][$_REQUEST['event_name']],  (self::$range * 2)); ?></h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th><?php _e('Avatar', 'inbound-pro'); ?></th>
+                                <th class="sort-lead-report-by" sort-by="report-name-field-header">
+                                    <?php _e('Lead Name', 'inbound-pro'); ?>
+                                </th>
+                                <th class="sort-lead-report-by" sort-by="report-email-variation-header">
+                                    <?php echo sprintf(__('Email Variation %s', 'inbound-pro'), self::$possible_actions['singular_form'][$_REQUEST['event_name']]); ?>
+                                </th>
+                                <th class="sort-lead-report-by" sort-by="report-date-header" sort-order="0">
+                                    <?php echo sprintf(__('Email %s On', 'inbound-pro'), self::$possible_actions['singular_form'][$_REQUEST['event_name']]); ?>
+                                    <i class="fa fa-caret-up lead-report-sort-indicater" aria-hidden="true" style="padding-left:4px"></i>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="the-list">
+                            <?php
+                            $logged_event = array();
+                            $action_number = 0;
+                            foreach(self::$recipient_data as $index => $data){
+                                
+                                /*if a lead has been sent the same email variation more than once, skip*/
+                                if(isset($logged_event[$data['variation_id']][$data['lead_id']])){
+                                    continue;
+                                }
+                                $logged_event[$data['variation_id']][$data['lead_id']] = 1;
+                                
+                                $lead = get_post($data['lead_id']);
+
+                                $lead_exists = ($lead) ? true : false;
+                                
+                                if($lead_exists){
+                                    $lead_name = get_post_meta($lead->ID, 'wpleads_name', true);
+                                    if(empty($lead_name)){
+                                        $lead_name = 'N/A';
+                                    }
+                                    
+                                }else{
+                                    $lead_name = __('Lead Deleted', 'inbound-pro');
+                                }
+
+                                ?>
+                            <tr class="lead-table-data-report-row" data-name-field="<?php echo $lead_name; ?>" data-email-variation="<?php echo $data['variation_id']; ?>" data-date-number="<?php echo $action_number;?>">
+                                <td class="lead-avatar">
+                                    <?php $gravatar = ($lead_exists) ? Leads_Post_Type::get_gravatar($data['lead_id']) : $default_gravatar;
+                                    echo '<img class="lead-grav-img " width="40" height="40" src="' . $gravatar . '">'; ?>
+                                </td>
+                                <td class="lead-name">
+                                    <a href="<?php admin_url('post.php?post=' . $data['lead_id'] . '&action=edit&small_lead_preview=true&tb_hide_nav=true'); ?>"><?php echo $lead_name; ?></a>
+                                </td>
+                                <td class="email-variation"><?php echo $variation_letters[$data['variation_id']]; ?></td>
+                                <td class="datestamp">
+                                    <p class="mod-date" >
+                                        <em> <?php echo date("F j, Y, g:i a" , strtotime($data['datetime'])); ?></em>
+                                    </p>
+                                </td>
+                            </tr>
+                            <?php   
+                                $action_number++;
+                            }   ?>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th><?php _e('Avatar', 'inbound-pro'); ?></th>
+                                <th class="sort-lead-report-by" sort-by="report-name-field-header">
+                                    <?php _e('Lead Name', 'inbound-pro'); ?>
+                                </th>
+                                <th class="sort-lead-report-by" sort-by="report-email-variation-header">
+                                    <?php echo sprintf(__('Email Variation %s', 'inbound-pro'), self::$possible_actions['singular_form'][$_REQUEST['event_name']]); ?>
+                                </th>
+                                <th class="sort-lead-report-by" sort-by="report-date-header">
+                                    <?php echo sprintf(__('Email %s On', 'inbound-pro'), self::$possible_actions['singular_form'][$_REQUEST['event_name']]); ?>
+                                    <i class="fa fa-caret-up lead-report-sort-indicater" aria-hidden="true" style="padding-left:4px"></i>
+                                </th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+            
+            
+            <?php
+            
+            
         }
 
         /**
@@ -545,6 +656,7 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
             $params = array(
                 'email_id' => intval($_REQUEST['email_id']),
                 'event_name' => sanitize_text_field($_REQUEST['event_name']),
+                'event_name_2' => (isset($_REQUEST['event_name_2'])) ? sanitize_text_field($_REQUEST['event_name_2']) : false,
                 'start_date' => self::$start_date,
                 'end_date' => self::$end_date
             );
@@ -554,6 +666,7 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
             $params = array(
                 'email_id' => intval($_REQUEST['email_id']),
                 'event_name' => sanitize_text_field($_REQUEST['event_name']),
+                'event_name_2' => (isset($_REQUEST['event_name_2'])) ? sanitize_text_field($_REQUEST['event_name_2']) : false,
                 'start_date' => self::$past_start_date,
                 'end_date' => self::$past_end_date
             );
@@ -570,11 +683,37 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
             $params = array(
                 'sparkpost_delivery' => __('Sends', 'inbound-pro'),
                 'sparkpost_open' => __('Opens', 'inbound-pro'),
+                'unopened' => __('Unopened Emails', 'inbound-pro'),
                 'sparkpost_click' => __('Clicks', 'inbound-pro'),
+                'sparkpost_bounce' => __('Bounces', 'inbound-pro'),
+                'sparkpost_rejected' => __('Rejects', 'inbound-pro'),
                 'inbound_unsubscribe' => __('Unsubscribes', 'inbound-pro'),
                 'inbound_mute' => __('Mutes', 'inbound-pro'),
+                'singular_form' => array(
+                    'sparkpost_delivery' => __('Sent', 'inbound-pro'),
+                    'sparkpost_open' => __('Opened', 'inbound-pro'),
+                    'unopened' => __('Unopened', 'inbound-pro'),
+                    'sparkpost_click' => __('Clicked', 'inbound-pro'),
+                    'sparkpost_bounce' => __('Bounced', 'inbound-pro'),
+                    'sparkpost_rejected' => __('Rejected', 'inbound-pro'),
+                    'inbound_unsubscribe' => __('Unsubscribed', 'inbound-pro'),
+                    'inbound_mute' => __('Muted', 'inbound-pro'),
+                ),                
+                'lead_table' => array(
+                    'sparkpost_delivery' => __('been sent an', 'inbound-pro'),
+                    'sparkpost_open' => __('opened an', 'inbound-pro'),
+                    'unopened' => __('not opened an', 'inbound-pro'),
+                    'sparkpost_click' => __('clicked an', 'inbound-pro'),
+                    'sparkpost_bounce' => __('bounced an', 'inbound-pro'),
+                    'sparkpost_rejected' => __('rejected an', 'inbound-pro'),
+                    'inbound_unsubscribe' => __('unsubscribed from an', 'inbound-pro'),
+                    'inbound_mute' => __('muted an', 'inbound-pro'),
+                ),
             );
             self::$possible_actions = $params;
+            
+            /* create an array of all the queried leads - used by display_email_recipients */
+            self::$recipient_data = array_merge(self::$recipient_data, self::$graph_data['current'], self::$graph_data['past']);
 		}
 
         /**
@@ -583,29 +722,77 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
         public static function prepare_chart_data( $start_date, $end_date, $period = 'current' ) {
             /* prepare empty dates */
             $dates = Inbound_Reporting_Templates::get_days_from_range($start_date,$end_date);
+            
+            /**if the graph to display is a type that maintains a running total, and adds or subtracts from that total**/
+            if(isset($_REQUEST['standing_total_graph']) && $_REQUEST['standing_total_graph'] == true){
+                /* create new temporary arrays with different structures */
+                $temp = array();
+                $temp_2 = array();
+                $logged_ids = array();
+                foreach (self::$graph_data[$period] as $key => $data) {
+                    /*if the present data item should be removed from the running total*/
+                    if(isset($data['item_to_remove'])){
+                        if(!isset($logged_ids[$data['variation_id']]['removals'][$data['lead_id']])){
+                            $logged_ids[$data['variation_id']]['removals'][$data['lead_id']] = 1;
+                            $temp_2[substr($data['datetime'], 0, 10)][] = $data['id'];
+                        }                    
+                    }else{
+                        if(!isset($logged_ids[$data['variation_id']]['additions'][$data['lead_id']])){
+                            $logged_ids[$data['variation_id']]['additions'][$data['lead_id']] = 1;
+                            $temp[substr($data['datetime'], 0, 10)][] = $data['id'];
+                        }
+                    }
+                }
+                $past_count = 0;
+                $actions_array = array();
+                $formatted = array();
 
-         
-            /* create new temporary array with different structure */
-            $temp = array();
-            $logged_ids = array();
-            foreach (self::$graph_data[$period] as $key => $data) {
-                if(!isset($logged_ids[$data['variation_id']][$data['lead_id']])){
-                    $logged_ids[$data['variation_id']][$data['lead_id']] = 1;
-                    $temp[substr($data['datetime'], 0, 10)][] = $data['id'];
+                foreach ($dates as $index => $date) {
+
+                    if (isset($temp[$date])) {
+                        $formatted[$date]['date'] = $date;
+                        $past_count += count($temp[$date]);
+                        $actions_array[$index] = $past_count;
+                    } else {
+                        $formatted[$date]['date'] = $date;
+                        $actions_array[$index] = $past_count;
+                    }
+                    
+                    if(isset($temp_2[$date])){
+                        $remove_count = count($temp_2[$date]);
+                        if($remove_count > $past_count){
+                            $actions_array[$index] = 0;
+                            $past_count = 0;
+                        }else{
+                            $actions_array[$index] -= $remove_count;
+                            $past_count -= $remove_count;
+                        }
+                    }
+                }
+                
+            }else{
+                /* create new temporary array with different structure */
+                $temp = array();
+                $logged_ids = array();
+                foreach (self::$graph_data[$period] as $key => $data) {
+                    if(!isset($logged_ids[$data['variation_id']][$data['lead_id']])){
+                        $logged_ids[$data['variation_id']][$data['lead_id']] = 1;
+                        $temp[substr($data['datetime'], 0, 10)][] = $data['lead_id'];
+                    }
                 }
 
-            }
+                $actions_array = array();
+                $formatted = array();
+                foreach ($dates as $index => $date) {
+                    if (isset($temp[$date])) {
+                        $formatted[$date]['date'] = $date;
+                        $actions_array[] = count($temp[$date]);
+                    } else {
+                        $formatted[$date]['date'] = $date;
+                        $actions_array[] = 0;
+                    }
+                }            
 
-            $actions_array = array();
-            $formatted = array();
-            foreach ($dates as $index => $date) {
-                if (isset($temp[$date])) {
-                    $formatted[$date]['date'] = $date;
-                    $actions_array[]= count($temp[$date]);
-                } else {
-                    $formatted[$date]['date'] = $date;
-                    $actions_array[]= 0;
-                }
             }
 
             return array( 'dates' => array_keys($formatted), 'actions_counted' => array_values($actions_array) );
@@ -618,14 +805,38 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
          */
         public static function get_top_email_variants($args){
             global $wpdb;
-
+            
+            $opens = array();  //for calculating unopened emails
+            
             $table_name = $wpdb->prefix . 'inbound_events';
+            
+            /* to find out how many unopens there are we first have to query the opens,
+             * then subtract those from the sent foreach variation */
+            if($args['event_name'] == 'unopened'){
+                $results = $wpdb->get_results(
+                    $wpdb->prepare(
+                        "SELECT `variation_id`, `lead_id` AS `lead_id` from {$table_name} " . 
+                        "WHERE `event_name` = 'sparkpost_open' " .
+                        "AND `email_id` = %d"
+                        , $args['email_id']
+                    ), ARRAY_A
+                );
+                
+                /*make a list of all the variations a lead has opened*/
+                foreach($results as $key => $value){
+                    $opens[$value['lead_id']][$value['variation_id']] = 1;
+                }
+                
+                /*change the event_name to get the sent*/
+                $args['event_name'] = 'sparkpost_delivery';
+            }
             
             $results = $wpdb->get_results(
                 $wpdb->prepare(
                     "SELECT `variation_id`, `lead_id` AS `lead_id` from {$table_name} " . 
                     "WHERE `event_name` = %s " .
-                    "AND `email_id` = %d"
+                    "AND `email_id` = %d " .
+                    "ORDER BY `datetime` ASC"
                     , $args['event_name'], $args['email_id']
                 ), ARRAY_A
             );
@@ -635,11 +846,15 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
             
             /* count the number times a variation shows up in the results  */
             foreach($results as $key => $value){
+                
                 /* only log the unique times an action occured to a lead. 
                  * If an email is sent to the same lead 3 times, still only 1 person is reached */
                 if(!isset($logged_ids[$value['variation_id']][$value['lead_id']])){
                     $logged_ids[$value['variation_id']][$value['lead_id']] = 1;
-                    @$variant_count[$value['variation_id']] += 1;
+                    
+                    if(!isset($opens[$value['lead_id']][$value['variation_id']])){
+                        @$variant_count[$value['variation_id']] += 1;
+                    }
                 }
             }
             
@@ -657,6 +872,11 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
         public static function get_email_event_stats($args){
             global $wpdb;
             
+            /*change the event name to deliveries in order to get the unopened*/
+            if($args['event_name'] == 'unopened'){
+                $args['event_name'] = 'sparkpost_delivery';
+            }
+            
             $table_name = $wpdb->prefix . 'inbound_events';
             
             $results = $wpdb->get_results(
@@ -668,9 +888,55 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
                     $args['email_id'], $args['event_name'], $args['start_date'], $args['end_date']
                 ), ARRAY_A
             );
+            
+           
+            /*if a second event is being queried for*/
+            if($args['event_name_2'] != false && !empty($args['event_name_2'])){
+                $two_events['event_one'] = $results;
+                
+                $results = $wpdb->get_results(
+                    $wpdb->prepare(
+                        "SELECT * from {$table_name} WHERE `email_id` = %d" .
+                        " AND `event_name` = %s" .
+                        " AND datetime >= %s AND datetime <= %s" .
+                        " ORDER BY {$table_name} . `datetime` ASC", 
+                        $args['email_id'], $args['event_name_2'], $args['start_date'], $args['end_date']
+                    ), ARRAY_A
+                );
+                
+                $two_events['event_two'] = $results;
+                
+                return self::process_multiple_events($two_events, sanitize_text_field($_REQUEST['event_action']));
+            }
 
             return $results;
         }
+        
+        /**
+         * Processes multiple streams of lead data to return a single time line to display
+         * 
+         */
+        public static function process_multiple_events($event_array, $array_action){
+            
+            if($array_action === 'merge'){
+                return array_merge($event_array['event_one'], $event_array['event_two']);
+            }
+            
+            if($array_action === 'remove_opens'){
+                foreach($event_array['event_two'] as $key => $data){
+                    $event_array['event_two'][$key]['item_to_remove'] = 1;                
+                }
+                return array_merge($event_array['event_one'], $event_array['event_two']);
+            }
+            
+        }
+        
+        
+        
+        
+        
+        
+        
 
     }
 

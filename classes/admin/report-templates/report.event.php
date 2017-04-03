@@ -44,6 +44,7 @@ if (!class_exists('Inbound_Event_Report')) {
             //self::display_action_breakdown();
             self::display_chart();
             self::display_all_events();
+            parent::js_lead_table_sort();
             die();
         }
 
@@ -227,7 +228,7 @@ if (!class_exists('Inbound_Event_Report')) {
                     <th scope="col" class=" column-lead-picture">
 
                     </th>
-                    <th scope="col" class="">
+                    <th scope="col" class="sort-lead-report-by" sort-by="report-name-field-header">
                         <span><?php _e('Event' , 'inbound-pro'); ?></span>
                     </th>
                     <th scope="col" class="">
@@ -242,86 +243,120 @@ if (!class_exists('Inbound_Event_Report')) {
                     <th scope="col" class="">
                         <span></span>
                     </th>
-                    <th scope="col" class="">
-                        <span><?php _e('Event Date' , 'inbound-pro'); ?><i class="fa fa-sort-desc" aria-hidden="true"></i></span>
+                    <th scope="col" class="sort-lead-report-by" sort-by="report-date-header" sort-order="1">
+                        <span>
+                            <?php _e('Event Date' , 'inbound-pro'); ?>
+                            <i class="fa fa-caret-down lead-report-sort-indicater" aria-hidden="true" style="padding-left:4px"></i>
+                        </span>
                     </th>
                 </tr>
-                </thead>
-                <tbody id="the-list">
+            </thead>
+            <tbody id="the-list">
 
-                <?php
-                foreach (self::$events as $key => $event) {
-                    $lead = get_post($event['lead_id']);
+            <?php
+            $date_number = 0;
+            foreach (self::$events as $key => $event) {
+                $lead = get_post($event['lead_id']);
 
-                    $lead_exists = ($lead) ? true : false;
+                $lead_exists = ($lead) ? true : false;
 
-                    $lead_meta = get_post_meta($event['lead_id'] , '' ,  true);
+                $lead_meta = get_post_meta($event['lead_id'] , '' ,  true);
 
-                    $lead_meta['wpleads_first_name'][0] = ($lead_exists && isset($lead_meta['wpleads_first_name'][0])) ? $lead_meta['wpleads_first_name'][0] : __('n/a' , 'inbound-pro');
-                    $lead_meta['wpleads_last_name'][0] = ($lead_exists && isset($lead_meta['wpleads_last_name'][0])) ? $lead_meta['wpleads_last_name'][0] : '';
-                    ?>
-                    <tr id="post-98600" class="hentry">
-                        <td class="lead-picture">
-                            <?php
-                            $gravatar = ($lead_exists) ? Leads_Post_Type::get_gravatar($event['lead_id']) : $default_gravatar;
-                            echo '<img class="lead-grav-img " width="40" height="40" src="' . $gravatar . '"  title="'.$lead_meta['wpleads_first_name'][0] . ' ' . $lead_meta['wpleads_last_name'][0] .'">';
-                            ?>
-                        </td>
-                        <td class="" >
-                            <p>
-                            <?php
-                            echo Inbound_Events::get_event_label( $event['event_name'] , false );
-                            ?>
-                            </p>
-                            <p>
-                            <?php
-                            $capture = Inbound_Events::get_event_capture_data( $event );
-                            echo '<a target="_black" href="'.$capture['link'].'">'.$capture['title'].'</a>';
-                            ?>
-                            </p>
-                        </td>
-                        <td class="" >
-                            <a href="<?php echo 'post.php?action=edit&post=' . $event['lead_id'] . '&amp;small_lead_preview=true&tb_hide_nav=true'   ; ?>" title="<?php echo $lead_meta['wpleads_first_name'][0] . ' ' . $lead_meta['wpleads_last_name'][0]; ?>" target="_self">
-                                <i class="fa fa-user inbound-tooltip" aria-hidden="true"></i>
-                            </a>
-                        </td>
-                        <td class="" >
-                            <div id="wrapper">
-                                <div class="hoverme">
-                                    <a href="" target="_self">
-                                    <i class="fa fa-filter inbound-tooltip" aria-hidden="true"> </i>
-                                    </a>
-                                    <?php
-                                    self::print_funnel_popup( $event , $capture );
-                                    ?>
-                                </div>
-                            </div>
-
-                        </td>
-                        <td class="" >
-                            <?php
-
-                            if (strstr( $event['source'] , 'http' ) ) {
-                                $end = ( strlen($event['source']) > 35 ) ? '...' : '';
-                                echo '<a target="_blank" href="'.$event['source'].'">'. substr($event['source'], 0 , 35).$end .'</a>';
-                            } else {
-                                echo ($event['source']) ? $event['source']: __('Direct Traffic' , 'inbound-pro') ;
-                            }
-
-                            ?>
-                        </td>
-                        <td class="">
-                        </td>
-                        <td class="" >
-                            <p class="mod-date"><em> <?php echo date("F j, Y, g:i a" , strtotime($event['datetime'])); ?>
-                                </em>
-                            </p>
-                        </td>
-                    </tr>
-                    <?php
-                }
+                $lead_meta['wpleads_first_name'][0] = ($lead_exists && isset($lead_meta['wpleads_first_name'][0])) ? $lead_meta['wpleads_first_name'][0] : __('n/a' , 'inbound-pro');
+                $lead_meta['wpleads_last_name'][0] = ($lead_exists && isset($lead_meta['wpleads_last_name'][0])) ? $lead_meta['wpleads_last_name'][0] : '';
+                
+                $capture = Inbound_Events::get_event_capture_data( $event );
                 ?>
-                </tbody>
+                <tr id="post-98600" class="hentry lead-table-data-report-row" data-name-field="<?php echo $capture['title']; ?>" data-date-number="<?php echo $date_number; ?>">
+                    <td class="lead-picture">
+                        <?php
+                        $gravatar = ($lead_exists) ? Leads_Post_Type::get_gravatar($event['lead_id']) : $default_gravatar;
+                        echo '<img class="lead-grav-img " width="40" height="40" src="' . $gravatar . '"  title="'.$lead_meta['wpleads_first_name'][0] . ' ' . $lead_meta['wpleads_last_name'][0] .'">';
+                        ?>
+                    </td>
+                    <td class="" >
+                        <p>
+                        <?php
+                        echo Inbound_Events::get_event_label( $event['event_name'] , false );
+                        ?>
+                        </p>
+                        <p>
+                        <?php
+                        echo '<a target="_black" href="'.$capture['link'].'">'.$capture['title'].'</a>';
+                        ?>
+                        </p>
+                    </td>
+                    <td class="" >
+                        <a href="<?php echo 'post.php?action=edit&post=' . $event['lead_id'] . '&amp;small_lead_preview=true&tb_hide_nav=true'   ; ?>" title="<?php echo $lead_meta['wpleads_first_name'][0] . ' ' . $lead_meta['wpleads_last_name'][0]; ?>" target="_self">
+                            <i class="fa fa-user inbound-tooltip" aria-hidden="true"></i>
+                        </a>
+                    </td>
+                    <td class="" >
+                        <div id="wrapper">
+                            <div class="hoverme">
+                                <a href="" target="_self">
+                                <i class="fa fa-filter inbound-tooltip" aria-hidden="true"> </i>
+                                </a>
+                                <?php
+                                self::print_funnel_popup( $event , $capture );
+                                ?>
+                            </div>
+                        </div>
+
+                    </td>
+                    <td class="" >
+                        <?php
+
+                        if (strstr( $event['source'] , 'http' ) ) {
+                            $end = ( strlen($event['source']) > 35 ) ? '...' : '';
+                            echo '<a target="_blank" href="'.$event['source'].'">'. substr($event['source'], 0 , 35).$end .'</a>';
+                        } else {
+                            echo ($event['source']) ? $event['source']: __('Direct Traffic' , 'inbound-pro') ;
+                        }
+
+                        ?>
+                    </td>
+                    <td class="">
+                    </td>
+                    <td class="" >
+                        <p class="mod-date"><em> <?php echo date("F j, Y, g:i a" , strtotime($event['datetime'])); ?>
+                            </em>
+                        </p>
+                    </td>
+                </tr>
+                <?php
+                $date_number++;
+            }
+            ?>
+            </tbody>
+             <tfoot>
+                <tr>
+                    <th scope="col" class=" column-lead-picture">
+
+                    </th>
+                    <th scope="col" class="sort-lead-report-by" sort-by="report-name-field-header">
+                        <span><?php _e('Event' , 'inbound-pro'); ?></span>
+                    </th>
+                    <th scope="col" class="">
+                        <span><?php _e('Lead' , 'inbound-pro'); ?></span>
+                    </th>
+                    <th scope="col" class="">
+                        <span><?php _e('Funnel Details' , 'inbound-pro'); ?></span>
+                    </th>
+                    <th scope="col" class="">
+                        <span><?php _e('Source' , 'inbound-pro'); ?></span>
+                    </th>
+                    <th scope="col" class="">
+                        <span></span>
+                    </th>
+                    <th scope="col" class="sort-lead-report-by" sort-by="report-date-header" sort-order="1">
+                        <span>
+                            <?php _e('Event Date' , 'inbound-pro'); ?>
+                            <i class="fa fa-caret-down lead-report-sort-indicater" aria-hidden="true" style="padding-left:4px"></i>
+                        </span>
+                    </th>
+                </tr>
+                </tfoot>
             </table>
             </div>
             <?php

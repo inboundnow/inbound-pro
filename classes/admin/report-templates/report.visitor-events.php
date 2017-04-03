@@ -86,11 +86,13 @@ if (!class_exists('Inbound_Visitor_Event_Report')) {
             <table class="visits-by-lead">
                 <thead>
                 <tr>
-                    <th scope="col" class="manage-column  ">
+                    <th scope="col" class="manage-column sort-lead-report-by" sort-by="report-name-field-header">
                         <span><?php _e('Page Visited' , 'inbound-pro'); ?></span>
                     </th>
-                    <th scope="col" class="manage-column column-modified ">
-                        <span><?php _e('Datetime Visited' , 'inbound-pro'); ?><i class="fa fa-sort-desc" aria-hidden="true"></i></span>
+                    <th scope="col" class="manage-column column-modified sort-lead-report-by" sort-by="report-date-header" sort-order="1">
+                        <span><?php _e('Datetime Visited' , 'inbound-pro'); ?>
+                            <i class="fa fa-caret-down lead-report-sort-indicater" aria-hidden="true" style="padding-left:4px"></i>
+                        </span>
                     </th>
                     <th scope="col" class="manage-column column-modified ">
                         <span><?php _e('Origin' , 'inbound-pro'); ?></span>
@@ -100,16 +102,17 @@ if (!class_exists('Inbound_Visitor_Event_Report')) {
                 <tbody id="the-list">
 
                 <?php
-
+                $date_number = 0;
                 foreach (self::$events as $key => $event) {
                     $title = get_the_title($event['page_id']);
                     $permalink = get_permalink($event['page_id']);
-
+                    $title_text = ($title) ? $title : 'ZZZZZZZZZZZZZZZZZZZZZ'; //zzzz's so when sorting alphabetically, emptys are on the bottom
+                    
                     $title = ($title) ? $title . ' <i class="fa fa-external-link" aria-hidden="true"></i>' : __('Page does not exist' , 'inbound-pro');
                     $permalink = ($permalink) ? $permalink : '#'.$event['id'];
 
                    ?>
-                    <tr id="post-98600" class="hentry">
+                    <tr id="post-98600" class="hentry lead-table-data-report-row" data-name-field="<?php echo $title_text; ?>" data-date-number="<?php echo $date_number;?>">
                         <td style="">
                             <a href="<?php echo $permalink; ?>" target="_blank"><?php echo $title; ?> </a>
                         </td>
@@ -123,6 +126,7 @@ if (!class_exists('Inbound_Visitor_Event_Report')) {
                         </td>
                     </tr>
                 <?php
+                    $date_number++;
                 }
                 ?>
                 </tbody>
@@ -132,8 +136,11 @@ if (!class_exists('Inbound_Visitor_Event_Report')) {
                     <th scope="col" class="manage-column  ">
                         <span><?php _e('Page Visited' , 'inbound-pro'); ?></span>
                     </th>
-                    <th scope="col" class="manage-column column-modified ">
-                        <span><?php _e('Datetime Visited' , 'inbound-pro'); ?><i class="fa fa-sort-desc" aria-hidden="true"></i></span>
+                    <th scope="col" class="manage-column column-modified sort-lead-report-by" sort-by="report-date-header" sort-order="1">
+                        <span>
+                            <?php _e('Datetime Visited' , 'inbound-pro'); ?>
+                            <i class="fa fa-caret-down lead-report-sort-indicater" aria-hidden="true" style="padding-left:4px"></i>
+                        </span>
                     </th>
                     <th scope="col" class="manage-column column-modified ">
                         <span><?php _e('Origin' , 'inbound-pro'); ?></span>
@@ -145,6 +152,7 @@ if (!class_exists('Inbound_Visitor_Event_Report')) {
             <?php
 
             self::print_css();
+            parent::js_lead_table_sort();
             die();
         }
 
