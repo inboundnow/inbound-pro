@@ -1050,6 +1050,8 @@ class Inbound_Pro_Settings {
 				echo '	<div class="inbound-dropdown-field">';
 
 				echo '		<select name="'.$field['id'].'" id="'.$field['id'].'"  data-field-type="'.$field['type'].'" data-field-group="'.$group['group_name'].'">';
+				/* no objects allowed - bug fix */
+				$field['value'] = (!is_object($field['value'])) ? $field['value'] : '';
 
 				foreach ($field['options'] as $value=>$label) {
 					echo '		<option', $field['value'] == $value ? ' selected="selected"' : '', ' value="'.$value.'">'.$label.'</option>';
