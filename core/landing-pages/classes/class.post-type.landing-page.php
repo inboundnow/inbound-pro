@@ -179,16 +179,16 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
                 return;
             }
 
-            wp_enqueue_style('lp-content-stats', LANDINGPAGES_URLPATH . 'assets/css/admin/content-stats.css');
+            wp_enqueue_style('lp-content-stats', LANDINGPAGES_URLPATH . 'assets/css/admin/content-stats.css', array() , null);
 
             /* listing page only */
             if ($screen->id == 'edit-landing-page' ) {
                 /* load stat clear handlers */
-                wp_enqueue_script( 'lp-admin-clear-stats-ajax-request', LANDINGPAGES_URLPATH . 'assets/js/ajax.clearstats.js', array( 'jquery' ) );
+                wp_enqueue_script( 'lp-admin-clear-stats-ajax-request', LANDINGPAGES_URLPATH . 'assets/js/ajax.clearstats.js', array( 'jquery' ) , null );
                 wp_localize_script( 'lp-admin-clear-stats-ajax-request', 'ajaxadmin', array( 'ajaxurl' => admin_url('admin-ajax.php'), 'lp_clear_nonce' => wp_create_nonce('lp-clear-nonce') ) );
 
-                wp_enqueue_script('landing-page-list', LANDINGPAGES_URLPATH . 'assets/js/admin/admin.landing-page-list.js');
-                wp_enqueue_style('landing-page-list-css', LANDINGPAGES_URLPATH.'assets/css/admin/landing-page-list.css');
+                wp_enqueue_script('landing-page-list', LANDINGPAGES_URLPATH . 'assets/js/admin/admin.landing-page-list.js', array() , null);
+                wp_enqueue_style('landing-page-list-css', LANDINGPAGES_URLPATH.'assets/css/admin/landing-page-list.css', array() , null);
                 wp_enqueue_script('jqueryui');
 
             }
@@ -197,7 +197,7 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
 
             /* load css when landing page iframe preview is being loaded from within wp-admin */
             if (isset($_GET['iframe_window'])) {
-                wp_enqueue_style('lp_ab_testing_customizer_css', LANDINGPAGES_URLPATH . 'assets/css/frontend/customizer-preview.css');
+                wp_enqueue_style('lp_ab_testing_customizer_css', LANDINGPAGES_URLPATH . 'assets/css/frontend/customizer-preview.css', array() , null);
             }
         }
 
@@ -210,8 +210,8 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
                 return;
             }
 
-            wp_enqueue_style('inbound-wordpress-base', LANDINGPAGES_URLPATH . 'assets/css/frontend/global-landing-page-style.css');
-            wp_enqueue_style('inbound-shortcodes', INBOUND_FORMS.'css/frontend-render.css');
+            wp_enqueue_style('inbound-wordpress-base', LANDINGPAGES_URLPATH . 'assets/css/frontend/global-landing-page-style.css', array() , null);
+            wp_enqueue_style('inbound-shortcodes', INBOUND_FORMS.'css/frontend-render.css', array() , null);
 
 
         }
@@ -583,8 +583,8 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
          */
         public static function stop_stat_tracking() {
             show_admin_bar(false);
-            wp_enqueue_script('stop-inbound-stats-js', LANDINGPAGES_URLPATH . 'assets/js/stop_page_stats.js' , array('inbound-analytics'));
-            wp_enqueue_style('inbound-preview-window-css', LANDINGPAGES_URLPATH . 'assets/css/iframe-preview.css');
+            wp_enqueue_script('stop-inbound-stats-js', LANDINGPAGES_URLPATH . 'assets/js/stop_page_stats.js' , array('inbound-analytics') , null );
+            wp_enqueue_style('inbound-preview-window-css', LANDINGPAGES_URLPATH . 'assets/css/iframe-preview.css' , array() , null);
         }
 
         /**

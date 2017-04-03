@@ -84,6 +84,7 @@ if (!class_exists('Leads_Admin_Notices')) {
 
 	}
 
-	$Leads_Admin_Notices = new Leads_Admin_Notices();
+
+	new Leads_Admin_Notices();
 
 }

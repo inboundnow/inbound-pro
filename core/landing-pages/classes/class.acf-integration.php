@@ -35,6 +35,15 @@ if (!class_exists('Landing_Pages_ACF')) {
 			/* make sure fields are placed in the correct location */
 			add_action( 'save_post', array( __CLASS__ , 'save_acf_fields' ) );
 
+			/* make sure fields are placed in the correct location */
+			add_action( 'wp_restore_post_revision', array( __CLASS__ , 'restore_acf_values' ) , 10 , 2  );
+
+			/* Adds revision fields to the revisions screen */
+
+			/* Adds revision fields value for Inbound Settings to the revisions screen */
+			add_filter( '_wp_post_revision_fields', array( __CLASS__ , 'add_revision_fields' )  );
+			add_filter( '_wp_post_revision_field_inbound_settings', array( __CLASS__ , 'add_revision_field_values' ) , 10 , 3 );
+
 			/* Intercept load custom field value request and hijack it */
 			add_filter( 'acf/load_value' , array( __CLASS__ , 'load_value' ) , 11 , 3 );
 
@@ -106,11 +115,13 @@ if (!class_exists('Landing_Pages_ACF')) {
 			<?php
 		}
 
+
+		/**
+		 * Compiles ACF Meta Data into a singular json pair for variation support
+		 * @param $landing_page_id
+		 */
 		public static function save_acf_fields( $landing_page_id ) {
 
-			if ( wp_is_post_revision( $landing_page_id ) ) {
-				return;
-			}
 
 			if (  !isset($_POST['post_type']) || $_POST['post_type'] != 'landing-page' ) {
 				return;
@@ -136,6 +147,46 @@ if (!class_exists('Landing_Pages_ACF')) {
 				$settings['variations'][$variation_id]['acf'] = $fields;
 				Landing_Pages_Meta::update_settings( $landing_page_id , $settings );
 			}
+		}
+
+		/**
+		 * Restore landing page ACF values from revision
+		 * @param $post_id
+		 * @param $revision_id
+		 */
+		public static function restore_acf_values( $post_id , $revision_id ) {
+
+			$post = get_post($post_id);
+			if($post->post_type!='landing-page' ) {
+				return;
+			}
+
+			$revision_settings = Landing_Pages_Meta::get_settings( $revision_id );
+
+			Landing_Pages_Meta::update_settings( $post_id , $revision_settings );
+
+		}
+
+		/**
+		 * Adds revision fields to revisions screen
+		 * @param $fields
+		 * @return mixed
+		 */
+		public static function add_revision_fields( $fields ) {
+			global $post;
+			$fields['inbound_settings'] = __('Landing Page Settings' , 'inbound-pro');
+			return $fields;
+		}
+
+		public static function add_revision_field_values( $value ,  $field  , $revision) {
+
+			if (!isset($revision->ID)) {
+				return $value;
+			}
+
+			$settings = Landing_Pages_Meta::get_settings( $revision->ID );
+
+			return json_encode($settings);
 		}
 
 		/**

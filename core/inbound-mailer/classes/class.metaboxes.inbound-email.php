@@ -129,7 +129,6 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             global $post;
 
             $stats_json = str_replace("'","\'" , json_encode((object)self::$statistics));
-
             ?>
             <script type='text/javascript'>
                 /**
@@ -728,6 +727,8 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
          *    Loads numeric statistics
          */
         public static function add_numbers_totals() {
+            global $post;
+            
             ?>
             <style>
                 .stat-number {
@@ -737,66 +738,82 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             <div class='big-number-stats'>
                 <div class="statistic-container">
                     <div class="stat-number-container">
-                        <label class="stat-label sent-label"><?php _e('Sent', 'inbound-pro'); ?></label>
+                        <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range=90&email_id=' . $post->ID . '&event_name=sparkpost_delivery&show_graph=false&display_lead_table=false&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox" style="text-decoration: none;">
+                            <label class="stat-label sent-label"><?php _e('Sent', 'inbound-pro'); ?></label>
 
-                        <div class="stat-number sent-number">0</div>
-                        <h1 class="stat-percentage sent-percentage">0%</h1>
+                            <div class="stat-number sent-number">0</div>
+                            <h1 class="stat-percentage sent-percentage">0%</h1>
+                        </a>
                     </div>
                 </div>
                 <div class="statistic-container">
                     <div class="stat-number-container">
-                        <label class="stat-label opens-label"><?php _e('Opens', 'inbound-pro'); ?></label>
+                        <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range=90&email_id=' . $post->ID . '&event_name=sparkpost_open&show_graph=false&display_lead_table=false&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox" style="text-decoration: none;">
+                            <label class="stat-label opens-label"><?php _e('Opens', 'inbound-pro'); ?></label>
 
-                        <div class="stat-number opens-number">0</div>
-                        <h1 class="stat-percentage opens-percentage">0%</h1>
-                    </div>
-                </div>
-                <div class="statistic-container feature">
-                    <div class="stat-number-container">
-                        <label class="stat-label clicks-label"><?php _e('Clicks', 'inbound-pro'); ?></label>
-
-                        <div class="stat-number clicks-number">0</div>
-                        <h1 class="stat-percentage clicks-percentage">0%</h1>
+                            <div class="stat-number opens-number">0</div>
+                            <h1 class="stat-percentage opens-percentage">0%</h1>
+                        </a>
                     </div>
                 </div>
                 <div class="statistic-container">
                     <div class="stat-number-container">
-                        <label class="stat-label unopened-label"><?php _e('Unopened', 'inbound-pro'); ?></label>
+                        <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range=90&email_id=' . $post->ID . '&event_name=sparkpost_click&show_graph=false&display_lead_table=false&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox" style="text-decoration: none;">
+                            <label class="stat-label clicks-label"><?php _e('Clicks', 'inbound-pro'); ?></label>
 
-                        <div class="stat-number unopened-number">0</div>
-                        <h1 class="stat-percentage unopened-percentage">0%</h1>
+                            <div class="stat-number clicks-number">0</div>
+                            <h1 class="stat-percentage clicks-percentage">0%</h1>
+                        </a>
                     </div>
                 </div>
                 <div class="statistic-container">
                     <div class="stat-number-container">
-                        <label class="stat-label bounces-label"><?php _e('Bounces', 'inbound-pro'); ?></label>
+                        <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range=90&email_id=' . $post->ID . '&event_name=unopened&event_name_2=sparkpost_open&event_action=remove_opens&standing_total_graph=true&show_graph=false&display_lead_table=false&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox" style="text-decoration: none;">
+                            <label class="stat-label unopened-label"><?php _e('Unopened', 'inbound-pro'); ?></label>
 
-                        <div class="stat-number bounces-number">0</div>
-                        <h1 class="stat-percentage bounces-percentage">0%</h1>
+                            <div class="stat-number unopened-number">0</div>
+                            <h1 class="stat-percentage unopened-percentage">0%</h1>
+                        </a>
                     </div>
                 </div>
                 <div class="statistic-container">
                     <div class="stat-number-container">
-                        <label class="stat-label rejects-label"><?php _e('Rejects', 'inbound-pro'); ?></label>
+                        <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range=90&email_id=' . $post->ID . '&event_name=sparkpost_bounce&show_graph=false&display_lead_table=false&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox" style="text-decoration: none;">
+                            <label class="stat-label bounces-label"><?php _e('Bounces', 'inbound-pro'); ?></label>
 
-                        <div class="stat-number rejects-number">0</div>
-                        <h1 class="stat-percentage rejects-percentage">0%</h1>
+                            <div class="stat-number bounces-number">0</div>
+                            <h1 class="stat-percentage bounces-percentage">0%</h1>
+                        </a>
                     </div>
                 </div>
                 <div class="statistic-container">
                     <div class="stat-number-container">
-                        <label class="stat-label unsubs-label"><?php _e('Unsubscribes', 'inbound-pro'); ?></label>
+                        <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range=90&email_id=' . $post->ID . '&event_name=sparkpost_rejected&event_name_2=sparkpost_relay_rejection&event_action=merge&show_graph=false&display_lead_table=false&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox" style="text-decoration: none;">
+                            <label class="stat-label rejects-label"><?php _e('Rejects', 'inbound-pro'); ?></label>
 
-                        <div class="stat-number unsubs-number">0</div>
-                        <h1 class="stat-percentage unsubs-percentage">0%</h1>
+                            <div class="stat-number rejects-number">0</div>
+                            <h1 class="stat-percentage rejects-percentage">0%</h1>
+                        </a>
                     </div>
                 </div>
                 <div class="statistic-container">
                     <div class="stat-number-container">
-                        <label class="stat-label mutes-label"><?php _e('Mutes', 'inbound-pro'); ?></label>
+                        <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range=90&email_id=' . $post->ID . '&event_name=inbound_unsubscribe&show_graph=false&display_lead_table=false&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox" style="text-decoration: none;">
+                            <label class="stat-label unsubs-label"><?php _e('Unsubscribes', 'inbound-pro'); ?></label>
 
-                        <div class="stat-number mutes-number">0</div>
-                        <h1 class="stat-percentage mutes-percentage">0%</h1>
+                            <div class="stat-number unsubs-number">0</div>
+                            <h1 class="stat-percentage unsubs-percentage">0%</h1>
+                        </a>
+                    </div>
+                </div>
+                <div class="statistic-container">
+                    <div class="stat-number-container">
+                        <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range=90&email_id=' . $post->ID . '&event_name=inbound_mute&show_graph=false&display_lead_table=false&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox" style="text-decoration: none;">
+                            <label class="stat-label mutes-label"><?php _e('Mutes', 'inbound-pro'); ?></label>
+
+                            <div class="stat-number mutes-number">0</div>
+                            <h1 class="stat-percentage mutes-percentage">0%</h1>
+                        </a>
                     </div>
                 </div>
             </div>

@@ -26,6 +26,11 @@ class Landing_Pages_Admin_Notices {
             $screen->id === 'theme-install' ||
             $screen->id === 'update' && isset($_GET['action']) && $_GET['action'] === "upload-theme"
         ) {
+            /* only show administrators */
+            if( !current_user_can('activate_plugins') ) {
+                return;
+            }
+
             $message_id = 'landing-page-installation';
 
             if (is_plugin_active('landing-pages/landing-pages.php')) {
@@ -76,6 +81,12 @@ class Landing_Pages_Admin_Notices {
         global $pagenow;
         $page_string = isset($_GET["page"]) ? $_GET["page"] : "null";
         if ((($pagenow == 'edit.php') && ($page_string == "lp_manage_templates")) || (($pagenow == "post-new.php") && (isset($_GET['post_type']) && $_GET['post_type'] == "landing-page"))) {
+
+            /* only show administrators */
+            if( !current_user_can('activate_plugins') ) {
+                return;
+            }
+
             ?>
             <div id="more-templates-button" style="display:none;">
                 <a target="_blank" href="https://www.inboundnow.com/marketplace/?show=landing-pages" class="button new-lp-button button-primary button-large"><?php _e( 'Download Additional Landing Page Templates' , 'inbound-pro' ); ?></a>
@@ -101,6 +112,11 @@ class Landing_Pages_Admin_Notices {
         global $pagenow;
 
         if ( !get_option('permalink_structure') ) {
+
+            /* only show administrators */
+            if( !current_user_can('activate_plugins') ) {
+                return;
+            }
             ?>
             <div class="error">
                 <p>
@@ -120,6 +136,11 @@ class Landing_Pages_Admin_Notices {
         $screen = get_current_screen();
 
         if ( !isset($post) || $screen->id == 'landing-pages' ||$screen->id == 'edit-landing-page' || $post->post_status !='publish' ) {
+            return;
+        }
+
+        /* only show administrators */
+        if( !current_user_can('activate_plugins') ) {
             return;
         }
 
@@ -255,6 +276,11 @@ class Landing_Pages_Admin_Notices {
 
         /* ignore for pro users */
         if (class_exists('Inbound_Pro_Plugin')) {
+            return;
+        }
+
+        /* only show administrators */
+        if( !current_user_can('activate_plugins') ) {
             return;
         }
 

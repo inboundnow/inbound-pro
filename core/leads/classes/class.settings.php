@@ -50,6 +50,7 @@ class Leads_Settings {
      */
     public static function define_pro_settings( $settings ) {
         global $inbound_settings;
+        $pages = self::leads_get_pages_array();
 
         $settings['inbound-pro-setup'][] = array(
             'group_name' => WPL_SLUG ,
@@ -163,7 +164,7 @@ class Leads_Settings {
                     'description'  => __( 'Where to send readers to confirm being added to a list. We auto create a confirmation page on activation, but you can use our shortcode on any page [inbound-list-confirm-double-optin]. ' , 'inbound-pro' ),
                     'type'  => 'dropdown',
                     'default'  => '',
-                    'options' => self::leads_get_pages_array(),
+                    'options' => $pages,
                 )
             )
 

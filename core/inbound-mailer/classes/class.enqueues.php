@@ -162,7 +162,7 @@ class Inbound_Mailer_Enqueues {
 
 		/* Enqueue scripts and styles for mailer listing page */
 		if ( $hook == 'edit.php' ){
-			wp_enqueue_style('inbound-mailer-list', INBOUND_EMAIL_URLPATH . 'assets/css/admin-posting-list.css');
+			wp_enqueue_style('inbound-mailer-list', INBOUND_EMAIL_URLPATH . 'assets/css/admin-post-listing.css');
 			wp_enqueue_script('inbound-mailer-list', INBOUND_EMAIL_URLPATH . 'assets/js/admin/admin.list.js', array('jquery'), '1.0', true );
 		}
 	}

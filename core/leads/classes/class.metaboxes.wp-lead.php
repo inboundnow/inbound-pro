@@ -110,9 +110,6 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             /* Show quick stats */
             add_meta_box('wplead-quick-stats-metabox', __("Lead Stats", 'inbound-pro'), array(__CLASS__, 'display_quick_stats'), 'wp-lead', 'side', 'high');
 
-            /* Show IP Address & Geolocation metabox */
-            add_meta_box('lp-ip-address-sidebar-preview', __('Last Conversion Activity Location', 'inbound-pro'), array(__CLASS__, 'display_geolocation'), 'wp-lead', 'side', 'low');
-
             /* Main metabox */
             add_meta_box('wplead_metabox_main', // $id
                 __('Lead Overview', 'inbound-pro'), array(__CLASS__, 'display_main'), // $callback
@@ -806,97 +803,6 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                     echo "<span class='touchpoint-year'><span class='touchpoint-value'>" . $years . "</span> " . $year_text . " </span><span class='touchpoint-month'><span class='touchpoint-value'>" . $months . "</span> " . $month_text . " </span><span class='touchpoint-day'><span class='touchpoint-value'>" . $days . "</span> " . $day_text . " </span><span class='touchpoint-hour'><span class='touchpoint-value'>" . $hours . "</span> " . $hours_text . " </span><span class='touchpoint-minute'><span class='touchpoint-value'>" . $minutes . "</span> " . $minute_text . "</span>";
                     ?>
                 </span>
-            </div>
-            <?php
-        }
-
-        /**
-         *        Display information about last visit given ip address
-         */
-        public static function display_geolocation() {
-            global $post;
-
-            $ip_addresses = get_post_meta($post->ID, 'wpleads_ip_address', true);
-
-            $array = json_decode(stripslashes($ip_addresses), true);
-
-            if (is_array($array)) {
-                $ip_address = key($array);
-                if (isset($array[$ip_address]['geodata'])) {
-                    $geodata = $array[$ip_address]['geodata'];
-                }
-            } else {
-                $array = array();
-                $ip_address = $ip_addresses;
-            }
-
-            if ($ip_address === "127.0.0.1") {
-                echo "<h3>" . __('Last conversion detected from localhost', 'inbound-pro') . "</h3>";
-                return;
-            }
-
-            if (!isset($geodata[$ip_address]) && $ip_address) {
-                $geodata = wp_remote_get('http://www.geoplugin.net/php.gp?ip=' . $ip_address, array('timeout' => '2'));
-                if (!is_wp_error($geodata)) {
-                    $geodata = unserialize($geodata['body']);
-                    $array[$ip_address]['geodata'] = $geodata;
-                    update_post_meta($post->ID, 'wpleads_ip_address', json_encode($ip_addresses));
-                }
-            }
-
-            if (!isset($geodata) || !is_array($geodata) || is_wp_error($geodata) || !$ip_address) {
-                echo "<h2>" . __('No Geo data collected', 'inbound-pro') . "</h2>";
-                return;
-            }
-
-            $latitude = (isset($geodata['geoplugin_latitude'])) ? $geodata['geoplugin_latitude'] : 'NA';
-            $longitude = (isset($geodata['geoplugin_longitude'])) ? $geodata['geoplugin_longitude'] : 'NA';
-
-            ?>
-            <div>
-                <div class="inside" style='margin-left:-8px;text-align:left;'>
-                    <div id='last-conversion-box'>
-                        <div id='lead-geo-data-area'>
-
-                            <?php
-                            if (is_array($geodata)) {
-                                unset($geodata['geoplugin_status']);
-                                unset($geodata['geoplugin_credit']);
-                                unset($geodata['geoplugin_request']);
-                                unset($geodata['geoplugin_currencyConverter']);
-                                unset($geodata['geoplugin_currencySymbol_UTF8']);
-                                unset($geodata['geoplugin_currencySymbol']);
-                                unset($geodata['geoplugin_dmaCode']);
-
-                                if (isset($geodata['geoplugin_city']) && $geodata['geoplugin_city'] != "") {
-                                    echo "<div class='lead-geo-field'><span class='geo-label'>" . __('City:', 'inbound-pro') . "</span>" . $geodata['geoplugin_city'] . "</div>";
-                                }
-                                if (isset($geodata['geoplugin_regionName']) && $geodata['geoplugin_regionName'] != "") {
-                                    echo "<div class='lead-geo-field'><span class='geo-label'>" . __('State:', 'inbound-pro') . "</span>" . $geodata['geoplugin_regionName'] . "</div>";
-                                }
-                                if (isset($geodata['geoplugin_areaCode']) && $geodata['geoplugin_areaCode'] != "") {
-                                    echo "<div class='lead-geo-field'><span class='geo-label'>" . __('Area Code:', 'inbound-pro') . "</span>" . $geodata['geoplugin_areaCode'] . "</div>";
-                                }
-                                if (isset($geodata['geoplugin_countryName']) && $geodata['geoplugin_countryName'] != "") {
-                                    echo "<div class='lead-geo-field'><span class='geo-label'>" . __('Country:', 'inbound-pro') . "</span>" . $geodata['geoplugin_countryName'] . "</div>";
-                                }
-                                if (isset($geodata['geoplugin_regionName']) && $geodata['geoplugin_regionName'] != "") {
-                                    echo "<div class='lead-geo-field'><span class='geo-label'>" . __('IP Address:', 'inbound-pro') . "</span>" . $ip_address . "</div>";
-                                }
-
-                                if (($geodata['geoplugin_latitude'] != 0) && ($geodata['geoplugin_longitude'] != 0)) {
-                                    echo '<a class="maps-link" href="https://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q=' . $latitude . ',' . $longitude . '&z=12" target="_blank">' . __('View Map:', 'inbound-pro') . '</a>';
-                                    echo '<div id="lead-google-map">
-                                        <iframe width="278" height="276" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;q=' . $latitude . ',' . $longitude . '&amp;aq=&amp;output=embed&amp;z=11"></iframe>
-                                        </div>';
-                                }
-                            } else {
-                                echo "<h2>" . __('No Geo data collected', 'inbound-pro') . "</h2>";
-                            }
-                            ?>
-                        </div>
-                    </div>
-                </div>
             </div>
             <?php
         }

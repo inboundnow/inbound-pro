@@ -61,7 +61,7 @@ class Leads_Post_Type {
         /* enqueue scripts and styles in admin  */
         add_action('admin_enqueue_scripts', array(__CLASS__, 'enqueue_admin_scripts'));
 
-        /* delete events when lead deleted */
+        /* delete lead events whenlead deleted */
         add_action('delete_post' , array( __CLASS__ , 'delete_lead_stats'));
 
     }

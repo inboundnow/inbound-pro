@@ -134,7 +134,7 @@ class Landing_Pages_Template_Switcher {
     public static function switch_template( $template ) {
         global $wp_query, $post, $query_string;
 
-        if (!isset($post) || $post->post_type != "landing-page") {
+        if (!isset($post) || $post->post_type != "landing-page" || !is_singular("landing-page")) {
             return $template;
         }
 
@@ -314,7 +314,7 @@ class Landing_Pages_Template_Switcher {
      */
     public static function strip_styles() {
 
-        if (is_admin() || 'landing-page' != get_post_type()) {
+        if (is_admin() || 'landing-page' != get_post_type() || !is_singular('landing-page')) {
             return;
         }
 
