@@ -62,7 +62,7 @@ class Inbound_API_Wrapper {
 
 		/* if data is not set to expire then do not update */
 		if ( isset(self::$data['expire']) && self::$data['expire'] > gmdate( 'Y-m-d G:i:s' ) && !isset($_GET['inbound_reset_downloads_data']) && is_array(self::$data) ) {
-			return self::$data;
+			//return self::$data;
 		}
 
 		/* This call home gets a list of available downloads - We have minimum security because no sensitive information is revealed */
