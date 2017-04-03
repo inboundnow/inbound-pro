@@ -244,7 +244,7 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
             ?>
             <div class="flexbox-container lead-action-data-list">
                 <div>
-                    <h3><?php echo sprintf(__('Leads who have %s email in the past %d days'), self::$possible_actions['lead_table'][$_REQUEST['event_name']],  (self::$range * 2)); ?></h3>
+                    <h3><?php echo sprintf(__('Leads who have %s email in the past %d days'), self::$possible_actions['lead_table'][$_REQUEST['event_name']],  self::$range ); ?></h3>
                     <table>
                         <thead>
                             <tr>
