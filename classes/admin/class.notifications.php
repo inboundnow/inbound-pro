@@ -60,6 +60,10 @@ class Inbound_Pro_Notifications {
             return false;
         }
 
+        /* only show administrators */
+        if( !current_user_can('activate_plugins') ) {
+            return;
+        }
 
         $message_id = 'api-key-empty';
         $settings_url = admin_url('admin.php?page=inbound-pro');
