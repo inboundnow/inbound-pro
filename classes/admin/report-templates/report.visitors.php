@@ -43,6 +43,7 @@ if (!class_exists('Inbound_Visitors_Report')) {
             self::display_chart();
             self::display_top_widgets();
             self::display_all_visitors();
+            parent::js_lead_table_sort();
             die();
         }
 
@@ -317,27 +318,29 @@ if (!class_exists('Inbound_Visitors_Report')) {
                     <th scope="col" class=" column-lead-picture">
 
                     </th>
-                    <th scope="col" class="">
+                    <th scope="col" class="sort-lead-report-by" sort-by="report-name-field-header">
                         <span><?php _e('Visitor' , 'inbound-pro'); ?></span>
                     </th>
                     <th scope="col" class="">
                         <span><?php _e('Source' , 'inbound-pro'); ?></span>
                     </th>
-                    <th scope="col" class="">
+                    <th scope="col" class="sort-lead-report-by" sort-by="report-impressions-header">
                         <span><?php _e('Impressions' , 'inbound-pro'); ?></span>
                     </th>
-                    <th scope="col" class="">
+                    <th scope="col" class="sort-lead-report-by" sort-by="report-lead-id-header">
                         <span><?php _e('Lead' , 'inbound-pro'); ?></span>
                     </th>
-                    <th scope="col" class="">
-                        <span><?php _e('Last Visit' , 'inbound-pro'); ?><i class="fa fa-sort-desc" aria-hidden="true"></i></span>
+                    <th scope="col" class="sort-lead-report-by" sort-by="report-date-header" sort-order="1">
+                        <span><?php _e('Last Visit' , 'inbound-pro'); ?>
+                            <i class="fa fa-caret-down lead-report-sort-indicater" aria-hidden="true" style="padding-left:4px"></i>
+                        </span>
                     </th>
                 </tr>
                 </thead>
                 <tbody id="the-list">
 
                 <?php
-
+                $date_number = 0;
                 foreach (self::$visits as $key => $event) {
                     $lead = get_post($event['lead_id']);
 
@@ -347,8 +350,9 @@ if (!class_exists('Inbound_Visitors_Report')) {
 
                     $lead_meta['wpleads_first_name'][0] = ($lead_exists && isset($lead_meta['wpleads_first_name'][0])) ? $lead_meta['wpleads_first_name'][0] : __('n/a' , 'inbound-pro');
                     $lead_meta['wpleads_last_name'][0] = ($lead_exists && isset($lead_meta['wpleads_last_name'][0])) ? $lead_meta['wpleads_last_name'][0] : '';
+                    $lead_name = $lead_meta['wpleads_first_name'][0] . ' ' . $lead_meta['wpleads_last_name'][0];
                     ?>
-                    <tr id="post-98600" class="hentry">
+                    <tr id="post-98600" class="hentry lead-table-data-report-row"  data-name-field="<?php echo $lead_name; ?>" data-lead-id="<?php echo $event['lead_id']; ?>" data-impressions="<?php echo $event['count']; ?>" data-date-number="<?php echo $date_number;?>" >
                         <td class="lead-picture">
                             <?php
                             $gravatar = ($lead_exists) ? Leads_Post_Type::get_gravatar($event['lead_id']) : $default_gravatar;
@@ -360,7 +364,7 @@ if (!class_exists('Inbound_Visitors_Report')) {
                             if ( $lead_exists ) {
                                 ?>
                                 <a href="<?php echo'post.php?action=edit&post=' . $event['lead_id'] . '&amp;small_lead_preview=true&tb_hide_nav=true'; ?>" target="_self">
-                                    <?php echo $lead_meta['wpleads_first_name'][0] . ' ' . $lead_meta['wpleads_last_name'][0]; ?>
+                                    <?php echo $lead_name; ?>
                                 </a>
                                 <?php
                             } else {
@@ -370,23 +374,6 @@ if (!class_exists('Inbound_Visitors_Report')) {
                                 <?php
                             }
                             ?>
-                        </td>
-                        <td class="" >
-                            <p class="mod-date"><em> <?php echo date("F j, Y, g:i a" , strtotime($event['datetime'])); ?>
-                                </em>
-                            </p>
-                        </td>
-                        <td class="" >
-                            <a href="<?php echo admin_url('index.php?action=inbound_generate_report&class=Inbound_Visitor_Report&'.($lead_exists ? 'lead_uid=' . $event['lead_uid'] : 'lead_uid='.$event['lead_uid'] ) . '&page_id='.intval($_REQUEST['page_id']).'&range='.self::$range.'&tb_hide_nav=true&TB_iframe=true&width=1503&height=400'); ?>" target="_self">
-                                <?php echo $event['count']; ?>
-                            </a>
-                        </td>
-                        <td class="">
-                            <a href="<?php echo ($lead_exists) ? 'post.php?action=edit&post=' . $event['lead_id'] . '&amp;small_lead_preview=true&tb_hide_nav=true' : '#'  ; ?>" target="_self">
-                                <i <?php echo ( $lead_exists ) ? 'class="fa fa-user inbound-tooltip" title="'.__('Lead exists. Click to view.','inbound-pro').'"' : 'class="fa fa-hourglass-half" title="'.__('Lead does not exist in database yet.','inbound-pro').'"'; ?>" aria-hidden="true">
-
-                                </i>
-                            </a>
                         </td>
                         <td class="" >
                             <?php
@@ -399,9 +386,27 @@ if (!class_exists('Inbound_Visitors_Report')) {
                             }
 
                             ?>
+                        </td>                        
+                        <td class="" >
+                            <a href="<?php echo admin_url('index.php?action=inbound_generate_report&class=Inbound_Visitor_Event_Report&'.($lead_exists ? 'lead_uid=' . $event['lead_uid'] : 'lead_uid='.$event['lead_uid'] ) . '&page_id='.intval($_REQUEST['page_id']).'&range='.self::$range.'&tb_hide_nav=true&TB_iframe=true&width=1503&height=400'); ?>" target="_self">
+                                <?php echo $event['count']; ?>
+                            </a>
+                        </td>
+                        <td class="">
+                            <a href="<?php echo ($lead_exists) ? 'post.php?action=edit&post=' . $event['lead_id'] . '&amp;small_lead_preview=true&tb_hide_nav=true' : '#'  ; ?>" target="_self">
+                                <i <?php echo ( $lead_exists ) ? 'class="fa fa-user inbound-tooltip" title="'.__('Lead exists. Click to view.','inbound-pro').'"' : 'class="fa fa-hourglass-half" title="'.__('Lead does not exist in database yet.','inbound-pro').'"'; ?>" aria-hidden="true">
+
+                                </i>
+                            </a>
+                        </td>
+                        <td class="" >
+                            <p class="mod-date"><em> <?php echo date("F j, Y, g:i a" , strtotime($event['datetime'])); ?>
+                                </em>
+                            </p>
                         </td>
                     </tr>
                     <?php
+                    $date_number++;
                 }
                 ?>
                 </tbody>
@@ -411,19 +416,19 @@ if (!class_exists('Inbound_Visitors_Report')) {
                     <th scope="col" class=" column-lead-picture">
                     </th>
 
-                    <th scope="col" class=" column-first-name  desc">
+                    <th scope="col" class=" column-first-name  desc sort-lead-report-by" sort-by="report-name-field-header">
                         <span><?php _e('Visitor' , 'inbound-pro'); ?></span>
                     </th>
                     <th scope="col" class="  desc">
                         <span><?php _e('Last Source' , 'inbound-pro'); ?></span>
                     </th>
-                    <th scope="col" class=" column-title column-primary  desc">
+                    <th scope="col" class=" column-title column-primary  desc sort-lead-report-by" sort-by="report-impressions-header">
                         <span><?php _e('Impressions' , 'inbound-pro'); ?></span>
                     </th>
-                    <th scope="col" class="  desc">
+                    <th scope="col" class="  desc sort-lead-report-by" sort-by="report-lead-id-header">
                         <span><?php _e('Lead' , 'inbound-pro'); ?></span>
                     </th>
-                    <th scope="col" class="  desc">
+                    <th scope="col" class="  desc sort-lead-report-by" sort-by="report-date-header">
                         <span><?php _e('Last Visit' , 'inbound-pro'); ?><i class="fa fa-sort-desc" aria-hidden="true"></i></span>
                     </th>
                 </tr>

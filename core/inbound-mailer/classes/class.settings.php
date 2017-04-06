@@ -286,7 +286,6 @@ if ( !class_exists('Inbound_Mailer_Settings') ) {
 
 
 
-
 		/**
 		*  Gets settings value depending on if Inbound Pro or single installation.
 		*/

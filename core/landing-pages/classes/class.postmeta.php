@@ -28,9 +28,7 @@ class Landing_Pages_Meta {
 	*  @param ARRAY $settings
 	*/
 	public static function update_settings( $landing_pages_id , $settings ) {
-
-		/* Save settings array */
-		update_post_meta( $landing_pages_id , 'inbound_settings' , $settings );
+		update_metadata('post', $landing_pages_id, 'inbound_settings', $settings, '');
 	}
 
 }

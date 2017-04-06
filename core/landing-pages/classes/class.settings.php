@@ -193,13 +193,13 @@ class Landing_Pages_Settings {
             return;
         }
 
-        wp_enqueue_style('lp-css-global-settings-here', LANDINGPAGES_URLPATH . 'assets/css/admin/global-settings.css');
-        wp_enqueue_script('lp-settings-js', LANDINGPAGES_URLPATH . 'assets/js/admin/admin.global-settings.js');
+        wp_enqueue_style('lp-css-global-settings-here', LANDINGPAGES_URLPATH . 'assets/css/admin/global-settings.css', array() , null);
+        wp_enqueue_script('lp-settings-js', LANDINGPAGES_URLPATH . 'assets/js/admin/admin.global-settings.js', array() , null);
 
         /* load ToolTipster */
-        wp_enqueue_style('tooltipster', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/ToolTipster/css/tooltipster.css');
-        wp_enqueue_style('tooltipster-theme', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/ToolTipster/css/themes/tooltipster-noir.css');
-        wp_enqueue_script('tooltipster', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/ToolTipster/js/jquery.tooltipster.min.js');
+        wp_enqueue_style('tooltipster', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/ToolTipster/css/tooltipster.css', array() , null);
+        wp_enqueue_style('tooltipster-theme', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/ToolTipster/css/themes/tooltipster-noir.css', array() , null);
+        wp_enqueue_script('tooltipster', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/ToolTipster/js/jquery.tooltipster.min.js', array() , null);
     }
 
     /**

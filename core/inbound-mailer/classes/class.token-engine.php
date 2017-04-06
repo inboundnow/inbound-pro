@@ -64,6 +64,9 @@ class Inbound_Mailer_Tokens {
 
         /* Saves all all incoming POST data as meta pairs */
         add_action('save_post', array(__CLASS__, 'action_save_data'));
+
+        /* on draft to publish update post locked status to pending */
+        // to do
     }
 
     /**

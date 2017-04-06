@@ -18,6 +18,11 @@ class CTA_Admin_Notices {
      */
     public static function dont_install_call_to_action_templates_here() {
 
+        /* only show administrators */
+        if( !current_user_can('activate_plugins') ) {
+            return;
+        }
+
         $screen = get_current_screen();
 
         if( $screen->id === 'themes' ||
@@ -25,7 +30,6 @@ class CTA_Admin_Notices {
             $screen->id === 'update' && isset($_GET['action']) && $_GET['action'] === "upload-theme"
         ) {
             $message_id = 'cta-installation';
-
 
             /* check if user viewed message already */
             if (self::check_if_viewed($message_id)) {
@@ -66,6 +70,11 @@ class CTA_Admin_Notices {
             return;
         }
 
+        /* only show administrators */
+        if( !current_user_can('activate_plugins') ) {
+            return;
+        }
+
         if ( $_GET["page"] == "wp_cta_manage_templates" )  {
            ?>
             <div id="more-templates-button" style="display:none;display:inline;">
@@ -90,6 +99,11 @@ class CTA_Admin_Notices {
 
         /* ignore for pro users */
         if (class_exists('Inbound_Pro_Plugin')) {
+            return;
+        }
+
+        /* only show administrators */
+        if( !current_user_can('activate_plugins') ) {
             return;
         }
 
@@ -206,4 +220,6 @@ class CTA_Admin_Notices {
     }
 }
 
+
 new CTA_Admin_Notices;
+

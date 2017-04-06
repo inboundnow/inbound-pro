@@ -9,13 +9,12 @@ function inbound_stats_lookup( email_ids, i , callback , response ) {
         end = true;
     }
 
-
     if (typeof response == 'object' && response && typeof response['totals'] != 'undefined'  ) {
-        jQuery( '.td-col-sends[data-email-id="' + old_email_id + '"]').text(response['totals']['sent']);
-        jQuery( '.td-col-opens[data-email-id="' + old_email_id + '"]').text(response['totals']['opens']);
-        jQuery( '.td-col-clicks[data-email-id="' + old_email_id + '"]').text(response['totals']['clicks']);
-        jQuery( '.td-col-unsubs[data-email-id="' + old_email_id + '"]').text(response['totals']['unsubs']);
-        jQuery( '.td-col-mutes[data-email-id="' + old_email_id + '"]').text(response['totals']['mutes']);
+        jQuery( '.td-col-sends[data-email-id="' + old_email_id + '"]').find('.email-report-link').text(response['totals']['sent']).end().find( '.col-ajax-spinner' ).remove();
+        jQuery( '.td-col-opens[data-email-id="' + old_email_id + '"]').find('.email-report-link').text(response['totals']['opens']).end().find( '.col-ajax-spinner' ).remove();
+        jQuery( '.td-col-clicks[data-email-id="' + old_email_id + '"]').find('.email-report-link').text(response['totals']['clicks']).end().find( '.col-ajax-spinner' ).remove();
+        jQuery( '.td-col-unsubs[data-email-id="' + old_email_id + '"]').find('.email-report-link').text(response['totals']['unsubs']).end().find( '.col-ajax-spinner' ).remove();
+        jQuery( '.td-col-mutes[data-email-id="' + old_email_id + '"]').find('.email-report-link').text(response['totals']['mutes']).end().find( '.col-ajax-spinner' ).remove();
     }
 
     i++;
@@ -68,6 +67,12 @@ jQuery(document).ready( function($) {
             jQuery( '.td-col-clicks[data-email-id="' + email_id + '"]').text('-');
             jQuery( '.td-col-unsubs[data-email-id="' + email_id + '"]').text('-');
             jQuery( '.td-col-mutes[data-email-id="' + email_id + '"]').text('-');
+        } else  if (email_status=='draft') {
+            jQuery( '.td-col-sends[data-email-id="' + email_id + '"]').text('0');
+            jQuery( '.td-col-opens[data-email-id="' + email_id + '"]').text('0');
+            jQuery( '.td-col-clicks[data-email-id="' + email_id + '"]').text('0');
+            jQuery( '.td-col-unsubs[data-email-id="' + email_id + '"]').text('0');
+            jQuery( '.td-col-mutes[data-email-id="' + email_id + '"]').text('0');
         } else {
             email_ids[i] = email_id;
             i++;

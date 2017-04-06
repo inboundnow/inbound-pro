@@ -140,18 +140,6 @@ class Landing_Pages_Metaboxes {
             'high'
         );
 
-        /* Add showcase submission */
-        if (class_exists('Inbound_Pro_Plugin') && !isset($_GET['inbound-editor']) ) {
-            add_meta_box(
-                'lp_showcase_submission',
-                __('Share your Work', 'landing-pages'),
-                array(__CLASS__, 'display_showcase_submission'),
-                'landing-page',
-                'side',
-                'low'
-            );
-        }
-
         /* discover extended metaboxes and render them */
         foreach ($extension_data as $key => $data) {
 
@@ -258,11 +246,11 @@ class Landing_Pages_Metaboxes {
         }
 
         wp_enqueue_script(array('jquery', 'jqueryui', 'editor', 'thickbox', 'media-upload'));
-        wp_enqueue_style('edit-landing-page', LANDINGPAGES_URLPATH . 'assets/css/admin/edit-landing-page.css');
-        wp_enqueue_script('lp-js-metaboxes', LANDINGPAGES_URLPATH . 'assets/js/admin/admin.metaboxes.js');
-        wp_enqueue_script('jpicker', LANDINGPAGES_URLPATH . 'assets/libraries/jpicker/jpicker-1.1.6.min.js');
+        wp_enqueue_style('edit-landing-page', LANDINGPAGES_URLPATH . 'assets/css/admin/edit-landing-page.css', array() , null);
+        wp_enqueue_script('lp-js-metaboxes', LANDINGPAGES_URLPATH . 'assets/js/admin/admin.metaboxes.js', array() , null);
+        wp_enqueue_script('jpicker', LANDINGPAGES_URLPATH . 'assets/libraries/jpicker/jpicker-1.1.6.min.js', array() , null);
         wp_localize_script( 'jpicker', 'jpicker', array( 'thispath' => LANDINGPAGES_URLPATH.'assets/libraries/jpicker/images/' ));
-        wp_enqueue_style('jpicker-css', LANDINGPAGES_URLPATH . 'assets/libraries/jpicker/css/jPicker-1.1.6.min.css');
+        wp_enqueue_style('jpicker-css', LANDINGPAGES_URLPATH . 'assets/libraries/jpicker/css/jPicker-1.1.6.min.css', array() , null);
 
         $template_data = Landing_Pages_Load_Extensions::get_extended_data();;
         $template_data_json = json_encode($template_data);
@@ -272,24 +260,24 @@ class Landing_Pages_Metaboxes {
 
         /* if ACF load CSS to hide WordPress core elements */
         if ( isset($template_data[$template]['info']['data_type']) && strstr( $template_data[$template]['info']['data_type'] , 'acf')){
-            wp_enqueue_style('lp-acf-template', LANDINGPAGES_URLPATH . 'assets/css/admin/acf-hide-wp-elements.css');
+            wp_enqueue_style('lp-acf-template', LANDINGPAGES_URLPATH . 'assets/css/admin/acf-hide-wp-elements.css' , array() , null );
         }
 
-        wp_enqueue_style('inbound-metaboxes', INBOUNDNOW_SHARED_URLPATH . 'assets/css/admin/inbound-metaboxes.css');
-        wp_enqueue_script( 'lp-admin-clear-stats-ajax-request', LANDINGPAGES_URLPATH . 'assets/js/ajax.clearstats.js', array( 'jquery' ) );
+        wp_enqueue_style('inbound-metaboxes', INBOUNDNOW_SHARED_URLPATH . 'assets/css/admin/inbound-metaboxes.css' , array() , null);
+        wp_enqueue_script( 'lp-admin-clear-stats-ajax-request', LANDINGPAGES_URLPATH . 'assets/js/ajax.clearstats.js', array( 'jquery' ) ,  null );
         wp_localize_script( 'lp-admin-clear-stats-ajax-request', 'ajaxadmin', array( 'ajaxurl' => admin_url('admin-ajax.php'), 'lp_clear_nonce' => wp_create_nonce('lp-clear-nonce') ) );
 
-        wp_enqueue_script('jquery-zoomer', LANDINGPAGES_URLPATH . 'assets/libraries/jquery.zoomer.js');
-        wp_enqueue_script('lp-post-edit-ui', LANDINGPAGES_URLPATH . 'assets/js/admin/admin.post-edit.js');
+        wp_enqueue_script('jquery-zoomer', LANDINGPAGES_URLPATH . 'assets/libraries/jquery.zoomer.js', array() , null);
+        wp_enqueue_script('lp-post-edit-ui', LANDINGPAGES_URLPATH . 'assets/js/admin/admin.post-edit.js', array() , null);
         wp_localize_script( 'lp-post-edit-ui', 'lp_post_edit_ui', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'post_id' => $post->ID , 'wp_landing_page_meta_nonce' => wp_create_nonce('wp-landing-page-meta-nonce'),  'lp_template_nonce' => wp_create_nonce('lp-nonce') ) );
-        wp_enqueue_style('admin-post-edit-css', LANDINGPAGES_URLPATH . 'assets/css/admin-post-edit.css');
+        wp_enqueue_style('admin-post-edit-css', LANDINGPAGES_URLPATH . 'assets/css/admin-post-edit.css', array() , null);
 
         /* Load FontAwesome */
-        wp_register_style('font-awesome', INBOUNDNOW_SHARED_URLPATH.'assets/fonts/fontawesome/css/font-awesome.min.css');
+        wp_register_style('font-awesome', INBOUNDNOW_SHARED_URLPATH.'assets/fonts/fontawesome/css/font-awesome.min.css', array() , null);
         wp_enqueue_style('font-awesome');
 
         /* Load Sweet Alert */
-        wp_enqueue_script('sweet-alert', INBOUNDNOW_SHARED_URLPATH.'assets/includes/SweetAlert/sweetalert.min.js');
+        wp_enqueue_script('sweet-alert', INBOUNDNOW_SHARED_URLPATH.'assets/includes/SweetAlert/sweetalert.min.js', array() , null);
         $localized = array(
             'title' => __("Are you sure?","landing-pages"),
             'text' => __("Are you sure you want to select this template?","landing-pages"),
@@ -301,27 +289,27 @@ class Landing_Pages_Metaboxes {
             'waitImage' => INBOUNDNOW_SHARED_URLPATH .'assets/includes/SweetAlert/loading_colorful.gif'
         );
         wp_localize_script('sweet-alert', 'sweetalert', $localized );
-        wp_enqueue_style('sweet-alert', INBOUNDNOW_SHARED_URLPATH.'assets/includes/SweetAlert/sweetalert.css');
+        wp_enqueue_style('sweet-alert', INBOUNDNOW_SHARED_URLPATH.'assets/includes/SweetAlert/sweetalert.css', array() , null);
 
-        wp_enqueue_style('lp-ab-testing-admin', LANDINGPAGES_URLPATH . 'assets/css/admin-ab-testing.css');
-        wp_enqueue_script('lp-ab-testing-admin', LANDINGPAGES_URLPATH . 'assets/js/admin/admin.post-edit-ab-testing.js', array('jquery'));
+        wp_enqueue_style('lp-ab-testing-admin', LANDINGPAGES_URLPATH . 'assets/css/admin-ab-testing.css', array() , null);
+        wp_enqueue_script('lp-ab-testing-admin', LANDINGPAGES_URLPATH . 'assets/js/admin/admin.post-edit-ab-testing.js', array('jquery') , null );
         wp_localize_script('lp-ab-testing-admin', 'variation', array('pid' => $post->ID , 'vid' => self::$current_vid, 'new_variation' => self::$is_new , 'variations' => self::$variations, 'content_area' => self::$content_area));
 
         /* enqueue supportive scripts */
-        wp_enqueue_script( 'jquery-time-picker', LANDINGPAGES_URLPATH . 'assets/libraries/datetimepicker/jquery.datetimepicker.js', array('jquery') );
-        wp_enqueue_style( 'jquery-time-picker', LANDINGPAGES_URLPATH . 'assets/libraries/datetimepicker/jquery.datetimepicker.css' );
-        wp_enqueue_script( 'jquery-date-picker', LANDINGPAGES_URLPATH . 'assets/libraries/datetimepicker/picker_functions.js', array('jquery') );
+        wp_enqueue_script( 'jquery-time-picker', LANDINGPAGES_URLPATH . 'assets/libraries/datetimepicker/jquery.datetimepicker.js', array('jquery') , null );
+        wp_enqueue_style( 'jquery-time-picker', LANDINGPAGES_URLPATH . 'assets/libraries/datetimepicker/jquery.datetimepicker.css' , array() , null );
+        wp_enqueue_script( 'jquery-date-picker', LANDINGPAGES_URLPATH . 'assets/libraries/datetimepicker/picker_functions.js', array('jquery') , null );
 
         /* only load these scripts and styles when creatng a new landing page  */
         if ( $hook == 'post-new.php'  ) {
-            wp_enqueue_script('lp-js-create-new-lander', LANDINGPAGES_URLPATH . 'assets/js/admin/admin.post-new.js', array('jquery'), '1.0', true );
+            wp_enqueue_script('lp-js-create-new-lander', LANDINGPAGES_URLPATH . 'assets/js/admin/admin.post-new.js', array('jquery'), null, true );
             wp_localize_script( 'lp-js-create-new-lander', 'lp_post_new_ui', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'post_id' => $post->ID , 'wp_landing_page_meta_nonce' => wp_create_nonce('lp_nonce')  , 'LANDINGPAGES_URLPATH' => LANDINGPAGES_URLPATH ) );
-            wp_enqueue_style('lp-css-post-new', LANDINGPAGES_URLPATH . 'assets/css/admin-post-new.css');
+            wp_enqueue_style('lp-css-post-new', LANDINGPAGES_URLPATH . 'assets/css/admin-post-new.css' , array() , null);
         }
 
         if ( $hook == 'post.php'  ) {
             /* change template sweet alert support */
-            wp_enqueue_script('lp-change-template', LANDINGPAGES_URLPATH . 'assets/js/admin/admin.post.js', array('jquery'), '1.0', true );
+            wp_enqueue_script('lp-change-template', LANDINGPAGES_URLPATH . 'assets/js/admin/admin.post.js', array('jquery'), null, true );
         }
     }
 
@@ -701,25 +689,6 @@ href='?post=<?php echo $post->ID; ?>&action=edit&action-variation-id=<?php echo 
 
     }
 
-
-    /**
-     * Display custom CSS metabox
-     */
-    public static function display_showcase_submission() {
-        global $post, $current_user;
-        wp_get_current_user();
-        $landing_page_url =  get_permalink($post->ID);
-        $admin_email = $current_user->user_email;
-        $name = $current_user->display_name;
-        $template = self::$current_template;
-        ?>
-        <a class="button3"
-           href="<?php echo add_query_arg( array( 'admin_email' => $admin_email , 'template' => $template , 'lander' => urlencode($landing_page_url) , 'submitter_name' => $name  ) , 'https://www.inboundnow.com/showcase/' ); ?>" target="_blank">
-            <?php _e('Like your work? Showcase it!' , 'landing-pages'); ?>
-        </a>
-        <?php
-    }
-
     /**
      * Display custom CSS metabox
      */
@@ -822,15 +791,16 @@ href='?post=<?php echo $post->ID; ?>&action=edit&action-variation-id=<?php echo 
             /* Get Thumbnail */
             if (file_exists(LANDINGPAGES_PATH . 'templates/' . $this_extension . "/thumbnail.png")) {
                 if ($this_extension == 'default') {
-
-                    $thumbnail = get_bloginfo('template_directory') . "/screenshot.png";
-
+                    $thumbnail = get_template_directory() . "/screenshot.png";
+                    if (file_exists($thumbnail)) {
+                        $thumbnail = get_bloginfo('template_directory') . "/screenshot.png";
+                        $thumb = true;
+                    }
                 } else {
-
                     $thumbnail = LANDINGPAGES_URLPATH . 'templates/' . $this_extension . "/thumbnail.png";
-
+                    $thumb = true;
                 }
-                $thumb = true;
+
             }
 
             if (file_exists(LANDINGPAGES_UPLOADS_PATH . $this_extension . "/thumbnail.png")) {
@@ -843,7 +813,7 @@ href='?post=<?php echo $post->ID; ?>&action=edit&action-variation-id=<?php echo 
                 $thumb = true;
             }
 
-            if ($thumb === false) {
+            if (!$thumb) {
                 $thumbnail = LANDINGPAGES_URLPATH . 'templates/default/thumbnail.png';
             }
 

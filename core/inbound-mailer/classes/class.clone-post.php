@@ -1,6 +1,5 @@
 <?php
 
-
 class Inbound_Mailer_Clone_Post {
 	
 	/**
@@ -32,10 +31,15 @@ class Inbound_Mailer_Clone_Post {
 		if ( $post->post_type != 'inbound-email' ) {
 			return $actions;
 		}
-		
+
 		$actions['clone'] = '<a href="'. self::build_clone_link( $post->ID , 'display', true ).'" title="'
 		. esc_attr(__( 'Clone this item' , 'inbound-pro' ))
 		. '">' .	__( 'Clone' , 'inbound-pro' ) . '</a>';
+
+        $actions['view'] = '<a href="' . get_permalink($post->ID)
+        . '&TB_iframe=true&width=600&height=1000" class="thickbox inbound-thickbox"'
+        . 'title="' . esc_attr(__( 'Preview the email', 'inbound-pro' ))
+        . '">' . __('Preview Email', 'inbound-pro') . '</a>';
 
 		return $actions;
 	}

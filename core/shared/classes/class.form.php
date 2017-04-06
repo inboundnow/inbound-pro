@@ -471,6 +471,11 @@ if (!class_exists('Inbound_Forms')) {
                 }
                 /* End Loop */
 
+                if ( is_ssl()) {
+                    $current_page = "https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+                }else {
+                    $current_page = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+                }
                 $current_page = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
                 $form .= '<div class="inbound-field ' . $main_layout . ' inbound-submit-area"><button type="submit" class="inbound-button-submit inbound-submit-action" value="' . $submit_button . '" name="send" id="inbound_form_submit" data-ignore-form-field="true" style="' . $submit_bg . $submit_color . $image_button . 'position:relative;">' . $icon_insert . '' . $submit_button . $inner_button . '</button></div><input data-ignore-form-field="true" type="hidden" name="inbound_submitted" value="1">';
                 /* <!--<input type="submit" '.$submit_button_type.' class="button" value="'.$submit_button.'" name="send" id="inbound_form_submit" />--> */

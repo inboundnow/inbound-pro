@@ -61,7 +61,6 @@ class Landing_Pages_Sidebars {
 
         if (!is_active_sidebar('lp_sidebar')) {
             $active_widgets = get_option('sidebars_widgets');
-            $active_widgets = get_option('sidebars_widgets');
 
             if (!isset($active_widgets['lp_sidebar']) || !$active_widgets['lp_sidebar'] ) {
                 $active_widgets['lp_sidebar'] = array($registered_widget_id);
