@@ -1,4 +1,9 @@
 jQuery( document ).ready( function( jQuery ) {
+
+    if (typeof wpLink == 'undefined') {
+        return;
+    }
+
     jQuery('#link-options').append('<div style="margin-left: 61px">' +
         '<label>' +
             '<input type="checkbox" name="inbound-track-link" id="inbound-track-link" value="true">' +

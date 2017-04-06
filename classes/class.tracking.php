@@ -51,12 +51,6 @@ class Inbound_Tracking {
 			return;
 		}
 
-		$screen = get_current_screen();
-
-		if (!isset($screen) || !isset($_GET['post'])) {
-			return;
-		}
-
 		wp_register_script('inbound-track-link', INBOUND_PRO_URLPATH . 'assets/js/admin/track-link.js');
 		wp_enqueue_script('inbound-track-link');
 
