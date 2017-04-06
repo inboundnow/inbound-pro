@@ -5,6 +5,10 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
     class Inbound_Mailer_Stats_Report extends Inbound_Reporting_Templates {
 
         static $range;
+        static $limit;
+        static $offset;
+        static $total_events;
+        static $total_pages;
         static $graph_data;
         static $top_variations;
         static $start_date;
@@ -12,8 +16,8 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
         static $past_start_date;
         static $past_end_date;
         static $possible_actions;
-        static $recipient_data = array();
-        
+        static $events = array();
+
 
 
         /**
@@ -39,7 +43,7 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
             parent::display_filters();
             self::display_chart();
             self::display_top_email_variations();
-            self::display_email_recipients();
+            self::display_all_events();
             parent::js_lead_table_sort();
             die();
         }
@@ -66,15 +70,14 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
             </aside>
             <?php
         }
-        
+
         /*
          * Displays the email event stat data on a chart
          **/
         public static function display_chart() {
 
             self::$graph_data['current']= self::prepare_chart_data(self::$start_date, self::$end_date , 'current', intval($_REQUEST['email_id']));
-            self::$graph_data['past']= self::prepare_chart_data(self::$past_start_date, self::$past_end_date , 'past', intval($_REQUEST['email_id'])); 
-            
+
             /* loop through  */
             ?>
             <div id="graph-container" style='height:350px;'></div>
@@ -91,8 +94,7 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
                         trigger: 'axis'
                     },
                     legend: {
-                        data:['<?php echo sprintf( __('%s past %s days','inbound-pro') , self::$possible_actions[$_REQUEST['event_name']], self::$range ); ?>',
-                              '<?php echo sprintf( __('%s prior %s days','inbound-pro') , self::$possible_actions[$_REQUEST['event_name']], self::$range ); ?>']
+                        data:['<?php echo sprintf( __('%s past %s days','inbound-pro') , self::$possible_actions[$_REQUEST['event_name']], self::$range ); ?>']
                     },
                     toolbox: {
                         show : true,
@@ -124,7 +126,7 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
                             type : 'value'
                         }
                     ],
-                    series : [    
+                    series : [
 
                         {
                             name:'<?php echo sprintf( __('%s over the past %s days','inbound-pro') , self::$possible_actions[$_REQUEST['event_name']], self::$range ); ?>',
@@ -133,17 +135,9 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
                             areaStyle: {normal: {color:'#55ddff', label:{show:true}}},
                             data:<?php echo json_encode(self::$graph_data['current']['actions_counted']); ?>
 
-                        },
-                        {
-                            name:'<?php echo sprintf( __('%s over the prior %s days','inbound-pro') , self::$possible_actions[$_REQUEST['event_name']], self::$range ); ?>',
-                            type:'line', // 3d3d3d , 6655ff 
-                            itemStyle: {normal: {color:'#6655ff', label:{show:true}}},
-                            areaStyle: {normal: {color:'#6655ff', label:{show:true}}},
-                            data:<?php echo json_encode(self::$graph_data['past']['actions_counted']); ?>
-
                         }
                     ]
-                    
+
                 };
                 // use configuration item and data specified to show chart
                 myChart.setOption(option);
@@ -156,9 +150,9 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
          */
         public static function display_top_email_variations() {
             $email = get_post(intval($_REQUEST['email_id']));
-            
+
             /* if there are no stored actions for this variation, output a message and exit */
-            if(empty(self::$top_variations)){ 
+            if(empty(self::$top_variations)){
                 ?>
                 <div class="flexbox-container email-variation-stats-container">
                     <div>
@@ -168,11 +162,10 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
                 <?php
                 return;
             }
-           
+
             ?>
             <div class="flexbox-container email-variation-stats-container">
                 <div>
-                    <h3><?php echo sprintf(__('Total %s For The Variations Of "%s" ', 'inbound-pro'), self::$possible_actions[$_REQUEST['event_name']], $email->post_title); ?></h3>
                     <table class="email-variation-stats">
                         <thead>
                         <tr>
@@ -187,13 +180,13 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
                         <tbody id="">
 
                         <?php
-                        $variation_letters = array( 
+                        $variation_letters = array(
                          'A', 'B', 'C', 'D', 'E', 'F',
                          'G', 'H', 'I', 'J', 'K', 'L',
                          'M', 'N', 'O', 'P', 'Q', 'R',
                          'S', 'T', 'U', 'V', 'W', 'X',
                          'Y', 'Z');
-                         
+
                         $i = 0;
                         foreach(self::$top_variations as $variant_id => $action_count){
                             //if($i >= 10){break;}//uncomment to make this a top 10 list
@@ -213,7 +206,7 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
                                 </td>
                             </tr>
                             <?php
-                            $i++; 
+                            $i++;
                         }
                         ?>
                         </tbody>
@@ -225,26 +218,28 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
         }
 
         /**
-         * Displays a sortable list of all leads that have had an interaction with the given email 
+         * Displays a sortable list of all leads that have had an interaction with the given email
          */
-        public static function display_email_recipients(){
-            
+        public static function display_all_events(){
+
             /*exit if there's no lead data to show or if the lead table isn't supposed to show*/
-            if(empty(self::$recipient_data) || $_REQUEST['display_lead_table'] !== 'true'){
+            if(empty(self::$events) || $_REQUEST['display_lead_table'] !== 'true'){
                 return;
             }
-            
-            $variation_letters = array( 
+
+            /* array to store tokens and urls into memory to save database calls */
+            $url_array = array();
+
+            $variation_letters = array(
              'A', 'B', 'C', 'D', 'E', 'F',
              'G', 'H', 'I', 'J', 'K', 'L',
              'M', 'N', 'O', 'P', 'Q', 'R',
              'S', 'T', 'U', 'V', 'W', 'X',
              'Y', 'Z');
-            
+
             ?>
             <div class="flexbox-container lead-action-data-list">
                 <div>
-                    <h3><?php echo sprintf(__('Leads who have %s email in the past %d days'), self::$possible_actions['lead_table'][$_REQUEST['event_name']],  self::$range ); ?></h3>
                     <table>
                         <thead>
                             <tr>
@@ -252,6 +247,24 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
                                 <th class="sort-lead-report-by" sort-by="report-name-field-header">
                                     <?php _e('Lead Name', 'inbound-pro'); ?>
                                 </th>
+                                <?php
+                                 if ( $_REQUEST['event_name'] == 'sparkpost_click' ) {
+                                 ?>
+                                     <th class="sort-lead-report-by" sort-by="report-email-variation-header">
+                                         <?php _e('URL', 'inbound-pro'); ?>
+                                     </th>
+                                 <?php
+                                 }
+                                 ?>
+                                <?php
+                                 if ( $_REQUEST['event_name'] == 'sparkpost_rejected' ) {
+                                 ?>
+                                     <th class="sort-lead-report-by" sort-by="report-email-variation-header">
+                                         <?php _e('Reason', 'inbound-pro'); ?>
+                                     </th>
+                                 <?php
+                                 }
+                                 ?>
                                 <th class="sort-lead-report-by" sort-by="report-email-variation-header">
                                     <?php echo sprintf(__('Email Variation %s', 'inbound-pro'), self::$possible_actions['singular_form'][$_REQUEST['event_name']]); ?>
                                 </th>
@@ -265,45 +278,86 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
                             <?php
                             $logged_event = array();
                             $action_number = 0;
-                            foreach(self::$recipient_data as $index => $data){
-                                
+                            foreach(self::$events as $index => $event){
+
                                 /*if a lead has been sent the same email variation more than once, skip*/
-                                if(isset($logged_event[$data['variation_id']][$data['lead_id']])){
+                                if(isset($logged_event[$event['variation_id']][$event['lead_id']])){
                                     continue;
                                 }
-                                $logged_event[$data['variation_id']][$data['lead_id']] = 1;
-                                
-                                $lead = get_post($data['lead_id']);
+                                $logged_event[$event['variation_id']][$event['lead_id']] = 1;
+
+                                $lead = get_post($event['lead_id']);
 
                                 $lead_exists = ($lead) ? true : false;
-                                
+
                                 if($lead_exists){
                                     $lead_name = get_post_meta($lead->ID, 'wpleads_name', true);
                                     if(empty($lead_name)){
                                         $lead_name = 'N/A';
                                     }
-                                    
+
                                 }else{
                                     $lead_name = __('Lead Deleted', 'inbound-pro');
                                 }
 
                                 ?>
-                            <tr class="lead-table-data-report-row" data-name-field="<?php echo $lead_name; ?>" data-email-variation="<?php echo $data['variation_id']; ?>" data-date-number="<?php echo $action_number;?>">
+                            <tr class="lead-table-data-report-row" data-name-field="<?php echo $lead_name; ?>" data-email-variation="<?php echo $event['variation_id']; ?>" data-date-number="<?php echo $action_number;?>">
                                 <td class="lead-avatar">
-                                    <?php $gravatar = ($lead_exists) ? Leads_Post_Type::get_gravatar($data['lead_id']) : $default_gravatar;
+                                    <?php $gravatar = ($lead_exists) ? Leads_Post_Type::get_gravatar($event['lead_id']) : $default_gravatar;
                                     echo '<img class="lead-grav-img " width="40" height="40" src="' . $gravatar . '">'; ?>
                                 </td>
                                 <td class="lead-name">
-                                    <a href="<?php admin_url('post.php?post=' . $data['lead_id'] . '&action=edit&small_lead_preview=true&tb_hide_nav=true'); ?>"><?php echo $lead_name; ?></a>
+                                    <a href="<?php echo admin_url('post.php?post=' . $event['lead_id'] . '&action=edit&small_lead_preview=true&tb_hide_nav=true'); ?>"><?php echo $lead_name; ?></a>
                                 </td>
-                                <td class="email-variation"><?php echo $variation_letters[$data['variation_id']]; ?></td>
+                                <?php
+                                if ( $_REQUEST['event_name'] == 'sparkpost_click' ) {
+                                    $event_details = json_decode($event['event_details'] , true);
+                                    $token = end(explode('/', $event_details['target_link_url']));
+
+                                    if (strstr($token , '?token')) {
+                                        $token = 'unsubscribe';
+                                        $url_array[$token] = array('url' => __( 'Unsubscribe' , 'inbound-pro') );
+                                    }
+
+                                    if ( !isset($url_array[$token]) ) {
+                                        $args = Inbound_API::get_args_from_token($token);
+                                        $args['url'] = ($args['url']) ? $args['url'] : sprintf(__('No URL for token %s' , 'inbound-pro') , $token);
+                                        $url_array[$token] = $args;
+                                    } else {
+                                        $args = $url_array[$token];
+                                    }
+                                    ?>
+                                    <td class="clicked-url">
+                                        <?php
+                                        if (strstr($args['url'],':')) {
+                                            echo '<a href="'.$args['url'].'" target="_blank">'.$args['url'].'</a>';
+                                        } else {
+                                            echo $args['url'];
+                                        }
+                                        ?>
+                                    </td>
+                                    <?php
+                                }
+                                ?>
+                                <?php
+                                if ( $_REQUEST['event_name'] == 'sparkpost_rejected' ) {
+                                    $event_details = json_decode($event['event_details'] , true);
+
+                                    ?>
+                                    <td class="clicked-url">
+                                      <?php echo (isset($event_details['description'])) ? $event_details['description'] : __('no reason supplied' , 'inbound-pro'); ?>
+                                    </td>
+                                    <?php
+                                }
+                                ?>
+                                <td class="email-variation"><?php echo $variation_letters[$event['variation_id']]; ?></td>
                                 <td class="datestamp">
                                     <p class="mod-date" >
-                                        <em> <?php echo date("F j, Y, g:i a" , strtotime($data['datetime'])); ?></em>
+                                        <em> <?php echo date("F j, Y, g:i a" , strtotime($event['datetime'])); ?></em>
                                     </p>
                                 </td>
                             </tr>
-                            <?php   
+                            <?php
                                 $action_number++;
                             }   ?>
                         </tbody>
@@ -313,6 +367,24 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
                                 <th class="sort-lead-report-by" sort-by="report-name-field-header">
                                     <?php _e('Lead Name', 'inbound-pro'); ?>
                                 </th>
+                                <?php
+                                 if ( $_REQUEST['event_name'] == 'sparkpost_click' ) {
+                                 ?>
+                                     <th class="sort-lead-report-by" sort-by="report-email-variation-header">
+                                         <?php _e('URL', 'inbound-pro'); ?>
+                                     </th>
+                                 <?php
+                                 }
+                                 ?>
+                                <?php
+                                 if ( $_REQUEST['event_name'] == 'sparkpost_rejected' ) {
+                                 ?>
+                                     <th class="sort-lead-report-by" sort-by="report-email-variation-header">
+                                         <?php _e('Reason', 'inbound-pro'); ?>
+                                     </th>
+                                 <?php
+                                 }
+                                 ?>
                                 <th class="sort-lead-report-by" sort-by="report-email-variation-header">
                                     <?php echo sprintf(__('Email Variation %s', 'inbound-pro'), self::$possible_actions['singular_form'][$_REQUEST['event_name']]); ?>
                                 </th>
@@ -323,13 +395,76 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
                             </tr>
                         </tfoot>
                     </table>
+                    <select id="limit-select">
+                            <option value="50" <?php selected(self::$limit , '50'); ?>>50 <?php _e('per page' , 'inbound-pro'); ?></option>
+                            <option value="100" <?php selected(self::$limit , '100'); ?>>100 <?php _e('per page' , 'inbound-pro'); ?></option>
+                            <option value="300" <?php selected(self::$limit , '300'); ?>>300 <?php _e('per page' , 'inbound-pro'); ?></option>
+                            <option value="500" <?php selected(self::$limit , '500'); ?>>500 <?php _e('per page' , 'inbound-pro'); ?></option>
+                    </select>
+                    <script type="text/javascript">
+                        /**
+                         *  reloads the report template with an updated limit value
+                         */
+                        function reload_limit(name, value) {
+                            var str = location.search;
+                            if (new RegExp("[&?]"+name+"([=&].+)?$").test(str)) {
+                                str = str.replace(new RegExp("(?:[&?])"+name+"[^&]*", "g"), "")
+                            }
+                            str += "&";
+                            str += name + "=" + value;
+                            str = "?" + str.slice(1);
+                            // there is an official order for the query and the hash if you didn't know.
+                            location.assign(location.origin + location.pathname + str + location.hash)
+                        };
+
+                        /* on page load */
+                        (function() {
+                            var limit_select = document.getElementById('limit-select');
+
+                            limit_select.onchange = function() {
+                                var elem = (typeof this.selectedIndex === "undefined" ? window.event.srcElement : this);
+                                var value = elem.value || elem.options[elem.selectedIndex].value;
+
+                                reload_limit('limit' , value);
+                            }
+                        })();
+                    </script>
+                    <div class="pagination">
+
+                        <?php
+                        $url = basename($_SERVER['REQUEST_URI']);
+                        parse_str($url , $report_args);
+
+                        $report_args = array('action' => $report_args['index_php?action']) + $report_args;
+                        unset($report_args['index_php?action']);
+                        unset($report_args['index_php?class']);
+                        unset($report_args['tb_hide_nav']);
+                        unset($report_args['TB_iframe']);
+                        $report_args['limit'] = self::$limit;
+                        $report_args['offset'] = (self::$offset) ? self::$offset : 1;
+
+                        $link = add_query_arg( $report_args , admin_url('index.php') );
+                        echo '<a href="'.$link.'" >&laquo;</a>';
+
+                        for ($i=0;$i<self::$total_pages;$i++) {
+                            $page_num = $i +1;
+                            $report_args['offset'] = $page_num;
+                            $link = add_query_arg( $report_args , admin_url('index.php') );
+                            echo '<a href="'.$link.'" '.( $page_num == self::$offset ? 'class="active"' : '' ).'>'.$page_num.'</a>';
+                        }
+
+                        $report_args['offset'] = self::$offset + 1;
+                        $link = add_query_arg( $report_args , admin_url('index.php') );
+                        ?>
+                        <a href="<?php echo $link; ?>">&raquo;</a>
+                    </div>
                 </div>
             </div>
-            
-            
+
+
             <?php
-            
-            
+
+
         }
 
         /**
@@ -633,6 +768,32 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
                     height:40px;
                 }
 
+                .pagination {
+                    display: inline-block;
+                    padding: 0;
+                    margin: 8px 0;
+                }
+
+                .pagination a {
+                    color: black;
+                    float: left;
+                    padding: 8px 16px;
+                    text-decoration: none;
+                }
+
+
+                .pagination a.active {
+                    background-color: #1585cf;
+                    color: white;
+                }
+
+                .pagination a:hover:not(.active) {background-color: #ddd;}
+
+                #limit-select {
+                    height:30px;
+                    text-align:right;
+                    width:100%;
+                }
             </style>
             <link rel='stylesheet' id='fontawesome-css'  href='<?php echo INBOUNDNOW_SHARED_URLPATH ;?>assets/fonts/fontawesome/css/font-awesome.min.css?ver=4.6.1' type='text/css' media='all' />
             <?php
@@ -646,6 +807,9 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
             /* build timespan for analytics report */
             self::define_range();
 
+            self::$offset = (isset($_GET['offset'])) ? (int) $_GET['offset'] : 1;
+            self::$limit = (isset($_GET['limit'])) ? (int) $_GET['limit'] : 50;
+
             $dates = Inbound_Reporting_Templates::prepare_range( self::$range );
             self::$start_date = $dates['start_date'];
             self::$end_date = $dates['end_date'];
@@ -658,19 +822,25 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
                 'event_name' => sanitize_text_field($_REQUEST['event_name']),
                 'event_name_2' => (isset($_REQUEST['event_name_2'])) ? sanitize_text_field($_REQUEST['event_name_2']) : false,
                 'start_date' => self::$start_date,
-                'end_date' => self::$end_date
+                'end_date' => self::$end_date,
+                'limit' => self::$limit,
+                'offset' => self::$offset,
             );
-            self::$graph_data['current'] = self::get_email_event_stats($params);
+            self::$events = self::get_email_event_stats($params);
 
-            /* get "past" email stats for the selected action*/
+
+            /* get "current" email stats for the selected action */
             $params = array(
                 'email_id' => intval($_REQUEST['email_id']),
                 'event_name' => sanitize_text_field($_REQUEST['event_name']),
                 'event_name_2' => (isset($_REQUEST['event_name_2'])) ? sanitize_text_field($_REQUEST['event_name_2']) : false,
-                'start_date' => self::$past_start_date,
-                'end_date' => self::$past_end_date
+                'start_date' => self::$start_date,
+                'end_date' => self::$end_date
             );
-            self::$graph_data['past'] = self::get_email_event_stats($params);
+            self::$graph_data['current'] = self::get_email_event_stats($params);
+
+            /* calculate total events for pagination */
+            self::$total_events = self::$graph_data['current']['actions_counted'];
 
             /* get the action stats for the selected email's variations */
             $params = array(
@@ -678,6 +848,12 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
                 'event_name' => sanitize_text_field($_REQUEST['event_name']),
             );
             self::$top_variations = self::get_top_email_variants($params);
+
+
+            /* calculate total pages */
+            self::$total_pages = self::$total_events / self::$limit;
+            self::$total_pages = (self::$total_pages > 1) ? ceil(self::$total_pages) : 1;
+
 
             /* make labels for the possible events to query data for - for UI purposes */
             $params = array(
@@ -698,7 +874,7 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
                     'sparkpost_rejected' => __('Rejected', 'inbound-pro'),
                     'inbound_unsubscribe' => __('Unsubscribed', 'inbound-pro'),
                     'inbound_mute' => __('Muted', 'inbound-pro'),
-                ),                
+                ),
                 'lead_table' => array(
                     'sparkpost_delivery' => __('been sent an', 'inbound-pro'),
                     'sparkpost_open' => __('opened an', 'inbound-pro'),
@@ -711,9 +887,7 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
                 ),
             );
             self::$possible_actions = $params;
-            
-            /* create an array of all the queried leads - used by display_email_recipients */
-            self::$recipient_data = array_merge(self::$recipient_data, self::$graph_data['current'], self::$graph_data['past']);
+
 		}
 
         /**
@@ -722,7 +896,7 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
         public static function prepare_chart_data( $start_date, $end_date, $period = 'current' ) {
             /* prepare empty dates */
             $dates = Inbound_Reporting_Templates::get_days_from_range($start_date,$end_date);
-            
+
             /**if the graph to display is a type that maintains a running total, and adds or subtracts from that total**/
             if(isset($_REQUEST['standing_total_graph']) && $_REQUEST['standing_total_graph'] == true){
                 /* create new temporary arrays with different structures */
@@ -735,7 +909,7 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
                         if(!isset($logged_ids[$data['variation_id']]['removals'][$data['lead_id']])){
                             $logged_ids[$data['variation_id']]['removals'][$data['lead_id']] = 1;
                             $temp_2[substr($data['datetime'], 0, 10)][] = $data['id'];
-                        }                    
+                        }
                     }else{
                         if(!isset($logged_ids[$data['variation_id']]['additions'][$data['lead_id']])){
                             $logged_ids[$data['variation_id']]['additions'][$data['lead_id']] = 1;
@@ -757,7 +931,7 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
                         $formatted[$date]['date'] = $date;
                         $actions_array[$index] = $past_count;
                     }
-                    
+
                     if(isset($temp_2[$date])){
                         $remove_count = count($temp_2[$date]);
                         if($remove_count > $past_count){
@@ -769,7 +943,7 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
                         }
                     }
                 }
-                
+
             }else{
                 /* create new temporary array with different structure */
                 $temp = array();
@@ -791,49 +965,49 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
                         $formatted[$date]['date'] = $date;
                         $actions_array[] = 0;
                     }
-                }            
+                }
 
             }
 
             return array( 'dates' => array_keys($formatted), 'actions_counted' => array_values($actions_array) );
 
         }
-        
+
         /*
          * Gets the event stats for the email variations of the selected email
          * @params array(event_name, email_id)
          */
         public static function get_top_email_variants($args){
             global $wpdb;
-            
+
             $opens = array();  //for calculating unopened emails
-            
+
             $table_name = $wpdb->prefix . 'inbound_events';
-            
+
             /* to find out how many unopens there are we first have to query the opens,
              * then subtract those from the sent foreach variation */
             if($args['event_name'] == 'unopened'){
                 $results = $wpdb->get_results(
                     $wpdb->prepare(
-                        "SELECT `variation_id`, `lead_id` AS `lead_id` from {$table_name} " . 
+                        "SELECT `variation_id`, `lead_id` AS `lead_id` from {$table_name} " .
                         "WHERE `event_name` = 'sparkpost_open' " .
                         "AND `email_id` = %d"
                         , $args['email_id']
                     ), ARRAY_A
                 );
-                
+
                 /*make a list of all the variations a lead has opened*/
                 foreach($results as $key => $value){
                     $opens[$value['lead_id']][$value['variation_id']] = 1;
                 }
-                
+
                 /*change the event_name to get the sent*/
                 $args['event_name'] = 'sparkpost_delivery';
             }
-            
+
             $results = $wpdb->get_results(
                 $wpdb->prepare(
-                    "SELECT `variation_id`, `lead_id` AS `lead_id` from {$table_name} " . 
+                    "SELECT `variation_id`, `lead_id` AS `lead_id` from {$table_name} " .
                     "WHERE `event_name` = %s " .
                     "AND `email_id` = %d " .
                     "ORDER BY `datetime` ASC"
@@ -843,106 +1017,107 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
 
             $variant_count = array();
             $logged_ids = array();
-            
+
             /* count the number times a variation shows up in the results  */
             foreach($results as $key => $value){
-                
-                /* only log the unique times an action occured to a lead. 
+
+                /* only log the unique times an action occured to a lead.
                  * If an email is sent to the same lead 3 times, still only 1 person is reached */
                 if(!isset($logged_ids[$value['variation_id']][$value['lead_id']])){
                     $logged_ids[$value['variation_id']][$value['lead_id']] = 1;
-                    
+
                     if(!isset($opens[$value['lead_id']][$value['variation_id']])){
                         @$variant_count[$value['variation_id']] += 1;
                     }
                 }
             }
-            
+
             /*sort the variations by value, greatest to smallest*/
             arsort($variant_count);
 
             return $variant_count;
 
         }
-        
+
         /*
          * Gets email action stats for the selected email
          * @params: array(email_id, event_name, start_date, end_date)
          **/
         public static function get_email_event_stats($args){
             global $wpdb;
-            
+
             /*change the event name to deliveries in order to get the unopened*/
             if($args['event_name'] == 'unopened'){
                 $args['event_name'] = 'sparkpost_delivery';
             }
-            
+
             $table_name = $wpdb->prefix . 'inbound_events';
-            
+            $query_pagination = "";
+
+            $query = "SELECT * from {$table_name} WHERE `email_id` = %d" .
+                                " AND `event_name` = %s" .
+                                " AND datetime >= %s AND datetime <= %s" .
+                                " ORDER BY {$table_name} . `datetime` ";
+
+            /* add limit and offset if present */
+            if (isset($args['limit'])) {
+                $query_pagination .= " LIMIT {$args['limit']} OFFSET {$args['offset']} ";
+            }
+
             $results = $wpdb->get_results(
                 $wpdb->prepare(
-                    "SELECT * from {$table_name} WHERE `email_id` = %d" .
-                    " AND `event_name` = %s" .
-                    " AND datetime >= %s AND datetime <= %s" .
-                    " ORDER BY {$table_name} . `datetime` ASC", 
-                    $args['email_id'], $args['event_name'], $args['start_date'], $args['end_date']
+                    $query.$query_pagination,
+                    $args['email_id'], $args['event_name'], $args['start_date'], $args['end_date'], $args['end_date']
                 ), ARRAY_A
             );
-            
-           
+
+
             /*if a second event is being queried for*/
             if($args['event_name_2'] != false && !empty($args['event_name_2'])){
                 $two_events['event_one'] = $results;
-                
-                $results = $wpdb->get_results(
-                    $wpdb->prepare(
-                        "SELECT * from {$table_name} WHERE `email_id` = %d" .
+
+                $query = "SELECT * from {$table_name} WHERE `email_id` = %d" .
                         " AND `event_name` = %s" .
                         " AND datetime >= %s AND datetime <= %s" .
-                        " ORDER BY {$table_name} . `datetime` ASC", 
+                        " ORDER BY {$table_name} . `datetime` ASC";
+
+                $results = $wpdb->get_results(
+                    $wpdb->prepare(
+                        $query.$query_pagination,
                         $args['email_id'], $args['event_name_2'], $args['start_date'], $args['end_date']
                     ), ARRAY_A
                 );
-                
+
                 $two_events['event_two'] = $results;
-                
+
                 return self::process_multiple_events($two_events, sanitize_text_field($_REQUEST['event_action']));
             }
 
             return $results;
         }
-        
+
         /**
          * Processes multiple streams of lead data to return a single time line to display
-         * 
+         *
          */
         public static function process_multiple_events($event_array, $array_action){
-            
+
             if($array_action === 'merge'){
                 return array_merge($event_array['event_one'], $event_array['event_two']);
             }
-            
+
             if($array_action === 'remove_opens'){
                 foreach($event_array['event_two'] as $key => $data){
-                    $event_array['event_two'][$key]['item_to_remove'] = 1;                
+                    $event_array['event_two'][$key]['item_to_remove'] = 1;
                 }
                 return array_merge($event_array['event_one'], $event_array['event_two']);
             }
-            
+
         }
-        
-        
-        
-        
-        
-        
-        
+
 
     }
 
     new Inbound_Mailer_Stats_Report;
 
 }
-
-
-?>
