@@ -221,6 +221,7 @@ if (!class_exists('Inbound_API')) {
 		 * @return array|mixed
 		 */
 		public static function get_args_from_token( $token ) {
+			global $wpdb;
 
 			/* Pull record from database */
 			$table_name = $wpdb->prefix . "inbound_tracked_links";
