@@ -64,19 +64,27 @@ class Inbound_Menus_Admin {
 		$actual_link = "//$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 		$reset_templates_link = add_query_arg( array('inbound_reset_downloads_data' => true ) , admin_url('admin.php?page=inbound-manage-templates'));
 		$reset_extensions_link = add_query_arg( array('inbound_reset_downloads_data' => true ) , admin_url('admin.php?page=inbound-manage-extensions'));
+		$disable_inbound_pro_link = add_query_arg( array('inbound_off' => true ) , $actual_link);
 
 		$secondary_menu_items['inbound-pro-reset-templates'] = array(
 			'parent' => $debug_key,
 			'title'  => __( 'Templates::Refresh Available Templates', 'inbound-pro' ),
 			'href'   => $reset_templates_link,
-			'meta'   => array( 'title' =>  __( 'Refresh availavle template data from Inbound Now.', 'inbound-pro' ) )
+			'meta'   => array( 'title' =>  __( 'Refresh available template data from Inbound Now.', 'inbound-pro' ) )
 		);
 
 		$secondary_menu_items['inbound-pro-reset-extensiond'] = array(
 			'parent' => $debug_key,
 			'title'  => __( 'Extensions::Refresh Available Extensions', 'inbound-pro' ),
 			'href'   => $reset_extensions_link,
-			'meta'   => array( 'title' =>  __( 'Refresh availavle template data from Inbound Now.', 'inbound-pro' ) )
+			'meta'   => array( 'title' =>  __( 'Refresh available template data from Inbound Now.', 'inbound-pro' ) )
+		);
+
+		$secondary_menu_items['inbound-pro-disable'] = array(
+			'parent' => $debug_key,
+			'title'  => __( 'Turn Inbound Pro Off For This Page', 'inbound-pro' ),
+			'href'   => $disable_inbound_pro_link,
+			'meta'   => array( 'title' =>  __( 'Tell WordPress not to load Inbound Pro on this page.', 'inbound-pro' ) )
 		);
 
 		return $secondary_menu_items;
