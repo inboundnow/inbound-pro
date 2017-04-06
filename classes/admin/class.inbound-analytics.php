@@ -77,7 +77,7 @@ class Inbound_Analytics {
     }
 
     /**
-     * Loads Google charting scripts
+     * Loads scripts and stu;es
      */
     public static function load_scripts() {
 
@@ -104,10 +104,6 @@ class Inbound_Analytics {
         wp_register_style('bootstrap', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/BootStrap/css/bootstrap.css');
         wp_enqueue_style('bootstrap');
 
-        /* disables modal links
-        wp_register_script( 'ia-content-loader' , INBOUND_GA_URLPATH.'assets/js/content.loader.js');
-        wp_enqueue_script( 'ia-content-loader' );
-        */
 
         wp_enqueue_style('inbound-analytics-css', INBOUND_PRO_URLPATH . 'assets/css/admin/reporting.quick-view.css');
 
