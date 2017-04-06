@@ -840,7 +840,7 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
             self::$graph_data['current'] = self::get_email_event_stats($params);
 
             /* calculate total events for pagination */
-            self::$total_events = self::$graph_data['current']['actions_counted'];
+            self::$total_events = count(self::$graph_data['current']);
 
             /* get the action stats for the selected email's variations */
             $params = array(
