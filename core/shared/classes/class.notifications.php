@@ -70,6 +70,11 @@ class Inbound_Notifications {
 
 		$message_id = 'translate';
 
+		/* only show administrators */
+		if( !current_user_can('activate_plugins') ) {
+			return;
+		}
+
 		/* check if current page is target post type */
 		$post_types = array('landing-page', 'wp-call-to-action', 'wp-lead');
 		$type = get_post_type(get_the_ID());
@@ -103,12 +108,19 @@ class Inbound_Notifications {
 
 		$message_id = 'upgrade_to_pro';
 
+
+		/* only show administrators */
+		if( !current_user_can('activate_plugins') ) {
+			return;
+		}
+
 		/* check if current page is target post type */
 		$post_types = array('landing-page', 'wp-call-to-action', 'wp-lead');
 		$type = get_post_type(get_the_ID());
 		if ( !in_array($type, $post_types)) {
 			return;
 		}
+
 
 		/* check if user viewed message already */
 		if (self::check_if_viewed($message_id)) {
@@ -144,6 +156,11 @@ class Inbound_Notifications {
 		$screen = get_current_screen();
 
 		if (!isset($screen) || $screen->id !='edit-inbound-forms' || class_exists('Inbound_Leads_Plugin') ) {
+			return;
+		}
+
+		/* only show administrators */
+		if( !current_user_can('activate_plugins') ) {
 			return;
 		}
 
@@ -233,5 +250,6 @@ class Inbound_Notifications {
 	}
 
 }
+
 
 new Inbound_Notifications;

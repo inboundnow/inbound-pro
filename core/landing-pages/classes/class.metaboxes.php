@@ -791,15 +791,16 @@ href='?post=<?php echo $post->ID; ?>&action=edit&action-variation-id=<?php echo 
             /* Get Thumbnail */
             if (file_exists(LANDINGPAGES_PATH . 'templates/' . $this_extension . "/thumbnail.png")) {
                 if ($this_extension == 'default') {
-
-                    $thumbnail = get_bloginfo('template_directory') . "/screenshot.png";
-
+                    $thumbnail = get_template_directory() . "/screenshot.png";
+                    if (file_exists($thumbnail)) {
+                        $thumbnail = get_bloginfo('template_directory') . "/screenshot.png";
+                        $thumb = true;
+                    }
                 } else {
-
                     $thumbnail = LANDINGPAGES_URLPATH . 'templates/' . $this_extension . "/thumbnail.png";
-
+                    $thumb = true;
                 }
-                $thumb = true;
+
             }
 
             if (file_exists(LANDINGPAGES_UPLOADS_PATH . $this_extension . "/thumbnail.png")) {
@@ -812,7 +813,7 @@ href='?post=<?php echo $post->ID; ?>&action=edit&action-variation-id=<?php echo 
                 $thumb = true;
             }
 
-            if (!file_exists($thumbnail)) {
+            if (!$thumb) {
                 $thumbnail = LANDINGPAGES_URLPATH . 'templates/default/thumbnail.png';
             }
 
