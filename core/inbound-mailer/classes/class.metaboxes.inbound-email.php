@@ -768,7 +768,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 </div>
                 <div class="statistic-container">
                     <div class="stat-number-container">
-                        <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range=90&email_id=' . $post->ID . '&event_name=unopened&event_name_2=sparkpost_open&event_action=remove_opens&standing_total_graph=true&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox" style="text-decoration: none;">
+                        <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range=365&email_id=' . $post->ID . '&event_name=unopened&event_name_2=sparkpost_open&event_action=remove_opens&standing_total_graph=true&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox" style="text-decoration: none;">
                             <label class="stat-label unopened-label"><?php _e('Unopened', 'inbound-pro'); ?></label>
 
                             <div class="stat-number unopened-number">0</div>
@@ -778,7 +778,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 </div>
                 <div class="statistic-container">
                     <div class="stat-number-container">
-                        <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range=90&email_id=' . $post->ID . '&event_name=sparkpost_bounce&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox" style="text-decoration: none;">
+                        <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range=365&email_id=' . $post->ID . '&event_name=sparkpost_bounce&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox" style="text-decoration: none;">
                             <label class="stat-label bounces-label"><?php _e('Bounces', 'inbound-pro'); ?></label>
 
                             <div class="stat-number bounces-number">0</div>
@@ -788,7 +788,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 </div>
                 <div class="statistic-container">
                     <div class="stat-number-container">
-                        <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range=90&email_id=' . $post->ID . '&event_name=sparkpost_rejected&event_name_2=sparkpost_relay_rejection&event_action=merge&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox" style="text-decoration: none;">
+                        <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range=365&email_id=' . $post->ID . '&event_name=sparkpost_rejected&event_name_2=sparkpost_relay_rejection&event_action=merge&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox" style="text-decoration: none;">
                             <label class="stat-label rejects-label"><?php _e('Rejects', 'inbound-pro'); ?></label>
 
                             <div class="stat-number rejects-number">0</div>
@@ -798,7 +798,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 </div>
                 <div class="statistic-container">
                     <div class="stat-number-container">
-                        <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range=90&email_id=' . $post->ID . '&event_name=inbound_unsubscribe&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox" style="text-decoration: none;">
+                        <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range=365&email_id=' . $post->ID . '&event_name=inbound_unsubscribe&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox" style="text-decoration: none;">
                             <label class="stat-label unsubs-label"><?php _e('Unsubscribes', 'inbound-pro'); ?></label>
 
                             <div class="stat-number unsubs-number">0</div>
@@ -808,7 +808,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 </div>
                 <div class="statistic-container">
                     <div class="stat-number-container">
-                        <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range=90&email_id=' . $post->ID . '&event_name=inbound_mute&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox" style="text-decoration: none;">
+                        <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range=365&email_id=' . $post->ID . '&event_name=inbound_mute&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox" style="text-decoration: none;">
                             <label class="stat-label mutes-label"><?php _e('Mutes', 'inbound-pro'); ?></label>
 
                             <div class="stat-number mutes-number">0</div>
