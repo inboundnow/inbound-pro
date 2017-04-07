@@ -255,11 +255,21 @@ if (!class_exists('LeadStorage')) {
 				/* store raw form data */
 				self::store_raw_form_data($lead);
 
+
 				/* look for form_id and set it into main array */
+				if (isset($args['form_id'])) {
+					$lead['form_id'] = $args['form_id'];
+				}
+				if (isset($args['form_name'])) {
+					$lead['form_name'] = $args['form_name'];
+				}
+
+				/* look for an inbound_form_id and set it into main array */
 				if (isset($raw_params['inbound_form_id'])) {
 					$lead['form_id'] = $raw_params['inbound_form_id'];
 					$lead['form_name'] = $raw_params['inbound_form_n'];
 				}
+
 
 				/* update lead id cookie */
 				setcookie('wp_lead_id', $lead['id'] , time() + (20 * 365 * 24 * 60 * 60), '/');
