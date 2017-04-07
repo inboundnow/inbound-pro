@@ -136,6 +136,9 @@ class Inbound_Mailer_Enqueues {
 			/* Set the default editor mode */
 			add_filter( 'wp_default_editor', array( __CLASS__ , 'set_default_editor_mode' ) );/* force visual editor to open in text mode */
 
+			/* dequeue autosave */
+			wp_dequeue_script( 'autosave' );
+
 			/* Enqueue UI assisting js */
 			wp_enqueue_script('inbound-mailer-post-edit-ui', INBOUND_EMAIL_URLPATH . 'assets/js/admin/admin.post-edit.js');
 			wp_localize_script( 'inbound-mailer-post-edit-ui', 'inbound_email_post_edit_ui', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'post_id' => $post->ID , 'wp_call_to_action_meta_nonce' => wp_create_nonce('inbound-email-meta-nonce'), 'wp_call_to_action_template_nonce' => wp_create_nonce('inbound-mailer-nonce') ) );
@@ -179,6 +182,7 @@ class Inbound_Mailer_Enqueues {
 
 		/* dequeue heartbeat */
 		wp_deregister_script('heartbeat');
+		wp_dequeue_script( 'autosave' );
 
 		wp_enqueue_script(array('jquery', 'editor', 'thickbox', 'media-upload'));
 		wp_dequeue_script('jquery-cookie');
