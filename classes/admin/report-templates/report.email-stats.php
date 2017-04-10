@@ -441,19 +441,19 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
                         unset($report_args['tb_hide_nav']);
                         unset($report_args['TB_iframe']);
                         $report_args['limit'] = self::$limit;
-                        $report_args['offset'] = (self::$offset) ? self::$offset : 1;
+                        $report_args['offset'] = (self::$offset) ? self::$offset : 0;
 
                         $link = add_query_arg( $report_args , admin_url('index.php') );
                         echo '<a href="'.$link.'" >&laquo;</a>';
 
                         for ($i=0;$i<self::$total_pages;$i++) {
                             $page_num = $i +1;
-                            $report_args['offset'] = $page_num;
+                            $report_args['offset'] = $page_num * self::$limit;
                             $link = add_query_arg( $report_args , admin_url('index.php') );
-                            echo '<a href="'.$link.'" '.( $page_num == self::$offset ? 'class="active"' : '' ).'>'.$page_num.'</a>';
+                            echo '<a href="'.$link.'" '.( $report_args['offset'] == self::$offset ? 'class="active"' : '' ).'>'.$page_num.'</a>';
                         }
 
-                        $report_args['offset'] = self::$offset + 1;
+                        $report_args['offset'] = (self::$offset + 1) * self::$limit;
                         $link = add_query_arg( $report_args , admin_url('index.php') );
                         ?>
                         <a href="<?php echo $link; ?>">&raquo;</a>
@@ -807,7 +807,7 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
             /* build timespan for analytics report */
             self::define_range();
 
-            self::$offset = (isset($_GET['offset'])) ? (int) $_GET['offset'] : 1;
+            self::$offset = (isset($_GET['offset'])) ? (int) $_GET['offset'] : 0;
             self::$limit = (isset($_GET['limit'])) ? (int) $_GET['limit'] : 50;
 
             $dates = Inbound_Reporting_Templates::prepare_range( self::$range );
