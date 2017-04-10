@@ -14,9 +14,7 @@ class Leads_Tracking {
      * Load hooks and filters
      */
     public static function add_hooks() {
-        add_action( 'inbound_track_link' , array( __CLASS__ , 'intercept_tracked_link' )  , 10 , 1);
-
-        /* listen for set cookie calls */
+         /* listen for set cookie calls */
         add_action( 'wp_head', array( __CLASS__ , 'set_cookies' ) );
 
 
@@ -45,39 +43,6 @@ class Leads_Tracking {
                 setcookie('wp_lead_id' , $lead_ID, time() + (20 * 365 * 24 * 60 * 60),'/');
             }
         }
-    }
-
-    /**
-     * Hooks into inbound_track_link and adds the click event to the lead profile as a custom event
-     * @param $params
-     */
-    public static function intercept_tracked_link( $params ) {
-
-        /* ignore if there is no lead id set or if it is a call to action click */
-        if ( !isset($params['id']) || isset($params['cta_id']) ) {
-            return;
-        }
-
-        /* get custom events dataset */
-        $inbound_custom_events = get_post_meta( $params['id'] , 'inbound_custom_events' , true);
-
-        if ( isset($inbound_custom_events) ) {
-            $inbound_custom_events = json_decode( $inbound_custom_events , true);
-        } else {
-            $inbound_custom_events = array();
-        }
-
-        $inbound_custom_events[] = array(
-            'event_type' => 'click' ,
-            'datetime' => $params['datetime'],
-            'tracking_id' => $params['tracking_id'],
-            'url' => $params['url']
-        );
-
-        $inbound_custom_events = json_encode( $inbound_custom_events );
-
-        update_post_meta(  $params['id'] , 'inbound_custom_events' , $inbound_custom_events) ;
-
     }
 
     /**

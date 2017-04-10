@@ -350,7 +350,7 @@ class Inbound_Mail_Daemon {
         /* If direct email we won't load from template */
         if (isset($args['is_direct']) && $args['is_direct']) {
             $email = get_post($args['email_id']);
-            self::$email['body'] = self::rebuild_links(do_shortcode($email->post_content));
+            self::$email['body'] = do_shortcode($email->post_content);
         } else {
             self::$email['body'] = self::get_email_body();
         }
@@ -476,11 +476,11 @@ class Inbound_Mail_Daemon {
     public static function get_email() {
 
         self::$email['send_address'] = Leads_Field_Map::get_field(self::$row->lead_id, 'wpleads_email_address');
-        self::$email['subject'] = self::get_variation_subject();
         self::$email['from_name'] = self::get_variation_from_name();
         self::$email['from_email'] = self::get_variation_from_email();
         self::$email['reply_email'] = self::get_variation_reply_email();
         self::$email['body'] = self::get_email_body();
+        self::$email['subject'] = self::get_variation_subject();
     }
 
     /**
