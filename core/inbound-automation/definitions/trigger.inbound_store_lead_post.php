@@ -69,7 +69,7 @@ class Inbound_Automation_Trigger_inbound_store_lead_post {
 				'id' => 'lead_data',
 				'label' => __( 'Lead Data' , 'inbound-pro' ),
 				'callback' => array(
-					get_class() , 'expand_argument_data'
+					get_class() , 'enrich_lead_data'
 				)
 			)
 		) );
@@ -105,17 +105,28 @@ class Inbound_Automation_Trigger_inbound_store_lead_post {
 		return $triggers;
 	}
 
-	public static function expand_argument_data( $args ) {
+	/**
+	 * Filter Lead data and make sure defaults we need are present and remove unneeded elements
+	 * @param $args
+	 * @return array
+	 */
+	public static function enrich_lead_data( $args ) {
 		$new_args = array();
+
+		$args['form_name'] = isset($args['form_name']) ? $args['form_name'] : '';
+		$args['form_id'] = isset($args['form_id']) ? $args['form_name'] : '';
 
 		foreach ($args as $arg_key => $arg_value) {
 
+			/* encode arrays */
 			if (is_array($arg_value) || is_numeric($arg_key)) {
 				$arg_value = json_encode($arg_value);
 			}
 
 			/* account for raw params */
 			if ($arg_key == 'raw_params') {
+
+				/* I've seen both types make it's way in */
 				if (self::is_json($arg_value)) {
 					$arg_value_array = json_decode($arg_value,true);
 				} else {
@@ -130,7 +141,7 @@ class Inbound_Automation_Trigger_inbound_store_lead_post {
 					$new_args[$raw_key]  = $raw_value;
 				}
 			}
-			/* account for mapped params */
+			/* else may be needed, not sure: account for mapped params */
 			else if ($arg_key == 'mapped_params') {
 				parse_str($arg_value , $arg_value_array);
 				$arg_value_array = (is_array($arg_value_array)) ? $arg_value_array : array();

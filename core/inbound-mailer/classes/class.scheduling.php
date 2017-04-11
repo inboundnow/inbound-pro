@@ -99,7 +99,7 @@ class Inbound_Mailer_Scheduling {
         }
 
         /* prepare tokens for MySQL */
-        $tokens_encoded = mysqli_real_escape_string(json_encode($tokens));
+        $tokens_encoded = str_replace("'", "\\'", json_encode($tokens));
 
         /* check for a post id inside of tokens */
         $post_id =  (isset($tokens['post_object']) && isset($tokens['post_object']['ID'])) ? $tokens['post_object']['ID'] : 0;

@@ -1077,24 +1077,22 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
 
             /* Get Referrals */
-            $referrals = Inbound_Events::get_lead_sources($post->ID);
+            $sources = Inbound_Events::get_lead_sources($post->ID);
 
-            if (count($referrals)>0) {
-                foreach ($referrals as $key => $value) {
-                    $date = date_create($value['datetime']);
+            if (count($sources)>0) {
+                foreach ($sources as $datetime => $source) {
+                    $date = date_create($datetime);
 
                     /* skip internal sources */
-                    if (strstr($value['source'],site_url()) || !$value['source']) {
+                    if (strstr($source,site_url()) || !$source) {
                         //continue;
                     }
                     ?>
                     <div class="wpl-raw-data-tr">
                         <span class="wpl-raw-data-td-value">
                             <?php
-                            if (isset($value['source'])) {
-                                $src = ($value['source'] === "Direct Traffic") ? __("Direct Traffic",'inbound-pro') : $value['source'];
+                                $src = ($source === "Direct Traffic" || !$source ) ? __("Direct Traffic",'inbound-pro') : $source;
                                 echo $src . ' on ' . date_format($date, 'F jS, Y \a\t g:ia (l)');
-                            }
                             ?>
                         </span>
                     </div>

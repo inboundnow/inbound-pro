@@ -116,6 +116,10 @@ input[title] {
     margin-bottom: 10px;
 }
 
+#inbound-filter input {
+    width:500px !important;
+}
+
 .table-search {
     text-align: right;
     margin-top: -5px;

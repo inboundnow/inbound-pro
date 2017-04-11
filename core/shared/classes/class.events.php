@@ -738,9 +738,13 @@ class Inbound_Events {
 
         $query = 'SELECT *, count(*) as count FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'" GROUP BY source';
 
-        $results = $wpdb->get_results( $query , ARRAY_A );
+        $events = $wpdb->get_results( $query , ARRAY_A );
 
-        return $results;
+        $sources = array();
+        foreach ($events as $key => $event) {
+            $sources[$event['datetime']] = $event['source'];
+        }
+        return $sources;
 
     }
 
