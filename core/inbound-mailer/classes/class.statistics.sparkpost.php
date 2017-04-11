@@ -710,6 +710,26 @@ class Inbound_SparkPost_Stats {
 
             }
 
+            /* handle bounces */
+            if ($event['type'] == 'bounce') {
+
+                /* create/get maintenance lists */
+                $parent = Inbound_Leads::create_lead_list( array(
+                    'name' => __( 'Maintenance' , 'inbound-pro' )
+                ));
+
+                /* createget spam lists */
+                $term = Inbound_Leads::create_lead_list( array(
+                    'name' => __( 'Bounces' , 'inbound-pro' ),
+                    'parent' =>$parent['id']
+                ));
+
+                /* add to spam complaint list */
+                Inbound_Leads::add_lead_to_list( $event['rcpt_meta']['lead_id'], $term['id'] );
+
+
+            }
+
         }
 
     }

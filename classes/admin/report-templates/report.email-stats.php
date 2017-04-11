@@ -312,27 +312,29 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
                                 <?php
                                 if ( $_REQUEST['event_name'] == 'sparkpost_click' ) {
                                     $event_details = json_decode($event['event_details'] , true);
-                                    $token = end(explode('/', $event_details['target_link_url']));
 
-                                    if (strstr($token , '?token')) {
-                                        $token = 'unsubscribe';
-                                        $url_array[$token] = array('url' => __( 'Unsubscribe' , 'inbound-pro') );
-                                    }
+                                    $tracking_endpoint = apply_filters( 'inbound_event_endpoint', 'inbound' );
 
-                                    if ( !isset($url_array[$token]) ) {
+                                    if (strstr($event_details['target_link_url'] , '?token')) {
+                                        $args['url'] = $event_details['target_link_url'];
+                                        $args['label'] =__('Unsubscribe' , 'inbound-pro');
+
+                                    } else if (strstr($event_details['target_link_url'], $tracking_endpoint)) {
+                                        $token = end(explode('/', $event_details['target_link_url']));
                                         $args = Inbound_API::get_args_from_token($token);
-                                        $args['url'] = ($args['url']) ? $args['url'] : sprintf(__('No URL for token %s' , 'inbound-pro') , $token);
-                                        $url_array[$token] = $args;
+                                        $args['url'] = ($args['url']) ? $args['url'] : '#'.$token;
+                                        $args['label'] = ($args['url']) ? $args['url'] : sprintf(__('No URL for token %s' , 'inbound-pro') , $token);
                                     } else {
-                                        $args = $url_array[$token];
+                                        $args['url'] = $event_details['target_link_url'];
+                                        $args['label'] = $event_details['target_link_url'];
                                     }
                                     ?>
                                     <td class="clicked-url">
                                         <?php
                                         if (strstr($args['url'],':')) {
-                                            echo '<a href="'.$args['url'].'" target="_blank">'.$args['url'].'</a>';
+                                            echo '<a href="'.$args['url'].'" target="_blank">'.$args['label'].'</a>';
                                         } else {
-                                            echo $args['url'];
+                                            echo $args['label'];
                                         }
                                         ?>
                                     </td>
@@ -441,19 +443,19 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
                         unset($report_args['tb_hide_nav']);
                         unset($report_args['TB_iframe']);
                         $report_args['limit'] = self::$limit;
-                        $report_args['offset'] = (self::$offset) ? self::$offset : 0;
+                        $report_args['offset'] = (self::$offset) ? self::$offset : 1;
 
                         $link = add_query_arg( $report_args , admin_url('index.php') );
                         echo '<a href="'.$link.'" >&laquo;</a>';
 
                         for ($i=0;$i<self::$total_pages;$i++) {
                             $page_num = $i +1;
-                            $report_args['offset'] = $page_num * self::$limit;
+                            $report_args['offset'] = $page_num;
                             $link = add_query_arg( $report_args , admin_url('index.php') );
-                            echo '<a href="'.$link.'" '.( $report_args['offset'] == self::$offset ? 'class="active"' : '' ).'>'.$page_num.'</a>';
+                            echo '<a href="'.$link.'" '.( $page_num == self::$offset ? 'class="active"' : '' ).'>'.$page_num.'</a>';
                         }
 
-                        $report_args['offset'] = (self::$offset + 1) * self::$limit;
+                        $report_args['offset'] = self::$offset + 1;
                         $link = add_query_arg( $report_args , admin_url('index.php') );
                         ?>
                         <a href="<?php echo $link; ?>">&raquo;</a>
@@ -807,7 +809,7 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
             /* build timespan for analytics report */
             self::define_range();
 
-            self::$offset = (isset($_GET['offset'])) ? (int) $_GET['offset'] : 0;
+            self::$offset = (isset($_GET['offset'])) ? (int) $_GET['offset'] : 1;
             self::$limit = (isset($_GET['limit'])) ? (int) $_GET['limit'] : 50;
 
             $dates = Inbound_Reporting_Templates::prepare_range( self::$range );
