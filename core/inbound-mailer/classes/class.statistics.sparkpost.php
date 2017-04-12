@@ -707,7 +707,6 @@ class Inbound_SparkPost_Stats {
                 /* add to spam complaint list */
                 Inbound_Leads::add_lead_to_list( $event['rcpt_meta']['lead_id'], $term['id'] );
 
-
             }
 
             /* handle bounces */
@@ -718,7 +717,7 @@ class Inbound_SparkPost_Stats {
                     'name' => __( 'Maintenance' , 'inbound-pro' )
                 ));
 
-                /* createget spam lists */
+                /* create/get bounce lists */
                 $term = Inbound_Leads::create_lead_list( array(
                     'name' => __( 'Bounces' , 'inbound-pro' ),
                     'parent' =>$parent['id']

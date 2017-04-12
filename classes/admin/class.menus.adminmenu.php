@@ -25,6 +25,11 @@ class Inbound_Menus_Admin {
 	*/
 	public static function add_menu_items() {
 
+		/* only show administrators */
+		if( !current_user_can('activate_plugins') ) {
+			return;
+		}
+
 		if (!defined('INBOUND_PRO_MENU_LABEL')) {
 			define('INBOUND_PRO_MENU_LABEL' , __( 'Inbound Pro' , 'inbound-pro' ) );
 		}

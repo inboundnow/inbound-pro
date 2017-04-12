@@ -240,13 +240,19 @@ class Inbound_Mailer_Ajax_Listeners {
 
 		$post = get_post($email_id);
 
-		$new_post_author = wp_get_current_user();
+		if (function_exists('wp_get_current_user')) {
+			$new_post_author = wp_get_current_user();
+			$author_id = $new_post_author->ID;
+		} else {
+			$author_id = get_current_user_id();
+		}
+
 
 		$new_post = array(
 			'menu_order' => $post->menu_order,
 			'comment_status' => $post->comment_status,
 			'ping_status' => $post->ping_status,
-			'post_author' => $new_post_author->ID,
+			'post_author' => $author_id,
 			'post_content' => $post->post_content,
 			'post_excerpt' =>	$post->post_excerpt ,
 			'post_mime_type' => $post->post_mime_type,
