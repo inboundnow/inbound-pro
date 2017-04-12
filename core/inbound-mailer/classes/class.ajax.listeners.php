@@ -363,4 +363,4 @@ class Inbound_Mailer_Ajax_Listeners {
 }
 
 /* Loads Inbound_Mailer_Ajax_Listeners pre init */
-$Inbound_Mailer_Ajax_Listeners = new Inbound_Mailer_Ajax_Listeners();
+new Inbound_Mailer_Ajax_Listeners();
