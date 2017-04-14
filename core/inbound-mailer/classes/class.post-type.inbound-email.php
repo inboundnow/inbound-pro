@@ -5,6 +5,7 @@ if ( !class_exists('Inbound_Mailer_Post_Type') ) {
 	class Inbound_Mailer_Post_Type {
 
         static $stats;
+        static $range;
 
 		function __construct() {
 			self::load_hooks();
@@ -52,9 +53,13 @@ if ( !class_exists('Inbound_Mailer_Post_Type') ) {
                 /* Enqueue scripts */
                 add_action( 'admin_enqueue_scripts' , array( __CLASS__ , 'enqueue_email_list_scripts') );
 
+				/* add property to screen options */
+				add_filter( 'screen_settings',array( __CLASS__ , 'add_screen_option_field'), 10, 2 );
+
+				/* save screen options */
+				add_filter( 'init', array( __CLASS__, 'set_screen_option'), 1 );
 			}
 		}
-
 
         /**
 		*	Rebuilds permalinks after activation
@@ -198,7 +203,7 @@ if ( !class_exists('Inbound_Mailer_Post_Type') ) {
 									<td>
 										<div class="td-col-sends" data-email-id="<?php echo $post->ID; ?>" data-email-status="<?php echo $post->post_status; ?>">
                                             <img src="<?php echo INBOUND_EMAIL_URLPATH; ?>assets/images/ajax_progress.gif" class="col-ajax-spinner" style="margin-top:3px;">
-                                            <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range=365&email_id=' . $post->ID . '&event_name=sparkpost_delivery&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox email-report-link" style=""></a>
+                                            <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range='.self::$range.'&email_id=' . $post->ID . '&event_name=sparkpost_delivery&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox email-report-link" style=""></a>
                                         </div>
 									</td>
 									<td>
@@ -212,7 +217,7 @@ if ( !class_exists('Inbound_Mailer_Post_Type') ) {
 									<td>
 										<div class="td-col-opens" data-email-id="<?php echo $post->ID; ?>" data-email-status="<?php echo $post->post_status; ?>">
                                             <img src="<?php echo INBOUND_EMAIL_URLPATH; ?>assets/images/ajax_progress.gif" class="col-ajax-spinner" style="margin-top:3px;">
-                                            <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range=365&email_id=' . $post->ID . '&event_name=sparkpost_open&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox email-report-link" style=""></a>
+                                            <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range='.self::$range.'&email_id=' . $post->ID . '&event_name=sparkpost_open&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox email-report-link" style=""></a>
                                         </div>
 									</td>
 									<td>
@@ -226,7 +231,7 @@ if ( !class_exists('Inbound_Mailer_Post_Type') ) {
 									<td>
 										<div class="td-col-clicks" data-email-id="<?php echo $post->ID; ?>" data-email-status="<?php echo $post->post_status; ?>">
                                             <img src="<?php echo INBOUND_EMAIL_URLPATH; ?>assets/images/ajax_progress.gif" class="col-ajax-spinner" style="margin-top:3px;">
-                                            <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range=365&email_id=' . $post->ID . '&event_name=sparkpost_click&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox email-report-link" style=""></a>
+                                            <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range='.self::$range.'&email_id=' . $post->ID . '&event_name=sparkpost_click&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox email-report-link" style=""></a>
                                         </div>
 									</td>
 									<td>
@@ -240,7 +245,7 @@ if ( !class_exists('Inbound_Mailer_Post_Type') ) {
 									<td>
 										<div class="td-col-unsubs" data-email-id="<?php echo $post->ID; ?>" data-email-status="<?php echo $post->post_status; ?>">
                                             <img src="<?php echo INBOUND_EMAIL_URLPATH; ?>assets/images/ajax_progress.gif" class="col-ajax-spinner" style="margin-top:3px;">
-                                            <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range=365&email_id=' . $post->ID . '&event_name=inbound_unsubscribe&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox email-report-link" style=""></a>
+                                            <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range='.self::$range.'&email_id=' . $post->ID . '&event_name=inbound_unsubscribe&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox email-report-link" style=""></a>
                                         </div>
 									</td>
 									<td>
@@ -254,7 +259,7 @@ if ( !class_exists('Inbound_Mailer_Post_Type') ) {
 									<td>
 										<div class="td-col-mutes" data-email-id="<?php echo $post->ID; ?>" data-email-status="<?php echo $post->post_status; ?>">
                                             <img src="<?php echo INBOUND_EMAIL_URLPATH; ?>assets/images/ajax_progress.gif" class="col-ajax-spinner" style="margin-top:3px;">
-                                            <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range=365&email_id=' . $post->ID . '&event_name=inbound_mute&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox email-report-link" style=""></a>
+                                            <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range='.self::$range.'&email_id=' . $post->ID . '&event_name=inbound_mute&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox email-report-link" style=""></a>
                                         </div>
 									</td>
 									<td>
@@ -273,20 +278,6 @@ if ( !class_exists('Inbound_Mailer_Post_Type') ) {
 			}
 		}
 
-		public static function load_email_stats( $email_id ) {
-			global $inobund_settings;
-		    if ( isset(self::$stats[$email_id]) ) {
-		        return self::$stats[$email_id];
-            }
-
-			switch ($inbound_settings['inbound-mailer']['mail-service']) {
-				case 'sparkpost' :
-					self::$stats[$email_id] = Inbound_SparkPost_Stats::get_email_timeseries_stats();
-					break;
-			}
-
-            return self::$stats[$email_id];
-        }
 
 		public static function check_if_scheduled_emails_sent() {
 			$screen = get_current_screen();
@@ -492,6 +483,69 @@ if ( !class_exists('Inbound_Mailer_Post_Type') ) {
 				echo '});';
 				echo '</script>';
 			}
+		}
+
+		/**
+		 * Hooked into 'screen_settings'. Adds the field to the settings area
+		 *
+		 * @access public
+		 * @return string The settings fields
+		 */
+
+		public static function add_screen_option_field($rv, $screen) {
+
+			$screen = get_current_screen();
+
+			$whitelist = array('edit-inbound-email','inbound-email');
+			if (!$screen || !in_array( $screen->id , $whitelist ) ) {
+				return;
+			}
+
+			self::$range = get_user_option(
+				'inbound_mailer_screen_option_range',
+				get_current_user_id()
+			);
+
+
+			self::$range = (self::$range) ? self::$range : 90;
+
+			$rv .= '<fieldset class="">';
+
+			$rv .= '<legend>' . __('Email Statistics' , 'inbound-pro') . '</legend>';
+
+			$rv .=  __('Reporting range in days' , 'inbound-pro' ). ':';
+
+			$rv .= '<select  name="inbound_mailer_screen_option_range" class="" id="" style="width:100px;" >';
+
+			$ranges = array(1,7,30,90,365);
+
+			foreach ($ranges as $range) {
+				$rv .= '<option value="'.$range.'" '. ( self::$range==$range ? 'selected="true"' : '' ).'">'.$range.' ' . __('days','inbound-pro') .'</option>';
+			}
+
+			$rv .= '</select></fieldset>';
+
+			return $rv;
+
+		}
+
+		/**
+		 * Listen for updated option and save.
+		 *
+		 */
+		public static function set_screen_option() {
+
+			if (!isset($_POST['inbound_mailer_screen_option_range'])) {
+				return;
+			}
+
+			$response = update_user_option(
+				get_current_user_id(),
+				'inbound_mailer_screen_option_range',
+				intval($_POST['inbound_mailer_screen_option_range'])
+			);
+
+
 		}
 
 		/**

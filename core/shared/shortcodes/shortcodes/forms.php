@@ -399,7 +399,7 @@ if (!function_exists('inbound_forms_cpt')) {
             'show_ui' => true,
             'query_var' => true,
             'show_in_menu'  => true,
-            'capability_type' => 'post',
+            'capability_type' => array('inbound-form','inbound-forms'),
             'hierarchical' => false,
             'menu_position' => 34,
             'supports' => array('title','custom-fields', 'editor')
@@ -415,6 +415,36 @@ if (!function_exists('inbound_forms_cpt')) {
             unset($submenu['edit.php?post_type=wp-lead'][15]);
             //print_r($submenu); exit;
         }*/
+    }
+
+    /**
+     * Register Role Capabilities
+     */
+    add_action( 'admin_init' , 'inbound_register_form_role_capabilities' ,999);
+    function inbound_register_form_role_capabilities() {
+        // Add the roles you'd like to administer the custom post types
+        $roles = array('inbound_marketer','administrator');
+
+        // Loop through each role and assign capabilities
+        foreach($roles as $the_role) {
+
+            $role = get_role($the_role);
+            if (!$role) {
+                continue;
+            }
+
+            $role->add_cap( 'read' );
+            $role->add_cap( 'read_inbound-form');
+            $role->add_cap( 'read_private_inbound-forms' );
+            $role->add_cap( 'edit_inbound-form' );
+            $role->add_cap( 'edit_inbound-forms' );
+            $role->add_cap( 'edit_others_inbound-form' );
+            $role->add_cap( 'edit_published_inbound-forms' );
+            $role->add_cap( 'publish_inbound-form' );
+            $role->add_cap( 'delete_others_inbound-forms' );
+            $role->add_cap( 'delete_private_inbound-forms' );
+            $role->add_cap( 'delete_published_inbound-forms' );
+        }
     }
 }
 

@@ -35,74 +35,15 @@ class Inbound_SparkPost_Stats {
         add_action( 'sparkpost/send/response' , array( __CLASS__ , 'process_rejections') , 10 , 2 );
     }
 
-    /**
-     *	Gets email statistics
-     *	@param INT $email_id ID of email
-     *	@param BOOLEAN $return false for json return true for array return
-     *	@return JSON
-     */
-    public static function get_email_timeseries_stats( $email_id = null ) {
-        global $Inbound_Mailer_Variations, $post, $inbound_settings;
-
-        /* check if email id is set else use global post object */
-        if ( $email_id ) {
-            $post = get_post($email_id);
-        }
-
-        /* we do not collect stats for statuses not in this array */
-        if ( !in_array( $post->post_status , array( 'sent' , 'sending', 'automated' )) ) {
-            return array();
-        }
-
-        /* get historical statistic blob from db */
-        Inbound_SparkPost_Stats::get_statistics_object();
-
-        /* get settings from db */
-        self::$settings = Inbound_Email_Meta::get_settings( $post->ID );
-
-        /* prepare processing criteria */
-        self::prepare_date_ranges();
-
-        /* prepare campaign ids for api lookups */
-        foreach ( self::$settings['variations'] as $vid => $variation ) {
-
-            self::$vid = $vid;
-            self::$email_id = $post->ID;
-
-            $campaign_id =  $post->ID	. '_'. self::$vid;
-            $campaign_ids[] = $campaign_id;
-
-
-        }
-
-        $sparkpost = new Inbound_SparkPost(  $inbound_settings['inbound-mailer']['sparkpost-key'] );
-        self::$results = $sparkpost->get_campaign_metrics($campaign_ids, self::$stats['date_from'] , self::$stats['date_to'] );
-
-        /* loop through hour-based totals and create totals for variations */
-        self::process_variation_totals();
-
-        /* return empty stats if empty */
-        if (!self::$stats) {
-            self::$stats['variations'][0] =	Inbound_SparkPost_Stats::prepare_empty_stats();
-            Inbound_SparkPost_Stats::prepare_totals();
-            return self::$stats ;
-        }
-
-        /* prepare totals from variations */
-        Inbound_SparkPost_Stats::prepare_totals();
-
-        /* save updated statistics object into database */
-        Inbound_SparkPost_Stats::update_statistics_object();
-
-        return self::$stats;
-
-    }
 
     /**
      *  Get SparkPost Stats including varition totals
      */
     public static function get_sparkpost_webhook_stats() {
         global $post, $Inbound_Mailer_Variations;
+
+        /* prepare date range */
+        self::prepare_date_range();
 
         /* first get totals */
         self::get_sparkpost_inbound_events( $post->ID );
@@ -152,8 +93,13 @@ class Inbound_SparkPost_Stats {
 
         if ( !$settings['send_datetime'] || $interval->format('%R') == '-' || $settings['email_type'] == 'automated' ) {
             $query = 'SELECT `variation_id`, `lead_id` FROM ' . $table_name . ' WHERE `email_id` = "' . $email_id . '"  ' . $variation_query . ' AND `event_name` =  "sparkpost_delivery"';
+
+            /* add date constraints if applicable */
+            if (isset(self::$stats['start_date'])) {
+                $query .= ' AND datetime >= "'.self::$stats['start_date'].'" AND  datetime <= "'.self::$stats['end_date'].'" ';
+            }
             $results = $wpdb->get_results($query, ARRAY_A);
-            
+
             /*get the unique lead_id sends for each variation*/
             $sent_array = array();
             foreach( $results as $index => $rows ){
@@ -168,36 +114,66 @@ class Inbound_SparkPost_Stats {
 
         /* get opens */
         $query = 'SELECT `variation_id`, `lead_id` FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '.$variation_query.' AND `event_name` =  "sparkpost_open"';
+        /* add date constraints if applicable */
+        if (isset(self::$stats['start_date'])) {
+            $query .= ' AND datetime >= "'.self::$stats['start_date'].'" AND  datetime <= "'.self::$stats['end_date'].'" ';
+        }
         $results = $wpdb->get_results( $query, ARRAY_A );
         $opens = self::process_selected_rows($results);
 
         /* get clicks */
         $query = 'SELECT `variation_id`, `lead_id` FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '.$variation_query.' AND `event_name` =  "sparkpost_click"';
+        /* add date constraints if applicable */
+        if (isset(self::$stats['start_date'])) {
+            $query .= ' AND datetime >= "'.self::$stats['start_date'].'" AND  datetime <= "'.self::$stats['end_date'].'" ';
+        }
         $results = $wpdb->get_results( $query, ARRAY_A );
         $clicks = self::process_selected_rows($results);
 
         /* get bounce */
         $query = 'SELECT `variation_id`, `lead_id` FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '.$variation_query.' AND `event_name` =  "sparkpost_bounce"';
+        /* add date constraints if applicable */
+        if (isset(self::$stats['start_date'])) {
+            $query .= ' AND datetime >= "'.self::$stats['start_date'].'" AND  datetime <= "'.self::$stats['end_date'].'" ';
+        }
         $results = $wpdb->get_results( $query, ARRAY_A );
         $bounces = self::process_selected_rows($results);
 
         /* get rejects */
-        $query = 'SELECT `variation_id`, `lead_id` FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '.$variation_query.' AND `event_name` =  "sparkpost_rejected" OR `event_name` = "sparkpost_relay_rejection"';
+        $query = 'SELECT `variation_id`, `lead_id` FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '.$variation_query.' ';
+        $query .= ' AND ( `event_name` =  "sparkpost_rejected" OR `event_name` = "sparkpost_relay_rejection" )';
+
+        /* add date constraints if applicable */
+        if (isset(self::$stats['start_date'])) {
+            $query .= ' AND datetime >= "'.self::$stats['start_date'].'" AND  datetime <= "'.self::$stats['end_date'].'" ';
+        }
         $results = $wpdb->get_results( $query, ARRAY_A );
         $rejects = self::process_selected_rows($results);
 
         /* get spam complaints */
         $query = 'SELECT `variation_id`, `lead_id` FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '.$variation_query.' AND `event_name` =  "sparkpost_spam_complaint"';
+        /* add date constraints if applicable */
+        if (isset(self::$stats['start_date'])) {
+            $query .= ' AND datetime >= "'.self::$stats['start_date'].'" AND  datetime <= "'.self::$stats['end_date'].'" ';
+        }
         $results = $wpdb->get_results( $query, ARRAY_A );
         $complaints = self::process_selected_rows($results);
 
         /* get unsubscribes */
         $query = 'SELECT `variation_id`, `lead_id` FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '.$variation_query.' AND `event_name` =  "inbound_unsubscribe"';
+        /* add date constraints if applicable */
+        if (isset(self::$stats['start_date'])) {
+            $query .= ' AND datetime >= "'.self::$stats['start_date'].'" AND  datetime <= "'.self::$stats['end_date'].'" ';
+        }
         $results = $wpdb->get_results( $query, ARRAY_A );
         $unsubs = self::process_selected_rows($results);
 
         /* get mutes */
         $query = 'SELECT `variation_id`, `lead_id` FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '.$variation_query.' AND `event_name` =  "inbound_mute"';
+        /* add date constraints if applicable */
+        if (isset(self::$stats['start_date'])) {
+            $query .= ' AND datetime >= "'.self::$stats['start_date'].'" AND  datetime <= "'.self::$stats['end_date'].'" ';
+        }
         $results = $wpdb->get_results( $query, ARRAY_A );
         $mutes = self::process_selected_rows($results);
 
@@ -225,12 +201,12 @@ class Inbound_SparkPost_Stats {
 
         return self::$stats;
     }
-    
+
     /**
      * Processes queried rows into action counts
      */
     public static function process_selected_rows($query){
-            
+
         /*get the unique lead_id sends for each variation*/
         $action_count = array();
         foreach( $query as $index => $rows ){
@@ -238,10 +214,10 @@ class Inbound_SparkPost_Stats {
                 $action_count[$rows['variation_id']][$rows['lead_id']] = 1;
             }
         }
-        
+
         /* count recursivly first, then remove the counted variation ids*/
         $counted_actions = (count($action_count, 1) - count($action_count));
-        
+
         return $counted_actions;
     }
 
@@ -368,48 +344,22 @@ class Inbound_SparkPost_Stats {
     /**
      *	Prepares dates to process
      */
-    public static function prepare_date_ranges() {
-        global $post;
+    public static function prepare_date_range() {
+        $range = get_user_option(
+            'inbound_mailer_screen_option_range',
+            get_current_user_id()
+        );
 
-        /* check if we have reached a 90 day block */
-        $today = new DateTime( date('c') );
 
-        /* account for first load by setting empty variables to today */
-        self::$stats['date_from'] = (isset(self::$stats['date_from'])) ? self::$stats['date_from'] : $today->format('c');
-        self::$stats['date_to'] = (isset(self::$stats['date_to'])) ? self::$stats['date_to'] : $today->format('c');
+        $range = ($range) ? $range : 90;
 
         /* create date objects */
-        $date_from = new DateTime(self::$stats['date_from']);
-        $date_to = new DateTime(self::$stats['date_to']);
+        $start_date = new DateTime();
+        $start_date->modify('-'.$range.' days');
+        self::$stats['start_date'] = $start_date->format('Y-m-d G:i:s T');
 
-        /* calculated differences */
-        $date_from_interval = $date_from->diff($today);
-        $date_to_interval = $date_to->diff($today);
-
-        /* ceck if we have a full 90 day block */
-        if ($date_from_interval->days > 90 && $date_to_interval->days > 0 ) {
-
-            $datetime = new DateTime( self::$stats['date_from']	);
-            $datetime->modify('+90 days');
-            $next_date = self::get_sparkpost_timestamp( $datetime->format('c') );
-
-            /* set start date at last processed datetime */
-            self::$stats['date_to'] = $next_date;
-
-        } else if ($date_from_interval->days > 90  ) {
-
-            $datetime = new DateTime( self::$stats['date_to']);
-            $datetime->modify('+90 days');
-            $next_date = self::get_sparkpost_timestamp( $datetime->format('c') );
-
-            /* set start date at last processed datetime */
-            self::$stats['date_from'] = self::get_sparkpost_timestamp( $today->format('c') );
-            self::$stats['date_to'] = $next_date;
-        } else {
-            $today->modify('+90 days');
-            self::$stats['date_from'] = ( !empty(self::$settings['send_datetime']) ) ? self::get_sparkpost_timestamp( self::$settings['send_datetime'] ) :  self::get_sparkpost_timestamp( $post->post_date ) ;
-            self::$stats['date_to'] = self::get_sparkpost_timestamp(  $today->format('c')  );
-        }
+        $end_date = new DateTime();
+        self::$stats['end_date'] = $end_date->format('Y-m-d G:i:s T');
 
     }
 
