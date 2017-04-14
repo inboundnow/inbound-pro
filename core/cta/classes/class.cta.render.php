@@ -75,7 +75,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
             add_action( 'wp_head', array( $this, 'load_custom_js_css'));
 
             /* Add CTA Render to Content */
-            add_filter( 'the_content', array( $this, 'add_cta_to_post_content'), apply_filters('cta_the_content_priority', 5) );
+            add_filter( 'the_content', array( $this, 'add_cta_to_post_content'), apply_filters('cta_the_content_priority', 15) );
 
             /* Add CTA Render to Dynamic Widget */
             add_filter( 'wp_cta_after_global_init', array( $this, 'add_cta_to_dynamic_widget'), 10);
@@ -1186,14 +1186,57 @@ if ( !class_exists( 'CTA_Render' ) ) {
                 $content = $content . "<div class='below_content'>" . self::$instance->cta_template . "</div>";
 
             } elseif (self::$instance->cta_content_placement=='popup') {
-                $content = $content . "<a id='cta-no-show' class='popup-modal' href='#wp-cta-popup'>Open modal</a><div id='wp-cta-popup' class='mfp-hide white-popup-block' style='display:none;'><button title='Close (Esc)' type='button' class='mfp-close'>&times;</button>" . self::$instance->cta_template . "</div>";
+                $width = 0;
 
+                foreach (self::$instance->cta_width as $vid => $value) {
+                    if ($value>$width) {
+                        $width = $value;
+                    }
+                }
+
+                $width = str_replace('px','',$width);
+
+                $content = $content . "<a id='cta-no-show' class='popup-modal' href='#wp-cta-popup'>Open modal</a><div id='wp-cta-popup' class='mfp-hide white-popup-block' style='display:none;width:".$width."px;'><button title='Close (Esc)' type='button' class='mfp-close'>&times;</button>" . self::$instance->cta_template . "</div>";
+                //print_r(self::$instance->cta_width);exit;
                 foreach (self::$instance->cta_width as $key => $value) {
                     $content .= "<span class='data-vid-w-".$key."' data-width='" . $value ."'></span>";
                 }
                 foreach (self::$instance->cta_height as $key => $value) {
                     $content .= "<span class='data-vid-h-".$key."' data-height='" . $value ."'></span>";
                 }
+
+                /**
+                 * Add CSS
+                 */
+                $css = "<style type='text/css'>/* Custom CSS */
+                            #cta-no-show, #the-popup-id, #cta-popup-id {
+                              display: none !important;
+                            }
+                            #wordpress-cta {
+                              text-align: center;
+                            }
+                            .white-popup-block {
+                            background: transparent;
+                            padding: 0px 0px;
+                            text-align: left;
+                            max-width: 750px;
+                            margin: 40px auto;
+                            position: relative;
+                            }
+                            .shortcode-popup-block {
+                            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                            background: #fff;
+                            padding: 0px;
+                            text-align: left;
+                            max-width: 85%;
+                            margin: 20px auto;
+                            position: relative;
+                            }
+                            .mfp-close {
+                            color:#000 !important;
+                            }</style>";
+
+                $content = $content.$css;
 
                 if (isset($_SESSION['inbound_popup']) && isset($post) && $_SESSION['inbound_popup'] == $post->ID && !current_user_can('manage_options')) {
                     return $content;
