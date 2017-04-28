@@ -43,6 +43,14 @@ class Inbound_Extension_Loads {
 			if ( file_exists( $extension['upload_path'] . '/' . $extension['filename'] . '.php' ) ) {
 				include_once( $extension['upload_path'] . '/' . $extension['filename'] . '.php' );
 			}
+			/* account for servers who's absolute path changes */
+			else {
+				$parts = explode('extensions/' , $extension['upload_path']);
+				$slug = end($parts);
+				if ( file_exists( INBOUND_PRO_UPLOADS_PATH . 'extensions/'.  $slug . '/' . $extension['filename'] . '.php' ) ) {
+					include_once( INBOUND_PRO_UPLOADS_PATH . 'extensions/'.$slug . '/' . $extension['filename'] . '.php' );
+				}
+			}
 		}
 	}
 
