@@ -85,7 +85,49 @@ class Inbound_Marketing_Button {
         .shortcode-popup-block {
             max-height: 660px;
             overflow: auto;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background: #fff;
+            padding: 0px;
+            text-align: left;
+            max-width: 85%;
+            margin: 20px auto;
+            position: relative;
         }
+
+        .mfp-bg {
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 90000;
+            overflow: hidden;
+            position: fixed;
+            background: #0b0b0b;
+            opacity: 0.8;
+        }
+
+
+        .mfp-wrap {
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 100001;
+            position: fixed;
+            outline: none !important;
+            -webkit-backface-visibility: hidden;
+        }
+
+        .mfp-container {
+            position: relative;
+            display: inline-block;
+            vertical-align: middle;
+            margin: 0 auto;
+            text-align: left;
+            z-index: 100002;
+        }
+
+
         #popup-controls {
             z-index: 999999;
             width: 100%;
