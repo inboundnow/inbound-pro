@@ -66,6 +66,17 @@ class Landing_Pages_Metaboxes {
             );
         }
 
+
+        /* Add conversion area for default template */
+        add_meta_box(
+            'lp_2_form_content',
+            __('Insert Form / Conversion Content', 'landing-pages'),
+            array( __CLASS__ , 'display_conversion_area_metabox' ),
+            'landing-page',
+            'normal',
+            'high'
+        );
+
         /* Select Template Metbox */
         add_meta_box(
             'lp_metabox_select_template', /* $id */
@@ -100,15 +111,6 @@ class Landing_Pages_Metaboxes {
 
         }
 
-        /* Add conversion area for default template */
-        add_meta_box(
-            'lp_2_form_content',
-            __('Landing Page Form or Conversion Button - <em>click the black & blue power button icon to build forms/buttons</em>', 'landing-pages'),
-            array( __CLASS__ , 'display_conversion_area_metabox' ),
-            'landing-page',
-            'normal',
-            'high'
-        );
 
         /* add custom css */
         add_meta_box(
@@ -125,6 +127,16 @@ class Landing_Pages_Metaboxes {
             'lp_3_custom_js',
             __('Custom JS' , 'landing-pages') ,
             array( __CLASS__ , 'display_custom_js_metabox' ),
+            'landing-page',
+            'normal',
+            'low'
+        );
+
+        /* add custom variation notes */
+        add_meta_box(
+            'lp_4_variation_notes',
+            __('Variation Notes' , 'landing-pages') ,
+            array( __CLASS__ , 'display_variation_notes' ),
             'landing-page',
             'normal',
             'low'
@@ -354,15 +366,10 @@ class Landing_Pages_Metaboxes {
 
         $variation_id = Landing_Pages_Variations::get_current_variation_id( );
         $main_headline = Landing_Pages_Variations::get_main_headline( $post->ID , $variation_id );
-        $variation_notes = Landing_Pages_Variations::get_variation_notes( $post->ID , $variation_id );
 
         ?>
-        <div id='lp-notes-area'>
-            <span id='add-lp-notes'><?php _e('Notes' , 'landing-pages'); ?></span>
-            <input placeholder='<?php _e('Add Notes to your variation. Example: This version is testing a green submit button ' , 'landing-pages'); ?>' type='text' class='lp-notes' name='<?php echo Landing_Pages_Variations::prepare_input_id( 'lp-variation-notes' , false , true); ?>' id='lp-variation-notes' value='<?php echo addslashes($variation_notes); ?>' size='30'>
-        </div>
         <div id="main-title-area">
-            <input type="text" name="<?php echo Landing_Pages_Variations::prepare_input_id( 'lp-main-headline'); ?>" placeholder="<?php  _e('Primary Headline Goes here. This will be visible on the page' , 'landing-pages'); ?>" id="lp-main-headline" value="<?php echo $main_headline; ?>" title="'. __('This headline will appear in the landing page template.' , 'landing-pages') .'">
+            <input type="text" name="<?php echo Landing_Pages_Variations::prepare_input_id( 'lp-main-headline'); ?>" placeholder="<?php  _e('Enter Headline' , 'landing-pages'); ?>" id="lp-main-headline" value="<?php echo $main_headline; ?>" title="'. __('This headline will appear in the landing page template.' , 'landing-pages') .'">
         </div>
         <div id="switch-lp">0</div>
 
@@ -718,6 +725,19 @@ href='?post=<?php echo $post->ID; ?>&action=edit&action-variation-id=<?php echo 
     }
 
     /**
+     * Display variation notes metabox
+     */
+    public static function display_variation_notes() {
+        global $post;
+
+        $variation_id = Landing_Pages_Variations::get_current_variation_id( );
+        $variation_notes = Landing_Pages_Variations::get_variation_notes( $post->ID , $variation_id );
+        $variation_notes_id = Landing_Pages_Variations::prepare_input_id( 'lp-variation-notes');
+
+        echo '<textarea name="'.$variation_notes_id.'" id="lp_variation_notes" rows="5" cols="30" style="width:100%;">'.$variation_notes.'</textarea>';
+    }
+
+    /**
      * Display select template container
      */
     public static function display_select_template_container() {
@@ -999,10 +1019,6 @@ href='?post=<?php echo $post->ID; ?>&action=edit&action-variation-id=<?php echo 
 
             echo '<div class="wp-call-to-action-option-td inbound-meta-box-option ' . $type_class_option . '" data-field-type="' . $field['type'] . '">';
             switch ($field['type']) {
-                /* default content for the_content */
-                case 'default-content':
-                    echo '<span id="overwrite-content" class="button-secondary">Insert Default Content into main Content area</span><div style="display:none;"><textarea name="' . $field_id . '" id="' . $field_id . '" class="default-content" cols="106" rows="6" style="width: 75%; display:hidden;">' . $meta . '</textarea></div>';
-                    break;
                 case 'description-block':
                     echo '<div id="' . $field_id . '" class="description-block">' . $field['description'] . '</div>';
                     break;
