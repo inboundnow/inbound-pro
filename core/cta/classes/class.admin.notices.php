@@ -10,7 +10,6 @@ class CTA_Admin_Notices {
     public static function add_hooks() {
         add_action('admin_notices', array( __CLASS__, 'dont_install_call_to_action_templates_here'));
         add_action('admin_notices', array( __CLASS__, 'get_more_templates_notice' ) );
-        add_action('admin_notices', array( __CLASS__, 'download_legacy_templates' ) );
     }
 
     /**
@@ -90,82 +89,6 @@ class CTA_Admin_Notices {
             <?php
         }
     }
-
-    /**
-     * Prompt user to download required templates
-     */
-    public static function download_legacy_templates() {
-        global $pagenow;
-
-        /* ignore for pro users */
-        if (class_exists('Inbound_Pro_Plugin')) {
-            return;
-        }
-
-        /* only show administrators */
-        if( !current_user_can('activate_plugins') ) {
-            return;
-        }
-
-        $message_id = 'download-legacy-templates';
-
-        /* check if user viewed message already */
-        if (self::check_if_viewed($message_id)) {
-            return;
-        }
-
-        /* check to see if ctas before 5/18/2016 exist */
-        $args = array(
-            'posts_per_page' => 5,
-            'post_type' => 'wp-call-to-action',
-            'orderby' => 'comment_count',
-            'order' => 'DESC',
-            'date_query' => array(
-                'before' => '2016-05-18'
-            )
-        );
-
-        $posts = get_posts($args);
-
-        if ($posts && count($posts) < 1) {
-            return;
-        }
-
-        $link = "https://www.inboundnow.com/market/call-to-action-bundle-pack/";
-
-        ?>
-        <div class="error" style="margin-bottom:10px;"  id="inbound_notice_<?php echo $message_id; ?>">
-            <h3 style='font-weight:normal; margin-bottom:0px;padding-bottom:0px;'>
-                <strong>
-                    <?php _e( 'Important Notice for Call to Action Users' , 'inbound-pro' ); ?>
-                </strong>
-            </h3>
-            <p style='font-weight:normal; margin-top:0px;margin-bottom:0px;'>
-                <?php _e( "We've removeed the following templates from Calls to Action plugin:" , "inbound-pro" ); ?>
-                 <ul style="list-style-type: circle; margin-left:25px;">
-                    <li>autofocus</li>
-                    <li>facebook like button</li>
-                    <li>feedburner subscribe to download</li>
-                    <li>follow to download</li>
-                    <li>linkedin share to download</li>
-                    <li>popup ebook</li>
-                    <li>tweet to download</li>
-                 </ul>
-            </p>
-            <p>
-              <?php _e( 'They are free & available to be re-downloaded from our marketplace. If you are using one of the templates above you will need to download and reinstall it for your call to action to continue working.' , 'inbound-pro' ) ?>
-            </p>
-            <a class="button button-large button-primary" href="<?php echo $link; ?>" ><?php _e('Recover Templates (free)','inbound-pro'); ?></a>
-            <a class="button button-large inbound_dismiss" href="#" id="<?php echo $message_id; ?>"  data-notification-id="<?php echo $message_id; ?>" ><?php _e('Dismiss','inbound-pro'); ?></a>
-            <br><br>
-        </div>
-        <?php
-
-        /* echo javascript used to listen for notice closing */
-        self::javascript_dismiss_notice();
-
-    }
-
 
 
     public static function javascript_dismiss_notice() {
