@@ -168,20 +168,6 @@ jQuery(document).ready(function ($) {
         });
     });
 
-
-    /* the_content default overwrite */
-    jQuery('body').on('click', '#overwrite-content', function () {
-        if (confirm('Are you sure you want to overwrite what is currently in the main edit box above?')) {
-            var ctmce = jQuery('#content-tmce');
-            switchEditors.switchto(ctmce[0]); // switch to tinymce
-            setTimeout(function () {
-                var default_content = jQuery(".inbound-default-content-option textarea").first().text();
-                jQuery("#content_ifr").contents().find("body").html(default_content);
-            }, 500);
-
-        }
-    });
-
     /* Colorpicker fix */
     jQuery('.jpicker').one('mouseenter', function () {
         jQuery(this).jPicker({
