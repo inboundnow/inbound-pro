@@ -45,7 +45,8 @@ if (!class_exists('Inbound_Forms')) {
                 'submit' => 'Submit',
                 'submit_colors' => '',
                 'submit_text_color' => '',
-                'submit_bg_color' => ''
+                'submit_bg_color' => '',
+                'custom_class' => ''
             ), $atts));
 
             if (!$id && isset($_GET['post'])) {
@@ -125,7 +126,7 @@ if (!class_exists('Inbound_Forms')) {
 
 
                 $form = '<div id="inbound-form-wrapper" class="inbound-form-wrapper">';
-                $form .= '<form class="inbound-now-form wpl-track-me inbound-track" method="post" id="' . $form_id . '" action="" style="' . $form_width . '">';
+                $form .= '<form class="inbound-now-form wpl-track-me inbound-track '.$custom_class.'" method="post" id="' . $form_id . '" action="" style="' . $form_width . '">';
                 $main_layout = ($form_layout != "") ? 'inbound-' . $form_layout : 'inbound-normal';
 
                 for ($i = 0; $i < count($matches[0]); $i++) {
