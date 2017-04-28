@@ -193,7 +193,7 @@ class Landing_Pages_Admin_Notices {
 
         $screen = get_current_screen();
 
-        if ( !isset($post) || $screen->id == 'landing-pages' ||$screen->id == 'edit-landing-page' || $post->post_status !='publish' ) {
+        if ( !isset($post) || $screen->id == 'landing-pages' ||$screen->id == 'edit-landing-page' ||  $post->post_status !='publish' ) {
             return;
         }
 
