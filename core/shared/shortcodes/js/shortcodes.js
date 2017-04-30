@@ -617,7 +617,7 @@ var InboundShortcodes = {
                     field_count: field_count,
                     form_values: form_values,
                     notify_email: notify_email,
-                    notify_email_subject: notify_email_subject,
+                    notify_email_subject: notify_email_subject.replace(/\[~/g, '&#91;').replace(/\]/g, '&#93;'),
                     send_email: send_email,
                     send_email_template: send_email_template,
                     send_subject: send_email_subject,

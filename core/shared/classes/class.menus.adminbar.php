@@ -76,7 +76,6 @@ if (!class_exists('Inbound_Menus_Adminbar')) {
                 'meta' => array('class' => 'inbound-nav-marketing', 'title' => 'Inbound Marketing Admin')
             ));
 
-            //print_r($primary_menu_items);exit;
 
             /** Add Primary Menu Items */
             foreach ($primary_menu_items as $id => $menu_item) {
@@ -113,12 +112,13 @@ if (!class_exists('Inbound_Menus_Adminbar')) {
 
             foreach ($secondary_menu_items as $id => $menu_item) {
                 $menu_item['id'] = $id;
+                $menu_item['meta'] = (isset($menu_item['meta']) ) ? $menu_item['meta'] : array();
 
                 if (!isset($menu_item['meta']['target'])) {
                     $menu_item['meta']['target'] = '_blank';
                 }
 
-                if ('_blank' === $menu_item['meta']['target']) {
+                if ( '_blank' === $menu_item['meta']['target']) {
                     if (!isset($menu_item['meta']['class'])) {
                         $menu_item['meta']['class'] = '';
                     }

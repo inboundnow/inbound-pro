@@ -201,6 +201,13 @@ $shortcodes_config['forms'] = array(
             'std' => '',
             'class' => 'main-design-settings',
         ),
+        'custom-class' => array(
+            'name' => __('Custom Class Names', 'inbound-pro' ),
+            'desc' => __('Add custom classes here ', 'inbound-pro' ),
+            'type' => 'text',
+            'std' => '',
+            'class' => 'main-design-settings',
+        ),
     ),
     'child' => array(
         'options' => array(
@@ -369,7 +376,7 @@ $shortcodes_config['forms'] = array(
         'shortcode' => '[inbound_field label="{{label}}" type="{{field_type}}" description="{{description}}" required="{{required}}" exclude_tracking={{exclude_tracking}} dropdown="{{dropdown_options}}" radio="{{radio_options}}"  checkbox="{{checkbox_options}}"  range="{{range_options}}" placeholder="{{placeholder}}" field_container_class="{{field_container_class}}"  field_input_class="{{field_input_class}}" html="{{html_block_options}}" dynamic="{{hidden_input_options}}" default="{{default_value}}" map_to="{{map_to}}" divider_options="{{divider_options}}"]',
         'clone' => __('Add Another Field',  'inbound-pro' )
     ),
-    'shortcode' => '[inbound_form name="{{form_name}}" lists="{{lists_hidden}}" tags="{{tags_hidden}}" redirect="{{redirect}}" notify="{{notify}}" notify_subject="{{notify_subject}}" layout="{{layout}}" font_size="{{font-size}}"  labels="{{labels}}" icon="{{icon}}" submit="{{submit}}" submit="{{submit}}" submit_colors="{{submit-colors}}" submit_text_color="{{submit-text-color}}" submit_bg_color="{{submit-bg-color}}" width="{{width}}"]{{child}}[/inbound_form]',
+    'shortcode' => '[inbound_form name="{{form_name}}" lists="{{lists_hidden}}" tags="{{tags_hidden}}" redirect="{{redirect}}" notify="{{notify}}" notify_subject="{{notify_subject}}" layout="{{layout}}" font_size="{{font-size}}"  labels="{{labels}}" icon="{{icon}}" submit="{{submit}}" submit="{{submit}}" submit_colors="{{submit-colors}}" submit_text_color="{{submit-text-color}}" submit_bg_color="{{submit-bg-color}}" custom_class="{{custom-class}}" width="{{width}}"]{{child}}[/inbound_form]',
     'popup_title' => 'Insert Inbound Form Shortcode'
 );
 
@@ -441,6 +448,7 @@ if (!function_exists('inbound_forms_cpt')) {
             $role->add_cap( 'edit_others_inbound-form' );
             $role->add_cap( 'edit_published_inbound-forms' );
             $role->add_cap( 'publish_inbound-form' );
+            $role->add_cap( 'delete_inbound-forms' );
             $role->add_cap( 'delete_others_inbound-forms' );
             $role->add_cap( 'delete_private_inbound-forms' );
             $role->add_cap( 'delete_published_inbound-forms' );

@@ -60,15 +60,6 @@ class Inbound_Shortcodes {
 
 		if ( $hook == 'post.php' || $hook == 'post-new.php' || $hook == 'page-new.php' || $hook == 'page.php' ) {
 
-			/* dequeue third party scripts */
-			global $wp_scripts;
-			if ( !empty( $wp_scripts->queue ) ) {
-				$store = $wp_scripts->queue; // store the scripts
-				foreach ( $wp_scripts->queue as $handle ) {
-					wp_dequeue_script( $handle );
-				}
-			}
-
 			wp_enqueue_script('jquery' );
 			wp_enqueue_script('jquery-cookie', INBOUNDNOW_SHARED_URLPATH . 'assets/js/global/jquery.cookie.js', array( 'jquery' ) , false , true );
 			wp_enqueue_script('jquery-total-storage', INBOUNDNOW_SHARED_URLPATH . 'assets/js/global/jquery.total-storage.min.js', array( 'jquery' ) , false , true );
@@ -109,8 +100,7 @@ class Inbound_Shortcodes {
 				array_push($plugins_loaded, "cta");
 			}
 			if (is_plugin_active('leads/leads.php')) {
-				//array_push($plugins_loaded, "leads");
-				//array_push($plugins_loaded, "leads");
+				array_push($plugins_loaded, "leads");
 			}
 
 			wp_localize_script( 'inbound-shortcodes-plugins', 'inbound_load', array( 'image_dir' => INBOUNDNOW_SHARED_URLPATH . 'shortcodes/', 'inbound_plugins' => $plugins_loaded, 'pop_title' => 'Insert Shortcode' ));
@@ -120,10 +110,6 @@ class Inbound_Shortcodes {
 				add_action( 'admin_footer',	array(__CLASS__, 'inbound_forms_header_area'));
 			}
 
-			/* Requeue third party scripts */
-			foreach ( $store as $handle ) {
-				wp_enqueue_script( $handle );
-			}
 		}
 	}
 

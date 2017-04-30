@@ -109,9 +109,9 @@ if (!class_exists('Inbound_Load_Shared')) {
 			} else if( defined('WP_CTA_PATH') ) {
 				return WP_CTA_PATH . 'shared/';
 			} else if (	defined('LANDINGPAGES_PATH') ) {
-				return LANDINGPAGES_PATH . '/shared/';
+				return LANDINGPAGES_PATH . 'shared/';
 			} else if (	defined('WPL_PATH') ) {
-				return WPL_PATH . '/shared/';
+				return WPL_PATH . 'shared/';
 			}
 		}
 
