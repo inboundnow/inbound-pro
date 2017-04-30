@@ -1,4 +1,4 @@
-/*! Inbound Analyticsv1.0.0 | (c) 2016 Inbound Now | https://github.com/inboundnow/cta */
+/*! Inbound Analyticsv1.0.0 | (c) 2017 Inbound Now | https://github.com/inboundnow/cta */
 /**
  * # _inbound
  *
@@ -1882,6 +1882,7 @@ var InboundForms = (function(_inbound) {
                 'source': utils.readCookie("inbound_referral_site"),
                 'inbound_submitted': inbound_form_is_ajax,
                 'inbound_form_id': inbound_form_id,
+                'inbound_nonce': inbound_settings.ajax_nonce,
                 'event': form
             };
 
