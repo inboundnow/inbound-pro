@@ -98,16 +98,17 @@ class Inbound_Pro_Admin_Ajax_Listeners {
             exit;
         }
 
-        //error_log(print_r($decoded,true));
-
         if (isset($decoded['customer'])) {
             $customer['is_pro'] = self::get_highest_price_id($decoded['customer']);
             Inbound_Options_API::update_option('inbound-pro', 'customer', $decoded['customer']);
             update_option('inbound_activate_pro_components', true);
-            set_transient('inbound_api_key_cache', $decoded,  60 * 60 * 24 *  7); /* cache the good results for one day */
+            set_transient('inbound_api_key_cache', $decoded,  WEEK_IN_SECONDS); /* cache the good results for one day */
         } else {
-            $customer['is_pro'] = 9;
-            Inbound_Options_API::update_option('inbound-pro', 'customer', $customer);
+            /* If There's No Connection Error Then Set Customer to Free */
+            if ($decoded){
+                $customer['is_pro'] = 9;
+                Inbound_Options_API::update_option('inbound-pro', 'customer', $customer);
+            }
             delete_transient('inbound_api_key_cache');
         }
 
