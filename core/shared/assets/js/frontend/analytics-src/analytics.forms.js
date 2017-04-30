@@ -578,6 +578,7 @@ var InboundForms = (function(_inbound) {
                 'source': utils.readCookie("inbound_referral_site"),
                 'inbound_submitted': inbound_form_is_ajax,
                 'inbound_form_id': inbound_form_id,
+                'inbound_nonce': inbound_settings.ajax_nonce,
                 'event': form
             };
 

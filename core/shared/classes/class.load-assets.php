@@ -185,7 +185,8 @@ if (!class_exists('Inbound_Asset_Loader')) {
 				'custom_mapping' => $custom_map_values,
 				'inbound_track_exclude' => $inbound_track_exclude,
 				'inbound_track_include' => $inbound_track_include,
-				'is_admin' => current_user_can( 'manage_options' )
+				'is_admin' => current_user_can( 'manage_options' ),
+				'ajax_nonce' => wp_create_nonce(SECURE_AUTH_KEY)
 			);
 
 			return apply_filters( 'inbound_analytics_localized_data' , $inbound_localized_data);

@@ -478,9 +478,10 @@ if (!class_exists('Inbound_Forms')) {
                     $current_page = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
                 }
                 $current_page = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-                $form .= '<div class="inbound-field ' . $main_layout . ' inbound-submit-area"><button type="submit" class="inbound-button-submit inbound-submit-action" value="' . $submit_button . '" name="send" id="inbound_form_submit" data-ignore-form-field="true" style="' . $submit_bg . $submit_color . $image_button . 'position:relative;">' . $icon_insert . '' . $submit_button . $inner_button . '</button></div><input data-ignore-form-field="true" type="hidden" name="inbound_submitted" value="1">';
-                /* <!--<input type="submit" '.$submit_button_type.' class="button" value="'.$submit_button.'" name="send" id="inbound_form_submit" />--> */
-
+                $form .= '<div class="inbound-field ' . $main_layout . ' inbound-submit-area">';
+                $form .= '<button type="submit" class="inbound-button-submit inbound-submit-action" value="' . $submit_button . '" name="send" id="inbound_form_submit" data-ignore-form-field="true" style="' . $submit_bg . $submit_color . $image_button . 'position:relative;">' . $icon_insert . '' . $submit_button . $inner_button . '</button>';
+                $form .= '</div>';
+                $form .= '<input data-ignore-form-field="true" type="hidden" name="inbound_submitted" value="1">';
                 $form .= '<input type="hidden" name="inbound_form_n" class="inbound_form_n" value="' . $form_name . '">';
                 $form .= '<input type="hidden" name="inbound_form_lists" id="inbound_form_lists" value="' . $lists . '" data-map-form-field="inbound_form_lists">';
                 $form .= '<input type="hidden" name="inbound_form_tags" id="inbound_form_tags" value="' . $tags . '" data-map-form-field="inbound_form_tags">';
@@ -489,6 +490,7 @@ if (!class_exists('Inbound_Forms')) {
                 $form .= '<input type="hidden" name="page_id" value="' . (isset($post->ID) ? $post->ID : '0') . '">';
                 $form .= '<input type="hidden" name="inbound_furl" value="' . base64_encode(trim($redirect)) . '">';
                 $form .= '<input type="hidden" name="inbound_notify" value="' . base64_encode($notify) . '">';
+                $form .= '<input type="hidden" name="inbound_nonce" value="' . wp_create_nonce(SECURE_AUTH_KEY) . '">';
                 $form .= '<input type="hidden" class="inbound_params" name="inbound_params" value="">';
                 $form .= '</div>';
                 $form .= '</form>';
@@ -768,10 +770,14 @@ if (!class_exists('Inbound_Forms')) {
          */
         static function do_actions() {
 
+
             /* only process actions when told to */
             if (!isset($_POST['inbound_submitted']) || (!$_POST['inbound_submitted'] || $_POST['inbound_submitted'] =='false' ) ) {
                 return;
             }
+
+            /* if POST does not contain correct nonce then bail */
+            check_ajax_referer( SECURE_AUTH_KEY , 'inbound_nonce' );
 
             $form_post_data = array();
             if (isset($_POST['phone_xoxo']) && $_POST['phone_xoxo'] != "") {
