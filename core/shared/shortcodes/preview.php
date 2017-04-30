@@ -13,7 +13,7 @@ if (defined('ABSPATH')) {
 
 /*	Get Shortcodes
  *	--------------------------------------------------------------------------- */
-$shortcode = html_entity_decode( trim( $_GET['sc'] ) );
+$shortcode = sanitize_text_field(html_entity_decode( trim( $_GET['sc'] ) ));
 
 // SET CORRECT FILE PATHS FOR SCRIPTS
 if ( defined( 'WPL_URL' )) {

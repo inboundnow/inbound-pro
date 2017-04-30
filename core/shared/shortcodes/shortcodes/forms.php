@@ -448,6 +448,7 @@ if (!function_exists('inbound_forms_cpt')) {
             $role->add_cap( 'edit_others_inbound-form' );
             $role->add_cap( 'edit_published_inbound-forms' );
             $role->add_cap( 'publish_inbound-form' );
+            $role->add_cap( 'delete_inbound-forms' );
             $role->add_cap( 'delete_others_inbound-forms' );
             $role->add_cap( 'delete_private_inbound-forms' );
             $role->add_cap( 'delete_published_inbound-forms' );
