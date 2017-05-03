@@ -75,7 +75,7 @@ class Inbound_Shortcodes {
 					wp_dequeue_script('selectjs');
 					wp_dequeue_script('select2');
 					wp_dequeue_script('jquery-select2');
-					wp_enqueue_script('select2', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/Select2/select2.min.js', array( 'jquery' ) , false , false );
+					wp_enqueue_script('select2', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/Select2/select2.full.min.js', array( 'jquery' ) , false , false );
 					wp_enqueue_style('select2', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/Select2/select2.min.css' , array() , false , false);
 
 				}
