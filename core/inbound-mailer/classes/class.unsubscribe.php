@@ -45,6 +45,9 @@ class Inbound_Mailer_Unsubscribe {
 		$month_6 = (isset($inbound_settings['inbound-mailer']['unsubscribe-6-months'])) ? $inbound_settings['inbound-mailer']['unsubscribe-6-months'] : __( '6 Month' , 'inbound-pro' );
 		$month_12 = (isset($inbound_settings['inbound-mailer']['unsubscribe-12-months'])) ? $inbound_settings['inbound-mailer']['unsubscribe-12-months'] : __( '12 Month' , 'inbound-pro' );
 
+		/* create/get maintenance list id - returns array */
+		$maintenance_lists = Inbound_Maintenance_Lists::get_lists();
+
 
 
 		if ( isset( $_GET['unsubscribed'] ) ) {
@@ -53,29 +56,39 @@ class Inbound_Mailer_Unsubscribe {
 			return $confirm;
 		}
 
-		if ( !isset( $_GET['token'] ) ) {
-			return __( 'Invalid token' , 'inbound-pro' );
-		}
+		$token = ( isset( $_GET['token'] ) ) ? sanitize_text_field($_GET['token']) : '';
 
 		/* get all lead lists */
 		$lead_lists = Inbound_Leads::get_lead_lists_as_array();
 
 		/* decode token */
-		$params = self::decode_unsubscribe_token( sanitize_text_field($_GET['token']) );
+		$params = self::decode_unsubscribe_token( $token );
 
+		/* if token has failed or isn't present check for logged in user */
+		if (!$params) {
+			$params = array();
 
-		if ( !isset( $params['lead_id'] ) ) {
-			return __( 'Oops. Something is wrong with the unsubscribe link. Are you logged in?' , 'inbound-pro' );
+			/* get logged in user object */
+			$current_user = wp_get_current_user();
+
+			/* Get lead id from email */
+			$params['lead_id'] = Inbound_Leads::get_lead_id_by_email($current_user->user_email);
+			$params['list_ids'] = array();
+
+			/* retrieve lists from lead id if available */
+			$params['list_ids'] = array();
+			if ($params['lead_id']) {
+				$params['list_ids'] = array_flip(Inbound_Leads::get_lead_lists_by_lead_id($params['lead_id']));
+				$usubscribe_show_lists = 'on';
+			}
+		}
+
+		if ( !isset( $params['lead_id'] ) || !$params['lead_id'] ) {
+			return __( 'Oops. Something is wrong with the unsubscribe token. Please log in and reload this page.' , 'inbound-pro' );
 		}
 
 		/* check if lead is coming from automation seriest */
 		if (isset($params['job_id']) && $params['job_id'] ) {
-			/*
-			$html .= "<blockquote class='unsubscribe-notice'>";
-			$html .= $usubscribe_notice_automation_series;
-			$html .= "</blockquote>";
-			*/
-
 			/* delete remaining automation tasks for automation rule */
 			Inbound_Automation_Post_Type::delete_rule_tasks( array('job_id' => $params['job_id']) );
 		}
@@ -85,13 +98,18 @@ class Inbound_Mailer_Unsubscribe {
 
 		/* Begin unsubscribe html inputs */
 		$html .= "<form action='?unsubscribed=true' name='unsubscribe' method='post'>";
-		$html .= "<input type='hidden' name='token' value='".strip_tags($_GET['token'])."' >";
+		$html .= "<input type='hidden' name='token' value='".strip_tags($token)."' >";
 		$html .= "<input type='hidden' name='action' value='inbound_unsubscribe_event' >";
 
 		/* loop through lists and show unsubscribe inputs */
 		if ( isset($params['list_ids']) && $usubscribe_show_lists == 'on' ) {
 			foreach ($params['list_ids'] as $list_id ) {
 				if ($list_id == '-1' || !$list_id ) {
+					continue;
+				}
+
+				/* ignore lists belonging to maintenance list */
+				if (term_is_ancestor_of( $maintenance_lists['parent']['id'] , $list_id , 'wplead_list_category')) {
 					continue;
 				}
 
@@ -268,6 +286,15 @@ class Inbound_Mailer_Unsubscribe {
 
 		/* decode token */
 		$params = self::decode_unsubscribe_token( $_POST['token'] );
+
+		/* if no token is present or is a bad token then automatically discover lead id */
+		if (!isset($params['lead_id']) || !$params['lead_id'] || !$params ) {
+			/* get logged in user object */
+			$current_user = wp_get_current_user();
+
+			/* Get lead id from email */
+			$params['lead_id'] = Inbound_Leads::get_lead_id_by_email($current_user->user_email);
+		}
 
 		/* prepare all token */
 		$all = (isset($_POST['lists_all']) && $_POST['lists_all']  ) ? true : false;

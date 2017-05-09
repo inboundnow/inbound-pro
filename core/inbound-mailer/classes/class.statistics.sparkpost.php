@@ -643,38 +643,20 @@ class Inbound_SparkPost_Stats {
             /* handle rejections */
             if ($event['type'] == 'spam_compaint') {
 
-                /* create/get maintenance lists */
-                $parent = Inbound_Leads::create_lead_list( array(
-                    'name' => __( 'Maintenance' , 'inbound-pro' )
-                ));
-
-                /* createget spam lists */
-                $term = Inbound_Leads::create_lead_list( array(
-                    'name' => __( 'Spam Complaints' , 'inbound-pro' ),
-                    'parent' =>$parent['id']
-                ));
+                $maintenance_lists = Inbound_Maintenance_Lists::get_lists();
 
                 /* add to spam complaint list */
-                Inbound_Leads::add_lead_to_list( $event['rcpt_meta']['lead_id'], $term['id'] );
-
+                Inbound_Leads::add_lead_to_list( $event['rcpt_meta']['lead_id'], $maintenance_lists['spam']['id'] );
             }
 
             /* handle bounces */
             if ($event['type'] == 'bounce') {
 
                 /* create/get maintenance lists */
-                $parent = Inbound_Leads::create_lead_list( array(
-                    'name' => __( 'Maintenance' , 'inbound-pro' )
-                ));
-
-                /* create/get bounce lists */
-                $term = Inbound_Leads::create_lead_list( array(
-                    'name' => __( 'Bounces' , 'inbound-pro' ),
-                    'parent' =>$parent['id']
-                ));
+                $maintenance_lists = Inbound_Maintenance_Lists::get_lists();
 
                 /* add to spam complaint list */
-                Inbound_Leads::add_lead_to_list( $event['rcpt_meta']['lead_id'], $term['id'] );
+                Inbound_Leads::add_lead_to_list( $event['rcpt_meta']['lead_id'], $maintenance_lists['bounce']['id'] );
 
 
             }
@@ -732,18 +714,10 @@ class Inbound_SparkPost_Stats {
                 case '1902':
 
                     /* create/get maintenance lists */
-                    $parent = Inbound_Leads::create_lead_list( array(
-                        'name' => __( 'Maintenance' , 'inbound-pro' )
-                    ));
-
-                    /* create/get rejected lists */
-                    $term = Inbound_Leads::create_lead_list( array(
-                        'name' => __( 'Rejected' , 'inbound-pro' ),
-                        'parent' =>$parent['id']
-                    ));
+                    $maintenance_lists = Inbound_Maintenance_Lists::get_lists();
 
                     /* add to rejected list */
-                    Inbound_Leads::add_lead_to_list( $transmission_args['metadata']['lead_id'], $term['id'] );
+                    Inbound_Leads::add_lead_to_list( $transmission_args['metadata']['lead_id'], $maintenance_lists['rejected']['id'] );
 
                     $args = array(
                         'event_name' => 'sparkpost_rejected',

@@ -505,7 +505,7 @@ input[type=search].light-table-filter:focus, #inbound-lead-tags-input:focus {
 }
 
 .select2-container {
-    width: 400px;
+    width: 400px !important;
 }
 
 #paged-current {
