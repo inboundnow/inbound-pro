@@ -115,10 +115,7 @@ if ( !class_exists('Inbound_Upgrade_Routines') ) {
 
             /* add ip field if does not exist */
             $row = $wpdb->get_results(  "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '{$table_name}' AND column_name = 'ip'"  );
-            if(empty($row)){
-                $wpdb->get_results( "ALTER TABLE {$table_name} ADD `ip` VARCHAR(45) NOT NULL" );
-            }
-
+            $wpdb->get_results( "ALTER TABLE {$table_name} ADD `ip` VARCHAR(45) NOT NULL" );
             /* alter ip field to fix bad field types */
             $wpdb->get_results( "ALTER TABLE {$table_name} MODIFY COLUMN `ip` VARCHAR(45)" );
 
@@ -135,19 +132,10 @@ if ( !class_exists('Inbound_Upgrade_Routines') ) {
             require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
             $table_name = $wpdb->prefix . "inbound_events";
 
-            /* add columns funnel and source to legacy table */
-            $row = $wpdb->get_results(  "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '{$table_name}' AND column_name = 'source'"  );
-            if(empty($row)){
-                // do your stuff
-                $wpdb->get_results( "ALTER TABLE {$table_name} ADD `funnel` text NOT NULL" );
-                $wpdb->get_results( "ALTER TABLE {$table_name} ADD `source` text NOT NULL" );
-            }
+            $wpdb->get_results( "ALTER TABLE {$table_name} ADD `funnel` text NOT NULL" );
+            $wpdb->get_results( "ALTER TABLE {$table_name} ADD `source` text NOT NULL" );
+            $wpdb->get_results( "ALTER TABLE {$table_name} ADD `list_id` varchar(255) NOT NULL" );
 
-            /* add columns list_id inbound events table */
-            $row = $wpdb->get_results(  "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '{$table_name}' AND column_name = 'list_id'"  );
-            if(empty($row)){
-                $wpdb->get_results( "ALTER TABLE {$table_name} ADD `list_id` varchar(255) NOT NULL" );
-            }
         }
 
 
@@ -162,12 +150,8 @@ if ( !class_exists('Inbound_Upgrade_Routines') ) {
             require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
             $table_name = $wpdb->prefix . "inbound_automation_queue";
 
-            /* add columns funnel and source to legacy table */
-            $row = $wpdb->get_results(  "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '{$table_name}' AND column_name = 'lead_id'"  );
-            if(empty($row)){
-                // do your stuff
-                $wpdb->get_results( "ALTER TABLE {$table_name} ADD `lead_id` varchar(255)  NOT NULL" );
-            }
+            $wpdb->get_results( "ALTER TABLE {$table_name} ADD `lead_id` varchar(255)  NOT NULL" );
+
         }
     }
 
