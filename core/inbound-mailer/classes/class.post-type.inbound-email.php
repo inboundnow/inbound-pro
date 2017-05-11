@@ -22,6 +22,9 @@ if ( !class_exists('Inbound_Mailer_Post_Type') ) {
 			/* Load Admin Only Hooks */
 			if (is_admin()) {
 
+				/* load range */
+				add_action('current_screen', array( __CLASS__ ,	'load_range' ) );
+
                 /* control priority of post status */
                 add_filter( 'views_edit-inbound-email' , array( __CLASS__ , 'filter_post_status_priority' ));
 
@@ -59,6 +62,19 @@ if ( !class_exists('Inbound_Mailer_Post_Type') ) {
 				/* save screen options */
 				add_filter( 'init', array( __CLASS__, 'set_screen_option'), 1 );
 			}
+		}
+
+		public static function load_range() {
+			$screen = get_current_screen();
+
+			if ($screen->id != 'edit-inbound-email') {
+				return;
+			}
+
+			self::$range = get_user_option(
+				'inbound_mailer_screen_option_range',
+				get_current_user_id()
+			);
 		}
 
         /**
@@ -152,7 +168,7 @@ if ( !class_exists('Inbound_Mailer_Post_Type') ) {
 				"title" => __( 'Title' , 'inbound-email' ),
 				"inbound_email_type" => __( 'type' , 'inbound-email' ),
 				"inbound_email_status" => __( 'status' , 'inbound-email' ),
-				"inbound_email_stats" => __( 'stats' , 'inbound-email' )
+				"inbound_email_stats" =>sprintf( __( 'statistics ( last %s days )' , 'inbound-email' ) , self::$range )
 
 			);
 
@@ -500,11 +516,6 @@ if ( !class_exists('Inbound_Mailer_Post_Type') ) {
 			if (!$screen || !in_array( $screen->id , $whitelist ) ) {
 				return;
 			}
-
-			self::$range = get_user_option(
-				'inbound_mailer_screen_option_range',
-				get_current_user_id()
-			);
 
 
 			self::$range = (self::$range) ? self::$range : 90;
