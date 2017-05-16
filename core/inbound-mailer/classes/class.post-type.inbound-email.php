@@ -64,6 +64,9 @@ if ( !class_exists('Inbound_Mailer_Post_Type') ) {
 			}
 		}
 
+		/**
+		 * Load range
+		 */
 		public static function load_range() {
 			$screen = get_current_screen();
 
@@ -106,7 +109,7 @@ if ( !class_exists('Inbound_Mailer_Post_Type') ) {
 				'singular_name' => __('Email Campaigns', 'inbound-email' ),
 				'add_new' => __('Add New', 'inbound-email' ),
 				'add_new_item' => __('Add New Campaign' , 'inbound-email' ),
-				'edit_item' => __(' ' , 'inbound-email' ),
+				'edit_item' => __('Edit Email ' , 'inbound-email' ),
 				'new_item' => __('New Campaign' , 'inbound-email' ),
 				'view_item' => __('View Email' , 'inbound-email' ),
 				'search_items' => __('Search Email Campaigns' , 'inbound-email' ),

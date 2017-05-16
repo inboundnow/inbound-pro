@@ -297,7 +297,7 @@ if ( !class_exists('Inbound_Automation_Post_Type') ) {
 			}
 
 			if ($params) {
-				$wpdb->delete($table_name, $args);
+				$wpdb->update($table_name, array('status'=>'canceled') ,  $args);
 			}
 		}
 

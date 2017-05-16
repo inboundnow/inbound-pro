@@ -69,7 +69,8 @@ class Inbound_SparkPost_Stats {
             $post = get_post($email_id);
         }
 
-        /* we do not collect stats for statuses not in this array */
+
+        /* whitelist of email statuses we prepare statistics for */
         if (!in_array($post->post_status, array('sent', 'sending', 'automated'))) {
             return array();
         }
@@ -77,11 +78,26 @@ class Inbound_SparkPost_Stats {
         /* get email setup data */
         $settings = Inbound_Email_Meta::get_settings($post->ID);
         $table_name = $wpdb->prefix . "inbound_events";
+        $variation_query = '';
+        $job_id_query = '';
 
+        /* check if automated email has a job id saved */
+        if ($post->post_status=='automated') {
+            /* get user saved job id */
+            $job_id = get_user_option(
+                'inbound_mailer_reporting_job_id_' .$post->ID,
+                get_current_user_id()
+            );
+
+            /* add job id to the query if not zero or false */
+            if ($job_id) {
+                $job_id_query = ' AND job_id="' . $job_id . '" ';
+            }
+        }
+
+        /* Add variation id to the query if it's present */
         if (is_numeric($variation_id)) {
-            $variation_query = 'AND variation_id="' . $variation_id . '"';
-        } else {
-            $variation_query = '';
+            $variation_query = ' AND variation_id="' . $variation_id . '" ';
         }
 
         /* get deliveries */
@@ -90,9 +106,9 @@ class Inbound_SparkPost_Stats {
         $schedule_date = new DateTime($settings['send_datetime']);
         $interval = $today->diff($schedule_date);
 
-
+        /* complicated  - needs doc */
         if ( !$settings['send_datetime'] || $interval->format('%R') == '-' || $settings['email_type'] == 'automated' ) {
-            $query = 'SELECT `variation_id`, `lead_id` FROM ' . $table_name . ' WHERE `email_id` = "' . $email_id . '"  ' . $variation_query . ' AND `event_name` =  "sparkpost_delivery"';
+            $query = 'SELECT `variation_id`, `lead_id` FROM ' . $table_name . ' WHERE `email_id` = "' . $email_id . '"  ' . $variation_query . $job_id_query . ' AND `event_name` =  "sparkpost_delivery"';
 
             /* add date constraints if applicable */
             if (isset(self::$stats['start_date'])) {
@@ -113,7 +129,7 @@ class Inbound_SparkPost_Stats {
         }
 
         /* get opens */
-        $query = 'SELECT `variation_id`, `lead_id` FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '.$variation_query.' AND `event_name` =  "sparkpost_open"';
+        $query = 'SELECT `variation_id`, `lead_id` FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '. $variation_query . $job_id_query.' AND `event_name` =  "sparkpost_open"';
         /* add date constraints if applicable */
         if (isset(self::$stats['start_date'])) {
             $query .= ' AND datetime >= "'.self::$stats['start_date'].'" AND  datetime <= "'.self::$stats['end_date'].'" ';
@@ -122,7 +138,7 @@ class Inbound_SparkPost_Stats {
         $opens = self::process_selected_rows($results);
 
         /* get clicks */
-        $query = 'SELECT `variation_id`, `lead_id` FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '.$variation_query.' AND `event_name` =  "sparkpost_click"';
+        $query = 'SELECT `variation_id`, `lead_id` FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '. $variation_query . $job_id_query.' AND `event_name` =  "sparkpost_click"';
         /* add date constraints if applicable */
         if (isset(self::$stats['start_date'])) {
             $query .= ' AND datetime >= "'.self::$stats['start_date'].'" AND  datetime <= "'.self::$stats['end_date'].'" ';
@@ -131,7 +147,7 @@ class Inbound_SparkPost_Stats {
         $clicks = self::process_selected_rows($results);
 
         /* get bounce */
-        $query = 'SELECT `variation_id`, `lead_id` FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '.$variation_query.' AND `event_name` =  "sparkpost_bounce"';
+        $query = 'SELECT `variation_id`, `lead_id` FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '. $variation_query . $job_id_query.' AND `event_name` =  "sparkpost_bounce"';
         /* add date constraints if applicable */
         if (isset(self::$stats['start_date'])) {
             $query .= ' AND datetime >= "'.self::$stats['start_date'].'" AND  datetime <= "'.self::$stats['end_date'].'" ';
@@ -140,7 +156,7 @@ class Inbound_SparkPost_Stats {
         $bounces = self::process_selected_rows($results);
 
         /* get rejects */
-        $query = 'SELECT `variation_id`, `lead_id` FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '.$variation_query.' ';
+        $query = 'SELECT `variation_id`, `lead_id` FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '. $variation_query . $job_id_query.' ';
         $query .= ' AND ( `event_name` =  "sparkpost_rejected" OR `event_name` = "sparkpost_relay_rejection" )';
 
         /* add date constraints if applicable */
@@ -151,7 +167,7 @@ class Inbound_SparkPost_Stats {
         $rejects = self::process_selected_rows($results);
 
         /* get spam complaints */
-        $query = 'SELECT `variation_id`, `lead_id` FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '.$variation_query.' AND `event_name` =  "sparkpost_spam_complaint"';
+        $query = 'SELECT `variation_id`, `lead_id` FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '. $variation_query . $job_id_query.' AND `event_name` =  "sparkpost_spam_complaint"';
         /* add date constraints if applicable */
         if (isset(self::$stats['start_date'])) {
             $query .= ' AND datetime >= "'.self::$stats['start_date'].'" AND  datetime <= "'.self::$stats['end_date'].'" ';
@@ -160,7 +176,7 @@ class Inbound_SparkPost_Stats {
         $complaints = self::process_selected_rows($results);
 
         /* get unsubscribes */
-        $query = 'SELECT `variation_id`, `lead_id` FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '.$variation_query.' AND `event_name` =  "inbound_unsubscribe"';
+        $query = 'SELECT `variation_id`, `lead_id` FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '. $variation_query . $job_id_query.' AND `event_name` =  "inbound_unsubscribe"';
         /* add date constraints if applicable */
         if (isset(self::$stats['start_date'])) {
             $query .= ' AND datetime >= "'.self::$stats['start_date'].'" AND  datetime <= "'.self::$stats['end_date'].'" ';
@@ -169,7 +185,7 @@ class Inbound_SparkPost_Stats {
         $unsubs = self::process_selected_rows($results);
 
         /* get mutes */
-        $query = 'SELECT `variation_id`, `lead_id` FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '.$variation_query.' AND `event_name` =  "inbound_mute"';
+        $query = 'SELECT `variation_id`, `lead_id` FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '. $variation_query . $job_id_query.' AND `event_name` =  "inbound_mute"';
         /* add date constraints if applicable */
         if (isset(self::$stats['start_date'])) {
             $query .= ' AND datetime >= "'.self::$stats['start_date'].'" AND  datetime <= "'.self::$stats['end_date'].'" ';
@@ -630,6 +646,8 @@ class Inbound_SparkPost_Stats {
                 'variation_id' =>  $event['rcpt_meta']['variation_id'],
                 'form_id' => '',
                 'lead_id' => $event['rcpt_meta']['lead_id'],
+                'job_id' => (isset($event['rcpt_meta']['job_id'])) ? $event['rcpt_meta']['job_id'] : 0,
+                'rule_id' => (isset($event['rcpt_meta']['rule_id'])) ? $event['rcpt_meta']['rule_id'] : 0,
                 'session_id' => '',
                 'event_details' => json_encode($event)
             );
@@ -689,6 +707,8 @@ class Inbound_SparkPost_Stats {
             'variation_id' =>  $transmission_args['metadata']['variation_id'],
             'form_id' => '',
             'lead_id' => $transmission_args['metadata']['lead_id'],
+            'rule_id' => $transmission_args['metadata']['rule_id'],
+            'job_id' => $transmission_args['metadata']['job_id'],
             'session_id' => '',
             'event_details' => json_encode($transmission_args)
         );

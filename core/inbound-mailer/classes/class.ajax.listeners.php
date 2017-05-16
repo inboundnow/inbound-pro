@@ -40,8 +40,14 @@ class Inbound_Mailer_Ajax_Listeners {
 		/* Adds listener to schedule email */
 		add_action( 'wp_ajax_inbound_prepare_batch_email' , array( __CLASS__ , 'prepare_batch_email' ) );
 
-		/* Adds listener to schedule email */
+		/* Adds listener to clear email stats */
 		add_action( 'wp_ajax_clear_email_stats' , array( __CLASS__ , 'clear_stats' ) );
+
+		/* Adds listener to update range email */
+		add_action( 'wp_ajax_inbound_email_update_range' , array( __CLASS__ , 'update_range' ) );
+
+		/* Adds listener to update job id memory */
+		add_action( 'wp_ajax_inbound_email_update_job_id' , array( __CLASS__ , 'update_job_id' ) );
 	}
 
 	/**
@@ -357,6 +363,42 @@ class Inbound_Mailer_Ajax_Listeners {
 		$wpdb->delete( $table_name, $where, $where_format = null );
 
 		echo 1;
+		exit;
+	}
+
+	/**
+	 *  Updates user preferred statistic reporting date range
+	 */
+	public static function update_range() {
+		if (!isset($_POST['range'])) {
+			return;
+		}
+
+		$response = update_user_option(
+			get_current_user_id(),
+			'inbound_mailer_screen_option_range',
+			intval($_POST['range'])
+		);
+		echo $response;
+		exit;
+	}
+
+
+	/**
+	 *  Updates user preferred statistic reporting date range
+	 */
+	public static function update_job_id() {
+		if (!isset($_POST['job_id'])) {
+			return;
+		}
+
+		$response = update_user_option(
+			get_current_user_id(),
+			'inbound_mailer_reporting_job_id_' . intval($_POST['email_id']),
+			intval($_POST['job_id'])
+		);
+
+		echo intval($_POST['job_id']);
 		exit;
 	}
 }

@@ -823,6 +823,7 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
                 'email_id' => intval($_REQUEST['email_id']),
                 'event_name' => sanitize_text_field($_REQUEST['event_name']),
                 'event_name_2' => (isset($_REQUEST['event_name_2'])) ? sanitize_text_field($_REQUEST['event_name_2']) : false,
+                'job_id' => (isset($_REQUEST['job_id'])) ? (int) $_REQUEST['job_id'] : '*',
                 'start_date' => self::$start_date,
                 'end_date' => self::$end_date,
                 'limit' => self::$limit,
@@ -834,6 +835,7 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
             /* get "current" email stats for the selected action */
             $params = array(
                 'email_id' => intval($_REQUEST['email_id']),
+                'job_id' => (isset($_REQUEST['job_id'])) ? (int) $_REQUEST['job_id'] : '*',
                 'event_name' => sanitize_text_field($_REQUEST['event_name']),
                 'event_name_2' => (isset($_REQUEST['event_name_2'])) ? sanitize_text_field($_REQUEST['event_name_2']) : false,
                 'start_date' => self::$start_date,
@@ -847,6 +849,7 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
             /* get the action stats for the selected email's variations */
             $params = array(
                 'email_id' => intval($_REQUEST['email_id']),
+                'job_id' => (isset($_REQUEST['job_id'])) ? (int) $_REQUEST['job_id'] : '*',
                 'event_name' => sanitize_text_field($_REQUEST['event_name']),
             );
             self::$top_variations = self::get_top_email_variants($params);
@@ -986,6 +989,9 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
 
             $table_name = $wpdb->prefix . 'inbound_events';
 
+            /* job id query */
+            $job_id_query = (isset($args['job_id']) && $args['job_id']) ? $wpdb->esc_like($args['job_id']) : "%_%";
+
             /* to find out how many unopens there are we first have to query the opens,
              * then subtract those from the sent foreach variation */
             if($args['event_name'] == 'unopened'){
@@ -993,8 +999,9 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
                     $wpdb->prepare(
                         "SELECT `variation_id`, `lead_id` AS `lead_id` from {$table_name} " .
                         "WHERE `event_name` = 'sparkpost_open' " .
-                        "AND `email_id` = %d"
-                        , $args['email_id']
+                        "AND `email_id` = %d".
+                        "AND `job_id` LIKE %s"
+                        , $args['email_id'] , $job_id_query
                     ), ARRAY_A
                 );
 
@@ -1012,8 +1019,9 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
                     "SELECT `variation_id`, `lead_id` AS `lead_id` from {$table_name} " .
                     "WHERE `event_name` = %s " .
                     "AND `email_id` = %d " .
+                    "AND `job_id` LIKE %s " .
                     "ORDER BY `datetime` ASC"
-                    , $args['event_name'], $args['email_id']
+                    , $args['event_name'], $args['email_id'], $job_id_query
                 ), ARRAY_A
             );
 
@@ -1056,11 +1064,19 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
             $table_name = $wpdb->prefix . 'inbound_events';
             $query_pagination = "";
 
-            $query = "SELECT * from {$table_name} WHERE `email_id` = %d" .
+            /* job id query */
+            $job_id_query = (isset($args['job_id'])) ? $wpdb->esc_like($args['job_id']) : "%_%";
+
+            $query = "SELECT * from {$table_name} " .
+                                " WHERE `email_id` = %d" .
                                 " AND `event_name` = %s" .
+                                " AND `job_id` LIKE %s" .
                                 " AND datetime >= %s AND datetime <= %s" .
                                 " ORDER BY {$table_name} . `datetime` ";
-
+error_log(sprintf(
+                    $query.$query_pagination,
+                    $args['email_id'], $args['event_name'], $job_id_query, $args['start_date'], $args['end_date'], $args['end_date']
+                ));
             /* add limit and offset if present */
             if (isset($args['limit'])) {
                 $query_pagination .= " LIMIT {$args['limit']} OFFSET {$args['offset']} ";
@@ -1069,7 +1085,7 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
             $results = $wpdb->get_results(
                 $wpdb->prepare(
                     $query.$query_pagination,
-                    $args['email_id'], $args['event_name'], $args['start_date'], $args['end_date'], $args['end_date']
+                    $args['email_id'], $args['event_name'], $job_id_query, $args['start_date'], $args['end_date'], $args['end_date']
                 ), ARRAY_A
             );
 
@@ -1078,7 +1094,9 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
             if($args['event_name_2'] != false && !empty($args['event_name_2'])){
                 $two_events['event_one'] = $results;
 
-                $query = "SELECT * from {$table_name} WHERE `email_id` = %d" .
+                $query = "SELECT * from {$table_name} " .
+                        " WHERE `email_id` = %d" .
+                        " AND `job_id` = %s" .
                         " AND `event_name` = %s" .
                         " AND datetime >= %s AND datetime <= %s" .
                         " ORDER BY {$table_name} . `datetime` ASC";
@@ -1086,7 +1104,7 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
                 $results = $wpdb->get_results(
                     $wpdb->prepare(
                         $query.$query_pagination,
-                        $args['email_id'], $args['event_name_2'], $args['start_date'], $args['end_date']
+                        $args['email_id'], $job_id_query, $args['event_name_2'], $args['start_date'], $args['end_date']
                     ), ARRAY_A
                 );
 
@@ -1121,5 +1139,4 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
     }
 
     new Inbound_Mailer_Stats_Report;
-
 }
