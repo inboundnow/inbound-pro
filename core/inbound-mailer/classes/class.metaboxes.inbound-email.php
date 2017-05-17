@@ -1563,26 +1563,30 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             /* get available job ids given email id */
             $table_name = $wpdb->prefix . "inbound_events";
 
-            $query = 'SELECT DISTINCT( job_id ) FROM '.$table_name . " WHERE email_id = '".$post->ID."'  ORDER BY job_id DESC LIMIT 1";
+            $query = 'SELECT DISTINCT( job_id ) FROM '.$table_name . " WHERE email_id = '".$post->ID."'  ORDER BY job_id DESC LIMIT 100";
 
             $job_ids = $wpdb->get_results( $query , ARRAY_A );
 
-            echo '<select name="automation_job_id" id="automation_job_id">';
-            if (isset($job_ids[0])) {
-                echo '<option value="0" '.selected($job_ids['job_id'] , self::$job_id , false ).'>'.__('Last Job','inbound-pro').'</option>';
-            }
+            echo '<select name="automation_job_id" id="automation_job_id" class="select2">';
+
             echo '<option value="0" '.selected( 0 , self::$job_id , false ).'>'.__('Combined Report','inbound-pro').'</option>';
-            /*
-            foreach( $job_ids as  $job) {
+            /**/
+            foreach( $job_ids as  $key => $job) {
 
                 if (!$job['job_id']) {
                     continue;
                 }
 
-                echo '<option value="'.$job['job_id'].'"  '.selected(  $job['job_id'] , self::$job_id , false).'>'.$job['job_id'].'</option>';
+                if ($key === 0 ) {
+                    echo '<option value="last_send" '.selected('last_send' , self::$job_id , false ).'>'.__('Last Send','inbound-pro').'</option>';
+                } else {
+                    echo '<option value="'.$job['job_id'].'"  '.selected(  $job['job_id'] , self::$job_id , false).'>'.__('Send # ','inbound-pro').' '.$job['job_id'].'</option>';
+                }
             }
-            */
+            /**/
             echo '</select>';
+            echo '<script type="text/javascript"> jQuery("#automation_job_id").select2({width: "300px"});</script>';
+
 
         }
 
@@ -2584,6 +2588,16 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                          *  Update Job ID
                          */
                         update_job_id: function ( $this ) {
+                            /* prompt reload */
+                            swal({
+                                title: "<?php _e('Please wait' , 'inbound-pro' ); ?>",
+                                text: "<?php _e('A new report is being loaded.' , 'inbound-pro' ); ?>",
+                                imageUrl: '<?php echo INBOUND_EMAIL_URLPATH; ?>/assets/images/loading_colorful.gif',
+                                closeOnConfirm: false,
+                                showConfirmButton: false,
+                            }, function () {
+
+                            });
 
                             /* Throw confirmation for switching templates */
                             jQuery.ajax({
@@ -2596,15 +2610,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                                 },
                                 success: function (result) {
                                     window.location.reload();
-                                    swal({
-                                        title: "<?php _e('Please wait' , 'inbound-pro' ); ?>",
-                                        text: "<?php _e('We are reloading the page.' , 'inbound-pro' ); ?>",
-                                        imageUrl: '<?php echo INBOUND_EMAIL_URLPATH; ?>/assets/images/loading_colorful.gif',
-                                        closeOnConfirm: false,
-                                        showConfirmButton: false,
-                                    }, function () {
 
-                                    });
 
                                 }
                             });

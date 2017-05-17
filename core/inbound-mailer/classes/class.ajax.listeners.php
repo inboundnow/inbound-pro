@@ -152,7 +152,17 @@ class Inbound_Mailer_Ajax_Listeners {
 			$stats = array();
 		}
 
+        /* get email id */
 		$email_id = intval($_REQUEST['email_id']);
+
+        /* get job id if applicable */
+        $job_id = get_user_option(
+            'inbound_mailer_screen_option_automated_email_report',
+            get_current_user_id()
+        );
+
+        /* if job id is set to 'last_send' then source the last job id */
+        $job_id = ($job_id == 'last_send' ) ? Inbound_Mailer_Post_Type::get_last_job_id($email_id) : $job_id;
 
 		if (isset($stats[$email_id])) {
 			echo json_encode($stats[$email_id]);
@@ -162,7 +172,7 @@ class Inbound_Mailer_Ajax_Listeners {
 
 		switch ($inbound_settings['inbound-mailer']['mail-service']) {
 			case "sparkpost":
-				$stats[$email_id] = Inbound_SparkPost_Stats::get_sparkpost_inbound_events( $email_id );
+				$stats[$email_id] = Inbound_SparkPost_Stats::get_sparkpost_inbound_events( $email_id , $vid = null , $job_id );
 				break;
 		}
 
@@ -395,10 +405,10 @@ class Inbound_Mailer_Ajax_Listeners {
 		$response = update_user_option(
 			get_current_user_id(),
 			'inbound_mailer_reporting_job_id_' . intval($_POST['email_id']),
-			intval($_POST['job_id'])
+			sanitize_text_field($_POST['job_id'])
 		);
 
-		echo intval($_POST['job_id']);
+		echo sanitize_text_field($_POST['job_id']);
 		exit;
 	}
 }

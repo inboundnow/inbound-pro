@@ -45,14 +45,25 @@ class Inbound_SparkPost_Stats {
         /* prepare date range */
         self::prepare_date_range();
 
+        /* get user saved job id for automated email */
+        if ($post->status=='automated') {
+            $job_id = get_user_option(
+                'inbound_mailer_reporting_job_id_' .$post->ID,
+                get_current_user_id()
+            );
+        } else {
+            $job_id = null;
+        }
+
+
         /* first get totals */
-        self::get_sparkpost_inbound_events( $post->ID );
+        self::get_sparkpost_inbound_events( $post->ID , $vid = null , $job_id  );
 
         /* now total variations */
-        $variations = $Inbound_Mailer_Variations->get_variations($post->ID, $vid = null);
+        $variations = $Inbound_Mailer_Variations->get_variations($post->ID, $vid = null );
 
         foreach ( $variations as $vid => $variation ) {
-            self::get_sparkpost_inbound_events( $post->ID , $vid );
+            self::get_sparkpost_inbound_events( $post->ID , $vid , $job_id );
         }
 
         return self::$stats;
@@ -61,7 +72,7 @@ class Inbound_SparkPost_Stats {
     /**
      * Get all all custom event data by a certain indicator
      */
-    public static function get_sparkpost_inbound_events( $email_id , $variation_id = null ) {
+    public static function get_sparkpost_inbound_events( $email_id , $variation_id = null , $job_id = null ) {
         global $wpdb, $post, $inbound_settings;
 
         /* check if email id is set else use global post object */
@@ -83,12 +94,6 @@ class Inbound_SparkPost_Stats {
 
         /* check if automated email has a job id saved */
         if ($post->post_status=='automated') {
-            /* get user saved job id */
-            $job_id = get_user_option(
-                'inbound_mailer_reporting_job_id_' .$post->ID,
-                get_current_user_id()
-            );
-
             /* add job id to the query if not zero or false */
             if ($job_id) {
                 $job_id_query = ' AND job_id="' . $job_id . '" ';
