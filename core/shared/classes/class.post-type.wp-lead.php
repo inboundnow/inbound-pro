@@ -661,15 +661,17 @@ if ( !class_exists('Inbound_Leads') ) {
 		 * @param $lead_id
 		 */
 		public static function get_user_by_lead_id( $lead_id ) {
-
+			$email_address = get_post_meta($lead_id ,'wpleads_email_address' , true );
+			$user = self::get_user_by_lead_email( $email_address );
+			return $user;
 		}
 
 		/**
 		 * Get User Object from lead email
 		 * @param $lead_id
 		 */
-		public static function get_user_by_lead_email( $lead_id ) {
-
+		public static function get_user_by_lead_email( $email_address ) {
+			return get_user_by('email' , $email_address );
 		}
 
 		/**

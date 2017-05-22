@@ -40,8 +40,14 @@ class Inbound_Mailer_Ajax_Listeners {
 		/* Adds listener to schedule email */
 		add_action( 'wp_ajax_inbound_prepare_batch_email' , array( __CLASS__ , 'prepare_batch_email' ) );
 
-		/* Adds listener to schedule email */
+		/* Adds listener to clear email stats */
 		add_action( 'wp_ajax_clear_email_stats' , array( __CLASS__ , 'clear_stats' ) );
+
+		/* Adds listener to update range email */
+		add_action( 'wp_ajax_inbound_email_update_range' , array( __CLASS__ , 'update_range' ) );
+
+		/* Adds listener to update job id memory */
+		add_action( 'wp_ajax_inbound_email_update_job_id' , array( __CLASS__ , 'update_job_id' ) );
 	}
 
 	/**
@@ -146,7 +152,17 @@ class Inbound_Mailer_Ajax_Listeners {
 			$stats = array();
 		}
 
+        /* get email id */
 		$email_id = intval($_REQUEST['email_id']);
+
+        /* get job id if applicable */
+        $job_id = get_user_option(
+            'inbound_mailer_screen_option_automated_email_report',
+            get_current_user_id()
+        );
+
+        /* if job id is set to 'last_send' then source the last job id */
+        $job_id = ($job_id == 'last_send' ) ? Inbound_Mailer_Post_Type::get_last_job_id($email_id) : $job_id;
 
 		if (isset($stats[$email_id])) {
 			echo json_encode($stats[$email_id]);
@@ -156,7 +172,7 @@ class Inbound_Mailer_Ajax_Listeners {
 
 		switch ($inbound_settings['inbound-mailer']['mail-service']) {
 			case "sparkpost":
-				$stats[$email_id] = Inbound_SparkPost_Stats::get_sparkpost_inbound_events( $email_id );
+				$stats[$email_id] = Inbound_SparkPost_Stats::get_sparkpost_inbound_events( $email_id , $vid = null , $job_id );
 				break;
 		}
 
@@ -357,6 +373,42 @@ class Inbound_Mailer_Ajax_Listeners {
 		$wpdb->delete( $table_name, $where, $where_format = null );
 
 		echo 1;
+		exit;
+	}
+
+	/**
+	 *  Updates user preferred statistic reporting date range
+	 */
+	public static function update_range() {
+		if (!isset($_POST['range'])) {
+			return;
+		}
+
+		$response = update_user_option(
+			get_current_user_id(),
+			'inbound_mailer_screen_option_range',
+			intval($_POST['range'])
+		);
+		echo $response;
+		exit;
+	}
+
+
+	/**
+	 *  Updates user preferred statistic reporting date range
+	 */
+	public static function update_job_id() {
+		if (!isset($_POST['job_id'])) {
+			return;
+		}
+
+		$response = update_user_option(
+			get_current_user_id(),
+			'inbound_mailer_reporting_job_id_' . intval($_POST['email_id']),
+			sanitize_text_field($_POST['job_id'])
+		);
+
+		echo sanitize_text_field($_POST['job_id']);
 		exit;
 	}
 }

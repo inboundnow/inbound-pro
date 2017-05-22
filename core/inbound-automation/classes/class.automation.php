@@ -110,11 +110,12 @@ class Inbound_Automation_Processing {
 		$timezone_format = 'Y-m-d G:i:s T';
 		$wordpress_date_time =  date_i18n($timezone_format);
 
-		$query = 'SELECT * FROM '.$table_name;
+		$query = 'SELECT * FROM '.$table_name . " WHERE status != 'complete' ";
 
 		if (!$hide_future_events) {
-			$query .= ' WHERE datetime <= "'.$wordpress_date_time.'"';
+			$query .= ' AND datetime <= "'.$wordpress_date_time.'" ';
 		}
+
 
 		self::$queue = $wpdb->get_results( $query , ARRAY_A );
 
@@ -137,7 +138,7 @@ class Inbound_Automation_Processing {
 				'id' => self::$job_id
 			);
 
-			$wpdb->delete( $table_name , $args );
+			$wpdb->update( $table_name , array('status'=>'complete') , $args );
 
 			inbound_record_log(
 				__( 'Job Completed' , 'inbound-pro' ) ,
@@ -150,7 +151,8 @@ class Inbound_Automation_Processing {
 		} else {
 			$update = array(
 				'tasks' => json_encode(self::$job_tasks),
-				'datetime' => self::$job_run_date
+				'datetime' => self::$job_run_date,
+				'status' => 'waiting',
 			);
 			$where = array(
 				'id' => self::$job_id,
@@ -531,6 +533,7 @@ class Inbound_Automation_Processing {
 			'rule_id' => $rule['ID'],
 			'tasks' => json_encode($rule),
 			'trigger_data' => json_encode($arguments),
+			'status' => 'pending',
 			'datetime' => $wordpress_date_time
 		);
 

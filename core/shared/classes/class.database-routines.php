@@ -39,6 +39,14 @@ if ( !class_exists('Inbound_Upgrade_Routines') ) {
                 'callback' => array( __CLASS__ , 'alter_events_table_1')
             );
 
+            /* alter page view table */
+            self::$routines['events-table-2'] = array(
+                'id' => 'events-table-2',
+                'scope' => 'shared',
+                'introduced' => '1.0.5',
+                'callback' => array( __CLASS__ , 'alter_events_table_1_0_5')
+            );
+
             /* alter automation queue table */
             self::$routines['automation-queue-table-1'] = array(
                 'id' => 'automation-queue-table-1',
@@ -134,7 +142,23 @@ if ( !class_exists('Inbound_Upgrade_Routines') ) {
 
             $wpdb->get_results( "ALTER TABLE {$table_name} ADD `funnel` text NOT NULL" );
             $wpdb->get_results( "ALTER TABLE {$table_name} ADD `source` text NOT NULL" );
-            $wpdb->get_results( "ALTER TABLE {$table_name} ADD `list_id` varchar(255) NOT NULL" );
+            $wpdb->get_results( "ALTER TABLE {$table_name} ADD `list_id` mediumint(20) NOT NULL" );
+
+        }
+
+        /**
+         * @migration-type: alter inbound_events table
+         * @mirgration: adds columns list_id funnel, and source to events table
+         */
+        public static function alter_events_table_1_0_5() {
+
+            global $wpdb;
+
+            require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+            $table_name = $wpdb->prefix . "inbound_events";
+
+            $wpdb->get_results( "ALTER TABLE {$table_name} ADD `rule_id` mediumint(20) NOT NULL" );
+            $wpdb->get_results( "ALTER TABLE {$table_name} ADD `job_id` mediumint(20) NOT NULL" );
 
         }
 
@@ -150,7 +174,7 @@ if ( !class_exists('Inbound_Upgrade_Routines') ) {
             require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
             $table_name = $wpdb->prefix . "inbound_automation_queue";
 
-            $wpdb->get_results( "ALTER TABLE {$table_name} ADD `lead_id` varchar(255)  NOT NULL" );
+            $wpdb->get_results( "ALTER TABLE {$table_name} ADD `lead_id` mediumint(20)  NOT NULL" );
 
         }
     }
@@ -159,7 +183,18 @@ if ( !class_exists('Inbound_Upgrade_Routines') ) {
     add_action('inbound_shared_activate' , array( 'Inbound_Upgrade_Routines' , 'load') );
 
 
+    /**
+     * Listen for Database Repair Call
+     */
     if (isset($_REQUEST['force_upgrade_routines']) && $_REQUEST['force_upgrade_routines'] ) {
+        Inbound_Events::create_page_views_table();
+        Inbound_Events::create_events_table();
+        if (class_exists('Inbound_Automation_Activation')) {
+            Inbound_Automation_Activation::create_automation_queue_table();
+        }
+        if (class_exists('Inbound_Mailer_Activation')) {
+            Inbound_Mailer_Activation::create_email_queue_table();
+        }
         Inbound_Upgrade_Routines::load();
     }
 }

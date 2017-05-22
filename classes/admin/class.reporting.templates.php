@@ -215,6 +215,13 @@ if ( !class_exists('Inbound_Reporting_Templates') ) {
                     </div>
                     <?php
                 }
+                if (isset($_REQUEST['job_id']) && $_REQUEST['job_id'] ) {
+                    ?>
+                    <div class="tag"><span><?php _e('job id' , 'inbound-pro'); ?></span>
+                        <?php echo intval($_REQUEST['job_id']); ?> <i class="fa fa-tag" aria-hidden="true"></i>
+                    </div>
+                    <?php
+                }
                 ?>
             </div>
             <style type="text/css">

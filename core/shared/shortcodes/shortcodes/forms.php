@@ -407,6 +407,7 @@ if (!function_exists('inbound_forms_cpt')) {
             'query_var' => true,
             'show_in_menu'  => true,
             'capability_type' => array('inbound-form','inbound-forms'),
+            'map_meta_cap' => true,
             'hierarchical' => false,
             'menu_position' => 34,
             'supports' => array('title','custom-fields', 'editor')
@@ -448,6 +449,7 @@ if (!function_exists('inbound_forms_cpt')) {
             $role->add_cap( 'edit_others_inbound-form' );
             $role->add_cap( 'edit_published_inbound-forms' );
             $role->add_cap( 'publish_inbound-form' );
+            $role->add_cap( 'delete_inbound-form' );
             $role->add_cap( 'delete_inbound-forms' );
             $role->add_cap( 'delete_others_inbound-forms' );
             $role->add_cap( 'delete_private_inbound-forms' );
