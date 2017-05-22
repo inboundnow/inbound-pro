@@ -279,6 +279,7 @@ if (!class_exists('LeadStorage')) {
 					$lead['form_name'] = $raw_params['inbound_form_n'];
 				}
 
+
 				/* update lead id cookie */
 				setcookie('wp_lead_id', $lead['id'] , time() + (20 * 365 * 24 * 60 * 60), '/');
 
