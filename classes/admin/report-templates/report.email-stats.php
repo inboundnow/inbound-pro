@@ -1,7 +1,7 @@
 <?php
 
 if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
-    
+
     class Inbound_Mailer_Stats_Report extends Inbound_Reporting_Templates {
 
         static $range;
@@ -257,11 +257,20 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
                                  <?php
                                  }
                                  ?>
-                                <?php
+                                 <?php
                                  if ( $_REQUEST['event_name'] == 'sparkpost_rejected' ) {
                                  ?>
                                      <th class="sort-lead-report-by" sort-by="report-email-variation-header">
                                          <?php _e('Reason', 'inbound-pro'); ?>
+                                     </th>
+                                 <?php
+                                 }
+                                 ?>
+                                 <?php
+                                 if ( $_REQUEST['event_name'] == 'inbound_unsubscribe' ) {
+                                 ?>
+                                     <th class="sort-lead-report-by" sort-by="report-email-variation-header">
+                                         <?php _e('Message', 'inbound-pro'); ?>
                                      </th>
                                  <?php
                                  }
@@ -353,6 +362,17 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
                                     <?php
                                 }
                                 ?>
+                                <?php
+                                if ( $_REQUEST['event_name'] == 'inbound_unsubscribe' ) {
+                                    $event_details = json_decode($event['event_details'] , true);
+
+                                    ?>
+                                    <td class="unsubscribe-message">
+                                      <?php echo (isset($event_details['comments'])) ? sanitize_text_field($event_details['comments']) : __('...' , 'inbound-pro'); ?>
+                                    </td>
+                                    <?php
+                                }
+                                ?>
                                 <td class="email-variation"><?php echo $variation_letters[$event['variation_id']]; ?></td>
                                 <td class="datestamp">
                                     <p class="mod-date" >
@@ -384,6 +404,14 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
                                  ?>
                                      <th class="sort-lead-report-by" sort-by="report-email-variation-header">
                                          <?php _e('Reason', 'inbound-pro'); ?>
+                                     </th>
+                                 <?php
+                                 }
+
+                                 if ( $_REQUEST['event_name'] == 'inbound_unsubscribe' ) {
+                                 ?>
+                                     <th class="sort-lead-report-by" sort-by="report-email-variation-header">
+                                         <?php _e('Message', 'inbound-pro'); ?>
                                      </th>
                                  <?php
                                  }
@@ -989,12 +1017,9 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
         public static function get_top_email_variants($args){
             global $wpdb;
 
-            $opens = array();  //for calculating unopened emails
+            $events = array();  //for calculating unopened emails
 
             $table_name = $wpdb->prefix . 'inbound_events';
-
-            /* job id query */
-            $job_id_query = (isset($args['job_id']) && $args['job_id']) ? $wpdb->esc_like($args['job_id']) : "%_%";
 
             /* to find out how many unopens there are we first have to query the opens,
              * then subtract those from the sent foreach variation */
@@ -1003,29 +1028,29 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
                     $wpdb->prepare(
                         "SELECT `variation_id`, `lead_id` AS `lead_id` from {$table_name} " .
                         "WHERE `event_name` = 'sparkpost_open' " .
-                        "AND `email_id` = %d".
-                        "AND `job_id` LIKE %s"
-                        , $args['email_id'] , $job_id_query
+                        "AND `email_id` = '%d'".
+                        "AND `job_id` LIKE '%s'"
+                        , $args['email_id'] , $args['job_id']
                     ), ARRAY_A
                 );
 
-                /*make a list of all the variations a lead has opened*/
+                /* make a list of all the variations a lead has opened */
                 foreach($results as $key => $value){
-                    $opens[$value['lead_id']][$value['variation_id']] = 1;
+                    $events[$value['lead_id']][$value['variation_id']] = 1;
                 }
 
-                /*change the event_name to get the sent*/
+                /* change the event_name to get the sent */
                 $args['event_name'] = 'sparkpost_delivery';
             }
 
             $results = $wpdb->get_results(
                 $wpdb->prepare(
                     "SELECT `variation_id`, `lead_id` AS `lead_id` from {$table_name} " .
-                    "WHERE `event_name` = %s " .
-                    "AND `email_id` = %d " .
-                    "AND `job_id` LIKE %s " .
+                    "WHERE `event_name` = '%s' " .
+                    "AND `email_id` = '%d' " .
+                    "AND `job_id` LIKE '%s' " .
                     "ORDER BY `datetime` ASC"
-                    , $args['event_name'], $args['email_id'], $job_id_query
+                    , $args['event_name'], $args['email_id'], $args['job_id']
                 ), ARRAY_A
             );
 
@@ -1040,7 +1065,7 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
                 if(!isset($logged_ids[$value['variation_id']][$value['lead_id']])){
                     $logged_ids[$value['variation_id']][$value['lead_id']] = 1;
 
-                    if(!isset($opens[$value['lead_id']][$value['variation_id']])){
+                    if(!isset($events[$value['lead_id']][$value['variation_id']])){
                         @$variant_count[$value['variation_id']] += 1;
                     }
                 }
@@ -1068,21 +1093,47 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
             $table_name = $wpdb->prefix . 'inbound_events';
             $query_pagination = "";
 
-            $query = "SELECT * from {$table_name} " .
-                                " WHERE `email_id` = '%d'" .
+            /* look for distinct lead id unsubscribes if unsubscribe event */
+            $query = "SELECT * from {$table_name} ";
+
+            if($args['event_name'] == 'inbound_unsubscribe'){
+                    $query = "SELECT distinct lead_id, email_id, datetime,event_details,variation_id  from (SELECT lead_id,email_id, datetime, event_details, variation_id from {$table_name} ";
+                    $query .=   " WHERE `email_id` = '%d'" .
                                 " AND `event_name` = '%s'" .
                                 " AND `job_id` LIKE '%s'" .
                                 " AND datetime >= '%s' AND datetime <= '%s'" .
-                                " ORDER BY {$table_name} . `datetime` ";
+                                " ORDER BY {$table_name} . `datetime` " .
+                                " ) as filter GROUP BY lead_id, email_id,event_details,datetime,variation_id";
+            } else {
+                    $query = "SELECT * from {$table_name} ";
+                    $query .=   " WHERE `email_id` = '%d'" .
+                                " AND `event_name` = '%s'" .
+                                " AND `job_id` LIKE '%s'" .
+                                " AND datetime >= '%s' AND datetime <= '%s'" .
+                                " ORDER BY {$table_name} . `datetime` " .
+                                "";
+            }
 
             /* add limit and offset if present */
             if (isset($args['limit'])) {
-                $query_pagination .= " LIMIT {$args['limit']} OFFSET {$args['offset']} ";
+                $query_pagination .= "  LIMIT {$args['limit']} OFFSET {$args['offset']}  ";
             }
-error_log(sprintf(
-                    $query.$query_pagination,
-                    $args['email_id'], $args['event_name'], $args['job_id'], $args['start_date'], $args['end_date'], $args['end_date']
-                ));
+
+            /* *
+            error_log(sprintf(
+                $query.$query_pagination,
+                $args['email_id'], $args['event_name'], $args['job_id'], $args['start_date'], $args['end_date'], $args['end_date']
+            ));
+            /* */
+
+           /* *
+           echo sprintf(
+
+               $query.$query_pagination,
+               $args['email_id'], $args['event_name'], $args['job_id'], $args['start_date'], $args['end_date'], $args['end_date']
+           );
+           /**/
+
             $results = $wpdb->get_results(
                 $wpdb->prepare(
                     $query.$query_pagination,
@@ -1090,7 +1141,8 @@ error_log(sprintf(
                 ), ARRAY_A
             );
 
-            error_log(print_r($results,true));
+            //echo $query.$query_pagination;
+            //print_r($results);exit;
 
 
             /*if a second event is being queried for*/

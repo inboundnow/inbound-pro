@@ -75,6 +75,7 @@ if (!class_exists('LeadStorage')) {
 			$lead['url_params'] = self::check_val('url_params', $args);
 			$lead['variation'] = self::check_val('variation', $args);
 			$lead['source'] = self::check_val('source', $args);
+			$lead['wp_lead_status'] = self::check_val('wp_lead_status', $args);
 			$lead['ip_address'] = self::lookup_ip_address();
 
 
@@ -117,12 +118,20 @@ if (!class_exists('LeadStorage')) {
 
 				$leadExists = self::lookup_lead_by_email($lead['email']);
 
-				/* Update Lead if Exists else Create New Lead */
-				if ( $leadExists ) {
+				/* If lead already exists and there's no new status set then ignore status update and run update action hook */
+				if ( $leadExists && !isset($lead['wp_lead_status']) ) {
 					$lead['id'] = $leadExists;
 					/* action hook on existing leads only */
 					do_action('wpleads_existing_lead_update', $lead);
-				} else {
+				}
+				/* if status is included in lead array then set status */
+				else if ( isset($lead['wp_lead_status']) && !empty($lead['wp_lead_status']) ){
+					/* Create new lead if one doesnt exist */
+					$lead['id'] = self::store_new_lead($lead);
+					update_post_meta( $lead['id'] , 'wp_lead_status' , $lead['wp_lead_status']);
+				}
+				/* if new lead and no status is declared then set to new */
+				else {
 					/* Create new lead if one doesnt exist */
 					$lead['id'] = self::store_new_lead($lead);
 					update_post_meta( $lead['id'] , 'wp_lead_status' , 'new');
@@ -269,7 +278,6 @@ if (!class_exists('LeadStorage')) {
 					$lead['form_id'] = $raw_params['inbound_form_id'];
 					$lead['form_name'] = $raw_params['inbound_form_n'];
 				}
-
 
 				/* update lead id cookie */
 				setcookie('wp_lead_id', $lead['id'] , time() + (20 * 365 * 24 * 60 * 60), '/');

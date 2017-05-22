@@ -114,7 +114,7 @@ class Inbound_Automation_Trigger_inbound_store_lead_post {
 		$new_args = array();
 
 		$args['form_name'] = isset($args['form_name']) ? $args['form_name'] : '';
-		$args['form_id'] = isset($args['form_id']) ? $args['form_name'] : '';
+		$args['form_id'] = isset($args['form_id']) ? $args['form_id'] : '';
 
 		foreach ($args as $arg_key => $arg_value) {
 

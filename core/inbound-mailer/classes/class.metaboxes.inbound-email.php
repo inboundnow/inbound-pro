@@ -913,6 +913,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                             }
                             ?>
                             </select>
+                            <i class="fa fa-question-circle inbound-tooltip"  data-toggle="tooltip" data-placement="left" title="<?php _e('Select day range for calculating statistics.', 'inbound-pro') ?>"></i>
                         </td>
                     </tr>
                     <?php
@@ -925,6 +926,8 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                             </td>
                             <td class='email-details-td-info'>
                                 <?php self::render_job_select(); ?>
+                                <i class="fa fa-question-circle inbound-tooltip"  data-toggle="tooltip" data-placement="left" title="<?php _e('Automated email statistics can be segmented by the marketing automation job id that powered their sending. If sent to individual leads then leave this set option set to Combined Report.', 'inbound-pro') ?>"></i>
+
                             </td>
                         </tr>
                         <?php
