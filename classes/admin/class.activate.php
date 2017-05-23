@@ -331,7 +331,7 @@ class Inbound_Pro_Activation {
 	/**
 	 * Check if plugin update occured and run activation routines
 	 */
-	function inbound_pro_activate_on_update(){
+	public static function inbound_pro_activate_on_update(){
 		$old = get_option('inbound_pro_current_version');
 		if(!$old || $old != INBOUND_PRO_CURRENT_VERSION ) {
 			Inbound_Pro_Activation::activate();
