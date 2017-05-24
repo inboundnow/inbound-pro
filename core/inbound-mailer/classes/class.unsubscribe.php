@@ -49,7 +49,6 @@ class Inbound_Mailer_Unsubscribe {
 		$maintenance_lists = Inbound_Maintenance_Lists::get_lists();
 
 
-
 		if ( isset( $_GET['unsubscribed'] ) ) {
 			$confirm =  "<span class='unsubscribed-message'>". $unsubscribed_confirmation_message ."</span>";
 			$confirm = apply_filters( 'inbound-mailer/unsubscribe/confirmation-html' , $confirm );
@@ -90,7 +89,7 @@ class Inbound_Mailer_Unsubscribe {
 		/* check if lead is coming from automation seriest */
 		if (isset($params['job_id']) && $params['job_id'] ) {
 			/* delete remaining automation tasks for automation rule */
-			Inbound_Automation_Post_Type::delete_rule_tasks( array('job_id' => $params['job_id']) );
+			Inbound_Automation_Post_Type::mark_jobs_cancelled( array('job_id' => $params['job_id']) );
 		}
 
 		/* Add header */
