@@ -46,7 +46,7 @@ class Inbound_SparkPost_Stats {
         self::prepare_date_range();
 
         /* get user saved job id for automated email */
-        if ($post->status=='automated') {
+        if ($post->post_status=='automated') {
             $job_id = get_user_option(
                 'inbound_mailer_reporting_job_id_' .$post->ID,
                 get_current_user_id()
@@ -54,7 +54,6 @@ class Inbound_SparkPost_Stats {
         } else {
             $job_id = null;
         }
-
 
         /* first get totals */
         self::get_sparkpost_inbound_events( $post->ID , $vid = null , $job_id  );
