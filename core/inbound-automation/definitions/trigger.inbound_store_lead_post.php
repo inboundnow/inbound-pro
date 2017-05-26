@@ -40,7 +40,7 @@ class Inbound_Automation_Trigger_inbound_store_lead_post {
 		if (get_post_status($post_id) != 'publish') {
 			return;
 		}
-		
+
 		remove_action( 'wp_insert_post', array( __CLASS__ , 'simulate_new_lead' ) , 10, 3 );
 
 		if ( !isset($post) || $post->post_type != 'wp-lead' ) {
