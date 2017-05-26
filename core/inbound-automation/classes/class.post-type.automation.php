@@ -190,7 +190,7 @@ if ( !class_exists('Inbound_Automation_Post_Type') ) {
 
 			$table_name = $wpdb->prefix . "inbound_automation_queue";
 
-			$query = 'SELECT * FROM '.$table_name.' WHERE rule_id = "'.intval($rule_id).'" WHERE status="pending" OR status="waiting"';
+			$query = 'SELECT * FROM '.$table_name.' WHERE rule_id = "'.intval($rule_id).'" AND ( status="pending" OR status="waiting" )';
 			$results = $wpdb->get_results( $query , ARRAY_A );
 
 			return count($results);;
