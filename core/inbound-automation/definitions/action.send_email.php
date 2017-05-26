@@ -123,6 +123,10 @@ if ( !class_exists( 'Inbound_Automation_Action_Send_Email' ) ) {
 					/* check for lead lists */
 					$lead_lists = (isset($trigget_data['lead_data']['lead_lists'])) ? $trigget_data['lead_data']['lead_lists'] : array();
 
+					/* make sure we have an email - this needs refactoring */
+					$trigger_data['lead_data']['email'] = (isset($trigger_data['lead_data']['email'])) ? $trigger_data['lead_data']['email'] : '' ;
+					$trigger_data['lead_data']['email'] = (isset($trigger_data['lead_data']['wpleads_email_address'])) ? $trigger_data['lead_data']['wpleads_email_address'] : $trigger_data['lead_data']['email'] ;
+
 					/* support for user_register hook */
 					if ( isset($trigger_data['user_id']) ) {
 						$user = new WP_User( $trigger_data['user_id'] );
