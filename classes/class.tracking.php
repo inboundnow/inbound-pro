@@ -121,6 +121,7 @@ class Inbound_Tracking {
 	public static function prepare_tracked_links( $html ) {
 		global $post;
 
+
 		/* skip if not main page/post query */
 		if ( !is_single() || !in_the_loop() || !is_main_query() ) {
 			return $html;
@@ -153,7 +154,7 @@ class Inbound_Tracking {
 		}
 
 		/* if error exists then return original content and do not attempt to track links */
-		if ($error) {
+		if (isset($error->level) && $error->level == LIBXML_ERR_FATAL ) {
 			return $html;
 		}
 
