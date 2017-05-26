@@ -118,23 +118,23 @@ if (!class_exists('LeadStorage')) {
 
 				$leadExists = self::lookup_lead_by_email($lead['email']);
 
-				/* If lead already exists and there's no new status set then ignore status update and run update action hook */
-				if ( $leadExists && !isset($lead['wp_lead_status']) ) {
+				/* If lead already exists run update action hook */
+				if ($leadExists) {
 					$lead['id'] = $leadExists;
-					/* action hook on existing leads only */
 					do_action('wpleads_existing_lead_update', $lead);
 				}
-				/* if status is included in lead array then set status */
-				else if ( isset($lead['wp_lead_status']) && !empty($lead['wp_lead_status']) ){
-					/* Create new lead if one doesnt exist */
-					$lead['id'] = self::store_new_lead($lead);
-					update_post_meta( $lead['id'] , 'wp_lead_status' , $lead['wp_lead_status']);
-				}
-				/* if new lead and no status is declared then set to new */
+				/* else create new lead */
 				else {
-					/* Create new lead if one doesnt exist */
 					$lead['id'] = self::store_new_lead($lead);
-					update_post_meta( $lead['id'] , 'wp_lead_status' , 'new');
+				}
+
+				/* if status is included in lead array then set status */
+				if (isset($lead['wp_lead_status']) && !empty($lead['wp_lead_status'])) {
+					update_post_meta($lead['id'], 'wp_lead_status', $lead['wp_lead_status']);
+				}
+				/* else if new lead then set status to new */
+				else if (!$leadExists) {
+					update_post_meta($lead['id'], 'wp_lead_status', 'new');
 				}
 
 				/* do everything else for lead storage */
