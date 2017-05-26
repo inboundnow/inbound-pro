@@ -28,6 +28,7 @@ class Inbound_Automation_Trigger_inbound_store_lead_post {
 	public static function simulate_new_lead( $post_id ) {
 		global $post_id, $post;
 
+		/* ignore revisions */
 		if ( wp_is_post_revision( $post_id )
 			|| (defined('DOING_AJAX') && DOING_AJAX )
 			|| ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE )
@@ -35,6 +36,11 @@ class Inbound_Automation_Trigger_inbound_store_lead_post {
 			return;
 		}
 
+		/* only perform actions on published leads */
+		if (get_post_status($post_id) != 'publish') {
+			return;
+		}
+		
 		remove_action( 'wp_insert_post', array( __CLASS__ , 'simulate_new_lead' ) , 10, 3 );
 
 		if ( !isset($post) || $post->post_type != 'wp-lead' ) {
@@ -42,7 +48,6 @@ class Inbound_Automation_Trigger_inbound_store_lead_post {
 		}
 
 		$lead = get_post_custom( $post_id );
-
 
 		foreach ( $lead as $key => $value ) {
 			if (isset($value[0])) {
@@ -114,7 +119,12 @@ class Inbound_Automation_Trigger_inbound_store_lead_post {
 		$new_args = array();
 
 		$args['form_name'] = isset($args['form_name']) ? $args['form_name'] : '';
+		$args['inbound_form_name'] = isset($args['form_name']) ? $args['form_name'] : '';
 		$args['form_id'] = isset($args['form_id']) ? $args['form_id'] : '';
+		$args['inbound_form_id'] = isset($args['inbound_form_id']) ? $args['inbound_form_id'] : '';
+		$args['inbound_form_values'] = isset($args['inbound_form_values']) ? $args['inbound_form_values'] : '';
+		$args['raw_params'] = isset($args['raw_params']) ? $args['raw_params'] : array();
+		$args['mapped_params'] = isset($args['mapped_params']) ? $args['mapped_params'] : '';
 
 		foreach ($args as $arg_key => $arg_value) {
 
