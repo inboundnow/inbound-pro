@@ -84,6 +84,13 @@ if (!class_exists('Inbound_Ajax')) {
 				Inbound_Events::store_page_view($lead_data);
 			}
 
+			/* record CTA impressions */
+			$cta_impressions = ( isset($_POST['ctas']) ) ? json_decode(stripslashes($_POST['ctas']),true) : array();
+
+			foreach ( $cta_impressions as $cta_id => $vid ) {
+				do_action('wp_cta_record_impression', (int) $cta_id, (int) $vid );
+			}
+
 			/* update content data */
 			do_action('lp_record_impression', $lead_data['page_id'], $_POST['post_type'], $_POST['variation_id']);
 
