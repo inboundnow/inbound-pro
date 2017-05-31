@@ -54,8 +54,8 @@ if (!class_exists('Inbound_Events_Report')) {
             $report_headline = (isset($_REQUEST['title'])) ? $_REQUEST['title'] : __('Actions' , 'inbound-pro');
 
             if( isset($_REQUEST['page_id']) ) {
-                $title = (isset($_REQUEST['page_id'])) ? get_the_title(intval($_REQUEST['page_id'])) : '';
-                $permalink = get_the_permalink(intval($_REQUEST['page_id']));
+                $title = (isset($_REQUEST['page_id'])) ? get_the_title(sanitize_text_field($_REQUEST['page_id'])) : '';
+                $permalink = get_the_permalink(sanitize_text_field($_REQUEST['page_id']));
             } else {
                 $title = (isset($_REQUEST['lead_id'])) ? get_the_title(intval($_REQUEST['lead_id'])) : '';
                 $permalink = "";
@@ -215,7 +215,7 @@ if (!class_exists('Inbound_Events_Report')) {
                                     <a href="<?php echo admin_url('index.php?action=inbound_generate_report&class=Inbound_Visitor_Event_Report&'
                                                                     .($lead_exists ? 'lead_uid='. $event['lead_uid'] : 'lead_uid='.$event['lead_uid'] )
                                                                     .(isset($_REQUEST['source']) ? '&source='. urlencode(sanitize_text_field($_REQUEST['source'])) : '' )
-                                                                    . '&page_id='.intval($_REQUEST['page_id'])
+                                                                    . '&page_id='.sanitize_text_field($_REQUEST['page_id'])
                                                                     .'&range='.self::$range.'&tb_hide_nav=true&TB_iframe=true&width=1503&height=400'); ?>" target="_self">
                                         <?php echo $event['count']; ?>
                                     </a>

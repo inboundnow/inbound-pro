@@ -176,7 +176,7 @@ if ( !class_exists('Inbound_Reporting_Templates') ) {
                 if (isset($_REQUEST['page_id'])) {
                     ?>
                     <div class="tag"><span><?php _e('page id' , 'inbound-pro'); ?></span>
-                        <?php echo intval($_REQUEST['page_id']); ?> <i class="fa fa-tag" aria-hidden="true"></i>
+                        <?php echo sanitize_text_field($_REQUEST['page_id']); ?> <i class="fa fa-tag" aria-hidden="true"></i>
                     </div>
                     <?php
                 }
