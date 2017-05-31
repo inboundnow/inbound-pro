@@ -61,8 +61,11 @@ class Leads_Post_Type {
         /* enqueue scripts and styles in admin  */
         add_action('admin_enqueue_scripts', array(__CLASS__, 'enqueue_admin_scripts'));
 
+        /* trash events when lead trashed */
+        add_action('trash_wp-lead' , array( __CLASS__ , 'trash_lead_actions'));
+
         /* delete events when lead deleted */
-        add_action('delete_post' , array( __CLASS__ , 'delete_lead_stats'));
+        add_action('delete_post' , array( __CLASS__ , 'delete_lead_actions'));
 
     }
 
@@ -725,7 +728,7 @@ class Leads_Post_Type {
      * Deletes page_views and events related to deleted lead
      * @param $lead_id
      */
-    public static function delete_lead_stats( $lead_id ) {
+    public static function delete_lead_actions( $lead_id ) {
         if (did_action( 'delete_post' ) > 1) {
             return;
         }
@@ -736,8 +739,27 @@ class Leads_Post_Type {
 
         global $wpdb;
 
+        /* delete lead page_views and inbound_events */
         $wpdb->delete( $wpdb->prefix . "inbound_page_views", array( 'lead_id' => $lead_id ) );
         $wpdb->delete( $wpdb->prefix . "inbound_events", array( 'lead_id' => $lead_id ) );
+
+        /* delete automation rules directed towards leads */
+        $lead = get_post($lead_id);
+        $wpdb->query("DELETE FROM ".$wpdb->prefix . "inbound_automation_queue WHERE `trigger_data` LIKE '%{$lead->post_title}%' AND `tasks` LIKE '%send_email%'");
+        error_log($lead->post_title);
+    }
+
+    /**
+     * Deletes page_views and events related to deleted lead
+     * @param $lead_id
+     */
+    public static function trash_lead_actions( $lead_id ) {
+
+        global $wpdb;
+
+        /* delete automation rules directed towards leads */
+        $lead = get_post($lead_id);
+        $wpdb->query("DELETE FROM ".$wpdb->prefix . "inbound_automation_queue WHERE `trigger_data` LIKE '%{$lead->post_title}%' AND `tasks` LIKE '%send_email%'");
 
     }
 
