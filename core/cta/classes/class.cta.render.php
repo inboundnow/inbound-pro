@@ -405,7 +405,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
          *  Enqueue CSS & JS
          */
         public function enqueue_scripts() {
-            global $post;
+            global $post, $inbound_settings;
 
             /* Get Variation Selection Nature */
             self::$instance->disable_ajax = CTA_Settings::get_setting('wp-cta-main-disable-ajax-variation-discovery', 0 );
@@ -420,6 +420,9 @@ if ( !class_exists( 'CTA_Render' ) ) {
             /* determine ajax url */
             $ajax_url =  admin_url( 'admin-ajax.php' );
 
+            /* determine if inbound_track_lead action will be available for use */
+            $inbound_settings['inbound-analytics-rules'] = ( isset( $inbound_settings['inbound-analytics-rules']) ) ? $inbound_settings['inbound-analytics-rules'] : array();
+            $page_tracking = ( isset( $inbound_settings['inbound-analytics-rules']['page-tracking']) ) ? $inbound_settings['inbound-analytics-rules']['page-tracking'] : 'on';
 
             /* cta preview mode uses shortcodes that call this manually */
             if (isset($post) && $post->post_type == 'wp-call-to-action' ) {
@@ -429,7 +432,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
             }
 
             wp_enqueue_script( 'cta-load-variation', WP_CTA_URLPATH . 'assets/js/cta-variation.js', array('jquery') , null , false);
-            wp_localize_script( 'cta-load-variation', 'cta_variation', array('cta_id' => $cta_id, 'admin_url' => admin_url( 'admin-ajax.php'), 'home_url' => get_home_url(), 'disable_ajax' => self::$instance->disable_ajax ));
+            wp_localize_script( 'cta-load-variation', 'cta_variation', array('cta_id' => $cta_id, 'admin_url' => admin_url( 'admin-ajax.php'), 'home_url' => get_home_url(), 'disable_ajax' => self::$instance->disable_ajax, 'page_tracking' => $page_tracking ));
 
 
             /* If placement is popup load popup asset files */
