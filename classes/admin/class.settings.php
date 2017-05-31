@@ -292,6 +292,23 @@ class Inbound_Pro_Settings {
 							)
 						),
 						array (
+							'id'	=> 'page-tracking',
+							'type'	=> 'radio',
+							'label'	=> __( 'Impression Tracking' , 'inbound-pro' ),
+							'description'	=> __( 'Turning this off will disable the visitor impression tracking engine.' , 'inbound-pro' ),
+							'default'	=> 'on',
+							'placeholder'	=> null,
+							'options' => array(
+								'off' => __( 'Off' , 'inbound-pro' ),
+								'on' => __( 'On' , 'inbound-pro' ),
+							),
+							'hidden' => false,
+							'reveal' => array(
+								'selector' => null ,
+								'value' => null
+							)
+						),
+						array (
 							'id'	=> 'admin-tracking',
 							'type'	=> 'radio',
 							'label'	=> __( 'Admin Tracking' , 'inbound-pro' ),
