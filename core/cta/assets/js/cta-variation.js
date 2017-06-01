@@ -151,8 +151,8 @@ jQuery(document).ready(function($) {
 		/* Add Tracking Classes & Reveal CTAs */
 		wp_cta_add_tracking_classes(ctas);
 
-		/* Record Impressions */
-		if (cta_variation.page_tracking == 'off') {
+		/* Record Impressions manually when page_tracking is off */
+		if (cta_variation.page_tracking == 'off' && inbound_settings.post_type != 'landing-page') {
 			wp_cta_record_impressions(ctas);
 		}
 
