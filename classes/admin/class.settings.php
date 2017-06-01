@@ -294,8 +294,8 @@ class Inbound_Pro_Settings {
 						array (
 							'id'	=> 'page-tracking',
 							'type'	=> 'radio',
-							'label'	=> __( 'Impression Tracking' , 'inbound-pro' ),
-							'description'	=> __( 'Turning this off will disable the visitor impression tracking engine.' , 'inbound-pro' ),
+							'label'	=> __( 'Page Tracking' , 'inbound-pro' ),
+							'description'	=> __( 'Turning this off will disable the visitor impression tracking engine. Does not affect impression recording for CTAs, Landing Pages, or Emails. Will affect lead visit statistics. This should not be turned off unless your server is experiencing resource shortage issues.' , 'inbound-pro' ),
 							'default'	=> 'on',
 							'placeholder'	=> null,
 							'options' => array(
