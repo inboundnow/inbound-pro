@@ -9,8 +9,8 @@ if ( !class_exists('Inbound_Shortcodes_Fields') ) {
 		$path_to_wp = get_home_path();
 		if ( ! file_exists( $path_to_wp . '/wp-load.php' ) ) {
 	} else {*/
-	$path_to_file = explode( 'wp-content', __FILE__ );
-	$path_to_wp = $path_to_file[0];
+		$path_to_file = explode( 'wp-content', __FILE__ );
+		$path_to_wp = $path_to_file[0];
 	/*}*/
 
 
@@ -20,8 +20,8 @@ if ( !class_exists('Inbound_Shortcodes_Fields') ) {
 	* 	----------------------------------------------------- */
 	class Inbound_Shortcodes_Fields {
 
-		/* 	Variables
-        * 	----------------------------------------------------- */
+	/* 	Variables
+	* 	----------------------------------------------------- */
 		var	$popup,
 			$options,
 			$shortcode,
@@ -33,15 +33,15 @@ if ( !class_exists('Inbound_Shortcodes_Fields') ) {
 			$output,
 			$errors;
 
-		/* 	Constuctor
-        * 	----------------------------------------------------- */
+	/* 	Constuctor
+	* 	----------------------------------------------------- */
 		function __construct( $popup ) {
 			$this->popup = $popup;
 			$this->show();
 		}
 
-		/* 	Show Fields
-        * 	----------------------------------------------------- */
+	/* 	Show Fields
+	* 	----------------------------------------------------- */
 		function show() {
 
 			global $shortcodes_config;
@@ -69,177 +69,174 @@ if ( !class_exists('Inbound_Shortcodes_Fields') ) {
 				}
 				$count = 0;
 				if(is_array($this->options)) {
-					foreach( $this->options as $key => $option ) {
-						$first = $key;
+				foreach( $this->options as $key => $option ) {
+					$first = $key;
 
-						$key = 'inbound_shortcode_' . $key;
-						$uniquekey = 'inbound_shortcode_' . $first . "_" . $count;
-						$name = ( isset($option['name'])) ? $option['name'] : '';
-						$desc = ( isset($option['desc'])) ? $option['desc'] : '';
-						$std = ( isset($option['std']) ) ? $option['std'] : '';
-						$global = ( isset($option['global']) ) ? $option['global'] : '';
+					$key = 'inbound_shortcode_' . $key;
+					$uniquekey = 'inbound_shortcode_' . $first . "_" . $count;
+					$name = ( isset($option['name'])) ? $option['name'] : '';
+					$desc = ( isset($option['desc'])) ? $option['desc'] : '';
+					$std = ( isset($option['std']) ) ? $option['std'] : '';
+					$global = ( isset($option['global']) ) ? $option['global'] : '';
 
-						//error_log(print_r($option,true));
+					//error_log(print_r($option,true));
 
-						if ($global) {
-							$uniquekey = $key;
-						}
-
-						$placeholder = (isset($option['placeholder'])) ? $option['placeholder'] : '';
-						$parent_class = (isset($option['class'])) ? $option['class'] : '';
-
-						$row_start	= '<tbody class="inbound_tbody inbound_shortcode_parent_tbody parent-'.$key.' '.$parent_class.'">';
-						if ($key === "inbound_shortcode_form_name") {
-							$row_start .= '<ol class="steps">
-							<li class="step-item first active" data-display-options=".main-form-settings"><a href="#inbound_shortcode_parent_tbody" class="step-link">Main Form Settings</a></li>
-							<li class="step-item" data-display-options=".inbound_shortcode_child_tbody"><a href="#inbound_shortcode_child_tbody"	class="step-link">Edit/Add Fields</a></li>
-							<li class="step-item last" data-display-options=".main-design-settings"><a href="#" class="step-link">Design & Layout</a></li>
-						</ol>';
-						}
-						$row_start .= '<tr class="form-row">';
-						$row_start .= '<td class="label">' . $name . '</td>';
-						$row_start .= '<td class="field">';
-
-						if( $option['type'] != 'checkbox' ) {
-							$row_end = '<span class="inbound-shortcodes-form-desc">' . $desc . '</span>';
-						}
-						else {
-							$row_end = '';
-						}
-						$row_end	.= '</td>';
-						$row_end	.= '</tr>';
-						$row_end	.= '</tbody>';
-
-						switch( $option['type'] ) {
-
-							case 'text':
-								$output	= $row_start;
-								$output .= '<input type="text" class="inbound-shortcodes-input '.$key.'" name="'. $uniquekey .'" id="'. $key .'" value="'. $std .'" size="40" placeholder="'.$placeholder.'" />';
-								$output .= $row_end;
-								$this->append_output($output);
-								break;
-
-							case 'hidden':
-								$output	= $row_start;
-								$output .= '<input type="hidden" class="inbound-shortcodes-input '.$key.'" name="'. $uniquekey .'" id="'. $key .'" value="'. $std .'" size="40" placeholder="'.$placeholder.'" />';
-								$output .= $row_end;
-								$this->append_output($output);
-								break;
-
-							case 'textarea' :
-								$output	= $row_start;
-								$output .= '<textarea class="inbound-shortcodes-input inbound-shortcodes-textarea" name="'. $key .'" id="'. $key .'" rows="5" cols="50">'. $std .'</textarea>';
-								$output .= $row_end;
-								$this->append_output($output);
-								break;
-
-							case 'select' :
-								$output	= $row_start;
-								$output .= '<select name="'. $key .'" id="'.$key.'" class="inbound-shortcodes-input select inbound-shortcodes-select">';
-								if ( isset( $option['options']) && is_array($option['options'])  ) {
-									foreach( $option['options'] as $val => $opt ) {
-										$selected = ($std == $val) ? ' selected="selected"' : '';
-										$output .= '<option'. $selected .' value="'. $val .'">'. $opt .'</option>';
-									}
-								}
-								$output .= '</select>';
-								$output .= $row_end;
-								$this->append_output($output);
-								break;
-							case 'leadlists' :
-								$output	= $row_start;
-								$output .= '<select multiple name="'. $key .'" id="'.$key.'" class="inbound-shortcodes-input select inbound-shortcodes-select">';
-								foreach( $option['options'] as $val => $opt ) {
-									$selected = ($std == $val) ? ' selected="selected"' : '';
-									$output .= '<option'. $selected .' value="'. $val .'">'. $opt .'</option>';
-								}
-								$output .= '</select>';
-								$output .= '<div class="wp-hidden-children">
-								<h4><a class="hide-if-no-js" href="#list-add" id="list-add-toggle"> + Add New Lead List </a></h4>
-								<div class="list-add wp-hidden-child" id="list-add-wrap"><ul class="child-clone-row-form"><li>
-								<label for="newcategory" class="screen-reader-text">Add New Lead List</label>
-								<input type="text" aria-required="true" placeholder="New List Name" class="inbound-shortcodes-input inbound_shortcode_notify form-required" id="newformlist" name="newformlist" autocorrect="off" autocomplete="off" style="width: 80%;"></li>';
-								$output .= '<li><label for="newlist_parent" class="screen-reader-text"> Parent List: </label><select class="postform" id="newlist_parent" name="newlist_parent"><option value="-1">&mdash; Parent List &mdash;</option>';
-								$args = array('hide_empty' => false);
-								$terms = get_terms('wplead_list_category', $args);
-								foreach($terms as $term){
-									$term_id=$term->term_id;
-									$term_name =$term->name;
-									$parent_level = ($term->parent == 0 ) ? '' : '-';
-									$output .='<option value="'.$term_id.'" class="level-0">'.$parent_level.$term_name.'</option>';
-								}
-								$output .='</select></li>';
-								$output .='<li><input type="button" value="Add New Lead List" class="button button-primary" data-wp-lists="add:listchecklist:list-add" id="list-add-submit"></li></ul><span id="list-ajax-response"></span></div></div>';
-								$output .= $row_end;
-								$this->append_output($output);
-								break;
-							case 'leadtags' :
-								$output	= $row_start;
-								$output .= '<select multiple name="'. $key .'" id="'.$key.'" class="inbound-shortcodes-input select inbound-shortcodes-select">';
-								foreach( $option['options'] as $val => $opt ) {
-									$selected = ($std == $val) ? ' selected="selected"' : '';
-									$output .= '<option'. $selected .' value="'. $val .'">'. $opt .'</option>';
-								}
-								$output .= '</select>';
-								$output .= $row_end;
-								$this->append_output($output);
-								break;
-							case 'multiselect' :
-								$output	= $row_start;
-								$output .= '<select multiple name="'. $key .'" id="'.$key.'" class="inbound-shortcodes-input select inbound-shortcodes-select">';
-								foreach( $option['options'] as $val => $opt ) {
-									$selected = ($std == $val) ? ' selected="selected"' : '';
-									$output .= '<option'. $selected .' value="'. $val .'">'. $opt .'</option>';
-								}
-								$output .= '</select>';
-								$output .= $row_end;
-								$this->append_output($output);
-								break;
-							case 'checkbox' :
-								$output	= $row_start;
-								$output .= '<label for="'.$key.'">';
-								$output .= '<input type="checkbox" class="inbound-shortcodes-input inbound-shortcodes-checkbox" name="'.$key.'" id="'.$key.'"'. checked( $std, 1, false) .' />';
-								$output .= '&nbsp;&nbsp;<span class="inbound-shortcodes-form-desc">';
-								$output .= $desc .'</span></label>';
-								$output .= $row_end;
-								$this->append_output($output);
-								break;
-							case 'helper-block' :
-								$output	= $row_start;
-								$output .= $row_end;
-								$this->append_output($output);
-								break;
-							case 'colorpicker':
-								$output	= $row_start;
-								$output .= '<input type="color" class="inbound-shortcodes-input '.$key.'" name="'. $uniquekey .'" id="'. $key .'" value="'. $std .'" size="40" placeholder="'.$placeholder.'" />';
-								$output .= $row_end;
-								$this->append_output($output);
-								break;
-
-							case 'cta' :
-								$args = array('post_type' => 'wp-call-to-action', 'numberposts' => -1);
-								$cta_post_type = get_posts($args);
-								$output	= $row_start;
-								$output .= '<select name="insert_inbound_cta" id="insert_inbound_cta" class=select2">';
-								$output .= '<option value="0">'.__('Select CTA','inbound-pro').'</option>';
-
-								foreach ($cta_post_type as $cta) {
-									//setup_postdata($cta);
-									$this_id = $cta->ID;
-									$post_title = $cta->post_title;
-									$this_link = get_permalink( $this_id );
-									$this_link = preg_replace('/\?.*/', '', $this_link);
-									//$output .= '<input class="checkbox" type="checkbox" value="" name="" id="" />' . $post_title . '<span id="view-cta-in-new-window">'.$this_link.'</span><br>';
-									$output .= '<option value="'.$this_id.'">'.$post_title.'</option>';
-								}
-								$output .= '</select>';
-								//$output .= '</div></div>';
-								$output .= $row_end;
-								$this->append_output($output);
-								break;
-						}
-						$count++;
+					if ($global) {
+						$uniquekey = $key;
 					}
+
+					$placeholder = (isset($option['placeholder'])) ? $option['placeholder'] : '';
+					$parent_class = (isset($option['class'])) ? $option['class'] : '';
+
+					$row_start	= '<tbody class="inbound_tbody inbound_shortcode_parent_tbody parent-'.$key.' '.$parent_class.'">';
+					if ($key === "inbound_shortcode_form_name") {
+					$row_start .= '<ol class="steps">
+						<li class="step-item first active" data-display-options=".main-form-settings"><a href="#inbound_shortcode_parent_tbody" class="step-link">Main Form Settings</a></li>
+						<li class="step-item" data-display-options=".inbound_shortcode_child_tbody"><a href="#inbound_shortcode_child_tbody"	class="step-link">Edit/Add Fields</a></li>
+						<li class="step-item last" data-display-options=".main-design-settings"><a href="#" class="step-link">Design & Layout</a></li>
+					</ol>';
+					}
+					$row_start .= '<tr class="form-row">';
+					$row_start .= '<td class="label">' . $name . '</td>';
+					$row_start .= '<td class="field">';
+
+					if( $option['type'] != 'checkbox' ) {
+						$row_end = '<span class="inbound-shortcodes-form-desc">' . $desc . '</span>';
+					}
+					else {
+						$row_end = '';
+					}
+					$row_end	.= '</td>';
+					$row_end	.= '</tr>';
+					$row_end	.= '</tbody>';
+
+					switch( $option['type'] ) {
+
+						case 'text':
+							$output	= $row_start;
+							$output .= '<input type="text" class="inbound-shortcodes-input '.$key.'" name="'. $uniquekey .'" id="'. $key .'" value="'. $std .'" size="40" placeholder="'.$placeholder.'" />';
+							$output .= $row_end;
+							$this->append_output($output);
+							break;
+
+						case 'hidden':
+							$output	= $row_start;
+							$output .= '<input type="hidden" class="inbound-shortcodes-input '.$key.'" name="'. $uniquekey .'" id="'. $key .'" value="'. $std .'" size="40" placeholder="'.$placeholder.'" />';
+							$output .= $row_end;
+							$this->append_output($output);
+							break;
+
+						case 'textarea' :
+							$output	= $row_start;
+							$output .= '<textarea class="inbound-shortcodes-input inbound-shortcodes-textarea" name="'. $key .'" id="'. $key .'" rows="5" cols="50">'. $std .'</textarea>';
+							$output .= $row_end;
+							$this->append_output($output);
+							break;
+
+						case 'select' :
+							$output	= $row_start;
+							$output .= '<select name="'. $key .'" id="'.$key.'" class="inbound-shortcodes-input select inbound-shortcodes-select">';
+							if ( isset( $option['options']) && is_array($option['options'])  ) {
+								foreach( $option['options'] as $val => $opt ) {
+									$selected = ($std == $val) ? ' selected="selected"' : '';
+									$output .= '<option'. $selected .' value="'. $val .'">'. $opt .'</option>';
+								}
+							}
+							$output .= '</select>';
+							$output .= $row_end;
+							$this->append_output($output);
+							break;
+						case 'leadlists' :
+							$output	= $row_start;
+							$output .= '<select multiple name="'. $key .'" id="'.$key.'" class="inbound-shortcodes-input select inbound-shortcodes-select">';
+							foreach( $option['options'] as $val => $opt ) {
+								$selected = ($std == $val) ? ' selected="selected"' : '';
+								$output .= '<option'. $selected .' value="'. $val .'">'. $opt .'</option>';
+							}
+							$output .= '</select>';
+							$output .= '<div class="wp-hidden-children">
+							<h4><a class="hide-if-no-js" href="#list-add" id="list-add-toggle"> + Add New Lead List </a></h4>
+							<div class="list-add wp-hidden-child" id="list-add-wrap"><ul class="child-clone-row-form"><li>
+							<label for="newcategory" class="screen-reader-text">Add New Lead List</label>
+							<input type="text" aria-required="true" placeholder="New List Name" class="inbound-shortcodes-input inbound_shortcode_notify form-required" id="newformlist" name="newformlist" autocorrect="off" autocomplete="off" style="width: 80%;"></li>';
+							$output .= '<li><label for="newlist_parent" class="screen-reader-text"> Parent List: </label><select class="postform" id="newlist_parent" name="newlist_parent"><option value="-1">&mdash; Parent List &mdash;</option>';
+							$args = array('hide_empty' => false);
+							$terms = get_terms('wplead_list_category', $args);
+							foreach($terms as $term){
+								$term_id=$term->term_id;
+								$term_name =$term->name;
+								$parent_level = ($term->parent == 0 ) ? '' : '-';
+								$output .='<option value="'.$term_id.'" class="level-0">'.$parent_level.$term_name.'</option>';
+							}
+							$output .='</select></li>';
+							$output .='<li><input type="button" value="Add New Lead List" class="button button-primary" data-wp-lists="add:listchecklist:list-add" id="list-add-submit"></li></ul><span id="list-ajax-response"></span></div></div>';
+							$output .= $row_end;
+							$this->append_output($output);
+							break;
+						case 'leadtags' :
+							$output	= $row_start;
+							$output .= '<select multiple name="'. $key .'" id="'.$key.'" class="inbound-shortcodes-input select inbound-shortcodes-select">';
+							foreach( $option['options'] as $val => $opt ) {
+								$selected = ($std == $val) ? ' selected="selected"' : '';
+								$output .= '<option'. $selected .' value="'. $val .'">'. $opt .'</option>';
+							}
+							$output .= '</select>';
+							$output .= $row_end;
+							$this->append_output($output);
+							break;
+						case 'multiselect' :
+							$output	= $row_start;
+							$output .= '<select multiple name="'. $key .'" id="'.$key.'" class="inbound-shortcodes-input select inbound-shortcodes-select">';
+							foreach( $option['options'] as $val => $opt ) {
+								$selected = ($std == $val) ? ' selected="selected"' : '';
+								$output .= '<option'. $selected .' value="'. $val .'">'. $opt .'</option>';
+							}
+							$output .= '</select>';
+							$output .= $row_end;
+							$this->append_output($output);
+							break;
+						case 'checkbox' :
+							$output	= $row_start;
+							$output .= '<label for="'.$key.'">';
+							$output .= '<input type="checkbox" class="inbound-shortcodes-input inbound-shortcodes-checkbox" name="'.$key.'" id="'.$key.'"'. checked( $std, 1, false) .' />';
+							$output .= '&nbsp;&nbsp;<span class="inbound-shortcodes-form-desc">';
+							$output .= $desc .'</span></label>';
+							$output .= $row_end;
+							$this->append_output($output);
+							break;
+						case 'helper-block' :
+							$output	= $row_start;
+							$output .= $row_end;
+							$this->append_output($output);
+							break;
+						case 'colorpicker':
+							$output	= $row_start;
+							$output .= '<input type="color" class="inbound-shortcodes-input '.$key.'" name="'. $uniquekey .'" id="'. $key .'" value="'. $std .'" size="40" placeholder="'.$placeholder.'" />';
+							$output .= $row_end;
+							$this->append_output($output);
+							break;
+
+						case 'cta' :
+									$args = array('post_type' => 'wp-call-to-action', 'numberposts' => -1);
+									$cta_post_type = get_posts($args);
+									$output	= $row_start;
+									$output .= '<select multiple name="insert_inbound_cta[]"" id="insert_inbound_cta">';
+									foreach ($cta_post_type as $cta) {
+										//setup_postdata($cta);
+										$this_id = $cta->ID;
+										$post_title = $cta->post_title;
+										$this_link = get_permalink( $this_id );
+										$this_link = preg_replace('/\?.*/', '', $this_link);
+										//$output .= '<input class="checkbox" type="checkbox" value="" name="" id="" />' . $post_title . '<span id="view-cta-in-new-window">'.$this_link.'</span><br>';
+										$output .= '<option value="'.$this_id.'" rel="" >'.$post_title.'</option>';
+									}
+								$output .= '</select></div></div>';
+								$output .= $row_end;
+								$this->append_output($output);
+								break;
+					}
+					$count++;
+				}
 				}
 
 				if( isset( $fields[$this->popup]['child'] ) ) {
