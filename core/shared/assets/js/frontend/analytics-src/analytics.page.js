@@ -333,10 +333,12 @@ var _inboundPageTracking = (function(_inbound) {
         },
         storePageView: function() {
 
-			if ( inbound_settings.page_tracking == 'off' ) {
+            /* ignore if page tracking off and page is not a landing page */
+			if ( inbound_settings.page_tracking == 'off' && inbound_settings.post_type != 'landing-page' ) {
 				return;
 			}
 
+            /* Let's try and fire this last - also defines what constitutes a bounce -  */
             jQuery(document).ready(function() {
                 setTimeout(function(){
                     var leadID = ( _inbound.Utils.readCookie('wp_lead_id') ) ? _inbound.Utils.readCookie('wp_lead_id') : '';

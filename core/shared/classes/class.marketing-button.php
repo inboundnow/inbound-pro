@@ -140,11 +140,11 @@ class Inbound_Marketing_Button {
                 <ul class="inbound-short-list" style="display: block;">
                     <li class="launch-marketing-shortcode" data-launch-sc="quick-forms">
                         <span class="new-sc-icons mceIcon mce_editor-icon-quick-forms"></span>
-                        Insert Existing Form
+                        <?php _e('Insert Existing Form' , 'inbound-pro' ); ?>
                     </li>
                     <li class="launch-marketing-shortcode" data-launch-sc="button">
                         <span class="new-sc-icons mceIcon mce_editor-icon-button"></span>
-                        Build a Button
+                        <?php _e('Build a Button' , 'inbound-pro' ); ?>
                     </li>
                     <li class="launch-marketing-shortcode" data-launch-sc="call-to-action">
                         <span class="new-sc-icons mceIcon mce_editor-icon-call-to-action"></span>Call to action Shortcodes
