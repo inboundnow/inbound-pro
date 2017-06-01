@@ -63,8 +63,8 @@ if (!class_exists('CTA_Settings')) {
                     ),
                     array(
                         'id' => 'disable-ajax-variation-discovery',
-                        'label' => __('Disable Split Testing.', 'inbound-pro'),
-                        'description' => __('Enabling this setting may improve server performance at the loss of split testing. Only version A will be displayed for every CTA.', 'inbound-pro'),
+                        'label' => __('Turn Off Split Testing.', 'inbound-pro'),
+                        'description' => __('Enabling this setting may improve server performance at the loss of split testing. Only version A( id 0) will be displayed for every CTA when split testing is disabled.', 'inbound-pro'),
                         'type' => 'radio',
                         'default' => '0',
                         'options' => array(0 => 'Off', 1 => 'On')
