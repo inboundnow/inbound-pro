@@ -1345,7 +1345,6 @@ var InboundForms = (function(_inbound) {
         // Init Form functions
         init: function() {
             _inbound.Forms.runFieldMappingFilters();
-            _inbound.Forms.assignTrackClass();
             _inbound.Forms.formTrackInit();
         },
         /**
@@ -1420,22 +1419,6 @@ var InboundForms = (function(_inbound) {
                     cb = function() { console.log(form); };
                     _inbound.deBugger('forms', "This form not tracked. Please assign on in settings...", cb);
                     return false;
-                }
-            }
-        },
-        assignTrackClass: function() {
-            if (window.inbound_settings) {
-                if (inbound_settings.inbound_track_include) {
-                    var selectors = inbound_settings.inbound_track_include.split(',');
-                    var msg = 'add selectors ' + inbound_settings.inbound_track_include;
-                    _inbound.deBugger('forms', msg);
-                    this.loopClassSelectors(selectors, 'add');
-                }
-                if (inbound_settings.inbound_track_exclude) {
-                    var selectors = inbound_settings.inbound_track_exclude.split(',');
-                    var msg = 'remove selectors ' + inbound_settings.inbound_track_exclude;
-                    _inbound.deBugger('forms', msg);
-                    this.loopClassSelectors(selectors, 'remove');
                 }
             }
         },
@@ -3453,10 +3436,12 @@ var _inboundPageTracking = (function(_inbound) {
         },
         storePageView: function() {
 
-			if ( inbound_settings.page_tracking == 'off' ) {
+            /* ignore if page tracking off and page is not a landing page */
+			if ( inbound_settings.page_tracking == 'off' && inbound_settings.post_type != 'landing-page' ) {
 				return;
 			}
 
+            /* Let's try and fire this last - also defines what constitutes a bounce -  */
             jQuery(document).ready(function() {
                 setTimeout(function(){
                     var leadID = ( _inbound.Utils.readCookie('wp_lead_id') ) ? _inbound.Utils.readCookie('wp_lead_id') : '';
