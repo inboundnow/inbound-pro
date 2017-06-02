@@ -36,6 +36,7 @@ class Inbound_Mailer_Unsubscribe {
 		$usubscribe_button_text = (isset($inbound_settings['inbound-mailer']['unsubscribe-button-text'])) ? $inbound_settings['inbound-mailer']['unsubscribe-button-text'] : __( 'Unsubscribe', 'inbound-pro');
 		$usubscribe_show_lists = (isset($inbound_settings['inbound-mailer']['unsubscribe-show-lists'])) ? $inbound_settings['inbound-mailer']['unsubscribe-show-lists'] : 'on';
 		$mute_header_text = (isset($inbound_settings['inbound-mailer']['mute-header-text'])) ? $inbound_settings['inbound-mailer']['mute-header-text'] : __( 'Mute:', 'inbound-pro');
+		$automation_unsubscribed_confirmation_message = (isset($inbound_settings['inbound-mailer']['automation-unsubscribe-confirmation-message'])) ? $inbound_settings['inbound-mailer']['automation-unsubscribe-confirmation-message'] : __( 'You have been unsubscribed from this series!', 'inbound-pro');
 		$unsubscribed_confirmation_message = (isset($inbound_settings['inbound-mailer']['unsubscribe-confirmation-message'])) ? $inbound_settings['inbound-mailer']['unsubscribe-confirmation-message'] : __( 'Thank You!', 'inbound-pro');
 		$comments_header_1 = (isset($inbound_settings['inbound-mailer']['unsubscribe-comments-header-1'])) ? $inbound_settings['inbound-mailer']['unsubscribe-comments-header-1'] : __( 'Please help us improve by providing us with feedback.' , 'inbound-pro' );
 		$comments_header_2 = (isset($inbound_settings['inbound-mailer']['unsubscribe-comments-header-2'])) ? $inbound_settings['inbound-mailer']['unsubscribe-comments-header-2'] : __( 'Comments:' , 'inbound-pro' );
@@ -86,10 +87,21 @@ class Inbound_Mailer_Unsubscribe {
 			return __( 'Oops. Something is wrong with the unsubscribe token. Please log in and reload this page.' , 'inbound-pro' );
 		}
 
+
 		/* check if lead is coming from automation seriest */
 		if (isset($params['job_id']) && $params['job_id'] ) {
 			/* delete remaining automation tasks for automation rule */
 			Inbound_Automation_Post_Type::mark_jobs_cancelled( array('job_id' => $params['job_id']) );
+		}
+
+		/* check if lead id is present but lead lists are empty and set lead lists to subscribbed lists */
+		if ( isset( $params['lead_id'] ) || !array_filter($params['lead_lists']) ) {
+			/*
+			if ($usubscribe_show_lists == 'on') {
+				$params['list_ids'] = array_flip(Inbound_Leads::get_lead_lists_by_lead_id($params['lead_id']));
+			}
+			*/
+			return '<div class="inbound-automation-unsubscribe-message success">'. $automation_unsubscribed_confirmation_message.'</div>';
 		}
 
 		/* Add header */
@@ -278,10 +290,11 @@ class Inbound_Mailer_Unsubscribe {
 			return;
 		}
 
-		/* determine if anything is selected */
-		if (!isset($_POST['list_id'])) {
+		/* cancel if nothing selected */
+		if (!isset($_POST['list_id']) && !isset($_POST['lists_all'])) {
 			return;
 		}
+
 
 		/* decode token */
 		$params = self::decode_unsubscribe_token( $_POST['token'] );
