@@ -116,8 +116,8 @@ class Inbound_Automation_Trigger_inbound_store_lead_post {
 	 * @return array
 	 */
 	public static function enrich_lead_data( $args ) {
-		$new_args = array();
 
+		$new_args = array();
 		$args['form_name'] = isset($args['form_name']) ? $args['form_name'] : '';
 		$args['inbound_form_name'] = isset($args['form_name']) ? $args['form_name'] : '';
 		$args['form_id'] = isset($args['form_id']) ? $args['form_id'] : '';
@@ -135,7 +135,6 @@ class Inbound_Automation_Trigger_inbound_store_lead_post {
 
 			/* account for raw params */
 			if ($arg_key == 'raw_params') {
-
 				/* I've seen both types make it's way in */
 				if (self::is_json($arg_value)) {
 					$arg_value_array = json_decode($arg_value,true);
@@ -166,6 +165,7 @@ class Inbound_Automation_Trigger_inbound_store_lead_post {
 			$new_args[$arg_key] = $arg_value;
 		}
 
+		//error_log(print_r($new_args,true));
 		return $new_args;
 	}
 
