@@ -88,19 +88,19 @@ class Inbound_Mailer_Unsubscribe {
 		}
 
 
-		/* check if lead is coming from automation seriest */
-		if (isset($params['job_id']) && $params['job_id'] ) {
-			/* delete remaining automation tasks for automation rule */
-			Inbound_Automation_Post_Type::mark_jobs_cancelled( array('job_id' => $params['job_id']) );
-		}
+		/* check email was sent directly to lead via automation series and cancel event if so */
+		if (isset($params['job_id']) && $params['job_id'] && (!isset($params['lead_lists']) || !$params['lead_lists'] ) {
 
-		/* check if lead id is present but lead lists are empty and set lead lists to subscribbed lists */
-		if ( isset( $params['lead_id'] ) || !array_filter($params['lead_lists']) ) {
-			/*
-			if ($usubscribe_show_lists == 'on') {
-				$params['list_ids'] = array_flip(Inbound_Leads::get_lead_lists_by_lead_id($params['lead_id']));
-			}
-			*/
+			Inbound_Automation_Post_Type::mark_jobs_cancelled( array('job_id' => $params['job_id']) );
+
+			$params['event_details'] = array();
+			$params['event_details']['comments'] = __('Lead unsubscribed from automated email series' , 'inbound-pro');
+			$params['event_details']['job_id'] = $params['job_id'];
+			$params['event_details']['rule_id'] = $params['rule_id'];
+
+			/* record unsubscribe event */
+			Inbound_Events::store_unsubscribe_event( $params );
+
 			return '<div class="inbound-automation-unsubscribe-message success">'. $automation_unsubscribed_confirmation_message.'</div>';
 		}
 
@@ -221,6 +221,10 @@ class Inbound_Mailer_Unsubscribe {
 		if (isset($params['doing_wp_cron'])) {
 			unset($params['doing_wp_cron']);
 		}
+
+		/* empty arrays break the encoding process */
+		$params['list_ids'] = (isset($params['list_ids']) && array_filter($params['list_ids'])) ? $params['list_ids'] : '';
+
 		$json = json_encode($params);
 
 		$iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB);
@@ -234,9 +238,12 @@ class Inbound_Mailer_Unsubscribe {
 				)
 			);
 
-		$decode_test = self::decode_unsubscribe_token($encrypted_string);
 
-		return  str_replace(array('+', '/', '='), array('-', '_', '^'), $encrypted_string);
+		$encrypted_string = str_replace(array('+', '/', '='), array('-', '_', '^'), $encrypted_string);
+
+		//$decode_test = self::decode_unsubscribe_token($encrypted_string);
+
+		return  $encrypted_string;
 	}
 
 	/**
@@ -246,12 +253,14 @@ class Inbound_Mailer_Unsubscribe {
 	 */
 	public static function decode_unsubscribe_token( $token ) {
 
+		$token = str_replace( array('-', '_', '^'), array('+', '/', '=') , $token);
+
 		$iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB);
 		$iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
 		$decrypted_string =
 			trim(
 				mcrypt_decrypt(
-					MCRYPT_RIJNDAEL_256 ,  substr( SECURE_AUTH_KEY , 0 , 16 )   ,  base64_decode( str_replace(array('-', '_', '^'), array('+', '/', '='), $token ) ) , MCRYPT_MODE_ECB, $iv
+					MCRYPT_RIJNDAEL_256 ,  substr( SECURE_AUTH_KEY , 0 , 16 )   ,  base64_decode( $token ) , MCRYPT_MODE_ECB, $iv
 				)
 			);
 
