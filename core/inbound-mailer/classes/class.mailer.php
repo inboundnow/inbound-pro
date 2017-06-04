@@ -569,6 +569,7 @@ class Inbound_Mail_Daemon {
      *    Gets the subject line from variation settings
      */
     public static function get_variation_subject() {
+
         /* add lead id to all shortcodes before processing */
         $subject = str_replace('[lead-field ', '[lead-field lead_id="' . self::$row->lead_id . '" ', self::$email_settings['variations'] [self::$row->variation_id] ['subject']);
 
@@ -578,7 +579,7 @@ class Inbound_Mail_Daemon {
         if (isset(self::$row->post_id)) {
             $post = get_post(self::$row->post_id);
             $email_tokens = (array) $post;
-            $email_tokens['permalink'] = get_the_permalink((int) $_GET['post_id']);
+            $email_tokens['permalink'] = get_the_permalink((int) self::$row->post_id);
             $email_tokens['featured_image'] = wp_get_attachment_url(get_post_thumbnail_id((int)$post->ID));
             wp_reset_query();
         }
