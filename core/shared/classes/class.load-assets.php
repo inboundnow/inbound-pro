@@ -173,7 +173,7 @@ if (!class_exists('Inbound_Asset_Loader')) {
 			$variation = (isset($variation)) ? $variation : 0;
 
 			$inbound_localized_data = array(
-				'post_id' => $post_id,
+				'post_id' => (isset($post_id)) ? $post_id : 0,
 				'post_type' => (isset($post->post_type)) ? $post->post_type : 'na' ,
 				'variation_id' => $variation,
 				'ip_address' => $ip_address,
