@@ -525,6 +525,10 @@ class Inbound_Mail_Daemon {
         /* clean mal formatted quotations */
         $html = str_replace('&#8221;', '"', $html);
 
+        /* remove ctas before rendering shortcodes */
+        $pattern = '/\[(cta).*?\]/';
+        $content = preg_replace($pattern, '', $html);
+
         /* process shortcodes */
         $html = do_shortcode($html);
 

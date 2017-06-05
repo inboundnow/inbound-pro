@@ -282,7 +282,7 @@ if (have_posts()) : while (have_posts()) : the_post();
                                     <br>
                                     <?php
                                     $main_content_b = do_shortcode($main_content_b);
-                                    echo strip_tags($main_content_b, '<div><table><tr><td><i><b><strong><br><p><a>');
+                                    echo strip_tags($main_content_b, '<div><table><tr><td><i><b><strong><br><p><a><style><script>');
                                     ?>
                                 </td>
                             </tr>
