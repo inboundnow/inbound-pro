@@ -262,7 +262,6 @@ if (!class_exists('LeadStorage')) {
 				/* store raw form data */
 				self::store_raw_form_data($lead);
 
-
 				/* look for form_id and set it into main array */
 				if (isset($args['form_id'])) {
 					$lead['form_id'] = $args['form_id'];

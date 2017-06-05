@@ -96,6 +96,7 @@ function wp_cta_load_variation( cta_id, vid, enable_split_testing ) {
 	}
 	/* if split testing is disabled then update wp_cta_loaded storage object with variation 0 */
 	else if ( parseInt(enable_split_testing) == 0 ) {
+
 		/* update local storage variable */
 		loaded_ctas[cta_id] = 0;
 		cta_impressions[cta_id] = 0;
@@ -107,7 +108,7 @@ function wp_cta_load_variation( cta_id, vid, enable_split_testing ) {
 
 	}
 	/* if variation not set yet or sticky cta setting is off  */
-	else if ( (cta_id in loaded_ctas) || parseInt(cta_variation.sticky_cta) == 1 ) {
+	else if ( (cta_id in loaded_ctas) && parseInt(cta_variation.sticky_cta) == 1 ) {
 		cta_impressions[cta_id] = loaded_ctas[cta_id];
 		_inbound.totalStorage('wp_cta_impressions', cta_impressions); // store cta data
 
