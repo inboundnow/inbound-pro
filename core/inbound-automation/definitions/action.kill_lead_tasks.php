@@ -26,7 +26,7 @@ if ( !class_exists( 'Inbound_Automation_Action_Kill_Tasks' ) ) {
 					'class_name' => get_class(),
 					'id' => 'kill_lead_tasks',
 					'label' => __('Terminate Email Series for Lead' , 'inbound-pro'),
-					'description' => __('If this action fires we will look for all email series taks targeting a lead email and cancel them.', 'inbound-pro'),
+					'description' => __('If this action fires we will look for all email series tasks targeting a lead email and cancel them.', 'inbound-pro'),
 					'settings' => array (
 							array (
 									'id' => 'cancel_criteria',

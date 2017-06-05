@@ -262,7 +262,11 @@ if (have_posts()) : while (have_posts()) : the_post();
                         <table cellspacing="0" cellpadding="0" border="0" width="100%">
                             <tr>
                                 <td style="padding-left: 40px; padding-right: 40px; padding-bottom: 40px;padding-top: 25px; font-family: sans-serif; font-size: <?php echo $main_content_font_size; ?>; mso-height-rule: exactly; line-height: 20px; color: <?php echo $email_text_color; ?>;">
-                                    <div style="text-align:center;width:100%"><?php echo $main_content_a; ?></div>
+                                    <div style="text-align:center;width:100%"><?php
+
+                                        echo $main_content_a;
+
+                                        ?></div>
                                     <br><br>
                                     <!-- Button : Begin -->
                                     <table cellspacing="0" cellpadding="0" border="0" align="center" style="Margin: auto;">
@@ -276,7 +280,10 @@ if (have_posts()) : while (have_posts()) : the_post();
                                     </table>
                                     <!-- Button : END -->
                                     <br>
-                                    <?php echo strip_tags($main_content_b, '<div><table><tr><td><i><b><strong><br><p><a>'); ?>
+                                    <?php
+                                    $main_content_b = do_shortcode($main_content_b);
+                                    echo strip_tags($main_content_b, '<div><table><tr><td><i><b><strong><br><p><a>');
+                                    ?>
                                 </td>
                             </tr>
                         </table>

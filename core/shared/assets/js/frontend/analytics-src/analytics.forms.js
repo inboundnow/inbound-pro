@@ -41,7 +41,6 @@ var InboundForms = (function(_inbound) {
         // Init Form functions
         init: function() {
             _inbound.Forms.runFieldMappingFilters();
-            _inbound.Forms.assignTrackClass();
             _inbound.Forms.formTrackInit();
         },
         /**
@@ -116,22 +115,6 @@ var InboundForms = (function(_inbound) {
                     cb = function() { console.log(form); };
                     _inbound.deBugger('forms', "This form not tracked. Please assign on in settings...", cb);
                     return false;
-                }
-            }
-        },
-        assignTrackClass: function() {
-            if (window.inbound_settings) {
-                if (inbound_settings.inbound_track_include) {
-                    var selectors = inbound_settings.inbound_track_include.split(',');
-                    var msg = 'add selectors ' + inbound_settings.inbound_track_include;
-                    _inbound.deBugger('forms', msg);
-                    this.loopClassSelectors(selectors, 'add');
-                }
-                if (inbound_settings.inbound_track_exclude) {
-                    var selectors = inbound_settings.inbound_track_exclude.split(',');
-                    var msg = 'remove selectors ' + inbound_settings.inbound_track_exclude;
-                    _inbound.deBugger('forms', msg);
-                    this.loopClassSelectors(selectors, 'remove');
                 }
             }
         },

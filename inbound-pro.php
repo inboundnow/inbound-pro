@@ -94,9 +94,9 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 		*/
 		private static function define_constants() {
 
-			define('INBOUND_PRO_CURRENT_VERSION', '1.8.3.5.5' );
+			define('INBOUND_PRO_CURRENT_VERSION', '1.8.3.6.2' );
 			define('INBOUND_PRO_STABLE_VERSION', '1.8.3.5.5' );
-			define('INBOUND_PRO_TRANSLATIONS_VERSION', '1.30.5' );
+			define('INBOUND_PRO_TRANSLATIONS_VERSION', '1.30.8' );
 			define('INBOUND_PRO_URLPATH', plugin_dir_url( __FILE__ ));
 			define('INBOUND_PRO_PATH', plugin_dir_path( __FILE__ ) );
 			define('INBOUND_PRO_SLUG', plugin_basename( dirname(__FILE__) ) );

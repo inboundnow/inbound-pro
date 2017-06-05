@@ -65,12 +65,12 @@ class Inbound_Pro_Admin_Ajax_Listeners {
             ( trim($_REQUEST['api_key']) == $inbound_settings['api-key']['api-key'] )
             &&
             $cache
+            &&
+            !$clear_cache
 
         ) {
-            if ($clear_cache != 'true' && isset($cache['customer']['is_pro'])  ) {
-                echo json_encode($cache);
-                exit;
-            }
+            echo json_encode($cache);
+            exit;
         }
 
         /* update api key if changed */

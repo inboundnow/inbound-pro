@@ -27,5 +27,5 @@
 
 		),
 		'shortcode' => '[cta id="{{insert_default}}" align="{{align}}"]',
-		'popup_title' => 'Insert Call to Action'
+		'popup_title' => __('Insert Call to Action' , 'inbound-pro' )
 	);

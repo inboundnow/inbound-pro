@@ -46,143 +46,146 @@ class Inbound_Marketing_Button {
         global $pagenow, $typenow;
         // Only run in post/page creation and edit screens
         if (in_array($pagenow, array('post.php','page.php','post-new.php','post-edit.php'))) { ?>
-        <style type="text/css">
-        #inbound-shortcodes-popup {
-            min-height: 650px;
-        }
-        #marketing-popup-controls {
-            position: fixed;
-            bottom: 20px;
-            width: 100%;
-        }
-        .marketing-back-button {
-            position: absolute;
-            top: 15px;
-            left: 20px;
-            cursor: pointer;
-        }
-        #inbound-shortcodes-form-head {
-            text-align: center;
-        }
-        #inbound-shortcodes-preview {
-            height: 607px;
-        }
-        .inbound-short-list {
-            padding: 40px;
-        }
-        .inbound-short-list li {
-            position: relative;
-                padding-left: 30px;
-                margin-bottom: 29px;
-                display: block;
-                font-size: 19px;
-                vertical-align: top;
-        }
-        .inbound-short-list span.new-sc-icons {
-            top:-1px;
-        }
+            <style type="text/css">
+                #inbound-shortcodes-popup {
+                    min-height: 650px;
+                }
+                #marketing-popup-controls {
+                    position: fixed;
+                    bottom: 20px;
+                    width: 100%;
+                }
+                .marketing-back-button {
+                    position: absolute;
+                    top: 15px;
+                    left: 20px;
+                    cursor: pointer;
+                }
+                #inbound-shortcodes-form-head {
+                    text-align: center;
+                }
+                #inbound-shortcodes-preview {
+                    height: 607px;
+                }
+                .inbound-short-list {
+                    padding: 40px;
+                }
+                .inbound-short-list li {
+                    position: relative;
+                    padding-left: 30px;
+                    margin-bottom: 29px;
+                    display: block;
+                    font-size: 19px;
+                    vertical-align: top;
+                }
+                .inbound-short-list span.new-sc-icons {
+                    top:-1px;
+                }
 
-        .shortcode-popup-block {
-            max-height: 660px;
-            overflow: auto;
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            background: #fff;
-            padding: 0px;
-            text-align: left;
-            max-width: 85%;
-            margin: 20px auto;
-            position: relative;
-        }
+                .shortcode-popup-block {
+                    max-height: 660px;
+                    overflow: auto;
+                    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                    background: #fff;
+                    padding: 0px;
+                    text-align: left;
+                    max-width: 85%;
+                    margin: 20px auto;
+                    position: relative;
+                }
 
-        .mfp-bg {
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 90000;
-            overflow: hidden;
-            position: fixed;
-            background: #0b0b0b;
-            opacity: 0.8;
-        }
-
-
-        .mfp-wrap {
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 100001;
-            position: fixed;
-            outline: none !important;
-            -webkit-backface-visibility: hidden;
-        }
-
-        .mfp-container {
-            position: relative;
-            display: inline-block;
-            vertical-align: middle;
-            margin: 0 auto;
-            text-align: left;
-            z-index: 100002;
-        }
+                .mfp-bg {
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    z-index: 90000;
+                    overflow: hidden;
+                    position: fixed;
+                    background: #0b0b0b;
+                    opacity: 0.8;
+                }
 
 
-        #popup-controls {
-            z-index: 999999;
-            width: 100%;
-            margin: auto;
+                .mfp-wrap {
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    z-index: 100001;
+                    position: fixed;
+                    outline: none !important;
+                    -webkit-backface-visibility: hidden;
+                }
 
-            position: fixed;
-        }
-        </style>
+                .mfp-container {
+                    position: relative;
+                    display: inline-block;
+                    vertical-align: middle;
+                    margin: 0 auto;
+                    text-align: left;
+                    z-index: 100002;
+                }
+
+
+                #popup-controls {
+                    z-index: 999999;
+                    width: 100%;
+                    margin: auto;
+
+                    position: fixed;
+                }
+            </style>
             <div id="inbound-marketing-popup" class="shortcode-popup-block mfp-hide">
                 <ul class="inbound-short-list" style="display: block;">
                     <li class="launch-marketing-shortcode" data-launch-sc="quick-forms">
                         <span class="new-sc-icons mceIcon mce_editor-icon-quick-forms"></span>
-                        Insert Existing Form
+                        <?php _e('Insert Existing Form' , 'inbound-pro' ); ?>
                     </li>
                     <li class="launch-marketing-shortcode" data-launch-sc="button">
                         <span class="new-sc-icons mceIcon mce_editor-icon-button"></span>
-                        Build a Button
+                        <?php _e('Build a Button' , 'inbound-pro' ); ?>
                     </li>
                     <li class="launch-marketing-shortcode" data-launch-sc="call-to-action">
-                        <span class="new-sc-icons mceIcon mce_editor-icon-call-to-action"></span>Call to action Shortcodes
+                        <span class="new-sc-icons mceIcon mce_editor-icon-call-to-action"></span>
+                        <?php _e('Call to Action Shortcodes' , 'inbound-pro' ); ?>
                     </li>
                     <li class="launch-marketing-shortcode" data-launch-sc="social-share">
-                        <span class="new-sc-icons mceIcon mce_editor-icon-social-share"></span>Social Share
+                        <span class="new-sc-icons mceIcon mce_editor-icon-social-share"></span>
+                        <?php _e('Social Share' , 'inbound-pro' ); ?>
                     </li>
                     <li class="launch-marketing-shortcode" data-launch-sc="lists">
                         <span class="new-sc-icons mceIcon mce_editor-icon-lists"></span>
-                        Insert Icon List
+                        <?php _e('Insert Icon List' , 'inbound-pro' ); ?>
                     </li>
                     <li class="launch-marketing-shortcode" data-launch-sc="columns">
                         <span class="new-sc-icons mceIcon mce_editor-icon-columns"></span>
-                        Insert Columns
+                        <?php _e('Insert Columns' , 'inbound-pro' ); ?>
                     </li>
-                 </ul>
-               <div id="iframe-target"></div>
+                </ul>
+                <div id="iframe-target"></div>
 
             </div>
             <script type="text/javascript">
-            jQuery(document).ready(function($) {
-               /* See marketing-button.js */
+                jQuery(document).ready(function($) {
+                    /* See marketing-button.js */
 
 
-               jQuery("body").on('click', '.marketing-back-button', function () {
-                    // toggle display
-                    jQuery("#iframe-target").html('');
-                    $('.select2-drop').remove();
-                    $('.inbound-short-list').show();
+                    jQuery("body").on('click', '.marketing-back-button', function () {
+                        // toggle display
+                        jQuery("#iframe-target").html('');
+                        jQuery('.select2-drop').remove();
+                        jQuery('.inbound-short-list').show();
 
-               });
+                    });
 
 
-             });
+                });
 
             </script>
-        <?php
+            <?php
         }
     }
 }
-$Inbound_Marketing_Button = new Inbound_Marketing_Button();
+
+new Inbound_Marketing_Button();

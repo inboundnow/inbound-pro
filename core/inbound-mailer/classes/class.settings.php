@@ -120,6 +120,13 @@ if ( !class_exists('Inbound_Mailer_Settings') ) {
 						'default'  => __('Thank you!','inbound-pro')
 
 					),
+					array(
+						'id'  => 'automation-unsubscribe-confirmation-message',
+						'label'  => __('Confirmation Message #2', 'inbound-pro' ),
+						'description'  => __( 'This message will show after a reader has clicked unsubscribe from an automated email series.' , 'inbound-pro' ),
+						'type'  => 'text',
+						'default'  => __( 'You have been unsubscribed from this series!' , 'inbound-pro' )
+					),
 					/*
 					array(
 						'id'  => 'unsubscribe-notice-automation-series',

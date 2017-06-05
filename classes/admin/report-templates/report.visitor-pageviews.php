@@ -416,7 +416,7 @@ if (!class_exists('Inbound_Visitor_Impressions_Report')) {
             $lookup =  (isset($_REQUEST['lead_id'])) ? 'lead_id' : 'lead_uid';
 
             $params = array(
-                'page_id' => (isset($_REQUEST['page_id'])) ? intval($_REQUEST['page_id']) : 0,
+                'page_id' => (isset($_REQUEST['page_id'])) ? sanitize_text_field($_REQUEST['page_id']) : 0,
                 'lead_uid' => (isset($_REQUEST['lead_uid'])) ? sanitize_text_field($_REQUEST['lead_uid']) : 0,
                 'lead_id' => (isset($_REQUEST['lead_id'])) ? sanitize_text_field($_REQUEST['lead_id']) : 0,
                 'start_date' => $dates['start_date'],

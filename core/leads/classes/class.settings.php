@@ -63,30 +63,6 @@ class Leads_Settings {
                     'options' => null
                 ),
                 array(
-                    'id'  => 'tracking-ids',
-                    'label' => __('IDs or Classes of 3rd party forms to track' , 'inbound-pro' ),
-                    'description' => __("Enter in a value found in a HTML form's id or class attribute to track it as a conversion as comma separated values. Example ID format: #Form_ID, #Form-ID-2. Example Class format: .Form_class, .form-class-2" , 'inbound-pro' ),
-                    'type'  => 'text',
-                    'default'  => '',
-                    'options' => null
-                ),
-                array(
-                    'id'  => 'exclude-tracking-ids',
-                    'label' => __('IDs or Classes of 3rd party forms NOT to track' , 'inbound-pro' ),
-                    'description' => __("Enter in a value found in a HTML form's id attribute to turn off tracking." , 'inbound-pro' ),
-                    'type'  => 'text',
-                    'default'  => '',
-                    'options' => null
-                ),
-                array(
-                    'id'  => 'page-view-tracking',
-                    'label' => __('Page View Tracking' , 'inbound-pro' ),
-                    'description' => __("WordPress Leads automatically tracks page views of converted leads. This is extremely valuable lead intelligence and will help with your sales follow ups. However with great power comes great resposibility, this extra tracking can cause problems on high high traffic sites. You can turn off tracking if you see any issues." , 'inbound-pro' ),
-                    'type'  => 'radio',
-                    'default'  => '1',
-                    'options' => array('1'=>'On','0'=>'Off')
-                ),
-                array(
                     'id'  => 'search-tracking',
                     'label' => __('Search Query Tracking' , 'inbound-pro' ),
                     'description' => __("WordPress Leads records searches made by leads and appends them to their lead record. Disabling this will turn this feature off." , 'inbound-pro' ),
@@ -188,30 +164,6 @@ class Leads_Settings {
             $wpleads_global_settings[$tab_slug]['label'] = __( 'Settings' , 'inbound-pro' );
 
             $wpleads_global_settings[$tab_slug]['settings'] = array(
-                array(
-                    'id'  => 'tracking-ids',
-                    'label' => __('IDs or Classes of 3rd party forms to track' , 'inbound-pro' ),
-                    'description' => __("<p>Enter in a value found in a HTML form's id or class attribute to track it as a conversion as comma separated values</p><p><strong>Example ID format:</strong> #Form_ID, #Form-ID-2<br>Example Class format:</strong> .Form_class, .form-class-2</p><p>Gravity Forms, Contact Form 7, and Ninja Forms are automatically tracked (no need to add their IDs in here).</p>" , 'inbound-pro' ),
-                    'type'  => 'text',
-                    'default'  => '',
-                    'options' => null
-                ),
-                array(
-                    'id'  => 'exclude-tracking-ids',
-                    'label' => __('IDs or Classes of 3rd party forms <u>NOT</u> to track' , 'inbound-pro' ),
-                    'description' => __("Enter in a value found in a HTML form's id attribute to turn off tracking." , 'inbound-pro' ),
-                    'type'  => 'text',
-                    'default'  => '',
-                    'options' => null
-                ),
-                array(
-                    'id'  => 'page-view-tracking',
-                    'label' => __('Page View Tracking' , 'inbound-pro' ),
-                    'description' => __("WordPress Leads automatically tracks page views of converted leads. This is extremely valuable lead intelligence and will help with your sales follow ups. However with great power comes great resposibility, this extra tracking can cause problems on high high traffic sites. You can turn off tracking if you see any issues." , 'inbound-pro' ),
-                    'type'  => 'radio',
-                    'default'  => '1',
-                    'options' => array('1'=>'On','0'=>'Off')
-                ),
                 array(
                     'id'  => 'search-tracking',
                     'label' => __('Search Query Tracking' , 'inbound-pro' ),

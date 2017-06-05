@@ -39,7 +39,7 @@ if ( !class_exists('Inbound_Upgrade_Routines') ) {
                 'callback' => array( __CLASS__ , 'alter_events_table_1')
             );
 
-            /* alter page view table */
+            /* alter events table */
             self::$routines['events-table-2'] = array(
                 'id' => 'events-table-2',
                 'scope' => 'shared',
@@ -53,6 +53,15 @@ if ( !class_exists('Inbound_Upgrade_Routines') ) {
                 'scope' => 'shared',
                 'introduced' => '1.0.3',
                 'callback' => array( __CLASS__ , 'alter_automation_queue_table_1')
+            );
+
+
+            /* alter events table */
+            self::$routines['events-pageviews-107'] = array(
+                'id' => 'events-pageviews-107',
+                'scope' => 'shared',
+                'introduced' => '1.0.7',
+                'callback' => array( __CLASS__ , 'alter_events_pageviews_107')
             );
         }
 
@@ -160,6 +169,25 @@ if ( !class_exists('Inbound_Upgrade_Routines') ) {
             $wpdb->get_results( "ALTER TABLE {$table_name} ADD `rule_id` mediumint(20) NOT NULL" );
             $wpdb->get_results( "ALTER TABLE {$table_name} ADD `job_id` mediumint(20) NOT NULL" );
 
+        }
+
+        /**
+         * @migration-type: alter inbound_events,inbound_pageviews table
+         * @mirgration: convert page_id to VARCHAR to accept complex ids related to taxonomy archives
+         */
+        public static function alter_events_pageviews_107() {
+
+            global $wpdb;
+
+            require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+
+            /* events table */
+            $table_name = $wpdb->prefix . "inbound_events";
+            $wpdb->get_results( "ALTER TABLE {$table_name} MODIFY COLUMN `page_id` VARCHAR(20)" );
+
+            /* pageviews table */
+            $table_name = $wpdb->prefix . "inbound_page_views";
+            $wpdb->get_results( "ALTER TABLE {$table_name} MODIFY COLUMN `page_id` VARCHAR(20)" );
         }
 
 

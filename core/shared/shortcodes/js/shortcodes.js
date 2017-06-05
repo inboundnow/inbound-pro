@@ -483,29 +483,14 @@ var InboundShortcodes = {
 
         if (shortcode_name === 'insert_call_to_action') {
 
-
-            jQuery("#insert_inbound_cta").select2({
-                placeholder: "Select one or more calls to action to rotate through",
-            });
-
             jQuery("body").on('change', '#insert_inbound_cta, #inbound_shortcode_align', function () {
-                var cta_ids = jQuery("#insert_inbound_cta").select2("data");
-                var cta_val = jQuery("#insert_inbound_cta").select2("val");
+                var cta_id = jQuery("#insert_inbound_cta").find('option:selected').val();
 
-                var cta_id_array = [];
-
-                jQuery.each(cta_ids, function (key, valueObj) {
-                    var the_id = valueObj['id'];
-                    cta_id_array.push(the_id);
-                });
-
-                console.log(cta_id_array);
-                var final_ids = cta_id_array.join();
                 var align = jQuery('#inbound_shortcode_align').val();
                 setTimeout(function () {
-                    jQuery("#_inbound_shortcodes_newoutput").html('[cta id="' + final_ids + '" align="' + align + '"]');
+                    jQuery("#_inbound_shortcodes_newoutput").html('[cta id="' + cta_id + '" align="' + align + '"]');
                     /* new stuff */
-                    jQuery("#insert_new_shortcode_here").val('[cta id="' + final_ids + '" align="' + align + '"]');
+                    jQuery("#insert_new_shortcode_here").val('[cta id="' + cta_id + '" align="' + align + '"]');
                 }, 1000);
             });
         }

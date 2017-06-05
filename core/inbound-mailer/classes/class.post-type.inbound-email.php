@@ -572,26 +572,31 @@ if ( !class_exists('Inbound_Mailer_Post_Type') ) {
 		public static function set_screen_option() {
 
             /* return if flag screen option not present */
-			if (!isset($_POST['inbound_mailer_screen_option_range'])) {
-                return;
-            }
+			if (isset($_POST['inbound_mailer_screen_option_range'])) {
+				/* update range on email listing screen */
+				$response = update_user_option(
+					get_current_user_id(),
+					'inbound_mailer_screen_option_range',
+					intval($_POST['inbound_mailer_screen_option_range'])
+				);
 
-            /* update range on email listing screen */
-            $response = update_user_option(
-                get_current_user_id(),
-                'inbound_mailer_screen_option_range',
-                intval($_POST['inbound_mailer_screen_option_range'])
-            );
+				/* clear transient statistics cache */
+				delete_transient('inbound-email-stats-cache');
 
-            /* update setting that controls how to report automated email statistics */
-            $response = update_user_option(
-                get_current_user_id(),
-                'inbound_mailer_screen_option_automated_email_report',
-                sanitize_text_field($_POST['inbound_mailer_screen_option_automated_email_report'])
-            );
+			}
 
-            /* clear transient statistics cache */
-            delete_transient('inbound-email-stats-cache');
+
+			if (isset($_POST['inbound_mailer_screen_option_automated_email_report'])) {
+				/* update setting that controls how to report automated email statistics */
+				$response = update_user_option(
+					get_current_user_id(),
+					'inbound_mailer_screen_option_automated_email_report',
+					sanitize_text_field($_POST['inbound_mailer_screen_option_automated_email_report'])
+				);
+
+				/* clear transient statistics cache */
+				delete_transient('inbound-email-stats-cache');
+			}
 
 		}
 

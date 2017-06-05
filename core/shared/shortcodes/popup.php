@@ -1,4 +1,5 @@
 <?php
+
 include( 'shortcodes-fields.php' );
 $popup = trim( sanitize_text_field($_GET['popup']) );
 

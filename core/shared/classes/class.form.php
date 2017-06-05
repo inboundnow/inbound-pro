@@ -284,6 +284,34 @@ if (!class_exists('Inbound_Forms')) {
                         }
                         $form .= '	</select>';
                         $form .= '</div>';
+                        $form .= '<script>
+                                    function inbf_daysInMonth(month,year) {
+                                         return new Date(year, month, 0).getDate();
+                                    }
+
+                                    jQuery("#formletMonth, #formletYears").on("change",function() {
+
+                                         /* get current selected day */
+                                         var selected_date = jQuery( "#formletDays" ).find(":selected").val();
+
+                                         /* remove day options */
+                                         jQuery("#formletDays").find("option").remove();
+
+                                         /* get more supportive variables  */
+                                         var month = jQuery("#formletMonth").find(":selected").val();
+                                         var year = jQuery("#formletYears").find(":selected").val();
+                                         var days_in_month = inbf_daysInMonth(month,year);
+
+                                         /* build new option set */
+                                         for (var i = 1; i <= days_in_month; i++) {
+                                              jQuery("#formletDays").append(jQuery("<option></option>").attr("value", i).text(i));
+                                         }
+
+                                         /* set date to original selection */
+                                         jQuery("#formletDays option[value="+selected_date+"]").prop("selected", true)
+                                    });
+
+                                   </script>';
 
                     } else if ($type === 'date') {
 

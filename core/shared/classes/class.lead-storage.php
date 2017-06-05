@@ -64,20 +64,16 @@ if (!class_exists('LeadStorage')) {
 
 			$lead['email'] = str_replace("%40", "@", self::check_val('email', $args));
 			$lead['email'] = str_replace("%2B", "+", $lead['email']);
-			$lead['name'] = str_replace("%20", " ", self::check_val('full_name', $args));
-			$lead['first_name'] = str_replace("%20", "", self::check_val('first_name', $args));
-			$lead['last_name'] = str_replace("%20", "", self::check_val('last_name', $args));
 			$lead['page_id'] = self::check_val('page_id', $args);
 			$lead['page_views'] = self::check_val('page_views', $args);
 			$lead['raw_params'] = self::check_val('raw_params', $args);
-
+			$lead['inbound_form_id'] = self::check_val('inbound_form_id', $args);
 			$lead['mapped_params'] = self::check_val('mapped_params', $args);
 			$lead['url_params'] = self::check_val('url_params', $args);
 			$lead['variation'] = self::check_val('variation', $args);
 			$lead['source'] = self::check_val('source', $args);
 			$lead['wp_lead_status'] = self::check_val('wp_lead_status', $args);
 			$lead['ip_address'] = self::lookup_ip_address();
-
 
 
 			if($lead['raw_params']){
@@ -92,8 +88,10 @@ if (!class_exists('LeadStorage')) {
 				$mappedData = array();
 			}
 
+
 			$mappedData = self::improve_mapping($mappedData, $lead , $args);
 			$lead = array_merge($lead ,$mappedData);
+
 
 			/* prepate lead lists */
 			$lead['lead_lists'] = (isset($args['lead_lists'])) ? $args['lead_lists'] : null;
@@ -264,7 +262,6 @@ if (!class_exists('LeadStorage')) {
 				/* store raw form data */
 				self::store_raw_form_data($lead);
 
-
 				/* look for form_id and set it into main array */
 				if (isset($args['form_id'])) {
 					$lead['form_id'] = $args['form_id'];
@@ -274,9 +271,10 @@ if (!class_exists('LeadStorage')) {
 				}
 
 				/* look for an inbound_form_id and set it into main array */
-				if (isset($raw_params['inbound_form_id'])) {
-					$lead['form_id'] = $raw_params['inbound_form_id'];
-					$lead['form_name'] = $raw_params['inbound_form_n'];
+				if (isset($args['inbound_form_id'])) {
+					$lead['inbound_form_id'] = $args['inbound_form_id'];
+					$lead['form_id'] = (isset($args['inbound_form_id'])) ? $args['inbound_form_id'] : 0;
+					$lead['form_name'] = (isset($args['inbound_form_n'])) ? $args['inbound_form_n'] : '';
 				}
 
 
@@ -613,44 +611,47 @@ if (!class_exists('LeadStorage')) {
 		 */
 		static function improve_lead_name( $lead ) {
 			/* */
-			$lead['name'] = (isset($lead['name'])) ? $lead['name'] : '';
+			$lead['wpleads_name'] = (isset($lead['wpleads_name'])) ? $lead['wpleads_name'] : '';
+			$lead['wpleads_first_name'] = (isset($lead['wpleads_first_name'])) ? $lead['wpleads_first_name'] : '';
+			$lead['wpleads_last_name'] = (isset($lead['wpleads_last_name'])) ? $lead['wpleads_last_name'] : '';
 
 			/* do not let names with 'false' pass */
-			if ( !empty($lead['name']) && $lead['name'] == 'false' ) {
-				$lead['name'] = '';
+			if ( !empty($lead['wpleads_name']) && $lead['name'] == 'false' ) {
+				$lead['wpleads_name'] = '';
 			}
-			if ( !empty($lead['first_name']) && $lead['first_name'] == 'false' ) {
-				$lead['first_name'] = '';
+
+			if ( !empty($lead['wpleads_first_name']) && $lead['wpleads_first_name'] == 'false' ) {
+				$lead['wpleads_first_name'] = '';
 			}
 
 			/* if last name empty and full name present */
-			if ( empty($lead['last_name']) && $lead['name'] ) {
-				$parts = explode(' ', $lead['name']);
+			if ( empty($lead['wpleads_last_name']) && $lead['wpleads_name'] ) {
+				$parts = explode(' ', $lead['wpleads_name']);
 
 				/* Set first name */
-				$lead['first_name'] = $parts[0];
+				$lead['wpleads_first_name'] = trim($parts[0]);
 
 				/* Set last name */
 				if (isset($parts[1])) {
-					$lead['last_name'] = $parts[1];
+					$lead['wpleads_last_name'] = trim($parts[1]);
 				}
 			}
 			/* if last name empty and first name present */
-			else if (empty($lead['last_name']) && $lead['first_name'] ) {
-				$parts = explode(' ', $lead['first_name']);
+			else if (empty($lead['wpleads_last_name']) && $lead['wpleads_first_name'] ) {
+				$parts = explode(' ', $lead['wpleads_first_name']);
 
 				/* Set First Name */
-				$lead['first_name'] = $parts[0];
+				$lead['wpleads_first_name'] = trim($parts[0]);
 
 				/* Set Last Name */
 				if (isset($parts[1])) {
-					$lead['last_name'] = $parts[1];
+					$lead['wpleads_last_name'] = trim($parts[1]);
 				}
 			}
 
 			/* set full name */
-			if (!$lead['name'] && $lead['first_name'] && $lead['last_name'] ) {
-				$lead['name'] = $lead['first_name'] .' '. $lead['last_name'];
+			if (!$lead['wpleads_name'] && $lead['wpleads_first_name'] && $lead['wpleads_last_name'] ) {
+				$lead['wpleads_name'] = $lead['wpleads_first_name'] .' '. $lead['wpleads_last_name'];
 			}
 
 			return $lead;
@@ -670,21 +671,7 @@ if (!class_exists('LeadStorage')) {
 				}
 			}
 
-			/* remove instances of wpleads_ */
-			$newMap = array();
-			foreach ($mappedData as $key=>$value) {
-				$key = str_replace('wpleads_','',$key);
-				$newMap[$key] = $value;
-			}
-
-			/* Set names if not mapped */
-			$newMap['first_name'] = (!isset($newMap['first_name'])) ? $lead['first_name'] : $newMap['first_name'];
-			$newMap['last_name'] = (!isset($newMap['last_name'])) ? $lead['last_name'] : $newMap['last_name'];
-
-			/* improve mapped names */
-			$newMap = self::improve_lead_name( $newMap );
-
-			return $newMap;
+			return $mappedData;
 		}
 
 		/**

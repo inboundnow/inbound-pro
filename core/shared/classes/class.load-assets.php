@@ -104,8 +104,8 @@ if (!class_exists('Inbound_Asset_Loader')) {
 
 		/* Global Specific localize functions */
 		static function localize_lead_data() {
-			global $post;
-			$post_id = null;
+			global $post , $inbound_settings,  $wp_query;
+
 			$id_check = false;
 			$page_tracking = 'on';
 			$search_tracking = 'on';
@@ -118,28 +118,31 @@ if (!class_exists('Inbound_Asset_Loader')) {
 			$lead_uid = (isset($_COOKIE['wp_lead_uid'])) ? $_COOKIE['wp_lead_uid'] : false;
 			$custom_map_values = array();
 			$custom_map_values = apply_filters( 'inboundnow_custom_map_values_filter' , $custom_map_values);
+
 			/* Get correct post ID */
+			//print_r($wp_query);exit;
 
-			global $wp_query;
-			$current_page_id = $wp_query->get_queried_object_id();
-			$post_id = $current_page_id;
-			$id_check = ($post_id != null) ? true : false;
-
-			if (!is_archive() && !$id_check){
-				$post_id = (isset($post)) ? $post->ID : false;
-				$id_check = ($post_id != null) ? true : false;
+			/* if blog archive homepage */
+			if ( $wp_query->is_home && $wp_query->post_count > 1 ) {
+				$post_id = 'blog_home';
+				$page = get_page_by_path( 'blog' );
+				$post_id = (isset($page->ID)) ? $page->ID : $post_id;
 			}
-			if (!$id_check) {
-				$post_id = wpl_url_to_postid($current_page);
-				$id_check = ($post_id != null) ? true : false;
+			/* if page homepage */
+			else if ( $wp_query->post_count == 1 ) {
+				$current_page_id = $wp_query->get_queried_object_id();
+				$post_id = $current_page_id;
 			}
-			if(!$id_check){
-				$post_id = wp_leads_get_page_final_id();
-				$id_check = ($post_id != null) ? true : false;
+			/* if archive  */
+			else if ( is_archive() ) {
+				$post_id = wp_leads_get_page_final_id($current_page);
+			} else if (strpos($_SERVER['REQUEST_URI'], "preview") !== false) {
+				$post_id = 'preview.php';
 			}
 
 			/* If page tracking on */
-			$lead_page_view_tracking = self::get_lead_setting( 'wpl-main-page-view-tracking', 1);
+			$inbound_settings['inbound-analytics-rules'] = ( isset( $inbound_settings['inbound-analytics-rules']) ) ? $inbound_settings['inbound-analytics-rules'] : array();
+			$lead_page_view_tracking = ( isset( $inbound_settings['inbound-analytics-rules']['page-tracking']) && $inbound_settings['inbound-analytics-rules']['page-tracking'] == 'off' ) ? false : true;
 			$lead_search_tracking = self::get_lead_setting( 'wpl-main-search-tracking', 1);
 			$lead_comment_tracking = self::get_lead_setting( 'wpl-main-comment-tracking', 1);
 			if (!$lead_search_tracking) {
@@ -159,8 +162,6 @@ if (!class_exists('Inbound_Asset_Loader')) {
 			$lead_data_array['lead_uid'] = ($lead_uid) ? $lead_uid : null;
 			$time = current_time( 'timestamp', 0 ); /* Current wordpress time from settings */
 			$wordpress_date_time = date("Y/m/d G:i:s", $time);
-			$inbound_track_include = self::get_lead_setting( 'wpl-main-tracking-ids' , '');
-			$inbound_track_exclude = self::get_lead_setting( 'wpl-main-exclude-tracking-ids' , '');
 
 			/* get variation id */
 			if (class_exists('Landing_Pages_Variations')) {
@@ -172,7 +173,8 @@ if (!class_exists('Inbound_Asset_Loader')) {
 			$variation = (isset($variation)) ? $variation : 0;
 
 			$inbound_localized_data = array(
-				'post_id' => $post_id,
+				'post_id' => (isset($post_id)) ? $post_id : 0,
+				'post_type' => (isset($post->post_type)) ? $post->post_type : 'na' ,
 				'variation_id' => $variation,
 				'ip_address' => $ip_address,
 				'wp_lead_data' => $lead_data_array,
@@ -183,8 +185,6 @@ if (!class_exists('Inbound_Asset_Loader')) {
 				'search_tracking' => $search_tracking,
 				'comment_tracking' => $comment_tracking,
 				'custom_mapping' => $custom_map_values,
-				'inbound_track_exclude' => $inbound_track_exclude,
-				'inbound_track_include' => $inbound_track_include,
 				'is_admin' => current_user_can( 'manage_options' ),
 				'ajax_nonce' => wp_create_nonce(SECURE_AUTH_KEY)
 			);
