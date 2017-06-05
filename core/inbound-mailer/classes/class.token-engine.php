@@ -470,6 +470,14 @@ class Inbound_Mailer_Tokens {
             }
         }
 
+        /* remove cta shortcodes */
+        $pattern = '/\[(cta).*?\]/';
+        $field_value = preg_replace($pattern, '', $field_value);
+
+        /* remove javascript */
+        $pattern = '/<script\b[^>]*>(.*?)<\/script>/is';
+        $field_value = preg_replace($pattern, '', $field_value);
+
         return $field_value;
     }
 
