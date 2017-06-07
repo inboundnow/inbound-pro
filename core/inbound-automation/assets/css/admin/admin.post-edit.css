@@ -528,4 +528,8 @@
     padding: 11px 10px;
     font-weight: normal;
 }
+
+.inbound_tooltip {
+	padding-left:10px;
+}
 /* UI Improvement Style by Ahmed Kaludi - END */

@@ -42,6 +42,8 @@ if (have_posts()) : while (have_posts()) : the_post();
     $show_latest_posts_category = get_field("show_latest_posts_category", $post_id);
     $show_latest_posts_limit = get_field("show_latest_posts_limit", $post_id);
     $posts_button_text = get_field("posts_button_text", $post_id);
+    $posts_button_text_color = get_field("posts_button_text_color", $post_id);
+    $posts_button_color = get_field("posts_button_color", $post_id);
 
     /*Email colors tab*/
     $email_background_color = get_field("email_background_color", $post_id);
@@ -401,15 +403,15 @@ if (have_posts()) : while (have_posts()) : the_post();
                                                             <!-- read more -->
                                                             <tr>
                                                                 <td style="padding-left:0px;padding-bottom:10px;">
-                                                                    <table width="120" height="32" bgcolor="#eacb3c" align="left" valign="middle" border="0" cellpadding="0" cellspacing="0" style="border-radius:3px;" st-button="learnmore">
+                                                                    <table width="120" height="32" bgcolor=" <?php echo $posts_button_color; ?>" align="left" valign="middle" border="0" cellpadding="0" cellspacing="0" style="border-radius:3px;" st-button="learnmore">
                                                                         <tbody>
                                                                         <tr>
                                                                             <td height="9" align="center" style="font-size:1px; line-height:1px;">
                                                                                 &nbsp;</td>
                                                                         </tr>
                                                                         <tr>
-                                                                            <td height="14" align="center" valign="middle" style="font-family: Helvetica, Arial, sans-serif; font-size: 13px; font-weight:bold;color: #ffffff; text-align:center; line-height: 14px; ; -webkit-text-size-adjust:none;" st-title="fulltext-btn">
-                                                                                <a style="text-decoration: none;color: #282828; text-align:center;" href="<?php echo $permalink; ?>"><?php echo $posts_button_text; ?></a>
+                                                                            <td height="14" align="center" valign="middle" style="background: <?php echo $posts_button_color; ?>;font-family: Helvetica, Arial, sans-serif; font-size: 13px; font-weight:bold;color: <?php echo $posts_button_text_color; ?>; text-align:center; line-height: 14px; ; -webkit-text-size-adjust:none;" st-title="fulltext-btn">
+                                                                                <a style="text-decoration: none;color: <?php echo $posts_button_text_color; ?>; text-align:center;" href="<?php echo $permalink; ?>"><?php echo $posts_button_text; ?></a>
                                                                             </td>
                                                                         </tr>
                                                                         <tr>

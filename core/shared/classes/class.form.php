@@ -304,9 +304,10 @@ if (!class_exists('Inbound_Forms')) {
                                              jQuery(this).parent().find( "#formletDays" ).find("option").remove();
 
                                              /* get more supportive variables  */
-                                             var month = jQuery("#formletMonth").find(":selected").val();
-                                             var year = jQuery("#formletYears").find(":selected").val();
+                                             var month = jQuery(this).parent().find("#formletMonth option:selected").val();
+                                             var year = jQuery(this).parent().find("#formletYears option:selected").val();
                                              var days_in_month = inbf_daysInMonth(month,year);
+
 
                                              /* build new option set */
                                              for (var i = 1; i <= days_in_month; i++) {
@@ -314,7 +315,7 @@ if (!class_exists('Inbound_Forms')) {
                                              }
 
                                              /* set date to original selection */
-                                             jQuery(this).parent().find( ".formletDays option[value="+selected_date+"]").prop("selected", true)
+                                             jQuery(this).parent().find(".formletDays option[value="+selected_date+"]").prop("selected", true)
                                         });
 
                                     }
@@ -632,7 +633,6 @@ if (!class_exists('Inbound_Forms')) {
             /* TODO remove this */
             ?>
             <script type="text/javascript">
-                _inbound.add_action( 'form_before_submission', inbound_additional_checks, 9);
 
                 function inbound_additional_checks( data ) {
                     /* make sure event is defined */
@@ -641,17 +641,17 @@ if (!class_exists('Inbound_Forms')) {
                         event.target = data.event;
                     }
 
-                  	/*make sure all of this form's required checkboxes are checked*/
+                    /*make sure all of this form's required checkboxes are checked*/
                     var checks = jQuery(event.target).find('.checkbox-required');
                     for(var a = 0; a < checks.length; a++){
-                      if( checks[a] && jQuery(checks[a]).find('input[type=checkbox]:checked').length==0){
-                        jQuery(jQuery(checks[a]).find('input')).focus();
-                        alert("<?php _e('Oops! Looks like you have not filled out all of the required fields!', 'inbound-pro') ; ?> ");
-                        throw new Error("<?php _e('Oops! Looks like you have not filled out all of the required fields!', 'inbound-pro') ; ?>");
-                      }
+                        if( checks[a] && jQuery(checks[a]).find('input[type=checkbox]:checked').length==0){
+                            jQuery(jQuery(checks[a]).find('input')).focus();
+                            alert("<?php _e('Oops! Looks like you have not filled out all of the required fields!', 'inbound-pro') ; ?> ");
+                            throw new Error("<?php _e('Oops! Looks like you have not filled out all of the required fields!', 'inbound-pro') ; ?>");
+                        }
                     }
 
-                  jQuery(this).find("input").each(function(){
+                    jQuery(this).find("input").each(function(){
                         if(!jQuery(this).prop("required")){
                         } else if (!jQuery(this).val()) {
                             alert("<?php  _e('Oops! Looks like you have not filled out all of the required fields!', 'inbound-pro'); ?>");
@@ -707,6 +707,10 @@ if (!class_exists('Inbound_Forms')) {
 
                 /* Adding helpful listeners - may need to move all this into the analytics engine */
                 jQuery(document).ready(function($){
+
+                    /* add checkbox requirement checks */
+                    _inbound.add_action( 'form_before_submission', inbound_additional_checks, 9);
+
                     /* remove br tags */
                     jQuery("#inbound_form_submit br").remove();
 

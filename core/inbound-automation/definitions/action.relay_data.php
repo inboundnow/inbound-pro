@@ -30,6 +30,7 @@ if ( !class_exists( 'Inbound_Automation_Action_Relay_Data' ) ) {
 						'label' => 'Send Method',
 						'type' => 'dropdown',
 						'default' => 'POST',
+						'description' => __( 'Select which protocol we want to use when sending data to a remote location.' , 'inbound-pro' ),
 						'options' => array (
 										'POST' => __('POST (post variables directly to URL)', 'inbound-pro' ),
 										'GET' => __('GET (append parameters to URL)','inbound-pro' ),
@@ -40,6 +41,7 @@ if ( !class_exists( 'Inbound_Automation_Action_Relay_Data' ) ) {
 						'id' => 'destination',
 						'label' => __('Destination URL:', 'inbound-pro' ),
 						'type' => 'text',
+						'description' => __( 'Input the remote API or remote webhook here. ' , 'inbound-pro' ),
 						'default' => 'http://www.somesite.com/somescript.php'
 						)
 				)

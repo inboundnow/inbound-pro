@@ -657,6 +657,7 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
                 wp_register_script('bootstrap', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/BootStrap/js/bootstrap.min.js');
                 wp_enqueue_script('bootstrap');
 
+
                 /* BootStrap CSS */
                 wp_register_style('bootstrap', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/BootStrap/css/bootstrap.css');
                 wp_enqueue_style('bootstrap');
@@ -705,8 +706,9 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
 
             ?>
             <script>
-
-
+                jQuery(function () {
+                    jQuery('[data-toggle="tooltip"]').tooltip()
+                });
             </script>
         <?php
 
@@ -1035,6 +1037,7 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
             $html = "<div class='action-sub-wrapper' data-action-type='" . $args['action_type'] . "' data-block-id='" . $args['action_block_id'] . "'  data-child-id='" . $args['child_id'] . "'>";
             $html .= "<h4>";
             $html .= $header_name;
+            $html .= '<i class="fa fa-info-circle inbound_tooltip" data-toggle="tooltip" data-placement="right" title="'. self::$actions[$this_action]['description'].'"></i>';
             $html .= '        <div class="action-buttons">';
             $html .= '          <span class="up-action-order" title=" ' . __('Move up', 'inbound-pro') . '"  data-block-id="' . $args['action_block_id'] . '"  data-child-id="' . $args['child_id'] . '" data-action-type="'.$args['action_type'].'"><i class="fa fa-arrow-up"></i> </span>';
             $html .= '          <span class="down-action-order" title=" ' . __('Move down', 'inbound-pro') . '"  data-block-id="' . $args['action_block_id'] . '"  data-child-id="' . $args['child_id'] . '" data-action-type="'.$args['action_type'].'"><i class="fa fa-arrow-down"></i> </span>';
@@ -1051,6 +1054,7 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
 
             /* Build Settings for this Action */
             foreach (self::$actions[$this_action]['settings'] as $setting) {
+                $setting['description'] = (isset($setting['description'])) ? $setting['description'] : '';
 
                 /* Map Arguments for Generating Action Setting */
                 $setting_args = array('name' => $setting['id'], 'action_name' => $args['action_name'], 'action_type' => $args['action_type'], 'action_block_id' => $args['action_block_id'], 'type' => $setting['type'], 'child_id' => $args['child_id'], 'class' => $setting['id']);
@@ -1091,7 +1095,7 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
                 $html .= "			" . $setting['label'];
                 $html .= "		</td>";
                 $html .= "		<td class='td-action-setting-value'>";
-                $html .= "			" . $setting_html;
+                $html .= "			" . $setting_html . '<i class="fa fa-info-circle inbound_tooltip" data-toggle="tooltip" data-placement="right" title="'. $setting['description'].'"></i>';
                 $html .= "		</td>";
                 $html .= "	</tr>";
 
