@@ -23,17 +23,19 @@ if ( !class_exists( 'Inbound_Automation_Action_Wait' ) ) {
 				'class_name' => get_class(),
 				'id' => 'wait',
 				'label' => 'Wait',
-				'description' => 'Wait an amount of time before firing the next event.',
+				'description' => __('Wait an amount of time before firing the next event.','inbound-pro'),
 				'settings' => array (
 								array (
 									'id' => 'wait_time_hours',
 									'label' => 'Wait Time Hours:',
+									'description' => __('Here you can set wait time in hours.','inbound-pro'),
 									'type' => 'text',
 									'default' => '72',
 									),
 								array (
 									'id' => 'wait_time_minutes',
 									'label' => 'Wait Time Minutes:',
+									'description' => __('Here you can set wait time in minute.','inbound-pro'),
 									'type' => 'text',
 									'default' => '0',
 									)

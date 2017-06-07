@@ -76,6 +76,9 @@ function wp_cta_load_variation( cta_id, vid, enable_split_testing ) {
 
 	/* get cta impressions object */
 	var cta_impressions = _inbound.totalStorage('wp_cta_impressions');
+	if (cta_impressions === null) {
+		var cta_impressions = {};
+	}
 
 	/* if variation is pre-defined then immediately load variation*/
 	if ( typeof vid != 'undefined' && vid != null && vid != '' ) {

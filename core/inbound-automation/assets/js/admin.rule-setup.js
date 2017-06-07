@@ -325,6 +325,8 @@ var InboundRulesJs = ( function() {
 
             /* make sure conditional fields render correctly */
             InboundRulesJs.toggle_conditional_fields();
+
+            jQuery('[data-toggle="tooltip"]').tooltip()
 		},
 		/**
 		*  Loads the filters available for the selected trigger

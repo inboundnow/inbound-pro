@@ -37,11 +37,12 @@ if ( !class_exists( 'Inbound_Automation_Action_Send_Email' ) ) {
 					'class_name' => get_class(),
 					'id' => 'send_email',
 					'label' => 'Send Email',
-					'description' => 'Send an email using available filter data.',
+					'description' => __('Send an email using available filter data.', 'inbound-pro'),
 					'settings' => array (
 							array (
 									'id' => 'send_to',
 									'label' => __( 'Send Email To' , 'inbound-pro' ),
+									'description' => __('Choose where to send the email', 'inbound-pro'),
 									'type' => 'dropdown',
 									'options' => array(
 											'lead' => __( 'Lead' , 'inbound-pro' ),
@@ -52,6 +53,7 @@ if ( !class_exists( 'Inbound_Automation_Action_Send_Email' ) ) {
 							array (
 									'id' => 'custom_email',
 									'label' => __( 'Enter Email Address' , 'inbound-pro' ),
+									'description' => __('Input email address here.', 'inbound-pro'),
 									'type' => 'text',
 									'hidden' => true,
 									'reveal' => array(
@@ -62,6 +64,7 @@ if ( !class_exists( 'Inbound_Automation_Action_Send_Email' ) ) {
 							array (
 									'id' => 'lead_lists',
 									'label' => __( 'Select Lead List' , 'inbound-pro' ),
+									'description' => __('Select the lead list to send an email to. This action could take awhile for large lists. ', 'inbound-pro'),
 									'type' => 'select2',
 									'hidden' => true,
 									'reveal' => array(
@@ -73,6 +76,7 @@ if ( !class_exists( 'Inbound_Automation_Action_Send_Email' ) ) {
 							array (
 									'id' => 'email_id',
 									'label' => __( 'Select Email' , 'inbound-pro' ),
+									'description' => __('Select the Email to send to. ', 'inbound-pro'),
 									'type' => 'dropdown',
 									'options' => $emails
 							)
