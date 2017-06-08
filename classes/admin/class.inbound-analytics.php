@@ -7,6 +7,7 @@ class Inbound_Analytics {
     static $templates;
     static $range;
     static $dates;
+    static $automated_report;
 
     /**
      *  Initiate class
@@ -47,6 +48,10 @@ class Inbound_Analytics {
         /* setup column sorting */
         add_filter("manage_edit-post_sortable_columns", array(__CLASS__, 'define_sortable_columns'));
         add_action('posts_clauses', array(__CLASS__, 'process_column_sorting'), 1, 2);
+
+        /* add property to screen options */
+        add_filter( 'screen_settings',array( __CLASS__ , 'add_screen_option_field'), 10, 2 );
+
 
 
     }
@@ -146,6 +151,47 @@ class Inbound_Analytics {
                 add_meta_box('inbound-analytics', __('Inbound Analytics', 'inbound-pro'), array(__CLASS__, 'display_quick_view'), $post_type, 'side', 'high');
             }
         }
+    }
+
+    /**
+     * Hooked into 'screen_settings'. Adds the field to the settings area
+     *
+     * @access public
+     * @return string The settings fields
+     */
+
+    public static function add_screen_option_field($rv, $screen) {
+
+        $screen = get_current_screen();
+
+        $whitelist = array('edit-post','edit-page');
+        if (!$screen || !in_array( $screen->id , $whitelist ) ) {
+            return;
+        }
+
+
+        self::$range = (self::$range) ? self::$range : 90;
+        self::$automated_report = (self::$automated_report) ? self::$automated_report : 'combine';
+
+        $rv .= '<fieldset class="">';
+
+        $rv .= '<legend>' . __('Inbound Analytics' , 'inbound-pro') . '</legend>';
+
+        $rv .=  __('Reporting range in days' , 'inbound-pro' ). ': ';
+
+        /* Select screen option range */
+        $rv .= '<select  name="inbound_analytics_screen_option_range" class="" id="" style="width:100px;" >';
+
+        $ranges = array(1,7,30,90,365);
+
+        foreach ($ranges as $range) {
+            $rv .= '<option value="'.$range.'" '. ( self::$range==$range ? 'selected="true"' : '' ).'">'.$range.' ' . __('days','inbound-pro') .'</option>';
+        }
+
+        $rv .= '</select></fieldset>';
+
+        return $rv;
+
     }
 
     /**
