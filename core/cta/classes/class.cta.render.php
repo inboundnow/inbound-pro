@@ -1334,12 +1334,8 @@ if ( !class_exists( 'CTA_Render' ) ) {
          */
         function load_shortcode_variation_js( $cta_id, $variation_id = null, $return = false ) {
 
-            if ( !isset(self::$instance->split_testing) ) {
-                self::$instance->split_testing = CTA_Settings::get_setting('wp-cta-main-split-testing', 1 );
-            }
-
             $script =	"<script type='text/javascript'>";
-            $script .= "	wp_cta_load_variation( '" .$cta_id ."', '" .$variation_id ."', '".self::$instance->split_testing ."' )";
+            $script .= "	wp_cta_load_variation( '" .$cta_id ."', '" .$variation_id ."' )";
             $script .= "</script>";
 
             if ($return) {

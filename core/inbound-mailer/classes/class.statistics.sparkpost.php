@@ -93,6 +93,10 @@ class Inbound_SparkPost_Stats {
 
         /* check if automated email has a job id saved */
         if ($post->post_status=='automated') {
+
+            /* account for last_send */
+            $job_id = ($job_id == 'last_send') ?Inbound_Mailer_Post_Type::get_last_job_id($email_id) : $job_id ;
+
             /* add job id to the query if not zero or false */
             if ($job_id) {
                 $job_id_query = ' AND job_id="' . $job_id . '" ';
