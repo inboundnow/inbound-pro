@@ -89,7 +89,7 @@ class Inbound_Mailer_Unsubscribe {
 
 
 		/* check email was sent directly to lead via automation series and cancel event if so */
-		if (isset($params['job_id']) && $params['job_id'] && (!isset($params['lead_lists']) || !$params['lead_lists'] ) ) {
+		if (isset($params['job_id']) && $params['job_id'] && (!isset($params['list_ids']) || !$params['list_ids'] ) ) {
 
 			Inbound_Automation_Post_Type::mark_jobs_cancelled( array('job_id' => $params['job_id']) );
 
@@ -101,7 +101,7 @@ class Inbound_Mailer_Unsubscribe {
 			/* record unsubscribe event */
 			Inbound_Events::store_unsubscribe_event( $params );
 
-			return '<div class="inbound-automation-unsubscribe-message success">'. $automation_unsubscribed_confirmation_message.'</div>';
+			echo '<div class="inbound-automation-unsubscribe-message success">'. $automation_unsubscribed_confirmation_message.'</div><br>';
 		}
 
 		/* Add header */

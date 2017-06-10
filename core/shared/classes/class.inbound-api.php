@@ -1302,7 +1302,7 @@ if (!class_exists('Inbound_API')) {
 			/* check args to see if token already exists */
 			$results = $wpdb->get_results("SELECT * FROM $table_name WHERE args = '".serialize( $args )."' LIMIT 1", ARRAY_A );
 			if ($results) {
-				return get_site_url( get_current_blog_id(), self::$tracking_endpoint . '/' . $results[0]['token'] );
+				return $results[0]['token'];
 			}
 
 			$token = self::generate_token();
@@ -1316,7 +1316,7 @@ if (!class_exists('Inbound_API')) {
 			);
 
 			/* return tracked link */
-			return get_site_url( get_current_blog_id(), self::$tracking_endpoint . '/' . $token );
+			return $token;
 		}
 
 		/**
@@ -1361,9 +1361,11 @@ if (!class_exists('Inbound_API')) {
 				$args = array_merge( $args, $params['custom_data'] );
 			}
 
+			/* get token args */
+			$token = self::analytics_get_tracking_code( $args );
 
 			/* get tracked link */
-			$tracked_link = self::analytics_get_tracking_code( $args );
+			$tracked_link =  get_site_url( get_current_blog_id(), self::$tracking_endpoint . '/' . $token );
 
 			return array( 'url' => $tracked_link );
 		}
