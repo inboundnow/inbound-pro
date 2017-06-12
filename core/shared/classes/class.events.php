@@ -58,7 +58,7 @@ class Inbound_Events {
             $charset_collate .= " COLLATE {$wpdb->collate}";
         }
 
-        $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+        $sql = "CREATE TABLE $table_name (
 			  `id` mediumint(9) NOT NULL AUTO_INCREMENT,
 			  `event_name` varchar(255) NOT NULL,
 			  `page_id` mediumint(20) NOT NULL,
@@ -68,6 +68,7 @@ class Inbound_Events {
 			  `email_id` mediumint(20) NOT NULL,
 			  `list_id` mediumint(20) NOT NULL,
 			  `lead_id` mediumint(20) NOT NULL,
+			  `comment_id` mediumint(20) NOT NULL,
 			  `lead_uid` varchar(255) NOT NULL,
 			  `session_id` varchar(255) NOT NULL,
 			  `event_details` text NOT NULL,
@@ -79,8 +80,7 @@ class Inbound_Events {
 			) $charset_collate;";
 
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-        dbDelta( $sql );
-
+       $results = dbDelta( $sql );
     }
 
 
@@ -215,7 +215,7 @@ class Inbound_Events {
     }
 
     /**
-     * Stores inbound mailer mute event into events table
+     * Stores inbound lead list addition event(s) into events table
      * @param $args
      */
     public static function store_list_add_event( $lead_id , $list_id ){
@@ -248,6 +248,30 @@ class Inbound_Events {
     }
 
     /**
+     * Stores comment made events into the events table
+     * @param $args
+     */
+    public static function store_search_event( $args ){
+        global $wp_query;
+
+        $args['event_name'] = 'search_made';
+
+        self::store_event($args);
+    }
+
+    /**
+     * Stores comment made events into the events table
+     * @param $args
+     */
+    public static function store_comment_event( $args ){
+        global $wp_query;
+
+        $args['event_name'] = 'comment_made';
+
+        self::store_event($args);
+    }
+
+    /**
      * Add event to inbound_events table
      * @param $args
      */
@@ -273,6 +297,7 @@ class Inbound_Events {
             'lead_id' => ( isset($_COOKIE['wp_lead_id']) ? $_COOKIE['wp_lead_id'] : '' ),
             'lead_uid' => ( isset($_COOKIE['wp_lead_uid']) ? $_COOKIE['wp_lead_uid'] : '' ),
             'session_id' => ( isset($_COOKIE['PHPSESSID']) ? $_COOKIE['PHPSESSID'] : session_id() ),
+            'comment_id' => '',
             'event_name' => $args['event_name'],
             'event_details' => '',
             'datetime' => $wordpress_date_time,
@@ -341,14 +366,23 @@ class Inbound_Events {
             $args
         );
 
+
         /* check error messages for broken tables */
         if (isset($wpdb->last_error)) {
+            
             switch ($wpdb->last_error) {
                 case "Unknown column 'funnel' in 'field list'":
                     self::create_events_table();
                     break;
+                
+                case "Unknown column 'comment_id' in 'field list'":
+                    self::create_events_table();
+                    break;
             }
+           
         }
+        
+            
 
     }
 
@@ -453,6 +487,7 @@ class Inbound_Events {
             'lead_id' => ( isset($_COOKIE['wp_lead_id']) ? $_COOKIE['wp_lead_id'] : '' ),
             'lead_uid' => ( isset($_COOKIE['wp_lead_uid']) ? $_COOKIE['wp_lead_uid'] : '' ),
             'session_id' => '',
+            'comment_id' => '',
             'event_name' => $args['event_name'],
             'event_details' => '',
             //'datetime' => (isset($args['wordpress_date_time'],
@@ -926,6 +961,10 @@ class Inbound_Events {
             $query .= ' LIMIT '.$params['limit'];;
         }
 
+        if (isset($params['offset']) && $params['offset']) {
+            $query .= ' OFFSET '.$params['offset'].' ';
+        }
+
         $results = $wpdb->get_results( $query , ARRAY_A );
 
         return $results;
@@ -953,6 +992,12 @@ class Inbound_Events {
                 break;
             case 'sparkpost_delivery':
                 return ($plural) ?  __('SparkPost Deliveries' , 'inbound-pro') : __('SparkPost Delivery' , 'inbound-pro');
+                break;
+            case 'search_made':
+                return ($plural) ?  __('Searches Made' , 'inbound-pro') : __('Search Made' , 'inbound-pro');
+                break;
+            case 'comment_made':
+                return ($plural) ?  __('Comments Made' , 'inbound-pro') : __('Comment Made' , 'inbound-pro');
                 break;
         }
 
@@ -1402,6 +1447,44 @@ class Inbound_Events {
         /* return null if nothing there */
         return ($count) ? $count : 0;
     }
+
+    /**
+     * Checks to see if a comment has already been logged in the events table
+     * @param $comment_id
+     */
+    public static function comment_exists($comment_id){
+        global $wpdb;
+        
+        $table_name = $wpdb->prefix . "inbound_events";
+        
+        $comment_row_id = $wpdb->get_var(
+            $wpdb->prepare(
+                "SELECT `id` FROM {$table_name} WHERE `comment_id` = %d",
+                $comment_id
+            )
+        );  
+        
+        return $comment_row_id;  
+    }
+
+    /**
+     * Removes a comment from the events database
+     * @param $comment_id
+     */
+    public static function remove_comment_event($comment_id){
+        global $wpdb;
+        
+        $table_name = $wpdb->prefix . "inbound_events";
+        
+        $wpdb->query(
+            $wpdb->prepare(
+                "DELETE FROM {$table_name} WHERE `comment_id` = %d",
+                $comment_id
+            )
+        );
+   }
+   
+   
 
     public static function isJson($string) {
         json_decode($string);

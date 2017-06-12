@@ -157,6 +157,7 @@ if (!class_exists('Inbound_Asset_Loader')) {
 			$lead_data_array['lead_id'] = ($lead_id) ? $lead_id : null;
 			$lead_data_array['lead_email'] = ($lead_email) ? $lead_email : null;
 			$lead_data_array['lead_uid'] = ($lead_uid) ? $lead_uid : null;
+			$lead_data_array['lead_nonce'] = ($lead_id) ? wp_create_nonce('inbound_lead_' . $lead_id . '_nonce') : null;
 			$time = current_time( 'timestamp', 0 ); /* Current wordpress time from settings */
 			$wordpress_date_time = date("Y/m/d G:i:s", $time);
 			$inbound_track_include = self::get_lead_setting( 'wpl-main-tracking-ids' , '');
