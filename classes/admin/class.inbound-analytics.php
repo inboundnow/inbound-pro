@@ -38,7 +38,7 @@ class Inbound_Analytics {
 
         /* Register Columns */
         add_filter('manage_posts_columns', array(__CLASS__, 'register_columns'));
-        add_filter('manage_page_columns', array(__CLASS__, 'register_columns'));
+        add_filter('manage_pages_columns', array(__CLASS__, 'register_columns'));
 
         /* Prepare Column Data */
         add_action("manage_posts_custom_column", array(__CLASS__, 'prepare_column_data'), 10, 2);
@@ -46,6 +46,7 @@ class Inbound_Analytics {
 
         /* setup column sorting */
         add_filter("manage_edit-post_sortable_columns", array(__CLASS__, 'define_sortable_columns'));
+        add_filter("manage_edit-page_sortable_columns", array(__CLASS__, 'define_sortable_columns'));
         add_action('posts_clauses', array(__CLASS__, 'process_column_sorting'), 1, 2);
 
 
