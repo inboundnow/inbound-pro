@@ -529,7 +529,7 @@ if ( !class_exists('Inbound_Mailer_Post_Type') ) {
 
 			$whitelist = array('edit-inbound-email','inbound-email');
 			if (!$screen || !in_array( $screen->id , $whitelist ) ) {
-				return;
+				return $rv;
 			}
 
 
