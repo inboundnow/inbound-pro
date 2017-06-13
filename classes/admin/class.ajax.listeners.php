@@ -86,7 +86,8 @@ class Inbound_Pro_Admin_Ajax_Listeners {
         ));
 
         if (is_wp_error($response)) {
-            return;
+            echo json_encode($response);
+            exit;
         }
 
         /* decode json response */

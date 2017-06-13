@@ -62,7 +62,13 @@ class Inbound_Mailer_Unsubscribe {
 		$lead_lists = Inbound_Leads::get_lead_lists_as_array();
 
 		/* decode token */
-		$params = self::decode_unsubscribe_token( $token );
+		$params = Inbound_API::get_args_from_token( $token );
+
+		/* legacy token backup */
+		if (!$params) {
+			$params = self::legacy_decode_unsubscribe_token($token);
+		}
+		//print_r($params);
 
 		/* if token has failed or isn't present check for logged in user */
 		if (!$params) {
@@ -89,7 +95,8 @@ class Inbound_Mailer_Unsubscribe {
 
 
 		/* check email was sent directly to lead via automation series and cancel event if so */
-		if (isset($params['job_id']) && $params['job_id'] && (!isset($params['list_ids']) || !$params['list_ids'] ) ) {
+
+		if (isset($params['job_id']) && $params['job_id'] && (!isset($params['list_ids']) || !array_filter($params['list_ids']) ) ) {
 
 			Inbound_Automation_Post_Type::mark_jobs_cancelled( array('job_id' => $params['job_id']) );
 
@@ -196,7 +203,10 @@ class Inbound_Mailer_Unsubscribe {
 
 		$args = array_merge( $params , $_GET );
 
-		$token = Inbound_Mailer_Unsubscribe::encode_unsubscribe_token( $args );
+		$token = Inbound_API::analytics_get_tracking_code( $args );
+
+		/* decode token - testing */
+		//$params = Inbound_API::get_args_from_token( $token );
 
 		$settings = Inbound_Mailer_Settings::get_settings();
 
@@ -211,47 +221,13 @@ class Inbound_Mailer_Unsubscribe {
 
 	}
 
-	/**
-	 *  Encodes data into an unsubscribe token
-	 *  @param ARRAY $params contains: lead_id (INT ), list_ids (MIXED), email_id (INT)
-	 *  @return INT $token
-	 */
-	public static function encode_unsubscribe_token( $params ) {
-
-		if (isset($params['doing_wp_cron'])) {
-			unset($params['doing_wp_cron']);
-		}
-
-		/* empty arrays break the encoding process */
-		$params['list_ids'] = (isset($params['list_ids']) && array_filter($params['list_ids'])) ? $params['list_ids'] : '';
-
-		$json = json_encode($params);
-
-		$iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB);
-		$iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
-		$encrypted_string =
-			base64_encode(
-				trim(
-					mcrypt_encrypt(
-						MCRYPT_RIJNDAEL_256, substr( SECURE_AUTH_KEY , 0 , 16 )  , $json, MCRYPT_MODE_ECB, $iv
-					)
-				)
-			);
-
-
-		$encrypted_string = str_replace(array('+', '/', '='), array('-', '_', '^'), $encrypted_string);
-
-		//$decode_test = self::decode_unsubscribe_token($encrypted_string);
-
-		return  $encrypted_string;
-	}
 
 	/**
 	 *  Decodes unsubscribe encoded reader id into a lead id
 	 *  @param STRING $reader_id Encoded lead id.
 	 *  @return ARRAY $unsubscribe array of unsubscribe data
 	 */
-	public static function decode_unsubscribe_token( $token ) {
+	public static function legacy_decode_unsubscribe_token( $token ) {
 
 		$token = str_replace( array('-', '_', '^'), array('+', '/', '=') , $token);
 
@@ -304,9 +280,8 @@ class Inbound_Mailer_Unsubscribe {
 			return;
 		}
 
-
 		/* decode token */
-		$params = self::decode_unsubscribe_token( $_POST['token'] );
+		$params = Inbound_API::get_args_from_token( $_POST['token'] );
 
 		/* if no token is present or is a bad token then automatically discover lead id */
 		if (!isset($params['lead_id']) || !$params['lead_id'] || !$params ) {
@@ -459,4 +434,4 @@ class Inbound_Mailer_Unsubscribe {
 
 }
 
-$Inbound_Mailer_Unsubscribe = new Inbound_Mailer_Unsubscribe();
+new Inbound_Mailer_Unsubscribe();

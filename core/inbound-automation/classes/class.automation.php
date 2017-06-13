@@ -110,7 +110,7 @@ class Inbound_Automation_Processing {
 		$timezone_format = 'Y-m-d G:i:s T';
 		$wordpress_date_time =  date_i18n($timezone_format);
 
-		$query = 'SELECT * FROM '.$table_name . " WHERE status != 'complete' && status != 'running' ";
+		$query = 'SELECT * FROM '.$table_name . " WHERE status != 'complete' && status != 'running' && status != 'cancelled' && status != 'canceled' ";
 
 		if (!$hide_future_events) {
 			$query .= ' AND datetime <= "'.$wordpress_date_time.'" ';
