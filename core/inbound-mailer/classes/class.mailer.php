@@ -448,7 +448,7 @@ class Inbound_Mail_Daemon {
 
             /* encode tokens */
             if (self::$row->tokens && strlen(self::$row->tokens) < 1000 )  {
-                $token = Inbound_Mailer_Unsubscribe::encode_unsubscribe_token(json_decode(self::$row->tokens,true));
+                $token = Inbound_API::analytics_get_tracking_code(json_decode(self::$row->tokens,true));
                 $query_args['tokens'] = $token ;
             }
 
@@ -584,7 +584,7 @@ class Inbound_Mail_Daemon {
             $post = get_post(self::$row->post_id);
             $email_tokens = (array) $post;
             $email_tokens['permalink'] = get_the_permalink((int) self::$row->post_id);
-            $email_tokens['featured_image'] = wp_get_attachment_url(get_post_thumbnail_id((int)$post->ID));
+            $email_tokens['featured_image'] = wp_get_attachment_url(get_post_thumbnail_id(self::$row->post_id));
             wp_reset_query();
         }
 
