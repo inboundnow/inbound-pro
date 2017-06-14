@@ -42,6 +42,8 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             /* Add Quick Stats */
             add_action('wpleads_display_quick_stat', array(__CLASS__, 'display_quick_stat_page_views'));
             add_action('wpleads_display_quick_stat', array(__CLASS__, 'display_quick_stat_form_submissions'));
+            add_action('wpleads_display_quick_stat', array(__CLASS__, 'display_quick_stat_lead_searches'));
+            add_action('wpleads_display_quick_stat', array(__CLASS__, 'display_quick_stat_lead_comments'));
             add_action('wpleads_display_quick_stat', array(__CLASS__, 'display_quick_stat_last_activity'), 100 );
 
             /* Add header metabox   */
@@ -755,8 +757,59 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
         }
 
+        /**
+         * Adds Lead Searches to Quick Stat Box
+         */
+        public static function display_quick_stat_lead_searches($post) {
+                $search_count = Inbound_Events::get_total_activity($post->ID, 'search_made');
+            ?>
 
+            <div class="quick-stat-label">
+                <div class="label_1"><?php echo Inbound_Events::get_event_label('search_made'); ?>:</div>
+                <div class="label_2">
+                    <?php
+                    if (class_exists('Inbound_Analytics')) {
+                        ?>
+                        <a href='<?php echo admin_url('index.php?action=inbound_generate_report&lead_id='.$post->ID.'&class=Inbound_Search_And_Comment_Report&event_name=search_made&range=10000&title='. urlencode(Inbound_Events::get_event_label('search_made')).'&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox'>
+                            <?php echo $search_count; ?>
+                        </a>
+                        <?php
+                    } else {
+                        echo $search_count;
+                    }
+                    ?>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <?php
+        }
 
+        /**
+         * Adds Lead Comments to Quick Stat Box
+         */
+        public static function display_quick_stat_lead_comments($post) {
+            $comment_count = Inbound_Events::get_total_activity($post->ID, 'comment_made');
+            ?>
+
+            <div class="quick-stat-label">
+                <div class="label_1"><?php echo Inbound_Events::get_event_label('comment_made'); ?>:</div>
+                <div class="label_2">
+                    <?php
+                    if (class_exists('Inbound_Analytics')) {
+                        ?>
+                        <a href='<?php echo admin_url('index.php?action=inbound_generate_report&lead_id='.$post->ID.'&class=Inbound_Search_And_Comment_Report&event_name=comment_made&range=10000&title='. urlencode(Inbound_Events::get_event_label('comment_made')).'&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox'>
+                            <?php echo $comment_count; ?>
+                        </a>
+                        <?php
+                    } else {
+                        echo $comment_count;
+                    }
+                    ?>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <?php
+        }
 
         /**
          * Adds Latest Activity to Quick Stat Box
@@ -922,7 +975,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             self::activity_navigation();
             self::activity_form_submissions();
             self::activity_comments();
-            //self::activity_searches();
+            self::activity_searches();
             self::activity_pageviews();
 
             do_action('wpleads_after_activity_log');
@@ -935,7 +988,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
         public static function display_lead_conversion_paths() {
             global $post, $wpdb;
 
-            /* do not render legacy activity tab if Inbound Analytics is on and suer is subsriber */
+            /* do not render legacy activity tab if Inbound Analytics is on and user is subscriber */
             if (class_exists('Inbound_Analytics')) {
                 if (INBOUND_ACCESS_LEVEL > 0 && INBOUND_ACCESS_LEVEL != 9 ) {
                     return;
@@ -1335,37 +1388,27 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
         }
 
         /**
-         *    Gets number of onsite search events
+         *    Gets number of onsite search events and loads the $searches variable
          */
         public static function get_search_count() {
             global $post;
 
-            $wpleads_search_data = get_post_meta($post->ID, 'wpleads_search_data', true);
-            self::$searches = json_decode($wpleads_search_data, true);
-            if (is_array(self::$searches)) {
-                $search_count = count(self::$searches);
+            self::$searches = self::retrieve_lead_event_data($post->ID, 'search_made');
 
-            } else {
-                $search_count = 0;
-            }
+            $search_count = Inbound_Events::get_total_activity($post->ID, 'search_made');
 
             return $search_count;
         }
 
         /**
-         *    Gets number of comment events
+         *    Gets the number of comment events and sets up the comment data array
          */
         public static function get_comment_count() {
             global $post;
 
-            $comments_query = new WP_Comment_Query;
-            self::$comments = $comments_query->query(array('author_email' => self::$mapped_fields['wpleads_email_address']['value']));
-
-            if (self::$comments) {
-                $comment_count = count(self::$comments);
-            } else {
-                $comment_count = 0;
-            }
+            self::$comments = self::retrieve_lead_event_data($post->ID, 'comment_made');
+            
+            $comment_count = Inbound_Events::get_total_activity($post->ID, 'comment_made');
 
             return $comment_count;
         }
@@ -1381,6 +1424,36 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             } else {
                 return 0;
             }
+        }
+
+        /**
+         * Retrieves lead search or comment data on page load
+         */
+        public static function retrieve_lead_event_data( $lead_id = null, $event_name = '', $limit = 10000, $offset = 0 ){
+
+            if( isset( $lead_id ) && !empty( $lead_id ) ){
+                
+                $args = array(
+                    'event_name' => sanitize_text_field( $event_name ),
+                    'lead_id' => intval( $lead_id ),
+                    'order_by' => 'datetime',
+                    'limit' => intval( $limit ),
+                    'offset' => intval( $offset )
+                );
+            
+            }else{
+                return;
+            }
+
+            foreach( $args as $value ){
+                if( !isset( $value ) && empty( $value ) ){
+                    return;
+                }
+            }
+
+            $event_data = Inbound_Events::get_events( $args );
+            
+            return $event_data;
         }
 
         /**
@@ -1404,6 +1477,11 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                     'id' => 'lead-comments',
                     'label' => __('Comments', 'inbound-pro'),
                     'count' => self::get_comment_count()
+                ),
+                array(
+                    'id' => 'lead-searches',
+                    'label' => __('Searches', 'inbound-pro'),
+                    'count' => self::get_search_count()
                 )
             );
 
@@ -1528,14 +1606,36 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
             $c_i = $comment_count;
             foreach (self::$comments as $comment) {
-
-                $comment_date_raw = new DateTime($comment->comment_date);
+                
+                $event_details = json_decode($comment['event_details'], true);
+                
+                /* if the json parsing failed, continue */
+                if(empty($event_details)){
+                    continue;
+                }
+                
+                /* if the comment author's name is given */
+                if(!empty($event_details['comment_author'])){
+                    $author_details = sprintf(__( 'Commented as: %s', 'inbound-pro' ), $event_details['comment_author']);
+                    
+                    /* if the comment author gave a website, make the author name element a link to that site */
+                    if(!empty($event_details['comment_author_url'])){
+                        $author_details = '- <a target="_blank" href="' . $event_details['comment_author_url'] . '">' . $author_details . '</a>';
+                    }else{
+                        $author_details = '- <span class="comment-author-name">' . $author_details . '</span>';
+                    }
+                }else{
+                    /* if the author name wasn't given, don't output anything */
+                    $author_details = '';
+                }
+                
+                $comment_date_raw = new DateTime($comment['datetime']);
                 $date_of_comment = $comment_date_raw->format('F jS, Y \a\t g:ia (l)');
                 $comment_clean_date = $comment_date_raw->format('Y-m-d H:i:s');
 
-                $commented_page_permalink = get_permalink($comment->comment_post_ID);
-                $commented_page_title = get_the_title($comment->comment_post_ID);
-                $comment_id = "#comment-" . $comment->comment_ID;
+                $commented_page_permalink = get_permalink($comment['page_id']);
+                $commented_page_title = get_the_title($comment['page_id']);
+                $comment_id = "#comment-" . $comment['comment_id'];
 
                 // Display Data
                 echo '<div class="lead-timeline recent-conversion-item lead-comment-conversion" data-date="' . $comment_clean_date . '">
@@ -1546,7 +1646,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                         <div class="lead-timeline-body">
                             <div class="lead-event-text lead-comment-div">
                                 <p><span class="lead-item-num">' . $c_i . '.</span><span class="lead-helper-text">Comment on </span><a title="' . __('View and respond to the comment', 'inbound-pro') . '" href="' . $commented_page_permalink . $comment_id . '" id="lead-session-' . $c_i . '" rel="' . $c_i . '" target="_blank">' . $commented_page_title . '</a><span class="conversion-date">' . $date_of_comment . '</span> <!--<a rel="' . $c_i . '" href="#view-session-"' . $c_i . '">(view visit path)</a>--></p>
-                                <p class="lead-comment">"' . $comment->comment_content . '" - <a target="_blank" href="' . $comment->comment_author_url . '">' . $comment->comment_author . '</a></p>
+                                                                <p class="lead-comment">"' . apply_filters( 'the_content', $event_details['comment_content'] ) . '"' . $author_details . '</p>
                             </div>
                         </div>
                     </div>';
@@ -1564,38 +1664,118 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             echo '<div id="lead-searches" class="lead-activity">';
             echo '  <h2>' . __('Lead Searches', 'inbound-pro') . '</h2>';
 
-            if (!is_array(self::$searches)) {
-                echo "<span id='wpl-message-none'>No searches found!</span>";
+            if (empty(self::$searches)) {
+                echo "<span id='wpl-message-none'>" . __('No searches found!', 'inbound-pro') . "</span>";
                 echo '</div>';
                 return;
             }
-
-            $search_count = count(self::$searches);
-
-            $c_i = $search_count;
+            
+            $index = 0;
+            $search_array = array();
             foreach (self::$searches as $key => $value) {
+                $search_query = json_decode($value['event_details'], true);
 
-                $search_date_raw = new DateTime($value['date']);
+                /* if the json parsing failed, continue */
+                if(empty($search_query)){
+                    continue;
+                }
+                
+                $field_details = explode( '|value|', $search_query['search_data'] );
+                
+                /* if the current text isn't from the search field, continue*/
+                if($field_details[0] !== 'search_text'){
+                    continue;
+                }
+
+                if(!empty($search_query['page_id']) && $search_query['page_id'] !== '0' && $search_query['page_id'] !== 's'){
+                    
+                    /* if the search page id was saved as a string instead of an id */
+                    if(is_string($search_query['page_id']) && ((int)$search_query['page_id']) === 0){
+                        
+                        if($search_query['page_id'] === 'blog_home'){
+                            $search_page = '<a href="' . get_home_url() . '">' . __('On the homepage', 'inbound-pro') . '</a>';
+                            
+                        }else{
+                            $post = get_page_by_title($search_query['page_id'], 'OBJECT');
+                            
+                            if($post !== null){
+                                $search_page = '<a href="' . get_permalink($post->ID) . '">' . $post->post_title . '</a>';
+                            }else{
+                                $search_page = '<span>' . sprintf(__('On: %s', 'inbound-pro'), $search_query['page_id']) . '</span>';
+                            }
+                        }
+                    }else{
+                        $post = get_post($search_query['page_id']);
+
+                        if(!empty($post)){
+                            $search_page = '<a href="' . get_permalink($post->ID) . '">' . $post->post_title . '</a>';
+                        }else{
+                            $search_page = '<span>' . __('On a deleted post', 'inbound-pro') . '</span>';
+                        }
+                    }
+                }else{
+                    $search_page = '<span>' . __('On the search page', 'inbound-pro') . '</span>';
+
+                }
+
+                $search_date_raw = new DateTime($value['datetime']);
                 $date_of_search = $search_date_raw->format('F jS, Y \a\t g:ia (l)');
                 $search_clean_date = $search_date_raw->format('Y-m-d H:i:s');
-                $search_query = $value['value'];
 
+                if(empty($field_details[1])){
+                    $field_details[1] = __('No search saved. The search was made, but it wasn\'t logged for some reason.', 'inbound-pro' );
+                }
+
+                $search_array[$index]['search_query'] = $field_details[1];
+                $search_array[$index]['search_clean_date'] = $search_clean_date;
+                $search_array[$index]['search_date'] = $date_of_search;
+                $search_array[$index]['search_page'] = $search_page;
+                
+                $index++;
+            }
+            
+            $search_count = count($search_array);
+            $search_errors = count(self::$searches) - $search_count;
+            $listed_date = array();
+            $bump_up_time = 10000000;
+            foreach($search_array as $key => $values){
+                
+                // if for some reason there's multiple searches with the same timestamp,
+                // add a tiny bit more time to the next coming ones so the sorting doesn't get messed up
+                if( isset( $listed_date[$values['search_clean_date']] ) ){
+                    $values['search_clean_date'] .= $bump_up_time;
+                    $bump_up_time++;
+                }else{
+                    $listed_date[$values['search_clean_date']] = true;
+                }
+                
                 // Display Data
-                echo '<div class="lead-timeline recent-conversion-item lead-search-conversion" data-date="' . $search_clean_date . '">
-                        <a class="lead-timeline-img" href="#non">
-
-                        </a>
-
+                echo '<div class="lead-timeline recent-conversion-item lead-search-conversion" data-date="' . $values['search_clean_date'] . '">
+                        <a class="lead-timeline-img" href="#non"></a>
                         <div class="lead-timeline-body">
                             <div class="lead-event-text lead-search-div">
-                                <p><span class="lead-item-num">' . $c_i . '.</span><span class="lead-helper-text">Search for "</span><strong>' . $search_query . '"</strong> on <span class="conversion-date">' . $date_of_search . '</span> <!--<a rel="' . $c_i . '" href="#view-session-"' . $c_i . '">(view visit path)</a>--></p>
-
+                                <p>
+                                    <span class="lead-item-num">' . $search_count . '.</span>
+                                    <span class="lead-helper-text">' . __('Lead searched for: ', 'inbound-pro') . '
+                                        <strong>"' . $values['search_query'] . '"</strong> on 
+                                    </span>
+                                    <span class="conversion-date">' . $values['search_date'] . '.</span><br />
+                                    ' . $values['search_page'] .'
+                                </p>
                             </div>
                         </div>
                     </div>';
-                $c_i--;
-
+                $search_count--;
             }
+            
+            /* if there were any searches that were empty or not formatted correctly, add a message so the user knows what happened to them */
+            if($search_errors > 0){
+                echo '<div id="search-error-count">
+                        <i class="fa fa-info-circle search-error-icon" aria-hidden="true"></i>
+                        <p class="search-error-message">' . sprintf( __( 'There were %d searches that were empty or had an error.', 'inbound-pro'), $search_errors ) . '</p>
+                      </div>';
+            }
+            
             echo '</div>';
         }
 

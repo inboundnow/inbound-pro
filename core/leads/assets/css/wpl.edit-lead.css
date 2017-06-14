@@ -104,6 +104,27 @@ float: right;
 #lead-searches .lead-timeline {
 	margin-left: 10px !important;
 }
+
+#lead-searches #search-error-count{
+    width: 92%;
+    margin-left: 10px;
+}
+
+#lead-searches .search-error-icon{
+    font-size: 54px;
+    position: absolute;
+    left: 30px;
+    margin-top: 10px;
+}
+
+#lead-searches .search-error-message{
+    padding: 26px 10px 26px 10px;
+    border: 1px solid #e5e5e5;
+    border-radius: 5px;
+    background: #fff;
+    margin-top: 3px;
+    margin-left: 83px;
+}
 #conversions-data-display .nav-container {
 margin-top: 5px;
 }

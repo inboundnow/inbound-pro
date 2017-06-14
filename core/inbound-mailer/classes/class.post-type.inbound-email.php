@@ -532,7 +532,6 @@ if ( !class_exists('Inbound_Mailer_Post_Type') ) {
 				return $rv;
 			}
 
-
 			self::$range = (self::$range) ? self::$range : 90;
 			self::$automated_report = (self::$automated_report) ? self::$automated_report : 'combine';
 
