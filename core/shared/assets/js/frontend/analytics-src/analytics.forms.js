@@ -42,7 +42,6 @@ var InboundForms = (function(_inbound) {
         // Init Form functions
         init: function() {
             _inbound.Forms.runFieldMappingFilters();
-            _inbound.Forms.assignTrackClass();
             _inbound.Forms.formTrackInit();
             _inbound.Forms.searchTrackInit();
         },
@@ -163,22 +162,6 @@ var InboundForms = (function(_inbound) {
                 cb = function() { console.log(form); };
                 _inbound.deBugger('searches', "This search form is not tracked. Please assign on in settings...", cb);
                 return false;
-            }
-        },
-        assignTrackClass: function() {
-            if (window.inbound_settings) {
-                if (inbound_settings.inbound_track_include) {
-                    var selectors = inbound_settings.inbound_track_include.split(',');
-                    var msg = 'add selectors ' + inbound_settings.inbound_track_include;
-                    _inbound.deBugger('forms', msg);
-                    this.loopClassSelectors(selectors, 'add');
-                }
-                if (inbound_settings.inbound_track_exclude) {
-                    var selectors = inbound_settings.inbound_track_exclude.split(',');
-                    var msg = 'remove selectors ' + inbound_settings.inbound_track_exclude;
-                    _inbound.deBugger('forms', msg);
-                    this.loopClassSelectors(selectors, 'remove');
-                }
             }
         },
         /* Loop through include/exclude items for tracking */
@@ -422,7 +405,6 @@ var InboundForms = (function(_inbound) {
 
         },
         saveFormData: function(form) {
-
             var inputsObject = inputsObject || {};
             for (var i = 0; i < form.elements.length; i++) {
 
@@ -636,6 +618,7 @@ var InboundForms = (function(_inbound) {
                 'source': utils.readCookie("inbound_referral_site"),
                 'inbound_submitted': inbound_form_is_ajax,
                 'inbound_form_id': inbound_form_id,
+                'inbound_nonce': inbound_settings.ajax_nonce,
                 'event': form
             };
 

@@ -606,6 +606,3 @@ function inboundFormNoRedirectContent(){
 }
 
 _inbound.add_action( 'form_after_submission', inboundFormNoRedirectContent, 10 );
-
-
-

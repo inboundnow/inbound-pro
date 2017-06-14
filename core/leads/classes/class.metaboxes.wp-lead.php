@@ -1693,17 +1693,35 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                     continue;
                 }
 
-                if(!empty($search_query['page_id']) && $search_query['page_id'] !== '0'){
-                    $post = get_post($search_query['page_id']);
-
-                    if(!empty($post)){
-                        $search_page = '<a href="' . get_permalink($post->ID) . '">' . $post->post_title . '</a>';
+                if(!empty($search_query['page_id']) && $search_query['page_id'] !== '0' && $search_query['page_id'] !== 's'){
+                    
+                    /* if the search page id was saved as a string instead of an id */
+                    if(is_string($search_query['page_id']) && ((int)$search_query['page_id']) === 0){
+                        
+                        if($search_query['page_id'] === 'blog_home'){
+                            $search_page = '<a href="' . get_home_url() . '">' . __('On the homepage', 'inbound-pro') . '</a>';
+                            
+                        }else{
+                            $post = get_page_by_title($search_query['page_id'], 'OBJECT');
+                            
+                            if($post !== null){
+                                $search_page = '<a href="' . get_permalink($post->ID) . '">' . $post->post_title . '</a>';
+                            }else{
+                                $search_page = '<span>' . sprintf(__('On: %s', 'inbound-pro'), $search_query['page_id']) . '</span>';
+                            }
+                        }
                     }else{
-                        $search_page = '<span>' . __('On a deleted post', 'inbound-pro') . '</span>';
+                        $post = get_post($search_query['page_id']);
+
+                        if(!empty($post)){
+                            $search_page = '<a href="' . get_permalink($post->ID) . '">' . $post->post_title . '</a>';
+                        }else{
+                            $search_page = '<span>' . __('On a deleted post', 'inbound-pro') . '</span>';
+                        }
                     }
                 }else{
                     $search_page = '<span>' . __('On the search page', 'inbound-pro') . '</span>';
-                    // todo add check for archive pages
+
                 }
 
                 $search_date_raw = new DateTime($value['datetime']);

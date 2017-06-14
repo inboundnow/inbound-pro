@@ -761,7 +761,6 @@ var _inboundUtils = (function(_inbound) {
             }
 
         },
-        
         /**
          * Caches user's search data in the browser until they can be saved to the database
          */
@@ -793,7 +792,6 @@ var _inboundUtils = (function(_inbound) {
 
             _inbound.Forms.releaseFormSubmit(form);
         },
-        
         /**
          * Stores search data to the database on page load. 
          * If successful, it erases the cached searches from the user's browser

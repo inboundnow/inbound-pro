@@ -1296,7 +1296,6 @@ var _inboundUtils = (function(_inbound) {
             }
 
         },
-        
         /**
          * Caches user's search data in the browser until they can be saved to the database
          */
@@ -1328,7 +1327,6 @@ var _inboundUtils = (function(_inbound) {
 
             _inbound.Forms.releaseFormSubmit(form);
         },
-        
         /**
          * Stores search data to the database on page load. 
          * If successful, it erases the cached searches from the user's browser
@@ -1437,7 +1435,6 @@ var InboundForms = (function(_inbound) {
         // Init Form functions
         init: function() {
             _inbound.Forms.runFieldMappingFilters();
-            _inbound.Forms.assignTrackClass();
             _inbound.Forms.formTrackInit();
             _inbound.Forms.searchTrackInit();
         },
@@ -1558,22 +1555,6 @@ var InboundForms = (function(_inbound) {
                 cb = function() { console.log(form); };
                 _inbound.deBugger('searches', "This search form is not tracked. Please assign on in settings...", cb);
                 return false;
-            }
-        },
-        assignTrackClass: function() {
-            if (window.inbound_settings) {
-                if (inbound_settings.inbound_track_include) {
-                    var selectors = inbound_settings.inbound_track_include.split(',');
-                    var msg = 'add selectors ' + inbound_settings.inbound_track_include;
-                    _inbound.deBugger('forms', msg);
-                    this.loopClassSelectors(selectors, 'add');
-                }
-                if (inbound_settings.inbound_track_exclude) {
-                    var selectors = inbound_settings.inbound_track_exclude.split(',');
-                    var msg = 'remove selectors ' + inbound_settings.inbound_track_exclude;
-                    _inbound.deBugger('forms', msg);
-                    this.loopClassSelectors(selectors, 'remove');
-                }
             }
         },
         /* Loop through include/exclude items for tracking */
@@ -1817,7 +1798,6 @@ var InboundForms = (function(_inbound) {
 
         },
         saveFormData: function(form) {
-
             var inputsObject = inputsObject || {};
             for (var i = 0; i < form.elements.length; i++) {
 
@@ -2031,6 +2011,7 @@ var InboundForms = (function(_inbound) {
                 'source': utils.readCookie("inbound_referral_site"),
                 'inbound_submitted': inbound_form_is_ajax,
                 'inbound_form_id': inbound_form_id,
+                'inbound_nonce': inbound_settings.ajax_nonce,
                 'event': form
             };
 
@@ -3226,9 +3207,6 @@ function inboundFormNoRedirectContent(){
 
 _inbound.add_action( 'form_after_submission', inboundFormNoRedirectContent, 10 );
 
-
-
-
 /* LocalStorage Component */
 var InboundTotalStorage = (function (_inbound){
 
@@ -3785,31 +3763,48 @@ var _inboundPageTracking = (function(_inbound) {
         },
         storePageView: function() {
 
-			if ( inbound_settings.page_tracking == 'off' ) {
+            /* ignore if page tracking off and page is not a landing page */
+			if ( inbound_settings.page_tracking == 'off' && inbound_settings.post_type != 'landing-page' ) {
 				return;
 			}
 
+            /* Let's try and fire this last - also defines what constitutes a bounce -  */
+            jQuery(document).ready(function() {
+                setTimeout(function(){
+                    var leadID = ( _inbound.Utils.readCookie('wp_lead_id') ) ? _inbound.Utils.readCookie('wp_lead_id') : '';
+                    var lead_uid = ( _inbound.Utils.readCookie('wp_lead_uid') ) ? _inbound.Utils.readCookie('wp_lead_uid') : '';
+                    var ctas_loaded = _inbound.totalStorage('wp_cta_loaded');
+                    var ctas_impressions = _inbound.totalStorage('wp_cta_impressions');
 
-            var leadID = ( _inbound.Utils.readCookie('wp_lead_id') ) ? _inbound.Utils.readCookie('wp_lead_id') : '';
-            var lead_uid = ( _inbound.Utils.readCookie('wp_lead_uid') ) ? _inbound.Utils.readCookie('wp_lead_uid') : '';
+                    /* now reset impressions */
+                    _inbound.totalStorage('wp_cta_impressions' , {} );
 
-            var data = {
-                action: 'inbound_track_lead',
-                wp_lead_uid: lead_uid,
-                wp_lead_id: leadID,
-                page_id: inbound_settings.post_id,
-                variation_id: inbound_settings.variation_id,
-                post_type: inbound_settings.post_type,
-                current_url: window.location.href,
-                page_views: JSON.stringify(_inbound.PageTracking.getPageViews()),
-                json: '0'
-            };
+                    var data = {
+                        action: 'inbound_track_lead',
+                        wp_lead_uid: lead_uid,
+                        wp_lead_id: leadID,
+                        page_id: inbound_settings.post_id,
+                        variation_id: inbound_settings.variation_id,
+                        post_type: inbound_settings.post_type,
+                        current_url: window.location.href,
+                        page_views: JSON.stringify(_inbound.PageTracking.getPageViews()),
+                        cta_impressions : JSON.stringify(ctas_impressions),
+                        cta_history : JSON.stringify(ctas_loaded),
+                        json: '0'
+                    };
 
-            var firePageCallback = function(leadID) {
-                //_inbound.Events.page_view_saved(leadID);
-            };
-            //_inbound.Utils.doAjax(data, firePageCallback);
-            _inbound.Utils.ajaxPost(inbound_settings.admin_url, data, firePageCallback);
+                    var firePageCallback = function(leadID) {
+                        //_inbound.Events.page_view_saved(leadID);
+                    };
+                    //_inbound.Utils.doAjax(data, firePageCallback);
+
+                    _inbound.Utils.ajaxPost(inbound_settings.admin_url, data, firePageCallback);
+
+                } , 400 );
+
+
+            });
+
 
         }
         /*! GA functions
