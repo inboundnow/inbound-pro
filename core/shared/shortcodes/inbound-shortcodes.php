@@ -60,15 +60,6 @@ class Inbound_Shortcodes {
 
 		if ( $hook == 'post.php' || $hook == 'post-new.php' || $hook == 'page-new.php' || $hook == 'page.php' ) {
 
-			/* dequeue third party scripts */
-			global $wp_scripts;
-			if ( !empty( $wp_scripts->queue ) ) {
-				$store = $wp_scripts->queue; // store the scripts
-				foreach ( $wp_scripts->queue as $handle ) {
-					wp_dequeue_script( $handle );
-				}
-			}
-
 			wp_enqueue_script('jquery' );
 			wp_enqueue_script('jquery-cookie', INBOUNDNOW_SHARED_URLPATH . 'assets/js/global/jquery.cookie.js', array( 'jquery' ) , false , true );
 			wp_enqueue_script('jquery-total-storage', INBOUNDNOW_SHARED_URLPATH . 'assets/js/global/jquery.total-storage.min.js', array( 'jquery' ) , false , true );
@@ -80,11 +71,14 @@ class Inbound_Shortcodes {
 				wp_enqueue_script('inbound-shortcodes', INBOUNDNOW_SHARED_URLPATH . 'shortcodes/js/shortcodes.js', array( 'jquery', 'jquery-cookie' ), '1', true);
 				$form_id = (isset($_GET['post']) && is_int( $_GET['post'] )) ? $_GET['post'] : '';
 				wp_localize_script( 'inbound-shortcodes', 'inbound_shortcodes', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) , 'adminurl' => admin_url(), 'inbound_shortcode_nonce' => wp_create_nonce('inbound-shortcode-nonce') , 'form_id' => $form_id ) );
-				wp_dequeue_script('selectjs');
-				wp_dequeue_script('select2');
-				wp_dequeue_script('jquery-select2');
-				wp_enqueue_script('selectjs', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/Select2/select2.min.js', array( 'jquery' ) , false , false );
-				wp_enqueue_style('selectjs', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/Select2/select2.css');
+				if ( !wp_script_is( 'select2', 'registered' ) ) {
+					wp_dequeue_script('selectjs');
+					wp_dequeue_script('select2');
+					wp_dequeue_script('jquery-select2');
+					wp_enqueue_script('select2', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/Select2/select2.full.min.js', array( 'jquery' ) , false , false );
+					wp_enqueue_style('select2', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/Select2/select2.min.css' , array() , false , false);
+
+				}
 			}
 
 			// Forms CPT only
@@ -106,8 +100,7 @@ class Inbound_Shortcodes {
 				array_push($plugins_loaded, "cta");
 			}
 			if (is_plugin_active('leads/leads.php')) {
-				//array_push($plugins_loaded, "leads");
-				//array_push($plugins_loaded, "leads");
+				array_push($plugins_loaded, "leads");
 			}
 
 			wp_localize_script( 'inbound-shortcodes-plugins', 'inbound_load', array( 'image_dir' => INBOUNDNOW_SHARED_URLPATH . 'shortcodes/', 'inbound_plugins' => $plugins_loaded, 'pop_title' => 'Insert Shortcode' ));
@@ -117,10 +110,6 @@ class Inbound_Shortcodes {
 				add_action( 'admin_footer',	array(__CLASS__, 'inbound_forms_header_area'));
 			}
 
-			/* Requeue third party scripts */
-			foreach ( $store as $handle ) {
-				wp_enqueue_script( $handle );
-			}
 		}
 	}
 

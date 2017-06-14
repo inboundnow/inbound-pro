@@ -201,6 +201,13 @@ $shortcodes_config['forms'] = array(
             'std' => '',
             'class' => 'main-design-settings',
         ),
+        'custom-class' => array(
+            'name' => __('Custom Class Names', 'inbound-pro' ),
+            'desc' => __('Add custom classes here ', 'inbound-pro' ),
+            'type' => 'text',
+            'std' => '',
+            'class' => 'main-design-settings',
+        ),
     ),
     'child' => array(
         'options' => array(
@@ -319,7 +326,7 @@ $shortcodes_config['forms'] = array(
                 'std' => '',
                 'class' => '',
             ),
-			'exclude_tracking' => array(
+            'exclude_tracking' => array(
                 'name' => __('Exclude Tracking? <span class="small-optional-text">(optional)</span>', 'inbound-pro' ),
                 'checkbox_text' => __('Check to exclude this form field from being tracked. Note this will not store in your Database', 'inbound-pro' ),
                 'desc' => '',
@@ -369,7 +376,7 @@ $shortcodes_config['forms'] = array(
         'shortcode' => '[inbound_field label="{{label}}" type="{{field_type}}" description="{{description}}" required="{{required}}" exclude_tracking={{exclude_tracking}} dropdown="{{dropdown_options}}" radio="{{radio_options}}"  checkbox="{{checkbox_options}}"  range="{{range_options}}" placeholder="{{placeholder}}" field_container_class="{{field_container_class}}"  field_input_class="{{field_input_class}}" html="{{html_block_options}}" dynamic="{{hidden_input_options}}" default="{{default_value}}" map_to="{{map_to}}" divider_options="{{divider_options}}"]',
         'clone' => __('Add Another Field',  'inbound-pro' )
     ),
-    'shortcode' => '[inbound_form name="{{form_name}}" lists="{{lists_hidden}}" tags="{{tags_hidden}}" redirect="{{redirect}}" notify="{{notify}}" notify_subject="{{notify_subject}}" layout="{{layout}}" font_size="{{font-size}}"  labels="{{labels}}" icon="{{icon}}" submit="{{submit}}" submit="{{submit}}" submit_colors="{{submit-colors}}" submit_text_color="{{submit-text-color}}" submit_bg_color="{{submit-bg-color}}" width="{{width}}"]{{child}}[/inbound_form]',
+    'shortcode' => '[inbound_form name="{{form_name}}" lists="{{lists_hidden}}" tags="{{tags_hidden}}" redirect="{{redirect}}" notify="{{notify}}" notify_subject="{{notify_subject}}" layout="{{layout}}" font_size="{{font-size}}"  labels="{{labels}}" icon="{{icon}}" submit="{{submit}}" submit="{{submit}}" submit_colors="{{submit-colors}}" submit_text_color="{{submit-text-color}}" submit_bg_color="{{submit-bg-color}}" custom_class="{{custom-class}}" width="{{width}}"]{{child}}[/inbound_form]',
     'popup_title' => 'Insert Inbound Form Shortcode'
 );
 
@@ -399,7 +406,8 @@ if (!function_exists('inbound_forms_cpt')) {
             'show_ui' => true,
             'query_var' => true,
             'show_in_menu'  => true,
-            'capability_type' => 'post',
+            'capability_type' => array('inbound-form','inbound-forms'),
+            'map_meta_cap' => true,
             'hierarchical' => false,
             'menu_position' => 34,
             'supports' => array('title','custom-fields', 'editor')
@@ -415,6 +423,38 @@ if (!function_exists('inbound_forms_cpt')) {
             unset($submenu['edit.php?post_type=wp-lead'][15]);
             //print_r($submenu); exit;
         }*/
+    }
+
+    /**
+     * Register Role Capabilities
+     */
+    add_action( 'admin_init' , 'inbound_register_form_role_capabilities' ,999);
+    function inbound_register_form_role_capabilities() {
+        // Add the roles you'd like to administer the custom post types
+        $roles = array('inbound_marketer','administrator');
+
+        // Loop through each role and assign capabilities
+        foreach($roles as $the_role) {
+
+            $role = get_role($the_role);
+            if (!$role) {
+                continue;
+            }
+
+            $role->add_cap( 'read' );
+            $role->add_cap( 'read_inbound-form');
+            $role->add_cap( 'read_private_inbound-forms' );
+            $role->add_cap( 'edit_inbound-form' );
+            $role->add_cap( 'edit_inbound-forms' );
+            $role->add_cap( 'edit_others_inbound-forms' );
+            $role->add_cap( 'edit_published_inbound-forms' );
+            $role->add_cap( 'publish_inbound-form' );
+            $role->add_cap( 'delete_inbound-form' );
+            $role->add_cap( 'delete_inbound-forms' );
+            $role->add_cap( 'delete_others_inbound-forms' );
+            $role->add_cap( 'delete_private_inbound-forms' );
+            $role->add_cap( 'delete_published_inbound-forms' );
+        }
     }
 }
 
@@ -673,38 +713,38 @@ if (!function_exists('inbound_form_get_data')) {
             $shortcode = get_post_meta( $post_ID, 'inbound_shortcode', TRUE );
             $inbound_form_values = get_post_meta( $post_ID, 'inbound_form_values', TRUE );
 
-		
-			/**get stored email response info. Mainly used when selecting a form starting template**/
-			$send_email = get_post_meta( $post_ID, 'inbound_email_send_notification', true);//yes/no select send response email
-			$send_email = '&inbound_email_send_notification=' . $send_email;//format the data into a string which fill_form_fields() over in shortcodes.js will use to fill in the field
-	
-			$email_template_id = get_post_meta( $post_ID, 'inbound_email_send_notification_template', true );// email template id, or 'custom' email flag
 
-			/*if a custom email response is to be used, custom will be true*/
-			if($email_template_id == 'custom'){
-				$content = get_post($post_ID); //the email is contained in the post content
-				$content = $content->post_content;
-				$custom_email_response = '&content=' . $content;	
-				
-				$custom_email_subject = get_post_meta( $post_ID, 'inbound_confirmation_subject', true ); //the subject is in the meta
-				$custom_email_subject = '&inbound_confirmation_subject=' . $custom_email_subject;
-			}else{
-				$custom_email_response = '';
-				$custom_email_subject = '';
-			}
+            /**get stored email response info. Mainly used when selecting a form starting template**/
+            $send_email = get_post_meta( $post_ID, 'inbound_email_send_notification', true);//yes/no select send response email
+            $send_email = '&inbound_email_send_notification=' . $send_email;//format the data into a string which fill_form_fields() over in shortcodes.js will use to fill in the field
 
-			$email_template_id = '&inbound_email_send_notification_template=' . $email_template_id;
-			
-			/*concatenate into a big string and add it to $inbound_form_values*/
-			$inbound_form_values .= ($send_email . $email_template_id . $custom_email_response . $custom_email_subject);
-			
-			
+            $email_template_id = get_post_meta( $post_ID, 'inbound_email_send_notification_template', true );// email template id, or 'custom' email flag
+
+            /*if a custom email response is to be used, custom will be true*/
+            if($email_template_id == 'custom'){
+                $content = get_post($post_ID); //the email is contained in the post content
+                $content = $content->post_content;
+                $custom_email_response = '&content=' . $content;
+
+                $custom_email_subject = get_post_meta( $post_ID, 'inbound_confirmation_subject', true ); //the subject is in the meta
+                $custom_email_subject = '&inbound_confirmation_subject=' . $custom_email_subject;
+            }else{
+                $custom_email_response = '';
+                $custom_email_subject = '';
+            }
+
+            $email_template_id = '&inbound_email_send_notification_template=' . $email_template_id;
+
+            /*concatenate into a big string and add it to $inbound_form_values*/
+            $inbound_form_values .= ($send_email . $email_template_id . $custom_email_response . $custom_email_subject);
+
+
             /*   update_post_meta( $post_ID, 'inbound_form_created_on', $page_id );
                 update_post_meta( $post_ID, 'inbound_shortcode', $shortcode );
                 update_post_meta( $post_ID, 'inbound_form_values', $form_values );
                 update_post_meta( $post_ID, 'inbound_form_field_count', $field_count );
             */
-		
+
             $output =  array('inbound_shortcode'=> $shortcode,
                 'field_count'=>$field_count,
                 'form_settings_data' => $form_settings_data,

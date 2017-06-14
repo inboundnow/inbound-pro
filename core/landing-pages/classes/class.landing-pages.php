@@ -619,9 +619,6 @@ function lp_add_option($key, $type, $id, $default = null, $label = null, $descri
         case "datepicker":
             return array('label' => $label, 'description' => $description, 'id' => $id, 'type' => 'datepicker', 'default' => $default);
             break;
-        case "default-content":
-            return array('label' => $label, 'description' => $description, 'id' => $id, 'type' => 'default-content', 'default' => $default);
-            break;
         case "html":
             return array('label' => $label, 'description' => $description, 'id' => $id, 'type' => 'html', 'default' => $default);
             break;

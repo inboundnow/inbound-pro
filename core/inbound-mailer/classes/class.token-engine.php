@@ -446,7 +446,7 @@ class Inbound_Mailer_Tokens {
 
             /* if tokens are set let's see if we can make use of them. Token strings will fail if they exceed 2000 characters */
             if (isset($_GET['tokens']) && !isset($_GET['tokens'])) {
-                $tokens = Inbound_Mailer_Unsubscribe::decode_unsubscribe_token($_GET['tokens']);
+                $tokens = Inbound_API::get_args_from_token($_GET['tokens']);
                 $tokens = self::flatten_array($tokens);
                 if (is_array($tokens)) {
                     $email_tokens = $email_tokens + $tokens;
@@ -469,6 +469,14 @@ class Inbound_Mailer_Tokens {
                 $field_value = str_replace('{{' . $token_key . '}}', '', $field_value);
             }
         }
+
+        /* remove cta shortcodes */
+        $pattern = '/\[(cta).*?\]/';
+        $field_value = preg_replace($pattern, '', $field_value);
+
+        /* remove javascript */
+        $pattern = '/<script\b[^>]*>(.*?)<\/script>/is';
+        $field_value = preg_replace($pattern, '', $field_value);
 
         return $field_value;
     }

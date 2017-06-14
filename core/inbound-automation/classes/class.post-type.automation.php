@@ -190,8 +190,7 @@ if ( !class_exists('Inbound_Automation_Post_Type') ) {
 
 			$table_name = $wpdb->prefix . "inbound_automation_queue";
 
-
-			$query = 'SELECT * FROM '.$table_name.' WHERE rule_id = "'.intval($rule_id).'"';
+			$query = 'SELECT * FROM '.$table_name.' WHERE rule_id = "'.intval($rule_id).'" AND ( status="pending" OR status="waiting" )';
 			$results = $wpdb->get_results( $query , ARRAY_A );
 
 			return count($results);;
@@ -281,7 +280,7 @@ if ( !class_exists('Inbound_Automation_Post_Type') ) {
 		 * Deletes emails from automation queue given a rule id or a task id
 		 * @param $params
 		 */
-		public static function delete_rule_tasks( $params ) {
+		public static function mark_jobs_cancelled( $params ) {
 			global $wpdb;
 
 			$table_name = $wpdb->prefix . "inbound_automation_queue";
@@ -297,7 +296,7 @@ if ( !class_exists('Inbound_Automation_Post_Type') ) {
 			}
 
 			if ($params) {
-				$wpdb->delete($table_name, $args);
+				$wpdb->update($table_name, array('status'=>'cancelled') ,  $args);
 			}
 		}
 
@@ -329,7 +328,7 @@ if ( !class_exists('Inbound_Automation_Post_Type') ) {
 				'rule_id' => $rule_id
 			);
 
-			self::delete_rule_tasks($args);
+			self::mark_jobs_cancelled($args);
 			echo $rule_id;
 			exit;
 		}

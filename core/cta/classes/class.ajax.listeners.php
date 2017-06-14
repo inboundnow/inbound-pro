@@ -113,7 +113,7 @@ class CTA_Ajax_Listeners {
 		}
 
 		foreach ( $_POST['ctas'] as $cta_id => $vid ) {
-			do_action('wp_cta_record_impression', $cta_id, $vid );
+			do_action('wp_cta_record_impression', (int) $cta_id, (int) $vid );
 		}
 
 		//print_r($ctas);
@@ -191,11 +191,11 @@ class CTA_Ajax_Listeners {
 	public static function serve_varition() {
 
 		/* Make Sure the right GET param is attached to continue */
-		if ( !isset($_GET['cta_id']) || !is_numeric($_GET['cta_id']) ) {
+		if ( !isset($_REQUEST['cta_id']) || !is_numeric($_REQUEST['cta_id']) ) {
 			echo 'x';
 			exit;
 		} else 	{
-			$cta_id = intval($_GET['cta_id']);
+			$cta_id = intval($_REQUEST['cta_id']);
 		}
 
 		$variations = CTA_Variations::get_variations($cta_id );

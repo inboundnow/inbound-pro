@@ -55,6 +55,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             /* Enqueue JS */
             add_action('admin_enqueue_scripts', array(__CLASS__, 'enqueue_admin_scripts'));
             add_action('admin_print_footer_scripts', array(__CLASS__, 'print_admin_scripts'));
+
         }
 
         /**
@@ -77,7 +78,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             /* create first name and last name if not present */
             self::$lead_metadata['wpleads_first_name'] = (isset(self::$lead_metadata['wpleads_first_name'])) ? self::$lead_metadata['wpleads_first_name'] : '';
             self::$lead_metadata['wpleads_last_name'] = (isset(self::$lead_metadata['wpleads_last_name'])) ? self::$lead_metadata['wpleads_last_name']: '';
-            
+
         }
 
         /**
@@ -781,7 +782,6 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                 <div class="clearfix"></div>
             </div>
             <?php
-
         }
 
         /**
@@ -809,9 +809,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                 <div class="clearfix"></div>
             </div>
             <?php
-
         }
-
 
         /**
          * Adds Latest Activity to Quick Stat Box
@@ -992,7 +990,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
             /* do not render legacy activity tab if Inbound Analytics is on and user is subscriber */
             if (class_exists('Inbound_Analytics')) {
-                if (INBOUND_ACCESS_LEVEL > 0 && INBOUND_ACCESS_LEVEL != 9) {
+                if (INBOUND_ACCESS_LEVEL > 0 && INBOUND_ACCESS_LEVEL != 9 ) {
                     return;
                 }
             }
@@ -1132,24 +1130,22 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
 
             /* Get Referrals */
-            $referrals = Inbound_Events::get_lead_sources($post->ID);
+            $sources = Inbound_Events::get_lead_sources($post->ID);
 
-            if (count($referrals)>0) {
-                foreach ($referrals as $key => $value) {
-                    $date = date_create($value['datetime']);
+            if (count($sources)>0) {
+                foreach ($sources as $datetime => $source) {
+                    $date = date_create($datetime);
 
                     /* skip internal sources */
-                    if (strstr($value['source'],site_url()) || !$value['source']) {
+                    if (strstr($source,site_url()) || !$source) {
                         //continue;
                     }
                     ?>
                     <div class="wpl-raw-data-tr">
                         <span class="wpl-raw-data-td-value">
                             <?php
-                            if (isset($value['source'])) {
-                                $src = ($value['source'] === "Direct Traffic") ? __("Direct Traffic",'inbound-pro') : $value['source'];
+                                $src = ($source === "Direct Traffic" || !$source ) ? __("Direct Traffic",'inbound-pro') : $source;
                                 echo $src . ' on ' . date_format($date, 'F jS, Y \a\t g:ia (l)');
-                            }
                             ?>
                         </span>
                     </div>
@@ -1348,7 +1344,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                         <?php
 
                         self::display_lead_profile();
-                        
+
                         ?>
                     </div>
                 </div>
@@ -1401,12 +1397,11 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
             $search_count = Inbound_Events::get_total_activity($post->ID, 'search_made');
 
-
             return $search_count;
         }
 
-        /** todo maybe create a comment importing function
-         * Gets the number of comment events and sets up the comment data array
+        /**
+         *    Gets the number of comment events and sets up the comment data array
          */
         public static function get_comment_count() {
             global $post;
@@ -1633,7 +1628,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                     /* if the author name wasn't given, don't output anything */
                     $author_details = '';
                 }
-
+                
                 $comment_date_raw = new DateTime($comment['datetime']);
                 $date_of_comment = $comment_date_raw->format('F jS, Y \a\t g:ia (l)');
                 $comment_clean_date = $comment_date_raw->format('Y-m-d H:i:s');
@@ -1641,7 +1636,6 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                 $commented_page_permalink = get_permalink($comment['page_id']);
                 $commented_page_title = get_the_title($comment['page_id']);
                 $comment_id = "#comment-" . $comment['comment_id'];
-
 
                 // Display Data
                 echo '<div class="lead-timeline recent-conversion-item lead-comment-conversion" data-date="' . $comment_clean_date . '">
@@ -1652,7 +1646,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                         <div class="lead-timeline-body">
                             <div class="lead-event-text lead-comment-div">
                                 <p><span class="lead-item-num">' . $c_i . '.</span><span class="lead-helper-text">Comment on </span><a title="' . __('View and respond to the comment', 'inbound-pro') . '" href="' . $commented_page_permalink . $comment_id . '" id="lead-session-' . $c_i . '" rel="' . $c_i . '" target="_blank">' . $commented_page_title . '</a><span class="conversion-date">' . $date_of_comment . '</span> <!--<a rel="' . $c_i . '" href="#view-session-"' . $c_i . '">(view visit path)</a>--></p>
-                                <p class="lead-comment">"' . apply_filters( 'the_content', $event_details['comment_content'] ) . '"' . $author_details . '</p>
+                                                                <p class="lead-comment">"' . apply_filters( 'the_content', $event_details['comment_content'] ) . '"' . $author_details . '</p>
                             </div>
                         </div>
                     </div>';
@@ -1843,6 +1837,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                             </div>
                         </div>
                     </div>';
+
             }
 
             echo '</div>';

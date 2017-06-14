@@ -284,7 +284,6 @@ jQuery(document).ready(function ($) {
         jQuery('#lowest').click(function () {
             reviews.tsort({attr: 'data-rating', order: 'asc'});
         });
-    
     });
 
     // activity toggles
@@ -299,7 +298,6 @@ jQuery(document).ready(function ($) {
         the_list.tsort({attr: 'data-date', order: 'desc'});
         jQuery(toggle_this).fadeIn(700);
         jQuery(".lead-item-num").show();
-        console.log(which_sort);
         if(which_sort == '#lead-searches'){
             var errorCount = jQuery('#search-error-count').detach();
             jQuery('#lead-searches').append(errorCount);
@@ -313,6 +311,7 @@ jQuery(document).ready(function ($) {
         jQuery("#all-lead-history").fadeIn(700);
         jQuery(".lead-item-num").hide();
     });
+
 
     jQuery(".possible-map-value").on("click", function (event) {
         jQuery(".toggle-val").removeClass("toggle-val");

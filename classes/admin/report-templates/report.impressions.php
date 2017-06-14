@@ -52,8 +52,8 @@ if (!class_exists('Inbound_Impressions_Report')) {
          */
         public static function display_header() {
 
-            $title = get_the_title(intval($_REQUEST['page_id']));
-            $permalink = get_the_permalink(intval($_REQUEST['page_id']));
+            $title = get_the_title(sanitize_text_field($_REQUEST['page_id']));
+            $permalink = get_the_permalink(sanitize_text_field($_REQUEST['page_id']));
             $default_gravatar = INBOUND_PRO_URLPATH . 'assets/images/gravatar-unknown.png';
 
             ?>
@@ -220,7 +220,7 @@ if (!class_exists('Inbound_Impressions_Report')) {
                                     <a href="<?php echo admin_url('index.php?action=inbound_generate_report&class=Inbound_Visitor_Impressions_Report&'
                                                                     .($lead_exists ? 'lead_uid='. $event['lead_uid'] : 'lead_uid='.$event['lead_uid'] )
                                                                     .(isset($_REQUEST['source']) ? '&source='. urlencode(sanitize_text_field($_REQUEST['source'])) : '' )
-                                                                    . '&page_id='.intval($_REQUEST['page_id'])
+                                                                    . '&page_id='.sanitize_text_field($_REQUEST['page_id'])
                                                                     .'&range='.self::$range.'&tb_hide_nav=true&TB_iframe=true&width=1503&height=400'); ?>" target="_self">
                                         <?php echo $event['count']; ?>
                                     </a>
@@ -281,7 +281,7 @@ if (!class_exists('Inbound_Impressions_Report')) {
                                     ?>
                                 </td>
                                 <td class="" >
-                                    <a target="_self" href="<?php echo admin_url('index.php?action=inbound_generate_report&page_id='.intval($_REQUEST['page_id']).'&source='.urlencode($event['source']).'&class=Inbound_Visitors_Report&range='.self::$range.'&tb_hide_nav=true'); ?>" class="">
+                                    <a target="_self" href="<?php echo admin_url('index.php?action=inbound_generate_report&page_id='.sanitize_text_field($_REQUEST['page_id']).'&source='.urlencode($event['source']).'&class=Inbound_Visitors_Report&range='.self::$range.'&tb_hide_nav=true'); ?>" class="">
                                         <?php echo $event['visitors']; ?>
                                     </a>
                                 </td>
@@ -751,7 +751,7 @@ if (!class_exists('Inbound_Impressions_Report')) {
 
             /* get daily visitor counts - group by lead_uid */
             $params = array(
-                'page_id' => intval($_REQUEST['page_id']),
+                'page_id' => sanitize_text_field($_REQUEST['page_id']),
                 'source' => (isset($_REQUEST['source']) ) ? sanitize_text_field(urldecode($_REQUEST['source'])) : '' ,
                 'start_date' => self::$start_date,
                 'end_date' => self::$end_date
@@ -760,7 +760,7 @@ if (!class_exists('Inbound_Impressions_Report')) {
 
             /* get daily visitor counts - group by lead_uid */
             $params = array(
-                'page_id' => intval($_REQUEST['page_id']),
+                'page_id' => sanitize_text_field($_REQUEST['page_id']),
                 'source' => (isset($_REQUEST['source']) ) ? sanitize_text_field(urldecode($_REQUEST['source'])) : '' ,
                 'start_date' => self::$past_start_date,
                 'end_date' => self::$past_end_date
@@ -769,7 +769,7 @@ if (!class_exists('Inbound_Impressions_Report')) {
 
             /* get all visitors - group by lead_uid */
             $params = array(
-                'page_id' => intval($_REQUEST['page_id']),
+                'page_id' => sanitize_text_field($_REQUEST['page_id']),
                 'source' => (isset($_REQUEST['source']) ) ? sanitize_text_field(urldecode($_REQUEST['source'])) : '' ,
                 'start_date' => self::$start_date,
                 'end_date' => self::$end_date
@@ -778,7 +778,7 @@ if (!class_exists('Inbound_Impressions_Report')) {
 
             /* get top 10 visitors */
             $params = array(
-                'page_id' => intval($_REQUEST['page_id']),
+                'page_id' => sanitize_text_field($_REQUEST['page_id']),
                 'source' => (isset($_REQUEST['source']) ) ? sanitize_text_field(urldecode($_REQUEST['source'])) : '' ,
                 'start_date' => self::$start_date,
                 'end_date' => self::$end_date,
@@ -790,7 +790,7 @@ if (!class_exists('Inbound_Impressions_Report')) {
 
             /* get top 10 sources */
             $params = array(
-                'page_id' => intval($_REQUEST['page_id']),
+                'page_id' => sanitize_text_field($_REQUEST['page_id']),
                 'source' => (isset($_REQUEST['source']) ) ? sanitize_text_field(urldecode($_REQUEST['source'])) : '' ,
                 'start_date' => self::$start_date,
                 'end_date' => self::$end_date,

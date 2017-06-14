@@ -45,7 +45,8 @@ if (!class_exists('Inbound_Forms')) {
                 'submit' => 'Submit',
                 'submit_colors' => '',
                 'submit_text_color' => '',
-                'submit_bg_color' => ''
+                'submit_bg_color' => '',
+                'custom_class' => ''
             ), $atts));
 
             if (!$id && isset($_GET['post'])) {
@@ -125,7 +126,7 @@ if (!class_exists('Inbound_Forms')) {
 
 
                 $form = '<div id="inbound-form-wrapper" class="inbound-form-wrapper">';
-                $form .= '<form class="inbound-now-form wpl-track-me inbound-track" method="post" id="' . $form_id . '" action="" style="' . $form_width . '">';
+                $form .= '<form class="inbound-now-form wpl-track-me inbound-track '.$custom_class.'" method="post" id="' . $form_id . '" action="" style="' . $form_width . '">';
                 $main_layout = ($form_layout != "") ? 'inbound-' . $form_layout : 'inbound-normal';
 
                 for ($i = 0; $i < count($matches[0]); $i++) {
@@ -264,25 +265,64 @@ if (!class_exists('Inbound_Forms')) {
                         $years = self::get_date_selectons('years');
 
                         $form .= '<div class="dateSelector">';
-                        $form .= '	<select id="formletMonth" name="' . $field_name . '[month]" >';
+                        $form .= '	<select id="formletMonth" class="formletMonth" name="' . $field_name . '[month]" >';
                         foreach ($months as $key => $value) {
                             ($m == $key) ? $sel = 'selected="selected"' : $sel = '';
                             $form .= '<option value="' . $key . '" ' . $sel . '>' . $value . '</option>';
                         }
                         $form .= '	</select>';
-                        $form .= '	<select id="formletDays" name="' . $field_name . '[day]" >';
+                        $form .= '	<select id="formletDays" class="formletDays" name="' . $field_name . '[day]" >';
                         foreach ($days as $key => $value) {
                             ($d == $key) ? $sel = 'selected="selected"' : $sel = '';
                             $form .= '<option value="' . $key . '" ' . $sel . '>' . $value . '</option>';
                         }
                         $form .= '	</select>';
-                        $form .= '	<select id="formletYears" name="' . $field_name . '[year]" >';
+                        $form .= '	<select id="formletYears" class="formletYears" name="' . $field_name . '[year]" >';
                         foreach ($years as $key => $value) {
                             ($y == $key) ? $sel = 'selected="selected"' : $sel = '';
                             $form .= '<option value="' . $key . '" ' . $sel . '>' . $value . '</option>';
                         }
                         $form .= '	</select>';
                         $form .= '</div>';
+                        $form .= '<script>
+                                    if (typeof inbf_daysInMonth != "function") {
+
+                                        function inbf_minTwoDigits(n) {
+                                          return (n < 10 ? \'0\' : \'\') + n;
+                                        }
+
+                                        function inbf_daysInMonth(month,year) {
+                                             return new Date(year, month, 0).getDate();
+                                        }
+
+                                        jQuery("body").on("change", ".formletMonth, .formletYears" ,function() {
+
+                                             /* get current selected day */
+                                             var selected_date = jQuery(this).parent().find( "#formletDays" ).find(":selected").val();
+
+                                             /* remove day options */
+                                             jQuery(this).parent().find( "#formletDays" ).find("option").remove();
+
+                                             /* get more supportive variables  */
+                                             var month = jQuery(this).parent().find("#formletMonth option:selected").val();
+                                             var year = jQuery(this).parent().find("#formletYears option:selected").val();
+                                             var days_in_month = inbf_daysInMonth(month,year);
+
+
+                                             /* build new option set */
+                                             for (var i = 1; i <= days_in_month; i++) {
+                                                  jQuery(this).parent().find( ".formletDays" ).append(jQuery("<option></option>").attr("value", i).text(inbf_minTwoDigits(i)));
+                                             }
+
+                                             /* set date to original selection */
+                                             jQuery(this).parent().find(".formletDays option[value="+selected_date+"]").prop("selected", true)
+                                        });
+
+                                    }
+
+                                     /* trigger update to set day value correctly */
+                                    jQuery(".formletYears:last-child").trigger("change");
+                                   </script>';
 
                     } else if ($type === 'date') {
 
@@ -471,10 +511,16 @@ if (!class_exists('Inbound_Forms')) {
                 }
                 /* End Loop */
 
+                if ( is_ssl()) {
+                    $current_page = "https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+                }else {
+                    $current_page = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+                }
                 $current_page = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-                $form .= '<div class="inbound-field ' . $main_layout . ' inbound-submit-area"><button type="submit" class="inbound-button-submit inbound-submit-action" value="' . $submit_button . '" name="send" id="inbound_form_submit" data-ignore-form-field="true" style="' . $submit_bg . $submit_color . $image_button . 'position:relative;">' . $icon_insert . '' . $submit_button . $inner_button . '</button></div><input data-ignore-form-field="true" type="hidden" name="inbound_submitted" value="1">';
-                /* <!--<input type="submit" '.$submit_button_type.' class="button" value="'.$submit_button.'" name="send" id="inbound_form_submit" />--> */
-
+                $form .= '<div class="inbound-field ' . $main_layout . ' inbound-submit-area">';
+                $form .= '<button type="submit" class="inbound-button-submit inbound-submit-action" value="' . $submit_button . '" name="send" id="inbound_form_submit" data-ignore-form-field="true" style="' . $submit_bg . $submit_color . $image_button . 'position:relative;">' . $icon_insert . '' . $submit_button . $inner_button . '</button>';
+                $form .= '</div>';
+                $form .= '<input data-ignore-form-field="true" type="hidden" name="inbound_submitted" value="1">';
                 $form .= '<input type="hidden" name="inbound_form_n" class="inbound_form_n" value="' . $form_name . '">';
                 $form .= '<input type="hidden" name="inbound_form_lists" id="inbound_form_lists" value="' . $lists . '" data-map-form-field="inbound_form_lists">';
                 $form .= '<input type="hidden" name="inbound_form_tags" id="inbound_form_tags" value="' . $tags . '" data-map-form-field="inbound_form_tags">';
@@ -483,6 +529,7 @@ if (!class_exists('Inbound_Forms')) {
                 $form .= '<input type="hidden" name="page_id" value="' . (isset($post->ID) ? $post->ID : '0') . '">';
                 $form .= '<input type="hidden" name="inbound_furl" value="' . base64_encode(trim($redirect)) . '">';
                 $form .= '<input type="hidden" name="inbound_notify" value="' . base64_encode($notify) . '">';
+                $form .= '<input type="hidden" name="inbound_nonce" value="' . wp_create_nonce(SECURE_AUTH_KEY) . '">';
                 $form .= '<input type="hidden" class="inbound_params" name="inbound_params" value="">';
                 $form .= '</div>';
                 $form .= '</form>';
@@ -586,7 +633,6 @@ if (!class_exists('Inbound_Forms')) {
             /* TODO remove this */
             ?>
             <script type="text/javascript">
-                _inbound.add_action( 'form_before_submission', inbound_additional_checks, 9);
 
                 function inbound_additional_checks( data ) {
                     /* make sure event is defined */
@@ -595,17 +641,17 @@ if (!class_exists('Inbound_Forms')) {
                         event.target = data.event;
                     }
 
-                  	/*make sure all of this form's required checkboxes are checked*/
+                    /*make sure all of this form's required checkboxes are checked*/
                     var checks = jQuery(event.target).find('.checkbox-required');
                     for(var a = 0; a < checks.length; a++){
-                      if( checks[a] && jQuery(checks[a]).find('input[type=checkbox]:checked').length==0){
-                        jQuery(jQuery(checks[a]).find('input')).focus();
-                        alert("<?php _e('Oops! Looks like you have not filled out all of the required fields!', 'inbound-pro') ; ?> ");
-                        throw new Error("<?php _e('Oops! Looks like you have not filled out all of the required fields!', 'inbound-pro') ; ?>");
-                      }
+                        if( checks[a] && jQuery(checks[a]).find('input[type=checkbox]:checked').length==0){
+                            jQuery(jQuery(checks[a]).find('input')).focus();
+                            alert("<?php _e('Oops! Looks like you have not filled out all of the required fields!', 'inbound-pro') ; ?> ");
+                            throw new Error("<?php _e('Oops! Looks like you have not filled out all of the required fields!', 'inbound-pro') ; ?>");
+                        }
                     }
 
-                  jQuery(this).find("input").each(function(){
+                    jQuery(this).find("input").each(function(){
                         if(!jQuery(this).prop("required")){
                         } else if (!jQuery(this).val()) {
                             alert("<?php  _e('Oops! Looks like you have not filled out all of the required fields!', 'inbound-pro'); ?>");
@@ -661,6 +707,10 @@ if (!class_exists('Inbound_Forms')) {
 
                 /* Adding helpful listeners - may need to move all this into the analytics engine */
                 jQuery(document).ready(function($){
+
+                    /* add checkbox requirement checks */
+                    _inbound.add_action( 'form_before_submission', inbound_additional_checks, 9);
+
                     /* remove br tags */
                     jQuery("#inbound_form_submit br").remove();
 
@@ -762,10 +812,14 @@ if (!class_exists('Inbound_Forms')) {
          */
         static function do_actions() {
 
+
             /* only process actions when told to */
             if (!isset($_POST['inbound_submitted']) || (!$_POST['inbound_submitted'] || $_POST['inbound_submitted'] =='false' ) ) {
                 return;
             }
+
+            /* if POST does not contain correct nonce then bail */
+            check_ajax_referer( SECURE_AUTH_KEY , 'inbound_nonce' );
 
             $form_post_data = array();
             if (isset($_POST['phone_xoxo']) && $_POST['phone_xoxo'] != "") {

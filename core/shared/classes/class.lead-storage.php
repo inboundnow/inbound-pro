@@ -64,19 +64,16 @@ if (!class_exists('LeadStorage')) {
 
 			$lead['email'] = str_replace("%40", "@", self::check_val('email', $args));
 			$lead['email'] = str_replace("%2B", "+", $lead['email']);
-			$lead['name'] = str_replace("%20", " ", self::check_val('full_name', $args));
-			$lead['first_name'] = str_replace("%20", "", self::check_val('first_name', $args));
-			$lead['last_name'] = str_replace("%20", "", self::check_val('last_name', $args));
 			$lead['page_id'] = self::check_val('page_id', $args);
 			$lead['page_views'] = self::check_val('page_views', $args);
 			$lead['raw_params'] = self::check_val('raw_params', $args);
-
+			$lead['inbound_form_id'] = self::check_val('inbound_form_id', $args);
 			$lead['mapped_params'] = self::check_val('mapped_params', $args);
 			$lead['url_params'] = self::check_val('url_params', $args);
 			$lead['variation'] = self::check_val('variation', $args);
 			$lead['source'] = self::check_val('source', $args);
+			$lead['wp_lead_status'] = self::check_val('wp_lead_status', $args);
 			$lead['ip_address'] = self::lookup_ip_address();
-
 
 
 			if($lead['raw_params']){
@@ -91,8 +88,10 @@ if (!class_exists('LeadStorage')) {
 				$mappedData = array();
 			}
 
+
 			$mappedData = self::improve_mapping($mappedData, $lead , $args);
 			$lead = array_merge($lead ,$mappedData);
+
 
 			/* prepate lead lists */
 			$lead['lead_lists'] = (isset($args['lead_lists'])) ? $args['lead_lists'] : null;
@@ -117,15 +116,23 @@ if (!class_exists('LeadStorage')) {
 
 				$leadExists = self::lookup_lead_by_email($lead['email']);
 
-				/* Update Lead if Exists else Create New Lead */
-				if ( $leadExists ) {
+				/* If lead already exists run update action hook */
+				if ($leadExists) {
 					$lead['id'] = $leadExists;
-					/* action hook on existing leads only */
 					do_action('wpleads_existing_lead_update', $lead);
-				} else {
-					/* Create new lead if one doesnt exist */
+				}
+				/* else create new lead */
+				else {
 					$lead['id'] = self::store_new_lead($lead);
-					update_post_meta( $lead['id'] , 'wp_lead_status' , 'new');
+				}
+
+				/* if status is included in lead array then set status */
+				if (isset($lead['wp_lead_status']) && !empty($lead['wp_lead_status'])) {
+					update_post_meta($lead['id'], 'wp_lead_status', $lead['wp_lead_status']);
+				}
+				/* else if new lead then set status to new */
+				else if (!$leadExists) {
+					update_post_meta($lead['id'], 'wp_lead_status', 'new');
 				}
 
 				/* do everything else for lead storage */
@@ -250,17 +257,26 @@ if (!class_exists('LeadStorage')) {
 				/* Store IP addresss & Store GEO Data */
 				if ($lead['ip_address']) {
 					update_post_meta( $lead['id'], 'wpleads_ip_address', $lead['ip_address'] );
-					/*self::store_geolocation_data($lead); */
 				}
 
 				/* store raw form data */
 				self::store_raw_form_data($lead);
 
 				/* look for form_id and set it into main array */
-				if (isset($raw_params['inbound_form_id'])) {
-					$lead['form_id'] = $raw_params['inbound_form_id'];
-					$lead['form_name'] = $raw_params['inbound_form_n'];
+				if (isset($args['form_id'])) {
+					$lead['form_id'] = $args['form_id'];
 				}
+				if (isset($args['form_name'])) {
+					$lead['form_name'] = $args['form_name'];
+				}
+
+				/* look for an inbound_form_id and set it into main array */
+				if (isset($args['inbound_form_id'])) {
+					$lead['inbound_form_id'] = $args['inbound_form_id'];
+					$lead['form_id'] = (isset($args['inbound_form_id'])) ? $args['inbound_form_id'] : 0;
+					$lead['form_name'] = (isset($args['inbound_form_n'])) ? $args['inbound_form_n'] : '';
+				}
+
 
 				/* update lead id cookie */
 				setcookie('wp_lead_id', $lead['id'] , time() + (20 * 365 * 24 * 60 * 60), '/');
@@ -535,36 +551,6 @@ if (!class_exists('LeadStorage')) {
 			);
 		}
 
-		/**
-		 *	Connects to geoplugin.net and gets data on IP address and sets it into historical log
-		 *	@param ARRAY $lead_data
-		 */
-		static function store_geolocation_data( $lead ) {
-
-			$ip_addresses = get_post_meta( $lead['id'], 'wpleads_ip_address', true );
-			$ip_addresses = json_decode( stripslashes($ip_addresses), true);
-
-			if (!$ip_addresses) {
-				$ip_addresses = array();
-			}
-
-			$new_record[ $lead['ip_address'] ]['ip_address'] = $lead['ip_address'];
-
-			/* ignore for local environments */
-			if ($lead['ip_address']!= "127.0.0.1"){ /* exclude localhost */
-				$response = wp_remote_get('http://www.geoplugin.net/php.gp?ip='.$lead['ip_address']);
-				if ( !is_wp_error($response) &&  isset($response['body'])  ) {
-					$geo_array = @unserialize($response['body']);
-					$new_record[ $lead['ip_address'] ]['geodata'] = $geo_array;
-				}
-
-			}
-
-			$ip_addresses = array_merge( $new_record, $ip_addresses );
-			$ip_addresses = json_encode( $ip_addresses );
-
-			update_post_meta( $lead['id'], 'wpleads_ip_address', $ip_addresses );
-		}
 
 		/**
 		 *	Updates raw form data object
@@ -625,44 +611,47 @@ if (!class_exists('LeadStorage')) {
 		 */
 		static function improve_lead_name( $lead ) {
 			/* */
-			$lead['name'] = (isset($lead['name'])) ? $lead['name'] : '';
+			$lead['wpleads_name'] = (isset($lead['wpleads_name'])) ? $lead['wpleads_name'] : '';
+			$lead['wpleads_first_name'] = (isset($lead['wpleads_first_name'])) ? $lead['wpleads_first_name'] : '';
+			$lead['wpleads_last_name'] = (isset($lead['wpleads_last_name'])) ? $lead['wpleads_last_name'] : '';
 
 			/* do not let names with 'false' pass */
-			if ( !empty($lead['name']) && $lead['name'] == 'false' ) {
-				$lead['name'] = '';
+			if ( !empty($lead['wpleads_name']) && $lead['name'] == 'false' ) {
+				$lead['wpleads_name'] = '';
 			}
-			if ( !empty($lead['first_name']) && $lead['first_name'] == 'false' ) {
-				$lead['first_name'] = '';
+
+			if ( !empty($lead['wpleads_first_name']) && $lead['wpleads_first_name'] == 'false' ) {
+				$lead['wpleads_first_name'] = '';
 			}
 
 			/* if last name empty and full name present */
-			if ( empty($lead['last_name']) && $lead['name'] ) {
-				$parts = explode(' ', $lead['name']);
+			if ( empty($lead['wpleads_last_name']) && $lead['wpleads_name'] ) {
+				$parts = explode(' ', $lead['wpleads_name']);
 
 				/* Set first name */
-				$lead['first_name'] = $parts[0];
+				$lead['wpleads_first_name'] = trim($parts[0]);
 
 				/* Set last name */
 				if (isset($parts[1])) {
-					$lead['last_name'] = $parts[1];
+					$lead['wpleads_last_name'] = trim($parts[1]);
 				}
 			}
 			/* if last name empty and first name present */
-			else if (empty($lead['last_name']) && $lead['first_name'] ) {
-				$parts = explode(' ', $lead['first_name']);
+			else if (empty($lead['wpleads_last_name']) && $lead['wpleads_first_name'] ) {
+				$parts = explode(' ', $lead['wpleads_first_name']);
 
 				/* Set First Name */
-				$lead['first_name'] = $parts[0];
+				$lead['wpleads_first_name'] = trim($parts[0]);
 
 				/* Set Last Name */
 				if (isset($parts[1])) {
-					$lead['last_name'] = $parts[1];
+					$lead['wpleads_last_name'] = trim($parts[1]);
 				}
 			}
 
 			/* set full name */
-			if (!$lead['name'] && $lead['first_name'] && $lead['last_name'] ) {
-				$lead['name'] = $lead['first_name'] .' '. $lead['last_name'];
+			if (!$lead['wpleads_name'] && $lead['wpleads_first_name'] && $lead['wpleads_last_name'] ) {
+				$lead['wpleads_name'] = $lead['wpleads_first_name'] .' '. $lead['wpleads_last_name'];
 			}
 
 			return $lead;
@@ -682,21 +671,7 @@ if (!class_exists('LeadStorage')) {
 				}
 			}
 
-			/* remove instances of wpleads_ */
-			$newMap = array();
-			foreach ($mappedData as $key=>$value) {
-				$key = str_replace('wpleads_','',$key);
-				$newMap[$key] = $value;
-			}
-
-			/* Set names if not mapped */
-			$newMap['first_name'] = (!isset($newMap['first_name'])) ? $lead['first_name'] : $newMap['first_name'];
-			$newMap['last_name'] = (!isset($newMap['last_name'])) ? $lead['last_name'] : $newMap['last_name'];
-
-			/* improve mapped names */
-			$newMap = self::improve_lead_name( $newMap );
-
-			return $newMap;
+			return $mappedData;
 		}
 
 		/**

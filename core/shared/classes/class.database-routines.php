@@ -39,12 +39,29 @@ if ( !class_exists('Inbound_Upgrade_Routines') ) {
                 'callback' => array( __CLASS__ , 'alter_events_table_1')
             );
 
+            /* alter events table */
+            self::$routines['events-table-2'] = array(
+                'id' => 'events-table-2',
+                'scope' => 'shared',
+                'introduced' => '1.0.5',
+                'callback' => array( __CLASS__ , 'alter_events_table_1_0_5')
+            );
+
             /* alter automation queue table */
             self::$routines['automation-queue-table-1'] = array(
                 'id' => 'automation-queue-table-1',
                 'scope' => 'shared',
                 'introduced' => '1.0.3',
                 'callback' => array( __CLASS__ , 'alter_automation_queue_table_1')
+            );
+
+
+            /* alter events table */
+            self::$routines['events-pageviews-107'] = array(
+                'id' => 'events-pageviews-107',
+                'scope' => 'shared',
+                'introduced' => '1.0.7',
+                'callback' => array( __CLASS__ , 'alter_events_pageviews_107')
             );
         }
 
@@ -115,10 +132,7 @@ if ( !class_exists('Inbound_Upgrade_Routines') ) {
 
             /* add ip field if does not exist */
             $row = $wpdb->get_results(  "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '{$table_name}' AND column_name = 'ip'"  );
-            if(empty($row)){
-                $wpdb->get_results( "ALTER TABLE {$table_name} ADD `ip` VARCHAR(45) NOT NULL" );
-            }
-
+            $wpdb->get_results( "ALTER TABLE {$table_name} ADD `ip` VARCHAR(45) NOT NULL" );
             /* alter ip field to fix bad field types */
             $wpdb->get_results( "ALTER TABLE {$table_name} MODIFY COLUMN `ip` VARCHAR(45)" );
 
@@ -135,19 +149,45 @@ if ( !class_exists('Inbound_Upgrade_Routines') ) {
             require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
             $table_name = $wpdb->prefix . "inbound_events";
 
-            /* add columns funnel and source to legacy table */
-            $row = $wpdb->get_results(  "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '{$table_name}' AND column_name = 'source'"  );
-            if(empty($row)){
-                // do your stuff
-                $wpdb->get_results( "ALTER TABLE {$table_name} ADD `funnel` text NOT NULL" );
-                $wpdb->get_results( "ALTER TABLE {$table_name} ADD `source` text NOT NULL" );
-            }
+            $wpdb->get_results( "ALTER TABLE {$table_name} ADD `funnel` text NOT NULL" );
+            $wpdb->get_results( "ALTER TABLE {$table_name} ADD `source` text NOT NULL" );
+            $wpdb->get_results( "ALTER TABLE {$table_name} ADD `list_id` mediumint(20) NOT NULL" );
 
-            /* add columns list_id inbound events table */
-            $row = $wpdb->get_results(  "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '{$table_name}' AND column_name = 'list_id'"  );
-            if(empty($row)){
-                $wpdb->get_results( "ALTER TABLE {$table_name} ADD `list_id` varchar(255) NOT NULL" );
-            }
+        }
+
+        /**
+         * @migration-type: alter inbound_events table
+         * @mirgration: adds columns list_id funnel, and source to events table
+         */
+        public static function alter_events_table_1_0_5() {
+
+            global $wpdb;
+
+            require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+            $table_name = $wpdb->prefix . "inbound_events";
+
+            $wpdb->get_results( "ALTER TABLE {$table_name} ADD `rule_id` mediumint(20) NOT NULL" );
+            $wpdb->get_results( "ALTER TABLE {$table_name} ADD `job_id` mediumint(20) NOT NULL" );
+
+        }
+
+        /**
+         * @migration-type: alter inbound_events,inbound_pageviews table
+         * @mirgration: convert page_id to VARCHAR to accept complex ids related to taxonomy archives
+         */
+        public static function alter_events_pageviews_107() {
+
+            global $wpdb;
+
+            require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+
+            /* events table */
+            $table_name = $wpdb->prefix . "inbound_events";
+            $wpdb->get_results( "ALTER TABLE {$table_name} MODIFY COLUMN `page_id` VARCHAR(20)" );
+
+            /* pageviews table */
+            $table_name = $wpdb->prefix . "inbound_page_views";
+            $wpdb->get_results( "ALTER TABLE {$table_name} MODIFY COLUMN `page_id` VARCHAR(20)" );
         }
 
 
@@ -162,12 +202,8 @@ if ( !class_exists('Inbound_Upgrade_Routines') ) {
             require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
             $table_name = $wpdb->prefix . "inbound_automation_queue";
 
-            /* add columns funnel and source to legacy table */
-            $row = $wpdb->get_results(  "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '{$table_name}' AND column_name = 'lead_id'"  );
-            if(empty($row)){
-                // do your stuff
-                $wpdb->get_results( "ALTER TABLE {$table_name} ADD `lead_id` varchar(255)  NOT NULL" );
-            }
+            $wpdb->get_results( "ALTER TABLE {$table_name} ADD `lead_id` mediumint(20)  NOT NULL" );
+
         }
     }
 
@@ -175,7 +211,18 @@ if ( !class_exists('Inbound_Upgrade_Routines') ) {
     add_action('inbound_shared_activate' , array( 'Inbound_Upgrade_Routines' , 'load') );
 
 
+    /**
+     * Listen for Database Repair Call
+     */
     if (isset($_REQUEST['force_upgrade_routines']) && $_REQUEST['force_upgrade_routines'] ) {
+        Inbound_Events::create_page_views_table();
+        Inbound_Events::create_events_table();
+        if (class_exists('Inbound_Automation_Activation')) {
+            Inbound_Automation_Activation::create_automation_queue_table();
+        }
+        if (class_exists('Inbound_Mailer_Activation')) {
+            Inbound_Mailer_Activation::create_email_queue_table();
+        }
         Inbound_Upgrade_Routines::load();
     }
 }

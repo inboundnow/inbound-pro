@@ -19,6 +19,8 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
         static $campaign_stats;
         static $settings;
         static $email_type;
+        static $range;
+        static $job_id;
 
         function __construct() {
             self::load_hooks();
@@ -30,6 +32,9 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
             /* Load template selector in background */
             add_action('admin_notices', array(__CLASS__, 'add_template_select'));
+
+            /* Load range into static variable */
+            add_action('admin_notices', array(__CLASS__, 'load_user_preferences'));
 
             /* Add Email Settings */
             add_action('edit_form_after_title', array(__CLASS__, 'add_containers'), 5);
@@ -53,6 +58,33 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             /* generate serialized settings for this email (used for creating example email) */
             add_action( 'admin_notices' , array( __CLASS__ , 'generate_json' ) );
 
+        }
+
+        /**
+         * Load range into static variable
+         */
+        public static function load_user_preferences() {
+            global $post;
+
+            $screen = get_current_screen();
+
+            if (!isset($screen) || $screen->id != 'inbound-email' || ($screen->base != 'post' && $screen->base != 'post-new')) {
+                return;
+            }
+
+            /* set range */
+            self::$range = get_user_option(
+                'inbound_mailer_screen_option_range',
+                get_current_user_id()
+            );
+            self::$range = (self::$range) ? self::$range : 90;
+
+            /* get job id from memory */
+            self::$job_id = get_user_option(
+                'inbound_mailer_reporting_job_id_' .$post->ID,
+                get_current_user_id()
+            );
+            self::$job_id = (self::$job_id) ? self::$job_id : 0;
         }
 
         /**
@@ -84,10 +116,6 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             /* Show Selected Template */
             add_meta_box('email-selected-template', __('Selected Template', 'inbound-pro'), array(__CLASS__, 'add_selected_tamplate_info'), 'inbound-email', 'side', 'high');
 
-            /* Show Selected Template */
-            if (isset($post) && ( $post->post_status == 'sent' || $post->post_status =='automated') ) {
-                add_meta_box('email-unsubscribes', __('Unsubscribe Events', 'inbound-pro'), array(__CLASS__, 'add_unsubscribe_list'), 'inbound-email', 'side', 'high');
-            }
         }
 
         /**
@@ -405,6 +433,11 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
             if (isset($post) && $post->post_type != 'inbound-email' || !isset($post)) {
                 return false;
+            }
+
+            $block = array( 'automated');
+            if (in_array($post->post_status, $block)) {
+                return;
             }
 
             (!strstr($current_url, 'post-new.php')) ? $toggle = "display:none" : $toggle = "";
@@ -728,7 +761,9 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
          */
         public static function add_numbers_totals() {
             global $post;
-            
+
+            $job_id = (self::$job_id == 'last_send') ? Inbound_Mailer_Post_Type::get_last_job_id($post->ID) : self::$job_id ;
+
             ?>
             <style>
                 .stat-number {
@@ -738,7 +773,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             <div class='big-number-stats'>
                 <div class="statistic-container">
                     <div class="stat-number-container">
-                        <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range=90&email_id=' . $post->ID . '&event_name=sparkpost_delivery&show_graph=false&display_lead_table=false&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox" style="text-decoration: none;">
+                        <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range='.self::$range.'&email_id=' . $post->ID . '&job_id=' . $job_id . '&event_name=sparkpost_delivery&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox" style="text-decoration: none;">
                             <label class="stat-label sent-label"><?php _e('Sent', 'inbound-pro'); ?></label>
 
                             <div class="stat-number sent-number">0</div>
@@ -748,7 +783,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 </div>
                 <div class="statistic-container">
                     <div class="stat-number-container">
-                        <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range=90&email_id=' . $post->ID . '&event_name=sparkpost_open&show_graph=false&display_lead_table=false&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox" style="text-decoration: none;">
+                        <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range='.self::$range.'&email_id=' . $post->ID . '&job_id=' . $job_id . '&event_name=sparkpost_open&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox" style="text-decoration: none;">
                             <label class="stat-label opens-label"><?php _e('Opens', 'inbound-pro'); ?></label>
 
                             <div class="stat-number opens-number">0</div>
@@ -758,7 +793,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 </div>
                 <div class="statistic-container">
                     <div class="stat-number-container">
-                        <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range=90&email_id=' . $post->ID . '&event_name=sparkpost_click&show_graph=false&display_lead_table=false&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox" style="text-decoration: none;">
+                        <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range='.self::$range.'&email_id=' . $post->ID . '&job_id=' . $job_id .'&event_name=sparkpost_click&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox" style="text-decoration: none;">
                             <label class="stat-label clicks-label"><?php _e('Clicks', 'inbound-pro'); ?></label>
 
                             <div class="stat-number clicks-number">0</div>
@@ -768,7 +803,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 </div>
                 <div class="statistic-container">
                     <div class="stat-number-container">
-                        <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range=90&email_id=' . $post->ID . '&event_name=unopened&event_name_2=sparkpost_open&event_action=remove_opens&standing_total_graph=true&show_graph=false&display_lead_table=false&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox" style="text-decoration: none;">
+                        <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range='.self::$range.'&email_id=' . $post->ID . '&job_id=' . $job_id .'&event_name=unopened&event_name_2=sparkpost_open&event_action=remove_opens&standing_total_graph=true&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox" style="text-decoration: none;">
                             <label class="stat-label unopened-label"><?php _e('Unopened', 'inbound-pro'); ?></label>
 
                             <div class="stat-number unopened-number">0</div>
@@ -778,7 +813,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 </div>
                 <div class="statistic-container">
                     <div class="stat-number-container">
-                        <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range=90&email_id=' . $post->ID . '&event_name=sparkpost_bounce&show_graph=false&display_lead_table=false&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox" style="text-decoration: none;">
+                        <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range='.self::$range.'&email_id=' . $post->ID . '&job_id=' . $job_id .'&event_name=sparkpost_bounce&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox" style="text-decoration: none;">
                             <label class="stat-label bounces-label"><?php _e('Bounces', 'inbound-pro'); ?></label>
 
                             <div class="stat-number bounces-number">0</div>
@@ -788,7 +823,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 </div>
                 <div class="statistic-container">
                     <div class="stat-number-container">
-                        <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range=90&email_id=' . $post->ID . '&event_name=sparkpost_rejected&event_name_2=sparkpost_relay_rejection&event_action=merge&show_graph=false&display_lead_table=false&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox" style="text-decoration: none;">
+                        <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range='.self::$range.'&email_id=' . $post->ID . '&job_id=' . $job_id .'&event_name=sparkpost_rejected&event_name_2=sparkpost_relay_rejection&event_action=merge&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox" style="text-decoration: none;">
                             <label class="stat-label rejects-label"><?php _e('Rejects', 'inbound-pro'); ?></label>
 
                             <div class="stat-number rejects-number">0</div>
@@ -798,7 +833,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 </div>
                 <div class="statistic-container">
                     <div class="stat-number-container">
-                        <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range=90&email_id=' . $post->ID . '&event_name=inbound_unsubscribe&show_graph=false&display_lead_table=false&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox" style="text-decoration: none;">
+                        <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range='.self::$range.'&email_id=' . $post->ID . '&job_id=' . $job_id .'&event_name=inbound_unsubscribe&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox" style="text-decoration: none;">
                             <label class="stat-label unsubs-label"><?php _e('Unsubscribes', 'inbound-pro'); ?></label>
 
                             <div class="stat-number unsubs-number">0</div>
@@ -808,7 +843,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 </div>
                 <div class="statistic-container">
                     <div class="stat-number-container">
-                        <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range=90&email_id=' . $post->ID . '&event_name=inbound_mute&show_graph=false&display_lead_table=false&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox" style="text-decoration: none;">
+                        <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range='.self::$range.'&email_id=' . $post->ID . '&job_id=' . $job_id .'&event_name=inbound_mute&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox" style="text-decoration: none;">
                             <label class="stat-label mutes-label"><?php _e('Mutes', 'inbound-pro'); ?></label>
 
                             <div class="stat-number mutes-number">0</div>
@@ -850,12 +885,51 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
                 .email-details-td-info .label-default{
                     display:flex;
+                    font-size:12px !important;
+                    font-weight:300!important;
+                    background-color: cornflowerblue!important;
+                    padding-left:10px;
+                    padding-right:10px;
+                    padding-top:4px;
+                    padding-bottom:4px;
+                    margin-bottom:3px;
                 }
             </style>
             <div class='email-send-details'>
                 <table>
+                    <tr class='email-details-tr'>
+                        <td class='email-details-td-label'>
+                            <?php _e('Reporting Range', 'inbound-pro'); ?>:
+                        </td>
+                        <td class='email-details-td-info'>
+                            <select  name="inbound_mailer_screen_option_range" class="" id="inbound_mailer_screen_option_range" style="width:100px;" >
+                            <?php
+                            $ranges = array(1,7,30,90,365);
+
+                            foreach ($ranges as $range) {
+                                echo  '<option value="'.$range.'" '. ( self::$range==$range ? 'selected="true"' : '' ).'">'.$range.' ' . __('days','inbound-pro') .'</option>';
+                            }
+                            ?>
+                            </select>
+                            <i class="fa fa-question-circle inbound-tooltip"  data-toggle="tooltip" data-placement="left" title="<?php _e('Select day range for calculating statistics.', 'inbound-pro') ?>"></i>
+                        </td>
+                    </tr>
                     <?php
 
+                    if ($settings['email_type'] == 'automated') {
+                        ?>
+                        <tr class='email-details-tr'>
+                            <td class='email-details-td-label'>
+                                <?php _e('Reporting by Job' , 'inbound-pro'); ?>:
+                            </td>
+                            <td class='email-details-td-info'>
+                                <?php self::render_job_select(); ?>
+                                <i class="fa fa-question-circle inbound-tooltip"  data-toggle="tooltip" data-placement="left" title="<?php _e('Automated email statistics can be segmented by the marketing automation job id that powered their sending. If sent to individual leads then leave this set option set to Combined Report.', 'inbound-pro') ?>"></i>
+
+                            </td>
+                        </tr>
+                        <?php
+                    }
 
                     if ($settings['email_type'] == 'batch') {
 
@@ -870,30 +944,27 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                                 ?>
                             </td>
                         </tr>
+                        <tr class='email-details-tr'>
+                            <td class='email-details-td-label'>
+                                <?php _e('Target Audiences', 'inbound-pro'); ?>:
+                            </td>
+                            <td class='email-details-td-info'>
+                                <?php
+
+
+                                foreach ($settings['recipients'] as $list_id) {
+                                    $list = Inbound_Leads::get_lead_list_by('id', $list_id);
+
+                                    echo "<a href='" . admin_url('edit.php?page=lead_management&post_type=wp-lead&wplead_list_category%5B%5D=' . $list_id . '&relation=AND&orderby=date&order=asc&s=&t=&submit=Search+Leads') . "' target='_blank' class='label label-default' style='text-decoration:none'>" . $list['name'] . " (" . $list['count'] . ")</a>";
+                                }
+
+                                ?>
+                            </td>
+                        </tr>
                         <?php
                     }
                     ?>
-                    <tr class='email-details-tr'>
-                        <td class='email-details-td-label'>
-                            <?php _e('Target Audiences', 'inbound-pro'); ?>:
-                        </td>
-                        <td class='email-details-td-info'>
-                            <?php
 
-                            if ($settings['email_type'] == 'automated') {
-                                _e('Automated sends', 'inbound-pro');
-                                $settings['recipients'] = array();
-                            }
-
-                            foreach ($settings['recipients'] as $list_id) {
-                                $list = Inbound_Leads::get_lead_list_by('id', $list_id);
-
-                                echo "<a href='" . admin_url('edit.php?page=lead_management&post_type=wp-lead&wplead_list_category%5B%5D=' . $list_id . '&relation=AND&orderby=date&order=asc&s=&t=&submit=Search+Leads') . "' target='_blank' class='label label-default' style='text-decoration:none'>" . $list['name'] . " (" . $list['count'] . ")</a>";
-                            }
-
-                            ?>
-                        </td>
-                    </tr>
                     <tr class='email-details-tr'>
                         <td class='email-details-td-label'>
                             <?php _e('Variations', 'inbound-pro'); ?>:
@@ -1155,83 +1226,6 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             <?php
         }
 
-        /**
-         *  Adds list of unsubscribers
-         */
-        public static function add_unsubscribe_list() {
-            global $post;
-
-            $unsubscribes = Inbound_Events::get_unsubscribes_by_email($post->ID);
-            $mutes = Inbound_Events::get_mutes_by_email($post->ID);
-
-            $unsubscribes = array_merge($unsubscribes , $mutes);
-            ?>
-            <div class='inbound-unsubscribes-container'>
-
-                <?php
-                $added = array();
-                foreach ($unsubscribes as $key => $event) {
-
-                    /* do not show multiple events from same lead */
-                    if (in_array($event['lead_id'],$added)) {
-                        continue;
-                    }
-
-                    $added[] = $event['lead_id'];
-
-                    $email = get_post_meta($event['lead_id'] , 'wpleads_email_address' , true);
-                    $first_name = get_post_meta($event['lead_id'] , 'wpleads_first_name' , true);
-                    $last_name = get_post_meta($event['lead_id'] , 'wpleads_last_name' , true);
-                    $name = $first_name . ' ' . $last_name;
-
-                    if (!trim($name)) {
-                        $name = $email;
-                    }
-
-                    $gravatar = Leads_Post_Type::get_gravatar($event['lead_id'] , 25 );
-
-                    $details = json_decode($event['event_details'] , true);
-                    ?>
-                    <table class="lead-unsubscribed">
-                        <tr>
-                            <td width="64px;">
-                                <a class="" href="<?php echo admin_url('post.php?post='.$event['lead_id'].'&action=edit&tab=tabs-wpleads_lead_tab_activity'); ?>" target="_blank" >
-                                    <img class="inbound-tooltip lead-grav-img" width='25' height='25' src="<?php echo $gravatar; ?>" title="<?php _e('View Lead' , ' inbound-pro' ); ?>">
-                                </a>
-                                <?php
-                                if ($details['comments']) {
-                                    ?>
-                                    <i class=" inbound-tooltip fa fa-comment" style="vertical-align:top;color:darkgray" aria-hidden="true" title='<?php echo addslashes($details['comments']); ?>'></i>
-                                    <?php
-                                }
-
-                                if ($event['event_name'] == 'inbound_mute') {
-                                    ?>
-                                    <i class=" inbound-tooltip fa fa-volume-down" style="margin-left:3px;vertical-align:top;color:darkgray" aria-hidden="true" title='<?php echo __('Muted for ' , 'inbound-pro').  $details['emails_muted_for']; ?>'></i>
-                                    <?php
-                                }
-
-                                if ($event['event_name'] == 'inbound_unsubscribe') {
-                                    ?>
-                                    <i class=" inbound-tooltip fa fa-ban" style="margin-left:3px;vertical-align:top;color:darkgray" aria-hidden="true" title='<?php echo __('Lead has unsubscribed' , 'inbound-pro'); ?>'></i>
-                                    <?php
-                                }
-
-                                ?>
-                            </td>
-                            <td>
-                                <a class="inbound-tooltip" href="<?php echo admin_url('post.php?post='.$event['lead_id'].'&action=edit&tab=tabs-wpleads_lead_tab_activity'); ?>" target="_blank" ><?php echo $name; ?></a>
-                            </td>
-                        </tr>
-                    </table>
-                    <?php
-                }
-
-                ?>
-            </div>
-
-            <?php
-        }
 
         /**
          * Discovers the email type by checking the inbound_email_type taxonomy
@@ -1484,6 +1478,41 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             //exit;
         }
 
+        /**
+         * Displays select dropdown with available job ids for a given email id
+         */
+        public static function render_job_select() {
+            global $wpdb, $post;
+
+            /* get available job ids given email id */
+            $table_name = $wpdb->prefix . "inbound_events";
+
+            $query = 'SELECT DISTINCT( job_id ) FROM '.$table_name . " WHERE email_id = '".$post->ID."'  ORDER BY job_id DESC LIMIT 100";
+
+            $job_ids = $wpdb->get_results( $query , ARRAY_A );
+
+            echo '<select name="automation_job_id" id="automation_job_id" class="select2">';
+
+            echo '<option value="0" '.selected( 0 , self::$job_id , false ).'>'.__('Combined Report','inbound-pro').'</option>';
+            /**/
+            foreach( $job_ids as  $key => $job) {
+
+                if (!$job['job_id']) {
+                    continue;
+                }
+
+                if ($key === 0 ) {
+                    echo '<option value="last_send" '.selected('last_send' , self::$job_id , false ).'>'.__('Last Send','inbound-pro').'</option>';
+                } else {
+                    echo '<option value="'.$job['job_id'].'"  '.selected(  $job['job_id'] , self::$job_id , false).'>'.__('Send # ','inbound-pro').' '.$job['job_id'].'</option>';
+                }
+            }
+            /**/
+            echo '</select>';
+            echo '<script type="text/javascript"> jQuery("#automation_job_id").select2({width: "300px"});</script>';
+
+
+        }
 
         /**
          * Changes the default placeholder text of wp_title when cta is being created. With CTAs, wp_title is a descriptive title.
@@ -1644,9 +1673,20 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                     jQuery('.action-save').click(function () {
                         Settings.save_email();
                     });
+
                     /* Add listener for saving email */
                     jQuery('.action-clear-stats').click(function () {
                         Settings.clear_stats();
+                    });
+
+                    /* Add listener for changing reporting range email */
+                    jQuery('#inbound_mailer_screen_option_range').change(function () {
+                        Settings.update_range( jQuery(this) );
+                    });
+
+                    /* Add listener for changing job id  */
+                    jQuery('#automation_job_id').change(function () {
+                        Settings.update_job_id( jQuery(this) );
                     });
 
                     /* Fire: load correct send settings on load */
@@ -2448,6 +2488,55 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
                                 window.location.reload();
 
+                            });
+                        },
+                        /**
+                         *  Update Range
+                         */
+                        update_range: function ( $this ) {
+
+                            /* Throw confirmation for switching templates */
+                            jQuery.ajax({
+                                type: 'post',
+                                url: ajaxurl,
+                                data: {
+                                    'action' : 'inbound_email_update_range',
+                                    'range': $this.find('option:selected').val()
+                                },
+                                success: function (result) {
+                                    window.location.reload();
+                                }
+                            });
+                        },
+                        /**
+                         *  Update Job ID
+                         */
+                        update_job_id: function ( $this ) {
+                            /* prompt reload */
+                            swal({
+                                title: "<?php _e('Please wait' , 'inbound-pro' ); ?>",
+                                text: "<?php _e('A new report is being loaded.' , 'inbound-pro' ); ?>",
+                                imageUrl: '<?php echo INBOUND_EMAIL_URLPATH; ?>/assets/images/loading_colorful.gif',
+                                closeOnConfirm: false,
+                                showConfirmButton: false,
+                            }, function () {
+
+                            });
+
+                            /* Throw confirmation for switching templates */
+                            jQuery.ajax({
+                                type: 'post',
+                                url: ajaxurl,
+                                data: {
+                                    'action' : 'inbound_email_update_job_id',
+                                    'email_id': '<?php echo $post->ID; ?>',
+                                    'job_id': $this.find('option:selected').val()
+                                },
+                                success: function (result) {
+                                    window.location.reload();
+
+
+                                }
                             });
                         },
                         /**

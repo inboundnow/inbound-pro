@@ -118,7 +118,7 @@ if ( !class_exists('Inbound_Mailer_Plugin')	) {
 					/* loads admin files */
 					include_once('classes/class.activation.database-routines.php');
 					include_once('classes/class.activation.php');
-					include_once('classes/class.options-api.php');
+					include_once('classes/class.maintenance-lists.php');
 					include_once('classes/class.postmeta.php');
 					include_once('classes/class.post-type.inbound-email.php');
 					include_once('classes/class.extension.wordpress-seo.php');
@@ -154,7 +154,7 @@ if ( !class_exists('Inbound_Mailer_Plugin')	) {
 				case false :
 					/* load front-end files */
 					include_once('classes/class.settings.php');
-					include_once('classes/class.options-api.php');
+					include_once('classes/class.maintenance-lists.php');
 					include_once('classes/class.postmeta.php');;
 					include_once('classes/class.load.email-templates.php');
 					include_once('classes/class.post-type.inbound-email.php');

@@ -41,6 +41,9 @@ class Inbound_Pro_Activation {
 		/* Schedule Events */
 		self::schedule_events();
 
+		/* update db version numbers */
+		self::store_version_data();
+
 
 	}
 
@@ -324,6 +327,16 @@ class Inbound_Pro_Activation {
 		}
 
 	}
+
+	/**
+	 * Check if plugin update occured and run activation routines
+	 */
+	public static function inbound_pro_activate_on_update(){
+		$old = get_option('inbound_pro_current_version');
+		if(!$old || $old != INBOUND_PRO_CURRENT_VERSION ) {
+			Inbound_Pro_Activation::activate();
+		}
+	}
 }
 
 new Inbound_Pro_Activation();
@@ -331,3 +344,7 @@ new Inbound_Pro_Activation();
 /* Add Activation Hook */
 register_activation_hook( INBOUND_PRO_FILE , array( 'Inbound_Pro_Activation' , 'activate' ) );
 register_deactivation_hook( INBOUND_PRO_FILE , array( 'Inbound_Pro_Activation' , 'deactivate' ) );
+
+
+/* Make sure activation runs on update */
+add_action('admin_init',array( 'Inbound_Pro_Activation' ,'inbound_pro_activate_on_update'));

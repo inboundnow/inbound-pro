@@ -216,6 +216,29 @@ if (!class_exists('Inbound_API')) {
 		}
 
 		/**
+		 * Get tracked link arguments given a storage token
+		 * @param $token
+		 * @return array|mixed
+		 */
+		public static function get_args_from_token( $token ) {
+			global $wpdb;
+
+			/* Pull record from database */
+			$table_name = $wpdb->prefix . "inbound_tracked_links";
+			$profiles = $wpdb->get_results("SELECT * FROM {$table_name} where `token` = '{$token}' ;");
+
+			if (empty( $profiles )) {
+				return array();
+			}
+
+			/* Get first result & prepare args */
+			$profile = $profiles[0];
+			$args = unserialize($profile->args);
+
+			return $args;
+		}
+
+		/**
 		 * Displays a missing authentication error if all the parameters aren't
 		 * provided
 		 *
@@ -470,7 +493,7 @@ if (!class_exists('Inbound_API')) {
 		 * @since 1.5.1
 		 * @param array $args Arguments to override defaults
 		 * @return array $dates
-		*/
+		 */
 		public static function get_dates( $args = array() ) {
 			$dates = array();
 
@@ -504,21 +527,21 @@ if (!class_exists('Inbound_API')) {
 						$dates['m_start'] 	= date( 'n', $current_time );
 						$dates['m_end']		= date( 'n', $current_time );
 						$dates['year']		= date( 'Y', $current_time );
-					break;
+						break;
 
 					case 'last_month' :
 						$dates['day'] 	  = null;
 						$dates['m_start'] = date( 'n', $current_time ) == 1 ? 12 : date( 'n', $current_time ) - 1;
 						$dates['m_end']	  = $dates['m_start'];
 						$dates['year']    = date( 'n', $current_time ) == 1 ? date( 'Y', $current_time ) - 1 : date( 'Y', $current_time );
-					break;
+						break;
 
 					case 'today' :
 						$dates['day']		= date( 'd', $current_time );
 						$dates['m_start'] 	= date( 'n', $current_time );
 						$dates['m_end']		= date( 'n', $current_time );
 						$dates['year']		= date( 'Y', $current_time );
-					break;
+						break;
 
 					case 'yesterday' :
 						$month              = date( 'n', $current_time ) == 1 && date( 'd', $current_time ) == 1 ? 12 : date( 'n', $current_time );
@@ -528,7 +551,7 @@ if (!class_exists('Inbound_API')) {
 						$dates['m_start'] 	= $month;
 						$dates['m_end'] 	= $month;
 						$dates['year']		= $month == 1 && date( 'd', $current_time ) == 1 ? date( 'Y', $current_time ) - 1 : date( 'Y', $current_time );
-					break;
+						break;
 
 					case 'this_quarter' :
 						$month_now = date( 'n', $current_time );
@@ -560,7 +583,7 @@ if (!class_exists('Inbound_API')) {
 							$dates['year']		= date( 'Y', $current_time );
 
 						}
-					break;
+						break;
 
 					case 'last_quarter' :
 						$month_now = date( 'n', $current_time );
@@ -592,21 +615,21 @@ if (!class_exists('Inbound_API')) {
 							$dates['year']		= date( 'Y', $current_time );
 
 						}
-					break;
+						break;
 
 					case 'this_year' :
 						$dates['day'] 	    = null;
 						$dates['m_start'] 	= null;
 						$dates['m_end']		= null;
 						$dates['year']		= date( 'Y', $current_time );
-					break;
+						break;
 
 					case 'last_year' :
 						$dates['day'] 	    = null;
 						$dates['m_start'] 	= null;
 						$dates['m_end']		= null;
 						$dates['year']		= date( 'Y', $current_time ) - 1;
-					break;
+						break;
 
 				endswitch;
 			}
@@ -731,6 +754,7 @@ if (!class_exists('Inbound_API')) {
 			return $results;
 		}
 
+
 		/**
 		 *  Sets the API defaults for the /leads/(get) endpoint
 		 *
@@ -853,7 +877,7 @@ if (!class_exists('Inbound_API')) {
 		public static function prepare_lead_results( $results ) {
 
 			if ( !$results->have_posts() ) {
-				 return null;
+				return null;
 			}
 
 			$leads = array();
@@ -879,6 +903,9 @@ if (!class_exists('Inbound_API')) {
 				/* set lead meta data */
 				$meta_data = get_post_custom($ID);
 				$leads['results'][ $ID ]['meta_data'] = $meta_data;
+
+				/* set the lead sources */
+				$leads['results'][ $ID ]['sources'] = Inbound_Events::get_lead_sources( $ID );
 
 			endwhile;
 
@@ -1121,10 +1148,10 @@ if (!class_exists('Inbound_API')) {
 		}
 
 		/**
-		*  Get lead ID from lead email address
-		*  @param STRING $email lead email address
-		*  @return INT $id
-		*/
+		 *  Get lead ID from lead email address
+		 *  @param STRING $email lead email address
+		 *  @return INT $id
+		 */
 		public static function leads_get_id_from_email( $email ) {
 
 			self::validate_parameter( $email, 'email',  'string'  );
@@ -1181,10 +1208,10 @@ if (!class_exists('Inbound_API')) {
 		}
 
 		/**
-		*  Updates a list's data
-		*  @global OBJECT $Inbound_Leads class Inbound_Leads
-		*  @return ARRAY
-		*/
+		 *  Updates a list's data
+		 *  @global OBJECT $Inbound_Leads class Inbound_Leads
+		 *  @return ARRAY
+		 */
 		public static function lists_update( $params = array() ) {
 
 
@@ -1225,8 +1252,8 @@ if (!class_exists('Inbound_API')) {
 		}
 
 		/**
-		*  Deletes a lead list
-		*/
+		 *  Deletes a lead list
+		 */
 		public static function lists_delete( $params = array() ) {
 
 
@@ -1246,8 +1273,8 @@ if (!class_exists('Inbound_API')) {
 		}
 
 		/**
-		*  Gets an array of mappable lead meta keys with their labels
-		*/
+		 *  Gets an array of mappable lead meta keys with their labels
+		 */
 		public static function fieldmap_get() {
 			$lead_fields = Leads_Field_Map::build_map_array();
 			array_shift($lead_fields);
@@ -1255,18 +1282,18 @@ if (!class_exists('Inbound_API')) {
 		}
 
 		/**
-		*  Generates random token
-		*  @param length
-		*/
+		 *  Generates random token
+		 *  @param length
+		 */
 		public static function generate_token( $min = 7, $max = 11 ) {
 			$length = mt_rand( $min, $max );
 			return substr(str_shuffle("0123456789iloveinboundnow"), 0, $length);
 		}
 
 		/**
-		*  Stores tracked link data into wp_inbound_tracked_links table
-		*  @param ARRAY $args passed arguments
-		*/
+		 *  Stores tracked link data into wp_inbound_tracked_links table
+		 *  @param ARRAY $args passed arguments
+		 */
 		public static function analytics_get_tracking_code( $args = array() ) {
 			global $wpdb;
 
@@ -1275,7 +1302,7 @@ if (!class_exists('Inbound_API')) {
 			/* check args to see if token already exists */
 			$results = $wpdb->get_results("SELECT * FROM $table_name WHERE args = '".serialize( $args )."' LIMIT 1", ARRAY_A );
 			if ($results) {
-				return get_site_url( get_current_blog_id(), self::$tracking_endpoint . '/' . $results[0]['token'] );
+				return $results[0]['token'];
 			}
 
 			$token = self::generate_token();
@@ -1289,12 +1316,12 @@ if (!class_exists('Inbound_API')) {
 			);
 
 			/* return tracked link */
-			return get_site_url( get_current_blog_id(), self::$tracking_endpoint . '/' . $token );
+			return $token;
 		}
 
 		/**
-		*  Generate tracked link
-		*/
+		 *  Generate tracked link
+		 */
 		public static function analytics_track_links( $params = array() ) {
 
 			/* Merge POST & GET & @param vars into array variable */
@@ -1334,9 +1361,11 @@ if (!class_exists('Inbound_API')) {
 				$args = array_merge( $args, $params['custom_data'] );
 			}
 
+			/* get token args */
+			$token = self::analytics_get_tracking_code( $args );
 
 			/* get tracked link */
-			$tracked_link = self::analytics_get_tracking_code( $args );
+			$tracked_link =  get_site_url( get_current_blog_id(), self::$tracking_endpoint . '/' . $token );
 
 			return array( 'url' => $tracked_link );
 		}
@@ -1362,19 +1391,14 @@ if (!class_exists('Inbound_API')) {
 			$token = ( isset($wp_query->query_vars[ self::$tracking_endpoint ]) ) ? $wp_query->query_vars[ self::$tracking_endpoint ] : $parts[1] ;
 
 			/* Pull record from database */
-			$table_name = $wpdb->prefix . "inbound_tracked_links";
-			$profiles = $wpdb->get_results("SELECT * FROM {$table_name} where `token` = '{$token}' ;");
+			$args = self::get_args_from_token($token);
 
 			/* If no results exist send user to homepage */
-			if (empty( $profiles )) {
+			if (!$args) {
 				/* redirect to  url */
 				header('Location: '. get_site_url() );
 				exit;
 			}
-
-			/* Get first result & prepare args */
-			$profile = $profiles[0];
-			$args = unserialize($profile->args);
 
 			/* get lead id from cookie if it exists */
 			$lead_id_cookie = (isset($_COOKIE['wp_lead_id'])) ? $_COOKIE['wp_lead_id'] : 0;

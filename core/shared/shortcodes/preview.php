@@ -13,7 +13,7 @@ if (defined('ABSPATH')) {
 
 /*	Get Shortcodes
  *	--------------------------------------------------------------------------- */
-$shortcode = html_entity_decode( trim( $_GET['sc'] ) );
+$shortcode = sanitize_text_field(html_entity_decode( trim( $_GET['sc'] ) ));
 
 // SET CORRECT FILE PATHS FOR SCRIPTS
 if ( defined( 'WPL_URL' )) {
@@ -48,19 +48,18 @@ $shortcode = str_replace('{{child}}', '', $shortcode);
 	wp_enqueue_script( 'jquery' );
 
 	wp_enqueue_script( 'inbound-analytics' , INBOUNDNOW_SHARED_URLPATH .'assets/js/frontend/analytics/inboundAnalytics.js');
-	$inbound_localized_data = array('post_id' => 'test',
-									'ip_address' => 'test',
-									'wp_lead_data' => 'test',
-									'admin_url' => 'test',
-									'track_time' => 'test',
-									'post_type' => 'test',
-									'page_tracking' => 'test',
-									'search_tracking' => 'test',
-									'comment_tracking' => 'test',
-									'custom_mapping' => 'test',
-									'inbound_track_exclude' => 'test',
-									'inbound_track_include' => 'test'
-									);
+	$inbound_localized_data = array(
+		'post_id' => 'test',
+		'ip_address' => 'test',
+		'wp_lead_data' => 'test',
+		'admin_url' => 'test',
+		'track_time' => 'test',
+		'post_type' => 'test',
+		'page_tracking' => 'test',
+		'search_tracking' => 'test',
+		'comment_tracking' => 'test',
+		'custom_mapping' => 'test'
+	);
 	wp_localize_script( 'inbound-analytics' , 'inbound_settings', $inbound_localized_data);
 	wp_head();
 ?>

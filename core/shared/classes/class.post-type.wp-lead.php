@@ -460,6 +460,29 @@ if ( !class_exists('Inbound_Leads') ) {
 		}
 
 		/**
+		 *	Search lead by email
+		 *  @param STRING email
+		 */
+		static function get_lead_id_by_email($email){
+			global $wpdb;
+			$query = $wpdb->prepare(
+				'SELECT ID FROM ' . $wpdb->posts . '
+				WHERE post_title = %s
+				AND post_type = \'wp-lead\'',
+				$email
+			);
+			$wpdb->query( $query );
+			if ( $wpdb->num_rows ) {
+				$lead_id = $wpdb->get_var( $query );
+				return $lead_id;
+			} else {
+				return false;
+			}
+
+		}
+
+
+		/**
 		*  Get lead list infomration
 		*
 		*  @param STRING $search accepts 'id', 'slug', 'name' or 'term_taxonomy_id'
@@ -630,6 +653,25 @@ if ( !class_exists('Inbound_Leads') ) {
 
 			return sprintf( __( '%d leads', 'inbound-pro' ), $count );
 
+		}
+
+
+		/**
+		 * Get User Object from lead id
+		 * @param $lead_id
+		 */
+		public static function get_user_by_lead_id( $lead_id ) {
+			$email_address = get_post_meta($lead_id ,'wpleads_email_address' , true );
+			$user = self::get_user_by_lead_email( $email_address );
+			return $user;
+		}
+
+		/**
+		 * Get User Object from lead email
+		 * @param $lead_id
+		 */
+		public static function get_user_by_lead_email( $email_address ) {
+			return get_user_by('email' , $email_address );
 		}
 
 		/**

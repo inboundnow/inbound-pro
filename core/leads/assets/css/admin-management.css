@@ -116,6 +116,10 @@ input[title] {
     margin-bottom: 10px;
 }
 
+#inbound-filter input {
+    width:500px !important;
+}
+
 .table-search {
     text-align: right;
     margin-top: -5px;
@@ -501,7 +505,7 @@ input[type=search].light-table-filter:focus, #inbound-lead-tags-input:focus {
 }
 
 .select2-container {
-    width: 400px;
+    width: 400px !important;
 }
 
 #paged-current {

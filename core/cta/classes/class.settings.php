@@ -62,11 +62,19 @@ if (!class_exists('CTA_Settings')) {
                         'options' => null
                     ),
                     array(
-                        'id' => 'disable-ajax-variation-discovery',
-                        'label' => __('Disable Split Testing.', 'inbound-pro'),
-                        'description' => __('Enabling this setting may improve server performance at the loss of split testing. Only version A will be displayed for every CTA.', 'inbound-pro'),
+                        'id' => 'split-testing',
+                        'label' => __('Split Testing.', 'inbound-pro'),
+                        'description' => __('Enabling this setting may improve server performance at the loss of split testing. Only version A( id 0) will be displayed for every CTA when split testing is disabled.', 'inbound-pro'),
                         'type' => 'radio',
-                        'default' => '0',
+                        'default' => 1,
+                        'options' => array(0 => 'Off', 1 => 'On')
+                    ),
+                    array(
+                        'id' => 'sticky-ctas',
+                        'label' => __('Sticky CTAs.', 'inbound-pro'),
+                        'description' => __('Disabling this will cause call to actions to rotate variations on every page load for the same user.', 'inbound-pro'),
+                        'type' => 'radio',
+                        'default' => 1,
                         'options' => array(0 => 'Off', 1 => 'On')
                     )
                 )
@@ -91,11 +99,20 @@ if (!class_exists('CTA_Settings')) {
             $wp_cta_global_settings[$tab_slug]['settings'] =
                 array(
                     array(
-                        'id' => 'disable-ajax-variation-discovery',
-                        'label' => __('Disable Split Testing.', 'inbound-pro'),
-                        'description' => __('Enabling this setting may improve server performance at the loss of split testing. Only version A will be displayed for every CTA.', 'inbound-pro'),
+                        'id' => 'split-testing',
+                        'label' => __('Split Testing.', 'inbound-pro'),
+                        'description' => __('Turning this off may improve server performance. Only version A will be displayed for every CTA.', 'inbound-pro'),
                         'type' => 'radio',
-                        'default' => '0',
+                        'default' => 1,
+                        'options' => array(0 => 'Off', 1 => 'On')
+                    ),
+
+                    array(
+                        'id' => 'sticky-ctas',
+                        'label' => __('Sticky CTAs.', 'inbound-pro'),
+                        'description' => __('Disabling this will cause call to actions to rotate variations on every page load for the same user.', 'inbound-pro'),
+                        'type' => 'radio',
+                        'default' => 1,
                         'options' => array(0 => 'Off', 1 => 'On')
                     )
                 );

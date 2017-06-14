@@ -41,30 +41,7 @@ class Inbound_Mailer_Activation_Update_Routines {
 	* @mirgration: creates wp_inbound_email_queue table
 	*/
 	public static function create_email_queue_table() {
-		global $wpdb;
-		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-
-		$table_name = $wpdb->prefix . "inbound_email_queue";
-
-		$charset_collate = $wpdb->get_charset_collate();
-
-		$sql = "CREATE TABLE $table_name (
-			`id` mediumint(9) NOT NULL AUTO_INCREMENT,
-			`email_id` mediumint(9) NOT NULL,
-			`variation_id` mediumint(9) NOT NULL,
-			`lead_id` mediumint(9) NOT NULL,
-			`job_id` mediumint(9) NOT NULL,
-			`rule_id` mediumint(9) NOT NULL,
-			`token` tinytext NOT NULL,
-			`type` tinytext NOT NULL,
-			`tokens` mediumtext NOT NULL,
-			`status` tinytext NOT NULL,
-			`datetime` DATETIME NOT NULL,
-			UNIQUE KEY id (id)
-		) $charset_collate;";
-
-
-		dbDelta( $sql );
+		Inbound_Mailer_Activation::create_email_queue_table();
 	}
 
 
@@ -73,7 +50,7 @@ class Inbound_Mailer_Activation_Update_Routines {
 	* @migration-type: db modification
 	* @mirgration: creates wp_inbound_email_queue table
 	*/
-	public static function alter_inbound_email_queue_add_fields() {
+	public static function alter_inbound_email_queue_add_fields_1() {
 		global $wpdb;
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
@@ -82,7 +59,7 @@ class Inbound_Mailer_Activation_Update_Routines {
 		$charset_collate = $wpdb->get_charset_collate();
 
 		/* add ip field if does not exist */
-		$row = $wpdb->get_results(  "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '{$table_name}' AND column_name = 'tokens'"  );
+		$row = $wpdb->get_results(  "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '{$table_name}' AND column_name = 'list_ids'"  );
 		if(empty($row)){
 			$wpdb->get_results( "ALTER TABLE {$table_name} ADD `job_id` mediumint(9) NOT NULL" );
 			$wpdb->get_results( "ALTER TABLE {$table_name} ADD `rule_id` mediumint(9) NOT NULL" );

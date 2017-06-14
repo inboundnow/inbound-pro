@@ -7,6 +7,7 @@ class Inbound_Analytics {
     static $templates;
     static $range;
     static $dates;
+    static $automated_report;
 
     /**
      *  Initiate class
@@ -49,6 +50,9 @@ class Inbound_Analytics {
         add_filter("manage_edit-page_sortable_columns", array(__CLASS__, 'define_sortable_columns'));
         add_action('posts_clauses', array(__CLASS__, 'process_column_sorting'), 1, 2);
 
+        /* setup screen options */
+        add_filter( 'screen_settings',array( __CLASS__ , 'add_screen_option_field'), 10, 2 );
+        add_filter( 'init', array( __CLASS__, 'set_screen_option'), 1 );
 
     }
 
@@ -77,7 +81,7 @@ class Inbound_Analytics {
     }
 
     /**
-     * Loads Google charting scripts
+     * Loads scripts and stu;es
      */
     public static function load_scripts() {
 
@@ -103,11 +107,6 @@ class Inbound_Analytics {
         /* BootStrap CSS */
         wp_register_style('bootstrap', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/BootStrap/css/bootstrap.css');
         wp_enqueue_style('bootstrap');
-
-        /* disables modal links
-        wp_register_script( 'ia-content-loader' , INBOUND_GA_URLPATH.'assets/js/content.loader.js');
-        wp_enqueue_script( 'ia-content-loader' );
-        */
 
         wp_enqueue_style('inbound-analytics-css', INBOUND_PRO_URLPATH . 'assets/css/admin/reporting.quick-view.css');
 
@@ -151,6 +150,70 @@ class Inbound_Analytics {
                 add_meta_box('inbound-analytics', __('Inbound Analytics', 'inbound-pro'), array(__CLASS__, 'display_quick_view'), $post_type, 'side', 'high');
             }
         }
+    }
+
+    /**
+     * Hooked into 'screen_settings'. Adds the field to the settings area
+     *
+     * @access public
+     * @return string The settings fields
+     */
+
+    public static function add_screen_option_field($rv, $screen) {
+
+        $screen = get_current_screen();
+
+        $whitelist = array('edit-post' , 'edit-page', 'post', 'page');
+        if (!$screen || !in_array( $screen->id , $whitelist ) ) {
+            return;
+        }
+
+        $val = get_user_option(
+            'inbound_screen_option_range',
+            get_current_user_id()
+        );
+
+        $val = ($val) ? $val : 90;
+
+        $rv .= '<fieldset class="">';
+
+        $rv .= '<legend>' . __('Inbound Analytics') . '</legend>';
+
+        $rv .=  __('Reporting range in days' , 'inbound-pro' ). ':';
+
+        $rv .= '<select  name="inbound_screen_option_range" class="" id="" style="width:100px;" ';
+
+        $ranges = array(1,7,30,90,360);
+
+        foreach ($ranges as $range) {
+            $rv .= '<option value="'.$range.'" '. ( $val==$range ? 'selected="true"' : '' ).'">'.$range.' ' . __('days','inbound-pro') .'</option>';
+        }
+
+        $rv .= '</select></fieldset>';
+
+        return $rv;
+
+    }
+
+
+
+    /**
+     * Listen for updated screen options and save.
+     *
+     */
+    public static function set_screen_option() {
+
+        if (!isset($_POST['inbound_screen_option_range'])) {
+            return;
+        }
+
+        $response = update_user_option(
+            get_current_user_id(),
+            'inbound_screen_option_range',
+            intval($_POST['inbound_screen_option_range'])
+        );
+
+
     }
 
     /**

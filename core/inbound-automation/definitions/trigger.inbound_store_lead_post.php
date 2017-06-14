@@ -28,10 +28,16 @@ class Inbound_Automation_Trigger_inbound_store_lead_post {
 	public static function simulate_new_lead( $post_id ) {
 		global $post_id, $post;
 
+		/* ignore revisions */
 		if ( wp_is_post_revision( $post_id )
 			|| (defined('DOING_AJAX') && DOING_AJAX )
 			|| ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE )
 			) {
+			return;
+		}
+
+		/* only perform actions on published leads */
+		if (get_post_status($post_id) != 'publish') {
 			return;
 		}
 
@@ -42,7 +48,6 @@ class Inbound_Automation_Trigger_inbound_store_lead_post {
 		}
 
 		$lead = get_post_custom( $post_id );
-
 
 		foreach ( $lead as $key => $value ) {
 			if (isset($value[0])) {
@@ -69,7 +74,7 @@ class Inbound_Automation_Trigger_inbound_store_lead_post {
 				'id' => 'lead_data',
 				'label' => __( 'Lead Data' , 'inbound-pro' ),
 				'callback' => array(
-					get_class() , 'expand_argument_data'
+					get_class() , 'enrich_lead_data'
 				)
 			)
 		) );
@@ -105,17 +110,32 @@ class Inbound_Automation_Trigger_inbound_store_lead_post {
 		return $triggers;
 	}
 
-	public static function expand_argument_data( $args ) {
+	/**
+	 * Filter Lead data and make sure defaults we need are present and remove unneeded elements
+	 * @param $args
+	 * @return array
+	 */
+	public static function enrich_lead_data( $args ) {
+
 		$new_args = array();
+		$args['form_name'] = isset($args['form_name']) ? $args['form_name'] : '';
+		$args['inbound_form_name'] = isset($args['form_name']) ? $args['form_name'] : '';
+		$args['form_id'] = isset($args['form_id']) ? $args['form_id'] : '';
+		$args['inbound_form_id'] = isset($args['inbound_form_id']) ? $args['inbound_form_id'] : '';
+		$args['inbound_form_values'] = isset($args['inbound_form_values']) ? $args['inbound_form_values'] : '';
+		$args['raw_params'] = isset($args['raw_params']) ? $args['raw_params'] : array();
+		$args['mapped_params'] = isset($args['mapped_params']) ? $args['mapped_params'] : '';
 
 		foreach ($args as $arg_key => $arg_value) {
 
+			/* encode arrays */
 			if (is_array($arg_value) || is_numeric($arg_key)) {
 				$arg_value = json_encode($arg_value);
 			}
 
 			/* account for raw params */
 			if ($arg_key == 'raw_params') {
+				/* I've seen both types make it's way in */
 				if (self::is_json($arg_value)) {
 					$arg_value_array = json_decode($arg_value,true);
 				} else {
@@ -130,7 +150,7 @@ class Inbound_Automation_Trigger_inbound_store_lead_post {
 					$new_args[$raw_key]  = $raw_value;
 				}
 			}
-			/* account for mapped params */
+			/* else may be needed, not sure: account for mapped params */
 			else if ($arg_key == 'mapped_params') {
 				parse_str($arg_value , $arg_value_array);
 				$arg_value_array = (is_array($arg_value_array)) ? $arg_value_array : array();
@@ -145,6 +165,7 @@ class Inbound_Automation_Trigger_inbound_store_lead_post {
 			$new_args[$arg_key] = $arg_value;
 		}
 
+		//error_log(print_r($new_args,true));
 		return $new_args;
 	}
 

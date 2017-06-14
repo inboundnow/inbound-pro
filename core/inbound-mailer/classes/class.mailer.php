@@ -19,6 +19,8 @@ class Inbound_Mail_Daemon {
     static $results; /* results from sql query */
     static $response; /* return result after send */
     static $error_mode; /* detects if there is an error flag already in the data base */
+    static $last; /* time measurement */
+    static $first; /* time measurement */
 
     /**
      *    Initialize class
@@ -194,10 +196,13 @@ class Inbound_Mail_Daemon {
         /* load dom parser class object */
         self::toggle_dom_parser();
 
+        $i=0;
+        //error_log('Starting Cronjob' . self::time_elapsed());
         foreach (self::$results as $row) {
 
             self::$row = $row;
 
+            //error_log('Starting Email ' . self::time_elapsed());
             self::get_email();
 
             switch (self::$email_service) {
@@ -208,14 +213,21 @@ class Inbound_Mail_Daemon {
 
             /* check response for errors  */
             self::check_response();
+            //error_log('Check Response ' . self::time_elapsed());
 
             /* if error in batch then bail on processing job */
             if (self::$error_mode) {
+                error_log('error mode');
                 return;
             }
-
             self::delete_from_queue();
+
+            //error_log('Delete  '.$i.' From Queue ' . self::time_elapsed());
+            $i++;
         }
+
+        //error_log('Done');
+        //error_log('Rows processed ' . $i);
     }
 
     /**
@@ -350,7 +362,7 @@ class Inbound_Mail_Daemon {
         /* If direct email we won't load from template */
         if (isset($args['is_direct']) && $args['is_direct']) {
             $email = get_post($args['email_id']);
-            self::$email['body'] = self::rebuild_links(do_shortcode($email->post_content));
+            self::$email['body'] = do_shortcode($email->post_content);
         } else {
             self::$email['body'] = self::get_email_body();
         }
@@ -436,7 +448,7 @@ class Inbound_Mail_Daemon {
 
             /* encode tokens */
             if (self::$row->tokens && strlen(self::$row->tokens) < 1000 )  {
-                $token = Inbound_Mailer_Unsubscribe::encode_unsubscribe_token(json_decode(self::$row->tokens,true));
+                $token = Inbound_API::analytics_get_tracking_code(json_decode(self::$row->tokens,true));
                 $query_args['tokens'] = $token ;
             }
 
@@ -470,24 +482,31 @@ class Inbound_Mail_Daemon {
     }
 
     /**
-     *    Prepares email data for sending
+     * Prepares email data for sending
      * @return ARRAY $email
      */
     public static function get_email() {
 
         self::$email['send_address'] = Leads_Field_Map::get_field(self::$row->lead_id, 'wpleads_email_address');
-        self::$email['subject'] = self::get_variation_subject();
+
+        //error_log('Send Address ' . self::time_elapsed());
         self::$email['from_name'] = self::get_variation_from_name();
         self::$email['from_email'] = self::get_variation_from_email();
         self::$email['reply_email'] = self::get_variation_reply_email();
+
+        //error_log('Reply Email ' . self::time_elapsed());
         self::$email['body'] = self::get_email_body();
+
+        self::$email['subject'] = self::get_variation_subject();
+
     }
 
     /**
      *    Generates targeted email body html
      */
     public static function get_email_body() {
-
+        $last = self::$last;
+        //error_log('Bodypart #1' . self::time_elapsed($last));
         /* set required variables if empty */
         self::$email_settings['recipients'] = (isset(self::$email_settings['recipients'])) ? self::$email_settings['recipients'] : array();
 
@@ -498,21 +517,34 @@ class Inbound_Mail_Daemon {
 
         $unsubscribe = do_shortcode('[unsubscribe-link lead_id="' . self::$row->lead_id . '" list_ids="' . implode(',', self::$email_settings['recipients']) . '" email_id="' . self::$row->email_id . '" rule_id="' . self::$row->rule_id . '" job_id="' . self::$row->job_id . '"]');
 
+        //error_log('Bodypart #2' . self::time_elapsed($last));
+
         /* add lead id & list ids to unsubscribe shortcode */
         $html = str_replace('[unsubscribe-link]', $unsubscribe, $html);
 
         /* clean mal formatted quotations */
         $html = str_replace('&#8221;', '"', $html);
 
+        /* remove ctas before rendering shortcodes */
+        $pattern = '/\[(cta).*?\]/';
+        $content = preg_replace($pattern, '', $html);
+
         /* process shortcodes */
         $html = do_shortcode($html);
 
+        //error_log('Bodypart #3' . self::time_elapsed($last));
+
         /* add tracking params to links */
-        $html = self::rebuild_links($html);
+        //$html = self::rebuild_links($html);
+
+
+        //error_log('Bodypart #4' . self::time_elapsed($last));
 
         /* remove script tags */
         $html = preg_replace('#<script(.*?)>(.*?)</script>#is', '', $html);
 
+
+        //error_log('Body Complete' . self::time_elapsed());
 
         return $html;
 
@@ -541,11 +573,23 @@ class Inbound_Mail_Daemon {
      *    Gets the subject line from variation settings
      */
     public static function get_variation_subject() {
+
         /* add lead id to all shortcodes before processing */
         $subject = str_replace('[lead-field ', '[lead-field lead_id="' . self::$row->lead_id . '" ', self::$email_settings['variations'] [self::$row->variation_id] ['subject']);
 
+        $email_tokens = json_decode(self::$row->tokens , true);
+
+        /* rebuild tokens if id present */
+        if (isset(self::$row->post_id)) {
+            $post = get_post(self::$row->post_id);
+            $email_tokens = (array) $post;
+            $email_tokens['permalink'] = get_the_permalink((int) self::$row->post_id);
+            $email_tokens['featured_image'] = wp_get_attachment_url(get_post_thumbnail_id(self::$row->post_id));
+            wp_reset_query();
+        }
+
         /* process tokens */
-        $subject = Inbound_Mailer_Tokens::process_tokens($subject , json_decode(self::$row->tokens , true));
+        $subject = Inbound_Mailer_Tokens::process_tokens($subject , $email_tokens );
 
         return do_shortcode($subject);
     }
@@ -633,8 +677,7 @@ class Inbound_Mail_Daemon {
     public static function check_response() {
         global $current_user, $post;
         $user_id = $current_user->ID;
-//error_log(print_r(self::$email,true));
-//error_log(print_r(self::$response,true));
+
         /* check if there is an error and if there is then exit */
         if (isset(self::$response['status']) && self::$response['status'] == 'error' || isset(self::$response['error'])) {
             if (isset($resonse['description'])) {
@@ -652,6 +695,22 @@ class Inbound_Mail_Daemon {
             self::$error_mode = false;
         }
 
+    }
+
+    public static function time_elapsed( $last = null)
+    {
+
+        self::$last = ($last) ? $last : self::$last;
+        $now = microtime(true);
+
+        if (self::$last != null) {
+
+            $elapsed =  '<!---- ' . date("H:i:s", $now - self::$first) . ' ' . date("H:i:s", $now - self::$last) . '  now: '.$now.' last: '.self::$last.' -->';
+        }
+
+        self::$last = ($last) ? $last :$now;
+        self::$first = (self::$first) ? self::$first : self::$last;
+        return $elapsed;
     }
 }
 

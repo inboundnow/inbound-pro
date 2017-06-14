@@ -217,8 +217,8 @@ class Inbound_Pro_Downloads {
 		/* delete download folder if there */
 		self::delete_download_folder( $download['extraction_path'] );
 
-		/* create temp file */
-		$temp_file = tempnam('/tmp', 'TEMPPLUGIN' );
+		/* create temp file *///get_temp_dir()
+		$temp_file = tempnam(sys_get_temp_dir(), 'TEMPPLUGIN' );
 
 		/* get zip file contents from svn */
 		$ch = curl_init();

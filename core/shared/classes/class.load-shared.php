@@ -37,7 +37,7 @@ if (!class_exists('Inbound_Load_Shared')) {
 		 */
 		public static function load_constants() {
 			define('INBOUNDNOW_SHARED', 'loaded' );
-			define('INBOUNDNOW_SHARED_DBRV', '1.0.3' );
+			define('INBOUNDNOW_SHARED_DBRV', '1.0.7' );
 			define('INBOUNDNOW_SHARED_PATH', self::get_shared_path() );
 			define('INBOUNDNOW_SHARED_URLPATH', self::get_shared_urlpath() );
 			define('INBOUNDNOW_SHARED_FILE', self::get_shared_file() );
@@ -109,9 +109,9 @@ if (!class_exists('Inbound_Load_Shared')) {
 			} else if( defined('WP_CTA_PATH') ) {
 				return WP_CTA_PATH . 'shared/';
 			} else if (	defined('LANDINGPAGES_PATH') ) {
-				return LANDINGPAGES_PATH . '/shared/';
+				return LANDINGPAGES_PATH . 'shared/';
 			} else if (	defined('WPL_PATH') ) {
-				return WPL_PATH . '/shared/';
+				return WPL_PATH . 'shared/';
 			}
 		}
 
@@ -182,11 +182,12 @@ if (!class_exists('Inbound_Load_Shared')) {
 				return;
 			}
 
-			/* Delete activation trigger */
-			delete_option( 'Inbound_Activate' );
-
 			/* Run activation action hook for shared components */
 			do_action( 'inbound_shared_activate' );
+
+
+			/* Delete activation trigger */
+			delete_option( 'Inbound_Activate' );
 
 
 		}

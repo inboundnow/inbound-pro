@@ -30,10 +30,10 @@ acf_add_local_field_group(array (
 	'fields' => array (
 		array (
 			'key' => 'field_57805f3dcc0a9innpnf',
-			'label' => 'Optional: Email Header Text',
+			'label' => __( 'Optional: Email Header Text','inbound-pro'),
 			'name' => 'optional_email_header_text',
 			'type' => 'text',
-			'instructions' => 'Use this optional field to put in some headline text that will display in the inbox preview, but not in the email body',
+			'instructions' => __( 'Use this optional field to put in some headline text that will display in the inbox preview, but not in the email body','inbound-pro'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -51,10 +51,10 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_57805f3dcc0a9innpnfheader_text',
-			'label' => 'Article Title / Headline',
+			'label' => __( 'Article Title / Headline','inbound-pro'),
 			'name' => 'email_header_text',
 			'type' => 'text',
-			'instructions' => 'This will display below the featured image and above  Main Content A.',
+			'instructions' => __( 'This will display below the featured image and above  Main Content A.','inbound-pro'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -72,10 +72,10 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_577ec5521ab00innpnf',
-			'label' => 'Logo Image',
+			'label' => __( 'Logo Image','inbound-pro'),
 			'name' => 'logo_image',
 			'type' => 'image',
-			'instructions' => 'Use this field to display your logo in the head of the email. The max width with 200px and the max height is 200px',
+			'instructions' => __( 'Use this field to display your logo in the head of the email. The max width with 200px and the max height is 200px','inbound-pro'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -96,10 +96,10 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_577ec60a1ab01innpnf',
-			'label' => 'Featured Image',
+			'label' => __( 'Featured Image','inbound-pro'),
 			'name' => 'featured_image',
 			'type' => 'text',
-			'instructions' => 'This is the main image of the email. The max width is 600px, with the height being scaled according to aspect ratio',
+			'instructions' => __( 'This is the main image of the email. The max width is 600px, with the height being scaled according to aspect ratio','inbound-pro' ),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -117,10 +117,10 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_577ec67c1ab02innpnf',
-			'label' => 'Main Content A',
+			'label' => __( 'Main Content A','inbound-pro'),
 			'name' => 'main_content_a',
 			'type' => 'wysiwyg',
-			'instructions' => 'This editor is for putting text based content above the email button',
+			'instructions' => __( 'This editor is for putting text based content above the email button','inbound-pro'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -135,10 +135,10 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_577ec6dc1ab03innpnf',
-			'label' => 'Email Button Text',
+			'label' => __( 'Email Button Text','inbound-pro'),
 			'name' => 'email_button_text',
 			'type' => 'text',
-			'instructions' => 'Use this to change the displayed text on the email button',
+			'instructions' => __( 'Use this to change the displayed text on the email button','inbound-pro'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -156,10 +156,10 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_577ec7821ab04innpnf',
-			'label' => 'Email Button Link',
+			'label' => __( 'Email Button Link','inbound-pro'),
 			'name' => 'email_button_link',
 			'type' => 'text',
-			'instructions' => 'Use this to set where the email button takes users after they click it',
+			'instructions' => __( 'Use this to set where the email button takes users after they click it','inbound-pro'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -172,10 +172,10 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_577eeb5c748f1innpnf',
-			'label' => 'Email Button Text Color',
+			'label' => __( 'Email Button Text Color','inbound-pro'),
 			'name' => 'email_button_text_color',
 			'type' => 'color_picker',
-			'instructions' => 'Use this to change the color of the text in the email button',
+			'instructions' => __( 'Use this to change the color of the text in the email button','inbound-pro'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -187,10 +187,10 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_577eeb01748f0innpnf',
-			'label' => 'Email Button Color',
+			'label' => __( 'Email Button Color','inbound-pro'),
 			'name' => 'email_button_color',
 			'type' => 'color_picker',
-			'instructions' => 'Use this to change the color of the button in the email',
+			'instructions' => __( 'Use this to change the color of the button in the email','inbound-pro'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -202,10 +202,10 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_577f3b2a78d08innpnf',
-			'label' => 'Email Button Hover Color',
+			'label' => __( 'Email Button Hover Color','inbound-pro'),
 			'name' => 'email_button_hover_color',
 			'type' => 'color_picker',
-			'instructions' => 'Use this to change the color of the email button when the mouse hovers over it',
+			'instructions' => __( 'Use this to change the color of the email button when the mouse hovers over it','inbound-pro'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -217,10 +217,10 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_578004e0e675dinnpnf',
-			'label' => 'Button Font size',
+			'label' => __( 'Button Font size','inbound-pro'),
 			'name' => 'button_font_size',
 			'type' => 'text',
-			'instructions' => 'Use this to change the font size of the button text',
+			'instructions' => __( 'Use this to change the font size of the button text','inbound-pro'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -238,10 +238,10 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_577ec7f21ab05innpnf',
-			'label' => 'Main Content B',
+			'label' => __( 'Main Content B','inbound-pro'),
 			'name' => 'main_content_b',
 			'type' => 'wysiwyg',
-			'instructions' => 'This editor is for putting text based content below the email button',
+			'instructions' => __( 'This editor is for putting text based content below the email button','inbound-pro'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -256,10 +256,10 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_5780048fe675binnpnf',
-			'label' => 'Main Content Font Size',
+			'label' => __( 'Main Content Font Size','inbound-pro'),
 			'name' => 'main_content_font_size',
 			'type' => 'text',
-			'instructions' => 'Use this to change the font size of the main content area. (Main Content A & B)',
+			'instructions' => __( 'Use this to change the font size of the main content area. (Main Content A & B)', 'inbound-pro'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -277,7 +277,7 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_577eefd19cf41innpnf',
-			'label' => 'Email Colors',
+			'label' => __( 'Email Colors','inbound-pro'),
 			'name' => '',
 			'type' => 'tab',
 			'instructions' => '',
@@ -293,10 +293,10 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_577ee73f748edinnpnf',
-			'label' => 'Email Background Color',
+			'label' => __( 'Email Background Color','inbound-pro'),
 			'name' => 'email_background_color',
 			'type' => 'color_picker',
-			'instructions' => 'Use this to set the background color of the email. This is the overall background color, not the background for the email content',
+			'instructions' => __( 'Use this to set the background color of the email. This is the overall background color, not the background for the email content', 'inbound-pro'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -308,10 +308,10 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_577eea5e748eeinnpnf',
-			'label' => 'Email Content Background Color',
+			'label' => __( 'Email Content Background Color','inbound-pro'),
 			'name' => 'email_content_background_color',
 			'type' => 'color_picker',
-			'instructions' => 'Use this to change the background color of the email\'s content',
+			'instructions' => __( 'Use this to change the background color of the email\'s content','inbound-pro'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -323,10 +323,10 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_577eeabf748efinnpnf',
-			'label' => 'Email Text Color',
+			'label' => __( 'Email Text Color','inbound-pro'),
 			'name' => 'email_text_color',
 			'type' => 'color_picker',
-			'instructions' => 'Use this to change the color of the text in the email',
+			'instructions' => __( 'Use this to change the color of the text in the email','inbound-pro'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -338,7 +338,7 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_577eee5f748f3innpnf',
-			'label' => 'Contact Information',
+			'label' => __( 'Contact Information','inbound-pro'),
 			'name' => '',
 			'type' => 'tab',
 			'instructions' => '',
@@ -354,10 +354,10 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_57844029e5864innpnf',
-			'label' => 'Contact Information Content',
+			'label' => __( 'Contact Information Content','inbound-pro'),
 			'name' => 'contact_information_content',
 			'type' => 'wysiwyg',
-			'instructions' => 'Use this editor to put in your company\'s contact information',
+			'instructions' => __( 'Use this editor to put in your company\'s contact information', 'inbound-pro'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -365,17 +365,17 @@ acf_add_local_field_group(array (
 				'class' => '',
 				'id' => '',
 			),
-			'default_value' => 'Email powered by <a href="https://inboundnow.com/" style="font-color:#fff;text-decoration:none;">Inbound Now</a> and <a href="https://www.SparkPost.com/" style="font-color:#fff;text-decoration:none;">SparkPost</a>',
+			'default_value' => 'Email powered by <a href="https://inboundnow.com/" style="color:#fff;text-decoration:none;">Inbound Now</a> and <a href="https://www.SparkPost.com/" style="font-color:#fff;text-decoration:none;">SparkPost</a>',
 			'tabs' => 'all',
 			'toolbar' => 'full',
 			'media_upload' => 1,
 		),
 		array (
 			'key' => 'field_577eee34748f2innpnf',
-			'label' => 'Contact Information Text Color',
+			'label' => __( 'Contact Information Text Color','inbound-pro'),
 			'name' => 'contact_information_text_color',
 			'type' => 'color_picker',
-			'instructions' => 'Use this to change the color of the contact information.',
+			'instructions' => __( 'Use this to change the color of the contact information.','inbound-pro'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -387,10 +387,10 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_57800750e675einnpnf',
-			'label' => 'Contact Information Font Size',
+			'label' => __( 'Contact Information Font Size','inbound-pro'),
 			'name' => 'contact_information_font_size',
 			'type' => 'text',
-			'instructions' => 'Use this to change the font size of the contact information',
+			'instructions' => __( 'Use this to change the font size of the contact information','inbound-pro'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -408,10 +408,10 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_577f24996f960innpnf',
-			'label' => 'Unsubscribe Link Text',
+			'label' => __( 'Unsubscribe Link Text','inbound-pro'),
 			'name' => 'unsubscribe_link_text',
 			'type' => 'text',
-			'instructions' => 'Use this to change the text of the "unsubscribe" link',
+			'instructions' => __( 'Use this to change the text of the "unsubscribe" link','inbound-pro'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -419,7 +419,7 @@ acf_add_local_field_group(array (
 				'class' => '',
 				'id' => '',
 			),
-			'default_value' => 'Unsubscribe from this list',
+			'default_value' => 'Unsubscribe',
 			'placeholder' => '',
 			'prepend' => '',
 			'append' => '',
@@ -429,10 +429,10 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_57800c078fe56innpnf',
-			'label' => 'Unsubscribe Link Color',
+			'label' => __( 'Unsubscribe Link Color','inbound-pro'),
 			'name' => 'unsubscribe_link_color',
 			'type' => 'color_picker',
-			'instructions' => 'Use this to change the color of the "unsubscribe" link',
+			'instructions' => __( 'Use this to change the color of the "unsubscribe" link','inbound-pro'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -444,10 +444,10 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_578449eab4deainnpnf',
-			'label' => 'Unsubscribe Link Text Size',
+			'label' => __( 'Unsubscribe Link Text Size','inbound-pro'),
 			'name' => 'unsubscribe_link_text_size',
 			'type' => 'text',
-			'instructions' => 'Use this to change the font size of the "unsubscribe" link',
+			'instructions' => __( 'Use this to change the font size of the "unsubscribe" link','inbound-pro'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -465,7 +465,7 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_577eee5f748f3innpnfaditionaloptions',
-			'label' => 'Additional Options',
+			'label' => __( 'Additional Options','inbound-pro'),
 			'name' => '',
 			'type' => 'tab',
 			'instructions' => '',
@@ -481,10 +481,10 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_56b8fa8acadf1show_latest_posts',
-			'label' => 'Show Latest Posts',
+			'label' => __( 'Show Latest Posts','inbound-pro'),
 			'name' => 'show_latest_posts',
 			'type' => 'select',
-			'instructions' => 'Set to yes to show latest posts.',
+			'instructions' => __( 'Set to yes to show latest posts.','inbound-pro'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -509,12 +509,12 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_56b8fa8acadf1set_category',
-			'label' => 'Focus Category',
+			'label' => __( 'Focus Category','inbound-pro'),
 			'name' => 'show_latest_posts_category',
 			'type' => 'taxonomy',
 			'taxonomy' => 'taxonomy',
 			'field_type' => 'multi_select',
-			'instructions' => 'Select which categories to pull posts from.',
+			'instructions' => __( 'Select which categories to pull posts from.','inbound-pro'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -532,11 +532,11 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_56b8fa8acalimitpost',
-			'label' => 'Limit posts',
+			'label' => __( 'Limit posts','inbound-pro'),
 			'name' => 'show_latest_posts_limit',
 			'type' => 'number',
 			'default_value' => '5',
-			'instructions' => 'Select which categories to pull posts from.',
+			'instructions' => __( 'Select which categories to pull posts from.', 'inbound-pro'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -547,13 +547,12 @@ acf_add_local_field_group(array (
 			'return_format' => 'id',
 			'multiple' => 0,
 		),
-
 		array (
 			'key' => 'field_577ec6dc1ab03keepreading',
-			'label' => 'Keep Reading Button Text',
+			'label' => __( 'Keep Reading Button Text','inbound-pro'),
 			'name' => 'posts_button_text',
 			'type' => 'text',
-			'instructions' => 'Use this to change the displayed text on "Keep Reading" buttons',
+			'instructions' => __( 'Use this to change the displayed text on "Keep Reading" buttons', 'inbound-pro' ),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -568,6 +567,36 @@ acf_add_local_field_group(array (
 			'maxlength' => '',
 			'readonly' => 0,
 			'disabled' => 0,
+		),
+		array (
+			'key' => 'field_577eeb01748f0innpnfx1',
+			'label' => __( 'Keep Reading Button BG Color','inbound-pro'),
+			'name' => 'posts_button_color',
+			'type' => 'color_picker',
+			'instructions' => __( 'Use this to change the color of the button in the email', 'inbound-pro'),
+			'required' => 0,
+			'conditional_logic' => 0,
+			'wrapper' => array (
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+			'default_value' => '#eacb3c',
+		),
+		array (
+			'key' => 'field_577eeb01748f0innpnfx2',
+			'label' => __( 'Keep Reading Button Text Color','inbound-pro'),
+			'name' => 'posts_button_text_color',
+			'type' => 'color_picker',
+			'instructions' => __( 'Use this to change the color of the text inside the button', 'inbound-pro'),
+			'required' => 0,
+			'conditional_logic' => 0,
+			'wrapper' => array (
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+			'default_value' => '#282828',
 		),
 	),
 	'location' => array (

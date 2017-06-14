@@ -36,6 +36,7 @@ if ( !class_exists( 'Inbound_Automation_Action_Add_Remove_List' ) ) {
                     array (
                         'id' => 'remove_from_lead_lists',
                         'label' => __( 'Remove from these lists:' , 'inbound-pro' ),
+                        'description' => __( 'Remove lead from lists in this input.' , 'inbound-pro' ),
                         'type' => 'select2',
                         'hidden' => false,
                         'options' => $lead_lists
@@ -43,6 +44,7 @@ if ( !class_exists( 'Inbound_Automation_Action_Add_Remove_List' ) ) {
                     array (
                         'id' => 'add_to_lead_lists',
                         'label' => __( 'Add to these lists:' , 'inbound-pro' ),
+                        'description' => __( 'Add lead to the lists in this input.' , 'inbound-pro' ),
                         'type' => 'select2',
                         'hidden' => false,
                         'options' => $lead_lists
@@ -52,6 +54,7 @@ if ( !class_exists( 'Inbound_Automation_Action_Add_Remove_List' ) ) {
                         'label' => '',
                         'type' => 'html',
                         'hidden' => false,
+                        'description' => __( 'Notice to admin' , 'inbound-pro' ),
                         'default' => '<i>' . __( 'If a user has unsubscribed from a list then automation will not resubscribe them. They will have to fill out an inbound form adding them to the list or be re-added manually by an administrator.' , 'inbound-pro' ) . '</i>'
                     )
                 )

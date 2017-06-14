@@ -110,11 +110,12 @@ class Inbound_Automation_Processing {
 		$timezone_format = 'Y-m-d G:i:s T';
 		$wordpress_date_time =  date_i18n($timezone_format);
 
-		$query = 'SELECT * FROM '.$table_name;
+		$query = 'SELECT * FROM '.$table_name . " WHERE status != 'complete' && status != 'running' && status != 'cancelled' && status != 'canceled' ";
 
 		if (!$hide_future_events) {
-			$query .= ' WHERE datetime <= "'.$wordpress_date_time.'"';
+			$query .= ' AND datetime <= "'.$wordpress_date_time.'" ';
 		}
+
 
 		self::$queue = $wpdb->get_results( $query , ARRAY_A );
 
@@ -137,7 +138,7 @@ class Inbound_Automation_Processing {
 				'id' => self::$job_id
 			);
 
-			$wpdb->delete( $table_name , $args );
+			$wpdb->update( $table_name , array('status'=>'complete') , $args );
 
 			inbound_record_log(
 				__( 'Job Completed' , 'inbound-pro' ) ,
@@ -148,17 +149,50 @@ class Inbound_Automation_Processing {
 			);
 
 		} else {
-			$update = array(
-				'tasks' => json_encode(self::$job_tasks),
-				'datetime' => self::$job_run_date
-			);
-			$where = array(
-				'id' => self::$job_id,
-			);
-
-			$wpdb->update($table_name, $update , $where);
+			self::mark_job_waiting();
 		}
 
+	}
+
+	/**
+	 * Mark Job With Running Status
+	 */
+	public static function mark_job_running() {
+
+		global $wpdb;
+
+		$table_name = $wpdb->prefix . "inbound_automation_queue";
+
+		$update = array(
+			'status' => 'running',
+		);
+
+		$where = array(
+			'id' => self::$job_id,
+		);
+
+		$wpdb->update($table_name, $update , $where);
+	}
+
+	/**
+	 * Mark Job With Running Status
+	 */
+	public static function mark_job_waiting() {
+
+		global $wpdb;
+
+		$table_name = $wpdb->prefix . "inbound_automation_queue";
+
+		$update = array(
+			'tasks' => json_encode(self::$job_tasks),
+			'datetime' => self::$job_run_date,
+			'status' => 'waiting',
+		);
+		$where = array(
+			'id' => self::$job_id,
+		);
+
+		$wpdb->update($table_name, $update , $where);
 	}
 
 	/**
@@ -169,6 +203,9 @@ class Inbound_Automation_Processing {
 
 		/* Tell Log We Are Running An Job */
 		inbound_record_log(  'Starting Job' , '<pre>' . print_r( self::$job , true ) . '</pre>', self::$job_rule_id , self::$job_id , 'processing_event' );
+
+		/* mark job running */
+		self::mark_job_running();
 
 		foreach ( self::$job_tasks['action_blocks'] as $block_id => $block ) {
 
@@ -531,6 +568,7 @@ class Inbound_Automation_Processing {
 			'rule_id' => $rule['ID'],
 			'tasks' => json_encode($rule),
 			'trigger_data' => json_encode($arguments),
+			'status' => 'pending',
 			'datetime' => $wordpress_date_time
 		);
 

@@ -118,7 +118,7 @@ if (!class_exists('Leads_Manager')) {
             wp_enqueue_script(array('jquery', 'jqueryui', 'jquery-ui-selectable', 'editor', 'thickbox', 'media-upload'));
 
             wp_enqueue_script('selectjs', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/Select2/select2.min.js', array() , null , false );
-            wp_enqueue_style('selectjs', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/Select2/select2.css');
+            wp_enqueue_style('selectjs', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/Select2/select2.min.css');
 
 
             wp_enqueue_script('tablesort', WPL_URLPATH . 'assets/js/management/tablesort.min.js');
@@ -892,6 +892,7 @@ if (!class_exists('Leads_Manager')) {
             $fields['wp_lead_status'] = __("Lead Status","inbound-pro");
             $fields['wpleads_last_updated'] = __("Last Updated","inbound-pro");
             $fields['wpleads_date_created'] = __("Date Created","inbound-pro");
+            $fields['sources'] = __("Sources","inbound-pro");
 
             $upload_dir = wp_upload_dir();
             $uploads_path = 'leads/csv';
@@ -908,7 +909,7 @@ if (!class_exists('Leads_Manager')) {
 
             if(file_exists($path)){
                 if($is_first == 1){
-                    unlink($path."/".$filename.".csv");
+                    @unlink($path.$filename.".csv");
                 }
             } else {
                 mkdir($path, 0755, true);
@@ -971,6 +972,8 @@ if (!class_exists('Leads_Manager')) {
                     $this_row_data[$key] = $val;
                 }
 
+                /* Add sources */
+                $this_row_data['sources'] = json_encode(Inbound_Events::get_lead_sources($ids[$j]));
                 fputcsv($file, $this_row_data);
                 $exported++;
             }

@@ -51,12 +51,6 @@ class Inbound_Tracking {
 			return;
 		}
 
-		$screen = get_current_screen();
-
-		if (!isset($screen) || !isset($_GET['post'])) {
-			return;
-		}
-
 		wp_register_script('inbound-track-link', INBOUND_PRO_URLPATH . 'assets/js/admin/track-link.js');
 		wp_enqueue_script('inbound-track-link');
 
@@ -66,12 +60,11 @@ class Inbound_Tracking {
 	 *  Hooks into Inbound Analytics and enables/disabled lead tracking based on IP or is admin.
 	 */
 	public static function filter_lead_tracking_rules( $inbound_localized_data ) {
+		global $inbound_settings;
 
 		$disable = false;
 
-		$settings = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
-
-		$ignore_admin = ( isset( $settings['inbound-analytics-rules']['admin-tracking'] ) && $settings['inbound-analytics-rules']['admin-tracking'] == 'off' ) ? true : false;
+		$ignore_admin = ( isset( $inbound_settings['inbound-analytics-rules']['admin-tracking'] ) && $inbound_settings['inbound-analytics-rules']['admin-tracking'] == 'off' ) ? true : false;
 
 		/* determine if user is admin and admin filtering is on */
 		if ( current_user_can( 'manage_options' ) && $ignore_admin ) {
@@ -79,7 +72,7 @@ class Inbound_Tracking {
 		}
 
 		/* determine if visitor's IP address is in blacklist */
-		$ip_addresses = ( isset( $settings['inbound-analytics-rules']['ip-addresses']) ) ? $settings['inbound-analytics-rules']['ip-addresses'] : array();
+		$ip_addresses = ( isset( $inbound_settings['inbound-analytics-rules']['ip-addresses']) ) ? $inbound_settings['inbound-analytics-rules']['ip-addresses'] : array();
 		if ( in_array( $inbound_localized_data['ip_address'] , $ip_addresses ) ) {
 			$disable = true;
 		}
@@ -102,9 +95,9 @@ class Inbound_Tracking {
 	 *  @return BOOL
 	 */
 	public static function filter_conversions( $do_not_track ) {
-		$settings = Inbound_Options_API::get_option( 'inbound-pro' , 'settings' , array() );
+		global $inbound_settings;
 
-		$ignore_admin = ( isset( $settings['inbound-analytics-rules']['admin-tracking'] ) && $settings['inbound-analytics-rules']['admin-tracking'] == 'off' ) ? true : false;
+		$ignore_admin = ( isset( $inbound_settings['inbound-analytics-rules']['admin-tracking'] ) && $inbound_settings['inbound-analytics-rules']['admin-tracking'] == 'off' ) ? true : false;
 
 		/* determine if user is admin and admin filtering is on */
 		if ( current_user_can( 'manage_options' ) && $ignore_admin ) {
@@ -112,7 +105,7 @@ class Inbound_Tracking {
 		}
 
 		/* determine if visitor's IP address is in blacklist */
-		$ip_addresses = ( isset( $settings['inbound-analytics-rules']['ip-addresses']) ) ? $settings['inbound-analytics-rules']['ip-addresses'] : array();
+		$ip_addresses = ( isset( $inbound_settings['inbound-analytics-rules']['ip-addresses']) ) ? $inbound_settings['inbound-analytics-rules']['ip-addresses'] : array();
 		if ( in_array( LeadStorage::lookup_ip_address() , $ip_addresses ) ) {
 			$do_not_track = true;
 		}
@@ -126,6 +119,7 @@ class Inbound_Tracking {
 	 */
 	public static function prepare_tracked_links( $html ) {
 		global $post;
+
 
 		/* skip if not main page/post query */
 		if ( !is_single() || !in_the_loop() || !is_main_query() ) {
@@ -159,7 +153,7 @@ class Inbound_Tracking {
 		}
 
 		/* if error exists then return original content and do not attempt to track links */
-		if ($error) {
+		if (isset($error->level) && $error->level == LIBXML_ERR_FATAL ) {
 			return $html;
 		}
 

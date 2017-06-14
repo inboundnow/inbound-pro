@@ -292,6 +292,23 @@ class Inbound_Pro_Settings {
 							)
 						),
 						array (
+							'id'	=> 'page-tracking',
+							'type'	=> 'radio',
+							'label'	=> __( 'Page Tracking' , 'inbound-pro' ),
+							'description'	=> __( 'Turning this off will disable the visitor impression tracking engine. Does not affect impression recording for CTAs, Landing Pages, or Emails. Will affect lead visit statistics. This should not be turned off unless your server is experiencing resource shortage issues.' , 'inbound-pro' ),
+							'default'	=> 'on',
+							'placeholder'	=> null,
+							'options' => array(
+								'off' => __( 'Off' , 'inbound-pro' ),
+								'on' => __( 'On' , 'inbound-pro' ),
+							),
+							'hidden' => false,
+							'reveal' => array(
+								'selector' => null ,
+								'value' => null
+							)
+						),
+						array (
 							'id'	=> 'admin-tracking',
 							'type'	=> 'radio',
 							'label'	=> __( 'Admin Tracking' , 'inbound-pro' ),
@@ -515,69 +532,52 @@ class Inbound_Pro_Settings {
 		?>
 
 
-		<h1><?php _e('Getting Started','inbound-pro'); ?></h1>
+		<h1><?php _e('Welcome to Inbound Pro ' . INBOUND_PRO_CURRENT_VERSION ,'inbound-pro'); ?></h1>
 
-		<p><?php _e('Welcome to the new Inbound Professional Marketing Suite for WordPress!','inbound-pro'); ?></p>
+		<p><?php _e('Is this your first time? Please take a moment to review the sections below before getting started.','inbound-pro'); ?></p>
 
-		<h2><?php _e('What about the old plugins?','inbound-pro'); ?></h2>
-
-		<p><?php echo sprintf( __('This plugin comes with Inbound Now\'s core plugins pre-installed. If you want to control which core components to load at startup you can do so in the %score settings%s area.','inbound-pro') , '<a href="admin.php?tab=inbound-pro-setup&page=inbound-pro&setting=core" target="_blank" >' ,'</a>'); ?></p>
-
-		<h2>Retreiving your API Key</h2>
-
-		<p>Head into your 'my account' area to retrieve your customer API Key. API Keys are setup in the <a href='admin.php?tab=inbound-pro-setup&page=inbound-pro&setting=core' target='_blank' >core settings</a> area and will unlock downloads available to your account. With an <a href='http://inboundsite.wpengine.com/pricing/' target='_blank'>active membership</a> you will have one-click installation access to templates and extensions.</p>
-
-		<h1>What's new?</h1>
+		<h2>Overview/Quick Links</h2>
 
 		<ul class="features">
-			<li><a href='#email'> Email Component</a></li>
-			<li><a href='#automation'> Marketing Automation Component</a></li>
-			<li><a href='#installation'> Oneclick template/extension installations</a></li>
-			<li><a href='#tracking'> Better admin/IP exclusion settings</a></li>
-			<li><a href='#mapping'> Better Lead Field Management</a></li>
-			<li><a href='#settings'> Better Extension Settings Management</a></li>
+			<li><a href='https://www.inboundnow.com/inbound-analytics/' target="_blank"><?php _e('Inbound Analytics' , 'inbound-pro'); ?></a></li>
+			<li><a href='https://www.inboundnow.com/landing-pages/' target="_blank"><?php _e('Landing Pages' , 'inbound-pro'); ?></a></li>
+			<li><a href='https://www.inboundnow.com/cta/' target="_blank"><?php _e('Calls to Action' , 'inbound-pro'); ?></a></li>
+			<li><a href='https://www.inboundnow.com/leads/' target="_blank"><?php _e('Leads' , 'inbound-pro'); ?></a></li>
+			<li><a href='https://www.inboundnow.com/double-optin/' target="_blank"><?php _e('Double Optin' , 'inbound-pro'); ?></a></li>
+			<li><a href='https://www.inboundnow.com/mailer/' target="_blank"><?php _e('Email Component' , 'inbound-pro'); ?></a></li>
+			<li><a href='https://www.inboundnow.com/automation/' target="_blank"><?php _e('Marketing Automation' , 'inbound-pro'); ?></a></li>
 		</ul>
+		<h2>Inbound Pro API Key</h2>
 
-		<a name='email'></a>
-		<h2>Information about the new eMail component</h2>
-		<p>Serving mail has been the intuitive next step for Inbound Now component development. Inside our mail component we provide a framework similar to our Landing Pages tool. You can quickly select and setup emails from free templates provided with the Inbound Pro plugin, or you can have your developer use our templating engine to build your own templates. We have also included variation testing tools that will allow you to split test different versions of your email.</p>
-
-		<p>The email component can also work in Tandem with the new Marketing Automation component to create complex follow up email series.</p>
-
-		<img class="size-full wp-image-138047" src="http://www.inboundnow.com/wp-content/uploads/2012/05/2015-10-13_1831.png" alt="Messing around with test email sends" />
+		<p>Setting up your Inbound Pro API Key enables plugin updates and subscriber features. You can find your API Key inside the Inbound Now website's customer <a href="https://www.inboundnow.com/account/">account area</a>. </p>
 
 
-		<h3>Powered By Transactional Email Services</h3>
-		<h4><strong>SparkPost</strong></h4>
-		<p>Inbound Now's official email service provider is SparkPost. SparkPost provides it's users with 100,000 free sends a month and then an affordable rate their after. You can read more about SparkPost from their <a href="http://www.sparkpost.com" target="_blank">website</a>.</p>
-
-		<h2>The new marketing automation component</h2>
-
-		<p>Our marketing automation component is brand new and still under development. We plan to study how our users leverage it and improve it over the 2016 year. Currently it can only be used to schedule time driven email series. In essence it is a trigger/action rule engine powered by WordPress hooks. Right now there are only a few triggers and actions. We'd like to see this list grow. One day this tool might be used to create a lead rating/badging system.  We are curious about how this component will be leveraged over time.</p>
-		<img class="size-full wp-image-138160" src="http://www.inboundnow.com/wp-content/uploads/2012/05/2015-10-14_1507.png" alt="Setting up the trigger"/>
-
-		<img class="size-full wp-image-138161" src="http://www.inboundnow.com/wp-content/uploads/2012/05/2015-10-14_1508.png" alt="Setting up the action!"  />
-		<a name='installation'></a>
-		<h2>One click extension/theme installations</h2>
-
-		<p>Our new Inbound Pro component will read the permissions of you API key and allow for one-click installations and uninstallations of all Inbound Now templates and plugins. If you have an all inclusive developer account you'll find all assets available to install. If you have access to the designer package then all templates will be available, but you'll still need to go to market to buy your extensions.</p>
-
-		<img class="wp-image-138043 size-full" src="http://www.inboundnow.com/wp-content/uploads/2012/05/2015-10-13_1743.png" alt="One click template installations"  />
-		<a name='tracking'></a>
-		<h2>Better admin/IP anti-tracking measures</h2>
-		<p>By better, we mean they exist now. In your Inbound Pro Settings area you will see a new place where you can disable tracking on admin accounts and disable tracking by IP addresses.</p>
+		<h2>Tracking Controls</h2>
+		<p>In your Inbound Pro Settings area you will see a new place where you can disable tracking on admin accounts and disable tracking by IP addresses.</p>
 
 		<img class="size-full wp-image-138044" src="http://www.inboundnow.com/wp-content/uploads/2012/05/2015-10-13_1746.png" alt="Disable tracking by ip and admin"  />
-		<a name='mapping'></a>
-		<h2>It's now easy to add custom Lead fields</h2>
+
+		<h2>Creating Mappable Fields</h2>
 		<p>In our current setup we have to use PHP code inserts to add non-native lead fields. Now we can do it straight from the settings area. We can also edit the labels of core fields and change the order they appear within a Lead Profile.</p>
 
 		<img class="size-full wp-image-138045" src="http://www.inboundnow.com/wp-content/uploads/2012/05/2015-10-13_1748.png" alt="Add and edit mappable lead fields"  />
-		<a name='settings'></a>
-		<h2>Improved extension setting management</h2>
+
+		<h2>Better Extension Management</h2>
 		<p>It's now easier to work with extension settings. Quickly view installed extensions and jump right to their settings area at the click of a button. Uninstallation is easy too.</p>
 
 		<img class="aligncenter size-full wp-image-138164" src="http://www.inboundnow.com/wp-content/uploads/2012/05/extension-settings.gif" alt="extension settings"  />
+
+
+		<h2>SparkPost for Email</h2>
+
+		<p>Inbound Pro's email component is currently provided by SparkPost. SparkPost provides it's users with 100,000 free sends a month and then an affordable rate their after. You can read more about SparkPost from their <a href="http://www.sparkpost.com" target="_blank">website</a>.</p>
+
+		<h2>Subscribers Only: One click extension/theme installations</h2>
+
+		<p>Our new Inbound Pro component will read the permissions of you API key and allow for one-click installations and uninstallations of all Inbound Now templates and plugins. </p>
+
+		<img class="wp-image-138043 size-full" src="http://www.inboundnow.com/wp-content/uploads/2012/05/2015-10-13_1743.png" alt="One click template installations"  />
+
 		<?php
 		//self::render_fields( 'inbound-pro-welcome' );
 		?>

@@ -6,8 +6,8 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: Call to action, Calls to Action, CTA, inbound marketing, call outs, ad management, split testing, a b test, a b testing, a/b test, a/b testing, popups, email list, landing page, pop up, list building, inbound now, wp-call-to-actions, cpa, click tracking, ad placement, banner ads, slide in call outs, fly ins, like to download, social media share buttons
 Requires at least: 3.8
-Tested up to: 4.7.3
-Stable Tag: 3.0.6
+Tested up to: 4.8
+Stable Tag: 3.2.2
 
 Create Calls to Action for your WordPress site. Monitor and improve conversion rates, run A/B split tests, customize your own CTA templates and more.
 
@@ -68,6 +68,38 @@ The plugin is also fully extendable and has a number of actions, filters, and ho
 8. Global placements via your sites sidebar
 
 == Changelog ==
+
+= 3.2.2 =
+* Debugging split testing disable feature.
+* Debugging new CTA impression tracking system & Inbound Forms's datedropdown selector.
+
+= 3.1.9 =
+* Adding 'sticky ctas' which will also reduce overall AJAX calls
+* Removing legacy shared components and modifying plugin shared tables
+* Consolidating AJAX CTA impression tracking AJAX call into inbound_track_lead AJAX call to reduce overall server resource usage.
+* Changing AJAX get variation call to POST instead of GET to shake possible caching.
+* Inbound Form's date dropdown now updates correct number of dates as month/year options are changed.
+
+= 3.1.3 =
+* Compatibility with Avada theme.
+
+= 3.1.2 =
+* Expanding use of nonces inside of Inbound Forms for better security.
+
+= 3.1.1 =
+* Adding support for custom classes inside of Inbound Forms
+* Removing square brackets from new lead notification email subject to prevent form render errors
+* Fixing lost marketing button CSS
+* No longer prompting users to download legacy CTAs
+
+= 3.0.9 =
+* Removing modernizer js assets from call to action templates
+* Restoring Popup capabilities with Yoast SEO
+
+= 3.0.8 =
+* Adding lead sources to Leads API
+* Moved field mapping select input to a more visable location.
+* Improved New Lead Notification email report
 
 = 3.0.6 =
 * FireFox support for datetime picker.

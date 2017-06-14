@@ -37,12 +37,14 @@ if ( !class_exists( 'Inbound_Automation_Action_Add_Remove_Tag' ) ) {
                         'id' => 'remove_from_lead_tags',
                         'label' => __( 'Remove these tags:' , 'inbound-pro' ),
                         'type' => 'select2',
+                        'description' => __( 'Remove these lead tags from lead' , 'inbound-pro' ),
                         'hidden' => false,
                         'options' => $lead_tags
                     ),
                     array (
                         'id' => 'add_to_lead_tags',
                         'label' => __( 'Add these tags:' , 'inbound-pro' ),
+                        'description' => __( 'Add these lead tags to a lead' , 'inbound-pro' ),
                         'type' => 'select2',
                         'hidden' => false,
                         'options' => $lead_tags

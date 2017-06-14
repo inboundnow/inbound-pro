@@ -26,15 +26,16 @@ if ( !class_exists( 'Inbound_Automation_Action_Kill_Tasks' ) ) {
 					'class_name' => get_class(),
 					'id' => 'kill_lead_tasks',
 					'label' => __('Terminate Email Series for Lead' , 'inbound-pro'),
-					'description' => __('If this action fires we will look for all email series taks targeting a lead email and cancel them.', 'inbound-pro'),
+					'description' => __('If this action fires we will look for all email series tasks targeting a lead email and cancel them.', 'inbound-pro'),
 					'settings' => array (
 							array (
 									'id' => 'cancel_criteria',
 									'label' => __( 'Cancel Options' , 'inbound-pro' ),
 									'type' => 'dropdown',
+									'description' => __( 'Select whether to terminate automation jobs related to this lead for all current running jobs or pertaining to a specific rule id' , 'inbound-pro' ),
 									'options' => array(
-											'all_tasks' => __( 'All Related Tasks' , 'inbound-pro' ),
-											'specific_rule' => __( 'Pertaining to specific rule' , 'inbound-pro' )
+											'all_tasks' => __( 'All jobs targeting this lead.' , 'inbound-pro' ),
+											'specific_rule' => __( 'Jobs targeting this lead belonging to a specific rule' , 'inbound-pro' )
 									)
 							),
 							array (
@@ -42,6 +43,7 @@ if ( !class_exists( 'Inbound_Automation_Action_Kill_Tasks' ) ) {
 									'label' => __( 'Rule:' , 'inbound-pro' ),
 									'type' => 'dropdown',
 									'hidden' => true,
+									'description' => __( 'Select the rule we want to terminate jobs related to this lead.' , 'inbound-pro' ),
 									'reveal' => array(
 											'selector' => 'cancel_criteria',
 											'value' => 'specific_rule'

@@ -81,6 +81,8 @@ class Inbound_Mailer_SparkPost extends Inbound_Mail_Daemon {
 				'email_id' => self::$row->email_id,
 				'lead_id' => self::$row->lead_id,
 				'variation_id' => self::$row->variation_id,
+				'rule_id' => self::$row->rule_id,
+				'job_id' => self::$row->job_id,
 				'nature' => self::$email_settings['email_type']
 			), // json object
 			'substitution_data'  => null, // json object

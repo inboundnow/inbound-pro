@@ -139,6 +139,39 @@ if ( !class_exists('Inbound_Mailer_Activation') ) {
 
 			return $rules;
 		}
+
+		/**
+		 * @migration-type: db modification
+		 * @mirgration: creates wp_inbound_email_queue table
+		 */
+		public static function create_email_queue_table() {
+			global $wpdb;
+			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+
+			$table_name = $wpdb->prefix . "inbound_email_queue";
+
+			$charset_collate = $wpdb->get_charset_collate();
+
+			$sql = "CREATE TABLE $table_name (
+				`id` mediumint(9) NOT NULL AUTO_INCREMENT,
+				`email_id` mediumint(9) NOT NULL,
+				`variation_id` mediumint(9) NOT NULL,
+				`lead_id` mediumint(9) NOT NULL,
+				`post_id` mediumint(9) NOT NULL,
+				`list_ids` text NOT NULL,
+				`job_id` mediumint(9) NOT NULL,
+				`rule_id` mediumint(9) NOT NULL,
+				`token` tinytext NOT NULL,
+				`type` tinytext NOT NULL,
+				`tokens` mediumtext NOT NULL,
+				`status` tinytext NOT NULL,
+				`datetime` DATETIME NOT NULL,
+				UNIQUE KEY id (id)
+			) $charset_collate;";
+
+
+			dbDelta( $sql );
+		}
 	}
 
 

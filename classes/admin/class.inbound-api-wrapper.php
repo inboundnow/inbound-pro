@@ -39,7 +39,7 @@ class Inbound_API_Wrapper {
 		}
 		*/
 
-		self::$inbound_api_uri = 'http://www.inboundnow.com/pro-api/';
+		self::$inbound_api_uri = 'https://www.inboundnow.com/pro-api/';
 
 		return self::$inbound_api_uri;
 	}
