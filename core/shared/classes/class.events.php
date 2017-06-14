@@ -66,9 +66,11 @@ class Inbound_Events {
 			  `form_id` mediumint(20) NOT NULL,
 			  `cta_id` mediumint(20) NOT NULL,
 			  `email_id` mediumint(20) NOT NULL,
+			  `rule_id` mediumint(20) NOT NULL,
+			  `job_id` mediumint(20) NOT NULL,
 			  `list_id` mediumint(20) NOT NULL,
 			  `lead_id` mediumint(20) NOT NULL,
-			  `comment_id` mediumint(20) NOT NULL,
+              `comment_id` mediumint(20) NOT NULL,
 			  `lead_uid` varchar(255) NOT NULL,
 			  `session_id` varchar(255) NOT NULL,
 			  `event_details` text NOT NULL,
@@ -80,7 +82,8 @@ class Inbound_Events {
 			) $charset_collate;";
 
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-       $results = dbDelta( $sql );
+        $results = dbDelta( $sql );
+
     }
 
 
@@ -102,7 +105,7 @@ class Inbound_Events {
 
         $sql = "CREATE TABLE IF NOT EXISTS $table_name (
 			  `id` mediumint(9) NOT NULL AUTO_INCREMENT,
-			  `page_id` mediumint(20) NOT NULL,
+			  `page_id` varchar(20) NOT NULL,
 			  `variation_id` mediumint(9) NOT NULL,
 			  `lead_id` mediumint(20) NOT NULL,
 			  `lead_uid` varchar(255) NOT NULL,
@@ -248,7 +251,7 @@ class Inbound_Events {
     }
 
     /**
-     * Stores comment made events into the events table
+     * Stores search made events into the events table
      * @param $args
      */
     public static function store_search_event( $args ){
@@ -270,7 +273,7 @@ class Inbound_Events {
 
         self::store_event($args);
     }
-
+    
     /**
      * Add event to inbound_events table
      * @param $args
@@ -293,6 +296,8 @@ class Inbound_Events {
             'form_id' => '',
             'cta_id' => '',
             'email_id' => '',
+            'rule_id' => '',
+            'job_id' => '',
             'list_id' => '',
             'lead_id' => ( isset($_COOKIE['wp_lead_id']) ? $_COOKIE['wp_lead_id'] : '' ),
             'lead_uid' => ( isset($_COOKIE['wp_lead_uid']) ? $_COOKIE['wp_lead_uid'] : '' ),
@@ -366,23 +371,18 @@ class Inbound_Events {
             $args
         );
 
-
         /* check error messages for broken tables */
         if (isset($wpdb->last_error)) {
-            
             switch ($wpdb->last_error) {
                 case "Unknown column 'funnel' in 'field list'":
                     self::create_events_table();
                     break;
-                
+                                
                 case "Unknown column 'comment_id' in 'field list'":
                     self::create_events_table();
                     break;
             }
-           
         }
-        
-            
 
     }
 
@@ -773,9 +773,13 @@ class Inbound_Events {
 
         $query = 'SELECT *, count(*) as count FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'" GROUP BY source';
 
-        $results = $wpdb->get_results( $query , ARRAY_A );
+        $events = $wpdb->get_results( $query , ARRAY_A );
 
-        return $results;
+        $sources = array();
+        foreach ($events as $key => $event) {
+            $sources[$event['datetime']] = $event['source'];
+        }
+        return $sources;
 
     }
 
@@ -960,7 +964,7 @@ class Inbound_Events {
         if (isset($params['limit'])) {
             $query .= ' LIMIT '.$params['limit'];;
         }
-
+        
         if (isset($params['offset']) && $params['offset']) {
             $query .= ' OFFSET '.$params['offset'].' ';
         }
@@ -1447,7 +1451,7 @@ class Inbound_Events {
         /* return null if nothing there */
         return ($count) ? $count : 0;
     }
-
+ 
     /**
      * Checks to see if a comment has already been logged in the events table
      * @param $comment_id
@@ -1484,8 +1488,6 @@ class Inbound_Events {
         );
    }
    
-   
-
     public static function isJson($string) {
         json_decode($string);
         return (json_last_error() == JSON_ERROR_NONE);
