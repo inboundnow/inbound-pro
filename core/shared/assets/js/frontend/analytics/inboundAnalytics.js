@@ -1295,6 +1295,95 @@ var _inboundUtils = (function(_inbound) {
                 googleTagManager = true;
             }
 
+        },
+        /**
+         * Caches user's search data in the browser until they can be saved to the database
+         */
+        cacheSearchData: function(searchData, form) {
+
+            if(storageSupported){
+                //store the searches in the local storage
+                var stored = _inbound.totalStorage.getItem('inbound_search_storage');
+                if(stored){
+                    //if there are stored searches, put the new one in the first index
+                    stored.unshift(searchData);
+                    _inbound.totalStorage.setItem('inbound_search_storage', stored);
+                }else{
+                    //if there aren't any searches stored, save the current search
+                    var store = [searchData];
+                    _inbound.totalStorage.setItem('inbound_search_storage', store);
+                }
+            }else{
+                //if local storage is not possible, store the data in a cookie
+                var new_search = JSON.stringify(searchData),
+                    stored_searches = this.readCookie('inbound_search_storage');
+                    
+                if(stored_searches){
+                    //add the old searches to the new one
+                    new_search += ('SPLIT-TOKEN' + stored_searches);
+                }
+                this.createCookie('inbound_search_storage', new_search, '180');
+            }
+
+            _inbound.Forms.releaseFormSubmit(form);
+        },
+        /**
+         * Stores search data to the database on page load. 
+         * If successful, it erases the cached searches from the user's browser
+         */
+        storeSearchData: function(){
+
+            /*if there isn't a lead id or the nonce isn't set, don't try to store the data*/
+            if(!inbound_settings.wp_lead_data.lead_id || !inbound_settings.wp_lead_data.lead_nonce){
+                return;
+            }
+
+            var dataToSend = [],
+                localStorageData = _inbound.totalStorage.getItem('inbound_search_storage'),
+                cookieStorageData = this.readCookie('inbound_search_storage');
+                
+            /*if nothing is stored, exit*/
+            if(!localStorageData && !cookieStorageData){
+                return;
+            }
+            
+            /*if set, add the cookie search data to the data to send*/
+            if(cookieStorageData){
+                cookieStorageData = cookieStorageData.split('SPLIT-TOKEN');
+                
+                for(var i in cookieStorageData){
+                    //console.log(cookieStorageData[i]);
+                    dataToSend.push(JSON.parse(cookieStorageData[i]));
+                }
+            }
+            
+            /*if set, add the locally stored data to the data to send*/
+            if(localStorageData){
+                dataToSend = dataToSend.concat(localStorageData);
+            }
+
+            dataToSend.sort(function(a, b){ return a.timestamp - b.timestamp; });
+
+            dataToSend = encodeURIComponent(JSON.stringify(dataToSend));
+
+            var package = {'action' : 'inbound_search_store', 'data' : dataToSend, 'nonce' : inbound_settings.wp_lead_data.lead_nonce, 'lead_id' : inbound_settings.wp_lead_data.lead_id };
+
+            callback = function(status){
+                if(status){ status = JSON.parse(status); }
+
+                if(status.success){
+                    //log the success!
+                    console.log(status.success);
+                    //erase the stored data
+                    _inbound.Utils.eraseCookie('inbound_search_storage');
+                    _inbound.totalStorage.deleteItem('inbound_search_storage');
+                }
+                
+                if(status.error){
+                    console.log(status.error);
+                }
+            };
+            this.ajaxPost(inbound_settings.admin_url, package, callback);
         }
     };
 
@@ -1321,6 +1410,7 @@ var InboundForms = (function(_inbound) {
         no_match = [],
         rawParams = [],
         mappedParams = [],
+        callTracker = {},
         settings = _inbound.Settings;
 
     var FieldMapArray = [
@@ -1346,6 +1436,7 @@ var InboundForms = (function(_inbound) {
         init: function() {
             _inbound.Forms.runFieldMappingFilters();
             _inbound.Forms.formTrackInit();
+            _inbound.Forms.searchTrackInit();
         },
         /**
          * This triggers the forms.field_map filter on the mapping array.
@@ -1408,6 +1499,32 @@ var InboundForms = (function(_inbound) {
                 }
             }
         },
+        searchTrackInit: function(){
+            
+            /* exit if searches aren't supposed to be tracked, or this function has already been called */
+            if(inbound_settings.search_tracking == 'off' || callTracker['searchTrackInit']){
+                return;
+            }
+
+            for (var i = 0; i < window.document.forms.length; i++) {
+                var trackForm = false;
+                var form = window.document.forms[i];
+                /* process forms only once */
+                if (!form.dataset.searchChecked) {
+                    form.dataset.searchChecked = true;
+                    trackForm = this.checkSearchTrackStatus(form);
+                    if (trackForm) {
+                        this.attachSearchFormSubmitEvent(form); /* attach form listener */
+                    }
+                }
+            }
+
+            /* store the search data on init */
+            utils.storeSearchData();
+            
+            /* log that this function has been called */
+            callTracker['searchTrackInit'] = true;
+        },
         checkTrackStatus: function(form) {
             var ClassIs = form.getAttribute('class');
             if (ClassIs !== "" && ClassIs !== null) {
@@ -1420,6 +1537,24 @@ var InboundForms = (function(_inbound) {
                     _inbound.deBugger('forms', "This form not tracked. Please assign on in settings...", cb);
                     return false;
                 }
+            }
+        },
+        checkSearchTrackStatus: function(form) {
+            var ClassIs = form.getAttribute('class'),
+                IdIs = form.getAttribute('id');
+            if (ClassIs !== "" && ClassIs !== null) {
+                if (ClassIs.toLowerCase().indexOf("search") > -1) {
+                    return true;
+                }
+            }
+            if (IdIs !== "" && IdIs !== null) {
+                if (IdIs.toLowerCase().indexOf("search") > -1) {
+                    return true;
+                }
+            }else{
+                cb = function() { console.log(form); };
+                _inbound.deBugger('searches', "This search form is not tracked. Please assign on in settings...", cb);
+                return false;
             }
         },
         /* Loop through include/exclude items for tracking */
@@ -1558,11 +1693,22 @@ var InboundForms = (function(_inbound) {
             _inbound.Forms.saveFormData(event.target);
             document.body.style.cursor = "wait";
         },
+        /* prevent default submission temporarily */
+        searchFormListener: function(event) {
+            //console.log(event);
+            event.preventDefault();
+            _inbound.Forms.saveSearchData(event.target);
+            //document.body.style.cursor = "wait";
+        },
         /* attach form listeners */
         attachFormSubmitEvent: function(form) {
             utils.addListener(form, 'submit', this.formListener);
             var email_input = document.querySelector('.inbound-email');
             /* utils.addListener(email_input, 'blur', this.mailCheck); */
+        },
+        /* attach search form listener */
+        attachSearchFormSubmitEvent: function(form) {
+            utils.addListener(form, 'submit', this.searchFormListener);
         },
         /* Ignore CC data */
         ignoreFieldByLabel: function(label) {
@@ -1892,6 +2038,165 @@ var InboundForms = (function(_inbound) {
             _inbound.trigger('form_before_submission', formData);
 
             utils.ajaxPost(inbound_settings.admin_url, formData, callback);
+        },
+        saveSearchData: function(form) {
+            var inputsObject = inputsObject || {};
+            for (var i = 0; i < form.elements.length; i++) {
+
+                //console.log(inputsObject);
+
+                formInput = form.elements[i];
+                multiple = false;
+
+                if (formInput.name) {
+
+                    if (formInput.dataset.ignoreFormField) {
+                        _inbound.deBugger('searches', 'ignore ' + formInput.name);
+                        continue;
+                    }
+
+                    inputName = formInput.name.replace(/\[([^\[]*)\]/g, "%5B%5D$1");
+                    //inputName = inputName.replace(/-/g, "_");
+                    if (!inputsObject[inputName]) {
+                        inputsObject[inputName] = {};
+                    }
+                    if (formInput.type) {
+                        inputsObject[inputName]['type'] = formInput.type;
+                        
+                    }
+                    if (!inputsObject[inputName]['name']) {
+                        inputsObject[inputName]['name'] = formInput.name;
+                    }
+                    if (formInput.dataset.mapFormField) {
+                        inputsObject[inputName]['map'] = formInput.dataset.mapFormField;
+                    }
+
+
+                    switch (formInput.nodeName) {
+
+                        case 'INPUT':
+                            value = this.getInputValue(formInput);
+
+
+                            if (value === false) {
+                                continue;
+                            }
+                            break;
+
+                        case 'TEXTAREA':
+                            value = formInput.value;
+                            break;
+
+                        case 'SELECT':
+                            if (formInput.multiple) {
+                                values = [];
+                                multiple = true;
+
+                                for (var j = 0; j < formInput.length; j++) {
+                                    if (formInput[j].selected) {
+                                        values.push(encodeURIComponent(formInput[j].value));
+                                    }
+                                }
+
+                            } else {
+                                value = (formInput.value);
+                            }
+
+                            break;
+                    }
+
+                    _inbound.deBugger('searches', 'Input Value = ' + value);
+
+
+                    if (value) {
+                        /* inputsObject[inputName].push(multiple ? values.join(',') : encodeURIComponent(value)); */
+                        if (!inputsObject[inputName]['value']) {
+                            inputsObject[inputName]['value'] = [];
+                        }
+                        inputsObject[inputName]['value'].push(multiple ? values.join(',') : encodeURIComponent(value));
+                        var value = multiple ? values.join(',') : encodeURIComponent(value);
+
+                    }
+
+                }
+            }
+
+            _inbound.deBugger('searches', inputsObject);
+
+            /* create an array of search fields //(not fully implemented) at the moment, it only maps the text in the "search" input types*/
+            var searchQuery = [];
+            for (var input in inputsObject) {
+                var inputValue = inputsObject[input]['value'];
+                var inputType = inputsObject[input]['type'];
+
+                /* Add custom hook here to look for additional values */
+                if (typeof(inputValue) != "undefined" && inputValue != null && inputValue != "") {
+                    // This is for mapping all fields of a search form. The resulting string is processed 
+                    // in inbound-pro\classes\admin\report-templates\report.lead-searches-and-comments.php
+                    // In the function print_action_popup()
+                    // searchQuery.push(input + '|value|' + inputsObject[input]['value'].join(','));
+                    
+                    // get the search input value
+                    if(inputType == 'search'){
+                        searchQuery.push('search_text' + '|value|' + inputsObject[input]['value']);
+                    }
+                }
+            }
+            /* exit if there isn't a search query */
+            if(!searchQuery[0]){
+                return;
+            }
+
+            var searchString = searchQuery.join('|field|');
+            _inbound.deBugger('searches', "Stringified Search Form PARAMS: " + searchString);
+
+            /* Get Variation ID */
+            if (typeof(landing_path_info) != "undefined") {
+                var variation = landing_path_info.variation;
+            } else if (typeof(cta_path_info) != "undefined") {
+                var variation = cta_path_info.variation;
+            } else {
+                var variation = inbound_settings.variation_id;
+            }
+            var post_type = inbound_settings.post_type || 'page';
+            var page_id = inbound_settings.post_id || 0;
+            
+            var user_UID = utils.readCookie("wp_lead_uid");
+            
+            /* get the user's email address if possible */
+            if(inbound_settings.wp_lead_data.lead_email){
+                email = inbound_settings.wp_lead_data.lead_email;
+            }else if(utils.readCookie('inbound_wpleads_email_address')){
+                email = utils.readCookie('inbound_wpleads_email_address');
+            }else{
+                email = '';
+            }
+
+            /* Filter here for raw */
+            searchData = {
+                'email': email,
+                'search_data': searchString,
+                'user_UID': user_UID,
+                'post_type': post_type,
+                'page_id': page_id,
+                'variation': variation,
+                'source': utils.readCookie("inbound_referral_site"),
+                'ip_address': inbound_settings.ip_address,
+                'timestamp': Math.floor((new Date).getTime()/1000),
+            };
+
+            /* filter data before caching it in the user's browser */
+            _inbound.trigger('search_before_caching', searchData);
+
+            /* cache search data */
+            if(inbound_settings.wp_lead_data.lead_id){
+                searchData['lead_id'] = inbound_settings.wp_lead_data.lead_id;
+                utils.cacheSearchData(searchData, form)
+            }else{
+                utils.cacheSearchData(searchData, form);
+            }
+            
+
         },
         rememberInputValues: function(input) {
             var name = (input.name) ? "inbound_" + input.name : '';
@@ -2292,6 +2597,7 @@ var InboundForms = (function(_inbound) {
     return _inbound;
 
 })(_inbound || {});
+
 /**
  * # Analytics Events
  *
@@ -2799,6 +3105,27 @@ var _inboundEvents = (function(_inbound) {
 
             fireEvent('form_after_submission', formData);
 
+        },
+        /**
+         *  `search_before_caching` is triggered before the search is stored in the user's browser.
+         *  If a lead ID is set, the search data will be saved to the server when the next page loads.
+         *  You can filter the data here or send it to third party services
+         *
+         * ```js
+         * // Usage:
+         *
+         * // Adding the callback
+         * function search_before_caching_function( data ) {
+         *      var data = data || {};
+         *      // filter search data
+         * };
+         *
+         *  // Hook the function up the the `search_before_caching` event
+         *  _inbound.add_action( 'search_before_caching', search_before_caching_function, 10 );
+         * ```
+         */
+        search_before_caching: function(searchData) {
+            fireEvent('search_before_caching', searchData);
         },
         /*! Scrol depth https://github.com/robflaherty/jquery-scrolldepth/blob/master/jquery.scrolldepth.js */
 

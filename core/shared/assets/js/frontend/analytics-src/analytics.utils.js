@@ -760,6 +760,95 @@ var _inboundUtils = (function(_inbound) {
                 googleTagManager = true;
             }
 
+        },
+        /**
+         * Caches user's search data in the browser until they can be saved to the database
+         */
+        cacheSearchData: function(searchData, form) {
+
+            if(storageSupported){
+                //store the searches in the local storage
+                var stored = _inbound.totalStorage.getItem('inbound_search_storage');
+                if(stored){
+                    //if there are stored searches, put the new one in the first index
+                    stored.unshift(searchData);
+                    _inbound.totalStorage.setItem('inbound_search_storage', stored);
+                }else{
+                    //if there aren't any searches stored, save the current search
+                    var store = [searchData];
+                    _inbound.totalStorage.setItem('inbound_search_storage', store);
+                }
+            }else{
+                //if local storage is not possible, store the data in a cookie
+                var new_search = JSON.stringify(searchData),
+                    stored_searches = this.readCookie('inbound_search_storage');
+                    
+                if(stored_searches){
+                    //add the old searches to the new one
+                    new_search += ('SPLIT-TOKEN' + stored_searches);
+                }
+                this.createCookie('inbound_search_storage', new_search, '180');
+            }
+
+            _inbound.Forms.releaseFormSubmit(form);
+        },
+        /**
+         * Stores search data to the database on page load. 
+         * If successful, it erases the cached searches from the user's browser
+         */
+        storeSearchData: function(){
+
+            /*if there isn't a lead id or the nonce isn't set, don't try to store the data*/
+            if(!inbound_settings.wp_lead_data.lead_id || !inbound_settings.wp_lead_data.lead_nonce){
+                return;
+            }
+
+            var dataToSend = [],
+                localStorageData = _inbound.totalStorage.getItem('inbound_search_storage'),
+                cookieStorageData = this.readCookie('inbound_search_storage');
+                
+            /*if nothing is stored, exit*/
+            if(!localStorageData && !cookieStorageData){
+                return;
+            }
+            
+            /*if set, add the cookie search data to the data to send*/
+            if(cookieStorageData){
+                cookieStorageData = cookieStorageData.split('SPLIT-TOKEN');
+                
+                for(var i in cookieStorageData){
+                    //console.log(cookieStorageData[i]);
+                    dataToSend.push(JSON.parse(cookieStorageData[i]));
+                }
+            }
+            
+            /*if set, add the locally stored data to the data to send*/
+            if(localStorageData){
+                dataToSend = dataToSend.concat(localStorageData);
+            }
+
+            dataToSend.sort(function(a, b){ return a.timestamp - b.timestamp; });
+
+            dataToSend = encodeURIComponent(JSON.stringify(dataToSend));
+
+            var package = {'action' : 'inbound_search_store', 'data' : dataToSend, 'nonce' : inbound_settings.wp_lead_data.lead_nonce, 'lead_id' : inbound_settings.wp_lead_data.lead_id };
+
+            callback = function(status){
+                if(status){ status = JSON.parse(status); }
+
+                if(status.success){
+                    //log the success!
+                    console.log(status.success);
+                    //erase the stored data
+                    _inbound.Utils.eraseCookie('inbound_search_storage');
+                    _inbound.totalStorage.deleteItem('inbound_search_storage');
+                }
+                
+                if(status.error){
+                    console.log(status.error);
+                }
+            };
+            this.ajaxPost(inbound_settings.admin_url, package, callback);
         }
     };
 
