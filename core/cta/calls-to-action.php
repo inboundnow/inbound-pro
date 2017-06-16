@@ -10,7 +10,7 @@ Text Domain: cta
 Domain Path: assets/lang
 */
 
-if (!class_exists('Inbound_sh Calls_To_Action_Plugin')) {
+if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 
 	final class Inbound_Calls_To_Action_Plugin {
 
