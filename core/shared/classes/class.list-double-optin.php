@@ -181,7 +181,7 @@ if (!class_exists('Inbound_List_Double_Optin')) {
             ?>
             <script>
                 jQuery(document).ready(function(){
-                    jQuery('input#submit').on('click', function(){
+                    jQuery('input#submit, .edit-tag-actions .button').on('click', function(){
                         var settingData = {};
                         var id = "<?php echo $list->term_id; ?>";
                         /*get the value of all inboundnow lead list options*/
@@ -350,11 +350,6 @@ if (!class_exists('Inbound_List_Double_Optin')) {
                             jQuery('.double-optin-enabled').css({'display': 'none'});
                         } else {
                             jQuery('.double-optin-enabled').css({'display': 'table-row'});
-
-
-
-
-
                         }
                     });
 
@@ -369,24 +364,11 @@ if (!class_exists('Inbound_List_Double_Optin')) {
                         }
                     });
 
-                    /*if the email template to send has changed*/
-                    jQuery('#double_optin_email_template').on('change', function () {
-
-                        /* show default template settings */
-                        if (jQuery('#double_optin_email_template').val() == 'default-email-template') {
-                            jQuery('.default-email-setting').css({'display': 'table-row'});
-                        } else {
-                            jQuery('.default-email-setting').css({'display': 'none'});
-                        }
-                    });
-
                     /*trigger a refresh of the email inputs just after the page is loaded*/
                     setTimeout(function () {
-                        jQuery('#double_optin_email_template').trigger('change');
                         jQuery('#double_optin_toggle').trigger('change');
-
-
-                    }, 350);
+                        jQuery('#double_optin_email_template').trigger('change');
+                    }, 240);
 
                 });
             </script>
