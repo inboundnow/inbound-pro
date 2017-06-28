@@ -71,14 +71,17 @@ class Inbound_Shortcodes {
 				wp_enqueue_script('inbound-shortcodes', INBOUNDNOW_SHARED_URLPATH . 'shortcodes/js/shortcodes.js', array( 'jquery', 'jquery-cookie' ), '1', true);
 				$form_id = (isset($_GET['post']) && is_int( $_GET['post'] )) ? $_GET['post'] : '';
 				wp_localize_script( 'inbound-shortcodes', 'inbound_shortcodes', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) , 'adminurl' => admin_url(), 'inbound_shortcode_nonce' => wp_create_nonce('inbound-shortcode-nonce') , 'form_id' => $form_id ) );
-				if ( !wp_script_is( 'select2', 'registered' ) ) {
+				//if ( !wp_script_is( 'select2', 'registered' ) ) {
+					wp_deregister_script('select2');
 					wp_dequeue_script('selectjs');
 					wp_dequeue_script('select2');
 					wp_dequeue_script('jquery-select2');
-					wp_enqueue_script('select2', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/Select2/select2.full.min.js', array( 'jquery' ) , false , false );
+					wp_register_script('select2', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/Select2/select2.full.min.js', array( 'jquery' ) , false , false );
+					wp_enqueue_script('select2' );
+					wp_dequeue_style('select2');
 					wp_enqueue_style('select2', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/Select2/select2.min.css' , array() , false , false);
 
-				}
+				//}
 			}
 
 			// Forms CPT only
