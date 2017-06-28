@@ -49,6 +49,12 @@ class Inbound_Events {
         global $wpdb;
 
         $table_name = $wpdb->prefix . "inbound_events";
+
+        /* if table already created then bail */
+        if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") == $table_name) {
+            return;
+        }
+
         $charset_collate = '';
 
         if ( ! empty( $wpdb->charset ) ) {
