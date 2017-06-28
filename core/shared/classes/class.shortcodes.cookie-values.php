@@ -22,6 +22,7 @@ if ( !class_exists( 'Inbound_Shortcodes_Cookies' ) ) {
 		*/
 		public static function get_cookie( $atts ) {
 
+
 			$value = ( isset($_COOKIE[ $atts['name'] ]) ) ? $_COOKIE[ $atts['name'] ] : '';
 
 			return $value;
