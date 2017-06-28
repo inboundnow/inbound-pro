@@ -17,6 +17,8 @@ if (have_posts()) : while (have_posts()) : the_post();
 $post_id = get_the_ID();
 $logo_url = get_field('logo_url', $post_id);
 $main_content = get_field('main_email_content', $post_id);
+$unsubscribe_link_text = get_field('unsubscribe_link_text', $post_id);
+$unsubscribe_link_text = ($unsubscribe_link_text) ? $unsubscribe_link_text : __('Unsubscribe','inbound-pro');
 
 /**
 $settings = Inbound_Email_Meta::get_settings( $post_id );
@@ -179,7 +181,7 @@ print_r($settings);exit;
 
 			<table bgcolor="" style="line-height: 135%;text-align:center;font-size:10px;padding:10px;" class="container" align="center" cellpadding="0" cellspacing="0">
 				<tr>
-					<td bgcolor="" colspan="3" width="100%" height="10"><a href="<?php echo do_shortcode('[unsubscribe-link]'); ?>"><?php _e('Unsubscribe from this list' , 'inbound-pro' ); ?></a></td>
+					<td bgcolor="" colspan="3" width="100%" height="10"><a href="<?php echo do_shortcode('[unsubscribe-link]'); ?>"><?php echo $unsubscribe_link_text; ?></a></td>
 				</tr>
 			</table>
 		</td>

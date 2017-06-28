@@ -25,7 +25,7 @@ if( function_exists('acf_add_local_field_group') ):
 
     acf_add_local_field_group(array (
         'key' => 'group_56b8eedbdc29b',
-        'title' => 'Inbound Now Email Template',
+        'title' => __('Inbound Now Email Template','inbound-pro'),
         'fields' => array (
             array (
                 'key' => 'field_56b8f76766d7c',
@@ -53,10 +53,10 @@ if( function_exists('acf_add_local_field_group') ):
             ),
             array (
                 'key' => 'field_56b8fa8acadf1',
-                'label' => 'Logo Positioning',
+                'label' => __('Logo Positioning','inbound-pro'),
                 'name' => 'logo_positioning',
                 'type' => 'select',
-                'instructions' => 'Select where to align the logo',
+                'instructions' => __('Select where to align the logo','inbound-pro'),
                 'required' => 0,
                 'conditional_logic' => 0,
                 'wrapper' => array (
@@ -82,7 +82,7 @@ if( function_exists('acf_add_local_field_group') ):
             ),
             array (
                 'key' => 'field_56b8fb975c61f',
-                'label' => 'Logo URL',
+                'label' => __('Logo URL','inbound-pro'),
                 'name' => 'logo_url',
                 'type' => 'text',
                 'instructions' => '',
@@ -98,7 +98,7 @@ if( function_exists('acf_add_local_field_group') ):
             ),
             array (
                 'key' => 'field_56be4dd7a4c32',
-                'label' => 'Email Font',
+                'label' => __('Email Font','inbound-pro'),
                 'name' => 'email_font',
                 'type' => 'select',
                 'instructions' => '',
@@ -150,7 +150,7 @@ if( function_exists('acf_add_local_field_group') ):
             ),
             array (
                 'key' => 'field_56b8f79266d7d',
-                'label' => 'Headline Text',
+                'label' => __('Headline Text','inbound-pro'),
                 'name' => 'headline',
                 'type' => 'text',
                 'instructions' => '',
@@ -161,8 +161,8 @@ if( function_exists('acf_add_local_field_group') ):
                     'class' => '',
                     'id' => '',
                 ),
-                'default_value' => 'It\'s Here.',
-                'placeholder' => 'Headline Text Here',
+                'default_value' => __('It\'s Here.','inbound-pro'),
+                'placeholder' => __('Headline Text Here','inbound-pro'),
                 'prepend' => '',
                 'append' => '',
                 'maxlength' => '',
@@ -171,10 +171,10 @@ if( function_exists('acf_add_local_field_group') ):
             ),
             array (
                 'key' => 'field_56b910ca48882',
-                'label' => 'Headline Size',
+                'label' => __('Headline Size','inbound-pro'),
                 'name' => 'headline_size',
                 'type' => 'text',
-                'instructions' => 'Be sure to include the px.',
+                'instructions' => __('Be sure to include the px.','inbound-pro'),
                 'required' => 1,
                 'conditional_logic' => 0,
                 'wrapper' => array (
@@ -192,10 +192,10 @@ if( function_exists('acf_add_local_field_group') ):
             ),
             array (
                 'key' => 'field_56b910ff48883',
-                'label' => 'Sub Headline Size',
+                'label' => __('Sub Headline Size','inbound-pro'),
                 'name' => 'sub_headline_size',
                 'type' => 'text',
-                'instructions' => 'Be sure to include the px.',
+                'instructions' => __('Be sure to include the px.','inbound-pro'),
                 'required' => 1,
                 'conditional_logic' => 0,
                 'wrapper' => array (
@@ -213,7 +213,7 @@ if( function_exists('acf_add_local_field_group') ):
             ),
             array (
                 'key' => 'field_56b8f7be66d7e',
-                'label' => 'Sub Headline Text',
+                'label' => __('Sub Headline Text','inbound-pro'),
                 'name' => 'sub_headline',
                 'type' => 'text',
                 'instructions' => '',
@@ -224,8 +224,8 @@ if( function_exists('acf_add_local_field_group') ):
                     'class' => '',
                     'id' => '',
                 ),
-                'default_value' => 'An all new product...',
-                'placeholder' => 'Subheadline text here',
+                'default_value' => __('An all new product...','inbound-pro'),
+                'placeholder' => __('Subheadline text here','inbound-pro'),
                 'prepend' => '',
                 'append' => '',
                 'maxlength' => '',
@@ -234,7 +234,7 @@ if( function_exists('acf_add_local_field_group') ):
             ),
             array (
                 'key' => 'field_56b8f7e466d7f',
-                'label' => 'Featured Image',
+                'label' => __('Featured Image','inbound-pro'),
                 'name' => 'featured_image',
                 'type' => 'image',
                 'instructions' => '',
@@ -261,7 +261,7 @@ if( function_exists('acf_add_local_field_group') ):
                 'label' => 'Image Width',
                 'name' => 'image_width',
                 'type' => 'text',
-                'instructions' => 'Control the width of	your featured image. Be sure to include px or %.',
+                'instructions' => __('Control the width of	your featured image. Be sure to include px or %.','inbound-pro'),
                 'required' => 0,
                 'conditional_logic' => 0,
                 'wrapper' => array (
@@ -279,10 +279,10 @@ if( function_exists('acf_add_local_field_group') ):
             ),
             array (
                 'key' => 'field_56b912df93891',
-                'label' => 'Image Height',
+                'label' => __('Image Height','inbound-pro'),
                 'name' => 'image_height',
                 'type' => 'text',
-                'instructions' => 'Control the heightof	your featured image. Be sure to include px or %.',
+                'instructions' => __('Control the heightof	your featured image. Be sure to include px or %.','inbound-pro'),
                 'required' => 0,
                 'conditional_logic' => 0,
                 'wrapper' => array (
@@ -300,7 +300,7 @@ if( function_exists('acf_add_local_field_group') ):
             ),
             array (
                 'key' => 'field_56b8f87166d80',
-                'label' => 'Message Content',
+                'label' => __('Message Content','inbound-pro'),
                 'name' => 'message_content',
                 'type' => 'wysiwyg',
                 'instructions' => '',
@@ -311,22 +311,22 @@ if( function_exists('acf_add_local_field_group') ):
                     'class' => '',
                     'id' => '',
                 ),
-                'default_value' => 'Dear [lead-field id="wpleads_first_name" default="Subscriber"],
+                'default_value' => __('Dear [lead-field id="wpleads_first_name" default="Subscriber"],
 
 Thank you for being a valued customer. May your inbound experience be a good one.
 
 Cheers!
-@inboundnow',
+@inboundnow','inbound-pro'),
                 'tabs' => 'all',
                 'toolbar' => 'full',
                 'media_upload' => 1,
             ),
             array (
                 'key' => 'field_56b9107848881',
-                'label' => 'Align Message Content',
+                'label' => __('Align Message Content','inbound-pro'),
                 'name' => 'align_message_content',
                 'type' => 'select',
-                'instructions' => 'Select how to position your message content. ',
+                'instructions' => __('Select how to position your message content. ','inbound-pro'),
                 'required' => 0,
                 'conditional_logic' => 0,
                 'wrapper' => array (
@@ -350,10 +350,31 @@ Cheers!
                 'readonly' => 0,
             ),
             array (
+                'key' => 'field_56b8f89866d81us',
+                'label' => __('Unsubscribe Link' , 'inbound-pro'),
+                'name' => 'unsubscribe_text',
+                'type' => 'wysiwyg',
+                'instructions' => __('Use this field to customize the Unsubscribe Link' , 'inbound-pro'),
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'default_value' => sprintf(__('We respect your privacy. If you believe this has been sent to you in error, please safely %Unsubscribe here%s','inbound-pro') , '<strong><a href="[unsubscribe-link]"  style="color:#2b95dd;text-decoration:none;">' , '</a></strong>'),
+                'placeholder' => __('Enter address here for CAN-SPAM compliance.','inbound-pro'),
+                'prepend' => '',
+                'append' => '',
+                'maxlength' => '',
+                'readonly' => 0,
+                'disabled' => 0,
+            ),
+            array (
                 'key' => 'field_56b8f89866d81',
                 'label' => 'Footer Address',
                 'name' => 'footer_address',
-                'type' => 'text',
+                'type' => 'wysiwyg',
                 'instructions' => 'In order to be complaint with CAN-SPAM Act please enter a valid address.',
                 'required' => 0,
                 'conditional_logic' => 0,

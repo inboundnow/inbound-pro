@@ -27,11 +27,11 @@ if( function_exists('acf_add_local_field_group') ):
 
 acf_add_local_field_group(array (
 	'key' => 'group_55cd9b08e171d',
-	'title' => 'Simple Basic',
+	'title' => __('Simple Basic','inbound-pro'),
 	'fields' => array (
 		array (
 			'key' => 'field_55cd9b09ede91',
-			'label' => 'Header',
+			'label' => __('Header','inbound-pro'),
 			'name' => 'header',
 			'type' => 'tab',
 			'instructions' => '',
@@ -47,10 +47,10 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_55cd9b09ee279',
-			'label' => 'Logo Image',
+			'label' => __('Logo Image','inbound-pro'),
 			'name' => 'logo_url',
 			'type' => 'image',
-			'instructions' => 'Enter or upload your logo here',
+			'instructions' => __('Enter or upload your logo here','inbound-pro'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -71,10 +71,10 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_55cd9b09ee661',
-			'label' => 'Header Background Color',
+			'label' => __('Header Background Color','inbound-pro'),
 			'name' => 'header_bg_color',
 			'type' => 'color_picker',
-			'instructions' => 'Choose the background color of your header',
+			'instructions' => __('Choose the background color of your header','inbound-pro'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -86,7 +86,7 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_55cd9b09eea49',
-			'label' => 'Email Body',
+			'label' => __('Email Body','inbound-pro'),
 			'name' => 'email_body',
 			'type' => 'tab',
 			'instructions' => '',
@@ -102,10 +102,10 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_55cd9b09efdd1',
-			'label' => 'Main Email Content',
+			'label' => __('Main Email Content','inbound-pro'),
 			'name' => 'main_email_content',
 			'type' => 'wysiwyg',
-			'instructions' => 'The content of your email should go here.',
+			'instructions' => __('The content of your email should go here.','inbound-pro'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -113,19 +113,19 @@ acf_add_local_field_group(array (
 				'class' => '',
 				'id' => '',
 			),
-			'default_value' => 'Dear [lead-field id="wpleads_first_name" default="Subscriber"],
+			'default_value' => __('Dear [lead-field id="wpleads_first_name" default="Subscriber"],
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et.',
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et.','inbound-pro'),
 			'tabs' => 'all',
 			'toolbar' => 'full',
 			'media_upload' => 1,
 		),
 		array (
 			'key' => 'field_55cd9b09ef9e9',
-			'label' => 'Callout Background Color',
+			'label' => __('Callout Background Color','inbound-pro'),
 			'name' => 'callout_bg_color',
 			'type' => 'color_picker',
-			'instructions' => 'Choose the callout background color',
+			'instructions' => __('Choose the callout background color','inbound-pro'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -137,10 +137,10 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
 		),
 		array (
 			'key' => 'field_55cd9b09ef601',
-			'label' => 'Callout',
+			'label' => __('Callout','inbound-pro'),
 			'name' => 'callout',
 			'type' => 'wysiwyg',
-			'instructions' => 'Add here the callout content',
+			'instructions' => __('Add here the callout content','inbound-pro'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -148,14 +148,14 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
 				'class' => '',
 				'id' => '',
 			),
-			'default_value' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt. <a href="#">Do it Now! »</a>',
+			'default_value' => __('Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt. <a href="#">Do it Now! »</a>','inbound-pro'),
 			'tabs' => 'all',
 			'toolbar' => 'basic',
 			'media_upload' => 0,
 		),
 		array (
 			'key' => 'field_55cd9b09f098a',
-			'label' => 'Social Box',
+			'label' => __('Social Box','inbound-pro'),
 			'name' => 'social_box',
 			'type' => 'tab',
 			'instructions' => '',
@@ -171,10 +171,10 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
 		),
 		array (
 			'key' => 'field_55cd9b09f0d72',
-			'label' => 'Social Box Background Color',
+			'label' => __('Social Box Background Color','inbound-pro'),
 			'name' => 'social_bg_color',
 			'type' => 'color_picker',
-			'instructions' => 'Choose the background color of the social box',
+			'instructions' => __('Choose the background color of the social box','inbound-pro'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -186,10 +186,10 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
 		),
 		array (
 			'key' => 'field_55cd9b09f115a',
-			'label' => 'Facebook Page',
+			'label' => __('Facebook Page','inbound-pro'),
 			'name' => 'facebook_page',
 			'type' => 'text',
-			'instructions' => 'Enter the URL of your Facebook page if you have one',
+			'instructions' => __('Enter the URL of your Facebook page if you have one','inbound-pro'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -207,10 +207,10 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
 		),
 		array (
 			'key' => 'field_55cd9b09f1542',
-			'label' => 'Twitter Handle',
+			'label' => __('Twitter Handle','inbound-pro'),
 			'name' => 'twitter_handle',
 			'type' => 'text',
-			'instructions' => 'Enter you Twitter handle here',
+			'instructions' => __('Enter you Twitter handle here','inbound-pro'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -228,10 +228,10 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
 		),
 		array (
 			'key' => 'field_55cd9b09f192a',
-			'label' => 'Google Plus',
+			'label' => __('Google Plus','inbound-pro'),
 			'name' => 'google_plus',
 			'type' => 'text',
-			'instructions' => 'Enter your Google Plus URL',
+			'instructions' => __('Enter your Google Plus URL','inbound-pro'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -249,10 +249,10 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
 		),
 		array (
 			'key' => 'field_55cd9b09f1d12',
-			'label' => 'Phone Number',
+			'label' => __('Phone Number','inbound-pro'),
 			'name' => 'phone_number',
 			'type' => 'text',
-			'instructions' => 'Enter your phone number here',
+			'instructions' => __('Enter your phone number here','inbound-pro'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -260,7 +260,7 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
 				'class' => '',
 				'id' => '',
 			),
-			'default_value' => '555 5555',
+			'default_value' => __('1 555 555 5555','inbound-pro'),
 			'placeholder' => '',
 			'prepend' => '',
 			'append' => '',
@@ -273,7 +273,7 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
 			'label' => 'Email',
 			'name' => 'email',
 			'type' => 'email',
-			'instructions' => 'Enter your email here',
+			'instructions' => __('Enter your email here','inbound-pro'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -281,14 +281,14 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
 				'class' => '',
 				'id' => '',
 			),
-			'default_value' => 'user@example.com',
+			'default_value' => __('user@example.com','inbound-pro'),
 			'placeholder' => '',
 			'prepend' => '',
 			'append' => '',
 		),
 		array (
 			'key' => 'field_55cd9b09f24e2',
-			'label' => 'Footer',
+			'label' => __('Footer','inbound-pro'),
 			'name' => 'footer',
 			'type' => 'tab',
 			'instructions' => '',
@@ -303,11 +303,32 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
 			'endpoint' => 0,
 		),
 		array (
+			'key' => 'field_55cd9b09f28caunl',
+			'label' => __('Unsubscribe Link Anchor','inbound-pro'),
+			'name' => 'unsubscribe_link_text',
+			'type' => 'text',
+			'instructions' => __('Enter the text of the unsubscribe link.','inbound-pro'),
+			'required' => 0,
+			'conditional_logic' => 0,
+			'wrapper' => array (
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+			'default_value' => __('Unsubscribe','inbound-pro'),
+			'placeholder' => '',
+			'prepend' => '',
+			'append' => '',
+			'maxlength' => '',
+			'readonly' => 0,
+			'disabled' => 0,
+		),
+		array (
 			'key' => 'field_55cd9b09f28ca',
-			'label' => 'Terms Page URL',
+			'label' => __('Terms Page URL','inbound-pro'),
 			'name' => 'terms_page_url',
 			'type' => 'text',
-			'instructions' => 'Enter the URL of your terms page here',
+			'instructions' => __('Enter the URL of your terms page here','inbound-pro'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -325,10 +346,10 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
 		),
 		array (
 			'key' => 'field_55cd9b09f2cb2',
-			'label' => 'Privacy Page URL',
+			'label' => __('Privacy Page URL','inbound-pro'),
 			'name' => 'privacy_page_url',
 			'type' => 'text',
-			'instructions' => 'Enter the URL of your privacy page here',
+			'instructions' => __('Enter the URL of your privacy page here','inbound-pro'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
