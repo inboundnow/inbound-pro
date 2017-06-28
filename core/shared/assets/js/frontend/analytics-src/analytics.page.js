@@ -339,7 +339,7 @@ var _inboundPageTracking = (function(_inbound) {
 			}
 
             /* Let's try and fire this last - also defines what constitutes a bounce -  */
-            jQuery(document).ready(function() {
+            document.addEventListener("DOMContentLoaded", function() {
                 setTimeout(function(){
                     var leadID = ( _inbound.Utils.readCookie('wp_lead_id') ) ? _inbound.Utils.readCookie('wp_lead_id') : '';
                     var lead_uid = ( _inbound.Utils.readCookie('wp_lead_uid') ) ? _inbound.Utils.readCookie('wp_lead_uid') : '';
@@ -370,7 +370,7 @@ var _inboundPageTracking = (function(_inbound) {
 
                     _inbound.Utils.ajaxPost(inbound_settings.admin_url, data, firePageCallback);
 
-                } , 400 );
+                } , 200 );
 
 
             });
