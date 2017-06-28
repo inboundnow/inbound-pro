@@ -37,9 +37,7 @@ class Inbound_Email_Preview {
 
         self::$smartbar_enable = get_field("smartbar_enable", $post->ID);
 
-        if (!self::$smartbar_enable) {
-            return;
-        }
+
 
         self::$smartbar_content = str_replace( array("\n" , "\t"  ) , "" , get_field("smartbar_content", $post->ID ) );
         self::$smartbar_content = stripslashes( self::$smartbar_content );
@@ -53,6 +51,11 @@ class Inbound_Email_Preview {
 
         ?>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+
+        <?php  if (!self::$smartbar_enable) {
+            return;
+        }
+        ?>
         <style type="text/css">
             nav {
                 transition: all .1s ease-in-out .1s;

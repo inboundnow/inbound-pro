@@ -36,6 +36,7 @@ $phone_number = get_field('phone_number', $post_id);
 $email = get_field('email', $post_id);
 
 /* Footer */
+$unsubscribe_link_text = get_field('unsubscribe_link_text', $post_id);
 $terms_page_url = get_field('terms_page_url', $post_id);
 $privacy_page_url = get_field('privacy_page_url', $post_id);
 
@@ -411,7 +412,7 @@ $privacy_page_url = get_field('privacy_page_url', $post_id);
 						<p style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;margin-bottom: 10px;font-weight: normal;font-size: 14px;line-height: 1.6;">
 							<a href="<?php echo $terms_page_url; ?>" style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;color: #2BA6CB;"><?php _e('Terms' , 'inbound-pro'); ?></a> |
 							<a href="<?php echo $privacy_page_url; ?>" style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;color: #2BA6CB;"><?php _e('Privacy' , 'inbound-pro'); ?></a> |
-							<a href="<?php echo do_shortcode('[unsubscribe-link]'); ?>" style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;color: #2BA6CB;"><unsubscribe style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;"><?php _e('Unsubscribe','inbound-pro'); ?></unsubscribe></a>
+							<a href="<?php echo do_shortcode('[unsubscribe-link]'); ?>" style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;color: #2BA6CB;"><unsubscribe style="margin: 0;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;"><?php echo $unsubscribe_link_text; ?></unsubscribe></a>
 						</p>
 					</td>
 				</tr>

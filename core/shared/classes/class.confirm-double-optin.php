@@ -40,14 +40,13 @@ if(!class_exists('Inbound_Confirm_Double_Optin')){
             $lead_lists = Inbound_Leads::get_lead_lists_as_array();
 
             /* decode token */
-            $params = self::decode_confirm_token( sanitize_text_field($_GET['token']) );
-
+            $params = Inbound_API::get_args_from_token( sanitize_text_field($_GET['token'] ));
 
             if ( !isset( $params['lead_id'] ) ) {
                 return;
             }
 
-            self::confirm_being_added_to_lists($params, $all);
+            self::confirm_being_added_to_lists($params);
         }
 
 
@@ -98,8 +97,8 @@ if(!class_exists('Inbound_Confirm_Double_Optin')){
                 $params['list_ids'] = explode( ',' , $params['list_ids']);
             }
             $args = array_merge( $params , $_GET );
-            $token = self::encode_confirm_token( $args );
- 
+            $token = Inbound_API::analytics_get_tracking_code( $args );
+
             if(!defined('INBOUND_PRO_CURRENT_VERSION')){
                 $double_optin_page_id = get_option('list-double-optin-page-id', '');
             }else{
@@ -117,28 +116,6 @@ if(!class_exists('Inbound_Confirm_Double_Optin')){
             return add_query_arg( array( 'token'=>$token , 'inbound-action' => 'confirm' ) , $base_url );
         }
         
-        
-        /**
-         *  Encodes data into a confirm token
-         *  @param ARRAY $params contains: lead_id (INT ), list_ids (MIXED), email_id (INT)
-         *  @return INT $token
-         */
-        public static function encode_confirm_token( $params ) {
-            unset($params['doing_wp_cron']);
-            $json = json_encode($params);
-            $iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB);
-            $iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
-            $encrypted_string =
-                base64_encode(
-                    trim(
-                        mcrypt_encrypt(
-                            MCRYPT_RIJNDAEL_256, substr( SECURE_AUTH_KEY , 0 , 16 )  , $json, MCRYPT_MODE_ECB, $iv
-                        )
-                    )
-                );
-            $decode_test = self::decode_confirm_token($encrypted_string);
-            return  str_replace(array('+', '/', '='), array('-', '_', '^'), $encrypted_string);
-        }
 
 
         /**

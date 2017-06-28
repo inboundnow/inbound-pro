@@ -58,8 +58,8 @@ class Inbound_Pro_Activation {
 	 */
 	public static function store_version_data() {
 		$old = get_option('inbound_pro_current_version');
-		update_option( 'inbound_pro_previous_version' , $old );
-		update_option( 'inbound_pro_current_version' , INBOUND_PRO_CURRENT_VERSION );
+		update_option( 'inbound_pro_previous_version' , $old , false);
+		update_option( 'inbound_pro_current_version' , INBOUND_PRO_CURRENT_VERSION , false);
 	}
 
 	/**

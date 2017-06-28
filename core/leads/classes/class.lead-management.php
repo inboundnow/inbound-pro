@@ -967,6 +967,8 @@ if (!class_exists('Leads_Manager')) {
                     /* account for date created */
                     if ($key == 'wpleads_date_created') {
                         $val = $lead->post_date;
+                    } else if ($key == 'wpleads_last_updated') {
+                        $val = $lead->post_modified;
                     }
 
                     $this_row_data[$key] = $val;

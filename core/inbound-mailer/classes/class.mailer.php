@@ -522,6 +522,12 @@ class Inbound_Mail_Daemon {
         /* add lead id & list ids to unsubscribe shortcode */
         $html = str_replace('[unsubscribe-link]', $unsubscribe, $html);
 
+        $html = Inbound_List_Double_Optin::add_confirm_link_shortcode_params($html, array(
+            'lead_id' => self::$row->lead_id,
+            'list_ids' => self::$email_settings['recipients'],
+            'email_id' => self::$row->email_id
+        ));
+
         /* clean mal formatted quotations */
         $html = str_replace('&#8221;', '"', $html);
 

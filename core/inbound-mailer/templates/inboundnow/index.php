@@ -34,6 +34,7 @@ if (have_posts()) : while (have_posts()) : the_post();
     $featured_image_height = get_field("image_height", $post_id);
     $message_content = get_field("message_content", $post_id);
     $align_message_content = get_field("align_message_content", $post_id);
+    $unsubscribe_text = get_field("unsubscribe_text", $post_id);
     $footer_address = get_field("footer_address", $post_id);
     $hide_show_email_in_browser = get_field("hide_show_email_in_browser", $post_id);
 
@@ -71,7 +72,7 @@ if (have_posts()) : while (have_posts()) : the_post();
 
                                     ?>
                                     <tr>
-                                        <td align="<?php echo $logo_positioning; ?>" style="padding:40px 20px 20px 20px;">
+                                        <td align="<?php echo $logo_positioning; ?>" style="padding:40px 20px 0px 20px;">
                                             <?php
 
                                             if ($logo_url) {
@@ -96,7 +97,7 @@ if (have_posts()) : while (have_posts()) : the_post();
                                             <div class="inbound-editable">
 
 
-                                                <h1 style="margin-bottom:10px;margin-top:10px;padding:0;font-size:<?php echo $headline_size; ?>;font-weight:normal;color:<?php echo $content_color; ?>;">
+                                                <h1 style="margin-bottom:10px;margin-top:30px;padding:0;font-size:<?php echo $headline_size; ?>;font-weight:normal;color:<?php echo $content_color; ?>;">
                                                     <?php echo $headline; ?>
                                                 </h1>
                                                 <?php if ($sub_headline) {
@@ -163,7 +164,7 @@ if (have_posts()) : while (have_posts()) : the_post();
                         <td>
                             <p style="font-size:11px;color:#999999;margin:0;padding:20px 20px 30px 20px; font-family:<?php echo $font; ?>">
 
-                                <?php echo sprintf(__('We respect your privacy. If you believe this has been sent to you in error, please safely %sunsubscribe here%s' , 'inbound-pro' ) , '<a href="'.do_shortcode('[unsubscribe-link]').'" style="color:#2b95dd;text-decoration:none;"><strong>' , '</strong></a><br><br>' ) ?>
+                                <?php echo do_shortcode($unsubscribe_text); ?>
                                 <span style="text-align:center; display:inline-block; font-size:10px;">
                                     <?php echo $footer_address; ?>
                                 </span>
