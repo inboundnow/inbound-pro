@@ -66,6 +66,13 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
         public static function register_post_type() {
 
             $slug = Landing_Pages_Settings::get_setting( 'lp-main-landing-page-permalink-prefix', 'go' );
+            $featured_images = Landing_Pages_Settings::get_setting( 'lp-main-landing-page-enable-featured-image', false );
+
+            $capabilities = array('title','custom-fields','editor', 'revisions');
+
+            if ($featured_images) {
+                array_push($capabilities , 'thumbnail');
+            }
 
             $labels = array(
                 'name' => __('Landing Pages', 'inbound-pro' ),
@@ -93,7 +100,7 @@ if ( !class_exists('Landing_Pages_Post_Type') ) {
                 'map_meta_cap' => true,
                 'hierarchical' => false,
                 'menu_position' => 32,
-                'supports' => array('title','custom-fields','editor', 'revisions')
+                'supports' => $capabilities
             );
 
             register_post_type( 'landing-page' , $args );
