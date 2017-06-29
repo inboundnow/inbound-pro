@@ -189,6 +189,54 @@ if ( !class_exists( 'CTA_Render' ) ) {
             self::$instance->selected_cta = self::$instance->prepare_cta_dataset( $cta_display_list );	/* builds a list of ct */
         }
 
+
+        /**
+         * Place CTA content in middle of text
+         * @param $content
+         * @param $cta
+         * @return string
+         */
+        public static function place_in_middle( $content , $cta ) {
+
+            $target = '<p>';
+            $target_count = substr_count($content, $target);
+            $middle = $target_count / 2;
+
+            $middle = ($middle && $middle > 1 ) ? round($middle) : $middle;
+
+            $content = explode("</p>", $content);
+            $new_content = '';
+            for ($i = 0; $i < count($content); $i++) {
+
+                /* cta to top when ol or li not detected */
+                if ($i != $middle) {
+                    $new_content.= $content[$i] . '</p>';
+                    continue;
+                }
+
+                /* Handle paragraphs with special presentations differently*/
+                $special = array('<ul>','<ol>','<blockquote>','<object>','<iframe>');
+                if (array_search(strtolower($content[$i]), array_map('strtolower', $special))) {
+                    /* cta to end when ol or li detected */
+                    $new_content.= $content[$i];
+                    $new_content.= '<p>'.$cta.'</p>';
+
+                } else {
+                    /* cta to top when ol or li not detected */
+                    $new_content.= '<p>'.$cta.'</p>';
+                    $new_content.= $content[$i];
+                }
+
+                /* add p back */
+                $new_content.= '</p>';
+            }
+
+
+
+            return $new_content;
+
+        }
+
         /**
          *  Generate a set of data related to CTA(s)
          *  @param ARRAY $cta_display_list array of cta id(s)
@@ -1177,14 +1225,16 @@ if ( !class_exists( 'CTA_Render' ) ) {
                 $content = "<div class='above_content'>" . self::$instance->cta_template. "</div>" . $content;
 
             } elseif (self::$instance->cta_content_placement=='middle') {
-                $count = strlen($content);
+                $content = self::place_in_middle($content , self::$instance->cta_template);
+
+                /* $count = strlen($content);
                 $half =	$count/2;
                 $left = substr($content, 0, $half);
                 $right = substr($content, $half);
                 $right = explode('. ',$right);
                 $right[1] = self::$instance->cta_template.$right[1];
                 $right = implode('. ',$right);
-                $content =	$left.$right;
+                $content =	$left.$right; */
 
             } elseif (self::$instance->cta_content_placement=='below') {
                 $content = $content . "<div class='below_content'>" . self::$instance->cta_template . "</div>";

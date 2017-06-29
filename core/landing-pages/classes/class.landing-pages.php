@@ -82,6 +82,7 @@ class Landing_Pages_Template_Switcher {
 
         $content = Landing_Pages_Variations::get_post_content( $post->ID );
         $content = do_shortcode( $content );
+        $content = wpautop( $content );
 
         return $content;
     }
