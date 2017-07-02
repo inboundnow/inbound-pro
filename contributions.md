@@ -15,9 +15,10 @@ __Please Note:__ GitHub is for bug reports and contributions only - if you have 
 
 ## Making Changes
 
-* Fork the repository on GitHub
+* Fork the 'develop' branch from the inbound-pro repository on GitHub
 * Make the changes to your forked repository
 * Ensure you stick to the [WordPress Coding Standards](https://codex.wordpress.org/WordPress_Coding_Standards)
+* If language strings are added use the 'inbound-pro' text domain when setting up [i18n](https://codex.wordpress.org/I18n_for_WordPress_Developers).
 * When committing, reference your issue (if present) and include a note about the fix
 * If possible, and if applicable, please also add/update unit tests for your changes
 * Push the changes to your fork and submit a pull request to the 'develop' branch of the inbound-pro repository

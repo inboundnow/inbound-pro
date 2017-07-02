@@ -12,9 +12,9 @@ The Inbound Pro plugin includes and expands on the powers of our 3 most popular 
 
 ## Code Contributions 
 
-We love user-submitted contributions. The truth is we are a limited resources company and we could could use your help. For details on contributing please read our [contribution guidelines](https://github.com/inbound-now/inbound-pro/blob/master/contributions.md).
+We love user-contributed code. The truth is we could could use all the help we can get. For details on contributing please read our [contribution guidelines](https://github.com/inbound-now/inbound-pro/blob/master/contributions.md).
 
-There are various ways you can contribute:
+Here are some various ways you can contribute:
 
 1. [Raise an Issue on GitHub](https://github.com/inboundnow/inbound-pro/issues) 
 2. [Translate Inbound Pro](https://www.inboundnow.com/translate-inbound-now/)
@@ -70,11 +70,11 @@ Our Automation component, only available to ["Paid Subscribers"](https://www.inb
 
 
 
-## Terms of Use
+## Terms of Plugin Use
 
-### Licensing
+### Plugin Licensing
 
-This plugin ships assets with varying licensing policies. Assets considered intellectual/structural property of InboundWP LLC we've developed the _IBN License_. 
+This plugin ships assets with varying licensing policies. For assets considered intellectual/structural property of InboundWP LLC we've developed and applied the _IBN License_. Other assets that we did not develop are included with the Inbound Pro plugin package and their original license remains in tact. 
 
 #### IBN - Inbound Now Licensing Policy
 
@@ -87,12 +87,19 @@ The table below outlines how licenses are applied inside Inbound Pro plugin.
 
 >Mixed = (Directory contains mixed licenses)
 >APACHE2 = Apache License 2.0 [more info](https://www.apache.org/licenses/LICENSE-2.0)
+
 >IBN = Inbound Now Licensing Policy
+
 >GPL = GNU General Public License [more info](https://www.gnu.org/licenses/gpl-3.0.en.html)
+
 >GPL+ = GNU General Public License AND (MIT OR BSD)
+
 >BSD = Berkeley Software Distribution [more info](http://www.linfo.org/bsdlicense.html)
+
 >BSD23 = Berkeley Software Distribution with 2-Clause and 3-Clause[more info](https://github.com/d3/d3/blob/master/LICENSE)
+
 >MIT = Massachusetts Institute of Technology [more info](http://opensource.org/licenses/MIT)
+
 >+os = Contains included GPL, BSD, and MIT assets
 
 
