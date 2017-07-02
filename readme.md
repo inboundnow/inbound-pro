@@ -51,7 +51,10 @@ Wordpress Leads assists with capturing and segmenting user activity into lead pr
 ![Total Downloads](https://img.shields.io/wordpress/plugin/dt/cta.svg?maxAge=2592000) 
 ![Plugin Rating](https://img.shields.io/wordpress/plugin/r/cta.svg) 
 
-Calls to Action Plugin helps create calls to action for your WordPress site. It gives site owners the ability to monitor and track conversion rates, run a/b or multivariate split tests on calls to action, and most importantly increase lead flow!This plugin is GPL and offered on [The WordPress Plugins Directory](https://wordpress.org/plugins/leads/).
+Calls to Action Plugin helps create calls to action for your WordPress site. It gives site owners the ability to monitor and track conversion rates, run a/b or multivariate split tests on calls to action, and most importantly increase lead flow! This plugin is GPL and offered on [The WordPress Plugins Directory](https://wordpress.org/plugins/cta/).
+
+* [How to create a call to action ](http://docs.inboundnow.com/guide/how-to-create-custom-call-to-action-templates/)
+
 
 ### Email Component 
 
@@ -69,6 +72,15 @@ Our Automation component, only available to ["Paid Subscribers"](https://www.inb
 * [More Details](https://www.inboundnow.com/automation/)
 
 
+## Installation
+
+1. Download the latest version of Inbound Pro in zip format from your Inbound Now [account area](https://www.inboundnow.com/account/#downloads).
+2. Install inbound-pro.zip as a [wordpress plugin](https://codex.wordpress.org/Managing_Plugins).
+3. If you experienc trouble please read our [official installation documentation](http://docs.inboundnow.com/guide/installation/).
+
+## Support 
+
+Please check your [account area](https://www.inboundnow.com/account/#getting-started) for information on requesting support. General support issues will be deleted from the GitHub Issues section, please reserve GitHub issues for bug and other code related issues. 
 
 ## Terms of Plugin Use
 
