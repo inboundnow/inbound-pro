@@ -1,4 +1,4 @@
-# [Inbound Pro Plugin](https://www.inboundnow.com)
+# Inbound Pro Plugin by [Inbound Now](https://www.inboundnow.com)
 
 [![GitHub tag](https://img.shields.io/github/tag/inbound-now/inbound-pro.svg)]() ![WordPress Compatibility](https://img.shields.io/wordpress/v/landing-pages.svg?maxAge=2592000)  [![GitHub stars](https://img.shields.io/github/stars/inboundnow/inbound-pro.svg)](https://github.com/inboundnow/landing-pages/stargazers) [![GitHub issues](https://img.shields.io/github/issues/inboundnow/inbound-pro.svg)](https://github.com/inboundnow/inbound-pro/issues)
 
@@ -7,10 +7,14 @@
 
 
 ### Landing Pages
-![Plugin Version](https://img.shields.io/github/wordpress/plugin/v/landing-pages.svg?maxAge=2592000) 
-![Total Downloads](https://img.shields.io/wordpress/plugin/dt/landing-pages.svg?maxAge=2592000) 
-![Plugin Rating](https://img.shields.io/wordpress/plugin/r/landing-pages.svg?maxAge=2592000) 
+![Plugin Version](https://img.shields.io/wordpress/plugin/v/landing-pages.svg) 
 ![WordPress Compatibility](https://img.shields.io/wordpress/v/landing-pages.svg?maxAge=2592000) 
+![Total Downloads](https://img.shields.io/wordpress/plugin/dt/landing-pages.svg?maxAge=2592000) 
+![Plugin Rating](https://img.shields.io/wordpress/plugin/r/landing-pages.svg) 
+
+#### Details
+
+Landing Pages plugin provides a landing page framework powered by [Advanced Custom Fields](https://www.advancedcustomfields.com). With this framework developers can easily develop landing pages compatible with Landing Pages plugin, offering an easy way for users to manage dynamic visual and content elements as well as perform variant tests. 
 
 
 ## Summary
