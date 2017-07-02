@@ -140,13 +140,13 @@ if(!class_exists('Inbound_Confirm_Double_Optin')){
          * If all_lists was selected, all lists currently waiting for confirmation will be selected and the lead will be added to those.
          */
         public static function confirm_being_added_to_lists($params, $all = false){
-            
+            global $inbound_settings;
+
             /*get the double optin waiting list id*/
             if(!defined('INBOUND_PRO_CURRENT_VERSION')){
                 $double_optin_list_id = get_option('list-double-optin-list-id', '');
             }else{
-                $settings = Inbound_Options_API::get_option('inbound-pro', 'settings', array());
-                $double_optin_list_id = $settings['leads']['list-double-optin-list-id'];
+                $double_optin_list_id = $inbound_settings['leads']['list-double-optin-list-id'];
             }
 
 
@@ -187,6 +187,18 @@ if(!class_exists('Inbound_Confirm_Double_Optin')){
                 /*update the lead status*/
                 update_post_meta( $params['lead_id'], 'wp_lead_status', 'active');            
             }
+
+            /* build lead data array and signal lead update to automation */
+            $lead = get_post_custom( $params['lead_id'] );
+            foreach ( $lead as $key => $value ) {
+                if (isset($value[0]) ) {
+                    $lead[$key] = $value[0];
+                }
+            }
+
+            $lead['id'] = $params['lead_id'];
+            $lead['double_optin_lists'] = json_encode( $params['list_ids'] );
+            do_action( 'inbound_double_optin_confirm' , $lead );
         }
     }
     new Inbound_Confirm_Double_Optin;

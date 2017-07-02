@@ -116,7 +116,6 @@ class Inbound_Automation_Processing {
 			$query .= ' AND datetime <= "'.$wordpress_date_time.'" ';
 		}
 
-
 		self::$queue = $wpdb->get_results( $query , ARRAY_A );
 
 		return self::$queue;
