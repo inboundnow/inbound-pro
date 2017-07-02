@@ -83,9 +83,6 @@ Structural property cannot be used or modified by a 3rd party without permission
 
 #### Licesne Application
 
-The table below outlines how licenses are applied inside Inbound Pro plugin.
-
->Mixed = (Directory contains mixed licenses)
 >APACHE2 = Apache License 2.0 [more info](https://www.apache.org/licenses/LICENSE-2.0)
 
 >IBN = Inbound Now Licensing Policy
@@ -96,14 +93,14 @@ The table below outlines how licenses are applied inside Inbound Pro plugin.
 
 >BSD = Berkeley Software Distribution [more info](http://www.linfo.org/bsdlicense.html)
 
->BSD23 = Berkeley Software Distribution with 2-Clause and 3-Clause[more info](https://github.com/d3/d3/blob/master/LICENSE)
+>BSD23 = Berkeley Software Distribution with 2-Clause and 3-Clause [more info](https://github.com/d3/d3/blob/master/LICENSE)
 
 >MIT = Massachusetts Institute of Technology [more info](http://opensource.org/licenses/MIT)
 
 >+os = Contains included GPL, BSD, and MIT assets
 
 
-The following table illustrates how Inbound Pro plugin is licensed.
+Given the legend above, the following table illustrates how Inbound Pro Plugin assets are licensed.
 
 Path | License Applied
  --- | ---
