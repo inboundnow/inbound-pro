@@ -1,6 +1,8 @@
 # Inbound Pro Plugin by [Inbound Now](https://www.inboundnow.com)
 
-[![GitHub tag](https://img.shields.io/github/tag/inbound-now/inbound-pro.svg?label=latest%20release)]() ![WordPress Compatibility](https://img.shields.io/wordpress/v/landing-pages.svg?maxAge=2592000)  [![GitHub stars](https://img.shields.io/github/stars/inboundnow/inbound-pro.svg)](https://github.com/inboundnow/landing-pages/stargazers) [![GitHub issues](https://img.shields.io/github/issues/inboundnow/inbound-pro.svg)](https://github.com/inboundnow/inbound-pro/issues)
+[![GitHub tag](https://img.shields.io/github/tag/inbound-now/inbound-pro.svg?label=latest%20release)]() ![WordPress Compatibility](https://img.shields.io/wordpress/v/landing-pages.svg?maxAge=2592000)  
+[![GitHub stars](https://img.shields.io/github/stars/inboundnow/inbound-pro.svg)](https://github.com/inboundnow/landing-pages/stargazers) 
+[![GitHub issues](https://img.shields.io/github/issues/inboundnow/inbound-pro.svg)](https://github.com/inboundnow/inbound-pro/issues)
 
 
 ## Plugins included in Inbound Pro
@@ -12,12 +14,19 @@
 ![Total Downloads](https://img.shields.io/wordpress/plugin/dt/landing-pages.svg?maxAge=2592000) 
 ![Plugin Rating](https://img.shields.io/wordpress/plugin/r/landing-pages.svg) 
 
-#### Details
+#### Plugin Details
 
-Landing Pages plugin provides a landing page framework powered by [Advanced Custom Fields](https://www.advancedcustomfields.com). With this framework developers can easily develop landing pages compatible with Landing Pages plugin, offering an easy way for users to manage dynamic visual and content elements as well as perform variant tests. 
+Landing Pages plugin provides a landing page framework powered by [Advanced Custom Fields](https://www.advancedcustomfields.com). With this framework developers can easily develop landing pages compatible with Landing Pages plugin, offering an easy way for users to manage dynamic visual and content elements as well as perform variant tests. This plugin is GPL and offered on [The WordPress Plugins Directory](https://wordpress.org/plugins/landing-pages/).
 
+### Landing Pages
+![Plugin Version](https://img.shields.io/wordpress/plugin/v/landing-pages.svg) 
+![WordPress Compatibility](https://img.shields.io/wordpress/v/landing-pages.svg?maxAge=2592000) 
+![Total Downloads](https://img.shields.io/wordpress/plugin/dt/landing-pages.svg?maxAge=2592000) 
+![Plugin Rating](https://img.shields.io/wordpress/plugin/r/landing-pages.svg) 
 
-## Summary
+#### Plugin Details
+
+Wordpress Leads assists with capturing and segmenting user activity into lead profiles. Leads plugin ships with it's own form collection tool but can be extended to use [Ninja Forms](https://wordpress.org/plugins/ninja-forms/), [Gravity Forms](http://www.gravityforms.com/), or [Contact Form 7](https://wordpress.org/plugins/contact-form-7/). This plugin connects directly with the [Landing Pages](http://wordpress.org/plugins/landing-pages/ ) and [Calls to Action](http://wordpress.org/plugins/cta/) plugin provided by [Inbound Now](https://www.inboundnow.com). This plugin is GPL and offered on [The WordPress Plugins Directory](https://wordpress.org/plugins/landing-pages/).
 
 ## Licensing & Terms of Use
 
