@@ -1,8 +1,6 @@
 # [Inbound Pro Plugin](https://www.inboundnow.com)
 
-![Release Version](https://img.shields.io/github/release/landing-pages/rubidium.svg) 
-![WordPress Compatibility](https://img.shields.io/wordpress/v/landing-pages.svg?maxAge=2592000) 
-![GitHub stars](https://img.shields.io/github/stars/badges/sheilds.svg?style=social&label=Star)
+[![GitHub tag](https://img.shields.io/github/tag/inbound-now/inbound-pro.svg)]() ![WordPress Compatibility](https://img.shields.io/wordpress/v/landing-pages.svg?maxAge=2592000)  [![GitHub stars](https://img.shields.io/github/stars/inboundnow/inbound-pro.svg)](https://github.com/inboundnow/landing-pages/stargazers) [![GitHub issues](https://img.shields.io/github/issues/inboundnow/inbound-pro.svg)](https://github.com/inboundnow/inbound-pro/issues)
 
 
 ## Plugins included in Inbound Pro
