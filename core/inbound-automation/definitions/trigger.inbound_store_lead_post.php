@@ -125,6 +125,8 @@ class Inbound_Automation_Trigger_inbound_store_lead_post {
 		$args['inbound_form_values'] = isset($args['inbound_form_values']) ? $args['inbound_form_values'] : '';
 		$args['raw_params'] = isset($args['raw_params']) ? $args['raw_params'] : array();
 		$args['mapped_params'] = isset($args['mapped_params']) ? $args['mapped_params'] : '';
+		$args['wp_lead_status'] = isset($args['wp_lead_status']) ? $args['wp_lead_status'] : '';
+		$args['wpleads_raw_post_data'] = '';
 
 		foreach ($args as $arg_key => $arg_value) {
 
@@ -149,6 +151,8 @@ class Inbound_Automation_Trigger_inbound_store_lead_post {
 					}
 					$new_args[$raw_key]  = $raw_value;
 				}
+
+				$new_args['raw_params']  = '[parsed]';
 			}
 			/* else may be needed, not sure: account for mapped params */
 			else if ($arg_key == 'mapped_params') {
@@ -180,10 +184,9 @@ class Inbound_Automation_Trigger_inbound_store_lead_post {
         $lead = array (
             'user_ID' => 2,
             'wordpress_date_time' => '2015-06-01 18:03:31 UTC',
-            'email' => 'test@inboundnow.com',
-            'name' => 'Example User',
-            'first_name' => 'Example',
-            'last_name' => 'User',
+            'wpleads_email_address' => 'test@inboundnow.com',
+            'wpleads_first_name' => 'Example',
+            'wpleads_last_name' => 'User',
             'page_id' => 95897,
             'page_views' => $pageviews,
             'raw_params' => $raw_params ,
