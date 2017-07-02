@@ -86,15 +86,15 @@ Our Automation component, only available to ["Paid Subscribers"](https://www.inb
 
 This plugin ships assets with varying licensing policies. For assets considered intellectual/structural property of InboundWP LLC we've developed and applied the _IBN License_. Other assets that we did not develop or that we have listed as GPL are included with the Inbound Pro plugin package and their original license remains in tact. 
 
-### _IBN License - Inbound Now Licensing Policy_
+### _IBN License_
 
 Structural property cannot be used or modified by a 3rd party without permission or issued license from InboundWP LLC.
 
 
-### _Designation of Licenses Inside Inbound Pro_ 
+### Designation of Licenses
 
 
-The following legend and tabl illustrates how assets included under their respective directories are licensed.
+The following legend and table depict how assets included under their respective directories are licensed.
 
 ##### Legend
 
