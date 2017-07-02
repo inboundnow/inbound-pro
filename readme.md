@@ -1,8 +1,8 @@
 # [Inbound Pro Plugin](https://www.inboundnow.com)
 
-![Release Version](https://img.shields.io/github/release/inbound-pro/rubidium.svg) 
-![WordPress Compatibility](https://img.shields.io/wordpress/v/easy-digital-downloads.svg?maxAge=2592000) 
-![GitHub stars](https://img.shields.io/github/stars/badges/inbound-pro.svg?style=social&label=Star)]
+![Release Version](https://img.shields.io/github/release/landing-pages/rubidium.svg) 
+![WordPress Compatibility](https://img.shields.io/wordpress/v/landing-pages.svg?maxAge=2592000) 
+![GitHub stars](https://img.shields.io/github/stars/badges/landing-pages.svg?style=social&label=Star)
 
 
 ## Plugins included in Inbound Pro
@@ -12,7 +12,7 @@
 ![Plugin Version](https://img.shields.io/github/wordpress/plugin/v/landing-pages.svg?maxAge=2592000) 
 ![Total Downloads](https://img.shields.io/wordpress/plugin/dt/landing-pages.svg?maxAge=2592000) 
 ![Plugin Rating](https://img.shields.io/wordpress/plugin/r/landing-pages.svg?maxAge=2592000) 
-![WordPress Compatibility](https://img.shields.io/wordpress/v/landng-pages.svg?maxAge=2592000) 
+![WordPress Compatibility](https://img.shields.io/wordpress/v/landing-pages.svg?maxAge=2592000) 
 
 
 ## Summary
