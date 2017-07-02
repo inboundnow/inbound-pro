@@ -2,13 +2,13 @@
 
 [![GitHub tag](https://img.shields.io/github/tag/inbound-now/inbound-pro.svg?label=latest%20release)]() ![WordPress Compatibility](https://img.shields.io/wordpress/v/landing-pages.svg?maxAge=2592000) [![GitHub issues](https://img.shields.io/github/issues/inboundnow/inbound-pro.svg)](https://github.com/inboundnow/inbound-pro/issues)
 
-## Welcome to our GitHub Repository
+## Welcome to the Inbound Pro Plugin Repository
 
 Inbound Pro is the world's first WordPress plugin to offer a comprehensive set of [inbound marketing](https://www.hubspot.com/inbound-marketing) tools for lead attraction, conversion, statistical profiling, and marketing automation. 
 
 It's free to [get started](https://www.inboundnow.com/?sign-up-now) with Inbound Pro. The Inbound Pro plugin includes our 3 most popular free plugins, [Landing Pages](https://wordpress.org/plugins/landing-pages/), [Leads](https://wordpress.org/plugins/leads/), and [Calls to Action](https://wordpress.org/plugins/cta/),  so they will not need to be installed/activated if this plugin is installed. 
 
-## Inbound Now Plugins included inside this plugin
+## Our Plugins
 
 ### Landing Pages
 #### Plugin Details
@@ -37,11 +37,7 @@ Wordpress Leads assists with capturing and segmenting user activity into lead pr
 ![Total Downloads](https://img.shields.io/wordpress/plugin/dt/cta.svg?maxAge=2592000) 
 ![Plugin Rating](https://img.shields.io/wordpress/plugin/r/cta.svg) 
 
-
 Calls to Action Plugin helps create calls to action for your WordPress site. It gives site owners the ability to monitor and track conversion rates, run a/b or multivariate split tests on calls to action, and most importantly increase lead flow!This plugin is GPL and offered on [The WordPress Plugins Directory](https://wordpress.org/plugins/leads/).
-
-
-## Components Available to Paying Subscribers
 
 ### Email Component [More Details](https://www.inboundnow.com/mailer/)
 
