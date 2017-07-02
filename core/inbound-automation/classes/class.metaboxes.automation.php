@@ -657,7 +657,6 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
                 wp_register_script('bootstrap', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/BootStrap/js/bootstrap.min.js');
                 wp_enqueue_script('bootstrap');
 
-
                 /* BootStrap CSS */
                 wp_register_style('bootstrap', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/BootStrap/css/bootstrap.css');
                 wp_enqueue_style('bootstrap');
@@ -906,6 +905,7 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
             $key_input = self::build_input($key_args);
             $compare_input = self::build_input($compare_args);
             $value_input = self::build_input($value_args);
+
             $header_name = str_replace('_', ' ', $args['trigger_filter_id']);
             $header_name = ucfirst(strtolower($header_name));
 
@@ -1219,7 +1219,6 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
             /* construct input name */
             $name = $args['name'] . ($block_id ? '[' . $block_id . ']' : '') . ($action_type ? '[' . $action_type . ']' : '') . '[' . $args['child_id'] . ']';
 
-
             /* setup default */
             $default = (isset($args['default'][$args['name']])) ? $args['default'][$args['name']] : '';
 
@@ -1247,7 +1246,7 @@ if (!class_exists('Inbound_Metaboxes_Automation')) {
                     $html .= '</select>';
                     break;
                 case 'text':
-                    $html .= '<input type="text" name="' . $name . '" value="' . $default . '" data-block-id="' . $block_id . '" data-child-id="' . $child_id . '"  data-id="' . $args['name'] . '">';
+                    $html .= '<input type="text" name="' . $name . '" value="' . str_replace('"' , '&quot;' , $default) . '" data-block-id="' . $block_id . '" data-child-id="' . $child_id . '"  data-id="' . $args['name'] . '">';
                     break;
                 case 'html':
                     $html .=  $args['options'];
