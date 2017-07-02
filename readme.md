@@ -1,43 +1,104 @@
-# [Inbound Pro Plugin](https://www.inboundnow.com)
+# Inbound Pro Plugin by [Inbound Now](https://www.inboundnow.com)
 
-![Release Version](https://img.shields.io/github/release/inbound-pro/rubidium.svg) 
-![WordPress Compatibility](https://img.shields.io/wordpress/v/easy-digital-downloads.svg?maxAge=2592000) 
+[![GitHub tag](https://img.shields.io/github/tag/inbound-now/inbound-pro.svg?label=latest%20release)]() ![WordPress Compatibility](https://img.shields.io/wordpress/v/landing-pages.svg?maxAge=2592000) [![GitHub issues](https://img.shields.io/github/issues/inboundnow/inbound-pro.svg)](https://github.com/inboundnow/inbound-pro/issues)
 
+## Welcome to our Public Repository
 
-## Plugins included in Inbound Pro
+Inbound Pro is the world's first WordPress plugin to offer a comprehensive set of [inbound marketing](https://www.hubspot.com/inbound-marketing) tools for lead attraction, conversion, statistical profiling, and marketing automation. 
 
+The Inbound Pro plugin includes and expands on the powers of our 3 most popular free plugins, [Landing Pages](https://wordpress.org/plugins/landing-pages/), [Leads](https://wordpress.org/plugins/leads/), and [Calls to Action](https://wordpress.org/plugins/cta/),  so they will not need to be installed/activated if this plugin is installed. 
+
+[It's free to get started](https://www.inboundnow.com/?sign-up-now) with Inbound Pro. 
+
+## Contributions 
+
+We love and encourage user-submitted contributions. Inbound Pro is as much your plugin as it is ours, and the truth is we are a limited resources company. We might could use your help. For details on contributing please read our [contribution guidelines](https://github.com/inbound-now/inbound-pro/blob/master/contributions.md).
+
+There are various ways you can contribute:
+
+1. Raise an [Issue](https://github.com/easydigitaldownloads/easy-digital-downloads/issues) on GitHub
+2. Send us a Pull Request with your bug fixes and/or new features
+3. Translate Easy Digital Downloads into [different languages](http://docs.easydigitaldownloads.com/article/1023-translating-easy-digital-downloads)
+4. Provide feedback and suggestions on [enhancements](https://github.com/easydigitaldownloads/easy-digital-downloads/issues?direction=desc&labels=Enhancement&page=1&sort=created&state=open)
+
+Please use this
+
+## Our Plugins
 
 ### Landing Pages
-![Plugin Version](https://img.shields.io/github/wordpress/plugin/v/landing-pages.svg?maxAge=2592000) 
+![Plugin Version](https://img.shields.io/wordpress/plugin/v/landing-pages.svg) 
+![WordPress Compatibility](https://img.shields.io/wordpress/v/landing-pages.svg?maxAge=2592000) 
 ![Total Downloads](https://img.shields.io/wordpress/plugin/dt/landing-pages.svg?maxAge=2592000) 
-![Plugin Rating](https://img.shields.io/wordpress/plugin/r/landing-pages.svg?maxAge=2592000) 
-![WordPress Compatibility](https://img.shields.io/wordpress/v/landng-pages.svg?maxAge=2592000) 
+![Plugin Rating](https://img.shields.io/wordpress/plugin/r/landing-pages.svg) 
+
+Landing Pages plugin provides a landing page framework powered by [Advanced Custom Fields](https://www.advancedcustomfields.com). With this framework developers can easily develop landing pages compatible with Landing Pages plugin, offering an easy way for users to manage dynamic visual and content elements as well as perform variant tests. This plugin is GPL and offered on [The WordPress Plugins Directory](https://wordpress.org/plugins/landing-pages/).
+
+* [Using Advanced Custom Fields to Build a Landing Page Template] (https://github.com/inboundnow/landing-pages/blob/develop/shared/docs/how.to.create.landing.page.templates.using.ACF.md)
+* [Expert Post: How I created a landing page template and how you could too] (https://www.inboundnow.com/how-i-created-a-landing-page-template/)
+* [Landing Page Template Marketplace] (https://www.inboundnow.com/marketplace/?show=landing-pages)
+
+### Leads
+![Plugin Version](https://img.shields.io/wordpress/plugin/v/leads.svg) 
+![WordPress Compatibility](https://img.shields.io/wordpress/v/leads.svg?maxAge=2592000) 
+![Total Downloads](https://img.shields.io/wordpress/plugin/dt/leads.svg?maxAge=2592000) 
+![Plugin Rating](https://img.shields.io/wordpress/plugin/r/leads.svg) 
 
 
-## Summary
+Wordpress Leads assists with capturing and segmenting user activity into lead profiles. Leads plugin ships with it's own form collection tool but can be extended to use [Ninja Forms](https://wordpress.org/plugins/ninja-forms/), [Gravity Forms](http://www.gravityforms.com/), or [Contact Form 7](https://wordpress.org/plugins/contact-form-7/). This plugin connects directly with the [Landing Pages](http://wordpress.org/plugins/landing-pages/ ) and [Calls to Action](http://wordpress.org/plugins/cta/) plugin provided by [Inbound Now](https://www.inboundnow.com). This plugin is GPL and offered on [The WordPress Plugins Directory](https://wordpress.org/plugins/leads/).
 
-## Licensing & Terms of Use
+### Calls to Action
+![Plugin Version](https://img.shields.io/wordpress/plugin/v/cta.svg) 
+![WordPress Compatibility](https://img.shields.io/wordpress/v/cta.svg?maxAge=2592000) 
+![Total Downloads](https://img.shields.io/wordpress/plugin/dt/cta.svg?maxAge=2592000) 
+![Plugin Rating](https://img.shields.io/wordpress/plugin/r/cta.svg) 
 
-#### Key Map
+Calls to Action Plugin helps create calls to action for your WordPress site. It gives site owners the ability to monitor and track conversion rates, run a/b or multivariate split tests on calls to action, and most importantly increase lead flow!This plugin is GPL and offered on [The WordPress Plugins Directory](https://wordpress.org/plugins/leads/).
 
-Mixed = (Directory contains mixed licenses)
-APACHE2 = Apache License 2.0 [more info](https://www.apache.org/licenses/LICENSE-2.0)
-IBN = Inbound Now Licensing Policy
-GPL = GNU General Public License [more info](https://www.gnu.org/licenses/gpl-3.0.en.html)
-GPL+ = GNU General Public License AND (MIT OR BSD)
-BSD = Berkeley Software Distribution [more info](http://www.linfo.org/bsdlicense.html)
-BSD23 = Berkeley Software Distribution with 2-Clause and 3-Clause[more info](https://github.com/d3/d3/blob/master/LICENSE)
-MIT = Massachusetts Institute of Technology [more info](http://opensource.org/licenses/MIT)
-+os = Contains included GPL, BSD, and MIT assets
+### Email Component 
 
+Our mail component, only available to ["Paid Subscribers"](https://www.inboundnow.com/pricing), provides a framework similar to our Landing Pages tool, in the sense that we can use it to create customizable email templates using the Advanced Custom Fields framework. Email component also provides a batch email component, as well as provides for automated emails powered by our [Automation Component](https://www.inboundnow.com/automation). Email delivery and email statistical tracking is in part powered by [SparkPost Transactional Email Service](https://www.sparkpost.com), which provides 100k free email sends a month. It's possible we will add more transactional email services in the future.
+
+[More Details](https://www.inboundnow.com/mailer/)
+
+* [Forking an Email Template] (http://docs.inboundnow.com/guide/forking-email-template/)
+
+### Automation Component 
+
+Our Automation component, only available to ["Paid Subscribers"](https://www.inboundnow.com/pricing), provides a trigger/action based rule engine. Currently it's used for creating and executing follow up emails and event prompted email series. Rule triggers are powered by WordPress PHP action hooks, which means as a framework it can be expanded to accomplish many yet-to-be-imagined feats. 
+
+[More Details](https://www.inboundnow.com/automation/)
+
+
+
+## Terms of Use
+
+### Licensing
+
+This plugin ships assets with varying licensing policies. Assets considered intellectual/structural property of InboundWP LLC we've developed the _IBN License_. 
 
 #### IBN - Inbound Now Licensing Policy
 
-Structural propperty cannot be used or modified by a 3rd party without permission or issued license from InboundWP LLC. 
+Structural property cannot be used or modified by a 3rd party without permission or issued license from InboundWP LLC. 
 
-#### License Application
 
-Path | License
+#### Licesne Application
+
+The table below outlines how licenses are applied inside Inbound Pro plugin.
+
+>Mixed = (Directory contains mixed licenses)
+>APACHE2 = Apache License 2.0 [more info](https://www.apache.org/licenses/LICENSE-2.0)
+>IBN = Inbound Now Licensing Policy
+>GPL = GNU General Public License [more info](https://www.gnu.org/licenses/gpl-3.0.en.html)
+>GPL+ = GNU General Public License AND (MIT OR BSD)
+>BSD = Berkeley Software Distribution [more info](http://www.linfo.org/bsdlicense.html)
+>BSD23 = Berkeley Software Distribution with 2-Clause and 3-Clause[more info](https://github.com/d3/d3/blob/master/LICENSE)
+>MIT = Massachusetts Institute of Technology [more info](http://opensource.org/licenses/MIT)
+>+os = Contains included GPL, BSD, and MIT assets
+
+
+The following table illustrates how Inbound Pro plugin is licensed.
+
+Path | License Applied
  --- | ---
  /inbound-pro/| IBN +os
  /inbound-pro/assets/ | IBN +os
