@@ -99,7 +99,6 @@ The following legend and table depicts how files under each directory are licesn
 ##### Legend
 
 >APACHE2 = Apache License 2.0 [more info](https://www.apache.org/licenses/LICENSE-2.0)
-
 >IBN = Inbound Now Licensing Policy
 
 >GPL = GNU General Public License [more info](https://www.gnu.org/licenses/gpl-3.0.en.html)
