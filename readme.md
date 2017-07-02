@@ -2,6 +2,7 @@
 
 ![Release Version](https://img.shields.io/github/release/inbound-pro/rubidium.svg) 
 ![WordPress Compatibility](https://img.shields.io/wordpress/v/easy-digital-downloads.svg?maxAge=2592000) 
+![GitHub stars](https://img.shields.io/github/stars/badges/inbound-pro.svg?style=social&label=Star)]
 
 
 ## Plugins included in Inbound Pro
