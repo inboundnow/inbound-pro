@@ -6,7 +6,7 @@
 
 Inbound Pro is the world's first WordPress plugin to offer a comprehensive set of [inbound marketing](https://www.hubspot.com/inbound-marketing) tools for lead attraction, conversion, statistical profiling, and marketing automation. 
 
-It's free to [get started](https://www.inboundnow.com/?sign-up-now) with Inbound Pro. The Inbound Pro plugin includes our 3 most popular free plugins, [Landing Pages](https://wordpress.org/plugins/landing-pages/), [Leads](https://wordpress.org/plugins/leads/), and [Calls to Action](https://wordpress.org/plugins/cta/),  so they will not need to be installed/activated if this plugin is installed. 
+[It's free to get started](https://www.inboundnow.com/?sign-up-now) with Inbound Pro. The Inbound Pro plugin includes our 3 most popular free plugins, [Landing Pages](https://wordpress.org/plugins/landing-pages/), [Leads](https://wordpress.org/plugins/leads/), and [Calls to Action](https://wordpress.org/plugins/cta/),  so they will not need to be installed/activated if this plugin is installed. 
 
 ## Our Plugins
 
@@ -39,17 +39,19 @@ Wordpress Leads assists with capturing and segmenting user activity into lead pr
 
 Calls to Action Plugin helps create calls to action for your WordPress site. It gives site owners the ability to monitor and track conversion rates, run a/b or multivariate split tests on calls to action, and most importantly increase lead flow!This plugin is GPL and offered on [The WordPress Plugins Directory](https://wordpress.org/plugins/leads/).
 
-### Email Component [More Details](https://www.inboundnow.com/mailer/)
+### Email Component 
 
 Our mail component, only available to ["Paid Subscribers"](https://www.inboundnow.com/pricing), provides a framework similar to our Landing Pages tool, in the sense that we can use it to create customizable email templates using the Advanced Custom Fields framework. Email component also provides a batch email component, as well as provides for automated emails powered by our [Automation Component](https://www.inboundnow.com/automation). Email delivery and email statistical tracking is in part powered by [SparkPost Transactional Email Service](https://www.sparkpost.com), which provides 100k free email sends a month. It's possible we will add more transactional email services in the future.
 
+[More Details](https://www.inboundnow.com/mailer/)
+
 * [Forking an Email Template] (http://docs.inboundnow.com/guide/forking-email-template/)
 
-Calls to Action Plugin helps create calls to action for your WordPress site. It gives site owners the ability to monitor and track conversion rates, run a/b or multivariate split tests on calls to action, and most importantly increase lead flow!This plugin is GPL and offered on [The WordPress Plugins Directory](https://wordpress.org/plugins/leads/).
-
-### Automation Component [More Details](https://www.inboundnow.com/automation/)
+### Automation Component 
 
 Our Automation component, only available to ["Paid Subscribers"](https://www.inboundnow.com/pricing), provides a trigger/action based rule engine. Currently it's used for creating and executing follow up emails and event prompted email series. Rule triggers are powered by WordPress PHP action hooks, which means as a framework it can be expanded to accomplish many yet-to-be-imagined feats. 
+
+[More Details](https://www.inboundnow.com/automation/)
 
 
 
