@@ -11,7 +11,6 @@ It's free to [get started](https://www.inboundnow.com/?sign-up-now) with Inbound
 ## Our Plugins
 
 ### Landing Pages
-#### Plugin Details
 ![Plugin Version](https://img.shields.io/wordpress/plugin/v/landing-pages.svg) 
 ![WordPress Compatibility](https://img.shields.io/wordpress/v/landing-pages.svg?maxAge=2592000) 
 ![Total Downloads](https://img.shields.io/wordpress/plugin/dt/landing-pages.svg?maxAge=2592000) 
@@ -21,7 +20,6 @@ It's free to [get started](https://www.inboundnow.com/?sign-up-now) with Inbound
 Landing Pages plugin provides a landing page framework powered by [Advanced Custom Fields](https://www.advancedcustomfields.com). With this framework developers can easily develop landing pages compatible with Landing Pages plugin, offering an easy way for users to manage dynamic visual and content elements as well as perform variant tests. This plugin is GPL and offered on [The WordPress Plugins Directory](https://wordpress.org/plugins/landing-pages/).
 
 ### Leads
-#### Plugin Details
 ![Plugin Version](https://img.shields.io/wordpress/plugin/v/leads.svg) 
 ![WordPress Compatibility](https://img.shields.io/wordpress/v/leads.svg?maxAge=2592000) 
 ![Total Downloads](https://img.shields.io/wordpress/plugin/dt/leads.svg?maxAge=2592000) 
@@ -31,7 +29,6 @@ Landing Pages plugin provides a landing page framework powered by [Advanced Cust
 Wordpress Leads assists with capturing and segmenting user activity into lead profiles. Leads plugin ships with it's own form collection tool but can be extended to use [Ninja Forms](https://wordpress.org/plugins/ninja-forms/), [Gravity Forms](http://www.gravityforms.com/), or [Contact Form 7](https://wordpress.org/plugins/contact-form-7/). This plugin connects directly with the [Landing Pages](http://wordpress.org/plugins/landing-pages/ ) and [Calls to Action](http://wordpress.org/plugins/cta/) plugin provided by [Inbound Now](https://www.inboundnow.com). This plugin is GPL and offered on [The WordPress Plugins Directory](https://wordpress.org/plugins/leads/).
 
 ### Calls to Action
-#### Plugin Details
 ![Plugin Version](https://img.shields.io/wordpress/plugin/v/cta.svg) 
 ![WordPress Compatibility](https://img.shields.io/wordpress/v/cta.svg?maxAge=2592000) 
 ![Total Downloads](https://img.shields.io/wordpress/plugin/dt/cta.svg?maxAge=2592000) 
