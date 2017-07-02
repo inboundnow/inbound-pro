@@ -81,7 +81,7 @@ This plugin ships assets with varying licensing policies. For assets considered 
 Structural property cannot be used or modified by a 3rd party without permission or issued license from InboundWP LLC. 
 
 
-#### Licesne Application
+#### License Application
 
 >APACHE2 = Apache License 2.0 [more info](https://www.apache.org/licenses/LICENSE-2.0)
 
