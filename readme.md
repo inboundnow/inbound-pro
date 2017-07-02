@@ -53,7 +53,7 @@ Wordpress Leads assists with capturing and segmenting user activity into lead pr
 
 Calls to Action Plugin helps create calls to action for your WordPress site. It gives site owners the ability to monitor and track conversion rates, run a/b or multivariate split tests on calls to action, and most importantly increase lead flow! This plugin is GPL and offered on [The WordPress Plugins Directory](https://wordpress.org/plugins/cta/).
 
-* [How to create a call to action ](http://docs.inboundnow.com/guide/how-to-create-custom-call-to-action-templates/)
+* [How to create a call to action template](http://docs.inboundnow.com/guide/how-to-create-custom-call-to-action-templates/)
 
 
 ### Email Component 
@@ -76,15 +76,17 @@ Our Automation component, only available to ["Paid Subscribers"](https://www.inb
 
 1. Download the latest version of Inbound Pro in zip format from your Inbound Now [account area](https://www.inboundnow.com/account/#downloads).
 2. Install inbound-pro.zip as a [wordpress plugin](https://codex.wordpress.org/Managing_Plugins).
-3. If you experienc trouble please read our [official installation documentation](http://docs.inboundnow.com/guide/installation/).
 
-## Support 
 
-Please check your [account area](https://www.inboundnow.com/account/#getting-started) for information on requesting support. General support issues will be deleted from the GitHub Issues section, please reserve GitHub issues for bug and other code related issues. 
+[Official Installation Guide](http://docs.inboundnow.com/guide/installation/).
 
-## Terms of Plugin Use
+## Requesting Support 
 
-### LICENSE 
+Please check your [account area](https://www.inboundnow.com/account/#getting-started) for information on requesting support. 
+
+## LICENSE 
+
+### About Inbound Pro Plugin
 
 This plugin ships assets with varying licensing policies. For assets considered intellectual/structural property of InboundWP LLC we've developed and applied the _IBN License_. Other assets that we did not develop or that we have listed as GPL are included with the Inbound Pro plugin package and their original license remains in tact. 
 
