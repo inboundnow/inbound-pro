@@ -1,6 +1,6 @@
 # Inbound Pro Plugin by [Inbound Now](https://www.inboundnow.com)
 
-[![GitHub tag](https://img.shields.io/github/tag/inbound-now/inbound-pro.svg?label=latest%20release)]() ![WordPress Compatibility](https://img.shields.io/wordpress/v/landing-pages.svg?maxAge=2592000) [![GitHub stars](https://img.shields.io/github/stars/inboundnow/inbound-pro.svg)](https://github.com/inboundnow/landing-pages/stargazers) [![GitHub issues](https://img.shields.io/github/issues/inboundnow/inbound-pro.svg)](https://github.com/inboundnow/inbound-pro/issues)
+[![GitHub tag](https://img.shields.io/github/tag/inbound-now/inbound-pro.svg?label=latest%20release)]() ![WordPress Compatibility](https://img.shields.io/wordpress/v/landing-pages.svg?maxAge=2592000) [![GitHub issues](https://img.shields.io/github/issues/inboundnow/inbound-pro.svg)](https://github.com/inboundnow/inbound-pro/issues)
 
 ## Welcome to our GitHub Repository
 
@@ -59,26 +59,31 @@ Our Automation component, only available to ["Paid Subscribers"](https://www.inb
 
 
 
-## Licensing & Terms of Use
+## Terms of Use
 
-#### Key Map
+### Licensing
 
-Mixed = (Directory contains mixed licenses)
-APACHE2 = Apache License 2.0 [more info](https://www.apache.org/licenses/LICENSE-2.0)
-IBN = Inbound Now Licensing Policy
-GPL = GNU General Public License [more info](https://www.gnu.org/licenses/gpl-3.0.en.html)
-GPL+ = GNU General Public License AND (MIT OR BSD)
-BSD = Berkeley Software Distribution [more info](http://www.linfo.org/bsdlicense.html)
-BSD23 = Berkeley Software Distribution with 2-Clause and 3-Clause[more info](https://github.com/d3/d3/blob/master/LICENSE)
-MIT = Massachusetts Institute of Technology [more info](http://opensource.org/licenses/MIT)
-+os = Contains included GPL, BSD, and MIT assets
-
+This plugin ships assets with varying licensing policies. Assets considered intellectual/structural property of InboundWP LLC we've developed the _IBN License_. 
 
 #### IBN - Inbound Now Licensing Policy
 
-Structural propperty cannot be used or modified by a 3rd party without permission or issued license from InboundWP LLC. 
+Structural property cannot be used or modified by a 3rd party without permission or issued license from InboundWP LLC. 
 
-#### License Application Table
+
+#### Licesne Application
+
+The table below outlines how licenses are applied inside Inbound Pro plugin.
+
+>Mixed = (Directory contains mixed licenses)
+>APACHE2 = Apache License 2.0 [more info](https://www.apache.org/licenses/LICENSE-2.0)
+>IBN = Inbound Now Licensing Policy
+>GPL = GNU General Public License [more info](https://www.gnu.org/licenses/gpl-3.0.en.html)
+>GPL+ = GNU General Public License AND (MIT OR BSD)
+>BSD = Berkeley Software Distribution [more info](http://www.linfo.org/bsdlicense.html)
+>BSD23 = Berkeley Software Distribution with 2-Clause and 3-Clause[more info](https://github.com/d3/d3/blob/master/LICENSE)
+>MIT = Massachusetts Institute of Technology [more info](http://opensource.org/licenses/MIT)
+>+os = Contains included GPL, BSD, and MIT assets
+
 
 The following table illustrates how Inbound Pro plugin is licensed.
 
