@@ -1,7 +1,22 @@
-## Licensing & Terms of Use
+# [Inbound Pro Plugin](https://www.inboundnow.com)
 
-###  Licensing
-Inbound Pro Plugin contains many different assets holding different licenses. We'll do our best to illustrate these relationships below. Please use the key below understand license meanings:
+![Release Version](https://img.shields.io/github/release/inbound-pro/rubidium.svg) 
+![WordPress Compatibility](https://img.shields.io/wordpress/v/easy-digital-downloads.svg?maxAge=2592000) 
+
+
+## Plugins included in Inbound Pro
+
+
+### Landing Pages
+![Plugin Version](https://img.shields.io/github/wordpress/plugin/v/landing-pages.svg?maxAge=2592000) 
+![Total Downloads](https://img.shields.io/wordpress/plugin/dt/landing-pages.svg?maxAge=2592000) 
+![Plugin Rating](https://img.shields.io/wordpress/plugin/r/landing-pages.svg?maxAge=2592000) 
+![WordPress Compatibility](https://img.shields.io/wordpress/v/landng-pages.svg?maxAge=2592000) 
+
+
+## Summary
+
+## Licensing & Terms of Use
 
 #### Key Map
 
