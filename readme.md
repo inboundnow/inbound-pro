@@ -94,11 +94,12 @@ Structural property cannot be used or modified by a 3rd party without permission
 ### Designation of Licenses
 
 
-The following legend and table depicts how files under each directory are licesned. 
+The following legend and table depict how directories and their included files are licesned. 
 
 ##### Legend
 
 >APACHE2 = Apache License 2.0 [more info](https://www.apache.org/licenses/LICENSE-2.0)
+
 >IBN = Inbound Now Licensing Policy
 
 >GPL = GNU General Public License [more info](https://www.gnu.org/licenses/gpl-3.0.en.html)
