@@ -135,7 +135,12 @@ if (!class_exists('LeadStorage')) {
 				}
 				/* else if new lead then set status to new */
 				else if (!$leadExists) {
+					$lead['wp_lead_status'] = 'new';
 					update_post_meta($lead['id'], 'wp_lead_status', 'new');
+				}
+				/* else discover lead status */
+				else {
+					$lead['wp_lead_status'] = get_post_meta($lead['id'], 'wp_lead_status', true);
 				}
 
 				/* do everything else for lead storage */
