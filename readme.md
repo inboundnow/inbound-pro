@@ -2,11 +2,26 @@
 
 [![GitHub tag](https://img.shields.io/github/tag/inbound-now/inbound-pro.svg?label=latest%20release)]() ![WordPress Compatibility](https://img.shields.io/wordpress/v/landing-pages.svg?maxAge=2592000) [![GitHub issues](https://img.shields.io/github/issues/inboundnow/inbound-pro.svg)](https://github.com/inboundnow/inbound-pro/issues)
 
-## Welcome to the Inbound Pro Plugin Repository
+## Welcome to our Public Repository
 
 Inbound Pro is the world's first WordPress plugin to offer a comprehensive set of [inbound marketing](https://www.hubspot.com/inbound-marketing) tools for lead attraction, conversion, statistical profiling, and marketing automation. 
 
-[It's free to get started](https://www.inboundnow.com/?sign-up-now) with Inbound Pro. The Inbound Pro plugin includes our 3 most popular free plugins, [Landing Pages](https://wordpress.org/plugins/landing-pages/), [Leads](https://wordpress.org/plugins/leads/), and [Calls to Action](https://wordpress.org/plugins/cta/),  so they will not need to be installed/activated if this plugin is installed. 
+The Inbound Pro plugin includes our 3 most popular free plugins, [Landing Pages](https://wordpress.org/plugins/landing-pages/), [Leads](https://wordpress.org/plugins/leads/), and [Calls to Action](https://wordpress.org/plugins/cta/),  so they will not need to be installed/activated if this plugin is installed. 
+
+[It's free to get started](https://www.inboundnow.com/?sign-up-now) with Inbound Pro. 
+
+## Contributions 
+
+We love and encourage user-submitted contributions. Inbound Pro is as much your plugin as it is ours, and the truth is we are a limited resources company. We might could use your help. For details on contributing please read the [guidelines for contributing](https://github.com/inbound-now/inbound-pro/blob/master/contributions.md) to this repository.
+
+There are various ways you can contribute:
+
+1. Raise an [Issue](https://github.com/easydigitaldownloads/easy-digital-downloads/issues) on GitHub
+2. Send us a Pull Request with your bug fixes and/or new features
+3. Translate Easy Digital Downloads into [different languages](http://docs.easydigitaldownloads.com/article/1023-translating-easy-digital-downloads)
+4. Provide feedback and suggestions on [enhancements](https://github.com/easydigitaldownloads/easy-digital-downloads/issues?direction=desc&labels=Enhancement&page=1&sort=created&state=open)
+
+Please use this
 
 ## Our Plugins
 
