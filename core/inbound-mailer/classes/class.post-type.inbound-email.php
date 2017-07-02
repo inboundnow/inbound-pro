@@ -675,6 +675,9 @@ if ( !class_exists('Inbound_Mailer_Post_Type') ) {
             if (isset($links['pending'])) {
                 $new_links['pending'] =  $links['pending'];
             }
+            if (isset($links['sending'])) {
+                $new_links['sending'] =  $links['sending'];
+            }
             if (isset($links['sent'])) {
                 $new_links['sent'] =  $links['sent'];
             }
