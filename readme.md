@@ -8,7 +8,7 @@ Inbound Pro is the world's first WordPress plugin to offer a comprehensive set o
 
 The Inbound Pro plugin includes and expands on the powers of our 3 most popular free plugins, [Landing Pages](https://wordpress.org/plugins/landing-pages/), [Leads](https://wordpress.org/plugins/leads/), and [Calls to Action](https://wordpress.org/plugins/cta/),  so they will not need to be installed/activated if this plugin is installed. 
 
-[It's free to get started with Inbound Pro.](https://www.inboundnow.com/?sign-up-now)
+[It's free to get started with Inbound Pro.](https://www.inboundnow.com/?sign-up-now) We offer a strong free-user experience and an even stronger experience for [subscribers]("https://www.inboundnow.com/pricing")
 
 ## Code Contributions 
 
@@ -78,13 +78,9 @@ Our Automation component, only available to ["Paid Subscribers"](https://www.inb
 2. Install inbound-pro.zip as a [wordpress plugin](https://codex.wordpress.org/Managing_Plugins).
 
 
-[Official Installation Guide](http://docs.inboundnow.com/guide/installation/).
+* [Official Installation Guide](http://docs.inboundnow.com/guide/installation/)
 
-## Requesting Support 
-
-Please check your [account area](https://www.inboundnow.com/account/#getting-started) for information on requesting support. 
-
-## LICENSE 
+## LICENSE / RULES 
 
 ### About Inbound Pro Plugin
 
@@ -92,7 +88,7 @@ This plugin ships assets with varying licensing policies. For assets considered 
 
 #### IBN License - Inbound Now Licensing Policy
 
-Structural property cannot be used or modified by a 3rd party without permission or issued license from InboundWP LLC. 
+Structural property cannot be used or modified by a 3rd party without permission or issued license from InboundWP LLC.
 
 
 #### License Application
