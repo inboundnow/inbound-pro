@@ -76,7 +76,7 @@ Our Automation component, only available to ["Paid Subscribers"](https://www.inb
 
 This plugin ships assets with varying licensing policies. For assets considered intellectual/structural property of InboundWP LLC we've developed and applied the _IBN License_. Other assets that we did not develop or that we have listed as GPL are included with the Inbound Pro plugin package and their original license remains in tact. 
 
-#### IBN - Inbound Now Licensing Policy
+#### IBN License - Inbound Now Licensing Policy
 
 Structural property cannot be used or modified by a 3rd party without permission or issued license from InboundWP LLC. 
 
@@ -116,6 +116,7 @@ Path | License Applied
  /inbound-pro/assets/libraries/Shuffle | MIT
  /inbound-pro/assets/mu-plugins/fast-ajax/ | GPL
  /inbound-pro/assets/plugins/advanced-custom-fields-pro | [custom](https://www.advancedcustomfields.com/resources/including-acf-in-a-plugin-theme/)
+ /inbound-pro/assets/templates | IBN
  /inbound-pro/classes/ | IBN 
  /inbound-pro/core/ | IBN +os 
  /inbound-pro/core/cta | GPL+
