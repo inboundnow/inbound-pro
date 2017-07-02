@@ -8,20 +8,19 @@ Inbound Pro is the world's first WordPress plugin to offer a comprehensive set o
 
 The Inbound Pro plugin includes and expands on the powers of our 3 most popular free plugins, [Landing Pages](https://wordpress.org/plugins/landing-pages/), [Leads](https://wordpress.org/plugins/leads/), and [Calls to Action](https://wordpress.org/plugins/cta/),  so they will not need to be installed/activated if this plugin is installed. 
 
-[It's free to get started](https://www.inboundnow.com/?sign-up-now) with Inbound Pro. 
+[It's free to get started with Inbound Pro.](https://www.inboundnow.com/?sign-up-now)
 
-## Contributions 
+## Code Contributions 
 
-We love and encourage user-submitted contributions. Inbound Pro is as much your plugin as it is ours, and the truth is we are a limited resources company. We might could use your help. For details on contributing please read our [contribution guidelines](https://github.com/inbound-now/inbound-pro/blob/master/contributions.md).
+We love user-submitted contributions. The truth is we are a limited resources company and we could could use your help. For details on contributing please read our [contribution guidelines](https://github.com/inbound-now/inbound-pro/blob/master/contributions.md).
 
 There are various ways you can contribute:
 
-1. Raise an [Issue](https://github.com/easydigitaldownloads/easy-digital-downloads/issues) on GitHub
-2. Send us a Pull Request with your bug fixes and/or new features
-3. Translate Easy Digital Downloads into [different languages](http://docs.easydigitaldownloads.com/article/1023-translating-easy-digital-downloads)
-4. Provide feedback and suggestions on [enhancements](https://github.com/easydigitaldownloads/easy-digital-downloads/issues?direction=desc&labels=Enhancement&page=1&sort=created&state=open)
+1. [Raise an Issue on GitHub](https://github.com/inboundnow/inbound-pro/issues) 
+2. [Translate Inbound Pro](https://www.inboundnow.com/translate-inbound-now/)
+3. [Contribute to Core Code](https://github.com/inbound-now/inbound-pro/blob/master/contributions.md)
+4. [Provide feedback and suggestions](https://github.com/inboundnow/inbound-pro/issues?direction=desc&labels=Feature%20Request&page=1&sort=created&state=open)
 
-Please use this
 
 ## Our Plugins
 
@@ -33,8 +32,8 @@ Please use this
 
 Landing Pages plugin provides a landing page framework powered by [Advanced Custom Fields](https://www.advancedcustomfields.com). With this framework developers can easily develop landing pages compatible with Landing Pages plugin, offering an easy way for users to manage dynamic visual and content elements as well as perform variant tests. This plugin is GPL and offered on [The WordPress Plugins Directory](https://wordpress.org/plugins/landing-pages/).
 
-* [Using Advanced Custom Fields to Build a Landing Page Template] (https://github.com/inboundnow/landing-pages/blob/develop/shared/docs/how.to.create.landing.page.templates.using.ACF.md)
-* [Expert Post: How I created a landing page template and how you could too] (https://www.inboundnow.com/how-i-created-a-landing-page-template/)
+* [Using Advanced Custom Fields to Build a Landing Page Template](https://github.com/inboundnow/landing-pages/blob/develop/shared/docs/how.to.create.landing.page.templates.using.ACF.md)
+* [Expert Post: How I created a landing page template and how you could too](https://www.inboundnow.com/how-i-created-a-landing-page-template/)
 * [Landing Page Template Marketplace] (https://www.inboundnow.com/marketplace/?show=landing-pages)
 
 ### Leads
@@ -58,15 +57,16 @@ Calls to Action Plugin helps create calls to action for your WordPress site. It 
 
 Our mail component, only available to ["Paid Subscribers"](https://www.inboundnow.com/pricing), provides a framework similar to our Landing Pages tool, in the sense that we can use it to create customizable email templates using the Advanced Custom Fields framework. Email component also provides a batch email component, as well as provides for automated emails powered by our [Automation Component](https://www.inboundnow.com/automation). Email delivery and email statistical tracking is in part powered by [SparkPost Transactional Email Service](https://www.sparkpost.com), which provides 100k free email sends a month. It's possible we will add more transactional email services in the future.
 
-[More Details](https://www.inboundnow.com/mailer/)
 
-* [Forking an Email Template] (http://docs.inboundnow.com/guide/forking-email-template/)
+* [Forking an Email Template](http://docs.inboundnow.com/guide/forking-email-template/)
+* [More Details](https://www.inboundnow.com/mailer/)
+
 
 ### Automation Component 
 
 Our Automation component, only available to ["Paid Subscribers"](https://www.inboundnow.com/pricing), provides a trigger/action based rule engine. Currently it's used for creating and executing follow up emails and event prompted email series. Rule triggers are powered by WordPress PHP action hooks, which means as a framework it can be expanded to accomplish many yet-to-be-imagined feats. 
 
-[More Details](https://www.inboundnow.com/automation/)
+* [More Details](https://www.inboundnow.com/automation/)
 
 
 
