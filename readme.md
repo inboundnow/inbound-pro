@@ -94,7 +94,7 @@ Structural property cannot be used or modified by a 3rd party without permission
 ### Designation of Licenses
 
 
-The following legend and table depict how assets included under their respective directories are licensed.
+The following legend and table depicts how files under each directory are licesned. 
 
 ##### Legend
 
