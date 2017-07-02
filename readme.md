@@ -93,6 +93,11 @@ Structural property cannot be used or modified by a 3rd party without permission
 
 #### Designation of Licenses Inside Inbound Pro 
 
+
+The following legend and tabl illustrates how assets included under their respective directories are licensed.
+
+##### Legend
+
 >APACHE2 = Apache License 2.0 [more info](https://www.apache.org/licenses/LICENSE-2.0)
 
 >IBN = Inbound Now Licensing Policy
@@ -109,8 +114,7 @@ Structural property cannot be used or modified by a 3rd party without permission
 
 >+os = Contains included GPL, BSD, and MIT assets
 
-
-Given the legend above, the following table illustrates how Inbound Pro Plugin assets included under their respective directories are licensed.
+##### Table
 
 Path | License Applied
  --- | ---
