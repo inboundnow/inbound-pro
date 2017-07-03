@@ -66,7 +66,7 @@ gulp.task('watch', function() {
  */
 gulp.task('sync-lp', function () {
      gulp.src("../landing-pages/**").pipe(clean({force:true}));
-     gulp.src(['./core/landing-pages/**']).pipe(clean()).pipe(gulp.dest('../landing-pages/'));
+     gulp.src(['./core/landing-pages/**']).pipe(gulp.dest('../landing-pages/'));
      gulp.src(['./core/shared/**']).pipe(clean()).pipe(gulp.dest('../landing-pages/shared/'));
 });
 
