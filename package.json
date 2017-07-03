@@ -9,20 +9,20 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://davidwells@github.com/inboundnow/inbound-pro.git"
+    "url": "https://github.com/inboundnow/inbound-pro.git"
   },
   "keywords": [
-    "cta",
-    "calls",
-    "to",
-    "action"
+    "inbound marketing",
+    "landing pages",
+    "calls to action",
+    "CRM"
   ],
   "author": "Inbound Now",
-  "license": "GPL",
+  "license": "IBN",
   "bugs": {
-    "url": "https://github.com/inboundnow/cta/issues"
+    "url": "https://github.com/inboundnow/inbound-pro/issues"
   },
-  "homepage": "https://github.com/inboundnow/cta",
+  "homepage": "https://github.com/inboundnow/inbound-pro",
   "dependencies": {},
   "devDependencies": {
     "grunt": "*",
@@ -40,6 +40,7 @@
     "gulp-plumber": "~0.6.2",
     "gulp-rename": "~1.1.0",
     "gulp-uglify": "~0.3.0",
+    "gulp-zip": "^3.2.0",
     "jshint-stylish": "^0.2.0",
     "karma": "^0.12.16",
     "karma-chrome-launcher": "^0.1.5",

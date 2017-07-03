@@ -1,7 +1,9 @@
-/* https://gist.github.com/demisx/9512212 excample
-http://willi.am/blog/2014/08/16/gulp-automation-path-abstraction/
-
-Good example: https://gist.github.com/samuelhorn/8743217 */
+/**
+ *  Tasks
+ *  gulp sync-gpl [Syncs Landing Pages, Leads, Calls to Action plugin to plugin directory.]
+ *  gulp watch [ Listens for changes to /core/shared/asset/frontend/analytics-src/ and compiles output to minified and non-minified version ]
+ *  gulp translate [ Generates translations.zip file from available .mo files in ../translations/lang/mo/ folder
+ */
 var gulp = require('gulp'),
     karma = require('gulp-karma'),
     jshint = require('gulp-jshint'),
@@ -15,69 +17,84 @@ var gulp = require('gulp'),
     copy = require('gulp-copy'),
     markdox = require("gulp-markdox"),
     gulpIgnore = require('gulp-ignore'),
+    zip = require('gulp-zip'),
     //phplint = require('phplint').lint,
     package = require('./package.json');
 
+/**
+ *  Setup Inbound Analytics JS Build objects
+ */
+var sharedPath = 'core/shared/assets/js/frontend/analytics-src/';
+var paths = {
+    output: 'core/shared/assets/js/frontend/analytics/',
+    scripts: [
+        sharedPath + 'analytics.init.js',
+        sharedPath + 'analytics.hooks.js',
+        sharedPath + 'analytics.utils.js',
+        sharedPath + 'analytics.forms.js',
+        sharedPath + 'analytics.events.js',
+        sharedPath + 'analytics.storage.js',
+        sharedPath + 'analytics.lead.js',
+        sharedPath + 'analytics.page.js',
+        sharedPath + 'analytics.start.js',
+    ],
+    test: [
+        'tests/spec/**/*.js'
+    ]
+};
 
-//gulp.task('phplint', function(cb) {
-    //phplint(['src/**/*.php'], {
- //   phplint(['calls-to-action.php'], {
-//        limit: 10
- //   }, function(err, stdout, stderr) {
- //       if (err) {
-   //         console.log(err);
-  ////          cb(err);
-   //         process.exit(1);
-   //     }
-   //     cb();
-  //  });
-//});
+var banner = [
+    '/*! ',
+    'Inbound Analytics',
+    'v<%= package.version %> | ',
+    '(c) ' + new Date().getFullYear() + ' <%= package.author %> |',
+    ' <%= package.homepage %>',
+    ' */',
+    '\n'
+].join('');
 
 
-/* Watch Files For Changes */
+/**
+ *   Watch for changes to Inbound Analytics JS Assets 
+ */
 gulp.task('watch', function() {
-    //gulp.watch('shared/assets/js/frontend/analytics-src/*.js', ['lint', 'scripts']);
-    gulp.watch('shared/assets/js/frontend/analytics-src/*.js', ['default']);
-    //gulp.watch('scss/*.scss', ['sass']);
+    gulp.watch('core/shared/assets/js/frontend/analytics-src/*.js', ['compilejs']);
 });
 
 /**
- * Todo: move /shared to a pro folder and have all plugins share
+ *  Sync Landing Pages
  */
 gulp.task('sync-lp', function () {
-
-        return gulp.src(['../landing-pages/**']).pipe(gulp.dest('./core/landing-pages/'));
+     gulp.src("../landing-pages/**").pipe(clean({force:true}));
+     gulp.src(['./core/landing-pages/**']).pipe(clean()).pipe(gulp.dest('../landing-pages/'));
+     gulp.src(['./core/shared/**']).pipe(clean()).pipe(gulp.dest('../landing-pages/shared/'));
 });
+
+/**
+ *  Sync Landing Pages
+ */
 gulp.task('sync-cta', function () {
-        return gulp.src(['../cta/**']).pipe(gulp.dest('./core/cta/'));
+     gulp.src("../cta/**").pipe(clean({force:true}));
+     gulp.src(['./core/cta/**']).pipe(gulp.dest('../cta/'));
+     gulp.src(['./core/shared/**']).pipe(gulp.dest('../cta/shared/'));
 });
 
+/**
+ *  Sync Landing Pages
+ */
 gulp.task('sync-leads', function () {
-
-        return gulp.src(['../leads/**'])
-        //.pipe(gulpIgnore.exclude(condition))
-        .pipe(gulp.dest('./core/leads/'));
+    gulp.src("../leads/**").pipe(clean({force:true}));
+    gulp.src(['./core/leads/**']).pipe(gulp.dest('../leads/'));
+    gulp.src(['./core/shared/**']).pipe(gulp.dest('../leads/shared/'));
 });
 
-gulp.task('sync-mailer', function () {
-
-        return gulp.src(['../inbound-mailer/**'])
-        //.pipe(gulpIgnore.exclude(condition))
-        .pipe(gulp.dest('./core/inbound-mailer/'));
+/**
+ *  Sync GPL
+ */
+gulp.task('sync-gpl' , ['sync-lp','sync-cta','sync-leads'] , function() {
+     //do more
 });
 
-gulp.task('sync-automation', function () {
-
-        return gulp.src(['../inbound-automation/**'])
-        //.pipe(gulpIgnore.exclude(condition))
-        .pipe(gulp.dest('./core/inbound-automation/'));
-});
-
-gulp.task('move-shared', ['sync-cta'], function () {
-        return gulp.src(['./core/cta/shared/**'])
-        //.pipe(gulpIgnore.exclude(condition))
-        .pipe(gulp.dest('./core/shared/'));
-});
 function getPath(path){
 
     var removeFiles = ['./core/'+path+'/node_modules/',
@@ -96,52 +113,71 @@ function getPath(path){
    return removeFiles;
 }
 
-gulp.task('clean-lp', ['sync-lp'], function () {
-    var removeFiles = getPath('landing-pages');
-    return gulp.src(removeFiles, {read: false})
+
+/**
+ *  Tasks for compiling InboundAnalytics JS assets
+ */
+gulp.task('scripts', ['clean'], function() {
+    return gulp.src(paths.scripts)
+        .pipe(plumber())
+        .pipe(concat('inboundAnalytics.js'))
+        .pipe(header(banner, {
+            package: package
+        }))
+        .pipe(gulp.dest('shared/assets/js/frontend/analytics/'))
+        .pipe(rename({
+            suffix: '.min'
+        }))
+        .pipe(uglify())
+        .pipe(header(banner, {
+            package: package
+        }))
+        .pipe(gulp.dest('shared/assets/js/frontend/analytics/'));
+});
+
+gulp.task('lint', function() {
+    return gulp.src(paths.scripts)
+        .pipe(plumber())
+        .pipe(jshint())
+        .pipe(jshint.reporter('jshint-stylish'));
+});
+
+gulp.task('clean', function() {
+    return gulp.src(paths.output, {
+            read: false
+        })
+        .pipe(plumber())
         .pipe(clean());
 });
 
-gulp.task('clean-leads', ['sync-leads'], function () {
-    var removeFiles = getPath('leads');
-    return gulp.src(removeFiles, {read: false})
-        .pipe(clean());
+gulp.task("generateDocs", function() {
+    gulp.src("core/shared/assets/js/frontend/analytics-src/analytics.events.js")
+        .pipe(markdox())
+        .pipe(rename({
+            extname: ".md"
+        }))
+        .pipe(gulp.dest("./core/shared/docs"));
 });
 
-gulp.task('clean-mailer', ['sync-mailer'], function () {
-   var removeFiles = getPath('inbound-mailer');
-    return gulp.src(removeFiles, {read: false})
-        .pipe(clean());
-});
-
-gulp.task('clean-automation', ['sync-automation'], function () {
-   var removeFiles = getPath('inbound-automation');
-    return gulp.src(removeFiles, {read: false})
-        .pipe(clean());
-});
-
-/* Cleans and moves shared folder */
-gulp.task('clean-cta', ['sync-cta', 'move-shared'], function () {
-   var removeFiles = getPath('cta');
-    return gulp.src(removeFiles, {read: false})
-        .pipe(clean());
-});
-
-gulp.task('clean-core', function () {
-   var removeFiles = getPath('cta');
-    return gulp.src("./node_modules/", {read: false})
-        .pipe(clean());
-});
-
-/* Sync all core plugins */
-gulp.task('sync', ['sync-lp', 'sync-leads', 'sync-mailer', 'sync-automation', 'move-shared']);
-/* production build that cleans out shared */
-gulp.task('build', ['clean-lp','clean-leads','clean-automation','clean-mailer','clean-cta']);
-
-gulp.task('default', [
+gulp.task('compilejs', [
     'lint',
     'clean',
     'scripts',
     'generateDocs'
-    // 'test'
 ]);
+
+
+/**
+ *  For compiling translation mo files
+ */
+ 
+
+gulp.task('zip-translations', function () {
+    return gulp.src('../translations/lang/mo/**.mo')
+        .pipe(zip('translations.zip'))
+        .pipe(gulp.dest('../translations/'));
+});
+
+gulp.task('translate' , ['zip-translations'] , function() {
+    
+});
