@@ -1,4 +1,4 @@
-﻿/*
+/*
 Flot plugin for showing crosshairs, thin lines, when the mouse hovers
 over the plot.
 
