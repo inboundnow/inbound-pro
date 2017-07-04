@@ -43,9 +43,9 @@ You can quickly take your existing designs and implement them using our <a href=
 The plugin is also fully extendable and has a number of actions, filters, and hooks available for use. If a hook doesn't exist, simply ask and we can implement custom changes.
 
 
-[Follow Development on GitHub ](https://github.com/inboundnow/cta "Follow & Contribute to core development on GitHub")
+[Contribute to Code](https://github.com/inboundnow/inbound-pro/core/cta "Follow & Contribute to core development on GitHub")
  |
-[Follow Development on Twitter ](https://twitter.com/gitcta "See our latest development commits on Twitter")
+[Follow on Twitter ](https://twitter.com/inboundnow "Stay Notified")
 
 == Installation ==
 
