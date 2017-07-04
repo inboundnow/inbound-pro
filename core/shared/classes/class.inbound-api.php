@@ -1285,9 +1285,9 @@ if (!class_exists('Inbound_API')) {
 		 *  Generates random token
 		 *  @param length
 		 */
-		public static function generate_token( $min = 25, $max = 35 ) {
+		public static function generate_token( $min = 7, $max = 11 ) {
 			$length = mt_rand( $min, $max );
-			return substr(str_shuffle("0123456789ILoveInboundNowAndWordPress"), 0, $length);
+			return substr(str_shuffle("0123456789iloveinboundnow"), 0, $length);
 		}
 
 		/**

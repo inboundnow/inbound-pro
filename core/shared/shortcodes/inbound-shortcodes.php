@@ -32,30 +32,20 @@ class Inbound_Shortcodes {
 	/*	Contruct
 	*	--------------------------------------------------------- */
 	static function init() {
-		global $shortcode_tags;
 
 		self::$add_script = true;
 		add_action('admin_enqueue_scripts', array( __CLASS__, 'loads' ) , 11);
 		add_action('init', array( __CLASS__, 'shortcodes_include' ));
 
 		add_action( 'wp_enqueue_scripts',	array(__CLASS__, 'frontend_loads')); // load styles
-
-		/* define shortcode keys and class functions */
-		$shortcodes = array(
-			'list'=> 'inbound_shortcode_list',
-			'inbound_list'=> 'inbound_shortcode_list',
-			'button'=> 'inbound_shortcode_button',
-			'inbound_button'=> 'inbound_shortcode_button',
-			'social_share'=> 'inbound_shortcode_social_links'
-		);
-
-		/* add functons to shortcode keys if the shortcode does not already have handlers for them */
-		foreach ($shortcodes as $shortcode_key => $function) {
-			if ( !array_key_exists( $shortcode_key, $shortcode_tags ) ) {
-				add_shortcode($shortcode_key, array(__CLASS__, $function));
-			}
-		}
-
+		add_shortcode('list', array(__CLASS__, 'inbound_shortcode_list'));
+		add_shortcode('inbound_list', array(__CLASS__, 'inbound_shortcode_list'));
+		add_shortcode('button', array(__CLASS__, 'inbound_shortcode_button'));
+		add_shortcode('inbound_button', array(__CLASS__, 'inbound_shortcode_button'));
+		add_shortcode('social_share',	array(__CLASS__, 'inbound_shortcode_social_links'));
+		//add_action('admin_notices', array(__CLASS__, 'inbound_shortcode_prompt'));
+		//add_action('admin_init', array(__CLASS__, 'inbound_shortcode_prompt_ignore'));
+		//add_action( 'wp_ajax_inbound_shortcode_prompt_ajax',	array(__CLASS__, 'inbound_shortcode_prompt_ajax'));
 	}
 
 	public static function shortcodes_include() {

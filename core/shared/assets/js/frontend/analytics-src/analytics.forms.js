@@ -5,7 +5,8 @@
  * Filters and actions are described below
  *
  * @author David Wells <david@inboundnow.com>
- * @version 0.0.1
+ * @author Hudson Atwell <hudson@inboundnow.com>
+ * @version 0.0.2
  */
 /* Finish Exclusions for CC */
 

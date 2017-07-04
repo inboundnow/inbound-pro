@@ -7,7 +7,8 @@
  * Forked from https://github.com/carldanley/WP-JS-Hooks/blob/master/src/event-manager.js
  *
  * @author David Wells <david@inboundnow.com>
- * @version 0.0.1
+ * @contributors Hudson Atwell <hudson@inboundnow.com>
+ * @version 0.0.2
  */
 
 var _inboundHooks = (function (_inbound) {
