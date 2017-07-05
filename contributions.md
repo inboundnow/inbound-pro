@@ -20,15 +20,13 @@ __Please Note:__ GitHub is for bug reports and contributions only - if you have 
 * Ensure you stick to the [WordPress Coding Standards](https://codex.wordpress.org/WordPress_Coding_Standards)
 * If language strings are added use the 'inbound-pro' text domain when setting up [i18n](https://codex.wordpress.org/I18n_for_WordPress_Developers).
 * When committing, reference your issue (if present) and include a note about the fix
-* If possible, and if applicable, please also add/update unit tests for your changes
 * Push the changes to your fork and submit a pull request to the 'develop' branch of the inbound-pro repository
 
 ## Code Documentation
 
-* We ensure that every EDD function is documented well and follows the standards set by phpDoc
-* An example function can be found [here](https://gist.github.com/sunnyratilal/5308969)
+* Do not use doubleslashes(//) to comment code. Use [doc blocks](https://phpdoc.org/docs/latest/getting-started/your-first-set-of-documentation.html) and inline doc blocks (/* this is an inline doc block */).
 * Please make sure that every function is documented so that when we update our API Documentation things don't go awry!
-* Finally, please use spaces and not tabs.
+* Finally, please use spaces and not tabs. 1Tab = 4 spaces.
 
 At this point you're waiting on us to merge your pull request. We'll review all pull requests, and make suggestions and changes if necessary.
 
