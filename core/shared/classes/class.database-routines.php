@@ -71,6 +71,14 @@ if ( !class_exists('Inbound_Upgrade_Routines') ) {
                 'introduced' => '1.0.7',
                 'callback' => array( __CLASS__ , 'alter_events_pageviews_107')
             );
+
+            /* alter events table */
+            self::$routines['inbound-settings-109'] = array(
+                'id' => 'inbound-settings-109',
+                'scope' => 'shared',
+                'introduced' => '1.0.9',
+                'callback' => array( __CLASS__ , 'alter_inbound_settings_109')
+            );
         }
 
         /**
@@ -253,6 +261,20 @@ if ( !class_exists('Inbound_Upgrade_Routines') ) {
 
             if(!isset($col_check->lead_id)) {
                 $wpdb->get_results("ALTER TABLE {$table_name} ADD `lead_id` mediumint(20)  NOT NULL");
+            }
+        }
+
+
+        /**
+         * @migration-type: inbound pro settings array
+         * @mirgration: change the 'mailer' key to 'mailer' key in $inbound_settings
+         */
+        public static function alter_inbound_settings_109() {
+            if (class_exists('Inbound_Options_API')) {
+                $inbound_settings = Inbound_Options_API::get_option('inbound-pro', 'settings', array());
+                $inbound_settings['mailer'] = (isset($inbound_settings['mailer'])) ? $inbound_settings['mailer'] : array();
+                unset($inbound_settings['inbound-mailer']);
+                Inbound_Options_API::update_option('inbound-pro', 'settings', $inbound_settings);
             }
         }
     }
