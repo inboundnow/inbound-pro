@@ -130,6 +130,11 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 			$inbound_settings = Inbound_Options_API::get_option('inbound-pro', 'settings', array());
 			$inbound_settings = (is_array($inbound_settings)) ? $inbound_settings : array();
 
+			/* secret debug tool for administrators */
+			if (isset($_GET['_inbound_settings']) && is_admin() && current_user_can('administrator') ) {
+				print_r($inbound_settings);exit;
+			}
+
 			/* determine customer access level */
 			self::get_customer_status();
 
@@ -240,8 +245,8 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 
 			/* load inbound mailer & inbound automation */
 			if ( !isset($inbound_settings['inbound-core-loading']['toggle-email-automation']) || $inbound_settings['inbound-core-loading']['toggle-email-automation'] =='on' ) {
-				include_once( INBOUND_COMPONENT_PATH . '/inbound-mailer/inbound-mailer.php');
-				include_once( INBOUND_COMPONENT_PATH . '/inbound-automation/inbound-automation.php');
+				include_once( INBOUND_COMPONENT_PATH . '/mailer/mailer.php');
+				include_once( INBOUND_COMPONENT_PATH . '/automation/automation.php');
 			}
 
 		}
