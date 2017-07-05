@@ -108,7 +108,7 @@ class Inbound_Mailer_Unsubscribe {
 			/* record unsubscribe event */
 			Inbound_Events::store_unsubscribe_event( $params );
 
-			echo '<div class="inbound-automation-unsubscribe-message success">'. $automation_unsubscribed_confirmation_message.'</div><br>';
+			echo '<div class="automation-unsubscribe-message success">'. $automation_unsubscribed_confirmation_message.'</div><br>';
 		}
 
 		/* Add header */
