@@ -474,7 +474,7 @@ class Inbound_Events {
     }
 
     /**
-     * Checks if an event has already been created. Right now inbound-mailer is the only tool leveraging this.
+     * Checks if an event has already been created. Right now mailer is the only tool leveraging this.
      * It will need to be improved to support other uses
      * @param $args
      * @return bool
