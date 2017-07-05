@@ -30,7 +30,7 @@ Here are some various ways you can contribute:
 ![Total Downloads](https://img.shields.io/wordpress/plugin/dt/landing-pages.svg?maxAge=2592000) 
 ![Plugin Rating](https://img.shields.io/wordpress/plugin/r/landing-pages.svg) 
 
-Landing Pages plugin provides a landing page framework powered by [Advanced Custom Fields](https://www.advancedcustomfields.com). With this framework developers can easily develop landing pages compatible with Landing Pages plugin, offering an easy way for users to manage dynamic visual and content elements as well as perform variant tests. This plugin is GPL and offered on [The WordPress Plugins Directory](https://wordpress.org/plugins/landing-pages/).
+Landing Pages plugin provides a landing page framework powered by [Advanced Custom Fields](https://www.advancedcustomfields.com). With this framework developers can easily develop landing pages compatible with Landing Pages plugin, offering an easy way for users to manage dynamic visual and content elements as well as perform variant tests. This plugin is GPL and additionally offered on [The WordPress Plugins Directory](https://wordpress.org/plugins/landing-pages/).
 
 * [Using Advanced Custom Fields to Build a Landing Page Template](https://github.com/inboundnow/landing-pages/blob/develop/shared/docs/how.to.create.landing.page.templates.using.ACF.md)
 * [Expert Post: How I created a landing page template and how you could too](https://www.inboundnow.com/how-i-created-a-landing-page-template/)
@@ -42,8 +42,7 @@ Landing Pages plugin provides a landing page framework powered by [Advanced Cust
 ![Total Downloads](https://img.shields.io/wordpress/plugin/dt/leads.svg?maxAge=2592000) 
 ![Plugin Rating](https://img.shields.io/wordpress/plugin/r/leads.svg) 
 
-
-Wordpress Leads assists with capturing and segmenting user activity into lead profiles. Leads plugin ships with it's own form collection tool but can be extended to use [Ninja Forms](https://wordpress.org/plugins/ninja-forms/), [Gravity Forms](http://www.gravityforms.com/), or [Contact Form 7](https://wordpress.org/plugins/contact-form-7/). This plugin connects directly with the [Landing Pages](http://wordpress.org/plugins/landing-pages/ ) and [Calls to Action](http://wordpress.org/plugins/cta/) plugin provided by [Inbound Now](https://www.inboundnow.com). This plugin is GPL and offered on [The WordPress Plugins Directory](https://wordpress.org/plugins/leads/).
+Wordpress Leads is a fully extendable CRM that ships with it's own [form-based lead collection tool](http://docs.inboundnow.com/guide/forms/), and can also be extended to work with [Ninja Forms](https://wordpress.org/plugins/ninja-forms/), [Gravity Forms](http://www.gravityforms.com/), or [Contact Form 7](https://wordpress.org/plugins/contact-form-7/). This plugin connects directly with the [Landing Pages](http://wordpress.org/plugins/landing-pages/ ) and [Calls to Action](http://wordpress.org/plugins/cta/) plugin provided by [Inbound Now](https://www.inboundnow.com). This plugin is GPL and additionally offered on [The WordPress Plugins Directory](https://wordpress.org/plugins/leads/).
 
 ### Calls to Action
 ![Plugin Version](https://img.shields.io/wordpress/plugin/v/cta.svg) 
@@ -51,15 +50,16 @@ Wordpress Leads assists with capturing and segmenting user activity into lead pr
 ![Total Downloads](https://img.shields.io/wordpress/plugin/dt/cta.svg?maxAge=2592000) 
 ![Plugin Rating](https://img.shields.io/wordpress/plugin/r/cta.svg) 
 
-Calls to Action Plugin helps create calls to action for your WordPress site. It gives site owners the ability to monitor and track conversion rates, run a/b or multivariate split tests on calls to action, and most importantly increase lead flow! This plugin is GPL and offered on [The WordPress Plugins Directory](https://wordpress.org/plugins/cta/).
+Calls to Action Plugin helps create calls to action for your WordPress site. It gives site owners the ability to monitor and track conversion rates, run a/b or multivariate split tests on calls to action, and most importantly increase lead flow! This plugin is GPL and additionally offered on [The WordPress Plugins Directory](https://wordpress.org/plugins/cta/).
 
 * [How to create a call to action template](http://docs.inboundnow.com/guide/how-to-create-custom-call-to-action-templates/)
 
 
 ### Email Component 
 
-Our mail component, only available to ["Paid Subscribers"](https://www.inboundnow.com/pricing), provides a framework similar to our Landing Pages tool, in the sense that we can use it to create customizable email templates using the Advanced Custom Fields framework. Email component also provides a batch email component, as well as provides for automated emails powered by our [Automation Component](https://www.inboundnow.com/automation). Email delivery and email statistical tracking is in part powered by [SparkPost Transactional Email Service](https://www.sparkpost.com), which provides 100k free email sends a month. It's possible we will add more transactional email services in the future.
+Our mail component, only available to ["Paid Subscribers"](https://www.inboundnow.com/pricing), provides WordPress administrators with the ability to send batch, automated, and direct emails to leads. This component also exists as a templating framework powered by the Advanced Custom Fields plugin, allowing the creation of custom email templates.
 
+Email delivery and email statistical tracking is in part powered by [SparkPost Transactional Email Service](https://www.sparkpost.com), which provides 100k free email sends a month. It's possible we will add more transactional email services in the future.
 
 * [Forking an Email Template](http://docs.inboundnow.com/guide/forking-email-template/)
 * [More Details](https://www.inboundnow.com/mailer/)
