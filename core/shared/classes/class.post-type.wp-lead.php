@@ -204,19 +204,18 @@ if ( !class_exists('Inbound_Leads') ) {
 		 *  Displays the list id and double option status in the lead-tags WP List Table
 		 */
 		public static function support_lead_list_columns( $out, $column_name, $term_id ) {
-			
+
             switch($column_name){
 				case 'lead_id':
 					echo $term_id;
 				break;
-				
+
 				case 'double_optin':
                     /*get the double optin waiting list id*/
                     if(!defined('INBOUND_PRO_CURRENT_VERSION')){
                         $double_optin_list_id = get_option('list-double-optin-list-id', '');
                     }else{
-                        $settings = Inbound_Options_API::get_option('inbound-pro', 'settings', array());
-                        $double_optin_list_id = $settings['leads']['list-double-optin-list-id'];
+                        $double_optin_list_id = $inbound_settings['leads']['list-double-optin-list-id'];
                     }
                     /*if the current term isn't the double optin list, display the double optin status*/
                     if($term_id != $double_optin_list_id){
@@ -228,10 +227,10 @@ if ( !class_exists('Inbound_Leads') ) {
                         }
                     }
 				break;
-			
+
 			}
 		}
-        
+
 
 
 
@@ -719,6 +718,7 @@ if ( !class_exists('Inbound_Leads') ) {
 				$double_optin_list_id = get_option('list-double-optin-list-id', '');
 			} else {
 				$settings = Inbound_Options_API::get_option('inbound-pro', 'settings', array());
+                $inbound_settings['leads'] = (isset($inbound_settings['leads'])) ? $inbound_settings['leads'] : array();
 				$double_optin_list_id = $inbound_settings['leads']['list-double-optin-list-id'];
 			}
 
