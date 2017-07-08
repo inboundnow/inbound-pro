@@ -4,7 +4,8 @@
  * Page view tracking
  *
  * @author David Wells <david@inboundnow.com>
- * @version 0.0.1
+ * @author Hudson Atwell <hudson@inboundnow.com>
+ * @version 0.0.2
  */
 /* Launches view tracking */
 var _inboundPageTracking = (function(_inbound) {

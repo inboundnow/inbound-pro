@@ -4,7 +4,7 @@ Plugin Name: Inbound Now PRO
 Plugin URI: http://www.inboundnow.com/
 Description: Professional Inbound Marketing Suite for WordPress
 Author: InboundWP LLC
-Version: 1.8.3.7.2
+Version: 1.8.3.7.4
 Author URI: http://www.inboundnow.com/
 Text Domain: inbound-pro
 Domain Path: /lang/
@@ -94,9 +94,9 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 		*/
 		private static function define_constants() {
 
-			define('INBOUND_PRO_CURRENT_VERSION', '1.8.3.7.2' );
+			define('INBOUND_PRO_CURRENT_VERSION', '1.8.3.7.4' );
 			define('INBOUND_PRO_STABLE_VERSION', '1.8.3.5.5' );
-			define('INBOUND_PRO_TRANSLATIONS_VERSION', '1.30.12' );
+			define('INBOUND_PRO_TRANSLATIONS_VERSION', '1.30.13' );
 			define('INBOUND_PRO_URLPATH', plugin_dir_url( __FILE__ ));
 			define('INBOUND_PRO_PATH', plugin_dir_path( __FILE__ ) );
 			define('INBOUND_PRO_SLUG', plugin_basename( dirname( __FILE__ ) ) );
@@ -129,6 +129,11 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 			/* load settings global */
 			$inbound_settings = Inbound_Options_API::get_option('inbound-pro', 'settings', array());
 			$inbound_settings = (is_array($inbound_settings)) ? $inbound_settings : array();
+
+			/* secret debug tool for administrators */
+			if (isset($_GET['_inbound_settings']) && is_admin() && current_user_can('administrator') ) {
+				print_r($inbound_settings);exit;
+			}
 
 			/* determine customer access level */
 			self::get_customer_status();
@@ -240,8 +245,8 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 
 			/* load inbound mailer & inbound automation */
 			if ( !isset($inbound_settings['inbound-core-loading']['toggle-email-automation']) || $inbound_settings['inbound-core-loading']['toggle-email-automation'] =='on' ) {
-				include_once( INBOUND_COMPONENT_PATH . '/inbound-mailer/inbound-mailer.php');
-				include_once( INBOUND_COMPONENT_PATH . '/inbound-automation/inbound-automation.php');
+				include_once( INBOUND_COMPONENT_PATH . '/mailer/mailer.php');
+				include_once( INBOUND_COMPONENT_PATH . '/automation/automation.php');
 			}
 
 		}

@@ -22,9 +22,6 @@ if (!class_exists('LeadStorage')) {
 
 			/* filters name data to build a more comprehensive data set */
 			add_filter( 'inboundnow_store_lead_pre_filter_data',	array(__CLASS__, 'improve_lead_name'), 10, 1);
-
-			/* update modified timestamp if update */
-			add_action('wpleads_existing_lead_update' , array( __CLASS__ , 'update_modified_date') );
 		}
 
 		/**
@@ -552,19 +549,6 @@ if (!class_exists('LeadStorage')) {
 					'%s'
 				)
 			);
-		}
-
-		/**
-		 * updates the date modified date
-		 * @param $lead_id
-		 */
-		public static function update_modified_date( $lead ) {
-
-			$timezone_format = _x('Y-m-d G:i:s', 'timezone date format');
-			$wordpress_date_time = date_i18n($timezone_format);
-
-			wp_update_post(array('ID' => $lead['id'] , 'post_modified' => $wordpress_date_time));
-
 		}
 
 

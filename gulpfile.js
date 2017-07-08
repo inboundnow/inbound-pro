@@ -1,12 +1,16 @@
-/* https://gist.github.com/demisx/9512212 excample
-http://willi.am/blog/2014/08/16/gulp-automation-path-abstraction/
-
-Good example: https://gist.github.com/samuelhorn/8743217 */
+/**
+ *  Tasks
+ *  gulp sync-gpl [Syncs Landing Pages, Leads, Calls to Action plugin to plugin directory.]
+ *  gulp watch [ Listens for changes to /core/shared/asset/frontend/analytics-src/ and compiles output to minified and non-minified version ]
+ *  gulp translate [ Generates translations.zip file from available .mo files in ../translations/lang/mo/ folder
+ */
 var gulp = require('gulp'),
-    karma = require('gulp-karma'),
     jshint = require('gulp-jshint'),
+    fs = require('fs'),
+    del = require('del'),
     stylish = require('jshint-stylish'),
     header = require('gulp-header'),
+    run = require('gulp-run'),
     concat = require('gulp-concat'),
     uglify = require('gulp-uglify'),
     plumber = require('gulp-plumber'),
@@ -14,70 +18,138 @@ var gulp = require('gulp'),
     rename = require('gulp-rename'),
     copy = require('gulp-copy'),
     markdox = require("gulp-markdox"),
+    filter = require("gulp-filter"),
     gulpIgnore = require('gulp-ignore'),
-    //phplint = require('phplint').lint,
+    zip = require('gulp-zip'),
     package = require('./package.json');
 
+/**
+ *  Setup Inbound Analytics JS Build objects
+ */
+var sharedPath = 'core/shared/assets/js/frontend/analytics-src/';
+var paths = {
+    output: 'core/shared/assets/js/frontend/analytics/',
+    scripts: [
+        sharedPath + 'analytics.init.js',
+        sharedPath + 'analytics.hooks.js',
+        sharedPath + 'analytics.utils.js',
+        sharedPath + 'analytics.forms.js',
+        sharedPath + 'analytics.events.js',
+        sharedPath + 'analytics.storage.js',
+        sharedPath + 'analytics.lead.js',
+        sharedPath + 'analytics.page.js',
+        sharedPath + 'analytics.start.js'
+    ],
+    test: [
+        'tests/spec/**/*.js'
+    ]
+};
 
-//gulp.task('phplint', function(cb) {
-    //phplint(['src/**/*.php'], {
- //   phplint(['calls-to-action.php'], {
-//        limit: 10
- //   }, function(err, stdout, stderr) {
- //       if (err) {
-   //         console.log(err);
-  ////          cb(err);
-   //         process.exit(1);
-   //     }
-   //     cb();
-  //  });
-//});
+var banner = [
+    '/*! ',
+    'Inbound Analytics',
+    'v<%= package.version %> | ',
+    '(c) ' + new Date().getFullYear() + ' <%= package.author %> |',
+    ' <%= package.homepage %>',
+    ' */',
+    '\n'
+].join('');
 
 
-/* Watch Files For Changes */
-gulp.task('watch', function() {
-    //gulp.watch('shared/assets/js/frontend/analytics-src/*.js', ['lint', 'scripts']);
-    gulp.watch('shared/assets/js/frontend/analytics-src/*.js', ['default']);
-    //gulp.watch('scss/*.scss', ['sass']);
+
+/**
+ * Sync shared folder
+ */
+
+
+gulp.task('shared-lp' , function() {
+    return gulp.src(['./core/shared/**']).pipe(gulp.dest('../landing-pages/shared/'));
+});
+
+gulp.task('shared-cta' , function() {
+    return gulp.src(['./core/shared/**']).pipe(gulp.dest('../cta/shared/'));
+});
+
+gulp.task('shared-leads' , function() {
+    return gulp.src(['./core/shared/**']).pipe(gulp.dest('../leads/shared/'));
+});
+
+gulp.task('shared' ,gulp.series('shared-lp','shared-cta','shared-leads'),  function() {
+
 });
 
 /**
- * Todo: move /shared to a pro folder and have all plugins share
+ *  Sync Landing Pages
  */
-gulp.task('sync-lp', function () {
+gulp.task('clean-lp' , function() {
+    var dir = "../lp";
 
-        return gulp.src(['../landing-pages/**']).pipe(gulp.dest('./core/landing-pages/'));
-});
-gulp.task('sync-cta', function () {
-        return gulp.src(['../cta/**']).pipe(gulp.dest('./core/cta/'));
-});
-
-gulp.task('sync-leads', function () {
-
-        return gulp.src(['../leads/**'])
-        //.pipe(gulpIgnore.exclude(condition))
-        .pipe(gulp.dest('./core/leads/'));
+    if (!fs.existsSync(dir)){
+        fs.mkdirSync(dir);
+    }
+    return del([
+        '../landing-pages/**/*',
+        '!../landing-pages/svn{,/**}'
+    ], {force: true});
 });
 
-gulp.task('sync-mailer', function () {
-
-        return gulp.src(['../inbound-mailer/**'])
-        //.pipe(gulpIgnore.exclude(condition))
-        .pipe(gulp.dest('./core/inbound-mailer/'));
+gulp.task('copy-lp' , function() {
+    return gulp.src(['./core/landing-pages/**' , '!./core/landing-pages/svn/**']).pipe(gulp.dest('../landing-pages/'));
 });
 
-gulp.task('sync-automation', function () {
+gulp.task('lp',gulp.series('clean-lp', 'copy-lp' ,  'shared-lp' ));
 
-        return gulp.src(['../inbound-automation/**'])
-        //.pipe(gulpIgnore.exclude(condition))
-        .pipe(gulp.dest('./core/inbound-automation/'));
+/**
+ *  Sync Calls to action
+ */
+gulp.task('clean-cta' , function() {
+    var dir = "../cta";
+
+    if (!fs.existsSync(dir)){
+        fs.mkdirSync(dir);
+    }
+    return del([
+        '../cta/**/*',
+        '!../cta/svn{,/**}'
+    ], {force: true});
 });
 
-gulp.task('move-shared', ['sync-cta'], function () {
-        return gulp.src(['./core/cta/shared/**'])
-        //.pipe(gulpIgnore.exclude(condition))
-        .pipe(gulp.dest('./core/shared/'));
+gulp.task('copy-cta' , function() {
+    return gulp.src(['./core/cta/**' , '!./core/cta/svn/**']).pipe(gulp.dest('../cta/'));
 });
+
+gulp.task('cta',gulp.series('clean-cta', 'copy-cta' , 'shared-cta'));
+
+
+/**
+ *  Sync Leads
+ */
+gulp.task('clean-leads' , function() {
+    var dir = "../leads";
+
+    if (!fs.existsSync(dir)){
+        fs.mkdirSync(dir);
+    }
+    return del([
+        '../leads/**/*',
+        '!../leads/svn{,/**}'
+    ], {force: true});
+
+});
+
+gulp.task('copy-leads' , function() {
+    return gulp.src(['./core/leads/**' , '!./core/leads/svn/**']).pipe(gulp.dest('../leads/'));
+});
+
+gulp.task('leads',gulp.series('clean-leads', 'copy-leads' , 'shared-leads'));
+
+/**
+ *  Sync GPL
+ */
+gulp.task('gpl' , gulp.series('lp','cta','leads') , function() {
+     return console.log('GPL Synced');
+});
+
 function getPath(path){
 
     var removeFiles = ['./core/'+path+'/node_modules/',
@@ -96,52 +168,86 @@ function getPath(path){
    return removeFiles;
 }
 
-gulp.task('clean-lp', ['sync-lp'], function () {
-    var removeFiles = getPath('landing-pages');
-    return gulp.src(removeFiles, {read: false})
+
+/**
+ *  Tasks for compiling InboundAnalytics JS assets
+ */
+
+
+gulp.task('clean-inboundAnalytics', function() {
+    return gulp.src(paths.output, {
+            read: false
+        })
+        .pipe(plumber())
         .pipe(clean());
 });
 
-gulp.task('clean-leads', ['sync-leads'], function () {
-    var removeFiles = getPath('leads');
-    return gulp.src(removeFiles, {read: false})
-        .pipe(clean());
+gulp.task('compile-inboundAnalytics',  function() {
+    return gulp.src(paths.scripts)
+        .pipe(plumber())
+        .pipe(concat('inboundAnalytics.js'))
+        .pipe(header(banner, {
+            package: package
+        }))
+        .pipe(gulp.dest('core/shared/assets/js/frontend/analytics/'))
+        .pipe(rename({
+            suffix: '.min'
+        }))
+        .pipe(uglify())
+        .pipe(header(banner, {
+            package: package
+        }))
+        .pipe(gulp.dest('./core/shared/assets/js/frontend/analytics/'));
 });
 
-gulp.task('clean-mailer', ['sync-mailer'], function () {
-   var removeFiles = getPath('inbound-mailer');
-    return gulp.src(removeFiles, {read: false})
-        .pipe(clean());
+gulp.task('lint-inboundAnalytics', function() {
+    return gulp.src(paths.scripts)
+        .pipe(plumber())
+        .pipe(jshint())
+        .pipe(jshint.reporter('jshint-stylish'));
 });
 
-gulp.task('clean-automation', ['sync-automation'], function () {
-   var removeFiles = getPath('inbound-automation');
-    return gulp.src(removeFiles, {read: false})
-        .pipe(clean());
+
+gulp.task("generateDocs-inboundAnalytics", function() {
+    gulp.src("core/shared/assets/js/frontend/analytics-src/analytics.events.js")
+        .pipe(markdox())
+        .pipe(rename({
+            extname: ".md"
+        }))
+        .pipe(gulp.dest("./core/shared/docs"));
 });
 
-/* Cleans and moves shared folder */
-gulp.task('clean-cta', ['sync-cta', 'move-shared'], function () {
-   var removeFiles = getPath('cta');
-    return gulp.src(removeFiles, {read: false})
-        .pipe(clean());
+gulp.task('inboundAnalytics', gulp.series(
+    'lint-inboundAnalytics',
+    'clean-inboundAnalytics',
+    'compile-inboundAnalytics',
+    'generateDocs-inboundAnalytics'
+));
+
+
+/**
+ *   Watch for changes to Inbound Analytics JS Assets
+ */
+gulp.task('watch', function() {
+    gulp.watch('core/shared/assets/js/frontend/analytics-src/*.js', gulp.series('inboundAnalytics'));
 });
 
-gulp.task('clean-core', function () {
-   var removeFiles = getPath('cta');
-    return gulp.src("./node_modules/", {read: false})
-        .pipe(clean());
+/**
+ *  For compiling translation mo files
+ */
+gulp.task('zip-translations', function () {
+    return gulp.src('../translations/lang/mo/**.mo')
+        .pipe(zip('translations.zip'))
+        .pipe(gulp.dest('../translations/'));
 });
 
-/* Sync all core plugins */
-gulp.task('sync', ['sync-lp', 'sync-leads', 'sync-mailer', 'sync-automation', 'move-shared']);
-/* production build that cleans out shared */
-gulp.task('build', ['clean-lp','clean-leads','clean-automation','clean-mailer','clean-cta']);
+gulp.task('translate' , gulp.series('zip-translations') , function() {
+    
+});
 
-gulp.task('default', [
-    'lint',
-    'clean',
-    'scripts',
-    'generateDocs'
-    // 'test'
-]);
+/**
+ * Deploy GPL plugins to SVN
+ */
+gulp.task('deploy-leads' , function() {
+    //return run('sh ./../leads/deploy.sh').exec().pipe(gulp.dest('output'));
+});

@@ -1,6 +1,6 @@
 
 
-<!-- Start shared\assets\js\frontend\analytics-src\analytics.events.js -->
+<!-- Start core\shared\assets\js\frontend\analytics-src\analytics.events.js -->
 
 # Analytics Events
 
@@ -8,7 +8,7 @@ Events are triggered throughout the visitors journey through the site. See more 
 
 Author: David Wells <david@inboundnow.com>
 
-Version: 0.0.1 
+Version: 0.0.2 
 [in]: http://www.inboundnow.com/
 
 # Event Usage
@@ -348,19 +348,44 @@ function form_after_submission_function( data ) {
  _inbound.add_action( 'form_after_submission', form_after_submission_function, 10 );
 ```
 
+## search_before_caching()
+
+`search_before_caching` is triggered before the search is stored in the user's browser.
+ If a lead ID is set, the search data will be saved to the server when the next page loads.
+ You can filter the data here or send it to third party services
+
+```js
+// Usage:
+
+// Adding the callback
+function search_before_caching_function( data ) {
+     var data = data || {};
+     // filter search data
+};
+
+ // Hook the function up the the `search_before_caching` event
+ _inbound.add_action( 'search_before_caching', search_before_caching_function, 10 );
+```
+
 button == the button that was clicked, form == the form that button belongs to, formRedirectUrl == the link that the form redirects to, if set
 
 Get the button...
 
+## if()
+
 If not an iframe
 
 If it is an iframe
+
+## if()
 
 If the redirect link is not set, or there is a single space in it, the form isn't supposed to redirect. So set the action for void
 
+## if()
+
 If not an iframe
 
 If it is an iframe
 
-<!-- End shared\assets\js\frontend\analytics-src\analytics.events.js -->
+<!-- End core\shared\assets\js\frontend\analytics-src\analytics.events.js -->
 

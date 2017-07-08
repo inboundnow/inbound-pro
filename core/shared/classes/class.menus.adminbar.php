@@ -330,7 +330,7 @@ if (!class_exists('Inbound_Menus_Adminbar')) {
                 return $menu_items;
             }
 
-            $mailer_key = 'inbound-mailer';
+            $mailer_key = 'mailer';
 
             /* 1 - Inbound Mailer Component */
             $menu_items[$mailer_key] = array(
@@ -341,7 +341,7 @@ if (!class_exists('Inbound_Menus_Adminbar')) {
             );
 
             /* 1.1 - View Email */
-            $menu_items['inbound-mailer-view'] = array(
+            $menu_items['mailer-view'] = array(
                 'parent' => $mailer_key,
                 'title' => __('View Email List', 'inbound-pro'),
                 'href' => admin_url('edit.php?post_type=inbound-email'),
@@ -349,7 +349,7 @@ if (!class_exists('Inbound_Menus_Adminbar')) {
             );
 
             /* 1.2 - Add New Email */
-            $menu_items['inbound-mailer-create'] = array(
+            $menu_items['mailer-create'] = array(
                 'parent' => $mailer_key,
                 'title' => __('Create New eMail', 'inbound-pro'),
                 'href' => admin_url('post-new.php?post_type=inbound-email'),
@@ -368,7 +368,7 @@ if (!class_exists('Inbound_Menus_Adminbar')) {
                 return $menu_items;
             }
 
-            $automation_key = 'inbound-automation';
+            $automation_key = 'automation';
 
             /* 1 - Inbound Automation Component */
             $menu_items[$automation_key] = array(
@@ -379,7 +379,7 @@ if (!class_exists('Inbound_Menus_Adminbar')) {
             );
 
             /* 1.1 - View Rules */
-            $menu_items['inbound-automation-view'] = array(
+            $menu_items['automation-view'] = array(
                 'parent' => $automation_key,
                 'title' => __('View Rules', 'inbound-pro'),
                 'href' => admin_url('edit.php?post_type=automation'),
@@ -387,7 +387,7 @@ if (!class_exists('Inbound_Menus_Adminbar')) {
             );
 
             /* 1.2 - Add New Rule */
-            $menu_items['inbound-automation-create'] = array(
+            $menu_items['automation-create'] = array(
                 'parent' => $automation_key,
                 'title' => __('Create New Rule', 'inbound-pro'),
                 'href' => admin_url('post-new.php?post_type=automation'),

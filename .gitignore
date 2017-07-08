@@ -8,11 +8,13 @@
 *.bat
 *.sh
 
-
+#svn
+svn
 
 # Node
 npm-debug.log
 node_modules
+package-lock.json
 
 # Grunt
 Gruntfile.js
