@@ -162,6 +162,16 @@ if (!class_exists('CTA_Metaboxes')) {
 				'side',
 				'high'
 			);
+            
+			/* Inbound Analytics CTA Stats Box */
+			add_meta_box(
+				'wp_cta_display_inbound_analytics_stats_metabox',
+				__( 'Inbound Analytics', 'inbound-pro' ), //todo make sure this looks good
+				array(__CLASS__, 'show_analytics_metabox'),
+				'wp-call-to-action' ,
+				'side',
+				'high'
+			);
 		}
 
 
@@ -407,6 +417,419 @@ if (!class_exists('CTA_Metaboxes')) {
 
 		}
 
+        /**
+        * Displays a metabox of the total clicks a CTA has,
+        * the top variations by clicks,
+        * and the top posts by clicks of the CTA
+        */
+        public static function show_analytics_metabox(){
+
+			global $post, $CTA_Variations;
+            
+			$variations = $CTA_Variations->get_variations($post->ID);
+            
+            $params = array(
+                'cta_id' => $post->ID,
+            );
+            $events = Inbound_Events::get_cta_clicks_by('cta_id', $params);
+
+            /* if there aren't any stats stored, output a message and exit */
+            if(empty($events)){
+                ?>
+                <div id="cta-analytics-stat-box">
+                    <div>
+                        <div class="inside" style='margin-left:-8px;text-align:center;'>
+                            <div id="quick-stats-box" class="no-cta-stats">
+                                <div class="cta-analytics-stat-box no-cta-stats">
+                                    <span id="no-cta-stats-message" class="no-cta-stats"><?php _e('No CTA stats stored yet!', 'inbound-pro'); ?></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php
+                return;
+            }            
+
+            /* if there are stats, count the result details */
+            $counter = array();
+            foreach($events as $event){
+                foreach($event as $index => $value){
+                    $counter[$index][] = $value;
+                }
+            }
+
+            /* if the plugin being used isn't pro */
+            if(!defined('INBOUND_PRO_CURRENT_VERSION')){
+				?>
+                <div id="cta-analytics-stat-box">
+                    <div>
+                        <div class="inside" style='margin-left:-8px;text-align:center;'>
+                            <div id="quick-stats-box">
+                                <div class="cta-analytics-stat-box">
+                                    <table id="cta-stat-table">
+                                        <tbody>
+                                            <tr class="cta-stat-box-heading total-clicks">
+                                                <th class="label_1 cta-statbox-label" title="<?php _e('Total clicks for all variations of this CTA', 'inbound-pro'); ?>"><?php _e('Total CTA Clicks:', 'inbound-pro'); ?></th>
+                                                <th class="label_2 cta-statbox-label"><?php echo count($counter['event_name']); ?></th>
+                                            </tr>
+                                            <tr class="cta-stat-box-heading top-variations">
+                                                <th class="label_1 cta-statbox-label" title="<?php _e('Top variations of this CTA ranked by click count', 'inbound-pro'); ?>"><?php _e('Top Variations:' , 'inbound-pro'); ?>   </th>
+                                                <th class="label_2 cta-statbox-label"><?php _e('Clicks' , 'inbound-pro'); ?></th>
+                                            </tr>
+                                            <?php
+                                            /** Top Variations section **/
+                                            
+                                            $variation_counter = 0;
+                                            $top_variations = array_count_values($counter['variation_id']);
+                                            arsort($top_variations);
+                                            foreach($top_variations as $index => $id_count){
+                                                if($variation_counter >= 3){
+                                                    break;
+                                                }
+                                            ?>
+                                            <tr>
+                                                <td><?php echo sprintf(__('Variation: %s', 'inbound-pro'), $CTA_Variations->vid_to_letter($post->ID, $index)); ?></td>
+                                                <td><?php echo $id_count; ?></td>
+                                            </tr>
+                                            <?php
+                                                $variation_counter++;
+                                            }
+                                            ?>
+                                            <tr class="spacer-row">
+                                                <td class="spacer-cell"></td>
+                                                <td class="spacer-cell"></td>
+                                            </tr>
+                                            <?php
+                                            /** Top Posts section **/
+                                            
+                                            $page_counter = 0;
+                                            $top_pages = array_count_values($counter['page_id']);
+                                            arsort($top_pages);
+                                            foreach($top_pages as $index => $id_count){
+                                                if($page_counter >= 3){
+                                                    break;
+                                                }
+                                                
+                                                /* get the post to see if it exists */
+                                                $converting_post = get_post($index);
+                                                
+                                                /* if the post doesn't exist, continue to the next */
+                                                if($converting_post === null){
+                                                    continue;
+                                                }
+                                                
+                                                /* if this is the first time around the loop, output the header */
+                                                if($page_counter == 0){
+                                                ?>
+                                            <tr class="cta-stat-box-heading top-posts">
+                                                <th class="label_1 cta-statbox-label" title="<?php _e('Top posts ranked by clicks of this CTA. This includes all variations of this CTA', 'inbound-pro'); ?>"><?php _e('Top Posts:' , 'inbound-pro'); ?>   </th>
+                                                <th class="label_2 cta-statbox-label"><?php _e('Clicks' , 'inbound-pro'); ?></th>
+                                            </tr>
+                                                <?php
+                                                }
+                                            ?>
+                                            <tr>
+                                                <td>
+                                                    <a href="<?php the_permalink($converting_post->ID); ?>">
+                                                        <?php 
+                                                            /* if the post title is longer than 16, shorten it */
+                                                            if(strlen($converting_post->post_title) >= 17){
+                                                                echo (substr($converting_post->post_title, 0, 16) . '...');
+                                                            }else{
+                                                            /* if it's shorter than 17, echo out the title */
+                                                                echo $converting_post->post_title;
+                                                            }
+                                                         ?>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <?php 
+                                                    /* echo out the the number of of logged post IDs */
+                                                    echo $id_count; 
+                                                    ?>
+                                                </td>
+                                            </tr>
+                                            <?php
+                                                $page_counter++;
+                                            }
+                                            ?>
+                                        </tbody>                                  
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        <?php                        
+            }else{
+                /** if the the plugin being used is a pro one **/
+                
+                $params = array('cta_id' => $post->ID);
+                
+                if(isset($_GET['range'])){
+                    $range = sanitize_text_field($_GET['range']);
+                }else{
+                    $range = 365;
+                }
+                
+                /** get the cta click events between two given dates **/
+                $current_range = new DateTime(date_i18n('Y-m-d G:i:s T'));
+                $params['end_date'] = $current_range->format('Y-m-d G:i:s T');
+                $current_range->modify( ('-' . $range . 'days') );
+                $params['start_date'] = $current_range->format('Y-m-d G:i:s T');
+            
+                $current_range_events = Inbound_Events::get_cta_clicks_by('cta_id', $params);
+                
+                /** get the cta clicks between two dates further back in time for something to compare stats against **/
+                $past_range = new DateTime(date_i18n('Y-m-d G:i:s T'));
+                $past_range->modify( ('-' . $range . 'days') );
+                $params['end_date'] = $past_range->format('Y-m-d G:i:s T');
+                $past_range->modify( ('-' . $range . 'days') );
+                $params['start_date'] = $past_range->format('Y-m-d G:i:s T');      
+                
+                $past_range_events = Inbound_Events::get_cta_clicks_by('cta_id', $params);              
+                
+                /* if there are no stored stats in the current or the past time lengths, output a message telling the user */
+                if(empty($current_range_events) && empty($past_range_events)){
+                    ?>
+                    <div id="cta-analytics-no-stats-wrapper">
+                        <div id="cta-analytics-no-stats-container">
+                            <span id="cta-analytics-no-stats-message"><?php _e('No CTA data found for this time range!', 'inbound-pro'); ?></span>
+                        </div>
+                    </div>
+                    <div class="navigation-separator"></div>
+                    <div>
+                    <?php
+                        Inbound_Quick_View::display_navigation();
+                    ?>
+                    </div>
+                    <?php
+                    return;
+                    
+                }
+                
+                /* count the current result details */
+                $current_counter = array();
+                $current_content = array();
+                foreach($current_range_events as $event){
+                    $current_content['variation_id'][$event['variation_id']][] = true;
+                    $current_content['page_id'][$event['page_id']][] = true; 
+                }
+                               
+                /* count the past result details */
+                $past_counter = array();
+                $past_content = array();
+                foreach($past_range_events as $event){
+                    $past_content['variation_id'][$event['variation_id']][] = true;
+                    $past_content['page_id'][$event['page_id']][] = true;                    
+                }
+                
+                /**
+                 * if there aren't any variation stats for the current time length,
+                 * sort the past time length's variation clicks from most clicks to least,
+                 * and according to that order, set the current time's variation clicks to 0
+                 */
+                if(empty($current_content['variation_id'])){
+                    arsort($past_content['variation_id']);
+                    foreach($past_content['variation_id'] as $key => $values){
+                        $current_content['variation_id'][$key] = 0;
+                    }
+                }else{
+                    arsort($current_content['variation_id']);
+                    
+                    /** if there are past cta records, check to see if there are any ctas missing from the current list **/
+                    if(!empty($past_content['variation_id'])){
+                        $missing_ctas = array_diff_key($past_content['variation_id'], $current_content['variation_id']);
+                        
+                        if(!empty($missing_ctas)){
+                            foreach($missing_ctas as $cta => $values){
+                                $current_content['variation_id'][$cta] = 0;
+                            }
+                        }
+                    }
+                }
+                
+                /* sort the posts by CTA clicks, most to least */
+                if(!empty($current_content['page_id'])){
+                    arsort($current_content['page_id']);
+                }
+                ?>
+                <div id="cta-analytics-stat-box">
+                    <div>
+                        <div class="inside" style='margin-left:-8px;text-align:center;'>
+                            <div id="quick-stats-box">
+                                <div class="cta-analytics-stat-box">
+                                    <table id="cta-stat-table" class="cta-analytics-stats-metabox">
+                                        <thead>
+                                            <tr>
+                                                <th class="info-header large-cell">Statistic</th>
+                                                <th class="info-header small-cell clicks-cell">Clicks</th>
+                                                <th class="info-header small-cell change-cell">Change</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="stat-header" title="<?php _e('Total clicks this CTA has generated over it\'s lifetime', 'inbound-pro'); ?>"><?php _e('Total CTA Clicks:', 'inbound-pro'); ?></td>
+                                                <td class="stat-header click-counter"><?php echo count($counter['event_name']); ?></td>
+                                                <td class="stat-header"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="stat-header" title="<?php _e('Top variations of this CTA ranked by clicks','inbound-pro'); ?>"><?php _e('Top Variations:', 'inbound-pro'); ?></td>
+                                                <td class="stat-header"></td>
+                                                <td class="stat-header"></td>
+                                            </tr>
+                                                <?php
+                                                /** Output a list of the top CTAs by clicks. Limit 5 **/
+                                                $row_counter = 0;
+                                                foreach($current_content['variation_id'] as $id => $values){
+                                                    if($row_counter >= 5){
+                                                        break;
+                                                    }
+                                                    
+                                                    if($values === 0){
+                                                        $current_number = 0;
+                                                    }else{
+                                                       $current_number = count($values); 
+                                                    }
+                                                 
+                                                    if(empty($past_content['variation_id'][$id])){
+                                                        $past_number = 0;
+                                                    }else{
+                                                        $past_number = count($past_content['variation_id'][$id]);
+                                                    }
+                                                ?>
+                                            <tr>
+                                                <td>
+                                                    <?php echo sprintf(__('Variation: %s', 'inbound-pro'), $CTA_Variations->vid_to_letter($post->ID, $id)); ?>
+                                                </td>
+                                                <td class="click-counter">
+                                                    <?php echo $current_number; ?>
+                                                </td>
+                                                <?php 
+                                                /** The percent change output section **/
+                                                
+                                                $difference = self::get_percentage_change($current_number, $past_number);
+                                                
+                                                $prior_clicks = sprintf(_n('There was %d click', 'There were %d clicks', $past_number, 'inbound-pro'), $past_number);
+                                                 
+                                                if($difference > 0){
+                                                    echo '<td class="rate-pill increasing" title="'. sprintf(_n('Clicks have increased by %s%% since yesterday.', 'Clicks have increased by %s%% over the past %d days. %s in the prior %d day period.', $range, 'inbound-pro'), $difference, $range, $prior_clicks, $range) .'">'. $difference .'%</td>';
+                                                }else if($difference == 0){
+                                                    echo '<td class="rate-pill decreasing" title="'. sprintf(_n('The click rate has not changed since yesterday.', 'The click rate has not changed over the past %d days.', $range, 'inbound-pro'), $range) .'">'. $difference .'%</td>';
+                                                }else{
+                                                    echo '<td class="rate-pill decreasing" title="'. sprintf(_n('Clicks have decreased by %s%% since yesterday.', 'Clicks have decreased by %s%% over the past %d days. %s in the prior %d day period.', $range, 'inbound-pro'), $difference, $range, $prior_clicks, $range) .'">'. $difference .'%</td>';
+                                                }
+                                                ?>
+                                                </td>                                        
+                                            </tr>
+                                                <?php 
+                                                    $row_counter++;
+                                                } ?>
+                                            <?php
+                                            /* if there have been clicks in the current time period */
+                                            if(!empty($current_content['page_id'])){
+                                            ?>
+                                                <?php
+                                                /** Output a list of the top post by cta clicks. Limit 5 **/
+                                                $row_counter = 0;
+                                                foreach($current_content['page_id'] as $id => $values){ 
+                                                    if($row_counter >= 5){
+                                                        break;
+                                                    }                                                    
+
+                                                    $converting_post = get_post($id);
+
+                                                    /* if the post doesn't exist, skip to the next one */
+                                                    if($converting_post === null){
+                                                        continue;
+                                                    }
+                                                    
+                                                    /* if this is the first time around the loop, output the header */
+                                                    if($row_counter == 0){
+                                                    ?>
+                                            <tr>
+                                                <td class="stat-header" title="<?php _e('Top posts ranked by clicks of this CTA. This includes all variations of this CTA', 'inbound-pro'); ?>"><?php _e('Top Posts:', 'inbound-pro'); ?></td>
+                                                <td class="stat-header"></td>
+                                                <td class="stat-header"></td>
+                                            </tr>    
+                                                    <?php
+                                                    }
+                                                ?>
+                                            <tr>
+                                                <td>
+                                                    <a href="<?php the_permalink($converting_post->ID); ?>">
+                                                        <?php 
+                                                            /* if the post's name is longer than 16, shorten it */
+                                                            if(strlen($converting_post->post_title) >= 17){
+                                                                echo (substr($converting_post->post_title, 0, 16) . '...');
+                                                            }else{
+                                                                echo $converting_post->post_title;
+                                                            }
+                                                         ?>
+                                                    </a>
+                                                </td>
+                                                <td class="click-counter">
+                                                    <?php 
+                                                    if(empty($values)){
+                                                        echo 0;
+                                                    }else{
+                                                        echo count($values);
+                                                    } ?>
+                                                
+                                                </td>
+                                                <td></td>                                        
+                                            </tr>
+                                                <?php 
+                                                    $row_counter++;
+                                                } 
+                                            }
+                                                ?>                                            
+                                        </tbody>
+                                    </table>
+                                    <div>
+                                        <div class="navigation-separator"></div>
+                                        <div>
+                                        <?php
+                                        /* set the quick view's range to $range for when the GET['range'] isn't set*/
+                                        Inbound_Quick_View::$range = $range;
+                                        
+                                        /* output the navigation buttons */
+                                        Inbound_Quick_View::display_navigation(); 
+                                        ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php
+            }
+        }
+        
+        /**
+         * Returns the CTA click rate difference between two time spans
+         */
+		public static function get_percentage_change($current, $past) {
+
+			if (!$past && $current) {
+				return 100;
+			}
+			if (!$past && !$current) {
+				return 0;
+			}
+            
+            /* find the percent change by subtracting ($c/$p) from 1 .
+             * If $c = 1 and $p = 3, dividing them returns 0.33 .
+             * But since we want the current change relative to the past,
+             * we subtract it from 1 to return 0.66
+             * */
+            $rate = (1 - ($current / $past));
+            
+            /* return the rounded $rate times 100 to give the percent. Add a - to reverse the sign*/
+			return round(-$rate * 100, 2);
+		}
 
 		/**
 		* Display CTA Settings for templates AND extensions
@@ -818,7 +1241,7 @@ if (!class_exists('CTA_Metaboxes')) {
 		}
 
 		/**
-		* Enqueues js
+		* Enqueues admin CTA styles and scripts
 		*/
 		public static function enqueue_admin_scripts() {
 			$screen = get_current_screen();
@@ -828,6 +1251,9 @@ if (!class_exists('CTA_Metaboxes')) {
 			}
 
 			wp_enqueue_style('wp-cta-ab-testing-admin-css', WP_CTA_URLPATH . 'assets/css/admin-ab-testing.css');
+            
+            /* enqueue the CTA Inbound Analytics metabox styles*/
+            wp_enqueue_style('wp-cta-inbound-analytics-admin-css', WP_CTA_URLPATH . 'assets/css/admin-cta-inbound-analytics-metabox.css');
 		}
 
 		/**

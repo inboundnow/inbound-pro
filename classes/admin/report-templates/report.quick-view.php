@@ -245,7 +245,7 @@ if ( !class_exists('Inbound_Quick_View') ) {
 				<li <?php echo (self::$range == 1) ? "class='active'" : "class=''"; ?> data-range='1' title='<?php _e('Past 24 hours', 'inbound-pro'); ?>'>
 					<a href='<?php echo $base; ?>&range=1'>1</a>
 				</li>
-				<li <?php echo (self::$range == 7) ? "class='active'" : "class=''"; ?> data-range='7' title='<?php _e('Past 7 hours', 'inbound-pro'); ?>'>
+				<li <?php echo (self::$range == 7) ? "class='active'" : "class=''"; ?> data-range='7' title='<?php _e('Past 7 days', 'inbound-pro'); ?>'>
 					<a href='<?php echo $base; ?>&range=7'>7</a>
 				</li>
 				<li <?php echo (self::$range == 30) ? "class='active'" : "class=''"; ?> data-range='30' title='<?php _e('Past 30 days', 'inbound-pro'); ?>'>
