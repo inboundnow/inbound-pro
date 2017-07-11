@@ -1,9 +1,12 @@
 <?php
-/*
-Trigger Name: Lead Page View Event
-Trigger Description: This trigger fires whenever a page_view is updated,
-Trigger Author: Inbound Now
-Contributors: Hudson Atwell
+/**
+ * Disabled for fear of resource usage: Lead Page View Event
+ * @name: Lead Page View Event
+ * @description: This trigger fires whenever a page_view is updated,
+ * @author: Inbound Now
+ * @contributors: Hudson Atwell
+ * @package Automation
+ * @subpackage Triggers
 */
 
 

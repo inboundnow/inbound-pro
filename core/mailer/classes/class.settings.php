@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Creates Global Settings
+ * Adds Mailer Component settings to Inbound Pro Setting Area
  *
- * @package	Inbouns Mailer
- * @subpackage	Global Settings
+ * @package Mailer
+ * @subpackage	Settings
 */
 
 if ( !class_exists('Inbound_Mailer_Settings') ) {
@@ -27,7 +27,6 @@ if ( !class_exists('Inbound_Mailer_Settings') ) {
 		public static function add_hooks() {
 			/*  Add settings to inbound pro  */
 			add_filter('inbound_settings/extend', array( __CLASS__  , 'define_pro_settings' ) );
-
 		}
 
 		/**

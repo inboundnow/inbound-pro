@@ -1,10 +1,13 @@
 <?php
-/*
-Trigger Name: WordPress Post Categorization Event
-Hook Reference: http://hookr.io/4.4/actions/added_term_relationship/
-Trigger Description: This fires whenever a category is added to a post
-Trigger Author: Inbound Now
-Contributors: Hudson Atwell
+/**
+ * Object categorition/tag event
+ * @name Object categorition/tag event
+ * @description: Fires when a post, page, custom-post-type object is added to a category/tag/taxonomy
+ * @uthor: Inbound Now
+ * @contributors: Hudson Atwell
+ * @package Automation
+ * @subpackage Triggers
+ *
 */
 
 

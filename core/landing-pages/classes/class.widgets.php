@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Class adds the 'conversion area widget' designed to compliment landing pages set to use the default template.
+ *
+ * @package     LandingPages
+ * @subpackage  Widgets
+ */
+
+
 add_action('widgets_init', 'lp_load_widgets');
 
 function lp_load_widgets() {

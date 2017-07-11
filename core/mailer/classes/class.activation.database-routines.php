@@ -1,10 +1,10 @@
 <?php
 
 /**
-*   Public methods in this class will be run at least once during plugin activation script.
-*
-*   Updater methods fired are stored in transient to prevent repeat processing
-*/
+ * Class for defining and executing activation database routines for Mailer component
+ * @package Mailer
+ * @subpackage Activation
+ */
 
 
 class Inbound_Mailer_Activation_Update_Routines {

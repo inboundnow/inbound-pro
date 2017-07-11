@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Class adds row actions to landing-page CPT listing page. Should be moved into class.post-type.landing-pages.php
+ * @package LandingPages
+ * @subpackage Management
+ */
+
 class Landing_Pages_Row_Actions {
 
     /**

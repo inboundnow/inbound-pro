@@ -1,8 +1,11 @@
 <?php
-
 /**
- *    Class helps schedule & unschedule inbound emails
+ * Class Inbound_Mailer_Scheduling provides methods for scheduling emails, generating batches, and other supportive routines
+ *
+ * @package Mailer
+ * @subpackage  Scheduling
  */
+
 class Inbound_Mailer_Scheduling {
 
     static $email_id; /* placeholder for email id */

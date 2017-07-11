@@ -1,10 +1,15 @@
 <?php
-/*
-Query Name: Lead Queries
-Query Description: Definitions and Lookup Maps for Lead Data
-Query Author: Inbound Now
-Contributors: Hudson Atwell
+/**
+ * Lead Data Query
+ * @name Lead Queries
+ * @description Definitions and Lookup Maps for Lead Data
+ * @uthor Inbound Now
+ * @contributors Hudson Atwell
+ * @package Automation
+ * @subpackage Queries
+ *
 */
+
 
 
 if ( !class_exists( 'Inbound_Automation_Query_Lead' ) ) {

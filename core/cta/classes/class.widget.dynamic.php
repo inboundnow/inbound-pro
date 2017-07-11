@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Creates CTA Dynamic Widget
+ * Class to create CTA Placeholder widget.
  *
- * @package    Calls To Action
- * @subpackage    Widgets
+ * @package CTA
+ * @subpackage Core
  */
 
 if (!class_exists('CTA_Dynamic_Widget')) {

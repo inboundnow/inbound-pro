@@ -1,6 +1,14 @@
 <?php
 
 
+/**
+ * Class Inbound_Mailer_Tokens description could be refactored. Hosts various methods related to the unsubscribe token, 'lead fields' WYSIWYG feature support, various shortcodes that can be used inside an email, and the previewing of post data inside an automated email.
+ *
+ * @package Mailer
+ * @subpackage	ShortcodesAndTokens
+ */
+
+
 class Inbound_Mailer_Tokens {
 
 

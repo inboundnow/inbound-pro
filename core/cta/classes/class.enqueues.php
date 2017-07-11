@@ -1,8 +1,11 @@
 <?php
 
 /**
- *  Scripts and stylesheet that have not been segmented into classes or have no other home are enqueued here.
+ * Class for enqueuing scripts and stylesheet that have not been segmented into classes or have no other home.
+ * @package CTA
+ * @subpackage Enqueues
  */
+
 class CTA_Enqueues {
 
 	static $scripts_queue; /* Holds 3rd party scripts queue

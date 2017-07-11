@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Class that monitors cta link click and form submission conversions related to CTAs
+ *
+ * @package CTA
+ * @subpackage Core
+ */
+
+
 class CTA_Conversion_Tracking {
 
 	/**

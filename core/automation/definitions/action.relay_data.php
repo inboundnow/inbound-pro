@@ -1,9 +1,12 @@
 <?php
-/*
-Action Name: Relay Data
-Action Description: Relay trigger data to extenal URL using several different methods.
-Action Author: Inbound Now
-Contributors: Hudson Atwell
+/**
+ * Relay Data
+ * @name Relay Data
+ * @description Relay trigger data to extenal URL using several different methods.
+ * @author Inbound Now
+ * @contributors Hudson Atwell
+ * @package     Automation
+ * @subpackage  Actions
 */
 
 if ( !class_exists( 'Inbound_Automation_Action_Relay_Data' ) ) {

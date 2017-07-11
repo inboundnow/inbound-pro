@@ -11,6 +11,10 @@ Author URI: http://www.inboundnow.com/
 
 if (!class_exists('Inbound_Landing_Pages_Plugin')) {
 
+	/**
+	 * Class Inbound_Landing_Pages_Plugin loads Landing Pages plugin
+	 * @package     Leads
+	 */
 	final class Inbound_Landing_Pages_Plugin {
 
 		/**
@@ -93,7 +97,6 @@ if (!class_exists('Inbound_Landing_Pages_Plugin')) {
 					include_once( LANDINGPAGES_PATH . 'classes/class.acf-integration.php');
 					include_once( LANDINGPAGES_PATH . 'classes/class.postmeta.php');
 					include_once( LANDINGPAGES_PATH . 'classes/class.statistics.php');
-					include_once( LANDINGPAGES_PATH . 'classes/class.click-tracking.php');
 					include_once( LANDINGPAGES_PATH . 'classes/class.post-type.landing-page.php');
 					include_once( LANDINGPAGES_PATH . 'modules/module.utils.php');
 					include_once( LANDINGPAGES_PATH . 'classes/class.sidebars.php');

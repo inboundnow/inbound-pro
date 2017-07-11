@@ -1,8 +1,8 @@
 <?php
 /**
- * Inbound Lead Storage
- *
- * - Handles lead creation and data storage
+ * Class handles all lead storage/update procedures
+ * @package Shared
+ * @subpackage LeadSorage
  */
 if (!class_exists('LeadStorage')) {
 	class LeadStorage {

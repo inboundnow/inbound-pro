@@ -1,8 +1,11 @@
 <?php
 
 /**
- * Class Landing_Pages_Meta Array placeholder to eventually hold all landing page data
+ * Class provides a data interface for interacting with landing page meta data. Used by Landing_Pages_ACF class
+ * @package LandingPages
+ * @subpackage DataInterfaces
  */
+
 class Landing_Pages_Meta {
 
 	/**

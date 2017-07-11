@@ -1,7 +1,10 @@
 <?php
+
 /**
- * Inbound Marketing Button in editor
+ * Class Inbound_Template_Utils provides developer tools for generating landing page boilerplates from ACF import data
+ * @package ACF
  */
+
 
 /* Exit if accessed directly */
 if ( ! defined( 'ABSPATH' ) ) { exit; }

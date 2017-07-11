@@ -1,7 +1,8 @@
 <?php
-
 /**
- *	This class loads miscellaneous WordPress AJAX listeners
+ * Class provides ajax that tracks lead frontend movement
+ * @package     Shared
+ * @subpackage  Tracking
  */
 if (!class_exists('Inbound_Ajax')) {
 
@@ -19,21 +20,9 @@ if (!class_exists('Inbound_Ajax')) {
 		 */
 		public static function load_hooks() {
 
-			/* Ajax that runs on pageload */
-			add_action('wp_ajax_nopriv_inbound_ajax', array(__CLASS__, 'run_ajax_actions'));
-			add_action('wp_ajax_inbound_ajax', array(__CLASS__, 'run_ajax_actions'));
-
-
 			/* Increases the page view statistics of lead on page load */
 			add_action('wp_ajax_inbound_track_lead', array(__CLASS__, 'track_lead'));
 			add_action('wp_ajax_nopriv_inbound_track_lead', array(__CLASS__, 'track_lead'));
-
-		}
-
-		/**
-		 * Executes hook that runs all ajax actions
-		 */
-		public static function run_ajax_actions() {
 
 		}
 

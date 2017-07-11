@@ -3,8 +3,8 @@
 /**
  * 3rd Party Template Management
  *
- * @package	Calls To Action
- * @subpackage	Templates
+ * @package CTA
+ * @subpackage Templates
 */
 
 if ( !class_exists('CTA_Template_Manager') ) {
@@ -38,10 +38,6 @@ if ( !class_exists('CTA_Template_Manager') ) {
 				wp_enqueue_script('wp-cta-js-templates', WP_CTA_URLPATH . 'assets/js/admin/admin.templates.js' , array() , null , true );
 			}
 
-			/* Load assets for store search */
-			if ( ( isset($screen) && $screen->base == 'wp-call-to-action_page_wp_cta_store' ) ){
-					wp_enqueue_script('easyXDM', WP_CTA_URLPATH . 'assets/lib/easyXDM.debug.js' , array() , null , true );
-			}
 		}
 
 

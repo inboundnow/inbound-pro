@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Class for adding admin notices to Call to Action sections only
+ * @package CTA
+ * @subpackage Notices
+ */
+
+
 class CTA_Admin_Notices {
 
     public function __construct() {
@@ -8,7 +15,7 @@ class CTA_Admin_Notices {
 
 
     public static function add_hooks() {
-        add_action('admin_notices', array( __CLASS__, 'dont_install_call_to_action_templates_here'));
+        /* add_action('admin_notices', array( __CLASS__, 'dont_install_call_to_action_templates_here')); */
         add_action('admin_notices', array( __CLASS__, 'get_more_templates_notice' ) );
     }
 

@@ -1,9 +1,13 @@
 <?php
-/*
-Trigger Name: Form Submission Event
-Trigger Description: This trigger fires whenever a tracked Form is submitted.
-Trigger Author: Inbound Now
-Contributors: Hudson Atwell
+/**
+ * Lead Creation / Update Event
+ * @name Lead Creation / Update Event
+ * @description: Fires when a lead object is updated or created
+ * @author: Inbound Now
+ * @contributors: Hudson Atwell
+ * @package Automation
+ * @subpackage Triggers
+ *
 */
 
 class Inbound_Automation_Trigger_inbound_store_lead_post {

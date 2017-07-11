@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Class for defining and executing activation routines
+ * @package CTA
+ * @subpackage Activation
+ */
 
 if ( !class_exists('CTA_Activation') ) {
 

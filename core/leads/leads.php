@@ -4,12 +4,16 @@ Plugin Name: Leads
 Plugin URI: http://www.inboundnow.com/leads/
 Description: Track website visitor activity, manage incoming leads, and send collected emails to your email service provider.
 Author: Inbound Now
-Version: 3.1.4
+Version: 3.1.6
 Author URI: http://www.inboundnow.com/
 */
 
 if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 
+	/**
+	 * Class Inbound_Leads_Plugin loads Leads plugin
+	 * @package     Leads
+	 */
 	final class Inbound_Leads_Plugin {
 
 
@@ -24,7 +28,7 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 		*  Setup plugin constants
 		*/
 		private static function define_constants() {
-			define('WPL_CURRENT_VERSION', '3.1.4' );
+			define('WPL_CURRENT_VERSION', '3.1.6' );
 			define('WPL_URLPATH',  plugins_url( '/', __FILE__ ) );
 			define('WPL_PATH', WP_PLUGIN_DIR."/".dirname( plugin_basename( __FILE__ ) ) . '/' );
 			define('WPL_CORE', plugin_basename( __FILE__ ) );

@@ -1,9 +1,9 @@
 <?php
-
 /**
- * Class Landing_Pages_Admin_Menus
+ * Class for adding Landing Pages menu items to left wp-admin menu
+ * @package LandingPages
+ * @subpackage Menus
  */
-
 class Landing_Pages_Admin_Menus {
 
     /**

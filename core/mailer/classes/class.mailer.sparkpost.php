@@ -1,7 +1,9 @@
 <?php
 
 /**
- * Inbound Mail Daemon listens for and sends scheduled emails
+ * Class Inbound_Mailer_SparkPost extends Inbound_Mail_Daemon to power SparkPost sends
+ * @package Mailer
+ * @subpackage SparkPost
  */
 class Inbound_Mailer_SparkPost extends Inbound_Mail_Daemon {
 

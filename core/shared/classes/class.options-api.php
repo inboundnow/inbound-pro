@@ -1,4 +1,12 @@
 <?php
+
+/**
+ * Class Inbound_Options_API provides a clean way for interfacing with the wp_options table. This class is not loaded if Inbound Pro is running
+ * @package Shared
+ * @subpackage DataInterfaces
+ */
+
+
 if ( ! class_exists( 'Inbound_Options_API' ) ) {
 
 	class Inbound_Options_API {

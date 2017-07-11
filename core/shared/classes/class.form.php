@@ -1,13 +1,16 @@
 <?php
 /**
- * Creates Inbound Form Shortcode
+ * Class for managing most methods involving Inbound Forms component
+ * @package     Shared
+ * @subpackage  InboundForms
  */
-
 if (!class_exists('Inbound_Forms')) {
     class Inbound_Forms {
         static $add_script;
 
-
+        /**
+         * Initialize Class / add hooks & filters
+         */
         static function init() {
 
             add_shortcode('inbound_form', array(__CLASS__, 'inbound_forms_create'));
@@ -20,7 +23,9 @@ if (!class_exists('Inbound_Forms')) {
 
         }
 
-        /* Create Longer shortcode for [inbound_form] */
+        /**
+         * Create Longer shortcode for [inbound_form]
+         */
         static function inbound_forms_create($atts, $content = null) {
 
             global $post;

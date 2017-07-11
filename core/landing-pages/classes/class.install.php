@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Class for creating example landing page on first install and prompting Leads and CTA GPL plugin downloads when Landing Pages GPL installed.
+ * @package LandingPages
+ * @subpackage Activation
+ */
+
 class Landing_Pages_Install {
 
     /**

@@ -1,8 +1,8 @@
 <?php
 /**
- * - Editor
- * - Preview
- * - Parent ( Customizer )
+ * Class manages visual editor for Landing Pages and Calls to Action components
+ * @package Shared
+ * @subpackage VisualEditor
  */
 
 class Inbound_Customizer {

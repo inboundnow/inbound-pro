@@ -1,4 +1,10 @@
 <?php
+/**
+ * Class Inbound_Email_Meta provides a dat interface for storing and retrieving `inbound-email` CPT meta data
+ *
+ * @package Mailer
+ * @subpackage  DataInterface
+ */
 
 class Inbound_Email_Meta {
 	
