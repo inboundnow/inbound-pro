@@ -12,7 +12,7 @@ The Inbound Pro plugin includes and expands on the powers of our 3 most popular 
 
 ## Code Contributions 
 
-We love user-contributed code. The truth is we could use all the help we can get. For details on contributing please read our [contribution guidelines](https://github.com/inbound-now/inbound-pro/blob/master/contributions.md). You might also find our [PHP Codex](https://inboundnow.github.io/php-codex/)
+We love user-contributed code. The truth is we could use all the help we can get. For details on contributing please read our [contribution guidelines](https://github.com/inbound-now/inbound-pro/blob/master/contributions.md). You might also find our [PHP Codex](https://inboundnow.github.io/php-codex/) useful as well. It's still a work in development.
 
 Here are some various ways you can contribute:
 
@@ -21,7 +21,7 @@ Here are some various ways you can contribute:
 3. [Contribute to Core Code](https://github.com/inbound-now/inbound-pro/blob/master/contributions.md)
 4. [Provide feedback and suggestions](https://github.com/inboundnow/inbound-pro/issues?direction=desc&labels=Feature%20Request&page=1&sort=created&state=open)
 
-
+Please Note: Inbound Pro development occurs in `develop` branch. `master` branch holds the latest stable release.
 ## Our Plugins
 
 ### Landing Pages
@@ -34,7 +34,7 @@ Landing Pages plugin provides a landing page framework powered by [Advanced Cust
 
 * [Using Advanced Custom Fields to Build a Landing Page Template](https://github.com/inboundnow/landing-pages/blob/develop/shared/docs/how.to.create.landing.page.templates.using.ACF.md)
 * [Expert Post: How I created a landing page template and how you could too](https://www.inboundnow.com/how-i-created-a-landing-page-template/)
-* [Landing Page Template Marketplace] (https://www.inboundnow.com/marketplace/?show=landing-pages)
+* [Landing Page Template Marketplace](https://www.inboundnow.com/marketplace/?show=landing-pages)
 
 ### Leads
 ![Plugin Version](https://img.shields.io/wordpress/plugin/v/leads.svg) 
@@ -88,7 +88,7 @@ This plugin ships assets with varying licensing policies. For assets considered 
 
 ### _IBN License_
 
-Structural property cannot be used or modified by a 3rd party without permission or issued license from InboundWP LLC.
+Structural property cannot be used distributed, or modified without a license issed from InboundWP LLC that delegates said permissions.
 
 
 ### Designation of Licenses
@@ -159,7 +159,7 @@ Path | License Applied
 
 # Development Builds
 
-Inbound Pro has a few [NodeJS](https://nodejs.org/en/) powered [Gulp](http://gulpjs.com/) tasks that contributors should be aware of.
+Inbound Pro Plugin includes [NodeJS](https://nodejs.org/en/) powered [Gulp](http://gulpjs.com/) tasks that contributors should be aware of when editing any part of our `InboundAnalytics.min.js` file.
 
 ## Installing Dependencies
 
