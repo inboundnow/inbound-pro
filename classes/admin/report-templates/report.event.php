@@ -234,6 +234,18 @@ if (!class_exists('Inbound_Event_Report')) {
                     <th scope="col" class="">
                         <span><?php _e('Lead' , 'inbound-pro'); ?></span>
                     </th>
+                    <?php
+                    if (self::$event_name == 'inbound_direct_message') {
+                        ?>
+                        <th scope="col" class="">
+                            <span><?php _e('Message' , 'inbound-pro'); ?></span>
+                        </th>
+                        <?php
+                    }
+                    ?>
+                    <th scope="col" class="">
+                        <span><?php _e('Lead' , 'inbound-pro'); ?></span>
+                    </th>
                     <th scope="col" class="">
                         <span><?php _e('Funnel Details' , 'inbound-pro'); ?></span>
                     </th>
@@ -291,6 +303,29 @@ if (!class_exists('Inbound_Event_Report')) {
                             <i class="fa fa-user inbound-tooltip" aria-hidden="true"></i>
                         </a>
                     </td>
+
+                    <?php
+                    if (self::$event_name == 'inbound_direct_message') {
+                        ?>
+                        <td class="" >
+                        <div id="wrapper">
+                            <div class="hoverme">
+                                <a href="" target="_self">
+                                <i class="fa fa-comments inbound-tooltip" aria-hidden="true"> </i>
+                                <pre>
+                                </a>
+                                <?php
+                                $event_details = json_decode($event['event_details'] , true);
+                                echo $event_details['email_content']['value'];
+                                ?>
+                                </pre>
+                            </div>
+                        </div>
+
+                    </td>
+                        <?php
+                    }
+                    ?>
                     <td class="" >
                         <div id="wrapper">
                             <div class="hoverme">
@@ -340,6 +375,15 @@ if (!class_exists('Inbound_Event_Report')) {
                     <th scope="col" class="">
                         <span><?php _e('Lead' , 'inbound-pro'); ?></span>
                     </th>
+                    <?php
+                    if (self::$event_name == 'inbound_direct_message') {
+                        ?>
+                        <th scope="col" class="">
+                            <span><?php _e('Message' , 'inbound-pro'); ?></span>
+                        </th>
+                        <?php
+                    }
+                    ?>
                     <th scope="col" class="">
                         <span><?php _e('Funnel Details' , 'inbound-pro'); ?></span>
                     </th>
