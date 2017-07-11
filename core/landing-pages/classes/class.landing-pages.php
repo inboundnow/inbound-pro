@@ -1,8 +1,9 @@
 <?php
 
 /**
- * Class Landing_Pages_Loader
- * Loads landing page elements
+ * Class for loading landing page templates when landing page is called on the frontend.
+ * @package LandingPages
+ * @subpackage Templates
  */
 
 class Landing_Pages_Template_Switcher {
@@ -570,7 +571,7 @@ function lp_rebuild_attributes($content = null, $wrapper_class = null) {
         foreach ($matches[0] as $key => $value) {
             if ($key == 0) {
                 $new_value = $value;
-                $new_value = preg_replace('/ class=(["\'])(.*?)(["\'])/', 'class="$2 wpl-track-me-link"', $new_value);
+                $new_value = preg_replace('/ class=(["\'])(.*?)(["\'])/', 'class="$2 inbound-track-link"', $new_value);
 
 
                 $content = str_replace($value, $new_value, $content);

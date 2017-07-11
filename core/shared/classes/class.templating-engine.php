@@ -1,10 +1,17 @@
 <?php
 
-if ( !class_exists('Inbound_Templating_Engine') ) {
-
 function Inbound_Templating_Engine() {
 	return Inbound_Templating_Engine::instance();
 }
+
+
+/**
+ * Class Inbound_Templating_Engine adds methods supporting token swapping when sending admin new lead notification emails and mailer component emails. Needs more documentation
+ * @package Shared
+ * @subpackage ShortcodesAndTokens
+ */
+
+
 
 class Inbound_Templating_Engine {
 
@@ -93,7 +100,5 @@ class Inbound_Templating_Engine {
 
 		return do_shortcode($template);
 	}
-
-}
 
 }

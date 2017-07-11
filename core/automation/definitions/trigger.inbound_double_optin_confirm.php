@@ -1,9 +1,13 @@
 <?php
-/*
-Trigger Name: Form Submission Event
-Trigger Description: This trigger fires whenever a tracked Form is submitted.
-Trigger Author: Inbound Now
-Contributors: Hudson Atwell
+/**
+ * Double Optin Confirmation
+ * @name Doouble Optin Confirmation
+ * @description: Fires when a lead confirms his lead list subscription via email
+ * @uthor: Inbound Now
+ * @contributors: Hudson Atwell
+ * @package Automation
+ * @subpackage Triggers
+ *
 */
 
 class Inbound_Automation_Trigger_inbound_double_optin_confirm {

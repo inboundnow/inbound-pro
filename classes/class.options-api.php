@@ -1,4 +1,12 @@
 <?php
+
+/**
+ * Class for loading functions to store and retrieve data from wp_options table
+ * @package     InboundPro
+ * @subpackage  DataInterface
+ */
+
+
 if ( ! class_exists( 'Inbound_Options_API' ) ) {
 
 	class Inbound_Options_API {

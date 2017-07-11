@@ -1,9 +1,9 @@
 <?php
 
 /**
- * 3rd Party Template Management
+ * Class Inbound_Mailer_Template_Manager provides the template management screen feature for 3rd party template management.
  *
- * @package	Inbouns Mailer
+ * @package Mailer
  * @subpackage	Templates
 */
 

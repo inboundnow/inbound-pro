@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Class provides search and comment tracking features
+ *
+ * @package Leads
+ * @subpackage Core
+ */
+
+
 class Leads_Tracking {
 
     /**

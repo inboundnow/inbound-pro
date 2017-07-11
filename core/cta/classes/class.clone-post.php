@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Class for implementing landing page clone feature
+ * @package CTA
+ * @subpackage Cloning
+ */
 
 class CTA_Clone_Post {
 

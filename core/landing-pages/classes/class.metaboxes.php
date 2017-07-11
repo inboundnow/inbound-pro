@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Class for rendering and storing data related to the landing-page CPT edit screen
+ * @package LandingPages
+ * @subpackage Management
+ */
 
 class Landing_Pages_Metaboxes {
 
@@ -692,7 +697,7 @@ href='?post=<?php echo $post->ID; ?>&action=edit&action-variation-id=<?php echo 
 
         /*Clear The Room! */
         echo "<div style='clear:both; display:block;'></div>";
-        echo "<div style='width:100%;text-align:right;margin-top:11px;'><div class='lp_tooltip'  title=\"". __('To help track conversions Landing Pages Plugin will automatically add a tracking class to forms. If you would like to track a link add this class to it' , 'landing-pages') ." class='wpl-track-me-link'\" ></div></div>";
+        echo "<div style='width:100%;text-align:right;margin-top:11px;'><div class='lp_tooltip'  title=\"". __('To help track conversions Landing Pages Plugin will automatically add a tracking class to forms. If you would like to track a link add this class to it' , 'landing-pages') ." class='inbound-track-link'\" ></div></div>";
 
     }
 

@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Class for setting up and executing activation routines
+ * @package     InboundPro
+ * @subpackage  Admin
+ */
 
 class Inbound_Pro_Activation {
 

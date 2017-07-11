@@ -146,7 +146,7 @@ Downloads.Modules.Templates = (function($, undefined) {
 			type: "POST",
 			url: ajaxurl ,
 			data: {
-				action: 'inbound_update_meta_filter',
+				action: 'inbound_update_download_filter_preferences',
 				meta_filter: meta_filter,
 			},
 			dataType: 'html',

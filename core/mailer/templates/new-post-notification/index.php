@@ -1,7 +1,7 @@
 <?php
 /**
  * Template Name: Cerberus Fluid
- * @package  Inbound Email
+ * @package  Mailer
  * @author   Inbound Now
  */
 

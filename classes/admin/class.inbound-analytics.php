@@ -1,7 +1,9 @@
 <?php
 
 /**
- *  This class loads installed extensions
+ * Class for initializing Inbound Analytics component across WordPress
+ * @package     InboundPro
+ * @subpackage  Admin
  */
 class Inbound_Analytics {
     static $templates;

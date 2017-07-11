@@ -8,7 +8,7 @@
  * The result is the index.php file that produces the actual email code.
  * 
  * Template Name: Hero
- * @package  Inbound Email
+ * @package  Mailer
  * @author   Inbound Now
 */
 

@@ -166,3 +166,5 @@ core/leads/.idea/
 /core/cta/assets/lang
 /core/cta/assets/tests
 /notes.txt
+composer.json
+composer.lock

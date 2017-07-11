@@ -1,7 +1,10 @@
 <?php
 
-/* Public methods in this class will be run at least once during plugin activation script. */
-/* Updater methods fired are stored in transient to prevent repeat processing */
+/**
+ * Welcome Page Class. Public methods in this class will be run at least once during plugin activation script. Updater methods fired are stored in transient to prevent repeat processing
+ * @package     CTA
+ * @subpackage  Activation
+*/
 
 if ( !class_exists('CTA_Activation_Update_Routines') ) {
 

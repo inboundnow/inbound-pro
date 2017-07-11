@@ -1,11 +1,23 @@
 <?php
 
+/**
+ * Class extends Inbound Forms to support `automated` inbound-email templates for instant followup emails
+ * @package Mailer
+ * @subpackage InboundForms
+ */
+
 class Inbound_Mailer_Forms_Integration {
 
+    /**
+     * Inbound_Mailer_Forms_Integration constructor.
+     */
     public function __construct() {
         self::add_hooks();
     }
 
+    /**
+     * Add hooks and filters
+     */
     public static function add_hooks() {
         add_filter( 'inbound-forms/email-reponse-hijack' , array( __CLASS__ , 'send_confirmation_email') , 10 , 3 );
         add_action( 'inbound-forms/before-email-reponse-setup' , array( __CLASS__ , 'extend_inbound_forms' ));
@@ -84,6 +96,9 @@ class Inbound_Mailer_Forms_Integration {
 
     /**
      * filter inbound form email response body
+     * @param $confirm_body
+     * @param $form_meta_data
+     * @return mixed
      */
     public static function filter_lead_email_response_body( $confirm_body , $form_meta_data ) {
 

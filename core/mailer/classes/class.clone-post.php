@@ -1,4 +1,9 @@
 <?php
+/**
+ * Class adds clone feature to `inbound-email` CPT listing screen
+ * @package Mailer
+ * @subpackage Management
+ */
 
 class Inbound_Mailer_Clone_Post {
 	

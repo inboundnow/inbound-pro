@@ -1,9 +1,12 @@
 <?php
-/*
-Action Name: Lead Data
-Action Description: Data array passed trough inbound_now_store_lead_post hook. Matches data map.
-Action Author: Inbound Now
-Contributors: Hudson Atwell, David Wells
+/**
+ * Lead Data
+ * @name Lead Data
+ * @description Data array passed trough inbound_now_store_lead_post hook. Matches data map.
+ * @author Inbound Now
+ * @contributors Hudson Atwell, David Wells
+ * @package Automation
+ * @subpackage  Actions
 */
 
 if ( !class_exists( 'Inbound_Automation_Action_Wait' ) ) {

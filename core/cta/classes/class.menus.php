@@ -1,10 +1,9 @@
 <?php
-
-if ( !class_exists('CTA_Menus') ) {
-
 /**
-*  Loads admin sub-menus and performs misc menu related functions
-*/
+ * Class for adding CTA to the left wp-admin menu
+ * @package CTA
+ * @subpackage Menus
+ */
 class CTA_Menus {
 
 	/**
@@ -77,6 +76,4 @@ class CTA_Menus {
 /**
 *  Loads Class Pre-Init
 */
-$CTA_Menus = new CTA_Menus();
-
-}
+new CTA_Menus();

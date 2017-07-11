@@ -1,8 +1,10 @@
 <?php
 
-/* Public methods in this class will be run at least once during plugin activation script. */
-/* Updater methods fired are stored in transient to prevent repeat processing */
-
+/**
+ * Class for defining and loading shared database routines
+ * @package     Shared
+ * @subpackage  DatabaseRoutines
+ */
 if ( !class_exists('Inbound_Upgrade_Routines') ) {
 
     class Inbound_Upgrade_Routines {

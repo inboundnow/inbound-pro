@@ -1,7 +1,9 @@
 <?php
 
 /**
-*  Processes auotomation jobs
+ * Class for processing automation rules in inbound_automation_queue table
+ * @package     Automation
+ * @subpackage  Rules
 */
 
 

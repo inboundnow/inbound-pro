@@ -1,8 +1,11 @@
 <?php
 
 /**
-*  This class will throw all the correct admin notifications
-*/
+ * Class Inbound_Mailer_Notifications adds admin notifications unique to the Mailer component
+ *
+ * @package Mailer
+ * @subpackage  Notifications
+ */
 
 class Inbound_Mailer_Notifications {
 

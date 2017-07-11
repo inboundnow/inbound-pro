@@ -1,8 +1,9 @@
 <?php
 
 /**
- *  This class loads supporting automation definitions and listeners
- *  Contributors: Hudson Atwell
+ * Class for registering and loading automation definitions, filters, and queries
+ * @package     Automation
+ * @subpackage  Rules
  */
 
 if (!class_exists('Inbound_Automation_Loader')) {

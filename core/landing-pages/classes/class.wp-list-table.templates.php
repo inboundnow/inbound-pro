@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Class displays activated landing page templates
+ *
+ * @package     LandingPages
+ * @subpackage  Templates
+ */
+
 if (!class_exists('WP_List_Table')) {
     require_once(ABSPATH . 'wp-admin/includes/class-wp-list-table.php');
 }

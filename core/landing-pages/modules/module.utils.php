@@ -37,6 +37,15 @@ if (!function_exists('inbound_qtrans_disable')) {
  * Add namespaces for legacy classes to try and prevent fatals
  */
 if (!class_exists('LP_EXTENSION_UPDATER') ){
+    /**
+     * Class LP_EXTENSION_UPDATER depreciated class name
+     * @package xDepreciated
+     */
     class LP_EXTENSION_UPDATER { };
+
+    /**
+     * Class LP_EXTENSION_LICENSENING depreciated class name
+     * @package xDepreciated
+    */
     class LP_EXTENSION_LICENSENING { };
 }

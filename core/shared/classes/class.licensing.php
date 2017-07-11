@@ -1,12 +1,8 @@
 <?php
 /**
- * License handler for InboundNow Packaged Extensions
- *
- * This class should simplify the process of adding license information
- * to inboundnow multi-purposed extensions.
- *
- * @author  Hudson Atwell
- * @version 1.1
+ * This class should simplify the process of adding license information to extensions purchased and installed individually.
+ * @package Shared
+ * @subpackage StandAloneLicensing
  */
 
 

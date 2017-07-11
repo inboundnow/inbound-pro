@@ -2,12 +2,8 @@
 /**
  * Weclome Page Class
  *
- * @package     Landing Pages
- * @subpackage  Admin/Welcome
- * @copyright   Copyright (c) 2013, Pippin Williamson
- * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
- * @since       1.4
- * Forked from pippin's WordPress Landing Pages! https://easydigitaldownloads.com/
+ * @package     LandingPages
+ * @subpackage  WelcomeScreen
  */
 
 /* Exit if accessed directly */

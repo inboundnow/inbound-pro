@@ -12,6 +12,10 @@ Domain Path: assets/lang
 
 if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 
+	/**
+	 * Class Inbound_Automation_Plugin
+	 * @package CTA
+	 */
 	final class Inbound_Calls_To_Action_Plugin {
 
 		/**

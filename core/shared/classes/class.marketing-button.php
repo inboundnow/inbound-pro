@@ -1,6 +1,8 @@
 <?php
 /**
- * Inbound Marketing Button in editor
+ * Class Inbound_Marketing_Button adds marketing button to WYSIWYG editor
+ * @package Shared
+ * @subpackage MarketingButton
  */
 
 /* Exit if accessed directly */

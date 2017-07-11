@@ -1,8 +1,12 @@
 <?php
 
 /**
- *	Calculates & serves Mandrill Stats
+ * Class Inbound_SparkPost_Stats provides webhook listeners and data storage and retrieval methods related to email stats
+ *
+ * @package Mailer
+ * @subpackage  SparkPost
  */
+
 
 class Inbound_SparkPost_Stats {
 

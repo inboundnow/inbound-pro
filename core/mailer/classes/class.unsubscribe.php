@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Class for managing Unsubscribe features
+ * @package Mailer
+ * @subpackage Unsubscribes
+ */
 
 class Inbound_Mailer_Unsubscribe {
 

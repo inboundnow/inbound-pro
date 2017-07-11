@@ -22,9 +22,12 @@ if (!defined('INBOUND_FORMS_ADMIN')) {
 
 
 
-/*	InboundNow Shortcodes Class
- *	--------------------------------------------------------- */
-if (!class_exists('Inbound_Shortcodes')) {
+/**
+ * Class Inbound_Shortcodes adds beneficial shortcode features to the plugin experience.
+ * @package     Shared
+ * @subpackage  Shortcodes
+ *
+ */
 
 class Inbound_Shortcodes {
 	static $add_script;
@@ -157,7 +160,7 @@ class Inbound_Shortcodes {
 
 
 		$style = 'default'; // default setting
-		$class = "inbound-button wpl-track-me-link";
+		$class = "inbound-button inbound-track-link";
 
 		if (preg_match("/#/", $color)){
 			$color = (isset($color)) ? "background-color: $color;" : '';
@@ -733,7 +736,7 @@ class Inbound_Shortcodes {
 
 
 }
-}
+
 /*	Initialize InboundNow Shortcodes
  *	--------------------------------------------------------- */
 Inbound_Shortcodes::init();

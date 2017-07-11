@@ -1,6 +1,10 @@
 <?php
 
-
+/**
+ * Class sets up landing page sidebar for holding conversion areas when 'default' template is selected.
+ * @package LandingPages
+ * @subpackage Sidebars
+ */
 
 class Landing_Pages_Sidebars {
 

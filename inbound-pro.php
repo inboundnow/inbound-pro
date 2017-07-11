@@ -11,7 +11,10 @@ Domain Path: /lang/
 */
 
 if ( !class_exists('Inbound_Pro_Plugin')	) {
-
+	/**
+	 * Class Inbound_Pro_Plugin
+	 * @package     InboundPro
+	 */
 	final class Inbound_Pro_Plugin {
 
 		/* START PHP VERSION CHECKS */
