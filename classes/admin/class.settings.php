@@ -1,8 +1,8 @@
 <?php
 /**
- *
- * Pro welcome screen
- *
+ * Class for managing Inbound Pro core and extension settings. Also powers welcome page.
+ * @package     InboundPro
+ * @subpackage  Admin
  */
 
 class Inbound_Pro_Settings {

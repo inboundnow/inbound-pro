@@ -1,7 +1,9 @@
 <?php
 
 /**
- * Class Inbound_Funnel_Reporting
+ * Class for viewing event funnel reports as well as creating funnels for monitoring.
+ * @package     InboundPro
+ * @subpackage  Admin
  */
 
 class Inbound_Funnel_Reporting {

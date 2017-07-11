@@ -1,7 +1,9 @@
 <?php
 
 /**
- *  Helps convert hard coded mappable fields into database programmable mappable fields
+ * Class for extending hard coded mapped fields into a user programable state
+ * @package     InboundPro
+ * @subpackage  Admin
  */
 class Inbound_Leads_Custom_fields {
 
