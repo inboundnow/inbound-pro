@@ -1,6 +1,6 @@
 # Inbound Pro Plugin by [Inbound Now](https://www.inboundnow.com)
 
-[![GitHub tag](https://img.shields.io/github/tag/inbound-now/inbound-pro.svg?label=latest%20release)]() ![WordPress Compatibility](https://img.shields.io/wordpress/v/landing-pages.svg?maxAge=2592000) [![GitHub issues](https://img.shields.io/github/issues/inboundnow/inbound-pro.svg)](https://github.com/inboundnow/inbound-pro/issues)
+[![Latest Release](https://img.shields.io/github/release/inbound-now/inbound-pro.svg?label=latest%20release)]() ![WordPress Compatibility](https://img.shields.io/wordpress/v/landing-pages.svg?maxAge=2592000) [![GitHub issues](https://img.shields.io/github/issues/inboundnow/inbound-pro.svg)](https://github.com/inboundnow/inbound-pro/issues)
 
 ## Welcome to our Public Repository
 
@@ -12,7 +12,7 @@ The Inbound Pro plugin includes and expands on the powers of our 3 most popular 
 
 ## Code Contributions 
 
-We love user-contributed code. The truth is we could use all the help we can get. For details on contributing please read our [contribution guidelines](https://github.com/inbound-now/inbound-pro/blob/master/contributions.md).
+We love user-contributed code. The truth is we could use all the help we can get. For details on contributing please read our [contribution guidelines](https://github.com/inbound-now/inbound-pro/blob/master/contributions.md). You might also find our [PHP Codex](https://inboundnow.github.io/php-codex/)
 
 Here are some various ways you can contribute:
 
