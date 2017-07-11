@@ -1,7 +1,9 @@
 <?php
 
 /**
- *  This class loads installed extensions
+ * Class for preparing and monitoring tracked links inside post type content, referred to as 'Content Clicks'
+ * @package     InboundPro
+ * @subpackage  Core
  */
 
 class Inbound_Tracking {
