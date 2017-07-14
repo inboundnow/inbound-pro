@@ -2,7 +2,7 @@
 /**
  * Class to assist extensions with oAuth requirements
  * @package     InboundPro
- * @subpackage  Admin
+ * @subpackage  Ouath
  *
 */
 

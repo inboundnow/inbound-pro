@@ -4,7 +4,7 @@
  * Class provides search and comment tracking features
  *
  * @package Leads
- * @subpackage Core
+ * @subpackage Tracking
  */
 
 
@@ -167,7 +167,11 @@ class Leads_Tracking {
             update_post_meta($lead_data['lead_id'], 'page_views', $page_view_data);
         }
 
-        /* Run hook that tells WordPress lead data has been updated */
+        /**
+         * Runs hook that tells WordPress lead data has been updated
+         * @package Leads
+         * @subpackage Hooks
+         */
         do_action('wplead_page_view', $lead_data);
     }
 

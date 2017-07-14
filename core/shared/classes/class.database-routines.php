@@ -286,7 +286,7 @@ if ( !class_exists('Inbound_Upgrade_Routines') ) {
         public static function alter_inbound_settings_109() {
             if (class_exists('Inbound_Options_API')) {
                 $inbound_settings = Inbound_Options_API::get_option('inbound-pro', 'settings', array());
-                $inbound_settings['mailer'] = (isset($inbound_settings['mailer'])) ? $inbound_settings['mailer'] : array();
+                $inbound_settings['mailer'] = (isset($inbound_settings['inbound-mailer'])) ? $inbound_settings['inbound-mailer'] : array();
                 unset($inbound_settings['inbound-mailer']);
                 Inbound_Options_API::update_option('inbound-pro', 'settings', $inbound_settings);
             }

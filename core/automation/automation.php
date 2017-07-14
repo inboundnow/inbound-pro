@@ -187,8 +187,9 @@ if (!class_exists('Inbound_Automation_Plugin') && class_exists('Inbound_Leads_Pl
 	}
 
 	/**
-	*  Checks if Inbound Automation is active
-	*/
+	 * Checks if Inbound Automation is active
+	 * @package Automation
+	 */
 	function inbound_automation_check_active() {
 		return 1;
 	}

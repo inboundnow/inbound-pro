@@ -4,7 +4,7 @@
  * Class for defining and running database upgrade routines that require batch processing
  *
  * @package Leads
- * @subpackage Admin
+ * @subpackage Activation
  */
 
 class Leads_Batch_Processor {

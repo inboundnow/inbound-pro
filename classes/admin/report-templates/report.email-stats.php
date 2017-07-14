@@ -1,4 +1,9 @@
 <?php
+/**
+ * Report Template
+ * @package     InboundPro
+ * @subpackage  ReportTemplate
+ */
 
 if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
 

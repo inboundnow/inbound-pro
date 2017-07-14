@@ -209,7 +209,7 @@ gulp.task('lint-inboundAnalytics', function() {
 
 
 gulp.task("generateDocs-inboundAnalytics", function() {
-    gulp.src("core/shared/assets/js/frontend/analytics-src/analytics.events.js")
+    gulp.src("./core/shared/assets/js/frontend/analytics-src/analytics.events.js")
         .pipe(markdox())
         .pipe(rename({
             extname: ".md"

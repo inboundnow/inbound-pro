@@ -3,7 +3,7 @@
 /**
  * Class for extending lead statuses into a user programable state
  * @package     InboundPro
- * @subpackage  Admin
+ * @subpackage  LeadStatuses
  */
 class Inbound_Lead_Statuses {
 

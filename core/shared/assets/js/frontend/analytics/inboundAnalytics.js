@@ -4,8 +4,8 @@
  *
  * This main the _inbound class
  *
- * @author David Wells <david@inboundnow.com>
- * @author Hudson Atwell <hudson@inboundnow.com>
+ * @contributor David Wells <david@inboundnow.com>
+ * @contributor Hudson Atwell <hudson@inboundnow.com>
  * @version 0.0.2
  */
 
@@ -138,8 +138,8 @@ var _inbound = (function(options) {
  *
  * Forked from https://github.com/carldanley/WP-JS-Hooks/blob/master/src/event-manager.js
  *
- * @author David Wells <david@inboundnow.com>
- * @contributors Hudson Atwell <hudson@inboundnow.com>
+ * @contributor David Wells <david@inboundnow.com>
+ * @contributor Hudson Atwell <hudson@inboundnow.com>
  * @version 0.0.2
  */
 
@@ -540,8 +540,8 @@ var _inboundHooks = (function (_inbound) {
  *
  * This file contains all of the utility functions used by analytics
  *
- * @author David Wells <david@inboundnow.com>
- * @contributors Hudson Atwell <hudson@inboundnow.com>
+ * @contributor David Wells <david@inboundnow.com>
+ * @contributor Hudson Atwell <hudson@inboundnow.com>
  * @version 0.0.2
  */
 
@@ -1400,8 +1400,8 @@ var _inboundUtils = (function(_inbound) {
  * This file contains all of the form functions of the main _inbound object.
  * Filters and actions are described below
  *
- * @author David Wells <david@inboundnow.com>
- * @contributors Hudson Atwell <hudson@inboundnow.com>
+ * @contributor David Wells <david@inboundnow.com>
+ * @contributor Hudson Atwell <hudson@inboundnow.com>
  * @version 0.0.2
  */
 /* Finish Exclusions for CC */
@@ -2607,8 +2607,8 @@ var InboundForms = (function(_inbound) {
  *
  * Events are triggered throughout the visitors journey through the site. See more on [Inbound Now][in]
  *
- * @author David Wells <david@inboundnow.com>
- * @contributors Hudson Atwell <hudson@inboundnow.com>
+ * @contributor David Wells <david@inboundnow.com>
+ * @contributor Hudson Atwell <hudson@inboundnow.com>
  * @version 0.0.2
  *
  * [in]: http://www.inboundnow.com/
@@ -3438,8 +3438,8 @@ var _inboundLeadsAPI = (function(_inbound) {
  *
  * Page view tracking
  *
- * @author David Wells <david@inboundnow.com>
- * @contributors Hudson Atwell <hudson@inboundnow.com>
+ * @contributor David Wells <david@inboundnow.com>
+ * @contributor Hudson Atwell <hudson@inboundnow.com>
  * @version 0.0.2
  */
 /* Launches view tracking */
@@ -3768,50 +3768,51 @@ var _inboundPageTracking = (function(_inbound) {
             _inbound.deBugger('pages', status);
         },
         storePageView: function() {
+            var stored = false;
 
             /* ignore if page tracking off and page is not a landing page */
-			if ( inbound_settings.page_tracking == 'off' && inbound_settings.post_type != 'landing-page' ) {
-				return;
-			}
+            if ( inbound_settings.page_tracking == 'off' && inbound_settings.post_type != 'landing-page' ) {
+                return;
+            }
 
             /* Let's try and fire this last - also defines what constitutes a bounce -  */
-            document.addEventListener("DOMContentLoaded", function() {
-                setTimeout(function(){
-                    var leadID = ( _inbound.Utils.readCookie('wp_lead_id') ) ? _inbound.Utils.readCookie('wp_lead_id') : '';
-                    var lead_uid = ( _inbound.Utils.readCookie('wp_lead_uid') ) ? _inbound.Utils.readCookie('wp_lead_uid') : '';
-                    var ctas_loaded = _inbound.totalStorage('wp_cta_loaded');
-                    var ctas_impressions = _inbound.totalStorage('wp_cta_impressions');
+            document.onreadystatechange = function(){
 
-                    /* now reset impressions */
-                    _inbound.totalStorage('wp_cta_impressions' , {} );
+                if(document.readyState !== 'loading' && stored === false){
+                    setTimeout(function(){
+                        var leadID = ( _inbound.Utils.readCookie('wp_lead_id') ) ? _inbound.Utils.readCookie('wp_lead_id') : '';
+                        var lead_uid = ( _inbound.Utils.readCookie('wp_lead_uid') ) ? _inbound.Utils.readCookie('wp_lead_uid') : '';
+                        var ctas_loaded = _inbound.totalStorage('wp_cta_loaded');
+                        var ctas_impressions = _inbound.totalStorage('wp_cta_impressions');
+                        stored = true;
 
-                    var data = {
-                        action: 'inbound_track_lead',
-                        wp_lead_uid: lead_uid,
-                        wp_lead_id: leadID,
-                        page_id: inbound_settings.post_id,
-                        variation_id: inbound_settings.variation_id,
-                        post_type: inbound_settings.post_type,
-                        current_url: window.location.href,
-                        page_views: JSON.stringify(_inbound.PageTracking.getPageViews()),
-                        cta_impressions : JSON.stringify(ctas_impressions),
-                        cta_history : JSON.stringify(ctas_loaded),
-                        json: '0'
-                    };
+                        /* now reset impressions */
+                        _inbound.totalStorage('wp_cta_impressions' , {} );
 
-                    var firePageCallback = function(leadID) {
-                        //_inbound.Events.page_view_saved(leadID);
-                    };
-                    //_inbound.Utils.doAjax(data, firePageCallback);
+                        var data = {
+                            action: 'inbound_track_lead',
+                            wp_lead_uid: lead_uid,
+                            wp_lead_id: leadID,
+                            page_id: inbound_settings.post_id,
+                            variation_id: inbound_settings.variation_id,
+                            post_type: inbound_settings.post_type,
+                            current_url: window.location.href,
+                            page_views: JSON.stringify(_inbound.PageTracking.getPageViews()),
+                            cta_impressions : JSON.stringify(ctas_impressions),
+                            cta_history : JSON.stringify(ctas_loaded),
+                            json: '0'
+                        };
 
-                    _inbound.Utils.ajaxPost(inbound_settings.admin_url, data, firePageCallback);
+                        var firePageCallback = function(leadID) {
+                            //_inbound.Events.page_view_saved(leadID);
+                        };
+                        //_inbound.Utils.doAjax(data, firePageCallback);
 
-                } , 200 );
+                        _inbound.Utils.ajaxPost(inbound_settings.admin_url, data, firePageCallback);
 
-
-            });
-
-
+                    } , 200 );
+                }
+            }
         }
         /*! GA functions
         function log_event(category, action, label) {
@@ -3832,9 +3833,9 @@ var _inboundPageTracking = (function(_inbound) {
  *
  * Runs init functions
  *
- * @author David Wells <david@inboundnow.com>
- * @contributors Hudson Atwell <hudson@inboundnow.com>
- * @version 0.0.2 
+ * @contributor David Wells <david@inboundnow.com>
+ * @contributor Hudson Atwell <hudson@inboundnow.com>
+ * @version 0.0.2
  */
 
 

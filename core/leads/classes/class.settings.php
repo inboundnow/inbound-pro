@@ -4,7 +4,7 @@
  * Class provides a data interface for storing and retrieving data from the Inbound Pro settings system or the GPL plugin settings system. They two are different at the moment.
  *
  * @package Leads
- * @subpackage Core
+ * @subpackage Settings
  */
 
 

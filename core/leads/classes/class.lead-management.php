@@ -4,7 +4,7 @@
  * Class adds 'Bulk Actions' section that provides for batch actions against lead searches. This class is meant to improve on the
  *
  * @package Leads
- * @subpackage Admin
+ * @subpackage BulkActions
  */
 
 

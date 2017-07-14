@@ -3,7 +3,7 @@
 /**
  * Class for loading and displaying expanded template reports
  * @package     InboundPro
- * @subpackage  Admin
+ * @subpackage  Reports
  */
 class Inbound_Reporting_Templates {
     static $prompt_upgrade;

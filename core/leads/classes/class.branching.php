@@ -4,7 +4,7 @@
  * Experimental Class for assisting with quickly switching to legacy, stable or development versions. Not active at the moment.
  *
  * @package Leads
- * @subpackage Admin
+ * @subpackage BranchControl
  */
 
 class Leads_Branching {

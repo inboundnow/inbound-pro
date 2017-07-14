@@ -2,7 +2,7 @@
 /**
  * Class for managing Inbound Pro core and extension settings. Also powers welcome page.
  * @package     InboundPro
- * @subpackage  Admin
+ * @subpackage  Settings
  */
 
 class Inbound_Pro_Settings {

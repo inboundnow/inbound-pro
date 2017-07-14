@@ -4,7 +4,7 @@
  * Class improves the wp-lead CPT listing page
  *
  * @package Leads
- * @subpackage Core
+ * @subpackage Management
  */
 
 

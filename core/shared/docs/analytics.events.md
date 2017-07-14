@@ -6,8 +6,6 @@
 
 Events are triggered throughout the visitors journey through the site. See more on [Inbound Now][in]
 
-Author: David Wells <david@inboundnow.com>
-
 Version: 0.0.2 
 [in]: http://www.inboundnow.com/
 

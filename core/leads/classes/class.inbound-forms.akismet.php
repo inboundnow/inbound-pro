@@ -5,7 +5,7 @@
  * Class incorporates akismet screening into inbound form submission process
  *
  * @package Leads
- * @subpackage Integrations
+ * @subpackage Akismet
  */
 
 
