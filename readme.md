@@ -12,7 +12,7 @@ The Inbound Pro plugin includes and expands on the powers of our 3 most popular 
 
 ## Code Contributions 
 
-We love user-contributed code. The truth is we could use all the help we can get. For details on contributing please read our [contribution guidelines](https://github.com/inbound-now/inbound-pro/blob/master/contributions.md). You might also find our [PHP Codex](https://inboundnow.github.io/php-codex/)
+We love user-contributed code. The truth is we could use all the help we can get. For details on contributing please read our [contribution guidelines](https://github.com/inbound-now/inbound-pro/blob/master/contributions.md). You might also find our [PHP Codex](https://inboundnow.github.io/php-codex/) useful as well. It's still a work in development.
 
 Here are some various ways you can contribute:
 
