@@ -83,8 +83,9 @@ class Landing_Pages_Template_Switcher {
 
         $content = Landing_Pages_Variations::get_post_content( $post->ID );
         $content = do_shortcode( $content );
-        $content = wpautop( $content );
-
+        if (!defined('LANDING_PAGES_WPAUTOP') || LANDING_PAGES_WPAUTOP === TRUE) {
+           $content = wpautop($content);
+        }
         return $content;
     }
 
