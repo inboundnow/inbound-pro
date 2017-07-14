@@ -3,8 +3,8 @@
  *
  * Events are triggered throughout the visitors journey through the site. See more on [Inbound Now][in]
  *
- * @author David Wells <david@inboundnow.com>
- * @author Hudson Atwell <hudson@inboundnow.com>
+ * @contributor David Wells <david@inboundnow.com>
+ * @contributor Hudson Atwell <hudson@inboundnow.com>
  * @version 0.0.2
  *
  * [in]: http://www.inboundnow.com/

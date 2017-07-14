@@ -4,8 +4,8 @@
  * This file contains all of the form functions of the main _inbound object.
  * Filters and actions are described below
  *
- * @author David Wells <david@inboundnow.com>
- * @author Hudson Atwell <hudson@inboundnow.com>
+ * @contributor David Wells <david@inboundnow.com>
+ * @contributor Hudson Atwell <hudson@inboundnow.com>
  * @version 0.0.2
  */
 /* Finish Exclusions for CC */
