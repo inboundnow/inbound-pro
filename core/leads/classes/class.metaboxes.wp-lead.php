@@ -4,7 +4,7 @@
  * Class manages lead profile edit area
  *
  * @package Leads
- * @subpackage Admin
+ * @subpackage Management
  */
 
 

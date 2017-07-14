@@ -4,7 +4,7 @@
  * Class for defining and running activation routines
  *
  * @package Leads
- * @subpackage  Activation
+ * @subpackage Activation
  */
 
 

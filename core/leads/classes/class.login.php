@@ -5,7 +5,7 @@
  * Class adds lead id cookie when user logs in
  *
  * @package Leads
- * @subpackage Core
+ * @subpackage WPLogin
  */
 
 if (!class_exists('Inbound_Login')) {
