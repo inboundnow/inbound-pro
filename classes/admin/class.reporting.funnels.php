@@ -3,7 +3,7 @@
 /**
  * Class for viewing event funnel reports as well as creating funnels for monitoring.
  * @package     InboundPro
- * @subpackage  Admin
+ * @subpackage  Funnels
  */
 
 class Inbound_Funnel_Reporting {

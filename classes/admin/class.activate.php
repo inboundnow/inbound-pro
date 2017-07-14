@@ -3,7 +3,7 @@
 /**
  * Class for setting up and executing activation routines
  * @package     InboundPro
- * @subpackage  Admin
+ * @subpackage  Activation
  */
 
 class Inbound_Pro_Activation {

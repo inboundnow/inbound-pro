@@ -3,7 +3,7 @@
 /**
  * Class for initializing Inbound Analytics component across WordPress
  * @package     InboundPro
- * @subpackage  Admin
+ * @subpackage  InboundAnalytics
  */
 class Inbound_Analytics {
     static $templates;

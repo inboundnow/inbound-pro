@@ -3,7 +3,7 @@
 /**
  * Class for prompting users with important information related to their Inbound Pro instance
  * @package     InboundPro
- * @subpackage  Admin
+ * @subpackage  Notifications
  */
 
 class Inbound_Pro_Notifications {

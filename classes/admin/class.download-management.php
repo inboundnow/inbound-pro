@@ -4,7 +4,7 @@
  *
  * Class for managing external package retrieveal, installation, and deletion. (Extensions & Templates)
  * @package     InboundPro
- * @subpackage  Admin
+ * @subpackage  Installer
  */
 
 

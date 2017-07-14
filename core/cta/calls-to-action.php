@@ -200,8 +200,9 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 
 
 	/**
-	*  Checks if Calls to Action plugin is active
-	*/
+	 * Checks if Calls to Action plugin is active
+	 * @package CTA
+	 */
 	function cta_check_active() {
 		return 1;
 	}

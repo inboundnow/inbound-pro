@@ -1285,7 +1285,8 @@ class Inbound_Metaboxes_Automation {
 
 
 /**
- *    Hook metaboxes into plugins_loaded
+ * Hook loads Inbound_Metaboxes_Automation at plugins_loaded filter
+ * @package Automation
  */
 function inbound_automation_metaboxes() {
     new Inbound_Metaboxes_Automation;

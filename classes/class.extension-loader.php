@@ -3,7 +3,7 @@
 /**
  * Class for autoloading detected extensions inside /wp-content/uploads/inbound-pro/extensions
  * @package     InboundPro
- * @subpackage  Core
+ * @subpackage  AutoLoading
 */
 
 class Inbound_Extension_Loads {

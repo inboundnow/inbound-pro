@@ -3,7 +3,7 @@
 /**
  * Class for loading miscellaneous WordPress AJAX listeners inside of the Admin.
  * @package     InboundPro
- * @subpackage  Admin
+ * @subpackage  AdminAJAX
  */
 class Inbound_Pro_Admin_Ajax_Listeners {
 

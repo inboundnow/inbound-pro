@@ -3,7 +3,7 @@
 /**
  * Class for extending hard coded mapped fields into a user programable state
  * @package     InboundPro
- * @subpackage  Admin
+ * @subpackage  FieldMapping
  */
 class Inbound_Leads_Custom_fields {
 
