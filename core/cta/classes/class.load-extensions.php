@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Extension hooks and filters as well as default settings for core components
+ * Class for loading data sets from templates and extensions
  *
- * @package    Calls To Action
- * @subpackage    Extensions
+ * @package CTA
+ * @subpackage Loading
  */
 if (!class_exists('CTA_Load_Extensions')) {
 

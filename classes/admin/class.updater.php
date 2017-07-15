@@ -5,8 +5,10 @@ set_site_transient( 'update_plugins', null );
 /**/
 
 /**
+ * Class for managing updates to Inbound Pro plugin
  * Inbound plugin API
- *
+ * @package     InboundPro
+ * @subpackage  Updates
  */
 class Inbound_Updater {
 
@@ -406,12 +408,11 @@ class Inbound_Updater {
 
 
 /**
- *
- *	Adds Inbound Pro to Updater
- *
+ * Class Inbound_Pro_Automatic_Updates adds Inbound Pro to the updater API
+ * Inbound plugin API
+ * @package     InboundPro
+ * @subpackage  Updates
  */
-
-
 class Inbound_Pro_Automatic_Updates {
 
     static $api_key;

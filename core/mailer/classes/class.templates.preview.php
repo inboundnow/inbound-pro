@@ -1,8 +1,12 @@
 <?php
 
 /**
- *    Shows Preview of Inbound Email
+ * Class Inbound_Email_Preview powers the 'web version' / frontend email render feature
+ *
+ * @package Mailer
+ * @subpackage	Templates
  */
+
 class Inbound_Email_Preview {
     static $smartbar_enable;
     static $smartbar_content;

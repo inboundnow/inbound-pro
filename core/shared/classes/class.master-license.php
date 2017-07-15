@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Functions providing GPL product license support
+ * @package Shared
+ * @subpackage MarketingButton
+ */
+
 if (!function_exists('inboundnow_add_master_license') && !defined('INBOUND_ACCESS_LEVEL') )
 {
 

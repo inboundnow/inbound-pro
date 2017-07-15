@@ -1,11 +1,15 @@
 <?php
-/*
-Query Name: User Queries
-Query Description: Definitions and Lookup Maps for User Data
-Query Author: Inbound Now
-Contributors: Hudson Atwell
-*/
 
+/**
+ * User Query
+ * @name User Queries
+ * @description DDefinitions and Lookup Maps for User Data
+ * @uthor Inbound Now
+ * @contributors: Hudson Atwell
+ * @package Automation
+ * @subpackage Queries
+ *
+*/
 
 if ( !class_exists( 'Inbound_Automation_Query_User' ) ) {
 

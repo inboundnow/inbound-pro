@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Provides a place for miscellaneous admin notices to be defined
+ * Class provides a place for miscellaneous admin notices to be defined
  *
- * @package     Leads
- * @subpackage  Admin Notices
+ * @package Leads
+ * @subpackage  Notifications
 */
 
 if (!class_exists('Leads_Admin_Notices')) {

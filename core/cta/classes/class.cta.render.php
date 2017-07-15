@@ -10,6 +10,12 @@
 
 */
 
+/**
+ * Class for loading and rendering call to actions
+ * @package CTA
+ * @subpackage Display
+ */
+
 if ( !class_exists( 'CTA_Render' ) ) {
 
 

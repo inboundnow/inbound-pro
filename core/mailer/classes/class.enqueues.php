@@ -1,8 +1,9 @@
 <?php
-
 /**
-*  Scripts and stylesheet that have not been segmented into classes or have no other home are enqueued here.
-*/
+ * Class defines and loads JS and CSS assets
+ * @package Mailer
+ * @subpackage Management
+ */
 class Inbound_Mailer_Enqueues {
 
 	static $scripts_queue; /* Holds 3rd party scripts queue

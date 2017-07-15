@@ -1,11 +1,15 @@
 <?php
-/*
-Trigger Name: WordPress user creation event
-Trigger Description: This fires whenever a new user is created
-Trigger Author: Inbound Now
-Contributors: Hudson Atwell
-*/
 
+/**
+ * WordPress user creation event
+ * @name WordPress user creation event
+ * @description: Fires when a user is added to the WordPress users table
+ * @uthor: Inbound Now
+ * @contributors: Hudson Atwell
+ * @package Automation
+ * @subpackage Triggers
+ *
+*/
 
 if ( !class_exists( 'Inbound_Automation_Trigger_User_Register' ) ) {
 

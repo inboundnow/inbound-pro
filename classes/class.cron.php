@@ -1,7 +1,10 @@
 <?php
 
 /**
- *  Adds wp-cron hooks to power automation and mailer components
+ *  Class for adding wp-cron hooks to power automation and mailer components
+ *
+ * @package InboundPro
+ * @subpackage  Cron
  */
 if (!class_exists('Inbound_Cron')) {
 

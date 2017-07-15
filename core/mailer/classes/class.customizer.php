@@ -1,6 +1,10 @@
 <?php
 
-
+/**
+ * Class provides visual editor support for email component
+ * @package Mailer
+ * @subpackage Management
+ */
 class Inbound_Mailer_Customizer {
 
 	/**

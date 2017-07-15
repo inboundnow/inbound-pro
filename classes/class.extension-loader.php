@@ -1,7 +1,9 @@
 <?php
 
 /**
-*  This class loads installed extensions
+ * Class for autoloading detected extensions inside /wp-content/uploads/inbound-pro/extensions
+ * @package     InboundPro
+ * @subpackage  AutoLoading
 */
 
 class Inbound_Extension_Loads {

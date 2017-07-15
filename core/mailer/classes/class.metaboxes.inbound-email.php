@@ -4,8 +4,8 @@
 /**
  * Metaboxes that apply to strictly to the inbound-email post type.
  *
- * @package    Inbound Mailer
- * @subpackage    Metaboxes
+ * @package Mailer
+ * @subpackage  Admin
  */
 
 

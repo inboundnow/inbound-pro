@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Tracks email clicks under the `inbound_email_click` event name in the `inbound_events` table. We also record email clicks under the {service}_click event name.
+ *
+ * @package Mailer
+ * @subpackage ClickTracking
+ */
+
+
 class Inbound_Mailer_Tracking {
 
     /**
@@ -12,12 +20,12 @@ class Inbound_Mailer_Tracking {
     }
 
     public static function load_hooks() {
-        /* track masked cta links */
         add_action( 'inbound_track_link', array(__CLASS__, 'track_link'));
  }
 
     /**
-     *  Listens for tracked masked link processing
+     *  Listens for tracked link processing - Right now this preparing an event but not storing one. Needs investigation.
+     *
      */
     public static function track_link( $args ) {
 
@@ -35,6 +43,7 @@ class Inbound_Mailer_Tracking {
         $args['variation_id'] = (isset($args['vid'])) ? $args['vid'] : 0;
         $args['event_details'] = json_encode($_GET);
 
+        do_action('inbound_email_click_event' , $args );
     }
 
 }

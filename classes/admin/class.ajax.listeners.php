@@ -1,7 +1,9 @@
 <?php
 
 /**
- *    This class loads miscellaneous WordPress AJAX listeners
+ * Class for loading miscellaneous WordPress AJAX listeners inside of the Admin.
+ * @package     InboundPro
+ * @subpackage  AdminAJAX
  */
 class Inbound_Pro_Admin_Ajax_Listeners {
 
@@ -18,7 +20,7 @@ class Inbound_Pro_Admin_Ajax_Listeners {
     public static function load_hooks() {
 
         /* Adds listener to save meta filter position */
-        add_action('wp_ajax_inbound_update_meta_filter', array(__CLASS__, 'update_meta_filter'));
+        add_action('wp_ajax_inbound_update_download_filter_preferences', array(__CLASS__, 'update_download_filter_preferences'));
 
         /* Adds listener validate inbound now api key*/
         add_action('wp_ajax_inbound_validate_api_key', array(__CLASS__, 'validate_api_key'));
@@ -28,7 +30,7 @@ class Inbound_Pro_Admin_Ajax_Listeners {
     /**
      *    Saves meta pair values give cta ID, meta key, and meta value
      */
-    public static function update_meta_filter() {
+    public static function update_download_filter_preferences() {
         global $wpdb;
 
         if (!isset($_POST)) {

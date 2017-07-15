@@ -3,8 +3,8 @@
  *
  * This file contains all of the utility functions used by analytics
  *
- * @author David Wells <david@inboundnow.com>
- * @author Hudson Atwell <hudson@inboundnow.com>
+ * @contributor David Wells <david@inboundnow.com>
+ * @contributor Hudson Atwell <hudson@inboundnow.com>
  * @version 0.0.2
  */
 

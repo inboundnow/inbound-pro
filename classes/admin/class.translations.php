@@ -1,8 +1,10 @@
 <?php
 
 /**
+ * Class for detecting new translation versions, prompting translation package update, and retrieving new translation packages
  * Prompts user to download latest translations
- * Class Inbound_Translation_Updater
+ * @package     InboundPro
+ * @subpackage  Translations
  */
 
 class Inbound_Translation_Updater {

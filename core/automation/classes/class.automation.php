@@ -1,7 +1,9 @@
 <?php
 
 /**
-*  Processes auotomation jobs
+ * Class for processing automation rules in inbound_automation_queue table
+ * @package     Automation
+ * @subpackage  Rules
 */
 
 
@@ -584,10 +586,11 @@ class Inbound_Automation_Processing {
 
 
 /**
-*  Loads automation processing into init
-*/
+ * Loads Inbound_Automation_Processing class in `init` hook
+ * @package Automation
+ */
 function inbound_automation_processing() {
-	$Inbound_Automation_Processing =  new Inbound_Automation_Processing();
+	new Inbound_Automation_Processing();
 }
 add_action( 'init' , 'inbound_automation_processing' , 2 );
 

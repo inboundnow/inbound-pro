@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Extension hooks and filters as well as default settings for core components
+ * Class that provides "common settings" area in email edit page. Settings include subject and email headers setup
  *
- * @package	Inbouns Mailer
- * @subpackage	Extensions
+ * @package Mailer
+ * @subpackage Management
 */
 
 class Inbound_Mailer_Common_Settings {

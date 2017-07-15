@@ -1,7 +1,7 @@
 <?php
 /**
  * Template Name: Inbound Now
- * @package  Inbound Email
+ * @package  Mailer
  * @author   Inbound Now
  */
 

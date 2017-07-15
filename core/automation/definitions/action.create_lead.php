@@ -1,8 +1,11 @@
 <?php
 /**
- * Action Name: Create a lead
- * Action Description: Create a lead
- * Action Author: Inbound Now
+ * Create Lead
+ * @name Create a lead
+ * @description Create a lead
+ * @author Inbound Now
+ * @package     Automation
+ * @subpackage  Actions
  */
 
 if ( !class_exists( 'Inbound_Automation_Action_Create_Lead' ) ) {

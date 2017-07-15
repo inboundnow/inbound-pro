@@ -1,8 +1,11 @@
 <?php
 
 /**
- *	This class loads miscellaneous WordPress AJAX listeners
+ * Class loads miscellaneous WordPress AJAX listeners related to email component
+ * @package Mailer
+ * @subpackage Management
  */
+
 class Inbound_Mailer_Ajax_Listeners {
 	static $needle;
 

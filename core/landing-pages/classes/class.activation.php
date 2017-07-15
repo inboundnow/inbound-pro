@@ -1,6 +1,10 @@
 <?php
 
-if ( !class_exists('Landing_Pages_Activation') ) {
+/**
+ * Class for managing landing page activation routines
+ * @package LandingPages
+ * @subpackage Activation
+ */
 
 class Landing_Pages_Activation {
 
@@ -290,4 +294,3 @@ register_deactivation_hook( LANDINGPAGES_FILE , array( 'Landing_Pages_Activation
 
 new Landing_Pages_Activation;
 
-}

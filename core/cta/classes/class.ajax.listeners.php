@@ -1,8 +1,11 @@
 <?php
 
 /**
-*	This class loads miscellaneous WordPress AJAX listeners
-*/
+ * Class for handling miscellaneous AJAX routines
+ * @package CTA
+ * @subpackage AJAXListeners
+ */
+
 class CTA_Ajax_Listeners {
 
 	/**

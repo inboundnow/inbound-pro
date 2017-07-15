@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Creates CTA Static Widget
+ * Class used to create Static CTA widget.
  *
- * @package	Calls To Action
- * @subpackage	Widgets
+ * @package CTA
+ * @subpackage	Core
 */
 
 if (!class_exists('CTA_Static_Widget')) {

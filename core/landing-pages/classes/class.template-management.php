@@ -1,5 +1,10 @@
 <?php
 
+/**
+* Class for managing and installing landing page templates manually. This feature is redundant for Inbound Pro subscribers using 1-click-installations.
+* @package LandingPages
+* @subpackage Templates
+*/
 
 class  Landing_Pages_Template_Management {
 

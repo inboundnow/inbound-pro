@@ -2,8 +2,9 @@
 
 /**
  *
- *	Manage Inbound Templates
- *
+ * Class for interacting with Inbound Now's customer APIs
+ * @package     InboundPro
+ * @subpackage  InboundNowAPI
  */
 
 

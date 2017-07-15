@@ -1,10 +1,9 @@
 <?php
 
 /**
- * Inbound_Notifications Class
- *
- * This class provides methods for displaying and closing admin notifications
- *
+ * Class Inbound_Notifications adds shared Pro Upgrade prompts as well as tranlator call to actions
+ * @package Shared
+ * @subpackage Notifications
  */
 
 class Inbound_Notifications {

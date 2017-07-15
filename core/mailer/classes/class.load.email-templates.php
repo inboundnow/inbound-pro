@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Extension hooks and filters as well as default settings for core components
+ * This class loads email templates
  *
- * @package    Inbouns Mailer
- * @subpackage    Extensions
+ * @package Mailer
+ * @subpackage Templates
  */
 class Inbound_Mailer_Load_Templates {
     private static $instance;

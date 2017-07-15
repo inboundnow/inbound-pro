@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Class provides a data interface for retrieving and storing landing page settings into the GPL legacy setting system or the Inbound Pro settings system.
+ * @package LandingPages
+ * @subpackage DataInterfaces
+ */
+
 class Landing_Pages_Settings {
 
     /**

@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Class improves the wp-lead CPT listing page
+ *
+ * @package Leads
+ * @subpackage Management
+ */
+
+
 class Leads_Post_Type {
 
     /**
