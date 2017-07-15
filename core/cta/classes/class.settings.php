@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Creates Global Settings
+ * Class for managing legacy settings area for GPL Calls to Action plugin
  *
- * @package    Calls To Action
- * @subpackage    Global Settings
+ * @package CTA
+ * @subpackage GPLSettings
  */
 
 if (!class_exists('CTA_Settings')) {

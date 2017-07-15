@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Class for defining and displaying admin notices to users. Only displays notices in areas related to Landing Pages plugin.
+ * @package LandingPages
+ * @subpackage Notices
+ */
+
 class Landing_Pages_Admin_Notices {
 
     public function __construct() {

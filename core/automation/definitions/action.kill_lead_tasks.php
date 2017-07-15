@@ -1,9 +1,12 @@
 <?php
-/*
-Action Name: Send Email
-Action Description: Send an email.
-Action Author: Inbound Now
-Contributors: Hudson Atwell
+/**
+ * Send Email
+ * @name Send Email
+ * @description Send an email.
+ * @author Inbound Now
+ * @contributors Hudson Atwell
+ * @package     Automation
+ * @subpackage  Actions
 */
 
 if ( !class_exists( 'Inbound_Automation_Action_Kill_Tasks' ) ) {

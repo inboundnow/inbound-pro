@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Provides a place for miscellaneous admin notices to be defined
+ * Class adds Lead elements to WordPress User profile
  *
  * @package     Leads
- * @subpackage  Admin Notices
+ * @subpackage  UserProfile
  */
 
 if (!class_exists('Leads_User_Profile')) {

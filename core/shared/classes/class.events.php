@@ -1,10 +1,9 @@
 <?php
 
 /**
- * Class Inbound_Events
- * Stores action events into MySQL database table
- * Stores: form submissions events, cta link clicks, email link clicks, custom events
- *
+ * Class for creating events table, storing, and retrieving event records
+ * @package     Shared
+ * @subpackage  EventManagement
  */
 class Inbound_Events {
 

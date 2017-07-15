@@ -1,7 +1,9 @@
 <?php
 
 /**
- * Inbound Mail Daemon listens for and sends scheduled emails
+ * Class Inbound_Mail_Daemon provides cronjob daemon for reading `inbound_email_queue` and processing sends.
+ * @package Mailer
+ * @subpackage Sending
  */
 class Inbound_Mail_Daemon {
 

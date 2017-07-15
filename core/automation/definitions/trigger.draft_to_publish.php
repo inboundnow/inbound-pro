@@ -1,12 +1,14 @@
 <?php
-/*
-Trigger Name: WordPress Post Categorization Event
-Hook Reference: https://codex.wordpress.org/Plugin_API/Action_Reference/draft_to_publish
-Trigger Description: This fires whenever a post is publish
-Trigger Author: Inbound Now
-Contributors: Hudson Atwell
+/**
+ * Post Draft to Publish Event
+ * @name Draft to Publish Event
+ * @description Fires when a row in wp_posts is created or updated
+ * @uthor Inbound Now
+ * @contributors: Hudson Atwell
+ * @package Automation
+ * @subpackage Triggers
+ *
 */
-
 
 if (!class_exists('Inbound_Automation_Trigger_Draft_To_Publish')) {
 

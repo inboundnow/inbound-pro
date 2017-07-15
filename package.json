@@ -28,7 +28,7 @@
     "uglify-js": "^3.0.23"
   },
   "devDependencies": {
-    "del": "~0.3.0",
+    "del": "^3.0.0",
     "fs": "0.0.2",
     "grunt": "*",
     "grunt-image-resize": "*",
@@ -44,6 +44,7 @@
     "gulp-markdox": "^0.1.0",
     "gulp-plumber": "~0.6.2",
     "gulp-rename": "~1.1.0",
+    "gulp-run": "^1.7.1",
     "gulp-uglify": "^3.0.0",
     "jshint-stylish": "^0.2.0"
   }

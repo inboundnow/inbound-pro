@@ -1,8 +1,13 @@
 <?php
 
+
 /**
-*  Adds activity that happens during a user login
-*/
+ * Class adds lead id cookie when user logs in
+ *
+ * @package Leads
+ * @subpackage WPLogin
+ */
+
 if (!class_exists('Inbound_Login')) {
 
 	class Inbound_Login {

@@ -1,8 +1,9 @@
 <?php
 
 /**
-*  Demo template uses this
-*/
+ * Demo template uses this
+ * @package CTA
+ */
 if (!function_exists('cta_example_template_function')) {
 	function cta_example_template_function() {
 	  return 'Return value from cta_example_template_function()';
@@ -10,7 +11,8 @@ if (!function_exists('cta_example_template_function')) {
 }
 
 /**
-*  Load supportive css for IE8 and below
+ * Load supportive css for IE8 and below
+ * @package CTA
 */
 function wp_cta_kill_ie8() {
     global $is_IE;
@@ -20,6 +22,7 @@ function wp_cta_kill_ie8() {
         echo '<![endif]-->';
     }
 }
+
 add_action( 'wp_head', 'wp_cta_kill_ie8' );
 
 

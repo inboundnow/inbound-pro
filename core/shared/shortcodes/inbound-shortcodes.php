@@ -22,9 +22,12 @@ if (!defined('INBOUND_FORMS_ADMIN')) {
 
 
 
-/*	InboundNow Shortcodes Class
- *	--------------------------------------------------------- */
-if (!class_exists('Inbound_Shortcodes')) {
+/**
+ * Class Inbound_Shortcodes adds beneficial shortcode features to the plugin experience.
+ * @package     Shared
+ * @subpackage  Shortcodes
+ *
+ */
 
 class Inbound_Shortcodes {
 	static $add_script;
@@ -38,11 +41,21 @@ class Inbound_Shortcodes {
 		add_action('init', array( __CLASS__, 'shortcodes_include' ));
 
 		add_action( 'wp_enqueue_scripts',	array(__CLASS__, 'frontend_loads')); // load styles
-		add_shortcode('list', array(__CLASS__, 'inbound_shortcode_list'));
-		add_shortcode('inbound_list', array(__CLASS__, 'inbound_shortcode_list'));
-		add_shortcode('button', array(__CLASS__, 'inbound_shortcode_button'));
-		add_shortcode('inbound_button', array(__CLASS__, 'inbound_shortcode_button'));
-		add_shortcode('social_share',	array(__CLASS__, 'inbound_shortcode_social_links'));
+        if (!shortcode_exists('list')) {
+		    add_shortcode('list', array(__CLASS__, 'inbound_shortcode_list'));
+        }
+        if (!shortcode_exists('inbound_list')) {
+    		add_shortcode('inbound_list', array(__CLASS__, 'inbound_shortcode_list'));
+        }
+        if (!shortcode_exists('button')) {
+		    add_shortcode('button', array(__CLASS__, 'inbound_shortcode_button'));
+        }
+        if (!shortcode_exists('inbound_button')) {
+    		add_shortcode('inbound_button', array(__CLASS__, 'inbound_shortcode_button'));
+        }
+        if (!shortcode_exists('social_share')) {
+    		add_shortcode('social_share',	array(__CLASS__, 'inbound_shortcode_social_links'));
+        }
 		//add_action('admin_notices', array(__CLASS__, 'inbound_shortcode_prompt'));
 		//add_action('admin_init', array(__CLASS__, 'inbound_shortcode_prompt_ignore'));
 		//add_action( 'wp_ajax_inbound_shortcode_prompt_ajax',	array(__CLASS__, 'inbound_shortcode_prompt_ajax'));
@@ -147,7 +160,7 @@ class Inbound_Shortcodes {
 
 
 		$style = 'default'; // default setting
-		$class = "inbound-button wpl-track-me-link";
+		$class = "inbound-button inbound-track-link";
 
 		if (preg_match("/#/", $color)){
 			$color = (isset($color)) ? "background-color: $color;" : '';
@@ -723,7 +736,7 @@ class Inbound_Shortcodes {
 
 
 }
-}
+
 /*	Initialize InboundNow Shortcodes
  *	--------------------------------------------------------- */
 Inbound_Shortcodes::init();

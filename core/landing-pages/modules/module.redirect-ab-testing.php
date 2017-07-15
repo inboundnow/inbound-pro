@@ -15,6 +15,12 @@ if (file_exists('./../../../../wp-load.php')) {
     include_once('./../../../../../../../wp-load.php');
 }
 
+/**
+ * Class LP_Variation_Rotation provides an external WP instance set of classes for controlling landing page rotation memory
+ * @package Landing Pages
+ * @subpackage Variations
+ */
+
 class LP_Variation_Rotation {
 
     static $permalink_name;
@@ -205,4 +211,4 @@ class LP_Variation_Rotation {
     }
 }
 
-$VariationRoation = new LP_Variation_Rotation;
+new LP_Variation_Rotation;

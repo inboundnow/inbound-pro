@@ -130,7 +130,6 @@ var _inbound = (function(options) {
     return Analytics;
 
 })(_inboundOptions);
-
 /**
  * # Hooks & Filters
  *
@@ -536,7 +535,6 @@ var _inboundHooks = (function (_inbound) {
     return _inbound;
 
 })(_inbound || {});
-
 /**
  * # _inbound UTILS
  *
@@ -3773,18 +3771,20 @@ var _inboundPageTracking = (function(_inbound) {
             var stored = false;
 
             /* ignore if page tracking off and page is not a landing page */
-			if ( inbound_settings.page_tracking == 'off' && inbound_settings.post_type != 'landing-page' ) {
-				return;
-			}
+            if ( inbound_settings.page_tracking == 'off' && inbound_settings.post_type != 'landing-page' ) {
+                return;
+            }
 
             /* Let's try and fire this last - also defines what constitutes a bounce -  */
             document.onreadystatechange = function(){
+
                 if(document.readyState !== 'loading' && stored === false){
                     setTimeout(function(){
                         var leadID = ( _inbound.Utils.readCookie('wp_lead_id') ) ? _inbound.Utils.readCookie('wp_lead_id') : '';
                         var lead_uid = ( _inbound.Utils.readCookie('wp_lead_uid') ) ? _inbound.Utils.readCookie('wp_lead_uid') : '';
                         var ctas_loaded = _inbound.totalStorage('wp_cta_loaded');
-                        var ctas_impressions = _inbound.totalStorage('wp_cta_impressions'); // todo this is whaqt is loading the wrong impressiosn data
+                        var ctas_impressions = _inbound.totalStorage('wp_cta_impressions');
+                        stored = true;
 
                         /* now reset impressions */
                         _inbound.totalStorage('wp_cta_impressions' , {} );
@@ -3828,7 +3828,6 @@ var _inboundPageTracking = (function(_inbound) {
     return _inbound;
 
 })(_inbound || {});
-
 /**
  * # Start
  *

@@ -1,4 +1,9 @@
 <?php
+/**
+ * Class for loading extensions and templates. Mostly templates. No extensions use this class anymore.
+ * @package LandingPages
+ * @subpackage Templates
+ */
 
 class Landing_Pages_Load_Extensions {
 

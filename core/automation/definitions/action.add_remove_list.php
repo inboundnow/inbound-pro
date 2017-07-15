@@ -1,8 +1,11 @@
 <?php
 /**
- * Action Name: Add/Remove from lead list
- * Action Description: Adds or remove lead from list
- * Action Author: Inbound Now
+ * Add/Remove lead list
+ * @name Add/Remove lead list
+ * @description Adds or remove lead from list
+ * @author Inbound Now
+ * @package  Automation
+ * @subpackage  Actions
  */
 
 if ( !class_exists( 'Inbound_Automation_Action_Add_Remove_List' ) ) {

@@ -1,7 +1,11 @@
 <?php
 
-/* Public methods in this class will be run at least once during plugin activation script. */
-/* Updater methods fired are stored in transient to prevent repeat processing */
+/**
+ * Class for defining and running database upgrade routines
+ *
+ * @package Leads
+ * @subpackage Activation
+ */
 
 if ( !class_exists('Leads_Activation_Update_Routines') ) {
 

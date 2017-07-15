@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Class Inbound_Shortcodes_Fields helps define supplemental shortcode configurations
+ * @package     Shared
+ * @subpackage  Shortcodes
+ *
+ */
 if ( !class_exists('Inbound_Shortcodes_Fields') ) {
 
 	/* 	Include wp-load

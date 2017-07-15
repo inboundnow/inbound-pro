@@ -1,4 +1,9 @@
 <?php
+/**
+ * Report Template
+ * @package     InboundPro
+ * @subpackage  ReportTemplate
+ */
 
 if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
 
@@ -238,6 +243,9 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
              'S', 'T', 'U', 'V', 'W', 'X',
              'Y', 'Z');
 
+
+            $tracking_endpoint = apply_filters( 'inbound_event_endpoint', 'inbound' );
+
             ?>
             <div class="flexbox-container lead-action-data-list">
                 <div>
@@ -322,8 +330,6 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
                                 <?php
                                 if ( $_REQUEST['event_name'] == 'sparkpost_click' ) {
                                     $event_details = json_decode($event['event_details'] , true);
-
-                                    $tracking_endpoint = apply_filters( 'inbound_event_endpoint', 'inbound' );
 
                                     if (strstr($event_details['target_link_url'] , '?token')) {
                                         $args['url'] = $event_details['target_link_url'];

@@ -1,8 +1,9 @@
 <?php
 /**
-*
-* Oauth Engine for powering extension oauth
-*
+ * Class to assist extensions with oAuth requirements
+ * @package     InboundPro
+ * @subpackage  Ouath
+ *
 */
 
 class Inbound_Pro_Oauth_Engine {

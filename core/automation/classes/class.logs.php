@@ -2,11 +2,11 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-/*
-* Inbound_Logging_Automation Class
-*
-* A automtion specific class for logging events and errors.
-*
+/**
+ * Class for managing automation rule event logs.
+ * @package     Automation
+ * @subpackage  Rules
+ *
 */
 class Inbound_Logging_Automation {
 	
@@ -14,11 +14,6 @@ class Inbound_Logging_Automation {
 
 	public function __construct() {
 		self::$log_limit = apply_filters('inbound_automation_log_limit' , 500 );
-		self::load_hooks();
-	}
-
-	public function load_hooks() {
-		
 	}
 
 	/*

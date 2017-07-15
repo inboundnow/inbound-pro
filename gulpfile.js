@@ -7,8 +7,10 @@
 var gulp = require('gulp'),
     jshint = require('gulp-jshint'),
     fs = require('fs'),
+    del = require('del'),
     stylish = require('jshint-stylish'),
     header = require('gulp-header'),
+    run = require('gulp-run'),
     concat = require('gulp-concat'),
     uglify = require('gulp-uglify'),
     plumber = require('gulp-plumber'),
@@ -85,11 +87,14 @@ gulp.task('clean-lp' , function() {
     if (!fs.existsSync(dir)){
         fs.mkdirSync(dir);
     }
-    return gulp.src(dir).pipe(clean({force:true}));
+    return del([
+        '../landing-pages/**/*',
+        '!../landing-pages/svn{,/**}'
+    ], {force: true});
 });
 
 gulp.task('copy-lp' , function() {
-    return gulp.src(['./core/lp/**' , '!./core/lp/svn/**']).pipe(gulp.dest('../lp/'));
+    return gulp.src(['./core/landing-pages/**' , '!./core/landing-pages/svn/**']).pipe(gulp.dest('../landing-pages/'));
 });
 
 gulp.task('lp',gulp.series('clean-lp', 'copy-lp' ,  'shared-lp' ));
@@ -103,7 +108,10 @@ gulp.task('clean-cta' , function() {
     if (!fs.existsSync(dir)){
         fs.mkdirSync(dir);
     }
-    return gulp.src(dir).pipe(clean({force:true}));
+    return del([
+        '../cta/**/*',
+        '!../cta/svn{,/**}'
+    ], {force: true});
 });
 
 gulp.task('copy-cta' , function() {
@@ -122,7 +130,11 @@ gulp.task('clean-leads' , function() {
     if (!fs.existsSync(dir)){
         fs.mkdirSync(dir);
     }
-    return gulp.src(dir).pipe(clean({force:true}));
+    return del([
+        '../leads/**/*',
+        '!../leads/svn{,/**}'
+    ], {force: true});
+
 });
 
 gulp.task('copy-leads' , function() {
@@ -197,7 +209,7 @@ gulp.task('lint-inboundAnalytics', function() {
 
 
 gulp.task("generateDocs-inboundAnalytics", function() {
-    gulp.src("core/shared/assets/js/frontend/analytics-src/analytics.events.js")
+    gulp.src("./core/shared/assets/js/frontend/analytics-src/analytics.events.js")
         .pipe(markdox())
         .pipe(rename({
             extname: ".md"
@@ -223,8 +235,6 @@ gulp.task('watch', function() {
 /**
  *  For compiling translation mo files
  */
- 
-
 gulp.task('zip-translations', function () {
     return gulp.src('../translations/lang/mo/**.mo')
         .pipe(zip('translations.zip'))
@@ -233,4 +243,11 @@ gulp.task('zip-translations', function () {
 
 gulp.task('translate' , gulp.series('zip-translations') , function() {
     
+});
+
+/**
+ * Deploy GPL plugins to SVN
+ */
+gulp.task('deploy-leads' , function() {
+    //return run('sh ./../leads/deploy.sh').exec().pipe(gulp.dest('output'));
 });

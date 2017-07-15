@@ -1,10 +1,15 @@
 <?php
 
+/**
+ * Class Inbound_Mailer_Menus defines and loads Mailer component left vertical wp-admin menu items
+ * @package     Automation
+ * @subpackage  Rules
+ *
+ */
+
 if ( !class_exists('Inbound_Mailer_Menus') ) {
 
-/**
-*  Loads admin sub-menus and performs misc menu related functions
-*/
+
 class Inbound_Mailer_Menus {
 
 	/**

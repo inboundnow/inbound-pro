@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Class loads ACF4 if no other ACF version has been loaded prior
+ * @package ACF
+ */
+
+
 class Inbound_Shared_ACF_BootStrap {
 
     public function __construct() {

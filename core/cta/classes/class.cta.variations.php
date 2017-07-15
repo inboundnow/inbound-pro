@@ -1,4 +1,9 @@
 <?php
+/**
+ * Class for storing and retrieving call to action variation data
+ * @package CTA
+ * @subpackage Variations
+ */
 
 if ( ! class_exists( 'CTA_Variations' ) ) {
 

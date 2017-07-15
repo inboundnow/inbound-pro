@@ -1,4 +1,9 @@
 <?php
+/**
+ * Class for adding Call To Action event reports to Lead profile
+ * @package CTA
+ * @subpackage LeadsProfile
+ */
 
 if ( !class_exists('CTA_WordPress_Leads') ) {
 

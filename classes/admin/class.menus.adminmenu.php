@@ -1,7 +1,9 @@
 <?php
 
 /**
-*  Loads admin sub-menus and performs misc menu related functions
+ * Class for expanding the core WordPress top admin navigation menu with Inbound Pro related links and shortcuts
+ * @package     InboundPro
+ * @subpackage  Menus
 */
 class Inbound_Menus_Admin {
 

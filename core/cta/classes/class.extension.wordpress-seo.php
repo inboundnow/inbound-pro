@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Class for disabling Yoast SEO on wp-call-to-action post type
+ * @package CTA
+ * @subpackage YOAST
+ */
+
 if ( !class_exists('CTA_WordPress_SEO') ) {
 
 	class CTA_WordPress_SEO {
@@ -13,5 +19,5 @@ if ( !class_exists('CTA_WordPress_SEO') ) {
 	}
 
 	/* Load Post Type Pre Init */
-	$GLOBALS['CTA_WordPress_SEO'] = new CTA_WordPress_SEO();
+	new CTA_WordPress_SEO();
 }

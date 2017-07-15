@@ -1,7 +1,11 @@
 <?php
 /**
- * CTA post type
+ * Class that registers wp-call-to-action post type and extends WP post type listing page
+ *
+ * @package CTA
+ * @subpackage PostType
  */
+
 if ( !class_exists('CTA_Post_Type') ) {
 
 	class CTA_Post_Type {

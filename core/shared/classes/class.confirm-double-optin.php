@@ -1,4 +1,10 @@
 <?php
+
+/**
+ * Class provides shortcodes, listeners, and processing methods for double optin confirmation
+ * @package     Shared
+ * @subpackage  DoubleOptin
+ */
 if(!class_exists('Inbound_Confirm_Double_Optin')){
     
     class Inbound_Confirm_Double_Optin{

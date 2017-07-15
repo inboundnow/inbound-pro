@@ -1,7 +1,9 @@
 <?php
 
 /**
- *  This class will throw all the correct admin notifications
+ * Class for prompting users with important information related to their Inbound Pro instance
+ * @package     InboundPro
+ * @subpackage  Notifications
  */
 
 class Inbound_Pro_Notifications {

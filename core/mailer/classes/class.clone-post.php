@@ -1,4 +1,9 @@
 <?php
+/**
+ * Class adds clone feature to `inbound-email` CPT listing screen
+ * @package Mailer
+ * @subpackage Management
+ */
 
 class Inbound_Mailer_Clone_Post {
 	
@@ -117,7 +122,7 @@ class Inbound_Mailer_Clone_Post {
 
 		$prefix = __( "Copy of " , 'inbound-pro' );
 		$suffix = "";
-		$status = 'unsent';
+		$status = ($status=='sent') ? 'unsent' : $status;
 		
 
 		$new_post_author = wp_get_current_user();

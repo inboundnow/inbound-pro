@@ -1,7 +1,12 @@
 <?php
 
+/**
+ * Class for defining and running activation routines
+ *
+ * @package Leads
+ * @subpackage Activation
+ */
 
-if ( !class_exists('Leads_Activation') ) {
 
 class Leads_Activation {
 
@@ -178,5 +183,3 @@ register_deactivation_hook( WPL_FILE , array( 'Leads_Activation' , 'deactivate' 
 
 /* Add listener for uncompleted upgrade routines */
 add_action( 'admin_init' , array( 'Leads_Activation' , 'run_upgrade_routine_checks' ) );
-
-}

@@ -4,10 +4,15 @@ Plugin Name: Inbound Automation
 Plugin URI: http://www.inboundnow.com/
 Description: Automate emails, segmenting, scoring & more.
 Version: 2.0.0
+
 */
 
 if (!class_exists('Inbound_Automation_Plugin') && class_exists('Inbound_Leads_Plugin')) {
 
+	/**
+	 * Class Inbound_Automation_Plugin
+	 * @package Automation
+	 */
 	final class Inbound_Automation_Plugin {
 
 		/**
@@ -40,7 +45,6 @@ if (!class_exists('Inbound_Automation_Plugin') && class_exists('Inbound_Leads_Pl
 					/* loads admin files */
 					include_once('classes/class.activation.upgrade-routines.php');
 					include_once('classes/class.activation.php');
-					include_once('classes/class.batch-processing.php');
 					include_once('classes/class.adminbar.php');
 					include_once('classes/class.post-type.automation.php');
 					include_once('classes/class.logs.php');
@@ -183,8 +187,9 @@ if (!class_exists('Inbound_Automation_Plugin') && class_exists('Inbound_Leads_Pl
 	}
 
 	/**
-	*  Checks if Inbound Automation is active
-	*/
+	 * Checks if Inbound Automation is active
+	 * @package Automation
+	 */
 	function inbound_automation_check_active() {
 		return 1;
 	}

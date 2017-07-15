@@ -1,6 +1,6 @@
 # Inbound Pro Plugin by [Inbound Now](https://www.inboundnow.com)
 
-[![GitHub tag](https://img.shields.io/github/tag/inbound-now/inbound-pro.svg?label=latest%20release)]() ![WordPress Compatibility](https://img.shields.io/wordpress/v/landing-pages.svg?maxAge=2592000) [![GitHub issues](https://img.shields.io/github/issues/inboundnow/inbound-pro.svg)](https://github.com/inboundnow/inbound-pro/issues)
+[![Latest Release](https://img.shields.io/github/release/inbound-now/inbound-pro.svg?label=latest%20release)]() ![WordPress Compatibility](https://img.shields.io/wordpress/v/landing-pages.svg?maxAge=2592000) [![GitHub issues](https://img.shields.io/github/issues/inboundnow/inbound-pro.svg)](https://github.com/inboundnow/inbound-pro/issues)
 
 ## Welcome to our Public Repository
 
@@ -12,7 +12,7 @@ The Inbound Pro plugin includes and expands on the powers of our 3 most popular 
 
 ## Code Contributions 
 
-We love user-contributed code. The truth is we could could use all the help we can get. For details on contributing please read our [contribution guidelines](https://github.com/inbound-now/inbound-pro/blob/master/contributions.md).
+We love user-contributed code. The truth is we could use all the help we can get. For details on contributing please read our [contribution guidelines](https://github.com/inbound-now/inbound-pro/blob/master/contributions.md). You might also find our [PHP Codex](https://inboundnow.github.io/php-codex/) useful as well. It's still a work in development.
 
 Here are some various ways you can contribute:
 
@@ -21,7 +21,7 @@ Here are some various ways you can contribute:
 3. [Contribute to Core Code](https://github.com/inbound-now/inbound-pro/blob/master/contributions.md)
 4. [Provide feedback and suggestions](https://github.com/inboundnow/inbound-pro/issues?direction=desc&labels=Feature%20Request&page=1&sort=created&state=open)
 
-
+Please Note: Inbound Pro development occurs in `develop` branch. `master` branch holds the latest stable release.
 ## Our Plugins
 
 ### Landing Pages
@@ -34,7 +34,7 @@ Landing Pages plugin provides a landing page framework powered by [Advanced Cust
 
 * [Using Advanced Custom Fields to Build a Landing Page Template](https://github.com/inboundnow/landing-pages/blob/develop/shared/docs/how.to.create.landing.page.templates.using.ACF.md)
 * [Expert Post: How I created a landing page template and how you could too](https://www.inboundnow.com/how-i-created-a-landing-page-template/)
-* [Landing Page Template Marketplace] (https://www.inboundnow.com/marketplace/?show=landing-pages)
+* [Landing Page Template Marketplace](https://www.inboundnow.com/marketplace/?show=landing-pages)
 
 ### Leads
 ![Plugin Version](https://img.shields.io/wordpress/plugin/v/leads.svg) 
@@ -88,7 +88,7 @@ This plugin ships assets with varying licensing policies. For assets considered 
 
 ### _IBN License_
 
-Structural property cannot be used or modified by a 3rd party without permission or issued license from InboundWP LLC.
+Structural property cannot be used distributed, or modified without a license issed from InboundWP LLC that delegates said permissions.
 
 
 ### Designation of Licenses
@@ -157,18 +157,24 @@ Path | License Applied
  /inbound-pro/core/shared | GPL+
 
 
-# Legacy Readme (revisit)
+# Development Builds
 
-The files have been streamlined and a build process is in place.
+Inbound Pro Plugin includes [NodeJS](https://nodejs.org/en/) powered [Gulp](http://gulpjs.com/) tasks that contributors should be aware of when editing any part of our `InboundAnalytics.min.js` file.
 
-The build process syncs live plugins from your current /plugins dir, and adds the latest files into core of pro. During this process the /shared folder is removed from the core plugins and moved into /core/shared. This dramatically shrank the size of pro
+## Installing Dependencies
 
-`npm install` #deps
+1. NodeJS & Gulp must be installed first! [see documentation](https://github.com/gulpjs/gulp/blob/master/docs/getting-started.md)
+2. Run `npm install` inside of the `/wp-content/plugins/inbound-pro/` directory.
 
-## Dev Instructions
+## Gulp Tasks
 
-Run the below command to sync local copies of all /core plugins
-`sudo gulp sync`
+These commands are performed inside of the the `/wp-content/plugins/inbound-pro/` directory. Each command might require `sudo` to be added before it to enable administrator permissions, depending on your OS.
 
-Run the below command for a production build
-`sudo gulp build`
+### `gulp watch`
+
+This command will monitor changes in `inbound-pro/core/shared/assets/js/frontend/analytics-src/` and compile the changes into our unified files located in `inbound-pro/core/shared/assets/js/frontend/analytics/`.
+
+### `gulp GPL`
+
+This command will extract Landing Pages, Calls to Action, and Leads plugin into the `/wp-content/plugins/` directory as stand alone plugins. There's really no need for contributors to do this, but it helps us with preparing individual updates to the WordPress.org SVN repository.
+

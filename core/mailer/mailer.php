@@ -12,6 +12,10 @@ Domain Path: lang
 
 if ( !class_exists('Inbound_Mailer_Plugin')	) {
 
+	/**
+	 * Class Inbound_Mailer_Plugin loading Mailer component
+	 * @package Mailer
+	 */
 	final class Inbound_Mailer_Plugin {
 
 		/* START PHP VERSION CHECKS */
