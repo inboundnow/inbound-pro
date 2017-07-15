@@ -5,13 +5,14 @@
  * @subpackage  ReportTemplate
  */
 
-if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
+if (!class_exists('Inbound_Mailer_Stats_Report')) {
 
     class Inbound_Mailer_Stats_Report extends Inbound_Reporting_Templates {
 
         static $range;
-        static $limit;
+        static $page;
         static $offset;
+        static $limit;
         static $total_events;
         static $total_pages;
         static $graph_data;
@@ -24,18 +25,6 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
         static $job_id;
         static $events = array();
 
-
-
-        /**
-         *  Create range static variable based on REQUEST data or set default to 30 days
-         */
-        public static function define_range() {
-            if (!isset($_REQUEST['range'])) {
-                self::$range = 30;
-            } else {
-                self::$range = intval($_REQUEST['range']);
-            }
-        }
 
         /**
          *  Load & display the template report
@@ -476,23 +465,27 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
                         unset($report_args['index_php?class']);
                         unset($report_args['tb_hide_nav']);
                         unset($report_args['TB_iframe']);
-                        $report_args['limit'] = self::$limit;
-                        $report_args['offset'] = (self::$offset) ? self::$offset : 1;
-
-                        $link = add_query_arg( $report_args , admin_url('index.php') );
-                        echo '<a href="'.$link.'" >&laquo;</a>';
+                        if( self::$page > 1 ){
+                            $report_args['page_number'] = self::$page - 1;
+                            $link = add_query_arg( $report_args , admin_url( 'index.php' ) );
+                            echo '<a href="' . $link . '" >&laquo;</a>';
+                        }
 
                         for ($i=0;$i<self::$total_pages;$i++) {
                             $page_num = $i +1;
-                            $report_args['offset'] = $page_num;
+                            $report_args['page_number'] = $page_num;
                             $link = add_query_arg( $report_args , admin_url('index.php') );
-                            echo '<a href="'.$link.'" '.( $page_num == self::$offset ? 'class="active"' : '' ).'>'.$page_num.'</a>';
+
+                            echo '<a href="' . $link . '" ' . (self::$page == $page_num ? 'class="active"' : '' ) . '>' . $page_num . '</a>';
                         }
 
-                        $report_args['offset'] = self::$offset + 1;
-                        $link = add_query_arg( $report_args , admin_url('index.php') );
+                        if( self::$offset  < self::$total_events ){
+                            $report_args['page_number'] = self::$page + 1;
+                            $link = add_query_arg( $report_args , admin_url( 'index.php' ) );
+                            echo '<a href="' . $link . '">&raquo;</a>';
+                        }
                         ?>
-                        <a href="<?php echo $link; ?>">&raquo;</a>
+
                     </div>
                 </div>
             </div>
@@ -842,12 +835,10 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
         public static function load_data() {
             global $wpdb;
 
-            /* build timespan for analytics report */
-            self::define_range();
-
-            self::$offset = (isset($_GET['offset'])) ? (int) $_GET['offset'] : 0;
+            self::$range =  (!isset($_REQUEST['range'])) ? intval($_REQUEST['range']) : 30;
+            self::$page = (isset($_GET['page_number'])) ? (int) $_GET['page_number'] : 1;
             self::$limit = (isset($_GET['limit'])) ? (int) $_GET['limit'] : 50;
-
+            self::$offset = (self::$page>1) ? (int) self::$page * self::$limit  : self::$limit;
             $dates = Inbound_Reporting_Templates::prepare_range( self::$range );
             self::$start_date = $dates['start_date'];
             self::$end_date = $dates['end_date'];
@@ -878,7 +869,7 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
                 'start_date' => self::$start_date,
                 'end_date' => self::$end_date
             );
-            self::$graph_data['current'] = self::get_email_event_stats($params);
+            self::$graph_data['current'] = self::get_email_event_stats($params , true);
 
             /* calculate total events for pagination */
             self::$total_events = count(self::$graph_data['current']);
@@ -1087,7 +1078,7 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
          * Gets email action stats for the selected email
          * @params: array(email_id, event_name, start_date, end_date)
          **/
-        public static function get_email_event_stats($args){
+        public static function get_email_event_stats($args , $ignore_limit = false){
             global $wpdb;
 
             /*change the event name to deliveries in order to get the unopened*/
@@ -1120,8 +1111,8 @@ if( !class_exists( 'Inbound_Mailer_Stats_Report' ) ){
             }
 
             /* add limit and offset if present */
-            if (isset($args['limit'])) {
-                $query_pagination .= "  LIMIT {$args['limit']} OFFSET {$args['offset']}  ";
+            if (isset(self::$offset) && !$ignore_limit) {
+                $query_pagination .= "  LIMIT ".self::$limit." OFFSET ".self::$offset."  ";
             }
 
             /* *
