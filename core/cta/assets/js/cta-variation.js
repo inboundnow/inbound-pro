@@ -110,7 +110,7 @@ function wp_cta_load_variation( cta_id, vid ) {
 		_inbound.deBugger('WP CTA Load Object Updated:' + JSON.stringify(loaded_ctas));
 
 	}
-	/* if variation not set yet or sticky cta setting is off  */
+	/* if variation not set yet or sticky cta setting is on  */
 	else if ( (cta_id in loaded_ctas) && parseInt(cta_variation.sticky_cta) == 1 ) {
 		cta_impressions[cta_id] = loaded_ctas[cta_id];
 		_inbound.totalStorage('wp_cta_impressions', cta_impressions); // store cta data
