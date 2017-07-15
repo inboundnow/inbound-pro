@@ -195,7 +195,7 @@ if ( !class_exists('Inbound_Leads') ) {
 				'name' => __('Name', 'inbound-pro' ),
 				'description' => __('Description', 'inbound-pro' ),
 				'slug' => __('Slug', 'inbound-pro' ),
-				'posts' => __('Posts', 'inbound-pro' )
+				'posts' => __('Leads', 'inbound-pro' )
 				);
 			return $new_columns;
 		}

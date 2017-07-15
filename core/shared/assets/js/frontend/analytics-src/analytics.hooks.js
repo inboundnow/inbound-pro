@@ -6,8 +6,8 @@
  *
  * Forked from https://github.com/carldanley/WP-JS-Hooks/blob/master/src/event-manager.js
  *
- * @author David Wells <david@inboundnow.com>
- * @contributors Hudson Atwell <hudson@inboundnow.com>
+ * @contributor David Wells <david@inboundnow.com>
+ * @contributor Hudson Atwell <hudson@inboundnow.com>
  * @version 0.0.2
  */
 
