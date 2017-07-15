@@ -221,6 +221,7 @@ if (!class_exists('Inbound_Event_Report')) {
          */
         public static function display_all_events() {
             $default_gravatar = INBOUND_PRO_URLPATH . 'assets/images/gravatar-unknown.png';
+            $tracking_endpoint = apply_filters( 'inbound_event_endpoint', 'inbound' );
             ?>
             <div class="events-stream-view">
             <h3><?php /* _e( 'Stream' , 'inbound-pro' ); */ ?></h3>
@@ -245,9 +246,15 @@ if (!class_exists('Inbound_Event_Report')) {
                         <?php
                     }
                     ?>
-                    <th scope="col" class="">
-                        <span><?php _e('Lead' , 'inbound-pro'); ?></span>
-                    </th>
+                    <?php
+                    if (self::$event_name == 'sparkpost_click') {
+                        ?>
+                        <th scope="col" class="">
+                            <span><?php _e('Target' , 'inbound-pro'); ?></span>
+                        </th>
+                        <?php
+                    }
+                    ?>
                     <th scope="col" class="">
                         <span><?php _e('Funnel Details' , 'inbound-pro'); ?></span>
                     </th>
@@ -278,7 +285,7 @@ if (!class_exists('Inbound_Event_Report')) {
 
                 $lead_meta['wpleads_first_name'][0] = ($lead_exists && isset($lead_meta['wpleads_first_name'][0])) ? $lead_meta['wpleads_first_name'][0] : __('n/a' , 'inbound-pro');
                 $lead_meta['wpleads_last_name'][0] = ($lead_exists && isset($lead_meta['wpleads_last_name'][0])) ? $lead_meta['wpleads_last_name'][0] : '';
-                
+
                 $capture = Inbound_Events::get_event_capture_data( $event );
                 ?>
                 <tr id="post-98600" class="hentry lead-table-data-report-row" data-name-field="<?php echo $capture['title']; ?>" data-date-number="<?php echo $date_number; ?>">
@@ -325,6 +332,38 @@ if (!class_exists('Inbound_Event_Report')) {
                         </div>
 
                     </td>
+                        <?php
+                    }
+                    ?>
+
+                    <?php
+                    if (self::$event_name == 'sparkpost_click') {
+
+                        $event_details = json_decode($event['event_details'] , true);
+
+                        if (strstr($event_details['target_link_url'] , '?token')) {
+                            $args['url'] = $event_details['target_link_url'];
+                            $args['label'] =__('Unsubscribe' , 'inbound-pro');
+
+                        } else if (strstr($event_details['target_link_url'], $tracking_endpoint)) {
+                            $token = end(explode('/', $event_details['target_link_url']));
+                            $args = Inbound_API::get_args_from_token($token);
+                            $args['url'] = ($args['url']) ? $args['url'] : '#'.$token;
+                            $args['label'] = ($args['url']) ? $args['url'] : sprintf(__('No URL for token %s' , 'inbound-pro') , $token);
+                        } else {
+                            $args['url'] = $event_details['target_link_url'];
+                            $args['label'] = $event_details['target_link_url'];
+                        }
+                        ?>
+                        <td class="clicked-url">
+                            <?php
+                            if (strstr($args['url'],':')) {
+                                echo '<a href="'.$args['url'].'" target="_blank">'.$args['label'].'</a>';
+                            } else {
+                                echo $args['label'];
+                            }
+                            ?>
+                        </td>
                         <?php
                     }
                     ?>
@@ -382,6 +421,15 @@ if (!class_exists('Inbound_Event_Report')) {
                         ?>
                         <th scope="col" class="">
                             <span><?php _e('Message' , 'inbound-pro'); ?></span>
+                        </th>
+                        <?php
+                    }
+                    ?>
+                    <?php
+                    if (self::$event_name == 'sparkpost_click') {
+                        ?>
+                        <th scope="col" class="">
+                            <span><?php _e('Target' , 'inbound-pro'); ?></span>
                         </th>
                         <?php
                     }
