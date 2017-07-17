@@ -145,13 +145,13 @@ class Inbound_Asset_Loader {
 		$lead_page_view_tracking = ( isset( $inbound_settings['inbound-analytics-rules']['page-tracking']) && $inbound_settings['inbound-analytics-rules']['page-tracking'] == 'off' ) ? false : true;
 		$lead_search_tracking = self::get_lead_setting( 'wpl-main-search-tracking', 1);
 		$lead_comment_tracking = self::get_lead_setting( 'wpl-main-comment-tracking', 1);
-		if (!$lead_search_tracking) {
+		if (!$lead_search_tracking || !class_exists( 'Inbound_Leads_Plugin' ) ) {
 			$search_tracking = 'off';
 		}
-		if (!$lead_comment_tracking) {
+		if (!$lead_comment_tracking || !class_exists( 'Inbound_Leads_Plugin' ) ) {
 			$comment_tracking = 'off';
 		}
-		if (!$lead_page_view_tracking || isset($_GET['inbound-do-not-track']) ) {
+		if (!$lead_page_view_tracking || isset($_GET['inbound-do-not-track']) || !class_exists( 'Inbound_Leads_Plugin' )  ) {
 			$page_tracking = 'off';
 		}
 
