@@ -11,7 +11,7 @@ var _inboundLeadsAPI = (function(_inbound) {
             var utils = _inbound.Utils,
                 wp_lead_uid = utils.readCookie("wp_lead_uid"),
                 wp_lead_id = utils.readCookie("wp_lead_id"),
-                expire_check = utils.readCookie("lead_session_expire"); // check for session
+                expire_check = utils.readCookie("lead_data_expire");
 
             if (!expire_check) {
                 _inbound.deBugger('leads', 'expired vistor. Run Processes');
