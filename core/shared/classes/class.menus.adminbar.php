@@ -114,7 +114,7 @@ class Inbound_Menus_Adminbar {
 
         foreach ($secondary_menu_items as $id => $menu_item) {
             $menu_item['id'] = $id;
-            $menu_item['meta'] = (isset($menu_item['meta']) && is_array() ) ? $menu_item['meta'] : array();
+            $menu_item['meta'] = (isset($menu_item['meta']) && is_array($menu_item['meta']) ) ? $menu_item['meta'] : array();
 
             if (!isset($menu_item['meta']['target'])) {
                 $menu_item['meta']['target'] = '_blank';
