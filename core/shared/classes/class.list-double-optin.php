@@ -354,17 +354,20 @@ class Inbound_List_Double_Optin {
                         jQuery('.double-optin-enabled').css({'display': 'none'});
                     } else {
                         jQuery('.double-optin-enabled').css({'display': 'table-row'});
+                        jQuery('#double_optin_email_template').trigger('change');
                     }
                 });
 
                 /*if the double optin status has changed*/
                 jQuery('#double_optin_email_template').on('change', function () {
-                    if (jQuery('#double_optin_email_template').val() == 'default-email-template') {
-                        jQuery('.default-email-setting').css({'display': 'table-row'});
-                        jQuery('.confirmation-shortcode-notice').css({'display': 'none'});
-                    } else {
-                        jQuery('.default-email-setting').css({'display': 'none'});
-                        jQuery('.confirmation-shortcode-notice').css({'display': 'table-row'});
+                    if(jQuery('#double_optin_toggle').val() == '1'){
+                        if (jQuery('#double_optin_email_template').val() == 'default-email-template') {
+                            jQuery('.default-email-setting').css({'display': 'table-row'});
+                            jQuery('.confirmation-shortcode-notice').css({'display': 'none'});
+                        } else {
+                            jQuery('.default-email-setting').css({'display': 'none'});
+                            jQuery('.confirmation-shortcode-notice').css({'display': 'table-row'});
+                        }
                     }
                 });
 
