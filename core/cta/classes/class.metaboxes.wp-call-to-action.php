@@ -420,6 +420,13 @@ class CTA_Metaboxes {
     */
     public static function show_analytics_metabox(){
 
+		/* sets the default quick view template */
+		$template_class_name = apply_filters('inbound-ananlytics/cta/quick-view', 'Inbound_CTA_Quick_View');
+
+		$template_class = new $template_class_name;
+		$template_class->load_template(array());
+
+
         global $post, $CTA_Variations;
         
         $variations = $CTA_Variations->get_variations($post->ID);
@@ -589,17 +596,18 @@ class CTA_Metaboxes {
             /* if there are no stored stats in the current or the past time lengths, output a message telling the user */
             if(empty($current_range_events) && empty($past_range_events)){
                 ?>
+				<div>
+					<?php
+					Inbound_Quick_View::display_navigation();
+					?>
+				</div>
                 <div id="cta-analytics-no-stats-wrapper">
                     <div id="cta-analytics-no-stats-container">
                         <span id="cta-analytics-no-stats-message"><?php _e('No CTA data found for this time range!', 'inbound-pro'); ?></span>
                     </div>
                 </div>
                 <div class="navigation-separator"></div>
-                <div>
-                <?php
-                    Inbound_Quick_View::display_navigation();
-                ?>
-                </div>
+
                 <?php
                 return;
                 
