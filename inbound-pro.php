@@ -199,6 +199,7 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 
 				include_once(INBOUND_PRO_PATH . 'classes/admin/report-templates/report.upgrade.php');
 				include_once(INBOUND_PRO_PATH . 'classes/admin/report-templates/report.quick-view.php');
+				include_once(INBOUND_PRO_PATH . 'classes/admin/report-templates/report.cta.quick-view.php');
 				include_once(INBOUND_PRO_PATH . 'classes/admin/class.inbound-analytics.php');
 
 
