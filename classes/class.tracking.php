@@ -32,6 +32,7 @@ class Inbound_Tracking {
 		/* listen for tracked links in content and add tracking */
 		add_filter( 'the_content' , array( __CLASS__ , 'prepare_tracked_links') , 110 , 1 );
 		add_filter( 'get_the_content' , array( __CLASS__ , 'prepare_tracked_links') , 110 , 1 );
+		add_filter( 'inbound_track_links' , array( __CLASS__ , 'prepare_tracked_links') , 110 , 1);
 
 		/* track masked cta links */
 		add_action( 'inbound_track_link', array(__CLASS__, 'track_link'));
@@ -123,8 +124,12 @@ class Inbound_Tracking {
 		global $post;
 
 
-		/* skip if not main page/post query */
-		if ( !is_single() || !in_the_loop() || !is_main_query() ) {
+		/* skip if not main page/post query and is not a manually invoked filter */
+		if (
+			( !is_single() || !in_the_loop() || !is_main_query() )
+			&&
+			(current_filter() != 'inbound_track_links')
+		) {
 			return $html;
 		}
 

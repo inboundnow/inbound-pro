@@ -10,6 +10,7 @@ if( !class_exists( 'Inbound_Search_And_Comment_Report' ) ){
     class Inbound_Search_And_Comment_Report extends Inbound_Reporting_Templates {
         
         static $range;
+        static $page;
         static $limit;
         static $offset;
         static $total_events;
@@ -24,17 +25,6 @@ if( !class_exists( 'Inbound_Search_And_Comment_Report' ) ){
         static $end_date;
         static $chart_date_range;
 
-
-        /**
-         *  Create range static variable based on REQUEST data or set default to 30 days
-         */
-        public static function define_range() {
-            if (!isset($_REQUEST['range'])) {
-                self::$range = 30;
-            } else {
-                self::$range = intval($_REQUEST['range']);
-            }
-        }
 
         /**
          *  Load & display the template report
@@ -374,25 +364,24 @@ if( !class_exists( 'Inbound_Search_And_Comment_Report' ) ){
                     unset($report_args['index_php?class']);
                     unset($report_args['tb_hide_nav']);
                     unset($report_args['TB_iframe']);
-                    $report_args['limit'] = self::$limit;
-                    $report_args['offset'] = (self::$offset) ? max( array( (self::$offset - self::$limit) ) ) : 0;
-                    $link = add_query_arg( $report_args , admin_url( 'index.php' ) );
                     
-                    if( self::$offset > 0 ){
+                    if( self::$page > 1 ){
+                        $report_args['page_number'] = self::$page - 1;
+                        $link = add_query_arg( $report_args , admin_url( 'index.php' ) );
                         echo '<a href="' . $link . '" >&laquo;</a>';
                     }
                     
                     for ($i=0;$i<self::$total_pages;$i++) {
                         $page_num = $i +1;
-                        $report_args['offset'] = ($i * self::$limit);
+                        $report_args['page_number'] = $page_num;
                         $link = add_query_arg( $report_args , admin_url('index.php') );
                         
-                        echo '<a href="' . $link . '" ' . ($i == (self::$offset / self::$limit) ? 'class="active"' : '' ) . '>' . $page_num . '</a>';
+                        echo '<a href="' . $link . '" ' . (self::$page == $page_num ? 'class="active"' : '' ) . '>' . $page_num . '</a>';
                     }
-                    $report_args['offset'] = self::$offset + self::$limit;
-                    $link = add_query_arg( $report_args , admin_url( 'index.php' ) );
-                    
-                    if( $report_args['offset'] < self::$total_events ){
+
+                    if( self::$offset  < self::$total_events ){
+                        $report_args['page_number'] = self::$page + 1;
+                        $link = add_query_arg( $report_args , admin_url( 'index.php' ) );
                         echo '<a href="' . $link . '">&raquo;</a>';
                     }
                     
@@ -997,10 +986,10 @@ if( !class_exists( 'Inbound_Search_And_Comment_Report' ) ){
             }
             
             /* build timespan for analytics report */
-            self::define_range();
-
-            self::$offset = (isset( $_GET['offset'] )) ? (int) $_GET['offset'] : 0;
-            self::$limit = (isset( $_GET['limit'] )) ? (int) $_GET['limit'] : 50;
+            self::$range =  (!isset($_REQUEST['range'])) ? intval($_REQUEST['range']) : 30;
+            self::$page = (isset($_GET['page_number'])) ? (int) $_GET['page_number'] : 1;
+            self::$limit = (isset($_GET['limit'])) ? (int) $_GET['limit'] : 50;
+            self::$offset = (self::$page>1) ? (int) self::$page * self::$limit  : self::$limit;
 
             $dates = Inbound_Reporting_Templates::prepare_range( self::$range );
             self::$start_date = $dates['start_date'];
@@ -1113,35 +1102,3 @@ if( !class_exists( 'Inbound_Search_And_Comment_Report' ) ){
     new Inbound_Search_And_Comment_Report;
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-?>

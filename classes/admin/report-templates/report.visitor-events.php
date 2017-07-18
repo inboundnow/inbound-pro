@@ -235,7 +235,7 @@ if (!class_exists('Inbound_Visitor_Event_Report')) {
 
                 /* sssssssssssssssssssssssssssssssssssssssssssss */
                 /* go on then, styles go here.. knock yourself out! */
-                @import url(http://fonts.googleapis.com/css?family=Lato:300,400);
+                @import url(//fonts.googleapis.com/css?family=Lato:300,400);
                 @-webkit-keyframes pulsate {
                     0% {
                         -webkit-transform: scale(0.6, 0.6);
