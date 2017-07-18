@@ -160,14 +160,16 @@ class CTA_Metaboxes {
 		);
         
         /* Inbound Analytics CTA Stats Box */
-        add_meta_box(
-            'wp_cta_display_inbound_analytics_stats_metabox',
-            __( 'Inbound Analytics', 'inbound-pro' ),
-            array(__CLASS__, 'show_analytics_metabox'),
-            'wp-call-to-action' ,
-            'side',
-            'high'
-        );
+		if (class_exists('show_analytics_metabox')) {
+			add_meta_box(
+				'wp_cta_display_inbound_analytics_stats_metabox',
+				__('Inbound Analytics', 'inbound-pro'),
+				array(__CLASS__, 'show_analytics_metabox'),
+				'wp-call-to-action',
+				'side',
+				'high'
+			);
+		}
 	}
 
 
