@@ -111,6 +111,7 @@ class Inbound_Events {
         $sql = "CREATE TABLE IF NOT EXISTS $table_name (
 			  `id` mediumint(9) NOT NULL AUTO_INCREMENT,
 			  `page_id` varchar(20) NOT NULL,
+			  `cta_id` varchar(20) NOT NULL,
 			  `variation_id` mediumint(9) NOT NULL,
 			  `lead_id` mediumint(20) NOT NULL,
 			  `lead_uid` varchar(255) NOT NULL,
@@ -404,6 +405,7 @@ class Inbound_Events {
         $defaults = array(
             'page_id' => '',
             'variation_id' => '',
+            'cta_id' => ( isset($args['cta_id']) ? $args['cta_id'] : 0 ),
             'lead_id' => ( isset($_COOKIE['wp_lead_id']) ? $_COOKIE['wp_lead_id'] : '' ),
             'lead_uid' => ( isset($_COOKIE['wp_lead_uid']) ? $_COOKIE['wp_lead_uid'] : '' ),
             'session_id' => ( isset($_COOKIE['PHPSESSID']) ? $_COOKIE['PHPSESSID'] : session_id() ),
@@ -676,6 +678,9 @@ class Inbound_Events {
             case 'page_id':
                 $query .=' `page_id` = "'.$params['page_id'].'" ';
                 break;
+            case 'cta_id':
+                $query .=' `cta_id` = "'.$params['cta_id'].'" ';
+                break;
             case 'mixed':
                 if (isset($params['lead_id']) && $params['lead_id'] ) {
                     $queries[] = ' `lead_id` = "'.$params['lead_id'].'" ';
@@ -726,12 +731,37 @@ class Inbound_Events {
         $params['order_by'] = (isset($params['order_by'])) ? $params['order_by'] : 'datetime DESC';
 
         $table_name = $wpdb->prefix . "inbound_page_views";
+        $where = false;
 
-        $query = 'SELECT *, count(*) as impressions, count(date(datetime)) as impressions_per_day, date(datetime) as date  FROM '.$table_name.' WHERE `page_id` = "'.$params['page_id'].'"';
+        $query = 'SELECT *, count(*) as impressions, count(date(datetime)) as impressions_per_day, date(datetime) as date  FROM '.$table_name.' WHERE';
 
+
+
+        if (isset($params['page_id']) && $params['page_id'] ) {
+            if ($where) {
+                $query .= " AND ";
+            } else {
+                $where = true;
+            }
+            $query .= ' page_id = "'.$params['page_id'].'" ';
+        }
+
+        if (isset($params['cta_id']) && $params['cta_id'] ) {
+            if ($where) {
+                $query .= " AND ";
+            } else {
+                $where = true;
+            }
+            $query .= ' cta_id = "'.$params['cta_id'].'" ';
+        }
 
         if (isset($params['source']) && $params['source'] ) {
-            $query .= ' AND source = "'.$params['source'].'" ';
+            if ($where) {
+                $query .= " AND ";
+            } else {
+                $where = true;
+            }
+            $query .= ' source = "'.$params['source'].'" ';
         }
 
         $query .=' AND `page_id` != "0" ';

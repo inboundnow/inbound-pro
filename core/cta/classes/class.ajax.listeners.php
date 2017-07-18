@@ -115,8 +115,13 @@ class CTA_Ajax_Listeners {
 			return;
 		}
 
+		/* run recoord impression routines */
 		foreach ( $_POST['ctas'] as $cta_id => $vid ) {
-			do_action('wp_cta_record_impression', (int) $cta_id, (int) $vid );
+			do_action('wp_cta_record_impression', array(
+				'page_id' =>(int) $_POST['page_id'],
+				'cta_id' =>(int) $cta_id,
+				'variation_id' => (int) $vid
+			));
 		}
 
 		//print_r($ctas);

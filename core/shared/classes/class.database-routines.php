@@ -41,8 +41,8 @@ if ( !class_exists('Inbound_Upgrade_Routines') ) {
             self::$routines['page-views-table-1'] = array(
                 'id' => 'page-views-table-1',
                 'scope' => 'shared',
-                'introduced' => '1.0.2',
-                'callback' => array( __CLASS__ , 'alter_page_views_table_1')
+                'introduced' => '2.0.2',
+                'callback' => array( __CLASS__ , 'alter_page_views_table')
             );
 
             /* alter page view table */
@@ -154,7 +154,7 @@ if ( !class_exists('Inbound_Upgrade_Routines') ) {
          * Alter pageview table from INT to VARCHARR
          * @param $routines
          */
-        public static function alter_page_views_table_1() {
+        public static function alter_page_views_table() {
             global $wpdb;
             require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
@@ -168,6 +168,12 @@ if ( !class_exists('Inbound_Upgrade_Routines') ) {
                 $wpdb->get_results("ALTER TABLE {$table_name} ADD `ip` VARCHAR(45) NOT NULL");
             } else {
                 $wpdb->get_results( "ALTER TABLE {$table_name} MODIFY COLUMN `ip` VARCHAR(45)" );
+            }
+
+            if(!isset($col_check->cta_id)) {
+                $wpdb->get_results("ALTER TABLE {$table_name} ADD `cta_id` VARCHAR(20) NOT NULL");
+            } else {
+                $wpdb->get_results( "ALTER TABLE {$table_name} MODIFY COLUMN `cta_id` VARCHAR(20)" );
             }
 
         }

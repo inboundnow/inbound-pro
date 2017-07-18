@@ -4,7 +4,7 @@
  * Class that monitors cta link click and form submission conversions related to CTAs
  *
  * @package CTA
- * @subpackage Core
+ * @subpackage Tracking
  */
 
 
@@ -24,6 +24,15 @@ class CTA_Conversion_Tracking {
 
 		/* Track form submissions related to call to actions a conversions */
 		add_filter('inboundnow_store_lead_pre_filter_data', array(__CLASS__, 'set_form_submission_conversion'), 20, 1 );
+
+		/* Records impression for cta */
+		add_action( 'wp_cta_record_impression', array(__CLASS__, 'record_impression_event'), 10, 1);
+
+		/* Records impression for cta */
+		add_action( 'wp_cta_record_impression', array(__CLASS__, 'update_impression_object'), 10, 1);
+
+		/* Records conversion for cta */
+		add_action( 'wp_cta_record_conversion', array(__CLASS__, 'record_conversion'), 10, 2);
 
 	}
 
@@ -113,6 +122,63 @@ class CTA_Conversion_Tracking {
 		update_post_meta( $args['id'], 'wpleads_conversion_data', $conversion_data );
 		update_post_meta( $args['id'], 'wpl-lead-conversion-count', count($conversion_data));
 
+	}
+
+
+	/**
+	 * Adds page view event to represent the CTA impression
+	 *
+	 * @param INT $cta_id id of call to action
+	 * @param INT $vid id of variation belonging to call to action
+	 *
+	 */
+	public static function record_impression_event( $event ) {
+
+		Inbound_Events::store_page_view(array(
+			'page_id' => (isset($event['page_id'])) ? $event['page_id'] : 0 ,
+			'cta_id' => (isset($event['cta_id'])) ? $event['cta_id'] : 0 ,
+			'variation_id' => (isset($event['variation_id'])) ? $event['variation_id'] : 0 ,
+		));
+	}
+	/**
+	 * Increments impression count for given cta and variation id
+	 *
+	 * @param INT $cta_id id of call to action
+	 * @param INT $vid id of variation belonging to call to action
+	 *
+	 */
+	public static function update_impression_object( $event ) {
+
+		$impressions = get_post_meta( $event['cta_id'] ,'wp-cta-ab-variation-impressions-'.$event['variation_id'], true);
+
+		if (!is_numeric($impressions)) {
+			$impressions = 1;
+		} else {
+			$impressions++;
+		}
+
+		update_post_meta( $event['cta_id'], 'wp-cta-ab-variation-impressions-'.$event['variation_id'], $impressions);
+	}
+
+
+	/**
+	 * Increments conversion count for given cta id and variation id
+	 *
+	 * @param INT $cta_id id of call to action
+	 * @param INT $vid id of variation belonging to call to action
+	 *
+	 */
+	public static function record_conversion(	$cta_id, $vid ) {
+
+		$conversions = get_post_meta( $cta_id, 'wp-cta-ab-variation-conversions-' . $vid, true);
+
+		if (!is_numeric($conversions)) {
+			$conversions = 1;
+		} else {
+			$conversions++;
+		}
+
+		update_post_meta( $cta_id, 'wp-cta-ab-variation-conversions-'.$vid, $conversions);
 	}
 }
 

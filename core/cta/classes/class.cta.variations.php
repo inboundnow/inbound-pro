@@ -28,11 +28,6 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 			add_filter( 'wp_cta_customizer_customizer_link', array(__CLASS__, 'append_variation_id_to_url'));
 			add_filter( 'post_type_link', array(__CLASS__, 'append_variation_id_to_url'));
 
-			/* Records impression for cta */
-			add_action( 'wp_cta_record_impression', array(__CLASS__, 'record_impression'), 10, 2);
-
-			/* Records conversion for cta */
-			add_action( 'wp_cta_record_conversion', array(__CLASS__, 'record_conversion'), 10, 2);
 		}
 
 		/* Listens for commands */
@@ -593,25 +588,6 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 			return $impressions;
 		}
 
-		/**
-		* Increments impression count for given cta and variation id
-		*
-		* @param INT $cta_id id of call to action
-		* @param INT $vid id of variation belonging to call to action
-		*
-		*/
-		public static function record_impression( $cta_id, $vid ) {
-
-			$impressions = get_post_meta( $cta_id ,'wp-cta-ab-variation-impressions-'.$vid, true);
-
-			if (!is_numeric($impressions)) {
-				$impressions = 1;
-			} else {
-				$impressions++;
-			}
-
-			update_post_meta( $cta_id, 'wp-cta-ab-variation-impressions-'.$vid, $impressions);
-		}
 
 		/**
 		* Manually sets conversion count for given cta id and variation id
@@ -713,25 +689,6 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 			return $conversion_rate;
 		}
 
-		/**
-		* Increments conversion count for given cta id and variation id
-		*
-		* @param INT $cta_id id of call to action
-		* @param INT $vid id of variation belonging to call to action
-		*
-		*/
-		public static function record_conversion(	$cta_id, $vid ) {
-
-			$conversions = get_post_meta( $cta_id, 'wp-cta-ab-variation-conversions-' . $vid, true);
-
-			if (!is_numeric($conversions)) {
-				$conversions = 1;
-			} else {
-				$conversions++;
-			}
-
-			update_post_meta( $cta_id, 'wp-cta-ab-variation-conversions-'.$vid, $conversions);
-		}
 
 		/**
 		* Manually sets conversion count for given cta id and variation id
