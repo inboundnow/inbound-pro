@@ -22,13 +22,21 @@ if ( !class_exists('Inbound_CTA_Quick_View') ) {
             self::define_range();
 
             /* Display date range conditions */
-            add_action('inbound-analytics/cta/quick-view', array(__CLASS__, 'display_navigation') , 1 );
+            add_action('inbound-analytics/cta/quick-view', array(__CLASS__, 'display_navigation'), 1);
 
             /* set Inbound powered content stats */
-            add_action('inbound-analytics/cta/quick-view', array(__CLASS__, 'display_content_breakdown') , 20);
+            add_action('inbound-analytics/cta/quick-view', array(__CLASS__, 'display_content_breakdown'), 20);
 
             /* set Inbound powered content stats */
-            add_action('inbound-analytics/cta/quick-view', array(__CLASS__, 'display_action_breakdown') , 30);
+            add_action('inbound-analytics/cta/quick-view', array(__CLASS__, 'display_action_breakdown'), 30);
+
+            /* set Inbound powered content stats */
+            add_action('inbound-analytics/cta/quick-view', array(__CLASS__, 'display_converting_post_breakdown'), 40);
+
+            /* set Inbound powered content stats */
+            add_action('inbound-analytics/cta/quick-view', array(__CLASS__, 'display_cta_click_breakdown'), 50);
+            
+
         }
 
         /**
@@ -113,6 +121,8 @@ if ( !class_exists('Inbound_CTA_Quick_View') ) {
             self::load_submissions();
             self::load_cta_clicks();
             self::load_content_clicks();
+            self::load_CTA_variation_click_stats();
+            self::load_post_CTA_conversion_stats();
         }
 
 
@@ -232,7 +242,52 @@ if ( !class_exists('Inbound_CTA_Quick_View') ) {
             self::$statistics['content-clicks']['rate']['difference'][self::$range] = self::get_percentage_change(self::$statistics['content-clicks']['rate']['current'][self::$range], self::$statistics['content-clicks']['rate']['past'][self::$range]);
 
         }
-
+        
+        /**
+         * Loads CTA variation click stats for each variation of a CTA
+         * These are the CTA variation clicks past/present, the CTA click rate past/present,
+         * and the change in the click rate between the past and the present
+         * 
+         */
+        public static function load_CTA_variation_click_stats(){
+            $variation_click_stats = self::get_variation_click_stats();
+            $impressions = self::get_cta_impressions();
+            
+            /* if there aren't any click stats, exit*/
+            if(empty($variation_click_stats)){
+                return;
+            }
+    
+            /* create the variation click data for each variation */
+            foreach($variation_click_stats['current_stats']['variation_id'] as $id => $click_events){
+                self::$statistics['variation_clicks'][$id]['current_clicks'] = ($click_events) ? count($click_events) : 0;
+                self::$statistics['variation_clicks'][$id]['past_clicks'] = (isset($variation_click_stats['past_stats']['variation_id'][$id])) ? count($variation_click_stats['past_stats']['variation_id'][$id]) : 0;
+                self::$statistics['variation_clicks'][$id]['rate']['current'] = (isset($impressions[$id]['current'])) ? (self::$statistics['variation_clicks'][$id]['current_clicks'] / $impressions[$id]['current']) : 0;
+                self::$statistics['variation_clicks'][$id]['rate']['past'] = (isset($impressions[$id]['past'])) ? (self::$statistics['variation_clicks'][$id]['past_clicks'] / $impressions[$id]['past']) : 0;
+                self::$statistics['variation_clicks'][$id]['change'] = self::get_percentage_change(self::$statistics['variation_clicks'][$id]['rate']['current'], self::$statistics['variation_clicks'][$id]['rate']['past']);
+                
+            }
+        }
+        
+        /**
+         * Loads post conversion stats for the given CTA
+         * 
+         */
+        public static function load_post_CTA_conversion_stats(){
+            global $post;
+             
+            $post_conversion_stats = self::get_post_conversion_stats();
+             
+            if($post_conversion_stats == null){
+                return;
+            }
+             
+            foreach($post_conversion_stats['current'] as $id => $conversion_count){
+                self::$statistics['post_cta_conversions'][$id]['current_conversions'] = (isset($conversion_count)) ? $conversion_count : 0;
+                self::$statistics['post_cta_conversions'][$id]['past_conversions'] = (isset($post_conversion_stats['past'][$id])) ? $post_conversion_stats['past'][$id] : 0;
+                self::$statistics['post_cta_conversions'][$id]['change'] = self::get_percentage_change(self::$statistics['post_cta_conversions'][$id]['current_conversions'], self::$statistics['post_cta_conversions'][$id]['past_conversions']);
+            }
+        }
 
         /**
          *    Loads the analytics template
@@ -286,7 +341,7 @@ if ( !class_exists('Inbound_CTA_Quick_View') ) {
             <table class='ia-table-summary'>
                 <tr>
                     <td class='ia-td-th'>
-                        <label title='<?php _e('Type fo statistic.', 'inbound-pro'); ?>'>
+                        <label title='<?php _e('Type for statistic.', 'inbound-pro'); ?>'>
                             <?php _e('Statistic', 'inbound-pro'); ?>
                         </label>
                     </td>
@@ -355,7 +410,7 @@ if ( !class_exists('Inbound_CTA_Quick_View') ) {
                         <span class="label label-info"><?php echo self::prepare_rate_format(self::$statistics['actions']['rate']['current'][self::$range], false); ?></span>
                     </td>
                     <td class='ia-td-value'>
-                        <span class='stat label  <?php echo (self::$statistics['actions']['rate']['difference'][self::$range] > 0) ? 'label-success' : 'label-warning'; ?>' title="<?php echo sprintf(__('%s action rate in the last %s days versus an %s action rate in the prior %s day period)', 'inbound-pro'), self::prepare_rate_format(self::$statistics['actions']['rate']['current'][self::$range]), self::$range, self::prepare_rate_format(self::$statistics['actions']['rate']['past'][self::$range]), self::$range); ?>"><?php echo self::prepare_rate_format(self::$statistics['actions']['rate']['difference'][self::$range]); ?></span>
+                        <span class='stat label  <?php echo (self::$statistics['actions']['rate']['difference'][self::$range] > 0) ? 'label-success' : 'label-warning'; ?>' title="<?php echo sprintf(__('%s action rate in the last %s days versus a %s action rate in the prior %s day period)', 'inbound-pro'), self::prepare_rate_format(self::$statistics['actions']['rate']['current'][self::$range]), self::$range, self::prepare_rate_format(self::$statistics['actions']['rate']['past'][self::$range]), self::$range); ?>"><?php echo self::prepare_rate_format(self::$statistics['actions']['rate']['difference'][self::$range]); ?></span>
                     </td>
                 </tr>
                 <?php
@@ -386,8 +441,7 @@ if ( !class_exists('Inbound_CTA_Quick_View') ) {
                 </tr>
                 <tr>
                     <td class='ia-td-label'>
-                        <label title='<?php _e('Total number of Inbound Form submissions originating from this page', 'inbound-pro'); ?>'><?php _e('Inbound Form Submissions', 'inbound-pro'); ?>
-                            :</label>
+                        <label title='<?php _e('Total number of Inbound Form submissions originating from this page', 'inbound-pro'); ?>'><?php _e('Inbound Form Submissions', 'inbound-pro'); ?>:</label>
                     </td>
                     <td class='ia-td-value'>
                         <a href='<?php echo admin_url('index.php?action=inbound_generate_report&cta_id='.$post->ID.'&class=Inbound_Event_Report&event_name=inbound_form_submission&range='.self::$range.'&title='.__('Inbound Form Submissions', 'inbound-pro').'&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox'>
@@ -398,13 +452,13 @@ if ( !class_exists('Inbound_CTA_Quick_View') ) {
                         <span class="label label-info" title='<?php _e('Rate of action events compared to impressions.', 'inbound-pro'); ?>'><?php echo self::prepare_rate_format(self::$statistics['submissions']['rate']['current'][self::$range], false); ?></span>
                     </td>
                     <td class='ia-td-value'>
-                        <span class='stat label <?php echo (self::$statistics['submissions']['difference'][self::$range] > 0) ? 'label-success' : 'label-warning'; ?>' title="<?php echo sprintf(__('%s action rate in the last %s days versus an %s action rate in the prior %s day period)', 'inbound-pro'), self::prepare_rate_format(self::$statistics['submissions']['rate']['current'][self::$range]), self::$range, self::prepare_rate_format(self::$statistics['submissions']['rate']['past'][self::$range]), self::$range); ?>"><?php echo self::prepare_rate_format(self::$statistics['actions']['rate']['difference'][self::$range]); ?></span>
+                        <span class='stat label <?php echo (self::$statistics['actions']['rate']['difference'][self::$range] > 0) ? 'label-success' : 'label-warning'; ?>' title="<?php echo sprintf(__('%s action rate in the last %s days versus a %s action rate in the prior %s day period)', 'inbound-pro'), self::prepare_rate_format(self::$statistics['submissions']['rate']['current'][self::$range]), self::$range, self::prepare_rate_format(self::$statistics['submissions']['rate']['past'][self::$range]), self::$range); ?>"><?php echo self::prepare_rate_format(self::$statistics['actions']['rate']['difference'][self::$range]); ?></span>
                     </td>
                 </tr>
                 <tr>
                     <td class='ia-td-label'>
                         <label title='<?php _e('Total number of clicked tracked call to action links related to this page.', 'inbound-pro'); ?>'>
-                            <?php _e('CTA Clicks', 'inbound-pro'); ?>
+                            <?php _e('CTA Clicks:', 'inbound-pro'); ?>
                         </label>
                     </td>
                     <td class='ia-td-value'>
@@ -413,16 +467,16 @@ if ( !class_exists('Inbound_CTA_Quick_View') ) {
                         </a>
                     </td>
                     <td class='ia-td-value'>
-                        <span class="label label-info" title='<?php _e('Rate of action events compared to impressions.', 'inbound-pro'); ?>' title="<?php echo sprintf(__('%s action rate in the last %s days versus an %s action rate in the prior %s day period)', 'inbound-pro'), self::prepare_rate_format(self::$statistics['cta-clicks']['rate']['current'][self::$range]), self::$range, self::prepare_rate_format(self::$statistics['cta-clicks']['rate']['past'][self::$range]), self::$range); ?>"><?php echo self::prepare_rate_format(self::$statistics['cta-clicks']['rate']['current'][self::$range], false); ?></span>
+                        <span class="label label-info" title='<?php _e('Rate of action events compared to impressions.', 'inbound-pro'); ?>' title="<?php echo sprintf(__('%s action rate in the last %s days versus a %s action rate in the prior %s day period)', 'inbound-pro'), self::prepare_rate_format(self::$statistics['cta-clicks']['rate']['current'][self::$range]), self::$range, self::prepare_rate_format(self::$statistics['cta-clicks']['rate']['past'][self::$range]), self::$range); ?>"><?php echo self::prepare_rate_format(self::$statistics['cta-clicks']['rate']['current'][self::$range], false); ?></span>
                     </td>
                     <td class='ia-td-value'>
-                        <span class="stat label  <?php echo (self::$statistics['cta-clicks']['rate']['difference'][self::$range] > 0) ? 'label-success' : 'label-warning'; ?>" title="<?php echo sprintf(__('%s action rate in the last %s days versus an %s action rate in the prior %s day period)', 'inbound-pro'), self::prepare_rate_format(self::$statistics['cta-clicks']['rate']['current'][self::$range]), self::$range, self::prepare_rate_format(self::$statistics['cta-clicks']['rate']['past'][self::$range]), self::$range); ?>"><?php echo self::prepare_rate_format(self::$statistics['cta-clicks']['rate']['difference'][self::$range]); ?></span>
+                        <span class="stat label  <?php echo (self::$statistics['cta-clicks']['rate']['difference'][self::$range] > 0) ? 'label-success' : 'label-warning'; ?>" title="<?php echo sprintf(__('%s action rate in the last %s days versus a %s action rate in the prior %s day period)', 'inbound-pro'), self::prepare_rate_format(self::$statistics['cta-clicks']['rate']['current'][self::$range]), self::$range, self::prepare_rate_format(self::$statistics['cta-clicks']['rate']['past'][self::$range]), self::$range); ?>"><?php echo self::prepare_rate_format(self::$statistics['cta-clicks']['rate']['difference'][self::$range]); ?></span>
                     </td>
                 </tr>
                 <tr>
                     <td class='ia-td-label'>
                         <label title='<?php _e('Total number of clicked tracked content links related to this page.', 'inbound-pro'); ?>'>
-                            <?php _e('Content Clicks', 'inbound-pro'); ?>
+                            <?php _e('Content Clicks:', 'inbound-pro'); ?>
                         </label>
                     </td>
                     <td class='ia-td-value'>
@@ -431,10 +485,10 @@ if ( !class_exists('Inbound_CTA_Quick_View') ) {
                         </a>
                     </td>
                     <td class='ia-td-value'>
-                        <span class="label label-info" title='<?php _e('Rate of action events compared to impressions.', 'inbound-pro'); ?>' title="<?php echo sprintf(__('%s action rate in the last %s days versus an %s action rate in the prior %s day period)', 'inbound-pro'), self::prepare_rate_format(self::$statistics['content-clicks']['rate']['current'][self::$range]), self::$range, self::prepare_rate_format(self::$statistics['content-clicks']['rate']['past'][self::$range]), self::$range); ?>"><?php echo self::prepare_rate_format(self::$statistics['content-clicks']['rate']['current'][self::$range], false); ?></span>
+                        <span class="label label-info" title='<?php _e('Rate of action events compared to impressions.', 'inbound-pro'); ?>' title="<?php echo sprintf(__('%s action rate in the last %s days versus a %s action rate in the prior %s day period)', 'inbound-pro'), self::prepare_rate_format(self::$statistics['content-clicks']['rate']['current'][self::$range]), self::$range, self::prepare_rate_format(self::$statistics['content-clicks']['rate']['past'][self::$range]), self::$range); ?>"><?php echo self::prepare_rate_format(self::$statistics['content-clicks']['rate']['current'][self::$range], false); ?></span>
                     </td>
                     <td class='ia-td-value'>
-                        <span class="stat label  <?php echo (self::$statistics['content-clicks']['rate']['difference'][self::$range] > 0) ? 'label-success' : 'label-warning'; ?>" title="<?php echo sprintf(__('%s action rate in the last %s days versus an %s action rate in the prior %s day period)', 'inbound-pro'), self::prepare_rate_format(self::$statistics['content-clicks']['rate']['current'][self::$range]), self::$range, self::prepare_rate_format(self::$statistics['content-clicks']['rate']['past'][self::$range]), self::$range); ?>"><?php echo self::prepare_rate_format(self::$statistics['content-clicks']['rate']['difference'][self::$range]); ?></span>
+                        <span class="stat label  <?php echo (self::$statistics['content-clicks']['rate']['difference'][self::$range] > 0) ? 'label-success' : 'label-warning'; ?>" title="<?php echo sprintf(__('%s action rate in the last %s days versus a %s action rate in the prior %s day period)', 'inbound-pro'), self::prepare_rate_format(self::$statistics['content-clicks']['rate']['current'][self::$range]), self::$range, self::prepare_rate_format(self::$statistics['content-clicks']['rate']['past'][self::$range]), self::$range); ?>"><?php echo self::prepare_rate_format(self::$statistics['content-clicks']['rate']['difference'][self::$range]); ?></span>
                     </td>
                 </tr>
                 <?php
@@ -443,6 +497,117 @@ if ( !class_exists('Inbound_CTA_Quick_View') ) {
             <?php
         }
 
+
+        /**
+         * Displays a table list of posts that have generated CTA clicks
+         * 
+         */
+        public static function display_converting_post_breakdown(){
+            global $post;
+            
+            /* exit if there's no click stats */
+            if(empty(self::$statistics['variation_clicks'])){
+                return;
+            }
+            
+            ?>
+            <br>
+            <table class='ia-table-summary'>
+                <tr>
+                    <td class='ia-td-th'>
+                        <?php _e('Converting Post', 'inbound-pro'); ?>
+                    </td>
+                    <td class='ia-td-th'>
+                        <?php _e('Count', 'inbound-pro'); ?>
+                    </td>
+                    <td class='ia-td-th'>
+                        <?php _e('Change', 'inbound-pro'); ?>
+                    </td>
+                </tr>
+                <?php foreach(self::$statistics['post_cta_conversions'] as $id => $stats ){ 
+                    $post_title = get_the_title($id);
+                    /* if the title is too long, shorten it */
+                    if(strlen($post_title) >= 29){
+                        $post_title = substr($post_title, 0, 26) . '...';
+                    }
+                ?>
+                <tr>
+                    <td class='ia-td-label'>
+                        <label title='<?php echo sprintf(__('Clicks generated by this post in the last %d days', 'inbound-pro'), self::$range); ?>'>
+                            <a href="<?php the_permalink($id); ?>"><?php echo $post_title; ?></a>
+                        </label>
+                    </td>
+                    <td class='ia-td-value'>
+                        <a href='<?php echo admin_url('index.php?action=inbound_generate_report&page_id='.$id.'&cta_id='.$post->ID.'&class=Inbound_Event_Report&event_name=inbound_cta_click&event_name_2=inbound_form_submission&range='.self::$range.'&title='.sprintf(__('%s Conversions', 'inbound-pro'), get_the_title($post->ID)).'&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox'>
+                            <?php echo self::$statistics['post_cta_conversions'][$id]['current_conversions']; ?>
+                        </a>
+                    </td>
+                    <td class='ia-td-value'>
+                        <span class='stat label <?php echo (self::$statistics['post_cta_conversions'][$id]['change'] > 0) ? 'label-success' : 'label-warning'; ?>' title="<?php echo sprintf(__('There were %s conversions in the last %s days on this post, versus %s conversions in the prior %s day period', 'inbound-pro'), self::$statistics['post_cta_conversions'][$id]['current_conversions'], self::$range, self::$statistics['post_cta_conversions'][$id]['past_conversions'], self::$range); ?>"><?php echo self::prepare_rate_format(self::$statistics['post_cta_conversions'][$id]['change']); ?></span>
+                    </td>
+                </tr>
+                <?php } ?>
+                <?php
+                do_action('inbound-analytics/cta/quick-view/converting-post-breakdown' , self::$statistics , self::$range ) ; ?>
+            </table>
+            <?php            
+        }
+        
+        /**
+         * Displays a table list of clicks on this CTA's variations
+         * 
+         */
+        public static function display_cta_click_breakdown(){
+            global $post, $CTA_Variations;
+            
+            /* exit if there's no click stats */
+            if(empty(self::$statistics['variation_clicks'])){
+                return;
+            }
+            
+            ?>
+            <br>
+            <table class='ia-table-summary'>
+                <tr>
+                    <td class='ia-td-th'>
+                        <?php _e('Converting Variation', 'inbound-pro'); ?>
+                    </td>
+                    <td class='ia-td-th'>
+                        <?php _e('Count', 'inbound-pro'); ?>
+                    </td>
+                    <td class='ia-td-th'>
+                        <?php _e('Rate', 'inbound-pro'); ?>
+                    </td>
+                    <td class='ia-td-th'>
+                        <?php _e('Change', 'inbound-pro'); ?>
+                    </td>
+                </tr>
+                <?php foreach(self::$statistics['variation_clicks'] as $id => $stats ){
+                    $variation_letter = $CTA_Variations->vid_to_letter($post->ID, $id);
+                ?>
+                <tr>
+                    <td class='ia-td-label'>
+                        <label title='<?php echo sprintf(__('Clicks generated by variation %s of this CTA in %d days', 'inbound-pro'), $variation_letter, self::$range); ?>'><?php echo sprintf(__('Variation: %s', 'inbound-pro'), $variation_letter, self::$range); ?>:</label>
+                    </td>
+                    <td class='ia-td-value'>
+                        <a href='<?php echo admin_url('index.php?action=inbound_generate_report&cta_id='.$post->ID.'&variation_id='.$id.'&class=Inbound_Event_Report&event_name=inbound_cta_click&event_name_2=inbound_form_submission&range='.self::$range.'&title='.sprintf(__('%s: Variation &quot;%s&quot; Conversions', 'inbound-pro'), get_the_title($post->ID), $variation_letter).'&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox'>
+                            <?php echo $stats['current_clicks']; ?>
+                        </a>
+                    </td>
+                    <td class='ia-td-value'>
+                        <span class="label label-info" title='<?php _e('Rate of action events compared to impressions.', 'inbound-pro'); ?>'><?php echo self::prepare_rate_format(self::$statistics['variation_clicks'][$id]['rate']['current'], false); ?></span>
+                    </td>
+                    <td class='ia-td-value'>
+                        <span class='stat label <?php echo (self::$statistics['variation_clicks'][$id]['change'] > 0) ? 'label-success' : 'label-warning'; ?>' title="<?php echo sprintf(__('%s action rate in the last %s days versus a %s action rate in the prior %s day period)', 'inbound-pro'), self::prepare_rate_format(self::$statistics['variation_clicks'][$id]['rate']['current']), self::$range, self::prepare_rate_format(self::$statistics['variation_clicks'][$id]['rate']['past']), self::$range); ?>"><?php echo self::prepare_rate_format(self::$statistics['variation_clicks'][$id]['change']); ?></span>
+                    </td>
+                </tr>
+                <?php } ?>
+                <?php
+                do_action('inbound-analytics/cta/quick-view/variation-click-breakdown' , self::$statistics , self::$range ) ; ?>
+            </table>
+            <?php            
+        }
+        
         public static function get_impressions($args) {
             global $post;
 
@@ -559,26 +724,277 @@ if ( !class_exists('Inbound_CTA_Quick_View') ) {
 
             return count($events);
         }
+        
+        /**
+         * Gets the click stats for each variation of the given CTA ID
+         * @param $params
+         * @return array
+         */
+        public static function get_variation_click_stats(){
+            global $post;
 
+            $params = array('cta_id' => $post->ID);
+            
+            if(isset($_GET['range'])){
+                $range = sanitize_text_field($_GET['range']);
+            }else{
+                $range = 365;
+            }
+            
+            /** get the cta click events between two given dates **/
+            $current_range = new DateTime(date_i18n('Y-m-d G:i:s T'));
+            $params['end_date'] = $current_range->format('Y-m-d G:i:s T');
+            $current_range->modify( ('-' . $range . 'days') );
+            $params['start_date'] = $current_range->format('Y-m-d G:i:s T');
 
+            $variation_click_stats['current_stats'] = Inbound_Events::get_cta_conversions('cta_id', $params);
+            
+            /** get the cta clicks between two dates further back in time for something to compare stats against **/
+            $past_range = new DateTime(date_i18n('Y-m-d G:i:s T'));
+            $past_range->modify( ('-' . $range . 'days') );
+            $params['end_date'] = $past_range->format('Y-m-d G:i:s T');
+            $past_range->modify( ('-' . $range . 'days') );
+            $params['start_date'] = $past_range->format('Y-m-d G:i:s T');      
+            
+            $variation_click_stats['past_stats'] = Inbound_Events::get_cta_conversions('cta_id', $params);
+      
+            /* count the current result details */
+            $current_counter = array();
+            $current_content = array();
+            foreach($variation_click_stats['current_stats'] as $event){
+                $current_content['variation_id'][$event['variation_id']][] = true;
+            }
+                           
+            /* count the past result details */
+            $past_counter = array();
+            $past_content = array();
+            foreach($variation_click_stats['past_stats'] as $event){
+                $past_content['variation_id'][$event['variation_id']][] = true;
+            }
+            
+            /*
+             * if there aren't any variation stats for the current time length,
+             * sort the past time length's variation clicks from most clicks to least,
+             * and according to that order, set the current time's variation clicks to 0
+             */
+            if(empty($current_content['variation_id'])){
+                if(!empty($past_content['variation_id'])){
+                    arsort($past_content['variation_id']);
+                    foreach($past_content['variation_id'] as $key => $values){
+                        $current_content['variation_id'][$key] = 0;
+                    }
+                }else{
+                    /* if there aren't any past stats either, exit */
+                    return;
+                }
+            }else{
+                arsort($current_content['variation_id']);
+                
+                /** if there are past cta records, check to see if there are any variations missing from the current list **/
+                if(!empty($past_content['variation_id'])){
+                    $missing_variations = array_diff_key($past_content['variation_id'], $current_content['variation_id']);
+                    if(!empty($missing_variations)){
+                        foreach($missing_variations as $variation => $values){
+                            $current_content['variation_id'][$variation] = 0;
+                        }
+                    }
+                }
+            }
+            
+            return array('current_stats' => $current_content, 'past_stats' => $past_content);
+        }
+        
+        /**
+         * Returns CTA impressions, sorted by variation id, from the events table
+         * @return array
+         */
+        public static function get_cta_impressions(){
+            global $post;
+            
+            $impressions = array();
+            $params = array();            
+            $params['cta_id'] = $post->ID;
+            
+            if(isset($_GET['range'])){
+                $range = sanitize_text_field($_GET['range']);
+            }else{
+                $range = 365;
+            }
+            
+            /** get the cta click events between two given dates **/
+            $current_range = new DateTime(date_i18n('Y-m-d G:i:s T'));
+            $params['end_date'] = $current_range->format('Y-m-d G:i:s T');
+            $current_range->modify( ('-' . $range . 'days') );
+            $params['start_date'] = $current_range->format('Y-m-d G:i:s T');
 
+            $impressions['current'] = Inbound_Events::get_page_views_by('cta_id', $params);
+
+            $past_range = new DateTime(date_i18n('Y-m-d G:i:s T'));
+            $past_range->modify( ('-' . $range . 'days') );
+            $params['end_date'] = $past_range->format('Y-m-d G:i:s T');
+            $past_range->modify( ('-' . $range . 'days') );
+            $params['start_date'] = $past_range->format('Y-m-d G:i:s T');      
+            
+            $impressions['past'] = Inbound_Events::get_page_views_by('cta_id', $params);
+
+            $processed_data = array();
+            
+            /* process the impression data for the current timespan */
+            if(!empty($impressions['current'])){
+                $temp_data = array();
+                foreach($impressions['current'] as $impression_data){
+                    $temp_data[$impression_data['variation_id']][] = $impression_data['variation_id'];
+                }
+                
+                foreach($temp_data as $variation => $data){
+                    $processed_data[$variation]['current'] = count($data);
+                }
+            }
+
+            /* process the impression data for the past timespan */
+            if(!empty($impressions['past'])){
+                $temp_data = array();
+                foreach($impressions['past'] as $impression_data){
+                    $temp_data[$impression_data['variation_id']][] = $impression_data['variation_id'];
+                }
+                
+                foreach($temp_data as $variation => $data){
+                    $processed_data[$variation]['past'] = count($data);
+                }
+            }
+
+            return $processed_data;
+        }
+        
+        /**
+         * Returns an array of posts where the current CTA was clicked and how many times it was clicked
+         * @return array
+         */
+        public static function get_post_conversion_stats($get_past_clicks = false){
+            global $post;
+            
+            $post_conversions = array();
+            $params = array();            
+            $params['cta_id'] = $post->ID;
+            
+            if(isset($_GET['range'])){
+                $range = sanitize_text_field($_GET['range']);
+            }else{
+                $range = 365;
+            }
+            
+            /** get the cta click events between two given dates **/
+            $current_range = new DateTime(date_i18n('Y-m-d G:i:s T'));
+            $params['end_date'] = $current_range->format('Y-m-d G:i:s T');
+            $current_range->modify( ('-' . $range . 'days') );
+            $params['start_date'] = $current_range->format('Y-m-d G:i:s T');
+
+            $post_conversions['current'] = Inbound_Events::get_cta_conversions('cta_id', $params);
+
+            $past_range = new DateTime(date_i18n('Y-m-d G:i:s T'));
+            $past_range->modify( ('-' . $range . 'days') );
+            $params['end_date'] = $past_range->format('Y-m-d G:i:s T');
+            $past_range->modify( ('-' . $range . 'days') );
+            $params['start_date'] = $past_range->format('Y-m-d G:i:s T');      
+            
+            $post_conversions['past'] = Inbound_Events::get_cta_conversions('cta_id', $params);
+            
+            $clicked_posts = array();
+            $non_existant_pages = array();
+            /* if there are */
+            if(!empty($post_conversions['past'])){
+                foreach($post_conversions['past'] as $click_data){
+                    /* if the post id has already been added to the clicked array, just add another count of it */
+                    if(isset($clicked_posts['past'][$click_data['page_id']])){
+                        $clicked_posts['past'][$click_data['page_id']]++;
+                        
+                    }elseif($click_data['page_id'] != '0' && !isset($non_existant_pages[$click_data['page_id']])){
+                        /* if the post hasn't been added to the clicked list, check to see if the post exists */
+                        $post_exists = get_post($click_data['page_id']);
+                        
+                        if($post_exists !== null){
+                            /* if it does, add it to the clicked list */
+                            $clicked_posts['past'][$click_data['page_id']] = 1;
+                        }else{
+                            /* if it doesn't, add it to the nonexistant list so we don't check it next time */
+                            $non_existant_pages[$click_data['page_id']] = true;
+                        }
+                    }
+                }
+            }
+            
+            if(!empty($post_conversions['current'])){
+                foreach($post_conversions['current'] as $click_data){
+                    /* if the post id has already been added to the clicked array, just add another count of it */
+                    if(isset($clicked_posts['current'][$click_data['page_id']])){
+                        $clicked_posts['current'][$click_data['page_id']]++;
+                        
+                    }elseif($click_data['page_id'] != '0' && !isset($non_existant_pages[$click_data['page_id']])){
+                        /* if the post hasn't been added to the clicked list, check to see if the post exists */
+                        $post_exists = get_post($click_data['page_id']);
+                        
+                        if($post_exists !== null){
+                            /* if it does, add it to the clicked list */
+                            $clicked_posts['current'][$click_data['page_id']] = 1;
+                        }else{
+                            /* if it doesn't, add it to the nonexistant list so we don't check it next time */
+                            $non_existant_pages[$click_data['page_id']] = true;
+                        }
+                    }
+                }
+              
+                /* check to see if there's any posts from the 'past' that aren't in the 'current' list */
+                if(!empty($clicked_posts['past'])){
+                    foreach($clicked_posts['past'] as $id => $conversion_count){
+                        /* if the post isn't in the 'current' list, set the click total for it to 0 */
+                        if(!isset($clicked_posts['current'][$id])){
+                            $clicked_posts['current'][$id] = 0;
+                        }
+                    }
+                }
+            }else{
+                if(!empty($clicked_posts['past'])){
+                    foreach($clicked_posts['past'] as $id => $conversion_count){
+                        /* if the post isn't in the 'current' list, set the click total for it to 0 */
+                        if(!isset($clicked_posts['current'][$id])){
+                            $clicked_posts['current'][$id] = 0;
+                        }
+                    }
+                }else{
+                    /* if there aren't 'current' OR 'past' posts, set clicked_posts to null */
+                    $clicked_posts = null;
+                }
+            }            
+       
+            return $clicked_posts;
+        }
+        
+        /**
+         * Returns the CTA click rate difference between two given points in time
+         */
         public static function get_percentage_change($current, $past) {
-            $difference = $current - $past;
-            $total = $current + $past;
-
 
             if (!$past && $current) {
                 return 1;
             }
-
             if (!$past && !$current) {
                 return 0;
             }
-
-            $rate = $difference / $total;
-
-            return round($rate * 100, 2);
-
+            
+            /* find the percent change by subtracting ($c/$p) from 1 .
+             * If $c = 1 and $p = 3, dividing them returns 0.33 .
+             * But since we want the current change relative to the past,
+             * we subtract it from 1 to return 0.66
+             * */
+            $rate = (1 - ($current / $past));
+            
+            /* if the past is greater than the present, multiple by 100 so the 'change' format displays correctly */
+            if($past > $current){
+                $rate = $rate * 100;
+            }
+            
+            /* return the rounded $rate and add a - to reverse the sign*/
+            return round(-$rate, 2);
         }
 
         public static function prepare_rate_format($rate, $plusminus = true) {

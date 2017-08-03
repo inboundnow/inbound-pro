@@ -835,7 +835,7 @@ if (!class_exists('Inbound_Mailer_Stats_Report')) {
         public static function load_data() {
             global $wpdb;
 
-            self::$range =  (!isset($_REQUEST['range'])) ? intval($_REQUEST['range']) : 30;
+            self::$range =  (isset($_REQUEST['range'])) ? intval($_REQUEST['range']) : 30;
             self::$page = (isset($_GET['page_number'])) ? (int) $_GET['page_number'] : 1;
             self::$limit = (isset($_GET['limit'])) ? (int) $_GET['limit'] : 50;
             self::$offset = (self::$page>1) ? (int) self::$page * self::$limit  : self::$limit;

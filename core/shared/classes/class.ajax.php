@@ -78,7 +78,7 @@ if (!class_exists('Inbound_Ajax')) {
 
 			foreach ( $cta_impressions as $cta_id => $vid ) {
 				$lead_data['cta_id'] = (int) $cta_id;
-				$lead_data['variation_id'] = (int) $cta_id;
+				$lead_data['variation_id'] = (int) $vid;
 				do_action('wp_cta_record_impression', $lead_data );
 			}
 

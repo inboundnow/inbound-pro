@@ -69,9 +69,15 @@ if (!class_exists('Inbound_Event_Report')) {
             <aside class="profile-card">
 
                 <header>
-                    <h1><?php echo $report_headline; ?></h1>
-                    <?php echo ($title) ? '<h2>'.$title.'</h2>' : ''; ?>
-                     <?php echo ($title) ? '<h3><a href="'.$permalink.'" target="_self">'.$permalink.'</a></h3>' : ''; ?>
+                    <?php 
+                    if($_REQUEST['event_name'] === 'inbound_cta_click'){
+                        /* if the event is inbound_cta_click and we're not looking for a specific post, echo out a simple centered title */
+                        echo '<h1 id="report-single-headline">' . stripslashes($report_headline) . '</h1>';
+                    }else{
+                        echo '<h1>' . $report_headline . '</h1>';
+                        echo ($title) ? '<h2>'.$title.'</h2>' : '';
+                        echo ($title) ? '<h3><a href="'.$permalink.'" target="_self">'.$permalink.'</a></h3>' : '';
+                    } ?>
                 </header>
 
                 <!-- some social links to show off -->
@@ -255,9 +261,24 @@ if (!class_exists('Inbound_Event_Report')) {
                         <?php
                     }
                     ?>
-                    <th scope="col" class="">
-                        <span><?php _e('Funnel Details' , 'inbound-pro'); ?></span>
-                    </th>
+                    <?php
+                    if (self::$event_name == 'inbound_cta_click' && !isset($_REQUEST['page_id'])) {
+                        ?>
+                        <th scope="col" class="">
+                            <span><?php _e('Origin Post' , 'inbound-pro'); ?></span>
+                        </th>
+                        <?php
+                    }
+                    ?>
+                    <?php
+                    if (self::$event_name != 'inbound_direct_message') {
+                        ?>
+                        <th scope="col" class="">
+                            <span><?php _e('Funnel Details' , 'inbound-pro'); ?></span>
+                        </th>
+                        <?php
+                    }
+                    ?>
                     <th scope="col" class="">
                         <span><?php _e('Source' , 'inbound-pro'); ?></span>
                     </th>
@@ -321,13 +342,10 @@ if (!class_exists('Inbound_Event_Report')) {
                             <div class="hoverme">
                                 <a href="" target="_self">
                                 <i class="fa fa-comments inbound-tooltip" aria-hidden="true"> </i>
-                                <pre>
                                 </a>
                                 <?php
-                                $event_details = json_decode($event['event_details'] , true);
-                                echo $event_details['email_content']['value'];
+                                    self::print_direct_message_popup($event);
                                 ?>
-                                </pre>
                             </div>
                         </div>
 
@@ -367,19 +385,45 @@ if (!class_exists('Inbound_Event_Report')) {
                         <?php
                     }
                     ?>
-                    <td class="" >
+                    <?php
+                    if (self::$event_name == 'inbound_cta_click' && !isset($_REQUEST['page_id'])) {
+                        ?>
+                        <td class="" >
                         <div id="wrapper">
                             <div class="hoverme">
-                                <a href="" target="_self">
-                                <i class="fa fa-filter inbound-tooltip" aria-hidden="true"> </i>
-                                </a>
                                 <?php
-                                self::print_funnel_popup( $event , $capture );
+                                $page_title = get_the_title($event['page_id']);
+                                if(!empty($page_title)){
+                                    echo '<a href="' . get_the_permalink($event['page_id']) . '">'. $page_title .'</a>';
+                                }else{
+                                    echo '<p>'. __('The conversion occured on a deleted post...', 'inbound-pro') .'</p>';
+                                }
                                 ?>
                             </div>
                         </div>
 
                     </td>
+                        <?php
+                    }
+                    ?>
+                    <?php
+                    if(self::$event_name != 'inbound_direct_message'){
+                        ?>
+                        <td class="" >
+                            <div id="wrapper">
+                                <div class="hoverme">
+                                    <a href="" target="_self">
+                                    <i class="fa fa-filter inbound-tooltip" aria-hidden="true"> </i>
+                                    </a>
+                                    <?php
+                                    self::print_funnel_popup( $event , $capture );
+                                    ?>
+                                </div>
+                            </div>
+                        </td>
+                        <?php
+                    }
+                    ?>
                     <td class="" >
                         <?php
 
@@ -434,9 +478,24 @@ if (!class_exists('Inbound_Event_Report')) {
                         <?php
                     }
                     ?>
-                    <th scope="col" class="">
-                        <span><?php _e('Funnel Details' , 'inbound-pro'); ?></span>
-                    </th>
+                    <?php
+                    if (self::$event_name == 'inbound_cta_click' && !isset($_REQUEST['page_id'])) {
+                        ?>
+                        <th scope="col" class="">
+                            <span><?php _e('Origin Post' , 'inbound-pro'); ?></span>
+                        </th>
+                        <?php
+                    }
+                    ?>
+                    <?php
+                    if (self::$event_name != 'inbound_direct_message'){
+                        ?>
+                        <th scope="col" class="">
+                            <span><?php _e('Funnel Details' , 'inbound-pro'); ?></span>
+                        </th>
+                        <?php
+                    }
+                    ?>
                     <th scope="col" class="">
                         <span><?php _e('Source' , 'inbound-pro'); ?></span>
                     </th>
@@ -580,6 +639,35 @@ if (!class_exists('Inbound_Event_Report')) {
                 </div>
             </div>
           </div>
+            <?php
+        }
+
+        /**
+         * Generate hidden popup containing information about the sent direct message
+         * @param $event
+         */
+        public static function print_direct_message_popup( $event ) {
+            ?>
+            <div class="pop">
+                <div id="conversion-tracking" class="wpleads-conversion-tracking-table">
+                    <div class="direct-message-item-holder">
+                        <div class="popup-header"><strong><?php _e('Direct Email Content' , 'inbound-pro'); ?></strong></div>
+                        <div class="lp-page-view-item ">
+                            <div class="path-left">
+                                <?php
+                                    $event_details = json_decode($event['event_details'] , true);
+                                    $email_content = $event_details['email_content']['value'];
+                                    if(!empty($email_content)){
+                                        echo apply_filters('the_content', stripslashes($email_content));
+                                    }else{
+                                        _e('There was an error, the direct email content could not be displayed.', 'inbound-pro');
+                                    }
+                                ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <?php
         }
 
@@ -777,6 +865,9 @@ if (!class_exists('Inbound_Event_Report')) {
                     margin-bottom: 3px;
                     padding-top:10px;
                 }
+                .profile-card header h1#report-single-headline{
+                    padding-top: 40px;
+                }
                 .profile-card header h2 {
                     font-size: 18px;
                     margin-top: 0;
@@ -921,6 +1012,10 @@ if (!class_exists('Inbound_Event_Report')) {
                     border-bottom: 1px solid #EBEBEA;
                 }
 
+                .direct-message-item-holder .lp-page-view-item{
+                    width: 275px;
+                    padding: 10px 0px 10px 12px;
+                }
 
                 #conversion-tracking {
                     backgroud-color:#fff;
@@ -985,10 +1080,19 @@ if (!class_exists('Inbound_Event_Report')) {
                     padding-left:5px;
                 }
 
+                .direct-message-item-holder{
+                    background: #f9f9f9
+                }
+
                 .popup-header {
                     padding-top:10px;
                     width:100%;
                     text-align:center;
+                }
+                
+                .direct-message-item-holder .path-left{
+                    border: 1px solid #d2d2d2;
+                    padding: 5px;
                 }
             </style>
             <link rel='stylesheet' id='fontawesome-css'  href='<?php echo INBOUNDNOW_SHARED_URLPATH ;?>assets/fonts/fontawesome/css/font-awesome.min.css?ver=4.6.1' type='text/css' media='all' />
@@ -1004,7 +1108,7 @@ if (!class_exists('Inbound_Event_Report')) {
             self::define_range();
             self::$show_graph = (isset($_REQUEST['show_graph'])) ? $_REQUEST['show_graph'] : true;
             $dates = Inbound_Reporting_Templates::prepare_range( self::$range );
-            self::$event_name = (isset($_REQUEST['event_name'])) ? $_REQUEST['event_name'] :  'inbound_form_submission' ;
+            self::$event_name = (isset($_REQUEST['event_name'])) ? sanitize_text_field($_REQUEST['event_name']) :  'inbound_form_submission' ;
             self::$start_date = $dates['start_date'];
             self::$end_date = $dates['end_date'];
             self::$past_start_date = $dates['past_start_date'];
@@ -1016,10 +1120,13 @@ if (!class_exists('Inbound_Event_Report')) {
             $params = array(
                 'page_id' => (isset($_REQUEST['page_id'])) ? sanitize_text_field($_REQUEST['page_id']) : 0,
                 'lead_id' => (isset($_REQUEST['lead_id'])) ? intval($_REQUEST['lead_id']) : 0,
-                'source' => (isset($_REQUEST['source']) ) ? sanitize_text_field(urldecode($_REQUEST['source'])) : '' ,
+                'cta_id' => (isset($_REQUEST['cta_id'])) ? intval($_REQUEST['cta_id']) : 0,
+                'variation_id' => (isset($_REQUEST['variation_id'])) ? intval($_REQUEST['variation_id']) : 0,
+                'source' => (isset($_REQUEST['source']) ) ? sanitize_text_field(urldecode($_REQUEST['source'])) : '',
                 'start_date' => self::$start_date,
                 'end_date' => self::$end_date,
-                'event_name' => self::$event_name
+                'event_name' => self::$event_name,
+                'event_name_2' => (isset($_REQUEST['event_name_2'])) ? sanitize_text_field($_REQUEST['event_name_2']) : ''
             );
 
             self::$events = Inbound_Events::get_events($params);
@@ -1033,6 +1140,8 @@ if (!class_exists('Inbound_Event_Report')) {
             $params = array(
                 'page_id' => (isset($_REQUEST['page_id'])) ? sanitize_text_field($_REQUEST['page_id']) : 0,
                 'lead_id' => (isset($_REQUEST['lead_id'])) ? intval($_REQUEST['lead_id']) : 0,
+                'cta_id' => (isset($_REQUEST['cta_id'])) ? intval($_REQUEST['cta_id']) : 0,
+                'variation_id' => (isset($_REQUEST['variation_id'])) ? intval($_REQUEST['variation_id']) : 0,
                 'source' => (isset($_REQUEST['source']) ) ? sanitize_text_field(urldecode($_REQUEST['source'])) : '' ,
                 'start_date' => self::$start_date,
                 'end_date' => self::$end_date,
@@ -1047,6 +1156,8 @@ if (!class_exists('Inbound_Event_Report')) {
             $params = array(
                 'page_id' => (isset($_REQUEST['page_id'])) ? sanitize_text_field($_REQUEST['page_id']) : 0,
                 'lead_id' => (isset($_REQUEST['lead_id'])) ? intval($_REQUEST['lead_id']) : 0,
+                'cta_id' => (isset($_REQUEST['cta_id'])) ? intval($_REQUEST['cta_id']) : 0,
+                'variation_id' => (isset($_REQUEST['variation_id'])) ? intval($_REQUEST['variation_id']) : 0,
                 'source' => (isset($_REQUEST['source']) ) ? sanitize_text_field(urldecode($_REQUEST['source'])) : '' ,
                 'start_date' => self::$past_start_date,
                 'end_date' => self::$past_end_date,
@@ -1097,3 +1208,5 @@ if (!class_exists('Inbound_Event_Report')) {
     new Inbound_Event_Report;
 
 }
+
+

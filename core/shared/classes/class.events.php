@@ -973,7 +973,11 @@ class Inbound_Events {
         }
 
         if (isset($params['event_name']) && $params['event_name'] ) {
-            $query .= ' AND event_name = "'.$params['event_name'].'" ';
+            if(isset($params['event_name_2']) && $params['event_name_2'] != ''){
+                $query .= ' AND event_name = "'.$params['event_name'].'" + "'.$params['event_name_2'].'"';
+            }else{
+                $query .= ' AND event_name = "'.$params['event_name'].'" ';
+            }
         }
 
         if (isset($params['source']) && $params['source'] ) {
@@ -982,6 +986,14 @@ class Inbound_Events {
 
         if (isset($params['lead_id']) && $params['lead_id'] ) {
             $query .= ' AND lead_id = "'.$params['lead_id'].'" ';
+        }
+
+        if (isset($params['cta_id']) && $params['cta_id'] ) {
+            $query .= ' AND cta_id = "'.$params['cta_id'].'" ';
+        }
+        
+        if (isset($params['variation_id']) && $params['variation_id'] ) {
+            $query .= ' AND variation_id = "'.$params['variation_id'].'" ';
         }
 
         if (isset($params['start_date']) && $params['start_date']) {
@@ -1023,7 +1035,7 @@ class Inbound_Events {
             case 'inbound_content_click':
                 return ($plural) ?  __('Content Clicks' , 'inbound-pro') : __('Content Click' , 'inbound-pro');
                 break;
-            case 'inbound_direct_messege':
+            case 'inbound_direct_message':
                 return ($plural) ?  __('Direct Messages' , 'inbound-pro') : __('Direct Message' , 'inbound-pro');
                 break;
             case 'inbound_list_add':
@@ -1167,6 +1179,44 @@ class Inbound_Events {
         }
 
         $query .= 'AND `event_name` = "inbound_cta_click" ORDER BY `datetime` DESC';
+
+        $results = $wpdb->get_results( $query , ARRAY_A );
+
+        return $results;
+    }
+
+    /**
+     * Gets cta conversion events by cta_id, lead_id or by page_id
+     *
+     */
+    public static function get_cta_conversions( $nature = 'lead_id' ,  $params ){
+        global $wpdb;
+
+        $table_name = $wpdb->prefix . "inbound_events";
+        $query = 'SELECT * FROM '.$table_name.' WHERE ';
+
+        switch ($nature) {
+            case 'lead_id':
+                $query .= '`lead_id` = "'.$params['lead_id'].'" ';
+                break;
+            case 'page_id':
+                $query .= '`page_id` = "'.$params['page_id'].'" ';
+                break;
+            case 'cta_id':
+                $query .= '`cta_id` = "'.$params['cta_id'].'" ';
+                break;
+        }
+
+        /* add date constraints if applicable */
+        if (isset($params['start_date'])) {
+            $query .= 'AND datetime >= "'.$params['start_date'].'" AND  datetime <= "'.$params['end_date'].'" ';
+        }
+
+        if (isset($params['variation_id'])) {
+            $query .= 'AND variation_id = "'.$params['variation_id'].'" ';
+        }
+
+        $query .= 'AND `event_name` = "inbound_cta_click" + "inbound_form_submission" ORDER BY `datetime` DESC';
 
         $results = $wpdb->get_results( $query , ARRAY_A );
 
