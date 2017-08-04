@@ -134,27 +134,12 @@ if (!class_exists('Inbound_Automation_Loader')) {
             /* Loop Through Trigger Arguments & Build Trigger Filter Setting Array */
             foreach (self::$instance->triggers as $hook => $trigger) {
 
-                /* Load Historic Arugment Keys Associated With Trigger Hook */
+                /* Load Historic Argument Keys Associated With Trigger Hook */
                 $args = (isset(self::$instance->inbound_arguments[$hook])) ? self::$instance->inbound_arguments[$hook] : array();
 
                 foreach ($trigger['arguments'] as $id => $argument) {
 
                     $keys = array();
-
-
-                    /* check for callback
-                    if (isset($argument['callback'])) {
-                        //error_log('near final before');
-                        if (isset($args[$id])) {
-                            $args[$id] = call_user_func(
-                                array(
-                                    $argument['callback'][0],
-                                    $argument['callback'][1]
-                                ),
-                                $args[$id]
-                            );
-                        }
-                    }*/
 
                     /* cycle through data and prepare keys*/
                     if (isset($args[$id]) && is_array($args[$id])) {
@@ -549,6 +534,14 @@ if (!class_exists('Inbound_Automation_Loader')) {
                    self::$instance->inbound_arguments[$hook][$definition['id']] = $updated_arg_data;
                 }
 
+            }
+
+
+            /* eject historical arguments that are no longer supported */
+            foreach (self::$instance->inbound_arguments[$hook] as $arg_key => $arg_definition) {
+                if (!array_key_exists($arg_key ,self::$instance->triggers[$hook]['arguments'])) {
+                    unset(self::$instance->inbound_arguments[$hook][$arg_key]);
+                }
             }
 
             /* update inbound arguments dataset with new data */
