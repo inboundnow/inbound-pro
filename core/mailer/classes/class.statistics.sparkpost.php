@@ -606,6 +606,7 @@ class Inbound_SparkPost_Stats {
         $events = json_decode($data,true);
 
         if (!isset($_SERVER['PHP_AUTH_USER'])) {
+            error_log('PHP_AUTH_USER not detected');
             return;
         }
 
@@ -702,6 +703,7 @@ class Inbound_SparkPost_Stats {
 
         /* skip if contains errors */
         if (isset($response['errors'])) {
+            error_log(print_r($errors,true));
             return;
         }
 
@@ -737,6 +739,7 @@ class Inbound_SparkPost_Stats {
      */
     public static function process_rejections( $transmission_args , $response ) {
         if (!isset($response['errors']) || !isset($transmission_args['metadata']['lead_id'])) {
+            error_log(print_r($errors,true));
             return;
         }
 

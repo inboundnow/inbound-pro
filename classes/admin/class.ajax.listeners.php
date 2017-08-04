@@ -97,7 +97,7 @@ class Inbound_Pro_Admin_Ajax_Listeners {
 
         /* check for 403 errors */
         if (strstr($response['body'], '403 Forbidden')) {
-            echo "{\"error\":\"403\",\"message\":\"The connection is being blocked . Please contact Inbound Now support for further assistance!\"}";
+            echo "{\"error\":\"403\",\"message\":\"403 error. The connection is being blocked by a server security setting. Please contact your host for further assistance!\"}";
             exit;
         }
 

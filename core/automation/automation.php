@@ -59,6 +59,7 @@ if (!class_exists('Inbound_Automation_Plugin') && class_exists('Inbound_Leads_Pl
 					include_once('definitions/trigger.user_register.php');
 					include_once('definitions/trigger.set_object_terms.php');
 					include_once('definitions/trigger.draft_to_publish.php');
+					include_once('definitions/trigger.inbound_track_link.php');
 					include_once('definitions/action.wait.php');
 					include_once('definitions/action.create_lead.php');
 					include_once('definitions/action.send_email.php');
@@ -84,6 +85,7 @@ if (!class_exists('Inbound_Automation_Plugin') && class_exists('Inbound_Leads_Pl
 					include_once('definitions/trigger.draft_to_publish.php');
 					include_once('definitions/trigger.inbound_double_optin_confirm.php');
 					include_once('definitions/trigger.user_register.php');
+					include_once('definitions/trigger.inbound_track_link.php');
 					include_once('definitions/action.wait.php');
 					include_once('definitions/action.create_lead.php');
 					include_once('definitions/action.send_email.php');

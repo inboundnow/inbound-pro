@@ -1601,6 +1601,10 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
             ?>
             <script>
+                /* prevent "Do you want to leave this page?" dialog */
+                jQuery(window).off('beforeunload');
+
+                /* on page load */
                 jQuery(document).ready(function () {
 
                     /* disable post save navigation confrimation listener */

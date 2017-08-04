@@ -54,20 +54,24 @@ class Inbound_Email_Template_Shortcodes {
 
         $post_params['email'] = str_replace('%40', '@', $post_params['email']);
 
-
         /* add mapped params */
-        parse_str($_POST['mapped_params'], $mapped_params);
-        parse_str($_POST['raw_params'], $raw_params);
+        if (isset($_POST['mapped_params'])) {
+            parse_str($_POST['mapped_params'], $mapped_params);
 
-        foreach ($mapped_params as $key => $value) {
-            $post_params = array($key => $value) + $post_params;
-        }
-
-        foreach ($raw_params as $key => $value) {
-            if (!isset($post_params[$key])) {
-                $post_params = $post_params + array($key => $value);
+            foreach ($mapped_params as $key => $value) {
+                $post_params = array($key => $value) + $post_params;
             }
         }
+
+        if (isset($_POST['raw_params'])) {
+            parse_str($_POST['raw_params'], $raw_params);
+            foreach ($raw_params as $key => $value) {
+                if (!isset($post_params[$key])) {
+                    $post_params = $post_params + array($key => $value);
+                }
+            }
+        }
+
 
         /* filter params */
         $post_params = apply_filters('inbound_email_response/post_params', $post_params);

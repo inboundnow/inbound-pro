@@ -631,7 +631,29 @@ class Landing_Pages_Post_Type {
                     /* Then strip params if pushstate exists */
                     if (typeof window.history.pushState == 'function') {
                         var cleanparams=window.location.href.split("?");
-                        var clean_url=cleanparams[0];history.replaceState({},"landing page",clean_url);
+                        var clean_url= landing_pages_remove_variation_param();
+                        history.replaceState({},"landing page",clean_url);
+                    }
+                    function landing_pages_remove_variation_param() {
+                        var urlparts= window.location.href.split('?');
+                        if (urlparts.length>=2) {
+
+                            var prefix= encodeURIComponent('lp-variation-id')+'=';
+                            var pars= urlparts[1].split(/[&;]/g);
+
+                            /* reverse iteration as may be destructive */
+                            for (var i= pars.length; i-- > 0;) {
+                                //idiom for string.startsWith
+                                if (pars[i].lastIndexOf(prefix, 0) !== -1) {
+                                    pars.splice(i, 1);
+                                }
+                            }
+
+                            url= urlparts[0] + (pars.length > 0 ? '?' + pars.join('&') : "");
+                            return url;
+                        } else {
+                            return url;
+                        }
                     }
                 </script>
             <?php
