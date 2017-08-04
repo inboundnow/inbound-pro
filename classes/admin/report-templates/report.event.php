@@ -255,6 +255,15 @@ if (!class_exists('Inbound_Event_Report')) {
                         <?php
                     }
                     ?>
+                    <?php
+                    if (self::$event_name == 'sparkpost_open') {
+                        ?>
+                        <th scope="col" class="">
+                            <span><?php _e('Email' , 'inbound-pro'); ?></span>
+                        </th>
+                        <?php
+                    }
+                    ?>
                     <th scope="col" class="">
                         <span><?php _e('Funnel Details' , 'inbound-pro'); ?></span>
                     </th>
@@ -366,6 +375,19 @@ if (!class_exists('Inbound_Event_Report')) {
                         </td>
                         <?php
                     }
+                    if (self::$event_name == 'sparkpost_open') {
+
+                        $email_title = get_the_title($event['email_id']);
+                        $permalink = get_the_permalink($event['email_id']);
+
+                        ?>
+                        <td class="clicked-url">
+                            <?php
+                            echo '<a href="'.$permalink.'" target="_blank">'.$email_title.'</a>';
+                            ?>
+                        </td>
+                        <?php
+                    }
                     ?>
                     <td class="" >
                         <div id="wrapper">
@@ -430,6 +452,15 @@ if (!class_exists('Inbound_Event_Report')) {
                         ?>
                         <th scope="col" class="">
                             <span><?php _e('Target' , 'inbound-pro'); ?></span>
+                        </th>
+                        <?php
+                    }
+                    ?>
+                    <?php
+                    if (self::$event_name == 'sparkpost_open') {
+                        ?>
+                        <th scope="col" class="">
+                            <span><?php _e('Email' , 'inbound-pro'); ?></span>
                         </th>
                         <?php
                     }
