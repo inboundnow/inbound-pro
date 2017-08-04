@@ -805,7 +805,7 @@ href='?post=<?php echo $post->ID; ?>&action=edit&action-variation-id=<?php echo 
 
             $cats = explode(',', $data['info']['category']);
             foreach ($cats as $key => $cat) {
-                $cat = trim($cat);
+                $cat = ($cat) ? trim($cat) : '';
                 $cat = str_replace(' ', '-', $cat);
                 $cats[$key] = trim(strtolower($cat));
             }
@@ -1054,7 +1054,7 @@ href='?post=<?php echo $post->ID; ?>&action=edit&action-variation-id=<?php echo 
                     break;
                 case 'number':
 
-                    echo '<input type="number" class="' . $option_class . '" name="' . $field_id . '" id="' . $field_id . '" value="' . $meta . '" size="30" />
+                    echo '<input type="number" class="' . $option_class . '" name="' . $field_id . '" id="' . $field_id . '" value="' . $meta . '" size="20" ' . (isset($field['min']) ? 'min="'.$field['min'].'"' : '' ) . '  ' . (isset($field['max']) ? 'max="'.$field['max'].'"' : '' ) . '  ' . (isset($field['step']) ? 'step="'.$field['step'].'"' : '' ) . '/>
                                 <div class="lp_tooltip" title="' . $field['description'] . '"></div>';
 
                     break;
@@ -1170,7 +1170,6 @@ href='?post=<?php echo $post->ID; ?>&action=edit&action-variation-id=<?php echo 
             $variations[] = $variation_id;
         }
         Landing_Pages_Variations::update_variations( $landing_page_id , $variations );
-
 
         /* save all post data */
         $ignore_list = array( 'acf' , 'post_status', 'post_type', 'tax_input', 'post_author', 'user_ID', 'post_ID', 'landing-page-myeditor',  'catslist', 'post_title', 'samplepermalinknonce', 'autosavenonce', 'action', 'autosave', 'mm', 'jj', 'aa', 'hh', 'mn', 'ss', '_wp_http_referer', 'lp-variation-id', '_wpnonce', 'originalaction', 'original_post_status', 'referredby', '_wp_original_http_referer', 'meta-box-order-nonce', 'closedpostboxesnonce', 'hidden_post_status', 'hidden_post_password', 'hidden_post_visibility', 'visibility', 'post_password', 'hidden_mm', 'cur_mm', 'hidden_jj', 'cur_jj', 'hidden_aa', 'cur_aa', 'hidden_hh', 'cur_hh', 'hidden_mn', 'cur_mn', 'original_publish', 'save', 'newlanding_page_category', 'newlanding_page_category_parent', '_ajax_nonce-add-landing_page_category', 'lp_lp_custom_fields_nonce', 'post_mime_type', 'ID', 'comment_status', 'ping_status');
