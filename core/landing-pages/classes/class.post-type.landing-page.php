@@ -635,14 +635,13 @@ class Landing_Pages_Post_Type {
                         history.replaceState({},"landing page",clean_url);
                     }
                     function landing_pages_remove_variation_param() {
-                        //prefer to use l.search if you have a location/link object
                         var urlparts= window.location.href.split('?');
                         if (urlparts.length>=2) {
 
                             var prefix= encodeURIComponent('lp-variation-id')+'=';
                             var pars= urlparts[1].split(/[&;]/g);
 
-                            //reverse iteration as may be destructive
+                            /* reverse iteration as may be destructive */
                             for (var i= pars.length; i-- > 0;) {
                                 //idiom for string.startsWith
                                 if (pars[i].lastIndexOf(prefix, 0) !== -1) {
