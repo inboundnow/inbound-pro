@@ -362,7 +362,7 @@ Cheers!
                     'class' => '',
                     'id' => '',
                 ),
-                'default_value' => sprintf(__('We respect your privacy. If you believe this has been sent to you in error, please safely %Unsubscribe here%s','inbound-pro') , '<strong><a href="[unsubscribe-link]"  style="color:#2b95dd;text-decoration:none;">' , '</a></strong>'),
+                'default_value' => sprintf(__('We respect your privacy. If you believe this has been sent to you in error, please safely %sUnsubscribe here%s','inbound-pro') , '<strong><a href="[unsubscribe-link]"  style="color:#2b95dd;text-decoration:none;">' , '</a></strong>'),
                 'placeholder' => __('Enter address here for CAN-SPAM compliance.','inbound-pro'),
                 'prepend' => '',
                 'append' => '',
