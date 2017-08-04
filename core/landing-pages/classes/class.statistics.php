@@ -83,7 +83,6 @@ class Landing_Pages_Stats {
             return $data;
         }
 
-
         /* increment conversions for landing pages */
         if( isset($data['post_type']) && $data['post_type'] === 'landing-page' ) {
             $conversions = Landing_Pages_Variations::get_conversions( $data['page_id'] , $data['variation'] );
