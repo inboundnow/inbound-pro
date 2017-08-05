@@ -17,7 +17,6 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 	 */
 	final class Inbound_Pro_Plugin {
 
-		/* START PHP VERSION CHECKS */
 		/**
 		 * Admin notices, collected and displayed on proper action
 		 *
