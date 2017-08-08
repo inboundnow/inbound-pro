@@ -92,8 +92,8 @@ class Inbound_Mailer_Post_Type {
 	}
 
 	/**
-	*	Rebuilds permalinks after activation
-	*/
+	 *	Rebuilds permalinks after activation
+	 */
 	public static function rebuild_permalinks() {
 		$activation_check = get_option('inbound_email_activate_rewrite_check',0);
 
@@ -105,8 +105,8 @@ class Inbound_Mailer_Post_Type {
 	}
 
 	/**
-	*	Registers inbound-email post type
-	*/
+	 *	Registers inbound-email post type
+	 */
 	public static function register_post_type() {
 
 		if ( post_type_exists( 'inbound-email' ) ) {
@@ -149,26 +149,26 @@ class Inbound_Mailer_Post_Type {
 	}
 
 	/**
-	*	Register Tag Taxonomy
-	*/
+	 *	Register Tag Taxonomy
+	 */
 	public static function register_tag_taxonomy() {
 
 		register_taxonomy('inbound_email_tag','inbound-email', array(
-				'hierarchical' => false,
-				'label' => __( 'Tags' , 'inbound-email' ),
-				'singular_label' => __( 'Tag' , 'inbound-email' ),
-				'show_ui' => true,
-				'show_in_nav_menus'	=> false,
-				'query_var' => true,
-				"rewrite" => false,
-				'add_new_item' => __('Tag email' , 'inbound-pro' )
+			'hierarchical' => false,
+			'label' => __( 'Tags' , 'inbound-email' ),
+			'singular_label' => __( 'Tag' , 'inbound-email' ),
+			'show_ui' => true,
+			'show_in_nav_menus'	=> false,
+			'query_var' => true,
+			"rewrite" => false,
+			'add_new_item' => __('Tag email' , 'inbound-pro' )
 		));
 
 	}
 
 	/**
-	*  	Register Columns
-	*/
+	 *  	Register Columns
+	 */
 	public static function register_columns( $cols ) {
 
 		self::$stats = get_transient( 'inbound-email-stats-cache');
@@ -192,8 +192,8 @@ class Inbound_Mailer_Post_Type {
 
 
 	/**
-	*  	Prepare Column Data
-	*/
+	 *  	Prepare Column Data
+	 */
 	public static function prepare_column_data( $column , $post_id ) {
 		global $post, $Inbound_Mailer_Variations;
 
@@ -209,14 +209,20 @@ class Inbound_Mailer_Post_Type {
 			case "inbound_email_thumbnail":
 				$permalink = get_permalink($post->ID);
 				$local = array('127.0.0.1', "::1");
-				if(!in_array($_SERVER['REMOTE_ADDR'], $local)){
-					$thumbnail = 'http://s.wordpress.com/mshots/v1/' . urlencode(esc_url($permalink)) . '?w=140';
+				$template = $Inbound_Mailer_Variations->get_current_template($post->ID);
+				$thumbnail = Inbound_Mailer_Metaboxes::get_template_thumbnail($template);
+				$preview_thumbail = false;
+				if(!in_array($_SERVER['REMOTE_ADDR'], $local) ){
+					$preview_thumbail = 'http://s.wordpress.com/mshots/v1/' . urlencode(esc_url($permalink)) . '?w=140';
+					$is_localhost = 'false';
 				} else {
-					$template = $Inbound_Mailer_Variations->get_current_template($post->ID);
-					$thumbnail = Inbound_Mailer_Metaboxes::get_template_thumbnail($template);
+					$is_localhost = 'true';
 				}
 
-				echo "<a title='". __('Click to Preview' , 'inbound-pro' ) ."' class='thickbox' href='".add_query_arg( array( 'TB_iframe' => 'true' , 'width'=>640 , 'height' => 763 ) , $permalink )."' target='_blank'><img src='".$thumbnail."' style='max-width:100%;' title='".__('Click to Preview' , 'inbound-pro') ."'></a>";
+				echo "<a title='". __('Click to Preview' , 'inbound-pro' ) ."' class='thickbox' href='".add_query_arg( array( 'TB_iframe' => 'true' , 'width'=>640 , 'height' => 763 ) , $permalink )."' target='_blank'>";
+				echo "<img src='".$thumbnail."' class='preview-thumbnail' data-default-thumbnail='".$thumbnail."' data-is-localhost='".$is_localhost."'  data-preview-thumbnail='".$preview_thumbail."'  style='width:140px;height:140px;' title='".__('Click to Preview' , 'inbound-pro') ."'>";
+
+				echo "</a>";
 				break;
 			case "inbound_email_type":
 				$email_type = Inbound_Mailer_Metaboxes::get_email_type($post->ID);
@@ -233,80 +239,80 @@ class Inbound_Mailer_Post_Type {
 					$job_id = self::get_last_job_id($post->ID);
 				}
 				?>
-					<div class="email-stats-container" style="background-color:#ffffff;">
-						<table class="email-stats-table">
-							<tr>
-								<td>
-									<div class="td-col-sends" data-email-id="<?php echo $post->ID; ?>" data-email-status="<?php echo $post->post_status; ?>">
-										<img src="<?php echo INBOUND_EMAIL_URLPATH; ?>assets/images/ajax_progress.gif" class="col-ajax-spinner" style="margin-top:3px;">
-										<a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range='.self::$range.'&email_id=' . $post->ID . '&job_id=' . $job_id . '&event_name=sparkpost_delivery&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox email-report-link" style=""></a>
-									</div>
-								</td>
-								<td>
-									<div class="email-square" style="width: 10px;height: 10px; border-radius: 2px;margin-top:5px;	background: green;"></div>
-								</td>
-								<td>
+				<div class="email-stats-container" style="background-color:#ffffff;">
+					<table class="email-stats-table">
+						<tr>
+							<td>
+								<div class="td-col-sends" data-email-id="<?php echo $post->ID; ?>" data-email-status="<?php echo $post->post_status; ?>">
+									<img src="<?php echo INBOUND_EMAIL_URLPATH; ?>assets/images/ajax_progress.gif" class="col-ajax-spinner" style="margin-top:3px;">
+									<a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range='.self::$range.'&email_id=' . $post->ID . '&job_id=' . $job_id . '&event_name=sparkpost_delivery&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox email-report-link" style=""></a>
+								</div>
+							</td>
+							<td>
+								<div class="email-square" style="width: 10px;height: 10px; border-radius: 2px;margin-top:5px;	background: green;"></div>
+							</td>
+							<td>
 								<?php echo __( 'Sends' ,'inbound-pro' ); ?>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<div class="td-col-opens" data-email-id="<?php echo $post->ID; ?>" data-email-status="<?php echo $post->post_status; ?>">
-										<img src="<?php echo INBOUND_EMAIL_URLPATH; ?>assets/images/ajax_progress.gif" class="col-ajax-spinner" style="margin-top:3px;">
-										<a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range='.self::$range.'&email_id=' . $post->ID . '&job_id=' . $job_id . '&event_name=sparkpost_open&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox email-report-link" style=""></a>
-									</div>
-								</td>
-								<td>
-									<div class="email-square" style="width: 10px;height: 10px; border-radius: 2px;margin-top:5px;	background: cornflowerblue;"></div>
-								</td>
-								<td>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="td-col-opens" data-email-id="<?php echo $post->ID; ?>" data-email-status="<?php echo $post->post_status; ?>">
+									<img src="<?php echo INBOUND_EMAIL_URLPATH; ?>assets/images/ajax_progress.gif" class="col-ajax-spinner" style="margin-top:3px;">
+									<a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range='.self::$range.'&email_id=' . $post->ID . '&job_id=' . $job_id . '&event_name=sparkpost_open&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox email-report-link" style=""></a>
+								</div>
+							</td>
+							<td>
+								<div class="email-square" style="width: 10px;height: 10px; border-radius: 2px;margin-top:5px;	background: cornflowerblue;"></div>
+							</td>
+							<td>
 								<?php echo __( 'Opens' ,'inbound-pro' ); ?>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<div class="td-col-clicks" data-email-id="<?php echo $post->ID; ?>" data-email-status="<?php echo $post->post_status; ?>">
-										<img src="<?php echo INBOUND_EMAIL_URLPATH; ?>assets/images/ajax_progress.gif" class="col-ajax-spinner" style="margin-top:3px;">
-										<a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range='.self::$range.'&email_id=' . $post->ID . '&job_id=' . $job_id . '&event_name=sparkpost_click&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox email-report-link" style=""></a>
-									</div>
-								</td>
-								<td>
-									<div class="email-square" style="width: 10px;height: 10px; border-radius: 2px;margin-top:5px;	background: violet;"></div>
-								</td>
-								<td>
-									<?php echo __( 'Clicks' ,'inbound-pro' ); ?>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<div class="td-col-unsubs" data-email-id="<?php echo $post->ID; ?>" data-email-status="<?php echo $post->post_status; ?>">
-										<img src="<?php echo INBOUND_EMAIL_URLPATH; ?>assets/images/ajax_progress.gif" class="col-ajax-spinner" style="margin-top:3px;">
-										<a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range='.self::$range.'&email_id=' . $post->ID . '&job_id=' . $job_id . '&event_name=inbound_unsubscribe&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox email-report-link" style=""></a>
-									</div>
-								</td>
-								<td>
-									<div class="email-square" style="width: 10px;height: 10px; border-radius: 2px;margin-top:5px;	background: #000;"></div>
-								</td>
-								<td>
-									<?php echo __( 'Unsubscribes' ,'inbound-pro' ); ?>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<div class="td-col-mutes" data-email-id="<?php echo $post->ID; ?>" data-email-status="<?php echo $post->post_status; ?>">
-										<img src="<?php echo INBOUND_EMAIL_URLPATH; ?>assets/images/ajax_progress.gif" class="col-ajax-spinner" style="margin-top:3px;">
-										<a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range='.self::$range.'&email_id=' . $post->ID . '&job_id=' . $job_id . '&event_name=inbound_mute&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox email-report-link" style=""></a>
-									</div>
-								</td>
-								<td>
-									<div class="email-square" style="width: 10px;height: 10px; border-radius: 2px;margin-top:5px;	background: #000;"></div>
-								</td>
-								<td>
-									<?php echo __( 'Mutes' ,'inbound-pro' ); ?>
-								</td>
-							</tr>
-						</table>
-					</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="td-col-clicks" data-email-id="<?php echo $post->ID; ?>" data-email-status="<?php echo $post->post_status; ?>">
+									<img src="<?php echo INBOUND_EMAIL_URLPATH; ?>assets/images/ajax_progress.gif" class="col-ajax-spinner" style="margin-top:3px;">
+									<a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range='.self::$range.'&email_id=' . $post->ID . '&job_id=' . $job_id . '&event_name=sparkpost_click&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox email-report-link" style=""></a>
+								</div>
+							</td>
+							<td>
+								<div class="email-square" style="width: 10px;height: 10px; border-radius: 2px;margin-top:5px;	background: violet;"></div>
+							</td>
+							<td>
+								<?php echo __( 'Clicks' ,'inbound-pro' ); ?>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="td-col-unsubs" data-email-id="<?php echo $post->ID; ?>" data-email-status="<?php echo $post->post_status; ?>">
+									<img src="<?php echo INBOUND_EMAIL_URLPATH; ?>assets/images/ajax_progress.gif" class="col-ajax-spinner" style="margin-top:3px;">
+									<a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range='.self::$range.'&email_id=' . $post->ID . '&job_id=' . $job_id . '&event_name=inbound_unsubscribe&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox email-report-link" style=""></a>
+								</div>
+							</td>
+							<td>
+								<div class="email-square" style="width: 10px;height: 10px; border-radius: 2px;margin-top:5px;	background: #000;"></div>
+							</td>
+							<td>
+								<?php echo __( 'Unsubscribes' ,'inbound-pro' ); ?>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="td-col-mutes" data-email-id="<?php echo $post->ID; ?>" data-email-status="<?php echo $post->post_status; ?>">
+									<img src="<?php echo INBOUND_EMAIL_URLPATH; ?>assets/images/ajax_progress.gif" class="col-ajax-spinner" style="margin-top:3px;">
+									<a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range='.self::$range.'&email_id=' . $post->ID . '&job_id=' . $job_id . '&event_name=inbound_mute&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox email-report-link" style=""></a>
+								</div>
+							</td>
+							<td>
+								<div class="email-square" style="width: 10px;height: 10px; border-radius: 2px;margin-top:5px;	background: #000;"></div>
+							</td>
+							<td>
+								<?php echo __( 'Mutes' ,'inbound-pro' ); ?>
+							</td>
+						</tr>
+					</table>
+				</div>
 
 				<?php
 				break;
@@ -407,13 +413,13 @@ class Inbound_Mailer_Post_Type {
 	}
 
 	/**
-	*	Registers all post status types related to the inbound-email cpt
-	*	@adds post_status unsent
-	*	@adds post_status sent
-	*	@adds post_status sending
-	*	@adds post_status scheduled
-	*	@adds post_status automated
-	*/
+	 *	Registers all post status types related to the inbound-email cpt
+	 *	@adds post_status unsent
+	 *	@adds post_status sent
+	 *	@adds post_status sending
+	 *	@adds post_status scheduled
+	 *	@adds post_status automated
+	 */
 	public static function register_post_status() {
 
 		/* unsent */
@@ -484,8 +490,8 @@ class Inbound_Mailer_Post_Type {
 	}
 
 	/**
-	*	Adds dropdown support for added post status
-	*/
+	 *	Adds dropdown support for added post status
+	 */
 	public static function add_post_status() {
 		global $post;
 
@@ -605,8 +611,8 @@ class Inbound_Mailer_Post_Type {
 	}
 
 	/**
-	*	Add admin js that removes menu items
-	*/
+	 *	Add admin js that removes menu items
+	 */
 	public static function apply_js() {
 		global $post;
 
@@ -616,24 +622,24 @@ class Inbound_Mailer_Post_Type {
 		?>
 		<script type='text/javascript'>
 
-		jQuery( document ).ready( function() {
-			var i = 0;
-			jQuery('#menu-posts-inbound-email li').each( function() {
-				if ( i==3  ) {
-					jQuery(this).hide();
-				}
-				i++;
-			});
+			jQuery( document ).ready( function() {
+				var i = 0;
+				jQuery('#menu-posts-inbound-email li').each( function() {
+					if ( i==3  ) {
+						jQuery(this).hide();
+					}
+					i++;
+				});
 
-			/* hide visibility toggle */
-			jQuery('.misc-pub-visibility').hide();
+				/* hide visibility toggle */
+				jQuery('.misc-pub-visibility').hide();
 
-			/* hide scheduling toggle */
-			jQuery('.misc-pub-curtime').hide();
+				/* hide scheduling toggle */
+				jQuery('.misc-pub-curtime').hide();
 
-			/* Add post status to quick edit */
-			(function($){
-				jQuery( "select[name=_status]" ).each(
+				/* Add post status to quick edit */
+				(function($){
+					jQuery( "select[name=_status]" ).each(
 						function () {
 							var value = $( this ).val();
 
@@ -642,17 +648,28 @@ class Inbound_Mailer_Post_Type {
 							jQuery("option[value=pending]", this).after("<option value='automted'>Automated</option>");
 
 						}
-				);
-			})(jQuery);
-		});
+					);
+				})(jQuery);
+
+				jQuery('.preview-thumbnail').mouseout(function () {
+					jQuery(this).attr('src', jQuery(this).attr('data-default-thumbnail'));
+				});
+
+				jQuery('.preview-thumbnail').mouseover(function () {
+					if (jQuery(this).attr('data-is-localhost')=='false') {
+						jQuery(this).attr('src', jQuery(this).attr('data-preview-thumbnail'));
+					}
+				});
+
+			});
 
 		</script>
 		<?php
 	}
 
 	/**
-	*  	Define Row Actions
-	*/
+	 *  	Define Row Actions
+	 */
 	public static function filter_row_actions( $actions , $post ) {
 
 		if ($post->post_type=='inbound-email') {
@@ -706,29 +723,29 @@ class Inbound_Mailer_Post_Type {
 	}
 
 	/**
-	*  	Adds ability to filter email templates by custom post type
-	*/
+	 *  	Adds ability to filter email templates by custom post type
+	 */
 	public static function add_category_taxonomy_filter() {
 		global $post_type;
 
 		if ($post_type === "inbound-email") {
-		$post_types = get_post_types( array( '_builtin' => false ) );
-		if ( in_array( $post_type, $post_types ) ) {
-			$filters = get_object_taxonomies( $post_type );
+			$post_types = get_post_types( array( '_builtin' => false ) );
+			if ( in_array( $post_type, $post_types ) ) {
+				$filters = get_object_taxonomies( $post_type );
 
-			foreach ( $filters as $tax_slug ) {
-				$tax_obj = get_taxonomy( $tax_slug );
-				(isset($_GET[$tax_slug])) ? $current = sanitize_text_field($_GET[$tax_slug]) : $current = 0;
-				wp_dropdown_categories( array(
-					'show_option_all' => __('Show All '.$tax_obj->label ),
-					'taxonomy' 		=> $tax_slug,
-					'name' 			=> $tax_obj->name,
-					'orderby' 		=> 'name',
-					'selected' 		=> $current,
-					'hierarchical' 		=> $tax_obj->hierarchical,
-					'show_count' 		=> false,
-					'hide_empty' 		=> true
-				) );
+				foreach ( $filters as $tax_slug ) {
+					$tax_obj = get_taxonomy( $tax_slug );
+					(isset($_GET[$tax_slug])) ? $current = sanitize_text_field($_GET[$tax_slug]) : $current = 0;
+					wp_dropdown_categories( array(
+						'show_option_all' => __('Show All '.$tax_obj->label ),
+						'taxonomy' 		=> $tax_slug,
+						'name' 			=> $tax_obj->name,
+						'orderby' 		=> 'name',
+						'selected' 		=> $current,
+						'hierarchical' 		=> $tax_obj->hierarchical,
+						'show_count' 		=> false,
+						'hide_empty' 		=> true
+					) );
 				}
 			}
 		}
@@ -736,8 +753,8 @@ class Inbound_Mailer_Post_Type {
 
 
 	/**
-	*  	Clears stats of all CTAs
-	*/
+	 *  	Clears stats of all CTAs
+	 */
 	public static function clear_all_inbound_email_stats() {
 		$ctas = get_posts( array(
 			'post_type' => 'inbound-email',
@@ -751,15 +768,15 @@ class Inbound_Mailer_Post_Type {
 	}
 
 	/**
-	*	Tells the 'email-templates' menu item to sit as a submenu in the 'inbound-email' parent menu
-	*/
+	 *	Tells the 'email-templates' menu item to sit as a submenu in the 'inbound-email' parent menu
+	 */
 	public static function set_email_template_menu_location() {
 		return 'inbound-email';
 	}
 
 	/**
-	*	Tells the 'email-templates' label to be 'Templates' instead of 'Email Templates'
-	*/
+	 *	Tells the 'email-templates' label to be 'Templates' instead of 'Email Templates'
+	 */
 	public static function set_email_template_labels( $labels ) {
 		$labels['name'] = __('Templates', 'inbound-emails');
 		$labels['singular_name'] = __('Templates', 'inbound-emails');
@@ -786,9 +803,9 @@ class Inbound_Mailer_Post_Type {
 
 
 	/**
-	*  Get Automation Emails
-	*  @param STRING $return_type OBEJCT or ARRAY
-	*/
+	 *  Get Automation Emails
+	 *  @param STRING $return_type OBEJCT or ARRAY
+	 */
 	public static function get_automation_emails_as( $return_type = 'OBJECT' ) {
 
 		//self::register_post_type();
@@ -833,4 +850,3 @@ class Inbound_Mailer_Post_Type {
 
 /* Load Post Type Pre Init */
 new Inbound_Mailer_Post_Type();
-

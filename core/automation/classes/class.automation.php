@@ -385,7 +385,7 @@ class Inbound_Automation_Processing {
 		$class_name = $db_lookup_filter['class_name'];
 		$function_name = 'query_' . $filter['action_filter_key'] ;
 
-		$db_lookup = $class_name::$function_name(  $db_lookup_filter['id'] , self::$job_trigger_data );
+		$db_lookup = $class_name::$function_name(  $filter , self::$job_trigger_data );
 
 		if ( $db_lookup===null ) {
 

@@ -108,9 +108,6 @@ class Inbound_API {
         add_action('template_redirect', array(__CLASS__, 'process_api_query'), -1);
         add_action('template_redirect', array(__CLASS__, 'process_tracked_link'), -1);
 
-        /* Listen for & execute api key commands */
-        add_action('inbound_process_api_key', array(__CLASS__, 'process_api_key'));
-
         /* Determine if JSON_PRETTY_PRINT is available */
         self::$pretty_print = defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : null;
 
@@ -909,7 +906,6 @@ class Inbound_API {
     /**
      *  Adds a lead to the wp-lead custom post type
      * @param ARRAY $params key/value pairs that will direct the building of WP_Query, optional
-     * @global OBJECT $Inbound_Leads Inbound_Leads
      */
     public static function leads_add($params = array()) {
 
@@ -1397,7 +1393,7 @@ class Inbound_API {
         $lead_id_cookie = (isset($_COOKIE['wp_lead_id'])) ? $_COOKIE['wp_lead_id'] : 0;
 
         /* if lead_id is set then apply it to 'id' */
-        $args['id'] = (isset($args['lead_id']) && $args['lead_id']) ? $args['lead_id'] : $args['id'];
+        $args['id'] = (isset($args['lead_id']) && $args['lead_id']) ? $args['lead_id'] : 0;
 
         /* if no lead_id so far then fall back on cookie value */
         $args['id'] = (isset($args['id']) && $args['id']) ? $args['id'] : $lead_id_cookie;
@@ -1409,6 +1405,10 @@ class Inbound_API {
 
         /* process extra lead events */
         if ($args['id']) {
+
+            /* create redundant key */
+            $args['lead_id'] = $args['id'];
+
             /* Add lead to lists */
             if (isset($args['add_lists']) && self::validate_parameter($args['add_lists'], 'add_lists', 'array')) {
                 foreach ($args['add_lists'] as $list_id) {
@@ -1437,7 +1437,6 @@ class Inbound_API {
                     Inbound_Leads::remove_tag_from_lead($args['id'], $tag);
                 }
             }
-
         }
 
         /* check for known bots and ignore */

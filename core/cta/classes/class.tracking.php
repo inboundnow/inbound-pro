@@ -182,4 +182,4 @@ class CTA_Conversion_Tracking {
 	}
 }
 
-$CTA_Conversion_Tracking = new CTA_Conversion_Tracking();
+new CTA_Conversion_Tracking();
