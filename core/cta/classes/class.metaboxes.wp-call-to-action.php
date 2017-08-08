@@ -152,7 +152,7 @@ class CTA_Metaboxes {
 		/* AB Testing Statistics Box */
 		add_meta_box(
 			'wp_cta_ab_display_stats_metabox',
-			__( 'A/B Testing', 'inbound-pro' ),
+			__( 'Split Testing', 'inbound-pro' ),
 			array(__CLASS__, 'show_stats_metabox'),
 			'wp-call-to-action' ,
 			'side',
