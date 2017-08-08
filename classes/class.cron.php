@@ -10,7 +10,6 @@ if (!class_exists('Inbound_Cron')) {
 
     class Inbound_Cron {
 
-
         /**
          *  Initialize class
          */
