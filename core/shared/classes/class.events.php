@@ -855,7 +855,15 @@ class Inbound_Events {
         $params['order_by'] = (isset($params['order_by'])) ? $params['order_by'] : 'datetime DESC';
 
         $table_name = $wpdb->prefix . "inbound_page_views";
-        $query = 'SELECT *, count('.$params['group_by'].') as count FROM '.$table_name.' WHERE `page_id` = "'.$params['page_id'].'"';
+        $query = 'SELECT *, count('.$params['group_by'].') as count FROM '.$table_name .' WHERE 1=1 ';
+
+        if (isset($params['cta_id']) && $params['cta_id']) {
+            $query .= ' AND `cta_id` = "'.$params['cta_id'].'" ';
+        }
+
+        if (isset($params['page_id']) && $params['page_id'] ) {
+            $query .= ' AND `page_id` = "'.$params['page_id'].'" ';
+        }
 
         if (isset($params['source']) && $params['source'] ) {
             $query .= ' AND source = "'.$params['source'].'" ';
@@ -893,8 +901,15 @@ class Inbound_Events {
         $table_name = $wpdb->prefix . "inbound_page_views";
         $query = 'SELECT count(date(datetime)) as visits_per_day, date(datetime) as date , sum(visits) as visitors FROM ( ';
 
-        $query .= ' SELECT *, count('.$params['group_by'].') as visits FROM '.$table_name.' WHERE `page_id` = "'.$params['page_id'].'"';
+        $query .= ' SELECT *, count('.$params['group_by'].') as visits FROM '.$table_name.' WHERE 1=1 ';
 
+        if (isset($params['page_id']) && $params['page_id']) {
+            $query .='  AND `page_id` = "'.$params['page_id'].'" ';
+        }
+
+        if (isset($params['cta_id']) && $params['cta_id']) {
+            $query .='AND `cta_id` = "'.$params['cta_id'].'" ';
+        }
 
         if (isset($params['source']) && $params['source'] ) {
             $query .= ' AND source = "'.$params['source'].'" ';
@@ -924,7 +939,15 @@ class Inbound_Events {
         $table_name = $wpdb->prefix . "inbound_page_views";
         $query = 'SELECT * , count(source) as visitors, sum(page_views) as page_views_total  FROM ( ';
 
-        $query .= ' SELECT *, count(lead_uid) as page_views FROM '.$table_name.' WHERE `page_id` = "'.$params['page_id'].'"';
+        $query .= ' SELECT *, count(lead_uid) as page_views FROM '.$table_name.' WHERE 1=1 ';
+
+        if (isset($params['page_id']) && $params['page_id']) {
+            $query .='  AND `page_id` = "'.$params['page_id'].'" ';
+        }
+
+        if (isset($params['cta_id']) && $params['cta_id'] ) {
+            $query .='AND `cta_id` = "'.$params['cta_id'].'" ';
+        }
 
         if (isset($params['source']) && $params['source'] ) {
             $query .= ' AND source = "'.$params['source'].'" ';
