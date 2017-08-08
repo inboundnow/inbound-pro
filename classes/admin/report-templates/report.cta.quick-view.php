@@ -281,7 +281,7 @@ if ( !class_exists('Inbound_CTA_Quick_View') ) {
             <table class='ia-table-summary'>
                 <tr>
                     <td class='ia-td-th'>
-                        <?php _e('Action Breakdown', 'inbound-pro'); ?>
+                        <?php _e('Statistic', 'inbound-pro'); ?>
                     </td>
                     <td class='ia-td-th'>
                         <?php _e('Count', 'inbound-pro'); ?>
