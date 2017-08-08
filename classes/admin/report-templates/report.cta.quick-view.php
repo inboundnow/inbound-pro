@@ -25,10 +25,7 @@ if ( !class_exists('Inbound_CTA_Quick_View') ) {
             add_action('inbound-analytics/cta/quick-view', array(__CLASS__, 'display_navigation'), 1);
 
             /* set Inbound powered content stats */
-            add_action('inbound-analytics/cta/quick-view', array(__CLASS__, 'display_content_breakdown'), 20);
-
-            /* set Inbound powered content stats */
-            add_action('inbound-analytics/cta/quick-view', array(__CLASS__, 'display_action_breakdown'), 30);
+            add_action('inbound-analytics/cta/quick-view', array(__CLASS__, 'display_statistics_breakdown'), 20);
 
             /* set Inbound powered content stats */
             add_action('inbound-analytics/cta/quick-view', array(__CLASS__, 'display_converting_post_breakdown'), 40);
@@ -116,45 +113,20 @@ if ( !class_exists('Inbound_CTA_Quick_View') ) {
 
         }
 
+        /**
+         *
+         */
         public static function load_actions() {
-            self::load_action_totals();
             self::load_submissions();
             self::load_cta_clicks();
-            self::load_content_clicks();
             self::load_CTA_variation_click_stats();
             self::load_post_CTA_conversion_stats();
         }
 
 
-        public static function load_action_totals() {
-
-            /* get action count in current time period */
-            self::$statistics['actions']['current'][self::$range] = self::get_actions(array(
-                'per_days' => self::$range,
-                'skip' => 0
-            ));
-
-            /* get action count in past time period */
-            self::$statistics['actions']['past'][self::$range] = self::get_actions(array(
-                'per_days' => self::$range,
-                'skip' => 1
-            ));
-
-
-            /* determine difference rate */
-            self::$statistics['actions']['difference'][self::$range] = self::get_percentage_change(self::$statistics['actions']['current'][self::$range], self::$statistics['actions']['past'][self::$range]);
-
-            /* determine action to impression rate for current time period */
-            self::$statistics['actions']['rate']['current'][self::$range] = (self::$statistics['impressions']['current'][self::$range]) ? self::$statistics['actions']['current'][self::$range] / self::$statistics['impressions']['current'][self::$range] : 0;
-
-            /* determine action to impression rate for past time period */
-            self::$statistics['actions']['rate']['past'][self::$range] = (self::$statistics['impressions']['past'][self::$range]) ? self::$statistics['actions']['past'][self::$range] / self::$statistics['impressions']['past'][self::$range] : 0;
-
-            /* determine action to impression rate for past time period */
-            self::$statistics['actions']['rate']['difference'][self::$range] = self::get_percentage_change(self::$statistics['actions']['rate']['current'][self::$range], self::$statistics['actions']['rate']['past'][self::$range]);
-
-        }
-
+        /**
+         *
+         */
         public static function load_submissions() {
             /* get form submission count in current time period */
             self::$statistics['submissions']['current'][self::$range] = self::get_submissions(array(
@@ -169,7 +141,7 @@ if ( !class_exists('Inbound_CTA_Quick_View') ) {
             ));
 
             /* determine difference rate */
-            self::$statistics['submissions']['difference'][self::$range] = self::get_percentage_change(self::$statistics['actions']['current'][self::$range], self::$statistics['actions']['past'][self::$range]);
+            self::$statistics['submissions']['difference'][self::$range] = self::get_percentage_change(self::$statistics['submissions']['current'][self::$range], self::$statistics['submissions']['past'][self::$range]);
 
             /* determine action to impression rate for current time period */
             self::$statistics['submissions']['rate']['current'][self::$range] = (self::$statistics['impressions']['current'][self::$range]) ? self::$statistics['submissions']['current'][self::$range] / self::$statistics['impressions']['current'][self::$range] : 0;
@@ -178,11 +150,7 @@ if ( !class_exists('Inbound_CTA_Quick_View') ) {
             self::$statistics['submissions']['rate']['past'][self::$range] = (self::$statistics['impressions']['past'][self::$range]) ? self::$statistics['submissions']['past'][self::$range] / self::$statistics['impressions']['past'][self::$range] : 0;
 
             /* determine action to impression rate for past time period */
-            self::$statistics['actions']['rate']['past'][self::$range] = (self::$statistics['impressions']['past'][self::$range]) ? self::$statistics['submissions']['past'][self::$range] / self::$statistics['impressions']['past'][self::$range] : 0;
-
-            /* determine action to impression rate for past time period */
-            self::$statistics['actions']['rate']['difference'][self::$range] = self::get_percentage_change(self::$statistics['submissions']['rate']['current'][self::$range], self::$statistics['submissions']['rate']['past'][self::$range]);
-
+            self::$statistics['submissions']['rate']['difference'][self::$range] = self::get_percentage_change(self::$statistics['submissions']['rate']['current'][self::$range], self::$statistics['submissions']['rate']['past'][self::$range]);
 
         }
 
@@ -215,34 +183,6 @@ if ( !class_exists('Inbound_CTA_Quick_View') ) {
         }
 
 
-        public static function load_content_clicks() {
-
-            /* get cta clickthrough count in current time period */
-            self::$statistics['content-clicks']['current'][self::$range] = self::get_tracked_content_clicks(array(
-                'per_days' => self::$range,
-                'skip' => 0
-            ));
-
-            /* get cta clickthrough count in past time period */
-            self::$statistics['content-clicks']['past'][self::$range] = self::get_tracked_content_clicks(array(
-                'per_days' => self::$range,
-                'skip' => 1
-            ));
-
-            /* determine difference rate */
-            self::$statistics['content-clicks']['difference'][self::$range] = self::get_percentage_change(self::$statistics['content-clicks']['current'][self::$range], self::$statistics['content-clicks']['past'][self::$range]);
-
-            /* determine action to impression rate for current time period */
-            self::$statistics['content-clicks']['rate']['current'][self::$range] = (self::$statistics['impressions']['current'][self::$range]) ? self::$statistics['content-clicks']['current'][self::$range] / self::$statistics['impressions']['current'][self::$range] : 0;
-
-            /* determine action to impression rate for past time period */
-            self::$statistics['content-clicks']['rate']['past'][self::$range] = (self::$statistics['impressions']['past'][self::$range]) ? self::$statistics['content-clicks']['past'][self::$range] / self::$statistics['impressions']['past'][self::$range] : 0;
-
-            /* determine action to impression rate for past time period */
-            self::$statistics['content-clicks']['rate']['difference'][self::$range] = self::get_percentage_change(self::$statistics['content-clicks']['rate']['current'][self::$range], self::$statistics['content-clicks']['rate']['past'][self::$range]);
-
-        }
-        
         /**
          * Loads CTA variation click stats for each variation of a CTA
          * These are the CTA variation clicks past/present, the CTA click rate past/present,
@@ -330,7 +270,7 @@ if ( !class_exists('Inbound_CTA_Quick_View') ) {
             */
         }
 
-        public static function display_content_breakdown() {
+        public static function display_statistics_breakdown() {
             self::load_impressions();
             self::load_actions();
             self::load_visitors();
@@ -338,92 +278,6 @@ if ( !class_exists('Inbound_CTA_Quick_View') ) {
             global $post;
 
             ?>
-            <table class='ia-table-summary'>
-                <tr>
-                    <td class='ia-td-th'>
-                        <label title='<?php _e('Type for statistic.', 'inbound-pro'); ?>'>
-                            <?php _e('Statistic', 'inbound-pro'); ?>
-                        </label>
-                    </td>
-                    <td class='ia-td-th'>
-                        <label title='<?php _e('Statistic value for given time period', 'inbound-pro'); ?>'>
-                            <?php _e('Value', 'inbound-pro'); ?>
-                        </label>
-                    </td>
-                    <td class='ia-td-th' title='<?php _e('Change in growth compared to corresponding previous timeperiod.', 'inbound-pro'); ?>'>
-                        <label>
-                            <?php _e('Change', 'inbound-pro'); ?>
-                        </label>
-                    </td>
-                </tr>
-                <tr>
-                    <td class='ia-td-label'>
-                        <label title='<?php _e('Total number of visits to this page', 'inbound-pro'); ?>'>
-                            <?php _e('Impressions:', 'inbound-pro'); ?>
-                        </label>
-                    </td>
-                    <td>
-                        <a href='<?php echo admin_url('index.php?action=inbound_generate_report&cta_id='.$post->ID.'&class=Inbound_Impressions_Report&range='.self::$range.'&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox'><?php echo self::$statistics['impressions']['current'][self::$range]; ?></a>
-                    </td>
-
-                    <td>
-					<span class='stat label <?php echo (self::$statistics['impressions']['difference'][self::$range] > 0) ? 'label-success' : 'label-warning'; ?>' title="<?php echo sprintf(__('%s impressions in the last %s days versus %s impressions in the prior %s day period)', 'inbound-pro'), self::$statistics['impressions']['current'][self::$range], self::$range, self::$statistics['impressions']['past'][self::$range], self::$range); ?>" data-toggle="tooltip" data-placement="left"><?php echo self::prepare_rate_format(self::$statistics['impressions']['difference'][self::$range]); ?></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td class='ia-td-label'>
-                        <label title='<?php _e('Total number of visitors', 'inbound-pro'); ?>'>
-                            <?php _e('Visitors:', 'inbound-pro'); ?>
-                        </label>
-                    </td>
-                    <td>
-                        <a href='<?php echo admin_url('index.php?action=inbound_generate_report&cta_id='.$post->ID.'&class=Inbound_Visitors_Report&range='.self::$range.'&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox'>
-                            <?php echo self::$statistics['visitors']['current'][self::$range]; ?>
-                        </a>
-                    </td>
-
-                    <td>
-                        <span class='stat label  <?php echo (self::$statistics['visitors']['difference'][self::$range] > 0) ? 'label-success' : 'label-warning'; ?>' title="<?php echo sprintf(__('%s visitors in the last %s days versus %s visitors in the prior %s day period)', 'inbound-pro'), self::$statistics['visitors']['current'][self::$range], self::$range, self::$statistics['visitors']['past'][self::$range], self::$range); ?>"><?php echo self::prepare_rate_format(self::$statistics['visitors']['difference'][self::$range]); ?></span>
-                    </td>
-                </tr>
-                <tr>
-                    <td class='ia-td-label'>
-                        <label title='<?php _e('Total number of event actions originating from this page.', 'inbound-pro'); ?>'>
-                            <?php _e('Actions:', 'inbound-pro'); ?>
-                        </label>
-                    </td>
-                    <td class='ia-td-value'>
-                        <a href='<?php echo admin_url('index.php?action=inbound_generate_report&cta_id='.$post->ID.'&class=Inbound_Events_Report&range='.self::$range.'&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox'><?php echo self::$statistics['actions']['current'][self::$range]; ?></a>
-                    </td>
-                    <td class='ia-td-value'>
-					<span class='stat label  <?php echo (self::$statistics['actions']['difference'][self::$range] > 0) ? 'label-success' : 'label-warning'; ?>' title="<?php echo sprintf(__('%s actions in the last %s days versus %s actions in the prior %s day period)', 'inbound-pro'), self::$statistics['actions']['current'][self::$range], self::$range, self::$statistics['actions']['past'][self::$range], self::$range); ?>" data-toggle="tooltip" data-placement="left"><?php echo self::prepare_rate_format(self::$statistics['actions']['difference'][self::$range]); ?></a>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class='ia-td-label'>
-                        <label title='<?php _e('Total percentage of actions to impressions.', 'inbound-pro'); ?>'>
-                            <?php _e('Action Rate:', 'inbound-pro'); ?>
-                        </label>
-                    </td>
-                    <td class='ia-td-value'>
-                        <span class="label label-info"><?php echo self::prepare_rate_format(self::$statistics['actions']['rate']['current'][self::$range], false); ?></span>
-                    </td>
-                    <td class='ia-td-value'>
-                        <span class='stat label  <?php echo (self::$statistics['actions']['rate']['difference'][self::$range] > 0) ? 'label-success' : 'label-warning'; ?>' title="<?php echo sprintf(__('%s action rate in the last %s days versus a %s action rate in the prior %s day period)', 'inbound-pro'), self::prepare_rate_format(self::$statistics['actions']['rate']['current'][self::$range]), self::$range, self::prepare_rate_format(self::$statistics['actions']['rate']['past'][self::$range]), self::$range); ?>"><?php echo self::prepare_rate_format(self::$statistics['actions']['rate']['difference'][self::$range]); ?></span>
-                    </td>
-                </tr>
-                <?php
-                do_action('inbound-analytics/cta/quick-view/content-breakdown' , self::$statistics );
-                ?>
-            </table>
-            <?php
-        }
-
-        public static function display_action_breakdown() {
-            global $post;
-            ?>
-            <br>
             <table class='ia-table-summary'>
                 <tr>
                     <td class='ia-td-th'>
@@ -441,7 +295,45 @@ if ( !class_exists('Inbound_CTA_Quick_View') ) {
                 </tr>
                 <tr>
                     <td class='ia-td-label'>
-                        <label title='<?php _e('Total number of Inbound Form submissions originating from this page', 'inbound-pro'); ?>'><?php _e('Inbound Form Submissions', 'inbound-pro'); ?>:</label>
+                        <label title='<?php _e('Total number of visits to this page', 'inbound-pro'); ?>'>
+                            <?php _e('Impressions:', 'inbound-pro'); ?>
+                        </label>
+                    </td>
+                    <td>
+                        <a href='<?php echo admin_url('index.php?action=inbound_generate_report&obj_key=cta_id&cta_id='.$post->ID.'&class=Inbound_Impressions_Report&range='.self::$range.'&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox'><?php echo self::$statistics['impressions']['current'][self::$range]; ?></a>
+                    </td>
+                    <td>
+
+                    </td>
+                    <td>
+					<span class='stat label <?php echo (self::$statistics['impressions']['difference'][self::$range] > 0) ? 'label-success' : 'label-warning'; ?>' title="<?php echo sprintf(__('%s impressions in the last %s days versus %s impressions in the prior %s day period)', 'inbound-pro'), self::$statistics['impressions']['current'][self::$range], self::$range, self::$statistics['impressions']['past'][self::$range], self::$range); ?>" data-toggle="tooltip" data-placement="left"><?php echo self::prepare_rate_format(self::$statistics['impressions']['difference'][self::$range]); ?></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td class='ia-td-label'>
+                        <label title='<?php _e('Total number of visitors', 'inbound-pro'); ?>'>
+                            <?php _e('Visitors:', 'inbound-pro'); ?>
+                        </label>
+                    </td>
+                    <td>
+                        <a href='<?php echo admin_url('index.php?action=inbound_generate_report&obj_key=cta_id&cta_id='.$post->ID.'&class=Inbound_Visitors_Report&range='.self::$range.'&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox'>
+                            <?php echo self::$statistics['visitors']['current'][self::$range]; ?>
+                        </a>
+                    </td>
+
+                    <td>
+
+                    </td>
+                    <td>
+                        <span class='stat label  <?php echo (self::$statistics['visitors']['difference'][self::$range] > 0) ? 'label-success' : 'label-warning'; ?>' title="<?php echo sprintf(__('%s visitors in the last %s days versus %s visitors in the prior %s day period)', 'inbound-pro'), self::$statistics['visitors']['current'][self::$range], self::$range, self::$statistics['visitors']['past'][self::$range], self::$range); ?>"><?php echo self::prepare_rate_format(self::$statistics['visitors']['difference'][self::$range]); ?></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class='ia-td-label'>
+                        <label title='<?php _e('Total number of Inbound Form submissions originating from this page', 'inbound-pro'); ?>'>
+                            <?php _e('Inbound Form Submission', 'inbound-pro'); ?>:
+                        </label>
                     </td>
                     <td class='ia-td-value'>
                         <a href='<?php echo admin_url('index.php?action=inbound_generate_report&cta_id='.$post->ID.'&class=Inbound_Event_Report&event_name=inbound_form_submission&range='.self::$range.'&title='.__('Inbound Form Submissions', 'inbound-pro').'&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox'>
@@ -452,13 +344,13 @@ if ( !class_exists('Inbound_CTA_Quick_View') ) {
                         <span class="label label-info" title='<?php _e('Rate of action events compared to impressions.', 'inbound-pro'); ?>'><?php echo self::prepare_rate_format(self::$statistics['submissions']['rate']['current'][self::$range], false); ?></span>
                     </td>
                     <td class='ia-td-value'>
-                        <span class='stat label <?php echo (self::$statistics['actions']['rate']['difference'][self::$range] > 0) ? 'label-success' : 'label-warning'; ?>' title="<?php echo sprintf(__('%s action rate in the last %s days versus a %s action rate in the prior %s day period)', 'inbound-pro'), self::prepare_rate_format(self::$statistics['submissions']['rate']['current'][self::$range]), self::$range, self::prepare_rate_format(self::$statistics['submissions']['rate']['past'][self::$range]), self::$range); ?>"><?php echo self::prepare_rate_format(self::$statistics['actions']['rate']['difference'][self::$range]); ?></span>
+                        <span class='stat label <?php echo (self::$statistics['submissions']['rate']['difference'][self::$range] > 0) ? 'label-success' : 'label-warning'; ?>' title="<?php echo sprintf(__('%s action rate in the last %s days versus a %s action rate in the prior %s day period)', 'inbound-pro'), self::prepare_rate_format(self::$statistics['submissions']['rate']['current'][self::$range]), self::$range, self::prepare_rate_format(self::$statistics['submissions']['rate']['past'][self::$range]), self::$range); ?>"><?php echo self::prepare_rate_format(self::$statistics['submissions']['rate']['difference'][self::$range]); ?></span>
                     </td>
                 </tr>
                 <tr>
                     <td class='ia-td-label'>
                         <label title='<?php _e('Total number of clicked tracked call to action links related to this page.', 'inbound-pro'); ?>'>
-                            <?php _e('CTA Clicks:', 'inbound-pro'); ?>
+                            <?php _e('CTA Click:', 'inbound-pro'); ?>
                         </label>
                     </td>
                     <td class='ia-td-value'>
@@ -473,26 +365,9 @@ if ( !class_exists('Inbound_CTA_Quick_View') ) {
                         <span class="stat label  <?php echo (self::$statistics['cta-clicks']['rate']['difference'][self::$range] > 0) ? 'label-success' : 'label-warning'; ?>" title="<?php echo sprintf(__('%s action rate in the last %s days versus a %s action rate in the prior %s day period)', 'inbound-pro'), self::prepare_rate_format(self::$statistics['cta-clicks']['rate']['current'][self::$range]), self::$range, self::prepare_rate_format(self::$statistics['cta-clicks']['rate']['past'][self::$range]), self::$range); ?>"><?php echo self::prepare_rate_format(self::$statistics['cta-clicks']['rate']['difference'][self::$range]); ?></span>
                     </td>
                 </tr>
-                <tr>
-                    <td class='ia-td-label'>
-                        <label title='<?php _e('Total number of clicked tracked content links related to this page.', 'inbound-pro'); ?>'>
-                            <?php _e('Content Clicks:', 'inbound-pro'); ?>
-                        </label>
-                    </td>
-                    <td class='ia-td-value'>
-                        <a href='<?php echo admin_url('index.php?action=inbound_generate_report&cta_id='.$post->ID.'&class=Inbound_Event_Report&event_name=inbound_content_click&range='.self::$range.'&title='.__('Content Clicks', 'inbound-pro').'&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox'>
-                            <?php echo self::$statistics['content-clicks']['current'][self::$range]; ?>
-                        </a>
-                    </td>
-                    <td class='ia-td-value'>
-                        <span class="label label-info" title='<?php _e('Rate of action events compared to impressions.', 'inbound-pro'); ?>' title="<?php echo sprintf(__('%s action rate in the last %s days versus a %s action rate in the prior %s day period)', 'inbound-pro'), self::prepare_rate_format(self::$statistics['content-clicks']['rate']['current'][self::$range]), self::$range, self::prepare_rate_format(self::$statistics['content-clicks']['rate']['past'][self::$range]), self::$range); ?>"><?php echo self::prepare_rate_format(self::$statistics['content-clicks']['rate']['current'][self::$range], false); ?></span>
-                    </td>
-                    <td class='ia-td-value'>
-                        <span class="stat label  <?php echo (self::$statistics['content-clicks']['rate']['difference'][self::$range] > 0) ? 'label-success' : 'label-warning'; ?>" title="<?php echo sprintf(__('%s action rate in the last %s days versus a %s action rate in the prior %s day period)', 'inbound-pro'), self::prepare_rate_format(self::$statistics['content-clicks']['rate']['current'][self::$range]), self::$range, self::prepare_rate_format(self::$statistics['content-clicks']['rate']['past'][self::$range]), self::$range); ?>"><?php echo self::prepare_rate_format(self::$statistics['content-clicks']['rate']['difference'][self::$range]); ?></span>
-                    </td>
-                </tr>
                 <?php
-                do_action('inbound-analytics/cta/quick-view/action-breakdown' , self::$statistics , self::$range ) ; ?>
+                do_action('inbound-analytics/cta/quick-view/stats-breakdown' , self::$statistics );
+                ?>
             </table>
             <?php
         }
@@ -533,7 +408,7 @@ if ( !class_exists('Inbound_CTA_Quick_View') ) {
                 ?>
                 <tr>
                     <td class='ia-td-label'>
-                        <label title='<?php echo sprintf(__('Clicks generated by this post in the last %d days', 'inbound-pro'), self::$range); ?>'>
+                        <label title='<?php echo sprintf(__('CTA Conversion events generated by this post in the last %d days', 'inbound-pro'), self::$range); ?>'>
                             <a href="<?php the_permalink($id); ?>"><?php echo $post_title; ?></a>
                         </label>
                     </td>
@@ -628,6 +503,10 @@ if ( !class_exists('Inbound_CTA_Quick_View') ) {
             return count($result);
         }
 
+        /**
+         * @param $args
+         * @return int
+         */
         public static function get_visitors($args) {
             global $post;
 
