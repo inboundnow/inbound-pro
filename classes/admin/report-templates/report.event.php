@@ -69,7 +69,8 @@ if (!class_exists('Inbound_Event_Report')) {
             <aside class="profile-card">
 
                 <header>
-                    <?php 
+
+                    <?php
                     if($_REQUEST['event_name'] === 'inbound_cta_click'){
                         /* if the event is inbound_cta_click and we're not looking for a specific post, echo out a simple centered title */
                         echo '<h1 id="report-single-headline">' . stripslashes($report_headline) . '</h1>';
@@ -261,20 +262,20 @@ if (!class_exists('Inbound_Event_Report')) {
                         <?php
                     }
                     ?>
-                    <?php
-                    if (self::$event_name == 'inbound_cta_click' && !isset($_REQUEST['page_id'])) {
+                     <?php
+                    if (self::$event_name == 'sparkpost_open') {
                         ?>
                         <th scope="col" class="">
-                            <span><?php _e('Origin Post' , 'inbound-pro'); ?></span>
+                            <span><?php _e('Email' , 'inbound-pro'); ?></span>
                         </th>
                         <?php
                     }
                     ?>
                     <?php
-                    if (self::$event_name != 'inbound_direct_message') {
+                    if (self::$event_name == 'inbound_cta_click' && !isset($_REQUEST['page_id'])) {
                         ?>
                         <th scope="col" class="">
-                            <span><?php _e('Funnel Details' , 'inbound-pro'); ?></span>
+                            <span><?php _e('Origin Post' , 'inbound-pro'); ?></span>
                         </th>
                         <?php
                     }
@@ -342,10 +343,14 @@ if (!class_exists('Inbound_Event_Report')) {
                             <div class="hoverme">
                                 <a href="" target="_self">
                                 <i class="fa fa-comments inbound-tooltip" aria-hidden="true"> </i>
+
                                 </a>
                                 <?php
+
+
                                     self::print_direct_message_popup($event);
                                 ?>
+
                             </div>
                         </div>
 
@@ -384,6 +389,19 @@ if (!class_exists('Inbound_Event_Report')) {
                         </td>
                         <?php
                     }
+
+
+
+
+
+
+
+
+
+
+
+
+
                     ?>
                     <?php
                     if (self::$event_name == 'inbound_cta_click' && !isset($_REQUEST['page_id'])) {
@@ -391,7 +409,11 @@ if (!class_exists('Inbound_Event_Report')) {
                         <td class="" >
                         <div id="wrapper">
                             <div class="hoverme">
+
+
+
                                 <?php
+
                                 $page_title = get_the_title($event['page_id']);
                                 if(!empty($page_title)){
                                     echo '<a href="' . get_the_permalink($event['page_id']) . '">'. $page_title .'</a>';
@@ -478,6 +500,15 @@ if (!class_exists('Inbound_Event_Report')) {
                         <?php
                     }
                     ?>
+                     <?php
+                    if (self::$event_name == 'sparkpost_open') {
+                        ?>
+                        <th scope="col" class="">
+                            <span><?php _e('Email' , 'inbound-pro'); ?></span>
+                        </th>
+                        <?php
+                    }
+                    ?>
                     <?php
                     if (self::$event_name == 'inbound_cta_click' && !isset($_REQUEST['page_id'])) {
                         ?>
@@ -492,6 +523,7 @@ if (!class_exists('Inbound_Event_Report')) {
                         ?>
                         <th scope="col" class="">
                             <span><?php _e('Funnel Details' , 'inbound-pro'); ?></span>
+
                         </th>
                         <?php
                     }
@@ -1208,5 +1240,3 @@ if (!class_exists('Inbound_Event_Report')) {
     new Inbound_Event_Report;
 
 }
-
-
