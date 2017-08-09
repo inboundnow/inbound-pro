@@ -172,7 +172,7 @@ class Landing_Pages_Post_Type {
             "cb" => "<input type=\"checkbox\" />",
             "thumbnail-lander" => __("Preview", 'inbound-pro'),
             "title" => __("Landing Page Title", 'inbound-pro'),
-            "stats" => __("Variation Testing Stats", 'inbound-pro'),
+            "stats" => __("Split Testing Results", 'inbound-pro'),
             "impressions" => __("Total<br>Visits", 'inbound-pro'),
             "actions" => __("Total<br>Conversions", 'inbound-pro'),
             "cr" => __("Total<br>Conversion Rate", 'inbound-pro')
