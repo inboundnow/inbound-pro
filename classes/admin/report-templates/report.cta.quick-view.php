@@ -703,15 +703,15 @@ if ( !class_exists('Inbound_CTA_Quick_View') ) {
             /** get the cta click events between two given dates **/
             $current_range = new DateTime(date_i18n('Y-m-d G:i:s T'));
             $params['end_date'] = $current_range->format('Y-m-d G:i:s T');
-            $current_range->modify( ('-' . $range . 'days') );
+            $current_range->modify( ('-' . self::$range . 'days') );
             $params['start_date'] = $current_range->format('Y-m-d G:i:s T');
 
             $impressions['current'] = Inbound_Events::get_page_views_by('cta_id', $params);
 
             $past_range = new DateTime(date_i18n('Y-m-d G:i:s T'));
-            $past_range->modify( ('-' . $range . 'days') );
+            $past_range->modify( ('-' . self::$range . 'days') );
             $params['end_date'] = $past_range->format('Y-m-d G:i:s T');
-            $past_range->modify( ('-' . $range . 'days') );
+            $past_range->modify( ('-' . self::$range . 'days') );
             $params['start_date'] = $past_range->format('Y-m-d G:i:s T');      
             
             $impressions['past'] = Inbound_Events::get_page_views_by('cta_id', $params);
@@ -755,13 +755,7 @@ if ( !class_exists('Inbound_CTA_Quick_View') ) {
             $post_conversions = array();
             $params = array();            
             $params['cta_id'] = $post->ID;
-            
-            if(isset($_GET['range'])){
-                $range = sanitize_text_field($_GET['range']);
-            }else{
-                $range = 365;
-            }
-            
+
             /** get the cta click events between two given dates **/
             $current_range = new DateTime(date_i18n('Y-m-d G:i:s T'));
             $params['end_date'] = $current_range->format('Y-m-d G:i:s T');

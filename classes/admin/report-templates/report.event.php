@@ -254,6 +254,16 @@ if (!class_exists('Inbound_Event_Report')) {
                     }
                     ?>
                     <?php
+                    if (self::$event_name != 'inbound_direct_message'){
+                        ?>
+                        <th scope="col" class="">
+                            <span><?php _e('Funnel Details' , 'inbound-pro'); ?></span>
+
+                        </th>
+                        <?php
+                    }
+                    ?>
+                    <?php
                     if (self::$event_name == 'sparkpost_click') {
                         ?>
                         <th scope="col" class="">
@@ -1121,7 +1131,7 @@ if (!class_exists('Inbound_Event_Report')) {
                     width:100%;
                     text-align:center;
                 }
-                
+
                 .direct-message-item-holder .path-left{
                     border: 1px solid #d2d2d2;
                     padding: 5px;
