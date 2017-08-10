@@ -57,7 +57,7 @@ class CTA_Ajax_Listeners {
 
 		foreach ($ctas as $cta) {
 			/* delete conversions */
-			Inbound_Events::delete_related_events( $cta->ID );
+			//Inbound_Events::delete_related_events( $cta->ID );
 
 			/* delete impressions */
 			$variations = CTA_Variations::get_variations( $cta->ID  );
@@ -75,7 +75,7 @@ class CTA_Ajax_Listeners {
 	*/
 	public static function clear_stats() {
 		$cta_id = intval($_POST['page_id']);
-		Inbound_Events::delete_related_events( $cta_id );
+		//Inbound_Events::delete_related_events( $cta_id );
 
 		/* delete impressions */
 		$variations = CTA_Variations::get_variations( $cta_id  );
@@ -92,7 +92,7 @@ class CTA_Ajax_Listeners {
 	public static function clear_variation_stats() {
 		$cta_id = intval($_POST['page_id']);
 		$vid = intval($_POST['variation']);
-		Inbound_Events::delete_related_events( $cta_id, $vid );
+		//Inbound_Events::delete_related_events( $cta_id, $vid );
 		CTA_Variations::set_impression_count($cta_id , $vid , 0);
 		header('HTTP/1.1 200 OK');
 		exit;
