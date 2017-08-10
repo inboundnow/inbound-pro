@@ -1601,14 +1601,9 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
             ?>
             <script>
-                /* prevent "Do you want to leave this page?" dialog */
-                jQuery(window).off('beforeunload');
-
                 /* on page load */
                 jQuery(document).ready(function () {
 
-                    /* disable post save navigation confrimation listener */
-                    jQuery(window).unbind('beforeunload');
 
                     /* Initialize CPT UI default changes */
                     Settings.init();
@@ -1701,6 +1696,12 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
 
                 });
+
+                /* prevent "Do you want to leave this page?" dialog */
+                window.setInterval(function() {
+                    jQuery(window).off('beforeunload');
+                    jQuery(window).unbind('beforeunload');
+                } , 3000 );
             </script>
 
             <?php
