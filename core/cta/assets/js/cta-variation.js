@@ -3,7 +3,7 @@
  *
  * @param JSON ctas : a json string of {'cta':'vid'}
  */
-function wp_cta_record_impressions(ctas) {
+function wp_cta_record_impressions(ctas , page_id) {
 
 	/* Add Impressions to loaded varations*/
 	jQuery.ajax({
@@ -11,7 +11,8 @@ function wp_cta_record_impressions(ctas) {
 		url: cta_variation.admin_url,
 		data: {
 			action: 'wp_cta_record_impressions',
-			cta_impressions: ctas
+			cta_impressions: ctas,
+			page_id: page_id,
 		},
 		success: function(user_id){
 			_inbound.deBugger( 'cta', 'CTA Impressions Recorded');
@@ -110,7 +111,7 @@ function wp_cta_load_variation( cta_id, vid ) {
 		_inbound.deBugger('WP CTA Load Object Updated:' + JSON.stringify(loaded_ctas));
 
 	}
-	/* if variation not set yet or sticky cta setting is off  */
+	/* if variation not set yet or sticky cta setting is on  */
 	else if ( (cta_id in loaded_ctas) && parseInt(cta_variation.sticky_cta) == 1 ) {
 		cta_impressions[cta_id] = loaded_ctas[cta_id];
 		_inbound.totalStorage('wp_cta_impressions', cta_impressions); // store cta data
@@ -165,7 +166,7 @@ jQuery(document).ready(function($) {
 
 		/* Record Impressions manually when page_tracking is off */
 		if (cta_variation.page_tracking == 'off' && inbound_settings.post_type != 'landing-page') {
-			wp_cta_record_impressions(ctas);
+			wp_cta_record_impressions(ctas , inbound_settings.post_id);
 		}
 
 	} , timeout );

@@ -986,10 +986,10 @@ if( !class_exists( 'Inbound_Search_And_Comment_Report' ) ){
             }
             
             /* build timespan for analytics report */
-            self::$range =  (!isset($_REQUEST['range'])) ? intval($_REQUEST['range']) : 30;
+            self::$range =  (!isset($_REQUEST['range'])) ? intval($_REQUEST['range']) : 10000;
             self::$page = (isset($_GET['page_number'])) ? (int) $_GET['page_number'] : 1;
             self::$limit = (isset($_GET['limit'])) ? (int) $_GET['limit'] : 50;
-            self::$offset = (self::$page>1) ? (int) self::$page * self::$limit  : self::$limit;
+            self::$offset = (self::$page>1) ? (int) self::$page * self::$limit : 0;
 
             $dates = Inbound_Reporting_Templates::prepare_range( self::$range );
             self::$start_date = $dates['start_date'];

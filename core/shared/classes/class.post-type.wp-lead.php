@@ -207,7 +207,8 @@ class Inbound_Leads {
 	 *  Displays the list id and double option status in the lead-tags WP List Table
 	 */
 	public static function support_lead_list_columns( $out, $column_name, $term_id ) {
-
+        global $inbound_settings;
+        
 		switch($column_name){
 			case 'lead_id':
 				echo $term_id;

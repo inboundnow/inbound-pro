@@ -100,55 +100,55 @@ class Inbound_Reporting_Templates {
             if (isset($_REQUEST['range'])) {
                 ?>
                 <div class="tag tag-range">&nbsp;
-                    <?php echo intval($_REQUEST['range']) .' '. __( 'days' , 'inboud-pro'); ?> &nbsp; <i class="fa fa-calendar" aria-hidden="true"></i>
+                    <?php echo intval($_REQUEST['range']) .' '. __( 'days' , 'inbound-pro'); ?> &nbsp; <i class="fa fa-calendar" aria-hidden="true"></i>
                 </div>
                 <?php
             }
             if (isset($_REQUEST['page_id'])) {
                 ?>
-                <div class="tag"><span><?php _e('page id' , 'inbound-pro'); ?></span>
+                <div class="tag"><span><?php _e('Page Id' , 'inbound-pro'); ?></span>
                     <?php echo sanitize_text_field($_REQUEST['page_id']); ?> <i class="fa fa-tag" aria-hidden="true"></i>
                 </div>
                 <?php
             }
             if (isset($_REQUEST['lead_id']) && $_REQUEST['lead_id'] ) {
                 ?>
-                <div class="tag"><span><?php _e('lead id' , 'inbound-pro'); ?></span>
+                <div class="tag"><span><?php _e('Lead Id' , 'inbound-pro'); ?></span>
                     <?php echo intval($_REQUEST['lead_id']); ?> <i class="fa fa-tag" aria-hidden="true"></i>
                 </div>
                 <?php
             }
             if (isset($_REQUEST['lead_uid'])) {
                 ?>
-                <div class="tag"><span><?php _e('lead uid' , 'inbound-pro'); ?></span>
+                <div class="tag"><span><?php _e('Lead UID' , 'inbound-pro'); ?></span>
                     <?php echo sanitize_text_field($_REQUEST['lead_uid']); ?> <i class="fa fa-tag" aria-hidden="true"></i>
                 </div>
                 <?php
             }
             if (isset($_REQUEST['source'])) {
                 ?>
-                <div class="tag"><span><?php _e('source' , 'inbound-pro'); ?></span>
+                <div class="tag"><span><?php _e('Source' , 'inbound-pro'); ?></span>
                     <?php echo sanitize_text_field($_REQUEST['source']); ?> <i class="fa fa-tag" aria-hidden="true"></i>
                 </div>
                 <?php
             }
             if (isset($_REQUEST['event_name'])) {
                 ?>
-                <div class="tag"><span><?php _e('event' , 'inbound-pro'); ?></span>
-                    <?php echo sanitize_text_field($_REQUEST['event_name']); ?> <i class="fa fa-tag" aria-hidden="true"></i>
+                <div class="tag"><span><?php _e('Event' , 'inbound-pro'); ?></span>
+                    <?php echo Inbound_Events::get_event_label(sanitize_text_field($_REQUEST['event_name']), false); ?> <i class="fa fa-tag" aria-hidden="true"></i>
                 </div>
                 <?php
             }
             if (isset($_REQUEST['list_id'])) {
                 ?>
-                <div class="tag"><span><?php _e('list id' , 'inbound-pro'); ?></span>
+                <div class="tag"><span><?php _e('List Id' , 'inbound-pro'); ?></span>
                     <?php echo intval($_REQUEST['list_id']); ?> <i class="fa fa-tag" aria-hidden="true"></i>
                 </div>
                 <?php
             }
             if (isset($_REQUEST['job_id']) && $_REQUEST['job_id'] ) {
                 ?>
-                <div class="tag"><span><?php _e('job id' , 'inbound-pro'); ?></span>
+                <div class="tag"><span><?php _e('Job Id' , 'inbound-pro'); ?></span>
                     <?php echo intval($_REQUEST['job_id']); ?> <i class="fa fa-tag" aria-hidden="true"></i>
                 </div>
                 <?php

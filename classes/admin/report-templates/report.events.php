@@ -20,6 +20,7 @@ if (!class_exists('Inbound_Events_Report')) {
         static $top_sources;
         static $start_date;
         static $end_date;
+        static $exclude_events;
 
 
         /**
@@ -158,13 +159,19 @@ if (!class_exists('Inbound_Events_Report')) {
 
                     <?php
                         $i = 0;
-                        foreach(self::$event_names as $name) {
+                        foreach(self::$event_names as $event) {
+                            /* account for events related to CTA conversion */
+                            if (isset($_REQUEST['cta_id'])) {
+                                if ($event['event_name'] != 'inbound_cta_click' && !strstr($event['event_name'] , 'form_submission')) {
+                                    continue;
+                                }
+                            }
                             ?>{
-                                name:'<?php echo Inbound_Events::get_event_label( $name['event_name'] , true)  ?>',
+                                name:'<?php echo Inbound_Events::get_event_label( $event['event_name'] , true)  ?>',
                                 type:'line',/*55ddff , 55ff77*/
                                 itemStyle: {normal: {color:'#55ddff', label:{show:false}}},
                                 areaStyle: {normal: {color:'#55ddff', label:{show:true}}},
-                                data:<?php echo json_encode(self::$graph_data[$name['event_name']]['actions']); ?>
+                                data:<?php echo json_encode(self::$graph_data[$event['event_name']]['actions']); ?>
                             }
                             <?php
                             echo (isset(self::$event_names[$i+1])) ? ',' : '';
@@ -946,6 +953,7 @@ if (!class_exists('Inbound_Events_Report')) {
             self::$start_date = $dates['start_date'];
             self::$end_date = $dates['end_date'];
             self::$show_graph = (isset($_REQUEST['show_graph'])) ? $_REQUEST['show_graph'] : true;
+            self::$exclude_events = (isset($_REQUEST['exclude_events'])) ? $_REQUEST['exclude_events'] : false;
 
             /* get all events - group by lead_uid */
             $params = array(
@@ -953,10 +961,12 @@ if (!class_exists('Inbound_Events_Report')) {
                 'page_id' => (isset($_REQUEST['page_id'])) ? intval($_REQUEST['page_id']) : '',
                 'lead_id' => (isset($_REQUEST['lead_id'])) ? intval($_REQUEST['lead_id']) : '',
                 'list_id' => (isset($_REQUEST['list_id'])) ? intval($_REQUEST['list_id']) : '',
+                'cta_id' => (isset($_REQUEST['cta_id'])) ? intval($_REQUEST['cta_id']) : '',
                 'source' => (isset($_REQUEST['source']) ) ? sanitize_text_field(urldecode($_REQUEST['source'])) : '' ,
                 'start_date' => self::$start_date,
                 'end_date' => self::$end_date,
                 'group_by' => (isset($_REQUEST['group_by'])) ? intval($_REQUEST['group_by']) : '',
+                'exclude_events' => self::$exclude_events
             );
 
             self::$events = Inbound_Events::get_events($params);
@@ -972,20 +982,29 @@ if (!class_exists('Inbound_Events_Report')) {
 
             self::$event_names = Inbound_Events::get_event_names( $args );
 
-            foreach(self::$event_names as $name) {
+            foreach(self::$event_names as $event) {
+
+                /* account for events related to CTA conversion */
+                if (isset($_REQUEST['cta_id'])) {
+                    if ($event['event_name'] != 'inbound_cta_click' && !strstr($event['event_name'] , 'form_submission')) {
+                        continue;
+                    }
+                }
+
                 /* get action counts */
                 $params = array(
                     'page_id' => (isset($_REQUEST['page_id'])) ? intval($_REQUEST['page_id']) : '',
                     'lead_id' => (isset($_REQUEST['lead_id'])) ? intval($_REQUEST['lead_id']) : '',
                     'list_id' => (isset($_REQUEST['list_id'])) ? intval($_REQUEST['list_id']) : '',
+                    'cta_id' => (isset($_REQUEST['cta_id'])) ? intval($_REQUEST['cta_id']) : '',
                     'source' => (isset($_REQUEST['source']) ) ? sanitize_text_field(urldecode($_REQUEST['source'])) : '' ,
                     'start_date' => self::$start_date,
                     'end_date' => self::$end_date,
-                    'event_name' => $name['event_name']
+                    'event_name' => $event['event_name']
                 );
-                self::$graph_data[$name['event_name']] = Inbound_Events::get_events_by_dates($params);
-                self::$graph_data[$name['event_name']] = self::prepare_chart_data( self::$start_date , self::$end_date , $name['event_name']);
-                self::$graph_data['dates'] = self::$graph_data[$name['event_name']]['dates'];
+                self::$graph_data[$event['event_name']] = Inbound_Events::get_events_by_dates($params);
+                self::$graph_data[$event['event_name']] = self::prepare_chart_data( self::$start_date , self::$end_date , $event['event_name']);
+                self::$graph_data['dates'] = self::$graph_data[$event['event_name']]['dates'];
             }
 
 

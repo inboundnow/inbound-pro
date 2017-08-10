@@ -11,6 +11,8 @@ if (!class_exists('Inbound_Visitors_Report')) {
     class Inbound_Visitors_Report extends Inbound_Reporting_Templates {
 
         static $range;
+        static $obj_key;
+        static $obj_id;
         static $graph_data;
         static $visits;
         static $top_visitors;
@@ -24,12 +26,23 @@ if (!class_exists('Inbound_Visitors_Report')) {
         /**
          *  Create range static variable based on REQUEST data or set default to 30 days
          */
-        public static function define_range() {
+        public static function define_static_variables() {
             if (!isset($_REQUEST['range'])) {
                 self::$range = 30;
             } else {
                 self::$range = intval($_REQUEST['range']);
             }
+
+            /* get target object */
+            self::$obj_key =  (isset($_GET['obj_key'])) ? sanitize_text_field($_GET['obj_key']) : 'page_id';
+            self::$obj_id =  (isset($_GET[self::$obj_key])) ? (int) $_GET[self::$obj_key] : 0;
+
+
+            $dates = Inbound_Reporting_Templates::prepare_range( self::$range );
+            self::$start_date = $dates['start_date'];
+            self::$end_date = $dates['end_date'];
+            self::$past_start_date = $dates['past_start_date'];
+            self::$past_end_date = $dates['past_end_date'];
         }
 
         /**
@@ -54,8 +67,8 @@ if (!class_exists('Inbound_Visitors_Report')) {
          */
         public static function display_header() {
 
-            $title = get_the_title(sanitize_text_field($_REQUEST['page_id']));
-            $permalink = get_the_permalink(sanitize_text_field($_REQUEST['page_id']));
+            $title = get_the_title(self::$obj_id);
+            $permalink = get_the_permalink(self::$obj_id);
             $default_gravatar = INBOUND_PRO_URLPATH . 'assets/images/gravatar-unknown.png';
 
             ?>
@@ -223,7 +236,7 @@ if (!class_exists('Inbound_Visitors_Report')) {
                                     <a href="<?php echo admin_url('index.php?action=inbound_generate_report&class=Inbound_Visitor_Report&'
                                                                     .($lead_exists ? 'lead_uid='. $event['lead_uid'] : 'lead_uid='.$event['lead_uid'] )
                                                                     .(isset($_REQUEST['source']) ? '&source='. urlencode(sanitize_text_field($_REQUEST['source'])) : '' )
-                                                                    . '&page_id='.sanitize_text_field($_REQUEST['page_id'])
+                                                                    . '&'.self::$obj_key.'='.self::$obj_id
                                                                     .'&range='.self::$range.'&tb_hide_nav=true&TB_iframe=true&width=1503&height=400'); ?>" target="_self">
                                         <?php echo $event['count']; ?>
                                     </a>
@@ -284,7 +297,7 @@ if (!class_exists('Inbound_Visitors_Report')) {
                                     ?>
                                 </td>
                                 <td class="" >
-                                    <a target="_self" href="<?php echo admin_url('index.php?action=inbound_generate_report&page_id='.sanitize_text_field($_REQUEST['page_id']).'&source='.urlencode($event['source']).'&class=Inbound_Visitors_Report&range='.self::$range.'&tb_hide_nav=true'); ?>" class="">
+                                    <a target="_self" href="<?php echo admin_url('index.php?action=inbound_generate_report&'.self::$obj_key.'='.self::$obj_id.'&source='.urlencode($event['source']).'&class=Inbound_Visitors_Report&range='.self::$range.'&tb_hide_nav=true'); ?>" class="">
                                         <?php echo $event['visitors']; ?>
                                     </a>
                                 </td>
@@ -390,7 +403,7 @@ if (!class_exists('Inbound_Visitors_Report')) {
                             ?>
                         </td>                        
                         <td class="" >
-                            <a href="<?php echo admin_url('index.php?action=inbound_generate_report&class=Inbound_Visitor_Event_Report&'.($lead_exists ? 'lead_uid=' . $event['lead_uid'] : 'lead_uid='.$event['lead_uid'] ) . '&page_id='.sanitize_text_field($_REQUEST['page_id']).'&range='.self::$range.'&tb_hide_nav=true&TB_iframe=true&width=1503&height=400'); ?>" target="_self">
+                            <a href="<?php echo admin_url('index.php?action=inbound_generate_report&class=Inbound_Visitor_Event_Report&'.($lead_exists ? 'lead_uid=' . $event['lead_uid'] : 'lead_uid='.$event['lead_uid'] ) . '&'.self::$obj_key.'='.self::$obj_id.'&range='.self::$range.'&tb_hide_nav=true&TB_iframe=true&width=1503&height=400'); ?>" target="_self">
                                 <?php echo $event['count']; ?>
                             </a>
                         </td>
@@ -753,17 +766,11 @@ if (!class_exists('Inbound_Visitors_Report')) {
          */
         public static function load_data() {
             /* build timespan for analytics report */
-            self::define_range();
-
-            $dates = Inbound_Reporting_Templates::prepare_range( self::$range );
-            self::$start_date = $dates['start_date'];
-            self::$end_date = $dates['end_date'];
-            self::$past_start_date = $dates['past_start_date'];
-            self::$past_end_date = $dates['past_end_date'];
+            self::define_static_variables();
 
             /* get daily visitor counts - group by lead_uid */
             $params = array(
-                'page_id' => sanitize_text_field($_REQUEST['page_id']),
+                self::$obj_key => self::$obj_id,
                 'source' => (isset($_REQUEST['source']) ) ? sanitize_text_field(urldecode($_REQUEST['source'])) : '' ,
                 'start_date' => self::$start_date,
                 'end_date' => self::$end_date
@@ -772,7 +779,7 @@ if (!class_exists('Inbound_Visitors_Report')) {
 
             /* get daily visitor counts - group by lead_uid */
             $params = array(
-                'page_id' => sanitize_text_field($_REQUEST['page_id']),
+                self::$obj_key => self::$obj_id,
                 'source' => (isset($_REQUEST['source']) ) ? sanitize_text_field(urldecode($_REQUEST['source'])) : '' ,
                 'start_date' => self::$past_start_date,
                 'end_date' => self::$past_end_date
@@ -781,7 +788,7 @@ if (!class_exists('Inbound_Visitors_Report')) {
 
             /* get all visitors - group by lead_uid */
             $params = array(
-                'page_id' => sanitize_text_field($_REQUEST['page_id']),
+                self::$obj_key => self::$obj_id,
                 'source' => (isset($_REQUEST['source']) ) ? sanitize_text_field(urldecode($_REQUEST['source'])) : '' ,
                 'start_date' => self::$start_date,
                 'end_date' => self::$end_date
@@ -790,7 +797,7 @@ if (!class_exists('Inbound_Visitors_Report')) {
 
             /* get top 10 visitors */
             $params = array(
-                'page_id' => sanitize_text_field($_REQUEST['page_id']),
+                self::$obj_key => self::$obj_id,
                 'source' => (isset($_REQUEST['source']) ) ? sanitize_text_field(urldecode($_REQUEST['source'])) : '' ,
                 'start_date' => self::$start_date,
                 'end_date' => self::$end_date,
@@ -802,7 +809,7 @@ if (!class_exists('Inbound_Visitors_Report')) {
 
             /* get top 10 sources */
             $params = array(
-                'page_id' => sanitize_text_field($_REQUEST['page_id']),
+                self::$obj_key => self::$obj_id,
                 'source' => (isset($_REQUEST['source']) ) ? sanitize_text_field(urldecode($_REQUEST['source'])) : '' ,
                 'start_date' => self::$start_date,
                 'end_date' => self::$end_date,
