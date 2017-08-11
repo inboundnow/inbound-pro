@@ -49,7 +49,7 @@ class CTA_Conversion_Tracking {
 		}
 
 
-		$args = array(
+		$event = array(
 			'event_name' => 'inbound_cta_click',
 			'cta_id' => (isset($args['cta_id'])) ? $args['cta_id'] : 0,
 			'page_id' => (isset($args['page_id'])) ? $args['page_id'] : 0,
@@ -57,7 +57,10 @@ class CTA_Conversion_Tracking {
 		);
 
 		/* for events table tracking and other hooks */
-		Inbound_events::store_event($args);
+		Inbound_events::store_event($event);
+
+		/* increase split testing conversion */
+		self::record_conversion( $args['cta_id'] , $args['vid'] );
 
 	}
 
@@ -96,6 +99,7 @@ class CTA_Conversion_Tracking {
 	 * @param $args['vid']
 	 */
 	public static function store_as_conversion( $args ) {
+
 		if (!isset($args['id']) || !$args['id'] ) {
 			return;
 		}
