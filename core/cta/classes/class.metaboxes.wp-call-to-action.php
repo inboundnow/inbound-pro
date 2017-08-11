@@ -292,11 +292,15 @@ class CTA_Metaboxes {
 			$variation_notes = $CTA_Variations->get_variation_notes($post->ID, $vid);
 			$permalink = $CTA_Variations->get_variation_permalink($post->ID, $vid);
 
-			$impressions = $CTA_Variations->get_impressions($post->ID, $vid);
-			$conversions = $CTA_Variations->get_conversions($post->ID, $vid);
-			$conversion_rate = $CTA_Variations->get_conversion_rate($post->ID, $vid);
+			$impressions = get_post_meta($post->ID,'wp-cta-ab-variation-impressions-'.$vid, true); /* get impressions */
+			$conversions = get_post_meta($post->ID,'wp-cta-ab-variation-conversions-'.$vid, true);
+			$conversions = ($conversions) ? $conversions : 0;
 
-				?>
+			/* get conversion rate */
+			$conversion_rate = ($impressions != 0) ?  $conversions / $impressions : 0;
+			$conversion_rate = round($conversion_rate,2) * 100;
+
+			?>
 
 				<div id="wp-cta-variation-<?php echo $CTA_Variations->vid_to_letter($post->ID, $vid); ?>" class="cta-variation-row variation-<?php echo $status; ?>">
 

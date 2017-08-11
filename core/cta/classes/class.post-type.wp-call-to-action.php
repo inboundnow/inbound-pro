@@ -336,7 +336,9 @@ if ( !class_exists('CTA_Post_Type') ) {
 				{
 					$letter = $CTA_Variations->vid_to_letter( $post->ID, $vid ); /* convert to letter */
 					$vid_impressions = get_post_meta($post->ID,'wp-cta-ab-variation-impressions-'.$vid, true); /* get impressions */
-					$vid_conversions = $CTA_Variations->get_conversions($post->ID, $vid);
+					$vid_conversions = get_post_meta($post->ID,'wp-cta-ab-variation-conversions-'.$vid, true);
+					$vid_conversions = ($vid_conversions) ? $vid_conversions : 0;
+
 					$v_status = get_post_meta($post->ID,'cta_ab_variation_status_'.$vid, true); /* Current status */
 
 					if ($i === 0) { $v_status = $first_status; } /* get status of first */
