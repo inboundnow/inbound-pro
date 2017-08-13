@@ -365,6 +365,27 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
 			'readonly' => 0,
 			'disabled' => 0,
 		),
+		array (
+			'key' => 'field_56b91774c2c42sb98',
+			'label' => __('Hide \'Show this email in browser\' link','inbound-pro'),
+			'name' => 'hide_show_email_in_browser',
+			'type' => 'checkbox',
+			'instructions' => __('Hide/Reveal the link to the online version of the email.','inbound-pro'),
+			'required' => 0,
+			'conditional_logic' => 0,
+			'wrapper' => array (
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+			'choices' => array (
+				'hide' => 'hide',
+			),
+			'default_value' => array (
+			),
+			'layout' => 'vertical',
+			'toggle' => 0,
+		),
 	),
 	'location' => array (
 		array (

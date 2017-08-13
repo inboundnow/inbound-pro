@@ -18,6 +18,7 @@ $post_id = get_the_ID();
 $logo_url = get_field('logo_url', $post_id);
 $main_content = get_field('main_email_content', $post_id);
 $unsubscribe_link_text = get_field('unsubscribe_link_text', $post_id);
+$online_version_link = get_field('hide_show_email_in_browser', $post_id);
 $unsubscribe_link_text = ($unsubscribe_link_text) ? $unsubscribe_link_text : __('Unsubscribe','inbound-pro');
 
 /**
@@ -150,19 +151,22 @@ print_r($settings);exit;
 					</td>
 
 					<td height="70" class="view-in-browser" style="text-align:right;">
-						<p style="font-family: Arial, Helvetica, sans-serif; color: #555555; font-size: 10px; padding: 0; margin: 0;"><?php echo sprintf( __( 'Trouble viewing? Read this %sonline%s' , 'inbound-pro' ) , '<a href="'.get_permalink( $post_id ).'" style="color: #990000;" class="do-not-tracks">' , '</a>'); ?>.</p>
-					</td>
+						<?php
+						if (isset($online_version_link[0]) && $online_version_link[0] =='hide') {
+
+						} else {
+							?>
+							<p style="font-family: Arial, Helvetica, sans-serif; color: #555555; font-size: 10px; padding: 0; margin: 0;"><?php echo sprintf( __( 'Trouble viewing? Read this %sonline%s' , 'inbound-pro' ) , '<a href="'.get_permalink( $post_id ).'" style="color: #990000;" class="do-not-tracks">' , '</a>'); ?>.</p>
+							<?php
+						}
+						?>
+						</td>
 				</tr>
 			</table>
 
 			<table bgcolor="#fcfcfc" style="border: 1px solid #dddddd; line-height: 135%;" class="container" align="center" cellpadding="0" cellspacing="0">
 				<tr>
 					<td bgcolor="#fcfcfc" colspan="3" width="100%" height="10">&nbsp;</td>
-				</tr>
-				<tr>
-					<td width="30"></td>
-					<td></td>
-					<td width="30"></td>
 				</tr>
 				<tr>
 					<td colspan="3" height="15">&nbsp;</td>
@@ -176,6 +180,9 @@ print_r($settings);exit;
 				</tr>
 				<tr>
 					<td colspan="3" height="3">&nbsp;</td>
+				</tr>
+				<tr>
+					<td bgcolor="#fcfcfc" colspan="3" width="100%" height="10">&nbsp;</td>
 				</tr>
 			</table>
 
