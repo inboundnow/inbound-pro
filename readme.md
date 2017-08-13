@@ -88,7 +88,7 @@ This plugin ships assets with varying licensing policies. For assets considered 
 
 ### _IBN License_
 
-Structural property cannot be used distributed, or modified without a license issed from InboundWP LLC that delegates said permissions.
+Structural property cannot be used distributed, or modified without a license issued from InboundWP LLC that delegates the permission.
 
 
 ### Designation of Licenses
