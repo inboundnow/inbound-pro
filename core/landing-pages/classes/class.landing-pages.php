@@ -312,6 +312,17 @@ class Landing_Pages_Template_Switcher {
     }
 
     /**
+     * Utility method for loading popular 3rd party assets into Landing Page
+     */
+    public static function load_misc_plugin_support() {
+        /* WP Featherlight */
+        if (class_exists('WP_Featherlight_Scripts')) {
+            $wpfl = new WP_Featherlight_Scripts(plugin_dir_url( 'wp-featherlight' ) , '');
+            $wpfl->load_css();
+        }
+    }
+
+    /**
      * Remove all base css from the current active wordpress theme in landing pages
      * currently removes all css from wp_head and re-enqueues the admin bar css.
      */
