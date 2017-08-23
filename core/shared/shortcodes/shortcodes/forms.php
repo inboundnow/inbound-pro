@@ -739,12 +739,6 @@ if (!function_exists('inbound_form_get_data')) {
             $inbound_form_values .= ($send_email . $email_template_id . $custom_email_response . $custom_email_subject);
 
 
-            /*   update_post_meta( $post_ID, 'inbound_form_created_on', $page_id );
-                update_post_meta( $post_ID, 'inbound_shortcode', $shortcode );
-                update_post_meta( $post_ID, 'inbound_form_values', $form_values );
-                update_post_meta( $post_ID, 'inbound_form_field_count', $field_count );
-            */
-
             $output =  array('inbound_shortcode'=> $shortcode,
                 'field_count'=>$field_count,
                 'form_settings_data' => $form_settings_data,
