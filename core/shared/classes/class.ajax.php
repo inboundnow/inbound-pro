@@ -76,6 +76,10 @@ if (!class_exists('Inbound_Ajax')) {
 			/* record CTA impressions */
 			$cta_impressions = ( isset($_POST['cta_impressions']) ) ? json_decode(stripslashes($_POST['cta_impressions']),true) : array();
 
+			if (!is_array($cta_impressions)) {
+				error_log('Bad CTA Impression Object');
+				return;
+			}
 			foreach ( $cta_impressions as $cta_id => $vid ) {
 				$lead_data['cta_id'] = (int) $cta_id;
 				$lead_data['variation_id'] = (int) $vid;
