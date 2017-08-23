@@ -112,7 +112,7 @@ class Inbound_Translation_Updater {
                                 jQuery('#inbound_translation_notification').remove();
                             },
                             error: function (request, status, err) {
-                                alert(status);
+                                alert(err);
                             }
                         });
                     }
