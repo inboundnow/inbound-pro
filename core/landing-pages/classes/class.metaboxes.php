@@ -805,6 +805,7 @@ href='?post=<?php echo $post->ID; ?>&action=edit&action-variation-id=<?php echo 
 
             $cats = explode(',', $data['info']['category']);
             foreach ($cats as $key => $cat) {
+                $cat = (is_array($cat)) ? implode(',',$cat) : $cat;
                 $cat = ($cat) ? trim($cat) : '';
                 $cat = str_replace(' ', '-', $cat);
                 $cats[$key] = trim(strtolower($cat));
