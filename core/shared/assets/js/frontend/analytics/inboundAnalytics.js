@@ -130,6 +130,7 @@ var _inbound = (function(options) {
     return Analytics;
 
 })(_inboundOptions);
+
 /**
  * # Hooks & Filters
  *
@@ -535,6 +536,7 @@ var _inboundHooks = (function (_inbound) {
     return _inbound;
 
 })(_inbound || {});
+
 /**
  * # _inbound UTILS
  *
@@ -2132,6 +2134,7 @@ var InboundForms = (function(_inbound) {
             for (var input in inputsObject) {
                 var inputValue = inputsObject[input]['value'];
                 var inputType = inputsObject[input]['type'];
+                var inputName = inputsObject[input]['name'];
 
                 /* Add custom hook here to look for additional values */
                 if (typeof(inputValue) != "undefined" && inputValue != null && inputValue != "") {
@@ -2142,6 +2145,8 @@ var InboundForms = (function(_inbound) {
                     
                     // get the search input value
                     if(inputType == 'search'){
+                        searchQuery.push('search_text' + '|value|' + inputsObject[input]['value']);
+                    } else if (inputName == 's'){
                         searchQuery.push('search_text' + '|value|' + inputsObject[input]['value']);
                     }
                 }
@@ -3402,7 +3407,7 @@ var _inboundLeadsAPI = (function(_inbound) {
                 _inbound.LeadsAPI.setGlobalLeadData(leadData);
                 _inbound.deBugger('lead', 'Set Global Lead Data from Localstorage');
 
-                if (!leadDataExpire) { 
+                if (!leadDataExpire) {
                     _inbound.Utils.ajaxPost(inbound_settings.admin_url, data, success);
                     //console.log('Set Global Lead Data from Localstorage');
                      _inbound.deBugger('lead', 'localized data old. Pull new from DB');
