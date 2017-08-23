@@ -33,6 +33,7 @@ if (!function_exists('inbound_qtrans_disable')) {
 
 
 
+
 /**
  * Add namespaces for legacy classes to try and prevent fatals
  */
