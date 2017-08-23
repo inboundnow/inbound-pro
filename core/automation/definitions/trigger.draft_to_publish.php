@@ -26,7 +26,7 @@ if (!class_exists('Inbound_Automation_Trigger_Draft_To_Publish')) {
         public static function define_trigger($triggers) {
 
             /* Set & Extend Trigger Argument Filters */
-            $arguments = apply_filters('trigger/draft_to_publish/trigger_arguments/', array(
+            $arguments = apply_filters('trigger/'.self::$trigger.'/trigger_arguments/', array(
                 'post_object' => array(
                     'id' => 'post_object',
                     'label' => __('Post Object', 'inbound-pro'),
@@ -38,7 +38,7 @@ if (!class_exists('Inbound_Automation_Trigger_Draft_To_Publish')) {
 
             /* Set & Extend Action DB Lookup Filters */
             /* no db filters */
-            $db_lookup_filters = apply_filters('trigger/draft_to_publish/db_arguments', array());
+            $db_lookup_filters = apply_filters('trigger/'.self::$trigger.'/db_arguments', array());
 
             /* Set & Extend Available Actions */
             $actions = apply_filters('trigger/draft_to_publish/actions', array(
