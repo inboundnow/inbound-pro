@@ -2153,7 +2153,7 @@ var InboundForms = (function(_inbound) {
             }
             /* exit if there isn't a search query */
             if(!searchQuery[0]){
-                return;
+                _inbound.Forms.releaseFormSubmit(form);
             }
 
             var searchString = searchQuery.join('|field|');
