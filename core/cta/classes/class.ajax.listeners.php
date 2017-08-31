@@ -94,6 +94,7 @@ class CTA_Ajax_Listeners {
 		$vid = intval($_POST['variation']);
 		//Inbound_Events::delete_related_events( $cta_id, $vid );
 		CTA_Variations::set_impression_count($cta_id , $vid , 0);
+		CTA_Variations::set_conversion_count($cta_id , $vid , 0);
 		header('HTTP/1.1 200 OK');
 		exit;
 	}
@@ -105,7 +106,7 @@ class CTA_Ajax_Listeners {
 		global $wpdb; // this is how you get access to the database
 		global $user_ID;
 
-		if (!isset($_POST['ctas'])) {
+		if (!isset($_POST['cta_impressions'])) {
 			return;
 		}
 
@@ -116,7 +117,7 @@ class CTA_Ajax_Listeners {
 		}
 
 		/* run recoord impression routines */
-		foreach ( $_POST['ctas'] as $cta_id => $vid ) {
+		foreach ( $_POST['cta_impressions'] as $cta_id => $vid ) {
 			do_action('wp_cta_record_impression', array(
 				'page_id' =>(int) $_POST['page_id'],
 				'cta_id' =>(int) $cta_id,
