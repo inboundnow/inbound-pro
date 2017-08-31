@@ -328,7 +328,7 @@ class Inbound_Mailer_Tokens {
 
         $lead_id = null;
 
-        $params = shortcode_atts(array('default' => '', 'id' => '', 'lead_id' => null), $params);
+        $params = shortcode_atts(array('default' => '', 'id' => '','key' => '', 'lead_id' => null), $params);
 
         /* check to see if lead id is set as a REQUEST */
         if (isset($params['lead_id'])) {
@@ -343,6 +343,8 @@ class Inbound_Mailer_Tokens {
         if (!$lead_id) {
             return $params['default'];
         }
+
+        $params['key'] = (isset($params['key'])) ? $params['key']: $params['id'] ;
 
         /* get lead value */
         $value = Leads_Field_Map::get_field($lead_id, $params['id']);
