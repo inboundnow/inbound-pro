@@ -81,6 +81,7 @@ class CTA_Ajax_Listeners {
 		$variations = CTA_Variations::get_variations( $cta_id  );
 		foreach ($variations as $vid=> $variation){
 			CTA_Variations::set_impression_count($cta_id , $vid , 0);
+			CTA_Variations::set_conversion_count($cta_id , $vid , 0);
 		}
 		header('HTTP/1.1 200 OK');
 		exit;
