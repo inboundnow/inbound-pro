@@ -220,6 +220,20 @@ $colorpicker = get_field( 'colorpicker',$post->ID , false );
 				<?php echo $colorpicker; ?>
 			</td>
 		</tr>
+		<tr>
+			<td class="field-label">
+				Tracked link
+			</td>
+			<td class="field-value">
+				<?php
+				$link = "<a href='https://www.inboundnow.com' class='inbound-track-link'>Inbound Now Home</a>";
+
+				echo ''.htmlentities($link).'<br><br>';
+
+				echo Inbound_Tracking::prepare_tracked_links( $link );
+				?>
+			</td>
+		</tr>
 	</table>
 
 
