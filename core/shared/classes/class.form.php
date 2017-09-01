@@ -534,7 +534,9 @@ if (!class_exists('Inbound_Forms')) {
                 $form .= '<input type="hidden" name="page_id" value="' . (isset($post->ID) ? $post->ID : '0') . '">';
                 $form .= '<input type="hidden" name="inbound_furl" value="' . base64_encode(trim($redirect)) . '">';
                 $form .= '<input type="hidden" name="inbound_notify" value="' . base64_encode($notify) . '">';
-                $form .= '<input type="hidden" name="inbound_nonce" value="' . wp_create_nonce(SECURE_AUTH_KEY) . '">';
+                if (!defined('DISABLE_INBOUND_FORM_NONCE')) {
+                    $form .= '<input type="hidden" name="inbound_nonce" value="' . wp_create_nonce(SECURE_AUTH_KEY) . '">';
+                }
                 $form .= '<input type="hidden" class="inbound_params" name="inbound_params" value="">';
                 $form .= '</div>';
                 $form .= '</form>';
@@ -824,7 +826,9 @@ if (!class_exists('Inbound_Forms')) {
             }
 
             /* if POST does not contain correct nonce then bail */
-            check_ajax_referer( SECURE_AUTH_KEY , 'inbound_nonce' );
+            if (!defined('DISABLE_INBOUND_FORM_NONCE')) {
+                check_ajax_referer(SECURE_AUTH_KEY, 'inbound_nonce');
+            }
 
             $form_post_data = array();
             if (isset($_POST['phone_xoxo']) && $_POST['phone_xoxo'] != "") {
