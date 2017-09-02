@@ -144,7 +144,14 @@ class Inbound_API_Wrapper {
 		/* This call home gets a list of available downloads - We have minimum security because no sensitive information is revealed */
 		$response = wp_remote_get( self::$blog_uri );
 
+
 		/* unserialize response */
+		if (is_wp_error($response)) {
+			$error = $response->get_error_message();
+			echo $error;
+			return;
+		}
+
 		$xml = simplexml_load_string( $response['body'] , null  , LIBXML_NOCDATA );
 		$json = json_encode($xml);
 		self::$blogs = json_decode($json,TRUE);

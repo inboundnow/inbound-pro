@@ -478,6 +478,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
             /* determine if inbound_track_lead action will be available for use */
             $inbound_settings['inbound-analytics-rules'] = ( isset( $inbound_settings['inbound-analytics-rules']) ) ? $inbound_settings['inbound-analytics-rules'] : array();
             $page_tracking = ( isset( $inbound_settings['inbound-analytics-rules']['page-tracking']) ) ? $inbound_settings['inbound-analytics-rules']['page-tracking'] : 'on';
+            $page_tracking = ( class_exists('Inbound_Pro_Leads') ) ? $page_tracking : 'off';
 
             /* cta preview mode uses shortcodes that call this manually */
             if (isset($post) && $post->post_type == 'wp-call-to-action' ) {

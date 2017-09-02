@@ -130,6 +130,7 @@ var _inbound = (function(options) {
     return Analytics;
 
 })(_inboundOptions);
+
 /**
  * # Hooks & Filters
  *
@@ -535,6 +536,7 @@ var _inboundHooks = (function (_inbound) {
     return _inbound;
 
 })(_inbound || {});
+
 /**
  * # _inbound UTILS
  *
@@ -2132,6 +2134,7 @@ var InboundForms = (function(_inbound) {
             for (var input in inputsObject) {
                 var inputValue = inputsObject[input]['value'];
                 var inputType = inputsObject[input]['type'];
+                var inputName = inputsObject[input]['name'];
 
                 /* Add custom hook here to look for additional values */
                 if (typeof(inputValue) != "undefined" && inputValue != null && inputValue != "") {
@@ -2143,12 +2146,14 @@ var InboundForms = (function(_inbound) {
                     // get the search input value
                     if(inputType == 'search'){
                         searchQuery.push('search_text' + '|value|' + inputsObject[input]['value']);
+                    } else if (inputName == 's'){
+                        searchQuery.push('search_text' + '|value|' + inputsObject[input]['value']);
                     }
                 }
             }
             /* exit if there isn't a search query */
             if(!searchQuery[0]){
-                return;
+                _inbound.Forms.releaseFormSubmit(form);
             }
 
             var searchString = searchQuery.join('|field|');
@@ -3402,7 +3407,7 @@ var _inboundLeadsAPI = (function(_inbound) {
                 _inbound.LeadsAPI.setGlobalLeadData(leadData);
                 _inbound.deBugger('lead', 'Set Global Lead Data from Localstorage');
 
-                if (!leadDataExpire) { 
+                if (!leadDataExpire) {
                     _inbound.Utils.ajaxPost(inbound_settings.admin_url, data, success);
                     //console.log('Set Global Lead Data from Localstorage');
                      _inbound.deBugger('lead', 'localized data old. Pull new from DB');
@@ -3734,9 +3739,15 @@ var _inboundPageTracking = (function(_inbound) {
 
             _inbound.totalStorage(lsType, Pages);
 
-            this.storePageView();
-
-        },
+            /* Let's try and fire this last - also defines what constitutes a bounce -  */
+            var stored = false;
+            document.onreadystatechange = function () {
+                if (document.readyState !== 'loading' && stored === false) {
+                    _inbound.PageTracking.storePageView();
+                }
+            }
+        }
+        ,
         CheckTimeOut: function() {
 
             var pageRevisit = this.isRevisit(Pages),
@@ -3768,51 +3779,45 @@ var _inboundPageTracking = (function(_inbound) {
             _inbound.deBugger('pages', status);
         },
         storePageView: function() {
-            var stored = false;
 
             /* ignore if page tracking off and page is not a landing page */
             if ( inbound_settings.page_tracking == 'off' && inbound_settings.post_type != 'landing-page' ) {
                 return;
             }
 
-            /* Let's try and fire this last - also defines what constitutes a bounce -  */
-            document.onreadystatechange = function(){
+            setTimeout(function(){
+                var leadID = ( _inbound.Utils.readCookie('wp_lead_id') ) ? _inbound.Utils.readCookie('wp_lead_id') : '';
+                var lead_uid = ( _inbound.Utils.readCookie('wp_lead_uid') ) ? _inbound.Utils.readCookie('wp_lead_uid') : '';
+                var ctas_loaded = _inbound.totalStorage('wp_cta_loaded');
+                var ctas_impressions = _inbound.totalStorage('wp_cta_impressions');
+                stored = true;
 
-                if(document.readyState !== 'loading' && stored === false){
-                    setTimeout(function(){
-                        var leadID = ( _inbound.Utils.readCookie('wp_lead_id') ) ? _inbound.Utils.readCookie('wp_lead_id') : '';
-                        var lead_uid = ( _inbound.Utils.readCookie('wp_lead_uid') ) ? _inbound.Utils.readCookie('wp_lead_uid') : '';
-                        var ctas_loaded = _inbound.totalStorage('wp_cta_loaded');
-                        var ctas_impressions = _inbound.totalStorage('wp_cta_impressions');
-                        stored = true;
+                /* now reset impressions */
+                _inbound.totalStorage('wp_cta_impressions' , {} );
 
-                        /* now reset impressions */
-                        _inbound.totalStorage('wp_cta_impressions' , {} );
+                var data = {
+                    action: 'inbound_track_lead',
+                    wp_lead_uid: lead_uid,
+                    wp_lead_id: leadID,
+                    page_id: inbound_settings.post_id,
+                    variation_id: inbound_settings.variation_id,
+                    post_type: inbound_settings.post_type,
+                    current_url: window.location.href,
+                    page_views: JSON.stringify(_inbound.PageTracking.getPageViews()),
+                    cta_impressions : JSON.stringify(ctas_impressions),
+                    cta_history : JSON.stringify(ctas_loaded),
+                    json: '0'
+                };
 
-                        var data = {
-                            action: 'inbound_track_lead',
-                            wp_lead_uid: lead_uid,
-                            wp_lead_id: leadID,
-                            page_id: inbound_settings.post_id,
-                            variation_id: inbound_settings.variation_id,
-                            post_type: inbound_settings.post_type,
-                            current_url: window.location.href,
-                            page_views: JSON.stringify(_inbound.PageTracking.getPageViews()),
-                            cta_impressions : JSON.stringify(ctas_impressions),
-                            cta_history : JSON.stringify(ctas_loaded),
-                            json: '0'
-                        };
+                var firePageCallback = function(leadID) {
+                    //_inbound.Events.page_view_saved(leadID);
+                };
+                //_inbound.Utils.doAjax(data, firePageCallback);
 
-                        var firePageCallback = function(leadID) {
-                            //_inbound.Events.page_view_saved(leadID);
-                        };
-                        //_inbound.Utils.doAjax(data, firePageCallback);
+                _inbound.Utils.ajaxPost(inbound_settings.admin_url, data, firePageCallback);
 
-                        _inbound.Utils.ajaxPost(inbound_settings.admin_url, data, firePageCallback);
+            } , 200 );
 
-                    } , 200 );
-                }
-            }
         }
         /*! GA functions
         function log_event(category, action, label) {

@@ -65,7 +65,7 @@
 if ( !defined('INBOUND_DISABLE_COLUMN_SHORTCODES') ) {
 
 	/* Columns Wrap */
-	if (!function_exists('inbound_shortcode_columns') || !is_defined('INBOUND_DISABLE_COLUMN_SHORTCODES') ) {
+	if (!function_exists('inbound_shortcode_columns')  && !shortcode_exists('columns') ) {
 		function inbound_shortcode_columns( $atts, $content = null ) {
 			extract(shortcode_atts(array(
 				'gutter' => '20'
@@ -84,7 +84,7 @@ if ( !defined('INBOUND_DISABLE_COLUMN_SHORTCODES') ) {
 	
 
 	/* Full column */
-	if (!function_exists('inbound_shortcode_full_columns') ) {
+	if (!function_exists('inbound_shortcode_full_columns') && !shortcode_exists('one_full') ) {
 		function inbound_shortcode_full_columns( $atts, $content = null ) {
 			$content = preg_replace('/<br class="inbr".\/>/', '', $content); // remove editor br tags
 			return '<div class="inbound-grid full">' . do_shortcode($content) . '</div>';
@@ -93,7 +93,7 @@ if ( !defined('INBOUND_DISABLE_COLUMN_SHORTCODES') ) {
 	}
 
 	/* One Half */
-	if (!function_exists('inbound_shortcode_one_half_columns')) {
+	if (!function_exists('inbound_shortcode_one_half_columns') && !shortcode_exists('one_half')) {
 		function inbound_shortcode_one_half_columns( $atts, $content = null ) {
 			$content = preg_replace('/<br class="inbr".\/>/', '', $content); // remove editor br tags
 			return '<div class="inbound-grid one-half">' . do_shortcode($content) . '</div>';
@@ -103,13 +103,14 @@ if ( !defined('INBOUND_DISABLE_COLUMN_SHORTCODES') ) {
 	
 
 	/* One Third */
-	if (!function_exists('inbound_shortcode_one_third_columns')) {
+	if (!function_exists('inbound_shortcode_one_third_columns') && !shortcode_exists('one_third') ) {
 		function inbound_shortcode_one_third_columns( $atts, $content = null ) {
 			$content = preg_replace('/<br class="inbr".\/>/', '', $content); // remove editor br tags
 			return '<div class="inbound-grid one-third">' . do_shortcode($content) . '</div>';
 		}
+		add_shortcode('one_third', 'inbound_shortcode_one_third_columns');
 	}
-	add_shortcode('one_third', 'inbound_shortcode_one_third_columns');
+
 
 	/* Two Third */
 	if (!function_exists('inbound_shortcode_two_third_columns')) {

@@ -317,7 +317,7 @@ if (!class_exists('Inbound_Automation_Loader')) {
                             $evals[] = self::evaluate_trigger_filter($filter, $target_argument);
                         }
 
-                        /* Check Evalaution Nature for Final Decision */
+                        /* Check Evaluation Nature for Final Decision */
                         $evaluate = self::evaluate_arguments(self::$rule['trigger_filters_evaluate'], $evals);
                     }
 

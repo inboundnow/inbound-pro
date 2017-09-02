@@ -220,8 +220,8 @@ gulp.task("generateDocs-inboundAnalytics", function() {
 gulp.task('inboundAnalytics', gulp.series(
     'lint-inboundAnalytics',
     'clean-inboundAnalytics',
-    'compile-inboundAnalytics',
-    'generateDocs-inboundAnalytics'
+    'compile-inboundAnalytics'//,
+    //'generateDocs-inboundAnalytics'
 ));
 
 

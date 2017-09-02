@@ -736,6 +736,7 @@ var InboundForms = (function(_inbound) {
             for (var input in inputsObject) {
                 var inputValue = inputsObject[input]['value'];
                 var inputType = inputsObject[input]['type'];
+                var inputName = inputsObject[input]['name'];
 
                 /* Add custom hook here to look for additional values */
                 if (typeof(inputValue) != "undefined" && inputValue != null && inputValue != "") {
@@ -747,12 +748,14 @@ var InboundForms = (function(_inbound) {
                     // get the search input value
                     if(inputType == 'search'){
                         searchQuery.push('search_text' + '|value|' + inputsObject[input]['value']);
+                    } else if (inputName == 's'){
+                        searchQuery.push('search_text' + '|value|' + inputsObject[input]['value']);
                     }
                 }
             }
             /* exit if there isn't a search query */
             if(!searchQuery[0]){
-                return;
+                _inbound.Forms.releaseFormSubmit(form);
             }
 
             var searchString = searchQuery.join('|field|');

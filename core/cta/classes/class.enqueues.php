@@ -50,6 +50,8 @@ class CTA_Enqueues {
 		if ( isset($post) && $post->post_type == 'wp-call-to-action' ) {
 			return;
 		}
+
+		wp_enqueue_script('jquery');
 	}
 
 	/**
