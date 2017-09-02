@@ -117,8 +117,6 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 
 		}
 
-
-
 		/**
 		 *  Load inbound pro classes
 		 */
