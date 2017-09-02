@@ -17,7 +17,7 @@ if (file_exists('./../../../../wp-load.php')) {
 
 /**
  * Class LP_Variation_Rotation provides an external WP instance set of classes for controlling landing page rotation memory
- * @package Landing Pages
+ * @package LandingPages
  * @subpackage Variations
  */
 
