@@ -1,12 +1,12 @@
 <?php
 
 /**
-*  Class addsa impressions/conversions counter box to all post types that are not a landing page. This feature is disabled for Inbound Pro users.
+*  Class contains methods related to split testing statistics
  * @package LandingPages
  * @subpackage Tracking
  */
 
-class Landing_Pages_Stats {
+class Landing_Pages_Split_Testing_Stats {
 
     /**
     *  Initiate class
@@ -20,10 +20,13 @@ class Landing_Pages_Stats {
     */
     public static function load_hooks() {
 
-        /* records page impression */
+        /* adds page impression to split testing statistics */
         add_action( 'lp_record_impression' , array( __CLASS__ , 'record_impression' ) , 10, 3);
 
-        /* record landing page conversion */
+        /* adds landing page conversion to split testing statistics */
+        add_action( 'inbound_track_link', array(__CLASS__, 'record_conversion'));
+
+        /* adds landing page conversion to split testing statistics */
         add_filter( 'inboundnow_store_lead_pre_filter_data' , array( __CLASS__ , 'record_conversion' ) ,10,1);
 
     }
@@ -55,25 +58,20 @@ class Landing_Pages_Stats {
         }
         /* If Non Landing Page Post Type */
         else {
-            $impressions = Landing_Pages_Stats::get_impressions_count( $post_id );
+            $impressions = Landing_Pages_Split_Testing_Stats::get_impressions_count( $post_id );
             $impressions++;
-            Landing_Pages_Stats::set_impressions_count( $post_id, $impressions );
+            Landing_Pages_Split_Testing_Stats::set_impressions_count( $post_id, $impressions );
         }
     }
 
     /**
-     * Listens for new lead creation events and if the lead converted on a landing page then capture the conversion
+     * Records lead creation events and link click events as split testing conversion
      * @param $data
      */
     public static function record_conversion($data) {
 
         if (!isset( $data['page_id'] ) ) {
             return $data;
-        }
-
-        $post = get_post( $data['page_id'] );
-        if ($post) {
-            $data['post_type'] = $post->post_type;
         }
 
         /* this filter is used by Inbound Pro to check if visitor's ip is on a not track list */
@@ -83,17 +81,22 @@ class Landing_Pages_Stats {
             return $data;
         }
 
-        /* increment conversions for landing pages */
-        if( isset($data['post_type']) && $data['post_type'] === 'landing-page' ) {
-            $conversions = Landing_Pages_Variations::get_conversions( $data['page_id'] , $data['variation'] );
+        $post_type = get_post_type($data['page_id']);
+        $data['vid'] = (isset($data['vid'])) ? $data['vid'] : 0;
+        $data['vid'] = (isset($data['variation'])) ? $data['variation'] : $data['vid'];
+
+        if (current_filter() == 'inbound_track_link' && $post_type != 'landing-page' ) {
+            return;
+        } else if ($post_type === 'landing-page' ) {
+            $conversions = Landing_Pages_Variations::get_conversions( $data['page_id'] , $data['vid'] );
             $conversions++;
-            Landing_Pages_Variations::set_conversions_count( $data['page_id'] , $data['variation'] , $conversions );
+            Landing_Pages_Variations::set_conversions_count( $data['page_id'] , $data['vid'] , $conversions );
         }
         /* increment conversions for non landing pages */
         else  {
-            $conversions = Landing_Pages_Stats::get_conversions_count( $data['page_id'] );
+            $conversions = Landing_Pages_Split_Testing_Stats::get_conversions_count( $data['page_id'] );
             $conversions++;
-            Landing_Pages_Stats::set_conversions_count( $data['page_id'] , $conversions );
+            Landing_Pages_Split_Testing_Stats::set_conversions_count( $data['page_id'] , $conversions );
         }
 
         return $data;
@@ -177,8 +180,8 @@ class Landing_Pages_Stats {
      */
     public static function get_conversion_rate( $post_id ) {
 
-        $impressions = Landing_Pages_Stats::get_impressions_count( $post_id );
-        $conversions = Landing_Pages_Stats::get_conversions_count( $post_id );
+        $impressions = Landing_Pages_Split_Testing_Stats::get_impressions_count( $post_id );
+        $conversions = Landing_Pages_Split_Testing_Stats::get_conversions_count( $post_id );
 
         if ($impressions > 0) {
             $conversion_rate = $conversions / $impressions;
@@ -210,4 +213,4 @@ class Landing_Pages_Stats {
 }
 
 
-new Landing_Pages_Stats;
+new Landing_Pages_Split_Testing_Stats;

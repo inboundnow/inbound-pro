@@ -18,7 +18,7 @@ Here are some various ways you can contribute:
 
 1. [Raise an Issue on GitHub](https://github.com/inboundnow/inbound-pro/issues) 
 2. [Translate Inbound Pro](https://www.inboundnow.com/translate-inbound-now/)
-3. [Contribute to Core Code](https://github.com/inbound-now/inbound-pro/blob/master/contributions.md)
+3. [Contribute to Core Code](https://github.com/inboundnow/inbound-pro/blob/master/contributions.md)
 4. [Provide feedback and suggestions](https://github.com/inboundnow/inbound-pro/issues?direction=desc&labels=Feature%20Request&page=1&sort=created&state=open)
 
 Please Note: Inbound Pro development occurs in `develop` branch. `master` branch holds the latest stable release.

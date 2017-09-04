@@ -72,7 +72,7 @@ if (!class_exists('Inbound_Landing_Pages_Plugin')) {
 					include_once( LANDINGPAGES_PATH . 'classes/class.template-management.php');
 					include_once( LANDINGPAGES_PATH . 'classes/class.wp-list-table.templates.php');
 					include_once( LANDINGPAGES_PATH . 'classes/class.admin-menus.php');
-					include_once( LANDINGPAGES_PATH . 'classes/class.statistics.php');
+					include_once( LANDINGPAGES_PATH . 'classes/class.split-testing-stats.php');
 					include_once( LANDINGPAGES_PATH . 'classes/class.admin-notices.php');
 					include_once( LANDINGPAGES_PATH . 'classes/class.row-actions.php');
 					include_once( LANDINGPAGES_PATH . 'classes/class.welcome.php');
@@ -96,7 +96,7 @@ if (!class_exists('Inbound_Landing_Pages_Plugin')) {
 					include_once( LANDINGPAGES_PATH . 'classes/class.variations.php');
 					include_once( LANDINGPAGES_PATH . 'classes/class.acf-integration.php');
 					include_once( LANDINGPAGES_PATH . 'classes/class.postmeta.php');
-					include_once( LANDINGPAGES_PATH . 'classes/class.statistics.php');
+					include_once( LANDINGPAGES_PATH . 'classes/class.split-testing-stats.php');
 					include_once( LANDINGPAGES_PATH . 'classes/class.post-type.landing-page.php');
 					include_once( LANDINGPAGES_PATH . 'modules/module.utils.php');
 					include_once( LANDINGPAGES_PATH . 'classes/class.sidebars.php');
