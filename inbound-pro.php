@@ -4,7 +4,7 @@ Plugin Name: Inbound Now PRO
 Plugin URI: http://www.inboundnow.com/
 Description: Professional Inbound Marketing Suite for WordPress
 Author: InboundWP LLC
-Version: 1.8.3.9.3
+Version: 1.8.3.9.4
 Author URI: http://www.inboundnow.com/
 Text Domain: inbound-pro
 Domain Path: /lang/
@@ -96,8 +96,8 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 		*/
 		private static function define_constants() {
 
-			define('INBOUND_PRO_CURRENT_VERSION', '1.8.3.9.3' );
-			define('INBOUND_PRO_STABLE_VERSION', '1.8.3.9.2' );
+			define('INBOUND_PRO_CURRENT_VERSION', '1.8.3.9.4' );
+			define('INBOUND_PRO_STABLE_VERSION', '1.8.3.9.4' );
 			define('INBOUND_PRO_TRANSLATIONS_VERSION', '1.30.14' );
 			define('INBOUND_PRO_URLPATH', plugin_dir_url( __FILE__ ));
 			define('INBOUND_PRO_PATH', plugin_dir_path( __FILE__ ) );
@@ -142,6 +142,9 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 			if (is_admin()) {
 				include_once(INBOUND_PRO_PATH . 'classes/admin/class.reporting.templates.php');
 			}
+
+			/* load templates and extensions */
+			include_once( INBOUND_PRO_PATH . 'classes/class.extension-loader.php');
 
 			/* load misc front & backend files */
 			include_once( INBOUND_PRO_PATH . 'classes/admin/class.lead-field-mapping.php');
