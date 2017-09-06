@@ -36,6 +36,7 @@ class Inbound_Extension_Loads {
         }
 
 		$configuration = Inbound_Options_API::get_option( 'inbound-pro' , 'configuration' , array() );
+
 		foreach( $configuration as $key => $extension){
 
 			if ( $extension['status'] != 'installed' || $extension['download_type'] != 'extension' || !isset($extension['filename']) ) {
