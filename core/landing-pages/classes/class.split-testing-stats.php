@@ -88,6 +88,7 @@ class Landing_Pages_Split_Testing_Stats {
         if (current_filter() == 'inbound_track_link' && $post_type != 'landing-page' ) {
             return;
         } else if ($post_type === 'landing-page' ) {
+            $data['vid'] = (isset($data['lp-variation-id'])) ? $data['lp-variation-id'] : $data['vid']; $data['vid'];
             $conversions = Landing_Pages_Variations::get_conversions( $data['page_id'] , $data['vid'] );
             $conversions++;
             Landing_Pages_Variations::set_conversions_count( $data['page_id'] , $data['vid'] , $conversions );
