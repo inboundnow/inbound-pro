@@ -105,7 +105,7 @@ class Inbound_Pro_Activation {
 		do_action( 'inbound_pro_activate' );
 
 		/* set inbound pro welcome page */
-		set_transient( '_inbound_pro_welcome', true, 30 );
+		set_transient( '_inbound_pro_welcome', true, 10 );
 
 		/* Disable Landing Page's Welcome Screen redirect */
 		delete_transient( '_landing_page_activation_redirect' );
