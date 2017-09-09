@@ -797,8 +797,7 @@ class Inbound_SparkPost_Stats {
                 $delete_count++;
             }
         }
-        echo $delete_count;
-        exit;
+
     }
 
     /**
