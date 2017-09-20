@@ -1,6 +1,6 @@
 # Inbound Pro Plugin by [Inbound Now](https://www.inboundnow.com)
 
-![Latest Release](https://img.shields.io/github/release/inbound-now/inbound-pro.svg?label=latest%20release)]() ![WordPress Compatibility](https://img.shields.io/wordpress/v/landing-pages.svg?maxAge=2592000) [![GitHub issues](https://img.shields.io/github/issues/inboundnow/inbound-pro.svg)](https://github.com/inboundnow/inbound-pro/issues)
+![WordPress Compatibility](https://img.shields.io/wordpress/v/landing-pages.svg?maxAge=2592000) [![GitHub issues](https://img.shields.io/github/issues/inboundnow/inbound-pro.svg)](https://github.com/inboundnow/inbound-pro/issues)
 
 ## Welcome to our Public Repository
 
