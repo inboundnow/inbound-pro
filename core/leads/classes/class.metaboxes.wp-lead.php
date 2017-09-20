@@ -970,12 +970,12 @@ class Inbound_Metaboxes_Leads {
      */
     public static function display_lead_activity() {
 
-        /* do not render legacy activity tab if Inbound Analytics is on and user is subscriber */
+        /* do not render legacy activity tab if Inbound Analytics is on and user is subscriber
         if (class_exists('Inbound_Analytics')) {
             if (INBOUND_ACCESS_LEVEL > 0 && INBOUND_ACCESS_LEVEL != 9 ) {
                 return;
             }
-        }
+        }*/
 
         echo '<div id="activity-data-display">';
         self::activity_navigation();
@@ -994,12 +994,12 @@ class Inbound_Metaboxes_Leads {
     public static function display_lead_conversion_paths() {
         global $post, $wpdb;
 
-        /* do not render legacy activity tab if Inbound Analytics is on and user is subscriber */
+        /* do not render legacy activity tab if Inbound Analytics is on and user is subscriber
         if (class_exists('Inbound_Analytics')) {
             if (INBOUND_ACCESS_LEVEL > 0 && INBOUND_ACCESS_LEVEL != 9 ) {
                 return;
             }
-        }
+        }*/
 
         self::get_conversions( $post->ID );
 

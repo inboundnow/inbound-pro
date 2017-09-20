@@ -396,7 +396,7 @@ if ( !class_exists('Inbound_CTA_Quick_View') ) {
                         <?php _e('Count', 'inbound-pro'); ?>
                     </td>
                     <td class='ia-td-th'>
-                        <?php _e('', 'inbound-pro'); ?>
+
                     </td>
                     <td class='ia-td-th'>
                         <?php _e('Change', 'inbound-pro'); ?>

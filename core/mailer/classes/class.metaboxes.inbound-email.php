@@ -2607,44 +2607,43 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             /* Update Settings */
             Inbound_Email_Meta::update_settings($_POST['post_ID'], $email_settings);
 
-            /* update slug */
+            /* prevent duplicate runs */
             remove_action('save_post', array(__CLASS__, 'action_save_data'));
-            wp_update_post(
-                array (
-                    'ID'        => $inbound_email_id,
-                    'post_name' => $_POST['post_name']
-                )
-            );
 
-            /* Perform scheduling */
+            /* Perform codnitional actions */
             Inbound_Mailer_Metaboxes::action_processing();
         }
 
         /**
-         *    Schedule email
+         * Run conditional actions
          */
         public static function action_processing() {
-
-            global $post;
-
-            if (!isset($post)) {
-                $post = get_post($_POST['post_ID']);
-            }
 
             switch ($_POST['email_action']) {
 
                 case 'trash':
-                    Inbound_Mailer_Scheduling::unschedule_email($post->ID);
+
+                    Inbound_Mailer_Scheduling::unschedule_email($_POST['post_ID']);
+                    wp_trash_post($_POST['post_ID']);
+
                     header('Location:' . admin_url('edit.php?post_type=inbound-email'));
                     exit;
                     break;
                 case 'trash-variation':
-                    Inbound_Mailer_Variations::delete_variation($post->ID , $_POST['inbvid']);
+                    Inbound_Mailer_Variations::delete_variation($_POST['post_ID'] , $_POST['inbvid']);
                     break;
                 case 'schedule':
                     //Inbound_Mailer_Scheduling::schedule_email($post->ID);
                     break;
-
+                default:
+                    /* update post name */
+                    wp_update_post(
+                        array (
+                            'ID'        => $_POST['post_ID'],
+                            'post_name' => $_POST['post_name']
+                        )
+                    );
+                    break;
 
             }
 

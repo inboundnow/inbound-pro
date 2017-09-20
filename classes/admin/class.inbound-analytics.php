@@ -31,7 +31,7 @@ class Inbound_Analytics {
         remove_action('init', 'inbound_load_legacy_statistics', 10);
 
         /* remove navigation tabs from lead profile */
-        add_filter('wpl_lead_tabs', array(__CLASS__, 'filter_profile_tabs'), 10, 1);
+        //add_filter('wpl_lead_tabs', array(__CLASS__, 'filter_profile_tabs'), 10, 1);
 
         /* Load Google Charting API & Inbound Analytics Styling CSS*/
         add_action('admin_enqueue_scripts', array(__CLASS__, 'load_scripts'));
