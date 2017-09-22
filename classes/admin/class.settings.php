@@ -570,7 +570,7 @@ class Inbound_Pro_Settings {
 
 		<h2>SparkPost for Email</h2>
 
-		<p>Inbound Pro's email component is currently provided by SparkPost. SparkPost provides it's users with 100,000 free sends a month and then an affordable rate their after. You can read more about SparkPost from their <a href="http://www.sparkpost.com" target="_blank">website</a>.</p>
+		<p>Inbound Pro's email component is currently provided by SparkPost. SparkPost provides it's users with 15,000 free sends a month and then an affordable rate their after. You can read more about SparkPost from their <a href="http://www.sparkpost.com" target="_blank">website</a>.</p>
 
 		<h2>Subscribers Only: One click extension/theme installations</h2>
 
