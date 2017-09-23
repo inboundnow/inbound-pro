@@ -52,7 +52,7 @@ class Inbound_Mailer_Notifications {
 
 
 	/**
-	 *  Checks to see if Mandril Key is inputed. If it's not then it throws the notice
+	 *  Checks to see if email service Key is inputed. If it's not then it throws the notice
 	 */
 	public static function prompt_key_notifications() {
 		global $post , $inbound_settings;
@@ -73,7 +73,14 @@ class Inbound_Mailer_Notifications {
 				}
 				?>
 				<div class="updated">
-					<p><?php _e( sprintf( 'Email requires a SparkPost API Key. Head to your %s to input your Mandrill API key.' , '<a href="'.$settings_url.'">'.__( 'settings page' , 'inbound-pro' ).'</a>') , 'inbound-email'); ?></p>
+					<p><?php _e( sprintf( 'Email requires a SparkPost API Key. Head to your %s to input your SparkPost API key.' , '<a href="'.$settings_url.'">'.__( 'settings page' , 'inbound-pro' ).'</a>') , 'inbound-email'); ?></p>
+				</div>
+				<?php
+				break;
+			default:
+				?>
+				<div class="updated">
+					<p><?php _e( sprintf( 'An email service is required to send emails. Head to your %s to select a mail service.' , '<a href="'.$settings_url.'">'.__( 'settings page' , 'inbound-pro' ).'</a>') , 'inbound-email'); ?></p>
 				</div>
 				<?php
 				break;
