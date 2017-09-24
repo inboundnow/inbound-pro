@@ -30,6 +30,11 @@ class Inbound_Template_Utils {
     }
 
     static function add_screen() {
+
+        if (!function_exists('acf_get_field_groups')) {
+            return;
+        }
+
         add_submenu_page(
             'edit.php?post_type=landing-page',
             __( 'Developer Tools' , 'inbound-pro' ),
@@ -144,10 +149,7 @@ class Inbound_Template_Utils {
         if(isset($_POST) && !empty($_POST)) {
             return;
         }
-        if (!function_exists('acf_get_field_groups')) {
-            echo self::$activate_msg;
-            exit;
-        }
+
         /* Todo intercept and update the special key here */
         //print_r($json); exit;
         ?>
