@@ -351,7 +351,7 @@ class Inbound_Mailer_Tokens {
 
         /* return lead field value if it exists */
         if ($value) {
-            return $value;
+            return (is_array($value)) ? implode(',' , $value ) : $value;
         } else {
             return $params['default'];
         }
