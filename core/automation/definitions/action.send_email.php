@@ -187,6 +187,7 @@ if ( !class_exists( 'Inbound_Automation_Action_Send_Email' ) ) {
 							'email_address' => $action['custom_email'],
 							'email_id' => $action['email_id'],
 							'vid' => $vid,
+							'lead_id' => isset($trigger_data['lead_data']['id']) ? $trigger_data['lead_data']['id'] : 0 ,
 							'tags' => array('automated'),
 							'rule_id' => $action['rule_id'],
 						    'job_id' => $action['job_id'],
