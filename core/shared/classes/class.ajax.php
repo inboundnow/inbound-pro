@@ -38,13 +38,13 @@ if (!class_exists('Inbound_Ajax')) {
 				return;
 			}
 
-			$lead_data['lead_id'] = (isset($_POST['wp_lead_id'])) ? $_POST['wp_lead_id'] : '';
-			$lead_data['nature'] = (isset($_POST['nature'])) ? $_POST['nature'] : 'non-conversion'; /* what is nature? */
+			$lead_data['lead_id'] = (isset($_POST['wp_lead_id'])) ? (int) $_POST['wp_lead_id'] : '';
+			$lead_data['nature'] = (isset($_POST['nature'])) ? sanitize_text_field($_POST['nature']) : 'non-conversion'; /* what is nature? */
 			$lead_data['json'] = (isset($_POST['json'])) ? addslashes($_POST['json']) : 0;
-			$lead_data['wp_lead_uid'] = (isset($_POST['wp_lead_uid'])) ? $_POST['wp_lead_uid'] : 0;
-			$lead_data['page_id'] = (isset($_POST['page_id'])) ? $_POST['page_id'] : 0;
-			$lead_data['current_url'] = (isset($_POST['current_url'])) ? $_POST['current_url'] : 'notfound';
-			$lead_data['variation_id'] = (isset($_POST['variation_id'])) ? $_POST['variation_id'] : '0';
+			$lead_data['wp_lead_uid'] = (isset($_POST['wp_lead_uid'])) ? sanitize_text_field($_POST['wp_lead_uid']) : 0;
+			$lead_data['page_id'] = (isset($_POST['page_id'])) ? (int) $_POST['page_id'] : 0;
+			$lead_data['current_url'] = (isset($_POST['current_url'])) ?  sanitize_text_field($_POST['current_url']) : 'notfound';
+			$lead_data['variation_id'] = (isset($_POST['variation_id'])) ? (int) $_POST['variation_id'] : '0';
 
 			$timezone_format = 'Y-m-d G:i:s T';
 			$lead_data['datetime'] =  date_i18n($timezone_format);
