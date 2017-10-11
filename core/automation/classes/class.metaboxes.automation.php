@@ -286,7 +286,7 @@ class Inbound_Metaboxes_Automation {
                 </tr>
             </table>
         </div>
-    <?php
+        <?php
     }
 
     /**
@@ -299,7 +299,7 @@ class Inbound_Metaboxes_Automation {
             src="<?php echo admin_url('admin.php?page=inbound_rule_logs&rule_id='.$post->ID); ?>"
             frameborder="0" style="height:100vh;width:100%;"  width="100%">
         </iframe>
-    <?php
+        <?php
     }
 
     /**
@@ -439,7 +439,7 @@ class Inbound_Metaboxes_Automation {
                 ?>
             </table>
         </div>
-    <?php
+        <?php
     }
 
 
@@ -632,7 +632,7 @@ class Inbound_Metaboxes_Automation {
 
         /* if logs iframe load js */
         if ($hook == 'admin_page_inbound_rule_logs') {
-           $post = get_post( $_GET['rule_id']);
+            $post = get_post( $_GET['rule_id']);
         }
 
         if (!isset($post) || $post->post_type != self::$post_type) {
@@ -713,7 +713,7 @@ class Inbound_Metaboxes_Automation {
                 jQuery('[data-toggle="tooltip"]').tooltip()
             });
         </script>
-    <?php
+        <?php
 
     }
 
@@ -875,15 +875,16 @@ class Inbound_Metaboxes_Automation {
      */
     public static function ajax_build_trigger_filter($args) {
 
+        $args =  ( !is_array($args) || !$args ) ? array() : $args;
+
         /* loads automation definitions */
         self::load_definitions();
 
         /* Get Parameters */
-        (isset($args['trigger_id'])) ? $args['trigger_id'] : $args['trigger_id'] = sanitize_text_field($_REQUEST['trigger_id']);
-        (isset($args['trigger_filter_id'])) ? $args['trigger_filter_id'] : $args['trigger_filter_id'] = sanitize_text_field($_REQUEST['trigger_filter_id']);
-        (isset($args['child_id'])) ? $args['child_id'] : $args['child_id'] = sanitize_text_field($_REQUEST['child_id']);
-        (isset($args['defaults'])) ? $args['defaults'] : $args['defaults'] = sanitize_text_field($_REQUEST['defaults']);
-
+        $args['trigger_id'] = (isset($args['trigger_id'])) ? $args['trigger_id'] :  sanitize_text_field($_REQUEST['trigger_id']);
+        $args['trigger_filter_id'] = (isset($args['trigger_filter_id'])) ? $args['trigger_filter_id'] : sanitize_text_field($_REQUEST['trigger_filter_id']);
+        $args['child_id'] = (isset($args['child_id'])) ? $args['child_id'] : sanitize_text_field($_REQUEST['child_id']);
+        $args['defaults'] = (isset($args['defaults'])) ? $args['defaults'] : sanitize_text_field($_REQUEST['defaults']);
 
         /* Die If No Filter Selected */
         if ($args['trigger_filter_id'] == '-1' && defined('DOING_AJAX') && DOING_AJAX) {
@@ -908,6 +909,10 @@ class Inbound_Metaboxes_Automation {
 
         $key_input = self::build_input($key_args);
         $compare_input = self::build_input($compare_args);
+
+        //print_r(self::$argument_filters);
+        //print_r($compare_args);
+        //echo $compare_input;
         $value_input = self::build_input($value_args);
 
         $header_name = str_replace('_', ' ', $args['trigger_filter_id']);
@@ -944,14 +949,16 @@ class Inbound_Metaboxes_Automation {
     /* AJAX - Build DB Lookup Filter HTML */
     public static function ajax_build_db_lookup_filter($args) {
 
+        $args =  ( !is_array($args) || !$args ) ? array() : $args;
+
         /* loads automation definitions */
         self::load_definitions();
 
         /* Get Parameters */
-        (isset($args['action_filter_id'])) ? $args['action_filter_id'] : $args['action_filter_id'] = sanitize_text_field($_REQUEST['action_filter_id']);
-        (isset($args['action_block_id'])) ? $args['action_block_id'] : $args['action_block_id'] = intval($_REQUEST['action_block_id']);
-        (isset($args['child_id'])) ? $args['child_id'] : $args['child_id'] = sanitize_text_field($_REQUEST['child_id']);
-        (isset($args['defaults'])) ? $args['defaults'] : $args['defaults'] = sanitize_text_field($_REQUEST['defaults']);
+        $args['action_filter_id'] = (isset($args['action_filter_id'])) ? $args['action_filter_id'] : sanitize_text_field($_REQUEST['action_filter_id']);
+        $args['action_block_id'] = (isset($args['action_block_id'])) ? $args['action_block_id'] : intval($_REQUEST['action_block_id']);
+        $args['child_id'] = (isset($args['child_id'])) ? $args['child_id'] : sanitize_text_field($_REQUEST['child_id']);
+        $args['defaults'] = (isset($args['defaults'])) ? $args['defaults'] : sanitize_text_field($_REQUEST['defaults']);
 
         /* Get Filter Definitions */
         $this_filter = $args['action_filter_id'];
@@ -1016,15 +1023,18 @@ class Inbound_Metaboxes_Automation {
      */
     public static function ajax_build_action($args) {
 
+
+        $args =  ( !is_array($args) || !$args ) ? array() : $args;
+
         /* loads automation definitions */
         self::load_definitions();
 
         /* Get Parameters */
-        (isset($args['action_name'])) ? $args['action_name'] : $args['action_name'] = sanitize_text_field($_REQUEST['action_name']);
-        (isset($args['action_type'])) ? $args['action_type'] : $args['action_type'] = sanitize_text_field($_REQUEST['action_type']);
-        (isset($args['action_block_id'])) ? $args['action_block_id'] : $args['action_block_id'] = intval($_REQUEST['action_block_id']);
-        (isset($args['child_id'])) ? $args['child_id'] : $args['child_id'] = sanitize_text_field($_REQUEST['child_id']);
-        (isset($args['defaults'])) ? $args['defaults'] : $args['defaults'] = sanitize_text_field($_REQUEST['defaults']);
+        $args['action_name'] = (isset($args['action_name'])) ? $args['action_name'] : sanitize_text_field($_REQUEST['action_name']);
+        $args['action_type'] = (isset($args['action_type'])) ? $args['action_type'] : sanitize_text_field($_REQUEST['action_type']);
+        $args['action_block_id'] = (isset($args['action_block_id'])) ? $args['action_block_id'] : intval($_REQUEST['action_block_id']);
+        $args['child_id'] = (isset($args['child_id'])) ? $args['child_id'] : sanitize_text_field($_REQUEST['child_id']);
+        $args['defaults'] = (isset($args['defaults'])) ? $args['defaults'] : sanitize_text_field($_REQUEST['defaults']);
 
         $this_action = $args['action_name'];
 
