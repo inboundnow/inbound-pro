@@ -247,7 +247,7 @@ class Inbound_Mail_Daemon {
         }
 
         /* get datetime */
-        $wordpress_date_time = date_i18n('Y-m-d G:i:s T');
+        $wordpress_date_time = date_i18n('Y-m-d G:i:s');
 
         /* get first row of result set for determining email_id */
         self::$row = self::$results[0];
@@ -639,7 +639,7 @@ class Inbound_Mail_Daemon {
     public static function check_stop_rules() {
 
         $stop_rules = Inbound_Mailer_Unsubscribe::get_stop_rules(self::$row->lead_id);
-        $wordpress_date_time = date_i18n('Y-m-d G:i:s T');
+        $wordpress_date_time = date_i18n('Y-m-d G:i:s');
 
         $passed = 0;
         $failed = 0;

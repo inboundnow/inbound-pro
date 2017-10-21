@@ -285,7 +285,7 @@ class Leads_Tracking {
                 }
 
                 /* get the current time */
-                $datetime = date_i18n('Y-m-d G:i:s T');
+                $datetime = date_i18n('Y-m-d G:i:s');
 
                 $args = array(
                     'page_id' => $comment->comment_post_ID,

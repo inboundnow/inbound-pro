@@ -400,7 +400,7 @@ class Inbound_Events {
         global $wpdb;
 
         $table_name = $wpdb->prefix . "inbound_page_views";
-        $wordpress_date_time =  date_i18n('Y-m-d G:i:s T');
+        $wordpress_date_time =  date_i18n('Y-m-d G:i:s');
 
         $defaults = array(
             'page_id' => '',
