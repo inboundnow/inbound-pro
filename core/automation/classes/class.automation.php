@@ -109,7 +109,7 @@ class Inbound_Automation_Processing {
 		$table_name = $wpdb->prefix . "inbound_automation_queue";
 
 		/* discover datetime to run */
-		$timezone_format = 'Y-m-d G:i:s T';
+		$timezone_format = 'Y-m-d G:i:s';
 		$wordpress_date_time =  date_i18n($timezone_format);
 
 		$query = 'SELECT * FROM '.$table_name . " WHERE status != 'complete' && status != 'running' && status != 'cancelled' && status != 'canceled' ";

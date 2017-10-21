@@ -490,7 +490,7 @@ if ( !class_exists('Inbound_CTA_Quick_View') ) {
         public static function get_impressions($args) {
             global $post;
 
-            $wordpress_date_time = date_i18n('Y-m-d G:i:s T');
+            $wordpress_date_time = date_i18n('Y-m-d G:i:s');
 
             $args['cta_id'] = $post->ID;
 
@@ -514,7 +514,7 @@ if ( !class_exists('Inbound_CTA_Quick_View') ) {
         public static function get_visitors($args) {
             global $post;
 
-            $wordpress_date_time =  date_i18n('Y-m-d G:i:s T');
+            $wordpress_date_time =  date_i18n('Y-m-d G:i:s');
 
             $args['cta_id'] = $post->ID;
 
@@ -533,7 +533,7 @@ if ( !class_exists('Inbound_CTA_Quick_View') ) {
         public static function get_actions($args) {
             global $post;
 
-            $wordpress_date_time = date_i18n('Y-m-d G:i:s T');
+            $wordpress_date_time = date_i18n('Y-m-d G:i:s');
 
             if ($args['skip']) {
                 $start_date = date('Y-m-d G:i:s', strtotime("-" . $args['per_days'] * ($args['skip'] + 1) . " days", strtotime($wordpress_date_time)));
@@ -549,7 +549,7 @@ if ( !class_exists('Inbound_CTA_Quick_View') ) {
         public static function get_submissions($args) {
             global $post;
 
-            $wordpress_date_time = date_i18n('Y-m-d G:i:s T');
+            $wordpress_date_time = date_i18n('Y-m-d G:i:s');
 
             if ($args['skip']) {
                 $start_date = date('Y-m-d G:i:s', strtotime("-" . $args['per_days'] * ($args['skip'] + 1) . " days", strtotime($wordpress_date_time)));
@@ -571,7 +571,7 @@ if ( !class_exists('Inbound_CTA_Quick_View') ) {
         public static function get_tracked_cta_clicks($args) {
             global $post;
 
-            $wordpress_date_time = date_i18n('Y-m-d G:i:s T');
+            $wordpress_date_time = date_i18n('Y-m-d G:i:s');
 
             if ($args['skip']) {
                 $start_date = date('Y-m-d G:i:s', strtotime("-" . $args['per_days'] * ($args['skip'] + 1) . " days", strtotime($wordpress_date_time)));
@@ -593,7 +593,7 @@ if ( !class_exists('Inbound_CTA_Quick_View') ) {
         public static function get_tracked_content_clicks($args) {
             global $post;
 
-            $wordpress_date_time = date_i18n('Y-m-d G:i:s T');
+            $wordpress_date_time = date_i18n('Y-m-d G:i:s');
 
             if ($args['skip']) {
                 $start_date = date('Y-m-d G:i:s', strtotime("-" . $args['per_days'] * ($args['skip'] + 1) . " days", strtotime($wordpress_date_time)));
@@ -625,7 +625,7 @@ if ( !class_exists('Inbound_CTA_Quick_View') ) {
             }
 
             /** get the cta click events between two given dates **/
-            $current_range = new DateTime(date_i18n('Y-m-d G:i:s T'));
+            $current_range = new DateTime(date_i18n('Y-m-d G:i:s'));
             $params['end_date'] = $current_range->format('Y-m-d G:i:s T');
             $current_range->modify( ('-' . $range . 'days') );
             $params['start_date'] = $current_range->format('Y-m-d G:i:s T');
@@ -633,7 +633,7 @@ if ( !class_exists('Inbound_CTA_Quick_View') ) {
             $variation_click_stats['current_stats'] = Inbound_Events::get_cta_conversions('cta_id', $params);
 
             /** get the cta clicks between two dates further back in time for something to compare stats against **/
-            $past_range = new DateTime(date_i18n('Y-m-d G:i:s T'));
+            $past_range = new DateTime(date_i18n('Y-m-d G:i:s'));
             $past_range->modify( ('-' . $range . 'days') );
             $params['end_date'] = $past_range->format('Y-m-d G:i:s T');
             $past_range->modify( ('-' . $range . 'days') );
@@ -705,14 +705,14 @@ if ( !class_exists('Inbound_CTA_Quick_View') ) {
             }
 
             /** get the cta click events between two given dates **/
-            $current_range = new DateTime(date_i18n('Y-m-d G:i:s T'));
+            $current_range = new DateTime(date_i18n('Y-m-d G:i:s'));
             $params['end_date'] = $current_range->format('Y-m-d G:i:s T');
             $current_range->modify( ('-' . self::$range . 'days') );
             $params['start_date'] = $current_range->format('Y-m-d G:i:s T');
 
             $impressions['current'] = Inbound_Events::get_page_views_by('cta_id', $params);
 
-            $past_range = new DateTime(date_i18n('Y-m-d G:i:s T'));
+            $past_range = new DateTime(date_i18n('Y-m-d G:i:s'));
             $past_range->modify( ('-' . self::$range . 'days') );
             $params['end_date'] = $past_range->format('Y-m-d G:i:s T');
             $past_range->modify( ('-' . self::$range . 'days') );
@@ -761,14 +761,14 @@ if ( !class_exists('Inbound_CTA_Quick_View') ) {
             $params['cta_id'] = $post->ID;
 
             /** get the cta click events between two given dates **/
-            $current_range = new DateTime(date_i18n('Y-m-d G:i:s T'));
+            $current_range = new DateTime(date_i18n('Y-m-d G:i:s'));
             $params['end_date'] = $current_range->format('Y-m-d G:i:s T');
             $current_range->modify( ('-' . self::$range . 'days') );
             $params['start_date'] = $current_range->format('Y-m-d G:i:s T');
 
             $post_conversions['current'] = Inbound_Events::get_cta_conversions('cta_id', $params);
 
-            $past_range = new DateTime(date_i18n('Y-m-d G:i:s T'));
+            $past_range = new DateTime(date_i18n('Y-m-d G:i:s'));
             $past_range->modify( ('-' . self::$range . 'days') );
             $params['end_date'] = $past_range->format('Y-m-d G:i:s T');
             $past_range->modify( ('-' . self::$range . 'days') );

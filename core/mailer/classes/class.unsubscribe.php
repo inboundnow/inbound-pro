@@ -391,7 +391,7 @@ class Inbound_Mailer_Unsubscribe {
 	 */
 	public static function mute_lists( $params, $time ) {
 
-		$wordpress_date_time =  date_i18n('Y-m-d G:i:s T');
+		$wordpress_date_time =  date_i18n('Y-m-d G:i:s');
 		$dateTime = new DateTime($wordpress_date_time);
 		$dateTime->modify('+'.$time.' months');
 		$release_date = $dateTime->format('Y-m-d H:i');
