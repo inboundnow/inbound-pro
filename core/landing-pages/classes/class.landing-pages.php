@@ -320,6 +320,9 @@ class Landing_Pages_Template_Switcher {
             $wpfl = new WP_Featherlight_Scripts(plugin_dir_url( 'wp-featherlight' ) , '');
             $wpfl->load_css();
         }
+
+        /* easy way for 3rd parties to hook into */
+        do_action('load_misc_plugin_support');
     }
 
     /**
