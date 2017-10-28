@@ -636,6 +636,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
          *  Replaced tokens in call to action template with values
          */
         public function replace_template_variables( $selected_cta, $template, $vid ) {
+            global $post;
 
             /* Ger template slug */
             $template_slug = $selected_cta['meta'][$vid]['wp-cta-selected-template-'.$vid];
@@ -660,6 +661,11 @@ if ( !class_exists( 'CTA_Render' ) ) {
             $template = str_replace( '{{cta-height}}', $height, $template );
             $template = str_replace( '{{width}}', $w, $template );
             $template = str_replace( '{{height}}', $h, $template );
+
+            /* featured image */
+            if (isset($post) && isset($post->ID)) {
+                $template = str_replace( '{{featured_image}}', get_the_post_thumbnail_url($post , 'medium') , $template );
+            }
 
             /* Add special loop here with filter for custom tokens */
             $false_match = array();
