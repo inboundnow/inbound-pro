@@ -525,6 +525,18 @@ class CTA_Metaboxes {
 
 							break;
 						// textarea
+						case 'datepicker':
+							echo '<input id="datepicker" class="'.$option_class.' datepicker-'.$field['id'].'" type="text" name="' . $field_id . '" id="' . $field_id . '" value="' . $meta . '" size="8" />
+									<div class="wp_cta_tooltip tool_date" title="' . $field['description'] . '"></div><p class="description">' . $field['description'] . '</p>';
+							?>
+							<script>
+								jQuery(document).ready(function() {
+									jQuery('input.datepicker-<?php echo $field['id']; ?>').Zebra_DatePicker();
+								});
+							</script>
+							<?php
+							break;
+						// textarea
 						case 'textarea':
 							echo '<textarea name="'.$field_id.'" id="'.$field_id.'" cols="106" rows="6" style="width: 75%;">'.$meta.'</textarea>
 									<div class="wp_cta_tooltip tool_textarea" title="'.$field['description'].'"></div>';
@@ -855,7 +867,10 @@ class CTA_Metaboxes {
 		wp_enqueue_style('wp-cta-ab-testing-admin-css', WP_CTA_URLPATH . 'assets/css/admin-ab-testing.css');
         
         /* enqueue the CTA Inbound Analytics metabox styles*/
-        wp_enqueue_style('wp-cta-inbound-analytics-admin-css', WP_CTA_URLPATH . 'assets/css/admin-cta-inbound-analytics-metabox.css');
+		wp_enqueue_style('Zebra_Datepicker', WP_CTA_URLPATH . 'assets/lib/Zebra_Datepicker/css/default/zebra_datepicker.min.css');
+		wp_enqueue_script('Zebra_Datepicker', WP_CTA_URLPATH . 'assets/lib/Zebra_Datepicker/zebra_datepicker.min.js');
+
+		//wp_enqueue_style('wp-cta-inbound-analytics-admin-css', WP_CTA_URLPATH . 'assets/css/admin-cta-inbound-analytics-metabox.css');
 	}
 
 	/**
