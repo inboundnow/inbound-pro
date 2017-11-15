@@ -397,28 +397,63 @@ class Landing_Pages_ACF {
 	public static function get_repeater_values( $array , $field , $needle ) {
 
 		/* Discover correct repeater pointer by parsing field name */
-		preg_match('/(_\d_)/', $field['name'], $matches, 0);
+		preg_match_all('/(_\d_)/', $field['name'], $matches, PREG_PATTERN_ORDER, 0);
 
 		/* if not a repeater subfield then bail */
-		if (!$matches) {
+		if (!$matches || !$matches[0]) {
 			return false;
 		}
 
-		$pointer = str_replace('_' , '' , $matches[0]);
+		$pointer = str_replace('_' , '' , $matches[0][0]);
 		$repeater_key = self::key_search($array, $field , true ); /* returns parent flexible content field key using sub field key */
 
 
 		/*  */
 		if ( $repeater_key && $repeater_key !== '0' && isset($array[$repeater_key][$pointer][$field['key']])){
+            /* if the value is empty, mark as empty */
+            if($array[$repeater_key][$pointer][$field['key']] === ''){$array[$repeater_key][$pointer][$field['key']] = '_empty';}
+            
 			return $array[$repeater_key][$pointer][$field['key']];
 		}
 
 		/* repeater field comes after the pointer????  */
 		if (isset($array[$pointer][$needle])){
+            if($array[$pointer][$needle] === ''){$array[$pointer][$needle] = '_empty';}
+
 			return $array[$pointer][$needle];
 		}
 
 
+        
+        /* if the repeater is nested in a flexible content field */
+        if(isset($matches[0][1])){
+            $nested_value = null;
+            $parent_field = $field['parent'];
+            $sub_pointer  = str_replace('_' , '' , $matches[0][1]);
+            
+            if(isset($array[$pointer][$parent_field][$sub_pointer][$field['key']])){
+                $nested_value = $array[$pointer][$parent_field][$sub_pointer][$field['key']];
+            }
+            
+            /* if the nested repeater's indexes are field keys instead of numbers */
+            if( isset($array[$repeater_key][$parent_field]) &&
+                is_array($array[$repeater_key][$parent_field]) &&
+                !isset($array[$repeater_key][$parent_field][0]))
+            {
+                /* get the numerical indexes of the keys */
+                $keys = array_keys($array[$repeater_key][$parent_field]);
+                    
+                $nested_value = $array[$repeater_key][$parent_field][$keys[$sub_pointer]][$field['key']];
+
+            }
+            
+            /* if the value is empty, mark it as empty */
+            if($nested_value === ''){$nested_value = '_empty';}
+ 
+            if(isset($nested_value)){
+                return $nested_value;
+            }
+        }
 
 		return '';
 
