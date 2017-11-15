@@ -155,7 +155,7 @@ array(
         'description' => "Date Picker Description",
         'id'  => 'date_picker', // called in template's index.php file with lp_get_value($post, $key, 'date-picker');
         'type'  => 'datepicker',
-        'default'  => '2013-12-27',
+        'default'  => '2020-02-20',
         'context'  => 'normal'
         ),
      /* WYSIWYG Example */

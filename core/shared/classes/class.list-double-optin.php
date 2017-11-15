@@ -152,8 +152,19 @@ class Inbound_List_Double_Optin {
     public static function ajax_lead_list_save_settings() {
         $data = stripslashes_deep($_POST['data']);
         $cleaned = array();
+        
         foreach ($data as $key => $value) {
-            $cleaned[sanitize_text_field($key)] = sanitize_text_field($value);
+            switch($key) {
+                case 'double_optin_email_confirmation_footer_text':
+                    $cleaned[sanitize_text_field($key)] = $value;
+                    break;
+                case 'double_optin_email_confirmation_message':
+                    $cleaned[sanitize_text_field($key)] = $value;
+                    break;
+                default:
+                    $cleaned[sanitize_text_field($key)] = sanitize_text_field($value);
+                    break;
+            }
         }
 
         /*get the existing stored settings*/

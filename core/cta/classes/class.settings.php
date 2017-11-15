@@ -382,10 +382,19 @@ if (!class_exists('CTA_Settings')) {
                         $extra = (isset($field['description'])) ? $field['description'] : '';
                         echo $extra;
                         break;
+                    /*
                     case 'datepicker':
-                        echo '<input id="datepicker-example2" class="Zebra_DatePicker_Icon" type="text" name="' . $field['id'] . '" id="' . $field['id'] . '" value="' . $field['value'] . '" size="8" />
+                        echo '<input id="datepicker" class="datepicker-'.$field['id'].'" type="text" name="' . $field['id'] . '" id="' . $field['id'] . '" value="' . $field['value'] . '" size="8" />
 									<div class="wp_cta_tooltip tool_date" title="' . $field['description'] . '"></div><p class="description">' . $field['description'] . '</p>';
+                        ?>
+                        <script>
+                            jQuery(document).ready(function() {
+                                jQuery('input.datepicker-<?php echo $field['id']; ?>').Zebra_DatePicker();
+                            });
+                        </script>
+                        <?php
                         break;
+                    */
                     case 'text':
                         echo '<input type="text" name="' . $field['id'] . '" id="' . $field['id'] . '" value="' . $field['value'] . '" size="30" />
 									<div class="wp_cta_tooltip tool_text" title="' . $field['description'] . '"></div>';

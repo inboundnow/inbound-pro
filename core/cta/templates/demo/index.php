@@ -63,6 +63,9 @@ font-size: 12px;
         
         <!--  File/Image Upload Label: Text field Description. Defined in config.php on line 97 -->
         Media upload path: <strong>{{media_id}}</strong><br>
+
+        <!--  File/Image Upload Label: Text field Description. Not defined in config.php. Kind of an automated easter egg. Not even sure if it will work! -->
+        Page featured image (if available): <strong>{{featured_image}}</strong><br>
       </div>
 
       <div id="conditional-template-tokens">

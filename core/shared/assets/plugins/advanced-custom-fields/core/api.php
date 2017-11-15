@@ -194,7 +194,7 @@ function get_fields( $post_id = false, $format_value = true ) {
 *  @since	3.6
 *  @date	29/01/13
 *
-*  @param	string		$field_key: string containing the name of teh field name / key ('sub_field' / 'field_1')
+*  @param	string		$field_key: string containing the name of the field name / key ('sub_field' / 'field_1')
 *  @param	mixed		$post_id: the post_id of which the value is saved against
 *  @param	boolean		$format_value: whether or not to format the value as described above
 *
@@ -234,7 +234,7 @@ function get_field( $field_key, $post_id = false, $format_value = true ) {
 *  @since	3.6
 *  @date	3/02/13
 *
-*  @param	string		$field_key: string containing the name of teh field name / key ('sub_field' / 'field_1')
+*  @param	string		$field_key: string containing the name of the field name / key ('sub_field' / 'field_1')
 *  @param	mixed		$post_id: the post_id of which the value is saved against
 *  @param	array		$options: an array containing options
 *			boolean		+ load_value: load the field value or not. Defaults to true
@@ -790,7 +790,7 @@ function acf_get_child_field_from_parent_field( $child_name, $parent )
 *  register_field_group()
 *
 *  This function is used to register a field group via code. It acceps 1 array containing
-*  all the field group data. This data can be obtained by using teh export tool within ACF
+*  all the field group data. This data can be obtained by using the export tool within ACF
 *
 *  @type	function
 *  @since	3.0.6
