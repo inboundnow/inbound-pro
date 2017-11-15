@@ -95,7 +95,7 @@ if ( !class_exists('CTA_Post_Type') ) {
 				'hierarchical' => false,
 				'menu_position' => 33,
 				'show_in_nav_menus'	=> false,
-				'supports' => array('title', 'thumbnail', 'editor')
+				'supports' => array('title', 'editor')
 			);
 
 			register_post_type( 'wp-call-to-action', $args );
