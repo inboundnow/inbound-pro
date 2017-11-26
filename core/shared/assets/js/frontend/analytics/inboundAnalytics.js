@@ -3482,13 +3482,17 @@ var _inboundPageTracking = (function(_inbound) {
                 return false; // in admin
             }
 
-            this.CheckTimeOut();
-            // Set up options and defaults
+            var pageRevisit = this.isRevisit(Pages);
+
+            /* Trigger page view*/
+            this.triggerPageView(pageRevisit);
+
+            /* Set up options and defaults */
             options = options || {};
             reportInterval = parseInt(options.reportInterval, 10) || 10;
             idleTimeout = parseInt(options.idleTimeout, 10) || 3;
 
-            // Basic activity event listeners
+            /*  Basic activity event listeners */
             utils.addListener(document, 'keydown', utils.throttle(_inbound.PageTracking.pingSession, 1000));
             utils.addListener(document, 'click', utils.throttle(_inbound.PageTracking.pingSession, 1000));
             utils.addListener(window, 'mousemove', utils.throttle(_inbound.PageTracking.pingSession, 1000));
@@ -3750,31 +3754,6 @@ var _inboundPageTracking = (function(_inbound) {
         ,
         CheckTimeOut: function() {
 
-            var pageRevisit = this.isRevisit(Pages),
-                status,
-                timeout;
-
-            /* Default */
-            if (pageRevisit) {
-
-                var prev = Pages[id].length - 1,
-                    lastView = Pages[id][prev],
-                    timeDiff = Math.abs(new Date(lastView).getTime() - new Date(timeNow).getTime());
-
-                timeout = timeDiff > analyticsTimeout;
-
-                if (timeout) {
-                    status = 'Timeout Happened. Page view fired';
-                    this.triggerPageView(pageRevisit);
-                } else {
-                    time_left = Math.abs((analyticsTimeout - timeDiff)) * 0.001;
-                    status = analyticsTimeout / 1000 + ' sec timeout not done: ' + time_left + " seconds left";
-                }
-
-            } else {
-                /*! Page never seen before save view */
-                this.triggerPageView(pageRevisit);
-            }
 
             _inbound.deBugger('pages', status);
         },
