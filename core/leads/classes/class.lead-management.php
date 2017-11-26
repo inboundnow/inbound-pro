@@ -396,7 +396,7 @@ public static function display_headers() {
             <?php
             if (isset($_GET['wplead_list_category'])){
                 foreach($_GET['wplead_list_category'] as $list_id) {
-                    echo '<input type="hidden" name="wplead_list_category[]" value="'.$list_id.'"/>';
+                    echo '<input type="hidden" name="wplead_list_category[]" value="'. (int) $list_id.'"/>';
                 }
             }
             ?>
@@ -444,7 +444,7 @@ public static function display_headers() {
 
                         /* show email */
                         echo '<td>';
-                        echo '	<span class="lead-email">' . $post->post_title . '</span>';
+                        echo '	<span class="lead-email">' . sanitize_text_field($post->post_title) . '</span>';
                         echo '</td>';
 
                         /* show lists */

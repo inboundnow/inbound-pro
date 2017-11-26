@@ -667,7 +667,7 @@ if (!class_exists('LeadStorage')) {
 
 			foreach ($fields as $key => $label ) {
 				if( isset( $args[ $key ]) && !isset($mappedData[$key]) ) {
-					$mappedData[$key] =  $args[ $key ];
+					$mappedData[$key] =  sanitize_text_field($args[ $key ]);
 				}
 			}
 
@@ -765,7 +765,7 @@ if (!function_exists('inbound_store_lead')) {
 		$args = array_merge( $args, $_POST );
 
 		/* wpleads_email_address becomes wpleads_email */
-		$args['email'] = $args['wpleads_email_address'];
+		$args['email'] = sanitize_text_field($args['wpleads_email_address']);
 
 		/* Send data through new method */
 		$Leads = new LeadStorage();

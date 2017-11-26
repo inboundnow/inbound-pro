@@ -575,6 +575,9 @@ class Inbound_Shortcodes {
 			</style>';
 	}
 
+	/**
+	 *
+	 */
 	static function inbound_forms_header_area()
 	{
 		global $post;
