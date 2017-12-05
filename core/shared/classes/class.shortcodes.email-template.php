@@ -52,7 +52,9 @@ class Inbound_Email_Template_Shortcodes {
             }
         }
 
-        $post_params['email'] = str_replace('%40', '@', $post_params['email']);
+        if (isset( $post_params['email'] ) ) {
+            $post_params['email'] = str_replace('%40', '@', $post_params['email']);
+        }
 
         /* add mapped params */
         if (isset($_POST['mapped_params'])) {
