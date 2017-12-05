@@ -330,7 +330,7 @@ class Inbound_List_Double_Optin {
                 <label><?php _e('Note', 'inbound-pro'); ?></label>
             </th>
             <td>
-                <p><?php _e('When creating your own confirmation template you should use the shortcode below to render your confirmation link. ', 'inbound-pro'); ?></p>
+                <p><?php _e('When using Inbound Pro\'s email component you should use the shortcode below to render your confirmation link. ', 'inbound-pro'); ?></p>
                 <pre>[inbound-list-double-optin-link]</pre>
             </td>
         </tr>
