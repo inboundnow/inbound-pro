@@ -1790,7 +1790,12 @@ var InboundForms = (function(_inbound) {
                 }
             }
 
-            form.submit();
+            if(typeof form.submit === 'function') {
+                form.submit();
+            } else if (typeof form.click === 'function'){
+                jQuery('#'+form.id).find('button').click();
+            }
+
             /* fallback if submit name="submit" */
             setTimeout(function() {
                 for (var i = 0; i < form.elements.length; i++) {
