@@ -99,6 +99,7 @@ class Inbound_Automation_Trigger_inbound_store_lead_post {
 			'relay_data' ,
 			'add_remove_lead_list',
 			'add_remove_lead_tag',
+			'create_user',
 			'kill_lead_tasks',
 		) );
 

@@ -62,6 +62,7 @@ if (!class_exists('Inbound_Automation_Plugin') && class_exists('Inbound_Leads_Pl
 					include_once('definitions/trigger.inbound_track_link.php');
 					include_once('definitions/action.wait.php');
 					include_once('definitions/action.create_lead.php');
+					include_once('definitions/action.create_user.php');
 					include_once('definitions/action.send_email.php');
 					include_once('definitions/action.relay_data.php');
 					include_once('definitions/action.add_remove_list.php');
@@ -87,6 +88,7 @@ if (!class_exists('Inbound_Automation_Plugin') && class_exists('Inbound_Leads_Pl
 					include_once('definitions/trigger.user_register.php');
 					include_once('definitions/trigger.inbound_track_link.php');
 					include_once('definitions/action.wait.php');
+					include_once('definitions/action.create_user.php');
 					include_once('definitions/action.create_lead.php');
 					include_once('definitions/action.send_email.php');
 					include_once('definitions/action.relay_data.php');
