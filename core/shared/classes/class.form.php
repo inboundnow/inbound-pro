@@ -680,8 +680,6 @@ if (!class_exists('Inbound_Forms')) {
                     scale = scale.replace("px", "");
                     scale = scale / 40;
 
-
-
                     /* spinner param setup */
                     var opts = {
                         lines: 8 // The number of lines to draw
