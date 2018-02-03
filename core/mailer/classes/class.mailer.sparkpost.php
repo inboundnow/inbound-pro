@@ -57,7 +57,7 @@ class Inbound_Mailer_SparkPost extends Inbound_Mail_Daemon {
 					'email' => self::$email['from_email'],
 					'name'  => self::$email['from_name'],
 				),
-				'reply_to'      => null, // string
+				'reply_to'      => self::$email['reply_email'], // string
 				'headers'       => null, // json obect
 				'attachments'   => array(), // json array
 				'inline_images' => array(), // json array
