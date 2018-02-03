@@ -325,12 +325,8 @@ h3#list-perfomance-content-header{
     background: #0095ff;
 }            
 
-.no-wrap{
+.no-wrap {
     white-space: nowrap;
-}
-
-.table-row-odd, .table-row-odd:hover {
-
 }
 
 .leads-list-performance-table {
@@ -346,6 +342,7 @@ h3#list-perfomance-content-header{
     height:25px;
     color: #777;
 }
+
 .leads-list-performance-table tbody tr:hover {
     background-color: #f8f8ff;
 }
