@@ -4,7 +4,7 @@ Plugin Name: Leads
 Plugin URI: http://www.inboundnow.com/leads/
 Description: Track website visitor activity, manage incoming leads, and send collected emails to your email service provider.
 Author: Inbound Now
-Version: 3.2.2
+Version: 3.2.3
 Author URI: http://www.inboundnow.com/
 */
 
@@ -28,7 +28,7 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 		*  Setup plugin constants
 		*/
 		private static function define_constants() {
-			define('WPL_CURRENT_VERSION', '3.2.2' );
+			define('WPL_CURRENT_VERSION', '3.2.3' );
 			define('WPL_URLPATH',  plugins_url( '/', __FILE__ ) );
 			define('WPL_PATH', WP_PLUGIN_DIR."/".dirname( plugin_basename( __FILE__ ) ) . '/' );
 			define('WPL_CORE', plugin_basename( __FILE__ ) );
@@ -58,7 +58,6 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 				include_once( WPL_PATH . 'classes/class.dashboard.php');
 				include_once( WPL_PATH . 'classes/class.tracking.php');
 				include_once( WPL_PATH . 'classes/class.admin-notices.php');
-				//include_once( WPL_PATH . 'classes/class.branching.php');
 				include_once( WPL_PATH . 'classes/class.login.php');
 				include_once( WPL_PATH . 'classes/class.user-profile.php');
 
@@ -120,7 +119,6 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 		 * add the error message to the admin notices
 		 */
 		static function fail_php_version() {
-			//add_action( 'plugins_loaded', array( __CLASS__, 'load_text_domain_init' ) );
 			$plugin_url = admin_url( 'plugins.php' );
 			self::notice( __( 'Leads requires PHP version 5.3+ to run. Your version '.PHP_VERSION.' is not high enough.<br><u>Please contact your hosting provider</u> to upgrade your PHP Version.<br>The plugin is NOT Running. You can disable this warning message by <a href="'.$plugin_url.'">deactivating the plugin</a>', 'inbound-pro' ) );
 		}
@@ -167,10 +165,10 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 
 	/* Initiate Plugin */
 	if ( Inbound_Leads_Plugin::is_valid_php_version() ) {
-		// Get Inbound Now Running
-		$GLOBALS['Inbound_Leads_Plugin'] = new Inbound_Leads_Plugin;
+		/* Get Leads Running */
+		new Inbound_Leads_Plugin;
 	} else {
-		// Show Failure message
+		/* Show Failure message */
 		Inbound_Leads_Plugin::fail_php_version();
 	}
 
