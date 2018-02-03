@@ -672,9 +672,13 @@ if (!class_exists('Inbound_Forms')) {
                         buttonWidth = jQuery(target).css("width"),
                         buttonHeight = jQuery(target).css("height"),
                         scale = jQuery(target).css("font-size");
+
+                    if (typeof scale == 'undefined') {
+                        scale = "15px";
+                    }
+
                     scale = scale.replace("px", "");
                     scale = scale / 40;
-
 
                     /* spinner param setup */
                     var opts = {

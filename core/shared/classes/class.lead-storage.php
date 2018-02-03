@@ -126,6 +126,12 @@ if (!class_exists('LeadStorage')) {
 					$lead['id'] = self::store_new_lead($lead);
 				}
 
+
+				/* Store Mapped Form Data */
+				if(!empty($mappedData)){
+					self::store_mapped_data($lead, $mappedData);
+				}
+
 				/* if status is included in lead array then set status */
 				if (isset($lead['wp_lead_status']) && !empty($lead['wp_lead_status'])) {
 					update_post_meta($lead['id'], 'wp_lead_status', $lead['wp_lead_status']);
@@ -212,16 +218,10 @@ if (!class_exists('LeadStorage')) {
 					}
 				}
 
-
 				/* Store page views for people with ajax tracking off */
 				$ajax_tracking_off = false; /* get_option */
 				if($lead['page_views'] && $ajax_tracking_off ) {
 					self::store_page_views($lead);
-				}
-
-				/* Store Mapped Form Data */
-				if(!empty($mappedData)){
-					self::store_mapped_data($lead, $mappedData);
 				}
 
 				/* Store past search history */

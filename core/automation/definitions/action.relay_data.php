@@ -96,8 +96,8 @@ if ( !class_exists( 'Inbound_Automation_Action_Relay_Data' ) ) {
 					
 				case 'JSON-POST' :
 					
-					$data_string = json_encode( $final_args );                                                                                   
-					                                                                   
+					$data_string = json_encode( $final_args );
+					curl_setopt($ch, CURLOPT_URL,  $action['destination'] );
 					curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
 					curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);                                                                  
 					curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                                                                      

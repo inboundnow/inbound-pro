@@ -1,3 +1,6 @@
+/* clear old local storage */
+localStorage.removeItem('wp_cta_impressions');
+
 /**
  *  Record Impressions For Each Variation in CTA Object
  *
@@ -144,12 +147,15 @@ function wp_cta_load_variation( cta_id, vid ) {
 }
 
 
+
 jQuery(document).ready(function($) {
+
 	var timeout = 500;
 
 	if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
 		timeout = 500;
 	}
+
 
 	if (cta_variation.cta_id > 0) {
 		wp_cta_load_variation( cta_variation.cta_id , null );

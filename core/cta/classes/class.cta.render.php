@@ -1123,9 +1123,6 @@ if ( !class_exists( 'CTA_Render' ) ) {
                 }
             }
 
-            /* Reveal Variation if Preview */
-            (self::$instance->is_preview) ? $display = 'none' : $display = 'none';
-
             /* Pepare Container Margins if Available */
             $margin_top = (isset($selected_cta['margin-top'])) ? $selected_cta['margin-top'] : '0';
             $margin_bottom = (isset($selected_cta['margin-bottom'])) ? $selected_cta['margin-bottom'] : '0';
@@ -1188,7 +1185,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
                 $cta_variation_attributes = apply_filters('wp_cta_variation_attributes', '', $selected_cta['id'], $vid);
 
                 /* Prepare variation HTML container */
-                $cta_template .= "<div id='wp_cta_".$selected_cta['id']."_variation_".$vid."' class='".$cta_variation_class."' style='display:{$display}; margin:auto;".$width . $height."' ".$cta_variation_attributes." data-variation='".$vid."' data-cta-id='".$selected_cta['id']."'>";
+                $cta_template .= "<div id='wp_cta_".$selected_cta['id']."_variation_".$vid."' class='".$cta_variation_class."' style='display:none; margin:auto;".$width . $height."' ".$cta_variation_attributes." data-variation='".$vid."' data-cta-id='".$selected_cta['id']."'>";
 
                 $variation_html = self::$instance->cta_templates[$template_slug]['html-template'];
 
