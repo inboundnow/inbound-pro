@@ -93,6 +93,15 @@ if ( !class_exists('Inbound_Upgrade_Routines') ) {
                 'introduced' => '1.0.9',
                 'callback' => array( __CLASS__ , 'alter_inbound_settings_109')
             );
+
+
+            /* alter events table */
+            self::$routines['inbound-settings-203'] = array(
+                'id' => 'inbound-settings-203',
+                'scope' => 'shared',
+                'introduced' => '2.0.3',
+                'callback' => array( __CLASS__ , 'alter_inbound_settings_203')
+            );
         }
 
         /**
@@ -200,7 +209,7 @@ if ( !class_exists('Inbound_Upgrade_Routines') ) {
             }
 
             if(!isset($col_check->list_id)) {
-                $wpdb->get_results("ALTER TABLE {$table_name} ADD `list_id` mediumint(20) NOT NULL");
+                $wpdb->get_results("ALTER TABLE {$table_name} ADD `list_id` bigint(20) NOT NULL");
             }
 
         }
@@ -219,11 +228,11 @@ if ( !class_exists('Inbound_Upgrade_Routines') ) {
             $col_check = $wpdb->get_row("SELECT * FROM " . $table_name ." limit 1");
 
             if(!isset($col_check->rule_id)) {
-                $wpdb->get_results("ALTER TABLE {$table_name} ADD `rule_id` mediumint(20) NOT NULL");
+                $wpdb->get_results("ALTER TABLE {$table_name} ADD `rule_id` bigint(20) NOT NULL");
             }
 
             if(!isset($col_check->job_id)) {
-                $wpdb->get_results("ALTER TABLE {$table_name} ADD `job_id` mediumint(20) NOT NULL");
+                $wpdb->get_results("ALTER TABLE {$table_name} ADD `job_id` bigint(20) NOT NULL");
             }
         }
 
@@ -242,7 +251,7 @@ if ( !class_exists('Inbound_Upgrade_Routines') ) {
             $col_check = $wpdb->get_row("SELECT * FROM " . $table_name ." limit 1");
 
             if(!isset($col_check->comment_id)) {
-                $wpdb->get_results("ALTER TABLE {$table_name} ADD `comment_id` mediumint(20) NOT NULL");
+                $wpdb->get_results("ALTER TABLE {$table_name} ADD `comment_id` bigint(20) NOT NULL");
             }
         }
 
@@ -280,7 +289,7 @@ if ( !class_exists('Inbound_Upgrade_Routines') ) {
             $col_check = $wpdb->get_row("SELECT * FROM " . $table_name ." limit 1");
 
             if(!isset($col_check->lead_id)) {
-                $wpdb->get_results("ALTER TABLE {$table_name} ADD `lead_id` mediumint(20)  NOT NULL");
+                $wpdb->get_results("ALTER TABLE {$table_name} ADD `lead_id` bigint(20)  NOT NULL");
             }
         }
 
@@ -296,6 +305,28 @@ if ( !class_exists('Inbound_Upgrade_Routines') ) {
                 unset($inbound_settings['inbound-mailer']);
                 Inbound_Options_API::update_option('inbound-pro', 'settings', $inbound_settings);
             }
+        }
+
+        /**
+         * @migration-type: inbound pro settings array
+         * @mirgration: changes mediumint to bigint
+         */
+        public static function alter_inbound_settings_203() {
+            global $wpdb;
+
+            require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+            $table_name = $wpdb->prefix . "inbound_events";
+
+            $wpdb->get_results( "ALTER TABLE {$table_name} MODIFY COLUMN `id` BIGINT(20)" );
+            $wpdb->get_results( "ALTER TABLE {$table_name} MODIFY COLUMN `lead_id` BIGINT(20)" );
+            $wpdb->get_results( "ALTER TABLE {$table_name} MODIFY COLUMN `form_id` BIGINT(20)" );
+            $wpdb->get_results( "ALTER TABLE {$table_name} MODIFY COLUMN `cta_id` BIGINT(20)" );
+            $wpdb->get_results( "ALTER TABLE {$table_name} MODIFY COLUMN `email_id` BIGINT(20)" );
+            $wpdb->get_results( "ALTER TABLE {$table_name} MODIFY COLUMN `rule_id` BIGINT(20)" );
+            $wpdb->get_results( "ALTER TABLE {$table_name} MODIFY COLUMN `job_id` BIGINT(20)" );
+            $wpdb->get_results( "ALTER TABLE {$table_name} MODIFY COLUMN `list_id` BIGINT(20)" );
+            $wpdb->get_results( "ALTER TABLE {$table_name} MODIFY COLUMN `comment_id` BIGINT(20)" );
+
         }
     }
 

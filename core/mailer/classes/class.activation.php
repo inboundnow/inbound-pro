@@ -156,14 +156,14 @@ class Inbound_Mailer_Activation {
 		$charset_collate = $wpdb->get_charset_collate();
 
 		$sql = "CREATE TABLE $table_name (
-			`id` mediumint(9) NOT NULL AUTO_INCREMENT,
-			`email_id` mediumint(9) NOT NULL,
+			`id` bigint(20) NOT NULL AUTO_INCREMENT,
+			`email_id` bigint(9) NOT NULL,
 			`variation_id` mediumint(9) NOT NULL,
-			`lead_id` mediumint(9) NOT NULL,
-			`post_id` mediumint(9) NOT NULL,
+			`lead_id` bigint(9) NOT NULL,
+			`post_id` bigint(9) NOT NULL,
 			`list_ids` text NOT NULL,
-			`job_id` mediumint(9) NOT NULL,
-			`rule_id` mediumint(9) NOT NULL,
+			`job_id` bigint(9) NOT NULL,
+			`rule_id` bigint(9) NOT NULL,
 			`token` tinytext NOT NULL,
 			`type` tinytext NOT NULL,
 			`tokens` mediumtext NOT NULL,
