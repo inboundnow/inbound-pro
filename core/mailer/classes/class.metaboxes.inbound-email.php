@@ -1261,6 +1261,8 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 $thumbnail = INBOUND_EMAIL_UPLOADS_URLPATH . $template . '/thumbnail.png';
             } else if (file_exists(INBOUND_EMAIL_THEME_TEMPLATES_PATH . $template . '/thumbnail.png')) {
                 $thumbnail = INBOUND_EMAIL_THEME_TEMPLATES_URLPATH . $template . '/thumbnail.png';
+            } else {
+                $thumbnail = INBOUND_EMAIL_URLPATH . 'assets/images/nothumbnail.jpg';
             }
             return $thumbnail;
         }

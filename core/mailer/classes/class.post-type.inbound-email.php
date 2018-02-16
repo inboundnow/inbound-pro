@@ -484,7 +484,7 @@ class Inbound_Mailer_Post_Type {
 			'label'	=> __( 'Direct Emails', 'inbound-pro' ),
 			'public' => $public,
 			'show_in_admin_all_list' => false,
-			'show_in_admin_status_list' => false,
+			'show_in_admin_status_list' => true,
 			'label_count' => _n_noop( 'Direct Emails <span class="count">(%s)</span>', 'Direct Emails <span class="count">(%s)</span>' )
 		));
 	}

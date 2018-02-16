@@ -73,6 +73,10 @@ jQuery(document).ready( function($) {
             jQuery( '.td-col-clicks[data-email-id="' + email_id + '"]').text('0');
             jQuery( '.td-col-unsubs[data-email-id="' + email_id + '"]').text('0');
             jQuery( '.td-col-mutes[data-email-id="' + email_id + '"]').text('0');
+        } else  if (email_status=='direct_email') {
+            //jQuery( '.td-col-sends[data-email-id="' + email_id + '"]').text('1');
+            email_ids[i] = email_id;
+            i++;
         } else {
             email_ids[i] = email_id;
             i++;
