@@ -339,7 +339,7 @@ class Inbound_Mailer_Direct_Email_Leads {
 
                     swal({
                         title: "<?php _e('Please wait', 'inbound-pro'); ?>",
-                        text: "<?php _e('We are sending a your email now.', 'inbound-pro'); ?>",
+                        text: "<?php _e('We are sending your email now.', 'inbound-pro'); ?>",
                         imageUrl: '<?php echo INBOUND_EMAIL_URLPATH; ?>/assets/images/loading_colorful.gif'
                     });
 
@@ -544,7 +544,8 @@ class Inbound_Mailer_Direct_Email_Leads {
             'email_id' => $premade_email_id,
             'vid' => $variation_selected,
             'lead_id' => $post_id,
-            'is_test' => 0
+            'is_test' => 0,
+            'tags' => array('direct-email')
         );
 
         /*send the email!*/
@@ -557,6 +558,7 @@ class Inbound_Mailer_Direct_Email_Leads {
      *
      */
     public static function send_direct_message_to_lead() {
+
 
         /* these are the variables set by the user */
         $data = array(
@@ -582,7 +584,7 @@ class Inbound_Mailer_Direct_Email_Leads {
             ),
             'email_content' => array(
                 'label' => __('Email Content', 'inbound-pro'),
-                'value' => strip_tags($_POST['email_content'],'<br><i><b><strong><div><span><h1><h2><h3><h4><table><tr><td><tbody>')
+                'value' => stripslashes($_POST['email_content'])
             )
         );
 
@@ -597,6 +599,7 @@ class Inbound_Mailer_Direct_Email_Leads {
 
         /* sanitise hidden values */
         $data['post_id'] = (int) $_POST['post_id'];
+        $data['lead_id'] = (int) $_POST['post_id'];
         $data['user_id'] = (int) $_POST['user_id'];
 
         /*check to make sure the email addresses are setup correctly*/
@@ -632,6 +635,12 @@ class Inbound_Mailer_Direct_Email_Leads {
         $time = new DateTime('', new DateTimeZone($timezone));
         $format = get_option('date_format') . ' \a\t ' . get_option('time_format');
 
+
+        /* sanitize email content */
+        $data['email_content']['value'] = strip_tags( $data['email_content']['value'],'<br><i><b><strong><div><span><h1><h2><h3><h4><table><tr><td><tbody><a><img><p><ol><li>');
+
+        /* prepare content with tracked links */
+        $data['email_content']['value'] = self::rebuild_links( $data['email_content']['value'] , $data );
 
         /*assemble the post data*/
         $direct_email = array(
@@ -671,7 +680,8 @@ class Inbound_Mailer_Direct_Email_Leads {
             'vid' => 0,
             'lead_id' => $data['post_id'],
             'is_test' => 0,
-            'is_direct' => true
+            'is_direct' => true,
+            'tags' => array('direct-email')
         );
 
         /*and send*/
@@ -916,6 +926,46 @@ class Inbound_Mailer_Direct_Email_Leads {
 
         /* return null if nothing there */
         return ($count) ? $count : 0;
+    }
+
+    /**
+     *    Rebuild links with tracking params
+     */
+    public static function rebuild_links($html , $data ) {
+        preg_match_all('/href="([^\s"]+)/', $html, $links);
+
+        if (!$links) {
+            return $html;
+        }
+
+        /* Iterate over the extracted links and display their URLs */
+        foreach ($links[1] as $link) {
+
+            /* Do not modify unsubscribe links or non links */
+            if (strstr($link, '?token=') || !strstr($link, '://')) {
+                continue;
+            }
+
+            $safe_link = Inbound_API::analytics_track_links(array(
+                'email_id' => '',
+                'lead_lists' => '',
+                'id' => $data['lead_id'],
+                'lead_id' => $data['lead_id'],
+                'page_id' => $data['lead_id'],
+                'vid' =>0,
+                'url' => $link,
+                'utm_source' => urlencode($data['subject']['value']),
+                'utm_medium' => 'email',
+                'utm_campaign' => '',
+                'tracking_id' => urlencode($data['subject']['value'])
+            ));
+
+            $html = str_replace("'" . $link . "'", "'" . $safe_link['url'] . "'", $html);
+            $html = str_replace('"' . $link . '"', '"' . $safe_link['url'] . '"', $html);
+
+        }
+
+        return $html;
     }
 }
 

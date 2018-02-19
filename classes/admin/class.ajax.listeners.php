@@ -84,7 +84,8 @@ class Inbound_Pro_Admin_Ajax_Listeners {
             'body' => array(
                 'api-key' => trim($_REQUEST['api_key']),
                 'site' => $_REQUEST['site']
-            )
+            ),
+            'timeout' => 5
         ));
 
         if (is_wp_error($response)) {

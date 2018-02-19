@@ -141,6 +141,18 @@ class Landing_Pages_Template_Switcher {
             return $template;
         }
 
+        if (post_password_required()) {
+            $password = apply_filters('landing-pages/password-template' , get_the_password_form());
+
+            /* This is for developers who'd like to create their own custom password protection template isntead of using the bland one */
+            if (file_exists($password)) {
+                return $password;
+            } else {
+                echo $password;
+                exit;
+            }
+        }
+
         /* nextgen gallery support */
         if (!defined('NGG_DISABLE_FILTER_THE_CONTENT')) {
             define( 'NGG_DISABLE_FILTER_THE_CONTENT' , true );

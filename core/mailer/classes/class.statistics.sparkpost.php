@@ -83,14 +83,14 @@ class Inbound_SparkPost_Stats {
             $post = get_post($email_id);
         }
 
-
         /* whitelist of email statuses we prepare statistics for */
-        if (!in_array($post->post_status, array('sent', 'sending', 'automated'))) {
+        if (!in_array($post->post_status, array('sent', 'sending', 'automated', 'direct_email'))) {
             return array();
         }
 
         /* get email setup data */
         $settings = Inbound_Email_Meta::get_settings($post->ID);
+        $settings['send_datetime'] = (isset($settings['send_datetime'])) ? $settings['send_datetime'] : '';
         $table_name = $wpdb->prefix . "inbound_events";
         $variation_query = '';
         $job_id_query = '';
@@ -708,6 +708,7 @@ class Inbound_SparkPost_Stats {
         }
 
         if (isset($transmission_args['recipients'][0]['tags']) && in_array( 'test' , $transmission_args['recipients'][0]['tags']) ) {
+
             return;
         }
 
@@ -738,9 +739,11 @@ class Inbound_SparkPost_Stats {
      * Check SparkPost Response for Errors and Handle them
      */
     public static function process_rejections( $transmission_args , $response ) {
-        if (!isset($response['errors']) || !isset($transmission_args['metadata']['lead_id'])) {
-            error_log(print_r($errors,true));
+        if (isset($response['errors']) || !isset($transmission_args['metadata']['lead_id'])) {
+            error_log(print_r($response['errors'],true));
             return;
+        } else {
+            $response['errors'] = array();
         }
 
         foreach ($response['errors'] as $error) {

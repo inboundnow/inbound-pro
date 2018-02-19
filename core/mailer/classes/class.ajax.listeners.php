@@ -149,7 +149,12 @@ class Inbound_Mailer_Ajax_Listeners {
 	public static function get_email_row_statistics() {
 		global $inbound_settings;
 
-		$stats = get_transient( 'inbound-email-stats-cache');
+
+		$post_status = (isset($_GET['post_status'])) ? $_GET['post_status'] : '';
+		$page = (isset($_GET['paged'])) ? $_GET['paged'] : 1;
+		$tkey =  'inbound-email-stats-cache'.$post_status.$page;
+
+		$stats = get_transient($tkey);
 
 		if (!is_array($stats)) {
 			$stats = array();
@@ -179,7 +184,7 @@ class Inbound_Mailer_Ajax_Listeners {
 				break;
 		}
 
-		set_transient('inbound-email-stats-cache' , $stats , 60* 5);
+		set_transient( $tkey , $stats , 60* 5);
 
 		echo json_encode($stats[$email_id]);
 		header('HTTP/1.1 200 OK');

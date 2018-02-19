@@ -61,9 +61,9 @@ class Inbound_Mailer_Activation_Update_Routines {
 		/* add ip field if does not exist */
 		$row = $wpdb->get_results(  "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '{$table_name}' AND column_name = 'list_ids'"  );
 		if(empty($row)){
-			$wpdb->get_results( "ALTER TABLE {$table_name} ADD `job_id` mediumint(9) NOT NULL" );
-			$wpdb->get_results( "ALTER TABLE {$table_name} ADD `rule_id` mediumint(9) NOT NULL" );
-			$wpdb->get_results( "ALTER TABLE {$table_name} ADD `post_id` mediumint(9) NOT NULL" );
+			$wpdb->get_results( "ALTER TABLE {$table_name} ADD `job_id` bigint(20) NOT NULL" );
+			$wpdb->get_results( "ALTER TABLE {$table_name} ADD `rule_id` bigint(20) NOT NULL" );
+			$wpdb->get_results( "ALTER TABLE {$table_name} ADD `post_id` bigint(20) NOT NULL" );
 			$wpdb->get_results( "ALTER TABLE {$table_name} ADD `list_ids` text NOT NULL" );
 			$wpdb->get_results( "ALTER TABLE {$table_name} ADD `tokens` mediumtext NOT NULL" );
 		}
