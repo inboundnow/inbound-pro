@@ -77,7 +77,4 @@ class Inbound_Leads_Custom_fields {
 
 }
 
-add_action( 'init' , 'load_Inbound_Leads_Custom_fields' );
-function load_Inbound_Leads_Custom_fields() {
-	new Inbound_Leads_Custom_fields;
-}
+new Inbound_Leads_Custom_fields;
