@@ -68,9 +68,21 @@ class Inbound_Templating_Engine {
 			/* Lets look for certain nested arrays and pull their content into the main $arg array */
 			if ( isset($arg['Mapped_Data']) ) {
 				$arg_json = json_decode( stripslashes($arg['Mapped_Data']), true);
+
 				foreach ($arg_json as $k=>$v) {
 					$arg[$k] = $v;
 				}
+			}
+
+			/* Lets look for certain nested arrays and pull their content into the main $arg array */
+			if ( isset($arg['mapped_params']) ) {
+
+				parse_str( stripslashes($arg['mapped_params']), $arg_parsed);
+
+				foreach ($arg_parsed as $k=>$v) {
+					$arg[$k] = $v;
+				}
+
 			}
 
 			foreach ($arg as $key => $value ) {
@@ -86,7 +98,6 @@ class Inbound_Templating_Engine {
 				$key = str_replace( 'inbound_', '', $key );
 				$key = str_replace( 'wpleads_', 'lead_', $key );
 				$key = str_replace( '_', '-', $key );
-
 
 				/* replace tokens in template */
 				$template = str_replace( '{{'.$key.'}}', $value, $template );
