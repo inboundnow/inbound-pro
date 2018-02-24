@@ -12,7 +12,7 @@
 
 if (!class_exists('Inbound_Automation_Trigger_Draft_To_Publish')) {
 
-    class Inbound_Automation_Trigger_Publish_Post {
+    class Inbound_Automation_Trigger_Save_Post_Deactivated {
 
         static $trigger;
 
@@ -141,6 +141,6 @@ if (!class_exists('Inbound_Automation_Trigger_Draft_To_Publish')) {
     }
 
     /* Load Trigger */
-    new Inbound_Automation_Trigger_Publish_Post;
+    new Inbound_Automation_Trigger_Save_Post_Deactivated;
 
 }
