@@ -39,7 +39,6 @@ class Inbound_Shared_ACF_BootStrap {
             if ( !function_exists('acf_add_local_field_group') ) {
                 define( 'ACF_FREE', true );
             }  else {
-                define( 'ACF_PRO', true );
                 add_filter('lp_init' , array(__CLASS__,'acf_register_global') , 20 , 1 ); /* registeres a global of registered field values for support between ACF5 & ACF6 */
             }
         }

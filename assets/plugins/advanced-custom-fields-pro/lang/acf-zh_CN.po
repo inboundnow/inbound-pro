@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Advanced Custom Fields Pro v5.2.9\n"
 "Report-Msgid-Bugs-To: http://support.advancedcustomfields.com\n"
 "POT-Creation-Date: 2015-08-11 23:50+0200\n"
-"PO-Revision-Date: 2016-04-07 10:31+1000\n"
+"PO-Revision-Date: 2017-10-13 15:27+1000\n"
 "Last-Translator: Elliot Condon <e@elliotcondon.com>\n"
 "Language-Team: Amos Lee <470266798@qq.com>\n"
 "Language: zh_CN\n"
@@ -28,10 +28,9 @@ msgstr "高级自定义字段"
 
 #: acf.php:205 admin/admin.php:61
 msgid "Field Groups"
-msgstr "字段和表单域"
+msgstr "字段组"
 
 #: acf.php:206
-#, fuzzy
 msgid "Field Group"
 msgstr "字段组"
 
@@ -42,15 +41,15 @@ msgstr "新建"
 
 #: acf.php:208
 msgid "Add New Field Group"
-msgstr "添加新字段组"
+msgstr "添加字段组"
 
 #: acf.php:209
 msgid "Edit Field Group"
-msgstr "编辑当前字段组"
+msgstr "编辑字段组"
 
 #: acf.php:210
 msgid "New Field Group"
-msgstr "添加新字段组"
+msgstr "新建字段组"
 
 #: acf.php:211
 msgid "View Field Group"
@@ -74,19 +73,16 @@ msgid "Fields"
 msgstr "字段"
 
 #: acf.php:238
-#, fuzzy
 msgid "Field"
 msgstr "字段"
 
 #: acf.php:240
-#, fuzzy
 msgid "Add New Field"
-msgstr "新字段"
+msgstr "添加新字段"
 
 #: acf.php:241
-#, fuzzy
 msgid "Edit Field"
-msgstr "编辑文件"
+msgstr "编辑字段"
 
 #: acf.php:242 admin/views/field-group-fields.php:18
 #: admin/views/settings-info.php:111
@@ -94,35 +90,31 @@ msgid "New Field"
 msgstr "新字段"
 
 #: acf.php:243
-#, fuzzy
 msgid "View Field"
 msgstr "新字段"
 
 #: acf.php:244
-#, fuzzy
 msgid "Search Fields"
-msgstr "搜索字段组"
+msgstr "搜索字段"
 
 #: acf.php:245
-#, fuzzy
 msgid "No Fields found"
-msgstr "没有找到字段组"
+msgstr "没找到字段"
 
 #: acf.php:246
-#, fuzzy
 msgid "No Fields found in Trash"
-msgstr "回收站中没有找到字段组"
+msgstr "回收站里没有字段"
 
 #: acf.php:268 admin/field-group.php:283 admin/field-groups.php:583
 #: admin/views/field-group-options.php:18
 msgid "Disabled"
-msgstr ""
+msgstr "禁用"
 
 #: acf.php:273
 #, php-format
 msgid "Disabled <span class=\"count\">(%s)</span>"
 msgid_plural "Disabled <span class=\"count\">(%s)</span>"
-msgstr[0] ""
+msgstr[0] "禁用 <span class=\"count\">(%s)</span>"
 
 #: admin/admin.php:57 admin/views/field-group-options.php:120
 msgid "Custom Fields"
@@ -130,12 +122,11 @@ msgstr "字段"
 
 #: admin/field-group.php:68 admin/field-group.php:69 admin/field-group.php:71
 msgid "Field group updated."
-msgstr "自定义字段组已更新。"
+msgstr "字段组已更新。"
 
 #: admin/field-group.php:70
-#, fuzzy
 msgid "Field group deleted."
-msgstr "自定义字段组已更新。"
+msgstr "字段组已删除。"
 
 #: admin/field-group.php:73
 msgid "Field group published."
@@ -143,11 +134,11 @@ msgstr "字段组已发布。"
 
 #: admin/field-group.php:74
 msgid "Field group saved."
-msgstr "设置已保存。"
+msgstr "字段组已保存。"
 
 #: admin/field-group.php:75
 msgid "Field group submitted."
-msgstr "字段组已提交"
+msgstr "字段组已提交。"
 
 #: admin/field-group.php:76
 msgid "Field group scheduled for."
@@ -163,16 +154,15 @@ msgstr "确定要删除吗？"
 
 #: admin/field-group.php:177
 msgid "checked"
-msgstr "选中"
+msgstr "已选"
 
 #: admin/field-group.php:178
 msgid "No toggle fields available"
-msgstr "没有可用的条件字段"
+msgstr "没有可用的切换字段"
 
 #: admin/field-group.php:179
-#, fuzzy
 msgid "Field group title is required"
-msgstr "字段组已发布。"
+msgstr "字段组的标题是必填项"
 
 #: admin/field-group.php:180 api/api-field-group.php:607
 msgid "copy"
@@ -184,37 +174,35 @@ msgstr "复制"
 #: admin/views/field-group-locations.php:23
 #: admin/views/field-group-locations.php:131 api/api-helpers.php:3262
 msgid "or"
-msgstr " 或"
+msgstr "或"
 
 #: admin/field-group.php:183
-#, fuzzy
 msgid "Parent fields"
-msgstr "父页面"
+msgstr "父字段"
 
 #: admin/field-group.php:184
 msgid "Sibling fields"
-msgstr ""
+msgstr "兄弟字段"
 
 #: admin/field-group.php:185
-#, fuzzy
 msgid "Move Custom Field"
-msgstr "字段"
+msgstr "移动自定义字段"
 
 #: admin/field-group.php:186
 msgid "This field cannot be moved until its changes have been saved"
-msgstr ""
+msgstr "保存这个字段的修改以后才能移动这个字段"
 
 #: admin/field-group.php:187
 msgid "Null"
-msgstr ""
+msgstr "Null"
 
 #: admin/field-group.php:188 core/input.php:128
 msgid "The changes you made will be lost if you navigate away from this page"
-msgstr ""
+msgstr "如果浏览其它页面，会丢失当前所做的修改"
 
 #: admin/field-group.php:189
 msgid "The string \"field_\" may not be used at the start of a field name"
-msgstr ""
+msgstr "\"field_\" 这个字符串不能作为字段名字的开始部分"
 
 #: admin/field-group.php:214
 msgid "Location"
@@ -222,11 +210,11 @@ msgstr "位置"
 
 #: admin/field-group.php:215
 msgid "Settings"
-msgstr ""
+msgstr "设置"
 
 #: admin/field-group.php:253
 msgid "Field Keys"
-msgstr ""
+msgstr "字段 Keys"
 
 #: admin/field-group.php:283 admin/views/field-group-options.php:17
 msgid "Active"
@@ -241,38 +229,36 @@ msgid "Posts Page"
 msgstr "文章页"
 
 #: admin/field-group.php:746
-#, fuzzy
 msgid "Top Level Page (no parent)"
-msgstr "顶级分类（父级为0）"
+msgstr "顶级页面 (无父页面)"
 
 #: admin/field-group.php:747
 msgid "Parent Page (has children)"
-msgstr "父分类（有子分类）"
+msgstr "父页面（有子页）"
 
 #: admin/field-group.php:748
 msgid "Child Page (has parent)"
-msgstr "子分类（有父分类）"
+msgstr "子页面（有父页面）"
 
 #: admin/field-group.php:764
 msgid "Default Template"
 msgstr "默认模板"
 
 #: admin/field-group.php:786
-#, fuzzy
 msgid "Logged in"
-msgstr "用户类型已记录"
+msgstr "登录"
 
 #: admin/field-group.php:787
 msgid "Viewing front end"
-msgstr ""
+msgstr "查看前端"
 
 #: admin/field-group.php:788
 msgid "Viewing back end"
-msgstr ""
+msgstr "查看后端"
 
 #: admin/field-group.php:807
 msgid "Super Admin"
-msgstr ""
+msgstr "超级管理员"
 
 #: admin/field-group.php:818 admin/field-group.php:826
 #: admin/field-group.php:840 admin/field-group.php:847
@@ -282,70 +268,65 @@ msgid "All"
 msgstr "所有"
 
 #: admin/field-group.php:827
-#, fuzzy
 msgid "Add / Edit"
-msgstr "用户（添加./编辑）"
+msgstr "添加 / 编辑"
 
 #: admin/field-group.php:828
 msgid "Register"
-msgstr ""
+msgstr "注册"
 
 #: admin/field-group.php:1059
 msgid "Move Complete."
-msgstr ""
+msgstr "移动完成。"
 
 #: admin/field-group.php:1060
 #, php-format
 msgid "The %s field can now be found in the %s field group"
-msgstr ""
+msgstr "%s 字段现在会在 %s 字段组里"
 
 #: admin/field-group.php:1062
-#, fuzzy
 msgid "Close Window"
-msgstr "关闭字段"
+msgstr "关闭窗口"
 
 #: admin/field-group.php:1097
-#, fuzzy
 msgid "Please select the destination for this field"
-msgstr "阅读此字段的文档"
+msgstr "请选择这个字段的位置"
 
 #: admin/field-group.php:1104
-#, fuzzy
 msgid "Move Field"
-msgstr "保存字段"
+msgstr "移动字段"
 
 #: admin/field-groups.php:74
 #, php-format
 msgid "Active <span class=\"count\">(%s)</span>"
 msgid_plural "Active <span class=\"count\">(%s)</span>"
-msgstr[0] ""
+msgstr[0] "启用 <span class=\"count\">(%s)</span>"
 
 #: admin/field-groups.php:142
-#, fuzzy, php-format
+#, php-format
 msgid "Field group duplicated. %s"
-msgstr "自定义字段组已更新。"
+msgstr "字段组已被复制。%s"
 
 #: admin/field-groups.php:146
 #, php-format
 msgid "%s field group duplicated."
 msgid_plural "%s field groups duplicated."
-msgstr[0] ""
+msgstr[0] "%s 字段组已被复制。"
 
 #: admin/field-groups.php:228
-#, fuzzy, php-format
+#, php-format
 msgid "Field group synchronised. %s"
-msgstr "设置已保存。"
+msgstr "字段组已同步。 %s"
 
 #: admin/field-groups.php:232
 #, php-format
 msgid "%s field group synchronised."
 msgid_plural "%s field groups synchronised."
-msgstr[0] ""
+msgstr[0] "%s 字段组已同步。"
 
 #: admin/field-groups.php:403 admin/field-groups.php:573
-#, fuzzy
 msgid "Sync available"
-msgstr "更新文件"
+msgstr "有可用同步"
 
 #: admin/field-groups.php:516
 msgid "Title"
@@ -358,7 +339,7 @@ msgstr "描述"
 
 #: admin/field-groups.php:518 admin/views/field-group-options.php:10
 msgid "Status"
-msgstr ""
+msgstr "状态"
 
 #: admin/field-groups.php:616 admin/settings-info.php:76
 #: pro/admin/views/settings-updates.php:111
@@ -379,13 +360,12 @@ msgstr "资源"
 
 #: admin/field-groups.php:621
 msgid "Getting Started"
-msgstr "开始"
+msgstr "起步"
 
 #: admin/field-groups.php:622 pro/admin/settings-updates.php:73
 #: pro/admin/views/settings-updates.php:17
-#, fuzzy
 msgid "Updates"
-msgstr "更新文件"
+msgstr "更新"
 
 #: admin/field-groups.php:623
 msgid "Field Types"
@@ -409,14 +389,13 @@ msgstr "新手向导"
 
 #: admin/field-groups.php:628
 msgid "Tutorials"
-msgstr "向导"
+msgstr "教程"
 
 #: admin/field-groups.php:633
 msgid "Created by"
 msgstr "创建者"
 
 #: admin/field-groups.php:673
-#, fuzzy
 msgid "Duplicate this item"
 msgstr "复制此项"
 
@@ -426,18 +405,17 @@ msgid "Duplicate"
 msgstr "复制"
 
 #: admin/field-groups.php:724
-#, fuzzy, php-format
+#, php-format
 msgid "Select %s"
-msgstr "选择"
+msgstr "选择 %s"
 
 #: admin/field-groups.php:730
-#, fuzzy
 msgid "Synchronise field group"
-msgstr "显示此字段组的条件"
+msgstr "同步字段组"
 
 #: admin/field-groups.php:730 admin/field-groups.php:750
 msgid "Sync"
-msgstr ""
+msgstr "同步"
 
 #: admin/settings-addons.php:51 admin/views/settings-addons.php:9
 msgid "Add-ons"
@@ -445,63 +423,60 @@ msgstr "附加功能"
 
 #: admin/settings-addons.php:87
 msgid "<b>Error</b>. Could not load add-ons list"
-msgstr ""
+msgstr "<b>错误</b>，无法加载扩展列表"
 
 #: admin/settings-info.php:50
 msgid "Info"
-msgstr ""
+msgstr "信息"
 
 #: admin/settings-info.php:75
-#, fuzzy
 msgid "What's New"
 msgstr "更新日志"
 
 #: admin/settings-tools.php:54 admin/views/settings-tools-export.php:9
 #: admin/views/settings-tools.php:31
 msgid "Tools"
-msgstr ""
+msgstr "工具"
 
 #: admin/settings-tools.php:151 admin/settings-tools.php:365
-#, fuzzy
 msgid "No field groups selected"
-msgstr "没有选择字段组"
+msgstr "没选择字段组"
 
 #: admin/settings-tools.php:188
-#, fuzzy
 msgid "No file selected"
-msgstr "没有选择文件"
+msgstr "没选择文件"
 
 #: admin/settings-tools.php:201
 msgid "Error uploading file. Please try again"
-msgstr ""
+msgstr "文件上传失败，请重试"
 
 #: admin/settings-tools.php:210
 msgid "Incorrect file type"
-msgstr ""
+msgstr "文本类型不对"
 
 #: admin/settings-tools.php:227
 msgid "Import file empty"
-msgstr ""
+msgstr "导入的文件是空白的"
 
 #: admin/settings-tools.php:323
 #, php-format
 msgid "<b>Success</b>. Import tool added %s field groups: %s"
-msgstr ""
+msgstr "<b>成功</b>，导入工具添加了 %s 字段组： %s"
 
 #: admin/settings-tools.php:332
 #, php-format
 msgid ""
 "<b>Warning</b>. Import tool detected %s field groups already exist and have "
 "been ignored: %s"
-msgstr ""
+msgstr "<b>警告</b>，导入工具检测到 %s 字段组已经存在了。忽略的字段组：%s"
 
 #: admin/update.php:113
 msgid "Upgrade ACF"
-msgstr ""
+msgstr "升级 ACF"
 
 #: admin/update.php:143
 msgid "Review sites & upgrade"
-msgstr ""
+msgstr "检查网站并升级"
 
 #: admin/update.php:298
 msgid "Upgrade"
@@ -509,7 +484,7 @@ msgstr "升级"
 
 #: admin/update.php:328
 msgid "Upgrade Database"
-msgstr ""
+msgstr "升级数据库"
 
 #: admin/views/field-group-field-conditional-logic.php:29
 msgid "Conditional Logic"
@@ -540,9 +515,8 @@ msgid "No"
 msgstr "否"
 
 #: admin/views/field-group-field-conditional-logic.php:65
-#, fuzzy
 msgid "Show this field if"
-msgstr "显示此字段组的条件"
+msgstr "显示此字段的条件"
 
 #: admin/views/field-group-field-conditional-logic.php:111
 #: admin/views/field-group-locations.php:88
@@ -557,7 +531,7 @@ msgstr "不等于"
 #: admin/views/field-group-field-conditional-logic.php:149
 #: admin/views/field-group-locations.php:118
 msgid "and"
-msgstr "+"
+msgstr "与"
 
 #: admin/views/field-group-field-conditional-logic.php:164
 #: admin/views/field-group-locations.php:133
@@ -565,31 +539,28 @@ msgid "Add rule group"
 msgstr "添加规则组"
 
 #: admin/views/field-group-field.php:54 admin/views/field-group-field.php:57
-#, fuzzy
 msgid "Edit field"
-msgstr "编辑文件"
+msgstr "编辑字段"
 
 #: admin/views/field-group-field.php:57 pro/fields/gallery.php:355
 msgid "Edit"
 msgstr "编辑"
 
 #: admin/views/field-group-field.php:58
-#, fuzzy
 msgid "Duplicate field"
-msgstr "复制此项"
+msgstr "复制字段"
 
 #: admin/views/field-group-field.php:59
 msgid "Move field to another group"
-msgstr ""
+msgstr "把字段移动到其它群组"
 
 #: admin/views/field-group-field.php:59
 msgid "Move"
-msgstr ""
+msgstr "移动"
 
 #: admin/views/field-group-field.php:60
-#, fuzzy
 msgid "Delete field"
-msgstr "删除此项"
+msgstr "删除字段"
 
 #: admin/views/field-group-field.php:60 pro/fields/flexible-content.php:515
 msgid "Delete"
@@ -600,9 +571,13 @@ msgstr "删除"
 msgid "Error"
 msgstr "错误"
 
+#: fields/oembed.php:220 fields/taxonomy.php:900
+msgid "Error."
+msgstr "错误。"
+
 #: admin/views/field-group-field.php:68
 msgid "Field type does not exist"
-msgstr "字段类型不存在！"
+msgstr "字段类型不存在"
 
 #: admin/views/field-group-field.php:81
 msgid "Field Label"
@@ -610,7 +585,7 @@ msgstr "字段标签"
 
 #: admin/views/field-group-field.php:82
 msgid "This is the name which will appear on the EDIT page"
-msgstr "在编辑界面显示的名字。"
+msgstr "在编辑界面显示的名字"
 
 #: admin/views/field-group-field.php:93
 msgid "Field Name"
@@ -626,39 +601,37 @@ msgstr "字段类型"
 
 #: admin/views/field-group-field.php:118 fields/tab.php:143
 msgid "Instructions"
-msgstr "结构"
+msgstr "说明"
 
 #: admin/views/field-group-field.php:119
 msgid "Instructions for authors. Shown when submitting data"
-msgstr "字段说明，显示在表单下面。"
+msgstr "显示给内容作者的说明文字，在提交数据时显示"
 
 #: admin/views/field-group-field.php:130
 msgid "Required?"
-msgstr "(必填项)"
+msgstr "必填？"
 
 #: admin/views/field-group-field.php:158
 msgid "Wrapper Attributes"
-msgstr ""
+msgstr "包装属性"
 
 #: admin/views/field-group-field.php:164
 msgid "width"
-msgstr ""
+msgstr "宽度"
 
 #: admin/views/field-group-field.php:178
 msgid "class"
-msgstr ""
+msgstr "class"
 
 #: admin/views/field-group-field.php:191
-#, fuzzy
 msgid "id"
-msgstr "边栏"
+msgstr "id"
 
 #: admin/views/field-group-field.php:203
 msgid "Close Field"
 msgstr "关闭字段"
 
 #: admin/views/field-group-fields.php:29
-#, fuzzy
 msgid "Order"
 msgstr "序号"
 
@@ -682,11 +655,11 @@ msgstr "没有字段，点击<strong>添加</strong>按钮创建第一个字段�
 
 #: admin/views/field-group-fields.php:51
 msgid "Drag and drop to reorder"
-msgstr "托拽排序"
+msgstr "拖拽排序"
 
 #: admin/views/field-group-fields.php:54
 msgid "+ Add Field"
-msgstr "添加字段"
+msgstr "+ 添加字段"
 
 #: admin/views/field-group-locations.php:5
 msgid "Rules"
@@ -696,7 +669,7 @@ msgstr "规则"
 msgid ""
 "Create a set of rules to determine which edit screens will use these "
 "advanced custom fields"
-msgstr "创建一组规则以确定自定义字段在那个编辑界面显示。"
+msgstr "创建一组规则以确定自定义字段在哪个编辑界面上显示"
 
 #: admin/views/field-group-locations.php:21
 msgid "Show this field group if"
@@ -705,28 +678,27 @@ msgstr "显示此字段组的条件"
 #: admin/views/field-group-locations.php:41
 #: admin/views/field-group-locations.php:47
 msgid "Post"
-msgstr "日志"
+msgstr "内容"
 
 #: admin/views/field-group-locations.php:42 fields/relationship.php:724
 msgid "Post Type"
-msgstr "文章类型"
+msgstr "内容类型"
 
 #: admin/views/field-group-locations.php:43
-#, fuzzy
 msgid "Post Status"
-msgstr "状态"
+msgstr "内容状态"
 
 #: admin/views/field-group-locations.php:44
 msgid "Post Format"
-msgstr "文章格式"
+msgstr "内容格式"
 
 #: admin/views/field-group-locations.php:45
 msgid "Post Category"
-msgstr "文章类别"
+msgstr "内容类别"
 
 #: admin/views/field-group-locations.php:46
 msgid "Post Taxonomy"
-msgstr "分类法"
+msgstr "内容分类法"
 
 #: admin/views/field-group-locations.php:49
 #: admin/views/field-group-locations.php:53
@@ -751,59 +723,51 @@ msgstr "用户"
 
 #: admin/views/field-group-locations.php:56
 msgid "Current User"
-msgstr ""
+msgstr "当前用户"
 
 #: admin/views/field-group-locations.php:57
-#, fuzzy
 msgid "Current User Role"
-msgstr "用户字段"
+msgstr "当前用户角色"
 
 #: admin/views/field-group-locations.php:58
-#, fuzzy
 msgid "User Form"
-msgstr "用户字段"
+msgstr "用户表单"
 
 #: admin/views/field-group-locations.php:59
-#, fuzzy
 msgid "User Role"
-msgstr "用户字段"
+msgstr "用户角色"
 
 #: admin/views/field-group-locations.php:61 pro/admin/options-page.php:48
-#, fuzzy
 msgid "Forms"
-msgstr "格式"
+msgstr "表单"
 
 #: admin/views/field-group-locations.php:62
-#, fuzzy
 msgid "Attachment"
-msgstr "附件已更新"
+msgstr "附件"
 
 #: admin/views/field-group-locations.php:63
-#, fuzzy
 msgid "Taxonomy Term"
-msgstr "分类法"
+msgstr "分类词汇"
 
 #: admin/views/field-group-locations.php:64
-#, fuzzy
 msgid "Comment"
 msgstr "评论"
 
 #: admin/views/field-group-locations.php:65
 msgid "Widget"
-msgstr ""
+msgstr "小工具"
 
 #: admin/views/field-group-options.php:25
 msgid "Style"
 msgstr "样式"
 
 #: admin/views/field-group-options.php:32
-#, fuzzy
 msgid "Standard (WP metabox)"
-msgstr "标准Metabox"
+msgstr "标准（WP Metabox）"
 
 #: admin/views/field-group-options.php:33
 msgid "Seamless (no metabox)"
-msgstr ""
+msgstr "无缝（无 metabox）"
 
 #: admin/views/field-group-options.php:40
 msgid "Position"
@@ -811,11 +775,11 @@ msgstr "位置"
 
 #: admin/views/field-group-options.php:47
 msgid "High (after title)"
-msgstr ""
+msgstr "高（标题之后）"
 
 #: admin/views/field-group-options.php:48
 msgid "Normal (after content)"
-msgstr ""
+msgstr "正常（内容之后）"
 
 #: admin/views/field-group-options.php:49
 msgid "Side"
@@ -823,30 +787,27 @@ msgstr "边栏"
 
 #: admin/views/field-group-options.php:57
 msgid "Label placement"
-msgstr ""
+msgstr "标签位置"
 
 #: admin/views/field-group-options.php:64 fields/tab.php:159
 msgid "Top aligned"
-msgstr ""
+msgstr "顶部对齐"
 
 #: admin/views/field-group-options.php:65 fields/tab.php:160
 msgid "Left Aligned"
-msgstr ""
+msgstr "左对齐"
 
 #: admin/views/field-group-options.php:72
-#, fuzzy
 msgid "Instruction placement"
-msgstr "结构"
+msgstr "说明位置"
 
 #: admin/views/field-group-options.php:79
-#, fuzzy
 msgid "Below labels"
-msgstr "字段标签"
+msgstr "标签之下"
 
 #: admin/views/field-group-options.php:80
-#, fuzzy
 msgid "Below fields"
-msgstr "新字段"
+msgstr "字段之下"
 
 #: admin/views/field-group-options.php:87
 msgid "Order No."
@@ -854,32 +815,31 @@ msgstr "序号"
 
 #: admin/views/field-group-options.php:88
 msgid "Field groups with a lower order will appear first"
-msgstr ""
+msgstr "序号小的字段组会排在最前面"
 
 #: admin/views/field-group-options.php:99
 msgid "Shown in field group list"
-msgstr ""
+msgstr "在字段组列表中显示"
 
 #: admin/views/field-group-options.php:109
 msgid "Hide on screen"
 msgstr "隐藏元素"
 
 #: admin/views/field-group-options.php:110
-#, fuzzy
 msgid "<b>Select</b> items to <b>hide</b> them from the edit screen."
 msgstr "<b>选择</b>需要在编辑界面<b>隐藏</b>的条目。 "
 
 #: admin/views/field-group-options.php:110
-#, fuzzy
 msgid ""
 "If multiple field groups appear on an edit screen, the first field group's "
 "options will be used (the one with the lowest order number)"
 msgstr ""
-"如果多个自定组出现在编辑界面，只有第一个字段组的设置有效（序号最小的）。"
+"如果多个字段组同时出现在编辑界面，会使用第一个字段组里的选项（就是序号最小的"
+"那个字段组）"
 
 #: admin/views/field-group-options.php:117
 msgid "Permalink"
-msgstr ""
+msgstr "固定链接"
 
 #: admin/views/field-group-options.php:118
 msgid "Content Editor"
@@ -899,7 +859,7 @@ msgstr "评论"
 
 #: admin/views/field-group-options.php:123
 msgid "Revisions"
-msgstr "版本控制"
+msgstr "修订"
 
 #: admin/views/field-group-options.php:124
 msgid "Slug"
@@ -915,7 +875,7 @@ msgstr "格式"
 
 #: admin/views/field-group-options.php:127
 msgid "Page Attributes"
-msgstr ""
+msgstr "页面属性"
 
 #: admin/views/field-group-options.php:128 fields/relationship.php:737
 msgid "Featured Image"
@@ -931,12 +891,11 @@ msgstr "标签"
 
 #: admin/views/field-group-options.php:131
 msgid "Send Trackbacks"
-msgstr "发送反馈"
+msgstr "发送 Trackbacks"
 
 #: admin/views/settings-addons.php:23
-#, fuzzy
 msgid "Download & Install"
-msgstr "下载附加功能"
+msgstr "下载并安装"
 
 #: admin/views/settings-addons.php:42
 msgid "Installed"
@@ -944,22 +903,22 @@ msgstr "已安装"
 
 #: admin/views/settings-info.php:9
 msgid "Welcome to Advanced Custom Fields"
-msgstr "欢迎来到高级自定义字段"
+msgstr "欢迎使用高级自定义字段"
 
 #: admin/views/settings-info.php:10
-#, fuzzy, php-format
+#, php-format
 msgid ""
 "Thank you for updating! ACF %s is bigger and better than ever before. We "
 "hope you like it."
-msgstr "比任何时候都优雅有趣，希望你喜欢他。"
+msgstr "感谢升级到更好的 ACF %s，你会喜欢上它的。"
 
 #: admin/views/settings-info.php:23
 msgid "A smoother custom field experience"
-msgstr ""
+msgstr "平滑的自定义字段体验"
 
 #: admin/views/settings-info.php:28
 msgid "Improved Usability"
-msgstr ""
+msgstr "改善用户体验"
 
 #: admin/views/settings-info.php:29
 msgid ""
@@ -967,21 +926,22 @@ msgid ""
 "across a number of field types including post object, page link, taxonomy "
 "and select."
 msgstr ""
+"Select2 这个库，改善了内容对象，分类法，选择列表等字段的用户体验与速度。"
 
 #: admin/views/settings-info.php:33
 msgid "Improved Design"
-msgstr ""
+msgstr "改善的设计"
 
 #: admin/views/settings-info.php:34
 msgid ""
 "Many fields have undergone a visual refresh to make ACF look better than "
 "ever! Noticeable changes are seen on the gallery, relationship and oEmbed "
 "(new) fields!"
-msgstr ""
+msgstr "很多字段变漂亮了，比如相册，关系，oEmbed 。"
 
 #: admin/views/settings-info.php:38
 msgid "Improved Data"
-msgstr ""
+msgstr "改善的数据"
 
 #: admin/views/settings-info.php:39
 msgid ""
@@ -989,19 +949,21 @@ msgid ""
 "independently from their parents. This allows you to drag and drop fields in "
 "and out of parent fields!"
 msgstr ""
+"重新设计了数据结构，让子字段独立于它的爸爸。这样我们可以把字段放到父字段里，"
+"也可以从父字段里拿出来。"
 
 #: admin/views/settings-info.php:45
 msgid "Goodbye Add-ons. Hello PRO"
-msgstr ""
+msgstr "再见了扩展，欢迎专业版"
 
 #: admin/views/settings-info.php:50
 msgid "Introducing ACF PRO"
-msgstr ""
+msgstr "ACF 专业版介绍"
 
 #: admin/views/settings-info.php:51
 msgid ""
 "We're changing the way premium functionality is delivered in an exciting way!"
-msgstr ""
+msgstr "我们改进了为您提供高级功能的方法。"
 
 #: admin/views/settings-info.php:52
 #, php-format
@@ -1010,10 +972,12 @@ msgid ""
 "version of ACF</a>. With both personal and developer licenses available, "
 "premium functionality is more affordable and accessible than ever before!"
 msgstr ""
+"之前的 4 个高级功能扩展现在被组合成了一个新的 <a href=\"%s\">ACF 专业版</a>。"
+"许可证分为两种，个人与开发者，现在这些高级功能更实惠也更易用。"
 
 #: admin/views/settings-info.php:56
 msgid "Powerful Features"
-msgstr ""
+msgstr "强大的功能"
 
 #: admin/views/settings-info.php:57
 msgid ""
@@ -1021,22 +985,23 @@ msgid ""
 "layouts, a beautiful gallery field and the ability to create extra admin "
 "options pages!"
 msgstr ""
+"ACF 专业版有重复数据，弹性内容布局，相册功能，还可以创建页面的管理选项。"
 
 #: admin/views/settings-info.php:58
 #, php-format
 msgid "Read more about <a href=\"%s\">ACF PRO features</a>."
-msgstr ""
+msgstr "了解更多关于 <a href=\"%s\">ACF PRO 的功能</a>。"
 
 #: admin/views/settings-info.php:62
 msgid "Easy Upgrading"
-msgstr ""
+msgstr "便捷的升级"
 
 #: admin/views/settings-info.php:63
 #, php-format
 msgid ""
 "To help make upgrading easy, <a href=\"%s\">login to your store account</a> "
 "and claim a free copy of ACF PRO!"
-msgstr ""
+msgstr "<a href=\"%s\">登录到商店帐户</a>，可以方便以后升级。"
 
 #: admin/views/settings-info.php:64
 #, php-format
@@ -1045,121 +1010,118 @@ msgid ""
 "but if you do have one, please contact our support team via the <a href=\"%s"
 "\">help desk</a>"
 msgstr ""
+"阅读 <a href=\"%s\">升级手册</a>，需要帮助请联系 <a href=\"%s\">客服</a>"
 
 #: admin/views/settings-info.php:72
 msgid "Under the Hood"
-msgstr ""
+msgstr "工作原理"
 
 #: admin/views/settings-info.php:77
 msgid "Smarter field settings"
-msgstr ""
+msgstr "更聪明的字段设置"
 
 #: admin/views/settings-info.php:78
 msgid "ACF now saves its field settings as individual post objects"
-msgstr ""
+msgstr "ACF 现在用单独的内容对象字段设置"
 
 #: admin/views/settings-info.php:82
 msgid "More AJAX"
-msgstr ""
+msgstr "更多 AJAX"
 
 #: admin/views/settings-info.php:83
 msgid "More fields use AJAX powered search to speed up page loading"
-msgstr ""
+msgstr "更多字段使用 AJAX 搜索，这让页面加载速度更快"
 
 #: admin/views/settings-info.php:87
 msgid "Local JSON"
-msgstr ""
+msgstr "本地 JSON"
 
 #: admin/views/settings-info.php:88
 msgid "New auto export to JSON feature improves speed"
-msgstr ""
+msgstr "改进了新的自动导出 JSON 功能的速度"
 
 #: admin/views/settings-info.php:94
 msgid "Better version control"
-msgstr ""
+msgstr "更好的版本控制"
 
 #: admin/views/settings-info.php:95
 msgid ""
 "New auto export to JSON feature allows field settings to be version "
 "controlled"
-msgstr ""
+msgstr "新的自动 JSON 导出功能让字段设置可以包含在版本控制里"
 
 #: admin/views/settings-info.php:99
 msgid "Swapped XML for JSON"
-msgstr ""
+msgstr "用 JSON 替代 XML"
 
 #: admin/views/settings-info.php:100
 msgid "Import / Export now uses JSON in favour of XML"
-msgstr ""
+msgstr "导入 / 导出现在用 JSON 代替以前的 XML"
 
 #: admin/views/settings-info.php:104
 msgid "New Forms"
-msgstr ""
+msgstr "新表单"
 
 #: admin/views/settings-info.php:105
 msgid "Fields can now be mapped to comments, widgets and all user forms!"
-msgstr ""
+msgstr "字段现在可以用在评论，小工具还有所有的用户表单上。"
 
 #: admin/views/settings-info.php:112
 msgid "A new field for embedding content has been added"
-msgstr ""
+msgstr "新添加了一个嵌入内容用的字段"
 
 #: admin/views/settings-info.php:116
-#, fuzzy
 msgid "New Gallery"
-msgstr "相册"
+msgstr "新相册"
 
 #: admin/views/settings-info.php:117
 msgid "The gallery field has undergone a much needed facelift"
-msgstr ""
+msgstr "改进了相册字段的显示"
 
 #: admin/views/settings-info.php:121
-#, fuzzy
 msgid "New Settings"
-msgstr "设置"
+msgstr "新设置"
 
 #: admin/views/settings-info.php:122
 msgid ""
 "Field group settings have been added for label placement and instruction "
 "placement"
-msgstr ""
+msgstr "字段组设置添加了标签位置与介绍位置"
 
 #: admin/views/settings-info.php:128
 msgid "Better Front End Forms"
-msgstr ""
+msgstr "更好的前端表单"
 
 #: admin/views/settings-info.php:129
 msgid "acf_form() can now create a new post on submission"
-msgstr ""
+msgstr "acf_form() 现在可以在提交的时候创建新的内容"
 
 #: admin/views/settings-info.php:133
 msgid "Better Validation"
-msgstr ""
+msgstr "更好的验证方式"
 
 #: admin/views/settings-info.php:134
 msgid "Form validation is now done via PHP + AJAX in favour of only JS"
-msgstr ""
+msgstr "表单验证现在使用 PHP + AJAX 的方式"
 
 #: admin/views/settings-info.php:138
-#, fuzzy
 msgid "Relationship Field"
-msgstr "关系"
+msgstr "关系字段"
 
 #: admin/views/settings-info.php:139
 msgid ""
 "New Relationship field setting for 'Filters' (Search, Post Type, Taxonomy)"
-msgstr ""
+msgstr "新的用来过滤的关系字段设置（搜索，内容类型，分类法）"
 
 #: admin/views/settings-info.php:145
-#, fuzzy
 msgid "Moving Fields"
-msgstr "位置字段"
+msgstr "移动字段"
 
 #: admin/views/settings-info.php:146
 msgid ""
 "New field group functionality allows you to move a field between groups & "
 "parents"
-msgstr ""
+msgstr "新的字段组功能可以让我们在群组与爸爸之间移动字段"
 
 #: admin/views/settings-info.php:150 fields/page_link.php:36
 msgid "Page Link"
@@ -1167,10 +1129,9 @@ msgstr "页面链接"
 
 #: admin/views/settings-info.php:151
 msgid "New archives group in page_link field selection"
-msgstr ""
+msgstr "在 page_link 字段选择里的新的存档群组"
 
 #: admin/views/settings-info.php:155
-#, fuzzy
 msgid "Better Options Pages"
 msgstr "选项页面"
 
@@ -1178,12 +1139,12 @@ msgstr "选项页面"
 msgid ""
 "New functions for options page allow creation of both parent and child menu "
 "pages"
-msgstr ""
+msgstr "选项页面的新功能，可以让你同时创建父菜单与子菜单页面"
 
 #: admin/views/settings-info.php:165
 #, php-format
 msgid "We think you'll love the changes in %s."
-msgstr ""
+msgstr "你会喜欢在 %s 里做的修改。"
 
 #: admin/views/settings-tools-export.php:13
 msgid "Export Field Groups to PHP"
@@ -1197,11 +1158,12 @@ msgid ""
 "the following code to your theme's functions.php file or include it within "
 "an external file."
 msgstr ""
+"下面的代码可以用来创建一个本地版本的所选字段组。本地字段组加载更快，可以版本"
+"控制。你可以把下面这些代码放在你的主题的 functions.php 文件里。"
 
 #: admin/views/settings-tools.php:5
-#, fuzzy
 msgid "Select Field Groups"
-msgstr "搜索字段组"
+msgstr "选择字段组"
 
 #: admin/views/settings-tools.php:35
 msgid "Export Field Groups"
@@ -1214,112 +1176,111 @@ msgid ""
 "import to another ACF installation. Use the generate button to export to PHP "
 "code which you can place in your theme."
 msgstr ""
+"选择你想导出的字段组，然后选择导出的方法。使用 <b>下载</b> 按钮可以导出一个 ."
+"json 文件，你可以在其它的网站里导入它。使用 <b>生成</b> 按钮可以导出 PHP 代"
+"码，这些代码可以放在你的主题或插件里。"
 
 #: admin/views/settings-tools.php:50
 msgid "Download export file"
-msgstr ""
+msgstr "下载导出文件"
 
 #: admin/views/settings-tools.php:51
 msgid "Generate export code"
-msgstr ""
+msgstr "生成导出代码"
 
 #: admin/views/settings-tools.php:64
-#, fuzzy
 msgid "Import Field Groups"
-msgstr "导出字段组"
+msgstr "导入字段组"
 
 #: admin/views/settings-tools.php:67
 msgid ""
 "Select the Advanced Custom Fields JSON file you would like to import. When "
 "you click the import button below, ACF will import the field groups."
 msgstr ""
+"选择你想导入的 Advanced Custom Fields JSON 文件，然后点击 <b>导入</b> 按钮可"
+"以导入 JSON 文件里定义的字段组。"
 
 #: admin/views/settings-tools.php:77 fields/file.php:46
 msgid "Select File"
 msgstr "选择文件"
 
 #: admin/views/settings-tools.php:86
-#, fuzzy
 msgid "Import"
-msgstr "重要"
+msgstr "导入"
 
 #: admin/views/update-network.php:8 admin/views/update.php:8
 msgid "Advanced Custom Fields Database Upgrade"
-msgstr ""
+msgstr "Advanced Custom Fields 数据库升级"
 
 #: admin/views/update-network.php:10
 msgid ""
 "The following sites require a DB upgrade. Check the ones you want to update "
 "and then click “Upgrade Database”."
-msgstr ""
+msgstr "下面的网站需要升级数据库，点击 “升级数据库” 。"
 
 #: admin/views/update-network.php:19 admin/views/update-network.php:27
 msgid "Site"
-msgstr ""
+msgstr "网站"
 
 #: admin/views/update-network.php:47
 #, php-format
 msgid "Site requires database upgrade from %s to %s"
-msgstr ""
+msgstr "网站需要从  %s 升级到 %s"
 
 #: admin/views/update-network.php:49
 msgid "Site is up to date"
-msgstr ""
+msgstr "网站已是最新版"
 
 #: admin/views/update-network.php:62 admin/views/update.php:16
-msgid "Database Upgrade complete"
-msgstr ""
-
-#: admin/views/update-network.php:62
-msgid "Return to network dashboard"
-msgstr ""
+msgid ""
+"Database Upgrade complete. <a href=\"%s\">Return to network dashboard</a>"
+msgstr "数据库升级完成，<a href=\"%s\">返回网络面板</a>"
 
 #: admin/views/update-network.php:101 admin/views/update-notice.php:35
 msgid ""
 "It is strongly recommended that you backup your database before proceeding. "
 "Are you sure you wish to run the updater now?"
-msgstr ""
+msgstr "升级前最好先备份一下。确定现在升级吗？"
 
 #: admin/views/update-network.php:157
 msgid "Upgrade complete"
-msgstr ""
+msgstr "升级完成"
 
 #: admin/views/update-network.php:161
 msgid "Upgrading data to"
-msgstr ""
+msgstr "升级数据到"
 
 #: admin/views/update-notice.php:23
 msgid "Database Upgrade Required"
-msgstr ""
+msgstr "需要升级数据库"
 
 #: admin/views/update-notice.php:25
-#, fuzzy, php-format
+#, php-format
 msgid "Thank you for updating to %s v%s!"
-msgstr "非常感谢你升级插件到最新版本！"
+msgstr "感谢升级 %s v%s!"
 
 #: admin/views/update-notice.php:25
 msgid ""
 "Before you start using the new awesome features, please update your database "
 "to the newest version."
-msgstr ""
+msgstr "先把数据库更新到最新版。"
 
 #: admin/views/update.php:12
 msgid "Reading upgrade tasks..."
-msgstr ""
+msgstr "阅读更新任务..."
 
 #: admin/views/update.php:14
 #, php-format
 msgid "Upgrading data to version %s"
-msgstr ""
+msgstr "升级数据到 %s 版本"
 
 #: admin/views/update.php:16
-#, fuzzy
 msgid "See what's new"
-msgstr "查看更新内容于"
+msgstr "查看更新"
 
 #: admin/views/update.php:110
-msgid "No updates available"
-msgstr ""
+msgid "No updates available."
+msgstr "没有可用更新。"
 
 #: api/api-helpers.php:821
 msgid "Thumbnail"
@@ -1334,59 +1295,55 @@ msgid "Large"
 msgstr "大"
 
 #: api/api-helpers.php:871
-#, fuzzy
 msgid "Full Size"
 msgstr "原图"
 
 #: api/api-helpers.php:1581
-#, fuzzy
 msgid "(no title)"
-msgstr "文章类型"
+msgstr "(无标题)"
 
 #: api/api-helpers.php:3183
 #, php-format
 msgid "Image width must be at least %dpx."
-msgstr ""
+msgstr "图像宽度至少得是 %dpx。"
 
 #: api/api-helpers.php:3188
 #, php-format
 msgid "Image width must not exceed %dpx."
-msgstr ""
+msgstr "图像宽度最大不能超过 %dpx。"
 
 #: api/api-helpers.php:3204
 #, php-format
 msgid "Image height must be at least %dpx."
-msgstr ""
+msgstr "图像高度至少得是 %dpx。"
 
 #: api/api-helpers.php:3209
 #, php-format
 msgid "Image height must not exceed %dpx."
-msgstr ""
+msgstr "图像高度最大不能超过 %dpx。"
 
 #: api/api-helpers.php:3227
 #, php-format
 msgid "File size must be at least %s."
-msgstr ""
+msgstr "文件尺寸至少得是 %s。"
 
 #: api/api-helpers.php:3232
 #, php-format
 msgid "File size must must not exceed %s."
-msgstr ""
+msgstr "文件尺寸最大不能超过 %s。"
 
 #: api/api-helpers.php:3266
-#, fuzzy, php-format
+#, php-format
 msgid "File type must be %s."
-msgstr "字段类型不存在！"
+msgstr "字段类型必须是 %s。"
 
 #: api/api-template.php:1289 pro/fields/gallery.php:564
-#, fuzzy
 msgid "Update"
-msgstr "更新文件"
+msgstr "更新"
 
 #: api/api-template.php:1290
-#, fuzzy
 msgid "Post updated"
-msgstr "选项已更新"
+msgstr "内容已更新"
 
 #: core/field.php:131
 msgid "Basic"
@@ -1415,37 +1372,37 @@ msgstr "样式"
 
 #: core/input.php:129
 msgid "Expand Details"
-msgstr ""
+msgstr "展开"
 
 #: core/input.php:130
 msgid "Collapse Details"
-msgstr ""
+msgstr "折叠"
 
 #: core/input.php:131
 msgid "Validation successful"
-msgstr ""
+msgstr "验证成功"
 
 #: core/input.php:132
 msgid "Validation failed"
-msgstr ""
+msgstr "验证失败"
 
 #: core/input.php:133
 msgid "1 field requires attention"
-msgstr ""
+msgstr "1 个字段需要注意"
 
 #: core/input.php:134
 #, php-format
 msgid "%d fields require attention"
-msgstr ""
+msgstr "%d 个字段需要注意"
 
 #: core/input.php:135
 msgid "Restricted"
-msgstr ""
+msgstr "限制"
 
 #: core/input.php:533
 #, php-format
 msgid "%s value is required"
-msgstr ""
+msgstr "%s 的值是必填项"
 
 #: fields/checkbox.php:36 fields/taxonomy.php:752
 msgid "Checkbox"
@@ -1453,7 +1410,7 @@ msgstr "复选框"
 
 #: fields/checkbox.php:144
 msgid "Toggle All"
-msgstr ""
+msgstr "切换所有"
 
 #: fields/checkbox.php:208 fields/radio.php:193 fields/select.php:388
 msgid "Choices"
@@ -1492,11 +1449,11 @@ msgstr "水平"
 
 #: fields/checkbox.php:240
 msgid "Toggle"
-msgstr ""
+msgstr "切换"
 
 #: fields/checkbox.php:241
 msgid "Prepend an extra checkbox to toggle all choices"
-msgstr ""
+msgstr "添加一个可以切换所有选择的复选框"
 
 #: fields/color_picker.php:36
 msgid "Color Picker"
@@ -1504,17 +1461,15 @@ msgstr "颜色选择"
 
 #: fields/color_picker.php:94
 msgid "Clear"
-msgstr ""
+msgstr "清除"
 
 #: fields/color_picker.php:95
-#, fuzzy
 msgid "Default"
-msgstr "默认值"
+msgstr "默认"
 
 #: fields/color_picker.php:96
-#, fuzzy
 msgid "Select Color"
-msgstr "选择文件"
+msgstr "选择颜色"
 
 #: fields/date_picker.php:36
 msgid "Date Picker"
@@ -1538,16 +1493,15 @@ msgstr "显示格式"
 
 #: fields/date_picker.php:150
 msgid "The format displayed when editing a post"
-msgstr ""
+msgstr "编辑内容的时候显示的格式"
 
 #: fields/date_picker.php:164
-#, fuzzy
 msgid "Return format"
-msgstr "保存格式"
+msgstr "返回格式"
 
 #: fields/date_picker.php:165
 msgid "The format returned via template functions"
-msgstr ""
+msgstr "通过模板函数返回的格式"
 
 #: fields/date_picker.php:180
 msgid "Week Starts On"
@@ -1561,37 +1515,37 @@ msgstr "电子邮件"
 #: fields/text.php:149 fields/textarea.php:146 fields/url.php:118
 #: fields/wysiwyg.php:346
 msgid "Appears when creating a new post"
-msgstr ""
+msgstr "创建新内容的时候显示"
 
 #: fields/email.php:133 fields/number.php:159 fields/password.php:137
 #: fields/text.php:157 fields/textarea.php:154 fields/url.php:126
 msgid "Placeholder Text"
-msgstr ""
+msgstr "点位符文本"
 
 #: fields/email.php:134 fields/number.php:160 fields/password.php:138
 #: fields/text.php:158 fields/textarea.php:155 fields/url.php:127
 msgid "Appears within the input"
-msgstr ""
+msgstr "在 input 内部显示"
 
 #: fields/email.php:142 fields/number.php:168 fields/password.php:146
 #: fields/text.php:166
 msgid "Prepend"
-msgstr ""
+msgstr "前置"
 
 #: fields/email.php:143 fields/number.php:169 fields/password.php:147
 #: fields/text.php:167
 msgid "Appears before the input"
-msgstr ""
+msgstr "在 input 前面显示"
 
 #: fields/email.php:151 fields/number.php:177 fields/password.php:155
 #: fields/text.php:175
 msgid "Append"
-msgstr ""
+msgstr "追加"
 
 #: fields/email.php:152 fields/number.php:178 fields/password.php:156
 #: fields/text.php:176
 msgid "Appears after the input"
-msgstr ""
+msgstr "在 input 后面显示"
 
 #: fields/file.php:36
 msgid "File"
@@ -1607,20 +1561,17 @@ msgstr "更新文件"
 
 #: fields/file.php:49 pro/fields/gallery.php:55
 msgid "uploaded to this post"
-msgstr ""
+msgstr "上传到这个内容"
 
 #: fields/file.php:142
-#, fuzzy
 msgid "File Name"
-msgstr "字段名称"
+msgstr "文件名"
 
 #: fields/file.php:146
-#, fuzzy
 msgid "File Size"
-msgstr "预览图大小"
+msgstr "文件尺寸"
 
 #: fields/file.php:169
-#, fuzzy
 msgid "No File selected"
 msgstr "没有选择文件"
 
@@ -1634,11 +1585,11 @@ msgstr "返回值"
 
 #: fields/file.php:215 fields/image.php:196
 msgid "Specify the returned value on front end"
-msgstr ""
+msgstr "指定前端返回的值"
 
 #: fields/file.php:220
 msgid "File Array"
-msgstr ""
+msgstr "文件数组"
 
 #: fields/file.php:221
 msgid "File URL"
@@ -1650,95 +1601,89 @@ msgstr "文件ID"
 
 #: fields/file.php:229 fields/image.php:220 pro/fields/gallery.php:647
 msgid "Library"
-msgstr ""
+msgstr "库"
 
 #: fields/file.php:230 fields/image.php:221 pro/fields/gallery.php:648
 msgid "Limit the media library choice"
-msgstr ""
+msgstr "限制媒体库的选择"
 
 #: fields/file.php:236 fields/image.php:227 pro/fields/gallery.php:654
 msgid "Uploaded to post"
-msgstr ""
+msgstr "上传到内容"
 
 #: fields/file.php:243 fields/image.php:234 pro/fields/gallery.php:661
-#, fuzzy
 msgid "Minimum"
-msgstr "最小行数"
+msgstr "最小"
 
 #: fields/file.php:244 fields/file.php:255
 msgid "Restrict which files can be uploaded"
-msgstr ""
+msgstr "限制什么类型的文件可以上传"
 
 #: fields/file.php:247 fields/file.php:258 fields/image.php:257
 #: fields/image.php:290 pro/fields/gallery.php:684 pro/fields/gallery.php:717
-#, fuzzy
 msgid "File size"
-msgstr "预览图大小"
+msgstr "文件尺寸"
 
 #: fields/file.php:254 fields/image.php:267 pro/fields/gallery.php:694
-#, fuzzy
 msgid "Maximum"
-msgstr "最大行数"
+msgstr "最大"
 
 #: fields/file.php:265 fields/image.php:300 pro/fields/gallery.php:727
-#, fuzzy
 msgid "Allowed file types"
-msgstr "文章类型"
+msgstr "允许的文字类型"
 
 #: fields/file.php:266 fields/image.php:301 pro/fields/gallery.php:728
 msgid "Comma separated list. Leave blank for all types"
-msgstr ""
+msgstr "用英文逗号分隔开，留空则为全部类型"
 
 #: fields/google-map.php:36
 msgid "Google Map"
-msgstr ""
+msgstr "谷歌地图"
 
 #: fields/google-map.php:51
-#, fuzzy
 msgid "Locating"
-msgstr "位置"
+msgstr "定位"
 
 #: fields/google-map.php:52
 msgid "Sorry, this browser does not support geolocation"
-msgstr ""
+msgstr "抱歉，浏览器不支持定位"
 
 #: fields/google-map.php:135
-#, fuzzy
 msgid "Clear location"
-msgstr "位置"
+msgstr "清除位置"
 
 #: fields/google-map.php:140
 msgid "Find current location"
-msgstr ""
+msgstr "搜索当前位置"
 
 #: fields/google-map.php:141
 msgid "Search for address..."
-msgstr ""
+msgstr "搜索地址... "
 
 #: fields/google-map.php:173 fields/google-map.php:184
 msgid "Center"
-msgstr ""
+msgstr "居中"
 
 #: fields/google-map.php:174 fields/google-map.php:185
 msgid "Center the initial map"
-msgstr ""
+msgstr "居中显示初始地图"
 
 #: fields/google-map.php:198
 msgid "Zoom"
-msgstr ""
+msgstr "缩放"
 
 #: fields/google-map.php:199
 msgid "Set the initial zoom level"
-msgstr ""
+msgstr "设置初始缩放级别"
 
 #: fields/google-map.php:208 fields/image.php:246 fields/image.php:279
 #: fields/oembed.php:262 pro/fields/gallery.php:673 pro/fields/gallery.php:706
 msgid "Height"
-msgstr ""
+msgstr "高度"
 
 #: fields/google-map.php:209
 msgid "Customise the map height"
-msgstr ""
+msgstr "自定义地图高度"
 
 #: fields/image.php:36
 msgid "Image"
@@ -1749,9 +1694,8 @@ msgid "Select Image"
 msgstr "选择图像"
 
 #: fields/image.php:52 pro/fields/gallery.php:53
-#, fuzzy
 msgid "Edit Image"
-msgstr "添加图片"
+msgstr "编辑图片"
 
 #: fields/image.php:53 pro/fields/gallery.php:54
 msgid "Update Image"
@@ -1759,12 +1703,11 @@ msgstr "更新图像"
 
 #: fields/image.php:54
 msgid "Uploaded to this post"
-msgstr ""
+msgstr "上传到这个内容"
 
 #: fields/image.php:55
-#, fuzzy
 msgid "All images"
-msgstr "添加图片"
+msgstr "所有图片"
 
 #: fields/image.php:147
 msgid "No image selected"
@@ -1775,9 +1718,8 @@ msgid "Add Image"
 msgstr "添加图片"
 
 #: fields/image.php:201
-#, fuzzy
 msgid "Image Array"
-msgstr "图像已添加"
+msgstr "图像数组"
 
 #: fields/image.php:202
 msgid "Image URL"
@@ -1793,17 +1735,17 @@ msgstr "预览图大小"
 
 #: fields/image.php:211 pro/fields/gallery.php:638
 msgid "Shown when entering data"
-msgstr ""
+msgstr "输入数据时显示"
 
 #: fields/image.php:235 fields/image.php:268 pro/fields/gallery.php:662
 #: pro/fields/gallery.php:695
 msgid "Restrict which images can be uploaded"
-msgstr ""
+msgstr "限制可以上传的图像"
 
 #: fields/image.php:238 fields/image.php:271 fields/oembed.php:251
 #: pro/fields/gallery.php:665 pro/fields/gallery.php:698
 msgid "Width"
-msgstr ""
+msgstr "宽度"
 
 #: fields/message.php:36 fields/message.php:103 fields/true_false.php:106
 msgid "Message"
@@ -1815,88 +1757,81 @@ msgstr "请注意，所有文本将首页通过WP过滤功能"
 
 #: fields/message.php:112
 msgid "Escape HTML"
-msgstr ""
+msgstr "转义 HTML"
 
 #: fields/message.php:113
 msgid "Allow HTML markup to display as visible text instead of rendering"
-msgstr ""
+msgstr "显示 HTML 文本，而不是渲染 HTML"
 
 #: fields/number.php:36
 msgid "Number"
 msgstr "号码"
 
 #: fields/number.php:186
-#, fuzzy
 msgid "Minimum Value"
-msgstr "最小行数"
+msgstr "最小值"
 
 #: fields/number.php:195
-#, fuzzy
 msgid "Maximum Value"
-msgstr "最大行数"
+msgstr "最大值"
 
 #: fields/number.php:204
 msgid "Step Size"
-msgstr ""
+msgstr "步长"
 
 #: fields/number.php:242
 msgid "Value must be a number"
-msgstr ""
+msgstr "值必须是数字"
 
 #: fields/number.php:260
 #, php-format
 msgid "Value must be equal to or higher than %d"
-msgstr ""
+msgstr "值要大于等于 %d"
 
 #: fields/number.php:268
 #, php-format
 msgid "Value must be equal to or lower than %d"
-msgstr ""
+msgstr "值要小于等于 %d"
 
 #: fields/oembed.php:36
 msgid "oEmbed"
-msgstr ""
+msgstr "oEmbed"
 
 #: fields/oembed.php:199
 msgid "Enter URL"
-msgstr ""
+msgstr "输入 URL"
 
 #: fields/oembed.php:212
-#, fuzzy
-msgid "No embed found for the given URL"
-msgstr "没有为选项页找到自定义字段组。"
+msgid "No embed found for the given URL."
+msgstr "在 URL 里没发现嵌入。"
 
 #: fields/oembed.php:248 fields/oembed.php:259
 msgid "Embed Size"
-msgstr ""
+msgstr "嵌入尺寸"
 
 #: fields/page_link.php:206
 msgid "Archives"
-msgstr ""
+msgstr "存档"
 
 #: fields/page_link.php:535 fields/post_object.php:401
 #: fields/relationship.php:690
-#, fuzzy
 msgid "Filter by Post Type"
-msgstr "根据角色过滤"
+msgstr "按内容类型筛选"
 
 #: fields/page_link.php:543 fields/post_object.php:409
 #: fields/relationship.php:698
-#, fuzzy
 msgid "All post types"
-msgstr "文章类型"
+msgstr "所有内容类型"
 
 #: fields/page_link.php:549 fields/post_object.php:415
 #: fields/relationship.php:704
-#, fuzzy
 msgid "Filter by Taxonomy"
-msgstr "通过分类法过滤"
+msgstr "按分类筛选"
 
 #: fields/page_link.php:557 fields/post_object.php:423
 #: fields/relationship.php:712
-#, fuzzy
 msgid "All taxonomies"
-msgstr "分类法字段"
+msgstr "所有分类法"
 
 #: fields/page_link.php:563 fields/post_object.php:429 fields/select.php:406
 #: fields/taxonomy.php:765 fields/user.php:452
@@ -1918,14 +1853,12 @@ msgid "Post Object"
 msgstr "文章对象"
 
 #: fields/post_object.php:457 fields/relationship.php:764
-#, fuzzy
 msgid "Return Format"
-msgstr "文章格式"
+msgstr "返回格式"
 
 #: fields/post_object.php:463 fields/relationship.php:770
-#, fuzzy
 msgid "Post ID"
-msgstr "日志"
+msgstr "Post ID"
 
 #: fields/radio.php:36
 msgid "Radio Button"
@@ -1937,16 +1870,15 @@ msgstr "其他"
 
 #: fields/radio.php:206
 msgid "Add 'other' choice to allow for custom values"
-msgstr ""
+msgstr "为自定义值添加 'other' 选择"
 
 #: fields/radio.php:212
-#, fuzzy
 msgid "Save Other"
-msgstr "其他"
+msgstr "保存其它"
 
 #: fields/radio.php:216
 msgid "Save 'other' values to the field's choices"
-msgstr ""
+msgstr "存档为字段的选择的 'other' 的值"
 
 #: fields/relationship.php:36
 msgid "Relationship"
@@ -1954,7 +1886,7 @@ msgstr "关系"
 
 #: fields/relationship.php:48
 msgid "Minimum values reached ( {min} values )"
-msgstr ""
+msgstr "已到最小值 ( {min} values )"
 
 #: fields/relationship.php:49
 msgid "Maximum values reached ( {max} values )"
@@ -1962,25 +1894,23 @@ msgstr "达到了最大值 ( {max} 值 ) "
 
 #: fields/relationship.php:50
 msgid "Loading"
-msgstr ""
+msgstr "加载"
 
 #: fields/relationship.php:51
 msgid "No matches found"
-msgstr ""
+msgstr "没找到匹配的结果"
 
 #: fields/relationship.php:571
-#, fuzzy
 msgid "Search..."
-msgstr "搜索"
+msgstr "搜索..."
 
 #: fields/relationship.php:580
 msgid "Select post type"
-msgstr ""
+msgstr "选择内容类型"
 
 #: fields/relationship.php:593
-#, fuzzy
 msgid "Select taxonomy"
-msgstr "分类法"
+msgstr "选择分类"
 
 #: fields/relationship.php:723
 msgid "Search"
@@ -2000,7 +1930,7 @@ msgstr "选择的元素将在每个结果中显示。"
 
 #: fields/relationship.php:744
 msgid "Minimum posts"
-msgstr ""
+msgstr "最小内容"
 
 #: fields/relationship.php:753
 msgid "Maximum posts"
@@ -2011,13 +1941,12 @@ msgid "Select"
 msgstr "选择"
 
 #: fields/select.php:434
-#, fuzzy
 msgid "Stylised UI"
-msgstr "样式"
+msgstr "装饰的界面"
 
 #: fields/select.php:448
 msgid "Use AJAX to lazy load choices?"
-msgstr ""
+msgstr "使用 AJAX 惰性选择？"
 
 #: fields/tab.php:36
 msgid "Tab"
@@ -2025,46 +1954,45 @@ msgstr "选项卡"
 
 #: fields/tab.php:128
 msgid "Warning"
-msgstr ""
+msgstr "警告"
 
 #: fields/tab.php:133
 msgid ""
 "The tab field will display incorrectly when added to a Table style repeater "
 "field or flexible content field layout"
-msgstr ""
+msgstr "标签字段不能在 Table 样式的重复字段或者灵活内容字段布局里正常显示"
 
 #: fields/tab.php:146
 msgid ""
 "Use \"Tab Fields\" to better organize your edit screen by grouping fields "
 "together."
-msgstr ""
+msgstr "使用 \"标签字段\" 可以把字段组织起来更好地在编辑界面上显示。"
 
 #: fields/tab.php:148
-#, fuzzy
 msgid ""
 "All fields following this \"tab field\" (or until another \"tab field\" is "
 "defined) will be grouped together using this field's label as the tab "
 "heading."
 msgstr ""
-"所有选项处理这个\"选项卡域\" (或等到定义了\"选项卡域\")将在编辑屏幕分组出现。"
+"在这个 \"tab field\" (或直到定义了其它的 \"tab field\" ) 以下的所有字段，都会"
+"被用这个字段标签作为标题的标签（Tab）组织到一块。"
 
 #: fields/tab.php:155
-#, fuzzy
 msgid "Placement"
-msgstr "元素"
+msgstr "位置"
 
 #: fields/tab.php:167
 msgid "End-point"
-msgstr ""
+msgstr "端点"
 
 #: fields/tab.php:168
 msgid "Use this field as an end-point and start a new group of tabs"
-msgstr ""
+msgstr "使用这个字段作为端点去创建新的标签群组"
 
 #: fields/taxonomy.php:565
 #, php-format
 msgid "Add new %s "
-msgstr ""
+msgstr "添加新的 %s"
 
 #: fields/taxonomy.php:704
 msgid "None"
@@ -2072,15 +2000,15 @@ msgstr "None"
 
 #: fields/taxonomy.php:736
 msgid "Select the taxonomy to be displayed"
-msgstr ""
+msgstr "选择要显示的分类法"
 
 #: fields/taxonomy.php:745
 msgid "Appearance"
-msgstr ""
+msgstr "外观"
 
 #: fields/taxonomy.php:746
 msgid "Select the appearance of this field"
-msgstr ""
+msgstr "为这个字段选择外观"
 
 #: fields/taxonomy.php:751
 msgid "Multiple Values"
@@ -2100,27 +2028,27 @@ msgstr "单选框"
 
 #: fields/taxonomy.php:779
 msgid "Create Terms"
-msgstr ""
+msgstr "创建分类词汇"
 
 #: fields/taxonomy.php:780
 msgid "Allow new terms to be created whilst editing"
-msgstr ""
+msgstr "在编辑时允许可以创建新的分类词汇"
 
 #: fields/taxonomy.php:793
 msgid "Save Terms"
-msgstr ""
+msgstr "保存分类词汇"
 
 #: fields/taxonomy.php:794
 msgid "Connect selected terms to the post"
-msgstr ""
+msgstr "连接所选分类词汇到内容"
 
 #: fields/taxonomy.php:807
 msgid "Load Terms"
-msgstr ""
+msgstr "加载分类词汇"
 
 #: fields/taxonomy.php:808
 msgid "Load value from posts terms"
-msgstr ""
+msgstr "载入内容分类词汇的值"
 
 #: fields/taxonomy.php:826
 msgid "Term Object"
@@ -2133,21 +2061,21 @@ msgstr "内容ID"
 #: fields/taxonomy.php:886
 #, php-format
 msgid "User unable to add new %s"
-msgstr ""
+msgstr "用户无法添加新的 %s"
 
 #: fields/taxonomy.php:899
 #, php-format
 msgid "%s already exists"
-msgstr ""
+msgstr "%s 已存在"
 
 #: fields/taxonomy.php:940
 #, php-format
 msgid "%s added"
-msgstr ""
+msgstr "%s 已添加"
 
 #: fields/taxonomy.php:985
 msgid "Add"
-msgstr ""
+msgstr "添加"
 
 #: fields/text.php:36
 msgid "Text"
@@ -2155,12 +2083,11 @@ msgstr "文本"
 
 #: fields/text.php:184 fields/textarea.php:163
 msgid "Character Limit"
-msgstr ""
+msgstr "字符限制"
 
 #: fields/text.php:185 fields/textarea.php:164
-#, fuzzy
 msgid "Leave blank for no limit"
-msgstr "留空为自适应宽度"
+msgstr "留空则不限制"
 
 #: fields/textarea.php:36
 msgid "Text Area"
@@ -2168,34 +2095,31 @@ msgstr "文本段"
 
 #: fields/textarea.php:172
 msgid "Rows"
-msgstr ""
+msgstr "行"
 
 #: fields/textarea.php:173
 msgid "Sets the textarea height"
-msgstr ""
+msgstr "设置文本区域的高度"
 
 #: fields/textarea.php:182
-#, fuzzy
 msgid "New Lines"
-msgstr "新字段"
+msgstr "新行"
 
 #: fields/textarea.php:183
 msgid "Controls how new lines are rendered"
-msgstr ""
+msgstr "控制怎么显示新行"
 
 #: fields/textarea.php:187
 msgid "Automatically add paragraphs"
-msgstr ""
+msgstr "自动添加段落"
 
 #: fields/textarea.php:188
-#, fuzzy
 msgid "Automatically add &lt;br&gt;"
-msgstr "自动添加&lt;br /&gt;"
+msgstr "自动添加 &lt;br&gt;"
 
 #: fields/textarea.php:189
-#, fuzzy
 msgid "No Formatting"
-msgstr "格式化"
+msgstr "无格式"
 
 #: fields/true_false.php:36
 msgid "True / False"
@@ -2207,11 +2131,11 @@ msgstr "例如：显示附加内容"
 
 #: fields/url.php:36
 msgid "Url"
-msgstr ""
+msgstr "地址"
 
 #: fields/url.php:160
 msgid "Value must be a valid URL"
-msgstr ""
+msgstr "值必须是有效的地址"
 
 #: fields/user.php:437
 msgid "Filter by role"
@@ -2219,7 +2143,7 @@ msgstr "根据角色过滤"
 
 #: fields/user.php:445
 msgid "All user roles"
-msgstr ""
+msgstr "所有用户角色"
 
 #: fields/wysiwyg.php:37
 msgid "Wysiwyg Editor"
@@ -2227,29 +2151,28 @@ msgstr "可视化编辑器"
 
 #: fields/wysiwyg.php:297
 msgid "Visual"
-msgstr ""
+msgstr "显示"
 
 #: fields/wysiwyg.php:298
 msgctxt "Name for the Text editor tab (formerly HTML)"
 msgid "Text"
-msgstr ""
+msgstr "文本"
 
 #: fields/wysiwyg.php:354
 msgid "Tabs"
-msgstr ""
+msgstr "标签"
 
 #: fields/wysiwyg.php:359
 msgid "Visual & Text"
-msgstr ""
+msgstr "显示与文本"
 
 #: fields/wysiwyg.php:360
 msgid "Visual Only"
-msgstr ""
+msgstr "只有显示"
 
 #: fields/wysiwyg.php:361
-#, fuzzy
 msgid "Text Only"
-msgstr "文本"
+msgstr "纯文本"
 
 #: fields/wysiwyg.php:368
 msgid "Toolbar"
@@ -2260,49 +2183,43 @@ msgid "Show Media Upload Buttons?"
 msgstr "是否显示媒体上传按钮？"
 
 #: forms/post.php:297 pro/admin/options-page.php:373
-#, fuzzy
 msgid "Edit field group"
-msgstr "编辑当前字段组"
+msgstr "编辑字段组"
 
 #: pro/acf-pro.php:24
-#, fuzzy
 msgid "Advanced Custom Fields PRO"
-msgstr "高级自定义字段"
+msgstr "Advanced Custom Fields 专业版"
 
 #: pro/acf-pro.php:175
-#, fuzzy
 msgid "Flexible Content requires at least 1 layout"
-msgstr "检测到多样内容字段"
+msgstr "灵活内容字段需要至少一个布局"
 
 #: pro/admin/options-page.php:48
 msgid "Options Page"
 msgstr "选项页面"
 
 #: pro/admin/options-page.php:83
-#, fuzzy
 msgid "No options pages exist"
-msgstr "检测到选项页面"
+msgstr "还没有选项页面"
 
 #: pro/admin/options-page.php:298
 msgid "Options Updated"
 msgstr "选项已更新"
 
 #: pro/admin/options-page.php:304
-#, fuzzy
-msgid "No Custom Field Groups found for this options page"
-msgstr "没有为选项页找到自定义字段组。"
-
-#: pro/admin/options-page.php:304
-msgid "Create a Custom Field Group"
-msgstr "创建自定义字段组"
+msgid ""
+"No Custom Field Groups found for this options page. <a href=\"%s\">Create a "
+"Custom Field Group</a>"
+msgstr ""
+"这个选项页上还没有自定义字段群组。<a href=\"%s\">创建自定义字段群组</a>"
 
 #: pro/admin/settings-updates.php:137
 msgid "<b>Error</b>. Could not connect to update server"
-msgstr ""
+msgstr "<b>错误</b>，不能连接到更新服务器"
 
 #: pro/admin/settings-updates.php:267 pro/admin/settings-updates.php:338
 msgid "<b>Connection Error</b>. Sorry, please try again"
-msgstr ""
+msgstr "<b>连接错误</b>，再试一次"
 
 #: pro/admin/views/options-page.php:48
 msgid "Publish"
@@ -2313,69 +2230,62 @@ msgid "Save Options"
 msgstr "保存"
 
 #: pro/admin/views/settings-updates.php:11
-#, fuzzy
 msgid "Deactivate License"
-msgstr "禁用"
+msgstr "关闭许可证"
 
 #: pro/admin/views/settings-updates.php:11
-#, fuzzy
 msgid "Activate License"
-msgstr "激活"
+msgstr "激活许可证"
 
 #: pro/admin/views/settings-updates.php:21
 msgid "License"
-msgstr ""
+msgstr "许可"
 
 #: pro/admin/views/settings-updates.php:24
 msgid ""
 "To unlock updates, please enter your license key below. If you don't have a "
 "licence key, please see"
-msgstr ""
+msgstr "解锁更新，输入许可证号。还没有许可证号，请看"
 
 #: pro/admin/views/settings-updates.php:24
 msgid "details & pricing"
-msgstr ""
+msgstr "详情与定价"
 
 #: pro/admin/views/settings-updates.php:33
-#, fuzzy
 msgid "License Key"
-msgstr "需要现场："
+msgstr "许可证号"
 
 #: pro/admin/views/settings-updates.php:65
-#, fuzzy
 msgid "Update Information"
-msgstr "更新图像"
+msgstr "更新信息"
 
 #: pro/admin/views/settings-updates.php:72
 msgid "Current Version"
-msgstr ""
+msgstr "当前版本"
 
 #: pro/admin/views/settings-updates.php:80
 msgid "Latest Version"
-msgstr ""
+msgstr "最新版本"
 
 #: pro/admin/views/settings-updates.php:88
-#, fuzzy
 msgid "Update Available"
-msgstr "更新文件"
+msgstr "可用更新"
 
 #: pro/admin/views/settings-updates.php:96
-#, fuzzy
 msgid "Update Plugin"
-msgstr "更新文件"
+msgstr "更新插件"
 
 #: pro/admin/views/settings-updates.php:98
 msgid "Please enter your license key above to unlock updates"
-msgstr ""
+msgstr "在上面输入许可证号解锁更新"
 
 #: pro/admin/views/settings-updates.php:104
 msgid "Check Again"
-msgstr ""
+msgstr "重新检查"
 
 #: pro/admin/views/settings-updates.php:121
-#, fuzzy
 msgid "Upgrade Notice"
-msgstr "升级数据库"
+msgstr "更新通知"
 
 #: pro/api/api-options-page.php:22 pro/api/api-options-page.php:23
 msgid "Options"
@@ -2388,6 +2298,8 @@ msgid ""
 "\">Updates</a> page. If you don't have a licence key, please see <a href=\"%s"
 "\">details & pricing</a>"
 msgstr ""
+"启用更新，先在 <a href=\"%s\">更新</a> 页面输入许可证。还没有许可证，请查看 "
+"<a href=\"%s\">详情与定价</a>"
 
 #: pro/fields/flexible-content.php:36
 msgid "Flexible Content"
@@ -2398,59 +2310,53 @@ msgid "Add Row"
 msgstr "添加行"
 
 #: pro/fields/flexible-content.php:45
-#, fuzzy
 msgid "layout"
-msgstr "样式"
+msgstr "布局"
 
 #: pro/fields/flexible-content.php:46
-#, fuzzy
 msgid "layouts"
-msgstr "样式"
+msgstr "布局"
 
 #: pro/fields/flexible-content.php:47
-#, fuzzy
 msgid "remove {layout}?"
-msgstr "重排序布局"
+msgstr "删除 {layout}？"
 
 #: pro/fields/flexible-content.php:48
 msgid "This field requires at least {min} {identifier}"
-msgstr ""
+msgstr "这个字段需要至少 {min} {identifier}"
 
 #: pro/fields/flexible-content.php:49
 msgid "This field has a limit of {max} {identifier}"
-msgstr ""
+msgstr "这个字段限制最大为 {max} {identifier}"
 
 #: pro/fields/flexible-content.php:50
 msgid "This field requires at least {min} {label} {identifier}"
-msgstr ""
+msgstr "这个字段需要至少 {min} {label} {identifier}"
 
 #: pro/fields/flexible-content.php:51
-#, fuzzy
 msgid "Maximum {label} limit reached ({max} {identifier})"
-msgstr "达到了最大值 ( {max} 值 ) "
+msgstr "{label} 已到最大限制 ({max} {identifier})"
 
 #: pro/fields/flexible-content.php:52
 msgid "{available} {label} {identifier} available (max {max})"
-msgstr ""
+msgstr "{available} {label} {identifier} 可用 (max {max})"
 
 #: pro/fields/flexible-content.php:53
 msgid "{required} {label} {identifier} required (min {min})"
-msgstr ""
+msgstr "{required} {label} {identifier} 需要 (min {min})"
 
 #: pro/fields/flexible-content.php:211
 #, php-format
 msgid "Click the \"%s\" button below to start creating your layout"
-msgstr ""
+msgstr "点击下面的 \"%s\" 按钮创建布局"
 
 #: pro/fields/flexible-content.php:369
-#, fuzzy
 msgid "Add layout"
-msgstr "添加新布局"
+msgstr "添加布局"
 
 #: pro/fields/flexible-content.php:372
-#, fuzzy
 msgid "Remove layout"
-msgstr "重排序布局"
+msgstr "删除布局"
 
 #: pro/fields/flexible-content.php:514
 msgid "Reorder Layout"
@@ -2478,11 +2384,11 @@ msgstr "显示"
 
 #: pro/fields/flexible-content.php:572 pro/fields/repeater.php:399
 msgid "Table"
-msgstr ""
+msgstr "表"
 
 #: pro/fields/flexible-content.php:573 pro/fields/repeater.php:400
 msgid "Block"
-msgstr ""
+msgstr "区块"
 
 #: pro/fields/flexible-content.php:574 pro/fields/repeater.php:401
 msgid "Row"
@@ -2490,25 +2396,23 @@ msgstr "行"
 
 #: pro/fields/flexible-content.php:589
 msgid "Min"
-msgstr ""
+msgstr "最小"
 
 #: pro/fields/flexible-content.php:602
 msgid "Max"
-msgstr ""
+msgstr "最大"
 
 #: pro/fields/flexible-content.php:630 pro/fields/repeater.php:408
 msgid "Button Label"
 msgstr "按钮标签"
 
 #: pro/fields/flexible-content.php:639
-#, fuzzy
 msgid "Minimum Layouts"
-msgstr "最小行数"
+msgstr "最小布局"
 
 #: pro/fields/flexible-content.php:648
-#, fuzzy
 msgid "Maximum Layouts"
-msgstr "最大文章数"
+msgstr "最大布局"
 
 #: pro/fields/gallery.php:36
 msgid "Gallery"
@@ -2520,98 +2424,85 @@ msgstr "添加图片到相册"
 
 #: pro/fields/gallery.php:56
 msgid "Maximum selection reached"
-msgstr ""
+msgstr "已到最大选择"
 
 #: pro/fields/gallery.php:335
 msgid "Length"
-msgstr ""
+msgstr "长度"
 
 #: pro/fields/gallery.php:355
-#, fuzzy
 msgid "Remove"
 msgstr "删除"
 
 #: pro/fields/gallery.php:535
-#, fuzzy
 msgid "Add to gallery"
-msgstr "添加图片到相册"
+msgstr "添加到相册"
 
 #: pro/fields/gallery.php:539
-#, fuzzy
 msgid "Bulk actions"
-msgstr "功能"
+msgstr "批量动作"
 
 #: pro/fields/gallery.php:540
 msgid "Sort by date uploaded"
-msgstr ""
+msgstr "按上传日期排序"
 
 #: pro/fields/gallery.php:541
 msgid "Sort by date modified"
-msgstr ""
+msgstr "按修改日期排序"
 
 #: pro/fields/gallery.php:542
-#, fuzzy
 msgid "Sort by title"
-msgstr "文章类型"
+msgstr "按标题排序"
 
 #: pro/fields/gallery.php:543
 msgid "Reverse current order"
-msgstr ""
+msgstr "颠倒当前排序"
 
 #: pro/fields/gallery.php:561
-#, fuzzy
 msgid "Close"
-msgstr "关闭字段"
+msgstr "关闭"
 
 #: pro/fields/gallery.php:619
-#, fuzzy
 msgid "Minimum Selection"
-msgstr "最小行数"
+msgstr "最小选择"
 
 #: pro/fields/gallery.php:628
-#, fuzzy
 msgid "Maximum Selection"
-msgstr "最大行数"
+msgstr "最大选择"
 
 #: pro/fields/gallery.php:809
 #, php-format
 msgid "%s requires at least %s selection"
 msgid_plural "%s requires at least %s selections"
-msgstr[0] ""
+msgstr[0] "%s 需要至少 %s 个选择"
 
 #: pro/fields/repeater.php:36
 msgid "Repeater"
-msgstr "复制"
+msgstr "重复器"
 
 #: pro/fields/repeater.php:46
-#, fuzzy
 msgid "Minimum rows reached ({min} rows)"
-msgstr "达到了最大值 ( {max} 值 ) "
+msgstr "已到最小行数 ({min} 行)"
 
 #: pro/fields/repeater.php:47
-#, fuzzy
 msgid "Maximum rows reached ({max} rows)"
-msgstr "达到了最大值 ( {max} 值 ) "
+msgstr "已到最大行数 ({min} 行)"
 
 #: pro/fields/repeater.php:259
-#, fuzzy
 msgid "Drag to reorder"
-msgstr "托拽排序"
+msgstr "拖拽排序"
 
 #: pro/fields/repeater.php:301
-#, fuzzy
 msgid "Add row"
 msgstr "添加行"
 
 #: pro/fields/repeater.php:302
-#, fuzzy
 msgid "Remove row"
-msgstr "删除"
+msgstr "删除行"
 
 #: pro/fields/repeater.php:350
-#, fuzzy
 msgid "Sub Fields"
-msgstr "字段"
+msgstr "子字段"
 
 #: pro/fields/repeater.php:372
 msgid "Minimum Rows"
@@ -2623,23 +2514,23 @@ msgstr "最大行数"
 
 #. Plugin Name of the plugin/theme
 msgid "Advanced Custom Fields Pro"
-msgstr ""
+msgstr "Advanced Custom Fields 专业版"
 
 #. Plugin URI of the plugin/theme
 msgid "http://www.advancedcustomfields.com/"
-msgstr ""
+msgstr "http://www.advancedcustomfields.com/"
 
 #. Description of the plugin/theme
-msgid "Customise WordPress with powerful, professional and intuitive fields"
-msgstr ""
+msgid "Customise WordPress with powerful, professional and intuitive fields."
+msgstr "用强大专业的字段定制 WordPress。"
 
 #. Author of the plugin/theme
 msgid "elliot condon"
-msgstr ""
+msgstr "elliot condon"
 
 #. Author URI of the plugin/theme
 msgid "http://www.elliotcondon.com/"
-msgstr ""
+msgstr "http://www.elliotcondon.com/"
 
 #, fuzzy
 #~ msgid "Show Field Keys"
