@@ -59,7 +59,7 @@ Calls to Action Plugin helps create calls to action for your WordPress site. It 
 
 Our mail component, only available to ["Paid Subscribers"](https://www.inboundnow.com/pricing), provides WordPress administrators with the ability to send batch, automated, and direct emails to leads. This component also exists as a templating framework powered by the Advanced Custom Fields plugin, allowing the creation of custom email templates.
 
-Email delivery and email statistical tracking is in part powered by [SparkPost Transactional Email Service](https://www.sparkpost.com), which provides 100k free email sends a month. It's possible we will add more transactional email services in the future.
+Email delivery and email statistical tracking is in part powered by [SparkPost Transactional Email Service](https://www.sparkpost.com), which provides a limited amount (25k) free email sends a month. It's possible we will add more transactional email services in the future.
 
 * [Forking an Email Template](http://docs.inboundnow.com/guide/forking-email-template/)
 * [More Details](https://www.inboundnow.com/mailer/)
