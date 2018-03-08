@@ -3,10 +3,11 @@
 Plugin Name: Landing Pages
 Plugin URI: http://www.inboundnow.com/landing-pages/
 Description: Landing page template framework with variant testing and lead capturing through cooperation with Inbound Now's Leads plugin. This is the stand alone version served through WordPress.org. 
-Version: 2.6.6
+Version: 2.6.7
 Author: Inbound Now
-Author URI: http://www.inboundnow.com/
-
+Author URI: https://www.inboundnow.com/?innercity=true
+Text Domain: inbound-pro
+Domain Path: /assets/lang/
 */
 
 if (!class_exists('Inbound_Landing_Pages_Plugin')) {
@@ -41,7 +42,7 @@ if (!class_exists('Inbound_Landing_Pages_Plugin')) {
 		*/
 		private static function load_constants() {
 
-			define('LANDINGPAGES_CURRENT_VERSION', '2.6.6' );
+			define('LANDINGPAGES_CURRENT_VERSION', '2.6.7' );
 			define('LANDINGPAGES_URLPATH', plugins_url( '/' , __FILE__ ) );
 			define('LANDINGPAGES_PATH', WP_PLUGIN_DIR.'/'.plugin_basename( dirname(__FILE__) ).'/' );
 			define('LANDINGPAGES_PLUGIN_SLUG', 'landing-pages' );
@@ -121,7 +122,7 @@ if (!class_exists('Inbound_Landing_Pages_Plugin')) {
 		*  Hooks the text domain loader to the init
 		*/
 		private static function load_text_domain_init() {
-			add_action( 'init' , array( __CLASS__ , 'load_text_domain' ) , 1 );
+			add_action( 'plugins_loaded' , array( __CLASS__ , 'load_text_domain' ) , 1 );
 		}
 
 		/**
@@ -202,10 +203,8 @@ if (!class_exists('Inbound_Landing_Pages_Plugin')) {
 
 	/* Initiate Plugin */
 	if ( Inbound_Landing_Pages_Plugin::is_valid_php_version() ) {
-		// Get Inbound Now Running
-		$GLOBALS['Inbound_Landing_Pages_Plugin'] = new Inbound_Landing_Pages_Plugin;
+		new Inbound_Landing_Pages_Plugin;
 	} else {
-		// Show Fail
 		Inbound_Landing_Pages_Plugin::fail_php_version();
 	}
 
