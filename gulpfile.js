@@ -56,6 +56,29 @@ var banner = [
 ].join('');
 
 
+/**
+ *  Move translations into GPL
+ */
+gulp.task('translate-lp', function () {
+    return gulp.src('../translations/lang/mo/**.mo')
+        .pipe(rename(function (path) {
+            path.basename = "landing-pages-" + path.basename;
+        }))
+        .pipe(gulp.dest('../landing-pages/assets/lang'));
+});
+
+
+gulp.task('translate-leads', function () {
+    return gulp.src('../translations/lang/mo/**.mo')
+
+        .pipe(gulp.dest('../leads/assets/lang'));
+});
+
+
+gulp.task('translate-cta', function () {
+    return gulp.src('../translations/lang/mo/**.mo')
+        .pipe(gulp.dest('../cta/assets/lang'));
+});
 
 /**
  * Sync shared folder
@@ -97,7 +120,7 @@ gulp.task('copy-lp' , function() {
     return gulp.src(['./core/landing-pages/**' , '!./core/landing-pages/svn/**']).pipe(gulp.dest('../landing-pages/'));
 });
 
-gulp.task('lp',gulp.series('clean-lp', 'copy-lp' ,  'shared-lp' ));
+gulp.task('lp',gulp.series('clean-lp', 'copy-lp' ,  'shared-lp',  'translate-lp' ));
 
 /**
  *  Sync Calls to action
@@ -118,7 +141,7 @@ gulp.task('copy-cta' , function() {
     return gulp.src(['./core/cta/**' , '!./core/cta/svn/**']).pipe(gulp.dest('../cta/'));
 });
 
-gulp.task('cta',gulp.series('clean-cta', 'copy-cta' , 'shared-cta'));
+gulp.task('cta',gulp.series('clean-cta', 'copy-cta' , 'shared-cta', 'translate-cta'));
 
 
 /**
@@ -141,7 +164,7 @@ gulp.task('copy-leads' , function() {
     return gulp.src(['./core/leads/**' , '!./core/leads/svn/**']).pipe(gulp.dest('../leads/'));
 });
 
-gulp.task('leads',gulp.series('clean-leads', 'copy-leads' , 'shared-leads'));
+gulp.task('leads',gulp.series('clean-leads', 'copy-leads' , 'shared-leads', 'translate-leads'));
 
 /**
  *  Sync GPL
@@ -231,6 +254,8 @@ gulp.task('inboundAnalytics', gulp.series(
 gulp.task('watch', function() {
     gulp.watch('core/shared/assets/js/frontend/analytics-src/*.js', gulp.series('inboundAnalytics'));
 });
+
+
 
 /**
  *  For compiling translation mo files
