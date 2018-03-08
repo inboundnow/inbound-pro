@@ -7,7 +7,7 @@ Author: InboundWP LLC
 Version: 1.8.6.7
 Author URI: http://www.inboundnow.com/
 Text Domain: inbound-pro
-Domain Path: /lang/
+
 */
 
 if ( !class_exists('Inbound_Pro_Plugin')	) {
