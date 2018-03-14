@@ -611,7 +611,8 @@ var InboundShortcodes = {
                         return false;
                     }
                 }
-                console.log('run');
+                console.log('Saving form');
+                jQuery('#inbound_save_form').text('Saving...');
                 jQuery.ajax({
                     type: 'POST',
                     url: ajaxurl,
@@ -642,10 +643,13 @@ var InboundShortcodes = {
                         var worked = '<span class="lp-success-message">Form Created & Saved</span><a style="padding-left:10px;" target="_blank" href="' + site_base + '" class="event-view-post">View/Edit Form</a>';
 
                         var final_short_form = '[inbound_forms id="' + form_id + '" name="' + final_form_name + '"]';
+
                         if (typeof (inbound_forms) != "undefined" && inbound_forms !== null) {
-                            jQuery(self).text('Form Updated').css('font-size', '25px');
-                            var draft = jQuery("#hidden_post_status").val();
-                            if (draft === 'draft') {
+
+                            jQuery(self).text('Form Updated');
+                            var draft = jQuery("#original_post_status").val();
+
+                            if (draft === 'auto-draft') {
                                 window.location.href = inbound_shortcodes.adminurl + '/post.php?post=' + form_id + '&action=edit&reload=true'
                             }
                             setTimeout(function () {
