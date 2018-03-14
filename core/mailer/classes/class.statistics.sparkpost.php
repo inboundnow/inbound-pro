@@ -541,9 +541,11 @@ class Inbound_SparkPost_Stats {
 
         /* check if webhook is already created */
         if (isset($inbound_settings['mailer']['sparkpost']['webhook']['id']) ) {
+
             $webhook = $sparkpost->get_webhook($inbound_settings['mailer']['sparkpost']['webhook']['id']);
 
             if ( isset($webhook['results']['name']) && $webhook['results']['name'] == 'Inbound Now Webhook' ) {
+
                 return;
             }
         }
@@ -575,6 +577,7 @@ class Inbound_SparkPost_Stats {
                 'password' => preg_replace("/[^A-Za-z0-9 ]/", '', AUTH_SALT)
             )
         ) );
+
 
         if (isset(self::$results['results'])) {
             $inbound_settings['mailer']['sparkpost']['webhook'] = self::$results['results'];
@@ -972,6 +975,10 @@ class Inbound_SparkPost_Stats {
 
                 <td class="sparkpost-status-webhooks status-value">
                     <?php echo  $webhook_status; ?>
+                    <?php if(isset($inbound_settings['mailer']['sparkpost']['webhook']['errors'])) {
+                        print_r($inbound_settings['mailer']['sparkpost']['webhook']);
+                    }
+                    ?>
                 </td>
 
             </tr>

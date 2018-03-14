@@ -551,21 +551,6 @@ var InboundShortcodes = {
                 email_contents = jQuery('#content').val();
             }
 
-            var email_exists = InboundShortcodes.get_email();
-            console.log(email_exists);
-            if (email_exists != "") {
-                console.log('There is an email!');
-            } else {
-                if (confirm('We have detected no email field being used in this form. This will cause lead tracking to not work. Are you sure you want to not track this form? Click Cancel to add an email field')) {
-                    console.log('continue');
-                } else {
-
-                    jQuery('.step-item').eq(1).click();
-                    jQuery('.form-row.has-child').before('<h2 style="text-align:center; margin:0px;">Add an Email Field to the form</h2>');
-                    return false;
-                }
-            }
-
             /*Redirect whitespace cleaning*/
             if(form_values.indexOf("&inbound_shortcode_redirect_2=+")){
                 var form_values2 = form_values.substring(form_values.indexOf("&inbound_shortcode_redirect_2=") + 30, form_values.indexOf("inbound_shortcode_notify"));
@@ -807,18 +792,6 @@ var InboundShortcodes = {
             });
         }, 2000);
 
-    },
-    get_email: function () {
-        var email_field = '';
-        jQuery('.inbound-form-label-input').each(function () {
-            var this_val = jQuery(this).val();
-            var res = this_val.match(/email|e-mail/gi);
-            if (res != null) {
-                console.log(this_val);
-                return email_field = 'yes';
-            }
-        });
-        return email_field;
     },
     htmlEncode: function (html) {
         var html = html.replace(/</g, "&lt;");
