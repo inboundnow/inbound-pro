@@ -52,9 +52,9 @@ if ( !class_exists( 'Inbound_Automation_Query_Lead' ) ) {
 				return null;
 			}
 
-			$results = Inbound_Events::get_page_views_by('lead_id' , array('lead_id'=>$lead_id) );
+			$results = Inbound_Events::get_page_views_count_by('lead_id' , array('lead_id'=>$lead_id) );
 
-			return count($results);
+			return $results;
 		}
 
 		/**

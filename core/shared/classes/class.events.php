@@ -790,7 +790,66 @@ class Inbound_Events {
         return $results;
     }
 
+    /**
+     * Get page view events given conditions
+     *
+     */
+    public static function get_page_views_count_by( $nature = 'lead_id' ,  $params ){
+        global $wpdb;
 
+        $table_name = $wpdb->prefix . "inbound_page_views";
+        $query = 'SELECT COUNT(*) FROM '.$table_name.' WHERE ';
+
+
+        switch ($nature) {
+            case 'lead_id':
+                $query .=' `lead_id` = "'.$params['lead_id'].'" ';
+                break;
+            case 'lead_uid':
+                $query .=' `lead_uid` = "'.$params['lead_uid'].'" ';
+                break;
+            case 'page_id':
+                $query .=' `page_id` = "'.$params['page_id'].'" ';
+                break;
+            case 'cta_id':
+                $query .=' `cta_id` = "'.$params['cta_id'].'" ';
+                break;
+            case 'mixed':
+                if (isset($params['lead_id']) && $params['lead_id'] ) {
+                    $queries[] = ' `lead_id` = "'.$params['lead_id'].'" ';
+                }
+                if (isset($params['lead_uid']) && $params['lead_uid']) {
+                    $queries[] = ' `lead_uid` = "'.$params['lead_uid'].'" ';
+                }
+                if (isset($params['page_id']) && $params['page_id']) {
+                    $queries[] = ' `page_id` = "'.$params['page_id'].'" ';
+                }
+
+                /* combine queries into a usable string */
+                foreach ($queries as $i => $q) {
+                    $query .= $q . ( isset($queries[$i+1]) ? ' AND ' : '' );
+                }
+
+                break;
+        }
+
+
+        $query .=' AND `page_id` != "0" ';
+
+        if (isset($params['start_date'])) {
+            $query .= ' AND datetime >= "'.$params['start_date'].'" AND  datetime <= "'.$params['end_date'].'" ';
+        }
+
+        if (isset($params['group_by'])) {
+            $query .= ' GROUP BY `'.$params['group_by'].'` ';
+        }
+
+        $query .= ' ORDER BY `datetime` DESC';
+        //print_r($query);exit;
+        $results = $wpdb->get_results( $query , ARRAY_A );
+
+        return $results;
+    }
 
     /**
      * Get page view events given conditions
@@ -844,7 +903,7 @@ class Inbound_Events {
 
         $query .= 'GROUP BY DATE(datetime)';
 
-        $results = $wpdb->get_results( $query , ARRAY_A );
+        $results = $wpdb->get_var( $query);
 
         return $results;
     }

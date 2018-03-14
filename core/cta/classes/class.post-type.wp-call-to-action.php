@@ -194,10 +194,10 @@ if ( !class_exists('CTA_Post_Type') ) {
 				self::show_stats_data();
 			} elseif ("cta_impressions" == $column) {
 				if (class_exists('Inbound_Analytics')) {
-					self::$cta_impressions = Inbound_Events::get_page_views_by('cta_id' , array('cta_id'=> $post_id) );
+					self::$cta_impressions = Inbound_Events::get_page_views_count_by('cta_id' , array('cta_id'=> $post_id) );
 					?>
 					<a href='<?php echo admin_url('index.php?action=inbound_generate_report&obj_key=cta_id&cta_id='.$post_id.'&class=Inbound_Impressions_Report&range=1000&tb_hide_nav=true&TB_iframe=true&width=900&height=600'); ?>' class='thickbox inbound-thickbox'>
-						<?php echo count(self::$cta_impressions); ?>
+						<?php echo self::$cta_impressions; ?>
 					</a>
 					<?php
 				} else {

@@ -458,9 +458,9 @@ if ( !class_exists('Inbound_Quick_View') ) {
 				$args['end_date'] = $wordpress_date_time;
 			}
 
-			$result = Inbound_Events::get_page_views_by('page_id' , $args );
+			$result = Inbound_Events::get_page_views_count_by('page_id' , $args );
 
-			return count($result);
+			return $result;
 		}
 
 		public static function get_visitors($args) {

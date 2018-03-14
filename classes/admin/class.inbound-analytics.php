@@ -281,10 +281,10 @@ class Inbound_Analytics {
                     'start_date' => self::$dates['start_date'],
                     'end_date' => self::$dates['end_date']
                 );
-                $results = Inbound_Events::get_page_views_by('page_id', $params);
+                $results = Inbound_Events::get_page_views_count_by('page_id', $params);
                 ?>
                 <a href='<?php echo admin_url('index.php?action=inbound_generate_report&page_id=' . $post->ID . '&class=Inbound_Impressions_Report&range=' . self::$range . '&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox' title="<?php echo sprintf(__('past %s days', 'inbound-pro'), self::$range); ?>">
-                    <?php echo count($results); ?>
+                    <?php $results; ?>
                 </a>
                 <?php
                 break;
