@@ -296,11 +296,17 @@ if ( !class_exists('Inbound_Upgrade_Routines') ) {
 
         /**
          * @migration-type: inbound pro settings array
-         * @mirgration: change the 'mailer' key to 'mailer' key in $inbound_settings
+         * @mirgrationcomment_id change the 'mailer' key to 'mailer' key in $inbound_settings
          */
         public static function alter_inbound_settings_109() {
             if (class_exists('Inbound_Options_API')) {
                 $inbound_settings = Inbound_Options_API::get_option('inbound-pro', 'settings', array());
+
+                /* ignore if already created */
+                if (isset($inbound_settings['mailer'])) {
+                    return;
+                }
+
                 $inbound_settings['mailer'] = (isset($inbound_settings['inbound-mailer'])) ? $inbound_settings['inbound-mailer'] : array();
                 unset($inbound_settings['inbound-mailer']);
                 Inbound_Options_API::update_option('inbound-pro', 'settings', $inbound_settings);
@@ -324,7 +330,7 @@ if ( !class_exists('Inbound_Upgrade_Routines') ) {
                                 MODIFY COLUMN `email_id` BIGINT(20),
                                 MODIFY COLUMN `rule_id` BIGINT(20),
                                 MODIFY COLUMN `job_id` BIGINT(20),
-                                MODIFY COLUMN `list_id` BIGINT(20)
+                                MODIFY COLUMN `list_id` BIGINT(20),
                                 MODIFY COLUMN `comment_id` BIGINT(20)");
 
         }
