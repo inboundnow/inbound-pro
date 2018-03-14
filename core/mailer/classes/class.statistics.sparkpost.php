@@ -541,7 +541,7 @@ class Inbound_SparkPost_Stats {
 
         /* check if webhook is already created */
         if (isset($inbound_settings['mailer']['sparkpost']['webhook']['id']) ) {
- 
+
             $webhook = $sparkpost->get_webhook($inbound_settings['mailer']['sparkpost']['webhook']['id']);
 
             if ( isset($webhook['results']['name']) && $webhook['results']['name'] == 'Inbound Now Webhook' ) {
