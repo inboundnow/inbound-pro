@@ -294,8 +294,8 @@ if (!class_exists('acf_field_font_awesome')) {
 		{
 
 			// register acf scripts
-			wp_enqueue_script('acf-input-font-awesome-edit-input', $this->settings['dir'] . 'js/edit_input.js', array(), $this->settings['version']);
-			wp_enqueue_style('acf-input-font-awesome-input', $this->settings['dir'] . 'css/input.css', array(), $this->settings['version']);
+			wp_enqueue_script('acf-input-font-awesome-edit-input', INBOUNDNOW_SHARED_URLPATH . '/assets/plugins/advanced-custom-fields-dont-awesome/js/edit_input.js', array(), $this->settings['version']);
+			wp_enqueue_style('acf-input-font-awesome-input', INBOUNDNOW_SHARED_URLPATH . '/assets/plugins/advanced-custom-fields-dont-awesome/css/input.css', array(), $this->settings['version']);
 			wp_enqueue_style('acf-input-font-awesome-fa', $this->stylesheet, array(), $this->version);
 		}
 
@@ -317,8 +317,8 @@ if (!class_exists('acf_field_font_awesome')) {
 		{
 
 			// register acf scripts
-			wp_enqueue_script('font-awesome-create-input', $this->settings['dir'] . 'js/create_input.js', array(), $this->settings['version']);
-			wp_enqueue_style('acf-input-font-awesome-input', $this->settings['dir'] . 'css/input.css', array(), $this->settings['version']);
+			wp_enqueue_script('font-awesome-create-input', INBOUNDNOW_SHARED_URLPATH . '/assets/plugins/advanced-custom-fields-dont-awesome/js/create_input.js', array(), $this->settings['version']);
+			wp_enqueue_style('acf-input-font-awesome-input', INBOUNDNOW_SHARED_URLPATH . '/assets/plugins/advanced-custom-fields-dont-awesome/css/input.css', array(), $this->settings['version']);
 			wp_enqueue_style('acf-input-font-awesome-fa', $this->stylesheet, array(), $this->version);
 		}
 
