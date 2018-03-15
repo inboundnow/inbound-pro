@@ -460,7 +460,7 @@ if ( !class_exists('Inbound_Quick_View') ) {
 
 			$result = Inbound_Events::get_page_views_count_by('page_id' , $args );
 
-			return $result;
+			return ($result) ? $result : 0;
 		}
 
 		public static function get_visitors($args) {
@@ -563,6 +563,7 @@ if ( !class_exists('Inbound_Quick_View') ) {
 
 
 		public static function get_percentage_change($current, $past) {
+
 			$difference = $current - $past;
 			$total = $current + $past;
 
