@@ -846,7 +846,7 @@ class Inbound_Events {
 
         $query .= ' ORDER BY `datetime` DESC';
         //print_r($query);exit;
-        $results = $wpdb->get_results( $query , ARRAY_A );
+        $results = $wpdb->get_var( $query , ARRAY_A );
 
         return $results;
     }
@@ -903,7 +903,7 @@ class Inbound_Events {
 
         $query .= 'GROUP BY DATE(datetime)';
 
-        $results = $wpdb->get_var( $query);
+        $results = $wpdb->get_results( $query);
 
         return $results;
     }
