@@ -524,3 +524,7 @@ ul#template-filter a.current{
 
 .inbound_email_check_box_table td {padding: 0px;}
 .inbound_email_check_box_table {display: inline; float: left;}
+
+.select2-search input {
+	width:100%!important;
+}
