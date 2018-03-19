@@ -903,7 +903,7 @@ public static function display_headers() {
         $url = $upload_dir['url'].'/'.$uploads_path.'/';
         $blogtime = current_time( 'mysql' );
         $hash = md5(serialize($ids));
-        $filename = date("y.m.d") . $hash ;
+        $filename = date("y.m.d.") . $hash ;
 
         list( $today_year, $today_month, $today_day, $hour, $minute, $second ) = preg_split( '([^0-9])', $blogtime );
         $path = str_replace($today_year.'/'.$today_month.'/','',$path);
