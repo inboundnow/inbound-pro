@@ -148,8 +148,9 @@ if (!class_exists('Inbound_Ajax')) {
 					$count++;
 				}
 
-				$list_array = json_encode(array('ids' => $lead_list));;
-				setcookie('wp_lead_list', $list_array, time() + (20 * 365 * 24 * 60 * 60), '/');
+				$list_array = json_encode(array('ids' => $lead_list));
+
+				setcookie('wp_lead_list', $list_array, (int) ( time() + (20 * 365 * 24 * 60 * 60) ), '/');
 			}
 		}
 
