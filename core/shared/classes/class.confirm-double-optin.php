@@ -193,8 +193,17 @@ if(!class_exists('Inbound_Confirm_Double_Optin')){
                 /*update the lead status*/
                 update_post_meta( $params['lead_id'], 'wp_lead_status', 'active');            
             }
+
+            /* unset empty data */
+            unset($params['wp_lead_status']);
+            unset($params['variation_id']);
+            unset($params['wpleads_raw_post_data']);
+
+            /* run hook/trigger */
+            do_action('inbound_double_optin_confirm' , $params);
         }
     }
+
     new Inbound_Confirm_Double_Optin;
 
 }

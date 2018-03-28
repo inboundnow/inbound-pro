@@ -103,11 +103,14 @@ class Inbound_Automation_Trigger_inbound_double_optin_confirm {
     public static function create_dummy_event() {
 
        $lead = array (
-            'id' => 2,
-            'wordpress_date_time' => '2015-06-01 18:03:31 UTC',
-            'wpleads_email_address' => 'test@inboundnow.com',
-            'wpleads_first_name' => 'Example',
-            'wpleads_last_name' => 'Lead',
+            'lead_id' => 47,
+            'list_ids' => array(
+				'0'=>208,
+				'1'=>210
+			),
+            'email_id' => 'test@inboundnow.com',
+            'variation_id' => '0',
+            'wp_lead_status' => '',
             'wpleads_inbound_form_lists' => '208,210',
             'wpleads_ip_address' => '127.0.0.1'
         );
