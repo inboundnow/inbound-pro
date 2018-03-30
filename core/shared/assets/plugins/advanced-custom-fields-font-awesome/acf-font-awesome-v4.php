@@ -301,10 +301,10 @@ if (!class_exists('acf_field_font_awesome')) {
 		{
 			// register acf scripts
 			/* wp_enqueue_script('acf-input-font-awesome-select2', $this->settings['dir'] . 'js/select2/select2.min.js', array(), $this->settings['version']); */
-			wp_enqueue_script('acf-input-font-awesome-edit-input', $this->settings['dir'] . 'js/edit_input.js', array(), $this->settings['version']);
-			wp_enqueue_style('acf-input-font-awesome-input', $this->settings['dir'] . 'css/input.css', array(), $this->settings['version']);
+			wp_enqueue_script('acf-input-font-awesome-edit-input', INBOUNDNOW_SHARED_URLPATH . 'assets/plugins/advanced-custom-fields-font-awesome/js/edit_input.js', array(), $this->settings['version']);
+			wp_enqueue_style('acf-input-font-awesome-input', INBOUNDNOW_SHARED_URLPATH . 'assets/plugins/advanced-custom-fields-font-awesome/css/input.css', array(), $this->settings['version']);
 			wp_enqueue_style('acf-input-font-awesome-fa', $this->stylesheet, array(), $this->version);
-			wp_enqueue_style('acf-input-font-awesome-select2-css', $this->settings['dir'] . 'css/select2.css', array(), $this->settings['version']);
+			wp_enqueue_style('acf-input-font-awesome-select2-css', INBOUNDNOW_SHARED_URLPATH . 'assets/plugins/advanced-custom-fields-font-awesome/css/select2.css', array(), $this->settings['version']);
 		}
 
 		/*
@@ -322,11 +322,11 @@ if (!class_exists('acf_field_font_awesome')) {
 		function field_group_admin_enqueue_scripts()
 		{
 			// register acf scripts
-			wp_enqueue_script('font-awesome-select2', $this->settings['dir'] . 'js/select2/select2.min.js', array(), $this->settings['version']);
-			wp_enqueue_script('font-awesome-create-input', $this->settings['dir'] . 'js/create_input.js', array(), $this->settings['version']);
-			wp_enqueue_style('acf-input-font-awesome-input', $this->settings['dir'] . 'css/input.css', array(), $this->settings['version']);
-			wp_enqueue_style('acf-input-font-awesome-fa', $this->stylesheet, array(), $this->version);
-			wp_enqueue_style('acf-input-font-awesome-select2-css', $this->settings['dir'] . 'css/select2.css', array(), $this->settings['version']);
+			wp_enqueue_script('select2', INBOUNDNOW_SHARED_URLPATH . 'assets/plugins/advanced-custom-fields-font-awesome/js/select2/select2.min.js', array(), $this->settings['version']);
+			wp_enqueue_script('font-awesome-create-input', INBOUNDNOW_SHARED_URLPATH . 'assets/plugins/advanced-custom-fields-font-awesome/js/create_input.js', array(), $this->settings['version']);
+			wp_enqueue_style('acf-input-font-awesome-input', INBOUNDNOW_SHARED_URLPATH . 'assets/plugins/advanced-custom-fields-font-awesome/css/input.css', array(), $this->settings['version']);
+			wp_enqueue_style('font-awesome', $this->stylesheet, array(), $this->version);
+			wp_enqueue_style('select2', INBOUNDNOW_SHARED_URLPATH . 'assets/plugins/advanced-custom-fields-font-awesome/css/select2.css', array(), $this->settings['version']);
 		}
 
 		/*

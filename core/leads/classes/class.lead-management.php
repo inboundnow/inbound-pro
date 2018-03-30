@@ -869,6 +869,7 @@ public static function display_headers() {
             die(json_encode($returnArray));
 
         }
+
         if(empty($_POST['data']['ids'])){
             $returnArray = array(
                 'status' => 0,
@@ -880,7 +881,7 @@ public static function display_headers() {
         }
 
 
-        //handle posted data
+        /* handle posted data */
         $ids      = json_decode(stripslashes($_POST['data']['ids']));
         $limit    = $_POST['data']['limit'];
         $offset   = $_POST['data']['offset'];
@@ -897,12 +898,13 @@ public static function display_headers() {
         $upload_dir = wp_upload_dir();
         $uploads_path = 'leads/csv';
 
-        //GETTING CORRECT FILE PATH
+        /* GETTING CORRECT FILE PATH */
         $path = $upload_dir['path'].'/'.$uploads_path.'/';
         $url = $upload_dir['url'].'/'.$uploads_path.'/';
         $blogtime = current_time( 'mysql' );
         $hash = md5(serialize($ids));
-        $filename = date("m.d.y.") . $hash ;
+        $filename = date("y.m.d.") . $hash ;
+
         list( $today_year, $today_month, $today_day, $hour, $minute, $second ) = preg_split( '([^0-9])', $blogtime );
         $path = str_replace($today_year.'/'.$today_month.'/','',$path);
         $url = str_replace($today_year.'/'.$today_month.'/','',$url);

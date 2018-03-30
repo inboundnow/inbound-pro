@@ -179,8 +179,11 @@ class Inbound_Mailer_Scheduling {
      */
     public static function get_current_timezone() {
         $gmt_offset = get_option('gmt_offset');
+
         $timezone = timezone_name_from_abbr("", $gmt_offset * 60 * 60, 0);
         $timezone = ($timezone) ? $timezone : get_option('timezone_string');
+        $timezone = ($timezone) ? $timezone : date_default_timezone_get();
+
         $dateTime = new DateTime();
         $dateTime->setTimeZone(new DateTimeZone($timezone));
 

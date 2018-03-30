@@ -82,9 +82,9 @@ class Leads_Tracking {
             }
         }
 
-        $lead_lists = json_encode(array('ids' => $lists));;
+        $lead_lists = json_encode(array('ids' => $lists));
 
-        setcookie('wp_lead_list', $lead_lists, time() + (20 * 365 * 24 * 60 * 60), '/');
+        setcookie('wp_lead_list', $lead_lists, (int) (time() + (20 * 365 * 24 * 60 * 60) ), '/');
 
     }
 
