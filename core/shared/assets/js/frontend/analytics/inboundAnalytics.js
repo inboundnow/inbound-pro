@@ -1,4 +1,4 @@
-/*! Inbound Analyticsv1.0.0 | (c) 2017 Inbound Now | https://github.com/inboundnow/cta */
+/*! Inbound Analyticsv1.0.0 | (c) 2018 Inbound Now | https://github.com/inboundnow/cta */
 /**
  * # _inbound
  *
@@ -3750,11 +3750,13 @@ var _inboundPageTracking = (function(_inbound) {
 
             /* Let's try and fire this last - also defines what constitutes a bounce -  */
             var stored = false;
-            document.onreadystatechange = function () {
-                if (document.readyState !== 'loading' && stored === false) {
+            jQuery(document).ready(function() {
+
+                if (stored === false) {
                     _inbound.PageTracking.storePageView();
                 }
-            }
+
+            });
         }
         ,
         CheckTimeOut: function() {
