@@ -84,7 +84,7 @@ if (!class_exists('Inbound_Ajax')) {
 				}
 			}
 
-			/* update content data */
+			/* Record landing page impression */
 			do_action('lp_record_impression', $lead_data['page_id'], $_POST['post_type'], $_POST['variation_id']);
 
 			die();
