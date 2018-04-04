@@ -27,7 +27,7 @@ select[name='seo_filter'] {
     border-radius: 7px;
 }
 
-.lead_meta_val {
+#lead-meta-value {
     display: none;
 }
 

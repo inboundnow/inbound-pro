@@ -93,16 +93,16 @@ jQuery(document).ready(function ($) {
         //var filter_box = "<span class='left-float-filter'>Filter</span>";
         //jQuery(".alignleft.actions").eq(1).before(filter_box);
 
-        var meta_filter = jQuery('#lead-meta-filter').val();
+        var meta_filter = jQuery('#lead-meta-value').val();
         if (meta_filter != "") {
-            jQuery(".lead_meta_val").show();
+            jQuery("#lead-meta-value").show();
         }
         jQuery("body").on('change', '#lead-meta-filter', function () {
             var meta = jQuery('#lead-meta-filter').val();
             if (meta === "") {
-                jQuery(".lead_meta_val").hide();
+                jQuery("#lead-meta-value").hide();
             } else {
-                jQuery(".lead_meta_val").show();
+                jQuery("#lead-meta-value").show();
             }
         });
 

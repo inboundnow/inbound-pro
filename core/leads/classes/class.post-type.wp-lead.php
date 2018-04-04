@@ -253,6 +253,27 @@ class Leads_Post_Type {
             wp_dropdown_categories(array('show_option_all' => __($tax_obj->label), 'taxonomy' => $tax_slug, 'name' => $tax_obj->name, 'orderby' => 'name', 'selected' => $current, 'hierarchical' => $tax_obj->hierarchical, 'show_count' => true, 'hide_empty' => false));
         }
 
+        /* add lead status filter */
+        $mapped_fields = Leads_Field_Map::get_lead_fields();
+        $mapped_fields = Leads_Field_Map::prioritize_lead_fields($mapped_fields);
+        echo '<select name="meta_key" id="lead-meta-filter">';
+        echo '<option value="0">'.__('Lead Field','inbound-pro').'</option>';
+        foreach( $mapped_fields as $field)  {
+
+            if (isset($field['enable']) && $field['enable'] == 'off') {
+                continue;
+            }
+
+            if (isset($_GET['meta_key'])) {
+                $selected = $field['key'] == $_GET['meta_key'] ? ' selected ' : '';
+            } else {
+                $selected = '';
+            }
+            echo '<option value="'.$field['key'].'" data-field-key="'.$field['key'].'" ' .  $selected . '>' . $field['label'] .  '</option>';
+        }
+        echo "</select>";
+        echo '<input type="text" name="meta_value" id="lead-meta-value" placeholder="'.__('search value here...').'" value="'.(isset($_GET['meta_value']) ? sanitize_text_field($_GET['meta_value']) : '' ).'">';
+
     }
 
     /**
@@ -386,10 +407,10 @@ class Leads_Post_Type {
         }
 
         /* prepare query by custom meta field */
-        if (isset($_GET['wp_leads_filter_field']) && $_GET['wp_leads_filter_field'] != '') {
-            $query->query_vars['meta_key'] = $_GET['wp_leads_filter_field'];
-            if (isset($_GET['wp_leads_filter_field_val']) && $_GET['wp_leads_filter_field_val'] != '') {
-                $query->query_vars['meta_value'] = $_GET['wp_leads_filter_field_val'];
+        if (isset($_GET['meta_value']) && $_GET['meta_value'] != '') {
+            $query->query_vars['meta_key'] = $_GET['meta_key'];
+            if (isset($_GET['meta_value']) && $_GET['meta_value'] != '') {
+                $query->query_vars['meta_value'] = $_GET['meta_value'];
             }
         }
 
@@ -405,6 +426,8 @@ class Leads_Post_Type {
             $query->query_vars['meta_key'] = 'wp_lead_status';
             $query->query_vars['meta_value'] = $_GET['wp_lead_status'];
         }
+
+        //print_r($query->query_vars);exit;
     }
 
     /**
