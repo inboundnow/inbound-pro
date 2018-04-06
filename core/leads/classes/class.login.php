@@ -45,7 +45,7 @@ if (!class_exists('Inbound_Login')) {
 						setcookie( 'wp_lead_uid' , $uid , time() + (20 * 365 * 24 * 60 * 60),'/');
 					}
 
-					setcookie( 'wp_lead_id' , $results->post->ID , time() + (20 * 365 * 24 * 60 * 60),'/');
+					setcookie( 'wp_lead_id' , $results->post->ID , (int) (time() + (20 * 365 * 24 * 60 * 60)),'/');
 
 					/* load lead lists into cookies */
 					if (class_exists('Leads_Tracking')) {
@@ -58,5 +58,5 @@ if (!class_exists('Inbound_Login')) {
 
 	}
 
-	$GLOBALS['Inbound_Login'] = new Inbound_Login;
+	new Inbound_Login;
 }
