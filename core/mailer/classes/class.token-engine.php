@@ -50,9 +50,6 @@ class Inbound_Mailer_Tokens {
         add_action('admin_footer', array(__CLASS__, 'token_generation_css'));
 
         /* Add shortcode handler */
-        add_shortcode('lead-field', array(__CLASS__, 'process_lead_field_shortcode'));
-
-        /* Add shortcode handler */
         add_shortcode('post-link', array(__CLASS__, 'process_post_link_shortcode'));
 
         /* Add shortcode handler */
@@ -319,43 +316,7 @@ class Inbound_Mailer_Tokens {
     }
 
 
-    /**
-     *  Process [lead-field] shortcode
-     * @param ARRAY $params
-     */
-    public static function process_lead_field_shortcode($params) {
-        global $post;
 
-        $lead_id = null;
-
-        $params = shortcode_atts(array('default' => '', 'id' => '','key' => '', 'lead_id' => null), $params);
-
-        /* check to see if lead id is set as a REQUEST */
-        if (isset($params['lead_id'])) {
-            $lead_id = intval($params['lead_id']);
-        } else if (isset($_REQUEST['lead_id'])) {
-            $lead_id = intval($_REQUEST['lead_id']);
-        } else if (isset($_COOKIE['wp_lead_id'])) {
-            $lead_id = intval($_COOKIE['wp_lead_id']);
-        }
-
-        /* return default if no lead id discovered */
-        if (!$lead_id) {
-            return $params['default'];
-        }
-
-        $params['key'] = (isset($params['key'])) ? $params['key']: $params['id'] ;
-
-        /* get lead value */
-        $value = Leads_Field_Map::get_field($lead_id, $params['id']);
-
-        /* return lead field value if it exists */
-        if ($value) {
-            return (is_array($value)) ? implode(',' , $value ) : $value;
-        } else {
-            return $params['default'];
-        }
-    }
 
     /**
      * Shortcode to generate post content
