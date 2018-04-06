@@ -381,22 +381,22 @@ class Leads_Field_Map {
 
 		/* check to see if lead id is set as a REQUEST */
 		if (isset($params['lead_id']) && $params['lead_id']) {
-			$lead_id = intval($params['lead_id']);
+			$params['lead_id'] = intval($params['lead_id']);
 		} else if (isset($_REQUEST['lead_id'])) {
-			$lead_id = intval($_REQUEST['lead_id']);
+			$params['lead_id'] = intval($_REQUEST['lead_id']);
 		} else if (isset($_COOKIE['wp_lead_id'])) {
-			$lead_id = intval($_COOKIE['wp_lead_id']);
+			$params['lead_id'] = intval($_COOKIE['wp_lead_id']);
 		}
 
 		/* return default if no lead id discovered */
-		if (!$lead_id) {
+		if (!$params['lead_id']) {
 			return $params['default'];
 		}
 
-		$params['key'] = (isset($params['key'])) ? $params['key']: $params['id'] ;
+		$params['key'] = (isset($params['key']) && $params['key']) ? $params['key']: $params['id'] ;
 
 		/* get lead value */
-		$value = Leads_Field_Map::get_field($lead_id, $params['key']);
+		$value = Leads_Field_Map::get_field($params['lead_id'], $params['key']);
 
 		/* return lead field value if it exists */
 		if ($value) {
