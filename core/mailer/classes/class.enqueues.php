@@ -119,7 +119,7 @@ class Inbound_Mailer_Enqueues {
 
 		/* Enqueue select2 support */
 		wp_enqueue_script('select2', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/Select2/select2.min.js');
-		wp_enqueue_style('select2', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/Select2/select2.css');
+		wp_enqueue_style('select2', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/Select2/select2.min.css');
 		wp_enqueue_style('select2-bootstrap', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/Select2/select2.css');
 
 		/* Enqueue Sweet Alert support  */
