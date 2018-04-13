@@ -81,6 +81,12 @@ class Inbound_Mailer_Ajax_Listeners {
 		/* save all post vars as meta */
 		foreach ($_POST as $key => $value) {
 
+			switch($key) {
+				case 'subject':
+					$value = str_replace('&quot;' , '"' , $value);
+					break;
+			}
+
 			if ( substr( $key , 0 , 8 ) == 'inbound_' ){
 				$key = str_replace( 'inbound_' , '' , $key );
 				$email_settings[ $key ] = $value;

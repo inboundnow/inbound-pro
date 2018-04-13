@@ -1389,7 +1389,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
                         break;
                     case 'text':
-                        echo '<input type="text" class="' . $option_class . ' form-control" name="' . $field_id . '" id="' . $field_id . '" value="' . str_replace('"', '\"',$meta ). '" size="30" />
+                        echo '<input type="text" class="' . $option_class . ' form-control" name="' . $field_id . '" id="' . $field_id . '" value="' . str_replace('"', '&quot;',$meta ). '" size="30" />
 										<div class="inbound-tooltip" title="' . $field['description'] . '"></div>';
                         break;
                     case 'number':
