@@ -15,10 +15,10 @@ class Leads_Field_Map {
 	}
 
 	public static function load_hooks() {
-
 		/* Add shortcode handler */
-		add_shortcode('lead-field', array(__CLASS__, 'process_lead_field_shortcode'));
-
+		if (!isset($_GET['disable_shortcodes'])) {
+			add_shortcode('lead-field', array(__CLASS__, 'process_lead_field_shortcode'));
+		}
 	}
 
 	/**
