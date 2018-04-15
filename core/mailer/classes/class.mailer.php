@@ -490,15 +490,10 @@ class Inbound_Mail_Daemon {
     public static function get_email() {
 
         self::$email['send_address'] = Leads_Field_Map::get_field(self::$row->lead_id, 'wpleads_email_address');
-
-        //error_log('Send Address ' . self::time_elapsed());
         self::$email['from_name'] = self::get_variation_from_name();
         self::$email['from_email'] = self::get_variation_from_email();
         self::$email['reply_email'] = self::get_variation_reply_email();
-
-        //error_log('Reply Email ' . self::time_elapsed());
         self::$email['body'] = self::get_email_body();
-
         self::$email['subject'] = self::get_variation_subject();
 
     }
@@ -508,7 +503,7 @@ class Inbound_Mail_Daemon {
      */
     public static function get_email_body() {
         $last = self::$last;
-        //error_log('Bodypart #1' . self::time_elapsed($last));
+
         /* set required variables if empty */
         self::$email_settings['recipients'] = (isset(self::$email_settings['recipients'])) ? self::$email_settings['recipients'] : array();
 
@@ -516,10 +511,7 @@ class Inbound_Mail_Daemon {
 
         /* add lead id to all shortcodes before processing */
         $html = str_replace('[lead-field ', '[lead-field lead_id="' . self::$row->lead_id . '" ', $html);
-
         $unsubscribe = do_shortcode('[unsubscribe-link lead_id="' . self::$row->lead_id . '" list_ids="' . implode(',', self::$email_settings['recipients']) . '" email_id="' . self::$row->email_id . '" rule_id="' . self::$row->rule_id . '" job_id="' . self::$row->job_id . '"]');
-
-        //error_log('Bodypart #2' . self::time_elapsed($last));
 
         /* add lead id & list ids to unsubscribe shortcode */
         $html = str_replace('[unsubscribe-link]', $unsubscribe, $html);
@@ -540,22 +532,13 @@ class Inbound_Mail_Daemon {
         /* process shortcodes */
         $html = do_shortcode($html);
 
-        //error_log('Bodypart #3' . self::time_elapsed($last));
-
         /* add tracking params to links */
         //$html = self::rebuild_links($html);
-
-
-        //error_log('Bodypart #4' . self::time_elapsed($last));
 
         /* remove script tags */
         $html = preg_replace('#<script(.*?)>(.*?)</script>#is', '', $html);
 
-
-        //error_log('Body Complete' . self::time_elapsed());
-
         return $html;
-
     }
 
     /**

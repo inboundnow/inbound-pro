@@ -26,7 +26,6 @@ class Inbound_Mailer_Tokens {
      */
     public function load_hooks() {
 
-
         /* Listen for and process email tokens for email previews */
         add_filter('acf/format_value', array(__CLASS__, 'process_tokens') , 10 , 1);
 
