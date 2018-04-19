@@ -130,7 +130,7 @@ class Inbound_API {
 
         /* for click event tracking */
         self::$tracking_endpoint = apply_filters('inbound_event_endpoint', self::$tracking_endpoint);
-        add_rewrite_endpoint('inbound', EP_ALL);
+        add_rewrite_endpoint(self::$tracking_endpoint, EP_ALL);
     }
 
     /**
