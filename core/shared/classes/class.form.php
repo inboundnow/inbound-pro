@@ -943,9 +943,10 @@ if (!class_exists('Inbound_Forms')) {
                 /* Discover From Email Address */
                 foreach ($form_post_data as $key => $value) {
                     if (preg_match('/email|e-mail/i', $key)) {
-                        $reply_to_email = $form_post_data[$key];
+                        $reply_to_email = str_replace('%40', '@' , $form_post_data[$key]);
                     }
                 }
+
                 $domain = get_option('siteurl');
                 $domain = str_replace('http://', '', $domain);
                 $domain = str_replace('https://', '', $domain);
