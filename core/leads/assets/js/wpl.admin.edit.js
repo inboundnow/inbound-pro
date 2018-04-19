@@ -56,12 +56,14 @@ jQuery(document).ready(function ($) {
 
         jQuerylist.appendTo(jQueryfirstChecked);
     });
+
     var session_count = jQuery('.wpleads-conversion-tracking-table').length;
     jQuery('.conversion-tracking-header h2 span.visit-number').each(function (i) {
         var sess = session_count - i;
         jQuery(this).text(sess);
 
     });
+
     var session_view = jQuery.cookie("lead-session-view-choice");
     setTimeout(function () {
         jQuery("#wplead_metabox_conversion h3, #wplead_metabox_conversion .hndle").unbind('click');
@@ -360,5 +362,30 @@ jQuery(document).ready(function ($) {
 		}
 		
 	});
+
+
+    /**
+     * Support for Media Uploader
+     */
+    jQuery('body').on('click' , '.upload_image_button' , function () {
+            var media_name = jQuery(this).attr('id');
+            media_name = media_name.replace('uploader_', '');
+            jQuery.cookie('media_name', media_name);
+            jQuery.cookie('media_init', 1);
+            tb_show('', 'media-upload.php?type=image&type=image&amp;TB_iframe=true');
+            var oldFunc = window.send_to_editor;
+            window.send_to_editor = function(html) {
+
+                imgurl = jQuery('img', html).attr('src');
+                jQuery("#"+media_name).val(imgurl);
+                tb_remove();
+                window.send_to_editor = oldFunc;
+            }
+            return false;
+        }
+    );
+
+
+
 
 });
