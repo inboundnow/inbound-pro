@@ -396,6 +396,7 @@ class Inbound_Metaboxes_Leads {
                 }
             }
         }
+
     }
 
     /* Enqueue Admin Scripts */
@@ -411,7 +412,8 @@ class Inbound_Metaboxes_Leads {
         $screen = get_current_screen();
 
         if ($screen->id == 'wp-lead') {
-
+            wp_enqueue_script('media-upload');
+            wp_enqueue_script('thickbox');
             wp_enqueue_script('wpleads-edit', WPL_URLPATH . 'assets/js/wpl.admin.edit.js', array('jquery'));
             wp_enqueue_script('tinysort', WPL_URLPATH . 'assets/js/jquery.tinysort.js', array('jquery'));
             wp_enqueue_script('tag-cloud', WPL_URLPATH . 'assets/js/jquery.tagcloud.js', array('jquery'));
@@ -1962,11 +1964,13 @@ class Inbound_Metaboxes_Leads {
                     break;
                 /* media */
                 case strstr($field['type'], 'media'):
-                    //echo 1; exit;
-                    echo '<label for="upload_image">';
+                    //echo '<label for="upload_image">';
                     echo '<input name="' . $id . '" id="' . $id . '" type="text" size="36" name="upload_image" value="' . $field['value'] . '" />';
                     echo '<input class="upload_image_button" id="uploader_' . $id . '" type="button" value="Upload Image" />';
-                    echo '<p class="description">' . $field['desc'] . '</p>';
+                    if (isset($field['desc'])) {
+                        echo '<p class="description">' . $field['desc'] . '</p>';
+                    }
+                    //echo '</label>';
                     break;
                 /* checkbox */
                 case strstr($field['type'], 'checkbox'):
