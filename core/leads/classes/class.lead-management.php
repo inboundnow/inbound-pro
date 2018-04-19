@@ -893,6 +893,7 @@ public static function display_headers() {
         $fields['wp_lead_status'] = __("Lead Status","inbound-pro");
         $fields['wpleads_last_updated'] = __("Last Updated","inbound-pro");
         $fields['wpleads_date_created'] = __("Date Created","inbound-pro");
+        $fields['wpleads_ip_address'] = __("IP Address","inbound-pro");
         $fields['sources'] = __("Sources","inbound-pro");
 
         $upload_dir = wp_upload_dir();
