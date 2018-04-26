@@ -27,7 +27,7 @@ if ( !class_exists( 'Inbound_Automation_Action_Create_User' ) ) {
             $actions['create_user'] = array (
                 'class_name' => get_class(),
                 'id' => 'create_user',
-                'label' => __( 'Add Role' , 'inbound-pro' ),
+                'label' => __( 'Create User' , 'inbound-pro' ),
                 'description' => __( 'Create a WordPress user account if one does not exist.' , 'inbound-pro' ),
                 'settings' => array(
                     array (
