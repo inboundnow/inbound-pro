@@ -295,8 +295,12 @@ if (!class_exists('Inbound_Mailer_Stats_Report')) {
                                 $lead_exists = ($lead) ? true : false;
 
                                 if($lead_exists){
-                                    $lead_name = get_post_meta($lead->ID, 'wpleads_name', true);
-                                    if(empty($lead_name)){
+                                    $lead_first_name = get_post_meta($lead->ID, 'wpleads_first_name', true);
+                                    $lead_last_name = get_post_meta($lead->ID, 'wpleads_last_name', true);
+
+                                    $lead_name = $lead_first_name . ' ' . $lead_last_name;
+
+                                    if(empty(trim($lead_name))){
                                         $lead_name = 'N/A';
                                     }
 
