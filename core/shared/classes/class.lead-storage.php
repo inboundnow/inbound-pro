@@ -717,7 +717,7 @@ if (!class_exists('LeadStorage')) {
 		/**
 		 *	Discover session IP address
 		 */
-		static function lookup_ip_address( $args ) {
+		static function lookup_ip_address( $args = array() ) {
 
 			/* make sure this field is not preset. It could be arriving from an import routine */
 			if (isset($args['wpleads_ip_address']) && $args['wpleads_ip_address']) {
