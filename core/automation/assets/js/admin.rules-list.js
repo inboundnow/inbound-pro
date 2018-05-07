@@ -29,6 +29,22 @@ var InboundRulesListingsJs = ( function() {
                 } , 'json' );
             });
 
+            /* Toggles defer processing status */
+            jQuery('body').on( 'click' , '.toggle-defer-status' , function() {
+                var defer = 'off';
+
+                if (jQuery(this).attr('checked') == 'checked') {
+                    defer='on';
+                }
+
+                /* Run Ajax Call */
+                InboundRulesListingsJs.run_ajax({
+                    'action' : 'automation_rule_toggle_defer_processing',
+                    'rule_id' : jQuery(this).data('rule-id'),
+                    'defer' : defer
+                } , 'json' );
+            });
+
             /* Clears queued tasks by rule */
             jQuery('body').on( 'click' , '.clear-queued-tasks' , function() {
                 InboundRulesListingsJs.rule_id = jQuery(this).data('rule-id')

@@ -27,7 +27,7 @@ if ( !class_exists( 'Inbound_Automation_Action_Create_User' ) ) {
             $actions['create_user'] = array (
                 'class_name' => get_class(),
                 'id' => 'create_user',
-                'label' => __( 'Create User' , 'inbound-pro' ),
+                'label' => __( 'Create User / Add Role' , 'inbound-pro' ),
                 'description' => __( 'Create a WordPress user account if one does not exist.' , 'inbound-pro' ),
                 'settings' => array(
                     array (
@@ -37,6 +37,17 @@ if ( !class_exists( 'Inbound_Automation_Action_Create_User' ) ) {
                         'type' => 'dropdown',
                         'options' => self::get_roles_that_cant('activate_plugins'),
                         'default' => 'subscriber'
+                    ),
+                    array (
+                        'id' => 'login',
+                        'label' => __( 'Log user in automatically' , 'inbound-pro' ),
+                        'description' => __('In order for this feature to work deferred processing must be disabled.', 'inbound-pro'),
+                        'type' => 'dropdown',
+                        'options' => array(
+                            'yes'=>'yes',
+                            'no'=> 'no'
+                        ),
+                        'default' => 'yes'
                     )
                 )
             );
@@ -83,8 +94,11 @@ if ( !class_exists( 'Inbound_Automation_Action_Create_User' ) ) {
 
             // ON SUCCESS
             if ( ! is_wp_error( $user_id )) {
+
+                /* send user notification / change password email */
                 $user = new WP_User( $user_id );
                 wp_new_user_notification( $user_id, $password);
+
                 /* log the action event */
                 inbound_record_log(
                     __( 'Created User' , 'inbound-pro') ,
@@ -93,6 +107,27 @@ if ( !class_exists( 'Inbound_Automation_Action_Create_User' ) ) {
                     $action['job_id'] ,
                     'action_event'
                 );
+
+                /* log the user in */
+                if ($action['login'] == 'yes') {
+                    $creds = array();
+                    $creds['user_login'] = $email_address;
+                    $creds['user_password'] = $password;
+                    $creds['remember'] = true;
+                    $user = wp_signon( $creds, false );
+                    wp_set_current_user($user->ID);
+
+                    /* log the action event */
+                    inbound_record_log(
+                        __( 'Logged User In' , 'inbound-pro') ,
+                        $creds['user_login'] . print_r($user,true),
+                        $action['rule_id'] ,
+                        $action['job_id'] ,
+                        'action_event'
+                    );
+                }
+
+
                 return;
             }
 

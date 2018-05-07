@@ -36,8 +36,11 @@ class Inbound_Automation_Post_Type {
 			/* Adds quick actions to row */
 			add_filter('post_row_actions', array(__CLASS__, 'add_row_actions'),8,2);
 
-			/* Setup Ajax Listeners - Enable/Diable rules */
+			/* Setup Ajax Listeners - Enable/Disable rules */
 			add_action( 'wp_ajax_automation_rule_toggle_status', array(__CLASS__, 'ajax_toggle_rule_status'));
+
+			/* Setup Ajax Listeners - Enable/Disable Deferred Processing */
+			add_action( 'wp_ajax_automation_rule_toggle_defer_processing', array(__CLASS__, 'ajax_toggle_rule_defer_processing'));
 
 			/* Setup Ajax Listeners - Clear tasks related to a rule */
 			add_action( 'wp_ajax_automation_rule_remove_taks', array(__CLASS__, 'ajax_clear_rule_tasks'));
@@ -112,7 +115,8 @@ class Inbound_Automation_Post_Type {
 		$cols = array(
 			"cb" => "<input type=\"checkbox\" />",
 			"title" => __( 'Automation' , 'inbound-pro' ),
-			"status" => __( 'Automation Status' , 'inbound-pro' )
+			"status" => __( 'Automation Status' , 'inbound-pro' ),
+			"defer" => __( 'Defer Processing' , 'inbound-pro' ),
 		);
 
 		$cols = apply_filters('automation_change_columns',$cols);
@@ -144,6 +148,18 @@ class Inbound_Automation_Post_Type {
 				?>
 				<label class="switch switch-green">
 					<input type="checkbox" class="switch-input toggle-rule-status" data-rule-id="<?php echo $post->ID;?>" <?php echo ($status == 'on') ? 'checked' : ''; ?>>
+					<span class="switch-label " data-on="On" data-off="Off" ></span>
+					<span class="switch-handle "></span>
+				</label>
+				<?php
+				break;
+
+			case "defer":
+				$rule = get_post_meta($post->ID, 'inbound_rule', true);
+				$defer = ( !isset($rule['defer']) || $rule['defer'] == 'on' ) ? 'on' : 'off';
+				?>
+				<label class="switch switch-green">
+					<input type="checkbox" class="switch-input toggle-defer-status" data-rule-id="<?php echo $post->ID;?>" <?php echo ($defer == 'on') ? 'checked' : ''; ?>>
 					<span class="switch-label " data-on="On" data-off="Off" ></span>
 					<span class="switch-handle "></span>
 				</label>
@@ -311,6 +327,24 @@ class Inbound_Automation_Post_Type {
 		$rule = get_post_meta($rule_id, 'inbound_rule', true);
 		$status = ( isset($_REQUEST['status']) ) ? sanitize_text_field($_REQUEST['status']) : $status;
 		$rule['status'] = $status;
+
+		if (defined('DOING_AJAX') && DOING_AJAX) {
+			echo update_post_meta($rule_id, 'inbound_rule', $rule);
+			exit;
+		} else {
+			return update_post_meta($rule_id, 'inbound_rule', $rule);
+		}
+
+	}
+
+	/**
+	 * Ajax handler to toggle rule defer processing settings
+	 */
+	public static function ajax_toggle_rule_defer_processing( $rule_id = null , $defer = 'on') {
+		$rule_id = (isset($_REQUEST['rule_id'])) ? intval($_REQUEST['rule_id']) : $rule_id;
+		$rule = get_post_meta($rule_id, 'inbound_rule', true);
+		$defer = ( isset($_REQUEST['defer']) ) ? sanitize_text_field($_REQUEST['defer']) : $defer;
+		$rule['defer'] = $defer;
 
 		if (defined('DOING_AJAX') && DOING_AJAX) {
 			echo update_post_meta($rule_id, 'inbound_rule', $rule);

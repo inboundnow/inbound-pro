@@ -289,8 +289,8 @@ if (!class_exists('LeadStorage')) {
 
 				/* send data back and perform action hooks */
 				if ( self::$is_ajax ) {
-					echo $lead['id'];
 					do_action('inbound_store_lead_post', $lead );
+					echo $lead['id'];
 					exit;
 				} else {
 					do_action('inbound_store_lead_post', $lead );

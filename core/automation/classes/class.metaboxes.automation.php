@@ -570,7 +570,6 @@ class Inbound_Metaboxes_Automation {
                 /* Add Actions to Action Block */
                 $action_blocks[$block_id]['actions']['then'] = $actions;
 
-
                 /* Get Else Actions For This Block If They Exist */
                 $actions = array();
                 if (isset($_POST['action_name'][$block_id]['else'])) {
