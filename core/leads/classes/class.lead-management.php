@@ -887,12 +887,13 @@ public static function display_headers() {
         $offset   = $_POST['data']['offset'];
         $total    = $_POST['data']['total'];
         $is_first = (!isset($_POST['data']['is_first']) || !$_POST['data']['is_first'] ) ? 0 : 1;
-        $fields = Leads_Field_Map::build_map_array();
+        $fields = Leads_Field_Map::build_map_array( false );
 
         /* add lead status & date created */
         $fields['wp_lead_status'] = __("Lead Status","inbound-pro");
         $fields['wpleads_last_updated'] = __("Last Updated","inbound-pro");
         $fields['wpleads_date_created'] = __("Date Created","inbound-pro");
+        $fields['wpleads_ip_address'] = __("IP Address","inbound-pro");
         $fields['sources'] = __("Sources","inbound-pro");
 
         $upload_dir = wp_upload_dir();
@@ -954,7 +955,6 @@ public static function display_headers() {
             $lead = get_post($ids[$j]);
             $this_lead_data = get_post_custom($ids[$j]);
 
-
             foreach ($fields as $key => $val) {
 
                 if (isset($this_lead_data[$key])) {
@@ -981,8 +981,9 @@ public static function display_headers() {
             fputcsv($file, $this_row_data);
             $exported++;
         }
-        // Close the file
+
         fclose($file);
+
         if($limit >= $total){
             $url = $url.$filename.'.csv';
             $returnArray = array(

@@ -328,9 +328,19 @@ if (!class_exists('Inbound_Automation_Loader')) {
                     if ($evaluate) {
 
                         self::$job_id = Inbound_Automation_Processing::add_job_to_queue(self::$rule, $arguments);
+
                         /* Log Evaluation Message */
                         self::record_schedule_event($rule, $arguments, $trigger, $evaluate);
 
+                        /* check if rule is set to run immediately */
+
+                        if (isset(self::$rule['defer']) && self::$rule['defer'] == 'off') {
+                            inbound_record_log(__('Process Immediately', 'inbound-pro'), '-', $rule->ID, '-', 'trigger_event');
+                            Inbound_Automation_Processing::process_rules();
+                        } else {
+                            inbound_record_log(__('Processing Deferred', 'inbound-pro'),  print_r(self::$rule,true), $rule->ID, '-', 'trigger_event');
+
+                        }
                     }
 
                 }

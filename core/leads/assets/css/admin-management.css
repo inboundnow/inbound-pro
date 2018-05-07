@@ -1537,6 +1537,10 @@ a.data-block.widget-block.db-active .positive-leads span {
     max-width:160px;
 }
 
+.mfp-wrap {
+    z-index:999999 !important;
+}
+
 .ui-progressbar{ background: #FA5858!important; }
 .ui-widget-header{ background: #A9F5BC!important; }
 .ui-progressbar .ui-progressbar-value {  height: 104%!important; }

@@ -73,7 +73,7 @@ if (!class_exists('LeadStorage')) {
 			$lead['variation'] = self::check_val('variation', $args);
 			$lead['source'] = self::check_val('source', $args);
 			$lead['wp_lead_status'] = self::check_val('wp_lead_status', $args);
-			$lead['ip_address'] = self::lookup_ip_address();
+			$lead['ip_address'] = self::lookup_ip_address( $args );
 
 
 			if($lead['raw_params']){
@@ -289,8 +289,8 @@ if (!class_exists('LeadStorage')) {
 
 				/* send data back and perform action hooks */
 				if ( self::$is_ajax ) {
-					echo $lead['id'];
 					do_action('inbound_store_lead_post', $lead );
+					echo $lead['id'];
 					exit;
 				} else {
 					do_action('inbound_store_lead_post', $lead );
@@ -717,7 +717,13 @@ if (!class_exists('LeadStorage')) {
 		/**
 		 *	Discover session IP address
 		 */
-		static function lookup_ip_address() {
+		static function lookup_ip_address( $args = array() ) {
+
+			/* make sure this field is not preset. It could be arriving from an import routine */
+			if (isset($args['wpleads_ip_address']) && $args['wpleads_ip_address']) {
+				return $args['wpleads_ip_address'];
+			}
+
 			if(isset($_SERVER["HTTP_X_FORWARDED_FOR"])) {
 				if(isset($_SERVER["HTTP_CLIENT_IP"])) {
 					$proxy = $_SERVER["HTTP_CLIENT_IP"];

@@ -300,13 +300,17 @@ class Leads_Field_Map {
 	/**
 	*  		Builds key=>label array of lead fields
 	*/
-	public static function build_map_array() {
+	public static function build_map_array( $include_placeholder = true ) {
 
 		$lead_fields = Leads_Field_Map::get_lead_fields();
 		$lead_fields = Leads_Field_Map::prioritize_lead_fields( $lead_fields );
 
 		$field_map = array();
-		$field_map[''] = __('Not set.','inbound-pro'); /* default empty */
+
+		if($include_placeholder) {
+			$field_map[''] = __('Not set.','inbound-pro'); /* default empty */
+		}
+
 		foreach ($lead_fields as $key=>$field) {
 			if (!isset($field['key'])) {
 				continue;

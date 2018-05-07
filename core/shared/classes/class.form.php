@@ -338,8 +338,8 @@ if (!class_exists('Inbound_Forms')) {
                         }
 
                         $form .= '<input class="inbound-input inbound-input-text ' . $formatted_label . $input_classes . ' ' . $field_input_class . '" name="' . $field_name . '" ' . $form_placeholder . ' id="' . $field_name . '" value="' . $fill_value . '" type="' . $type . '"' . $data_mapping_attr . $et_output . ' ' . $req . '/>';
-                        $form .= '  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-                                    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+                        $form .= '  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.min.css">
+                                    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
                                     <script>
                                         jQuery(function(){
                                             if( navigator.userAgent.toLowerCase().indexOf(\'firefox\') > -1) {
@@ -943,9 +943,10 @@ if (!class_exists('Inbound_Forms')) {
                 /* Discover From Email Address */
                 foreach ($form_post_data as $key => $value) {
                     if (preg_match('/email|e-mail/i', $key)) {
-                        $reply_to_email = $form_post_data[$key];
+                        $reply_to_email = str_replace('%40', '@' , $form_post_data[$key]);
                     }
                 }
+
                 $domain = get_option('siteurl');
                 $domain = str_replace('http://', '', $domain);
                 $domain = str_replace('https://', '', $domain);
