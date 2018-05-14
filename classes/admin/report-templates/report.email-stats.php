@@ -298,11 +298,7 @@ if (!class_exists('Inbound_Mailer_Stats_Report')) {
                                     $lead_first_name = get_post_meta($lead->ID, 'wpleads_first_name', true);
                                     $lead_last_name = get_post_meta($lead->ID, 'wpleads_last_name', true);
 
-                                    $lead_name = $lead_first_name . ' ' . $lead_last_name;
-
-                                    if(empty(trim($lead_name))){
-                                        $lead_name = 'N/A';
-                                    }
+                                    $lead_name = trim($lead_first_name . ' ' . $lead_last_name);
 
                                 }else{
                                     $lead_name = __('Lead Deleted', 'inbound-pro');
