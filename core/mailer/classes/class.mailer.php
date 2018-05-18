@@ -603,7 +603,13 @@ class Inbound_Mail_Daemon {
      *    Gets the reply email from variation settings
      */
     public static function get_variation_reply_email() {
-        return self::$email_settings['variations'] [self::$row->variation_id] ['reply_email'];
+        /* process tokens */
+        self::$email_settings['variations'][self::$row->variation_id]['reply_email'] = Inbound_Mailer_Tokens::process_tokens(
+            self::$email_settings['variations'][self::$row->variation_id]['reply_email'] ,
+            json_decode(self::$row->tokens , true)
+        );
+
+        return do_shortcode(self::$email_settings['variations'][self::$row->variation_id]['reply_email']);
     }
 
 

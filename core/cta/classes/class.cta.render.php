@@ -501,7 +501,8 @@ if ( !class_exists( 'CTA_Render' ) ) {
                 $global_cookie = get_option( 'wp-cta-main-global-cookie', 0 );
                 $global_cookie_length = get_option( 'wp-cta-main-global-cookie-length', 30 );
 
-                $popup_params = array(	'timeout' => $pop_time_final,
+                $popup_params = array(
+                    'timeout' => $pop_time_final,
                     'c_status' => $popup_cookie,
                     'c_length' => $popup_cookie_length,
                     'page_views'=> $popup_pageviews,
