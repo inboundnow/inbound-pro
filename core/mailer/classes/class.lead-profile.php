@@ -613,7 +613,7 @@ class Inbound_Mailer_Direct_Email_Leads {
             die();
         }
 
-        if (!is_email($data['reply_email']['value'])) {
+        if (!is_email($data['reply_email']['value']) && !strstr($data['reply_email']['value'] , '[') && !strstr($data['reply_email']['value'] ,'%') ) {
             echo json_encode(array('basic_error' => __('There\'s an error with the Reply Email', 'inbound-pro'), 'title' => __('Field Error:', 'inbound-pro')));
             die();
         }

@@ -603,6 +603,10 @@ class Inbound_Mail_Daemon {
      *    Gets the reply email from variation settings
      */
     public static function get_variation_reply_email() {
+
+        /* add lead id to all shortcodes before processing */
+        self::$email_settings['variations'][self::$row->variation_id]['reply_email'] = str_replace('[lead-field ', '[lead-field lead_id="' . self::$row->lead_id . '" ', self::$email_settings['variations'][self::$row->variation_id]['reply_email']);
+
         /* process tokens */
         self::$email_settings['variations'][self::$row->variation_id]['reply_email'] = Inbound_Mailer_Tokens::process_tokens(
             self::$email_settings['variations'][self::$row->variation_id]['reply_email'] ,
