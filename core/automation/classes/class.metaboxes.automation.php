@@ -608,6 +608,11 @@ class Inbound_Metaboxes_Automation {
 
         }
 
+        /* load and merge old rules */
+        $old_rule = get_post_meta($post_id, 'inbound_rule', true);
+        $rule['defer'] = ( isset( $old_rule['defer']) ) ? $old_rule['defer'] : 'on';
+        $rule['status'] = ( isset( $old_rule['status']) ) ? $old_rule['status'] : 'on';
+
         /* Save rule into post meta */
         update_post_meta($post_id, 'inbound_rule', $rule);
 
@@ -1240,6 +1245,9 @@ class Inbound_Metaboxes_Automation {
                 //echo $args['name'].':'.$args['default'][$args['name']].'<br>';
                 $html .= '<select name="' . $name . '" class="' . $args['class'] . '" data-block-id="' . $block_id . '" data-child-id="' . $child_id . '" data-id="' . $args['name'] . '">';
                 foreach ($args['options'] as $id => $label) {
+                    /* Make sure dropdown label is no too large */
+                    $label = (strlen($label) > 200) ? substr($label,0,200).'...' : $label;
+
                     $html .= '<option value="' . $id . '" ' . ($default == $id ? 'selected="selected"' : '') . '>' . $label . '</option>';
                 }
                 $html .= '</select>';
