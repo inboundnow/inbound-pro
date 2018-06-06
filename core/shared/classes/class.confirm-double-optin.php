@@ -106,7 +106,7 @@ if(!class_exists('Inbound_Confirm_Double_Optin')){
             $token = Inbound_API::analytics_get_tracking_code( $args );
 
             if(!defined('INBOUND_PRO_CURRENT_VERSION')){
-                $double_optin_page_id = get_option('list-double-optin-page-id', '');
+                $double_optin_page_id = get_option('wpl-main-list-double-optin-page-id', '');
             }else{
                 $settings = Inbound_Options_API::get_option('inbound-pro', 'settings', array());
                 $double_optin_page_id = $settings['leads']['list-double-optin-page-id'];
