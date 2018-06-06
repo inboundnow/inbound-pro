@@ -199,7 +199,6 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 				include_once(INBOUND_PRO_PATH . 'classes/admin/report-templates/report.cta.quick-view.php');
 				include_once(INBOUND_PRO_PATH . 'classes/admin/class.inbound-analytics.php');
 
-
 				//include_once( INBOUND_PRO_PATH . 'classes/admin/class.reporting.funnels.php');
 
 			}
