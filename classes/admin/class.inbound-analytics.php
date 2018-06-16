@@ -1,7 +1,4 @@
-<?php
-
-/**
- * Class for initializing Inbound Analytics component across WordPress
+<?prefresh * Class for initializing Inbound Analytics component across WordPress
  * @package     InboundPro
  * @subpackage  InboundAnalytics
  */
@@ -274,6 +271,20 @@ class Inbound_Analytics {
     public static function prepare_column_data($column, $post_id) {
         global $post;
 
+        $screen = get_current_screen();
+        $hidden = get_hidden_columns($screen);
+
+        /* create an array of our custom columns */
+        $skip_check = array('inbound_impressions' , 'inbound_visitors' , 'inbound_actions' );
+
+        /* do not process our columns if hidden */
+        if (in_array($column, $skip_check)) {
+            if (in_array($column, $hidden )) {
+                echo __('<i>refresh</i>' , 'inbound-pro');
+                return;
+            }
+        }
+
         switch ($column) {
             case "inbound_impressions":
                 $params = array(
@@ -289,6 +300,7 @@ class Inbound_Analytics {
                 <?php
                 break;
             case "inbound_visitors":
+
                 $params = array(
                     'page_id' => $post_id,
                     'start_date' => self::$dates['start_date'],
