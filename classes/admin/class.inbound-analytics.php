@@ -1,4 +1,6 @@
-<?prefresh * Class for initializing Inbound Analytics component across WordPress
+<?php
+
+/* Class for initializing Inbound Analytics component across WordPress
  * @package     InboundPro
  * @subpackage  InboundAnalytics
  */
