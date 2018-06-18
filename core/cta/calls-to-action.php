@@ -3,7 +3,7 @@
 Plugin Name: Calls to Action
 Plugin URI: http://www.inboundnow.com/cta/
 Description: Display Targeted Calls to Action on your WordPress site.
-Version: 3.3.7
+Version: 3.3.8
 Author: Inbound Now
 Author URI: https://www.inboundnow.com/
 Text Domain: cta

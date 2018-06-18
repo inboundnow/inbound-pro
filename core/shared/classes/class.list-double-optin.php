@@ -237,6 +237,7 @@ class Inbound_List_Double_Optin {
 
         /* get settings */
         $settings = get_term_meta($list->term_id, 'wplead_lead_list_meta_settings', true);
+        $settings = (is_array($settings)) ? $settings : array();
         $settings['double_optin'] = (isset($settings['double_optin'])) ? $settings['double_optin'] : 0;
         $settings['double_optin_email_template'] = (isset($settings['double_optin_email_template'])) ? $settings['double_optin_email_template'] : __('Please confirm your subscription', 'inbound-pro');
         $settings['double_optin_email_confirmation_logo'] = (isset($settings['double_optin_email_confirmation_logo'])) ? $settings['double_optin_email_confirmation_logo'] : '';

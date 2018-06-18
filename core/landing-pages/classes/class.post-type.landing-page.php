@@ -335,11 +335,11 @@ class Landing_Pages_Post_Type {
         $conversions = 0;
 
         foreach ($variations as $vid) {
-            $each_impression = get_post_meta($post->ID, 'lp-ab-variation-impressions-' . $vid, true);
-            $each_conversion = get_post_meta($post->ID, 'lp-ab-variation-conversions-' . $vid, true);
+            $each_impression = (int) get_post_meta($post->ID, 'lp-ab-variation-impressions-' . $vid, true);
+            $each_conversion = (int) get_post_meta($post->ID, 'lp-ab-variation-conversions-' . $vid, true);
             (($each_conversion === "")) ? $final_conversion = 0 : $final_conversion = $each_conversion;
-            $impressions += get_post_meta($post->ID, 'lp-ab-variation-impressions-' . $vid, true);
-            $conversions += get_post_meta($post->ID, 'lp-ab-variation-conversions-' . $vid, true);
+            $impressions += (int) get_post_meta($post->ID, 'lp-ab-variation-impressions-' . $vid, true);
+            $conversions += (int) get_post_meta($post->ID, 'lp-ab-variation-conversions-' . $vid, true);
         }
 
         if ($type_of_stat === "actions") {
