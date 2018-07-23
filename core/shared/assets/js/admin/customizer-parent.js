@@ -12,10 +12,9 @@ var InboundCustomizerParent = (function () {
         /* triggered from editor frame */
         setTimeout(function() {
           console.log('reload preview');
-          document.getElementById('wp-cta-live-preview').src = document.getElementById('wp-cta-live-preview').src
-          //document.getElementById('wp-cta-live-preview').contentDocument.location.reload(true);
+          document.getElementById('inbound-customizer-preview-id').src = document.getElementById('inbound-customizer-preview-id').src
 
-        }, 1500);
+        }, 3000);
     }
   };
 

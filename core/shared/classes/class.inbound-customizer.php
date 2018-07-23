@@ -229,7 +229,7 @@ class Inbound_Customizer {
                     </td>
 
                     <td style="width:55%">
-                        <iframe id="wp-cta-live-preview" class="inbound-customizer-preview" scrolling="auto" src="<?php echo $preview_link; ?>"></iframe>
+                        <iframe id="inbound-customizer-preview-id" class="inbound-customizer-preview" scrolling="auto" src="<?php echo $preview_link; ?>"></iframe>
                     </td>
                 </tr>
             </table>

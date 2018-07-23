@@ -30,7 +30,6 @@ class Inbound_Metaboxes_Leads {
         self::load_hooks();
     }
 
-
     /**
      *  Load hooks and filters
      */
@@ -960,6 +959,9 @@ class Inbound_Metaboxes_Leads {
                     <?php _e('Show Empty Fields', 'inbound-pro'); ?>
                 </a>
             </div>
+
+            <?php do_action('inbound-pro/leads/left-sidebar/bottom' , $user ); ?>
+            
         </div>
         <style type="text/css">.icon32-posts-wp-lead {
                 background-image: url("<?php echo $gravatar2;?>") !important;

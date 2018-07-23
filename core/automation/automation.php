@@ -76,8 +76,8 @@ if (!class_exists('Inbound_Automation_Plugin') && class_exists('Inbound_Leads_Pl
 				case false :
 					/* load front-end files */
 					include_once('classes/class.post-type.automation.php');
-					include_once('classes/class.automation.php');
 					include_once('classes/class.logs.php');
+					include_once('classes/class.automation.php');
 					include_once('classes/class.definitions.loader.php');
 					include_once('classes/class.metaboxes.automation.php');
 					include_once('classes/class.automation.php');

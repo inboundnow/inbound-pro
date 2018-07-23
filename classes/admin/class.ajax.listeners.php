@@ -79,12 +79,14 @@ class Inbound_Pro_Admin_Ajax_Listeners {
         $inbound_settings['api-key']['api-key'] = trim($_REQUEST['api_key']);
         Inbound_Options_API::update_option('inbound-pro', 'settings', $inbound_settings);
 
+        $payload = array(
+            'api-key' => trim($_REQUEST['api_key']),
+            'site' => $_REQUEST['site']
+        );
+
         /* look up api key to see what permissions it has */
         $response = wp_remote_post(Inbound_API_Wrapper::get_api_url() . 'key/check', array(
-            'body' => array(
-                'api-key' => trim($_REQUEST['api_key']),
-                'site' => $_REQUEST['site']
-            ),
+            'body' => $payload,
             'timeout' => 5
         ));
 
@@ -96,10 +98,23 @@ class Inbound_Pro_Admin_Ajax_Listeners {
         /* decode json response */
         $decoded = json_decode($response['body'], true);
 
-        /* check for 403 errors */
+        /* check for 403 errors and use CURL fallback method */
         if (strstr($response['body'], '403 Forbidden')) {
-            echo "{\"error\":\"403\",\"message\":\"403 error. The connection is being blocked by a server security setting. Please contact your host for further assistance!\"}";
-            exit;
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL,Inbound_API_Wrapper::get_api_url() . 'key/check');
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($payload));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $server_output = curl_exec ($ch);
+            $decoded = json_decode($server_output, true);
+            curl_close ($ch);
+
+            if (strstr($server_output, '403 Forbidden')) {
+
+                echo "{\"error\":\"403\",\"message\":\"403 error. The connection is being blocked by a server security setting. Please contact your host for further assistance!\"}";
+                exit;
+            }
         }
 
         if (isset($decoded['customer'])) {
@@ -116,7 +131,7 @@ class Inbound_Pro_Admin_Ajax_Listeners {
             delete_transient('inbound_api_key_cache');
         }
 
-        echo wp_remote_retrieve_body($response);
+        echo json_encode($decoded);
         exit;
     }
 
@@ -145,4 +160,4 @@ class Inbound_Pro_Admin_Ajax_Listeners {
 }
 
 /* Loads Inbound_Pro_Admin_Ajax_Listeners pre init */
-$Inbound_Pro_Admin_Ajax_Listeners = new Inbound_Pro_Admin_Ajax_Listeners();
+new Inbound_Pro_Admin_Ajax_Listeners();
