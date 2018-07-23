@@ -352,7 +352,7 @@ class Inbound_Automation_Processing {
 
 			/* Log Evaluation Attempt */
 			inbound_record_log(
-				__( 'Evaluating' , 'inboun-pro' ) ,
+				__( 'Evaluating - ' , 'inboun-pro' ) . ($evaluate ? 'Pass' : 'Blocked' ) ,
 				'<h2>'. __( 'Evaluated:' , 'inbound-pro' ) .'</h2><pre>'. $evaluate .'</pre>' .
 				'<h2>'. __( 'Action Evaluation Nature:' , 'inbound-pro' ) .'</h2><pre>' . $block['action_block_filters_evaluate'] . '</pre>' .
 				'<h2>' . __( 'Action Evaluation Debug Data:' , 'inbound-pro' ) .'</h2> <pre>' . print_r( $evals , true )  . '</pre>' .
