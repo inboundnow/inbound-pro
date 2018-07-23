@@ -425,13 +425,13 @@ jQuery(document).ready(function($) {
 			// var reload = jQuery(parent.document).find("#lp-live-preview").attr("src");
 			var new_reload = reload_url + "&inbound-preview=" + cache_bust + "&wp-cta-variation-id=" + current_variation_id;
 			//alert(new_reload);
-			jQuery(parent.document).find("#wp-cta-live-preview").attr("src", new_reload);
+			jQuery(parent.document).find("#inbound-customizer-preview-id").attr("src", new_reload);
 
 			var iframe_w = jQuery('.cta-width').val();
 			var iframe_h = jQuery('.cta-height').val();
 			if (typeof (iframe_w) != "undefined" && iframe_w != null && iframe_w != "") {
 				var iframe_h = jQuery('.cta-height').val() || "100%";
-				jQuery(parent.document).find("#wp-cta-live-preview").css('width', iframe_w).css('height', iframe_h);
+				jQuery(parent.document).find("#inbound-customizer-preview-id").css('width', iframe_w).css('height', iframe_h);
 			}
 
 
