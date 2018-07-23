@@ -960,7 +960,6 @@ class Inbound_Metaboxes_Leads {
                 </a>
             </div>
 
-
             <?php do_action('inbound-pro/leads/left-sidebar/bottom' , $user ); ?>
             
         </div>
