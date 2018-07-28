@@ -79,6 +79,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
             /* Apply custom JS & CSS for CTA */
             add_action( 'wp_head', array( $this, 'load_custom_js_css'));
+            add_action( 'amp_post_template_css', array( $this, 'load_custom_js_css'));
 
             /* Add CTA Render to Content */
             add_filter( 'the_content', array( $this, 'add_cta_to_post_content'), apply_filters('cta_the_content_priority', 15) );
@@ -254,6 +255,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
                 return array();
             }
 
+
             foreach ($cta_display_list as $key => $cta_id) {
 
                 $url = get_permalink( $cta_id );
@@ -312,10 +314,8 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
             }
 
-
             /* let them improve or alter the dataset */
             $cta_obj = apply_filters( 'wp_cta_obj', $cta_obj );
-
 
             /* return one cta out of list of available ctas */
             $key = array_rand($cta_obj);
@@ -339,6 +339,11 @@ if ( !class_exists( 'CTA_Render' ) ) {
                 @$doc->loadHTML($variation_html);
             } else {
                 @$doc->loadHTML( mb_convert_encoding($variation_html, 'HTML-ENTITIES', 'UTF-8'));
+            }
+
+            /* if amp page then disable tracking */
+            if (function_exists( 'is_amp_endpoint' ) && is_amp_endpoint()) {
+                return $variation_html;
             }
 
             foreach($doc->getElementsByTagName('a') as $anchor) {
@@ -568,7 +573,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
             global $post;
             $inline_content = "";
 
-            ($selected_cta) ? $selected_cta : $selected_cta = self::$instance->selected_cta;
+            (is_array($selected_cta)) ? $selected_cta : $selected_cta = self::$instance->selected_cta;
 
             if (!isset($selected_cta['id'])){
                 return;
@@ -600,8 +605,6 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
                 $css_styleblock_class = apply_filters( 'wp_cta_styleblock_class', '', $selected_cta['id'], $vid );
 
-                $custom_css = strip_tags($custom_css,'<style>');
-
                 /* If style.css exists in root cta directory, insert here */
                 $slug = $selected_cta['templates'][$vid]['slug'];
                 $has_style = WP_CTA_PATH.'templates/'.$slug.'/style.css';
@@ -611,7 +614,14 @@ if ( !class_exists( 'CTA_Render' ) ) {
                 }
 
                 /* Print Cusom CSS */
-                $inline_content .= '<style type="text/css" id="wp_cta_css_custom_'.$selected_cta['id'].'_'.$vid.'" class="wp_cta_css_'.$selected_cta['id'].' '.$css_styleblock_class.'">'.$custom_css.' '.$dynamic_css.'</style>';
+
+                /* if amp css call then strip style tags */
+                if (current_filter() == 'amp_post_template_css') {
+                    $inline_content .= $custom_css . "\r\n" . $dynamic_css;
+                } else {
+                    $custom_css = strip_tags($custom_css,'<style>');
+                    $inline_content .= '<style type="text/css" id="wp_cta_css_custom_'.$selected_cta['id'].'_'.$vid.'" class="wp_cta_css_'.$selected_cta['id'].' '.$css_styleblock_class.'">'.$custom_css.' '.$dynamic_css.'</style>';
+                }
 
                 $custom_js = CTA_Variations::get_variation_custom_js ( $selected_cta['id'], $vid );
 
@@ -623,6 +633,11 @@ if ( !class_exists( 'CTA_Render' ) ) {
                 else
                 {
                     $inline_content .= $custom_js;
+                }
+
+                /* if amp css call then break after first variation */
+                if (current_filter() == 'amp_post_template_css') {
+                    break;
                 }
             }
 
@@ -1201,6 +1216,11 @@ if ( !class_exists( 'CTA_Render' ) ) {
                 /* close variation container */
                 $cta_template .= "</div>";
 
+                /* if amp page then show first variation only and immediately */
+                if (function_exists( 'is_amp_endpoint' ) && is_amp_endpoint()) {
+                    $cta_template = str_replace('display:none' , 'display:block' , $cta_template );
+                    break;
+                }
             }
 
             $cta_template .='</div>';
