@@ -87,7 +87,7 @@ $shortcodes_config['forms'] = array(
             'desc' => __('Add the converting lead to 1 or more lead lists', 'inbound-pro' ),
             'type' => 'leadlists',
             'options' => $lead_list_names,
-            'class' => 'main-form-settings exclude-from-refresh',
+            'class' => 'main-form-settings',
         ),
 
         'lists_hidden' => array(
