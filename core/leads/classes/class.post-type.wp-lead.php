@@ -750,6 +750,22 @@ class Leads_Post_Type {
         /*  list page */
         if ($screen->id === 'edit-wp-lead') {
             wp_enqueue_script('wpleads-list', WPL_URLPATH . 'assets/js/wpl.leads-list.js');
+            wp_localize_script('wpleads-list' , 'wpleads_list' , array(
+                'i18n' => array(
+                    'read' => __('Read' , 'inbound-pro'),
+                    'mark_as_read' => __('Mark as read' , 'inbound-pro'),
+                    'mark_as_read' => __('Mark as unread' , 'inbound-pro'),
+                    'live' => __('Live' , 'inbound-pro'),
+                    'published' => __('Published' , 'inbound-pro'),
+                    'add_to_list' => __('Add selected leads to list' , 'inbound-pro'),
+                    'select_list' => __('Select list:' , 'inbound-pro'),
+                    'apply' => __('Apply' , 'inbound-pro'),
+                    'updating' => __('Updating' , 'inbound-pro'),
+                    'done' => __('Done!' , 'inbound-pro'),
+                    'ajax_error' => __('Ajax error. Try action again.' , 'inbound-pro')
+                )
+            ));
+
             wp_enqueue_style('wpleads-list-css', WPL_URLPATH . 'assets/css/wpl.leads-list.css');
             return;
         }

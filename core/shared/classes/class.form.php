@@ -823,7 +823,6 @@ if (!class_exists('Inbound_Forms')) {
          */
         static function do_actions() {
 
-
             /* only process actions when told to */
             if (!isset($_POST['inbound_submitted']) || (!$_POST['inbound_submitted'] || $_POST['inbound_submitted'] =='false' ) ) {
                 return;
@@ -831,7 +830,10 @@ if (!class_exists('Inbound_Forms')) {
 
             /* if POST does not contain correct nonce then bail */
             if (!defined('DISABLE_INBOUND_FORM_NONCE')) {
-                check_ajax_referer(SECURE_AUTH_KEY, 'inbound_nonce');
+                if (! check_ajax_referer(SECURE_AUTH_KEY, 'inbound_nonce' , false ) ) {
+                    echo __('A security issue most likely involved with nonce validation. Please notify support and ask them to disable caching on this page.' , 'inbound-pro');
+                    wp_send_json_error();
+                };
             }
 
             $form_post_data = array();

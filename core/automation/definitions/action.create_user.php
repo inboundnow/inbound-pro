@@ -97,7 +97,7 @@ if ( !class_exists( 'Inbound_Automation_Action_Create_User' ) ) {
 
                 /* send user notification / change password email */
                 $user = new WP_User( $user_id );
-                wp_new_user_notification( $user_id, $password);
+                wp_new_user_notification( $user_id, null , 'both' );
 
                 /* log the action event */
                 inbound_record_log(
