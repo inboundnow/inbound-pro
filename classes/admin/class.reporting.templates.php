@@ -47,8 +47,20 @@ class Inbound_Reporting_Templates {
         global $post;
 
         $today = new DateTime(date_i18n('Y-m-d G:i:s'));
+
+        /* add one day into the future */
+        $today->modify('+1 days');
+
+        /* set end date */
         $dates['end_date'] = $today->format('Y-m-d G:i:s T');
+
+        /* remove one day into the future */
+        $today->modify('-1 days');
+
+        /* subtract range to find start_date */
         $today->modify('-'.$range.' days');
+
+        /* set start_date */
         $dates['start_date'] =  $today->format('Y-m-d G:i:s T');
 
         /* generate dates for previous date-range */
