@@ -720,7 +720,7 @@ var InboundShortcodes = {
 
             } else if (input_type === "radio") {
 
-            } else if(jQuery(this).attr("multiple") && jQuery(this).hasClass("select2-offscreen")){
+            } else if(jQuery(this).attr("multiple") && jQuery(this).hasClass("select2-hidden-accessible")){
 
             } else {
                 jQuery(this).find("option").removeAttr("selected");

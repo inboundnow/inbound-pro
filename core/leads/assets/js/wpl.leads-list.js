@@ -26,17 +26,17 @@ jQuery(document).ready(function ($) {
         });
 
         if (jQuery("li.publish").length > 0) {
-            var textchange = jQuery("li.publish").html().replace("Published", "Live");
+            var textchange = jQuery("li.publish").html().replace(wpleads_list.i18n.published , wpleads_list.i18n.live);
             jQuery('li.publish').html(textchange);
 
             jQuery('.date.column-date').each(function () {
-                var textchange2 = jQuery(this).html().replace("Published", "");
+                var textchange2 = jQuery(this).html().replace(wpleads_list.i18n.published, "");
                 jQuery(this).html(textchange2);
             });
         }
 
-        var mark_as_read = '<span class="mark-read button" title="Mark lead as viewed">Mark as read</span>';
-        var mark_as_unread = '<span class="mark-unread button" title="Mark lead as unread">Mark as unread</span>';
+        var mark_as_read = '<span class="mark-read button" title="'+ wpleads_list.i18n.mark_as_read + '">'+ wpleads_list.i18n.mark_as_read + '</span>';
+        var mark_as_unread = '<span class="mark-unread button" title="'+ wpleads_list.i18n.mark_as_unread + '">'+ wpleads_list.i18n.mark_as_unread + '</span>';
         //var stop_waiting_for_optin = '<span class="stop-waiting-for-optin button" title="Remove the lead from the double opt in waiting list">Stop waiting for opt in</span>';
         //jQuery(mark_as_read).appendTo(".row-actions");
         jQuery(mark_as_read).appendTo(".edit");
@@ -62,14 +62,14 @@ jQuery(document).ready(function ($) {
             }
             if (selected === "add-to-list") {
                 jQuery("#wordpress_list_select").show();
-                jQuery("#doaction").val('Add Selected Leads to List');
+                jQuery("#doaction").val(wpleads_list.i18n.add_to_list_title);
                 setTimeout(function () {
-                    var test = "<span id='add-to-this'>Select List:</span>";
+                    var test = "<span id='add-to-this''+ wpleads_list.i18n.select_list + '</span>";
                     jQuery("#wordpress_list_select").before(test);
                 }, 100);
 
             } else {
-                jQuery("#doaction").val('Apply');
+                jQuery("#doaction").val(wpleads_list.i18n.apply);
                 jQuery("#add-to-this").remove();
             }
         });
@@ -87,11 +87,7 @@ jQuery(document).ready(function ($) {
 				jQuery(this).find(".stop-waiting-for-optin").css({'display' : 'inline-block'});
 			}
         });
-        //var move_box = jQuery(".alignleft.actions").first();
-        //jQuery(".subsubsub").before(move_box);
 
-        //var filter_box = "<span class='left-float-filter'>Filter</span>";
-        //jQuery(".alignleft.actions").eq(1).before(filter_box);
 
         var meta_filter = jQuery('#lead-meta-value').val();
         if (meta_filter != "") {
@@ -146,7 +142,7 @@ jQuery(document).ready(function ($) {
             // define the bulk edit row
             var post_id = jQuery(this).attr("id");
             var status = "new";
-            jQuery(self).parent().parent().parent().parent().find(".status").text("Updating...");
+            jQuery(self).parent().parent().parent().parent().find(".status").text(wpleads_list.i18n.updating);
 
             jQuery.ajax({
                 type: 'POST',
@@ -164,7 +160,7 @@ jQuery(document).ready(function ($) {
                     // jQuery('.lp-form').unbind('submit').submit();
                     jQuery(self).hide();
                     jQuery(self).parent().parent().parent().parent().css("background-color", "#f2f2f2");
-                    jQuery(self).parent().parent().parent().parent().find(".status").text("Done!");
+                    jQuery(self).parent().parent().parent().parent().find(".status").text(wpleads_list.i18n.done);
                     //alert("Changes Saved! Refresh the page to see your changes");
                 },
 
@@ -181,8 +177,8 @@ jQuery(document).ready(function ($) {
 
             // define the bulk edit row
             var post_id = jQuery(this).attr("id");
-            var status = "Read";
-            jQuery(self).parent().parent().parent().parent().find(".status").text("Updating...");
+            var status = wpleads_list.i18n.read;
+            jQuery(self).parent().parent().parent().parent().find(".status").text(wpleads_list.i18n.updating);
 
             jQuery.ajax({
                 type: 'POST',
@@ -205,7 +201,7 @@ jQuery(document).ready(function ($) {
                 },
 
                 error: function (MLHttpRequest, textStatus, errorThrown) {
-                    alert("Ajax not enabled");
+                    alert(wpleads_list.i18n.ajax_error);
                 }
             });
 

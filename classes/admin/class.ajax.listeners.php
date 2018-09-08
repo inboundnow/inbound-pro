@@ -87,7 +87,7 @@ class Inbound_Pro_Admin_Ajax_Listeners {
         /* look up api key to see what permissions it has */
         $response = wp_remote_post(Inbound_API_Wrapper::get_api_url() . 'key/check', array(
             'body' => $payload,
-            'timeout' => 5
+            'timeout' => 10
         ));
 
         if (is_wp_error($response)) {

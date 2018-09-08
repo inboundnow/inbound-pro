@@ -323,7 +323,7 @@ if ( !class_exists('Inbound_Upgrade_Routines') ) {
             require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
             $table_name = $wpdb->prefix . "inbound_events";
 
-            $wpdb->get_results( "ALTER TABLE {$table_name} MODIFY COLUMN `id` BIGINT(20),
+            $wpdb->get_results( "ALTER TABLE {$table_name} MODIFY COLUMN `id` BIGINT(20)  NOT NULL AUTO_INCREMENT,
                                 MODIFY COLUMN `lead_id` BIGINT(20),
                                 MODIFY COLUMN `form_id` BIGINT(20),
                                 MODIFY COLUMN `cta_id` BIGINT(20),
