@@ -387,6 +387,7 @@ class Inbound_SparkPost_Stats {
         self::$stats['start_date'] = $start_date->format('Y-m-d G:i:s T');
 
         $end_date = new DateTime();
+        $end_date->modify('+1 days');
         self::$stats['end_date'] = $end_date->format('Y-m-d G:i:s T');
 
     }
