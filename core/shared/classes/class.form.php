@@ -57,7 +57,9 @@ if (!class_exists('Inbound_Forms')) {
             if (!$id && isset($_GET['post'])) {
                 $id = intval($_GET['post']);
             }
-
+            
+            /* filter redirect URL for special cases */
+            $redirect = apply_filters('inbound_forms/input/furl' , $redirect );
 
             $form_name = $name;
             /*$form_name = strtolower(str_replace(array(' ','_', '"', "'"),'-',$form_name)); */
