@@ -102,8 +102,19 @@ var InboundRulesJs = ( function() {
                 }, function(){
                     var block_id = action.data('block-id');
                     var child_id = action.data('child-id');
-                    jQuery('.action-sub-wrapper[data-block-id="'+block_id+'"][data-child-id="'+child_id+'"]').remove();
-                    swal("Deleted!", "The action has been deleted.", "success");
+
+                    /* check if then or else action */
+                    var action_type = action.data('action-type');
+
+                    switch(action_type) {
+                        case 'then':
+                            jQuery('.action-block-then-actions-container .action-sub-wrapper[data-block-id="'+block_id+'"][data-child-id="'+child_id+'"]').remove();
+                            break;
+                        case 'else':
+                            jQuery('.action-block-else-actions-container .action-sub-wrapper[data-block-id="'+block_id+'"][data-child-id="'+child_id+'"]').remove();
+                            break;
+                    }
+                   swal("Deleted!", "The action has been deleted.", "success");
                 });
 			});
 
