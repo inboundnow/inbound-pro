@@ -82,7 +82,7 @@ class Inbound_Shared_ACF_BootStrap {
      */
     public static function define_acf_settings_url( $url ) {
 
-        $url = INBOUNDNOW_SHARED_PATH . 'assets/plugins/advanced-custom-fields/';
+        $url = INBOUNDNOW_SHARED_URLPATH . 'assets/plugins/advanced-custom-fields/';
 
         return $url;
     }
