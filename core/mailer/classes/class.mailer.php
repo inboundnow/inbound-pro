@@ -364,6 +364,10 @@ class Inbound_Mail_Daemon {
         /* If direct email we won't load from template */
         if (isset($args['is_direct']) && $args['is_direct']) {
             $email = get_post($args['email_id']);
+            
+            /* add lead id to all lead field shortcodes before processing */
+            $email->post_content = str_replace('[lead-field ', '[lead-field lead_id="' . self::$row->lead_id . '" ', $email->post_content);
+            
             self::$email['body'] = do_shortcode($email->post_content);
         } else {
             self::$email['body'] = self::get_email_body();

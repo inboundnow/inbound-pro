@@ -253,7 +253,7 @@ class Inbound_Mailer_Direct_Email_Leads {
                 jQuery('.premade_template_selector').css('display', 'none');
                 jQuery('.email_variation_selector').css('visibility', 'hidden');
                 jQuery('.inbound-tooltip').css('display', 'none');
-                jQuery('.open-marketing-button-popup.inbound-marketing-button.button, a.button.lead-fields-button').css('display', 'none');
+                jQuery('.open-marketing-button-popup.inbound-marketing-button.button').css('display', 'none');
 
                 if(jQuery(sendingDomainSelector).val() != undefined){
                     jQuery('.from_email > .inbound-email-option-td.inbound-meta-box-option.inbound-text-option').append(sendingDomainSelector);
@@ -474,6 +474,13 @@ class Inbound_Mailer_Direct_Email_Leads {
 
            .email_message_box .inbound-wysiwyg-option {
                display:table-row-group;
+           }
+
+            #inbound_lead_fields_button {
+               background-image: url('<?php echo INBOUND_EMAIL_URLPATH; ?>/assets/images/token-20.png');
+               background-repeat: no-repeat;
+               background-position: 0.15em 50%;
+               padding-left: 10px;
            }
         </style>
 

@@ -79,15 +79,7 @@ class Inbound_Mailer_Tokens {
     public static function token_button() {
         global $post;
 
-        if (
-            !isset($post)
-            ||
-            (
-                $post->post_type != 'inbound-email'
-                &&
-                $post->post_type != 'wp-lead'
-            )
-        ) {
+        if (!isset($post) || ($post->post_type != 'inbound-email' && $post->post_type != 'wp-lead') ) {
             return;
         }
 
@@ -103,7 +95,7 @@ class Inbound_Mailer_Tokens {
     public static function enqueue_js() {
         global $post;
 
-        if (!isset($post) || $post->post_type != 'inbound-email') {
+        if (!isset($post) || ($post->post_type != 'inbound-email' && $post->post_type != 'wp-lead') ) {
             return;
         }
 
@@ -120,7 +112,7 @@ class Inbound_Mailer_Tokens {
     public static function token_generation_popup() {
         global $post;
 
-        if (!isset($post) || $post->post_type != 'inbound-email') {
+        if (!isset($post) || ($post->post_type != 'inbound-email' && $post->post_type != 'wp-lead') ) {
             return;
         }
 
@@ -168,7 +160,7 @@ class Inbound_Mailer_Tokens {
     public static function token_generation_js() {
         global $post;
 
-        if (isset($post) && $post->post_type != 'inbound-email') {
+        if (!isset($post) || ($post->post_type != 'inbound-email' && $post->post_type != 'wp-lead') ) {
             return;
         }
 
@@ -177,7 +169,8 @@ class Inbound_Mailer_Tokens {
             jQuery(document).ready(function () {
 
                 /* Add listener to throw popup on button click */
-                jQuery('body').on('click', '.lead-fields-button', function () {
+                jQuery('body').on('click', '.lead-fields-button', function (e) {
+                    e.preventDefault();
                     jQuery('#' + this.id).popModal({
                         html: jQuery('#lead_fields_popup_container').html(),
                         placement: 'bottomLeft',
@@ -259,7 +252,7 @@ class Inbound_Mailer_Tokens {
     public static function token_generation_css() {
         global $post;
 
-        if (isset($post) && $post->post_type != 'inbound-email') {
+        if (!isset($post) || ($post->post_type != 'inbound-email' && $post->post_type != 'wp-lead') ) {
             return;
         }
 
