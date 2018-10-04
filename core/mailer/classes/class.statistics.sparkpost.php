@@ -297,7 +297,7 @@ class Inbound_SparkPost_Stats {
         self::$vid = $Inbound_Mailer_Variations->get_current_variation_id();
 
         $campaign_id =  $post->ID	. '_'. self::$vid;
-        $sparkpost = new Inbound_SparkPost(  $inbound_settings['mailer']['sparkpost-key'] );
+        $sparkpost = new Inbound_SparkPost(  $inbound_settings['mailer']['sparkpost-key'] , $inbound_settings['mailer']['mail-service'] );
         self::$results = $sparkpost->get_transmissions( $campaign_id );
 
         return self::$results;
@@ -536,7 +536,7 @@ class Inbound_SparkPost_Stats {
         global $inbound_settings;
 
         /* load SparkPost connector */
-        $sparkpost = new Inbound_SparkPost(  $field['value'] );
+        $sparkpost = new Inbound_SparkPost(  $field['value'] , $inbound_settings['mailer']['mail-service']);
 
         $inbound_settings['mailer']['sparkpost-key'] = $field['value'];
 
@@ -785,7 +785,7 @@ class Inbound_SparkPost_Stats {
         global $inbound_settings;
 
         $variations = Inbound_Mailer_Variations::get_variations($email_id);
-        $sparkpost = new Inbound_SparkPost(  $inbound_settings['mailer']['sparkpost-key'] );
+        $sparkpost = new Inbound_SparkPost(  $inbound_settings['mailer']['sparkpost-key'] , $inbound_settings['mailer']['mail-service'] );
 
         foreach ($variations as $vid => $variation) {
 
@@ -820,7 +820,7 @@ class Inbound_SparkPost_Stats {
         }
 
         /* set the sparkpost apikey and load sparkpost connector */
-        $sparkpost = new Inbound_SparkPost(  $inbound_settings['mailer']['sparkpost-key'] );
+        $sparkpost = new Inbound_SparkPost(  $inbound_settings['mailer']['sparkpost-key'] , $inbound_settings['mailer']['mail-service'] );
 
         /* discover sending domains */
         $domains = $sparkpost->get_domains();
@@ -870,7 +870,7 @@ class Inbound_SparkPost_Stats {
                         if (isset($domains['errors'])) {
                             switch($domains['errors'][0]['message']) {
                                 case 'Unauthorized.':
-                                    echo '<pre>'.__('invalid' , 'inbound-pro') . '</pre>';
+                                    echo '<pre>'.__('Unauthorized' , 'inbound-pro') . '</pre>';
 
                                     break;
                                 case 'Forbidden.':

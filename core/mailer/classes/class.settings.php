@@ -218,8 +218,9 @@ if ( !class_exists('Inbound_Mailer_Settings') ) {
 						'type'  => 'dropdown',
 						'default'  => 'none',
 						'options' => array(
-							'none' => __( 'none' ),
-							'sparkpost' => __( 'SparkPost' , 'inbound-pro' )
+							'none' => __( 'None' ),
+							'sparkpost' => __( 'SparkPost' , 'inbound-pro' ),
+							'sparkpost-eu' => __( 'SparkPost (EU)' , 'inbound-pro' )
 						),
 						'hidden' => false,
 						'reveal' => array(
@@ -234,7 +235,7 @@ if ( !class_exists('Inbound_Mailer_Settings') ) {
 						'type'  => 'text',
 						'default'  => '',
 						'options' => null,
-						'hidden' =>  ( $service == 'sparkpost' ? false : true ) ,
+						'hidden' =>  ( strstr($service, 'sparkpost') ? false : true ) ,
 						'reveal' => array(
 							'selector' => '#mail-service' ,
 							'value' => 'sparkpost'
@@ -246,7 +247,7 @@ if ( !class_exists('Inbound_Mailer_Settings') ) {
 						'label' => __( 'Status:' , 'inbound-pro' ),
 						'value' => '',
 						'callback' => array( 'Inbound_SparkPost_Stats' , 'display_api_status' ),
-						'hidden' => ( $service == 'sparkpost' ? false : true ) ,
+						'hidden' => ( strstr($service, 'sparkpost') ? false : true ) ,
 						'reveal' => array(
 							'selector' => '#mail-service' ,
 							'value' => 'sparkpost'
@@ -259,7 +260,7 @@ if ( !class_exists('Inbound_Mailer_Settings') ) {
 						'options' => array(
 							'<a href="https://app.sparkpost.com/account/credentials" target="_blank">'.__('Create an API Key','inbound-pro').'</a>'
 						),
-						'hidden' => ( $service == 'sparkpost' ? false : true ) ,
+						'hidden' => ( strstr($service, 'sparkpost') ? false : true ) ,
 						'reveal' => array(
 							'selector' => '#mail-service' ,
 							'value' => 'sparkpost'

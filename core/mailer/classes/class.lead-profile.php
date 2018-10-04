@@ -101,8 +101,8 @@ class Inbound_Mailer_Direct_Email_Leads {
 
         /***setup the sending domains dropdown***/
         /*get the available Sparkpost sending domains*/
-        if($inbound_settings['mail-service'] == 'sparkpost' ){
-            $sparkpost = new Inbound_SparkPost(  $inbound_settings['sparkpost-key'] );
+        if( strstr($inbound_settings['mail-service']  , 'sparkpost')  ){
+            $sparkpost = new Inbound_SparkPost(  $inbound_settings['sparkpost-key'] , $inbound_settings['mail-service'] );
             $domain_query = $sparkpost->get_domains();
             /*if there are no errors*/
             if(!isset($domain_query['errors']) && empty($domain_query['errors'])){

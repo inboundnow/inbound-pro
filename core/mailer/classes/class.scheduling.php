@@ -166,6 +166,9 @@ class Inbound_Mailer_Scheduling {
             case "sparkpost":
                 $timestamp = date("Y-m-d\\TG:i:s\\Z", strtotime($settings['send_datetime']));
                 break;
+            case "sparkpost-eu":
+                $timestamp = date("Y-m-d\\TG:i:s\\Z", strtotime($settings['send_datetime']));
+                break;
         }
 
 

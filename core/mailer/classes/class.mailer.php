@@ -199,23 +199,24 @@ class Inbound_Mail_Daemon {
         self::toggle_dom_parser();
 
         $i=0;
-        //error_log('Starting Cronjob' . self::time_elapsed());
+
         foreach (self::$results as $row) {
 
             self::$row = $row;
 
-            //error_log('Starting Email ' . self::time_elapsed());
             self::get_email();
 
             switch (self::$email_service) {
                 case "sparkpost":
                     Inbound_Mailer_SparkPost::send_email( true ); /* send immediately */
                     break;
+                case "sparkpost-eu":
+                    Inbound_Mailer_SparkPost::send_email( true ); /* send immediately */
+                    break;
             }
 
             /* check response for errors  */
             self::check_response();
-            //error_log('Check Response ' . self::time_elapsed());
 
             /* if error in batch then bail on processing job */
             if (self::$error_mode) {
@@ -224,7 +225,6 @@ class Inbound_Mail_Daemon {
             }
             self::delete_from_queue();
 
-            //error_log('Delete  '.$i.' From Queue ' . self::time_elapsed());
             $i++;
         }
 
@@ -298,6 +298,9 @@ class Inbound_Mail_Daemon {
 
             switch (self::$email_service) {
                 case "sparkpost":
+                    Inbound_Mailer_SparkPost::send_email();
+                    break;
+                case "sparkpost-eu":
                     Inbound_Mailer_SparkPost::send_email();
                     break;
             }
@@ -379,6 +382,9 @@ class Inbound_Mail_Daemon {
 
         switch (self::$email_service) {
             case "sparkpost":
+                Inbound_Mailer_SparkPost::send_email(true);
+                break;
+            case "sparkpost-eu":
                 Inbound_Mailer_SparkPost::send_email(true);
                 break;
         }
@@ -555,6 +561,8 @@ class Inbound_Mail_Daemon {
         $response = wp_remote_get($permalink, array('timeout' => 120));
 
         if (is_wp_error($response)) {
+            _e('Inbound PRO had an error loading this email variation. Please check the debug details below for clues to solving.' , 'inbound-pro' );
+            echo "\r\n";
             error_log(print_r($response, true));
             print_r($response);
             exit;
