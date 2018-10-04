@@ -134,7 +134,8 @@ class Inbound_Mailer_Direct_Email_Leads {
                 $sending_dropdown .= '<option value="">' . __('Type out full address', 'inbound-pro') . '</option>';
                 echo '<select id="sending-domain-selector" class="form-control">'.$sending_dropdown.'</select>';
             }else{
-
+                /*if there were errors, set the user's email for the one used on the site*/
+                $user_email = $user->data->user_email;
             }
         }
 

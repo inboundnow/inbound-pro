@@ -380,6 +380,12 @@ class Inbound_Mail_Daemon {
             self::$email['is_test'] = true;
         }
 
+        /* if the user wants to use a custom solo email method */
+        $use_custom_mailer = apply_filters('inbound_mailer_use_custom_solo_mailer', false);
+        if($use_custom_mailer === true){
+            return apply_filters('inbound_mailer_custom_solo_mailer', self::$email);
+        }
+
         switch (self::$email_service) {
             case "sparkpost":
                 Inbound_Mailer_SparkPost::send_email(true);
