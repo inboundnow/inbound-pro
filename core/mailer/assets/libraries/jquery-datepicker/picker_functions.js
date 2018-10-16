@@ -5,6 +5,7 @@
 jQuery(document).ready(function ($) {
 
 	jQuery('.time-picker').timepicker({ 'timeFormat': 'H:i' });
+	jQuery('.time-picker').prop('autocomplete','no');
 	
 	/* Get the current set date time */
 	var current_val = jQuery(".new-date").val();
