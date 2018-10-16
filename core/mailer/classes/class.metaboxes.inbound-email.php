@@ -1328,7 +1328,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             }
 
             // Begin the field table and loop
-            echo '<div class="form-table" id="inbound-meta">';
+            echo '<div class="form-table" id="inbound-meta" autocomplete="off">';
 
             foreach ($custom_fields as $field) {
 
@@ -1372,8 +1372,8 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
                         echo '<div class="jquery-date-picker inbound-datepicker" id="date-picking" data-field-type="text">
 											<span class="datepair" data-language="javascript">
-												<input type="text" id="date-picker-' . $settings_key . '" class="date start" placeholder="' . __('Select Date', 'inbound-pro') . '"/></span>
-												<input id="time-picker-' . $settings_key . '" type="text" class="time time-picker " placeholder =" ' . __('Select Time', 'inbound-pro') . '" />
+												<input autocomplete="no" type="text" id="date-picker-' . $settings_key . '" class="date start" placeholder="' . __('Select Date', 'inbound-pro') . '"/></span>
+												<input autocomplete="no" id="time-picker-' . $settings_key . '" type="text" class="time time-picker " placeholder =" ' . __('Select Time', 'inbound-pro') . '" />
 												<input type="hidden" name="' . $field_id . '" id="' . $field_id . '" value="' . $meta . '" class="new-date" value="" >
 										';
                         echo '</div>';

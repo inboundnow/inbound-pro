@@ -375,7 +375,7 @@ Cheers!
                 'label' => 'Footer Address',
                 'name' => 'footer_address',
                 'type' => 'wysiwyg',
-                'instructions' => 'In order to be complaint with CAN-SPAM Act please enter a valid address.',
+                'instructions' => 'In order to be complaint with CAN-SPAM Act please enter a postal address.',
                 'required' => 0,
                 'conditional_logic' => 0,
                 'wrapper' => array (

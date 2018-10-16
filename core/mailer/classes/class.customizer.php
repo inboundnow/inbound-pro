@@ -102,7 +102,7 @@ class Inbound_Mailer_Customizer {
 			#wpadminbar {
 				z-index: 99999999999 !important;
 			}
-			#inbound-mailer-live-preview #wpadminbar {
+			#mailer-live-preview #wpadminbar {
 				margin-top:0px;
 			}
 			.inbound-mailer-load-overlay {
@@ -129,7 +129,7 @@ class Inbound_Mailer_Customizer {
 			jQuery('#inbound_email_customizer_options').load(function(){
 				jQuery('#inbound_email_customizer_options').contents().find(".action-save").on('click', function(event) {
 					setTimeout( function() {
-						document.getElementById('inbound-mailer-live-preview').src = document.getElementById('inbound-mailer-live-preview').src;
+						document.getElementById('mailer-live-preview').src = document.getElementById('mailer-live-preview').src;
 					} , 1500 );
 				});
 			});

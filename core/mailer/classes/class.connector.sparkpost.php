@@ -9,13 +9,26 @@
 class Inbound_SparkPost {
 
 	static $apikey;
+	static $api_domain;
 	static $debug = false;
 
 	/**
 	 *  Initialize Class
 	 */
-	public function __construct( $apikey ) {
+	public function __construct( $apikey , $service ) {
 		self::$apikey = $apikey;
+
+		switch($service) {
+			case 'sparkpost':
+				self::$api_domain = "api.sparkpost.com";
+				break;
+			case 'sparkpost-eu':
+				self::$api_domain = "api.eu.sparkpost.com";
+				break;
+			default:
+				self::$api_domain = "api.sparkpost.com";
+				break;
+		}
 	}
 
 	/**
@@ -24,7 +37,7 @@ class Inbound_SparkPost {
 	 */
 	public static function get_domains( ){
 
-		$request_url = 'https://api.sparkpost.com/api/v1/sending-domains';
+		$request_url = 'https://'.self::$api_domain.'/api/v1/sending-domains';
 
 		$domain_args = array(
 			'match' => null,
@@ -57,7 +70,7 @@ class Inbound_SparkPost {
 	 */
 	public static function get_webhook( $id ){
 
-		$request_url = 'https://api.sparkpost.com/api/v1/webhooks/' . trim($id);
+		$request_url = 'https://'.self::$api_domain.'/api/v1/webhooks/' . trim($id);
 
 		$webhook_args = array(
 			//'timezone' => ''
@@ -89,7 +102,7 @@ class Inbound_SparkPost {
 	 */
 	public static function get_webhooks(  ){
 
-		$request_url = 'https://api.sparkpost.com/api/v1/webhooks/';
+		$request_url = 'https://'.self::$api_domain.'/api/v1/webhooks/';
 
 		$webhook_args = array(
 			//'timezone' => ''
@@ -121,7 +134,7 @@ class Inbound_SparkPost {
 	 */
 	public static function create_webhook( $webhook_args ){
 
-		$request_url = 'https://api.sparkpost.com/api/v1/webhooks';
+		$request_url = 'https://'.self::$api_domain.'/api/v1/webhooks';
 		$args = array(
 			'method' => 'POST',
 			'timeout' => 45,
@@ -156,7 +169,7 @@ class Inbound_SparkPost {
 	 */
 	public static function send( $transmission_args ){
 
-		$request_url = 'https://api.sparkpost.com/api/v1/transmissions';
+		$request_url = 'https://'.self::$api_domain.'/api/v1/transmissions';
 		$transmission_args_encoded = json_encode($transmission_args);
 
 		$args = array(
@@ -197,7 +210,7 @@ class Inbound_SparkPost {
 			$campaign_ids = implode(',',$campaign_ids);
 		}
 
-		$request_url = 'https://api.sparkpost.com/api/v1/metrics/deliverability/campaign/';
+		$request_url = 'https://'.self::$api_domain.'/api/v1/metrics/deliverability/campaign/';
 
 		$metric_args = array(
 			'from' => $from,
@@ -233,7 +246,7 @@ class Inbound_SparkPost {
 	public static function get_transmissions( $campaign_id ) {
 
 		/* https://developers.sparkpost.com/api/transmissions#transmissions-list-get */
-		$request_url = 'https://api.sparkpost.com/api/v1/transmissions?campaign_id=' . $campaign_id ;
+		$request_url = 'https://'.self::$api_domain.'/api/v1/transmissions?campaign_id=' . $campaign_id ;
 
 
 		$args = array(
@@ -263,7 +276,7 @@ class Inbound_SparkPost {
 	public static function delete_transmission( $transmission_id ) {
 
 		/* https://developers.sparkpost.com/api/transmissions#transmissions-list-get */
-		$request_url = 'https://api.sparkpost.com/api/v1/transmissions/' . $transmission_id ;
+		$request_url = 'https://'.self::$api_domain.'/api/v1/transmissions/' . $transmission_id ;
 
 		$args = array(
 			'method' => 'DELETE',

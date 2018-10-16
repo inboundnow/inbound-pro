@@ -13,7 +13,7 @@ class Inbound_Mailer_SparkPost extends Inbound_Mail_Daemon {
 	public static function send_email( $send_now = false) {
 		$settings = Inbound_Mailer_Settings::get_settings();
 
-		$sparkpost = new Inbound_SparkPost(  $settings['sparkpost-key'] );
+		$sparkpost = new Inbound_SparkPost(  $settings['sparkpost-key'] , $settings['mail-service'] );
 
 		if ( !$send_now && self::$row->datetime ) {
 

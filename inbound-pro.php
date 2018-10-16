@@ -4,7 +4,7 @@ Plugin Name: Inbound Now PRO
 Plugin URI: http://www.inboundnow.com/
 Description: Professional Inbound Marketing Suite for WordPress
 Author: InboundWP LLC
-Version: 1.9.3.1
+Version: 1.9.4.1
 Author URI: http://www.inboundnow.com/
 Text Domain: inbound-pro
 */
@@ -95,8 +95,8 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 		*/
 		private static function define_constants() {
 
-			define('INBOUND_PRO_CURRENT_VERSION', '1.9.3.1' );
-			define('INBOUND_PRO_STABLE_VERSION', '1.9.2' );
+			define('INBOUND_PRO_CURRENT_VERSION', '1.9.4.1' );
+			define('INBOUND_PRO_STABLE_VERSION', '1.9.3.1' );
 			define('INBOUND_PRO_TRANSLATIONS_VERSION', '1.30.22' );
 			define('INBOUND_PRO_URLPATH', plugin_dir_url( __FILE__ ));
 			define('INBOUND_PRO_PATH', plugin_dir_path( __FILE__ ) );
@@ -129,10 +129,10 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 			$inbound_settings = Inbound_Options_API::get_option('inbound-pro', 'settings', array());
 			$inbound_settings = (is_array($inbound_settings)) ? $inbound_settings : array();
 
-			/* secret debug tool for administrators */
-			if (isset($_GET['_inbound_settings']) && is_admin() && current_user_can('administrator') ) {
+			/* secret debug tool for administrators
+			if (isset($_GET['_inbound_settings']) && is_admin() ) {
 				print_r($inbound_settings);exit;
-			}
+			}*/
 
 			/* determine customer access level */
 			self::get_customer_status();

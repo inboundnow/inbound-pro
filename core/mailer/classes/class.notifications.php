@@ -24,31 +24,34 @@ class Inbound_Mailer_Notifications {
 	 */
 	public static function load_hooks() {
 
-        /* Add notification ignore listener */
-        add_action( 'admin_init' , array( __CLASS__ , 'ignore_notifications' ) );
+		/* Add notification ignore listener */
+		add_action( 'admin_init' , array( __CLASS__ , 'ignore_notifications' ) );
 
 		/* Load template selector in background */
 		add_action('admin_notices', array( __CLASS__ , 'prompt_key_notifications' ) );
 
+		/* Prompt SparkPost Compliance Notice */
+		add_action('admin_notices', array( __CLASS__ , 'prompt_sparkpost_compliance_notification' ) );
+
 	}
 
-    /**
-     * listen for the command to disable the mandril send error notifications
-     */
-    public static function ignore_notifications() {
-        if (!isset($_REQUEST['mailer-disable-notification'])) {
-             return;
-        }
+	/**
+	 * listen for the command to disable the mandril send error notifications
+	 */
+	public static function ignore_notifications() {
+		if (!isset($_REQUEST['mailer-disable-notification'])) {
+			return;
+		}
 
-        global $current_user;
-        $user_id = $current_user->ID;
+		global $current_user;
+		$user_id = $current_user->ID;
 
-        $ignore_check = get_transient('inbound_pro_ignore_email_errors' , array());
+		$ignore_check = get_transient('inbound_pro_ignore_email_errors' , array());
 
-        $ignore_check[] = $user_id;
+		$ignore_check[] = $user_id;
 
-        set_transient( 'inbound_pro_ignore_email_errors' , array_unique($ignore_check) , 60 * 60 * 24 * 3 );
-    }
+		set_transient( 'inbound_pro_ignore_email_errors' , array_unique($ignore_check) , 60 * 60 * 24 * 3 );
+	}
 
 
 	/**
@@ -77,6 +80,63 @@ class Inbound_Mailer_Notifications {
 				</div>
 				<?php
 				break;
+			case 'sparkpost-eu':
+
+				if ( isset($inbound_settings['mailer']['sparkpost-key']) && $inbound_settings['mailer']['sparkpost-key'] ) {
+					return;
+				}
+				?>
+				<div class="updated">
+					<p><?php _e( sprintf( 'Email requires a SparkPost API Key. Head to your %s to input your SparkPost API key.' , '<a href="'.$settings_url.'">'.__( 'settings page' , 'inbound-pro' ).'</a>') , 'inbound-email'); ?></p>
+				</div>
+				<?php
+				break;
+			default:
+				?>
+				<div class="updated">
+					<p><?php _e( sprintf( 'An email service is required to send emails. Head to your %s to select a mail service.' , '<a href="'.$settings_url.'">'.__( 'settings page' , 'inbound-pro' ).'</a>') , 'inbound-email'); ?></p>
+				</div>
+				<?php
+				break;
+		}
+
+	}
+
+	/**
+	 *  Warn users that all SparkPost Emails must comply with SparkPost Guidelines
+	 */
+	public static function prompt_sparkpost_compliance_notification() {
+		global $post , $inbound_settings;
+
+
+		if (!isset($post)||$post->post_type!='inbound-email'){
+			return false;
+		}
+
+		/* Check if key exists */
+		$settings_url = Inbound_Mailer_Settings::get_settings_url();
+
+		switch($inbound_settings['mailer']['mail-service']) {
+			case 'sparkpost':
+
+				?>
+				<div class="updated">
+					<p><?php
+						echo sprintf(__('Emails must meet all requirements listed in the %sSparkPost Messaging Guidelines%s. Please be sure to follow these guidelines when creating your emails.' , 'inbound-pro') , '<a href="https://www.sparkpost.com/policies/messaging/" target="_blank">' , '</a>' );
+						?>
+				</div>
+				<?php
+				break;
+			case 'sparkpost-eu':
+
+				?>
+				<div class="updated">
+					<p><?php
+						echo sprintf(__('Emails must meet all requirements listed in the %sSparkPost Messaging Guidelines%s. Please be sure to follow these guidelines when creating your emails.' , 'inbound-pro') , '<a href="https://www.sparkpost.com/policies/messaging/" target="_blank">' , '</a>' );
+						?>
+				</div>
+				<?php
+				break;
 			default:
 				?>
 				<div class="updated">
@@ -93,33 +153,33 @@ class Inbound_Mailer_Notifications {
 	 *  Let user know Mandril is not processing their sends
 	 */
 	public static function prompt_email_send_error()  {
-        global $current_user, $post;
-        $user_id = $current_user->ID;
+		global $current_user, $post;
+		$user_id = $current_user->ID;
 
 
-        $errors = Inbound_Options_API::get_option('inbound-email', 'errors-detected', false);
+		$errors = Inbound_Options_API::get_option('inbound-email', 'errors-detected', false);
 
-        /* if no error message then return */
-        if (!$errors) {
-            return;
-        }
+		/* if no error message then return */
+		if (!$errors) {
+			return;
+		}
 
-        $ignore_check = get_transient('inbound_pro_ignore_email_errors' , array());
+		$ignore_check = get_transient('inbound_pro_ignore_email_errors' , array());
 
-        if ($ignore_check && in_array( $user_id , $ignore_check ) && (!isset($post) || $post->post_type != 'inbound-email')) {
-            return;
-        }
+		if ($ignore_check && in_array( $user_id , $ignore_check ) && (!isset($post) || $post->post_type != 'inbound-email')) {
+			return;
+		}
 
-        echo '<div class="error">';
+		echo '<div class="error">';
 
-        if ((!isset($post) || $post->post_type != 'inbound-email')) {
-            echo '<div style="float:right;margin-top:10px;"><a href="?mailer-disable-notification=true" title="'. __('Disable this notification. Note this error message will still appear in the email listing area until all scheduled emails are canceled or the error itself resolves.', 'inbound-pro') . '"><strong>x</strong></a> </div>';
-        }
+		if ((!isset($post) || $post->post_type != 'inbound-email')) {
+			echo '<div style="float:right;margin-top:10px;"><a href="?mailer-disable-notification=true" title="'. __('Disable this notification. Note this error message will still appear in the email listing area until all scheduled emails are canceled or the error itself resolves.', 'inbound-pro') . '"><strong>x</strong></a> </div>';
+		}
 
-        echo '<p>' . __( sprintf( 'The selected email service is rejecting email send attempts and returning the message below:  <pre>%s</pre>' , $errors) , 'inbound-pro') .'</p>';
-        echo '     </div>';
+		echo '<p>' . __( sprintf( 'The selected email service is rejecting email send attempts and returning the message below:  <pre>%s</pre>' , $errors) , 'inbound-pro') .'</p>';
+		echo '     </div>';
 
-    }
+	}
 
 }
 

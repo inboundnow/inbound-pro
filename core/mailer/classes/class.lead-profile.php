@@ -101,8 +101,8 @@ class Inbound_Mailer_Direct_Email_Leads {
 
         /***setup the sending domains dropdown***/
         /*get the available Sparkpost sending domains*/
-        if($inbound_settings['mail-service'] == 'sparkpost' ){
-            $sparkpost = new Inbound_SparkPost(  $inbound_settings['sparkpost-key'] );
+        if( strstr($inbound_settings['mail-service']  , 'sparkpost')  ){
+            $sparkpost = new Inbound_SparkPost(  $inbound_settings['sparkpost-key'] , $inbound_settings['mail-service'] );
             $domain_query = $sparkpost->get_domains();
             /*if there are no errors*/
             if(!isset($domain_query['errors']) && empty($domain_query['errors'])){
@@ -134,7 +134,8 @@ class Inbound_Mailer_Direct_Email_Leads {
                 $sending_dropdown .= '<option value="">' . __('Type out full address', 'inbound-pro') . '</option>';
                 echo '<select id="sending-domain-selector" class="form-control">'.$sending_dropdown.'</select>';
             }else{
-
+                /*if there were errors, set the user's email for the one used on the site*/
+                $user_email = $user->data->user_email;
             }
         }
 
@@ -253,7 +254,7 @@ class Inbound_Mailer_Direct_Email_Leads {
                 jQuery('.premade_template_selector').css('display', 'none');
                 jQuery('.email_variation_selector').css('visibility', 'hidden');
                 jQuery('.inbound-tooltip').css('display', 'none');
-                jQuery('.open-marketing-button-popup.inbound-marketing-button.button, a.button.lead-fields-button').css('display', 'none');
+                jQuery('.open-marketing-button-popup.inbound-marketing-button.button').css('display', 'none');
 
                 if(jQuery(sendingDomainSelector).val() != undefined){
                     jQuery('.from_email > .inbound-email-option-td.inbound-meta-box-option.inbound-text-option').append(sendingDomainSelector);
@@ -474,6 +475,13 @@ class Inbound_Mailer_Direct_Email_Leads {
 
            .email_message_box .inbound-wysiwyg-option {
                display:table-row-group;
+           }
+
+            #inbound_lead_fields_button {
+               background-image: url('<?php echo INBOUND_EMAIL_URLPATH; ?>/assets/images/token-20.png');
+               background-repeat: no-repeat;
+               background-position: 0.15em 50%;
+               padding-left: 10px;
            }
         </style>
 
