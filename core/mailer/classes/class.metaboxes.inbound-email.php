@@ -1212,7 +1212,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 if (!in_array($post->post_status, $ignore)) {
                     ?>
                     <a class="button-primary"
-                       id="inbound-mailer-change-template-button"><?php _e('Switch Templates', 'inbound-pro'); ?></a>
+                       id="mailer-change-template-button"><?php _e('Switch Templates', 'inbound-pro'); ?></a>
                     <br>
                     <a rel='<?php echo $post_link; ?>' id='cta-launch-front' class='button-primary '
                        href='<?php echo $post_link; ?>&email-customizer=on'><?php _e('Launch Visual Editor', 'inbound-pro'); ?></a>
