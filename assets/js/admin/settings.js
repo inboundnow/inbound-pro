@@ -843,6 +843,7 @@ var InboundSettings = (function () {
 
             /* removed disabled attribute from mapped key */
             clone.find('input.field-key').removeAttr('disabled');
+            clone.find('select.field-type').removeAttr('disabled');
 
             /* empty add new container */
             jQuery('.map-row-addnew #new-key').val('');
