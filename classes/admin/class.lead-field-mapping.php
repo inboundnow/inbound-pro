@@ -41,6 +41,7 @@ class Inbound_Leads_Custom_fields {
 	public static function merge_fields( $mappable_fields ) {
 
 		$combined = array();
+
 		/* loop through memory and change labels for core fields */
 		foreach( self::$custom_field_map as $key => $field ) {
 
