@@ -1915,6 +1915,7 @@ class Inbound_Metaboxes_Leads {
 
                     break;
                 case strstr($field['type'], 'text'):
+
                     $parts = explode('-', $field['type']);
                     (isset($parts[1])) ? $size = $parts[1] : $size = 35;
 

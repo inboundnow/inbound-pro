@@ -126,7 +126,9 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
             switch ($inbound_settings['mailer']['mail-service']) {
                 case 'sparkpost' :
-                    //self::$statistics = Inbound_SparkPost_Stats::get_email_timeseries_stats();
+                    self::$statistics = Inbound_SparkPost_Stats::get_sparkpost_webhook_stats();
+                    break;
+                case 'sparkpost-eu' :
                     self::$statistics = Inbound_SparkPost_Stats::get_sparkpost_webhook_stats();
                     break;
             }
