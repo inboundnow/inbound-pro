@@ -160,17 +160,32 @@ class Inbound_Mailer_Scheduling {
         $tz = explode('-UTC', $settings['timezone']);
         $timezone = timezone_name_from_abbr($tz[0], 60 * 60 * intval($tz[1]));
 
+        /* get date time format as set by WordPress */
+        $wordpress_date_time_format = get_option('date_format') . ' g:i';
+
+        /* add time if does not exist */
+        if(!strstr($settings['send_datetime'],':')) {
+            $settings['send_datetime'] = $settings['send_datetime'] . " 00:00";
+        }
         date_default_timezone_set($timezone);
 
+        /*
+         error_log($wordpress_date_time_format);
+         error_log($settings['send_datetime']);
+         error_log(print_r(DateTime::getLastErrors() , true));
+         */
         switch ($email_service) {
             case "sparkpost":
-                $timestamp = date("Y-m-d\\TG:i:s\\Z", strtotime($settings['send_datetime']));
+                $schedule_date = DateTime::createFromFormat(trim($wordpress_date_time_format) , trim($settings['send_datetime']));
+
+                $timestamp = $schedule_date->format('Y-m-d\\TG:i:s\\Z');
+
                 break;
             case "sparkpost-eu":
-                $timestamp = date("Y-m-d\\TG:i:s\\Z", strtotime($settings['send_datetime']));
+                $schedule_date = DateTime::createFromFormat(trim($wordpress_date_time_format) , trim($settings['send_datetime']));
+                $timestamp = $schedule_date->format('Y-m-d\\TG:i:s\\Z');
                 break;
         }
-
 
 
         return $timestamp;

@@ -22,7 +22,12 @@ class Inbound_Mailer_SparkPost extends Inbound_Mail_Daemon {
 			if (isset(self::$email_settings['timezone'])) {
 				$date_parts = explode('+' , $send_at );
 				$timezone_parts = explode('UTC' , self::$email_settings['timezone'] );
+
+				if (!$timezone_parts[1]) {
+					$timezone_parts[1] = '-00';
+				}
 				$send_at = $date_parts[0] .$timezone_parts[1].':00';
+
 			}
 		} else {
 			$send_at = 'now';

@@ -1372,11 +1372,27 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
                         $tz = (isset($settings['timezone'])) ? $settings['timezone'] : $field['default_timezone_abbr'];
 
+                        /* get date time format as set by WordPress */
+                        $wordpress_date_time_format = get_option('date_format') . ' g:i';
+
+                        /* add time if does not exist */
+                        if(!strstr($settings['send_datetime'],':')) {
+                            $settings['send_datetime'] = $settings['send_datetime'] . " 00:00";
+                        }
+                        /* get format corrected date */
+                        if ($meta) {
+                            $schedule_date = DateTime::createFromFormat(trim($wordpress_date_time_format) , trim($meta));
+                            $meta_corrected = $schedule_date->format('Y/m/d g:s');
+                        } else {
+                            $meta_corrected = "";
+                        }
+
                         echo '<div class="jquery-date-picker inbound-datepicker" id="date-picking" data-field-type="text">
 											<span class="datepair" data-language="javascript">
 												<input autocomplete="no" type="text" id="date-picker-' . $settings_key . '" class="date start" placeholder="' . __('Select Date', 'inbound-pro') . '"/></span>
 												<input autocomplete="no" id="time-picker-' . $settings_key . '" type="text" class="time time-picker " placeholder =" ' . __('Select Time', 'inbound-pro') . '" />
 												<input type="hidden" name="' . $field_id . '" id="' . $field_id . '" value="' . $meta . '" class="new-date" value="" >
+												<input type="hidden" id="inbound_send_datetime_formatted" value="' . $meta_corrected . '" class="new-date" value="" >
 										';
                         echo '</div>';
                         echo '<select name="inbound_timezone" id="" class="" >';
@@ -1388,6 +1404,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                             echo '<option value="' . $tz_value . '" ' . $selected . '> (' . $timezone['utc'] . ') ' . $timezone['name'] . '</option>';
                         }
                         echo '</select>';
+                        //echo '<p><small>'.__('Date format: MONTH/DAY/YEAR' , 'inbound-pro') . '</p></small></p>';
 
                         break;
                     case 'text':
@@ -1951,7 +1968,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                             // variables for time units
                             var days, hours, minutes, seconds, message;
 
-                            var target_date = new Date(jQuery('#inbound_send_datetime').val());
+                            var target_date = new Date(jQuery('#inbound_send_datetime_formatted').val());
 
                             // update the tag with id "countdown" every 1 second
                             Settings.interval_id = setInterval(function () {
