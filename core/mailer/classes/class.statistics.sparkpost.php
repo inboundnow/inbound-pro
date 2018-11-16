@@ -115,7 +115,25 @@ class Inbound_SparkPost_Stats {
         /* get deliveries */
         $wordpress_date_time =  date_i18n('Y-m-d G:i:s');
         $today = new DateTime($wordpress_date_time);
-        $schedule_date = new DateTime($settings['send_datetime']);
+
+        /* get correct format - d/m/Y date formats will fatal */
+        $wordpress_date_time_format = get_option('date_format') . ' g:i';
+
+        /* add time if does not exist */
+        if(!strstr($settings['send_datetime'],':')) {
+            $settings['send_datetime'] = $settings['send_datetime'] . " 00:00";
+        }
+
+        $date = DateTime::createFromFormat(trim($wordpress_date_time_format) , trim($settings['send_datetime']));
+        /**
+        echo $wordpress_date_time_format;
+        echo "<br>";
+        echo $settings['send_datetime'];
+        echo "<br>";
+        var_dump(DateTime::getLastErrors());
+        /**/
+
+        $schedule_date = new DateTime($date->format('Y-m-d G:i:s'));
         $interval = $today->diff($schedule_date);
 
         /* complicated  - needs doc */

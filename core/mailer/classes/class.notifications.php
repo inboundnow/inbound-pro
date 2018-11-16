@@ -31,7 +31,7 @@ class Inbound_Mailer_Notifications {
 		add_action('admin_notices', array( __CLASS__ , 'prompt_key_notifications' ) );
 
 		/* Prompt SparkPost Compliance Notice */
-		add_action('admin_notices', array( __CLASS__ , 'prompt_sparkpost_compliance_notification' ) );
+		//add_action('admin_notices', array( __CLASS__ , 'prompt_sparkpost_compliance_notification' ) );
 
 	}
 
@@ -117,7 +117,7 @@ class Inbound_Mailer_Notifications {
 		$settings_url = Inbound_Mailer_Settings::get_settings_url();
 
 		switch($inbound_settings['mailer']['mail-service']) {
-			case 'sparkpost':
+			case 'sparkpost1111':
 
 				?>
 				<div class="updated">
@@ -127,7 +127,7 @@ class Inbound_Mailer_Notifications {
 				</div>
 				<?php
 				break;
-			case 'sparkpost-eu':
+			case 'sparkpost-eu1111':
 
 				?>
 				<div class="updated">

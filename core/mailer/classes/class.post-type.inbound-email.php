@@ -324,7 +324,6 @@ class Inbound_Mailer_Post_Type {
 	public static function check_if_scheduled_emails_sent() {
 		$screen = get_current_screen();
 
-
 		if (isset($screen) && $screen->id == 'edit-inbound-email' ) {
 			$emails = get_posts( array(
 				'post_type' => 'inbound-email',
@@ -336,13 +335,25 @@ class Inbound_Mailer_Post_Type {
 				return;
 			}
 
+			/* get wordpress date format */
+			$wordpress_date_time_format = get_option('date_format') . ' g:i';
+
+			/* add time if does not exist */
+			if(!strstr($settings['send_datetime'],':')) {
+				$settings['send_datetime'] = $settings['send_datetime'] . " 00:00";
+			}
+
 			/* if scheduled email's send time is here then mark sent and refresh */
 			$updated = false;
 			foreach ($emails as $email) {
 				$settings = Inbound_Email_Meta::get_settings($email->ID);
 				$wordpress_date_time =  date_i18n('Y-m-d G:i:s');
 				$today = new DateTime($wordpress_date_time);
-				$schedule_date = new DateTime($settings['send_datetime']);
+
+				/* make sure the schedule date is formatted correctly */
+				$date = DateTime::createFromFormat(trim($wordpress_date_time_format) , trim($settings['send_datetime']));
+				$schedule_date = new DateTime($date->format('Y-m-d G:i:s'));
+
 				$interval = $today->diff($schedule_date);
 
 				if ( $interval->format('%R') == '-' ) {
