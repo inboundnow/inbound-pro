@@ -117,7 +117,7 @@ class Inbound_SparkPost_Stats {
         $today = new DateTime($wordpress_date_time);
 
         /* get correct format - d/m/Y date formats will fatal */
-        $wordpress_date_time_format = get_option('date_format') . ' g:i';
+        $wordpress_date_time_format = get_option('date_format') . ' G:i';
 
         /* add time if does not exist */
         if(!strstr($settings['send_datetime'],':')) {

@@ -1373,7 +1373,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                         $tz = (isset($settings['timezone'])) ? $settings['timezone'] : $field['default_timezone_abbr'];
 
                         /* get date time format as set by WordPress */
-                        $wordpress_date_time_format = get_option('date_format') . ' g:i';
+                        $wordpress_date_time_format = get_option('date_format') . ' G:i';
 
                         /* add time if does not exist */
                         if(!strstr($settings['send_datetime'],':')) {

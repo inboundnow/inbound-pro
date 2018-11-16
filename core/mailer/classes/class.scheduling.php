@@ -161,7 +161,7 @@ class Inbound_Mailer_Scheduling {
         $timezone = timezone_name_from_abbr($tz[0], 60 * 60 * intval($tz[1]));
 
         /* get date time format as set by WordPress */
-        $wordpress_date_time_format = get_option('date_format') . ' g:i';
+        $wordpress_date_time_format = get_option('date_format') . ' G:i';
 
         /* add time if does not exist */
         if(!strstr($settings['send_datetime'],':')) {
