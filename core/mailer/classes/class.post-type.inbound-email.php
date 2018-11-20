@@ -336,7 +336,7 @@ class Inbound_Mailer_Post_Type {
 			}
 
 			/* get wordpress date format */
-			$wordpress_date_time_format = get_option('date_format') . ' G:i';
+			$wordpress_date_time_format = (get_option('date_format') == 'd/m/Y') ?  'd/m/Y G:i' : 'm/d/Y G:i';
 
 			/* add time if does not exist */
 			if(!strstr($settings['send_datetime'],':')) {

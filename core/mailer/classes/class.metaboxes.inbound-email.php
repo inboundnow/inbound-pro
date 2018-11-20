@@ -905,13 +905,13 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                         </td>
                         <td class='email-details-td-info'>
                             <select  name="inbound_mailer_screen_option_range" class="" id="inbound_mailer_screen_option_range" style="width:100px;" >
-                            <?php
-                            $ranges = array(1,7,30,90,365);
+                                <?php
+                                $ranges = array(1,7,30,90,365);
 
-                            foreach ($ranges as $range) {
-                                echo  '<option value="'.$range.'" '. ( self::$range==$range ? 'selected="true"' : '' ).'">'.$range.' ' . __('days','inbound-pro') .'</option>';
-                            }
-                            ?>
+                                foreach ($ranges as $range) {
+                                    echo  '<option value="'.$range.'" '. ( self::$range==$range ? 'selected="true"' : '' ).'">'.$range.' ' . __('days','inbound-pro') .'</option>';
+                                }
+                                ?>
                             </select>
                             <i class="fa fa-question-circle inbound-tooltip"  data-toggle="tooltip" data-placement="left" title="<?php _e('Select day range for calculating statistics.', 'inbound-pro') ?>"></i>
                         </td>
@@ -1372,8 +1372,6 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
                         $tz = (isset($settings['timezone'])) ? $settings['timezone'] : $field['default_timezone_abbr'];
 
-                        /* get date time format as set by WordPress */
-                        $wordpress_date_time_format = get_option('date_format') . ' G:i';
 
                         /* add time if does not exist */
                         if(!strstr($settings['send_datetime'],':')) {
@@ -1381,10 +1379,18 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                         }
                         /* get format corrected date */
                         if ($meta) {
+                            /* get date time format as set by WordPress */
+
+                            $wordpress_date_time_format = (get_option('date_format') == 'd/m/Y') ?  'd/m/Y G:i' : 'm/d/Y G:i';
+
                             $schedule_date = DateTime::createFromFormat(trim($wordpress_date_time_format) , trim($meta));
-                            $meta_corrected = $schedule_date->format('Y/m/d g:s');
+
+                            $meta_current_date_corrected = date_i18n('Y-m-d G:i');
+                            $meta_schedule_corrected = $schedule_date->format('Y/m/d G:i');
+
                         } else {
-                            $meta_corrected = "";
+                            $meta_current_date_corrected = "";
+                            $meta_schedule_corrected = "";
                         }
 
                         echo '<div class="jquery-date-picker inbound-datepicker" id="date-picking" data-field-type="text">
@@ -1392,7 +1398,8 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 												<input autocomplete="no" type="text" id="date-picker-' . $settings_key . '" class="date start" placeholder="' . __('Select Date', 'inbound-pro') . '"/></span>
 												<input autocomplete="no" id="time-picker-' . $settings_key . '" type="text" class="time time-picker " placeholder =" ' . __('Select Time', 'inbound-pro') . '" />
 												<input type="hidden" name="' . $field_id . '" id="' . $field_id . '" value="' . $meta . '" class="new-date" value="" >
-												<input type="hidden" id="inbound_send_datetime_formatted" value="' . $meta_corrected . '" class="new-date" value="" >
+												<input type="hidden" id="inbound_current_datetime_formatted" value="' . $meta_current_date_corrected . '" class="new-date" value="" >
+												<input type="hidden" id="inbound_send_datetime_formatted" value="' . $meta_schedule_corrected . '" class="new-date" value="" >
 										';
                         echo '</div>';
                         echo '<select name="inbound_timezone" id="" class="" >';
@@ -1974,7 +1981,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                             Settings.interval_id = setInterval(function () {
 
                                 // find the amount of "seconds" between now and target
-                                var current_date = new Date().getTime();
+                                var current_date = new Date(jQuery('#inbound_current_datetime_formatted').val());
                                 var seconds_left = (target_date - current_date) / 1000;
 
                                 /* refresh page if time is past */
