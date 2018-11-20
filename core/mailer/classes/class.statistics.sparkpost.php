@@ -117,7 +117,7 @@ class Inbound_SparkPost_Stats {
         $today = new DateTime($wordpress_date_time);
 
         /* get correct format - d/m/Y date formats will fatal */
-        $wordpress_date_time_format = get_option('date_format') . ' G:i';
+        $wordpress_date_time_format = (get_option('date_format') == 'd/m/Y') ?  'd/m/Y G:i' : 'm/d/Y G:i';
 
         /* add time if does not exist */
         if(!strstr($settings['send_datetime'],':')) {
@@ -273,7 +273,6 @@ class Inbound_SparkPost_Stats {
     public static function get_statistics_object() {
         global $post;
 
-        //delete_post_meta( $post->ID , 'inbound_statistics'  );
         $stats = get_post_meta( $post->ID , 'inbound_statistics' , true );
 
         self::$stats = ($stats) ? $stats : array( 'sparkpost' => array() );
@@ -343,8 +342,6 @@ class Inbound_SparkPost_Stats {
     public static function update_statistics_object() {
         global $post;
 
-        //delete_post_meta( $post->ID , 'inbound_statistics'  );
-        //error_log(print_r(self::$stats,true));
         update_post_meta( $post->ID , 'inbound_statistics' , self::$stats );
 
     }
@@ -709,7 +706,7 @@ class Inbound_SparkPost_Stats {
                 $maintenance_lists = Inbound_Maintenance_Lists::get_lists();
 
                 /* add to spam complaint list */
-                Inbound_Leads::add_lead_to_list( $event['rcpt_meta']['lead_id'], $maintenance_lists['bounce']['id'] );
+                Inbound_Leads::add_lead_to_list( $event['rcpt_meta']['lead_id'], $maintenance_lists['bounces']['id'] );
 
 
             }
