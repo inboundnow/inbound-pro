@@ -1381,9 +1381,15 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                         if ($meta) {
                             /* get date time format as set by WordPress */
 
-                            $wordpress_date_time_format = (get_option('date_format') == 'd/m/Y') ?  'd/m/Y G:i' : 'm/d/Y G:i';
+                            /* get correct format - d/m/Y date formats will fatal */
+                            $wordpress_date_time_format = get_option('date_format') .' G:i';
 
+                            /* add date if does not exist */
                             $schedule_date = DateTime::createFromFormat(trim($wordpress_date_time_format) , trim($meta));
+
+                            if (!$schedule_date) {
+                                $schedule_date = new DateTime(date_i18n($wordpress_date_time_format));
+                            }
 
                             $meta_current_date_corrected = date_i18n('Y-m-d G:i');
                             $meta_schedule_corrected = $schedule_date->format('Y/m/d G:i');

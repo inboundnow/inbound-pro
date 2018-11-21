@@ -335,12 +335,12 @@ class Inbound_Mailer_Post_Type {
 				return;
 			}
 
-			/* get wordpress date format */
-			$wordpress_date_time_format = (get_option('date_format') == 'd/m/Y') ?  'd/m/Y G:i' : 'm/d/Y G:i';
+			/* get correct format - d/m/Y date formats will fatal */
+			$wordpress_date_time_format = get_option('date_format') .' G:i';
 
 			/* add date if does not exist */
 			if(!$settings['send_datetime']) {
-				$settings['send_datetime'] = date_i18n($wordpress_date_time_format);
+				$settings['send_datetime'] = date_i18n('m/d/Y G:i');
 			}
 
 			/* add time if does not exist */
@@ -357,6 +357,19 @@ class Inbound_Mailer_Post_Type {
 
 				/* make sure the schedule date is formatted correctly */
 				$date = DateTime::createFromFormat(trim($wordpress_date_time_format) , trim($settings['send_datetime']));
+
+				if (!$date) {
+					$date = new DateTime(date_i18n($wordpress_date_time_format));
+				}
+				/**
+				echo $wordpress_date_time_format;
+				echo "<br>";
+				echo $settings['send_datetime'];
+				echo "<br>";
+				//print_r($settings);
+				var_dump(DateTime::getLastErrors());
+				/**/
+
 				$schedule_date = new DateTime($date->format('Y-m-d G:i:s'));
 
 				$interval = $today->diff($schedule_date);

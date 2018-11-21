@@ -117,11 +117,11 @@ class Inbound_SparkPost_Stats {
         $today = new DateTime($wordpress_date_time);
 
         /* get correct format - d/m/Y date formats will fatal */
-        $wordpress_date_time_format = (get_option('date_format') == 'd/m/Y') ?  'd/m/Y G:i' : 'm/d/Y G:i';
+        $wordpress_date_time_format = get_option('date_format') .' G:i';
 
         /* add date if does not exist */
         if(!$settings['send_datetime']) {
-            $settings['send_datetime'] = date_i18n($wordpress_date_time_format);
+            $settings['send_datetime'] = date_i18n('m/d/Y G:i');
         }
 
         /* add time if does not exist */
@@ -130,6 +130,12 @@ class Inbound_SparkPost_Stats {
         }
 
         $date = DateTime::createFromFormat(trim($wordpress_date_time_format) , trim($settings['send_datetime']));
+
+        /* if the date object is bad then prevent fatal */
+        if (!$date) {
+            $date = new DateTime(date_i18n($wordpress_date_time_format));
+        }
+
         /**
         echo $wordpress_date_time_format;
         echo "<br>";

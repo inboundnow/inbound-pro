@@ -162,12 +162,19 @@ class Inbound_Mailer_Scheduling {
 
         /* get date time format as set by WordPress */
 
-        $wordpress_date_time_format = (get_option('date_format') == 'd/m/Y') ?  'd/m/Y G:i' : 'm/d/Y G:i';
+        /* get correct format - d/m/Y date formats will fatal */
+        $wordpress_date_time_format = get_option('date_format') .' G:i';
+
+        /* add date if does not exist */
+        if(!$settings['send_datetime']) {
+            $settings['send_datetime'] = date_i18n('m/d/Y G:i');
+        }
 
         /* add time if does not exist */
         if(!strstr($settings['send_datetime'],':')) {
             $settings['send_datetime'] = $settings['send_datetime'] . " 00:00";
         }
+
         date_default_timezone_set($timezone);
 
         /*
