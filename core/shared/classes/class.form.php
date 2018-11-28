@@ -840,7 +840,7 @@ if (!class_exists('Inbound_Forms')) {
 
             $form_post_data = array();
             if (isset($_POST['phone_xoxo']) && $_POST['phone_xoxo'] != "") {
-                wp_die($message = 'Die Die Die');
+                wp_die($message = __('Honeypot enabled. The submission did not go through' , 'inbound-pro'));
                 return false;
             }
             /* get form submitted form's meta data */
