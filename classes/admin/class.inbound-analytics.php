@@ -333,7 +333,7 @@ class Inbound_Analytics {
         global $wpdb, $table_prefix;
 
         if (!function_exists('get_current_screen')) {
-            return;
+            return $pieces;
         }
 
         $screen = get_current_screen();
