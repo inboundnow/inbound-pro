@@ -37,7 +37,11 @@ class Inbound_Mailer_Common_Settings {
 	*  Adds default mail settings
 	*/
 	function add_addressing_settings(){
-	
+		global $inbound_settings;
+
+		$default_from_name = (isset($inbound_settings['mailer']['default-from-name'])) ? $inbound_settings['mailer']['default-from-name'] : '';
+		$default_from_email_address = (isset($inbound_settings['mailer']['default-from-email'])) ? $inbound_settings['mailer']['default-from-email'] : '';
+		$default_reply_email_address = (isset($inbound_settings['mailer']['default-reply-email'])) ? $inbound_settings['mailer']['default-reply-email'] : '';
 
 		self::$instance->settings['email-settings']['subject'] =  array(
 			'description' => __( 'Subject line of the email. This field is variation dependant!' , 'inbound-pro' ) ,
@@ -54,7 +58,7 @@ class Inbound_Mailer_Common_Settings {
 			'description' => __( 'The name of the sender. This field is variation dependant!' , 'inbound-pro' ) ,
 			'id'  => 'from_name',
 			'type'  => 'text',
-			'default'  => '',
+			'default'  => $default_from_name,
 			'class' => '',
 			'disable_variants' => false
 		);
@@ -64,7 +68,7 @@ class Inbound_Mailer_Common_Settings {
 			'description' => __( 'The email address of the sender. This field is variation dependant!' , 'inbound-pro' ) ,
 			'id'  => 'from_email',
 			'type'  => 'text',
-			'default'  => '',
+			'default'  => $default_from_email_address,
 			'class' => '',
 			'disable_variants' => false
 		);	
@@ -74,7 +78,7 @@ class Inbound_Mailer_Common_Settings {
 			'description' => __( 'The email address recipients can reply to. This field is variation dependant!' , 'inbound-pro' ) ,
 			'id'  => 'reply_email',
 			'type'  => 'text',
-			'default'  => '',
+			'default'  => $default_reply_email_address,
 			'class' => '',
 			'disable_variants' => false
 		);			
