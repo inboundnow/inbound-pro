@@ -846,7 +846,7 @@ class Inbound_Events {
 
         $query .= ' ORDER BY `datetime` DESC';
         //print_r($query);exit;
-        $results = $wpdb->get_var( $query , ARRAY_A );
+        $results = $wpdb->get_var( $query );
 
         return $results;
     }
@@ -937,7 +937,7 @@ class Inbound_Events {
 
         $table_name = $wpdb->prefix . "inbound_events";
 
-        $query = 'SELECT *, count(*) as count FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'" GROUP BY source';
+        $query = 'SELECT *, count(*) as count FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'" GROUP BY source ORDER BY datetime DESC';
 
         $events = $wpdb->get_results( $query , ARRAY_A );
 
