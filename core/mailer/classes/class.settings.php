@@ -204,7 +204,33 @@ if ( !class_exists('Inbound_Mailer_Settings') ) {
 						'type'  => 'number',
 						'default'  => '1'
 					),
-
+					array(
+						'id'  => 'subheader-defaults',
+						'type'  => 'sub-header',
+						'default'  => __('Default Email Addresses', 'inbound-pro' ),
+						'options' => null
+					),
+					array(
+						'id'  => 'default-from-name',
+						'label'  => __('Default From Name', 'inbound-pro' ),
+						'description'  => __( 'This name will be the default value for the From Name when creating a new email.' , 'inbound-pro' ),
+						'type'  => 'text',
+						'default'  => ''
+					),
+					array(
+						'id'  => 'default-from-email',
+						'label'  => __('Default From Email', 'inbound-pro' ),
+						'description'  => __( 'This email address will be the default value for the From email address when creating a new email.' , 'inbound-pro' ),
+						'type'  => 'text',
+						'default'  => ''
+					),
+					array(
+						'id'  => 'default-reply-email',
+						'label'  => __('Default Reply Email', 'inbound-pro' ),
+						'description'  => __( 'This email address will be the default value for the reply email address when creating a new email.' , 'inbound-pro' ),
+						'type'  => 'text',
+						'default'  => ''
+					),
 					array(
 						'id'  => 'subheader-unsubscribe',
 						'type'  => 'sub-header',
