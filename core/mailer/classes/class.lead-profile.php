@@ -778,7 +778,7 @@ class Inbound_Mailer_Direct_Email_Leads {
                 <?php
                 if (class_exists('Inbound_Analytics')) {
                     ?>
-                    <a href='<?php echo admin_url('index.php?action=inbound_generate_report&lead_id='.$post->ID.'&class=Inbound_Events_Report&event_name=sparkpost_delivery&range=10000&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox'>
+                    <a href='<?php echo admin_url('index.php?action=inbound_generate_report&lead_id='.$post->ID.'&class=Inbound_Events_Report&event_name=sparkpost_delivery&range=10000&tb_hide_nav=true&TB_iframe=true&width=1000&height=600&show_graph=false'); ?>' class='thickbox inbound-thickbox'>
                         <?php echo self::get_email_send_count($post->ID); ?>
                     </a>
                     <?php
