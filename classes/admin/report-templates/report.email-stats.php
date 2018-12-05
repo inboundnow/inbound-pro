@@ -1050,6 +1050,7 @@ if (!class_exists('Inbound_Mailer_Stats_Report')) {
                 ), ARRAY_A
             );
 
+
             $variant_count = array();
             $logged_ids = array();
 
