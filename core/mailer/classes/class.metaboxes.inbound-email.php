@@ -764,7 +764,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
         public static function add_numbers_totals() {
             global $post;
 
-            $job_id = (self::$job_id == 'last_send') ? Inbound_Mailer_Post_Type::get_last_job_id($post->ID) : self::$job_id ;
+            $job_id = (self::$job_id === 'last_send') ? Inbound_Mailer_Post_Type::get_last_job_id($post->ID) : 0 ;
 
             ?>
             <style>

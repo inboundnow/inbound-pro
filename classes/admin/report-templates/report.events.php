@@ -521,13 +521,15 @@ if (!class_exists('Inbound_Events_Report')) {
             }
 
             $array = json_decode($event['event_details'] , true);
+            $permalink = get_permalink($event['email_id']);
+            $title = get_the_title($event['email_id']);
 
             ?>
 
             <div class="session-item-holder">
                 <div class="popup-header"><strong><?php _e('Message Details' , 'inbound-pro'); ?></strong></div>
                 <div>
-                   <center><i>More information coming soon.</i></center>
+                   <center><i><a href=" <?php echo $permalink; ?>" target="_self"><?php echo $title; ?></a></i></center>
                 </div>
             </div>
             <?php
