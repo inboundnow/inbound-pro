@@ -835,6 +835,7 @@ if (!class_exists('Inbound_Forms')) {
                 if (! check_ajax_referer(SECURE_AUTH_KEY, 'inbound_nonce' , false ) ) {
                     echo __('A security issue most likely involved with nonce validation. Please notify support and ask them to disable caching on this page.' , 'inbound-pro');
                     wp_send_json_error();
+                    exit;
                 };
             }
 
@@ -843,6 +844,12 @@ if (!class_exists('Inbound_Forms')) {
                 wp_die($message = __('Honeypot enabled. The submission did not go through' , 'inbound-pro'));
                 return false;
             }
+
+            /* make sure form contains mapped email */
+            if (!isset($_POST['mapped_params']) || !strstr($_POST['mapped_params'] , 'wpleads_email_address' ) ) {
+                return __('no mapped params' , 'inbound-pro');
+            }
+
             /* get form submitted form's meta data */
             $form_meta_data = get_post_meta($_POST['inbound_form_id']);
 
@@ -853,7 +860,6 @@ if (!class_exists('Inbound_Forms')) {
             } else {
                 $redirect = "";
             }
-
 
             /*print_r($_POST); */
             foreach ($_POST as $field => $value) {
@@ -894,8 +900,6 @@ if (!class_exists('Inbound_Forms')) {
                 wp_redirect($redirect);
                 exit();
             }
-
-
 
         }
 
