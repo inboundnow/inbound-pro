@@ -104,7 +104,7 @@ class Inbound_Automation_Trigger_inbound_store_lead_post {
 		) );
 
 		$triggers[self::$trigger] = array (
-			'label' => __( 'On add/update lead' , 'inbound-pro' ),
+			'label' => __( 'On Lead Create OR Update' , 'inbound-pro' ),
 			'description' => __( 'This trigger fires whenever a lead added into the Leads database.' , 'inbound-pro' ),
 			'action_hook' => self::$trigger,
 			'arguments' => $arguments,
