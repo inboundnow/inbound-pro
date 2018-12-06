@@ -54,6 +54,8 @@ if (!class_exists('Inbound_Automation_Plugin') && class_exists('Inbound_Leads_Pl
 					include_once('classes/class.lead-profile.php');
 
 					include_once('definitions/trigger.inbound_store_lead_post.php');
+					include_once('definitions/trigger.wpleads_new_lead_insert.php');
+					include_once('definitions/trigger.wpleads_existing_lead_update.php');
 					include_once('definitions/trigger.inbound_double_optin_confirm.php');
 					//include_once('definitions/trigger.page_tracking_event.php');
 					include_once('definitions/trigger.user_register.php');

@@ -272,6 +272,11 @@ if (!class_exists('Inbound_Automation_Loader')) {
             $trigger = current_filter();
             $args = func_get_args();
 
+            /*
+            error_log(print_r($trigger,true));
+            error_log(print_r($args,true));
+            */
+
             /* prevent repeat processing  */
             foreach (self::$instance->triggers as $hook_name => $trigger_hook) {
                 if (isset($trigger['action_hook']) && $trigger['action_hook'] == $hook_name) {
