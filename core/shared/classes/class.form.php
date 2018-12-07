@@ -847,7 +847,7 @@ if (!class_exists('Inbound_Forms')) {
 
             /* make sure form contains mapped email */
             if (!isset($_POST['mapped_params']) || !strstr($_POST['mapped_params'] , 'wpleads_email_address' ) ) {
-                return __('no mapped params' , 'inbound-pro');
+                /*return __('no mapped params' , 'inbound-pro');*/
             }
 
             /* get form submitted form's meta data */
