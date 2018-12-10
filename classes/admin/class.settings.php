@@ -862,29 +862,29 @@ class Inbound_Pro_Settings {
 			echo '</div>';
 		}
 
-		/* codeable advertisement here */
-		$ran = rand(0,1);
-
-		switch($rand) {
-			case true:
-				echo '		<div class="inbound-settings-group" style="margin-left:auto;margin-right:auto;text-align:center;">
+		/* advertisements here */
+		if ( INBOUND_ACCESS_LEVEL === 0 || INBOUND_ACCESS_LEVEL === 9 ) {
+			$rand = rand(0,1);
+			switch ($rand) {
+				case true:
+					echo '		<div class="inbound-settings-group" style="margin-left:auto;margin-right:auto;text-align:center;">
 						<h4><b>Sponsored Moment: Want to build on top of Inbound Now? Agents at Codeable are ready to help.</b></h4>
 						<a href="https://codeable.io/?ref=WwUol">
 						  <img src=\'https://referoo.co/creatives/21/asset.png\' />
 						</a>
 					</div>';
-				echo '  </div>';
-				break;
-			case false:
-				/* WPEngine advertisement here */
-				echo '		<div class="inbound-settings-group" style="margin-left:auto;margin-right:auto;text-align:center;">
+					echo '  </div>';
+					break;
+				case false:
+					/* WPEngine advertisement here */
+					echo '		<div class="inbound-settings-group" style="margin-left:auto;margin-right:auto;text-align:center;">
 						<h4><b>Sponsored Moment: Inbound PRO works great on WPEngine.</b></h4>
 						<a target="_blank" href="https://shareasale.com/r.cfm?b=1291526&amp;u=1220301&amp;m=41388&amp;urllink=&amp;afftrack="><img src="https://static.shareasale.com/image/41388/SPThemePromoWebBanner728x90V1.png" border="0" /></a>
 					</div>';
-				echo '  </div>';
-				break;
+					echo '  </div>';
+					break;
+			}
 		}
-
 
 
 		echo '</div>';
