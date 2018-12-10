@@ -180,7 +180,7 @@ if ( !class_exists('Inbound_Upgrade_Routines') ) {
             }
 
             if(!isset($col_check->cta_id)) {
-                $wpdb->get_results("ALTER TABLE {$table_name} ADD `cta_id` VARCHAR(20) NOT NULL");
+                $wpdb->get_results("ALTER TABLE {$table_name} ADD `cta_id` bigint(20) NOT NULL");
             } else {
                 $wpdb->get_results( "ALTER TABLE {$table_name} MODIFY COLUMN `cta_id` VARCHAR(20)" );
             }
@@ -267,11 +267,11 @@ if ( !class_exists('Inbound_Upgrade_Routines') ) {
 
             /* events table */
             $table_name = $wpdb->prefix . "inbound_events";
-            $wpdb->get_results( "ALTER TABLE {$table_name} MODIFY COLUMN `page_id` VARCHAR(20)" );
+            $wpdb->get_results( "ALTER TABLE {$table_name} MODIFY COLUMN `page_id` bigint(20)" );
 
             /* pageviews table */
             $table_name = $wpdb->prefix . "inbound_page_views";
-            $wpdb->get_results( "ALTER TABLE {$table_name} MODIFY COLUMN `page_id` VARCHAR(20)" );
+            $wpdb->get_results( "ALTER TABLE {$table_name} MODIFY COLUMN `page_id` bigint(20)" );
         }
 
 
