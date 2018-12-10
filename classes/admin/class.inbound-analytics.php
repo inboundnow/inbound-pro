@@ -78,6 +78,12 @@ class Inbound_Analytics {
 
         self::$dates = Inbound_Reporting_Templates::prepare_range(self::$range);
 
+        /* set correct datetime formats for db */
+        $start_date = new DateTime(self::$dates['start_date']);
+        $end_date = new DateTime(self::$dates['end_date']);
+        self::$dates['start_date'] = $start_date->format('Y-m-d G:i:s');
+        self::$dates['end_date'] = $end_date->format('Y-m-d G:i:s');
+
         return array('range' => self::$range, 'dates' => self::$dates);
     }
 
@@ -296,8 +302,8 @@ class Inbound_Analytics {
                 );
                 $results = Inbound_Events::get_page_views_count_by('page_id', $params);
                 ?>
-                <a href='<?php echo admin_url('index.php?action=inbound_generate_report&page_id=' . $post->ID . '&class=Inbound_Impressions_Report&range=' . self::$range . '&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox' title="<?php echo sprintf(__('past %s days', 'inbound-pro'), self::$range); ?>">
-                    <?php $results; ?>
+                <a href='<?php echo admin_url('index.php?action=inbound_generate_report&page_id=' . $post->ID . '&class=Inbound_Impressions_Report&range=' . self::$range . '&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox' title="<?php echo sprintf(__('past %s days', 'inbound-pro'), self::$range); ?>" ">
+                <?php echo $results; ?>
                 </a>
                 <?php
                 break;
@@ -359,32 +365,34 @@ class Inbound_Analytics {
 
                 case 'inbound_impressions':
 
-                    $pieces['join'] .= " LEFT JOIN {$table_prefix}inbound_page_views ee ON ee.page_id = {$wpdb->posts}.ID  AND ee.datetime >= '" . self::$dates['start_date'] . "' AND  datetime <= '" . self::$dates['end_date'] . "'";
+                    $pieces['join'] .= " RIGHT JOIN {$table_prefix}inbound_page_views ee ON ee.page_id = {$wpdb->posts}.ID  AND ee.datetime >= '" . self::$dates['start_date'] . "' AND  datetime <= '" . self::$dates['end_date'] . "'";
 
                     $pieces['groupby'] = " {$wpdb->posts}.ID";
 
-                    $pieces['orderby'] = "COUNT(ee.page_id) $order ";
+                    $pieces['orderby'] = "COUNT(*) $order ";
+
+                    //print_r($pieces);exit;
 
                     break;
 
                 case 'inbound_visitors':
 
-                    $pieces['join'] .= " LEFT JOIN (select lead_id, page_id from {$table_prefix}inbound_page_views group by lead_id) ee ON ee.page_id = {$wpdb->posts}.ID   AND ee.datetime >= '" . self::$dates['start_date'] . "' AND  datetime <= '" . self::$dates['end_date'] . "'";
+                    $pieces['join'] .= " RIGHT JOIN (select lead_id, page_id from {$table_prefix}inbound_page_views group by lead_id) ee ON ee.page_id = {$wpdb->posts}.ID   AND ee.datetime >= '" . self::$dates['start_date'] . "' AND  datetime <= '" . self::$dates['end_date'] . "'";
 
                     $pieces['groupby'] = " {$wpdb->posts}.ID ";
 
-                    $pieces['orderby'] = "COUNT(ee.lead_id) $order ";
+                    $pieces['orderby'] = "COUNT(*) $order ";
 
                     break;
 
 
                 case 'inbound_actions':
 
-                    $pieces['join'] .= " LEFT JOIN {$table_prefix}inbound_events ee ON ee.page_id = {$wpdb->posts}.ID AND ee.datetime >= '" . self::$dates['start_date'] . "' AND  datetime <= '" . self::$dates['end_date'] . "'";
+                    $pieces['join'] .= " RIGHT JOIN {$table_prefix}inbound_events ee ON ee.page_id = {$wpdb->posts}.ID AND ee.datetime >= '" . self::$dates['start_date'] . "' AND  datetime <= '" . self::$dates['end_date'] . "'";
 
                     $pieces['groupby'] = " {$wpdb->posts}.ID";
 
-                    $pieces['orderby'] = "COUNT(ee.page_id) $order ";
+                    $pieces['orderby'] = "COUNT(*) $order ";
 
                     break;
             }
