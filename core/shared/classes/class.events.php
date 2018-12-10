@@ -109,10 +109,10 @@ class Inbound_Events {
         }
 
         $sql = "CREATE TABLE IF NOT EXISTS $table_name (
-			  `id` bigint(9) NOT NULL AUTO_INCREMENT,
-			  `page_id` varchar(20) NOT NULL,
-			  `cta_id` varchar(20) NOT NULL,
-			  `variation_id` bigint(9) NOT NULL,
+			  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+			  `page_id` bigint(20) NOT NULL,
+			  `cta_id` bigint(20) NOT NULL,
+			  `variation_id` bigint(20) NOT NULL,
 			  `lead_id` bigint(20) NOT NULL,
 			  `lead_uid` varchar(255) NOT NULL,
 			  `list_id` bigint(20) NOT NULL,
