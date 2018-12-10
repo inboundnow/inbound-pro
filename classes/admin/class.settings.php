@@ -867,6 +867,7 @@ class Inbound_Pro_Settings {
 			$rand = rand(0,1);
 			switch ($rand) {
 				case true:
+					/* codeable advertisement */
 					echo '		<div class="inbound-settings-group" style="margin-left:auto;margin-right:auto;text-align:center;">
 						<h4><b>Sponsored Moment: Want to build on top of Inbound Now? Agents at Codeable are ready to help.</b></h4>
 						<a href="https://codeable.io/?ref=WwUol">
