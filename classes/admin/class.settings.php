@@ -309,6 +309,18 @@ class Inbound_Pro_Settings {
 							)
 						),
 						array (
+							'id'	=> 'page-views-optimize',
+							'type'	=> 'html',
+							'label'	=> __( 'Database Maintenance' , 'inbound-pro' ),
+							'description'	=> __( '' , 'inbound-pro' ),
+							'callback' => array( 'Inbound_Pro_Settings' , 'display_page_view_db_options'),
+							'hidden' => false,
+							'reveal' => array(
+								'selector' => null ,
+								'value' => null
+							)
+						),
+						array (
 							'id'	=> 'admin-tracking',
 							'type'	=> 'radio',
 							'label'	=> __( 'Admin Tracking' , 'inbound-pro' ),
@@ -793,6 +805,18 @@ class Inbound_Pro_Settings {
 		<?php
 	}
 
+	public static function display_page_view_db_options() {
+		?>
+		<i>TODO/Wishlist:</i>
+		<ul>
+			<li>- Auto delete page views older than X days (Keeps DB from growing too large)</li>
+			<li>- Empty all stats given checkboxes with selectable post types.</li>
+			<li>- Add 'Older Than' dateselect filter to the above management feature.</li>
+			<li>- <a href="https://codeable.io/?ref=99TG1">Fund through Codeable.</a></li>
+		</ul>
+		<?php
+	}
+
 	/**
 	 *  Renders settings given a fields dataset
 	 *  @param STRING $fieldgroup_key identification key for which field group to render
@@ -837,7 +861,32 @@ class Inbound_Pro_Settings {
 
 			echo '</div>';
 		}
-		echo '  </div>';
+
+		/* codeable advertisement here */
+		$ran = rand(0,1);
+
+		switch($rand) {
+			case true:
+				echo '		<div class="inbound-settings-group" style="margin-left:auto;margin-right:auto;text-align:center;">
+						<h4><b>Sponsored Moment: Want to build on top of Inbound Now? Agents at Codeable are ready to help.</b></h4>
+						<a href="https://codeable.io/?ref=WwUol">
+						  <img src=\'https://referoo.co/creatives/21/asset.png\' />
+						</a>
+					</div>';
+				echo '  </div>';
+				break;
+			case false:
+				/* WPEngine advertisement here */
+				echo '		<div class="inbound-settings-group" style="margin-left:auto;margin-right:auto;text-align:center;">
+						<h4><b>Sponsored Moment: Inbound PRO works great on WPEngine.</b></h4>
+						<a target="_blank" href="https://shareasale.com/r.cfm?b=1291526&amp;u=1220301&amp;m=41388&amp;urllink=&amp;afftrack="><img src="https://static.shareasale.com/image/41388/SPThemePromoWebBanner728x90V1.png" border="0" /></a>
+					</div>';
+				echo '  </div>';
+				break;
+		}
+
+
+
 		echo '</div>';
 	}
 
