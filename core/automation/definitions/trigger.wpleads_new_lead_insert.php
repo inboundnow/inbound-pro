@@ -32,7 +32,24 @@ class Inbound_Automation_Trigger_wpleads_new_lead_insert {
     public static function simulate_new_lead( $post_id , $post, $update ) {
         global $post_id, $post;
 
-        $is_new = $post->post_date === $post->post_modified;
+        /* first check save count */
+        $save_count = get_post_meta($post->ID , 'inbound_update_count' , true );
+        $is_new = false;
+
+        if (!$save_count) {
+            update_post_meta($post->ID , 'inbound_update_count' , 1 );
+            $is_new = true;
+        } else {
+            update_post_meta($post->ID , 'inbound_update_count' , $save_count + 1  );
+        }
+
+        /* if marked new lead make sure this is not an old lead without inbound_update_count meta data */
+        $post_date = new DateTime($post->post_date);
+        $yesterday = new DateTime("yesterday");
+        if ($is_new && ($yesterday > $post_date)) {
+            $is_new = false;
+        }
+
 
         /* ignore revisions */
         if ( wp_is_post_revision( $post_id )
@@ -42,6 +59,7 @@ class Inbound_Automation_Trigger_wpleads_new_lead_insert {
         ) {
             return;
         }
+
 
         /* only perform actions on published leads */
         if (get_post_status($post_id) != 'publish') {
