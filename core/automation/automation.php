@@ -21,6 +21,7 @@ if (!class_exists('Inbound_Automation_Plugin') && class_exists('Inbound_Leads_Pl
 		public function __construct() {
 			self::define_constants();
 			self::includes();
+			self::load_hooks();
 			self::load_text_domain_init();
 		}
 
@@ -33,6 +34,10 @@ if (!class_exists('Inbound_Automation_Plugin') && class_exists('Inbound_Leads_Pl
 			define( 'INBOUND_AUTOMATION_URLPATH',  plugins_url( '/' , __FILE__ )  );
 			define( 'INBOUND_AUTOMATION_PATH', WP_PLUGIN_DIR.'/'.plugin_basename( dirname(__FILE__) ).'/' );
 			define(	'INBOUND_AUTOMATION_SLUG', plugin_basename( dirname(__FILE__) ) );
+		}
+
+		public static function load_hooks() {
+			add_action('plugins_loaded' , array(__CLASS__ , 'load_definitions'));
 		}
 
 		/**
@@ -52,27 +57,6 @@ if (!class_exists('Inbound_Automation_Plugin') && class_exists('Inbound_Leads_Pl
 					include_once('classes/class.metaboxes.automation.php');
 					include_once('classes/class.automation.php');
 					include_once('classes/class.lead-profile.php');
-
-					include_once('definitions/trigger.inbound_store_lead_post.php');
-					include_once('definitions/trigger.wpleads_new_lead_insert.php');
-					include_once('definitions/trigger.wpleads_existing_lead_update.php');
-					include_once('definitions/trigger.inbound_double_optin_confirm.php');
-					//include_once('definitions/trigger.page_tracking_event.php');
-					include_once('definitions/trigger.user_register.php');
-					include_once('definitions/trigger.set_object_terms.php');
-					include_once('definitions/trigger.draft_to_publish.php');
-					include_once('definitions/trigger.inbound_track_link.php');
-					include_once('definitions/action.wait.php');
-					include_once('definitions/action.create_lead.php');
-					include_once('definitions/action.create_user.php');
-					include_once('definitions/action.send_email.php');
-					include_once('definitions/action.relay_data.php');
-					include_once('definitions/action.add_remove_list.php');
-					include_once('definitions/action.add_remove_tag.php');
-					include_once('definitions/action.kill_lead_tasks.php');
-					include_once('definitions/query.lead_data.php');
-					include_once('definitions/query.user_data.php');
-
 					BREAK;
 
 				case false :
@@ -83,25 +67,31 @@ if (!class_exists('Inbound_Automation_Plugin') && class_exists('Inbound_Leads_Pl
 					include_once('classes/class.definitions.loader.php');
 					include_once('classes/class.metaboxes.automation.php');
 					include_once('classes/class.automation.php');
-
-					include_once('definitions/trigger.inbound_store_lead_post.php');
-					include_once('definitions/trigger.draft_to_publish.php');
-					include_once('definitions/trigger.inbound_double_optin_confirm.php');
-					include_once('definitions/trigger.user_register.php');
-					include_once('definitions/trigger.inbound_track_link.php');
-					include_once('definitions/action.wait.php');
-					include_once('definitions/action.create_user.php');
-					include_once('definitions/action.create_lead.php');
-					include_once('definitions/action.send_email.php');
-					include_once('definitions/action.relay_data.php');
-					include_once('definitions/action.add_remove_list.php');
-					include_once('definitions/action.add_remove_tag.php');
-					include_once('definitions/action.kill_lead_tasks.php');
-					include_once('definitions/query.lead_data.php');
-					include_once('definitions/query.user_data.php');
-
 					BREAK;
 			endswitch;
+		}
+
+		/**
+		 * Loading definitions
+		 */
+		public static function load_definitions() {
+			include_once('definitions/trigger.inbound_store_lead_post.php');
+			include_once('definitions/trigger.wpleads_new_lead_insert.php');
+			include_once('definitions/trigger.wpleads_existing_lead_update.php');
+			include_once('definitions/trigger.inbound_double_optin_confirm.php');
+			include_once('definitions/trigger.draft_to_publish.php');
+			include_once('definitions/trigger.user_register.php');
+			include_once('definitions/trigger.inbound_track_link.php');
+			include_once('definitions/action.wait.php');
+			include_once('definitions/action.create_user.php');
+			include_once('definitions/action.create_lead.php');
+			include_once('definitions/action.send_email.php');
+			include_once('definitions/action.relay_data.php');
+			include_once('definitions/action.add_remove_list.php');
+			include_once('definitions/action.add_remove_tag.php');
+			include_once('definitions/action.kill_lead_tasks.php');
+			include_once('definitions/query.lead_data.php');
+			include_once('definitions/query.user_data.php');
 		}
 
 		/**
