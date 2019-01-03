@@ -140,6 +140,7 @@ class Inbound_SparkPost {
 			'timeout' => 45,
 			'redirection' => 5,
 			'httpversion' => '1.0',
+			'sslverify' => false,
 			'blocking' => true,
 			'headers' => array(
 				'Content-type'  => 'application/json',
@@ -177,6 +178,7 @@ class Inbound_SparkPost {
 			'timeout' => 45,
 			'redirection' => 5,
 			'httpversion' => '1.0',
+			'sslverify' => false,
 			'blocking' => true,
 			'headers' => array(
 				'Content-type'  => 'application/json',
@@ -284,6 +286,7 @@ class Inbound_SparkPost {
 			'redirection' => 5,
 			'httpversion' => '1.0',
 			'blocking' => true,
+			'sslverify' => false,
 			'headers' => array(
 				'Accecpt'  => 'application/json',
 				'Authorization' =>  self::$apikey

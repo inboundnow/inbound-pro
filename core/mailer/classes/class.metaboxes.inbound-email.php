@@ -1384,15 +1384,20 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                             /* get correct format - d/m/Y date formats will fatal */
                             $wordpress_date_time_format = get_option('date_format') .' G:i';
 
-                            /* add date if does not exist */
                             $schedule_date = DateTime::createFromFormat(trim($wordpress_date_time_format) , trim($meta));
+
+                            $corrected = self::correct_datetime_errors($schedule_date , $wordpress_date_time_format , $meta );
+
+                            $meta = $corrected['meta'];
+                            $schedule_date = $corrected['object'];
+
 
                             if (!$schedule_date) {
                                 $schedule_date = new DateTime(date_i18n($wordpress_date_time_format));
                             }
 
                             $meta_current_date_corrected = date_i18n('Y-m-d G:i');
-                            $meta_schedule_corrected = $schedule_date->format('Y/m/d G:i');
+                            $meta_schedule_corrected = $schedule_date->format($wordpress_date_time_format);
 
                         } else {
                             $meta_current_date_corrected = "";
@@ -1545,6 +1550,67 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             echo '</select>';
             echo '<script type="text/javascript"> jQuery("#automation_job_id").select2({width: "300px"});</script>';
 
+
+        }
+
+        /**
+         * @param $schedule_date
+         */
+        public static function  correct_datetime_errors( $schedule_date , $wordpress_date_time_format , $datetime ) {
+
+            $errors = DateTime::getLastErrors();
+
+            $corrected = array();
+            $corrected['meta'] = $datetime;
+            $corrected['object'] = $schedule_date;
+
+            /**
+            error_log($wordpress_date_time_format);
+            error_log($datetime);
+            error_log(print_r(DateTime::getLastErrors() , true));
+            /**/
+
+            if (!$errors['errors']) {
+                /* reformat Datetime Pattern if leading with F */
+                if ($wordpress_date_time_format[0]  == "F") {
+
+                    $new = new DateTime($schedule_date->format( "d/m/Y G:i"));
+                    $corrected['meta'] = $schedule_date->format( "d/m/Y G:i");
+                    $corrected['object'] = $new;
+                    return $corrected;
+                }
+
+                /* reformat Datetime Pattern if leading with j */
+                if ($wordpress_date_time_format[0]  == "j") {
+                    $new = new DateTime($schedule_date->format( "m/d/Y G:i"));
+                    $corrected['meta'] = $schedule_date->format( "d/m/Y G:i");
+                    $corrected['object'] = $new;
+                    return $corrected;
+                }
+
+                /* non problematic return as normal */
+                $corrected['meta'] = $datetime;
+                $corrected['object'] = $schedule_date;
+                return $corrected;
+            }
+
+            /* reformat Datetime Pattern if leading with F */
+            if ($wordpress_date_time_format[0]  == "F") {
+                $wordpress_date_time_format = "m/d/Y G:i";
+                $schedule_date = DateTime::createFromFormat(trim($wordpress_date_time_format) , trim($datetime));
+                $corrected['meta'] = $schedule_date->format( "d/m/Y G:i");
+                $corrected['object'] = $schedule_date;
+            }
+
+            /* reformat Datetime Pattern if leading with j */
+            if ($wordpress_date_time_format[0]  == "j") {
+                $wordpress_date_time_format = "m/d/Y G:i";
+                $schedule_date = DateTime::createFromFormat(trim($wordpress_date_time_format) , trim($datetime));
+                $corrected['meta'] = $schedule_date->format( "m/d/Y G:i");
+                $corrected['object'] = $schedule_date;
+            }
+
+            return $corrected;
 
         }
 
@@ -2158,13 +2224,14 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                                         variation_id: jQuery('#open_variation').val()
                                     },
                                     dataType: 'html',
-                                    timeout: 20000,
+                                    timeout: 120000,
                                     success: function (response) {
                                         alert(response);
                                         jQuery('.confirm').click();
                                     },
                                     error: function (request, status, err) {
-                                        //alert(status);
+                                        alert(error);
+                                        jQuery('.confirm').click();
                                     }
                                 });
 

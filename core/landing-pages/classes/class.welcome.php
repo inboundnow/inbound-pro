@@ -44,14 +44,6 @@ class LandingPages_Welcome {
      * @return void
      */
     public function admin_menus() {
-        /* About Page */
-        add_dashboard_page(
-            __( 'Welcome to WordPress Landing Pages', 'landing-pages'),
-            __( 'Welcome to WordPress Landing Pages', 'landing-pages'),
-            $this->minimum_capability,
-            'lp-quick-start',
-            array( $this, 'quick_start_screen' )
-        );
         /* About InboundNow Page */
         add_dashboard_page(
             __( 'About the Inbound Now Marketing Platform', 'landing-pages'),
@@ -79,7 +71,6 @@ class LandingPages_Welcome {
      * @return void
      */
     public function admin_head() {
-        remove_submenu_page( 'index.php', 'lp-quick-start' );
         remove_submenu_page( 'index.php', 'about-inboundnow' );
         remove_submenu_page( 'index.php', 'inbound-developers' );
 
@@ -247,7 +238,7 @@ class LandingPages_Welcome {
      */
     static function render_nav_menu() {
         $current_view = $_GET['page'];
-        $page_array = array('lp-quick-start' => "Quick Start Guide",
+        $page_array = array(
             'about-inboundnow' => "About the Platform",
             'inbound-developers' => 'Developers & Designers'
         );
@@ -625,7 +616,7 @@ class LandingPages_Welcome {
             return;
         }
 
-        wp_safe_redirect( admin_url( 'index.php?page=lp-quick-start' ) ); exit;
+        wp_safe_redirect( admin_url( 'index.php?page=about-inboundnow' ) ); exit;
     }
 }
 

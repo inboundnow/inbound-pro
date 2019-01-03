@@ -32,9 +32,6 @@ if (!class_exists('Inbound_Automation_Loader')) {
                 return self::$instance;
             }
 
-            //global $inbound_sid;
-            //error_log($inbound_sid);
-
             /* create object */
             self::$instance = new stdClass();
 
@@ -694,7 +691,5 @@ if (!class_exists('Inbound_Automation_Loader')) {
      */
     add_action('init', 'inbound_automation_load_definitions', 1);
 
-    /* for debugging */
-    $GLOBALS['inbound_sid'] = rand(100, 200);
 }
 

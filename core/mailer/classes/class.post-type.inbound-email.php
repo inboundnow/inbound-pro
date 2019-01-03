@@ -338,6 +338,16 @@ class Inbound_Mailer_Post_Type {
 			/* get correct format - d/m/Y date formats will fatal */
 			$wordpress_date_time_format = get_option('date_format') .' G:i';
 
+			/* reformat Datetime Pattern if leading with F */
+			if ($wordpress_date_time_format[0]  == "F") {
+				$wordpress_date_time_format = "m/d/Y" .' G:i';
+			}
+
+			/* reformat Datetime Pattern if leading with j */
+			if ($wordpress_date_time_format[0]  == "j") {
+				$wordpress_date_time_format = "d/m/Y" .' G:i';
+			}
+
 			/* add date if does not exist */
 			if(!$settings['send_datetime']) {
 				$settings['send_datetime'] = date_i18n('m/d/Y G:i');
