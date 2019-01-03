@@ -93,7 +93,7 @@ class Landing_Pages_Admin_Notices {
 
             ?>
             <div id="more-templates-button" style="display:none;">
-                <a target="_blank" href="https://www.inboundnow.com/marketplace/?show=landing-pages" class="button new-lp-button button-primary button-large"><?php _e( 'Download Additional Landing Page Templates' , 'inbound-pro' ); ?></a>
+                <a target="_blank" href="https://www.inboundnow.com/marketplace/?show=landing-pages" class="button new-lp-button button-primary button-large"><?php _e( 'Download Inbound PRO and join Inbound Now\'s membership plan for access to premium templates.' , 'inbound-pro' ); ?></a>
             </div>
             <script type="text/javascript">
                 jQuery(document).ready(function($) {
