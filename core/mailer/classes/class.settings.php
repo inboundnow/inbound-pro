@@ -245,6 +245,7 @@ if ( !class_exists('Inbound_Mailer_Settings') ) {
 						'default'  => 'none',
 						'options' => array(
 							'none' => __( 'None' ),
+							//'wp_mail' => __( 'wp_mail' , 'inbound-pro' ),
 							'sparkpost' => __( 'SparkPost' , 'inbound-pro' ),
 							'sparkpost-eu' => __( 'SparkPost (EU)' , 'inbound-pro' )
 						),
