@@ -897,6 +897,13 @@ class Inbound_Metaboxes_Automation {
             return '';
         }
 
+        /* make sure our selected input is includedin case our sample has shifted */
+        if (isset($args['defaults']['trigger_filter_id'])) {
+            if (!array_key_exists($args['defaults']['trigger_filter_key'] , self::$argument_filters[$args['trigger_id']][$args['trigger_filter_id']]['keys'] )) {
+                self::$argument_filters[$args['trigger_id']][$args['trigger_filter_id']]['keys'][ $args['defaults']['trigger_filter_key'] ] = $args['defaults']['trigger_filter_key'];
+            }
+        }
+
         $key_args = array(
             'name' => 'trigger_filter_key',
             'type' => self::$argument_filters[$args['trigger_id']][$args['trigger_filter_id']]['key_input_type'],

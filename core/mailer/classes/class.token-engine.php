@@ -69,8 +69,9 @@ class Inbound_Mailer_Tokens {
         /* Saves all all incoming POST data as meta pairs */
         add_action('save_post', array(__CLASS__, 'action_save_data'));
 
-        /* on draft to publish update post locked status to pending */
-        // to do
+        /* perform email trigger event */
+        add_action('wp_ajax_inbound_trigger_email_send', array(__CLASS__, 'ajax_trigger_email_send'));
+
     }
 
     /**
@@ -475,7 +476,7 @@ class Inbound_Mailer_Tokens {
         }
 
         /* Show Selected Template */
-        add_meta_box('inbound-email-content-shortcodes', __('Email Setup', 'inbound-pro'), array(__CLASS__, 'display_email_shortcodes'), $post->post_type, 'side', 'low');
+        add_meta_box('inbound-email-content-shortcodes', __('Inbound Mailer', 'inbound-pro'), array(__CLASS__, 'display_email_shortcodes'), $post->post_type, 'side', 'low');
     }
 
     /**
@@ -502,6 +503,9 @@ class Inbound_Mailer_Tokens {
 
     }
 
+    /**
+     *
+     */
     public static function display_email_shortcodes() {
         global $post;
 
@@ -550,13 +554,25 @@ class Inbound_Mailer_Tokens {
                         </center>
                     </td>
                 </tr>
+                <tr>
+                    <td>
+                        <center>
+                            <span style="width:100%;margin-top:5px;" class="button button-primary" id="trigger-batch-email"><?php _e('Trigger Send Email Event', 'inbound-pro'); ?></span>
+                        </center>
+                    </td>
+                </tr>
             </table>
         </div>
         <script>
             jQuery(document).ready(function () {
                 /* Add listener to prompt sweet alert on unschedule */
                 jQuery('body').on('click', '#generate-batch-email', function (e) {
-                    MailerListener.generate_email();
+                    MailerListener.generate_email_preview();
+                });
+
+                /* Add listener to prompt sweet alert on trigger email event */
+                jQuery('body').on('click', '#trigger-batch-email', function (e) {
+                    MailerListener.trigger_email_event();
                 });
 
             });
@@ -572,7 +588,7 @@ class Inbound_Mailer_Tokens {
                     /**
                      *    Prompts send test email dialog
                      */
-                    generate_email: function () {
+                    generate_email_preview: function () {
 
                         /* Throw confirmation for scheduling */
                         swal({
@@ -601,8 +617,49 @@ class Inbound_Mailer_Tokens {
                         });
 
                     }
+                    ,
+                    /**
+                     *    Prompts send test email dialog
+                     */
+                    trigger_email_event: function () {
 
+                        /* Throw confirmation for scheduling */
+                        swal({
+                            title: "<?php _e('Ready to send?', 'inbound-pro'); ?>",
+                            text: "<?php _e('Confirming this action will trigger an email send event. This trigger event in itself will not send the email. An automation rule will have to be created to \"listen\" for this event and send the email. Referrer to docs.inboundnow.com for more information. ', 'inbound-pro'); ?>",
+                            type: "info",
+                            showCancelButton: true,
+                            confirmButtonColor: "#2ea2cc",
+                            confirmButtonText: "<?php _e('Trigger Email Send Event', 'inbound-pro'); ?>",
+                            closeOnConfirm: true,
+                            inputField: {
+                                placeholder: '<?php _e('Routing Key (optional)', 'inbound-pro'); ?>',
+                                padding: '20px',
+                                width: '400px'
+                            },
+                        }, function (routing_key) {
+                            if (routing_key === false) {
+                                return false;
+                            }
+                            jQuery('.sweet-alert .confirm').text('Processing. Please Wait.');
+                            jQuery('input[name="inbound_automation_email_sent"').prop('checked' , 'checked');
+                            var post_id = <?php echo $post->ID; ?>;
 
+                            /* alert perform ajax */
+                            jQuery.ajax({
+                                url: ajaxurl,
+                                data: {
+                                    action: "inbound_trigger_email_send",
+                                    post_id : post_id,
+                                    routing_key: routing_key
+                                },
+                                success:function(data){
+                                    swal("Trigger Fired!", "Check your automation rules now to see if the event was intercepted and the email is being scheduled!", "success");
+                                }
+                            });
+                        })
+
+                    }
                 }
 
                 return Init;
@@ -610,6 +667,19 @@ class Inbound_Mailer_Tokens {
             })();
         </script>
         <?php
+    }
+
+
+    public static function ajax_trigger_email_send() {
+        $post_id = (int) $_GET['post_id'];
+        $routing_key = sanitize_text_field( $_GET['routing_key']);
+
+        $post_object = array();
+
+        $post_object['post_id'] = $post_id;
+        $post_object['routing_key'] = $routing_key;
+        $post_object = array_merge( $post_object , (array) get_post($post_id));
+        do_action('inbound_trigger_email' ,  $post_object );
     }
 
 }
