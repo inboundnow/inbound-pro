@@ -191,6 +191,9 @@ class Inbound_Mailer_Ajax_Listeners {
 			case "sparkpost-eu":
 				$stats[$email_id] = Inbound_SparkPost_Stats::get_sparkpost_inbound_events( $email_id , $vid = null , $job_id );
 				break;
+				case "wp_mail":
+				$stats[$email_id] = Inbound_SparkPost_Stats::get_sparkpost_inbound_events( $email_id , $vid = null , $job_id );
+				break;
 		}
 
 		set_transient( $tkey , $stats , 60* 5);
