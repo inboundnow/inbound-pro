@@ -126,6 +126,7 @@ class Inbound_Mailer_Scheduling {
                 $query = $query_prefix . $query_values;
                 $wpdb->query($query);
             }
+
         }
 
         return $send_count;
@@ -201,6 +202,11 @@ class Inbound_Mailer_Scheduling {
             case "sparkpost-eu":
                 $schedule_date = DateTime::createFromFormat(trim($wordpress_date_time_format) , trim($settings['send_datetime']));
                 $timestamp = $schedule_date->format('Y-m-d\\TG:i:s\\Z');
+                break;
+            case "wp_mail":
+                $schedule_date = DateTime::createFromFormat(trim($wordpress_date_time_format) , trim($settings['send_datetime']));
+                $timestamp = $schedule_date->format('Y-m-d\\TG:i:s\\Z');
+
                 break;
         }
 
