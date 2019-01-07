@@ -1604,9 +1604,9 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
             /* reformat Datetime Pattern if leading with j */
             if ($wordpress_date_time_format[0]  == "j") {
-                $wordpress_date_time_format = "m/d/Y G:i";
+                $wordpress_date_time_format = "d/m/Y G:i";
                 $schedule_date = DateTime::createFromFormat(trim($wordpress_date_time_format) , trim($datetime));
-                $corrected['meta'] = $schedule_date->format( "m/d/Y G:i");
+                $corrected['meta'] = $schedule_date->format( "d/m/Y G:i");
                 $corrected['object'] = $schedule_date;
             }
 

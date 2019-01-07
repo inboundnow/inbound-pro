@@ -838,7 +838,7 @@ if (!class_exists('Inbound_Mailer_Stats_Report')) {
             self::$range =  (isset($_REQUEST['range'])) ? intval($_REQUEST['range']) : 30;
             self::$page = (isset($_GET['page_number'])) ? (int) $_GET['page_number'] : 1;
             self::$limit = (isset($_GET['limit'])) ? (int) $_GET['limit'] : 50;
-            self::$offset = (self::$page>1) ? (int) self::$page * self::$limit  : self::$limit;
+            self::$offset = (self::$page>1) ? (int) self::$page * self::$limit  : 0;
             $dates = Inbound_Reporting_Templates::prepare_range( self::$range );
             self::$start_date = $dates['start_date'];
             self::$end_date = $dates['end_date'];
