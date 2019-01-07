@@ -1574,8 +1574,8 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 /* reformat Datetime Pattern if leading with F */
                 if ($wordpress_date_time_format[0]  == "F") {
 
-                    $new = new DateTime($schedule_date->format( "d/m/Y G:i"));
-                    $corrected['meta'] = $schedule_date->format( "d/m/Y G:i");
+                    $new = new DateTime($schedule_date->format( "m/d G:i"));
+                    $corrected['meta'] = $schedule_date->format( "m/d/Y G:i");
                     $corrected['object'] = $new;
                     return $corrected;
                 }
@@ -1694,7 +1694,13 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             }
 
             global $post;
-            $post->ID = (isset($_GET['post'])) ? (int) $_GET['post'] : $post->ID; /* conflict fix */
+
+            /* conflict fix */
+            $post_id_check =  (int) $_GET['post'];
+            if ($post->ID != $post_id_check) {
+                $post = get_post($post_id_check);
+            }
+
 
             /* Load Settings JS Class */
             self::print_settings_class_JS();
@@ -1858,7 +1864,6 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                          *    Changes UI based on current post status
                          */
                         toggle_post_status: function (post_status) {
-                            jQuery('#email-status-display').text(post_status);
 
                             switch (post_status) {
                                 case 'sent':
@@ -2094,9 +2099,6 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                             switch (send_nature) {
                                 case 'automated':
                                     Settings.toggle_post_status('automated');
-                                    break;
-                                default:
-                                    Settings.toggle_post_status('unsent');
                                     break;
                             }
                         },
