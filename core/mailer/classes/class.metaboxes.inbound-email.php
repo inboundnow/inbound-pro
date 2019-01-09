@@ -1317,7 +1317,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
          */
         public static function render_settings($settings_key, $custom_fields, $post) {
 
-            global $Inbound_Mailer_Variations;
+            global $Inbound_Mailer_Variations, $inbound_settings;
 
             $settings = Inbound_Email_Meta::get_settings($post->ID);
             $variations = (isset($settings['variations'])) ? $settings['variations'] : null;
@@ -1413,15 +1413,24 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 												<input type="hidden" id="inbound_send_datetime_formatted" value="' . $meta_schedule_corrected . '" class="new-date" value="" >
 										';
                         echo '</div>';
-                        echo '<select name="inbound_timezone" id="" class="" >';
 
-                        foreach ($timezones as $key => $timezone) {
-                            $tz_value = $timezone['abbr'] . '-' . $timezone['utc'];
-                            $selected = ($tz == $tz_value) ? 'selected="true"' : '';
+                        /* show events */
+                        switch ($inbound_settings['mailer']['mail-service']) {
+                            case 'wp_mail' :
+                                break;
+                            default:
+                                echo '<select name="inbound_timezone" id="" class="" >';
 
-                            echo '<option value="' . $tz_value . '" ' . $selected . '> (' . $timezone['utc'] . ') ' . $timezone['name'] . '</option>';
+                                foreach ($timezones as $key => $timezone) {
+                                    $tz_value = $timezone['abbr'] . '-' . $timezone['utc'];
+                                    $selected = ($tz == $tz_value) ? 'selected="true"' : '';
+
+                                    echo '<option value="' . $tz_value . '" ' . $selected . '> (' . $timezone['utc'] . ') ' . $timezone['name'] . '</option>';
+                                }
+                                echo '</select>';
+                                break;
                         }
-                        echo '</select>';
+
                         //echo '<p><small>'.__('Date format: MONTH/DAY/YEAR' , 'inbound-pro') . '</p></small></p>';
 
                         break;
