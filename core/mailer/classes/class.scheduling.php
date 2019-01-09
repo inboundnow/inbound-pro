@@ -166,16 +166,6 @@ class Inbound_Mailer_Scheduling {
         /* get correct format - d/m/Y date formats will fatal */
         $wordpress_date_time_format = get_option('date_format') .' G:i';
 
-        /* reformat Datetime Pattern if leading with F */
-        if ($wordpress_date_time_format[0]  == "F") {
-            $wordpress_date_time_format = "m/d/Y" .' G:i';
-        }
-
-        /* reformat Datetime Pattern if leading with j */
-        if ($wordpress_date_time_format[0]  == "j") {
-            $wordpress_date_time_format = "d/m/Y" .' G:i';
-        }
-
         /* add date if does not exist */
         if(!$settings['send_datetime']) {
             $settings['send_datetime'] = date_i18n('m/d/Y G:i');
@@ -188,30 +178,88 @@ class Inbound_Mailer_Scheduling {
 
         date_default_timezone_set($timezone);
 
-        /**
-         error_log($wordpress_date_time_format);
-         error_log($settings['send_datetime']);
-         error_log(print_r(DateTime::getLastErrors() , true));
-         /**/
+        $schedule_date = DateTime::createFromFormat(trim($wordpress_date_time_format) , trim($settings['send_datetime']));
+
+        /* hack - correct datetime object - fixes issue with datetime selector */
+        $corrected = self::correct_datetime_errors($schedule_date , $wordpress_date_time_format , trim($settings['send_datetime']) );
+        $settings['send_datetime'] = $corrected['meta'];
+        $schedule_date = $corrected['object'];
+
         switch ($email_service) {
             case "sparkpost":
-                $schedule_date = DateTime::createFromFormat(trim($wordpress_date_time_format) , trim($settings['send_datetime']));
                 $timestamp = $schedule_date->format('Y-m-d\\TG:i:s\\Z');
-
                 break;
             case "sparkpost-eu":
-                $schedule_date = DateTime::createFromFormat(trim($wordpress_date_time_format) , trim($settings['send_datetime']));
                 $timestamp = $schedule_date->format('Y-m-d\\TG:i:s\\Z');
                 break;
             case "wp_mail":
-                $schedule_date = DateTime::createFromFormat(trim($wordpress_date_time_format) , trim($settings['send_datetime']));
                 $timestamp = $schedule_date->format('Y-m-d\\TG:i:s\\Z');
-
                 break;
         }
 
 
         return $timestamp;
+    }
+
+    /**
+     * @param $schedule_date
+     */
+    public static function  correct_datetime_errors( $schedule_date , $wordpress_date_time_format , $datetime ) {
+
+        $errors = DateTime::getLastErrors();
+
+        $corrected = array();
+        $corrected['meta'] = $datetime;
+        $corrected['object'] = $schedule_date;
+
+        /**
+        error_log($wordpress_date_time_format);
+        error_log($datetime);
+        error_log(print_r(DateTime::getLastErrors() , true));
+        /**/
+
+        if (!$errors['errors']) {
+            /* reformat Datetime Pattern if leading with F */
+            if ($wordpress_date_time_format[0]  == "F") {
+
+                $new = new DateTime($schedule_date->format( "m/d G:i"));
+                $corrected['meta'] = $schedule_date->format( "m/d/Y G:i");
+                $corrected['object'] = $new;
+                return $corrected;
+            }
+
+            /* reformat Datetime Pattern if leading with j */
+            if ($wordpress_date_time_format[0]  == "j") {
+                $new = new DateTime($schedule_date->format( "m/d/Y G:i"));
+                $corrected['meta'] = $schedule_date->format( "d/m/Y G:i");
+                $corrected['object'] = $new;
+                return $corrected;
+            }
+
+            /* non problematic return as normal */
+            $corrected['meta'] = $datetime;
+            $corrected['object'] = $schedule_date;
+            return $corrected;
+        }
+
+        /* reformat Datetime Pattern if leading with F */
+        if ($wordpress_date_time_format[0]  == "F") {
+            $wordpress_date_time_format = "m/d/Y G:i";
+            $schedule_date = DateTime::createFromFormat(trim($wordpress_date_time_format) , trim($datetime));
+            $corrected['meta'] = $schedule_date->format( "d/m/Y G:i");
+            $corrected['object'] = $schedule_date;
+        }
+
+        /* reformat Datetime Pattern if leading with j */
+        if ($wordpress_date_time_format[0]  == "j") {
+            $wordpress_date_time_format = "d/m/Y G:i";
+            $schedule_date = DateTime::createFromFormat(trim($wordpress_date_time_format) , trim($datetime));
+            $corrected['meta'] = $schedule_date->format( "d/m/Y G:i");
+            $corrected['object'] = $schedule_date;
+        }
+
+        return $corrected;
+
     }
 
 
