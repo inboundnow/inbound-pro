@@ -238,16 +238,29 @@ class Inbound_Mail_Daemon {
     public static function send_batch_emails() {
         global $wpdb;
 
+        /* get datetime */
+        $wordpress_date_time = date_i18n('Y-m-d G:i:s');
+
         /* Get results for singular email id */
-        $query = "select * from " . self::$table_name . " WHERE `status` != 'processed' && `type` = 'batch' && email_id = email_id order by email_id ASC LIMIT " . self::$send_limit;
+        $query = "select * from " . self::$table_name . " WHERE `status` != 'processed' && `type` = 'batch' && email_id = email_id";
+
+        /* for wp_mail emails make sure we only process emails that meet out scheduling criteria */
+        switch (self::$email_service) {
+            case "wp_mail":
+                $query .= " && datetime < '{$wordpress_date_time}' ";
+                break;
+        }
+
+        /* complete query */
+        $query .= " order by email_id ASC LIMIT " . self::$send_limit;
+
         self::$results = $wpdb->get_results($query);
 
         if (!self::$results) {
             return;
         }
 
-        /* get datetime */
-        $wordpress_date_time = date_i18n('Y-m-d G:i:s');
+
 
         /* get first row of result set for determining email_id */
         self::$row = self::$results[0];
@@ -280,7 +293,7 @@ class Inbound_Mail_Daemon {
                 return;
             }
 
-            /* skip sending if lead has temprarily paused email sending */
+            /* skip sending if lead has temporarily paused email sending */
             $pass = self::check_stop_rules();
             if (!$pass) {
                 self::delete_from_queue();
@@ -302,6 +315,9 @@ class Inbound_Mail_Daemon {
                     break;
                 case "sparkpost-eu":
                     Inbound_Mailer_SparkPost::send_email();
+                    break;
+                case "wp_mail":
+                    Inbound_Mailer_WPMail::send_email();
                     break;
             }
 
@@ -392,6 +408,9 @@ class Inbound_Mail_Daemon {
                 break;
             case "sparkpost-eu":
                 Inbound_Mailer_SparkPost::send_email(true);
+                break;
+            case "wp_mail":
+                Inbound_Mailer_WPMail::send_email(true);
                 break;
         }
 
