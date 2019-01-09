@@ -242,10 +242,10 @@ if ( !class_exists('Inbound_Mailer_Settings') ) {
 						'label'  => __('Mail Service', 'inbound-pro' ),
 						'description'  => __( 'Choose which email service will power the email component.' , 'inbound-pro' ),
 						'type'  => 'dropdown',
-						'default'  => 'none',
+						'default'  => 'wp_mail',
 						'options' => array(
 							'none' => __( 'None' ),
-							//'wp_mail' => __( 'wp_mail' , 'inbound-pro' ),
+							'wp_mail' => __( 'wp_mail' , 'inbound-pro' ),
 							'sparkpost' => __( 'SparkPost' , 'inbound-pro' ),
 							'sparkpost-eu' => __( 'SparkPost (EU)' , 'inbound-pro' )
 						),

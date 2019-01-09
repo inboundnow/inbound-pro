@@ -1,14 +1,14 @@
 <?php
 
 /**
- * Class Inbound_WP_Mail_Stats provides data storage and retrieval methods related to email stats for WP_Mail service
+ * Class Inbound_WPMail_Stats provides data storage and retrieval methods related to email stats for WPMail service
  *
  * @package Mailer
- * @subpackage  WP_Mail
+ * @subpackage  WPMail
  */
 
 
-class Inbound_WP_Mail_Stats {
+class Inbound_WPMail_Stats {
 
     static $settings; /* email settings */
     static $results; /* results returned from sparkpost */
@@ -180,7 +180,7 @@ class Inbound_WP_Mail_Stats {
         }
 
         /* get opens */
-        $query = 'SELECT `variation_id`, `lead_id` FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '. $variation_query . $job_id_query.' AND `event_name` =  "sparkpost_open"';
+        $query = 'SELECT `variation_id`, `lead_id` FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '. $variation_query . $job_id_query.' AND `event_name` =  "wpmail_open"';
         /* add date constraints if applicable */
         if (isset(self::$stats['start_date'])) {
             $query .= ' AND datetime >= "'.self::$stats['start_date'].'" AND  datetime <= "'.self::$stats['end_date'].'" ';
@@ -189,7 +189,7 @@ class Inbound_WP_Mail_Stats {
         $opens = self::process_selected_rows($results);
 
         /* get clicks */
-        $query = 'SELECT `variation_id`, `lead_id` FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '. $variation_query . $job_id_query.' AND `event_name` =  "sparkpost_click"';
+        $query = 'SELECT `variation_id`, `lead_id` FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '. $variation_query . $job_id_query.' AND `event_name` =  "inbound_email_click"';
         /* add date constraints if applicable */
         if (isset(self::$stats['start_date'])) {
             $query .= ' AND datetime >= "'.self::$stats['start_date'].'" AND  datetime <= "'.self::$stats['end_date'].'" ';
@@ -197,18 +197,7 @@ class Inbound_WP_Mail_Stats {
         $results = $wpdb->get_results( $query, ARRAY_A );
         $clicks = self::process_selected_rows($results);
 
-        /* get bounce */
-        $query = 'SELECT `variation_id`, `lead_id` FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '. $variation_query . $job_id_query.' AND `event_name` =  "sparkpost_bounce"';
-        /* add date constraints if applicable */
-        if (isset(self::$stats['start_date'])) {
-            $query .= ' AND datetime >= "'.self::$stats['start_date'].'" AND  datetime <= "'.self::$stats['end_date'].'" ';
-        }
-        $results = $wpdb->get_results( $query, ARRAY_A );
-        $bounces = self::process_selected_rows($results);
 
-        /* get rejects */
-        $query = 'SELECT `variation_id`, `lead_id` FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '. $variation_query . $job_id_query.' ';
-        $query .= ' AND ( `event_name` =  "sparkpost_rejected" OR `event_name` = "sparkpost_relay_rejection" )';
 
         /* add date constraints if applicable */
         if (isset(self::$stats['start_date'])) {
@@ -249,13 +238,8 @@ class Inbound_WP_Mail_Stats {
             'sent' => $sent,
             'opens' =>$opens,
             'clicks' => $clicks,
-            'bounces' => $bounces,
-            'rejects' => $rejects,
-            'complaints' => $complaints,
             'unsubs' => $unsubs,
             'mutes' => $mutes,
-            'unique_opens' => $opens,
-            'unique_clicks' => $clicks,
             'unopened' => $sent - $opens
         );
 
@@ -323,24 +307,6 @@ class Inbound_WP_Mail_Stats {
         return $sparkpost_timestamp;
     }
 
-    /**
-     * Pull data from Mandrill based on email id and variation id
-     *
-     */
-    public static function get_send_stream() {
-        global $Inbound_Mailer_Variations;
-        global $inbound_settings;
-        global $post;
-
-        self::$vid = $Inbound_Mailer_Variations->get_current_variation_id();
-
-        $campaign_id =  $post->ID	. '_'. self::$vid;
-        $sparkpost = new Inbound_SparkPost(  $inbound_settings['mailer']['sparkpost-key'] , $inbound_settings['mailer']['mail-service'] );
-        self::$results = $sparkpost->get_transmissions( $campaign_id );
-
-        return self::$results;
-    }
-
 
     /**
      *  Timezone check
@@ -389,14 +355,7 @@ class Inbound_WP_Mail_Stats {
             self::$stats['wp_mail'][$batch_key][ 'variations' ][ $vid ] = array(
                 'sent' => $totals['count_sent'],
                 'opens' => $totals['count_rendered'],
-                'clicks' => $totals['count_unique_clicked'],
-                'bounces' => $totals['count_bounce'],
-                'hard_bounces' => $totals['count_hard_bounce'],
-                'soft_bounces' => $totals['count_soft_bounce'],
-                'rejects' => $totals['count_rejected'],
-                'complaints' => $totals['count_spam_complaint'],
-                'unique_opens' => $totals['count_unique_rendered'],
-                'unique_clicks' => $totals['count_unique_clicked'],
+                'clicks' => $totals['count_clicks'],
                 'unopened' => $totals['count_sent']
             );
 
@@ -585,7 +544,7 @@ class Inbound_WP_Mail_Stats {
 
         /* recipients */
         $args = array(
-            'event_name' => 'sparkpost_delivery',
+            'event_name' => 'wpmail_delivery',
             'email_id' => $transmission_args['metadata']['email_id'],
             'variation_id' =>  $transmission_args['metadata']['variation_id'],
             'form_id' => '',
@@ -600,256 +559,20 @@ class Inbound_WP_Mail_Stats {
         if (!Inbound_Events::event_exists($args)) {
             Inbound_Events::store_event($args);
         }
-
     }
 
-    /**
-     * Check SparkPost Response for Errors and Handle them
-     */
-    public static function process_rejections( $transmission_args , $response ) {
-        if (isset($response['errors']) || !isset($transmission_args['metadata']['lead_id'])) {
-            error_log(print_r($response['errors'],true));
-            return;
-        } else {
-            $response['errors'] = array();
-        }
-
-        foreach ($response['errors'] as $error) {
-
-            switch( $error['code'] ) {
-                case '1902':
-
-                    /* create/get maintenance lists */
-                    $maintenance_lists = Inbound_Maintenance_Lists::get_lists();
-
-                    /* add to rejected list */
-                    Inbound_Leads::add_lead_to_list( $transmission_args['metadata']['lead_id'], $maintenance_lists['rejected']['id'] );
-
-                    $args = array(
-                        'event_name' => 'sparkpost_rejected',
-                        'email_id' => $transmission_args['metadata']['email_id'],
-                        'variation_id' =>  $transmission_args['metadata']['variation_id'],
-                        'form_id' => '',
-                        'lead_id' => $transmission_args['metadata']['lead_id'],
-                        'session_id' => '',
-                        'event_details' => json_encode($error)
-                    );
-
-                    /* lets not spam our events table with repeat opens and clicks */
-                    if (!Inbound_Events::event_exists($args)) {
-                        Inbound_Events::store_event($args);
-                    }
-                    break;
-            }
-        }
-
-    }
 
     public static function unschedule_email( $email_id ) {
         global $inbound_settings;
 
         $variations = Inbound_Mailer_Variations::get_variations($email_id);
-        $sparkpost = new Inbound_SparkPost(  $inbound_settings['mailer']['sparkpost-key'] , $inbound_settings['mailer']['mail-service'] );
 
         foreach ($variations as $vid => $variation) {
 
-            $campaign_id =  $email_id	. '_'. $vid;
-            $results = $sparkpost->get_transmissions( $campaign_id );
-
-            $delete_count = 0;
-            foreach ($results['results'] as $key=>$transmission) {
-
-                if ($transmission['state'] != 'submitted' ) {
-                    continue;
-                }
-
-                $result = $sparkpost->delete_transmission( $transmission['id'] );
-
-                $delete_count++;
-            }
         }
 
     }
 
-    /**
-     * Display API status inside settings area
-     * @param $field
-     */
-    public static function display_api_status( $field ) {
-        global $inbound_settings;
-
-        /* do nothing if no key present */
-        if (!isset($inbound_settings['mailer']['sparkpost-key'])) {
-            return;
-        }
-
-        /* set the sparkpost apikey and load sparkpost connector */
-        $sparkpost = new Inbound_SparkPost(  $inbound_settings['mailer']['sparkpost-key'] , $inbound_settings['mailer']['mail-service'] );
-
-        /* discover sending domains */
-        $domains = $sparkpost->get_domains();
-        $webhooks = $sparkpost->get_webhooks();
-
-
-        /* check if webhooks are created */
-        $webhook_status = __('not created' , 'inbound-pro');
-        if (isset($inbound_settings['mailer']['sparkpost']['webhook']['id']) ) {
-            $webhook = $sparkpost->get_webhook($inbound_settings['mailer']['sparkpost']['webhook']['id']);
-
-            if ( isset($webhook['results']['name']) && $webhook['results']['name'] == 'Inbound Now Webhook' ) {
-                $webhook_status = '<span style="color:green;!important;">'.__('created' , 'inbound-pro') . '</span>';
-            }
-        } else if (isset($webhooks['results']) && count($webhooks['results']) > 0 ) {
-            /* If for any reason we lost data and the webhooks still exist lets find them and update the data */
-            foreach ($webhooks['results'] as $key => $webhook) {
-
-                if ( $webhook['name'] != 'Inbound Now Webhook') {
-                    continue;
-                }
-
-                if (!strstr($webhook['target'] , site_url() )) {
-                    continue;
-                }
-
-                $inbound_settings['mailer']['sparkpost']['webhook']['id'] = $webhook['id'];
-
-                Inbound_Options_API::update_option('inbound-pro', 'settings', $inbound_settings);
-                $webhook_status = '<span style="color:green;!important;">'.__('created' , 'inbound-pro') . '</span>';
-            }
-        }
-
-        ?>
-        <table class="sparkpost-status-table">
-            <tr>
-                <td class="inbound-label-field">
-                    <?php _e('API Key:','inbound-pro'); ?>
-                </td>
-                <td class="">
-
-                    <?php
-
-                    if (isset($domains['results']) && is_array($domains['results']) ){
-                        echo '<span style="color:green !important;">'.__('active' , 'inbound-pro') . '</span>';
-                    } else {
-                        if (isset($domains['errors'])) {
-                            switch($domains['errors'][0]['message']) {
-                                case 'Unauthorized.':
-                                    echo '<pre>'.__('Unauthorized' , 'inbound-pro') . '</pre>';
-
-                                    break;
-                                case 'Forbidden.':
-                                    echo '<pre>'.__('API Key does not have correct permissions checked. Try creating a new key and checking all the available permissions.' , 'inbound-pro') . '</pre>';
-
-                                    break;
-                            }
-                        }
-                    }
-
-                    ?>
-
-                </td>
-
-            </tr>
-        </table>
-        <table>
-            <tr>
-                <td class="inbound-label-field">
-                    <?php _e('Sending Domains:','inbound-pro'); ?>
-                </td>
-
-                <td class="sparkpost-status-domains status-value">
-                    <table>
-                        <?php
-
-                        if (isset($domains['results']) && is_array($domains['results']) ){
-                            foreach($domains['results'] as $i => $domains ) {
-
-                                ?>
-
-                                <tr>
-                                    <td class="inbound-label-field" style='' colspan="2">
-                                        <span style="color:green !important;"><?php echo $domains['domain']; ?></span>
-                                    </td>
-
-                                </tr>
-                                <tr>
-                                    <td class="inbound-label-field" style=''>
-                                        <?php _e('ownership','inbound-pro'); ?>:
-                                    </td>
-
-                                    <td class="status-value">
-                                        <?php
-                                        if ($domains['status']['ownership_verified']) {
-                                            echo '<span style="color:green !important;">'.__('confirmed','inbound-pro').'</span>';
-                                        } else {
-                                            echo '<span style="color:red !important;">'.__('not confirmed','inbound-pro').'</span>';
-                                        }
-                                        ?>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="inbound-label-field" style=''>
-                                        <?php _e('dkim','inbound-pro'); ?>:
-                                    </td>
-
-                                    <td class="status-value">
-                                        <?php
-                                        if ($domains['status']['dkim_status'] == 'valid' ) {
-                                            echo '<span style="color:green !important;">'.__('valid','inbound-pro').'</span>';
-                                        } else {
-                                            echo '<span style="color:red !important;">'.__('invalid','inbound-pro').'</span>';
-                                        }
-                                        ?>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="inbound-label-field" style=''>
-                                        <?php _e('compliance status','inbound-pro'); ?>
-                                    </td>
-
-                                    <td class="status-value">
-                                        <?php
-                                        if ($domains['status']['compliance_status'] == 'valid' ) {
-                                            echo '<span style="color:green !important;">'.__('valid','inbound-pro').'</span>';
-                                        } else {
-                                            echo '<span style="color:red !important;">'.__('invalid','inbound-pro').'</span>';
-                                        }
-                                        ?>
-                                    </td>
-                                </tr>
-
-                                <?php
-                            }
-
-                        } else {
-                            echo __( 'No sending domains set. Please see https://app.sparkpost.com/account/sending-domains' , 'inbound-pro' );
-                        }
-
-                        ?>
-                    </table>
-                </td>
-
-            </tr>
-        </table>
-
-        <table>
-            <tr>
-                <td class="inbound-label-field">
-                    <?php _e('Webhooks:','inbound-pro'); ?>
-                </td>
-
-                <td class="sparkpost-status-webhooks status-value">
-                    <?php echo  $webhook_status; ?>
-                    <?php if(isset($inbound_settings['mailer']['sparkpost']['webhook']['errors'])) {
-                        print_r($inbound_settings['mailer']['sparkpost']['webhook']);
-                    }
-                    ?>
-                </td>
-
-            </tr>
-        </table>
-        <?php
-    }
 }
 
-new Inbound_WP_Mail_Stats();
+new Inbound_WPMail_Stats();
