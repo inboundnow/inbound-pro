@@ -279,7 +279,7 @@ class Inbound_Events {
 
         self::store_event($args);
     }
-    
+
     /**
      * Add event to inbound_events table
      * @param $args
@@ -383,7 +383,7 @@ class Inbound_Events {
                 case "Unknown column 'funnel' in 'field list'":
                     self::create_events_table();
                     break;
-                                
+
                 case "Unknown column 'comment_id' in 'field list'":
                     self::create_events_table();
                     break;
@@ -1152,7 +1152,11 @@ class Inbound_Events {
         if (isset($params['cta_id']) && $params['cta_id'] ) {
             $query .= ' AND cta_id = "'.$params['cta_id'].'" ';
         }
-        
+
+        if (isset($params['list_id']) && $params['list_id'] ) {
+            $query .= ' AND list_id = "'.$params['list_id'].'" ';
+        }
+
         if (isset($params['variation_id']) && $params['variation_id'] ) {
             $query .= ' AND variation_id = "'.$params['variation_id'].'" ';
         }
@@ -1172,7 +1176,7 @@ class Inbound_Events {
         if (isset($params['limit'])) {
             $query .= ' LIMIT '.$params['limit'];;
         }
-        
+
         if (isset($params['offset']) && $params['offset']) {
             $query .= ' OFFSET '.$params['offset'].' ';
         }
@@ -1719,24 +1723,24 @@ class Inbound_Events {
         /* return null if nothing there */
         return ($count) ? $count : 0;
     }
- 
+
     /**
      * Checks to see if a comment has already been logged in the events table
      * @param $comment_id
      */
     public static function comment_exists($comment_id){
         global $wpdb;
-        
+
         $table_name = $wpdb->prefix . "inbound_events";
-        
+
         $comment_row_id = $wpdb->get_var(
             $wpdb->prepare(
                 "SELECT `id` FROM {$table_name} WHERE `comment_id` = %d",
                 $comment_id
             )
-        );  
-        
-        return $comment_row_id;  
+        );
+
+        return $comment_row_id;
     }
 
     /**
@@ -1745,17 +1749,17 @@ class Inbound_Events {
      */
     public static function remove_comment_event($comment_id){
         global $wpdb;
-        
+
         $table_name = $wpdb->prefix . "inbound_events";
-        
+
         $wpdb->query(
             $wpdb->prepare(
                 "DELETE FROM {$table_name} WHERE `comment_id` = %d",
                 $comment_id
             )
         );
-   }
-   
+    }
+
     public static function isJson($string) {
         json_decode($string);
         return (json_last_error() == JSON_ERROR_NONE);
