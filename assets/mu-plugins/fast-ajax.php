@@ -29,6 +29,11 @@ function ajax_disable_plugins($plugins){
         $_REQUEST['load_plugins'] = json_decode($_REQUEST['load_plugins'],true);
     }
 
+    /* if load_plugins not detected then set empty array */
+    if (!is_array($_REQUEST['load_plugins'])) {
+        $_REQUEST['load_plugins'] = array();
+    }
+
     /* unset plugins not included in the load_plugins array */
     foreach ($plugins as $key => $plugin_path) {
 
