@@ -826,8 +826,8 @@ if (!class_exists('Inbound_Impressions_Report')) {
             /* create new temporary array with different structure */
             $temp = array();
             foreach (self::$graph_data[$period] as $key=> $data) {
+                $data = (array) $data; /* fixes strange issue where rows are returned as object instead of array */
                 $temp[$data['date']] = $data['impressions_per_day'];
-
             }
 
             $date_array = array();
