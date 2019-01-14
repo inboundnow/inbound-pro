@@ -100,7 +100,9 @@ class acf_field_gallery extends acf_field {
    		
 		
 		// validate
-		if( !wp_verify_nonce($options['nonce'], 'acf_nonce') ) die();
+		if( !acf_verify_ajax() ) {
+			die();
+		}
 		
 		
 		// bail early if no id
@@ -434,7 +436,8 @@ class acf_field_gallery extends acf_field {
 		// get posts
 		$posts = acf_get_posts(array(
 			'post_type'	=> 'attachment',
-			'post__in'	=> $post__in
+			'post__in'	=> $post__in,
+			'update_post_meta_cache' => true
 		));
 		
 		
