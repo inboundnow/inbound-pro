@@ -54,6 +54,10 @@ if ( !class_exists( 'Inbound_Automation_Action_Wait' ) ) {
 		*/
 		public static function run_action( $action , $arguments ) {
 
+			/* set defaults */
+			$action['wait_time_minutes'] = ($action['wait_time_minutes']) ? $action['wait_time_minutes'] : 0;
+			$action['wait_time_hours'] = ($action['wait_time_hours']) ? $action['wait_time_hours'] : 0;
+
 			/* get current time formatted */
 			$current_time = current_time('Y-m-d H:i:s');
 
