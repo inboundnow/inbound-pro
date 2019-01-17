@@ -7,6 +7,7 @@
  */
 class Inbound_Mailer_Direct_Email_Leads {
     static $range;
+    static $event_names;
 
     /**
      * Inbound_Mailer_Direct_Email_Leads constructor.
@@ -21,7 +22,6 @@ class Inbound_Mailer_Direct_Email_Leads {
     public static function add_hooks() {
         /*get the mail service settings*/
         $settings = Inbound_Mailer_Settings::get_settings();
-
 
         /*Add the "Email Lead" tab to the edit lead list of tabs*/
         add_filter('wpl_lead_tabs', array(__CLASS__, 'add_direct_email_tab'), 10, 1);
@@ -60,6 +60,8 @@ class Inbound_Mailer_Direct_Email_Leads {
      * @return mixed
      */
     public static function add_direct_email_tab($tabs) {
+
+
         $args = array(
             'id' => 'wpleads_lead_tab_direct_email',
             'label' => __('Direct Email', 'inbound-pro')
@@ -740,6 +742,10 @@ class Inbound_Mailer_Direct_Email_Leads {
         } else {
             self::$range = intval($_REQUEST['range']);
         }
+
+        /* load this early */
+        self::$event_names = self::get_event_names();
+
         ?>
         <div class="quick-stat-label">
             <div class="label_1"><?php _e('Direct E-Mails', 'inbound-pro'); ?>:</div>
@@ -766,11 +772,14 @@ class Inbound_Mailer_Direct_Email_Leads {
      */
     public static function display_quick_stat_email_sends($post) {
         global $post;
+
         if (!isset($_REQUEST['range'])) {
             self::$range = 90;
         } else {
             self::$range = intval($_REQUEST['range']);
         }
+
+
         ?>
         <div class="quick-stat-label">
             <div class="label_1"><?php _e('Email Sends', 'inbound-pro'); ?>:</div>
@@ -778,7 +787,7 @@ class Inbound_Mailer_Direct_Email_Leads {
                 <?php
                 if (class_exists('Inbound_Analytics')) {
                     ?>
-                    <a href='<?php echo admin_url('index.php?action=inbound_generate_report&lead_id='.$post->ID.'&class=Inbound_Events_Report&event_name=sparkpost_delivery&range=10000&tb_hide_nav=true&TB_iframe=true&width=1000&height=600&show_graph=false'); ?>' class='thickbox inbound-thickbox'>
+                    <a href='<?php echo admin_url('index.php?action=inbound_generate_report&lead_id='.$post->ID.'&class=Inbound_Events_Report&event_name='. self::$event_names['delivery'].'&range=10000&tb_hide_nav=true&TB_iframe=true&width=1000&height=600&show_graph=false'); ?>' class='thickbox inbound-thickbox'>
                         <?php echo self::get_email_send_count($post->ID); ?>
                     </a>
                     <?php
@@ -828,7 +837,7 @@ class Inbound_Mailer_Direct_Email_Leads {
         /* get daily action counts for chart 1 */
         $params = array(
             'lead_id' => $post->ID,
-            'event_name' => 'sparkpost_click'
+            'event_name' => self::$event_names['click']
         );
         $click_events = Inbound_Events::get_events($params);
 
@@ -842,7 +851,7 @@ class Inbound_Mailer_Direct_Email_Leads {
                 <?php
                 if (class_exists('Inbound_Analytics')) {
                     ?>
-                    <a href='<?php echo admin_url('index.php?action=inbound_generate_report&lead_id='.$post->ID.'&class=Inbound_Event_Report&event_name=sparkpost_click&range='.self::$range.'&title='.__('Email Clicks' , 'inbound-pro').'&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox'>
+                    <a href='<?php echo admin_url('index.php?action=inbound_generate_report&lead_id='.$post->ID.'&class=Inbound_Event_Report&event_name='. self::$event_names['click'].'&range='.self::$range.'&title='.__('Email Clicks' , 'inbound-pro').'&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox'>
                         <?php echo count($click_events); ?>
                     </a>
                     <?php
@@ -866,7 +875,7 @@ class Inbound_Mailer_Direct_Email_Leads {
         /* get daily action counts for chart 1 */
         $params = array(
             'lead_id' => $post->ID,
-            'event_name' => 'sparkpost_open'
+            'event_name' => self::$event_names['open']
         );
         $opens = Inbound_Events::get_events($params);
 
@@ -880,7 +889,7 @@ class Inbound_Mailer_Direct_Email_Leads {
                 <?php
                 if (class_exists('Inbound_Analytics')) {
                     ?>
-                    <a href='<?php echo admin_url('index.php?action=inbound_generate_report&lead_id='.$post->ID.'&class=Inbound_Event_Report&event_name=sparkpost_open&range='.self::$range.'&title='.__('Email Opens' , 'inbound-pro').'&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox'>
+                    <a href='<?php echo admin_url('index.php?action=inbound_generate_report&lead_id='.$post->ID.'&class=Inbound_Event_Report&event_name='. self::$event_names['open'].'&range='.self::$range.'&title='.__('Email Opens' , 'inbound-pro').'&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>' class='thickbox inbound-thickbox'>
                         <?php echo count($opens); ?>
                     </a>
                     <?php
@@ -899,7 +908,12 @@ class Inbound_Mailer_Direct_Email_Leads {
      * Adds a quick stat form email clicks to the Quick Stats box
      */
     public static function display_quick_stat_email_bounces() {
-        global $post;
+        global $post, $inbound_settings;
+
+        /* do not show for wp_mail service */
+        if ($inbound_settings['mailer']['mail-service']=='wp_mail') {
+            return;
+        }
 
         /* get daily action counts for chart 1 */
         $params = array(
@@ -935,6 +949,38 @@ class Inbound_Mailer_Direct_Email_Leads {
     }
 
     /**
+     * get the correct event names depending on which email service is selected.
+     * @return array
+     */
+    public static function get_event_names() {
+        global $inbound_settings;
+
+        switch ($inbound_settings['mailer']['mail-service']) {
+            case "sparkpost":
+                return array(
+                    'delivery' => 'sparkpost_delivery',
+                    'open' => 'sparkpost_open',
+                    'click' => 'sparkpost_click'
+                );
+                break;
+            case "sparkpost-eu":
+                return array(
+                    'delivery' => 'sparkpost_delivery',
+                    'open' => 'sparkpost_open',
+                    'click' => 'sparkpost_click'
+                );
+                break;
+            case "wp_mail":
+                return array(
+                    'delivery' => 'wpmail_delivery',
+                    'open' => 'wpmail_open',
+                    'click' => 'wpmail_click'
+                );
+                break;
+        }
+    }
+
+    /**
      * Gets number of direct mail messages sent to lead
      */
     public static function get_email_send_count( $lead_id  ){
@@ -944,7 +990,7 @@ class Inbound_Mailer_Direct_Email_Leads {
 
         $query = 'SELECT count(*) FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'"';
 
-        $query .= 'AND `event_name` = "sparkpost_delivery"';
+        $query .= 'AND `event_name` = "'.self::$event_names['delivery'].'"';
 
         $count = $wpdb->get_var( $query , 0, 0 );
 
