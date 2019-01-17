@@ -213,6 +213,9 @@ class Inbound_Mail_Daemon {
                 case "sparkpost-eu":
                     Inbound_Mailer_SparkPost::send_email( true ); /* send immediately */
                     break;
+                case "wpmail":
+                    Inbound_Mailer_WPMail::send_email( true ); /* send immediately */
+                    break;
             }
 
             /* check response for errors  */
@@ -228,8 +231,6 @@ class Inbound_Mail_Daemon {
             $i++;
         }
 
-        //error_log('Done');
-        //error_log('Rows processed ' . $i);
     }
 
     /**
@@ -259,8 +260,6 @@ class Inbound_Mail_Daemon {
         if (!self::$results) {
             return;
         }
-
-
 
         /* get first row of result set for determining email_id */
         self::$row = self::$results[0];
@@ -537,6 +536,8 @@ class Inbound_Mail_Daemon {
      *    Generates targeted email body html
      */
     public static function get_email_body() {
+        global $inbound_settings;
+
         $last = self::$last;
 
         /* set required variables if empty */
@@ -568,7 +569,12 @@ class Inbound_Mail_Daemon {
         $html = do_shortcode($html);
 
         /* add tracking params to links */
-        //$html = self::rebuild_links($html);
+        switch ($email_service) {
+            case "wp_mail":
+                $html = self::rebuild_links($html);
+                break;
+        }
+
 
         /* remove script tags */
         $html = preg_replace('#<script(.*?)>(.*?)</script>#is', '', $html);
