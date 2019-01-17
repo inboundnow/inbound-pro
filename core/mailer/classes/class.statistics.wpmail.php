@@ -23,27 +23,22 @@ class Inbound_WPMail_Stats {
 
     public static function add_hooks() {
         if (is_admin()) {
-                       /* For mail service activation */
-            add_action('inbound-settings/after-field-value-update', array(__CLASS__, 'activation_routines'));
-
             add_action( 'mailer/unschedule-email' , array( __CLASS__, 'unschedule_email' ) , 10 , 1 );
         }
 
         /* For processing webhooks */
-        add_action('wp_ajax_nopriv_sparkpost_webhook', array(__CLASS__, 'process_open_event'));
+        add_action('init', array(__CLASS__, 'process_open_event'));
 
         /* process send event */
-        add_action( 'sparkpost/send/response' , array( __CLASS__ , 'process_send_event') , 10 , 2 );
+        add_action( 'mailer/wp_mail/send' , array( __CLASS__ , 'process_send_event') , 10 , 3 );
 
-        /* process rejection errors */
-        add_action( 'sparkpost/send/response' , array( __CLASS__ , 'process_rejections') , 10 , 2 );
+
     }
-
 
     /**
      *  Get SparkPost Stats including varition totals
      */
-    public static function get_sparkpost_webhook_stats() {
+    public static function get_wpmail_stats() {
         global $post, $Inbound_Mailer_Variations;
 
         /* prepare date range */
@@ -60,13 +55,13 @@ class Inbound_WPMail_Stats {
         }
 
         /* first get totals */
-        self::get_sparkpost_inbound_events( $post->ID , $vid = null , $job_id  );
+        self::get_wpmail_inbound_events( $post->ID , $vid = null , $job_id  );
 
         /* now total variations */
         $variations = $Inbound_Mailer_Variations->get_variations($post->ID, $vid = null );
 
         foreach ( $variations as $vid => $variation ) {
-            self::get_sparkpost_inbound_events( $post->ID , $vid , $job_id );
+            self::get_wpmail_inbound_events( $post->ID , $vid , $job_id );
         }
 
         return self::$stats;
@@ -75,7 +70,7 @@ class Inbound_WPMail_Stats {
     /**
      * Get all all custom event data by a certain indicator
      */
-    public static function get_sparkpost_inbound_events( $email_id , $variation_id = null , $job_id = null ) {
+    public static function get_wpmail_inbound_events( $email_id , $variation_id = null , $job_id = null ) {
         global $wpdb, $post, $inbound_settings;
 
         /* check if email id is set else use global post object */
@@ -146,35 +141,21 @@ class Inbound_WPMail_Stats {
             $date = new DateTime(date_i18n($wordpress_date_time_format));
         }
 
-        /**
-        echo $wordpress_date_time_format;
-        echo "<br>";
-        echo $settings['send_datetime'];
-        echo "<br>";
-        var_dump(DateTime::getLastErrors());
-        /**/
-
         $schedule_date = new DateTime($date->format('Y-m-d G:i:s'));
         $interval = $today->diff($schedule_date);
 
         /* complicated  - needs doc */
         if ( !$settings['send_datetime'] || $interval->format('%R') == '-' || $settings['email_type'] == 'automated' ) {
-            $query = 'SELECT `variation_id`, `lead_id` FROM ' . $table_name . ' WHERE `email_id` = "' . $email_id . '"  ' . $variation_query . $job_id_query . ' AND `event_name` =  "sparkpost_delivery"';
+            $query = 'SELECT `variation_id`, `lead_id` FROM ' . $table_name . ' WHERE `email_id` = "' . $email_id . '"  ' . $variation_query . $job_id_query . ' AND `event_name` =  "wpmail_delivery"';
 
             /* add date constraints if applicable */
             if (isset(self::$stats['start_date'])) {
                 $query .= ' AND datetime >= "'.self::$stats['start_date'].'" AND  datetime <= "'.self::$stats['end_date'].'" ';
             }
+
             $results = $wpdb->get_results($query, ARRAY_A);
 
-            /*get the unique lead_id sends for each variation*/
-            $sent_array = array();
-            foreach( $results as $index => $rows ){
-                if(!isset($sent_array[$rows['variation_id']][$rows['lead_id']])){
-                    $sent_array[$rows['variation_id']][$rows['lead_id']] = 1;
-                }
-            }
-            $sent = (count($sent_array, 1) - count($sent_array));
+            $sent = count($results);
         } else {
             $sent = 0;
         }
@@ -189,7 +170,7 @@ class Inbound_WPMail_Stats {
         $opens = self::process_selected_rows($results);
 
         /* get clicks */
-        $query = 'SELECT `variation_id`, `lead_id` FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '. $variation_query . $job_id_query.' AND `event_name` =  "inbound_email_click"';
+        $query = 'SELECT `variation_id`, `lead_id` FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"  '. $variation_query . $job_id_query.' AND `event_name` =  "wpmail_click"';
         /* add date constraints if applicable */
         if (isset(self::$stats['start_date'])) {
             $query .= ' AND datetime >= "'.self::$stats['start_date'].'" AND  datetime <= "'.self::$stats['end_date'].'" ';
@@ -284,46 +265,6 @@ class Inbound_WPMail_Stats {
     }
 
     /**
-     *	Converts gmt timestamps to correct timezones
-     *	@param DATETIME $timestamp timestamp in gmt before calculating timezone
-     */
-    public static function get_sparkpost_timestamp( $timestamp ) {
-
-        /* make sure we have a timezone set */
-        $tz = Inbound_Mailer_Scheduling::get_current_timezone();
-        self::$settings['timezone'] = (!empty(self::$settings['timezone'])) ? self::$settings['timezone'] :  $tz['abbr'] . '-UTC' . $tz['offset'];
-
-        $sparkpost_timestamp = date( 'c' , strtotime( $timestamp ) );
-        $date_parts = explode('+' , $sparkpost_timestamp );
-
-        // $timezone_parts = explode('UTC' , self::$settings['timezone'] );
-
-        $sparkpost_timestamp = $date_parts[0];
-        $date_parts = explode(':' , $sparkpost_timestamp );
-        array_pop($date_parts);
-
-        $sparkpost_timestamp = implode(':', $date_parts);
-
-        return $sparkpost_timestamp;
-    }
-
-
-    /**
-     *  Timezone check
-     */
-    public static function timezone_check( $timezone ) {
-        if ($timezone) {
-            return $timezone;
-        }
-
-        switch( self::$settings['timezone'] ) {
-            case 'BIT-UTC-12' :
-                return '';
-                break;
-        }
-    }
-
-    /**
      *	Update db stats object
      */
     public static function update_statistics_object() {
@@ -334,35 +275,6 @@ class Inbound_WPMail_Stats {
     }
 
 
-    /**
-     *	build variation totals
-     */
-    public static function process_variation_totals() {
-        $batch_key_parts = explode('T' , self::$stats['date_to'] );
-        $batch_key = $batch_key_parts[0];
-
-        /* skip processing if no data */
-        if (!isset(self::$results['results'])) {
-            self::$stats['wp_mail'][$batch_key][ 'variations' ] = array();
-            return;
-        }
-
-        /* loop through wp_mail object & compile hour totals to build variation totals */
-        foreach ( self::$results['results'] as $i => $totals ) {
-            $campaign_parts = explode('_' , $totals['campaign_id'] );
-            $vid = $campaign_parts[1];
-
-            self::$stats['wp_mail'][$batch_key][ 'variations' ][ $vid ] = array(
-                'sent' => $totals['count_sent'],
-                'opens' => $totals['count_rendered'],
-                'clicks' => $totals['count_clicks'],
-                'unopened' => $totals['count_sent']
-            );
-
-        }
-
-
-    }
 
     /**
      *	Prepares dates to process
@@ -398,7 +310,8 @@ class Inbound_WPMail_Stats {
             'sent' => 0,
             'opens' => 0,
             'clicks' => 0,
-            'unsubs' => 0,
+            'bounces' => 0,
+            'rejects' => 0,
             'mutes' => 0,
             'unopened' => 0
         );
@@ -493,49 +406,39 @@ class Inbound_WPMail_Stats {
 
     }
 
-    /**
-     * @param $field
-     */
-    public static function activation_routines( $field ) {
-
-
-    }
-
     public static function process_open_event() {
 
+        if (!isset($_GET['action']) || $_GET['action'] !=  'wpmail_open' ) {
+            return;
+        }
 
         $args = array(
-            'event_name' => 'wp_mail_open',
-            'email_id' => $event['email_id'],
-            'variation_id' =>  $event['variation_id'],
+            'event_name' => 'wpmail_open',
+            'email_id' => $_GET['email_id'],
+            'variation_id' =>  $_GET['variation_id'],
             'form_id' => '',
-            'lead_id' => $event['lead_id'],
-            'job_id' => (isset($event['job_id'])) ? $event['job_id'] : 0,
-            'rule_id' => (isset($event['rule_id'])) ? $event['rule_id'] : 0,
+            'lead_id' => $_GET['lead_id'],
+            'job_id' => (isset($_GET['job_id'])) ? $_GET['job_id'] : 0,
+            'rule_id' => (isset($_GET['rule_id'])) ? $_GET['rule_id'] : 0,
             'session_id' => '',
-            'event_details' => json_encode($event)
+            'event_details' => json_encode($_GET)
         );
 
         /* lets not spam our events table with repeat opens and clicks */
         if (!Inbound_Events::event_exists($args)) {
             Inbound_Events::store_event($args);
         }
-
+        exit;
     }
 
     /**
      * Check SparkPost Response for Errors and Handle them
      */
-    public static function process_send_event( $transmission_args , $response ) {
+    public static function process_send_event( $response , $email , $row ) {
 
         /* skip if contains errors */
-        if (isset($response['errors'])) {
-            error_log(print_r($errors,true));
-            return;
-        }
-
-        if (isset($transmission_args['recipients'][0]['tags']) && in_array( 'test' , $transmission_args['recipients'][0]['tags']) ) {
-
+        if ($response['message'] == 'fail') {
+            error_log(print_r($response,true));
             return;
         }
 
@@ -545,14 +448,14 @@ class Inbound_WPMail_Stats {
         /* recipients */
         $args = array(
             'event_name' => 'wpmail_delivery',
-            'email_id' => $transmission_args['metadata']['email_id'],
-            'variation_id' =>  $transmission_args['metadata']['variation_id'],
+            'email_id' => isset($row['email_id']) ? $row['email_id'] : 0,
+            'variation_id' =>  (isset($row['variation_id'])) ? $row['variation_id'] : 0,
             'form_id' => '',
-            'lead_id' => $transmission_args['metadata']['lead_id'],
-            'rule_id' => $transmission_args['metadata']['rule_id'],
-            'job_id' => $transmission_args['metadata']['job_id'],
+            'lead_id' => isset($row['lead_id']) ? $row['lead_id'] : 0 ,
+            'rule_id' => isset($row['rule_id']) ? $row['rule_id'] : 0,
+            'job_id' => isset($row['job_id']) ? $row['job_id'] : 0 ,
             'session_id' => '',
-            'event_details' => json_encode($transmission_args)
+            'event_details' => json_encode(array_merge($email,$row))
         );
 
         /* lets not spam our events table with repeat opens and clicks */
@@ -563,14 +466,13 @@ class Inbound_WPMail_Stats {
 
 
     public static function unschedule_email( $email_id ) {
-        global $inbound_settings;
+        global $inbound_settings, $wpdb;
 
-        $variations = Inbound_Mailer_Variations::get_variations($email_id);
+        /* Set target mysql table name */
+        $table_name = $wpdb->prefix . "inbound_email_queue";
 
-        foreach ($variations as $vid => $variation) {
-
-        }
-
+        $query = "DELETE FROM {$table_name} WHERE `email_id` = '{$email_id}' ";
+        $wpdb->query($query);
     }
 
 }
