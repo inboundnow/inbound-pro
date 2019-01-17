@@ -369,43 +369,6 @@ class Inbound_SparkPost_Stats {
 
 
     /**
-     *	build variation totals
-     */
-    public static function process_variation_totals() {
-        $batch_key_parts = explode('T' , self::$stats['date_to'] );
-        $batch_key = $batch_key_parts[0];
-
-        /* skip processing if no data */
-        if (!isset(self::$results['results'])) {
-            self::$stats['sparkpost'][$batch_key][ 'variations' ] = array();
-            return;
-        }
-
-        /* loop through sparkpost object & compile hour totals to build variation totals */
-        foreach ( self::$results['results'] as $i => $totals ) {
-            $campaign_parts = explode('_' , $totals['campaign_id'] );
-            $vid = $campaign_parts[1];
-
-            self::$stats['sparkpost'][$batch_key][ 'variations' ][ $vid ] = array(
-                'sent' => $totals['count_sent'],
-                'opens' => $totals['count_rendered'],
-                'clicks' => $totals['count_unique_clicked'],
-                'bounces' => $totals['count_bounce'],
-                'hard_bounces' => $totals['count_hard_bounce'],
-                'soft_bounces' => $totals['count_soft_bounce'],
-                'rejects' => $totals['count_rejected'],
-                'complaints' => $totals['count_spam_complaint'],
-                'unique_opens' => $totals['count_unique_rendered'],
-                'unique_clicks' => $totals['count_unique_clicked'],
-                'unopened' => $totals['count_sent']
-            );
-
-        }
-
-
-    }
-
-    /**
      *	Prepares dates to process
      */
     public static function prepare_date_range() {
