@@ -131,6 +131,9 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 case 'sparkpost-eu' :
                     self::$statistics = Inbound_SparkPost_Stats::get_sparkpost_webhook_stats();
                     break;
+                case 'wp_mail' :
+                    self::$statistics = Inbound_WPMail_Stats::get_wpmail_stats();
+                    break;
             }
 
             self::$campaign_stats = self::$statistics['totals'];
@@ -762,10 +765,10 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
          *    Loads numeric statistics
          */
         public static function add_numbers_totals() {
-            global $post;
+            global $post, $inbound_settings;
 
             $job_id = (self::$job_id === 'last_send') ? Inbound_Mailer_Post_Type::get_last_job_id($post->ID) : 0 ;
-
+            $event_names =  self::get_event_names();
             ?>
             <style>
                 .stat-number {
@@ -775,7 +778,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             <div class='big-number-stats'>
                 <div class="statistic-container">
                     <div class="stat-number-container">
-                        <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range='.self::$range.'&email_id=' . $post->ID . '&job_id=' . $job_id . '&event_name=sparkpost_delivery&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox" style="text-decoration: none;">
+                        <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range='.self::$range.'&email_id=' . $post->ID . '&job_id=' . $job_id . '&event_name='.$event_names['delivery'].'&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox" style="text-decoration: none;">
                             <label class="stat-label sent-label"><?php _e('Sent', 'inbound-pro'); ?></label>
 
                             <div class="stat-number sent-number">0</div>
@@ -785,7 +788,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 </div>
                 <div class="statistic-container">
                     <div class="stat-number-container">
-                        <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range='.self::$range.'&email_id=' . $post->ID . '&job_id=' . $job_id . '&event_name=sparkpost_open&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox" style="text-decoration: none;">
+                        <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range='.self::$range.'&email_id=' . $post->ID . '&job_id=' . $job_id . '&event_name='.$event_names['open'].'&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox" style="text-decoration: none;">
                             <label class="stat-label opens-label"><?php _e('Opens', 'inbound-pro'); ?></label>
 
                             <div class="stat-number opens-number">0</div>
@@ -795,7 +798,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 </div>
                 <div class="statistic-container">
                     <div class="stat-number-container">
-                        <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range='.self::$range.'&email_id=' . $post->ID . '&job_id=' . $job_id .'&event_name=sparkpost_click&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox" style="text-decoration: none;">
+                        <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range='.self::$range.'&email_id=' . $post->ID . '&job_id=' . $job_id .'&event_name='.$event_names['click'].'&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox" style="text-decoration: none;">
                             <label class="stat-label clicks-label"><?php _e('Clicks', 'inbound-pro'); ?></label>
 
                             <div class="stat-number clicks-number">0</div>
@@ -805,7 +808,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 </div>
                 <div class="statistic-container">
                     <div class="stat-number-container">
-                        <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range='.self::$range.'&email_id=' . $post->ID . '&job_id=' . $job_id .'&event_name=unopened&event_name_2=sparkpost_open&event_action=remove_opens&standing_total_graph=true&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox" style="text-decoration: none;">
+                        <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range='.self::$range.'&email_id=' . $post->ID . '&job_id=' . $job_id .'&event_name=unopened&open_event_name='.$event_names['open'].'&delivery_event_name='.$event_names['delivery'].'&event_action=remove_opens&standing_total_graph=true&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox" style="text-decoration: none;">
                             <label class="stat-label unopened-label"><?php _e('Unopened', 'inbound-pro'); ?></label>
 
                             <div class="stat-number unopened-number">0</div>
@@ -813,6 +816,9 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                         </a>
                     </div>
                 </div>
+                <?php
+                if ( $inbound_settings['mailer']['mail-service'] != 'wp_mail') {
+                ?>
                 <div class="statistic-container">
                     <div class="stat-number-container">
                         <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range='.self::$range.'&email_id=' . $post->ID . '&job_id=' . $job_id .'&event_name=sparkpost_bounce&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox" style="text-decoration: none;">
@@ -833,6 +839,9 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                         </a>
                     </div>
                 </div>
+                <?php
+                }
+                ?>
                 <div class="statistic-container">
                     <div class="stat-number-container">
                         <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range='.self::$range.'&email_id=' . $post->ID . '&job_id=' . $job_id .'&event_name=inbound_unsubscribe&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox" style="text-decoration: none;">
@@ -1228,6 +1237,37 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             <?php
         }
 
+        /**
+         * get the correct event names depending on which email service is selected.
+         * @return array
+         */
+        public static function get_event_names() {
+            global $inbound_settings;
+
+            switch ($inbound_settings['mailer']['mail-service']) {
+                case "sparkpost":
+                    return array(
+                        'delivery' => 'sparkpost_delivery',
+                        'open' => 'sparkpost_open',
+                        'click' => 'sparkpost_click'
+                    );
+                    break;
+                case "sparkpost-eu":
+                    return array(
+                        'delivery' => 'sparkpost_delivery',
+                        'open' => 'sparkpost_open',
+                        'click' => 'sparkpost_click'
+                    );
+                    break;
+                case "wp_mail":
+                    return array(
+                        'delivery' => 'wpmail_delivery',
+                        'open' => 'wpmail_open',
+                        'click' => 'wpmail_click'
+                    );
+                    break;
+            }
+        }
 
         /**
          * Discovers the email type by checking the inbound_email_type taxonomy
@@ -1573,7 +1613,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             $corrected['meta'] = $datetime;
             $corrected['object'] = $schedule_date;
 
-            /**
+            /**/
             error_log($wordpress_date_time_format);
             error_log($datetime);
             error_log(print_r(DateTime::getLastErrors() , true));
@@ -1583,7 +1623,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 /* reformat Datetime Pattern if leading with F */
                 if ($wordpress_date_time_format[0]  == "F") {
 
-                    $new = new DateTime($schedule_date->format( "m/d G:i"));
+                    $new = new DateTime($schedule_date->format( "m/d/Y G:i"));
                     $corrected['meta'] = $schedule_date->format( "m/d/Y G:i");
                     $corrected['object'] = $new;
                     return $corrected;
@@ -1591,7 +1631,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
                 /* reformat Datetime Pattern if leading with j */
                 if ($wordpress_date_time_format[0]  == "j") {
-                    $new = new DateTime($schedule_date->format( "m/d/Y G:i"));
+                    $new = new DateTime($schedule_date->format( "d/m/Y G:i"));
                     $corrected['meta'] = $schedule_date->format( "d/m/Y G:i");
                     $corrected['object'] = $new;
                     return $corrected;
@@ -1607,7 +1647,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             if ($wordpress_date_time_format[0]  == "F") {
                 $wordpress_date_time_format = "m/d/Y G:i";
                 $schedule_date = DateTime::createFromFormat(trim($wordpress_date_time_format) , trim($datetime));
-                $corrected['meta'] = $schedule_date->format( "d/m/Y G:i");
+                $corrected['meta'] = $schedule_date->format( "m/d/Y G:i");
                 $corrected['object'] = $schedule_date;
             }
 
@@ -1846,12 +1886,9 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                         init: function () {
 
                             /* Move publsihing actions	*/
-                            //var clone = jQuery('.major-publishing-actions');
-                            //clone.appendTo('#email-send-actions');
+
                             jQuery('#submitdiv').hide();
 
-                            /* Hide screen options */
-                            //jQuery('#show-settings-link').hide();
 
                             /* Removes wp_content wysiwyg */
                             jQuery('#postdivrich').hide();

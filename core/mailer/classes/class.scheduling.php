@@ -50,7 +50,7 @@ class Inbound_Mailer_Scheduling {
         $chunk_size = round(count($leads) / $variation_count);
 
         /* sometimes we may have less leads than variations */
-        if ($chunk_size>1) {
+        if ($chunk_size>0) {
             $batches = array_chunk($leads, $chunk_size);
 
             /* if the batch variation id is not already correct then change keys */
@@ -78,7 +78,7 @@ class Inbound_Mailer_Scheduling {
      * @return int
      */
     public static function schedule_email($email_id , $tokens = array() , $action = array() , $recipients = null ) {
-        global $wpdb;
+        global $wpdb, $inbound_settings;
 
         /* set recipeints */
         Inbound_Mailer_Scheduling::$recipients = ($recipients ) ?  $recipients : Inbound_Mailer_Scheduling::$recipients;
@@ -129,6 +129,20 @@ class Inbound_Mailer_Scheduling {
 
         }
 
+        $email_service = (isset($inbound_settings['mailer']['mail-service'])) ? $inbound_settings['mailer']['mail-service'] : 'wp_mail' ;
+
+        /* if mail service is wp_mail and send date is in the future then mark email post_status as scheduled */
+        if  ($email_service == "wp_mail" ) {
+            $current_date_obj = new DateTime(date_i18n('Y-m-d G:i:s'));
+            $scheduled_date_obj = new DateTime($timestamp);
+            if ($scheduled_date_obj > $current_date_obj) {
+                wp_update_post(array(
+                    'ID' => $email_id,
+                    'post_status' => 'scheduled'
+                ));
+            }
+        }
+
         return $send_count;
     }
 
@@ -150,7 +164,7 @@ class Inbound_Mailer_Scheduling {
         global $inbound_settings;
 
         /* Set email service */
-        $email_service = (isset($inbound_settings['mailer']['mail-service'])) ? $inbound_settings['mailer']['mail-service'] : 'sparkpost' ;
+        $email_service = (isset($inbound_settings['mailer']['mail-service'])) ? $inbound_settings['mailer']['mail-service'] : 'wp_mail' ;
 
         $settings = Inbound_Mailer_Scheduling::$settings;
 
@@ -222,7 +236,7 @@ class Inbound_Mailer_Scheduling {
             /* reformat Datetime Pattern if leading with F */
             if ($wordpress_date_time_format[0]  == "F") {
 
-                $new = new DateTime($schedule_date->format( "m/d G:i"));
+                $new = new DateTime($schedule_date->format( "m/d/Y G:i"));
                 $corrected['meta'] = $schedule_date->format( "m/d/Y G:i");
                 $corrected['object'] = $new;
                 return $corrected;
@@ -230,7 +244,7 @@ class Inbound_Mailer_Scheduling {
 
             /* reformat Datetime Pattern if leading with j */
             if ($wordpress_date_time_format[0]  == "j") {
-                $new = new DateTime($schedule_date->format( "m/d/Y G:i"));
+                $new = new DateTime($schedule_date->format( "d/m/Y G:i"));
                 $corrected['meta'] = $schedule_date->format( "d/m/Y G:i");
                 $corrected['object'] = $new;
                 return $corrected;
@@ -246,7 +260,7 @@ class Inbound_Mailer_Scheduling {
         if ($wordpress_date_time_format[0]  == "F") {
             $wordpress_date_time_format = "m/d/Y G:i";
             $schedule_date = DateTime::createFromFormat(trim($wordpress_date_time_format) , trim($datetime));
-            $corrected['meta'] = $schedule_date->format( "d/m/Y G:i");
+            $corrected['meta'] = $schedule_date->format( "m/d/Y G:i");
             $corrected['object'] = $schedule_date;
         }
 
