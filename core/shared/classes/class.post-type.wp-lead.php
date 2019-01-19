@@ -487,7 +487,7 @@ class Inbound_Leads {
 
 
 	/**
-	*  Get lead list infomration
+	*  Get lead list information
 	*
 	*  @param STRING $search accepts 'id', 'slug', 'name' or 'term_taxonomy_id'
 	*  @param INT $list_id

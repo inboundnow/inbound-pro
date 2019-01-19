@@ -70,10 +70,10 @@ class Inbound_Mailer_Unsubscribe {
 		$params = Inbound_API::get_args_from_token( $token );
 
 		/* legacy token backup */
-		if (!$params) {
+		if (!$params && $token) {
 			$params = self::legacy_decode_unsubscribe_token($token);
 		}
-		//print_r($params);
+
 
 		/* if token has failed or isn't present check for logged in user */
 		if (!$params) {
@@ -97,7 +97,6 @@ class Inbound_Mailer_Unsubscribe {
 		if ( !isset( $params['lead_id'] ) || !$params['lead_id'] ) {
 			return __( 'Oops. Something is wrong with the unsubscribe token. Please log in and reload this page.' , 'inbound-pro' );
 		}
-
 
 		/* check email was sent directly to lead via automation series and cancel event if so */
 
@@ -234,6 +233,10 @@ class Inbound_Mailer_Unsubscribe {
 	 */
 	public static function legacy_decode_unsubscribe_token( $token ) {
 
+		if(!function_exists('mcrypt_encrypt')) {
+			return array();
+		}
+
 		$token = str_replace( array('-', '_', '^'), array('+', '/', '=') , $token);
 
 		$iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB);
@@ -348,8 +351,8 @@ class Inbound_Mailer_Unsubscribe {
 			return;
 		}
 
-		/* get all lead lists */
-		$lead_lists = Inbound_Leads::get_lead_lists_as_array();
+		/* get all lead lists that lead is subscribed to */
+		$lead_lists = Inbound_Leads::get_lead_lists_by_lead_id($params['lead_id']);
 
 		foreach ( $lead_lists as $list_id => $label ) {
 			Inbound_Leads::remove_lead_from_list( $params['lead_id'] , $list_id );

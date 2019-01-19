@@ -248,7 +248,6 @@ tr.description th.description-label {
 	padding: 20px;
 	margin: 20px 0;
 	border: 1px solid #eee;
-	border-left-width: 5px;
 	border-radius: 3px;
 }
 
@@ -527,4 +526,8 @@ ul#template-filter a.current{
 
 .select2-search input {
 	width:100%!important;
+}
+
+#postbox-container-2 {
+	margin-top:40px;
 }
