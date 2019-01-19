@@ -48,6 +48,7 @@ class Inbound_Pro_Settings {
 
 		/* listen for fast ajax installation */
 		add_action( 'inbound-settings/after-field-value-update' , array( __CLASS__ , 'ajax_toggle_fast_ajax' ) , 10 , 1 );
+
 	}
 
 	/**
@@ -491,7 +492,6 @@ class Inbound_Pro_Settings {
 		?>
 
 		<div class="ink-grid">
-
 
 			<?php
 			self::display_nav_menu();

@@ -238,6 +238,9 @@ class Inbound_Mailer_Post_Type {
 				if ($post->post_status == 'automated' && self::$automated_report == 'last_send') {
 					$job_id = self::get_last_job_id($post->ID);
 				}
+
+				$event_names =  self::get_event_names();
+
 				?>
 				<div class="email-stats-container" style="background-color:#ffffff;">
 					<table class="email-stats-table">
@@ -245,7 +248,7 @@ class Inbound_Mailer_Post_Type {
 							<td>
 								<div class="td-col-sends" data-email-id="<?php echo $post->ID; ?>" data-email-status="<?php echo $post->post_status; ?>">
 									<img src="<?php echo INBOUND_EMAIL_URLPATH; ?>assets/images/ajax_progress.gif" class="col-ajax-spinner" style="margin-top:3px;">
-									<a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range='.self::$range.'&email_id=' . $post->ID . '&job_id=' . $job_id . '&event_name=sparkpost_delivery&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox email-report-link" style=""></a>
+									<a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range='.self::$range.'&email_id=' . $post->ID . '&job_id=' . $job_id . '&event_name='.$event_names['delivery'].'&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox email-report-link" style=""></a>
 								</div>
 							</td>
 							<td>
@@ -259,7 +262,7 @@ class Inbound_Mailer_Post_Type {
 							<td>
 								<div class="td-col-opens" data-email-id="<?php echo $post->ID; ?>" data-email-status="<?php echo $post->post_status; ?>">
 									<img src="<?php echo INBOUND_EMAIL_URLPATH; ?>assets/images/ajax_progress.gif" class="col-ajax-spinner" style="margin-top:3px;">
-									<a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range='.self::$range.'&email_id=' . $post->ID . '&job_id=' . $job_id . '&event_name=sparkpost_open&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox email-report-link" style=""></a>
+									<a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range='.self::$range.'&email_id=' . $post->ID . '&job_id=' . $job_id . '&event_name='.$event_names['open'].'&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox email-report-link" style=""></a>
 								</div>
 							</td>
 							<td>
@@ -273,7 +276,7 @@ class Inbound_Mailer_Post_Type {
 							<td>
 								<div class="td-col-clicks" data-email-id="<?php echo $post->ID; ?>" data-email-status="<?php echo $post->post_status; ?>">
 									<img src="<?php echo INBOUND_EMAIL_URLPATH; ?>assets/images/ajax_progress.gif" class="col-ajax-spinner" style="margin-top:3px;">
-									<a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range='.self::$range.'&email_id=' . $post->ID . '&job_id=' . $job_id . '&event_name=sparkpost_click&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox email-report-link" style=""></a>
+									<a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range='.self::$range.'&email_id=' . $post->ID . '&job_id=' . $job_id . '&event_name='.$event_names['click'].'&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox email-report-link" style=""></a>
 								</div>
 							</td>
 							<td>
@@ -751,6 +754,9 @@ class Inbound_Mailer_Post_Type {
 		if (isset($links['scheduled'])) {
 			$new_links['scheduled'] =  $links['scheduled'];
 		}
+		if (isset($links['cancelled'])) {
+			$new_links['cancelled'] =  $links['cancelled'];
+		}
 		if (isset($links['direct_email'])) {
 			$new_links['direct_email'] =  $links['direct_email'];
 		}
@@ -838,6 +844,38 @@ class Inbound_Mailer_Post_Type {
 		$job_ids = $wpdb->get_results( $query , ARRAY_A );
 
 		return (isset($job_ids[0])) ? $job_ids[0]['job_id'] : 0;
+	}
+
+	/**
+	 * get the correct event names depending on which email service is selected.
+	 * @return array
+	 */
+	public static function get_event_names() {
+		global $inbound_settings;
+
+		switch ($inbound_settings['mailer']['mail-service']) {
+			case "sparkpost":
+				return array(
+					'delivery' => 'sparkpost_delivery',
+					'open' => 'sparkpost_open',
+					'click' => 'sparkpost_click'
+				);
+				break;
+			case "sparkpost-eu":
+				return array(
+					'delivery' => 'sparkpost_delivery',
+					'open' => 'sparkpost_open',
+					'click' => 'sparkpost_click'
+				);
+				break;
+			case "wp_mail":
+				return array(
+					'delivery' => 'wpmail_delivery',
+					'open' => 'wpmail_open',
+					'click' => 'wpmail_click'
+				);
+				break;
+		}
 	}
 
 

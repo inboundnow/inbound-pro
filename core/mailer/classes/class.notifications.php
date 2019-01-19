@@ -91,6 +91,10 @@ class Inbound_Mailer_Notifications {
 				</div>
 				<?php
 				break;
+			case 'wp_mail':
+
+				return;
+				break;
 			default:
 				?>
 				<div class="updated">

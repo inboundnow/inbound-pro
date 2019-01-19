@@ -4,7 +4,7 @@ Plugin Name: Inbound Now PRO
 Plugin URI: http://www.inboundnow.com/
 Description: Professional Inbound Marketing Suite for WordPress
 Author: InboundWP LLC
-Version: 1.9.5.11
+Version: 1.9.9.1
 Author URI: http://www.inboundnow.com/
 Text Domain: inbound-pro
 */
@@ -79,8 +79,8 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 		}
 
 		/**
-		* Main Inbound_Pro_Plugin Instance
-		*/
+		 * Main Inbound_Pro_Plugin Instance
+		 */
 		public function __construct() {
 			self::define_constants();
 			self::load_pro_classes();
@@ -95,8 +95,8 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 		*/
 		private static function define_constants() {
 
-			define('INBOUND_PRO_CURRENT_VERSION', '1.9.5.11' );
-			define('INBOUND_PRO_STABLE_VERSION', '1.9.5.6' );
+			define('INBOUND_PRO_CURRENT_VERSION', '1.9.9.1' );
+			define('INBOUND_PRO_STABLE_VERSION', '1.9.5.11' );
 			define('INBOUND_PRO_TRANSLATIONS_VERSION', '1.30.22' );
 			define('INBOUND_PRO_URLPATH', plugin_dir_url( __FILE__ ));
 			define('INBOUND_PRO_PATH', plugin_dir_path( __FILE__ ) );
@@ -156,7 +156,7 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 				include_once( INBOUND_PRO_PATH . 'classes/class.cron.php');
 			}
 
-				/* load subscriber only assets/features */
+			/* load subscriber only assets/features */
 			if ( INBOUND_ACCESS_LEVEL> 0 && !isset($_GET['acf_off']) && INBOUND_ACCESS_LEVEL != 9 ) {
 
 				/* if lite mode enabled then set the constant */
@@ -207,8 +207,8 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 		}
 
 		/**
-		*  Load shared components
-		*/
+		 *  Load shared components
+		 */
 		private static function load_shared_components() {
 
 			include_once( INBOUND_PRO_PATH . 'core/shared/classes/class.load-shared.php' );
@@ -251,24 +251,24 @@ if ( !class_exists('Inbound_Pro_Plugin')	) {
 
 		}
 
-        /**
-         * Get customer status
-         */
-        public static function get_customer_status() {
+		/**
+		 * Get customer status
+		 */
+		public static function get_customer_status() {
 			if (defined('INBOUND_ACCESS_LEVEL')) {
 				return INBOUND_ACCESS_LEVEL;
 			}
 
-            $customer = Inbound_Options_API::get_option( 'inbound-pro' , 'customer' , array() );
-            $status = ( isset($customer['is_pro']) ) ? $customer['is_pro'] : 0;
+			$customer = Inbound_Options_API::get_option( 'inbound-pro' , 'customer' , array() );
+			$status = ( isset($customer['is_pro']) ) ? $customer['is_pro'] : 0;
 			define('INBOUND_ACCESS_LEVEL' , $status);
-            return $status;
-        }
+			return $status;
+		}
 
 		/**
-		*	Loads the correct .mo file for this plugin
-		*
-		*/
+		 *	Loads the correct .mo file for this plugin
+		 *
+		 */
 		private static function load_text_domain_init() {
 			$local = get_locale();
 			global $inbound_settings;
