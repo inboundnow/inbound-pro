@@ -174,6 +174,9 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                     var App = {
                         init: function (json) {
                             this.stats = JSON.parse(json);
+                            if (!this.stats.totals) {
+                                return;
+                            }
 
                             console.log(this.stats);
                             console.log(this.stats.totals.variations);
@@ -185,6 +188,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
                         },
                         load_bar_graph: function () {
+
                             var chart = [
                                 {
                                     "key": "Opened",
@@ -2114,7 +2118,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                             Settings.interval_id = setInterval(function () {
 
                                 // find the amount of "seconds" between now and target
-                                var current_date = new Date(jQuery('#inbound_current_datetime_formatted').val());
+                                var current_date = new Date();
                                 var seconds_left = (target_date - current_date) / 1000;
 
                                 /* refresh page if time is past */
