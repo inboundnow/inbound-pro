@@ -148,6 +148,10 @@ if (!class_exists('Inbound_Mailer_Stats_Report')) {
 
             /* if there are no stored actions for this variation, output a message and exit */
             if(empty(self::$top_variations)){
+
+                if ($_REQUEST['event_name'] == 'unopened') {
+                    return;
+                }
                 ?>
                 <div class="flexbox-container email-variation-stats-container">
                     <div>
@@ -243,7 +247,7 @@ if (!class_exists('Inbound_Mailer_Stats_Report')) {
                                     <?php _e('Lead Name', 'inbound-pro'); ?>
                                 </th>
                                 <?php
-                                 if ( $_REQUEST['event_name'] == 'sparkpost_click' ) {
+                                 if ( $_REQUEST['event_name'] == 'sparkpost_click' || $_REQUEST['event_name'] == 'wpmail_click' ) {
                                  ?>
                                      <th class="sort-lead-report-by" sort-by="report-email-variation-header">
                                          <?php _e('URL', 'inbound-pro'); ?>
@@ -280,15 +284,13 @@ if (!class_exists('Inbound_Mailer_Stats_Report')) {
                         </thead>
                         <tbody id="the-list">
                             <?php
-                            $logged_event = array();
+
                             $action_number = 0;
                             foreach(self::$events as $index => $event){
 
-                                /*if a lead has been sent the same email variation more than once, skip*/
-                                if(isset($logged_event[$event['variation_id']][$event['lead_id']])){
+                                if (isset($event['item_to_remove'])) {
                                     continue;
                                 }
-                                $logged_event[$event['variation_id']][$event['lead_id']] = 1;
 
                                 $lead = get_post($event['lead_id']);
 
@@ -314,21 +316,17 @@ if (!class_exists('Inbound_Mailer_Stats_Report')) {
                                     <a href="<?php echo admin_url('post.php?post=' . $event['lead_id'] . '&action=edit&small_lead_preview=true&tb_hide_nav=true'); ?>"><?php echo $lead_name; ?></a>
                                 </td>
                                 <?php
-                                if ( $_REQUEST['event_name'] == 'sparkpost_click' ) {
+                                if ( $_REQUEST['event_name'] == 'sparkpost_click' || $_REQUEST['event_name'] == 'wpmail_click' ) {
                                     $event_details = json_decode($event['event_details'] , true);
 
-                                    $tracking_endpoint = apply_filters( 'inbound_event_endpoint', 'inbound' );
-
+                                    /* ignore sparkpost unsubscribe */
                                     if (strstr($event_details['target_link_url'] , '?token')) {
                                         $args['url'] = $event_details['target_link_url'];
                                         $args['label'] =__('Unsubscribe' , 'inbound-pro');
-
-                                    } else if (strstr($event_details['target_link_url'], $tracking_endpoint)) {
-                                        $token = end(explode('/', $event_details['target_link_url']));
-                                        $args = Inbound_API::get_args_from_token($token);
-                                        $args['url'] = ($args['url']) ? $args['url'] : '#'.$token;
-                                        $args['label'] = ($args['url']) ? $args['url'] : sprintf(__('No URL for token %s' , 'inbound-pro') , $token);
-                                    } else {
+                                    }  else if ($_REQUEST['event_name'] == 'wpmail_click') {
+                                        $args['url'] = $event_details['url'];
+                                        $args['label'] = $event_details['url'];
+                                    } else if ($_REQUEST['event_name'] == 'sparkpost_click') {
                                         $args['url'] = $event_details['target_link_url'];
                                         $args['label'] = $event_details['target_link_url'];
                                     }
@@ -385,7 +383,7 @@ if (!class_exists('Inbound_Mailer_Stats_Report')) {
                                     <?php _e('Lead Name', 'inbound-pro'); ?>
                                 </th>
                                 <?php
-                                 if ( $_REQUEST['event_name'] == 'sparkpost_click' ) {
+                                 if ( $_REQUEST['event_name'] == 'sparkpost_click'  || $_REQUEST['event_name'] == 'wpmail_click' ) {
                                  ?>
                                      <th class="sort-lead-report-by" sort-by="report-email-variation-header">
                                          <?php _e('URL', 'inbound-pro'); ?>
@@ -860,6 +858,7 @@ if (!class_exists('Inbound_Mailer_Stats_Report')) {
             self::$events = self::get_email_event_stats($params);
 
 
+
             /* get "current" email stats for the selected action */
             $params = array(
                 'email_id' => intval($_REQUEST['email_id']),
@@ -879,9 +878,9 @@ if (!class_exists('Inbound_Mailer_Stats_Report')) {
                 'email_id' => intval($_REQUEST['email_id']),
                 'job_id' => self::$job_id,
                 'event_name' => sanitize_text_field($_REQUEST['event_name']),
+                'event_name_2' => sanitize_text_field($_REQUEST['event_name_2'])
             );
             self::$top_variations = self::get_top_email_variants($params);
-
 
             /* calculate total pages */
             self::$total_pages = self::$total_events / self::$limit;
@@ -890,6 +889,9 @@ if (!class_exists('Inbound_Mailer_Stats_Report')) {
 
             /* make labels for the possible events to query data for - for UI purposes */
             $params = array(
+                'wpmail_delivery' => __('Opens', 'inbound-pro'),
+                'wpmail_open' => __('Opens', 'inbound-pro'),
+                'wpmail_click' => __('Opens', 'inbound-pro'),
                 'sparkpost_delivery' => __('Sends', 'inbound-pro'),
                 'sparkpost_open' => __('Opens', 'inbound-pro'),
                 'unopened' => __('Unopened Emails', 'inbound-pro'),
@@ -899,6 +901,9 @@ if (!class_exists('Inbound_Mailer_Stats_Report')) {
                 'inbound_unsubscribe' => __('Unsubscribes', 'inbound-pro'),
                 'inbound_mute' => __('Mutes', 'inbound-pro'),
                 'singular_form' => array(
+                    'wpmail_delivery' => __('Sent', 'inbound-pro'),
+                    'wpmail_open' => __('Open', 'inbound-pro'),
+                    'wpmail_click' => __('Clicked', 'inbound-pro'),
                     'sparkpost_delivery' => __('Sent', 'inbound-pro'),
                     'sparkpost_open' => __('Opened', 'inbound-pro'),
                     'unopened' => __('Unopened', 'inbound-pro'),
@@ -909,6 +914,9 @@ if (!class_exists('Inbound_Mailer_Stats_Report')) {
                     'inbound_mute' => __('Muted', 'inbound-pro'),
                 ),
                 'lead_table' => array(
+                    'wpmail_delivery' => __('been sent an', 'inbound-pro'),
+                    'wpmail_open' => __('opened an', 'inbound-pro'),
+                    'wpmail_clicked' => __('clicked an', 'inbound-pro'),
                     'sparkpost_delivery' => __('been sent an', 'inbound-pro'),
                     'sparkpost_open' => __('opened an', 'inbound-pro'),
                     'unopened' => __('not opened an', 'inbound-pro'),
@@ -937,17 +945,13 @@ if (!class_exists('Inbound_Mailer_Stats_Report')) {
                 $temp_2 = array();
                 $logged_ids = array();
                 foreach (self::$graph_data[$period] as $key => $data) {
-                    /*if the present data item should be removed from the running total*/
+                    /*if the preasent data item should be removed from the running total*/
                     if(isset($data['item_to_remove'])){
-                        if(!isset($logged_ids[$data['variation_id']]['removals'][$data['lead_id']])){
-                            $logged_ids[$data['variation_id']]['removals'][$data['lead_id']] = 1;
-                            $temp_2[substr($data['datetime'], 0, 10)][] = $data['id'];
-                        }
+                        $logged_ids[$data['variation_id']]['removals'][] = 1;
+                        $temp_2[substr($data['datetime'], 0, 10)][] = $data['id'];
                     }else{
-                        if(!isset($logged_ids[$data['variation_id']]['additions'][$data['lead_id']])){
-                            $logged_ids[$data['variation_id']]['additions'][$data['lead_id']] = 1;
-                            $temp[substr($data['datetime'], 0, 10)][] = $data['id'];
-                        }
+                        $logged_ids[$data['variation_id']]['additions'][] = 1;
+                        $temp[substr($data['datetime'], 0, 10)][] = $data['id'];
                     }
                 }
                 $past_count = 0;
@@ -982,10 +986,10 @@ if (!class_exists('Inbound_Mailer_Stats_Report')) {
                 $temp = array();
                 $logged_ids = array();
                 foreach (self::$graph_data[$period] as $key => $data) {
-                    if(!isset($logged_ids[$data['variation_id']][$data['lead_id']])){
-                        $logged_ids[$data['variation_id']][$data['lead_id']] = 1;
+                    //if(!isset($logged_ids[$data['variation_id']][$data['lead_id']])){
+                        $logged_ids[$data['variation_id']][] = 1;
                         $temp[substr($data['datetime'], 0, 10)][] = $data['lead_id'];
-                    }
+                    //}
                 }
 
                 $actions_array = array();
@@ -1023,7 +1027,7 @@ if (!class_exists('Inbound_Mailer_Stats_Report')) {
                 $results = $wpdb->get_results(
                     $wpdb->prepare(
                         "SELECT `variation_id`, `lead_id` AS `lead_id` from {$table_name} " .
-                        "WHERE `event_name` = 'sparkpost_open' " .
+                        "WHERE `event_name` = '{$args['event_name_2']}' " .
                         "AND `email_id` = '%d'".
                         "AND `job_id` LIKE '%s'"
                         , $args['email_id'] , $args['job_id']
@@ -1032,11 +1036,15 @@ if (!class_exists('Inbound_Mailer_Stats_Report')) {
 
                 /* make a list of all the variations a lead has opened */
                 foreach($results as $key => $value){
-                    $events[$value['lead_id']][$value['variation_id']] = 1;
+                    if ($events[$value['lead_id']][$value['variation_id']]) {
+                        $events[$value['lead_id']][$value['variation_id']] = $events[$value['lead_id']][$value['variation_id']] +1;
+                    } else {
+                        $events[$value['lead_id']][$value['variation_id']] = 1;
+                    }
                 }
 
                 /* change the event_name to get the sent */
-                $args['event_name'] = 'sparkpost_delivery';
+                $args['event_name'] = ($args['event_name_2'] == 'sparkpost_open') ? 'sparkpost_delivery' : 'wpmail_delivery';
             }
 
             $results = $wpdb->get_results(
@@ -1052,20 +1060,10 @@ if (!class_exists('Inbound_Mailer_Stats_Report')) {
 
 
             $variant_count = array();
-            $logged_ids = array();
 
             /* count the number times a variation shows up in the results  */
             foreach($results as $key => $value){
-
-                /* only log the unique times an action occured to a lead.
-                 * If an email is sent to the same lead 3 times, still only 1 person is reached */
-                if(!isset($logged_ids[$value['variation_id']][$value['lead_id']])){
-                    $logged_ids[$value['variation_id']][$value['lead_id']] = 1;
-
-                    if(!isset($events[$value['lead_id']][$value['variation_id']])){
-                        @$variant_count[$value['variation_id']] += 1;
-                    }
-                }
+                 $variant_count[$value['variation_id']] += 1;
             }
 
             /*sort the variations by value, greatest to smallest*/
@@ -1084,7 +1082,7 @@ if (!class_exists('Inbound_Mailer_Stats_Report')) {
 
             /*change the event name to deliveries in order to get the unopened*/
             if($args['event_name'] == 'unopened'){
-                $args['event_name'] = 'sparkpost_delivery';
+                $args['event_name'] = $_GET['delivery_event_name'];
             }
 
             $table_name = $wpdb->prefix . 'inbound_events';
@@ -1116,20 +1114,6 @@ if (!class_exists('Inbound_Mailer_Stats_Report')) {
                 $query_pagination .= "  LIMIT ".self::$limit." OFFSET ".self::$offset."  ";
             }
 
-            /* *
-            error_log(sprintf(
-                $query.$query_pagination,
-                $args['email_id'], $args['event_name'], $args['job_id'], $args['start_date'], $args['end_date'], $args['end_date']
-            ));
-            /* */
-
-           /* *
-           echo sprintf(
-
-               $query.$query_pagination,
-               $args['email_id'], $args['event_name'], $args['job_id'], $args['start_date'], $args['end_date'], $args['end_date']
-           );
-           /**/
 
             $results = $wpdb->get_results(
                 $wpdb->prepare(
@@ -1138,12 +1122,18 @@ if (!class_exists('Inbound_Mailer_Stats_Report')) {
                 ), ARRAY_A
             );
 
-            //echo $query.$query_pagination;
-            //print_r($results);exit;
-
-
             /*if a second event is being queried for*/
-            if($args['event_name_2'] != false && !empty($args['event_name_2'])){
+            if(
+                ($args['event_name_2'] != false && !empty($args['event_name_2']) )
+                ||
+                 $_GET['event_name'] == 'unopened'
+              ){
+
+                /* alter event name to check for if unopened event is selected */
+                if ($_GET['event_name'] == 'unopened') {
+                   $args['event_name_2'] = $_GET['open_event_name'];
+                }
+
                 $two_events['event_one'] = $results;
 
                 $query = "SELECT * from {$table_name} " .
@@ -1179,10 +1169,19 @@ if (!class_exists('Inbound_Mailer_Stats_Report')) {
             }
 
             if($array_action === 'remove_opens'){
-                foreach($event_array['event_two'] as $key => $data){
-                    $event_array['event_two'][$key]['item_to_remove'] = 1;
+
+                /* rekey with lead id */
+                $merged = array();
+                foreach($event_array['event_one'] as $key => $data){
+                    $merged[$data['lead_id']] = $data;
                 }
-                return array_merge($event_array['event_one'], $event_array['event_two']);
+
+                /* remove opens from deliveries */
+                foreach($event_array['event_two'] as $key => $data){
+                    unset($merged[$data['lead_id']]);
+                }
+
+                return $merged;
             }
 
         }

@@ -41,7 +41,7 @@ class Inbound_Mailer_Tracking {
         $args['email_id'] = $args['email_id'];
         $args['lead_id'] = $args['lead_id'];
         $args['variation_id'] = (isset($args['vid'])) ? $args['vid'] : 0;
-        $args['event_details'] = json_encode($_GET);
+        $args['event_details'] = json_encode($args);
 
         do_action('inbound_email_click_event' , $args );
     }

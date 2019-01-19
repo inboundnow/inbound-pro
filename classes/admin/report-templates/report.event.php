@@ -253,18 +253,9 @@ if (!class_exists('Inbound_Event_Report')) {
                         <?php
                     }
                     ?>
-                    <?php
-                    if (self::$event_name != 'inbound_direct_message'){
-                        ?>
-                        <th scope="col" class="">
-                            <span><?php _e('Funnel Details' , 'inbound-pro'); ?></span>
 
-                        </th>
-                        <?php
-                    }
-                    ?>
                     <?php
-                    if (self::$event_name == 'sparkpost_click') {
+                    if (self::$event_name == 'sparkpost_click' || self::$event_name == 'wpmail_click') {
                         ?>
                         <th scope="col" class="">
                             <span><?php _e('Target' , 'inbound-pro'); ?></span>
@@ -273,7 +264,7 @@ if (!class_exists('Inbound_Event_Report')) {
                     }
                     ?>
                      <?php
-                    if (self::$event_name == 'sparkpost_open') {
+                    if (self::$event_name == 'sparkpost_open'  || self::$event_name == 'wpmail_open') {
                         ?>
                         <th scope="col" class="">
                             <span><?php _e('Email' , 'inbound-pro'); ?></span>
@@ -286,6 +277,16 @@ if (!class_exists('Inbound_Event_Report')) {
                         ?>
                         <th scope="col" class="">
                             <span><?php _e('Origin Post' , 'inbound-pro'); ?></span>
+                        </th>
+                        <?php
+                    }
+                    ?>
+                    <?php
+                    if (self::$event_name != 'inbound_direct_message'){
+                        ?>
+                        <th scope="col" class="">
+                            <span><?php _e('Funnel Details' , 'inbound-pro'); ?></span>
+
                         </th>
                         <?php
                     }
@@ -370,7 +371,7 @@ if (!class_exists('Inbound_Event_Report')) {
                     ?>
 
                     <?php
-                    if (self::$event_name == 'sparkpost_click') {
+                    if (self::$event_name == 'sparkpost_click' || self::$event_name == 'wpmail_click' ) {
 
                         $event_details = json_decode($event['event_details'] , true);
 
@@ -378,14 +379,12 @@ if (!class_exists('Inbound_Event_Report')) {
                             $args['url'] = $event_details['target_link_url'];
                             $args['label'] =__('Unsubscribe' , 'inbound-pro');
 
-                        } else if (strstr($event_details['target_link_url'], $tracking_endpoint)) {
-                            $token = end(explode('/', $event_details['target_link_url']));
-                            $args = Inbound_API::get_args_from_token($token);
-                            $args['url'] = ($args['url']) ? $args['url'] : '#'.$token;
-                            $args['label'] = ($args['url']) ? $args['url'] : sprintf(__('No URL for token %s' , 'inbound-pro') , $token);
-                        } else {
+                        } else if (self::$event_name == 'sparkpost_click') {
                             $args['url'] = $event_details['target_link_url'];
                             $args['label'] = $event_details['target_link_url'];
+                        } else {
+                            $args['url'] = ($event_details['url']) ? $event_details['url'] : '#'.$token;
+                            $args['label'] = ($event_details['url']) ? $event_details['url'] : sprintf(__('No URL for token %s' , 'inbound-pro') , $token);
                         }
                         ?>
                         <td class="clicked-url">
@@ -399,18 +398,6 @@ if (!class_exists('Inbound_Event_Report')) {
                         </td>
                         <?php
                     }
-
-
-
-
-
-
-
-
-
-
-
-
 
                     ?>
                     <?php
@@ -502,7 +489,7 @@ if (!class_exists('Inbound_Event_Report')) {
                     }
                     ?>
                     <?php
-                    if (self::$event_name == 'sparkpost_click') {
+                    if (self::$event_name == 'sparkpost_click'  || self::$event_name == 'wpmail_click') {
                         ?>
                         <th scope="col" class="">
                             <span><?php _e('Target' , 'inbound-pro'); ?></span>
@@ -511,7 +498,7 @@ if (!class_exists('Inbound_Event_Report')) {
                     }
                     ?>
                      <?php
-                    if (self::$event_name == 'sparkpost_open') {
+                    if (self::$event_name == 'sparkpost_open'  || self::$event_name == 'wpmail_open') {
                         ?>
                         <th scope="col" class="">
                             <span><?php _e('Email' , 'inbound-pro'); ?></span>
