@@ -1608,7 +1608,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
         /**
          * @param $schedule_date
          */
-        public static function  correct_datetime_errors( $schedule_date , $wordpress_date_time_format , $datetime ) {
+        public static function correct_datetime_errors( $schedule_date , $wordpress_date_time_format , $datetime ) {
 
             $errors = DateTime::getLastErrors();
 
@@ -1616,7 +1616,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             $corrected['meta'] = $datetime;
             $corrected['object'] = $schedule_date;
 
-            /**/
+            /**
             error_log($wordpress_date_time_format);
             error_log($datetime);
             error_log(print_r(DateTime::getLastErrors() , true));
