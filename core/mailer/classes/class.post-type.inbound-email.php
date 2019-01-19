@@ -754,6 +754,9 @@ class Inbound_Mailer_Post_Type {
 		if (isset($links['scheduled'])) {
 			$new_links['scheduled'] =  $links['scheduled'];
 		}
+		if (isset($links['cancelled'])) {
+			$new_links['cancelled'] =  $links['cancelled'];
+		}
 		if (isset($links['direct_email'])) {
 			$new_links['direct_email'] =  $links['direct_email'];
 		}

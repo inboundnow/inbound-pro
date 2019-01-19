@@ -641,7 +641,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
         public static function add_statistics() {
             global $post;
 
-            $pass = array('scheduled', 'sent', 'sending', 'automated');
+            $pass = array('scheduled', 'sent', 'sending', 'automated', 'direct_email');
 
             if (!in_array($post->post_status, $pass)) {
                 return;
@@ -1025,7 +1025,6 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 $permalink = $Inbound_Mailer_Variations->get_variation_permalink($post->ID, $vid);
                 $letter = $Inbound_Mailer_Variations->vid_to_letter($post->ID, $vid);
 
-                //alert (variation.new_variation);
                 if ($current_variation_id == $vid && !isset($_GET['new-variation']) || $current_variation_id == $vid && isset($_GET['clone'])) {
                     $cur_class = 'btn-primary selected-variation';
                 } else {
@@ -1057,7 +1056,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             global $post;
             $url = get_permalink($post->ID);
 
-            $pass = array('scheduled', 'sent', 'sending', 'automation');
+            $pass = array('scheduled', 'sent', 'sending', 'automation', 'direct_email');
 
             if (!in_array($post->post_status, $pass)) {
                 return;
@@ -1219,7 +1218,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             <div class='selected-template-metabox'>
                 <img src='<?php echo $thumbnail; ?>' title='<?php echo $template; ?>' id='selected-template-image'><br>
                 <?php
-                $ignore = array('scheduled', 'sent', 'sending', 'automated');
+                $ignore = array('scheduled', 'sent', 'sending', 'automated', 'direct_email');
                 if (!in_array($post->post_status, $ignore)) {
                     ?>
                     <a class="button-primary"
@@ -1910,9 +1909,20 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                          *    Changes UI based on current post status
                          */
                         toggle_post_status: function (post_status) {
-
                             switch (post_status) {
                                 case 'sent':
+                                    Settings.show_graphs();
+                                    Settings.show_clone_buttons();
+                                    Settings.show_save_button();
+                                    Settings.hide_preview();
+                                    Settings.hide_quick_lauch_container();
+                                    Settings.hide_header_settings();
+                                    Settings.hide_email_send_settings();
+                                    Settings.hide_send_buttons();
+                                    Settings.hide_send_test_email_button();
+                                    Settings.hide_email_send_type();
+                                    break;
+                                case 'direct_email':
                                     Settings.show_graphs();
                                     Settings.show_clone_buttons();
                                     Settings.show_save_button();
@@ -2133,7 +2143,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                                 minutes = parseInt(seconds_left / 60);
                                 seconds = parseInt(seconds_left % 60);
 
-                                message = "<span class='send-countdown-label'><?php _e('Time until send:' , 'inbound-pro'); ?></span>";
+                                message = "<span class='send-countdown-label'><?php _e('Time until send:' , 'inbound-pro'); ?> </span>";
                                 // format countdown string + set tag value
                                 jQuery('.scheduled-information-countdown').html(message + days + "d " + hours + "h " + minutes + "m " + seconds + "s ");
 
