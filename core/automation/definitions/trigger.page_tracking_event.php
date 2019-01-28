@@ -1,6 +1,6 @@
 <?php
 /**
- * Disabled for fear of resource usage: Lead Page View Event
+ * Lead Page View Event
  * @name: Lead Page View Event
  * @description: This trigger fires whenever a page_view is updated,
  * @author: Inbound Now
@@ -10,14 +10,14 @@
 */
 
 
-if ( !class_exists( 'Inbound_Automation_Trigger_Update_Lead' ) ) {
+if ( !class_exists( 'Inbound_Automation_Trigger_inbound_pro_event_page_view' ) ) {
 
-	class Inbound_Automation_Trigger_Update_Lead {
+	class Inbound_Automation_Trigger_inbound_pro_event_page_view {
 
         static $trigger;
 
 		function __construct() {
-            self::$trigger = 'wplead_page_view';
+            self::$trigger = 'inbound-pro/events/page_view';
 			add_filter( 'inbound_automation_triggers' , array( __CLASS__ , 'define_trigger' ) , 1 , 1);
             add_action( 'activate/automation' , array( __CLASS__ , 'create_dummy_event' ) );
 		}
@@ -26,15 +26,15 @@ if ( !class_exists( 'Inbound_Automation_Trigger_Update_Lead' ) ) {
 		public static function define_trigger( $triggers ) {
 
 			/* Set & Extend Trigger Argument Filters */
-			$arguments = apply_filters('inbound_automation_trigger_arguments-track-lead' , array(
-					'lead_data' => array(
-						'id' => 'lead_data',
-						'label' => 'Lead Data'
+			$arguments = apply_filters('trigger/'.self::$trigger.'/args' , array(
+					'event_data' => array(
+						'id' => 'event_data',
+						'label' => __('Event Object' , 'inbound-pro')
 					)
 			) );
 
 			/* Set & Extend Action DB Lookup Filters */
-			$db_lookup_filters = apply_filters( 'inbound_automation_db_lookup_filters-update-lead' , array (
+			$db_lookup_filters = apply_filters(  'trigger/'.self::$trigger.'/db_filters' , array (
 				array(
                     'id' => 'lead_data',
                     'label' => __( 'Validate Lead Data', 'inbound-pro' ),
@@ -43,13 +43,13 @@ if ( !class_exists( 'Inbound_Automation_Trigger_Update_Lead' ) ) {
 			));
 
 			/* Set & Extend Available Actions */
-			$actions = apply_filters('inbound_automation_trigger_actions-update-lead' , array(
+			$actions = apply_filters('trigger/'.self::$trigger.'/actions' , array(
 				'send_email' , 'wait' , 'relay_data' , 'add_remove_lead_list', 'add_remove_lead_tag'
 			) );
 
 			$triggers[ self::$trigger ] = array (
-				'label' => 'On Lead Tracking Event',
-				'description' => 'This trigger fires whenever a tracked lead visits a new page.',
+				'label' => __('Tracked page view event' , 'inbound-pro'),
+				'description' => __('This trigger fires whenever a tracked lead visits a new page. For high traffic sights turn defer processing to off' , ' inbound-pro' ),
 				'action_hook' => self::$trigger ,
 				'arguments' => $arguments,
 				'db_lookup_filters' => $db_lookup_filters,
@@ -65,24 +65,27 @@ if ( !class_exists( 'Inbound_Automation_Trigger_Update_Lead' ) ) {
         public static function create_dummy_event() {
 
 
-            $lead = array (
-                'lead_id' => 97351,
-                'nature' => 'non-conversion',
-                'json' => 0,
-                'wp_lead_uid' => 'mxb8EHq5H71LtVmOTyXINufHKwA3EaUxTpH',
-                'page_id' => 97188,
-                'current_url' => 'http://inboundsoon.dev/go/flat-ui/'
-            );
+			$defaults = array(
+				'page_id' => 123,
+				'variation_id' => 0,
+				'cta_id' => 0,
+				'lead_id' => 23,
+				'lead_uid' => 654321,
+				'session_id' => 9909921,
+				'datetime' => '2019/8/28',
+				'source' => 'direct traffic',
+				'ip' => '192.198.192.1'
+			);
 
             $inbound_arguments = Inbound_Options_API::get_option( 'inbound_automation' , 'arguments' );
             $inbound_arguments = ( $inbound_arguments  ) ?  $inbound_arguments : array();
-            $inbound_arguments[self::$trigger]['lead_data'] = $lead;
+            $inbound_arguments[self::$trigger]['event_data'] = $lead;
 
             Inbound_Options_API::update_option( 'inbound_automation' , 'arguments' ,  $inbound_arguments );
         }
 	}
 
 	/* Load Trigger */
-	new Inbound_Automation_Trigger_Update_Lead;
+	new Inbound_Automation_Trigger_inbound_pro_event_page_view;
 
 }

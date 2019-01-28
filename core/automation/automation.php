@@ -83,6 +83,7 @@ if (!class_exists('Inbound_Automation_Plugin') && class_exists('Inbound_Leads_Pl
 			include_once('definitions/trigger.user_register.php');
 			include_once('definitions/trigger.inbound_track_link.php');
 			include_once('definitions/trigger.inbound_trigger_email.php');
+			include_once('definitions/trigger.page_tracking_event.php');
 			include_once('definitions/action.wait.php');
 			include_once('definitions/action.create_user.php');
 			include_once('definitions/action.create_lead.php');

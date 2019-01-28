@@ -580,9 +580,10 @@ class Inbound_Pro_Settings {
 		<img class="aligncenter size-full wp-image-138164" src="http://www.inboundnow.com/wp-content/uploads/2012/05/extension-settings.gif" alt="extension settings"  />
 
 
-		<h2>SparkPost for Email</h2>
+		<h2>Subscribers Only: WP_MAIL() or SparkPost</h2>
 
-		<p>Inbound Pro's email component is currently provided by SparkPost. SparkPost provides it's users with 15,000 free sends a month and then an affordable rate their after. You can read more about SparkPost from their <a href="http://www.sparkpost.com" target="_blank">website</a>.</p>
+		<p>Inbound Now PRO's email component has two selectable email services: WordPress and SparkPost. The WordPress email service will use the wp_mail() PHP function to send all emails, so emails will be sent by either your hosting providers default email service or an alternate service as setup by a SMTP plugin.
+		 SparkPost is available as an alternative email service provider.</p>
 
 		<h2>Subscribers Only: One click extension/theme installations</h2>
 
