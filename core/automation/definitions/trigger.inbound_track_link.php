@@ -58,7 +58,7 @@ class Inbound_Automation_Trigger_inbound_track_link {
         ) );
 
         $triggers[self::$trigger] = array (
-            'label' => __( 'On tracked link click' , 'inbound-pro' ),
+            'label' => __( 'On Tracked Link Click' , 'inbound-pro' ),
             'description' => __( 'This trigger fires whenever a link tracked by Inbound Pro is clicked.' , 'inbound-pro' ),
             'action_hook' => self::$trigger,
             'arguments' => $arguments,

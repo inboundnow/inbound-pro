@@ -434,6 +434,9 @@ class Inbound_Events {
             $args
         );
 
+        /* run action hook */
+        do_action('inbound-pro/events/page_view' , $args );
+
     }
 
     public static function delete_related_events( $post_id , $vid = 'all' ) {
