@@ -162,19 +162,23 @@ if ( !class_exists( 'Inbound_Automation_Action_Send_Email' ) ) {
 					if ($toggle) {
 						return;
 					}
-					/* send email */
-					$response = $Inbound_Mail_Daemon->send_solo_email( array(
-							'email_address' => $trigger_data['lead_data']['email'],
-							'lead_id' => $trigger_data['lead_data']['id'],
-							'email_id' => $action['email_id'],
-							'tags' => array( 'automated' ),
-							'vid' => $vid,
-							'lead_lists' => $lead_lists,
-						    'rule_id' => $action['rule_id'],
-						    'job_id' => $action['job_id'],
-					));
 
-					unset($response['body']);
+					$solo_send_params = array(
+						'email_address' => $trigger_data['lead_data']['email'],
+						'lead_id' => $trigger_data['lead_data']['id'],
+						'email_id' => $action['email_id'],
+						'tags' => array( 'automated' ),
+						'vid' => $vid,
+						'lead_lists' => $lead_lists,
+						'rule_id' => $action['rule_id'],
+						'job_id' => $action['job_id'],
+					);
+
+					/* send email */
+					$response = $Inbound_Mail_Daemon->send_solo_email( $solo_send_params );
+					$response['send_params'] = $solo_send_params;
+
+					unset($response['email']['body']);
 
 					BREAK;
 				case 'custom':
@@ -212,7 +216,7 @@ if ( !class_exists( 'Inbound_Automation_Action_Send_Email' ) ) {
 
 			inbound_record_log(
 				__( 'Send Email' , 'inbound-pro') ,
-				'<h2>'.__('Email Server Response', 'inbound-pro') .'</h2><pre>'.print_r($response,true).'</pre>' .
+				'<h2>'.__('Email Server Response', 'inbound-pro') .'</h2><pre> '.print_r($response,true).'</pre>' .
 				'<h2>'.__('Action Settings' , 'inbound-pro') .'</h2><pre>'. print_r($action,true).'</pre><h2>'.__('Action Settings' , 'inbound-pro') .'</h2><pre>'.print_r($trigger_data,true) .'</pre>',
 				$action['rule_id'] ,
 				$action['job_id'] ,

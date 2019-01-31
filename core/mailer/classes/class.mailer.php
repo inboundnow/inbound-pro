@@ -456,7 +456,6 @@ class Inbound_Mail_Daemon {
      */
     public static function get_templates($variation_id = null) {
 
-
         /* setup static var as empty array */
         self::$templates = array();
 
