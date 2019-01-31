@@ -90,9 +90,9 @@ if (!class_exists('LeadStorage')) {
 			}
 
 
+
 			$mappedData = self::improve_mapping($mappedData, $lead , $args);
 			$lead = array_merge($lead ,$mappedData);
-
 
 			/* prepate lead lists */
 			$lead['lead_lists'] = (isset($args['lead_lists'])) ? $args['lead_lists'] : null;
@@ -669,7 +669,14 @@ if (!class_exists('LeadStorage')) {
 
 			foreach ($fields as $key => $label ) {
 				if( isset( $args[ $key ]) && !isset($mappedData[$key]) ) {
-					$mappedData[$key] =  sanitize_text_field($args[ $key ]);
+					if (is_array($args[ $key ])) {
+						foreach($args[ $key ] as $k=>$v) {
+							$args[ $key ][$k] =  sanitize_text_field($v);
+						}
+						$mappedData[$key] =  $args[ $key ];
+					} else {
+						$mappedData[$key] =  sanitize_text_field($args[ $key ]);
+					}
 				}
 			}
 

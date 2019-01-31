@@ -2005,6 +2005,9 @@ class Inbound_Metaboxes_Leads {
                     $field['options'] = array_unique($field['options']);
 
                     foreach( $field['options'] as $key => $value) {
+                        if ($value=='Array') {
+                            continue;
+                        }
                         echo '<input type="checkbox" name="' . $id . '[]" id="' . $id . '" value="' . $value . '" '. ( in_array($value, $field['value']) ? ' checked="checked"' : '' ) . '/>';
                         echo ' ' . $value;
                         echo '<br>';
