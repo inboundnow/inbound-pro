@@ -1510,7 +1510,7 @@
 
 	/*
 	* Fourth bad hack :/ override _updateAlternate function used in inline mode to init altField
-	* Update any alternate field to synchronise with the main field.
+	* Update any alternate field to synchronize with the main field.
 	*/
 	$.datepicker._base_updateAlternate = $.datepicker._updateAlternate;
 	$.datepicker._updateAlternate = function (inst) {

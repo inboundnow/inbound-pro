@@ -4443,7 +4443,7 @@ $.extend(Datepicker.prototype, {
 		}
 	},
 
-	/* Synchronise manual entry and field/alternate field. */
+	/* Synchronize manual entry and field/alternate field. */
 	_doKeyUp: function(event) {
 		var date,
 			inst = $.datepicker._getInst(event.target);
@@ -4810,7 +4810,7 @@ $.extend(Datepicker.prototype, {
 		}
 	},
 
-	/* Update any alternate field to synchronise with the main field. */
+	/* Update any alternate field to synchronize with the main field. */
 	_updateAlternate: function(inst) {
 		var altFormat, date, dateStr,
 			altField = this._get(inst, "altField");
