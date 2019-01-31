@@ -58,7 +58,7 @@ class Inbound_Updater {
         add_filter( 'pre_set_site_transient_update_plugins', array( __CLASS__, 'check_update' ) );
         add_filter( 'plugins_api', array( __CLASS__, 'plugins_api_filter' ), 10, 3 );
         add_action( 'after_plugin_row_' . self::$name, array( __CLASS__, 'show_update_notification' ), 10, 2 );
-        add_action( 'wp_ajax_update-plugin', array( __CLASS__ , 'run_update' ) , 1 );
+        //add_action( 'wp_ajax_update-plugin', array( __CLASS__ , 'run_update' ) , 1 );
         add_filter( 'http_request_args', array( __CLASS__ , 'allow_download_url' ) , 10, 1 );
     }
 
