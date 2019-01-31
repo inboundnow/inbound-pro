@@ -5,7 +5,7 @@ This guide is meant for people that use the free version of the plugin Landing P
 Our templating system uses the plugin [Advanced Custom Fields](http://www.advancedcustomfields.com/) to manage all the template's customization options. It is important to note that the free version of the Landing Pages plugin that we serve from the [WordPress Repo](http://wordpress.org/extend/plugins/landing-pages/) comes with the ACF Lite bundled while the premium version comes with ACF PRO version 5. The big difference between the two versions of ACF is that ACF free does not support the flexible and repeater fields that are required for most premium templates.
 
 ##Installing a Premium Template With Landing Pages Free
-To solve the problem of the missing ACF PRO plugin and guarantee that our premium templates work with Landing Pages free we have created a plugin that installs all the ACF PRO libraries needed to make our template work. This is permitted through [Advanced Custom Fields licence agreement] (http://www.advancedcustomfields.com/resources/including-acf-in-a-plugin-theme/).
+To solve the problem of the missing ACF PRO plugin and guarantee that our premium templates work with Landing Pages free we have created a plugin that installs all the ACF PRO libraries needed to make our template work. This is permitted through [Advanced Custom Fields license agreement] (http://www.advancedcustomfields.com/resources/including-acf-in-a-plugin-theme/).
 
 When you buy one of our premium templates you have two files to download, one is the template file, and one is called `inbound-premium-template-support.zip`. 
 
