@@ -78,6 +78,15 @@ if(!class_exists('Inbound_Confirm_Double_Optin')){
             } else if ( isset($_COOKIE['wp_lead_id']) ) {
                 $params['lead_id'] = intval($_COOKIE['wp_lead_id']);
             }
+
+            $params['email'] = $params['email_id'];
+            $params['id'] = $params['lead_id'];
+
+            $lead_fields = Leads_Field_Map::get_lead_fields();
+            foreach( $lead_fields as $key=>$value) {
+                $params[$key] = get_post_meta($params['lead_id'] , $key , true);
+            }
+
             /* Add variation id to confirm link */
             $params['variation_id'] = ( isset($_REQUEST['inbvid']) )  ? intval($_REQUEST['inbvid']) : intval(0);
 

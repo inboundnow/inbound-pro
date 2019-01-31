@@ -174,6 +174,8 @@ if ( !class_exists( 'Inbound_Automation_Action_Send_Email' ) ) {
 						    'job_id' => $action['job_id'],
 					));
 
+					unset($response['body']);
+
 					BREAK;
 				case 'custom':
 					/* Load sender class */
