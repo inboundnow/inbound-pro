@@ -108,6 +108,7 @@ class Inbound_Automation_Trigger_inbound_double_optin_confirm {
 				'0'=>208,
 				'1'=>210
 			),
+            'email' => 'test@inboundnow.com',
             'email_id' => 'test@inboundnow.com',
             'variation_id' => '0',
             'wp_lead_status' => '',

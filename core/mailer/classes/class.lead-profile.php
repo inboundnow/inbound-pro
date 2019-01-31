@@ -103,10 +103,11 @@ class Inbound_Mailer_Direct_Email_Leads {
 
         /*get the mail service settings*/
         $inbound_settings = Inbound_Mailer_Settings::get_settings();
+        $email_service = (isset($inbound_settings['mailer']['mail-service'])) ? $inbound_settings['mailer']['mail-service'] : 'wp_mail';
 
         /***setup the sending domains dropdown***/
         /*get the available Sparkpost sending domains*/
-        if( strstr($inbound_settings['mail-service']  , 'sparkpost')  ){
+        if( strstr($email_service  , 'sparkpost')  ){
             $sparkpost = new Inbound_SparkPost(  $inbound_settings['sparkpost-key'] , $inbound_settings['mail-service'] );
             $domain_query = $sparkpost->get_domains();
             /*if there are no errors*/
@@ -910,8 +911,10 @@ class Inbound_Mailer_Direct_Email_Leads {
     public static function display_quick_stat_email_bounces() {
         global $post, $inbound_settings;
 
+        $email_service = (isset($inbound_settings['mailer']['mail-service'])) ? $inbound_settings['mailer']['mail-service'] : 'wp_mail';
+
         /* do not show for wp_mail service */
-        if ($inbound_settings['mailer']['mail-service']=='wp_mail') {
+        if ($email_service=='wp_mail') {
             return;
         }
 
@@ -955,7 +958,9 @@ class Inbound_Mailer_Direct_Email_Leads {
     public static function get_event_names() {
         global $inbound_settings;
 
-        switch ($inbound_settings['mailer']['mail-service']) {
+        $email_service = (isset($inbound_settings['mailer']['mail-service'])) ? $inbound_settings['mailer']['mail-service'] : 'wp_mail';
+
+        switch ($email_service) {
             case "sparkpost":
                 return array(
                     'delivery' => 'sparkpost_delivery',
@@ -1082,7 +1087,9 @@ add_action('admin_init', 'inbound_confirm_email_service_provider');
  */
 function inbound_confirm_email_service_provider() {
     $email_settings = Inbound_Mailer_Settings::get_settings();
-    if (isset($email_settings['mail-service']) && $email_settings['mail-service'] != 'none' ) {
+    $email_service = (isset($email_settings['mail-service'])) ? $email_settings['mail-service'] : 'wp_mail';
+
+    if (isset($email_service) && $email_service != 'none' ) {
         new Inbound_Mailer_Direct_Email_Leads;
     }
 }

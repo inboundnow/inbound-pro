@@ -852,8 +852,8 @@ class Inbound_Mailer_Post_Type {
 	 */
 	public static function get_event_names() {
 		global $inbound_settings;
-
-		switch ($inbound_settings['mailer']['mail-service']) {
+		$email_service = (isset($inbound_settings['mailer']['mail-service'])) ? $inbound_settings['mailer']['mail-service'] : 'wp_mail';
+		switch ($email_service) {
 			case "sparkpost":
 				return array(
 					'delivery' => 'sparkpost_delivery',

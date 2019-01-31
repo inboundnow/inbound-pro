@@ -133,7 +133,7 @@ if ( !class_exists( 'Inbound_Automation_Action_Create_User' ) ) {
 
             inbound_record_log(
                 __( 'Could not create user' , 'inbound-pro') ,
-                $trigger_data['lead_data']['id'] . ' <pre></pre>',
+                $trigger_data['lead_data']['id'] . ' <pre>'.json_encode($userdata).'</pre>',
                 $action['rule_id'] ,
                 $action['job_id'] ,
                 'action_event'

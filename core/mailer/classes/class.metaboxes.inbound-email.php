@@ -124,7 +124,9 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
         public static function load_statistics() {
             global $post, $inbound_settings;
 
-            switch ($inbound_settings['mailer']['mail-service']) {
+            $email_service = (isset($inbound_settings['mailer']['mail-service'])) ? $inbound_settings['mailer']['mail-service'] : 'wp_mail';
+
+            switch ($email_service) {
                 case 'sparkpost' :
                     self::$statistics = Inbound_SparkPost_Stats::get_sparkpost_webhook_stats();
                     break;
@@ -148,7 +150,9 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
         public static function load_send_stream() {
             global $post, $inbound_settings;
 
-            switch ($inbound_settings['mailer']['mail-service']) {
+            $email_service = (isset($inbound_settings['mailer']['mail-service'])) ? $inbound_settings['mailer']['mail-service'] : 'wp_mail';
+
+            switch ($email_service) {
                 case 'sparkpost' :
                     self::$sends = Inbound_SparkPost_Stats::get_send_stream();
                     break;
@@ -547,7 +551,8 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
             self::add_statistics();
 
             /* show events */
-            switch ($inbound_settings['mailer']['mail-service']) {
+            $email_service = (isset($inbound_settings['mailer']['mail-service'])) ? $inbound_settings['mailer']['mail-service'] : 'wp_mail';
+            switch ($email_service) {
                 case 'sparkpost' :
                     if ( isset($_GET['debug']) && $_GET['debug'] ) {
                         self::list_transmissions();
@@ -630,11 +635,13 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 return;
             }
 
+            $email_service = (isset($inbound_settings['mailer']['mail-service'])) ? $inbound_settings['mailer']['mail-service'] : 'wp_mail';
+
             echo '<div class="notifications-container bs-callout bs-callout-clear">';
             echo '<h4>' . __('Please Wait', 'inbound-pro') . '</h4>';
 
 
-            echo '<p>'. sprintf(__('We are sending your email data to %s now. Depending on how many emails you are generating this might take a moment. If your emails are scheduled to be sent immediately then you can view your current send statistics below by refreshing the page.' , 'inbound-ro' ) , $inbound_settings['mailer']['mail-service'] ) ;
+            echo '<p>'. sprintf(__('We are sending your email data to %s now. Depending on how many emails you are generating this might take a moment. If your emails are scheduled to be sent immediately then you can view your current send statistics below by refreshing the page.' , 'inbound-ro' ) , $email_service ) ;
 
             echo '</div>';
         }
@@ -773,6 +780,8 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
             $job_id = (self::$job_id === 'last_send') ? Inbound_Mailer_Post_Type::get_last_job_id($post->ID) : 0 ;
             $event_names =  self::get_event_names();
+            $email_service = (isset($inbound_settings['mailer']['mail-service'])) ? $inbound_settings['mailer']['mail-service'] : 'wp_mail';
+
             ?>
             <style>
                 .stat-number {
@@ -821,7 +830,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                     </div>
                 </div>
                 <?php
-                if ( $inbound_settings['mailer']['mail-service'] != 'wp_mail') {
+                if ( $email_service != 'wp_mail') {
                 ?>
                 <div class="statistic-container">
                     <div class="stat-number-container">
@@ -1246,8 +1255,9 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
          */
         public static function get_event_names() {
             global $inbound_settings;
+            $email_service = (isset($inbound_settings['mailer']['mail-service'])) ? $inbound_settings['mailer']['mail-service'] : 'wp_mail';
 
-            switch ($inbound_settings['mailer']['mail-service']) {
+            switch ($email_service) {
                 case "sparkpost":
                     return array(
                         'delivery' => 'sparkpost_delivery',
@@ -1415,6 +1425,9 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
 
                         $tz = (isset($settings['timezone'])) ? $settings['timezone'] : $field['default_timezone_abbr'];
 
+                        if (!isset($settings['send_datetime'])) {
+                            $settings['send_datetime'] =  date_i18n('Y-m-d G:i');
+                        }
 
                         /* add time if does not exist */
                         if(!strstr($settings['send_datetime'],':')) {
@@ -1458,7 +1471,8 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                         echo '</div>';
 
                         /* show events */
-                        switch ($inbound_settings['mailer']['mail-service']) {
+                        $email_service = (isset($inbound_settings['mailer']['mail-service'])) ? $inbound_settings['mailer']['mail-service'] : 'wp_mail';
+                        switch ($email_service) {
                             case 'wp_mail' :
                                 break;
                             default:

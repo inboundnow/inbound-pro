@@ -30,9 +30,6 @@ class Inbound_Mailer_Notifications {
 		/* Load template selector in background */
 		add_action('admin_notices', array( __CLASS__ , 'prompt_key_notifications' ) );
 
-		/* Prompt SparkPost Compliance Notice */
-		//add_action('admin_notices', array( __CLASS__ , 'prompt_sparkpost_compliance_notification' ) );
-
 	}
 
 	/**
@@ -67,8 +64,9 @@ class Inbound_Mailer_Notifications {
 
 		/* Check if key exists */
 		$settings_url = Inbound_Mailer_Settings::get_settings_url();
+		$email_service = (isset($inbound_settings['mailer']['mail-service'])) ? $inbound_settings['mailer']['mail-service'] : 'wp_mail';
 
-		switch($inbound_settings['mailer']['mail-service']) {
+		switch($email_service) {
 			case 'sparkpost':
 
 				if ( isset($inbound_settings['mailer']['sparkpost-key']) && $inbound_settings['mailer']['sparkpost-key'] ) {
@@ -94,52 +92,6 @@ class Inbound_Mailer_Notifications {
 			case 'wp_mail':
 
 				return;
-				break;
-			default:
-				?>
-				<div class="updated">
-					<p><?php _e( sprintf( 'An email service is required to send emails. Head to your %s to select a mail service.' , '<a href="'.$settings_url.'">'.__( 'settings page' , 'inbound-pro' ).'</a>') , 'inbound-email'); ?></p>
-				</div>
-				<?php
-				break;
-		}
-
-	}
-
-	/**
-	 *  Warn users that all SparkPost Emails must comply with SparkPost Guidelines
-	 */
-	public static function prompt_sparkpost_compliance_notification() {
-		global $post , $inbound_settings;
-
-
-		if (!isset($post)||$post->post_type!='inbound-email'){
-			return false;
-		}
-
-		/* Check if key exists */
-		$settings_url = Inbound_Mailer_Settings::get_settings_url();
-
-		switch($inbound_settings['mailer']['mail-service']) {
-			case 'sparkpost1111':
-
-				?>
-				<div class="updated">
-					<p><?php
-						echo sprintf(__('Emails must meet all requirements listed in the %sSparkPost Messaging Guidelines%s. Please be sure to follow these guidelines when creating your emails.' , 'inbound-pro') , '<a href="https://www.sparkpost.com/policies/messaging/" target="_blank">' , '</a>' );
-						?>
-				</div>
-				<?php
-				break;
-			case 'sparkpost-eu1111':
-
-				?>
-				<div class="updated">
-					<p><?php
-						echo sprintf(__('Emails must meet all requirements listed in the %sSparkPost Messaging Guidelines%s. Please be sure to follow these guidelines when creating your emails.' , 'inbound-pro') , '<a href="https://www.sparkpost.com/policies/messaging/" target="_blank">' , '</a>' );
-						?>
-				</div>
-				<?php
 				break;
 			default:
 				?>

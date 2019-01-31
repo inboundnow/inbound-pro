@@ -459,7 +459,8 @@ class Inbound_List_Double_Optin {
             $args = array(
                 'lead_id' => $lead['id'],
                 'list_ids' => $lists,
-                'email_id' => $lead['email']
+                'email_id' => $lead['email'],
+                'email' => $lead['email']
             );
 
             $content = self::add_confirm_link_shortcode_params($content, $args);
@@ -527,7 +528,7 @@ class Inbound_List_Double_Optin {
             /*if the current shortcode is inbound-inbound-list-double-optin-link*/
             if ($matches[2][$i] == 'inbound-list-double-optin-link') {
                 /*if no link text has been specified*/
-                $replacement_shortcode = '[list-double-optin-link lead_id=' . (int)$args['lead_id'] . ' list_ids=' . implode(',', $args['list_ids']) . ' email_id=' . sanitize_email($args['email_id']) . ' ]';
+                $replacement_shortcode = '[list-double-optin-link lead_id=' . (int)$args['lead_id'] . ' list_ids=' . implode(',', $args['list_ids']) . ' email_id=' . sanitize_email($args['email_id']) . ' email=' . sanitize_email($args['email']) . ' ]';
                 $content = str_replace($matches[0][$i], $replacement_shortcode, $content);
             }
         }

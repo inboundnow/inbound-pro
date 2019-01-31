@@ -184,7 +184,9 @@ class Inbound_Mailer_Ajax_Listeners {
 			exit;
 		}
 
-		switch ($inbound_settings['mailer']['mail-service']) {
+		$email_service = (isset($inbound_settings['mailer']['mail-service'])) ? $inbound_settings['mailer']['mail-service'] : 'wp_mail';
+
+		switch ($email_service) {
 			case "sparkpost":
 				$stats[$email_id] = Inbound_SparkPost_Stats::get_sparkpost_inbound_events( $email_id , $vid = null , $job_id );
 				break;
