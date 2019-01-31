@@ -35,7 +35,7 @@ if ( !class_exists('Inbound_Mailer_Settings') ) {
 		public static function define_pro_settings( $settings ) {
 			global $inbound_settings;
 
-			$service = (isset($inbound_settings['mailer']['mail-service'])) ? $inbound_settings['mailer']['mail-service'] : 'sparkpost';
+			$service = (isset($inbound_settings['mailer']['mail-service'])) ? $inbound_settings['mailer']['mail-service'] : 'wp_mail';
 			$inbound_settings['mailer']['mail-service'] = $service;
 
 			$settings['inbound-pro-setup'][] = array(
@@ -328,7 +328,7 @@ if ( !class_exists('Inbound_Mailer_Settings') ) {
 
 			$keys['unsubscribe_page'] = (isset($inbound_settings['mailer']['unsubscribe-page'])) ? $inbound_settings['mailer']['unsubscribe-page'] : null;
 			$keys['sparkpost-key'] = (isset($inbound_settings['mailer']['sparkpost-key'])) ? $inbound_settings['mailer']['sparkpost-key'] : null;
-			$keys['mail-service'] = (isset($inbound_settings['mailer']['mail-service'])) ? $inbound_settings['mailer']['mail-service'] : null;
+			$keys['mail-service'] = (isset($inbound_settings['mailer']['mail-service'])) ? $inbound_settings['mailer']['mail-service'] : 'wp_mail';
 
 			return $keys;
 

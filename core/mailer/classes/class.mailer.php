@@ -44,7 +44,7 @@ class Inbound_Mail_Daemon {
         global $wpdb, $inbound_settings;
 
         /* Set email service */
-        self::$email_service = (isset($inbound_settings['mailer']['mail-service'])) ? $inbound_settings['mailer']['mail-service'] : 'sparkpost';
+        self::$email_service = (isset($inbound_settings['mailer']['mail-service'])) ? $inbound_settings['mailer']['mail-service'] : 'wp_mail';
 
         /* Set send limit */
         self::$send_limit = (isset($inbound_settings['mailer']['processing-limit'])) ? $inbound_settings['mailer']['processing-limit'] : 100;
