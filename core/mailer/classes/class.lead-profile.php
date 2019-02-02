@@ -76,7 +76,7 @@ class Inbound_Mailer_Direct_Email_Leads {
      *
      */
     public static function add_direct_email_tab_contents() {
-        global $post;
+        global $post, $inbound_settings;
 
 
         /* Enqueue Sweet Alert support  */
@@ -102,13 +102,12 @@ class Inbound_Mailer_Direct_Email_Leads {
         $user_email = $parts[0];
 
         /*get the mail service settings*/
-        $inbound_settings = Inbound_Mailer_Settings::get_settings();
         $email_service = (isset($inbound_settings['mailer']['mail-service'])) ? $inbound_settings['mailer']['mail-service'] : 'wp_mail';
 
         /***setup the sending domains dropdown***/
         /*get the available Sparkpost sending domains*/
         if( strstr($email_service  , 'sparkpost')  ){
-            $sparkpost = new Inbound_SparkPost(  $inbound_settings['sparkpost-key'] , $inbound_settings['mail-service'] );
+            $sparkpost = new Inbound_SparkPost(  $inbound_settings['mailer']['sparkpost-key'] , $inbound_settings['mailer']['mail-service'] );
             $domain_query = $sparkpost->get_domains();
             /*if there are no errors*/
             if(!isset($domain_query['errors']) && empty($domain_query['errors'])){

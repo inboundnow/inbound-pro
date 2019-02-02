@@ -1447,7 +1447,6 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                             $meta = $corrected['meta'];
                             $schedule_date = $corrected['object'];
 
-
                             if (!$schedule_date) {
                                 $schedule_date = new DateTime(date_i18n($wordpress_date_time_format));
                             }

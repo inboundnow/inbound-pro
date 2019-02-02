@@ -567,6 +567,8 @@ class Inbound_Mail_Daemon {
         /* process shortcodes */
         $html = do_shortcode($html);
 
+        $email_service = (isset($inbound_settings['mailer']['mail-service'])) ? $inbound_settings['mailer']['mail-service'] : 'wp_mail';
+
         /* add tracking params to links */
         switch ($email_service) {
             case "wp_mail":
