@@ -706,7 +706,7 @@ class Inbound_SparkPost_Stats {
 
         /* skip if contains errors */
         if (isset($response['errors'])) {
-            error_log(print_r($errors,true));
+            error_log(print_r($response['errors'],true));
             return;
         }
 
