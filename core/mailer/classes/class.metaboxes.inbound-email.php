@@ -1426,7 +1426,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                         $tz = (isset($settings['timezone'])) ? $settings['timezone'] : $field['default_timezone_abbr'];
 
                         if (!isset($settings['send_datetime'])) {
-                            $settings['send_datetime'] =  date_i18n('Y-m-d G:i');
+                            $settings['send_datetime'] =  date_i18n('Y/m/d G:i');
                         }
 
                         /* add time if does not exist */
@@ -1451,7 +1451,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                                 $schedule_date = new DateTime(date_i18n($wordpress_date_time_format));
                             }
 
-                            $meta_current_date_corrected = date_i18n('Y-m-d G:i');
+                            $meta_current_date_corrected = date_i18n('Y/m/d G:i');
                             $meta_schedule_corrected = $schedule_date->format($wordpress_date_time_format);
 
                         } else {
