@@ -57,7 +57,7 @@ class Inbound_Templating_Engine {
 	}
 
 	/* Replace Tokens */
-	public static function replace_tokens( $template, $args ) {
+	public static function replace_tokens( $template, $args = array() ) {
 
 		/* Add default key/value pairs to front of $args array */
 		array_unshift( $args, self::$instance->defaults );
