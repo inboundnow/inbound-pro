@@ -29,7 +29,10 @@ if ( !class_exists( 'Inbound_Automation_Action_Send_Email' ) ) {
 				$emails = Inbound_Mailer_Post_Type::get_automation_emails_as( 'ARRAY' );
 				if (!$emails) {
 					$emails[] = __( 'No Automation emails detected. Please create an automated email first.' , 'inbound-pro' );
+				} else {
+					$emails = array('0' => __('Select Automated Email' , 'inbound-pro')) + $emails;
 				}
+
 			} else {
 				$emails = array('email component not installed.');
 			}
