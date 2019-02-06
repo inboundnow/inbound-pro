@@ -601,6 +601,7 @@ class Inbound_Mail_Daemon {
         }
 
         $html = wp_remote_retrieve_body($response);
+
         return $html;
     }
 

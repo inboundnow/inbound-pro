@@ -80,10 +80,14 @@ if ( !class_exists( 'Inbound_Automation_Action_Add_Remove_Tag' ) ) {
                 }
             }
 
-            /**
-             * If no lead id is present bu a user_id is present then try to descover lead id
-             */
+            /* if package contains lead_id instead of id set id */
+            if (isset($final_args['lead_id']) && $final_args['lead_id']) {
+                $final_args['id'] = $final_args['lead_id'];
+            }
 
+            /**
+             * If no lead id is present but a user_id is present then try to descover lead id
+             */
             if ( !isset($final_args['id']) && isset($final_args['user_id']) ) {
                 $user = new WP_User($final_args['user_id']);
 
@@ -99,7 +103,7 @@ if ( !class_exists( 'Inbound_Automation_Action_Add_Remove_Tag' ) ) {
                 /* log the action event */
                 inbound_record_log(
                     __( 'Tag Change - Fail' , 'inbound-pro') ,
-                    '<h2>'.__('Failed - bad lead id', 'inbound-pro') .'</h2><pre>'.print_r(arguments,true).'</pre>' .
+                    '<h2>'.__('Failed - bad lead id', 'inbound-pro') .'</h2><pre>'.print_r($final_args,true).'</pre>',
                     $action['rule_id'] ,
                     $action['job_id'] ,
                     'action_event'
@@ -111,12 +115,11 @@ if ( !class_exists( 'Inbound_Automation_Action_Add_Remove_Tag' ) ) {
 
             /*  for Tag Adds */
             if ( isset($action['add_to_lead_tags']) && is_array($action['add_to_lead_tags']) ) {
-                
 
                 foreach ( $action['add_to_lead_tags'] as $tag_id ) {
 
                     Inbound_Leads::add_tag_to_lead( $final_args['id'] , intval($tag_id) );
-                    $added[] = $tag_id;
+                    $added[] = array( 'tag_id' => $tag_id , 'lead_id' => $final_args['id'] );
                 }
             }
 
@@ -125,7 +128,7 @@ if ( !class_exists( 'Inbound_Automation_Action_Add_Remove_Tag' ) ) {
                 foreach ( $action['remove_from_lead_tags'] as $tag_id ) {
 
                     Inbound_Leads::remove_tag_from_lead( $final_args['id'] , intval($tag_id) );
-                    $removed[] = $tag_id;
+                    $removed[] = array( 'tag_id' => $tag_id , 'lead_id' =>$final_args['id'] );
                 }
             }
 
@@ -133,7 +136,7 @@ if ( !class_exists( 'Inbound_Automation_Action_Add_Remove_Tag' ) ) {
             inbound_record_log(
                 __( 'Tag Change' , 'inbound-pro') ,
                 '<h2>'.__('Addded to', 'inbound-pro') .'</h2><pre>'.print_r($added,true).'</pre>' .
-                '<h2>'.__('Removed from' , 'inbound-pro') .'</h2><pre>'. print_r($removed,true).'</pre>'.
+                '<h2>'.__('Removed from' , 'inbound-pro') .'</h2><pre>'. print_r($removed,true).'</pre>',
                 $action['rule_id'] ,
                 $action['job_id'] ,
                 'action_event'

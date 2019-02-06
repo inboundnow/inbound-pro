@@ -49,6 +49,22 @@ if ( !class_exists('Inbound_Mailer_Settings') ) {
 						'options' => null
 					),
 					array(
+						'id'  => 'datepicker-style',
+						'label'  => __('Datepicker Style', 'inbound-pro' ),
+						'description'  => __( 'Sometimes jQuery\'s datepicker malfunctions.' , 'inbound-pro' ),
+						'type'  => 'dropdown',
+						'default'  => 'jquery_datepicker',
+						'options' => array(
+							'jquery_datepicker' => __( 'jQuery Datepicker' , 'inbound-pro' ),
+							'use_alternative' => __( 'HTML5 Datepicker' , 'inbound-pro' )
+						),
+						'hidden' => false,
+						'reveal' => array(
+							'selector' => null ,
+							'value' => null
+						)
+					),
+					array(
 						'id'  => 'subheader-unsubscribe',
 						'type'  => 'sub-header',
 						'default'  => __('Unsubscribe Page', 'inbound-pro' ),

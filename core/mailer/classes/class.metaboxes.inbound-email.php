@@ -831,28 +831,28 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 </div>
                 <?php
                 if ( $email_service != 'wp_mail') {
-                ?>
-                <div class="statistic-container">
-                    <div class="stat-number-container">
-                        <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range='.self::$range.'&email_id=' . $post->ID . '&job_id=' . $job_id .'&event_name=sparkpost_bounce&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox" style="text-decoration: none;">
-                            <label class="stat-label bounces-label"><?php _e('Bounces', 'inbound-pro'); ?></label>
+                    ?>
+                    <div class="statistic-container">
+                        <div class="stat-number-container">
+                            <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range='.self::$range.'&email_id=' . $post->ID . '&job_id=' . $job_id .'&event_name=sparkpost_bounce&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox" style="text-decoration: none;">
+                                <label class="stat-label bounces-label"><?php _e('Bounces', 'inbound-pro'); ?></label>
 
-                            <div class="stat-number bounces-number">0</div>
-                            <h1 class="stat-percentage bounces-percentage">0%</h1>
-                        </a>
+                                <div class="stat-number bounces-number">0</div>
+                                <h1 class="stat-percentage bounces-percentage">0%</h1>
+                            </a>
+                        </div>
                     </div>
-                </div>
-                <div class="statistic-container">
-                    <div class="stat-number-container">
-                        <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range='.self::$range.'&email_id=' . $post->ID . '&job_id=' . $job_id .'&event_name=sparkpost_rejected&event_name_2=sparkpost_relay_rejection&event_action=merge&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox" style="text-decoration: none;">
-                            <label class="stat-label rejects-label"><?php _e('Rejects', 'inbound-pro'); ?></label>
+                    <div class="statistic-container">
+                        <div class="stat-number-container">
+                            <a href="<?php echo admin_url('/index.php?action=inbound_generate_report&class=Inbound_Mailer_Stats_Report&range='.self::$range.'&email_id=' . $post->ID . '&job_id=' . $job_id .'&event_name=sparkpost_rejected&event_name_2=sparkpost_relay_rejection&event_action=merge&show_graph=false&display_lead_table=true&title=Logs&tb_hide_nav=true&TB_iframe=true&width=1000&height=600'); ?>" class="thickbox inbound-thickbox" style="text-decoration: none;">
+                                <label class="stat-label rejects-label"><?php _e('Rejects', 'inbound-pro'); ?></label>
 
-                            <div class="stat-number rejects-number">0</div>
-                            <h1 class="stat-percentage rejects-percentage">0%</h1>
-                        </a>
+                                <div class="stat-number rejects-number">0</div>
+                                <h1 class="stat-percentage rejects-percentage">0%</h1>
+                            </a>
+                        </div>
                     </div>
-                </div>
-                <?php
+                    <?php
                 }
                 ?>
                 <div class="statistic-container">
@@ -1426,48 +1426,115 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                         $tz = (isset($settings['timezone'])) ? $settings['timezone'] : $field['default_timezone_abbr'];
 
                         if (!isset($settings['send_datetime'])) {
-                            $settings['send_datetime'] =  date_i18n('Y-m-d G:i');
+                            $settings['send_datetime'] =  date_i18n('Y/m/d G:i');
                         }
 
                         /* add time if does not exist */
                         if(!strstr($settings['send_datetime'],':')) {
                             $settings['send_datetime'] = $settings['send_datetime'] . " 00:00";
                         }
-                        /* get format corrected date */
-                        if ($meta) {
-                            /* get date time format as set by WordPress */
 
-                            /* get correct format - d/m/Y date formats will fatal */
-                            $wordpress_date_time_format = get_option('date_format') .' G:i';
+                        $datepicker_style = (isset($inbound_settings['mailer']['datepicker-style'])) ? $inbound_settings['mailer']['datepicker-style'] : 'jquery-datepicker';
 
-                            $schedule_date = DateTime::createFromFormat(trim($wordpress_date_time_format) , trim($meta));
+                        if ($datepicker_style == 'jquery-datepicker') {
+                            /* get format corrected date */
+                            if ($meta) {
+                                /* get date time format as set by WordPress */
 
-                            $corrected = self::correct_datetime_errors($schedule_date , $wordpress_date_time_format , $meta );
+                                /* get correct format - d/m/Y date formats will fatal */
+                                $wordpress_date_time_format = get_option('date_format') .' G:i';
 
-                            $meta = $corrected['meta'];
-                            $schedule_date = $corrected['object'];
+                                $schedule_date = DateTime::createFromFormat(trim($wordpress_date_time_format) , trim($meta));
 
-                            if (!$schedule_date) {
-                                $schedule_date = new DateTime(date_i18n($wordpress_date_time_format));
+                                $corrected = self::correct_datetime_errors($schedule_date , $wordpress_date_time_format , $meta );
+
+                                $meta = $corrected['meta'];
+                                $schedule_date = $corrected['object'];
+
+                                if (!$schedule_date) {
+                                    $schedule_date = new DateTime(date_i18n($wordpress_date_time_format));
+                                }
+
+                                $meta_current_date_corrected = date_i18n('Y/m/d G:i');
+                                $meta_schedule_corrected = $schedule_date->format($wordpress_date_time_format);
+
+                            } else {
+                                $meta_current_date_corrected = "";
+                                $meta_schedule_corrected = "";
                             }
-
-                            $meta_current_date_corrected = date_i18n('Y-m-d G:i');
-                            $meta_schedule_corrected = $schedule_date->format($wordpress_date_time_format);
-
+                            echo '<div class="jquery-date-picker inbound-datepicker" id="date-picking" data-field-type="text">
+    											<span class="datepair" data-language="javascript">
+    												<input autocomplete="no" type="text" id="date-picker-' . $settings_key . '" class="date start" placeholder="' . __('Select Date', 'inbound-pro') . '"/ ></span>
+    												<input autocomplete="no" id="time-picker-' . $settings_key . '" type="text" class="time time-picker " placeholder =" ' . __('Select Time', 'inbound-pro') . '" />
+    											    <input type="hidden" name="' . $field_id . '" id="' . $field_id . '" value="' . $meta . '" class="new-date" value="" >
+    												<input type="hidden" id="inbound_current_datetime_formatted" value="' . $meta_current_date_corrected . '" class="new-date" value="" >
+    												<input type="hidden" id="inbound_send_datetime_formatted" value="' . $meta_schedule_corrected . '" class="new-date" value="" >
+    										';
+                            echo '</div>';
                         } else {
-                            $meta_current_date_corrected = "";
-                            $meta_schedule_corrected = "";
-                        }
+                            /* get format corrected date */
+                            if ($meta) {
 
-                        echo '<div class="jquery-date-picker inbound-datepicker" id="date-picking" data-field-type="text">
-											<span class="datepair" data-language="javascript">
-												<input autocomplete="no" type="text" id="date-picker-' . $settings_key . '" class="date start" placeholder="' . __('Select Date', 'inbound-pro') . '"/></span>
-												<input autocomplete="no" id="time-picker-' . $settings_key . '" type="text" class="time time-picker " placeholder =" ' . __('Select Time', 'inbound-pro') . '" />
-												<input type="hidden" name="' . $field_id . '" id="' . $field_id . '" value="' . $meta . '" class="new-date" value="" >
-												<input type="hidden" id="inbound_current_datetime_formatted" value="' . $meta_current_date_corrected . '" class="new-date" value="" >
-												<input type="hidden" id="inbound_send_datetime_formatted" value="' . $meta_schedule_corrected . '" class="new-date" value="" >
-										';
-                        echo '</div>';
+                                /* get correct format - d/m/Y date formats will fatal */
+                                $wordpress_date_time_format = 'Y-m-d G:i';
+                                $schedule_date = DateTime::createFromFormat(trim($wordpress_date_time_format) , trim($meta));
+
+                                if (!DateTime::getLastErrors()) {
+                                    $meta_date = $schedule_date->format('Y-m-d');
+                                    $meta_time = $schedule_date->format('G:i');
+                                    $meta_current_date_corrected = date_i18n('Y/m/d G:i');
+                                    $meta_schedule_corrected = $schedule_date->format('Y/m/d G:i');
+                                }
+
+                            } else {
+                                $wordpress_date_time_format = 'Y-m-d G:i';
+                                $schedule_date = DateTime::createFromFormat(trim($wordpress_date_time_format) , date_i18n($wordpress_date_time_format));
+
+                                $meta_date = $schedule_date->format('Y-m-d');
+                                $meta_time = $schedule_date->format('G:i');
+                                $meta_current_date_corrected = "";
+                                $meta_schedule_corrected = "";
+                            }
+                            echo '<div class="alternative-datepicker">
+                                        <input type="date" id="alternative-datepicker"   value="' . $meta_date . '" >
+                                        <input type="hidden" name="' . $field_id . '" id="' . $field_id . '"  value="' . $meta . '">
+                                        <input autocomplete="no" id="alternative-timepicker" type="text" class="time-picker " placeholder =" ' . __('Select Time', 'inbound-pro') . '" value="' . $meta_time . '"/>
+                                        <input type="hidden" id="inbound_current_datetime_formatted" value="' . $meta . '" class="new-date" value="" >
+                                        <input type="hidden" id="inbound_send_datetime_formatted" value="' . $meta_schedule_corrected . '" class="new-date" value="" >
+                                    </div>
+                                ';
+                            echo '
+                            <style>
+                                .alternative-datepicker [type="date"] {
+                                  background:#fff url(https://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/calendar_2.png)  97% 50% no-repeat ;
+                                }
+                                .alternative-datepicker [type="date"]::-webkit-inner-spin-button {
+                                  display: none;
+                                }
+                                .alternative-datepicker [type="date"]::-webkit-calendar-picker-indicator {
+                                  opacity: 0;
+                                }
+
+                                .alternative-datepicker input {
+                                  border: 1px solid #c4c4c4;
+                                  border-radius: 5px;
+                                  background-color: #fff;
+                                  padding: 3px 5px;
+                                  box-shadow: inset 0 3px 6px rgba(0,0,0,0.1);
+                                  width: 190px;
+                                  height:37px;
+                                }
+                            </style>
+                            <script>
+                                jQuery("#alternative-datepicker,#alternative-timepicker").change(function() {
+                                    var date = jQuery("#alternative-datepicker").val();
+                                    var time = jQuery("#alternative-timepicker").val();
+                                    var new_datetime = date + " " + time ;
+                                    jQuery("#inbound_send_datetime").val(new_datetime)
+                                })
+
+                            </script>';
+                        }
 
                         /* show events */
                         $email_service = (isset($inbound_settings['mailer']['mail-service'])) ? $inbound_settings['mailer']['mail-service'] : 'wp_mail';
@@ -1658,6 +1725,9 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                 $corrected['object'] = $schedule_date;
                 return $corrected;
             }
+
+            /* replace dashes with slashes */
+            $datetime = str_replace('-','/',$datetime);
 
             /* reformat Datetime Pattern if leading with F */
             if ($wordpress_date_time_format[0]  == "F") {

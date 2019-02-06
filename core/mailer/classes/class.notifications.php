@@ -30,6 +30,9 @@ class Inbound_Mailer_Notifications {
 		/* Load template selector in background */
 		add_action('admin_notices', array( __CLASS__ , 'prompt_key_notifications' ) );
 
+
+		add_action('admin_notices', array( __CLASS__ , 'prompt_rebuild_database' ) );
+
 	}
 
 	/**
@@ -101,6 +104,32 @@ class Inbound_Mailer_Notifications {
 				<?php
 				break;
 		}
+
+	}
+
+	/**
+	 *  Checks to see if email service Key is inputed. If it's not then it throws the notice
+	 */
+	public static function prompt_rebuild_database() {
+		global $post , $wpdb;
+
+
+		if (!isset($post)||$post->post_type!='inbound-email'){
+			return false;
+		}
+
+		/* Check if database table exists exists */
+		$table_name = $wpdb->prefix.'inbound_email_queue';
+		if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") == $table_name) {
+			return;
+		}
+		?>
+		<div class="error">
+			<p><?php echo sprintf(__('WARNING: Required database table %s not found. %sClick here to rebuild table.%s' ,'inbound-pro') , $table_name, '<a href="' . admin_url('edit.php?post_type=inbound-email&force_upgrade_routines=true') . '">','</a>'); ?></p>
+		</div>
+		<?php
+
+
 
 	}
 

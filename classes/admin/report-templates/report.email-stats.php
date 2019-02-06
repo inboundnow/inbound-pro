@@ -843,6 +843,7 @@ if (!class_exists('Inbound_Mailer_Stats_Report')) {
             self::$past_start_date = $dates['past_start_date'];
             self::$past_end_date = $dates['past_end_date'];
             self::$job_id = (isset($_REQUEST['job_id']) && $_REQUEST['job_id']) ? $wpdb->esc_like($_REQUEST['job_id']) : "%_%";
+            $_REQUEST['event_name_2'] = (isset($_REQUEST['event_name_2'])) ? $_REQUEST['event_name_2'] : '';
 
             /* get "current" email stats for the selected action */
             $params = array(
@@ -1118,7 +1119,7 @@ if (!class_exists('Inbound_Mailer_Stats_Report')) {
             $results = $wpdb->get_results(
                 $wpdb->prepare(
                     $query.$query_pagination,
-                    $args['email_id'], $args['event_name'], $args['job_id'], $args['start_date'], $args['end_date'], $args['end_date']
+                    $args['email_id'], $args['event_name'], $args['job_id'], $args['start_date'], $args['end_date']
                 ), ARRAY_A
             );
 

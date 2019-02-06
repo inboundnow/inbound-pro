@@ -416,8 +416,15 @@ class Inbound_Mailer_Tokens {
                     $email_tokens = $email_tokens + $tokens;
                 }
             }
-
         }
+
+        /* add a few more token definitions */
+        $email_tokens['admin-email-address'] = get_option( 'admin_email', '' );
+        $email_tokens['admin-url'] = admin_url();
+        $email_tokens['site-name'] = get_option( 'blogname', '' );
+        $email_tokens['site-tagline'] = get_option( 'blogdescription', '' );
+        $email_tokens['site-url'] = get_option( 'siteurl', '' );
+        $email_tokens['date-time'] = date( 'Y-m-d H:i:s A', current_time( 'timestamp' ) );
 
         preg_match_all("/{{(.*?)}}/", $field_value, $matches );
 

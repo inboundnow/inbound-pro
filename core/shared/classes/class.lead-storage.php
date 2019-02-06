@@ -90,7 +90,6 @@ if (!class_exists('LeadStorage')) {
 			}
 
 
-
 			$mappedData = self::improve_mapping($mappedData, $lead , $args);
 			$lead = array_merge($lead ,$mappedData);
 

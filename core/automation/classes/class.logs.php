@@ -13,7 +13,7 @@ class Inbound_Logging_Automation {
 	static $log_limit;
 
 	public function __construct() {
-		self::$log_limit = apply_filters('inbound_automation_log_limit' , 500 );
+		self::$log_limit = apply_filters('inbound_automation_log_limit' , 100 );
 	}
 
 	/*
@@ -100,5 +100,4 @@ $GLOBALS['inbound_automation_logs'] = new Inbound_Logging_Automation();
 function inbound_record_log( $title = '', $message = '', $rule_id = 0, $job_id = '',  $type = null ) {
 	global $inbound_automation_logs;
 	$inbound_automation_logs->add( $title, $message, $rule_id, $job_id, $type );
-
 }
