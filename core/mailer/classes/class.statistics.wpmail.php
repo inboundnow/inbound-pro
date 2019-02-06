@@ -179,7 +179,6 @@ class Inbound_WPMail_Stats {
         $clicks = self::process_selected_rows($results);
 
 
-
         /* add date constraints if applicable */
         if (isset(self::$stats['start_date'])) {
             $query .= ' AND datetime >= "'.self::$stats['start_date'].'" AND  datetime <= "'.self::$stats['end_date'].'" ';
@@ -294,7 +293,7 @@ class Inbound_WPMail_Stats {
         self::$stats['start_date'] = $start_date->format('Y-m-d G:i:s T');
 
         $end_date = new DateTime();
-        $end_date->modify('+1 days');
+        $end_date->modify('+2 days');
         self::$stats['end_date'] = $end_date->format('Y-m-d G:i:s T');
 
     }

@@ -165,6 +165,7 @@ class Inbound_Mailer_Scheduling {
 
         /* Set email service */
         $email_service = (isset($inbound_settings['mailer']['mail-service'])) ? $inbound_settings['mailer']['mail-service'] : 'wp_mail' ;
+        $datepicker_style = (isset($inbound_settings['mailer']['datepicker-style'])) ? $inbound_settings['mailer']['datepicker-style'] : 'jquery_datepicker' ;
 
         $settings = Inbound_Mailer_Scheduling::$settings;
 
@@ -172,32 +173,39 @@ class Inbound_Mailer_Scheduling {
             return gmdate("Y-m-d\\TG:i:s\\Z");
         }
 
-        $tz = explode('-UTC', $settings['timezone']);
-        $timezone = timezone_name_from_abbr($tz[0], 60 * 60 * intval($tz[1]));
-
-        /* get date time format as set by WordPress */
-
-        /* get correct format - d/m/Y date formats will fatal */
-        $wordpress_date_time_format = get_option('date_format') .' G:i';
+        if (isset($settings['timezone'])) {
+            $tz = explode('-UTC', $settings['timezone']);
+            $timezone = timezone_name_from_abbr($tz[0], 60 * 60 * intval($tz[1]));
+            date_default_timezone_set($timezone);
+        }
 
         /* add date if does not exist */
-        if(!$settings['send_datetime']) {
-            $settings['send_datetime'] = date_i18n('m/d/Y G:i');
+        if (!$settings['send_datetime']) {
+            $settings['send_datetime'] = date_i18n('Y-m-d G:i');
         }
 
         /* add time if does not exist */
-        if(!strstr($settings['send_datetime'],':')) {
+        if (!strstr($settings['send_datetime'], ':')) {
             $settings['send_datetime'] = $settings['send_datetime'] . " 00:00";
         }
 
-        date_default_timezone_set($timezone);
+        /* get date time format as set by WordPress */
+        if ($datepicker_style == 'jquery-datepicker') {
 
-        $schedule_date = DateTime::createFromFormat(trim($wordpress_date_time_format) , trim($settings['send_datetime']));
+            /* get correct format - d/m/Y date formats will fatal */
+            $wordpress_date_time_format = get_option('date_format') . ' G:i';
 
-        /* hack - correct datetime object - fixes issue with datetime selector */
-        $corrected = self::correct_datetime_errors($schedule_date , $wordpress_date_time_format , trim($settings['send_datetime']) );
-        $settings['send_datetime'] = $corrected['meta'];
-        $schedule_date = $corrected['object'];
+            $schedule_date = DateTime::createFromFormat(trim($wordpress_date_time_format), trim($settings['send_datetime']));
+
+            /* hack - correct datetime object - fixes issue with datetime selector */
+            $corrected = self::correct_datetime_errors($schedule_date, $wordpress_date_time_format, trim($settings['send_datetime']));
+            $settings['send_datetime'] = $corrected['meta'];
+            $schedule_date = $corrected['object'];
+        } else {
+            /* get correct format - d/m/Y date formats will fatal */
+            $wordpress_date_time_format = 'Y-m-d G:i';
+            $schedule_date = DateTime::createFromFormat(trim($wordpress_date_time_format), trim($settings['send_datetime']));
+        }
 
         switch ($email_service) {
             case "sparkpost":
