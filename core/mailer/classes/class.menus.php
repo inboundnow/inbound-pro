@@ -30,7 +30,7 @@ class Inbound_Mailer_Menus {
 	*  Adds sub-menus to 'Inbound Email Component'
 	*/
 	public static function add_sub_menus() {
-		if ( !current_user_can('manage_options')) {
+		if ( !current_user_can('edit_emails')) {
 			remove_menu_page( 'edit.php?post_type=inbound-email' );
 			return;
 		}
