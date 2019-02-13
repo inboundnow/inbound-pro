@@ -161,7 +161,7 @@ if (!class_exists('CTA_Settings')) {
                 self::$active_tab = sanitize_text_field($_REQUEST['open-tab']);
             }
 
-            echo '<h2 class="nav-tab-wrapper">';
+            echo '<h2 class="nav-tab-wrapper" style="height:27px;">';
 
             foreach (self::$core_settings as $key => $data) {
                 ?>
@@ -170,7 +170,7 @@ if (!class_exists('CTA_Settings')) {
             }
             echo "</h2>";
 
-            echo "<form action='edit.php?post_type=wp-call-to-action&page=wp_cta_global_settings' method='POST'>
+            echo "<form action='edit.php?post_type=wp-call-to-action&page=wp_cta_global_settings' method='POST' style='margin-bottom:20px;'>
 		<input type='hidden' name='nature' value='wp-cta-global-settings-save'>
 		<input type='hidden' name='open-tab' id='id-open-tab' value='" . self::$active_tab . "'>";
 
@@ -232,7 +232,7 @@ if (!class_exists('CTA_Settings')) {
 
             self::inline_js();
             self::save_stand_alone_settings();
-            self::display_sidebar();
+            //self::display_sidebar();
             self::display_navigation();
 
             foreach (self::$core_settings as $key => $data) {
@@ -242,7 +242,7 @@ if (!class_exists('CTA_Settings')) {
             }
 
 
-            echo '<div style="float:left;padding-left:9px;padding-top:20px;">
+            echo '<div style="float:left;padding-left:9px;padding-top:20px;margin-bottom:20px;">
 				<input type="submit" value="Save Settings" tabindex="5" id="wp-cta-button-create-new-group-open" class="button-primary" >
 			</div>';
             echo "</form>";
@@ -323,6 +323,42 @@ if (!class_exists('CTA_Settings')) {
                     </tr>
                 </table>
             </div>
+            <div id="lp-additional-resources" class="clear">
+                <hr>
+                <?php
+                $rand = rand(0,3);
+                switch ($rand) {
+                    case 0:
+                        echo '		<div class="" style="margin-left:auto;margin-right:auto;">
+    						<h4><b>Sponsored Moment: Need to hire WordPress assistance? Agents at Codeable are ready to help.</b></h4>
+    						<a href="https://codeable.io/?ref=WwUol">
+    						  <img src=\'https://referoo.co/creatives/21/asset.png\' />
+    						</a>
+    					</div>';
+                        echo '  </div>';
+                        break;
+                    case 1:
+                        echo '		<div class="" style="margin-left:auto;margin-right:auto;">
+    						<h4><b>This plugin works great on WPEngine! Use our special offer below to receive 20% off the first annual payment.</b></h4>
+    						<a target="_blank" href="https://wpengine.com/more/specialoffer/?SSAID=1220301&sscid=21k3_aq4mo&utm_source=SAS&utm_medium=affiliate&utm_campaign=1220301&utm_content=1255604"><img src="https://www.inboundnow.com/wp-content/uploads/2016/12/Inbound-Now-728x90.png" border="0" /></a>
+    					</div>';
+                        echo '  </div>';
+                        break;
+                    case 2:
+                        echo '<div class="" style="margin-left:auto;margin-right:auto;">
+    						<h4>Did you know we offer an enhanced version of this free plugin? - <a target="_blank" href="https://www.inboundnow.com/upgrade/?ref=357">Read more about our Inbound Now PRO plugin.</a></b></h4>
+    					</div>';
+                        echo '  </div>';
+                        break;
+                    case 3:
+                        echo '<div class="" style="margin-left:auto;margin-right:auto;">
+    						<h4><b>Thanks for using our free plugin! - <a target="_blank" href="https://wordpress.org/support/plugin/cta/reviews/?filter=5">Rate us 5 stars to help us grow!</a></b></h4>
+    					</div>';
+                        echo '  </div>';
+                        break;
+                }
+                ?>
+            </div>
             <?php
         }
 
@@ -344,7 +380,7 @@ if (!class_exists('CTA_Settings')) {
             echo "<input type='hidden' name='wp_cta_{$key}_custom_fields_nonce' value='" . wp_create_nonce('wp-cta-nonce') . "' />";
 
             // Begin the field table and loop
-            echo '<table class="wp-cta-tab-display" id="' . $key . '" style="display:' . $display . '">';
+            echo '<table class="wp-cta-tab-display" id="' . $key . '" style="padding:0px;display:' . $display . '">';
 
             foreach ($custom_fields as $field) {
                 // get value of this field if it exists for this post
