@@ -28,6 +28,8 @@ class Inbound_Mailer_Post_Type {
 		/* Load Admin Only Hooks */
 		if (is_admin()) {
 
+			add_action( 'admin_init' , array( __CLASS__ , 'register_role_capabilities' ) );
+
 			/* load range */
 			add_action('current_screen', array( __CLASS__ ,	'load_screen_options' ) );
 
@@ -137,7 +139,7 @@ class Inbound_Mailer_Post_Type {
 			'query_var' => true,
 			'menu_icon' => '',
 			'rewrite' => array("slug" => $email_path),
-			'capability_type' => 'post',
+			'capability_type' => array('email','emails'),
 			'hierarchical' => false,
 			'menu_position' => 34,
 			'show_in_nav_menus'	=> false,
@@ -146,6 +148,35 @@ class Inbound_Mailer_Post_Type {
 
 		register_post_type( 'inbound-email' , $args );
 
+	}
+
+	/**
+	 * Register Role Capabilities
+	 */
+	public static function register_role_capabilities() {
+
+		$roles = array('inbound_marketer','administrator');
+
+		// Loop through each role and assign capabilities
+		foreach($roles as $the_role) {
+
+			$role = get_role($the_role);
+			if (!$role) {
+				continue;
+			}
+
+			$role->add_cap( 'read' );
+			$role->add_cap( 'read_emails');
+			$role->add_cap( 'read_private_emails' );
+			$role->add_cap( 'edit_email' );
+			$role->add_cap( 'edit_emails' );
+			$role->add_cap( 'edit_others_emails' );
+			$role->add_cap( 'edit_published_emails' );
+			$role->add_cap( 'publish_emails' );
+			$role->add_cap( 'delete_others_emails' );
+			$role->add_cap( 'delete_private_emails' );
+			$role->add_cap( 'delete_published_emails' );
+		}
 	}
 
 	/**
@@ -521,7 +552,7 @@ class Inbound_Mailer_Post_Type {
 		));
 
 		/* direct_email */
-		$public = (current_user_can('administrator') && !is_admin()) ? true : false;
+		$public = (current_user_can('edit_emails') && !is_admin()) ? true : false;
 		register_post_status( 'direct_email', array(
 			'label'	=> __( 'Direct Emails', 'inbound-pro' ),
 			'public' => $public,

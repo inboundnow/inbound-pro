@@ -23,7 +23,7 @@ class Inbound_Now_Store {
     public static function store_redirect() { ?>
         <script>
 
-            window.location = "https://www.inboundnow.com/market";
+            window.location = "https://www.inboundnow.com/upgrade";
 
         </script>
         <?php

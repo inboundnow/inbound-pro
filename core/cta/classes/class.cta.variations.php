@@ -33,8 +33,8 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		/* Listens for commands */
 		public static function add_listeners() {
 
-			/* Start session */
-			if(session_id() == '') {
+			/* Start session - file fixes issue with wp editor*/
+			if(session_id() == '' && !isset($_GET['file']) ) {
 				session_start();
 			}
 

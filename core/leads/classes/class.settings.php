@@ -289,10 +289,10 @@ class Leads_Settings {
 
         return $wpleads_global_settings;
     }
-    
+
     /**
-    *  Gets array of pages with ID => Label format
-    */
+     *  Gets array of pages with ID => Label format
+     */
     public static function leads_get_pages_array() {
         $pages = get_pages();
 
@@ -334,12 +334,8 @@ class Leads_Settings {
         }
         echo "</h2><div class='lp-settings-tab-sidebar'>";
 
-        echo "<div class='lp-sidebar-settings'><h2 style='font-size:16px;'>Like the Plugin? Leave us a review</h2><center><a class='review-button' href='http://wordpress.org/support/view/plugin-reviews/leads?rate=5#postform' target='_blank'>Leave a Quick Review</a></center><small>Reviews help constantly improve the plugin & keep us motivated! <strong>Thank you for your support!</strong></small></div><div class='lp-sidebar-settings'><h2>Help keep the plugin up to date, awesome & free!</h2><form action='https://www.paypal.com/cgi-bin/webscr' method='post' target='_top'>
-		<input type='hidden' name='cmd' value='_s-xclick'>
-		<input type='hidden' name='hosted_button_id' value='GKQ2BR3RKB3YQ'>
-		<input type='image' src='https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif' border='0' name='submit' alt='PayPal - The safer, easier way to pay online!'>
-		<img alt='' border='0' src='https://www.paypalobjects.com/en_US/i/scr/pixel.gif' width='1' height='1'></form>
-		<small>Spare some change? Buy us a coffee/beer.<strong> We appreciate your continued support.</strong></small></div><div class='lp-sidebar-settings'><h2 style='font-size:18px;'>Follow Updates on Facebook</h2><iframe src='//www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Finboundnow&amp;width=234&amp;height=65&amp;colorscheme=light&amp;show_faces=false&amp;border_color&amp;stream=false&amp;header=false&amp;appId=364256913591848' scrolling='no' frameborder='0' style='border:none; overflow:hidden; width:234px; height:65px;' allowTransparency='true'></iframe></div></div>";
+        echo "<div class='lp-sidebar-settings'></div>";
+        echo "</div>";
         echo "<form action='edit.php?post_type=wp-lead&page=wpleads_global_settings' method='POST'>";
         echo "<input type='hidden' name='nature' value='wpl-global-settings-save'>";
         echo "<input type='hidden' name='open-tab' id='id-open-tab' value='{$active_tab}'>";
@@ -356,7 +352,40 @@ class Leads_Settings {
 			<input type="submit" value="Save Settings" tabindex="5" id="wpl-button-create-new-group-open" class="button-primary" >
 		</div>';
         echo "</form>";
-
+        echo '<div id="lp-additional-resources" class="clear" style="margin-top:20px" >';
+        echo '<hr style="margin-top:70px">';
+        $rand = rand(0,3);
+        switch ($rand) {
+            case 0:
+                echo '		<div class="" style="margin-left:auto;margin-right:auto;">
+						<h4><b>Sponsored Moment: Need to hire WordPress assistance? Agents at Codeable are ready to help.</b></h4>
+						<a href="https://codeable.io/?ref=WwUol">
+						  <img src=\'https://referoo.co/creatives/21/asset.png\' />
+						</a>
+					</div>';
+                echo '  </div>';
+                break;
+            case 1:
+                echo '		<div class="" style="margin-left:auto;margin-right:auto;">
+						<h4><b>This plugin works great on WPEngine! Use our special offer below to receive 20% off the first annual payment.</b></h4>
+						<a target="_blank" href="http://www.shareasale.com/r.cfm?B=1255604&U=1220301&M=41388"><img src="https://www.inboundnow.com/wp-content/uploads/2016/12/Inbound-Now-728x90.png" border="0" /></a>
+					</div>';
+                echo '  </div>';
+                break;
+            case 2:
+                echo '<div class="" style="margin-left:auto;margin-right:auto;">
+						<h4>Did you know we offer an enhanced version of this plugin? - <a target="_blank" href="https://www.inboundnow.com/upgrade/?ref=357">Read more about our Inbound Now PRO plugin.</a></b></h4>
+					</div>';
+                echo '  </div>';
+                break;
+            case 3:
+                echo '<div class="" style="margin-left:auto;margin-right:auto;">
+						<h4><b>Thanks for using our free plugin! - <a target="_blank" href="https://wordpress.org/support/plugin/landing-pages/reviews/?filter=5">Rate us 5 stars to help us grow!</a></b></h4>
+					</div>';
+                echo '  </div>';
+                break;
+        }
+        echo '</div>';
         self::render_inline_js();
     }
 
@@ -453,13 +482,18 @@ class Leads_Settings {
         global $wpleads_global_settings;
 
         ?>
+        <style>
+            #footer-thankyou {
+                display:none;
+            }
+        </style>
         <script type='text/javascript'>
             <?php
-             if ( defined('INBOUND_PRO_PATH') ) {
+            if ( defined('INBOUND_PRO_PATH') ) {
                 echo 'var hide_sidebar = true;';
-             }else {
-                 echo 'var hide_sidebar = false;';
-             }
+            }else {
+                echo 'var hide_sidebar = false;';
+            }
             ?>
             /* Hide sidebar when API Keys Tab is opened */
             jQuery(document).ready( function($) {

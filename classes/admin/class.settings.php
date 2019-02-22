@@ -880,8 +880,8 @@ class Inbound_Pro_Settings {
 				case false:
 					/* WPEngine advertisement here */
 					echo '		<div class="inbound-settings-group" style="margin-left:auto;margin-right:auto;text-align:center;">
-						<h4><b>Sponsored Moment: Inbound PRO works great on WPEngine.</b></h4>
-						<a target="_blank" href="https://shareasale.com/r.cfm?b=1291526&amp;u=1220301&amp;m=41388&amp;urllink=&amp;afftrack="><img src="https://static.shareasale.com/image/41388/SPThemePromoWebBanner728x90V1.png" border="0" /></a>
+						<h4><b>Sponsored Moment: Inbound PRO works great on WPEngine. Get 4 months free	on annual Startup, Growth, and Scale plans when you use our coupon code WPE20OFF.</b></h4>
+						<a target="_blank" href="http://www.shareasale.com/r.cfm?B=1255604&U=1220301&M=41388"><img src="https://www.inboundnow.com/wp-content/uploads/2016/12/Inbound-Now-728x90.png" border="0" /></a>
 					</div>';
 					echo '  </div>';
 					break;

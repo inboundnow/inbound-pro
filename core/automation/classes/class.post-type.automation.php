@@ -19,6 +19,7 @@ class Inbound_Automation_Post_Type {
 
 		/* Load Admin Only Hooks */
 		if (is_admin()) {
+			add_action( 'admin_init' , array( __CLASS__ , 'register_role_capabilities' ) ,999);
 
 			/* Register Columns */
 			add_filter( 'manage_automation_posts_columns' , array( __CLASS__ , 'register_columns') );
@@ -50,6 +51,9 @@ class Inbound_Automation_Post_Type {
 
 			/* process bulk actions  */
 			add_action('load-edit.php', array(__CLASS__, 'process_bulk_actions'));
+
+			add_action('admin_notices', array( __CLASS__ , 'prompt_rebuild_database' ) );
+
 		}
 	}
 
@@ -78,7 +82,7 @@ class Inbound_Automation_Post_Type {
 			'menu_icon' => '',
 			'show_in_menu'	=> true,
 			'show_in_nav_menus'	=> false,
-			'capability_type' => 'post',
+			'capability_type' => array('rule','rules'),
 			'hierarchical' => false,
 			'menu_position' => 35,
 			'supports' => array('title')
@@ -86,6 +90,35 @@ class Inbound_Automation_Post_Type {
 
 		register_post_type( 'automation' , $args );
 
+	}
+
+	/**
+	 * Register Role Capabilities
+	 */
+	public static function register_role_capabilities() {
+		// Add the roles you'd like to administer the custom post types
+		$roles = array('inbound_marketer','administrator');
+
+		// Loop through each role and assign capabilities
+		foreach($roles as $the_role) {
+
+			$role = get_role($the_role);
+			if (!$role) {
+				continue;
+			}
+
+			$role->add_cap( 'read' );
+			$role->add_cap( 'read_rules');
+			$role->add_cap( 'read_private_rules' );
+			$role->add_cap( 'edit_rule' );
+			$role->add_cap( 'edit_rules' );
+			$role->add_cap( 'edit_others_rules' );
+			$role->add_cap( 'edit_published_rules' );
+			$role->add_cap( 'publish_rules' );
+			$role->add_cap( 'delete_others_rules' );
+			$role->add_cap( 'delete_private_rules' );
+			$role->add_cap( 'delete_published_rules' );
+		}
 	}
 
 	/**
@@ -198,7 +231,7 @@ class Inbound_Automation_Post_Type {
 	}
 
 	public static function setup_menus() {
-		if ( !current_user_can('manage_options')) {
+		if ( !current_user_can('edit_rules')) {
 			remove_menu_page( 'edit.php?post_type=automation' );
 		}
 	}
@@ -264,7 +297,7 @@ class Inbound_Automation_Post_Type {
 			return;
 		}
 
-		if (!current_user_can('manage_options')) {
+		if (!current_user_can('edit_rules')) {
 			die();
 		}
 
@@ -369,6 +402,31 @@ class Inbound_Automation_Post_Type {
 		echo $rule_id;
 		exit;
 	}
+
+	/**
+	 *  Checks to see if email service Key is inputed. If it's not then it throws the notice
+	 */
+	public static function prompt_rebuild_database() {
+		global $post , $wpdb;
+
+
+		if (!isset($post)||$post->post_type!='automation'){
+			return false;
+		}
+
+		/* Check if database table exists exists */
+		$table_name = $wpdb->prefix.'inbound_automation_queue';
+		if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") == $table_name) {
+			return;
+		}
+		?>
+		<div class="error">
+			<p><?php echo sprintf(__('WARNING: Required database table %s not found. %sClick here to rebuild table.%s' ,'inbound-pro') , $table_name, '<a href="' . admin_url('edit.php?post_type=automation&force_upgrade_routines=true') . '">','</a>'); ?></p>
+		</div>
+		<?php
+
+	}
+
 }
 
 /* Load Automation Post Type Pre Init */
