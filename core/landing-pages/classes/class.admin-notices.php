@@ -15,7 +15,6 @@ class Landing_Pages_Admin_Notices {
 
     public static function add_hooks() {
         add_action('admin_notices', array( __CLASS__, 'dont_install_landing_page_templates_here'));
-        add_action('admin_notices', array( __CLASS__, 'get_more_templates_notice' ) );
         add_action('admin_notices', array( __CLASS__, 'permalink_structure_notice' ) );
     }
 
@@ -76,38 +75,6 @@ class Landing_Pages_Admin_Notices {
             self::javascript_dismiss_notice();
         }
     }
-
-
-    /**
-     * Call to action to download more templates
-     */
-    public static function get_more_templates_notice() {
-        global $pagenow;
-        $page_string = isset($_GET["page"]) ? $_GET["page"] : "null";
-        if ((($pagenow == 'edit.php') && ($page_string == "lp_manage_templates")) || (($pagenow == "post-new.php") && (isset($_GET['post_type']) && $_GET['post_type'] == "landing-page"))) {
-
-            /* only show administrators */
-            if( !current_user_can('activate_plugins') ) {
-                return;
-            }
-
-            ?>
-            <div id="more-templates-button" style="display:none;">
-                <a target="_blank" href="https://www.inboundnow.com/marketplace/?show=landing-pages" class="button new-lp-button button-primary button-large"><?php _e( 'Download Inbound PRO and join Inbound Now\'s membership plan for access to premium templates.' , 'inbound-pro' ); ?></a>
-            </div>
-            <script type="text/javascript">
-                jQuery(document).ready(function($) {
-                    var moretemp = jQuery("#more-templates-button");
-                    jQuery("#bulk_actions").prepend(moretemp);
-                    jQuery(".lp-selection-heading h1").append(moretemp);
-                    jQuery(".lp-selection-heading #more-templates").css("float","right");
-                    jQuery(moretemp).show();
-                });
-            </script>
-            <?php
-        }
-    }
-
 
     /**
      * Notice to tell people that a permalink structure besides default must be selected to enable split testing
