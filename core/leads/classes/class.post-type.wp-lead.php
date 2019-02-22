@@ -519,16 +519,6 @@ class Leads_Post_Type {
 
     }
 
-    /**
-     * Prepare nice names for custom fields
-     * @return array
-     */
-    public static function prepare_nice_names() {
-        $nice_names = array("wpleads_company_name" => "Company Name", "wpleads_city" => "City", "wpleads_areaCode" => "Area Code", "wpleads_country_name" => "Country Name", "wpleads_region_code" => "State Abbreviation", "wpleads_region_name" => "State Name", "wp_lead_status" => "Lead Status", "events_triggered" => "Number of Events Triggered", "lp_page_views_count" => "Page View Count");
-
-        $nice_names = apply_filters('wpleads_sort_by_custom_field_nice_names', $nice_names);
-        return $nice_names;
-    }
 
     /**
      * Listens for a change to a leads meta data and update the change timestamp
@@ -540,12 +530,10 @@ class Leads_Post_Type {
     public static function record_meta_update($meta_id, $lead_id, $meta_key, $meta_value) {
         $ignore = array('_edit_lock', '_edit_last');
         $post_type = get_post_type($lead_id);
+
         if ($post_type != 'wp-lead' || in_array($meta_key, $ignore)) {
             return;
         }
-
-        remove_action('updated_post_meta', 'wpleads_after_post_meta_change', 10);
-        remove_action('added_post_meta', 'wpleads_after_post_meta_change', 10);
 
         $timezone_format = _x('Y-m-d G:i:s', 'timezone date format');
         $wordpress_date_time = date_i18n($timezone_format);
