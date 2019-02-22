@@ -51,6 +51,9 @@ class Inbound_Automation_Post_Type {
 
 			/* process bulk actions  */
 			add_action('load-edit.php', array(__CLASS__, 'process_bulk_actions'));
+
+			add_action('admin_notices', array( __CLASS__ , 'prompt_rebuild_database' ) );
+
 		}
 	}
 
@@ -399,6 +402,31 @@ class Inbound_Automation_Post_Type {
 		echo $rule_id;
 		exit;
 	}
+
+	/**
+	 *  Checks to see if email service Key is inputed. If it's not then it throws the notice
+	 */
+	public static function prompt_rebuild_database() {
+		global $post , $wpdb;
+
+
+		if (!isset($post)||$post->post_type!='automation'){
+			return false;
+		}
+
+		/* Check if database table exists exists */
+		$table_name = $wpdb->prefix.'inbound_automation_queue';
+		if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") == $table_name) {
+			return;
+		}
+		?>
+		<div class="error">
+			<p><?php echo sprintf(__('WARNING: Required database table %s not found. %sClick here to rebuild table.%s' ,'inbound-pro') , $table_name, '<a href="' . admin_url('edit.php?post_type=automation&force_upgrade_routines=true') . '">','</a>'); ?></p>
+		</div>
+		<?php
+
+	}
+
 }
 
 /* Load Automation Post Type Pre Init */
