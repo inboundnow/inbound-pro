@@ -322,6 +322,9 @@ if (!class_exists('LeadStorage')) {
 			/* set lead save count */
 			update_post_meta( $id , 'inbound_update_count' , 1 );
 
+			$lead['lead_id'] = $id;
+			$lead['id'] = $id;
+
 			do_action('wpleads_new_lead_insert', $lead ); /* action hook on new leads only */
 			return $id;
 		}
