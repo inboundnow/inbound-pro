@@ -319,7 +319,7 @@ class Landing_Pages_Settings {
                 case 1:
                     echo '		<div class="" style="margin-left:auto;margin-right:auto;">
 						<h4><b>This plugin works great on WPEngine! Use our special offer below to receive 20% off the first annual payment.</b></h4>
-						<a target="_blank" href="https://wpengine.com/more/specialoffer/?SSAID=1220301&sscid=21k3_aq4mo&utm_source=SAS&utm_medium=affiliate&utm_campaign=1220301&utm_content=1255604"><img src="https://www.inboundnow.com/wp-content/uploads/2016/12/Inbound-Now-728x90.png" border="0" /></a>
+						<a target="_blank" href="http://www.shareasale.com/r.cfm?B=1255604&U=1220301&M=41388"><img src="https://www.inboundnow.com/wp-content/uploads/2016/12/Inbound-Now-728x90.png" border="0" /></a>
 					</div>';
                     echo '  </div>';
                     break;
