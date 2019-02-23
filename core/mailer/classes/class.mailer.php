@@ -56,7 +56,7 @@ class Inbound_Mail_Daemon {
         self::$table_name = $wpdb->prefix . "inbound_email_queue";
 
         /* Get now timestamp */
-        self::$timestamp = gmdate("Y-m-d\\TG:i:s\\Z");
+        self::$timestamp = date_i18n('Y-m-d G:i');
 
         /* Check if there is an error flag in db from previous processing run */
         self::$error_mode = Inbound_Options_API::get_option('inbound-email', 'errors-detected', false);
@@ -213,7 +213,7 @@ class Inbound_Mail_Daemon {
                 case "sparkpost-eu":
                     Inbound_Mailer_SparkPost::send_email( true ); /* send immediately */
                     break;
-                case "wpmail":
+                case "wp_mail":
                     Inbound_Mailer_WPMail::send_email( true ); /* send immediately */
                     break;
             }
@@ -424,7 +424,6 @@ class Inbound_Mail_Daemon {
      */
     public static function delete_from_queue() {
         global $wpdb;
-
         $query = "delete from " . self::$table_name . " where `id` = '" . self::$row->id . "'";
         $wpdb->query($query);
 
