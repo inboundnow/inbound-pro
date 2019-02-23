@@ -94,6 +94,7 @@ class Inbound_Mailer_Scheduling {
 
         /* Prepare Schedule time */
         $timestamp = Inbound_Mailer_Scheduling::get_timestamp();
+        $store_time = new DateTime($timestamp);
 
         /* prepare rule and action id if none are set */
         if (!isset($action['rule_id'])) {
@@ -117,7 +118,7 @@ class Inbound_Mailer_Scheduling {
             $query_prefix .= "VALUES";
 
             foreach ($leads as $ID) {
-                $query_values_array[] = "( {$email_id} , {$vid} , {$ID} , '" . Inbound_Mailer_Scheduling::$settings['email_type'] . "' , '".$tokens_encoded."' ,'waiting' , '{$timestamp}' , '{$action['rule_id']}' , '{$action['job_id']}', '".json_encode(Inbound_Mailer_Scheduling::$recipients)."' , '".$post_id."')";
+                $query_values_array[] = "( {$email_id} , {$vid} , {$ID} , '" . Inbound_Mailer_Scheduling::$settings['email_type'] . "' , '".$tokens_encoded."' ,'waiting' , '{$store_time->format('Y-m-d G:i:s')}' , '{$action['rule_id']}' , '{$action['job_id']}', '".json_encode(Inbound_Mailer_Scheduling::$recipients)."' , '".$post_id."')";
             }
 
             $value_batches = array_chunk($query_values_array, 500);
@@ -135,6 +136,7 @@ class Inbound_Mailer_Scheduling {
         if  ($email_service == "wp_mail" ) {
             $current_date_obj = new DateTime(date_i18n('Y-m-d G:i:s'));
             $scheduled_date_obj = new DateTime($timestamp);
+
             if ($scheduled_date_obj > $current_date_obj) {
                 wp_update_post(array(
                     'ID' => $email_id,
@@ -170,7 +172,7 @@ class Inbound_Mailer_Scheduling {
         $settings = Inbound_Mailer_Scheduling::$settings;
 
         if ($settings['email_type'] == 'automated') {
-            return gmdate("Y-m-d\\TG:i:s\\Z");
+            return date_i18n('Y-m-d G:i:s');
         }
 
         if (isset($settings['timezone'])) {
@@ -181,7 +183,7 @@ class Inbound_Mailer_Scheduling {
 
         /* add date if does not exist */
         if (!$settings['send_datetime']) {
-            $settings['send_datetime'] = date_i18n('Y-m-d G:i');
+            $settings['send_datetime'] = date_i18n('Y-m-d G:i:s');
         }
 
         /* add time if does not exist */
@@ -215,7 +217,7 @@ class Inbound_Mailer_Scheduling {
                 $timestamp = $schedule_date->format('Y-m-d\\TG:i:s\\Z');
                 break;
             case "wp_mail":
-                $timestamp = $schedule_date->format('Y-m-d\\TG:i:s\\Z');
+                $timestamp = $schedule_date->format('Y-m-d G:i:s');
                 break;
         }
 
