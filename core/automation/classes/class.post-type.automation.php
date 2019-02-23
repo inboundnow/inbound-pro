@@ -83,6 +83,7 @@ class Inbound_Automation_Post_Type {
 			'show_in_menu'	=> true,
 			'show_in_nav_menus'	=> false,
 			'capability_type' => array('rule','rules'),
+			'map_meta_cap'  => true,
 			'hierarchical' => false,
 			'menu_position' => 35,
 			'supports' => array('title')
@@ -115,6 +116,8 @@ class Inbound_Automation_Post_Type {
 			$role->add_cap( 'edit_others_rules' );
 			$role->add_cap( 'edit_published_rules' );
 			$role->add_cap( 'publish_rules' );
+			$role->add_cap( 'delete_rule' );
+			$role->add_cap( 'delete_rules' );
 			$role->add_cap( 'delete_others_rules' );
 			$role->add_cap( 'delete_private_rules' );
 			$role->add_cap( 'delete_published_rules' );
