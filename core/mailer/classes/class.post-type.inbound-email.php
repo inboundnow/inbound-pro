@@ -72,6 +72,7 @@ class Inbound_Mailer_Post_Type {
 		}
 	}
 
+
 	/**
 	 * Load range
 	 */
@@ -140,6 +141,7 @@ class Inbound_Mailer_Post_Type {
 			'menu_icon' => '',
 			'rewrite' => array("slug" => $email_path),
 			'capability_type' => array('email','emails'),
+			'map_meta_cap'  => true,
 			'hierarchical' => false,
 			'menu_position' => 34,
 			'show_in_nav_menus'	=> false,
@@ -173,6 +175,8 @@ class Inbound_Mailer_Post_Type {
 			$role->add_cap( 'edit_others_emails' );
 			$role->add_cap( 'edit_published_emails' );
 			$role->add_cap( 'publish_emails' );
+			$role->add_cap( 'delete_email' );
+			$role->add_cap( 'delete_emails' );
 			$role->add_cap( 'delete_others_emails' );
 			$role->add_cap( 'delete_private_emails' );
 			$role->add_cap( 'delete_published_emails' );
@@ -425,7 +429,7 @@ class Inbound_Mailer_Post_Type {
 					);
 
 					wp_update_post( $args );
-
+					error_log('2222');
 					$updated = true;
 				}
 			}
@@ -524,7 +528,7 @@ class Inbound_Mailer_Post_Type {
 			'label_count' => _n_noop( 'Cancelled <span class="count">(%s)</span>', 'Cancelled <span class="count">(%s)</span>' )
 		));
 
-		/* automated */
+		/* sending  */
 		register_post_status( 'sending', array(
 			'label'	=> __( 'Sending', 'inbound-email' ),
 			'public' => true,
@@ -546,7 +550,7 @@ class Inbound_Mailer_Post_Type {
 		register_post_status( 'automated', array(
 			'label'	=> __( 'Automated', 'inbound-pro' ),
 			'public' => !is_admin(),
-			'show_in_admin_all_list' => false,
+			'show_in_admin_all_list' => true,
 			'show_in_admin_status_list' => true,
 			'label_count' => _n_noop( 'Automated <span class="count">(%s)</span>', 'Automated <span class="count">(%s)</span>' )
 		));
@@ -718,8 +722,7 @@ class Inbound_Mailer_Post_Type {
 
 							jQuery("option[value=pending]", this).after("<option value='sent'>Sent</option>");
 							jQuery("option[value=pending]", this).after("<option value='unsent'>Unsent</option>");
-							jQuery("option[value=pending]", this).after("<option value='automted'>Automated</option>");
-
+							jQuery("option[value=pending]", this).after("<option value='automated'>Automated</option>");
 						}
 					);
 				})(jQuery);
