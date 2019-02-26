@@ -120,17 +120,19 @@ if (!class_exists('LeadStorage')) {
 				if ($leadExists) {
 					$lead['id'] = $leadExists;
 					do_action('wpleads_existing_lead_update', $lead);
+
+					/* Update mapped data */
+					if(!empty($mappedData)){
+						self::store_mapped_data($lead, $mappedData);
+					}
+
 				}
 				/* else create new lead */
 				else {
-					$lead['id'] = self::store_new_lead($lead);
+					$lead['id'] = self::store_new_lead($lead , $mappedData);
 				}
 
 
-				/* Store Mapped Form Data */
-				if(!empty($mappedData)){
-					self::store_mapped_data($lead, $mappedData);
-				}
 
 				/* if status is included in lead array then set status */
 				if (isset($lead['wp_lead_status']) && !empty($lead['wp_lead_status'])) {
@@ -303,7 +305,7 @@ if (!class_exists('LeadStorage')) {
 		/**
 		 *	Creates new lead in wp-lead post type
 		 */
-		static function store_new_lead($lead){
+		static function store_new_lead($lead , $mappedData){
 			/* Create New Lead */
 			$post = array(
 				'post_title'		=> $lead['email'],
@@ -324,6 +326,11 @@ if (!class_exists('LeadStorage')) {
 
 			$lead['lead_id'] = $id;
 			$lead['id'] = $id;
+
+			/* Store Mapped Form Data */
+			if(!empty($mappedData)){
+				self::store_mapped_data($lead, $mappedData);
+			}
 
 			do_action('wpleads_new_lead_insert', $lead ); /* action hook on new leads only */
 			return $id;
