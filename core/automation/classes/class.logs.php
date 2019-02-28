@@ -38,20 +38,30 @@ class Inbound_Logging_Automation {
 	*/
 	function insert_log( $log_data = array() ) {
 	
-		/* Get Log From Rule ID */		
+		/* Get ALL Log From Rule ID */
 		$logs_array = Inbound_Logging_Automation::get_logs( $log_data['rule_id'] );
-		
+
+		/* Get Type Logs from Rule ID */
+		$log_type_array = Inbound_Logging_Automation::get_logs( $log_data['rule_id']  , $log_data['log_type'] );
+
 		/* Push log to front of array */
 		$logs_array[] = $log_data;
-		
-		/* Trim logs array to X entries */
+		$log_type_array[] = $log_data;
+
+		/* Trim main logs array to X entries */
 		if ( count($logs_array) > self::$log_limit ) {
 			$trim = count($logs_array) - self::$log_limit;
 			$logs_array = array_slice($logs_array, $trim);
 		}
-		
+
+		if ( count($log_type_array) > self::$log_limit ) {
+			$trim = count($log_type_array) - self::$log_limit;
+			$log_type_array = array_slice($log_type_array, $trim);
+		}
+
 		/* Update logs meta */
 		update_post_meta( $log_data['rule_id'] , '_automation_logs' ,  json_encode($logs_array) );
+		update_post_meta( $log_data['rule_id'] , '_automation_logs_' . $log_data['log_type'] ,  json_encode($log_type_array) );
 
 	}
 
@@ -61,10 +71,19 @@ class Inbound_Logging_Automation {
 	*
 	* @returns ARRAY of logs related to post_id
 	*/
-	public function get_logs( $rule_id = 0 ) {
+	public function get_logs( $rule_id = 0 , $log_type='all' ) {
 		
 		/* Get Log From Rule ID */
-		$logs_encoded = get_post_meta( $rule_id , '_automation_logs' , true );
+		switch($log_type) {
+			case 'all':
+				$log_type_suffix = "";
+				break;
+			default:
+				$log_type_suffix = "_".$log_type;
+				break;
+		}
+		error_log($log_type_suffix);
+		$logs_encoded = get_post_meta( $rule_id , '_automation_logs'.$log_type_suffix , true );
 
 		if ( !$logs_encoded ) {
 			$logs_array = array();
