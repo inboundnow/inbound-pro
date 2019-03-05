@@ -233,6 +233,7 @@ class Landing_Pages_ACF {
 
 
 		if ( isset( $variations[ $vid ][ 'acf' ] ) ) {
+
 			$new_value = self::search_field_array( $variations[ $vid ][ 'acf' ] , $field );
 
 			/* sometimes value is an array count when new_value believes it should be an array in this case get new count */
@@ -248,7 +249,6 @@ class Landing_Pages_ACF {
 			/* acf lite isn't processing return values correctly - ignore repeater subfields */
 			if ( !is_admin() &&  defined('ACF_FREE')  ) {
 				$value = self::acf_free_value_formatting( $value , $field );
-
 			}
 
 			if ( !is_admin() && is_string($value) && !defined('INBOUND_DEBUG_GF_AJAX')  ) {
@@ -330,6 +330,10 @@ class Landing_Pages_ACF {
 	public static function search_field_array( $array , $field ) {
 
 		$needle = $field['key'];
+
+		if ($field['type'] == 'flexible_content') {
+			return false;
+		}
 
 		foreach ($array as $key => $value ){
 

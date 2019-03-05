@@ -309,8 +309,17 @@ class Inbound_Metaboxes_Automation {
         global $inbound_automation_logs, $post;
 
         $post = get_post($_GET['rule_id']);
-        $logs = array_reverse($inbound_automation_logs->get_logs($post->ID), true);
+        $log_type = (isset($_GET['log_type'])) ? $_GET['log_type'] : 'all';
 
+        $logs = array_reverse($inbound_automation_logs->get_logs($post->ID , $log_type ), true);
+
+        $log_types = array(
+            __('all','inbound-pro'),
+            'action_event',
+            'processing_event',
+            'trigger_event',
+            'delay_event'
+        )
         ?>
         <style>
             html.wp-toolbar {
@@ -396,6 +405,16 @@ class Inbound_Metaboxes_Automation {
         </style>
         <div class='nav-container logs-container' id='logs-container'>
             <div class='clear-logs-container'>
+                <span class='select' data-rule-id='<?php echo $post->ID; ?>'>
+                    <select id="display-log-type">
+                        <?php
+                        foreach ( $log_types as $key) {
+                            echo '<option value="'.$key.'" '.($key == $log_type  ? 'selected="selected"' : '' ) .'">'.$key.'</option>';
+                        }
+                        ?>
+                    </select>
+
+                </span>
                 <span class='button button-secondary' id='clear-logs' data-rule-id='<?php echo $post->ID; ?>'>
                     <?php _e( 'Clear logs' , 'inbound-pro' ); ?>
                 </span>

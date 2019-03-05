@@ -667,4 +667,21 @@ jQuery(document).ready(function() {
         window.location.reload(true);
     });
 
+    /* Reload logs iframe */
+    jQuery('body').on( 'change' , '#display-log-type' , function() {
+        var selected = jQuery(this).find(':selected').val();
+        jQuery.extend({
+            getQueryParameters : function(str) {
+                return (str || document.location.search).replace(/(^\?)/,'').split("&").map(function(n){return n = n.split("="),this[n[0]] = n[1],this}.bind({}))[0];
+            }
+        });
+        var params = jQuery.getQueryParameters(window.location.search);
+        params["log_type"] = selected;
+        var new_url = window.location.pathname + '?'+jQuery.param(params)
+
+        jQuery(this).find(':selected').html('please wait. refreshing.');
+        jQuery(this).prop('disabled' , 'disabled');
+        window.location.replace(new_url);
+    });
+
 });
