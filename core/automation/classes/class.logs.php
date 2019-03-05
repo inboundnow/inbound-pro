@@ -82,7 +82,7 @@ class Inbound_Logging_Automation {
 				$log_type_suffix = "_".$log_type;
 				break;
 		}
-		error_log($log_type_suffix);
+
 		$logs_encoded = get_post_meta( $rule_id , '_automation_logs'.$log_type_suffix , true );
 
 		if ( !$logs_encoded ) {
