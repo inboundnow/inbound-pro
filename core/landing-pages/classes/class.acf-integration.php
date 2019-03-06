@@ -331,9 +331,6 @@ class Landing_Pages_ACF {
 
 		$needle = $field['key'];
 
-		if ($field['type'] == 'flexible_content') {
-			return false;
-		}
 
 		foreach ($array as $key => $value ){
 
@@ -349,7 +346,7 @@ class Landing_Pages_ACF {
 				/* Check if this array contains a repeater field layouts. If it does then return layouts, else this array is a non-repeater value set so return it */
 				if ( $key === $needle ) {
 
-					$repeater_array = self::get_repeater_layouts( $value );
+					$repeater_array = self::get_repeater_layouts( $value , $field );
 					if ($repeater_array) {
 						return $repeater_array;
 					} else	{
@@ -379,7 +376,11 @@ class Landing_Pages_ACF {
 	 *
 	 *	@retuns ARRAY $fields this array will either be empty of contain repeater field layout definitions.
 	 */
-	public static function get_repeater_layouts( $array ) {
+	public static function get_repeater_layouts( $array , $field ) {
+
+		if ($field['type'] == 'flexible_content') {
+			return $array;
+		}
 
 		$fields = array();
 
