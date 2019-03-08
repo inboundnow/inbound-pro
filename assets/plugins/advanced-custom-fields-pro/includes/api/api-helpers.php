@@ -243,41 +243,6 @@ function acf_set_data( $name, $value ) {
 	return acf()->set_data( $name, $value );
 }
 
-
-/**
-*  acf_new_instance
-*
-*  description
-*
-*  @date	13/2/18
-*  @since	5.6.5
-*
-*  @param	type $var Description. Default.
-*  @return	type Description.
-*/
-
-function acf_new_instance( $class ) {
-	return acf()->new_instance( $class );
-}
-
-
-/**
-*  acf_get_instance
-*
-*  description
-*
-*  @date	13/2/18
-*  @since	5.6.5
-*
-*  @param	type $var Description. Default.
-*  @return	type Description.
-*/
-
-function acf_get_instance( $class ) {
-	return acf()->get_instance( $class );
-}
-
-
 /*
 *  acf_init
 *
@@ -581,10 +546,7 @@ function acf_parse_args( $args, $defaults = array() ) {
 */
 
 function acf_parse_types( $array ) {
-	
-	// return
 	return array_map( 'acf_parse_type', $array );
-	
 }
 
 
@@ -602,26 +564,21 @@ function acf_parse_types( $array ) {
 */
 
 function acf_parse_type( $v ) {
+	
+	// Check if is string.
+	if( is_string($v) ) {
 		
-	// bail early if not string
-	if( !is_string($v) ) return $v;
-	
-	
-	// trim
-	$v = trim($v);
-	
-	
-	// convert int (string) to int
-	if( is_numeric($v) && strval((int)$v) === $v ) {
+		// Trim ("Word " = "Word").
+		$v = trim( $v );
 		
-		$v = intval( $v );
-		
+		// Convert int strings to int ("123" = 123).
+		if( is_numeric($v) && strpos($v, '.') === false ) {
+			$v = intval( $v );
+		}
 	}
 	
-	
-	// return
+	// return.
 	return $v;
-	
 }
 
 
@@ -1194,26 +1151,6 @@ function acf_get_full_version( $version = '1' ) {
 
 
 /*
-*  acf_get_locale
-*
-*  This function is a wrapper for the get_locale() function
-*
-*  @type	function
-*  @date	16/12/16
-*  @since	5.5.0
-*
-*  @param	n/a
-*  @return	(string)
-*/
-
-function acf_get_locale() {
-	
-	return is_admin() && function_exists('get_user_locale') ? get_user_locale() : get_locale();
-	
-}
-
-
-/*
 *  acf_get_terms
 *
 *  This function is a wrapper for the get_terms() function
@@ -1450,6 +1387,20 @@ function acf_decode_taxonomy_term( $value ) {
 	
 }
 
+/**
+ * acf_array
+ *
+ * Casts the value into an array.
+ *
+ * @date	9/1/19
+ * @since	5.7.10
+ *
+ * @param	mixed $val The value to cast.
+ * @return	array
+ */
+function acf_array( $val = array() ) {
+	return (array) $val;
+}
 
 /*
 *  acf_get_array
@@ -2896,6 +2847,12 @@ function acf_in_array( $value = '', $array = false ) {
 
 function acf_get_valid_post_id( $post_id = 0 ) {
 	
+	// allow filter to short-circuit load_value logic
+	$preload = apply_filters( "acf/pre_load_post_id", null, $post_id );
+    if( $preload !== null ) {
+	    return $preload;
+    }
+    
 	// vars
 	$_post_id = $post_id;
 	
@@ -3592,29 +3549,17 @@ function acf_get_truncated( $text, $length = 64 ) {
 /*
 *  acf_get_current_url
 *
-*  This function will return the current URL
+*  This function will return the current URL.
 *
-*  @type	function
 *  @date	23/01/2015
 *  @since	5.1.5
 *
-*  @param	n/a
-*  @return	(string)
+*  @param	void
+*  @return	string
 */
 
 function acf_get_current_url() {
-	
-	// Get url to current request.
-	$url = home_url($_SERVER['REQUEST_URI']);
-	
-	// Fix bug where multisite sub-directory path segment is repeated.
-	// Eg. http://multisite.local/sub1/sub1/sample-page/
-	if( is_multisite() ) {
-		$url = acf_str_join( home_url(), $_SERVER['REQUEST_URI'] );
-	}
-	
-	// Return url.
-	return $url;
+	return ( is_ssl() ? 'https' : 'http' ) . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 }
 
 /**
@@ -3653,14 +3598,6 @@ function acf_str_join( $s1 = '', $s2 = '' ) {
 	// Return joined string.
 	return $s1 . $s2;
 }
-
-// Tests.
-//acf_test( acf_str_join('http://multisite.local/sub1/', '/sample-page/'), 'http://multisite.local/sub1/sample-page/' );
-//acf_test( acf_str_join('http://multisite.local/sub1/', 'sample-page/'), 'http://multisite.local/sub1/sample-page/' );
-//acf_test( acf_str_join('http://multisite.local/sub1/', '/sub1'), 'http://multisite.local/sub1/sub1' );
-//acf_test( acf_str_join('http://multisite.local/sub1/', '/sub1/sample-page/'), 'http://multisite.local/sub1/sample-page/' );
-//acf_test( acf_str_join('http://multisite.local/', '/sub1/sample-page/'), 'http://multisite.local/sub1/sample-page/' );
-
 
 /*
 *  acf_current_user_can_admin
@@ -4521,6 +4458,20 @@ function acf_format_date( $value, $format ) {
 	
 }
 
+/**
+ * acf_clear_log
+ *
+ * Deletes the debug.log file.
+ *
+ * @date	21/1/19
+ * @since	5.7.10
+ *
+ * @param	type $var Description. Default.
+ * @return	type Description.
+ */
+function acf_clear_log() {
+	unlink( WP_CONTENT_DIR . '/debug.log' );
+}
 
 /*
 *  acf_log
@@ -4576,7 +4527,6 @@ function acf_dev_log() {
 		call_user_func_array('acf_log', func_get_args());
 	}
 }
-
 
 /*
 *  acf_doing
@@ -4675,183 +4625,6 @@ function acf_is_plugin_active() {
 	return is_plugin_active($basename);
 	
 }
-
-
-/**
-*  acf_get_filters
-*
-*  Returns the registered filters
-*
-*  @date	2/2/18
-*  @since	5.6.5
-*
-*  @param	type $var Description. Default.
-*  @return	type Description.
-*/
-
-function acf_get_filters() {
-	
-	// get
-	$filters = acf_raw_setting('filters');
-	
-	// array
-	$filters = is_array($filters) ? $filters : array();
-	
-	// return
-	return $filters;
-}
-
-
-/**
-*  acf_update_filters
-*
-*  Updates the registered filters
-*
-*  @date	2/2/18
-*  @since	5.6.5
-*
-*  @param	type $var Description. Default.
-*  @return	type Description.
-*/
-
-function acf_update_filters( $filters ) {
-	return acf_update_setting('filters', $filters);
-}
-
-
-/*
-*  acf_enable_filter
-*
-*  This function will enable a filter
-*
-*  @type	function
-*  @date	15/07/2016
-*  @since	5.4.0
-*
-*  @param	$post_id (int)
-*  @return	$post_id (int)
-*/
-
-function acf_enable_filter( $filter = '' ) {
-	
-	// get 
-	$filters = acf_get_filters();
-	
-	// append
-	$filters[ $filter ] = true;
-	
-	// update
-	acf_update_filters( $filters );
-}
-
-
-/*
-*  acf_disable_filter
-*
-*  This function will disable a filter
-*
-*  @type	function
-*  @date	15/07/2016
-*  @since	5.4.0
-*
-*  @param	$post_id (int)
-*  @return	$post_id (int)
-*/
-
-function acf_disable_filter( $filter = '' ) {
-	
-	// get 
-	$filters = acf_get_filters();
-	
-	// append
-	$filters[ $filter ] = false;
-	
-	// update
-	acf_update_filters( $filters );
-}
-
-
-/*
-*  acf_enable_filters
-*
-*  ACF uses filters to modify field group and field data
-*  This function will enable them allowing ACF to interact with all data
-*
-*  @type	function
-*  @date	14/07/2016
-*  @since	5.4.0
-*
-*  @param	$post_id (int)
-*  @return	$post_id (int)
-*/
-
-function acf_enable_filters() {
-	
-	// get 
-	$filters = acf_get_filters();
-	
-	// loop
-	foreach( array_keys($filters) as $k ) {
-		$filters[ $k ] = true;
-	}
-	
-	// update
-	acf_update_filters( $filters );	
-}
-
-
-/*
-*  acf_disable_filters
-*
-*  ACF uses filters to modify field group and field data
-*  This function will disable them allowing ACF to interact only with raw DB data
-*
-*  @type	function
-*  @date	14/07/2016
-*  @since	5.4.0
-*
-*  @param	$post_id (int)
-*  @return	$post_id (int)
-*/
-
-function acf_disable_filters() {
-	
-	// get 
-	$filters = acf_get_filters();
-	
-	// loop
-	foreach( array_keys($filters) as $k ) {
-		$filters[ $k ] = false;
-	}
-	
-	// update
-	acf_update_filters( $filters );	
-}
-
-
-/*
-*  acf_is_filter_enabled
-*
-*  ACF uses filters to modify field group and field data
-*  This function will return true if they are enabled
-*
-*  @type	function
-*  @date	14/07/2016
-*  @since	5.4.0
-*
-*  @param	$post_id (int)
-*  @return	$post_id (int)
-*/
-
-function acf_is_filter_enabled( $filter = '' ) {
-	
-	// get 
-	$filters = acf_get_filters();
-	
-	// return
-	return !empty($filters[ $filter ]);
-}
-
 
 /*
 *  acf_send_ajax_results
@@ -5211,42 +4984,6 @@ function acf_decrypt( $data = '' ) {
 	
 }
 
-
-/*
-*  acf_get_post_templates
-*
-*  This function will return an array of all post templates (including parent theme templates)
-*
-*  @type	function
-*  @date	29/8/17
-*  @since	5.6.2
-*
-*  @param	n/a
-*  @return	(array)
-*/
-
-function acf_get_post_templates() {
-	
-	// vars
-	$post_types = acf_get_post_types();
-	$post_templates = array();
-	
-	
-	// loop
-	foreach( $post_types as $post_type ) {
-		$post_templates[ $post_type ] = wp_get_theme()->get_page_templates(null, $post_type);
-	}
-	
-	
-	// remove empty templates
-	$post_templates = array_filter( $post_templates );
-	
-	
-	// return
-	return $post_templates;
-	
-}
-
 /**
 *  acf_parse_markdown
 *
@@ -5381,6 +5118,82 @@ function acf_convert_rules_to_groups( $rules, $anyorall = 'any' ) {
 	
 	// return
 	return $groups;
+}
+
+/**
+*  acf_register_ajax
+*
+*  Regsiters an ajax callback.
+*
+*  @date	5/10/18
+*  @since	5.7.7
+*
+*  @param	string $name The ajax action name.
+*  @param	array $callback The callback function or array.
+*  @param	bool $public Whether to allow access to non logged in users.
+*  @return	void
+*/
+function acf_register_ajax( $name = '', $callback = false, $public = false ) {
+	
+	// vars
+	$action = "acf/ajax/$name";
+	
+	// add action for logged-in users
+	add_action( "wp_ajax_$action", $callback );
+	
+	// add action for non logged-in users
+	if( $public ) {
+		add_action( "wp_ajax_nopriv_$action", $callback );
+	}
+}
+
+/**
+*  acf_str_camel_case
+*
+*  Converts a string into camelCase.
+*  Thanks to https://stackoverflow.com/questions/31274782/convert-array-keys-from-underscore-case-to-camelcase-recursively
+*
+*  @date	24/10/18
+*  @since	5.8.0
+*
+*  @param	string $string The string ot convert.
+*  @return	string
+*/
+function acf_str_camel_case( $string = '' ) {
+	return lcfirst(str_replace(' ', '', ucwords(str_replace('_', ' ', $string))));
+}
+
+/**
+*  acf_array_camel_case
+*
+*  Converts all aray keys to camelCase.
+*
+*  @date	24/10/18
+*  @since	5.8.0
+*
+*  @param	array $array The array to convert.
+*  @return	array
+*/
+function acf_array_camel_case( $array = array() ) {
+	$array2 = array();
+	foreach( $array as $k => $v ) {
+		$array2[ acf_str_camel_case($k) ] = $v;
+	}
+	return $array2;
+}
+
+/**
+*  acf_is_block_editor
+*
+*  Returns true if the current screen uses the block editor.
+*
+*  @date	13/12/18
+*  @since	5.8.0
+*
+*  @return	bool
+*/
+function acf_is_block_editor() {
+	return get_current_screen()->is_block_editor();
 }
 
 ?>
