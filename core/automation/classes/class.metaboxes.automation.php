@@ -482,16 +482,16 @@ class Inbound_Metaboxes_Automation {
     public static function save_automation($post_id) {
         global $post;
 
-        if (!isset($post)) {
-            return;
-        }
-
         if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
             return;
         }
 
         if (!current_user_can('edit_post', $post_id)) {
             return;
+        }
+
+        if (!isset($post)) {
+            $post  = get_post($post_id);
         }
 
         if ($post->post_type != self::$post_type) {
