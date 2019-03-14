@@ -1187,7 +1187,10 @@
 				start: function (event, ui) {
 					ui.placeholder.html( ui.item.html() );
 					ui.placeholder.removeAttr('style');
-	   			}
+	   			},
+	   			update: function(event, ui) {
+					self.$input().trigger('change');
+		   		}
 			});
 			
 			// resizable
@@ -1701,6 +1704,6 @@
 	
 })(jQuery);
 
-// @codekit-prepend "../js/acf-field-repeater.js";
-// @codekit-prepend "../js/acf-field-flexible-content.js";
-// @codekit-prepend "../js/acf-field-gallery.js";
+// @codekit-prepend "_acf-field-repeater.js";
+// @codekit-prepend "_acf-field-flexible-content.js";
+// @codekit-prepend "_acf-field-gallery.js";

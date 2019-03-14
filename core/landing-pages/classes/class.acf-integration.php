@@ -377,12 +377,21 @@ class Landing_Pages_ACF {
 	 *	@retuns ARRAY $fields this array will either be empty of contain repeater field layout definitions.
 	 */
 	public static function get_repeater_layouts( $array , $field ) {
+		$fields = array();
 
 		if ($field['type'] == 'flexible_content') {
-			return $array;
+			foreach($array as $key=>$value) {
+				if (is_array($value)) {
+					$fields[] = $value;
+				}
+			}
+
+			$fields = ($fields) ? $fields : $array;
+
+			return $fields;
 		}
 
-		$fields = array();
+
 
 		foreach ($array as $key => $value) {
 			if ( isset( $value['acf_fc_layout'] ) ) {
