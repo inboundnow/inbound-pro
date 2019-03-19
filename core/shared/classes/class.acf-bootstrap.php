@@ -58,9 +58,9 @@ class Inbound_Shared_ACF_BootStrap {
      * If ACF Pro is active then register a global for active fields - this provides legacy support to Landing Pages
      */
     public static function acf_register_global( $field_group ) {
-        $GLOBALS['acf_register_field_group'][] = array(
-            'fields' => acf_local()->fields
-        );
+        //$GLOBALS['acf_register_field_group'][] = array(
+        //   'fields' => acf_local()->fields
+        // );
     }
     /**
      * define custom ACF path
