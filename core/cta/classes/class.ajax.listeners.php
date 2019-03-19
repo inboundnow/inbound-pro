@@ -41,8 +41,8 @@ class CTA_Ajax_Listeners {
 		add_action( 'wp_ajax_wp_wp_call_to_action_meta_save', array(__CLASS__, 'save_meta'));
 
 		/* Adds listener to serve next cta variation in line & update markers */
-		add_action( 'wp_ajax_nopriv_cta_get_variation', array(__CLASS__, 'serve_varition'));
-		add_action( 'wp_ajax_cta_get_variation', array(__CLASS__, 'serve_varition'));
+		add_action( 'wp_ajax_nopriv_cta_get_variation', array(__CLASS__, 'serve_variation'));
+		add_action( 'wp_ajax_cta_get_variation', array(__CLASS__, 'serve_variation'));
 	}
 
 	/**
@@ -198,7 +198,7 @@ class CTA_Ajax_Listeners {
 	/**
 	*  Get current variation for CTA
 	*/
-	public static function serve_varition() {
+	public static function serve_variation() {
 
 		/* Make Sure the right GET param is attached to continue */
 		if ( !isset($_REQUEST['cta_id']) || !is_numeric($_REQUEST['cta_id']) ) {

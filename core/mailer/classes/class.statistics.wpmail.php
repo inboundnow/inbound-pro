@@ -36,7 +36,7 @@ class Inbound_WPMail_Stats {
     }
 
     /**
-     *  Get SparkPost Stats including varition totals
+     *  Get SparkPost Stats including variation totals
      */
     public static function get_wpmail_stats() {
         global $post, $Inbound_Mailer_Variations;

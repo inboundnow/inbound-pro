@@ -41,7 +41,7 @@ class Inbound_SparkPost_Stats {
 
 
     /**
-     *  Get SparkPost Stats including varition totals
+     *  Get SparkPost Stats including variation totals
      */
     public static function get_sparkpost_webhook_stats() {
         global $post, $Inbound_Mailer_Variations;
