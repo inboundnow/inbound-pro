@@ -36,7 +36,7 @@ class Inbound_WPMail_Stats {
     }
 
     /**
-     *  Get SparkPost Stats including varition totals
+     *  Get SparkPost Stats including variation totals
      */
     public static function get_wpmail_stats() {
         global $post, $Inbound_Mailer_Variations;
@@ -112,26 +112,22 @@ class Inbound_WPMail_Stats {
         $today = new DateTime($wordpress_date_time);
 
         /* get correct format - d/m/Y date formats will fatal */
-        $wordpress_date_time_format = get_option('date_format') .' G:i';
+        $wordpress_date_time_format = 'Y-m-d G:i:s';
 
-        /* reformat Datetime Pattern if leading with F */
-        if ($wordpress_date_time_format[0]  == "F") {
-            $wordpress_date_time_format = "m/d/Y" .' G:i';
-        }
-
-        /* reformat Datetime Pattern if leading with j */
-        if ($wordpress_date_time_format[0]  == "j") {
-            $wordpress_date_time_format = "d/m/Y" .' G:i';
-        }
 
         /* add date if does not exist */
         if(!$settings['send_datetime']) {
-            $settings['send_datetime'] = date_i18n('m/d/Y G:i');
+            $settings['send_datetime'] = date_i18n('Y-m-d G:i:00');
+        }
+
+        /* add time to timestamp if does not exist */
+        if (substr_count($settings['send_datetime'],':') === 1 ) {
+            $settings['send_datetime'] = $settings['send_datetime'] .':00';
         }
 
         /* add time if does not exist */
         if(!strstr($settings['send_datetime'],':')) {
-            $settings['send_datetime'] = $settings['send_datetime'] . " 00:00";
+            $settings['send_datetime'] = $settings['send_datetime'] . " 00:00:00";
         }
 
         $date = DateTime::createFromFormat(trim($wordpress_date_time_format) , trim($settings['send_datetime']));

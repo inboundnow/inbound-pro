@@ -56,7 +56,7 @@ class Inbound_Mail_Daemon {
         self::$table_name = $wpdb->prefix . "inbound_email_queue";
 
         /* Get now timestamp */
-        self::$timestamp = date_i18n('Y-m-d G:i');
+        self::$timestamp = date_i18n('Y-m-d G:i:s');
 
         /* Check if there is an error flag in db from previous processing run */
         self::$error_mode = Inbound_Options_API::get_option('inbound-email', 'errors-detected', false);

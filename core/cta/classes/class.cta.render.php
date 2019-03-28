@@ -1065,7 +1065,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
 
         /**
-         *  Parse CSS and prepend the call to action / varition id
+         *  Parse CSS and prepend the call to action / variation id
          */
         public static function parse_css_template( $dynamic_css, $css_id_preface ) {
             $dynamic_css = str_replace('{{', '[[', $dynamic_css);
