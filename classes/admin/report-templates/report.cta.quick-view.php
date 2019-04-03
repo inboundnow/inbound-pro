@@ -381,7 +381,7 @@ if ( !class_exists('Inbound_CTA_Quick_View') ) {
             global $post;
 
             /* exit if there's no click stats */
-            if(empty(self::$statistics['variation_clicks'])){
+            if(empty(self::$statistics['post_cta_conversions'])){
                 return;
             }
 
@@ -402,7 +402,9 @@ if ( !class_exists('Inbound_CTA_Quick_View') ) {
                         <?php _e('Change', 'inbound-pro'); ?>
                     </td>
                 </tr>
-                <?php foreach(self::$statistics['post_cta_conversions'] as $id => $stats ){
+                <?php
+
+                foreach(self::$statistics['post_cta_conversions'] as $id => $stats ){
                     $post_title = get_the_title($id);
                     /* if the title is too long, shorten it */
                     if(strlen($post_title) >= 29){
