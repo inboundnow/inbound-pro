@@ -194,10 +194,9 @@ if ( !class_exists('CTA_Post_Type') ) {
 				self::show_stats_data();
 			} elseif ("cta_impressions" == $column) {
 				if (class_exists('Inbound_Analytics')) {
-					self::$cta_impressions = Inbound_Events::get_page_views_count_by('cta_id' , array('cta_id'=> $post_id) );
 					?>
 					<a href='<?php echo admin_url('index.php?action=inbound_generate_report&obj_key=cta_id&cta_id='.$post_id.'&class=Inbound_Impressions_Report&range=1000&tb_hide_nav=true&TB_iframe=true&width=900&height=600'); ?>' class='thickbox inbound-thickbox'>
-						<?php echo self::$cta_impressions; ?>
+						<?php echo self::show_aggregated_stats("cta_impressions"); ?>
 					</a>
 					<?php
 				} else {
@@ -205,10 +204,9 @@ if ( !class_exists('CTA_Post_Type') ) {
 				}
 			} elseif ("cta_actions" == $column) {
 				if (class_exists('Inbound_Analytics')) {
-					self::$cta_conversions = Inbound_Events::get_cta_conversions('cta_id' , array('cta_id'=> $post_id) );
 					?>
 					<a href='<?php echo admin_url('index.php?action=inbound_generate_report&obj_key=cta_id&cta_id='.$post_id.'&class=Inbound_Events_Report&range=1000&exclude_events=inbound_list_add,inbound_list_remove,inbound_content_click&tb_hide_nav=true&TB_iframe=true&width=900&height=600'); ?>' class='thickbox inbound-thickbox'>
-						<?php echo count(self::$cta_conversions); ?>
+						<?php echo self::show_aggregated_stats("cta_actions");; ?>
 					</a>
 					<?php
 				} else {
@@ -216,22 +214,7 @@ if ( !class_exists('CTA_Post_Type') ) {
 				}
 
 			} elseif ("cta_cr" == $column) {
-				if (class_exists('Inbound_Analytics')) {
-					if (self::$cta_impressions != 0) {
-						self::$cta_conversion_rate = count(self::$cta_conversions) / self::$cta_impressions;
-					} else {
-						self::$cta_conversion_rate = 0;
-					}
-					self::$cta_conversion_rate = round(self::$cta_conversion_rate,2) * 100;
-					?>
-					<a href='<?php echo admin_url('index.php?action=inbound_generate_report&cta_id='.$post_id.'&class=Inbound_Events_Report&range=1000&tb_hide_nav=true&TB_iframe=true&width=900&height=600'); ?>' class='thickbox inbound-thickbox'>
-						<?php echo self::$cta_conversion_rate.'%' ?>
-					</a>
-					<?php
-				} else {
-					echo self::show_aggregated_stats("cta_cr") . "%";
-				}
-
+				echo self::show_aggregated_stats("cta_cr") . "%";
 			} elseif ("template" == $column) {
 				$template_used = get_post_meta($post->ID, 'wp-cta-selected-template', true);
 				echo $template_used;
@@ -335,9 +318,11 @@ if ( !class_exists('CTA_Post_Type') ) {
 				foreach ($variations as $vid => $variation)
 				{
 					$letter = $CTA_Variations->vid_to_letter( $post->ID, $vid ); /* convert to letter */
+
 					$vid_impressions = get_post_meta($post->ID,'wp-cta-ab-variation-impressions-'.$vid, true); /* get impressions */
 					$vid_conversions = get_post_meta($post->ID,'wp-cta-ab-variation-conversions-'.$vid, true);
 					$vid_conversions = ($vid_conversions) ? $vid_conversions : 0;
+
 
 					$v_status = get_post_meta($post->ID,'cta_ab_variation_status_'.$vid, true); /* Current status */
 
@@ -348,10 +333,6 @@ if ( !class_exists('CTA_Post_Type') ) {
 					$each_notes = get_post_meta($post->ID,'wp-cta-variation-notes-'.$vid, true); /* Get Notes */
 
 					if ($i === 0) { $each_notes = $first_notes; } /* Get first notes */
-
-					$impressions += get_post_meta($post->ID,'wp-cta-ab-variation-impressions-'.$vid, true);
-
-					$conversions += $vid_conversions;
 
 					if ($vid_impressions != 0) {
 						$conversion_rate = $vid_conversions / $vid_impressions;
