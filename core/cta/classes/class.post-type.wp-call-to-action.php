@@ -137,13 +137,13 @@ if ( !class_exists('CTA_Post_Type') ) {
 		public static function register_category_taxonomy() {
 
 			register_taxonomy('wp_call_to_action_category','wp-call-to-action', array(
-					'hierarchical' => true,
-					'label' => __( 'Categories', 'inbound-pro' ),
-					'singular_label' => __( 'Call to Action Category', 'inbound-pro' ),
-					'show_ui' => true,
-					'show_in_nav_menus'	=> false,
-					'query_var' => true,
-					"rewrite" => true
+				'hierarchical' => true,
+				'label' => __( 'Categories', 'inbound-pro' ),
+				'singular_label' => __( 'Call to Action Category', 'inbound-pro' ),
+				'show_ui' => true,
+				'show_in_nav_menus'	=> false,
+				'query_var' => true,
+				"rewrite" => true
 			));
 
 		}
@@ -217,8 +217,8 @@ if ( !class_exists('CTA_Post_Type') ) {
 
 			} elseif ("cta_cr" == $column) {
 				if (class_exists('Inbound_Analytics')) {
-					if (count(self::$cta_impressions) != 0) {
-						self::$cta_conversion_rate = count(self::$cta_conversions) / count(self::$cta_impressions);
+					if (self::$cta_impressions != 0) {
+						self::$cta_conversion_rate = count(self::$cta_conversions) / self::$cta_impressions;
 					} else {
 						self::$cta_conversion_rate = 0;
 					}
@@ -255,8 +255,8 @@ if ( !class_exists('CTA_Post_Type') ) {
 
 			if ($post->post_type=='wp-call-to-action') {
 				$actions['clear'] = '<a href="#clear-stats" id="wp_cta_clear_'.$post->ID.'" class="clear_stats" title="'
-				. __( 'Clear impression and conversion records', 'inbound-pro' )
-				. '" >' .	__( 'Clear All Stats', 'cta') . '</a>';
+					. __( 'Clear impression and conversion records', 'inbound-pro' )
+					. '" >' .	__( 'Clear All Stats', 'cta') . '</a>';
 
 				/* show shortcode */
 				$actions['clear'] .= '<br><span style="color:#000;">' . __( 'Shortcode:', 'inbound-pro' ) .'</span> <input type="text" style="width: 60%; text-align: center; margin-top:10px;" class="regular-text code short-shortcode-input" readonly="readonly" id="shortcode" name="shortcode" value="[cta id=\''.$post->ID.'\']">';
@@ -386,7 +386,7 @@ if ( !class_exists('CTA_Post_Type') ) {
 				$winning_cr = max($cr_array); /* best conversion rate */
 
 				if ($winning_cr != 0) {
-				echo "<span class='variation-winner-is'>".$post->ID. "-".$winning_cr."</span>";
+					echo "<span class='variation-winner-is'>".$post->ID. "-".$winning_cr."</span>";
 				}
 				/*echo "Total Visits: " . $impressions; */
 				/*echo "Total Conversions: " . $conversions; */
