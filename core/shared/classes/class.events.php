@@ -836,6 +836,10 @@ class Inbound_Events {
                 break;
         }
 
+        if (isset($params['variation_id']) ) {
+            $query .= ' AND variation_id = "'.$params['variation_id'].'" ';
+        }
+
 
         $query .=' AND `page_id` != "0" ';
 
@@ -1160,7 +1164,7 @@ class Inbound_Events {
             $query .= ' AND list_id = "'.$params['list_id'].'" ';
         }
 
-        if (isset($params['variation_id']) && $params['variation_id'] ) {
+        if (isset($params['variation_id']) ) {
             $query .= ' AND variation_id = "'.$params['variation_id'].'" ';
         }
 

@@ -611,13 +611,11 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		*/
 		public static function get_conversions( $cta_id, $vid ) {
 
-			/* get clicks */
-			$clicks = self::get_clicks( $cta_id, $vid);
+			$conversions = get_post_meta( $cta_id ,'wp-cta-ab-variation-conversions-'.$vid, true);
 
-			/* get form submissions */
-			$submissions = self::get_form_submissions( $cta_id, $vid );
-
-			$conversions = $clicks + $submissions;
+			if (!is_numeric($conversions)) {
+				$conversions = 0;
+			}
 
 			return $conversions;
 		}
