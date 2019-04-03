@@ -354,7 +354,7 @@ class Inbound_Mailer_Unsubscribe {
 		/* get all lead lists that lead is subscribed to */
 		$lead_lists = Inbound_Leads::get_lead_lists_by_lead_id($params['lead_id']);
 
-		$events_stored = 0;
+		/*$events_stored = 0;*/
 
 		foreach ( $lead_lists as $list_id => $label ) {
 			Inbound_Leads::remove_lead_from_list( $params['lead_id'] , $list_id );
@@ -362,10 +362,10 @@ class Inbound_Mailer_Unsubscribe {
 			$params['list_id'] = $list_id;
 			Inbound_Events::store_unsubscribe_event( $params );
 
-			if (!$events_stored) {
+			/*if (!$events_stored) {
 				Inbound_Events::store_mute_event( $event );
 				$events_stored++;
-			}
+			}*/
 
 		}
 
@@ -409,7 +409,7 @@ class Inbound_Mailer_Unsubscribe {
 
 		$event = $params;
 
-		$events_stored = 0;
+		/* $events_stored = 0; */
 
 		foreach ( $params['event_details']['list_ids'] as $list_id ) {
 			Inbound_Mailer_Unsubscribe::add_stop_rules( $params['lead_id'] , $list_id , $release_date );
@@ -417,10 +417,11 @@ class Inbound_Mailer_Unsubscribe {
 			$event['event_details']['emails_muted_until'] = $release_date;
 			$event['list_id'] = $list_id;
 
+			/*
 			if (!$events_stored) {
 				Inbound_Events::store_mute_event( $event );
 				$events_stored++;
-			}
+			}*/
 		}
 
 	}
