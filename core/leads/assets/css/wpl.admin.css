@@ -672,7 +672,8 @@ h2 .nav-tab {
 
 
 #lead_image {
-    max-width: 160px;
+    width: 100%;
+    max-width: 94%;
     display: inline-block;
     margin-right: 10px;
     background: #FCFDFE;
@@ -684,6 +685,11 @@ h2 .nav-tab {
     overflow: hidden;
     position: relative;
     z-index: 99;
+    text-align:center;
+}
+
+#lead_image_container {
+    padding:10px;
 }
 
 #lead_name_overlay {
