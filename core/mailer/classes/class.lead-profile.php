@@ -738,7 +738,7 @@ class Inbound_Mailer_Direct_Email_Leads {
     public static function display_quick_stat_direct_messages($post) {
         global $post;
         if (!isset($_REQUEST['range'])) {
-            self::$range = 90;
+            self::$range = 1095;
         } else {
             self::$range = intval($_REQUEST['range']);
         }
@@ -774,7 +774,7 @@ class Inbound_Mailer_Direct_Email_Leads {
         global $post;
 
         if (!isset($_REQUEST['range'])) {
-            self::$range = 90;
+            self::$range = 1095;
         } else {
             self::$range = intval($_REQUEST['range']);
         }

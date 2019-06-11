@@ -38,7 +38,7 @@ class Landing_Pages_Post_Type {
         add_filter('parse_query', array( __CLASS__ , 'sort_by_category_prepare_query' ));
 
         /* make columns sortable */
-        add_filter('manage_edit-landing-page_sortable_columns', array( __CLASS__ , 'define_sortable_columns' ));
+        //add_filter('manage_edit-landing-page_sortable_columns', array( __CLASS__ , 'define_sortable_columns' ));
 
         /* add styling handlers to custom post states */
         add_filter('display_post_states', array( __CLASS__ , 'filter_custom_post_states' ) );
@@ -294,7 +294,7 @@ class Landing_Pages_Post_Type {
 
         return array(
             'title' 			=> 'title',
-            'impressions'		=> 'impressions',
+            'inbound_impressions'		=> 'impressions',
             'actions'			=> 'actions',
             'cr'				=> 'cr'
         );
