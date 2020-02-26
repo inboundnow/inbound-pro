@@ -19,7 +19,7 @@ class Inbound_Mailer_WPMail extends Inbound_Mail_Daemon {
         $body = self::generate_tracking_pixel($body);
         $headers = array();
         $headers[] = 'Content-Type: text/html; charset=UTF-8';
-        $headers[] = 'From: '.self::$email['from_name'].'<'.self::$email['from_email'].'>';
+        $headers[] = 'From: '.self::$email['from_name'].' <'.self::$email['from_email'].'>';
         $headers[] = 'Reply-To: '.self::$email['reply_email'].'';
 
 

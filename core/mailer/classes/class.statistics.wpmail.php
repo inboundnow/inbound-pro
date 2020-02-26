@@ -83,6 +83,9 @@ class Inbound_WPMail_Stats {
             return array();
         }
 
+        /* prepare date range */
+        self::prepare_date_range();
+
         /* get email setup data */
         $settings = Inbound_Email_Meta::get_settings($post->ID);
         $settings['send_datetime'] = (isset($settings['send_datetime'])) ? $settings['send_datetime'] : '';

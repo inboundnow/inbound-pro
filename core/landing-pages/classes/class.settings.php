@@ -752,7 +752,7 @@ class Landing_Pages_Settings {
                 case 'inboundnow-license-key':
 
                     if (defined('INBOUND_PRO_PATH')) {
-                        continue;
+                        continue 2;
                     }
 
                     if ($master_license_key) {
