@@ -96,10 +96,8 @@ class Inbound_Mailer_Direct_Email_Leads {
 
         /*get the current user*/
         $user = wp_get_current_user();
-
-        /*get the current user's email*/
-        $parts = explode('@', $user->data->user_email );
-
+        $user_email = $user->data->user_email;
+        
         /*get the mail service settings*/
         $email_service = (isset($inbound_settings['mailer']['mail-service'])) ? $inbound_settings['mailer']['mail-service'] : 'wp_mail';
 
@@ -108,7 +106,11 @@ class Inbound_Mailer_Direct_Email_Leads {
         if( strstr($email_service  , 'sparkpost')  ){
             $sparkpost = new Inbound_SparkPost(  $inbound_settings['mailer']['sparkpost-key'] , $inbound_settings['mailer']['mail-service'] );
             $domain_query = $sparkpost->get_domains();
+
+            /*get the current user's email without the domain*/
+            $parts = explode('@', $user->data->user_email );
             $user_email = $parts[0];
+
             /*if there are no errors*/
             if(!isset($domain_query['errors']) && empty($domain_query['errors'])){
                 if (count($domain_query['results']) <1 ) {
