@@ -96,8 +96,9 @@ class Inbound_Mailer_Direct_Email_Leads {
 
         /*get the current user*/
         $user = wp_get_current_user();
-        $user_email = $user->data->user_email;
-        
+        $default_from_name = (isset($inbound_settings['mailer']['default-from-name'])) ? $inbound_settings['mailer']['default-from-name'] : '';
+        $user_email = $default_from_name;
+
         /*get the mail service settings*/
         $email_service = (isset($inbound_settings['mailer']['mail-service'])) ? $inbound_settings['mailer']['mail-service'] : 'wp_mail';
 
@@ -142,7 +143,7 @@ class Inbound_Mailer_Direct_Email_Leads {
                 echo '<select id="sending-domain-selector" class="form-control">'.$sending_dropdown.'</select>';
             }else{
                 /*if there were errors, set the user's email for the one used on the site*/
-                $user_email = $user->data->user_email;
+                $user_email = $default_from_name;
             }
         }
 
