@@ -96,7 +96,7 @@ class Inbound_Mailer_Direct_Email_Leads {
 
         /*get the current user*/
         $user = wp_get_current_user();
-        $default_from_name = (isset($inbound_settings['mailer']['default-from-name'])) ? $inbound_settings['mailer']['default-from-name'] : '';
+        $default_from_name = (isset($inbound_settings['mailer']['default-from-email'])) ? $inbound_settings['mailer']['default-from-name'] : '';
         $user_email = $default_from_name;
 
         /*get the mail service settings*/
