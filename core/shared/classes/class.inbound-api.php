@@ -984,6 +984,14 @@ class Inbound_API {
             }
         }
 
+        $lead = array(
+            'id' => $lead_id ,
+            'lead_id' => $lead_id ,
+            'mapped_params' => $params['meta_data']
+        );
+
+        do_action('inbound_store_lead_post', $lead );
+
         return self::leads_get(array('ID' => $lead_id));
 
     }
@@ -1089,6 +1097,14 @@ class Inbound_API {
                 Inbound_Leads::remove_tag_from_lead($params['ID'], $tag);
             }
         }
+
+        $lead = array(
+            'id' => $lead_id ,
+            'lead_id' => $lead_id ,
+            'mapped_params' => $params['meta_data']
+        );
+
+        do_action('wpleads_existing_lead_update', $lead);
 
         return self::leads_get(array('ID' => $params['ID']));
     }
