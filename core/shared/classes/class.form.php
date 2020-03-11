@@ -918,8 +918,10 @@ if (!class_exists('Inbound_Forms')) {
             if ($template = self::get_new_lead_email_template()) {
 
                 add_filter('wp_mail_content_type', 'inbound_set_html_content_type');
-                function inbound_set_html_content_type() {
-                    return 'text/html';
+                if (!function_exists('inbound_set_html_content_type')) {
+                    function inbound_set_html_content_type() {
+                        return 'text/html';
+                    }
                 }
 
                 /* Rebuild Form Meta Data to Load Single Values	*/
