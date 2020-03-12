@@ -987,7 +987,9 @@ class Inbound_API {
         $lead = array(
             'id' => $lead_id ,
             'lead_id' => $lead_id ,
-            'mapped_params' => $params['meta_data']
+            'mapped_params' => $params['meta_data'],
+            'lead_lists' => $params['add_to_lists'],
+            'lead_tags' => $params['add_tags']
         );
 
         do_action('inbound_store_lead_post', $lead );
@@ -1101,7 +1103,9 @@ class Inbound_API {
         $lead = array(
             'id' => $lead_id ,
             'lead_id' => $lead_id ,
-            'mapped_params' => $params['meta_data']
+            'mapped_params' => $params['meta_data'],
+            'lead_lists' => $params['add_to_lists'],
+            'lead_tags' => $params['add_tags']
         );
 
         do_action('wpleads_existing_lead_update', $lead);
