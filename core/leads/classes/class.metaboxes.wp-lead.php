@@ -1932,7 +1932,7 @@ class Inbound_Metaboxes_Leads {
                 case strstr($field['type'], 'links'):
 
                     if (!$field['value']) {
-                        continue;
+                        continue 2;
                     }
 
                     $parts = explode('-', $field['type']);
