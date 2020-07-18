@@ -138,7 +138,7 @@ if ( !class_exists( 'Inbound_Automation_Action_Send_Email' ) ) {
 					$trigger_data['lead_data']['email'] = (isset($trigger_data['lead_data']['wpleads_email_address'])) ? $trigger_data['lead_data']['wpleads_email_address'] : $trigger_data['lead_data']['email'] ;
 
 					/* support for user_register hook */
-					if ( isset($trigger_data['user_id']) ) {
+					if ( isset($trigger_data['user_id']) && $trigger_data['user_id'] ) {
 						$user = new WP_User( $trigger_data['user_id'] );
 						$trigger_data['lead_data']['email'] = $user->data->user_email;
 
@@ -155,6 +155,11 @@ if ( !class_exists( 'Inbound_Automation_Action_Send_Email' ) ) {
 
 							$trigger_data['lead_data']['id'] = inbound_store_lead( $args );
 						}
+
+					}
+
+					/* check if email address is still not present */
+					if (isset($trigger_data['lead_data']['email'])) {
 
 					}
 
