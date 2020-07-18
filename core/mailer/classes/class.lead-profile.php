@@ -96,8 +96,9 @@ class Inbound_Mailer_Direct_Email_Leads {
 
         /*get the current user*/
         $user = wp_get_current_user();
-        $default_from_name = (isset($inbound_settings['mailer']['default-from-email'])) ? $inbound_settings['mailer']['default-from-name'] : '';
-        $user_email = $default_from_name;
+        $default_from_name = (isset($inbound_settings['mailer']['default-from-name'])) ? $inbound_settings['mailer']['default-from-name'] : '';
+        $default_from_email = (isset($inbound_settings['mailer']['default-from-email'])) ? $inbound_settings['mailer']['default-from-email'] : '';
+        $user_email = $default_from_email;
 
         /*get the mail service settings*/
         $email_service = (isset($inbound_settings['mailer']['mail-service'])) ? $inbound_settings['mailer']['mail-service'] : 'wp_mail';
@@ -143,7 +144,7 @@ class Inbound_Mailer_Direct_Email_Leads {
                 echo '<select id="sending-domain-selector" class="form-control">'.$sending_dropdown.'</select>';
             }else{
                 /*if there were errors, set the user's email for the one used on the site*/
-                $user_email = $default_from_name;
+                $user_email = $default_from_email;
             }
         }
 
@@ -178,7 +179,7 @@ class Inbound_Mailer_Direct_Email_Leads {
                 'description' => __('The name of the sender. This field is variation dependant!', 'inbound-pro'),
                 'id' => 'from_name',
                 'type' => 'text',
-                'default' => $user->display_name,
+                'default' => $default_from_name,
                 'class' => 'direct_email_lead_field',
             ),
             'from_email' => array(
