@@ -167,7 +167,7 @@ var InboundShortcodes = {
             return false;
         });
 
-        jQuery('.child-clone-row-remove').live('click', function () {
+        jQuery('body').on('click', '.child-clone-row-remove', function () {
             var btn = jQuery(this),
                 row = btn.parent();
 

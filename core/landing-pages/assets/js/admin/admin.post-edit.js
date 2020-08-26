@@ -95,7 +95,7 @@ jQuery(document).ready(function ($) {
     }
 
     /* Fix inactivate theme display */
-    jQuery("#template-box a").live('click', function () {
+    jQuery('body').on('click', "#template-box a" , function () {
 
         setTimeout(function () {
             jQuery('#TB_window iframe').contents().find("#customize-controls").hide();
@@ -105,7 +105,7 @@ jQuery(document).ready(function ($) {
     });
 
     /* Fix Split testing iframe size */
-    jQuery("#lp-metabox-splittesting a.thickbox, #leads-table-container-inside .column-details a").live('click', function () {
+    jQuery('body').on('click', "#lp-metabox-splittesting a.thickbox, #leads-table-container-inside .column-details a" ,  function () {
         jQuery('#TB_iframeContent, #TB_window').hide();
         setTimeout(function () {
 
@@ -219,7 +219,7 @@ jQuery(document).ready(function ($) {
     var currentlabel = jQuery(".currently_selected");
     jQuery(selected_template_id).parent().addClass("default_template_highlight").prepend(currentlabel);
 
-    jQuery('#lp-change-template-button').live('click', function () {
+    jQuery('body').on('click', '#lp-change-template-button' , function () {
         jQuery('.acf-postbox').remove();
         jQuery(".wrap").fadeOut(500, function () {
 

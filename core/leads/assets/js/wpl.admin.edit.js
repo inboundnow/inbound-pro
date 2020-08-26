@@ -126,7 +126,7 @@ jQuery(document).ready(function ($) {
         jQuery('#wpleads_websites-container').append(html);
     });
 
-    jQuery('.wpleads_remove_link').live('click', function (e) {
+    jQuery('body').on('click', '.wpleads_remove_link' , function (e) {
         var this_id = jQuery(this).attr('id');
         jQuery('#wpleads_websites-' + this_id).remove();
     });

@@ -51,7 +51,7 @@ jQuery(document).ready(function ($) {
 
     });
 
-	jQuery('#lp-change-template-button').live('click', function () {
+	jQuery('body').on('click', '#lp-change-template-button',  function () {
         jQuery(".wrap").fadeOut(500,function(){
 
             jQuery(".lp-template-selector-container").fadeIn(500, function(){
@@ -89,7 +89,7 @@ jQuery(document).ready(function ($) {
     });
 
 
-	jQuery("#template-box a").live('click', function () {
+	jQuery('body').on('click', "#template-box a" , function () {
 
 		setTimeout(function() {
 		 jQuery('#TB_window iframe').contents().find("#customize-controls").hide();

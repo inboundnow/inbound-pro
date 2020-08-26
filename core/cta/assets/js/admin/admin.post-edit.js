@@ -77,7 +77,7 @@ jQuery(document).ready(function($) {
 	}
 
 	// Fix inactivate theme display
-	jQuery("#template-box a").live('click', function () {
+	jQuery('body').on('click', "#template-box a", function () {
 		setTimeout(function() {
 			jQuery('#TB_window iframe').contents().find("#customize-controls").hide();
 			jQuery('#TB_window iframe').contents().find(".wp-full-overlay.expanded").css("margin-left", "0px");
@@ -90,7 +90,7 @@ jQuery(document).ready(function($) {
 	jQuery(".calc.button-secondary").css('display', 'inline-block');
 
 	// Fix Split testing iframe size
-	jQuery("#wp-cta-metabox-splittesting a.thickbox, #leads-table-container-inside .column-details a").live('click', function () {
+	jQuery('body').on('click', "#wp-cta-metabox-splittesting a.thickbox, #leads-table-container-inside .column-details a" , function () {
 		jQuery('#TB_iframeContent, #TB_window').hide();
 		setTimeout(function() {
 
@@ -280,7 +280,7 @@ jQuery(document).ready(function($) {
 
 
 
-	jQuery('#wp-cta-change-template-button').live('click', function () {
+	jQuery('body').on('click', '#wp-cta-change-template-button', function () {
 		jQuery(".wrap").fadeOut(500,function(){
 
 			jQuery(".wp-cta-template-selector-container").fadeIn(500, function(){
@@ -296,7 +296,7 @@ jQuery(document).ready(function($) {
 	 jQuery('#main-title-area').after(slugs.show());
 	 */
 	// Background Options
-	jQuery('.current_lander .background-style').live('change', function () {
+	jQuery('body').on('change', '.current_lander .background-style' , function () {
 		var input = jQuery(".current_lander .background-style option:selected").val();
 		if (input == 'color') {
 			jQuery('.current_lander tr.background-color').show();

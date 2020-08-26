@@ -1,6 +1,6 @@
 jQuery(document).ready(function($) {
 		
-	jQuery('.subsubsub li a').live('click', function () {
+	jQuery('body').on('click', '.subsubsub li a' , function () {
 		
         var id = jQuery(this).attr('id');
 		//alert (id);

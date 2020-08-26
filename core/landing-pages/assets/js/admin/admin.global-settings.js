@@ -57,7 +57,7 @@ jQuery(document).ready(function ($) {
     }, 100);
 
     /* Navigate tabs */
-    jQuery('.lp-nav-tab').live('click', function() {
+    jQuery('body').on('click', '.lp-nav-tab' ,  function() {
         var this_id = this.id.replace('tabs-','');
         jQuery('.lp-tab-display').css('display','none');
         jQuery('#'+this_id).css('display','block');

@@ -58,7 +58,7 @@ jQuery(document).ready(function ($) {
 	});
 
 
-	jQuery("#template-box a").live('click', function () {
+	jQuery('body').on('click', "#template-box a",  function () {
 
 		setTimeout(function() {
 		jQuery('#TB_window iframe').contents().find("#customize-controls").hide();
