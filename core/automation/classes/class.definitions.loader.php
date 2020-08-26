@@ -151,6 +151,10 @@ if (!class_exists('Inbound_Automation_Loader')) {
                                 $arg_value = json_encode($arg_value);
                             }
 
+                            if (strlen($arg_value)>1000) {
+                                $arg_value = substr($arg_value,0,1000).'...';
+                            }
+
                             $keys[$id . ':' . $arg_key] = $arg_key . ' (' . $arg_value . ')';
                         }
 
@@ -543,7 +547,7 @@ if (!class_exists('Inbound_Automation_Loader')) {
                 if (isset(self::$instance->inbound_arguments[$hook][$definition['id']]) && is_array(self::$instance->inbound_arguments[$hook][$definition['id']])) {
                     self::$instance->inbound_arguments[$hook][$definition['id']] = array_replace(self::$instance->inbound_arguments[$hook][$definition['id']], $updated_arg_data);
                 } else {
-                   self::$instance->inbound_arguments[$hook][$definition['id']] = $updated_arg_data;
+                    self::$instance->inbound_arguments[$hook][$definition['id']] = $updated_arg_data;
                 }
 
             }
@@ -632,7 +636,6 @@ if (!class_exists('Inbound_Automation_Loader')) {
          */
         public static function update_arguments() {
             if (self::$instance->inbound_arguments) {
-                //error_log(print_r( self::$instance->inbound_arguments,true));
                 Inbound_Options_API::update_option('inbound_automation', 'arguments', self::$instance->inbound_arguments);
             }
         }
