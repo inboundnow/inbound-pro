@@ -1,4 +1,4 @@
-jQuery('.wp_cta_tooltip').live('mouseover', function(event) {
+jQuery('body').on('mouseover', '.wp_cta_tooltip' , function(event) {
 	// Bind the qTip within the event handler
 	jQuery(this).qtip({
 		overwrite: false, // Make sure the tooltip won't be overridden once created
@@ -24,7 +24,7 @@ jQuery('.wp_cta_tooltip').live('mouseover', function(event) {
 	}, event); // Pass through our original event to qTip
 })
 
-jQuery('.wp_cta_tooltip_templates').live('mouseover', function(event) {
+jQuery('body').on('mouseover', '.wp_cta_tooltip_templates' , function(event) {
 	// Bind the qTip within the event handler
 	jQuery(this).qtip({
 		overwrite: false, // Make sure the tooltip won't be overridden once created

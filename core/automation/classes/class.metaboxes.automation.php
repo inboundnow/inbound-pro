@@ -30,7 +30,7 @@ class Inbound_Metaboxes_Automation {
 
     public static function load_hooks() {
         /* Setup Variables */
-        add_action('posts_selection', array(__CLASS__, 'load_rule'));
+        add_action('add_meta_boxes', array(__CLASS__, 'load_rule'));
 
         /* add logs page */
         add_action( 'admin_menu', array( __CLASS__ , 'add_logs_page_support' ) );

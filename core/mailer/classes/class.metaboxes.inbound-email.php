@@ -1860,7 +1860,7 @@ if (!class_exists('Inbound_Mailer_Metaboxes')) {
                     });
 
                     /* Add listener for template switching */
-                    jQuery('#mailer-change-template-button').live('click', function () {
+                    jQuery('body').on('click', '#mailer-change-template-button' , function () {
                         Settings.load_template_selector();
                     });
 

@@ -599,7 +599,7 @@ class Inbound_Metaboxes_Leads {
         ?>
         <script type='text/javascript'>
             jQuery(document).ready(function () {
-                jQuery('.wpl-nav-tab').live('click', function () {
+                jQuery('body').on('click', '.wpl-nav-tab' ,  function () {
 
                     var this_id = this.id.replace('tabs-', '');
                     jQuery('.lead-profile-section').css('display', 'none');

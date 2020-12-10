@@ -82,7 +82,7 @@ if ( !class_exists( 'Inbound_Automation_Action_Create_User' ) ) {
             $password = wp_generate_password( 12, false );
             $userdata = array(
                 'user_login' => $email_address,
-                'nickname' => $email_address,
+                'nickname' => $first_name .' '. $last_name,
                 'first_name' => $first_name,
                 'last_name'  => $last_name,
                 'user_email' => $email_address,

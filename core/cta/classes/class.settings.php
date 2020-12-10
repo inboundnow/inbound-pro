@@ -536,9 +536,9 @@ if (!class_exists('CTA_Settings')) {
                         return ret;
                     };
 
-                    jQuery('.wp-cta-nav-tab').live('click', function () {
+                    jQuery('body').on('click', '.wp-cta-nav-tab' , function () {
                         var this_id = this.id.replace('tabs-', '');
-                        //alert(this_id);
+
                         jQuery('.wp-cta-tab-display').css('display', 'none');
                         jQuery('#' + this_id).css('display', 'block');
                         jQuery('.wp-cta-nav-tab').removeClass('nav-tab-special-active');
