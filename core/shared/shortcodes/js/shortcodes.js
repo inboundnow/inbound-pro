@@ -710,6 +710,7 @@ var InboundShortcodes = {
 
             var input_type = jQuery(this).attr('type');
             var update_dom = jQuery(this).val();
+
             if (input_type === "checkbox") {
                 var checked = jQuery(this).is(":checked");
                 if (checked === true) {
@@ -723,9 +724,8 @@ var InboundShortcodes = {
             } else if(jQuery(this).attr("multiple") && jQuery(this).hasClass("select2-hidden-accessible")){
 
             } else {
-                jQuery(this).find("option").removeAttr("selected");
-                jQuery(this).find("option[value='" + update_dom + "']").attr('selected', update_dom);
-
+                //jQuery(this).find("option").removeAttr("selected");
+                //jQuery(this).find("option[value='" + update_dom + "']").attr('selected', update_dom);
             }
 
         });
@@ -802,9 +802,9 @@ var InboundShortcodes = {
 
 jQuery(document).ready(function () {
 
-    jQuery('#inbound-shortcodes-popup').livequery(function () {
-        InboundShortcodes.load();
-    });
+    //jQuery('#inbound-shortcodes-popup').livequery(function () {
+    InboundShortcodes.load();
+    //});
 
 
     if (InboundShortcodes.getUrlVar("reload") === 'true') {
