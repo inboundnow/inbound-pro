@@ -29,7 +29,7 @@ class Inbound_Email_Preview {
     public function load_hooks() {
         add_action('mailer/email/header', array(__CLASS__, 'load_header_scripts'), 11);
         add_action('mailer/email/footer', array(__CLASS__, 'load_footer_scripts'), 11);
-        add_filter('single_template', array(__CLASS__, 'load_email'), 11);
+        add_filter('single_template', array(__CLASS__, 'load_email'), 101);
     }
 
     /**
