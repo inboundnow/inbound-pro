@@ -290,65 +290,6 @@ var _inboundUtils = (function(_inbound) {
         },
         /* Grab URL params and save */
         setUrlParams: function() {
-            var urlParams = {};
-
-            (function() {
-                var e,
-                    d = function(s) {
-                        return decodeURIComponent(s).replace(/\+/g, " ");
-                    },
-                    q = window.location.search.substring(1),
-                    r = /([^&=]+)=?([^&]*)/g;
-
-                while (e = r.exec(q)) {
-                    if (e[1].indexOf("[") == "-1")
-                        urlParams[d(e[1])] = d(e[2]);
-                    else {
-                        var b1 = e[1].indexOf("["),
-                            aN = e[1].slice(b1 + 1, e[1].indexOf("]", b1)),
-                            pN = d(e[1].slice(0, b1));
-
-                        if (typeof urlParams[pN] != "object")
-                            urlParams[d(pN)] = {},
-                            urlParams[d(pN)].length = 0;
-
-                        if (aN)
-                            urlParams[d(pN)][d(aN)] = d(e[2]);
-                        else
-                            Array.prototype.push.call(urlParams[d(pN)], d(e[2]));
-
-                    }
-                }
-            })();
-
-            /* Set Param Cookies */
-            for (var k in urlParams) {
-                /* account for wordpress media uploader bug */
-                if (k == 'action') {
-                    continue;
-                }
-
-                if (typeof urlParams[k] == "object") {
-                    for (var k2 in urlParams[k])
-                        this.createCookie(k2, urlParams[k][k2], 30);
-                } else {
-                    this.createCookie(k, urlParams[k], 30);
-                }
-            }
-            /* Set Param LocalStorage */
-            if (storageSupported) {
-                var pastParams = _inbound.totalStorage('inbound_url_params') || {};
-                var params = this.mergeObjs(pastParams, urlParams);
-                _inbound.totalStorage('inbound_url_params', params); // store cookie data
-            }
-
-            var options = {
-                'option1': 'yo',
-                'option2': 'woooo'
-            };
-
-            _inbound.trigger('url_parameters', urlParams, options);
-
         },
         getAllUrlParams: function() {
             var get_params = {};
